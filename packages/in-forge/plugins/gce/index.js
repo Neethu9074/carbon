@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.gce,
-  pluginName: {
-    singular: 'GCE Instance',
-    plural: 'GCE Instances'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

@@ -11,19 +11,47 @@ import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeVie
 import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
+import HealthDot from 'in-new-components/health/HealthDot';
+import { number } from 'in-services/formatters/number';
+import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 import { t } from 'in-i18n';
+
+import locals from './Beacons.mless';
 
 const websiteColumnDefinition = {
   id: 'website',
   label: t('in-websites:beacons.website'),
   getContent({ beacon }) {
-    return <Link href$={getLinkToWebsite(beacon.websiteId)}>{beacon.websiteLabel}</Link>;
+    return (
+      <Link className={locals.link} href$={getLinkToWebsite(beacon.websiteId)}>
+        {beacon.websiteLabel}
+      </Link>
+    );
   }
+};
+
+const erroneousColumnDefinition = {
+  id: 'erroneous',
+  label: <div className={locals.dot} />,
+  sortable: false,
+  getContent(item) {
+    const severity = item.beacon.errorCount;
+    return (
+      <Tooltip content={severity > 0 ? t('in-websites:containsErrors') : t('in-websites:noErrors')} align="rightMiddle">
+        <div className={locals.erroneous}>
+          <HealthDot severity={severity} iconSize={10} />
+        </div>
+      </Tooltip>
+    );
+  },
+  widthInAbsoluteUnit: true,
+  width: '3rem'
 };
 
 const columnsPerDataSource = {
   pageLoad: [
+    erroneousColumnDefinition,
     {
       id: 'path',
       label: t('in-websites:beacons.path'),
@@ -43,6 +71,7 @@ const columnsPerDataSource = {
     websiteColumnDefinition
   ],
   pageChange: [
+    erroneousColumnDefinition,
     {
       id: 'page',
       label: t('in-websites:beacons.page'),
@@ -60,6 +89,7 @@ const columnsPerDataSource = {
     websiteColumnDefinition
   ],
   resourceLoad: [
+    erroneousColumnDefinition,
     {
       id: 'uri',
       label: t('in-websites:beacons.uri'),
@@ -77,6 +107,7 @@ const columnsPerDataSource = {
     websiteColumnDefinition
   ],
   httpRequest: [
+    erroneousColumnDefinition,
     {
       id: 'access',
       label: t('in-websites:beacons.access'),
@@ -94,6 +125,7 @@ const columnsPerDataSource = {
     websiteColumnDefinition
   ],
   error: [
+    erroneousColumnDefinition,
     {
       id: 'errorMessage',
       label: t('in-websites:beacons.errorMessage'),
@@ -111,6 +143,7 @@ const columnsPerDataSource = {
     websiteColumnDefinition
   ],
   custom: [
+    erroneousColumnDefinition,
     {
       id: 'eventName',
       label: t('in-websites:beacons.eventName'),
@@ -133,7 +166,13 @@ export default function Beacons(props) {
   let content = (
     <UngroupedViewTable
       {...props}
-      itemName={`in-websites:dataSources.${props.dataSource}`}
+      getItemName={({ count }) =>
+        t('in-websites:dataSource', {
+          context: props.dataSource,
+          count,
+          formattedCount: number.compact(count)
+        })
+      }
       columnDefinitions={columnsPerDataSource[props.dataSource]}
       getData={({ timeConfig, backendQueryModel, orderBy, cursor }) =>
         getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSource: props.dataSource })
@@ -170,6 +209,7 @@ function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSour
 function LinkToDetailPage({ beacon, getHrefToDetailId, linkLabel, groupLabel }) {
   return (
     <Link
+      className={locals.link}
       href={getHrefToDetailId(
         {
           pageLoadId: beacon.pageLoadId,

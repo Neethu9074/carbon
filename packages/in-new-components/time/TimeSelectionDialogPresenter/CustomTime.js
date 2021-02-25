@@ -4,7 +4,11 @@
  */
 import { createField, createMapForm, notBlankValidator, composeValidators } from 'formalistic';
 import React, { useMemo, useState, useEffect } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
+import theme from 'in-themes';
 import moment from 'moment';
+import { t } from 'in-i18n';
 
 import {
   formatTime,
@@ -22,11 +26,8 @@ import { timeValidator, dateValidator } from 'in-services/validators/date';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { days, hours, minutes } from 'in-services/time';
 import { emptyObject } from 'in-services/fixedObjects';
-import { withStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
-import theme from 'in-themes';
 
 import locals from './CustomTime.mless';
 
@@ -52,7 +53,7 @@ export default function CustomTime({ timeConfig, onChange, historicOrLargeDataRe
   const to = getTime(form.get('to'));
 
   return (
-    <Section title="Time Range" light>
+    <Section title={t('in-new-components:time.customTimeTitleTimeRange')} light>
       <form onSubmit={onSubmit}>
         <TimeSlider form={form} setForm={setForm} from={from} to={to} />
 
@@ -63,7 +64,7 @@ export default function CustomTime({ timeConfig, onChange, historicOrLargeDataRe
             <DateTimeInput form={form} path="to" setValue={setValue} />
           </div>
           <Button className={locals.button} type="submit">
-            Set Time
+            {t('in-new-components:time.customTimeButtonSetTime')}
           </Button>
         </div>
 
@@ -148,16 +149,16 @@ export default function CustomTime({ timeConfig, onChange, historicOrLargeDataRe
       })),
       {
         value: getTimeMinusDays(1),
-        label: 'Yesterday'
+        label: t('in-new-components:time.customTimeLabelYesterday')
       },
       // 9 hours is the gap the label will need space. So there is no mark for today 00:00 before 9am
       now - today > oneHour * 9 && {
         value: getTimeMinusDays(0),
-        label: 'Today'
+        label: t('in-new-components:time.customTimeLabelToday')
       },
       {
         value: now,
-        label: 'Now'
+        label: t('in-new-components:time.customTimeLabelNow')
       }
     ].filter(Boolean);
   }
@@ -244,14 +245,14 @@ function validateForm({ from: fromForm, to: toForm }) {
     return [
       {
         severity: 'error',
-        message: 'The start date cannot be greater than the end date.'
+        message: t('in-new-components:time.customTimeMessageTheStartDateCannotBeGreaterThanTheEndDate')
       }
     ];
   } else if (to - from > maximumWindow) {
     return [
       {
         severity: 'error',
-        message: 'The largest selectable timespan is one month.'
+        message: t('in-new-components:time.customTimeMessageTheLargestSelectableTimespanIsOneMonth')
       }
     ];
   }

@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.nomadScheduler,
-  pluginName: {
-    singular: 'Nomad Client',
-    plural: 'Nomad Clients'
-  },
+
   metricDefinitions,
   kpiDefinitions
 });

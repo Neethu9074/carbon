@@ -12,6 +12,7 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getModifiedUrl } from 'in-stores/navigation/navigation';
+import { getMetricCatalog } from 'in-websites/api/metricCatalog';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { analyzePath } from 'in-websites/navigation/paths';
@@ -25,10 +26,13 @@ export default function AnalyzeOneToTwoViewParameterConversion() {
   const location = useLocation();
   const beaconType = getMatrixParameter(location, analyzePath, beaconTypeMatrixParameterName) || 'pageLoad';
   const tagCatalogResult = useObservable(() => getTagCatalog({ beaconType, useCase: 'FILTERING' }), [beaconType]);
+  const metricCatalogResult = useObservable(() => getMetricCatalog(), []);
 
   let redirectHref;
-  if (tagCatalogResult?.data) {
-    redirectHref = getModifiedUrl(location, location => transformOneZeroToTwoZero(location, tagCatalogResult.data));
+  if (tagCatalogResult?.data && metricCatalogResult?.data) {
+    redirectHref = getModifiedUrl(location, location =>
+      transformOneZeroToTwoZero(location, tagCatalogResult.data, metricCatalogResult.data)
+    );
   }
 
   return (

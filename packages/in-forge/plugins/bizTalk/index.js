@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.bizTalk,
-  pluginName: {
-    singular: 'BizTalk Host',
-    plural: 'BizTalk Hosts'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

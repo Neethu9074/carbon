@@ -12,10 +12,7 @@ import { plugins } from 'in-forge/constants';
 // packages/in-sdk/snapshot/registry.js#getSnapshotDefinition when clicking on Technologies).
 registerSnapshotDefinition({
   plugin: plugins.awsEcs,
-  pluginName: {
-    singular: 'AWS ECS',
-    plural: 'AWS ECS'
-  },
+
   technologyDescriptor: {
     label: 'AWS ECS'
   }

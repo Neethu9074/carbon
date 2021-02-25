@@ -12,9 +12,11 @@ import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import ExistingValue, { existingValuesForTag } from './ExistingValue';
 import SearchInput from 'in-new-components/SearchInput/SearchInput';
 import SuggestionsPresenter from './SuggestionsPresenter';
+import { identity } from 'in-services/util/function';
 import { mapDataHO } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
+import { isBlank } from 'in-services/util/string';
 
 import locals from './Suggestion.mless';
 
@@ -27,7 +29,7 @@ export default function FacetedFilterGeneric({
   updateFilter,
   updateGroup,
   dataSource,
-  isValid
+  customLabelMapper
 }) {
   return (
     <FacetedExpandableCard title={title}>
@@ -39,7 +41,7 @@ export default function FacetedFilterGeneric({
         updateFilter={updateFilter}
         updateGroup={updateGroup}
         dataSource={dataSource}
-        isValid={isValid}
+        customLabelMapper={customLabelMapper}
       />
     </FacetedExpandableCard>
   );
@@ -54,7 +56,7 @@ function Body({
   updateFilter,
   updateGroup,
   dataSource,
-  isValid
+  customLabelMapper
 }) {
   const [valueFilter, setValueFilter] = useState('');
 
@@ -77,6 +79,7 @@ function Body({
             ]
           })
         }
+        customLabelMapper={customLabelMapper}
       />
     );
   }
@@ -91,16 +94,16 @@ function Body({
       valueFilter={valueFilter}
       setValueFilter={setValueFilter}
       dataSource={dataSource}
-      isValid={isValid}
+      customLabelMapper={customLabelMapper}
     />
   );
 }
 
-function ExistingFilters({ selectedValues, remove }) {
+function ExistingFilters({ selectedValues, remove, customLabelMapper = identity }) {
   return (
     <>
       {selectedValues.map((value, i) => (
-        <ExistingValue key={i} value={value} remove={() => remove(value)} />
+        <ExistingValue key={i} value={customLabelMapper(value)} remove={() => remove(value)} />
       ))}
     </>
   );
@@ -116,10 +119,9 @@ function SearchAndSuggestions({
   valueFilter,
   setValueFilter,
   dataSource,
-  isValid
+  customLabelMapper
 }) {
   const timeConfig = useTimeConfig();
-
   const suggestionsFromServer = () =>
     getTagSuggestions({
       tagFilterExpression,
@@ -137,14 +139,14 @@ function SearchAndSuggestions({
     suggestionsFromServer().map(
       mapDataHO(data => ({
         ...data,
-        results: data.results.filter(suggestion => valueRegex.test(suggestion.label))
+        results: data.results.filter(suggestion => valueRegex.test(customLabelMapper(suggestion.label)))
       }))
     ),
     [tagFilterExpression, hiddenCalls, tag, valueFilter, dataSource, timeConfig]
   );
   return (
     <>
-      {suggestions?.data?.results.length > 5 && (
+      {(!isBlank(valueFilter) || suggestions?.data?.results.length > 5 || suggestions?.progress.loading) && (
         <SearchInput onChange={setValueFilter} query={valueFilter} inputClassName={locals.search} withoutIcon />
       )}
       <SuggestionsPresenter
@@ -156,7 +158,7 @@ function SearchAndSuggestions({
         tag={tag}
         entity={entity}
         dataSource={dataSource}
-        isValid={isValid}
+        customLabelMapper={customLabelMapper}
       />
     </>
   );

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { sortedUniq } from 'lodash';
+import { t } from 'in-i18n';
 
 export { default as showCase } from 'in-custom-dashboards/widgets/Chart/showCase.png';
 export { default as Form } from 'in-custom-dashboards/widgets/Chart/FormComponent';
@@ -12,7 +13,7 @@ export { demo } from 'in-custom-dashboards/widgets/Chart/demo';
 import { emptyArray } from 'in-services/fixedObjects';
 
 export const type = 'chart';
-export const label = 'Chart: Time Series';
+export const label = t('in-custom-dashboards:widgets.index.chartTimeSeries');
 export const minimumWidth = 3;
 export const minimumHeight = 13;
 export const enabled = true;

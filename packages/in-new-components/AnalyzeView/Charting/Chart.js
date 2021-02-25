@@ -12,6 +12,8 @@ import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateMana
 import { getUiInternalFormatterName } from 'in-services/formatters/backendFormatter';
 import { identity } from 'in-services/util/function';
 
+import locals from './Chart.mless';
+
 export default function Chart({
   isGrouped,
   metricCatalog,
@@ -41,19 +43,23 @@ export default function Chart({
     }
   };
 
-  if (isGrouped && chartableDataSeries?.length > 0) {
-    chartConfig.y1.metrics = chartableDataSeries.map(({ label, formModel }) =>
-      mapMetricConfiguration(
-        {
-          metric: metricId,
-          tagFilterExpression: toBackendQueryModel(formModel),
-          aggregation: aggregationId,
-          label: label,
-          source: unifiedMetricsSource
-        },
-        { dataSource }
-      )
-    );
+  if (isGrouped) {
+    if (chartableDataSeries?.length > 0) {
+      chartConfig.y1.metrics = chartableDataSeries.map(({ label, formModel }) =>
+        mapMetricConfiguration(
+          {
+            metric: metricId,
+            tagFilterExpression: toBackendQueryModel(formModel),
+            aggregation: aggregationId,
+            label: label,
+            source: unifiedMetricsSource
+          },
+          { dataSource }
+        )
+      );
+    } else {
+      return null;
+    }
   } else {
     chartConfig.y1.metrics.push(
       mapMetricConfiguration(
@@ -70,7 +76,7 @@ export default function Chart({
   }
 
   return (
-    <Li noAlternatingBg>
+    <Li className={locals.chartWrapper} noAlternatingBg>
       <UnifiedMetricsChart renderLegend={false} config={chartConfig} />
     </Li>
   );

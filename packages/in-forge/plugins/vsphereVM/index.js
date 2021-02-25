@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.vsphereVM,
-  pluginName: {
-    singular: 'vSphere VM',
-    plural: 'vSphere VMs'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

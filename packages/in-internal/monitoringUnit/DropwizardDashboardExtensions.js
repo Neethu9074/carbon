@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { getContextForDropwizard } from 'in-internal/monitoringUnit/dataRetrieval';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -34,25 +35,25 @@ export default connect(({ snapshot, timeConfig }) => ({
     <Fragment>
       <DashboardSection>
         <Button href={adminUrl} target="_blank">
-          Admin
+          {t('in-internal:monitoringUnit.dropwizardDashboardExt.admin')}
         </Button>
         <Button href={`${adminUrl}/admin/config.yaml`} target="_blank">
-          Config
+          {t('in-internal:monitoringUnit.dropwizardDashboardExt.config')}
         </Button>
         <Button href={`${adminUrl}/admin/build.json`} target="_blank">
-          Version
+          {t('in-internal:monitoringUnit.dropwizardDashboardExt.version')}
         </Button>
         <Button href={`${adminUrl}/admin/injector-bindings`} target="_blank">
-          Injector Bindings
+          {t('in-internal:monitoringUnit.dropwizardDashboardExt.injectorBindings')}
         </Button>
         <Button href={`${adminUrl}/hystrix`} target="_blank">
-          Hystrix
+          {t('in-internal:monitoringUnit.dropwizardDashboardExt.hystrix')}
         </Button>
 
         {containerLabelIncludes(container, 'filler') && (
           <Fragment>
             <Button href={`${adminUrl}/admin/metric-explosions`} target="_blank">
-              Metric Explosions
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.metricExplosions')}
             </Button>
             <Select
               id="cache-selection"
@@ -61,16 +62,20 @@ export default connect(({ snapshot, timeConfig }) => ({
               onChange={e => window.open(e.target.value, '_blank')}
               autoFocus
             >
-              <option value="">Cache data (select one)</option>
-              <option value={`${adminUrl}/admin/snapshots`}>Snapshots with Dependencies</option>
-              <option value={`${adminUrl}/admin/search-snapshots`}>Search Snapshots</option>
+              <option value="">{t('in-internal:monitoringUnit.dropwizardDashboardExt.cacheDataSelectOne')}</option>
+              <option value={`${adminUrl}/admin/snapshots`}>
+                {t('in-internal:monitoringUnit.dropwizardDashboardExt.snapshotsDepend')}
+              </option>
+              <option value={`${adminUrl}/admin/search-snapshots`}>
+                {t('in-internal:monitoringUnit.dropwizardDashboardExt.searchSnapshots')}
+              </option>
             </Select>
           </Fragment>
         )}
 
         {containerLabelIncludes(container, 'ap-legacy-converter') && (
           <Button href={`${adminUrl}/admin/appdata-entity-explosions`} target="_blank">
-            Appdata Entity Explosions
+            {t('in-internal:monitoringUnit.dropwizardDashboardExt.appdataEntityExplosions')}
           </Button>
         )}
 
@@ -82,10 +87,16 @@ export default connect(({ snapshot, timeConfig }) => ({
             onChange={e => window.open(e.target.value, '_blank')}
             autoFocus
           >
-            <option value="">Tag data (select one)</option>
-            <option value={`${adminUrl}/admin/physicalAttributeStore`}>All Tags</option>
-            <option value={`${adminUrl}/admin/physicalAttributeStore/cluster`}>Cluster Tags</option>
-            <option value={`${adminUrl}/admin/physicalAttributeStore/alternatives`}>Host/port references</option>
+            <option value="">{t('in-internal:monitoringUnit.dropwizardDashboardExt.tagDataSelectOne')}</option>
+            <option value={`${adminUrl}/admin/physicalAttributeStore`}>
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.allTags')}
+            </option>
+            <option value={`${adminUrl}/admin/physicalAttributeStore/cluster`}>
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.clusterTags')}
+            </option>
+            <option value={`${adminUrl}/admin/physicalAttributeStore/alternatives`}>
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.hostPortRef')}
+            </option>
           </Select>
         )}
 
@@ -97,22 +108,30 @@ export default connect(({ snapshot, timeConfig }) => ({
             onChange={e => window.open(e.target.value, '_blank')}
             autoFocus
           >
-            <option value="">Resilient mapping (select one)</option>
-            <option value={`${adminUrl}/admin/appCacheEntries?size=50&minEntities=0`}>Application Mapping</option>
-            <option value={`${adminUrl}/admin/serviceCacheEntries?size=50&minEntities=0`}>Service Mapping</option>
-            <option value={`${adminUrl}/admin/pathTemplateEntries`}>Endpoint Mapping (Path template cache)</option>
-            <option value={`${adminUrl}/admin/invalidPathTemplates`}>Endpoint Mapping (Invalid path templates)</option>
+            <option value="">{t('in-internal:monitoringUnit.dropwizardDashboardExt.resilientMapSelectOne')}</option>
+            <option value={`${adminUrl}/admin/appCacheEntries?size=50&minEntities=0`}>
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.appMapping')}
+            </option>
+            <option value={`${adminUrl}/admin/serviceCacheEntries?size=50&minEntities=0`}>
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.serviceMapping')}
+            </option>
+            <option value={`${adminUrl}/admin/pathTemplateEntries`}>
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.endpointMapPathTemplateCache')}
+            </option>
+            <option value={`${adminUrl}/admin/invalidPathTemplates`}>
+              {t('in-internal:monitoringUnit.dropwizardDashboardExt.endpointMapInvalidPathTemplates')}
+            </option>
           </Select>
         )}
 
         {containerLabelIncludes(container, 'acceptor', ['eum', 'serverless', 'cashier']) && (
           <Button href={`${adminUrl}/admin/agentTimeSkewEntries`} target="_blank">
-            Agent Clock Skew
+            {t('in-internal:monitoringUnit.dropwizardDashboardExt.agentClockSkew')}
           </Button>
         )}
       </DashboardSection>
 
-      <DashboardSection title="Common Commands">
+      <DashboardSection title={t('in-internal:monitoringUnit.dropwizardDashboardExt.commonCommands')}>
         <Code lang="bash" code={getLogsCommand} showLineNumbers={false} />
       </DashboardSection>
     </Fragment>

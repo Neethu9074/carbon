@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.jiraApplication,
-  pluginName: {
-    singular: 'Atlassian JIRA',
-    plural: 'Atlassian JIRAs'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

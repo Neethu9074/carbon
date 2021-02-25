@@ -7,9 +7,6 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsEcsContainer,
-  pluginName: {
-    singular: 'AWS ECS Container',
-    plural: 'AWS ECS Containers'
-  },
+
   supportsInfrastructureTabSubscript: true
 });

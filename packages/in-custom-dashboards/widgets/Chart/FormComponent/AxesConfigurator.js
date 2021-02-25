@@ -4,6 +4,7 @@
  */
 import React, { useState } from 'react';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 
 import { MetricsForAxis, Reorderer } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
 import { userSelectableRenderer as availableRenderers } from 'in-custom-dashboards/widgets/Chart/renderer';
@@ -14,6 +15,7 @@ import { formatters } from 'in-stores/metric/formatters';
 import { Li, Ul } from 'in-new-components/lists/List';
 import FormGroup from 'in-components/form/FormGroup';
 import Stack from 'in-new-components/layout/Stack';
+import Toggle from 'in-components/form/Toggle';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -35,7 +37,7 @@ export default function AxesConfigurator({ form, onChange, getShortMetricKey }) 
           form={form}
           onChange={onChange}
           axisName="y1"
-          title="Primary Y-Axis"
+          title={t('in-custom-dashboards:widgets.chart.axesConfigurator.primaryYAxis')}
           startIndex={0}
           getShortMetricKey={getShortMetricKey}
         />
@@ -45,7 +47,7 @@ export default function AxesConfigurator({ form, onChange, getShortMetricKey }) 
             form={form}
             onChange={onChange}
             axisName="y2"
-            title="Secondary Y-Axis"
+            title={t('in-custom-dashboards:widgets.chart.axesConfigurator.secondaryYAxis')}
             startIndex={form.getIn(['y1', 'metrics']).size}
             getShortMetricKey={getShortMetricKey}
             isSecondary
@@ -72,6 +74,33 @@ function AxisConfigurator({
   const axisForm = form.get(axisName);
   const isAxisRemovable = isSecondary && axisForm.get('metrics').size === 0;
 
+  const updateShareMaxAxisDomain = e => {
+    if (e.target.checked) {
+      onChange([], form =>
+        form
+          .updateIn(['y1', 'max'], field => field.setValue(undefined).setTouched(true))
+          .updateIn(['y2', 'max'], field => field.setValue(undefined).setTouched(true))
+          .updateIn(['shareMaxAxisDomain'], field => field.setValue(e.target.checked).setTouched(true))
+      );
+    } else {
+      onChange(['shareMaxAxisDomain'], field => field.setValue(e.target.checked).setTouched(true));
+    }
+  };
+
+  const onMaxChange = e => {
+    const isShareMaxAxisDomainAxctive = form.get('shareMaxAxisDomain').value;
+    const maxValue = e.target.value.length !== 0 ? Number(e.target.value) : undefined;
+    if (isShareMaxAxisDomainAxctive) {
+      onChange([], form =>
+        form
+          .updateIn(['y1', 'max'], field => field.setValue(maxValue).setTouched(true))
+          .updateIn(['y2', 'max'], field => field.setValue(maxValue).setTouched(true))
+      );
+    } else {
+      onChange([axisName, 'max'], field => field.setValue(maxValue).setTouched(true));
+    }
+  };
+
   return (
     <Ul className={locals.axis}>
       <Li>
@@ -84,7 +113,7 @@ function AxisConfigurator({
             className={locals.axisToggler}
             onClick={() => setShowSecondaryAxis(true)}
           >
-            Add secondary Y-axis
+            {t('in-custom-dashboards:widgets.chart.axesConfigurator.addSecondary')}
           </Button>
         )}
         {isAxisRemovable && (
@@ -94,7 +123,7 @@ function AxisConfigurator({
             className={locals.axisToggler}
             onClick={() => setShowSecondaryAxis(false)}
           >
-            Remove
+            {t('in-custom-dashboards:widgets.chart.axesConfigurator.removeSecondary')}
           </Button>
         )}
       </Li>
@@ -105,7 +134,7 @@ function AxisConfigurator({
             {axisForm.get('renderer').map(field => (
               <SelectInSection
                 id={`axis-${axisName}-renderer`}
-                label="Chart"
+                label={t('in-custom-dashboards:widgets.chart.axesConfigurator.chart')}
                 value={field.value}
                 onChange={e =>
                   onChange([axisName, 'renderer'], field => field.setValue(e.target.value).setTouched(true))
@@ -124,7 +153,7 @@ function AxisConfigurator({
             {axisForm.get('formatter').map(field => (
               <SelectInSection
                 id={`axis-${axisName}-formatter`}
-                label="Formatter"
+                label={t('in-custom-dashboards:widgets.chart.axesConfigurator.formatter')}
                 value={field.value}
                 onChange={e =>
                   onChange([axisName, 'formatter'], field => field.setValue(e.target.value).setTouched(true))
@@ -144,7 +173,7 @@ function AxisConfigurator({
               {axisForm.get('min').map(field => (
                 <FormGroup className={locals.minMaxGroup}>
                   <Label htmlFor={`${axisName}-chart-configurator-min`} hasError={!field.valid && field.touched}>
-                    Min
+                    {t('in-custom-dashboards:widgets.chart.axesConfigurator.min')}
                   </Label>
                   <Input
                     id={`${axisName}-chart-configurator-min`}
@@ -167,26 +196,33 @@ function AxisConfigurator({
               {axisForm.get('max').map(field => (
                 <FormGroup className={locals.minMaxGroup}>
                   <Label htmlFor={`${axisName}-chart-configurator-max`} hasError={!field.valid && field.touched}>
-                    Max
+                    {t('in-custom-dashboards:widgets.chart.axesConfigurator.max')}
                   </Label>
                   <Input
                     id={`${axisName}-chart-configurator-max`}
                     value={field.value || ''}
                     type="number"
                     placeholder="Auto"
-                    onChange={e =>
-                      onChange([axisName, 'max'], field =>
-                        field
-                          .setValue(e.target.value.length !== 0 ? Number(e.target.value) : undefined)
-                          .setTouched(true)
-                      )
-                    }
+                    onChange={e => onMaxChange(e)}
                     hasError={!field.valid && field.touched}
                   />
                   <TouchedMessages field={field} />
                 </FormGroup>
               ))}
             </Li>
+            {showSecondaryAxis && (
+              <Li component="div">
+                <div className={locals.shareMaxValueContainer}>
+                  <Toggle
+                    checked={form.get('shareMaxAxisDomain').value}
+                    onChange={e => {
+                      updateShareMaxAxisDomain(e);
+                    }}
+                  />
+                  <span>{t('in-custom-dashboards:widgets.chart.axesConfigurator.sharemaxValue')}</span>
+                </div>
+              </Li>
+            )}
           </Sections>
 
           <MetricsForAxis

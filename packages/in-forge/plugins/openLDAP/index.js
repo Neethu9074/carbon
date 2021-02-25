@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.openLDAP,
-  pluginName: {
-    singular: 'OpenLDAP Node',
-    plural: 'OpenLDAP Nodes'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

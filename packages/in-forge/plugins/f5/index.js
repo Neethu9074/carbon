@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.f5,
-  pluginName: {
-    singular: 'F5',
-    plural: 'F5'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

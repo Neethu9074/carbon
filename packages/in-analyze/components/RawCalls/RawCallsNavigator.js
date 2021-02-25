@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React, { Fragment } from 'react';
 
 import {
@@ -55,7 +56,7 @@ export default function RawCallsNavigator({
                 onChangeOrder={onChangeOrder}
                 defaultDirection="DESC"
                 technicalName="timestamp"
-                label="Timestamp"
+                label={t('in-analyze:rawCalls.labelTimestamp')}
               />
 
               <SortableColumn
@@ -65,7 +66,7 @@ export default function RawCallsNavigator({
                 onChangeOrder={onChangeOrder}
                 defaultDirection="DESC"
                 technicalName="latency"
-                label="Latency"
+                label={t('in-analyze:rawCalls.labelLatency')}
               />
             </Tr>
           </Thead>
@@ -89,7 +90,7 @@ export default function RawCallsNavigator({
                             {' '}
                             <Tooltip
                               themeStyle="light"
-                              content={`This call is batched and represents ${item.call.batchCount} individual calls.`}
+                              content={t('in-analyze:rawCalls.tooltipBatched', { batchCount: item.call.batchCount })}
                             >
                               <Pill kind="lighter">{item.call.batchCount}</Pill>
                             </Tooltip>

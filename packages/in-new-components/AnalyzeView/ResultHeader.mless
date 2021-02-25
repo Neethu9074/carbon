@@ -10,6 +10,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 1.5rem;
   }
 
   .withMargin {
@@ -26,7 +27,7 @@
   .number {
     color: @lib__colors__N700Medium;
     font-size: 1rem;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
   }
 
   .withMaxWidth {

@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 /* eslint-disable no-console */
-
 import React, { Fragment } from 'react';
 import { withState } from 'recompose';
+import { t } from 'in-i18n';
 
 import Button from 'in-new-components/Button';
 
@@ -20,9 +20,15 @@ export default withState(
 
   return (
     <Fragment>
-      <Button onClick={() => setTimeout(triggerError, 100)}>Trigger error outside of React</Button>
-      <Button onClick={triggerError}>Trigger error in React click handler</Button>
-      <Button onClick={() => setThrowError(true)}>Trigger error in React render lifecycle</Button>
+      <Button onClick={() => setTimeout(triggerError, 100)}>
+        {t('in-internal:monitoringUnit.eum.errorSimulator.triggerErrOutsideReact')}
+      </Button>
+      <Button onClick={triggerError}>
+        {t('in-internal:monitoringUnit.eum.errorSimulator.triggerErrReactClickHandler')}
+      </Button>
+      <Button onClick={() => setThrowError(true)}>
+        {t('in-internal:monitoringUnit.eum.errorSimulator.triggerErrReactRenderLifecycle')}
+      </Button>
     </Fragment>
   );
 });

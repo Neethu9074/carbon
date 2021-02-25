@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { useLocation } from 'react-router';
 import React from 'react';
 
@@ -76,7 +77,7 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped, formMod
             )}
           </Overlay>
         }
-        title="Analytics"
+        title={t('in-analyze:analyzeHeader.title')}
       />
       <Title title={getLabelByType(activeConfiguration.dataSource)} />
       <ViewTrackingMeta

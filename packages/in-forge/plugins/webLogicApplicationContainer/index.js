@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.webLogicApplicationContainer,
-  pluginName: {
-    singular: 'WebLogic Server',
-    plural: 'WebLogic Servers'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

@@ -4,7 +4,7 @@
  */
 import React, { forwardRef } from 'react';
 
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
@@ -23,7 +23,7 @@ export default function EntityWithType({ addTooltip, ...props }) {
 const Content = forwardRef(function Content({ label, type, renderType, href$, addEllipsis }, ref) {
   return (
     <div className={locals.wrapper} ref={ref}>
-      <div className={locals.type}>{renderType ? renderType(getSingular(type)) : getSingular(type)}</div>
+      <div className={locals.type}>{renderType ? renderType(getPluginName(type, 1)) : getPluginName(type, 1)}</div>
       {href$ ? (
         <Link className={locals.link} href$={href$}>
           <Label label={label} addEllipsis={addEllipsis} />

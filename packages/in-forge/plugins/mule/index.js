@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.mule,
-  pluginName: {
-    singular: 'Mule ESB',
-    plural: 'Mule ESB'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

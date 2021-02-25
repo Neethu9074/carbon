@@ -11,19 +11,50 @@ import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/Analyze
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import SessionView from 'in-mobile-apps/analyze/SessionView/SessionView';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import HealthDot from 'in-new-components/health/HealthDot';
+import { number } from 'in-services/formatters/number';
+import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 import { t } from 'in-i18n';
+
+import locals from './MobileBeacons.mless';
+
+const erroneousColumnDefinition = {
+  id: 'erroneous',
+  label: <div className={locals.dot} />,
+  sortable: false,
+  getContent(item) {
+    const severity = item.beacon.errorCount;
+    return (
+      <Tooltip
+        content={severity > 0 ? t('in-mobile-apps:containsErrors') : t('in-mobile-apps:noErrors')}
+        align="rightMiddle"
+      >
+        <div className={locals.erroneous}>
+          <HealthDot severity={severity} iconSize={10} />
+        </div>
+      </Tooltip>
+    );
+  },
+  widthInAbsoluteUnit: true,
+  width: '3rem'
+};
 
 const mobileAppColumnDefinition = {
   id: 'mobileApp',
   label: t('in-mobile-apps:mobileBeacons.mobileApp'),
   getContent({ beacon }) {
-    return <Link href$={getLinkToMobileApp(beacon.mobileAppId)}>{beacon.mobileAppLabel}</Link>;
+    return (
+      <Link className={locals.link} href$={getLinkToMobileApp(beacon.mobileAppId)}>
+        {beacon.mobileAppLabel}
+      </Link>
+    );
   }
 };
 
 const columnsPerDataSource = {
   sessionStart: [
+    erroneousColumnDefinition,
     {
       id: 'sessionId',
       label: t('in-mobile-apps:mobileBeacons.sessionId'),
@@ -41,6 +72,7 @@ const columnsPerDataSource = {
     mobileAppColumnDefinition
   ],
   viewChange: [
+    erroneousColumnDefinition,
     {
       id: 'viewName',
       label: t('in-mobile-apps:mobileBeacons.viewName'),
@@ -58,6 +90,7 @@ const columnsPerDataSource = {
     mobileAppColumnDefinition
   ],
   httpRequest: [
+    erroneousColumnDefinition,
     {
       id: 'access',
       label: t('in-mobile-apps:mobileBeacons.access'),
@@ -75,6 +108,7 @@ const columnsPerDataSource = {
     mobileAppColumnDefinition
   ],
   custom: [
+    erroneousColumnDefinition,
     {
       id: 'eventName',
       label: t('in-mobile-apps:mobileBeacons.eventName'),
@@ -97,7 +131,13 @@ export default function MobileBeacons(props) {
   let content = (
     <UngroupedViewTable
       {...props}
-      itemName={`in-mobile-apps:dataSources.${props.dataSource}`}
+      getItemName={({ count }) =>
+        t('in-mobile-apps:dataSource', {
+          context: props.dataSource,
+          count,
+          formattedCount: number.compact(count)
+        })
+      }
       columnDefinitions={columnsPerDataSource[props.dataSource]}
       getData={({ timeConfig, backendQueryModel, orderBy, cursor }) =>
         getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSource: props.dataSource })
@@ -107,6 +147,7 @@ export default function MobileBeacons(props) {
       }}
       DetailView={SessionView}
       getDetailData={getMobileAppBeaconsForSession}
+      withSamplingTooltip
     />
   );
 
@@ -132,6 +173,7 @@ function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSour
 function LinkToDetailPage({ beacon, getHrefToDetailId, linkLabel, groupLabel }) {
   return (
     <Link
+      className={locals.link}
       href={getHrefToDetailId(
         {
           sessionId: beacon.sessionId,

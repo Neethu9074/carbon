@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.webSphereLibertyApplicationContainer,
-  pluginName: {
-    singular: 'WebSphere Liberty Server',
-    plural: 'WebSphere Liberty Servers'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

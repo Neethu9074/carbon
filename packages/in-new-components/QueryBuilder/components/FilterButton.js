@@ -4,6 +4,7 @@
  */
 import React, { useRef } from 'react';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 
 import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
 import Overlay from 'in-new-components/overlays/Overlay';
@@ -57,7 +58,7 @@ export default function FilterButton({
           onClick={toggle}
           refSetter={refSetter}
         >
-          Add filter
+          {t('in-new-components:queryBuilder.components.filterButtonAddFilter')}
         </Button>
       )}
     </Overlay>

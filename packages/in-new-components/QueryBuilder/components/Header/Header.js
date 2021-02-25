@@ -18,10 +18,10 @@ export default function Header(props) {
     sortOptions,
     setMetrics,
     totalHits,
-    itemName,
+    getHitName,
+    getItemName,
     setOrder,
     topText,
-    hitName,
     metrics,
     order,
     tracking,
@@ -33,9 +33,9 @@ export default function Header(props) {
       <CountHeader
         totalRepresentedItemCount={totalRepresentedItemCount}
         totalHits={totalHits}
-        itemName={itemName}
+        getItemName={getItemName}
+        getHitName={getHitName}
         topText={topText}
-        hitName={hitName}
         withSamplingTooltip={withSamplingTooltip}
       />
 

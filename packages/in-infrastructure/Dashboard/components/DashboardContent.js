@@ -18,7 +18,7 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getForgeComponent } from 'in-services/getForgeComponent';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 import useObservable from 'in-hooks/useObservable';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
@@ -104,7 +104,7 @@ export default connectTo(
                 snapshot={snapshot}
                 timeConfig={timeConfig}
                 plugin={plugin}
-                title={getSingular(plugin)}
+                title={getPluginName(plugin, 1)}
                 getLabel={() => getLabel(snapshot)}
               />
             }

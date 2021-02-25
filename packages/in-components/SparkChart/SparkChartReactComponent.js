@@ -7,11 +7,12 @@ import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
+import { number, isPercentageFormatter } from 'in-services/formatters/number';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import SparkTooltip from 'in-components/SparkChart/components/Tooltip';
 import SparkChart from 'in-components/SparkChart/SparkChart';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import { number, isPercentageFormatter } from 'in-services/formatters/number';
+import { isBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
@@ -49,7 +50,7 @@ function SparkChartReactComponent(props) {
   if (loading) {
     sparkChart = <LoadingIndicator text="" width={width} height={height} />;
   } else if (noMetricsAvailable && !showNullValuesChartOnEmptyMetrics && !hideChartOnEmptyMetrics) {
-    sparkChart = <NoDataAvailable width={width} height={height} />;
+    sparkChart = <NoDataAvailable className={locals.noData} icon={'lib_bar_chart'} width={width} height={height} />;
   } else {
     sparkChart = (
       <SparkChartReactWrapper
@@ -61,12 +62,14 @@ function SparkChartReactComponent(props) {
     );
   }
 
-  if (horizontalMetricValue !== undefined) {
+  if (horizontalMetricValue != null) {
     if (label) {
       const value = aggregation ? (
         <div className={locals.iconValueWrapper}>
           <AggregationSymbol aggregation={aggregation} />
-          {horizontalMetricValue}
+          {isBlank(horizontalMetricValue.toString())
+            ? t('in-components:sparkChart.notAvailable')
+            : horizontalMetricValue}
         </div>
       ) : (
         horizontalMetricValue

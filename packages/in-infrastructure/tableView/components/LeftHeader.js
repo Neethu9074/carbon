@@ -9,7 +9,7 @@ import MetricSelector from 'in-infrastructure/tableView/components/MetricSelecto
 import { addMetric, metrics$ } from 'in-infrastructure/tableView/stores/metrics';
 import TypeSelector from 'in-infrastructure/tableView/components/TypeSelector';
 import { plugin$ } from 'in-infrastructure/tableView/stores/snapshotIds';
-import { getPlural } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 
 import './LeftHeader.less';
@@ -30,7 +30,7 @@ export default connectTo(
           plugin={plugin}
           onChange={addSelectedMetric}
           selectedMetrics={selectedMetrics}
-          label={t('in-infrastructure:tableView.visualizeMetricForSelected', { plugins: getPlural(plugin) })}
+          label={t('in-infrastructure:tableView.visualizeMetricForSelected', { plugins: getPluginName(plugin, 2) })}
         />
       </header>
     );

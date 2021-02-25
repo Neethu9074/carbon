@@ -19,8 +19,10 @@ import TagList from 'in-logging/analyze/AnalyzeView/components/TagList';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import getLogs from 'in-logging/subscriptions/getLogs';
+import { number } from 'in-services/formatters/number';
 import getLog from 'in-logging/subscriptions/getLog';
 import useObservable from 'in-hooks/useObservable';
+import { t } from 'in-i18n';
 
 import locals from './Logs.mless';
 
@@ -59,7 +61,12 @@ export default function Logs(props) {
     <UngroupedViewList
       {...props}
       classNames={{ listItem: locals.listItem }}
-      itemName="Log"
+      getItemName={({ count }) =>
+        t('in-logging:log', {
+          count,
+          formattedCount: number.compact(count)
+        })
+      }
       sortOptions={[
         {
           value: 'timestamp',

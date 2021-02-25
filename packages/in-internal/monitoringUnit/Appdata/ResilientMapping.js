@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -17,7 +18,7 @@ import connectTo from 'in-hoc/connectTo';
 function getCols(fqn) {
   return [
     {
-      title: 'Customer',
+      title: t('in-internal:monitoringUnit.appdata.resilientMapping.customer'),
       type: 'string',
       typeArgs: {
         getValue(row) {
@@ -36,7 +37,7 @@ function getCols(fqn) {
       }
     },
     {
-      title: 'First-level Cache Hits',
+      title: t('in-internal:monitoringUnit.appdata.resilientMapping.firstLevelCacheHits'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -53,7 +54,7 @@ function getCols(fqn) {
       }
     },
     {
-      title: 'Second-level Cache Hits',
+      title: t('in-internal:monitoringUnit.appdata.resilientMapping.secondLevelCacheHits'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -70,7 +71,7 @@ function getCols(fqn) {
       }
     },
     {
-      title: 'Cache misses (multi-labels)',
+      title: t('in-internal:monitoringUnit.appdata.resilientMapping.cacheMissesMulti'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -87,7 +88,7 @@ function getCols(fqn) {
       }
     },
     {
-      title: 'Cache size',
+      title: t('in-internal:monitoringUnit.appdata.resilientMapping.cacheSize'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -116,7 +117,7 @@ export default connectTo({
 
   return (
     <div>
-      <DashboardSection title="Application Mapping">
+      <DashboardSection title={t('in-internal:monitoringUnit.appdata.resilientMapping.appMapping')}>
         <Table
           cols={getCols('com.instana.spanprocessing.stream.mapping.application.ApplicationCache')}
           rows={rows}
@@ -126,7 +127,7 @@ export default connectTo({
           }
         />
       </DashboardSection>
-      <DashboardSection title="Service Mapping">
+      <DashboardSection title={t('in-internal:monitoringUnit.appdata.resilientMapping.serviceMapping')}>
         <Table
           cols={getCols('com.instana.spanprocessing.stream.mapping.service.ServiceCache')}
           rows={rows}
@@ -152,7 +153,11 @@ function getRowDetails(row, fqn) {
             `metrics.meters.${fqn}.cache-hits`,
             `metrics.meters.${fqn}.cache-hits-with-disambiguation``metrics.meters.${fqn}.cache-misses-caused-by-multiple-entities`
           ],
-          labels: ['First-level Cache Hits', 'Second-level Cache Hits', 'Cache misses caused by multiple entities'],
+          labels: [
+            t('in-internal:monitoringUnit.appdata.resilientMapping.firstLevelCacheHits'),
+            t('in-internal:monitoringUnit.appdata.resilientMapping.secondLevelCacheHits'),
+            t('in-internal:monitoringUnit.appdata.resilientMapping.cacheMissMultiple')
+          ],
           type: 'line'
         }}
       />
@@ -164,7 +169,7 @@ function getRowDetails(row, fqn) {
           min: 0,
           formatter: number.detailed,
           metrics: [`metrics.gauges.${fqn}.cache-size`],
-          labels: ['Cache size'],
+          labels: [t('in-internal:monitoringUnit.appdata.resilientMapping.cacheSize')],
           type: 'line'
         }}
       />
@@ -176,7 +181,7 @@ function getRowDetails(row, fqn) {
           min: 0,
           formatter: number.detailed,
           metrics: [`metrics.meters.${fqn}.expired-entries-because-cache-full`],
-          labels: ['Evictions because of cache full'],
+          labels: [t('in-internal:monitoringUnit.appdata.resilientMapping.evictionsCacheFull')],
           type: 'line'
         }}
       />

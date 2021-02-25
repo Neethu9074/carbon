@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans, markAsSecureString } from 'in-i18n';
+import { Trans } from 'in-i18n';
 import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -18,13 +18,17 @@ export default function TouchedMessages({ field, className }) {
     if (message.path) {
       return (
         <ValidationBlock key={i} className={className}>
-          <Trans
-            i18nKey="in-components:formsTouchedMsg"
-            values={{ msgMsg: message.message, msgPath: markAsSecureString(message.path) }}
-            components={{
-              codeWithClass: <code className={locals.path} />
-            }}
-          />
+          {message.path ? (
+            <Trans
+              i18nKey="in-components:touchedMessages.withPath"
+              values={{ message: message.message, path: message.path }}
+              components={{
+                codeWithClass: <code className={locals.path} />
+              }}
+            />
+          ) : (
+            message.message
+          )}
         </ValidationBlock>
       );
     } else {

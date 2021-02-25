@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsBeanstalk,
-  pluginName: {
-    singular: 'AWS Beanstalk Environment',
-    plural: 'AWS Beanstalk Environments'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.kubernetesStatefulSet,
-  pluginName: {
-    singular: 'Kubernetes StatefulSet',
-    plural: 'Kubernetes StatefulSets'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

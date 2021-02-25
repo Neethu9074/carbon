@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -56,7 +57,7 @@ export default connectTo(
               refSetter={refSetter}
               className={className}
             >
-              Upstream / Downstream
+              {t('in-new-components:upstreamDownstream.buttonUpstreamDownstream')}
               <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
             </Button>
           )}

@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.ibmMqQueueUsage,
-  pluginName: {
-    singular: 'IBM MQ Queue Usage',
-    plural: 'IBM MQ Queue Usages'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

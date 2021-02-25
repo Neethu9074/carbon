@@ -4,6 +4,7 @@
  */
 import { createField, notBlankValidator } from 'formalistic';
 import { compose, withProps, withState } from 'recompose';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
@@ -23,13 +24,11 @@ export default compose(
     errors: null
   }),
   withProps(({ state, setState }) => ({
-    header: 'Create New Dashboard',
+    header: t('in-custom-dashboards:newDashboardDialog.createNewDashboard'),
     headerIcon: 'lib_views_grid',
-    inputLabel: 'Dashboard Name',
-    additionalFields: (
-      <p>This dashboard will only be visible to you. You can choose to share it with colleagues after creation.</p>
-    ),
-    confirmButtonLabel: 'Create',
+    inputLabel: t('in-custom-dashboards:newDashboardDialog.dashboardName'),
+    additionalFields: <p>{t('in-custom-dashboards:newDashboardDialog.additionalFields')}</p>,
+    confirmButtonLabel: t('in-custom-dashboards:newDashboardDialog.create'),
     ...state,
     onChange: newValue =>
       setState({

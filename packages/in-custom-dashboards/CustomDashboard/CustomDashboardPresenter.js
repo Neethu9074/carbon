@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 /* eslint-disable react/display-name */
-import React from 'react';
 import { uniqBy } from 'lodash';
+import { t } from 'in-i18n';
+import React from 'react';
 
 import EntityPageMainNotificationLightCardV2 from 'in-new-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
@@ -49,9 +50,9 @@ function CustomDashboardPresenter(props) {
   let titleOverwrite = config?.title;
   if (result?.errors?.length > 0) {
     if (result.errors[0]?.code === 'NOT_FOUND') {
-      titleOverwrite = 'Dashboard not found';
+      titleOverwrite = t('in-custom-dashboards:customDashboard.customDashboardPresenter.dashboardNotFound');
     } else {
-      titleOverwrite = 'Failure';
+      titleOverwrite = t('in-custom-dashboards:customDashboard.customDashboardPresenter.failure');
     }
   }
 
@@ -61,8 +62,8 @@ function CustomDashboardPresenter(props) {
     result?.errors?.[0]?.code === 'NOT_FOUND' ? (
       <EntityPageMainNotificationLightCardV2
         icon="lib_missing_data"
-        title="Dashboard not found"
-        explanation="This dashboard does not exist or you do not have access to it."
+        title={t('in-custom-dashboards:customDashboard.customDashboardPresenter.dashboardNotFound')}
+        explanation={t('in-custom-dashboards:customDashboard.customDashboardPresenter.dashboardNotFoundExplain')}
       />
     ) : (
       <DashboardErroneousResultPresenter errors={result?.errors} />
@@ -109,7 +110,10 @@ function CustomDashboardPresenter(props) {
                     {result && <HorizontalIndicator progress={result.progress} />}
                     <DashboardHeaderShadowModule />
 
-                    <Title title="Custom Dashboard" dynamic={config && config.title} />
+                    <Title
+                      title={t('in-custom-dashboards:customDashboard.customDashboardPresenter.customDashboard')}
+                      dynamic={config && config.title}
+                    />
                     <ViewTrackingMeta
                       data={{
                         productArea: 'Custom Dashboard',
@@ -160,10 +164,10 @@ function ButtonLine({ onSaveConfiguration, hasChanges, editable, isSaving, onDis
         type="button"
         isSaving={isSaving}
       >
-        Save changes
+        {t('in-custom-dashboards:customDashboard.customDashboardPresenter.saveChange')}
       </SaveButton>
       <Button icon="lib_openclose_cancel" kind="subtle" onClick={onDiscardChanges}>
-        Discard Changes
+        {t('in-custom-dashboards:customDashboard.customDashboardPresenter.discardChange')}
       </Button>
     </>
   );
@@ -184,13 +188,13 @@ function SecondaryButtonLine({
     <>
       {editable && (
         <Button kind="action" onClick={onAddWidget} icon="lib_openclose_add_circle_outline">
-          Add Widget
+          {t('in-custom-dashboards:customDashboard.customDashboardPresenter.addWidget')}
         </Button>
       )}
 
       <MoreMenu kind="secondaryDarker">
         <MoreMenuButton icon="lib_actions_maximize" onClick={() => setTvModeEnabled(true)}>
-          TV Mode
+          {t('in-custom-dashboards:customDashboard.customDashboardPresenter.tvMode')}
         </MoreMenuButton>
         <MoreMenuSetAsLandingPageButton
           setLandingPage={() => setLandingPage(customDashboardId)}
@@ -198,24 +202,24 @@ function SecondaryButtonLine({
         />
         {editable && (
           <MoreMenuButton icon="lib_actions_edit" onClick={onRenameDashboard}>
-            Edit Name
+            {t('in-custom-dashboards:customDashboard.customDashboardPresenter.editName')}
           </MoreMenuButton>
         )}
         {editable ? (
           <MoreMenuButton icon="lib_views_file" onClick={onEditAsJson}>
-            Edit As JSON
+            {t('in-custom-dashboards:customDashboard.customDashboardPresenter.editAsJson')}
           </MoreMenuButton>
         ) : (
           <MoreMenuButton icon="lib_views_file" onClick={onViewAsJson}>
-            View As JSON
+            {t('in-custom-dashboards:customDashboard.customDashboardPresenter.viewAsJson')}
           </MoreMenuButton>
         )}
         <MoreMenuButton icon="lib_actions_copy" onClick={onDuplicateDashboard}>
-          Duplicate
+          {t('in-custom-dashboards:customDashboard.customDashboardPresenter.duplicate')}
         </MoreMenuButton>
         {editable && (
           <MoreMenuButton icon="lib_actions_delete" onClick={onDeleteCustomDashboard}>
-            Delete
+            {t('in-custom-dashboards:customDashboard.customDashboardPresenter.delete')}
           </MoreMenuButton>
         )}
       </MoreMenu>
@@ -234,13 +238,15 @@ function TopLevelButtonLine({ editable, onShare, canCreatePublicCustomDashboards
       onClick={canCreatePublicCustomDashboards ? onShare : undefined}
       disabled={!canCreatePublicCustomDashboards}
     >
-      Share
+      {t('in-custom-dashboards:customDashboard.customDashboardPresenter.share')}
     </DashboardHeaderButton>
   );
 
   if (!canCreatePublicCustomDashboards) {
     shareButton = (
-      <Tooltip content="Your user account does not have permissions to share dashboards.">{shareButton}</Tooltip>
+      <Tooltip content={t('in-custom-dashboards:customDashboard.customDashboardPresenter.shareButtonTooltip')}>
+        {shareButton}
+      </Tooltip>
     );
   }
 

@@ -74,7 +74,7 @@ import { millis } from 'in-services/formatters/number';
 import { isMetricPercentile } from 'in-sdk/metrics';
 import TextArea from 'in-components/form/TextArea';
 import Helpify from 'in-components/form/Helpify';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import Toggle from 'in-components/form/Toggle';
 import { find } from 'in-services/arrayUtils';
 import ComboBox from 'in-components/ComboBox';
@@ -927,7 +927,7 @@ function updateEntityTypesWithDeprecation(pluginsWithMetricDefinitions, form) {
   if (entityType && isDeprecatedEntityType(entityType)) {
     pluginsWithMetricDefinitions.push({
       value: entityType,
-      label: getSingular(entityType) + ' (deprecated)'
+      label: getPluginName(entityType, 1) + ' (deprecated)'
     });
   }
 

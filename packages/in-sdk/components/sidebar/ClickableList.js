@@ -7,7 +7,7 @@ import React from 'react';
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -31,7 +31,7 @@ export const ClickableSnapshotListItem = connectTo(({ children, snapshotId }) =>
     content = (
       <div className={locals.labelWithIcon}>
         {withIcon && (
-          <Tooltip content={getSingular(snapshot.get('plugin'))}>
+          <Tooltip content={getPluginName(snapshot.get('plugin'), 1)}>
             <PluginIcon className={locals.pluginIcon} snapshot={snapshot} />
           </Tooltip>
         )}

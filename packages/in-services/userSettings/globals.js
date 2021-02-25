@@ -4,4 +4,5 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-export const userSettings = process.env.IS_TEST ? {} : window.instana.termsAndPrivacySettings;
+// userSettings does not exist in the waiting mode of the Instana UI
+export const userSettings = (process.env.IS_TEST ? {} : window.instana.termsAndPrivacySettings) || {};

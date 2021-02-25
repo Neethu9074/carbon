@@ -11,10 +11,7 @@ registerSnapshotDefinition({
   plugin: plugins.vault,
   metricDefinitions,
   kpiDefinitions,
-  pluginName: {
-    singular: 'Vault Instance',
-    plural: 'Vault Instances'
-  },
+
   technologyDescriptor: {
     label: 'Vault'
   }

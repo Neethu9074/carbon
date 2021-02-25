@@ -4,6 +4,7 @@
  */
 import { compose, withState, setPropTypes } from 'recompose';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
@@ -189,5 +190,10 @@ export function getFlattenedIds(idsByType) {
 }
 
 function DefaultEmptyStateContent({ cardIcon, label }) {
-  return <EntityPageMainNotification icon={cardIcon} title={`No ${label} yet`} />;
+  return (
+    <EntityPageMainNotification
+      icon={cardIcon}
+      title={t('in-cockpit:widgets.topListWidget.noLabelYet', { nolabel: label })}
+    />
+  );
 }

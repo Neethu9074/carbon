@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.sparkStandalone,
-  pluginName: {
-    singular: 'Spark Standalone',
-    plural: 'Spark Standalone'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

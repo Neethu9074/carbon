@@ -7,13 +7,14 @@ import React from 'react';
 
 import locals from './Skeleton.mless';
 
-export default function SkeletonCellContent({ className, style, lightMode }) {
+export default function SkeletonCellContent({ className, style, lightMode, darkMode }) {
   return (
     <span
       style={style}
       className={classNames({
         [locals.skeleton]: true,
         [locals.lightMode]: lightMode,
+        [locals.darkMode]: darkMode,
         [className]: className
       })}
     />

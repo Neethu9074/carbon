@@ -7,15 +7,16 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  DEFAULT_PAGE_SIZE,
+  enrichListWithStaleSelectionData,
+  createNoMatchingEntityText,
+  getFilteredListBySelectionState
+} from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/utils';
+import {
   createApplicationIdTagFilter,
   createEndpointNameTagFilter,
   createServiceIdTagFilter
 } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
-import {
-  DEFAULT_PAGE_SIZE,
-  enrichListWithStaleSelectionData,
-  createNoMatchingEntityText
-} from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/utils';
 import {
   selectApplication,
   selectEndpoint,
@@ -75,29 +76,38 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
   );
 
   const { state } = props.stateManagement;
+  const { showInteractedItemsOnly, editMode } = props;
 
   const listData = useMemo(() => {
     const service = selectService(state, parentIds);
     const restructuredItems = items.map(({ endpoint, ...rest }) => ({ ...rest, item: endpoint }));
-    return searchQuery
+    return searchQuery || (editMode && !showInteractedItemsOnly)
       ? restructuredItems
       : enrichListWithStaleSelectionData(Object.entries(service?.endpoints ?? {}), restructuredItems);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items]);
+  }, [items, editMode, showInteractedItemsOnly, state]);
 
   return (
     <SharedList
       {...props}
       {...tableProps}
       isLoading={isLoading(tableProps)}
-      listData={listData}
+      listData={
+        showInteractedItemsOnly
+          ? getFilteredListBySelectionState(
+              listData,
+              enhanceParentIdsWithChildId(parentIds),
+              hasUserInteractedWithItem(state)
+            )
+          : listData
+      }
       stateProcessors={{
         entityType: 'ENDPOINT',
         getTooltipSettings() {
           return { name: 'Endpoint', iconType: 'lib_application_endpoint' };
         },
         enhanceParentIdsWithChildId(id) {
-          return { ...parentIds, endpointId: id };
+          return enhanceParentIdsWithChildId(parentIds)(id);
         },
         isIndeterminate() {
           return false;
@@ -109,7 +119,7 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
           return selectEndpoint(state, itemTreeIds)?.inclusive === false;
         },
         hasUserInteractedWithItem(itemTreeIds) {
-          return Boolean(selectEndpoint(state, itemTreeIds));
+          return hasUserInteractedWithItem(state)(itemTreeIds);
         },
         isImplicitlyChecked(itemTreeIds) {
           const application = selectApplication(state, itemTreeIds);
@@ -144,6 +154,14 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
   );
 }
 
+function enhanceParentIdsWithChildId(parentIds) {
+  return id => ({ ...parentIds, endpointId: id });
+}
+
+function hasUserInteractedWithItem(state) {
+  return itemTreeIds => Boolean(selectEndpoint(state, itemTreeIds));
+}
+
 EndpointsList.propTypes = {
   getEndpointsCursorPaginated: PropTypes.func.isRequired,
   parentIds: PropTypes.shape({
@@ -153,5 +171,7 @@ EndpointsList.propTypes = {
   boundaryScope: PropTypes.string.isRequired,
   stateManagement: stateManagementPropType.isRequired,
   timeConfig: propTypeTimeConfig.isRequired,
-  searchQuery: PropTypes.string
+  searchQuery: PropTypes.string,
+  showInteractedItemsOnly: PropTypes.bool,
+  editMode: PropTypes.bool
 };

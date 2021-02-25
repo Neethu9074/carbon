@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React, { useEffect } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { t } from 'in-i18n';
 
@@ -12,14 +12,8 @@ import FormGroup from 'in-components/form/FormGroup';
 
 import locals from './ApplicationScopeSelector.mless';
 
-export default function ApplicationScopeSelector({ form, updateForm, selectedBlueprint }) {
+export default function ApplicationScopeSelector({ form, updateForm }) {
   const scopeField = form.get('scope');
-  const applicationScope = selectedBlueprint?.presetFormFields?.applicationScope;
-  useEffect(() => {
-    if (applicationScope) {
-      updateForm(form.updateIn(['scope'], field => field.setValue(applicationScope).setTouched(true)));
-    }
-  }, [applicationScope]);
 
   return (
     <div className={locals.applicationScopeSwitchContainer}>

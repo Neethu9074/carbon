@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
+import React from 'react';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
@@ -17,7 +18,7 @@ export default function TypeAndMetricConfigurator({
   type,
   metricCatalog,
   onChange,
-  label = 'Please select a metric'
+  label = t('in-custom-dashboards:widgets.srcInfrastructure.typeAndMetricConfigurator.pleaseSelectMetric')
 }) {
   if (metricCatalog?.errors.length > 0) {
     return <Errors errors={metricCatalog?.errors} />;

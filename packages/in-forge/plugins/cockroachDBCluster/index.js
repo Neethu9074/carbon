@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.cockroachDBCluster,
-  pluginName: {
-    singular: 'CockroachDB Cluster',
-    plural: 'CockroachDB Clusters'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

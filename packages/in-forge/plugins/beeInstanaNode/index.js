@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.beeInstanaNode,
-  pluginName: {
-    singular: 'BeeInstana Server',
-    plural: 'BeeInstana Servers'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

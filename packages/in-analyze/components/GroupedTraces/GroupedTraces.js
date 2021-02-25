@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { compose, withProps } from 'recompose';
 import theme from 'in-themes';
 import React from 'react';
@@ -65,8 +66,8 @@ export default compose(
     openMetricSelector: () => {
       addActiveDialog(
         <MetricSelector
-          title="Select Metrics"
-          help="Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."
+          title={t('in-analyze:groupedTraces.groupedTracesTitle')}
+          help={t('in-analyze:groupedTraces.groupedTracesHelp')}
           availableMetrics={availableMetrics}
           selectedMetrics={metrics}
           maximumNumberOfMetrics={5}

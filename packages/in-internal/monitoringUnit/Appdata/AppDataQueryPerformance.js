@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import CallGroupsChartWrapper from 'in-applications/analyze/components/CallGroupsChartWrapper';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
@@ -26,7 +27,7 @@ export default connectTo({
       <Row>
         <Col lg>
           <CallGroupsChartWrapper
-            cardTitle="Most Active Units"
+            cardTitle={t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.mostActiveUnits')}
             cardHeader={
               <Fragment>
                 <Button
@@ -49,7 +50,7 @@ export default connectTo({
                     })
                   }
                 >
-                  Analyze
+                  {t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.analyze')}
                 </Button>
                 &nbsp;
               </Fragment>
@@ -60,14 +61,14 @@ export default connectTo({
             orderByMetric={0}
             metrics={[
               {
-                label: 'Latency (sum)',
+                label: t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.latencySum'),
                 metric: 'latency',
                 aggregation: 'SUM',
                 formatter: millis,
                 renderer: Renderer.stackedArea
               },
               {
-                label: 'Calls',
+                label: t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.calls'),
                 metric: 'calls',
                 aggregation: 'SUM',
                 formatter: number,
@@ -81,7 +82,7 @@ export default connectTo({
       <Row>
         <Col lg>
           <CallGroupsChartWrapper
-            cardTitle="Most Common Queries"
+            cardTitle={t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.mostCommonQueries')}
             cardHeader={
               <Fragment>
                 <Button
@@ -104,7 +105,7 @@ export default connectTo({
                     orderDirection: 'DESC'
                   })}
                 >
-                  Analyze
+                  {t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.analyze')}
                 </Button>
                 &nbsp;
               </Fragment>
@@ -119,14 +120,14 @@ export default connectTo({
             orderByMetric
             metrics={[
               {
-                label: 'Latency (sum)',
+                label: t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.latencySum'),
                 metric: 'latency',
                 aggregation: 'SUM',
                 formatter: millis,
                 renderer: Renderer.stackedArea
               },
               {
-                label: 'Calls',
+                label: t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.calls'),
                 metric: 'calls',
                 aggregation: 'SUM',
                 formatter: number,

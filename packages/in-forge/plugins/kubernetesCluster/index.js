@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.kubernetesCluster,
-  pluginName: {
-    singular: 'Kubernetes Cluster',
-    plural: 'Kubernetes Clusters'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   agentMonitoringIssueDefinitions

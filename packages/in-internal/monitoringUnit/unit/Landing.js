@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import ProcessingComponents from 'in-internal/monitoringUnit/unit/ProcessingComponents';
 import SloViolationsChart from 'in-internal/components/SloViolationsChart';
@@ -18,7 +19,10 @@ export default function Landing({ timeConfig, tenant, unit }) {
             <SloViolationsChart
               timeConfig={timeConfig}
               query={`entity.label:"${tenant}-${unit}-*"`}
-              cardTitle={`SLO Violations for ${tenant}-${unit}`}
+              cardTitle={t('in-internal:monitoringUnit.unit.landing.sloViolations', {
+                sloTenant: tenant,
+                sloUnit: unit
+              })}
             />
           </Col>
         </Row>

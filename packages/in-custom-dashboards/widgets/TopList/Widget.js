@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { fromBackendModel, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -183,8 +184,8 @@ function useResultData(config, timeConfig) {
 function LinkContent({ item, groupBy }) {
   if (item.label === 'other_group') {
     return (
-      <Tooltip content="Aggregation of other groups" align="rightMiddle">
-        <div className={locals.italic}>Other</div>
+      <Tooltip content={t('in-custom-dashboards:widgets.topList.widget.aggregOtherGroup')} align="rightMiddle">
+        <div className={locals.italic}>{t('in-custom-dashboards:widgets.topList.widget.other')}</div>
       </Tooltip>
     );
   }
@@ -193,7 +194,7 @@ function LinkContent({ item, groupBy }) {
     const label = groupBy.groupbyTagSecondLevelKey
       ? `${groupBy.groupbyTag} > ${groupBy.groupbyTagSecondLevelKey}`
       : groupBy.groupbyTag;
-    return `Tag '${label}' present with no value`;
+    return t('in-custom-dashboards:widgets.topList.widget.tagNoValue', { labelname: label });
   }
 
   return item.label;

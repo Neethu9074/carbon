@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import CreatableSelect from 'react-select/lib/Creatable';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
@@ -248,11 +249,7 @@ export function AutoCompletedSelect({ value, onChange, tagSuggestionResult }) {
           <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning />
         )}
         {get(tagSuggestionResult, ['errors', 'length']) > 0 && (
-          <Tooltip
-            themeStyle="light"
-            align="bottomMiddle"
-            content="Suggestions currently not available, please type in the value"
-          >
+          <Tooltip themeStyle="light" align="bottomMiddle" content={t('in-analyze:dialogs.tooltip')}>
             <SvgIcon className={locals.errorIcon} type="lib_help_error_error_outline" />
           </Tooltip>
         )}

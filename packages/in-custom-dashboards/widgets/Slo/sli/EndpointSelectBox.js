@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -19,13 +20,17 @@ export default function EndpointSelectBox({ applicationId, field, serviceId, bou
   return (
     <SelectInSection
       id="new-sli-endpoint-selection"
-      label="Endpoint"
+      label={t('in-custom-dashboards:widgets.slo.endpointSelectBox.endpoint')}
       disabled={hasError(result) || isLoading(result)}
       value={value ?? ''}
       onChange={({ target }) => onChange?.(target?.value)}
       hasError={!field.valid && field.touched}
     >
-      {isLoading(result) ? <option value="">{'<loading>'}</option> : <option value="">All Services</option>}
+      {isLoading(result) ? (
+        <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.loading')}</option>
+      ) : (
+        <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.allServices')}</option>
+      )}
       {result.data?.items?.map(({ endpoint }) => (
         <option value={endpoint.id} key={endpoint.id}>
           {endpoint.label}

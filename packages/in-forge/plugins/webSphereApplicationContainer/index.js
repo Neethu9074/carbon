@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.webSphereApplicationContainer,
-  pluginName: {
-    singular: 'WebSphere',
-    plural: 'WebSpheres'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

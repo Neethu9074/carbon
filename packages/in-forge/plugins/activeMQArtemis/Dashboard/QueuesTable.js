@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.activeMQArtemis.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Message Count',
+    title: t('in-forge:plugins.activeMQArtemis.messageCount'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages Added',
+    title: t('in-forge:plugins.activeMQArtemis.messagesAdded'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages Acknowledged',
+    title: t('in-forge:plugins.activeMQArtemis.messagesAcknowledged'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,7 +70,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages Expired',
+    title: t('in-forge:plugins.activeMQArtemis.messagesExpired'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -85,7 +86,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages Killed',
+    title: t('in-forge:plugins.activeMQArtemis.messagesKilled'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -116,7 +117,13 @@ export default function QueuesTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <Table withoutPadding cardTitle={`Queues (${rows.length})`} cols={cols} rows={rows} getRowDetails={getRowDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.activeMQArtemis.queuesNumber', { number: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 
@@ -137,7 +144,13 @@ function getRowDetails(row) {
           'queues.' + row.key + '.messagesExpired',
           'queues.' + row.key + '.messagesKilled'
         ],
-        labels: ['Count', 'Added', 'Acknowledged', 'Expired', 'Killed'],
+        labels: [
+          t('in-forge:plugins.activeMQArtemis.count'),
+          t('in-forge:plugins.activeMQArtemis.added'),
+          t('in-forge:plugins.activeMQArtemis.acknowledged'),
+          t('in-forge:plugins.activeMQArtemis.expired'),
+          t('in-forge:plugins.activeMQArtemis.killed')
+        ],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

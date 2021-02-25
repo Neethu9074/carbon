@@ -10,7 +10,7 @@ import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { emptyList } from 'in-services/fixedImmutables';
 import { entitySelectedTracker } from 'in-map/tracker';
 import { getSnapshot } from 'in-stores/snapshot';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -30,7 +30,7 @@ const Crumb = connectTo(
     }
 
     const plugin = snapshot.get('plugin');
-    const tooltip = `${getSingular(plugin)}: ${getLabel(snapshot)}`;
+    const tooltip = `${getPluginName(plugin, 1)}: ${getLabel(snapshot)}`;
 
     let imgClasses = locals.crumbIcon;
     const isSelected = snapshot.get('id') === selectedSnapshotId;

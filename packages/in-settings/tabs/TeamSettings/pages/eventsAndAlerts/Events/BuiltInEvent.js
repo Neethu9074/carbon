@@ -19,7 +19,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { getPlainMetricList } from 'in-sdk/metrics';
 import { compare } from 'in-services/util/number';
 import PluginIcon from 'in-components/PluginIcon';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import { find } from 'in-services/arrayUtils';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
@@ -82,7 +82,7 @@ export default connectTo(
           <Label>Entity type</Label>
           <div className={locals.flexWrapper}>
             <PluginIcon className={locals.entityIcon} color="#000" plugin={entityType} />
-            {getSingular(entityType)}
+            {getPluginName(entityType, 1)}
           </div>
         </FormGroup>
         <FormGroup>

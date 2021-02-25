@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.googleCloudStorage,
-  pluginName: {
-    singular: 'Google Cloud Storage',
-    plural: 'Google Cloud Storage'
-  },
+
   technologyDescriptor: {
     label: 'Google Cloud Storage'
   },

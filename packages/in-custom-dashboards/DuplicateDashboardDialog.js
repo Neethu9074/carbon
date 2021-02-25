@@ -36,10 +36,10 @@ export default compose(
     errors: null
   })),
   withProps(({ state, setState, config }) => ({
-    header: 'Duplicate Dashboard',
+    header: t('in-custom-dashboards:duplicateDashboardDialog.duplicateDashboard'),
     headerIcon: 'lib_views_grid',
-    inputLabel: 'Dashboard Name',
-    confirmButtonLabel: 'Duplicate',
+    inputLabel: t('in-custom-dashboards:duplicateDashboardDialog.dashboardName'),
+    confirmButtonLabel: t('in-custom-dashboards:duplicateDashboardDialog.duplicate'),
     ...state,
     field: state.form.get('title'),
     onChange: newValue =>
@@ -124,7 +124,7 @@ export default compose(
         <HorizontalFormGroup
           label={
             <Label htmlFor="duplicate-dashboard-sharing" hasError={!field.valid && field.touched}>
-              Copy Sharing Configuration
+              {t('in-custom-dashboards:duplicateDashboardDialog.copyShareConfig')}
             </Label>
           }
           formElement={

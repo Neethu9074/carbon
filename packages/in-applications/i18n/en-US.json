@@ -121,7 +121,7 @@
   "linkViewAllEndpoints": "View all endpoints",
   "lineViewInAnalyze": "View in Analyze",
   "placeholderType": "Type…",
-  "placeholderTechnology":"Technology…",
+  "placeholderTechnology": "Technology…",
   "Rendering": "Rendering",
   "loadingData": "Loading Data",
   "UnexpectedErrorOccurred": "An unexpected error occurred",
@@ -144,6 +144,9 @@
   },
   "applications": {
     "noData": "Application perspectives provide a means to model environments, sets of services, tenants, or just about anything."
+  },
+  "services": {
+    "noData": "No service calls are available for the selected time range."
   },
   "alert": {
     "individual": "Individual Alerts",
@@ -285,7 +288,8 @@
     "callBatchCountTooltip_1": "This call is batched and represents {{callBatchCount}} individual call.",
     "callBatchCountTooltip_2": "This call is batched and represents {{callBatchCount}} individual calls.",
     "groupedList": {
-      "groupItemName": "Group",
+      "groupItemName": "{{formattedCount}} Group",
+      "groupItemName_plural": "{{formattedCount}} Groups",
       "earliestTimestamp": "Earliest Timestamp",
       "focusGroupTooltip": "Focus on this group",
       "groupName": "Group Name",
@@ -309,6 +313,10 @@
     "erroneousCallsCategory": "Erroneous Calls",
     "erroneousTraceRate": "Erroneous Traces Rate",
     "erroneousTrace": "Erroneous Traces",
+    "metricCountLabel_calls": "{{formattedCount}} Call",
+    "metricCountLabel_calls_plural": "{{formattedCount}} Calls",
+    "metricCountLabel_traces": "{{formattedCount}} Trace",
+    "metricCountLabel_traces_plural": "{{formattedCount}} Traces",
     "metricLabel": "Call",
     "metricLabel_plural": "Calls",
     "metricLabel_0": "Calls",
@@ -324,11 +332,13 @@
     "typeCall_0": "calls",
     "typeCall_1": "call",
     "typeCall_2": "calls",
-    "typeTrace" : "trace",
-    "typeTrace_plural" : "traces",
-    "typeTrace_0" : "traces",
-    "typeTrace_1" : "trace",
-    "typeTrace_2" : "traces"
+    "typeTrace": "trace",
+    "typeTrace_plural": "traces",
+    "typeTrace_0": "traces",
+    "typeTrace_1": "trace",
+    "typeTrace_2": "traces",
+    "containsErrors": "Contains Errors",
+    "noErrors": "No Errors"
   },
   "blueprintConfig": {
     "slowness": {

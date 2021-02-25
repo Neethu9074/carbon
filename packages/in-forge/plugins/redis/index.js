@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.redis,
-  pluginName: {
-    singular: 'Redis Node',
-    plural: 'Redis Nodes'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

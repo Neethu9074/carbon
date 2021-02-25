@@ -133,7 +133,12 @@ export default connectTo(
         <SideNavigationAndContent
           stickySidebar
           navigationTree={getNavigationTree(props)}
-          redirectToDefaultPage={changePassword}
+          redirectToDefaultPage={getDefaultPage(
+            props.isGoogleSSOAvailable,
+            props.isSamlAvailable,
+            props.isLdapAvailable,
+            props.samlConfig
+          )}
           redirectFrom={authSettings}
           NotFoundPage={NotFoundPage}
           {...props}
@@ -143,3 +148,23 @@ export default connectTo(
     );
   }
 );
+
+function getDefaultPage(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable, samlConfig) {
+  if (!samlConfig.data?.activated) {
+    return changePassword;
+  }
+
+  if (isGoogleSSOAvailable) {
+    return googleSSO;
+  }
+
+  if (isSamlAvailable) {
+    return saml;
+  }
+
+  if (isLdapAvailable) {
+    return ldap;
+  }
+
+  return twoFactorAuth;
+}

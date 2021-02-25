@@ -37,12 +37,12 @@ export const formatters = [
   },
   {
     id: 'bytes.compact',
-    label: t('in-stores:metric.formatterBytes', { example: bytes.compact(3146340) }),
+    label: t('in-stores:metric.formatterLabelBytes', { example: bytes.compact(3146340) }),
     formatter: bytes.compact
   },
   {
     id: 'bytes.detailed',
-    label: t('in-stores:metric.formatterBytes', { example: bytes.detailed(3146340) }),
+    label: t('in-stores:metric.formatterLabelBytes', { example: bytes.detailed(3146340) }),
     formatter: bytes.detailed
   },
   {

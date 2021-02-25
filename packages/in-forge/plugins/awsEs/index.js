@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsEs,
-  pluginName: {
-    singular: 'AWS Elasticsearch',
-    plural: 'AWS Elasticsearch'
-  },
+
   kpiDefinitions,
   metricDefinitions,
 

@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { isEqual } from 'lodash';
 
@@ -20,7 +20,6 @@ export default function useUrlState({
   replaceHistory = true
 }) {
   const location = useLocation();
-  const hasUserInitiatedChangeRef = useRef();
   const [state, setState] = useState(() => determineStateChange(bind, location, emptyObject) || emptyObject);
 
   // Whenever we update the state, we cannot at the same time update the URL. This is caused by……
@@ -41,13 +40,9 @@ export default function useUrlState({
     // manipulating the URL as soon as a component leveraging useUrlState is mounted. This is not the behavior
     // we want. Furthermore, this can have nasty consequences when replaceHistory=false, e.g., back button might
     // break because the previous page will immediately change the URL and through this initiate a 'forward'-action.
-    if (hasUserInitiatedChangeRef.current) {
+    if (state.__writeToUrl) {
       mutateUrl(location => modifyLocation(bind, state, location), replaceHistory);
-
-      // We do not reset hasUserInitiatedChangeRef.current=false here. In theory we might be able to reduce
-      // the number of URL updates. However, we would have to ensure that we set it to false at the right moment, i.e.,
-      // that we do not loose an URL update as a consequence. This wouldn't be straightforward to achieve. We therefore
-      // just accept the occassional extra URL update.
+      state.__writeToUrl = false;
     }
   }, [state]);
 
@@ -82,6 +77,7 @@ export default function useUrlState({
       if (onUpdate) {
         onUpdate(prevState, newState);
       }
+
       return newState;
     });
   }, [location]);
@@ -89,9 +85,6 @@ export default function useUrlState({
   return [state, exposedSetState, exposedGetStateChangeUrl];
 
   function exposedSetState(change) {
-    // We need to instruct our URL-updating useEffect call that a change in state must result in a location update.
-    hasUserInitiatedChangeRef.current = true;
-
     // Users of useUrlState might memoize an older variant of useUrlState. If we wouldn't use this function variant
     // of setState, we could be losing some prior state updates.
     setState(prev => {
@@ -100,7 +93,11 @@ export default function useUrlState({
       // (asynchronously) update the state again. This state update will be a noop in all interaction
       // cases that happen via the Instana user interface. Cases in which this is not a noop are
       // URL changes caused by the browser itself, e.g. browser back button.
-      return reducer(prev, change);
+      return {
+        ...reducer(prev, change),
+        // We need to instruct our URL-updating useEffect call that a change in state must result in a location update.
+        __writeToUrl: true
+      };
     });
   }
 
@@ -133,7 +130,6 @@ function determineStateChange(bind, location, prevState) {
       newState[as || name] = getInitialState ? getInitialState() : initialState;
     }
   }
-
   return isEqual(newState, prevState) ? null : newState;
 }
 

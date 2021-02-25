@@ -13,10 +13,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.process,
-  pluginName: {
-    singular: 'Process',
-    plural: 'Processes'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   agentMonitoringIssueDefinitions,

@@ -5,7 +5,9 @@
 import { empty } from '@instana/observables';
 import React, { useEffect } from 'react';
 import { range } from 'lodash';
+import theme from 'in-themes';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 
 import {
   getAvailableMetrics,
@@ -31,12 +33,11 @@ import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { number } from 'in-services/formatters/number';
 import { aggregationLabels } from 'in-stores/metric';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import SvgIcon from 'in-components/SvgIcon';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import locals from './GroupedView.mless';
 
@@ -70,7 +71,8 @@ export default function GroupedAnalyzeView(props) {
     withSamplingTooltip,
     withoutSorting = false,
     withoutChartGroupMarkers = false,
-    chartedMetrics
+    chartedMetrics,
+    groupingTagCatalog
   } = props;
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
@@ -176,7 +178,12 @@ export default function GroupedAnalyzeView(props) {
     <>
       <Header
         {...props}
-        hitName={t('in-new-components:analyzeView.groupedViewHeader')}
+        getHitName={({ count }) =>
+          t('in-new-components:analyzeView.groupedViewHeader', {
+            count,
+            formattedCount: number.compact(count)
+          })
+        }
         sortOptions={withoutSorting ? undefined : sortOptions}
         availableMetrics={availableMetrics}
         metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
@@ -233,7 +240,12 @@ export default function GroupedAnalyzeView(props) {
                     key={label}
                     toggleContentOnRowClick
                     renderNestedContent={() => {
-                      const formModelForUnGroupedView = addGroupingCriteriaToFormModel(groupBy, label, formModel);
+                      const formModelForUnGroupedView = addGroupingCriteriaToFormModel(
+                        groupBy,
+                        label,
+                        formModel,
+                        groupingTagCatalog
+                      );
                       return (
                         // tagFilterExpression / backendQueryModel must be separately memoized based on hash
                         // within the ungrouped view.
@@ -389,7 +401,7 @@ GroupedAnalyzeView.propTypes = {
 
   getData: rpt.func.isRequired,
   getLabel: rpt.func.isRequired,
-  itemName: rpt.string.isRequired,
+  getItemName: rpt.func.isRequired,
   CustomHeaderActions: rpt.elementType,
   columnDefinitions: rpt.array,
   UngroupedView: rpt.elementType.isRequired

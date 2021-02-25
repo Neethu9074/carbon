@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.phpFpmRuntimePlatform,
-  pluginName: {
-    singular: 'PHP-FPM Runtime',
-    plural: 'PHP-FPM Runtimes'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   supportsCodeView,

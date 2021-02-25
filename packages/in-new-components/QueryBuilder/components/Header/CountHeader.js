@@ -3,14 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
-import { t } from 'in-i18n';
 
 import { historicOrLargeDataResult$ } from 'in-new-components/time/TimeSelection/TimeSelection';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
-import { number } from 'in-services/formatters/number';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 import { emptyObject } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
+import { t } from 'in-i18n';
 
 import locals from './CountHeader.mless';
 
@@ -18,29 +17,21 @@ export default function CountHeader({
   topText,
   totalHits,
   totalRepresentedItemCount,
-  hitName,
-  itemName,
+  getHitName,
+  getItemName,
   withSamplingTooltip = false
 }) {
-  if (!totalHits && !topText) {
-    return <Placeholder itemName={itemName} />;
+  if (totalHits == null && totalRepresentedItemCount == null) {
+    return <Placeholder />;
   }
-  const hitPlural = `${hitName}s`;
-  const itemPlural = t(itemName, {
-    count: totalRepresentedItemCount,
-    formattedCount: number.compact(totalRepresentedItemCount)
-  });
-  return (
-    <Presenter
-      topText={topText ?? `${number.compact(totalHits)} ${totalHits != 1 ? hitPlural : hitName}`}
-      bottomText={itemPlural}
-      withSamplingTooltip={withSamplingTooltip}
-    />
-  );
+  const hitName = getHitName ? getHitName({ count: totalHits }) : null;
+  const itemName =
+    getItemName && totalRepresentedItemCount != null ? getItemName({ count: totalRepresentedItemCount }) : null;
+  return <Presenter topText={topText ?? hitName} bottomText={itemName} withSamplingTooltip={withSamplingTooltip} />;
 }
 
-function Placeholder({ itemName }) {
-  return <Presenter topText="&nbsp;" bottomText={itemName && <>&nbsp;</>} />;
+function Placeholder() {
+  return <Presenter topText={t('in-new-components:analyzeView.resultHeaderLoading')} bottomText="&nbsp;" />;
 }
 
 function Presenter({ topText, bottomText, withSamplingTooltip }) {

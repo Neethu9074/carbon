@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
@@ -88,7 +89,7 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
             icon={getIconByType(dataSource, 'application')}
             contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
             label={getLabelByType(dataSource)}
-            title="Analytics"
+            title={t('in-analyze:traceDetails.titleAnalytics')}
           />
         }
       >
@@ -116,7 +117,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Trace"
+      title={t('in-analyze:traceDetails.titleTrace')}
       icon="lib_application_trace"
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
@@ -155,13 +156,7 @@ function renderMetaInformation({ traceId, result }) {
       // available in ClickHouse yet, even though some trace information from Cassandra
       // may be shown already.
       result.data && !result.data.id && (
-        <Tooltip
-          content={
-            'Some data related to this trace is delayed so please reload the \
-            page in a little later. An example where this may happen is viewing \
-            a very recent trace with some of its data is still being processed.'
-          }
-        >
+        <Tooltip content={t('in-analyze:traceDetails.tooltipData')}>
           <SvgIcon className={locals.icon} type="lib_help_error_info_outline" size="xs" />
         </Tooltip>
       )}
@@ -180,7 +175,7 @@ function renderContext({ filters }) {
 function renderTimeSelection({ filters }) {
   return (
     <Link href$={getLinkToAnalyze({ dataSource: filters.dataSource })}>
-      <Tooltip content="Close trace detail">
+      <Tooltip content={t('in-analyze:traceDetails.tooltipClose')}>
         <SvgIcon className={locals.closeIcon} aria-label="Close trace detail" type="lib_openclose_cancel" />
       </Tooltip>
     </Link>

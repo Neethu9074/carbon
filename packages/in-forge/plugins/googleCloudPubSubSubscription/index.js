@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.googleCloudPubSubSubscription,
-  pluginName: {
-    singular: 'Google Cloud PubSub Subscription',
-    plural: 'Google Cloud PubSub Subscriptions'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

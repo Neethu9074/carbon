@@ -11,10 +11,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.springbootApplicationContainer,
-  pluginName: {
-    singular: 'Spring Boot App',
-    plural: 'Spring Boot Apps'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   agentMonitoringIssueDefinitions,

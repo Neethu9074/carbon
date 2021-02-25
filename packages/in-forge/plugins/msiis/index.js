@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.msiis,
-  pluginName: {
-    singular: 'Internet Information Server',
-    plural: 'Internet Information Servers'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

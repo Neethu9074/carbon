@@ -11,10 +11,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.dropwizardApplicationContainer,
-  pluginName: {
-    singular: 'Dropwizard App',
-    plural: 'Dropwizard Apps'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   tableDefinition,

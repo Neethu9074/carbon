@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -43,10 +44,10 @@ export default connectTo(
     }
 
     if (metaEsNodes.length < 1) {
-      return <div>Statistics provider not found.</div>;
+      return <div>{t('in-internal:monitoringUnit.sre.metaElastic.statisticsProviderNotFound')}</div>;
     }
     if (jvmNodes.length < 1) {
-      return <div>Statistics provider not found.</div>;
+      return <div>{t('in-internal:monitoringUnit.sre.metaElastic.statisticsProviderNotFound')}</div>;
     }
 
     metaEsNodes = sort(metaEsNodes);
@@ -152,32 +153,31 @@ export default connectTo(
 
     return (
       <div>
-        <h2>Meta Elastic ({metaEsNodes.length} nodes)</h2>
-        <DashboardSection title={`# of queries`}>
+        <h2>{t('in-internal:monitoringUnit.sre.metaElastic.metaElasticNode', { count: metaEsNodes.length })}</h2>
+        <DashboardSection title={t('in-internal:monitoringUnit.sre.metaElastic.numQueries')}>
           <Row>{indicesQueryCount}</Row>
         </DashboardSection>
 
-        <DashboardSection title={`Added documents`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.sre.metaElastic.addDoc')}>
           <Row>{addedDocuments}</Row>
         </DashboardSection>
 
-        <DashboardSection title={`Network - data received`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.sre.metaElastic.networkDataReceived')}>
           <Row>{networkDataReceived}</Row>
         </DashboardSection>
 
-        <DashboardSection title={`Network - data transmitted`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.sre.metaElastic.networkDataTransmit')}>
           <Row>{networkDataTransmitted}</Row>
         </DashboardSection>
 
-        <DashboardSection title={`CPU load`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.sre.metaElastic.cpuLoad')}>
           <Row>{cpuLoad}</Row>
         </DashboardSection>
 
         <Columize>
-          <DashboardSection title="Suspension">
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.metaElastic.suspension')}>
             <ChartExplanation>
-              Suspension is an indication of how much application execution might have been delayed by the JVM, OS or
-              CPU during the last second. This is predominantly caused by GC activations.
+              {t('in-internal:monitoringUnit.sre.metaElastic.suspensionChartExplanation')}
             </ChartExplanation>
             <Chart
               snapshotIds={jvmNodes.map(r => r.jvmRuntimePlatform.get('id'))}
@@ -194,7 +194,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title="Data mounts">
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.metaElastic.dataMount')}>
             <Table
               cols={volumeTableCols}
               rows={getDataMountRows(metaEsNodes, timeConfig)}
@@ -202,7 +202,7 @@ export default connectTo(
               maxItemsPerPage={15}
             />
           </DashboardSection>
-          <DashboardSection title={`CPU Usage`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.metaElastic.cpuUsage')}>
             <Table cols={hostTableCols} rows={metaEsNodes} getRowDetails={getHostDetails} maxItemsPerPage={15} />
           </DashboardSection>
         </Columize>

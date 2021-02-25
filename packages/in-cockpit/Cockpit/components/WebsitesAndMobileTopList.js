@@ -4,6 +4,7 @@
  */
 import { combineLatest } from '@instana/observables';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
@@ -49,7 +50,7 @@ export default function WebsitesAndMobileTopList({ config }) {
           icon="lib_openclose_add_circle_outline"
           href$={linkToNewWebsite$}
         >
-          Add Website
+          {t('in-cockpit:component.websiteMobileTopList.addWebsite')}
         </Button>
       )}
       {hasMobileAppsAccess && role.canConfigureMobileAppMonitoring && (
@@ -59,7 +60,7 @@ export default function WebsitesAndMobileTopList({ config }) {
           icon="lib_openclose_add_circle_outline"
           href$={linkToNewMobileApp$}
         >
-          Add Mobile App
+          {t('in-cockpit:component.websiteMobileTopList.addMobileApp')}
         </Button>
       )}
     </>
@@ -86,7 +87,7 @@ export default function WebsitesAndMobileTopList({ config }) {
     return (
       <TopListWidget
         {...generalProps}
-        fullListViewLinkTitle="All Websites"
+        fullListViewLinkTitle={t('in-cockpit:component.websiteMobileTopList.allWebsites')}
         pinnedItemTypes={[websiteType]}
         getItems={getWebsites}
         getItemLink={item => getLinkToWebsite(getId(item))}
@@ -98,7 +99,7 @@ export default function WebsitesAndMobileTopList({ config }) {
     return (
       <TopListWidget
         {...generalProps}
-        fullListViewLinkTitle="All Mobile Apps"
+        fullListViewLinkTitle={t('in-cockpit:component.websiteMobileTopList.allMobileApps')}
         pinnedItemTypes={[mobileAppType]}
         getItems={getMobileApps}
         getItemLink={item => getLinkToMobileApp(getId(item))}
@@ -109,7 +110,7 @@ export default function WebsitesAndMobileTopList({ config }) {
   return (
     <TopListWidget
       {...generalProps}
-      fullListViewLinkTitle="All Websites & Mobile Apps"
+      fullListViewLinkTitle={t('in-cockpit:component.websiteMobileTopList.allWebsitesMobileApps')}
       pinnedItemTypes={[websiteType, mobileAppType]}
       getItems={getMergedData}
       getItemLink={item => (item.isWebsite ? getLinkToWebsite(getId(item)) : getLinkToMobileApp(getId(item)))}
@@ -264,7 +265,11 @@ const columnDefinitions = [
       const { isWebsite } = item;
       return (
         <KeyValue
-          label={isWebsite ? 'Website' : 'Mobile App'}
+          label={
+            isWebsite
+              ? t('in-cockpit:component.websiteMobileTopList.website')
+              : t('in-cockpit:component.websiteMobileTopList.mobileApp')
+          }
           value={isWebsite ? item.website.label : item.mobileApp.label}
           inverted
           accentuated
@@ -284,7 +289,11 @@ const columnDefinitions = [
           aggregation="SUM"
           metrics={isWebsite ? metrics.pageViews : metrics.sessions}
           metric={isWebsite ? metrics.pageViewsAgg : metrics.sessionsAgg}
-          label={isWebsite ? 'Page Views' : 'Sessions'}
+          label={
+            isWebsite
+              ? t('in-cockpit:component.websiteMobileTopList.pageViews')
+              : t('in-cockpit:component.websiteMobileTopList.sessions')
+          }
           tooltipFormatter={number.compact}
           showNullValuesChartOnEmptyMetrics
         />
@@ -304,7 +313,11 @@ const columnDefinitions = [
           aggregation={isWebsite ? 'MEAN' : 'SUM'}
           metrics={isWebsite ? metrics.onLoadTime : metrics.views}
           metric={isWebsite ? metrics.onLoadTimeAgg : metrics.viewsAgg}
-          label={isWebsite ? 'onLoad Time' : 'Views'}
+          label={
+            isWebsite
+              ? t('in-cockpit:component.websiteMobileTopList.onLoadTime')
+              : t('in-cockpit:component.websiteMobileTopList.views')
+          }
           tooltipFormatter={isWebsite ? meanLatencyFixed.compact : number.compact}
           showDashOnMissingOrNullMetric
           hideChartOnEmptyMetrics

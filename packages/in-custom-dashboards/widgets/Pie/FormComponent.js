@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Reorderer, MetricsForAxis } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
@@ -19,7 +20,7 @@ export default function PieChartWidgetFormComponent({ form, onChange }) {
   return (
     <Stack space="large">
       <Stack space="normal">
-        <Header>Datasets</Header>
+        <Header>{t('in-custom-dashboards:widgets.pie.formComponent.datasets')}</Header>
         <DataSeriesConfigurator form={form} onChange={onChange} getShortMetricKey={getShortMetricKey} />
       </Stack>
 
@@ -33,7 +34,7 @@ export default function PieChartWidgetFormComponent({ form, onChange }) {
             axisName="y1"
             startIndex={0}
             getShortMetricKey={getShortMetricKey}
-            helpText="Drag and drop datasets to reorder them."
+            helpText={t('in-custom-dashboards:widgets.pie.formComponent.dragDropDatasetsReorder')}
           />
         </Reorderer>
       </Stack>
@@ -41,13 +42,13 @@ export default function PieChartWidgetFormComponent({ form, onChange }) {
       <Divider />
 
       <Stack space="normal">
-        <Header>Data Presentation</Header>
+        <Header>{t('in-custom-dashboards:widgets.pie.formComponent.dataPresentation')}</Header>
 
         {form.getIn(['y1', 'formatter']).map(field => (
           <Sections>
             <SelectInSection
               id={`axis-y1-formatter`}
-              label="Formatter"
+              label={t('in-custom-dashboards:widgets.pie.formComponent.formatter')}
               value={field.value}
               onChange={e => onChange(['y1', 'formatter'], field => field.setValue(e.target.value).setTouched(true))}
               hasError={!field.valid && field.touched}

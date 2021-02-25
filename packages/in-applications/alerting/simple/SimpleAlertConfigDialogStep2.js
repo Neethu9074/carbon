@@ -3,13 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
+import { t } from 'in-i18n';
 
-import AlertTagFilterExpressionConfig from 'in-new-components/Alerting/components/AlertTagFilterExpressionConfig';
+import AlertTagFilterExpressionConfig, {
+  inPackages
+} from 'in-new-components/Alerting/components/AlertTagFilterExpressionConfig';
 import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SimpleAlertConfigDialogChart from 'in-applications/alerting/simple/SimpleAlertConfigDialogChart';
 import AlertLocationFilters from 'in-applications/alerting/components/AlertLocationFilters';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
-import { t } from 'in-i18n';
 
 import locals from './SimpleAlertConfigDialogStep2.mless';
 
@@ -39,7 +41,8 @@ export default function SimpleAlertConfigDialogStep2({
             <AlertTagFilterExpressionConfig
               form={form}
               updateForm={updateForm}
-              applicationLabel={applicationLabel}
+              label={applicationLabel}
+              inPackage={inPackages.IN_APPLICATIONS}
               QueryBuilderComponent={QueryBuilderComponent}
               headerTransparent
             />

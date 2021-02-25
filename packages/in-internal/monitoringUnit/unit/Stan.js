@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -11,20 +12,20 @@ import { percentage, number } from 'in-services/formatters/number';
 export default function StanStatistics({ timeConfig, tenantUnitId }) {
   return (
     <Fragment>
-      <DashboardSection title={`Processor Instances`}>
+      <DashboardSection title={t('in-internal:monitoringUnit.unit.stan.processorInstance')}>
         <Chart
           snapshotId={tenantUnitId}
           timeConfig={timeConfig}
           y1={{
             formatter: number.compact,
             metrics: [`processor.instances`],
-            labels: ['Processor Instances'],
+            labels: [t('in-internal:monitoringUnit.unit.stan.processorInstance')],
             type: 'stackedArea'
           }}
         />
       </DashboardSection>
 
-      <DashboardSection title={`Metric Drop Rate (max)`}>
+      <DashboardSection title={t('in-internal:monitoringUnit.unit.stan.metricDropRateMax')}>
         <Chart
           snapshotId={tenantUnitId}
           timeConfig={timeConfig}
@@ -32,13 +33,13 @@ export default function StanStatistics({ timeConfig, tenantUnitId }) {
             min: 0,
             formatter: percentage.detailed,
             metrics: [`processor.metricDropRate.max`],
-            labels: ['Metric Drop Rate (max)'],
+            labels: [t('in-internal:monitoringUnit.unit.stan.metricDropRateMax')],
             type: 'stackedArea'
           }}
         />
       </DashboardSection>
 
-      <DashboardSection title={`Metric Drop Rate (mean)`}>
+      <DashboardSection title={t('in-internal:monitoringUnit.unit.stan.metricDropRateMean')}>
         <Chart
           snapshotId={tenantUnitId}
           timeConfig={timeConfig}
@@ -46,13 +47,13 @@ export default function StanStatistics({ timeConfig, tenantUnitId }) {
             min: 0,
             formatter: percentage.detailed,
             metrics: [`processor.metricDropRate.mean`],
-            labels: ['Metric Drop Rate (mean)'],
+            labels: [t('in-internal:monitoringUnit.unit.stan.metricDropRateMean')],
             type: 'stackedArea'
           }}
         />
       </DashboardSection>
 
-      <DashboardSection title={`Application Entity (Call) Drop Rate`}>
+      <DashboardSection title={t('in-internal:monitoringUnit.unit.stan.appEntityCallDropRate')}>
         <Chart
           snapshotId={tenantUnitId}
           timeConfig={timeConfig}
@@ -60,7 +61,7 @@ export default function StanStatistics({ timeConfig, tenantUnitId }) {
             min: 0,
             formatter: percentage.detailed,
             metrics: [`appdata-legacy-converter.callsTotalDropRate`],
-            labels: ['Application Entity (Call) Drop Rate'],
+            labels: [t('in-internal:monitoringUnit.unit.stan.appEntityCallDropRate')],
             type: 'stackedArea'
           }}
         />

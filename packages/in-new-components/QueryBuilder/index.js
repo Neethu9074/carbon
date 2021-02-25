@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -47,7 +48,7 @@ export function createQueryBuilder({
         }
         const formModelValid = isFormModelValid({ tagCatalog: result.data, formModel });
         if (formModelValid && getMaximumExpressionDepth(toBackendQueryModel(formModel)) > 5) {
-          return errorWithData(['Your defined query is too complex, reduce the amount of nesting.'], false);
+          return errorWithData([t('in-new-components:queryBuilder.errorWithDataYourDefinedQueryIsTooComplex')], false);
         }
         return success(formModelValid);
       }),

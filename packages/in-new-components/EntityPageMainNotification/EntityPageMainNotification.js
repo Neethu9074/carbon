@@ -7,7 +7,7 @@ import { t } from 'in-i18n';
 import React from 'react';
 
 import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './EntityPageMainNotification.mless';
@@ -25,7 +25,7 @@ export default function EntityPageMainNotification(props) {
     withBackground
   } = props;
 
-  const entitySingular = getSingular(plugin) || t('in-new-components:entityPageMainNotification.labelEntity');
+  const entitySingular = getPluginName(plugin, 1) || t('in-new-components:entityPageMainNotification.labelEntity');
   return (
     <div
       className={classNames({

@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.mySqlDatabase,
-  pluginName: {
-    singular: 'MySQL DB',
-    plural: 'MySQL DBs'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

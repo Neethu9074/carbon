@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.hazelcastNode,
-  pluginName: {
-    singular: 'Hazelcast Node',
-    plural: 'Hazelcast Nodes'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

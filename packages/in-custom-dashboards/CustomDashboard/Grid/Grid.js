@@ -9,6 +9,7 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import classNames from 'classnames';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import {
   rowHeightPixels,
@@ -105,13 +106,13 @@ function Grid({
         const actions = isConfigurable && (
           <MoreMenu kind="secondaryDarker" size="compact" className={locals.more}>
             <MoreMenuButton icon="lib_actions_edit" onClick={() => onEditWidget(widget.id)}>
-              Edit
+              {t('in-custom-dashboards:customDashboard.grid.grid.edit')}
             </MoreMenuButton>
             <MoreMenuButton icon="lib_actions_copy" onClick={() => onDuplicateWidget(widget.id)}>
-              Duplicate
+              {t('in-custom-dashboards:customDashboard.grid.grid.duplicate')}
             </MoreMenuButton>
             <MoreMenuButton icon="lib_actions_delete" onClick={() => onRemoveWidget(widget.id)}>
-              Delete
+              {t('in-custom-dashboards:customDashboard.grid.grid.delete')}
             </MoreMenuButton>
           </MoreMenu>
         );
@@ -148,7 +149,12 @@ function Grid({
             id={getWidgetId(widget.id)}
             style={disabledTransitions ? disabledTransitionStyle : undefined}
           >
-            <ErrorBoundary name={`Custom dashboard widget: ${widget.title}`} meta={widget}>
+            <ErrorBoundary
+              name={t('in-custom-dashboards:customDashboard.grid.grid.customDashboardWidgetTitle', {
+                title: widget.title
+              })}
+              meta={widget}
+            >
               {content}
             </ErrorBoundary>
           </div>

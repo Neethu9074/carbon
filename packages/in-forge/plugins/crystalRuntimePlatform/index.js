@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.crystalRuntimePlatform,
-  pluginName: {
-    singular: 'Crystal App',
-    plural: 'Crystal Apps'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

@@ -339,16 +339,14 @@
     "access": "Access",
     "eventName": "Event Name"
   },
-  "dataSources": {
-    "sessionStart": "{{formattedCount}} Session Start",
-    "sessionStart_plural": "{{formattedCount}} Session Starts",
-    "viewChange": "{{formattedCount}} View Transition",
-    "viewChange_plural": "{{formattedCount}} View Transitions",
-    "httpRequest": "{{formattedCount}} HTTP Request",
-    "httpRequest_plural": "{{formattedCount}} HTTP Requests",
-    "custom": "{{formattedCount}} Custom Event",
-    "custom_plural": "{{formattedCount}} Custom Events"
-  },
+  "dataSource_sessionStart": "{{formattedCount}} Session Start",
+  "dataSource_sessionStart_plural": "{{formattedCount}} Session Starts",
+  "dataSource_viewChange": "{{formattedCount}} View Transition",
+  "dataSource_viewChange_plural": "{{formattedCount}} View Transitions",
+  "dataSource_httpRequest": "{{formattedCount}} HTTP Request",
+  "dataSource_httpRequest_plural": "{{formattedCount}} HTTP Requests",
+  "dataSource_custom": "{{formattedCount}} Custom Event",
+  "dataSource_custom_plural": "{{formattedCount}} Custom Events",
   "facetedSearch": {
     "mobileApp": "Mobile App",
     "view": "View",
@@ -359,5 +357,7 @@
     "country": "Country",
     "subdivision": "Subdivision"
   },
-  "queryInvalid": "The query configuration is invalid. Please address the validation failures before continuing."
+  "queryInvalid": "The query configuration is invalid. Please address the validation failures before continuing.",
+  "containsErrors": "Contains Errors",
+  "noErrors": "No Errors"
 }

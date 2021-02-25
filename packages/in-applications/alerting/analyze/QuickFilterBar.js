@@ -21,64 +21,55 @@ import { t } from 'in-i18n';
 import locals from './QuickFilterBar.mless';
 
 export default function QuickFilterBar(props) {
-  const { tagFilters, onMoreClick, timeConfig, disabledTagFilters, withoutFiltersLabel, withoutLatencyItem } = props;
-  const isNotDisabled = tagFilter => !disabledTagFilters.includes(tagFilter);
+  const { tagFilters, onMoreClick, timeConfig, withoutFiltersLabel, withoutLatencyItem } = props;
 
   return (
     <Bar showClearFilters={false} withoutLabel={withoutFiltersLabel}>
-      {isNotDisabled('service.name') && (
-        <AnalyzeSelectBarItem
-          {...props}
-          timeConfig={timeConfig}
-          tagFilters={tagFilters}
-          tag="service.name"
-          singularLabel={t('in-applications:analyze.quickFilter.labelService', { count: 1 })}
-          pluralLabel={t('in-applications:analyze.quickFilter.labelService', { count: 2 })}
-          itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_service')}
-          withoutTextTransform
-        />
-      )}
-      {isNotDisabled('endpoint.name') && (
-        <AnalyzeSelectBarItem
-          {...props}
-          timeConfig={timeConfig}
-          tagFilters={tagFilters}
-          tag="endpoint.name"
-          singularLabel={t('in-applications:analyze.quickFilter.labelEndpoint', { count: 1 })}
-          pluralLabel={t('in-applications:analyze.quickFilter.labelEndpoint', { count: 2 })}
-          itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_endpoint')}
-          precondition={() => !!getTagFromList(tagFilters, { name: 'service.name' })}
-          preconditionFailedTooltip={t('in-applications:analyze.quickFilter.preconditionFailedTooltip')}
-          withoutTextTransform
-        />
-      )}
-      {isNotDisabled('call.type') && (
-        <AnalyzeSelectBarItem
-          {...props}
-          timeConfig={timeConfig}
-          tagFilters={tagFilters}
-          tag="call.type"
-          singularLabel={t('in-applications:analyze.quickFilter.labelType', { count: 1 })}
-          pluralLabel={t('in-applications:analyze.quickFilter.labelType', { count: 2 })}
-          selectedItemRenderer={renderType}
-          itemLabelRenderer={renderType}
-        />
-      )}
-      {isNotDisabled('technology') && (
-        <AnalyzeMultiSelectBarItem
-          {...props}
-          timeConfig={timeConfig}
-          tagFilters={tagFilters}
-          tag="technology"
-          singularLabel={t('in-applications:analyze.quickFilter.labelTechnology', { count: 1 })}
-          pluralLabel={t('in-applications:analyze.quickFilter.labelTechnology', { count: 2 })}
-          selectedItemRenderer={getTechnologyLabel}
-          itemLabelRenderer={itemLabel => (
-            <EntityWithTypeAndIcon plugin={itemLabel} label={getTechnologyLabel(itemLabel)} />
-          )}
-        />
-      )}
-      {!withoutLatencyItem && isNotDisabled('call.latency') && (
+      <AnalyzeSelectBarItem
+        {...props}
+        timeConfig={timeConfig}
+        tagFilters={tagFilters}
+        tag="service.name"
+        singularLabel={t('in-applications:analyze.quickFilter.labelService', { count: 1 })}
+        pluralLabel={t('in-applications:analyze.quickFilter.labelService', { count: 2 })}
+        itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_service')}
+        withoutTextTransform
+      />
+      <AnalyzeSelectBarItem
+        {...props}
+        timeConfig={timeConfig}
+        tagFilters={tagFilters}
+        tag="endpoint.name"
+        singularLabel={t('in-applications:analyze.quickFilter.labelEndpoint', { count: 1 })}
+        pluralLabel={t('in-applications:analyze.quickFilter.labelEndpoint', { count: 2 })}
+        itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_endpoint')}
+        precondition={() => !!getTagFromList(tagFilters, { name: 'service.name' })}
+        preconditionFailedTooltip={t('in-applications:analyze.quickFilter.preconditionFailedTooltip')}
+        withoutTextTransform
+      />
+      <AnalyzeSelectBarItem
+        {...props}
+        timeConfig={timeConfig}
+        tagFilters={tagFilters}
+        tag="call.type"
+        singularLabel={t('in-applications:analyze.quickFilter.labelType', { count: 1 })}
+        pluralLabel={t('in-applications:analyze.quickFilter.labelType', { count: 2 })}
+        selectedItemRenderer={renderType}
+        itemLabelRenderer={renderType}
+      />
+      <AnalyzeMultiSelectBarItem
+        {...props}
+        timeConfig={timeConfig}
+        tagFilters={tagFilters}
+        tag="technology"
+        singularLabel={t('in-applications:analyze.quickFilter.labelTechnology', { count: 1 })}
+        pluralLabel={t('in-applications:analyze.quickFilter.labelTechnology', { count: 2 })}
+        selectedItemRenderer={getTechnologyLabel}
+        itemLabelRenderer={itemLabel => (
+          <EntityWithTypeAndIcon plugin={itemLabel} label={getTechnologyLabel(itemLabel)} />
+        )}
+      />
+      {!withoutLatencyItem && (
         <NumberBarItem
           {...props}
           tagFilters={tagFilters}
@@ -90,15 +81,13 @@ export default function QuickFilterBar(props) {
           minValue="1"
         />
       )}
-      {isNotDisabled('call.erroneous') && (
-        <BooleanBarItem
-          {...props}
-          timeConfig={timeConfig}
-          tagFilters={tagFilters}
-          tag="call.erroneous"
-          singularLabel={t('in-applications:analyze.quickFilter.labelErroneous')}
-        />
-      )}
+      <BooleanBarItem
+        {...props}
+        timeConfig={timeConfig}
+        tagFilters={tagFilters}
+        tag="call.erroneous"
+        singularLabel={t('in-applications:analyze.quickFilter.labelErroneous')}
+      />
       {onMoreClick && <MoreBarItem {...props} onClick={onMoreClick} />}
     </Bar>
   );

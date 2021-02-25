@@ -8,9 +8,6 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.pCFOrganization,
-  pluginName: {
-    singular: 'Cloud Foundry Organization',
-    plural: 'Cloud Foundry Organizations'
-  },
+
   kpiDefinitions
 });

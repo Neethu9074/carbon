@@ -4,6 +4,7 @@
  */
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
@@ -35,7 +36,7 @@ export default function WithTvMode({ children, urlParameter: { path, name } }) {
           {
             type: 'info',
             timeout: 5000,
-            content: 'Press ESC to disable TV mode.'
+            content: t('in-new-components:withTvMode.setEnabledMessagePressESCToDisableTVMode')
           },
           messageId
         );

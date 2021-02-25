@@ -4,6 +4,7 @@
  */
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React, { useMemo } from 'react';
+import { t } from 'in-i18n';
 
 import { createTimeZoneSubForm } from 'in-custom-dashboards/widgets/TimeZones/form';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
@@ -49,7 +50,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
 
   return (
     <Stack space="normal">
-      <Header>What would you like to show?</Header>
+      <Header>{t('in-custom-dashboards:widgets.timezone.formComp.whatULikeShow')}</Header>
       <TouchedMessages field={timeZonesForm} />
 
       <DragDropContext
@@ -71,7 +72,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
                     <Ul ref={provided.innerRef} {...provided.draggableProps}>
                       <Li noAlternatingBg className={locals.timeZone}>
                         <HorizontalFlexWrapper className={locals.left}>
-                          <Tooltip content="Reorder time zones">
+                          <Tooltip content={t('in-custom-dashboards:widgets.timezone.formComp.reorderTimeZones')}>
                             <div className={locals.dragHandle} {...provided.dragHandleProps}>
                               <SvgIcon type="lib_menu" />
                             </div>
@@ -80,7 +81,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
                           {timeZoneform.get('timeZone').map(field => (
                             <>
                               <label className={locals.label} htmlFor={`timeZones-widget-timeZone-${i}`}>
-                                Time Zone
+                                {t('in-custom-dashboards:widgets.timezone.formComp.timeZone')}
                               </label>
                               <Select
                                 id={`timeZones-widget-timeZone-${i}`}
@@ -117,7 +118,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
 
                         <HorizontalFlexWrapper className={locals.right}>
                           <SvgIcon
-                            ariaLabel="Remove time zone"
+                            ariaLabel={t('in-custom-dashboards:widgets.timezone.formComp.removeTimeZone')}
                             className={locals.removeButton}
                             type="lib_actions_delete"
                             onClick={() => onChange([], form => form.remove(i).setTouched(true))}
@@ -137,7 +138,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
                   onClick={() => onChange([], form => form.push(createTimeZoneSubForm()).setTouched(true))}
                   className={locals.addButton}
                 >
-                  Add Time Zone
+                  {t('in-custom-dashboards:widgets.timezone.formComp.addTimeZone')}
                 </Button>
               </StackItem>
 

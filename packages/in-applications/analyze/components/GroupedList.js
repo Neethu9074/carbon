@@ -33,6 +33,7 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import { formatDateTime } from 'in-services/formatters/date';
 import List from 'in-applications/analyze/components/List';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { number } from 'in-services/formatters/number';
 import { emptyArray } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useObservable from 'in-hooks/useObservable';
@@ -185,10 +186,16 @@ function Presenter({
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
         <ResultHeader
-          itemName={t('in-applications:analyze.groupedList.groupItemName')}
+          getItemName={({ count }) =>
+            t('in-applications:analyze.groupedList.groupItemName', {
+              count,
+              formattedCount: number.compact(count)
+            })
+          }
           totalRepresentedItemCount={totalHits}
           adjustedWindowSize={adjustedWindowSize}
           withSamplingTooltip
+          isValid={isValid}
         />
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}

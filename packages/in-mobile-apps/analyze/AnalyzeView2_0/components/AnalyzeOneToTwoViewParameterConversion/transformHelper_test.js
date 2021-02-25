@@ -24,7 +24,9 @@ const cases = [
         '/analyzeBeacons': {
           group: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
           beaconType: 'sessionStart',
-          tagFilters: '!(name~mobileBeacon.mobileApp.name~stringValue~Demo~operator~EQUALS~entity~NOT*_APPLICABLE)~'
+          tagFilters: '!(name~mobileBeacon.mobileApp.name~stringValue~Demo~operator~EQUALS~entity~NOT*_APPLICABLE)~',
+          orderBy: 'timestamp',
+          orderDirection: 'ASC'
         }
       }
     },
@@ -38,7 +40,41 @@ const cases = [
           tagFilterExpression:
             '!(type~TAG*_FILTER~name~mobileBeacon.mobileApp.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Demo)~',
           groupBy: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~',
+          orderByGroups: '(by~earliestTimestamp~direction~ASC)~'
+        }
+      }
+    }
+  },
+
+  {
+    name: 'grouped views ordered by metric',
+    one: {
+      pathname: '/mobileAppMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/mobileAppMonitoring': {},
+        '/analyzeBeacons': {
+          group: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
+          beaconType: 'sessionStart',
+          tagFilters: '!(name~mobileBeacon.mobileApp.name~stringValue~Demo~operator~EQUALS~entity~NOT*_APPLICABLE)~',
+          orderBy: 'uniqueUsers_DISTINCT_COUNT_Agg',
+          orderDirection: 'DESC'
+        }
+      }
+    },
+    two: {
+      pathname: '/mobileAppMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/mobileAppMonitoring': {},
+        '/analyzeBeacons': {
+          beaconType: 'sessionStart',
+          tagFilterExpression:
+            '!(type~TAG*_FILTER~name~mobileBeacon.mobileApp.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Demo)~',
+          groupBy: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~',
+          orderByGroups: '(by~uniqueUsers*_DISTINCT*_COUNT~direction~DESC)~'
         }
       }
     }
@@ -57,7 +93,6 @@ const cases = [
           tagFilters:
             '!(name~mobileBeacon.mobileApp.name~stringValue~Demo~operator~EQUALS~entity~NOT*_APPLICABLE)(name~mobileBeacon.view.name~stringValue~Home~operator~EQUALS~entity~NOT*_APPLICABLE)~',
           orderBy: 'timestamp',
-          orderByGroups: 'timestamp',
           orderDirection: 'ASC'
         }
       }
@@ -73,7 +108,40 @@ const cases = [
             '!(type~TAG*_FILTER~name~mobileBeacon.mobileApp.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Demo)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~mobileBeacon.view.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Home)~',
           groupBy: '()~',
           orderBy: '(by~timestamp~direction~ASC)~',
-          orderByGroups: '(by~timestamp~direction~ASC)~',
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
+        }
+      }
+    }
+  },
+
+  {
+    name: 'ungrouped views ordered by metric',
+    one: {
+      pathname: '/mobileAppMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/mobileAppMonitoring': {},
+        '/analyzeBeacons': {
+          group: '()~',
+          beaconType: 'httpRequest',
+          tagFilters:
+            '!(name~mobileBeacon.mobileApp.name~stringValue~Demo~operator~EQUALS~entity~NOT*_APPLICABLE)(name~mobileBeacon.view.name~stringValue~Home~operator~EQUALS~entity~NOT*_APPLICABLE)~',
+          orderBy: 'beaconErrorRate_MEAN_Agg',
+          orderDirection: 'DESC'
+        }
+      }
+    },
+    two: {
+      pathname: '/mobileAppMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/mobileAppMonitoring': {},
+        '/analyzeBeacons': {
+          beaconType: 'httpRequest',
+          tagFilterExpression:
+            '!(type~TAG*_FILTER~name~mobileBeacon.mobileApp.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Demo)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~mobileBeacon.view.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Home)~',
+          groupBy: '()~',
+          orderBy: '(by~mobileBeacon.error.count~direction~DESC)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
         }
       }
@@ -236,12 +304,19 @@ const tagCatalog = {
   ]
 };
 
+const metricCatalog = [
+  {
+    metricId: 'beaconErrorRate',
+    tagName: 'mobileBeacon.error.count'
+  }
+];
+
 describe('in-mobile-apps/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper', () => {
   describe('transformOneZeroToTwoZero', () => {
     cases.forEach(({ name, one, two }) => {
       it(`must convert ${name}`, () => {
         const transformed = cloneLocation(one);
-        transformOneZeroToTwoZero(transformed, tagCatalog);
+        transformOneZeroToTwoZero(transformed, tagCatalog, metricCatalog);
         expect(transformed).to.deep.equal(two);
       });
     });

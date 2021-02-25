@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { Trans } from 'in-i18n';
 import React from 'react';
 
 import { formatDateTime, formatDateShort, formatTimeWithoutSeconds } from 'in-services/formatters/date';
@@ -29,9 +30,13 @@ export default function SloTimeTile({ smallRowStyle, title, fromTimestamp, toTim
 
       <div style={{ color }} className={locals.value}>
         <div className={locals.timeRangeValue}>
-          from <DateTime timeStamp={fromTimestamp} />
-          <br />
-          to <DateTime timeStamp={toTimestamp} />
+          <Trans
+            i18nKey="in-custom-dashboards:widgets.slo.sloTimeTile.sloTime"
+            components={{
+              'datetime-from': <DateTime timeStamp={fromTimestamp} />,
+              'datetime-to': <DateTime timeStamp={toTimestamp} />
+            }}
+          />
         </div>
       </div>
 

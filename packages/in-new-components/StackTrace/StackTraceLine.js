@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 
 import { serializeLine } from 'in-new-components/StackTrace/serializer';
 import { isNotBlank } from 'in-services/util/string';
@@ -19,14 +20,14 @@ export default function StackTraceLine({ file, name, line, column, indicator }) 
           {isNotBlank(name) && <Value text={name} className={locals.name} />}
           {isNotBlank(file) && (
             <Fragment>
-              {isNotBlank(name) && <Filler text=" in " />}
+              {isNotBlank(name) && <Filler text={t('in-new-components:stackTrace.fillerTextIn')} />}
               <Value text={file} className={locals.file} />
             </Fragment>
           )}
 
           {line > 0 && (
             <Fragment>
-              <Filler text=" at " />
+              <Filler text={t('in-new-components:stackTrace.fillerTextAt')} />
               <Value text={String(line)} noShrinking />
 
               {column > 0 && (

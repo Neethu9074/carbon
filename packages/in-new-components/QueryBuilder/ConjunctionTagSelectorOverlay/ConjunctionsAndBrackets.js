@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { OPEN_BRACKET, CLOSE_BRACKET, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -28,7 +29,7 @@ export default function ConjunctionsAndBrackets({ onChange, withoutOrConjunction
             });
           }}
         >
-          AND
+          {t('in-new-components:queryBuilder.selectorOverlayAnd')}
         </Button>
         {!withoutOrConjunction && (
           <Button
@@ -42,7 +43,7 @@ export default function ConjunctionsAndBrackets({ onChange, withoutOrConjunction
               });
             }}
           >
-            OR
+            {t('in-new-components:queryBuilder.selectorOverlayOr')}
           </Button>
         )}
       </div>

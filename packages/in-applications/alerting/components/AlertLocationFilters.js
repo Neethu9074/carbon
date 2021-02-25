@@ -102,7 +102,6 @@ export default function AlertLocationFilters({
                 );
               }}
               align="bottomMiddle"
-              disabledTagFilters={blueprintConfig.disabledTagFilters}
               withoutLatencyItem={withoutLatencyItem} // only for the purpose because otherwise the filter-bar would overflow in Simple-mode
               withoutFiltersLabel
               showPageSelector

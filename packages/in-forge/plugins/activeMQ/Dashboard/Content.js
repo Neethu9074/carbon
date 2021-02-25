@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { number, percentage } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -22,7 +23,9 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
   if (!version) {
     return (
       <DashboardNotification type="info">
-        Jmx is not enabled. You can enable it in activemq config by setting the broker property useJmx to true.
+        {t(
+          'in-forge:plugins.activeMQ.jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue'
+        )}
       </DashboardNotification>
     );
   }
@@ -31,46 +34,58 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Topics">{snapshot.getIn(['data', 'topicNames'], emptyList).size}</KpiKeyValue>
-        <KpiKeyValue label="Queues">{snapshot.getIn(['data', 'queueNames'], emptyList).size}</KpiKeyValue>
-        <KpiKeyValue label="DL Queues">{snapshot.getIn(['data', 'dlqueueNames'], emptyList).size}</KpiKeyValue>
-        <KpiKeyValue label="All Queues Messages Enqueue">
+        <KpiKeyValue label={t('in-forge:plugins.activeMQ.topics')}>
+          {snapshot.getIn(['data', 'topicNames'], emptyList).size}
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.activeMQ.queues')}>
+          {snapshot.getIn(['data', 'queueNames'], emptyList).size}
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.activeMQ.dlQueues')}>
+          {snapshot.getIn(['data', 'dlqueueNames'], emptyList).size}
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.activeMQ.allQueuesMessagesEnqueue')}>
           <MetricValue snapshotId={snapshotId} metric="totalQueuesEnqueueCount" />
         </KpiKeyValue>
-        <KpiKeyValue label="All Topics Messages Enqueue">
+        <KpiKeyValue label={t('in-forge:plugins.activeMQ.allTopicsMessagesEnqueue')}>
           <MetricValue snapshotId={snapshotId} metric="totalTopicsEnqueueCount" />
         </KpiKeyValue>
-        <KpiKeyValue label="Memory Usage">
+        <KpiKeyValue label={t('in-forge:plugins.activeMQ.memoryUsage')}>
           <MetricValue snapshotId={snapshotId} metric="memoryPercentage" formatter={percentage.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Storage Usage">
+        <KpiKeyValue label={t('in-forge:plugins.activeMQ.storageUsage')}>
           <MetricValue snapshotId={snapshotId} metric="storePercentage" formatter={percentage.compact} />
         </KpiKeyValue>
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="Broker wide queues message stats">
+        <DashboardSection title={t('in-forge:plugins.activeMQ.brokerWideQueuesMessageStats')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['totalQueuesEnqueueCount', 'totalQueuesDequeueCount'],
-              labels: ['All Queues Messages Enqueue', 'All Queues Messages Dequeue'],
+              labels: [
+                t('in-forge:plugins.activeMQ.allQueuesMessagesEnqueue'),
+                t('in-forge:plugins.activeMQ.allQueuesMessagesDequeue')
+              ],
               type: 'stackedBar',
               aggregation: 'sum'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Broker wide topics message stats">
+        <DashboardSection title={t('in-forge:plugins.activeMQ.brokerWideTopicsMessageStats')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['totalTopicsEnqueueCount', 'totalTopicsDequeueCount'],
-              labels: ['All Topics Messages Enqueue', 'All Topics Messages Dequeue'],
+              labels: [
+                t('in-forge:plugins.activeMQ.allTopicsMessagesEnqueue'),
+                t('in-forge:plugins.activeMQ.allTopicsMessagesDequeue')
+              ],
               type: 'stackedBar',
               aggregation: 'sum'
             }}
@@ -80,20 +95,24 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Broker wide connections, consumers and producers">
+        <DashboardSection title={t('in-forge:plugins.activeMQ.brokerWideConnectionsConsumersAndProducers')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['totalConnectionsCount', 'totalProducerCount', 'totalConsumerCount'],
-              labels: ['Total Connections', 'Total Producers', 'Total Consumers'],
+              labels: [
+                t('in-forge:plugins.activeMQ.totalConnections'),
+                t('in-forge:plugins.activeMQ.totalProducers'),
+                t('in-forge:plugins.activeMQ.totalConsumers')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Memory and store usage">
+        <DashboardSection title={t('in-forge:plugins.activeMQ.memoryAndStoreUsage')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -102,7 +121,7 @@ export default function ActiveMQDashboard({ snapshot, timeConfig }) {
               min: 0,
               max: 1,
               metrics: ['memoryPercentage', 'storePercentage'],
-              labels: ['Memory Usage', 'Store Usage'],
+              labels: [t('in-forge:plugins.activeMQ.memoryUsage'), t('in-forge:plugins.activeMQ.storeUsage')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

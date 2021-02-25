@@ -12,6 +12,8 @@ import {
 } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
 import { applicationsItemTreePropType } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import ApplicationsList from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/ApplicationsList';
+import SearchInput from 'in-new-components/SearchInput/SearchInput';
+import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 
 export default function ServicesAndEndpointsListPresenter({
@@ -48,6 +50,17 @@ export default function ServicesAndEndpointsListPresenter({
       timeConfig={timeConfig}
     />
   );
+}
+
+export function ServicesAndEndpointsSearchInput({ query = '', onChange }) {
+  const { value, onChange: debouncedOnChange } = useDebouncedValue(
+    query,
+    value => {
+      onChange?.(value);
+    },
+    500
+  );
+  return <SearchInput onChange={debouncedOnChange} query={value} />;
 }
 
 ServicesAndEndpointsListPresenter.propTypes = {

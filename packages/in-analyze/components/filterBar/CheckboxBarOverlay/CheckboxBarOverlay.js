@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
@@ -20,13 +21,13 @@ export default function CheckboxOverlay({
     <BarOverlay>
       <div className={locals.wrapper}>
         <CheckboxFancy
-          label="Show Synthetic calls"
+          label={t('in-analyze:filterBar.checkboxBarOverlay.labelSynthetic')}
           checked={!!existingSyntheticFilter}
           onChange={() => onChangeSynthetic(tag.synthetic)}
           size="large"
         />
         <CheckboxFancy
-          label="Show Internal calls"
+          label={t('in-analyze:filterBar.checkboxBarOverlay.labelInternal')}
           checked={!!existingInternalFilter}
           onChange={() => onChangeHidden(tag.internal)}
           size="large"

@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.hadoopYARN,
-  pluginName: {
-    singular: 'Hadoop YARN',
-    plural: 'Hadoop YARNs'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

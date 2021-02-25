@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.varnish,
-  pluginName: {
-    singular: 'Varnish Node',
-    plural: 'Varnish Nodes'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

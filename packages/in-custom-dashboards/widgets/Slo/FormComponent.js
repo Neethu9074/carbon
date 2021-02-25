@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { Trans, t } from 'in-i18n';
 
 import {
   sloTarget,
@@ -93,7 +94,8 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     trackTimeWindowTypeChanged({ type: value });
   };
 
-  const timeWindowDurationUnitValue = form.get(timeWindowDurationUnit)?.value ?? 'weeks';
+  const timeWindowDurationUnitValue =
+    form.get(timeWindowDurationUnit)?.value ?? t('in-custom-dashboards:widgets.slo.formComponent.weeks');
 
   const onChangeTimeDurationUnit = value => {
     onChange([], form => {
@@ -113,9 +115,11 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     return setSlideInView({
       renderTitle(sliSelected) {
         if (sliSelected === null) {
-          return 'SLI Management';
+          return t('in-custom-dashboards:widgets.slo.formComponent.sliManagement');
         }
-        return sliSelected?.id ? 'Edit SLI' : 'Create SLI';
+        return sliSelected?.id
+          ? t('in-custom-dashboards:widgets.slo.formComponent.editSli')
+          : t('in-custom-dashboards:widgets.slo.formComponent.createSli');
       },
       slideOutHandler(slideOut, [sliSelected, selectSli]) {
         return () => {
@@ -153,7 +157,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
 
   return (
     <Stack space="normal">
-      <Header>SLO Configuration</Header>
+      <Header>{t('in-custom-dashboards:widgets.slo.formComponent.sloConfig')}</Header>
 
       <Stack space="xsmall">
         <APConfigSelector
@@ -175,14 +179,18 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                 trackOpenSLIManagement({ applicationId: appConfigIdValue });
               }}
             >
-              Manage SLIs
+              {t('in-custom-dashboards:widgets.slo.formComponent.manageSlIs')}
             </Button>
           }
         />
 
         <Sections>
           {form.get(sloTarget).map(field => (
-            <Section title="SLO Target" titleHtmlFor={sloTarget} hasError={!field.valid && field.touched}>
+            <Section
+              title={t('in-custom-dashboards:widgets.slo.formComponent.sloTarget')}
+              titleHtmlFor={sloTarget}
+              hasError={!field.valid && field.touched}
+            >
               <PercentageFormInput
                 form={form}
                 id={sloTarget}
@@ -193,7 +201,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
               <span className={locals.sloUnit}>%</span>
               <OverridingTextTouchedMessage
                 field={form.get(sloTarget)}
-                message="Please enter a value between 0 and 100."
+                message={t('in-custom-dashboards:widgets.slo.formComponent.enterVal0to100')}
               />
             </Section>
           ))}
@@ -202,32 +210,41 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
         <Sections>
           <SelectInSection
             id="time-window-type"
-            label="Time Window"
+            label={t('in-custom-dashboards:widgets.slo.formComponent.timeWindow')}
             value={timeWindowTypeValue}
             onChange={({ target }) => onChangeTimeWindowType(target.value)}
             actions={
               <HelpAction>
-                <strong>Fixed time interval:</strong> A time window with a defined start and duration. Eg. monthly
-                starting 2020-01-01. The last partial time interval for the time selection from the global time picker
-                will be displayed.
+                <Trans
+                  i18nKey="in-custom-dashboards:widgets.slo.formComponent.helpActionMsg1"
+                  components={{ italic: <i />, bold: <strong /> }}
+                />
                 <br />
                 <br />
-                <strong>Rolling time window:</strong> A time window with a defined duration, where the end is defined by
-                the global time picker’s right hand date/time selection, eg. last 2 weeks.
+                <Trans
+                  i18nKey="in-custom-dashboards:widgets.slo.formComponent.helpActionMsg2"
+                  components={{ italic: <i />, bold: <strong /> }}
+                />
                 <br />
                 <br />
-                <strong>Dynamic time window:</strong> The SLO is calculated for the time window selected in the global
-                time picker.
+                <Trans
+                  i18nKey="in-custom-dashboards:widgets.slo.formComponent.helpActionMsg3"
+                  components={{ italic: <i />, bold: <strong /> }}
+                />
               </HelpAction>
             }
           >
-            <option value={fixed}>Fixed time interval</option>
-            <option value={rolling}>Rolling time window</option>
-            <option value={dynamic}>Dynamic time window</option>
+            <option value={fixed}>{t('in-custom-dashboards:widgets.slo.formComponent.fixTimeInterval')}</option>
+            <option value={rolling}>{t('in-custom-dashboards:widgets.slo.formComponent.rollingTimeWindow')}</option>
+            <option value={dynamic}>{t('in-custom-dashboards:widgets.slo.formComponent.dynamicTimeWindow')}</option>
           </SelectInSection>
 
           {(isRolling || isFixed) && (
-            <Section title="Length" titleHtmlFor="time-window-size" useAlternateBg>
+            <Section
+              title={t('in-custom-dashboards:widgets.slo.formComponent.length')}
+              titleHtmlFor="time-window-size"
+              useAlternateBg
+            >
               <HorizontalFlexWrapper>
                 {form.get(timeWindowDuration).map(field => (
                   <Input
@@ -251,9 +268,9 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                     onChange={e => onChangeTimeDurationUnit(e.target.value)}
                     className={locals.timeWindowUnit}
                   >
-                    <option value="days">days</option>
-                    <option value="weeks">weeks</option>
-                    <option value="months">months</option>
+                    <option value="days">{t('in-custom-dashboards:widgets.slo.formComponent.days')}</option>
+                    <option value="weeks">{t('in-custom-dashboards:widgets.slo.formComponent.weeks')}</option>
+                    <option value="months">{t('in-custom-dashboards:widgets.slo.formComponent.months')}</option>
                   </Select>
                 ))}
               </HorizontalFlexWrapper>
@@ -261,14 +278,16 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
               <TouchedMessages field={form.get(timeWindowDuration)} />
               <OverridingTextTouchedMessage
                 field={form.get(timeWindowDuration)}
-                message={`Please specify the number of ${timeWindowDurationUnitValue}.`}
+                message={t('in-custom-dashboards:widgets.slo.formComponent.pleaseSpecifyTheNumber', {
+                  timeValue: timeWindowDurationUnitValue
+                })}
               />
               <TouchedMessages field={form} />
             </Section>
           )}
 
           {isFixed && dateField && timeField && (
-            <Section title="Start" useAlternateBg>
+            <Section title={t('in-custom-dashboards:widgets.slo.formComponent.start')} useAlternateBg>
               <HorizontalFlexWrapper>
                 <DateInput
                   value={dateField?.value}
@@ -296,8 +315,14 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                 )}
               </HorizontalFlexWrapper>
 
-              <OverridingTextTouchedMessage field={dateField} message="Please enter a date in the format YYYY-MM-DD." />
-              <OverridingTextTouchedMessage field={timeField} message="Please enter a time in the format HH:mm:ss." />
+              <OverridingTextTouchedMessage
+                field={dateField}
+                message={t('in-custom-dashboards:widgets.slo.formComponent.enterDateFormatYyyyMmDd')}
+              />
+              <OverridingTextTouchedMessage
+                field={timeField}
+                message={t('in-custom-dashboards:widgets.slo.formComponent.enterTimeInFormatHhMmSs')}
+              />
             </Section>
           )}
         </Sections>

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DashboardSwitcherOverlayPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherOverlayPresenter';
@@ -26,7 +27,8 @@ export default function DashboardSwitcherPresenter(props) {
           className={locals.button}
         >
           {isCockpit && <Lettering className={locals.lettering} />}
-          {!isCockpit && (activeDashboardTitle || 'Loading…')}
+          {!isCockpit &&
+            (activeDashboardTitle || t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcherPresenter.loading'))}
         </DropdownButton>
       )}
     </Overlay>

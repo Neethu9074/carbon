@@ -4,6 +4,7 @@
  */
 window.instana = {
   user: {
+    email: 'tom@example.com',
     tenants: [
       {
         tenantKey: 'instana',

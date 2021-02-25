@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { compose, withState, withProps } from 'recompose';
 import React, { Fragment } from 'react';
 
@@ -53,7 +54,7 @@ export default compose(
     <Fragment>
       <Row singleRowTopMargin withoutSideMargin>
         <Col lg={12}>
-          <Card title="Corresponding Website Activity" icon="lib_website">
+          <Card title={t('in-analyze:tabs.summary.websiteMonitoringDataTitle')} icon="lib_website">
             <span className={locals.leftSide}>
               This trace is caused by activity on the&nbsp;
               <Link href$={getLinkToWebsite(beacon.websiteId)}>{beacon.websiteLabel}</Link>
@@ -61,7 +62,8 @@ export default compose(
             </span>
             <span>
               <Button onClick={() => setShowDetails(!showDetails)} kind="secondary" size="compact">
-                {showDetails ? 'Hide ' : 'Show '} Website Information
+                {showDetails ? t('in-analyze:tabs.summary.hide') : t('in-analyze:tabs.summary.show')} Website
+                Information
               </Button>
               <Button
                 onClick={() => navigateToPageLoadFromBackendTrace()}

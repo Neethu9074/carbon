@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ComparisonColorSelect from 'in-custom-dashboards/widgets/BigNumber/ComparisonColorSelect';
@@ -20,7 +21,10 @@ export default function TimeShiftingForm({ form, onChange }) {
 
   return (
     <Sections>
-      <Section titleHtmlFor="metric-configurator-time-shift-enabler" title="Time Shift">
+      <Section
+        titleHtmlFor="metric-configurator-time-shift-enabler"
+        title={t('in-custom-dashboards:widgets.bigNumber.timeShiftingForm.timeShift')}
+      >
         <div className={locals.timeShiftHelpText}>
           <Toggle
             id="metric-configurator-time-shift-enabler"
@@ -33,7 +37,7 @@ export default function TimeShiftingForm({ form, onChange }) {
               onChange(['metricConfiguration', 'timeShift'], field => field.setValue(newOffset).setTouched(true));
             }}
           />
-          Add a time shifted comparison badge
+          {t('in-custom-dashboards:widgets.bigNumber.timeShiftingForm.addTimeShiftComparBadge')}
         </div>
       </Section>
 
@@ -72,7 +76,7 @@ export default function TimeShiftingForm({ form, onChange }) {
           <Section useAlternateBg>
             <div className={locals.colorSelection}>
               <ComparisonColorSelect
-                label="Increase Color"
+                label={t('in-custom-dashboards:widgets.bigNumber.timeShiftingForm.increaseColor')}
                 examplePercentage="+5.24%"
                 field={form.get('comparisonIncreaseColor')}
                 onChange={v => onChange(['comparisonIncreaseColor'], f => f.setValue(v).setTouched(true))}
@@ -80,7 +84,7 @@ export default function TimeShiftingForm({ form, onChange }) {
               />
 
               <ComparisonColorSelect
-                label="Decrease Color"
+                label={t('in-custom-dashboards:widgets.bigNumber.timeShiftingForm.decreaseColor')}
                 examplePercentage="-2.14%"
                 field={form.get('comparisonDecreaseColor')}
                 onChange={v => onChange(['comparisonDecreaseColor'], f => f.setValue(v).setTouched(true))}

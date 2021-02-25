@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -32,10 +33,10 @@ export default connectTo(
       <div>
         <h1>eum-acceptor</h1>
 
-        <h2>Load</h2>
+        <h2>{t('in-internal:monitoringUnit.eum.eumAcceptor.load')}</h2>
 
         <Columize>
-          <DashboardSection title={`Host CPU load`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumAcceptor.hostCpuLoad')}>
             <Chart
               snapshotIds={rows.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -49,7 +50,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`Garbage Collection Activity`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumAcceptor.garbageCollectionActivity')}>
             <Chart
               snapshotIds={rows.map(r => r.jvm.get('id'))}
               timeConfig={timeConfig}
@@ -66,7 +67,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Requests`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumAcceptor.requests')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -85,7 +86,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Dropped Due To Load / Backpressure`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumAcceptor.dropDueLoadBackpressure')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -100,7 +101,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Dropped Due To Rate Limit`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumAcceptor.dropDueRateLimit')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -115,7 +116,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Deliberately Dropped Beacons Due To Invalid Data`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumAcceptor.deliberDropBeaconsDueInvalidData')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -131,10 +132,10 @@ export default connectTo(
           </DashboardSection>
         </Columize>
 
-        <h2>Beacon Type Breakdown</h2>
+        <h2>{t('in-internal:monitoringUnit.eum.eumAcceptor.beaconTypeBreakdown')}</h2>
 
         <Columize>
-          <DashboardSection title={`Page Load`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumAcceptor.pageLoad')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -149,7 +150,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`Page Resource`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumAcceptor.pageResource')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -167,7 +168,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`XHR / Fetch`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumAcceptor.xhrFetch')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -182,7 +183,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`Error`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumAcceptor.error')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -200,7 +201,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Custom Event`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumAcceptor.customEvent')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -215,7 +216,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`Page Change`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumAcceptor.pageChange')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -235,7 +236,7 @@ export default connectTo(
         <h2>Kafka</h2>
 
         <Columize>
-          <DashboardSection title={`Website Beacon Writes`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumAcceptor.websiteBeaconWrites')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -250,7 +251,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Mobile App Beacon Writes`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumAcceptor.mobileAppBeaconWrites')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}

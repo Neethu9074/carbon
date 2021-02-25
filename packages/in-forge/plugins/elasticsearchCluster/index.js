@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.elasticsearchCluster,
-  pluginName: {
-    singular: 'Elasticsearch Cluster',
-    plural: 'Elasticsearch Clusters'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

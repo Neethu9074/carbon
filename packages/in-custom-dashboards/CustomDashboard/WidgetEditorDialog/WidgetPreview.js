@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
@@ -28,23 +29,30 @@ export default function WidgetPreview({ form, onChange }) {
   } else {
     content = (
       <p className={locals.invalidConfig}>
-        Preview not available because the widget configuration is incomplete.
+        {t(
+          'in-custom-dashboards:customDashboard.widgetEditorDialog.widgetPreview.previewNotAvailWidgetConfigIncomplete'
+        )}
         <Button
           kind="action"
           className={locals.button}
           onClick={() => onChange([], f => f.setTouched(true, { recurse: true }))}
         >
-          Highlight missing configuration
+          {t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetPreview.highlightMissingConfig')}
         </Button>
       </p>
     );
   }
 
   return (
-    <ErrorBoundary name={`Custom dashboard widget preview: ${widget.title}`} meta={config}>
+    <ErrorBoundary
+      name={t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetPreview.customDashboardPreviewTitle', {
+        title: widget.title
+      })}
+      meta={config}
+    >
       <div className={locals.preview}>
         <Stack space="normal">
-          <Header>Preview</Header>
+          <Header>{t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetPreview.preview')}</Header>
           {content}
         </Stack>
       </div>

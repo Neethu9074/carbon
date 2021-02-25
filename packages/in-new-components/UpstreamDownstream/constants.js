@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 export const relationships = {
   UPSTREAM: 'UPSTREAM',
   DOWNSTREAM: 'DOWNSTREAM',
@@ -12,15 +14,15 @@ export const relationships = {
 
   info: {
     UPSTREAM: {
-      SERVICE: { type: 'Service', text: 'Directly Called by' },
-      APPLICATION: { type: 'Application', text: 'Directly Called from Within' },
-      message: 'didn’t receive any calls',
+      SERVICE: { type: 'Service', text: t('in-new-components:upstreamDownstream.upstreamServiceText') },
+      APPLICATION: { type: 'Application', text: t('in-new-components:upstreamDownstream.upstreamApplicationText') },
+      message: t('in-new-components:upstreamDownstream.upstreamMessage'),
       icon: 'lib_context_guide_upstream'
     },
     DOWNSTREAM: {
-      SERVICE: { type: 'Service', text: 'Directly Calling' },
-      APPLICATION: { type: 'Application', text: 'Directly Calling Services Within' },
-      message: 'didn’t initiate any downstream calls',
+      SERVICE: { type: 'Service', text: t('in-new-components:upstreamDownstream.downstreamServiceText') },
+      APPLICATION: { type: 'Application', text: t('in-new-components:upstreamDownstream.downstreamApplicationText') },
+      message: t('in-new-components:upstreamDownstream.downstreamMessage'),
       icon: 'lib_context_guide_downstream'
     }
   }

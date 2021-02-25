@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -22,7 +23,7 @@ import {
 
 export const hostTableCols = [
   {
-    title: 'Host',
+    title: t('in-internal:monitoringUnit.sre.host'),
     type: 'snapshotLink',
     typeArgs: {
       pathname: physicalDashboardPath,
@@ -32,7 +33,7 @@ export const hostTableCols = [
     }
   },
   {
-    title: 'User',
+    title: t('in-internal:monitoringUnit.sre.user'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -48,7 +49,7 @@ export const hostTableCols = [
     }
   },
   {
-    title: 'System',
+    title: t('in-internal:monitoringUnit.sre.system'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -64,7 +65,7 @@ export const hostTableCols = [
     }
   },
   {
-    title: 'Wait',
+    title: t('in-internal:monitoringUnit.sre.wait'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -80,7 +81,7 @@ export const hostTableCols = [
     }
   },
   {
-    title: 'Nice',
+    title: t('in-internal:monitoringUnit.sre.nice'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -96,7 +97,7 @@ export const hostTableCols = [
     }
   },
   {
-    title: 'Steal',
+    title: t('in-internal:monitoringUnit.sre.steal'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -115,7 +116,7 @@ export const hostTableCols = [
 
 export const volumeTableCols = [
   {
-    title: 'Host',
+    title: t('in-internal:monitoringUnit.sre.host'),
     type: 'snapshotLink',
     typeArgs: {
       pathname: physicalDashboardPath,
@@ -125,7 +126,7 @@ export const volumeTableCols = [
     }
   },
   {
-    title: 'Device',
+    title: t('in-internal:monitoringUnit.sre.datastores.device'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -134,7 +135,7 @@ export const volumeTableCols = [
     }
   },
   {
-    title: 'Capacity',
+    title: t('in-internal:monitoringUnit.sre.datastores.capacity'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -144,7 +145,7 @@ export const volumeTableCols = [
     }
   },
   {
-    title: 'Used',
+    title: t('in-internal:monitoringUnit.sre.datastores.used'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -206,7 +207,7 @@ export function getPersistentStorageMountRows(nodes, timeConfig) {
 export function getHostDetails(row) {
   return (
     <Fragment>
-      <DashboardSection title="CPU Usage">
+      <DashboardSection title={t('in-internal:monitoringUnit.sre.datastores.cpuUsage')}>
         <Chart
           snapshotId={row.host.get('id')}
           timeConfig={row.timeConfig}
@@ -215,7 +216,13 @@ export function getHostDetails(row) {
             max: 1,
             formatter: percentageZeroDecimalPlaces,
             metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-            labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
+            labels: [
+              t('in-internal:monitoringUnit.sre.user'),
+              t('in-internal:monitoringUnit.sre.system'),
+              t('in-internal:monitoringUnit.sre.wait'),
+              t('in-internal:monitoringUnit.sre.nice'),
+              t('in-internal:monitoringUnit.sre.steal')
+            ],
             type: 'stackedArea'
           }}
         />
@@ -236,7 +243,7 @@ export function getFsDetails(row) {
           formatter: kiloBytesZeroDecimalPlaces,
           tooltipFormatter: kiloBytesTwoDecimalPlaces,
           metrics: ['fs.' + row.device + '.free', 'fs.' + row.device + '.leaked'],
-          labels: ['Free', 'Leaked'],
+          labels: [t('in-internal:monitoringUnit.sre.free'), t('in-internal:monitoringUnit.sre.leaked')],
           type: 'line'
         }}
       />
@@ -249,7 +256,7 @@ export function getFsDetails(row) {
           formatter: withSiMultiplyPrefixZeroDecimalPlaces,
           tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces,
           metrics: ['fs.' + row.device + '.reads', 'fs.' + row.device + '.writes'],
-          labels: ['Reads/s', 'Writes/s'],
+          labels: [t('in-internal:monitoringUnit.sre.readPerSec'), t('in-internal:monitoringUnit.sre.writePerSec')],
           type: 'line'
         }}
         y2={{
@@ -257,7 +264,10 @@ export function getFsDetails(row) {
           formatter: bytesZeroDecimalPlaces,
           tooltipFormatter: bytesTwoDecimalPlaces,
           metrics: ['fs.' + row.device + '.readBytes', 'fs.' + row.device + '.writeBytes'],
-          labels: ['Bytes Read/s', 'Bytes Write/s'],
+          labels: [
+            t('in-internal:monitoringUnit.sre.bytesReadPerSec'),
+            t('in-internal:monitoringUnit.sre.bytesWritePerSec')
+          ],
           type: 'line'
         }}
       />

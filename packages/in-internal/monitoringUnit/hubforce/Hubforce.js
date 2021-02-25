@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -20,9 +21,9 @@ export default connectTo(
   function Overview({ hubforce, timeConfig }) {
     return (
       <div>
-        <h2>Hubforce internal</h2>
+        <h2>{t('in-internal:monitoringUnit.hubforce.hubforceInternal')}</h2>
         <Columize>
-          <DashboardSection title={'Number of tasks'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.hubforce.numOfTasks')}>
             <Chart
               snapshotIds={hubforce.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -30,13 +31,13 @@ export default connectTo(
                 min: 0,
                 formatter: number.detailed,
                 metrics: ['metrics.gauges.com.instana.hubforce.accessor.postgres.tasks.Tasks.Waiting Tasks'],
-                labels: ['# tasks'],
+                labels: [t('in-internal:monitoringUnit.hubforce.numOfTasks')],
                 type: 'line'
               }}
             />
           </DashboardSection>
 
-          <DashboardSection title={'Internal timers (mean)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.hubforce.internalTimerMean')}>
             <Chart
               snapshotIds={hubforce.length === 0 ? [] : Array(3).fill(hubforce[0].dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -48,7 +49,11 @@ export default connectTo(
                   'metrics.timers.com.instana.hubforce.io.butler.ButlerIo.Butler Data Reload time.mean',
                   'metrics.timers.com.instana.hubforce.jobs.migration.MigrationJob.Migration.mean'
                 ],
-                labels: ['company list load time', 'butler data reload time', 'migration time'],
+                labels: [
+                  t('in-internal:monitoringUnit.hubforce.companyListLoadTime'),
+                  t('in-internal:monitoringUnit.hubforce.butlerDataReloadTime'),
+                  t('in-internal:monitoringUnit.hubforce.migrationTime')
+                ],
                 type: 'line'
               }}
             />
@@ -56,7 +61,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={'4xx & 5xx responses'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.hubforce.4Xx5XxResp')}>
             <Chart
               snapshotIds={hubforce.length === 0 ? [] : Array(2).fill(hubforce[0].dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -67,13 +72,16 @@ export default connectTo(
                   'metrics.meters.io.dropwizard.jetty.MutableServletContextHandler.4xx-responses',
                   'metrics.meters.io.dropwizard.jetty.MutableServletContextHandler.5xx-responses'
                 ],
-                labels: ['# 4xx', '# 5xx'],
+                labels: [
+                  t('in-internal:monitoringUnit.hubforce.numOf4xx'),
+                  t('in-internal:monitoringUnit.hubforce.numOf5xx')
+                ],
                 type: 'line'
               }}
             />
           </DashboardSection>
 
-          <DashboardSection title={'Log errors'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.hubforce.logErrors')}>
             <Chart
               snapshotIds={hubforce.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -81,7 +89,7 @@ export default connectTo(
                 min: 0,
                 formatter: number.perSecond.compact,
                 metrics: ['metrics.meters.log.error'],
-                labels: ['# log errors'],
+                labels: [t('in-internal:monitoringUnit.hubforce.numOfLogErrors')],
                 type: 'line'
               }}
             />
@@ -90,7 +98,7 @@ export default connectTo(
 
         <h2>Instana</h2>
         <Columize>
-          <DashboardSection title={'Download key validations'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.hubforce.downloadKeyValidate')}>
             <Chart
               snapshotIds={hubforce.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -98,13 +106,13 @@ export default connectTo(
                 min: 0,
                 formatter: number.compact,
                 metrics: ['metrics.counters.Internal Download Key Validator'],
-                labels: ['# validations'],
+                labels: [t('in-internal:monitoringUnit.hubforce.numOfValidations')],
                 type: 'line'
               }}
             />
           </DashboardSection>
 
-          <DashboardSection title={'SQS messages'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.hubforce.sqsMsg')}>
             <Chart
               snapshotIds={hubforce.length === 0 ? [] : Array(2).fill(hubforce[0].dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -115,7 +123,10 @@ export default connectTo(
                   'metrics.counters.Internal SQS Message Receiver Counter',
                   'metrics.counters.Marketplace SQS Message Receiver Counter'
                 ],
-                labels: ['# internal SQS messages', '# marketplace SQS messages'],
+                labels: [
+                  t('in-internal:monitoringUnit.hubforce.numOfInternalSqsMsg'),
+                  t('in-internal:monitoringUnit.hubforce.numOfMarketplaceSqsMsg')
+                ],
                 type: 'line'
               }}
             />
@@ -124,7 +135,7 @@ export default connectTo(
 
         <h2>Salesforce</h2>
         <Columize>
-          <DashboardSection title={'Salesforce API calls duration (mean)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.hubforce.salesforceApiCallDurationMean')}>
             <Chart
               snapshotIds={hubforce.length === 0 ? [] : Array(2).fill(hubforce[0].dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -135,13 +146,16 @@ export default connectTo(
                   'metrics.timers.salesforce-fetch-with-soql.mean',
                   'metrics.timers.salesforce-single-update.mean'
                 ],
-                labels: ['SOQL fetch duration', 'single poprety update duration'],
+                labels: [
+                  t('in-internal:monitoringUnit.hubforce.soqlFetchDuration'),
+                  t('in-internal:monitoringUnit.hubforce.singlePopretyUpdateDuration')
+                ],
                 type: 'line'
               }}
             />
           </DashboardSection>
 
-          <DashboardSection title={'Salesforce API update multiple properties call duration (mean)'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.hubforce.salesforceApiMultiplePropCallDurationMean')}>
             <Chart
               snapshotIds={hubforce.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -149,13 +163,13 @@ export default connectTo(
                 min: 0,
                 formatter: millis.detailed,
                 metrics: ['metrics.timers.salesforce-multiple-update.mean'],
-                labels: ['duration'],
+                labels: [t('in-internal:monitoringUnit.hubforce.duration')],
                 type: 'line'
               }}
             />
           </DashboardSection>
 
-          <DashboardSection title={'Salesforce API error calls'}>
+          <DashboardSection title={t('in-internal:monitoringUnit.hubforce.salesforceApiErrorCall')}>
             <Chart
               snapshotIds={hubforce.length === 0 ? [] : Array(2).fill(hubforce[0].dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -163,7 +177,10 @@ export default connectTo(
                 min: 0,
                 formatter: number.perSecond.compact,
                 metrics: ['metrics.meters.salesforce-rest-errors', 'metrics.meters.salesforce-soql-errors'],
-                labels: ['# REST API errors', '# SOQL API errors'],
+                labels: [
+                  t('in-internal:monitoringUnit.hubforce.numOfRestApiErrors'),
+                  t('in-internal:monitoringUnit.hubforce.numOfSoqlApiErrors')
+                ],
                 type: 'line'
               }}
             />

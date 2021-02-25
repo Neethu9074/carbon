@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -38,7 +39,7 @@ export default connectTo(
     return (
       <div>
         <Columize>
-          <DashboardSection title={`CPU load`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.clickhouse.cpuLoad')}>
             <Chart
               snapshotIds={chNodes.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -54,7 +55,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`# Query threads`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.clickhouse.numQueryThreads')}>
             <Chart
               snapshotIds={chNodes.map(r => r.clickhouse.get('id'))}
               timeConfig={timeConfig}
@@ -71,7 +72,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Network - data received`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.clickhouse.networkDataReceive')}>
             <Chart
               snapshotIds={chNodes.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -85,7 +86,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Network - data transmitted`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.clickhouse.networkDataTransmit')}>
             <Chart
               snapshotIds={chNodes.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -101,11 +102,11 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`CPU Usage`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.clickhouse.cpuUsage')}>
             <Table cols={hostTableCols} rows={chNodes} getRowDetails={getHostDetails} maxItemsPerPage={15} />
           </DashboardSection>
 
-          <DashboardSection title="Data mounts">
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.clickhouse.dataMount')}>
             <Table
               cols={volumeTableCols}
               rows={getDataMountRows(chNodes, timeConfig)}

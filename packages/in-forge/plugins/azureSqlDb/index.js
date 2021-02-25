@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.azureSqlDb,
-  pluginName: {
-    singular: 'Azure SQL Database',
-    plural: 'Azure SQL Databases'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

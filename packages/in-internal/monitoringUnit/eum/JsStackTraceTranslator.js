@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -33,7 +34,7 @@ export default connectTo(
         <h1>js-stack-trace-translator</h1>
 
         <Columize>
-          <DashboardSection title={`Incoming Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.jsStackTraceTranslator.incomingBeacon')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -47,7 +48,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Failed Incoming Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.jsStackTraceTranslator.failedIncomingBeacon')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -63,7 +64,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Beacon Processing`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.jsStackTraceTranslator.beaconProcessing')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -77,7 +78,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Beacon Processing Failures`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.jsStackTraceTranslator.beaconProcessFail')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -93,7 +94,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Outgoing Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.jsStackTraceTranslator.outgoingBeacon')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -107,7 +108,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Failed Outgoing Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.jsStackTraceTranslator.failOutgoingBeacon')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}

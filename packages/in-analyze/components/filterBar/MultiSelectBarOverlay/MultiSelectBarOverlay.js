@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -62,10 +63,20 @@ export default function MultiSelectBarOverlay({
 
       {!loading && moreDataAvailable && <div className={locals.more}>{moreDataMessage}</div>}
 
-      {loading && <LoadingIndicator text="Loading filter options." className={locals.loading} height={100} />}
+      {loading && (
+        <LoadingIndicator
+          text={t('in-analyze:filterBar.multiSelectBarOverlay.loadingFilters')}
+          className={locals.loading}
+          height={100}
+        />
+      )}
 
       {!loading && items.length === 0 && (
-        <NoDataAvailable className={locals.loading} text="No filter options found." height={100} />
+        <NoDataAvailable
+          className={locals.loading}
+          text={t('in-analyze:filterBar.multiSelectBarOverlay.noFiltersFound')}
+          height={100}
+        />
       )}
 
       {!loading && items.length > 0 && (
@@ -79,7 +90,9 @@ export default function MultiSelectBarOverlay({
             .filter(item => !filterSuggestionsClientSide || containsIgnoreCase(item.key, query))
             .map((item, i) => (
               <li key={`${item.key}${i}`}>
-                <Tooltip content={`Click to filter by ${item.label}`}>
+                <Tooltip
+                  content={t('in-analyze:filterBar.multiSelectBarOverlay.clickToFilter', { itemLabel: item.label })}
+                >
                   <Item item={item} onClick={onSelectItem} itemLabelRenderer={itemLabelRenderer} />
                 </Tooltip>
               </li>

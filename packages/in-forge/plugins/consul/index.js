@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.consul,
-  pluginName: {
-    singular: 'Consul Node',
-    plural: 'Consul Nodes'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

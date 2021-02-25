@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.elasticsearchNode,
-  pluginName: {
-    singular: 'Elasticsearch Node',
-    plural: 'Elasticsearch Nodes'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

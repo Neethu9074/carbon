@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsElb,
-  pluginName: {
-    singular: 'AWS ELB',
-    plural: 'AWS ELBs'
-  },
+
   kpiDefinitions,
   metricDefinitions,
 

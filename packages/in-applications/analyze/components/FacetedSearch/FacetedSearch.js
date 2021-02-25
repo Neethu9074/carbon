@@ -11,6 +11,7 @@ import FacetedFilterGeneric from 'in-applications/analyze/components/FacetedSear
 import FacetedFilterLatency from 'in-applications/analyze/components/FacetedSearch/FacetedFilterLatency';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
+import { getTechnologyLabel } from 'in-sdk/snapshot';
 import { t } from 'in-i18n';
 
 import locals from './FacetedSearch.mless';
@@ -40,7 +41,6 @@ export default function FacetedSearch({
         updateFilter={updateFilter}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
-        isValid={isValid}
         openByDefault
       />
       <FacetedFilterGeneric
@@ -52,7 +52,6 @@ export default function FacetedSearch({
         updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
-        isValid={isValid}
       />
 
       <FacetedFilterGeneric
@@ -64,7 +63,6 @@ export default function FacetedSearch({
         updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
-        isValid={isValid}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.endpoints')}
@@ -75,7 +73,6 @@ export default function FacetedSearch({
         updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
-        isValid={isValid}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.types')}
@@ -85,7 +82,6 @@ export default function FacetedSearch({
         updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
-        isValid={isValid}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.technologies')}
@@ -96,7 +92,7 @@ export default function FacetedSearch({
         updateGroup={updateGroup}
         hiddenCalls={hiddenCalls}
         dataSource={dataSource}
-        isValid={isValid}
+        customLabelMapper={label => getTechnologyLabel(label)}
       />
       <FacetedFilterHttpStatusCodes
         title={t('in-applications:analyze.httpStatusCode')}

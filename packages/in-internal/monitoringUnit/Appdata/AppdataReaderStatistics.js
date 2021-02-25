@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -17,7 +18,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Host',
+    title: t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.host'),
     type: 'snapshotLink',
     typeArgs: {
       pathname: physicalDashboardPath,
@@ -27,7 +28,7 @@ const cols = [
     }
   },
   {
-    title: 'Host CPU load',
+    title: t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.hostCpuLoad'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -43,7 +44,7 @@ const cols = [
     }
   },
   {
-    title: 'ClickHouse Error Rate',
+    title: t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.clickHouseErrRate'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -75,7 +76,7 @@ export default connectTo({
     <div>
       <h1>appdata-reader ({rows.length})</h1>
 
-      <DashboardSection title={`Host CPU load`}>
+      <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.hostCpuLoad')}>
         <Chart
           snapshotIds={rows.map(r => r.host.get('id'))}
           timeConfig={timeConfig}
@@ -90,7 +91,7 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title={`ClickHouse Calls`}>
+      <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.clickHouseCalls')}>
         <Chart
           snapshotIds={rows.map(r => r.dropwizard.get('id'))}
           timeConfig={timeConfig}
@@ -104,7 +105,9 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title="ClickHouse Query Latency (50th)">
+      <DashboardSection
+        title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.clickHouseQueryLatency50')}
+      >
         <Chart
           snapshotIds={rows.map(r => r.dropwizard.get('id'))}
           timeConfig={timeConfig}
@@ -117,7 +120,9 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title="ClickHouse Query Latency (99th)">
+      <DashboardSection
+        title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.clickHouseQueryLatency99')}
+      >
         <Chart
           snapshotIds={rows.map(r => r.dropwizard.get('id'))}
           timeConfig={timeConfig}
@@ -130,7 +135,7 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title={`ClickHouse Error Rate`}>
+      <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.clickHouseErrorRate')}>
         <Chart
           snapshotIds={rows.map(r => r.dropwizard.get('id'))}
           timeConfig={timeConfig}
@@ -144,7 +149,7 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title={`Queued ClickHouse Calls`}>
+      <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.queuedClickHouseCalls')}>
         <Chart
           snapshotIds={rows.map(r => r.dropwizard.get('id'))}
           timeConfig={timeConfig}
@@ -158,7 +163,9 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title={`Newly queued ClickHouse Calls`}>
+      <DashboardSection
+        title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.newlyQueuedClickHouseCalls')}
+      >
         <Chart
           snapshotIds={rows.map(r => r.dropwizard.get('id'))}
           timeConfig={timeConfig}
@@ -182,7 +189,7 @@ export default connectTo({
 function getRowDetails(row) {
   return (
     <Fragment>
-      <DashboardSection title="Host Load">
+      <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.hostLoad')}>
         <Chart
           snapshotId={row.host.get('id')}
           timeConfig={row.timeConfig}
@@ -192,13 +199,13 @@ function getRowDetails(row) {
             formatter: number.detailed,
             tooltipFormatter: number.detailed,
             metrics: ['load.1min'],
-            labels: ['Host CPU Load'],
+            labels: [t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.hostCpuLoad')],
             type: 'stackedArea'
           }}
         />
       </DashboardSection>
 
-      <DashboardSection title="ClickHouse Query Queueing">
+      <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.clickHouseQueryQueueing')}>
         <Chart
           snapshotId={row.dropwizard.get('id')}
           timeConfig={row.timeConfig}
@@ -206,20 +213,20 @@ function getRowDetails(row) {
             min: 0,
             formatter: number.compact,
             metrics: ['metrics.meters.clickHouse.clustered.queueAttempts.calls'],
-            labels: ['Newly queued ClickHouse Calls'],
+            labels: [t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.newlyQueuedClickHouseCalls')],
             type: 'line'
           }}
           y2={{
             min: 0,
             formatter: number.compact,
             metrics: ['metrics.gauges.clickHouse.clustered.queuedCalls'],
-            labels: ['Queued ClickHouse Calls'],
+            labels: [t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.queuedClickHouseCalls')],
             type: 'line'
           }}
         />
       </DashboardSection>
 
-      <DashboardSection title="ClickHouse Query Latency">
+      <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.clickHouseQueryLatency')}>
         <Chart
           snapshotId={row.dropwizard.get('id')}
           timeConfig={row.timeConfig}
@@ -230,7 +237,7 @@ function getRowDetails(row) {
           y1={{
             formatter: number.perSecond.compact,
             metrics: ['metrics.timers.clickHouse.clustered.timer.rate'],
-            labels: ['Calls'],
+            labels: [t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.calls')],
             type: 'stackedArea'
           }}
           y2={{
@@ -247,7 +254,7 @@ function getRowDetails(row) {
       </DashboardSection>
 
       {row.jvm.getIn(['data', 'jvm.collectors']) ? (
-        <DashboardSection title="Garbage Collection">
+        <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.garbageCollection')}>
           <Chart
             snapshotId={row.jvm.get('id')}
             timeConfig={row.timeConfig}

@@ -4,8 +4,8 @@
  */
 import React from 'react';
 
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { number, bytes, millis, percentage } from 'in-services/formatters/number';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -120,6 +120,63 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
+      <DashboardSection title="Memory">
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['memory_free', 'memory_used', 'memory_cached', 'memory_buffered', 'swap_free', 'swap_used'],
+            labels: ['Free', 'Used', 'Cached', 'Buffered', 'Swap Free', 'Swap Used'],
+            formatter: bytes.compact,
+            type: 'line'
+          }}
+        />
+      </DashboardSection>
+
+      <Columize>
+        <DashboardSection title="Network Receive">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['network_rx_packets', 'network_rx_dropped'],
+              labels: ['Received', 'Dropped'],
+              formatter: number.compact,
+              type: 'line'
+            }}
+            y2={{
+              min: 0,
+              metrics: ['network_rx_errors'],
+              labels: ['Errors'],
+              formatter: number.compact,
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+        <DashboardSection title="Network Transmit">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['network_tx_packets', 'network_tx_dropped'],
+              labels: ['Transmitted', 'Dropped'],
+              formatter: number.compact,
+              type: 'line'
+            }}
+            y2={{
+              min: 0,
+              metrics: ['network_tx_errors'],
+              labels: ['Errors'],
+              formatter: number.compact,
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      </Columize>
+
       {clusterEnhancedMonitoring !== 'DEFAULT' && (
         <DashboardSection title="Produce Time">
           <Chart
@@ -129,7 +186,7 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
               min: 0,
               metrics: ['produce_total_time'],
               labels: ['Mean'],
-              formatter: millis.compact,
+              formatter: millis,
               type: 'line'
             }}
           />
@@ -144,7 +201,22 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
               min: 0,
               metrics: ['produce_throttle_time', 'fetch_throttle_time', 'request_throttle_time'],
               labels: ['Produce', 'Fetch', 'Request'],
-              formatter: millis.compact,
+              formatter: millis,
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
+      )}
+      {clusterEnhancedMonitoring !== 'DEFAULT' && (
+        <DashboardSection title="Throttle Byte Rate">
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['produce_throttle_byte_rate', 'fetch_throttle_byte_rate'],
+              labels: ['Produce', 'Fetch'],
+              formatter: bytes.perSecond.compact,
               type: 'line'
             }}
           />
@@ -159,7 +231,7 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
               min: 0,
               metrics: ['fetch_consumer_total_time', 'fetch_follower_total_time'],
               labels: ['Consumer', 'Follower'],
-              formatter: millis.compact,
+              formatter: millis,
               type: 'line'
             }}
           />

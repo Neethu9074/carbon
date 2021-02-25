@@ -11,8 +11,8 @@ import { toInteractiveElement } from 'in-new-components/interactiveCustomElement
 import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 import icons from 'in-components/SvgIcon/registry.json';
 import { emptyObject } from 'in-services/fixedObjects';
+import { getPluginName } from 'in-sdk/pluginName';
 import { getFactor } from 'in-services/util/dom';
-import { getSingular } from 'in-sdk/pluginName';
 
 import locals from './SvgIcon.mless';
 
@@ -80,7 +80,7 @@ const SvgIcon = forwardRef(function SvgIcon(
     const plugin = type.substring(infrastructurePluginPrefix.length);
     type = getIconType(plugin);
     if (!ariaLabel) {
-      ariaLabel = `${getSingular(plugin)} icon`;
+      ariaLabel = `${getPluginName(plugin, 1)} icon`;
     }
   }
   if (type) {

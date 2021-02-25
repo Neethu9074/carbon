@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { find, groupBy } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
@@ -50,7 +51,7 @@ export default function FormComponent({
 
       <Sections>
         <SelectInSection
-          label="Metric"
+          label={t('in-custom-dashboards:widgets.srcApp.oldFormComponent.metric')}
           id="metic-configurator-application-metric"
           value={metricField.value}
           onChange={e =>
@@ -68,7 +69,7 @@ export default function FormComponent({
         >
           {
             <>
-              <option value="">Please select</option>
+              <option value="">{t('in-custom-dashboards:widgets.srcApp.oldFormComponent.pleaseSelect')}</option>
               {Object.entries(groupBy(availableMetrics, ({ category }) => category || ''))
                 .sort((a, b) => compareIgnoreCase(a.category, b.category))
                 .map(([category, metrics]) => {
@@ -95,7 +96,7 @@ export default function FormComponent({
 
       <Sections>
         <SelectInSection
-          label="Aggregation"
+          label={t('in-custom-dashboards:widgets.srcApp.oldFormComponent.pleaseSelect')}
           id="metic-configurator-application-aggregation"
           value={aggregationField.value}
           onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
@@ -103,10 +104,12 @@ export default function FormComponent({
           disabled={!metricField.valid}
           additionalContent={<TouchedMessages field={metricField} />}
         >
-          {!metricField.valid && <option value="">Please select a metric</option>}
+          {!metricField.valid && (
+            <option value="">{t('in-custom-dashboards:widgets.srcApp.oldFormComponent.pleaseSelectMetric')}</option>
+          )}
           {metricField.valid && (
             <>
-              <option value="">Please select</option>
+              <option value="">{t('in-custom-dashboards:widgets.srcApp.oldFormComponent.pleaseSelect')}</option>
               {getAggregations(metricField.value).map(aggregation => (
                 <option key={aggregation} value={aggregation}>
                   {aggregationLabels[aggregation]}

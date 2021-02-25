@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.sapHana,
-  pluginName: {
-    singular: 'SAP HANA',
-    plural: 'SAP HANA'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

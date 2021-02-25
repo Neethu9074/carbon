@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.pythonRuntimePlatform,
-  pluginName: {
-    singular: 'Python App',
-    plural: 'Python Apps'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

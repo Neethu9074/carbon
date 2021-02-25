@@ -6,7 +6,7 @@ import React from 'react';
 
 import { percentageTwoDecimalPlaces, msTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import ImageAndLabel from 'in-sdk/components/table/ImageAndLabel';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 
 export default [
   {
@@ -14,7 +14,7 @@ export default [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return getSingular(row.snapshot.get('plugin'));
+        return getPluginName(row.snapshot.get('plugin'), 1);
       },
       getContent(val, row) {
         return <ImageAndLabel snapshot={row.snapshot}>{val}</ImageAndLabel>;

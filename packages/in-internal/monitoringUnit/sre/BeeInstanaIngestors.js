@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { hostTableCols } from 'in-internal/monitoringUnit/sre/datastores';
 import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -32,9 +33,11 @@ export default connectTo(
 
     return (
       <div>
-        <h1>BeeInstana Ingestors ({ingestors.length})</h1>
+        <h1>
+          {t('in-internal:monitoringUnit.sre.beeInstanaIngestor.beeInstanaIngest', { ingestorsLen: ingestors.length })}
+        </h1>
         <Columize>
-          <DashboardSection title={`Metrics`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaIngestor.metrics')}>
             <Chart
               snapshotIds={ingestors.map(r => r.beeinstana.get('id'))}
               timeConfig={timeConfig}
@@ -47,7 +50,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`Messages`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaIngestor.messages')}>
             <Chart
               snapshotIds={ingestors.map(r => r.beeinstana.get('id'))}
               timeConfig={timeConfig}
@@ -62,7 +65,7 @@ export default connectTo(
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title={`Kafka Consumer Errors`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaIngestor.kafkaConsumerErrors')}>
             <Chart
               snapshotIds={ingestors.map(r => r.beeinstana.get('id'))}
               timeConfig={timeConfig}
@@ -75,7 +78,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`Message Delay`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaIngestor.messageDelay')}>
             <Chart
               snapshotIds={ingestors.map(r => r.beeinstana.get('id'))}
               timeConfig={timeConfig}
@@ -90,7 +93,7 @@ export default connectTo(
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title={`Queue and worker - MaxQueueSize`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaIngestor.queueWorkerMaxQueueSize')}>
             <Chart
               snapshotIds={ingestors.map(r => r.beeinstana.get('id'))}
               timeConfig={timeConfig}
@@ -103,7 +106,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-          <DashboardSection title={`Queue and worker - TaskQueueSize`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaIngestor.queueWorkerTaskQueueSize')}>
             <Chart
               snapshotIds={ingestors.map(r => r.beeinstana.get('id'))}
               timeConfig={timeConfig}
@@ -118,7 +121,11 @@ export default connectTo(
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title={`Hosts (${ingestors.length})`}>
+          <DashboardSection
+            title={t('in-internal:monitoringUnit.sre.beeInstanaIngestor.hostsIngestorsLen', {
+              ingestorsLen: ingestors.length
+            })}
+          >
             <Table cols={hostTableCols} rows={ingestors} getRowDetails={getRowDetails} />
           </DashboardSection>
         </Columize>
@@ -134,7 +141,7 @@ function sort(rows) {
 function getRowDetails(row) {
   return (
     <Fragment>
-      <DashboardSection title="CPU Usage">
+      <DashboardSection title={t('in-internal:monitoringUnit.sre.beeInstanaIngestor.cpuUsage')}>
         <Chart
           snapshotId={row.host.get('id')}
           timeConfig={row.timeConfig}
@@ -143,7 +150,13 @@ function getRowDetails(row) {
             max: 1,
             formatter: percentageZeroDecimalPlaces,
             metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-            labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
+            labels: [
+              t('in-internal:monitoringUnit.sre.user'),
+              t('in-internal:monitoringUnit.sre.system'),
+              t('in-internal:monitoringUnit.sre.wait'),
+              t('in-internal:monitoringUnit.sre.nice'),
+              t('in-internal:monitoringUnit.sre.steal')
+            ],
             type: 'stackedArea'
           }}
         />

@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.kafkaConnectWorker,
-  pluginName: {
-    singular: 'Kafka Worker',
-    plural: 'Kafka Workers'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

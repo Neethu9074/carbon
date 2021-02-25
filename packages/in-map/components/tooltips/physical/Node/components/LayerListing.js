@@ -4,7 +4,7 @@
  */
 import React from 'react';
 
-import { getSingular, getPlural } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -38,7 +38,7 @@ export default connectTo(
           .map(key => (
             <li key={key}>
               <span className={block + '__count'}>{aggregatedLayer[key]}</span>
-              {aggregatedLayer[key] === 1 ? getSingular(key) : getPlural(key)}
+              {getPluginName(key, aggregatedLayer[key])}
             </li>
           ))}
       </ul>

@@ -22,7 +22,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm-attach-generic`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm_attach_generic`
   },
   jvm_attach_container_command: {
     issueDescription: {
@@ -31,11 +31,11 @@ export default {
           <span>
             The host agent cannot attach correctly to this Java Virtual Machine. The container command{' '}
             <code>
-              ${containerCommand}
+              {containerCommand}
               ...
             </code>
-            exited with code <code>${exitValue}</code> when trying to attach the JVM in container{' '}
-            <code>${targetContainerId}</code>. Therefore, this process will not be traced. Refer to the host agent logs
+            exited with code <code>{exitValue}</code> when trying to attach the JVM in container{' '}
+            <code>{targetContainerId}</code>. Therefore, this process will not be traced. Refer to the host agent logs
             for more information as to why the attachment failed. The host agent will try to connect again to this
             virtual machine every ten minutes. However, until it succeeds, neither traces nor metrics will be collected
             for this JVM.
@@ -44,7 +44,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm-attach-container-command`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm_attach_container_command`
   },
   jvm_attach_tools: {
     issueDescription: {
@@ -62,7 +62,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm-attach-tools`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm_attach_tools`
   },
   jvm_attach_socket: {
     issueDescription: {
@@ -79,7 +79,7 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm-attach-socket`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm_attach_socket`
   },
   jvm_attach_network: {
     issueDescription: {
@@ -87,7 +87,7 @@ export default {
         return (
           <span>
             The host agent cannot attach correctly to this Java Virtual Machine. The target JVM is unable to connect
-            back to the agent process on port 42699 on the following ip addresses: <code>${agentHostAddresses}</code>.
+            back to the agent process on port 42699 on the following ip addresses: <code>{agentHostAddresses}</code>.
             Please check for any firewall solutions blocking the connection. Therefore, this process will not be traced.
             Refer to the host agent logs for more information as to why the attachment failed. The host agent will try
             to connect again to this virtual machine every ten minutes. However, until it succeeds, neither traces nor
@@ -97,7 +97,24 @@ export default {
       }
     },
     explanationLinkLabel: `Troubleshooting docs`,
-    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm-attach-network`
+    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm_attach_network`
+  },
+  ibm_jvm_class_sharing_enabled: {
+    issueDescription: {
+      Component: function ibmJvmClassSharingEnabled() {
+        return (
+          <span>
+            This JVM has class sharing enabled. The host agent cannot attach to this Java Virtual Machine. Please refer
+            to our documentation to disable the class sharing, and restart the JVM so that the agent can retry
+            attaching. Specifically the command-line switches <code>-Xshareclasses:none</code> or if available{' '}
+            <code>-Xshareclasses:enableBCI</code> might be needed. Until updated, neither traces nor metrics will be
+            collected for this JVM.
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#ibm_jvm_class_sharing_enabled`
   },
   nodejs_collector_not_installed: {
     issueDescription: {
@@ -178,5 +195,21 @@ export default {
     },
     explanationLinkLabel: `Troubleshooting docs`,
     explanationLinkHref: `https://instana.com/docs/ecosystem/ruby/#ruby_sensor_not_installed`
+  },
+  prometheus_remote_write_high_delay: {
+    issueDescription: {
+      Component: function prometheusRemoteWriteHighDelay({ metricDelayMs }) {
+        return (
+          <span>
+            The host agent is ingesting Prometheus metrics on the <code>remote_write</code> endpoint, but these metrics
+            are being received with a high delay of {metricDelayMs} ms. Please check the Prometheus{' '}
+            <code>batch_send_deadline</code> configuration option to limit the delay, or consult our docs for more
+            information.
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkHref: `https://instana.com/docs/ecosystem/prometheus/#prometheus_remote_write_high_delay`
   }
 };

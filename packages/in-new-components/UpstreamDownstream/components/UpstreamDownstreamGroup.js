@@ -4,6 +4,7 @@
  */
 import React, { useState } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import UpstreamDownstreamItem from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamItem/UpstreamDownstreamItem';
 import UpstreamDownstreamMetric from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamMetric';
@@ -41,8 +42,11 @@ export default function UpstreamDownstreamGroup({
         </div>
         <UpstreamDownstreamMetric
           metrics={[
-            { text: 'Calls and Erroneous Calls', key: 'callsAndErroneous' },
-            { text: 'Calls and Latency', key: 'callsAndlatency' }
+            {
+              text: t('in-new-components:upstreamDownstream.metricLabelCallsAndErroneousCalls'),
+              key: 'callsAndErroneous'
+            },
+            { text: t('in-new-components:upstreamDownstream.metricLabelCallsAndLatency'), key: 'callsAndlatency' }
           ]}
           selectedMetric={selectedMetric}
           onChangeMetric={onChangeMetric}
@@ -119,7 +123,12 @@ function getSeeAllApplicationsLink(
         plugin
       })}
     >
-      {totalHits > 1 ? `See all ${totalHits} ${capitalize(activeTab.toLowerCase())} Applications` : 'See Application'}
+      {totalHits > 1
+        ? t('in-new-components:upstreamDownstream.linkSeeAllApplications', {
+            count: totalHits,
+            activeTab: capitalize(activeTab.toLowerCase())
+          })
+        : t('in-new-components:upstreamDownstream.linkSeeApplication')}
     </Link>
   );
 }
@@ -152,7 +161,12 @@ function getSeeAllServicesLink(
         plugin
       })}
     >
-      {totalHits > 1 ? `See all ${totalHits} ${capitalize(activeTab.toLowerCase())} Services` : 'See Service'}
+      {totalHits > 1
+        ? t('in-new-components:upstreamDownstream.linkSeeAllServices', {
+            count: totalHits,
+            activeTab: capitalize(activeTab.toLowerCase())
+          })
+        : t('in-new-components:upstreamDownstream.linkSeeService')}
     </Link>
   );
 }

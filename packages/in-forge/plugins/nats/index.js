@@ -8,10 +8,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.nats,
-  pluginName: {
-    singular: 'NATS',
-    plural: 'NATS'
-  },
+
   kpiDefinitions,
   technologyDescriptor: {
     label: 'NATS'

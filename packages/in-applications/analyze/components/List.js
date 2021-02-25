@@ -17,14 +17,15 @@ import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
+import { latencyFixed, number } from 'in-services/formatters/number';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Link } from 'in-components/tables/sharedComponents';
-import { latencyFixed } from 'in-services/formatters/number';
 import HealthDot from 'in-new-components/health/HealthDot';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
@@ -159,10 +160,17 @@ function Presenter({
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
         <ResultHeader
-          itemName={dataSourceConstants[dataSource].metricLabel}
+          getItemName={({ count }) =>
+            t('in-applications:analyze.metricCountLabel', {
+              context: dataSource,
+              count,
+              formattedCount: number.compact(count)
+            })
+          }
           totalRepresentedItemCount={totalHits}
           adjustedWindowSize={adjustedWindowSize}
           withSamplingTooltip
+          isValid={isValid}
         />
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
@@ -279,9 +287,14 @@ const getColumnDefinitions = (dataSource, linkFormModel) => {
       getContent(item) {
         const severity = item[type].errorCount;
         return (
-          <div className={locals.erroneous}>
-            <HealthDot severity={severity} iconSize={10} />
-          </div>
+          <Tooltip
+            content={severity > 0 ? t('in-applications:analyze.containsErrors') : t('in-applications:analyze.noErrors')}
+            align="rightMiddle"
+          >
+            <div className={locals.erroneous}>
+              <HealthDot severity={severity} iconSize={10} />
+            </div>
+          </Tooltip>
         );
       },
       widthInAbsoluteUnit: true,

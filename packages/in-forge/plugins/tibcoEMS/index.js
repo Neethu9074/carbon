@@ -11,10 +11,7 @@ registerSnapshotDefinition({
   plugin: plugins.tibcoEMS,
   metricDefinitions,
   kpiDefinitions,
-  pluginName: {
-    singular: 'Tibco EMS',
-    plural: 'Tibco EMS'
-  },
+
   technologyDescriptor: {
     label: 'Tibco EMS'
   }

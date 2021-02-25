@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.tomcatApplicationContainer,
-  pluginName: {
-    singular: 'Tomcat',
-    plural: 'Tomcats'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

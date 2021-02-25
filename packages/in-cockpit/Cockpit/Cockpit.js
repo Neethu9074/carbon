@@ -52,7 +52,7 @@ const configEnrichmentLookUpTable = {
     cardIcon: `${getWebsiteAndMobileIcon()}_inverted`
   },
   '2': {
-    label: 'Applications',
+    label: t('in-cockpit:cockpit.applications'),
     icon: 'lib_application',
     cardIcon: 'lib_application_invert'
   },
@@ -63,12 +63,12 @@ const configEnrichmentLookUpTable = {
   },
 
   '4': {
-    label: 'Infrastructure',
+    label: t('in-cockpit:cockpit.infrastructure'),
     icon: 'lib_infrastructure',
     cardIcon: 'lib_infrastructure_inverted'
   },
   '5': {
-    label: 'Events',
+    label: t('in-cockpit:cockpit.events'),
     icon: 'lib_events_inverted',
     cardIcon: 'lib_events_inverted'
   }
@@ -81,7 +81,7 @@ export default connectTo(
   function Cockpit({ settings }) {
     return (
       <>
-        <Title title="Home" />
+        <Title title={t('in-cockpit:cockpit.home')} />
         <ViewTrackingMeta
           data={{
             productArea: 'Home',
@@ -114,7 +114,7 @@ function Header() {
                   params.pathname = '/agents/installation';
                 })}
               >
-                {t('in-cockpit:deployAgent')}
+                {t('in-cockpit:cockpit.deployAgent')}
               </Button>
             )}
 
@@ -126,7 +126,7 @@ function Header() {
                   params.pathname = '/config/team/accessControl/users';
                 })}
               >
-                Add User
+                {t('in-cockpit:cockpit.addUser')}
               </Button>
             )}
 
@@ -266,11 +266,11 @@ function getPlatformsTitle() {
   if (pcfEnabled) numPlatformsAvailable++;
   if (vsphereEnabled) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
-    return 'Platforms';
+    return t('in-cockpit:cockpit.platforms');
   }
 
   if (pcfEnabled) {
-    return 'Cloud Foundry';
+    return t('in-cockpit:cockpit.cloudFoundry');
   }
   if (vsphereEnabled) {
     return 'vSphere';
@@ -307,10 +307,10 @@ function getWebsiteAndMobileIcon() {
 
 function getWebsiteAndMobileLabel() {
   if (!hasMobileAppsAccess) {
-    return 'Websites';
+    return t('in-cockpit:cockpit.websites');
   }
   if (!hasWebsitesAccess) {
-    return 'Mobile Apps';
+    return t('in-cockpit:cockpit.mobileApps');
   }
-  return 'Websites & Mobile Apps';
+  return t('in-cockpit:cockpit.websitesMobileApps');
 }

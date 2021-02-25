@@ -24,7 +24,9 @@ const cases = [
         '/analyzeBeacons': {
           group: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
           beaconType: 'pageLoad',
-          tagFilters: '!(name~beacon.website.name~stringValue~Product~operator~EQUALS~entity~NOT*_APPLICABLE)~'
+          tagFilters: '!(name~beacon.website.name~stringValue~Product~operator~EQUALS~entity~NOT*_APPLICABLE)~',
+          orderBy: 'timestamp',
+          orderDirection: 'ASC'
         }
       }
     },
@@ -38,7 +40,41 @@ const cases = [
           tagFilterExpression:
             '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Product)~',
           groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~',
+          orderByGroups: '(by~earliestTimestamp~direction~ASC)~'
+        }
+      }
+    }
+  },
+
+  {
+    name: 'grouped views ordered by metric',
+    one: {
+      pathname: '/websiteMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/websiteMonitoring': {},
+        '/analyzeBeacons': {
+          group: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
+          beaconType: 'pageLoad',
+          tagFilters: '!(name~beacon.website.name~stringValue~Product~operator~EQUALS~entity~NOT*_APPLICABLE)~',
+          orderBy: 'firstPaintTime_P90_Agg',
+          orderDirection: 'DESC'
+        }
+      }
+    },
+    two: {
+      pathname: '/websiteMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/websiteMonitoring': {},
+        '/analyzeBeacons': {
+          beaconType: 'pageLoad',
+          tagFilterExpression:
+            '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Product)~',
+          groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~',
+          orderByGroups: '(by~firstPaintTime*_P90~direction~DESC)~'
         }
       }
     }
@@ -57,7 +93,6 @@ const cases = [
           tagFilters:
             '!(name~beacon.website.name~stringValue~Product~operator~EQUALS~entity~NOT*_APPLICABLE)(name~beacon.page.name~stringValue~*/home~operator~EQUALS~entity~NOT*_APPLICABLE)~',
           orderBy: 'timestamp',
-          orderByGroups: 'timestamp',
           orderDirection: 'ASC'
         }
       }
@@ -73,7 +108,40 @@ const cases = [
             '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Product)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~beacon.page.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~*/home)~',
           groupBy: '()~',
           orderBy: '(by~timestamp~direction~ASC)~',
-          orderByGroups: '(by~timestamp~direction~ASC)~',
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
+        }
+      }
+    }
+  },
+
+  {
+    name: 'ungrouped views ordered by metric',
+    one: {
+      pathname: '/websiteMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/websiteMonitoring': {},
+        '/analyzeBeacons': {
+          group: '()~',
+          beaconType: 'pageLoad',
+          tagFilters:
+            '!(name~beacon.website.name~stringValue~Product~operator~EQUALS~entity~NOT*_APPLICABLE)(name~beacon.page.name~stringValue~*/home~operator~EQUALS~entity~NOT*_APPLICABLE)~',
+          orderBy: 'firstPaintTime_P90_Agg',
+          orderDirection: 'DESC'
+        }
+      }
+    },
+    two: {
+      pathname: '/websiteMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/websiteMonitoring': {},
+        '/analyzeBeacons': {
+          beaconType: 'pageLoad',
+          tagFilterExpression:
+            '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Product)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~beacon.page.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~*/home)~',
+          groupBy: '()~',
+          orderBy: '(by~beacon.timing.firstPaint~direction~DESC)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
         }
       }
@@ -253,12 +321,19 @@ const tagCatalog = {
   ]
 };
 
+const metricCatalog = [
+  {
+    metricId: 'firstPaintTime',
+    tagName: 'beacon.timing.firstPaint'
+  }
+];
+
 describe('in-websites/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper', () => {
   describe('transformOneZeroToTwoZero', () => {
     cases.forEach(({ name, one, two }) => {
       it(`must convert ${name}`, () => {
         const transformed = cloneLocation(one);
-        transformOneZeroToTwoZero(transformed, tagCatalog);
+        transformOneZeroToTwoZero(transformed, tagCatalog, metricCatalog);
         expect(transformed).to.deep.equal(two);
       });
     });

@@ -8,15 +8,16 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
 import {
+  createNoMatchingEntityText,
+  DEFAULT_PAGE_SIZE,
+  enrichListWithStaleSelectionData,
+  getFilteredListBySelectionState
+} from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/utils';
+import {
   createApplicationIdTagFilter,
   createEndpointNameTagFilter,
   createServiceNameTagFilter
 } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
-import {
-  DEFAULT_PAGE_SIZE,
-  enrichListWithStaleSelectionData,
-  createNoMatchingEntityText
-} from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/utils';
 import {
   selectApplication,
   selectService
@@ -71,23 +72,32 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
   );
 
   const { state } = props.stateManagement;
+  const { showInteractedItemsOnly, editMode } = props;
 
   const listData = useMemo(() => {
     if (items.length === 0) return [];
     const restructuredItems = items.map(({ service, ...rest }) => ({ ...rest, item: service }));
     const application = selectApplication(state, parentIds);
-    return searchQuery
+    return searchQuery || (editMode && !showInteractedItemsOnly)
       ? restructuredItems
       : enrichListWithStaleSelectionData(Object.entries(application?.services ?? {}), restructuredItems);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items]);
+  }, [items, editMode, showInteractedItemsOnly, state]);
 
   return (
     <SharedList
       {...props}
       {...tableProps}
       isLoading={isLoading(tableProps)}
-      listData={listData}
+      listData={
+        showInteractedItemsOnly
+          ? getFilteredListBySelectionState(
+              listData,
+              enhanceParentIdsWithChildId(parentIds),
+              hasUserInteractedWithItem(state)
+            )
+          : listData
+      }
       renderSubList={({ applicationId, serviceId }) => () => (
         <EndpointsList {...props} parentIds={{ applicationId, serviceId }} />
       )}
@@ -97,7 +107,7 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
           return { name: 'Service', iconType: 'lib_application_service' };
         },
         enhanceParentIdsWithChildId(id) {
-          return { ...parentIds, serviceId: id };
+          return enhanceParentIdsWithChildId(parentIds)(id);
         },
         isIndeterminate(itemTreeIds) {
           const service = selectService(state, itemTreeIds);
@@ -131,6 +141,14 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
   );
 }
 
+function enhanceParentIdsWithChildId(parentIds) {
+  return id => ({ ...parentIds, serviceId: id });
+}
+
+function hasUserInteractedWithItem(state) {
+  return itemTreeIds => Boolean(selectService(state, itemTreeIds));
+}
+
 ServicesList.propTypes = {
   getServicesCursorPaginated: PropTypes.func.isRequired,
   parentIds: PropTypes.shape({
@@ -139,5 +157,7 @@ ServicesList.propTypes = {
   boundaryScope: PropTypes.string.isRequired,
   stateManagement: stateManagementPropType.isRequired,
   timeConfig: propTypeTimeConfig.isRequired,
-  searchQuery: PropTypes.string
+  searchQuery: PropTypes.string,
+  showInteractedItemsOnly: PropTypes.bool,
+  editMode: PropTypes.bool
 };

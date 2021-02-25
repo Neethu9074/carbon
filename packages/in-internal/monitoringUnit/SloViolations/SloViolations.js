@@ -4,6 +4,7 @@
  */
 import { interval } from '@instana/observables';
 import { groupBy, chunk } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -21,7 +22,7 @@ import getRawEvents from 'in-subscription/getRawEvents';
 import { getColorBySeverity } from 'in-stores/events';
 import { timeConfig$ } from 'in-stores/time/config';
 import MetricValue from 'in-components/MetricValue';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import getEvent from 'in-subscription/event';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
@@ -72,7 +73,7 @@ function SloViolations({ events, timeConfig }) {
 
   return (
     <div className={locals.wrapper}>
-      <h1 className={locals.header}>SLO Violations Grouped By Process</h1>
+      <h1 className={locals.header}>{t('in-internal:monitoringUnit.sloViolations.sloViolateGroupedProc')}</h1>
       <Row>
         <Col lg={12}>
           <SloViolationsChart timeConfig={timeConfig} />
@@ -115,14 +116,14 @@ const ViolationsForEntity = connect(({ snapshotId }) => ({
   return (
     <div className={locals.violationsForEntity}>
       <Dl>
-        <Di title={getSingular(context.mostSpecific.get('plugin'))}>
+        <Di title={getPluginName(context.mostSpecific.get('plugin'), 1)}>
           <Link href$={getDashboardLink(context.mostSpecific.get('id'), { pathname: physicalDashboardPath })}>
             {context.mostSpecific.get('label')}
           </Link>
         </Di>
 
         {context.docker && (
-          <Di title={getSingular(context.docker.get('plugin'))}>
+          <Di title={getPluginName(context.docker.get('plugin'), 1)}>
             <Link href$={getDashboardLink(context.docker.get('id'), { pathname: physicalDashboardPath })}>
               {context.docker.get('label')}
             </Link>
@@ -130,7 +131,7 @@ const ViolationsForEntity = connect(({ snapshotId }) => ({
         )}
 
         {context.host && (
-          <Di title={getSingular(context.host.get('plugin'))}>
+          <Di title={getPluginName(context.host.get('plugin'), 1)}>
             <Link href$={getDashboardLink(context.host.get('id'), { pathname: physicalDashboardPath })}>
               {context.host.get('label')}
             </Link>
@@ -160,7 +161,7 @@ const Event = connect(({ event }) => ({
         color={getColorBySeverity(event.severity)}
       />
 
-      <Tooltip align="topMiddle" content="How long the issue is open (doesn't auto update, sorry mate!)">
+      <Tooltip align="topMiddle" content={t('in-internal:monitoringUnit.sloViolations.issueOpenNotAutoUpdate')}>
         <span className={locals.duration}>{formatDurationAccurately(Date.now() - event.start)}</span>
       </Tooltip>
 

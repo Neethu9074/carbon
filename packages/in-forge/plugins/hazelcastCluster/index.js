@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.hazelcastCluster,
-  pluginName: {
-    singular: 'Hazelcast Cluster',
-    plural: 'HazelcastClusters'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

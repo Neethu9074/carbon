@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
@@ -12,7 +13,7 @@ import { isBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 
 export default function AnalyzeMultiSelectBarItem(props) {
-  const { precondition, pluralLabel, preconditionFailedTooltip = 'Not available' } = props;
+  const { precondition, pluralLabel, preconditionFailedTooltip = t('in-analyze:analyzeView.notAvailable') } = props;
   if (precondition && !precondition()) {
     return (
       <Tooltip themeStyle="light" content={preconditionFailedTooltip} align="bottomMiddle">

@@ -2,12 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { range } from 'lodash';
 
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import { number } from 'in-services/formatters/number';
+import { identity } from 'in-services/util/function';
 import Stack from 'in-new-components/layout/Stack';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
@@ -26,10 +28,11 @@ export default function SuggestionsPresenter({
   tag,
   getUpdatedTagExpressionHref,
   getHrefToGroupedView,
-  dataSource
+  customLabelMapper
 }) {
+  const [numberOfPresentedRows, setNumberOfPresentedRows] = useState(DEFAULT_SUGGESTIONS_SIZE);
   if (loading) {
-    return <Loading />;
+    return <Loading numberOfRows={numberOfPresentedRows} />;
   } else if (errors?.length > 0) {
     return <Errors errors={errors} />;
   } else if (!suggestions) {
@@ -41,7 +44,8 @@ export default function SuggestionsPresenter({
         tag={tag}
         getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
         getHrefToGroupedView={getHrefToGroupedView}
-        dataSource={dataSource}
+        setNumberOfPresentedRows={setNumberOfPresentedRows}
+        customLabelMapper={customLabelMapper}
       />
     );
   } else {
@@ -49,34 +53,53 @@ export default function SuggestionsPresenter({
   }
 }
 
-function Loading() {
-  return (
-    <div className={locals.loading}>
-      <InfiniteCircle width={72} height={24} />
+function Loading({ numberOfRows = 5 }) {
+  return range(numberOfRows + 1).map((e, i) => (
+    <div key={i} className={locals.suggestion}>
+      <div className={locals.addSuggestion}>
+        <Skeleton className={locals.skeletonContainer} darkMode />
+      </div>
     </div>
-  );
+  ));
 }
 
 function Errors({ errors }) {
-  return (
-    <>
-      {errors.map(error => (
-        <Message key={error.code} type="error" small>
-          {error.message}
-        </Message>
-      ))}
-    </>
-  );
+  return errors.map(error => (
+    <Message key={error.code} type="error" small>
+      {error.message}
+    </Message>
+  ));
 }
 
-function Results({ suggestions, tag, getUpdatedTagExpressionHref, getHrefToGroupedView }) {
+function Results({
+  suggestions,
+  tag,
+  getUpdatedTagExpressionHref,
+  getHrefToGroupedView,
+  setNumberOfPresentedRows,
+  customLabelMapper = identity
+}) {
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
   const nextBatch = Math.min(suggestions.length - showMore, 20);
+  const presentedSuggestions = suggestions.slice(0, showMore ? showMore : undefined);
+
+  useEffect(() => {
+    setNumberOfPresentedRows(presentedSuggestions.length);
+  }, [presentedSuggestions, setNumberOfPresentedRows]);
+
   return (
     <Stack space="small">
-      {suggestions.slice(0, showMore ? showMore : undefined).map((suggestion, i) => (
+      {presentedSuggestions.map((suggestion, i) => (
         <div key={i} className={locals.suggestion}>
-          <Tooltip content={suggestion.name} align="rightMiddle" delay={1000}>
+          <Tooltip
+            content={
+              customLabelMapper === identity
+                ? customLabelMapper(suggestion.name)
+                : `${customLabelMapper(suggestion.name)} (${suggestion.name})`
+            }
+            align="rightMiddle"
+            delay={1000}
+          >
             <Link
               href={getUpdatedTagExpressionHref({
                 add: [
@@ -91,7 +114,7 @@ function Results({ suggestions, tag, getUpdatedTagExpressionHref, getHrefToGroup
               className={locals.addSuggestion}
               style={{ textDecoration: 'none' }}
             >
-              <span className={locals.label}>{suggestion.name}</span>
+              <span className={locals.label}>{customLabelMapper(suggestion.name)}</span>
               <span className={locals.count}>{number.compact(suggestion.metrics.facetedSearchMetric[0][1])}</span>
             </Link>
           </Tooltip>

@@ -4,6 +4,7 @@
  */
 import { just } from '@instana/observables';
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import { getTimeframeNonLiveUrl, getTimeframeLiveUrl, setTimeframe, timeConfig$ } from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
@@ -118,7 +119,7 @@ function LiveModeToggle({ isLive, darkTheme }) {
       darkTheme={darkTheme}
       className={isLive ? locals.live : locals.static}
     >
-      Live
+      {t('in-new-components:time.dashboardHeaderButtonLive')}
     </DashboardHeaderButton>
   );
 }

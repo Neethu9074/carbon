@@ -109,7 +109,7 @@ function Explanation({ timeConfig, fixateTime }) {
 
       <span className={locals.bottomTimeRow}>
         {timeConfig.autoRefresh
-          ? t('in-new-components:alerting.dashboardHeader.urlShortenerLabelLive', {
+          ? t('in-new-components:dashboardHeader.urlShortenerLabelLive', {
               timeConfig: timeDisplayBottomFormat(timeConfig)
             })
           : timeDisplayBottomFormat(timeConfig)}

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
@@ -107,7 +108,7 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
                 tooltipFormatter={number.compact}
                 label="Erroneous Calls"
                 companionMetric={item.metrics.errorsAgg}
-                companionMetricLabel="Erroneous Call Rate: "
+                companionMetricLabel={t('in-new-components:upstreamDownstream.companionMetricLabelErroneousCallRate')}
                 companionMetricFormatter={percentage.detailed}
                 companionAggregation="MEAN"
               />

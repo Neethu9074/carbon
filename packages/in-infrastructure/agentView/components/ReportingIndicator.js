@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 import * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
 import { reportingStatus as ReportingStatus } from './ReportingStatus';
 import { formatDateTime } from 'in-services/formatters/date';
-import { getSingular, getPlural } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';
 
 import './ReportingIndicator.less';
@@ -66,7 +66,7 @@ function getTooltipText(row) {
           <Fragment key={plugin}>
             <br />
             <span>
-              {issueCount} {issueCount === 1 ? getSingular(plugin) : getPlural(plugin)} {category.suffix}
+              {issueCount} {getPluginName(plugin, issueCount)} {category.suffix}
             </span>
           </Fragment>
         );

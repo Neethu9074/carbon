@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.cloudFoundry,
-  pluginName: {
-    singular: 'CloudFoundry',
-    plural: 'CloudFoundry'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

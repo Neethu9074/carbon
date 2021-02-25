@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.db2Database,
-  pluginName: {
-    singular: 'DB2',
-    plural: 'DB2s'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {

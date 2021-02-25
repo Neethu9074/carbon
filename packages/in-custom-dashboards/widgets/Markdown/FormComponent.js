@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import TextAreaInSection from 'in-components/form/TextArea/TextAreaInSection';
@@ -14,21 +15,17 @@ import Stack from 'in-new-components/layout/Stack';
 export default function MarkdownWidgetFormComponent({ form: field, onChange }) {
   return (
     <Stack space="normal">
-      <Header>What would you like to show?</Header>
+      <Header>{t('in-custom-dashboards:widgets.markdown.formComp.whatULikeShow')}</Header>
 
       <Sections>
         <TextAreaInSection
-          label="Markdown"
+          label={t('in-custom-dashboards:widgets.markdown.formComp.markdown')}
           id="markdown-widget-markdown"
           rows={10}
           value={field.value}
           onChange={e => onChange([], field => field.setValue(e.target.value).setTouched(true))}
           hasError={!field.valid && field.touched}
-          actions={
-            <HelpAction>
-              You can use the standard Markdown syntax to define arbitrary text content for your dashboard.
-            </HelpAction>
-          }
+          actions={<HelpAction>{t('in-custom-dashboards:widgets.markdown.formComp.markdownHelpAction')}</HelpAction>}
           additionalContent={<TouchedMessages field={field} />}
         />
       </Sections>

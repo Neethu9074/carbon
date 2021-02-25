@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.packet,
-  pluginName: {
-    singular: 'Packet Instance',
-    plural: 'Packet Instances'
-  },
+
   metricDefinitions,
   kpiDefinitions
 });

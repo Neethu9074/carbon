@@ -9,7 +9,9 @@ import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
+import { number } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 const columnDefinitions = [
   {
@@ -34,7 +36,12 @@ export default function GroupedLogs(props) {
     <QueryBuilderWorkspace {...props}>
       <GroupedView
         {...props}
-        itemName="Log"
+        getItemName={({ count }) =>
+          t('in-logging:log', {
+            count,
+            formattedCount: number.compact(count)
+          })
+        }
         getItemLabel={getItemLabel}
         itemlabelColumnId="label"
         columnDefinitions={columnDefinitions}

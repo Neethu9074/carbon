@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { find, groupBy, findIndex, every } from 'lodash';
 import React, { Fragment } from 'react';
@@ -209,7 +210,7 @@ export default function MetricSelectorPresenter({
                                 definition.supportedAggregations.length > 1 &&
                                 ` (${aggregationLabels[metric.aggregation]})`}
                               {!isGroupedView && !definition.tag && (
-                                <Tooltip content="Metric only available when analyzing groups.">
+                                <Tooltip content={t('in-analyze:metricSelector.tooltipGroups')}>
                                   <SvgIcon
                                     type="lib_help_error_help_outline"
                                     size="xs"
@@ -218,7 +219,7 @@ export default function MetricSelectorPresenter({
                                 </Tooltip>
                               )}
                             </div>
-                            <Tooltip content="Remove metric">
+                            <Tooltip content={t('in-analyze:metricSelector.tooltipRemove')}>
                               <SvgIcon
                                 type="lib_openclose_cancel"
                                 size="xs"

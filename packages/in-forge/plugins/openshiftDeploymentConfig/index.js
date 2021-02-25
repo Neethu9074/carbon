@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.openshiftDeploymentConfig,
-  pluginName: {
-    singular: 'Openshift Deployment Config',
-    plural: 'Openshift Deployment Configs'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

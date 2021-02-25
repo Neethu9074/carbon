@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { unitColumn } from 'in-internal/monitoringUnit/units/UnitList/analysisModes/common';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -17,7 +18,7 @@ export default {
     unitColumn,
     {
       id: 'acceptorAcceptedProfiles',
-      title: 'Acceptor Accepted Profiles',
+      title: t('in-internal:monitoringUnit.units.profile.acceptorAcceptedProfiles'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -45,7 +46,7 @@ export default {
               min: 0,
               formatter: number.compact,
               metrics: [`acceptor.acceptedProfiles`],
-              labels: ['Acceptor Accepted Profiles'],
+              labels: [t('in-internal:monitoringUnit.units.profile.acceptorAcceptedProfiles')],
               type: 'stackedArea'
             }}
           />

@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.rubyRuntimePlatform,
-  pluginName: {
-    singular: 'Ruby App',
-    plural: 'Ruby Apps'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

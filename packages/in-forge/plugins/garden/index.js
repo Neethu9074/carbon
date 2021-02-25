@@ -12,10 +12,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.garden,
-  pluginName: {
-    singular: 'Garden Container',
-    plural: 'Garden Containers'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   tableDefinition

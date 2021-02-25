@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.ping,
-  pluginName: {
-    singular: 'Ping',
-    plural: 'Ping'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   tableDefinition

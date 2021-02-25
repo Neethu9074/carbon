@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 import { compose } from 'recompose';
 
 import { analysisTypes } from 'in-internal/monitoringUnit/units/UnitList/analysisModes';
@@ -69,7 +70,7 @@ export default compose(
       {units && (
         <Table
           key={`${analysisType}-${metricAggregation}`}
-          cardTitle="Units"
+          cardTitle={t('in-internal:monitoringUnit.units.unitList.units')}
           withoutPadding
           cols={cols}
           rows={units.map(({ id, tenant, unit }) => ({
@@ -86,7 +87,7 @@ export default compose(
           getRowDetails={getRowDetails}
           rightHeader={
             <Fragment>
-              Analyze
+              {t('in-internal:monitoringUnit.units.unitList.analyze')}
               <Select
                 value={analysisType}
                 onChange={e => setState({ analysisType: e.target.value })}
@@ -100,7 +101,7 @@ export default compose(
                     </option>
                   ))}
               </Select>
-              Metric aggregation
+              {t('in-internal:monitoringUnit.units.unitList.metricAggreg')}
               <Select
                 value={metricAggregation}
                 onChange={e => setState({ metricAggregation: e.target.value })}

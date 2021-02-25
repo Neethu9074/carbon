@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -47,7 +48,7 @@ export default function TimeShiftDropdown({ disabled, onChange: onTimeShiftChang
         onTimeShiftChange(timeShiftOffset);
       }}
       disableAutomaticOptionSorting
-      ariaLabel="Change selected time shift"
+      ariaLabel={t('in-new-components:timeShift.changeSelectedTimeShift')}
     >
       {({ elementProps, isOpen }) => (
         <DropdownButton
@@ -57,7 +58,7 @@ export default function TimeShiftDropdown({ disabled, onChange: onTimeShiftChang
           expanded={isOpen}
           disabled={disabled}
         >
-          Time Shift: {valueLabel}
+          {t('in-new-components:timeShift.timeShiftValue', { timeShiftValue: valueLabel })}
         </DropdownButton>
       )}
     </ComboBoxBehavior>
@@ -73,7 +74,11 @@ function renderItemContent(timeShiftConfig, timeConfig) {
     <div className={locals.overlay}>
       <div className={locals.label}>{timeShiftConfig.label}</div>
       <div className={locals.description}>
-        {timeShiftConfig.offset ? `Compare to ${formatExact(timeShiftTimeConfig)}` : timeShiftConfig.description}
+        {timeShiftConfig.offset
+          ? t('in-new-components:timeShift.compareToTimeShiftTimeConfig', {
+              timeShiftTimeConfig: formatExact(timeShiftTimeConfig)
+            })
+          : timeShiftConfig.description}
       </div>
     </div>
   );

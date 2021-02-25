@@ -60,3 +60,9 @@ packages/in-vsphere                 @pr-approval @instana/eng-infrastructure @in
 # packages/in-waiting-for-deployment
 packages/in-websites                @pr-approval @instana/eng-eum @instana/eng-application @instana/eng-ui
 packages/in-websites/alerting       @pr-approval @instana/eng-eum @instana/eng-ui @instana/eng-stan
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application       @pr-approval @instana/eng-application @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event             @pr-approval @instana/eng-stan @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure    @pr-approval @instana/eng-infrastructure @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp         @pr-approval @instana/eng-application @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli               @pr-approval @instana/eng-stan @instana/eng-ui
+packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/websites          @pr-approval @instana/eng-application @instana/eng-ui

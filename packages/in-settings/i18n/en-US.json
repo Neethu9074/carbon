@@ -23,12 +23,11 @@
     "testingGroup": "User Testing Group",
     "testingGroupExplanation": "to participate in optional interviews and survey with our product team",
     "termsPage1": {
-      "heading": "Terms of Service and Privacy Policy",
-      "introduction": "Before moving forward, and before using Instana products and services, you need to read and agree to our Terms of Service and our Privacy Policy.",
+      "heading": "Terms of Service",
+      "introduction": "Before moving forward, and before using Instana products and services, you need to read and agree to our Terms of Service.",
       "documents": "Please take a moment to read the following documents:",
       "agreeToS": "I have read and agree to Instana's <tosButton />",
-      "agreePrivacyAgreement": "I have read and agree to Instana's <privacyButton />",
-      "checkBoxNotSetMessage": "You cannot use Instana until you have accepted the Terms of Service and Privacy Policy."
+      "checkBoxNotSetMessage": "You cannot use Instana until you have accepted the Terms of Service."
     },
     "termsPage2": {
       "heading": "Messaging"

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -152,37 +153,37 @@ export default connectTo(
 
     return (
       <div>
-        <h2>Spans Cassandra ({spansNodes.length} nodes)</h2>
+        <h2>{t('in-internal:monitoringUnit.sre.commonCassandra.spansCassandraNode', { count: spansNodes.length })}</h2>
 
-        <DashboardSection title={`Writes`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.writes')}>
           <Row>{clientrequestsWriteCount}</Row>
         </DashboardSection>
 
-        <DashboardSection title={`Reads`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.reads')}>
           <Row>{clientrequestsReadCount}</Row>
         </DashboardSection>
 
-        <DashboardSection title={`Pending Compactions`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.pendingCompactions')}>
           <Row>{pendingCompations}</Row>
         </DashboardSection>
 
-        <DashboardSection title={`Network - data received`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.networkDataRecv')}>
           <Row>{networkDataReceived}</Row>
         </DashboardSection>
 
-        <DashboardSection title={`Network - data transmitted`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.networkDataTransmit')}>
           <Row>{networkDataTransmitted}</Row>
         </DashboardSection>
 
-        <DashboardSection title={`CPU load`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.cpuLoad')}>
           <Row>{cpuLoad}</Row>
         </DashboardSection>
 
-        <DashboardSection title={`CPU usage`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.cpuUsage')}>
           <Table cols={hostTableCols} rows={spansNodes} getRowDetails={getHostDetails} maxItemsPerPage={15} />
         </DashboardSection>
 
-        <DashboardSection title="Data mounts">
+        <DashboardSection title={t('in-internal:monitoringUnit.sre.commonCassandra.dataMount')}>
           <Table
             cols={volumeTableCols}
             rows={getDataMountRows(spansNodes, timeConfig)}

@@ -6,7 +6,6 @@ import { clone } from 'lodash';
 
 import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 import { addToRegistry } from 'in-applications/technologyRegistry';
-import { setHumanReadablePluginName } from 'in-sdk/pluginName';
 import { registerKpiDefinition } from 'in-sdk/metrics/kpis';
 import { registerMetricDefinition } from 'in-sdk/metrics';
 import { registerIconType } from 'in-sdk/iconType';
@@ -62,14 +61,6 @@ function enrichTableDefinition(snapshotDefinition) {
 }
 
 function registerLegacySdkHooks(snapshotDefinition) {
-  if (snapshotDefinition.pluginName) {
-    setHumanReadablePluginName(
-      snapshotDefinition.plugin,
-      snapshotDefinition.pluginName.singular,
-      snapshotDefinition.pluginName.plural
-    );
-  }
-
   if (snapshotDefinition.getLabel) {
     addLabelFinder(snapshotDefinition.plugin, snapshotDefinition.getLabel);
   }

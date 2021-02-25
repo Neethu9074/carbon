@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -15,7 +16,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Customer',
+    title: t('in-internal:monitoringUnit.appdata.callExtraction.customer'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -34,7 +35,7 @@ const cols = [
     }
   },
   {
-    title: 'Total spans (TraceWithRawCallExtractor.total-spans)',
+    title: t('in-internal:monitoringUnit.appdata.callExtraction.totalSpansTraceRawCallExtract'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -51,7 +52,7 @@ const cols = [
     }
   },
   {
-    title: 'Intermediate spans (TraceWithRawCallExtractor.intermediate-spans)',
+    title: t('in-internal:monitoringUnit.appdata.callExtraction.intermediateSpansTraceRawCallExtract'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -68,7 +69,9 @@ const cols = [
     }
   },
   {
-    title: 'Entry span missing parent (TraceWithRawCallExtractor.entry-spans-missing-parent)',
+    title: t(
+      'in-internal:monitoringUnit.appdata.callExtraction.entrySpanMissingParentTraceCallEntrySpansMissingParent'
+    ),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -85,7 +88,7 @@ const cols = [
     }
   },
   {
-    title: 'Downstream spans',
+    title: t('in-internal:monitoringUnit.appdata.callExtraction.downstreamSpans'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -102,7 +105,7 @@ const cols = [
     }
   },
   {
-    title: 'Downstream calls',
+    title: t('in-internal:monitoringUnit.appdata.callExtraction.downstreamCalls'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -126,7 +129,7 @@ const cols = [
     }
   },
   {
-    title: 'Downstream logs',
+    title: t('in-internal:monitoringUnit.appdata.callExtraction.downstreamLogs'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {

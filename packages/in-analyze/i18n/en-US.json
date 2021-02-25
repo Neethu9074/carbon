@@ -1,17 +1,46 @@
 {
   "analyzeView": {
-    "noData": "No calls are available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page"
+    "noData": "No calls are available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
+    "traces": "Traces",
+    "calls": "Calls",
+    "emptyAnalyzeViewTitle": "No {{emptyEntityName}} found",
+    "analyzeEditGroupHelp": "Select a tag by which calls and traces should be grouped.",
+    "notAvailable": "Not available",
+    "quickFilterBarLabel": {
+      "application": "Application",
+      "application_plural": "Applications",
+      "service": "Service",
+      "service_plural": "Services",
+      "endpoint": "Endpoint",
+      "endpoint_plural": "Endpoints",
+      "type": "Type",
+      "type_plural": "Types",
+      "technology": "Technology",
+      "technology_plural": "Technologies",
+      "latency": "Latency",
+      "erroneous": "Erroneous",
+      "hiddenCalls": "Hidden Calls"
+    },
+    "quickGroupBarLabelApplication": "Application",
+    "quickGroupBarLabelService": "Service",
+    "quickGroupBarLabelEndpoint": "Endpoint",
+    "quickGroupBarLabelType": "Type",
+    "quickGroupBarLabelTechnology": "Technology",
+    "quickGroupBarLabelAllGroups": "All groups",
+    "tagGroupEmptyMessage": "No group defined."
   },
   "services": {
     "noData": "No service calls are available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
   },
   "traceDetail": {
-    "callDetails":{
-      "serviceComponent":{
+    "callDetails": {
+      "serviceComponent": {
         "infrastructure": "Infrastructure",
         "detailsAndStackTrace": "Details & Stack Trace",
         "details": "Details",
-        "desClusterNotCorrelateNode": "The destination is a cluster, Instana could not correlate this call to any specific nodes."
+        "desClusterNotCorrelateNode": "The destination is a cluster, Instana could not correlate this call to any specific nodes.",
+        "sourceUnmonitored": "The source of this call has not been traced and as a result no information can be provided about the source. All information shown about this call is provided by the destination.",
+        "sourceMonitoredByAnotherProvider": "The source of this call is traced by another distributed tracing provider. You can find more information on the source by searching the parent span within that provider with id {{foreignParentId}}."
       }
     },
     "tabs": {
@@ -32,5 +61,182 @@
         "calls": "Calls"
       }
     }
-  }
+  },
+
+  "applicationFilter": {
+    "labelApplication": "Application",
+    "labelApplicationInbound": "Application Inbound",
+    "labelService": "Service",
+    "labelEndpoint": "Endpoint",
+    "labelSOURCE_AND_DESTINATION": "Source & Destination",
+    "labelDESTINATION": "Destination",
+    "labelSOURCE": "Source",
+    "labelNOTAPPLICABLE": "",
+    "labelStringEQUALS": "equals",
+    "labelStringNOT_EQUAL": "does not equal",
+    "labelStringCONTAINS": "contains",
+    "labelStringNOT_CONTAIN": "does not contain",
+    "labelStringNOT_EMPTY": "is present",
+    "labelStringIS_EMPTY": "is not present",
+    "labelStringSTARTS_WITH": "starts with",
+    "labelStringENDS_WITH": "ends with",
+    "labelStringNOT_STARTS_WITH": "does not start with",
+    "labelStringNOT_ENDS_WITH": "does not end with",
+    "labelNumberEQUALS": "=",
+    "labelNumberNOT_EQUAL": "!=",
+    "labelNumberLESS_THAN": "<",
+    "labelNumberGREATER_THAN": ">",
+    "labelNumberNOT_EMPTY": "is present",
+    "labelNumberIS_EMPTY": "is not present",
+    "labelNumberLESS_OR_EQUAL_THAN": "<=",
+    "labelNumberGREATER_OR_EQUAL_THAN": ">=",
+    "labelNumberCONTAINS": "contains",
+    "labelNumberNOT_CONTAIN": "does not contain",
+    "labelNumberSTARTS_WITH": "starts with",
+    "labelNumberENDS_WITH": "ends with",
+    "labelNumberNOT_STARTS_WITH": "does not start with",
+    "labelNumberNOT_ENDS_WITH": "does not end with",
+    "labelBooleanEQUALS": "is",
+    "labelKeyPairEQUALS": "equals",
+    "labelKeyPairNOT_EQUAL": "does not equal",
+    "labelKeyPairCONTAINS": "contains",
+    "labelKeyPairNOT_CONTAIN": "does not contain",
+    "labelKeyPairNOT_EMPTY": "is present",
+    "labelKeyPairIS_EMPTY": "is not present",
+    "labelKeyPairIS_BLANK": "does not have value",
+    "labelKeyPairNOT_BLANK": "has value",
+    "labelKeyPairSTARTS_WITH": "starts with",
+    "labelKeyPairENDS_WITH": "ends with"
+  },
+  "analyzeHeader": {
+    "title": "Analytics"
+  },
+  "editTagFilterDialog": {
+    "dialogTitleEdit": "Edit Filter",
+    "dialogTitleAdd": "Add {{filterCategory}} Filter",
+    "messageTitle": "Select a tag by which your data should be filtered. Tags are case-sensitive.",
+    "placeholder": "Type to filter the results…",
+    "saveFilter": "Save Filter",
+    "addFilter": "Add Filter"
+  },
+  "filterBar": {
+    "checkboxBarOverlay": {
+      "labelSynthetic": "Show Synthetic calls",
+      "labelInternal": "Show Internal calls"
+    },
+    "keyValueBarItem": {
+      "tooltip": "Remove filter"
+    },
+    "multiSelectBarItem": {
+      "moreDataMessage": "More {{pluralLabel}} available. Only the top 200 {{pluralLabel}} shown. Use the filter to drill down further."
+    },
+    "multiSelectBarOverlay": {
+      "loadingFilters": "Loading filter options.",
+      "noFiltersFound": "No filter options found.",
+      "clickToFilter": "Click to filter by {{itemLabel}}"
+    },
+    "selectBarItem": {
+      "moreDataMessage": "More {{pluralLabel}} available. Only the top 200 {{pluralLabel}} shown. Use the filter to drill down further."
+    },
+    "selectBarOverlay": {
+      "tooltip": "Currently filtered by {{selectedItemLabel}}. Click to remove filter.",
+      "loadingFilters": "Loading filter options.",
+      "noFiltersFound": "No filter options found.",
+      "clickToFilter": "Click to filter by {{itemLabel}}"
+    },
+    "allFilters": "All filters"
+  },
+  "groupedTraces": {
+    "labelGroup": "Group",
+    "labelCount": "Count",
+    "labelEarliestTimestamp": "Earliest Timestamp",
+    "groupedTracesTitle": "Select Metrics",
+    "groupedTracesHelp": "Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."
+  },
+  "groupingInfo": {
+    "removeGrouping": "Remove grouping"
+  },
+  "metricsChart": {
+    "count": "Count"
+  },
+  "metricSelector": {
+    "tooltipGroups": "Metric only available when analyzing groups.",
+    "tooltipRemove": "Remove metric"
+  },
+  "radioButtons": {
+    "messageFilering": "Filtering and grouping on source is not available for the selected timeframe",
+    "messageIndependent": "This tag is independent of source and destination",
+    "fragmentSource": "Applies only to the source of the call",
+    "fragmentCall": "Apply to call source or destination"
+  },
+  "rawCalls": {
+    "callAnalytics": "Call Analytics",
+    "labelTimestamp": "Timestamp",
+    "labelLatency": "Latency",
+    "tooltipBatched": "This call is batched and represents {{batchCount}} individual calls.",
+    "tooltipLatency": "Total latency of {{batchCount}} batched calls."
+  },
+  "rawTraces": {
+    "labelTimestamp": "Timestamp",
+    "labelLatency": "Latency"
+  },
+  "tagFilterList": {
+    "tooltipRemoveFilter": "Remove filter"
+  },
+
+  "dialogs": {
+    "tooltip": "Suggestions currently not available, please type in the value"
+  },
+
+  "traceDetails": {
+    "titleAnalytics": "Analytics",
+    "titleTrace": "Trace",
+    "tooltipData": "Some data related to this trace is delayed so please reload the page in a little later. An example where this may happen is viewing a very recent trace with some of its data is still being processed.",
+    "tooltipClose": "Close trace detail",
+
+    "labelTotal": "Total",
+    "labelNetwork": "Network",
+    "labelSelf": "Self",
+    "labelWaiting": "Waiting",
+    "labelService": "Service",
+    "labelEndpoint": "Endpoint",
+    "labelAggregatedTime": "Aggregated Time",
+    "labelErroneousCalls": "Erroneous Calls",
+    "buttonTechnology": "Technology",
+
+    "appNavigatorSplitScreen": {
+      "tooltipViewPrevious": "View previous {{viewType}} (shortcut: left arrow key)",
+      "tooltipViewNext": "View next {{viewType}} (shortcut: left arrow key)",
+      "tooltipCloseSidebar": "Close sidebar",
+      "tooltipOpenSidebar": "Open sidebar"
+    },
+    "callDetails": {
+      "tooltipCloseCallDetails": "Close call details"
+    },
+    "callTimeAxis": {
+      "started": "Started: {{startedTime}}"
+    },
+    "navigatorSplitScreen": {
+      "tooltipViewPrevious": "View previous {{viewType}} (shortcut: left arrow key)",
+      "tooltipViewNext": "View next {{viewType}} (shortcut: left arrow key)",
+      "tooltipCloseSidebar": "Close sidebar",
+      "tooltipOpenSidebar": "Open sidebar"
+    }
+  },
+  "tabs": {
+    "labelDetail": "Detail",
+    "summary": {
+      "hide": "Hide",
+      "show": "Show",
+      "websiteMonitoringDataTitle": "Corresponding Website Activity",
+      "messageMultiple_root_spans": "The trace is malformed and contains multiple root calls",
+      "messageMissing_root_span": "The root call of the trace is missing or has not yet arrived in the processing pipeline.",
+      "messageDuplicated_spans": "The trace contains duplicated calls with the same id.",
+      "messageToo_many_spans": "The trace contains too many calls, it can only be partially displayed and downloaded.",
+      "messageMissing_parent_span": "Parent span is missing for some of the entry spans in this trace during the processing.",
+      "messageExit_spans_followed_by_intermediate_spans": "Some exit spans are followed by intermediate spans."
+    }
+  },
+
+  "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly."
 }

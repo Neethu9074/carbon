@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ColorConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/ColorConfigurator';
@@ -42,7 +43,7 @@ export const columnDefinitions = [
           kind="info"
           {...toInteractiveElement({
             onDefaultInteraction: () => triggerHighlight(getMetricId(index)),
-            ariaLabel: 'Jump to configuration of this dataset'
+            ariaLabel: t('in-custom-dashboards:widgets.formCompChart.metricReorderingChart.jumpConfigDataset')
           })}
           className={locals.pill}
         >
@@ -56,7 +57,7 @@ export const columnDefinitions = [
       let title = getMetricLabel(metricForm.toJS());
       if (metricForm.get('timeShift').value !== 0) {
         title = (
-          <Tooltip content="Dataset is time shifted">
+          <Tooltip content={t('in-custom-dashboards:widgets.formCompChart.metricReorderingChart.datasetTimeShift')}>
             <span className={locals.timeShifted}>
               {title} <SvgIcon className={locals.timeShiftIndicator} size="xs" type="lib_datetime_time" />
             </span>
@@ -105,7 +106,7 @@ export function MetricsForAxis({
   axisName,
   startIndex,
   getShortMetricKey,
-  helpText = 'Drag and drop datasets between the two axes.'
+  helpText = t('in-custom-dashboards:widgets.formCompChart.metricReorderingChart.dragDropDataset2Axes')
 }) {
   const axisForm = form.get(axisName);
   const metricsForm = axisForm.get('metrics');
@@ -114,7 +115,7 @@ export function MetricsForAxis({
 
   return (
     <Stack space="normal">
-      <Header>Datasets</Header>
+      <Header>{t('in-custom-dashboards:widgets.formCompChart.metricReorderingChart.datasets')}</Header>
 
       <TouchedMessages field={metricsForm} />
 

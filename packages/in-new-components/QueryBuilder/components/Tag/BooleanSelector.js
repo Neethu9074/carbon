@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
@@ -25,10 +26,10 @@ function Options({ value, onChange, close }) {
         value={'false'}
         size="compact"
       >
-        false
+        {t('in-new-components:queryBuilder.components.tagBooleanSelectorFalse')}
       </OverlayOption>
       <OverlayOption onChange={onChange} autoFocus={value} close={close} value={'true'} size="compact">
-        true
+        {t('in-new-components:queryBuilder.components.tagBooleanSelectorTrue')}
       </OverlayOption>
     </Ul>
   );
@@ -56,7 +57,9 @@ export default React.forwardRef(function BooleanSelector({ value, onChange, focu
           className={locals.booleanValue}
           ref={compositeRef(refSetter, ref)}
         >
-          {value ? 'true' : 'false'}
+          {value
+            ? t('in-new-components:queryBuilder.components.tagBooleanSelectorTrue')
+            : t('in-new-components:queryBuilder.components.tagBooleanSelectorFalse')}
         </div>
       )}
     </Overlay>

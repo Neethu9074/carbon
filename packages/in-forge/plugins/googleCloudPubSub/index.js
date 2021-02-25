@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.googleCloudPubSub,
-  pluginName: {
-    singular: 'Google Cloud PubSub',
-    plural: 'Google Cloud PubSub'
-  },
+
   technologyDescriptor: {
     label: 'Google Cloud PubSub'
   },

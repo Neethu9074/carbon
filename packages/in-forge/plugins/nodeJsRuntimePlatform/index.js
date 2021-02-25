@@ -12,10 +12,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.nodeJsRuntimePlatform,
-  pluginName: {
-    singular: 'Node.js App',
-    plural: 'Node.js Apps'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   agentMonitoringIssueDefinitions,

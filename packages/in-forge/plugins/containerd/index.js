@@ -12,10 +12,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.containerd,
-  pluginName: {
-    singular: 'Containerd Container',
-    plural: 'Containerd Containers'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   tableDefinition,

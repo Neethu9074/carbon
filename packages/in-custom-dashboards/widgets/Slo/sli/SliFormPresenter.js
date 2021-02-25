@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import InboundOrAllCallsOption from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
@@ -40,20 +41,23 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
   return (
     <Stack space="large">
       <Stack space="normal">
-        <Header>SLI Customization</Header>
+        <Header>{t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliCustomization')}</Header>
 
         <Stack space="xsmall">
           <Sections>
             {form.get('sliName').map(field => (
               <InputInSection
                 id="new-sli-name"
-                label="Name"
+                label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.name')}
                 onChange={e => onChange(['sliName'], f => f.setValue(e.target.value).setTouched(true))}
                 value={field?.value}
                 hasError={!field.valid && field.touched}
                 maxLength={256}
                 additionalContent={
-                  <OverridingTextTouchedMessage field={field} message="The SLI name cannot be empty." />
+                  <OverridingTextTouchedMessage
+                    field={field}
+                    message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliNameNotEmpty')}
+                  />
                 }
               />
             ))}
@@ -63,23 +67,23 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
             {sliEntityForm.get('sliType').map(field => (
               <SelectInSection
                 id="new-sli-type"
-                label="Type"
+                label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.type')}
                 onChange={e => onChangeType(e.target.value)}
                 value={field?.value ?? ''}
                 hasError={!field.valid && field.touched}
                 actions={
                   <HelpAction href="https://instana.com/docs/service_level_objectives/#sli-configuration/" external>
-                    Information about SLI customization and SLI types are located within our docs.
+                    {t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliCustomHelpAction')}
                   </HelpAction>
                 }
                 additionalContent={
                   <OverridingTextTouchedMessage
                     field={sliTypeForm}
-                    message="The SLI type must be either a time-based or an event-based SLI."
+                    message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliTimeBasedOrAnEventBasedSli')}
                   />
                 }
               >
-                <option value="">Please select</option>
+                <option value="">{t('in-custom-dashboards:widgets.slo.sliFormPresenter.pleaseSelect')}</option>
                 {sliTypeOptions.map(({ value, label }) => (
                   <option value={value} key={value}>
                     {label}
@@ -94,17 +98,22 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
       <Divider />
 
       <Stack space="normal">
-        <Header>SLI Entity</Header>
+        <Header>{t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliEntity')}</Header>
 
         <Stack space="xsmall">
           {!isQB2ModeEnabled && (
             <Sections>
-              <InputInSection id="sli-form-ap" label="Application Perspective" disabled value={apName} />
+              <InputInSection
+                id="sli-form-ap"
+                label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.appPerspective')}
+                disabled
+                value={apName}
+              />
             </Sections>
           )}
 
           <Sections>
-            <Section title="Boundary">
+            <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.boundary')}>
               <Row>
                 <Col md={5} xs={5}>
                   <InboundOrAllCallsOption

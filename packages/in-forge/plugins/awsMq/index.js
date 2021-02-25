@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsMq,
-  pluginName: {
-    singular: 'Amazon MQ',
-    plural: 'Amazon MQs'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getLabel(snapshot) {

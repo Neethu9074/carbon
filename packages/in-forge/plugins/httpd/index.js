@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.httpd,
-  pluginName: {
-    singular: 'Apache HTTPd',
-    plural: 'Apache HTTPds'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   supportsCodeView,

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import theme from 'in-themes';
@@ -110,7 +111,7 @@ function TagFilterPresenter({
       </div>
 
       {!readonly && onRemoveTagFilter && (
-        <Tooltip content="Remove filter">
+        <Tooltip content={t('in-analyze:tagFilterList.tooltipRemoveFilter')}>
           <SvgIcon
             className={locals.removeIcon}
             type="lib_openclose_cancel"

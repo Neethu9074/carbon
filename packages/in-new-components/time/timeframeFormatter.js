@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { formatDurationAccurately, formatTime, formatDateShort } from 'in-services/formatters/date';
 import { isOnSameDay } from 'in-services/util/date';
 
@@ -12,7 +14,7 @@ export function timeDisplayTopFormat(timeConfig) {
     if (isOnSameDay(fromTime, currentTime)) {
       return `${formatDateShort(fromTime)}`;
     } else {
-      return `Starting ${formatDateShort(fromTime)}`;
+      return t('in-new-components:time.timeFrameFormatterStarting', { fromTime: formatDateShort(fromTime) });
     }
   }
 
@@ -41,11 +43,13 @@ export function timeDisplayBottomFormat(timeConfig) {
     const result = `Last ${formatDurationAccurately(timeConfig.windowSize, 60000, false)}`;
     const match = result.match(/^Last 1 ([a-z]+)$/i);
     if (match && match[1] === 'day') {
-      return 'Last 24 hours';
+      return t('in-new-components:time.timeFrameFormatterLast24Hours');
     } else if (match) {
-      return `Last ${match[1]}`;
+      return t('in-new-components:time.timeFrameFormatterLast', { duration: match[1] });
     } else {
-      return result;
+      return t('in-new-components:time.timeFrameFormatterLast', {
+        duration: formatDurationAccurately(timeConfig.windowSize, 60000, false)
+      });
     }
   }
 
@@ -55,12 +59,12 @@ export function timeDisplayBottomFormat(timeConfig) {
     const match = result.match(/^Last 1 ([a-z]+)$/i);
     if (isOnSameDay(fromTime, currentTime)) {
       if (match) {
-        return `Last ${match[1]}`;
+        return t('in-new-components:time.timeFrameFormatterLast', { duration: match[1] });
       }
       return result;
     } else {
       if (match && match[1] === 'day') {
-        return 'Last 24 hours';
+        return t('in-new-components:time.timeFrameFormatterLast24Hours');
       }
       return `${formatDateShort(fromTime)} - ${formatDateShort(currentTime)}`;
     }

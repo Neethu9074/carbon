@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -47,7 +48,7 @@ export default function RawCallsPresenter(props) {
   } = props;
 
   return (
-    <AnalyzeWorkspace {...props} title="Call Analytics">
+    <AnalyzeWorkspace {...props} title={t('in-analyze:rawCalls.callAnalytics')}>
       <GroupingTableHeader
         itemType="Call"
         nbRows={totalHits}
@@ -72,7 +73,7 @@ export default function RawCallsPresenter(props) {
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="timestamp"
-              label="Timestamp"
+              label={t('in-analyze:rawCalls.labelTimestamp')}
             />
 
             <SortableColumn
@@ -81,7 +82,7 @@ export default function RawCallsPresenter(props) {
               onChangeOrder={onChangeOrder}
               defaultDirection="DESC"
               technicalName="latency"
-              label="Latency"
+              label={t('in-analyze:rawCalls.labelLatency')}
             />
           </Tr>
         </Thead>
@@ -99,7 +100,7 @@ export default function RawCallsPresenter(props) {
                   {item.call.label}
                   <BatchingIndicator
                     batchCount={item.call.batchCount}
-                    tooltipContent={`This call is batched and represents ${item.call.batchCount} individual calls.`}
+                    tooltipContent={t('in-analyze:rawCalls.tooltipBatched', { batchCount: item.call.batchCount })}
                   />
                 </Link>
               </Td>
@@ -118,7 +119,7 @@ export default function RawCallsPresenter(props) {
                 {latencyFixed.compact(item.call.duration)}
                 <BatchingIndicator
                   batchCount={item.call.batchCount}
-                  tooltipContent={`Total latency of ${item.call.batchCount} batched calls.`}
+                  tooltipContent={t('in-analyze:rawCalls.tooltipLatency', { batchCount: item.call.batchCount })}
                 />
               </Td>
             </Tr>

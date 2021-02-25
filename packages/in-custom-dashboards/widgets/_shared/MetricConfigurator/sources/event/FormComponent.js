@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -30,40 +31,42 @@ export default function FormComponent({
 
       <Sections>
         <InputInSection
-          label="Query"
+          label={t('in-custom-dashboards:widgets.srcEvent.formComponent.query')}
           id="metic-configurator-event-dynamic-focus-query"
           type="text"
           value={dynamicFocusQueryField.value}
           onChange={e => onChange(['dynamicFocusQuery'], field => field.setValue(e.target.value).setTouched(true))}
           hasError={!dynamicFocusQueryField.valid && dynamicFocusQueryField.touched}
           additionalContent={<TouchedMessages field={dynamicFocusQueryField} />}
-          actions={<HelpAction>A Dynamic Focus Query (DFQ) as you would use it within the event view.</HelpAction>}
+          actions={<HelpAction>{t('in-custom-dashboards:widgets.srcEvent.formComponent.helpAction')}</HelpAction>}
           maxLength={512}
         />
       </Sections>
 
       <Sections>
         <SelectInSection
-          label="Metric"
+          label={t('in-custom-dashboards:widgets.srcEvent.formComponent.metric')}
           id="metic-configurator-event-metric"
           value={metricField.value}
           disabled
           additionalContent={<TouchedMessages field={metricField} />}
         >
-          <option value="eventCount">Event Count</option>
+          <option value="eventCount">{t('in-custom-dashboards:widgets.srcEvent.formComponent.eventCount')}</option>
         </SelectInSection>
         <SelectInSection
-          label="Aggregation"
+          label={t('in-custom-dashboards:widgets.srcEvent.formComponent.aggregation')}
           id="metic-configurator-event-aggregation"
           value={aggregationField.value}
           disabled
           additionalContent={<TouchedMessages field={aggregationField} />}
           useAlternateBg
         >
-          {!metricField.valid && <option value="">Please select a metric</option>}
+          {!metricField.valid && (
+            <option value="">{t('in-custom-dashboards:widgets.srcEvent.formComponent.pleaseSelectMetric')}</option>
+          )}
           {metricField.valid && (
             <>
-              <option value="">Please select</option>
+              <option value="">{t('in-custom-dashboards:widgets.srcEvent.formComponent.pleaseSelect')}</option>
               {Object.keys(aggregationLabels).map(aggregation => (
                 <option key={aggregation} value={aggregation}>
                   {aggregationLabels[aggregation]}

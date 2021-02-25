@@ -6,18 +6,48 @@
 @import '~in-themes/active.less';
 
 :local {
-  .header {
+  .lightCardHeader {
     border-bottom: 1px solid @lib__colors__N300;
     padding: 0.5rem;
   }
 
+  .lightCardTitle {
+    width: max-content;
+    margin-right: 1rem;
+  }
+
+  .lightCardHeaderControlsSelectionTitle {
+    color: @lib__colors__N600Light;
+  }
+
+  .lightCardHeaderControlsSearchInputWrapper {
+    width: 9.375rem;
+    margin-left: 1rem;
+  }
+
+  .lightCardHeaderControlsDirtyStateIndicator {
+    margin-right: 0.25rem;
+    font-size: 1rem;
+  }
+
   .scopeConfigContainer {
-    padding: 0.5rem;
     background: @lib__colors__N100;
+  }
+
+  .alertFilterConfiguratorWrapper {
+    padding-left: 1rem;
   }
 
   .clearButtonWrapper {
     display: flex;
     flex-direction: row-reverse;
+  }
+
+  .servicesAndEndpointsListPresenterWrapper {
+    border-bottom: 1px solid @lib__colors__N300;
+  }
+
+  .alertFilterConfiguratorWrapperBottomPadding {
+    padding-bottom: 1rem;
   }
 }

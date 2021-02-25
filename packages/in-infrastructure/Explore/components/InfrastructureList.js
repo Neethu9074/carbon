@@ -15,6 +15,7 @@ import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-new-components/QueryBuilder/components/Header';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/util/function';
 import Pill from 'in-new-components/Pill';
@@ -53,7 +54,12 @@ export default function InfrastructureList({
           setMetrics={setMetrics}
           totalHits={totalHits}
           metrics={metrics}
-          hitName="Result"
+          getHitName={({ count }) =>
+            t('in-infrastructure:explore.result', {
+              count,
+              formattedCount: number.compact(count)
+            })
+          }
           tracking={tracking}
         />
       )}

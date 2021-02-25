@@ -11,10 +11,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.instanaAgent,
-  pluginName: {
-    singular: 'Instana Agent',
-    plural: 'Instana Agents'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   agentMonitoringIssueDefinitions,

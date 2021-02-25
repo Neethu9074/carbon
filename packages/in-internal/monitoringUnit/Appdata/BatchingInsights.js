@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -20,40 +21,40 @@ import locals from './BatchingInsights.mless';
 
 const types = [
   {
-    title: 'Calls',
+    title: t('in-internal:monitoringUnit.appdata.batchingInsights.calls'),
     type: 'calls',
     incomingKpi: 'KPI.incoming.calls'
   },
   {
-    title: 'Website Beacons (short term)',
+    title: t('in-internal:monitoringUnit.appdata.batchingInsights.websiteBeaconsShort'),
     type: 'beacons.shortTerm',
     incomingKpi: 'KPI.incoming.website_monitoring_processed_beacons'
   },
   {
-    title: 'Website Beacons (long term)',
+    title: t('in-internal:monitoringUnit.appdata.batchingInsights.websiteBeaconsLong'),
     type: 'beacons.longTerm'
   },
   {
-    title: 'Mobile App Beacons (short term)',
+    title: t('in-internal:monitoringUnit.appdata.batchingInsights.mobileAppBeaconsShort'),
     type: 'mobileBeacons.shortTerm',
     incomingKpi: 'KPI.incoming.mobile_app_monitoring_processed_beacons'
   },
   {
-    title: 'Mobile App Beacons (long term)',
+    title: t('in-internal:monitoringUnit.appdata.batchingInsights.mobileAppBeaconsLong'),
     type: 'mobileBeacons.longTerm'
   },
   {
-    title: 'Chains',
+    title: t('in-internal:monitoringUnit.appdata.batchingInsights.chains'),
     type: 'chains',
     incomingKpi: 'KPI.incoming.call_graphs'
   },
   {
-    title: 'Logs',
+    title: t('in-internal:monitoringUnit.appdata.batchingInsights.logs'),
     type: 'logs',
     incomingKpi: 'KPI.incoming.logs'
   },
   {
-    title: 'Profile Infos (ClickHouse)',
+    title: t('in-internal:monitoringUnit.appdata.batchingInsights.profileInfosClickHouse'),
     type: 'raw_profile_infos',
     incomingKpi: 'KPI.incoming.raw_profiles'
   }
@@ -75,7 +76,7 @@ export default connectTo(
     return (
       <div className={locals.wrapper}>
         <Columize>
-          <DashboardSection title={`Host CPU load`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.appdata.batchingInsights.hostCpuLoad')}>
             <Chart
               snapshotIds={rows.map(r => r.host.get('id'))}
               timeConfig={timeConfig}
@@ -91,7 +92,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Garbage Collection Activity`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.appdata.batchingInsights.garbageCollectionAct')}>
             <Chart
               snapshotIds={rows.map(r => r.jvm.get('id'))}
               timeConfig={timeConfig}
@@ -110,10 +111,14 @@ export default connectTo(
         {types.map(({ title, type, incomingKpi }) => (
           <Row key={type}>
             <Col lg={12}>
-              <ExpandableCard title={`Pipeline behavior for: ${title || type}`}>
+              <ExpandableCard
+                title={t('in-internal:monitoringUnit.appdata.batchingInsights.pipelineBehaviorFor', {
+                  titleOrType: title || type
+                })}
+              >
                 {incomingKpi && (
                   <Columize>
-                    <DashboardSection title={`Kafka Reads`}>
+                    <DashboardSection title={t('in-internal:monitoringUnit.appdata.batchingInsights.kafkaReads')}>
                       <Chart
                         snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                         timeConfig={timeConfig}
@@ -128,7 +133,7 @@ export default connectTo(
                       />
                     </DashboardSection>
 
-                    <DashboardSection title={`Dropped`}>
+                    <DashboardSection title={t('in-internal:monitoringUnit.appdata.batchingInsights.dropped')}>
                       <Chart
                         snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                         timeConfig={timeConfig}
@@ -146,7 +151,7 @@ export default connectTo(
                 )}
 
                 <Columize>
-                  <DashboardSection title={`Batch Additions`}>
+                  <DashboardSection title={t('in-internal:monitoringUnit.appdata.batchingInsights.batchAdditions')}>
                     <Chart
                       snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                       timeConfig={timeConfig}
@@ -161,7 +166,9 @@ export default connectTo(
                     />
                   </DashboardSection>
 
-                  <DashboardSection title={`Batch Addition Failures`}>
+                  <DashboardSection
+                    title={t('in-internal:monitoringUnit.appdata.batchingInsights.batchAdditionFailures')}
+                  >
                     <Chart
                       snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                       timeConfig={timeConfig}
@@ -177,7 +184,9 @@ export default connectTo(
                   </DashboardSection>
                 </Columize>
 
-                <DashboardSection title={`Usage of Maximum Allowed Batch Size`}>
+                <DashboardSection
+                  title={t('in-internal:monitoringUnit.appdata.batchingInsights.usageMaxAllowedBatchSize')}
+                >
                   <Chart
                     snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                     timeConfig={timeConfig}
@@ -193,7 +202,7 @@ export default connectTo(
                 </DashboardSection>
 
                 <Columize>
-                  <DashboardSection title={`Batch Transmissions`}>
+                  <DashboardSection title={t('in-internal:monitoringUnit.appdata.batchingInsights.batchTransmissions')}>
                     <Chart
                       snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                       timeConfig={timeConfig}
@@ -208,7 +217,9 @@ export default connectTo(
                     />
                   </DashboardSection>
 
-                  <DashboardSection title={`Batch Transmission Failures`}>
+                  <DashboardSection
+                    title={t('in-internal:monitoringUnit.appdata.batchingInsights.batchTransmissionFail')}
+                  >
                     <Chart
                       snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                       timeConfig={timeConfig}
@@ -230,9 +241,9 @@ export default connectTo(
 
         <Row key={`raw-spans`}>
           <Col lg={12}>
-            <ExpandableCard title={`Pipeline behavior for: Raw Spans`}>
+            <ExpandableCard title={t('in-internal:monitoringUnit.appdata.batchingInsights.pipelineBehaviorRawSpans')}>
               <Columize>
-                <DashboardSection title={`Kafka Reads`}>
+                <DashboardSection title={t('in-internal:monitoringUnit.appdata.batchingInsights.kafkaReads')}>
                   <Chart
                     snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                     timeConfig={timeConfig}
@@ -246,7 +257,7 @@ export default connectTo(
                     }}
                   />
                 </DashboardSection>
-                <DashboardSection title={`Dropped`}>
+                <DashboardSection title={t('in-internal:monitoringUnit.appdata.batchingInsights.dropped')}>
                   <Chart
                     snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                     timeConfig={timeConfig}
@@ -263,7 +274,7 @@ export default connectTo(
               </Columize>
 
               <Columize>
-                <DashboardSection title={`S3 Writes`}>
+                <DashboardSection title={t('in-internal:monitoringUnit.appdata.batchingInsights.s3Writes')}>
                   <Chart
                     snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                     timeConfig={timeConfig}
@@ -277,7 +288,7 @@ export default connectTo(
                     }}
                   />
                 </DashboardSection>
-                <DashboardSection title={`S3 Errors`}>
+                <DashboardSection title={t('in-internal:monitoringUnit.appdata.batchingInsights.s3Err')}>
                   <Chart
                     snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                     timeConfig={timeConfig}
@@ -294,7 +305,7 @@ export default connectTo(
               </Columize>
 
               <Columize>
-                <DashboardSection title={`Avg File Size`}>
+                <DashboardSection title={t('in-internal:monitoringUnit.appdata.batchingInsights.avgFileSize')}>
                   <Chart
                     snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                     timeConfig={timeConfig}
@@ -318,9 +329,11 @@ export default connectTo(
 
         <Row key={`raw-profiles`}>
           <Col lg={12}>
-            <ExpandableCard title={`Pipeline behavior for: Raw Profiles (Cassandra)`}>
+            <ExpandableCard
+              title={t('in-internal:monitoringUnit.appdata.batchingInsights.pipelinebehaviorRawProfilesCassandra')}
+            >
               <Columize>
-                <DashboardSection title={`Cassandra writes`}>
+                <DashboardSection title={t('in-internal:monitoringUnit.appdata.batchingInsights.cassandraWrites')}>
                   <Chart
                     snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                     timeConfig={timeConfig}
@@ -337,7 +350,7 @@ export default connectTo(
                     }}
                   />
                 </DashboardSection>
-                <DashboardSection title={`Cassandra errors`}>
+                <DashboardSection title={t('in-internal:monitoringUnit.appdata.batchingInsights.cassandraErr')}>
                   <Chart
                     snapshotIds={rows.map(r => r.dropwizard.get('id'))}
                     timeConfig={timeConfig}

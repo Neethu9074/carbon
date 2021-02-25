@@ -11,10 +11,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.kafka,
-  pluginName: {
-    singular: 'Kafka Node',
-    plural: 'Kafka Nodes'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

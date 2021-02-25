@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SvgIcon from 'in-components/SvgIcon';
@@ -11,11 +12,8 @@ import Tooltip from 'in-components/Tooltip';
 import locals from './TimeIcon.mless';
 
 export const historicDataMessage = retention =>
-  'You are viewing approximate data due to the data retention settings. Precise data is available within the last ' +
-  retention +
-  ' days.';
-export const LARGE_DATA_MESSAGE =
-  'You are viewing approximate data due to a large data set. Please reduce the time range for precise data.';
+  t('in-new-components:time.timeIconHistoricDataMessage', { retention: retention });
+export const LARGE_DATA_MESSAGE = t('in-new-components:time.timeIconLargeDataMessage');
 
 export default function TimeIcon({
   selected,

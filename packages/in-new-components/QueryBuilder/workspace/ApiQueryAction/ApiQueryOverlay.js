@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -22,8 +23,8 @@ export default function ApiQueryOverlay({ backendQueryModel }) {
         <KeyValue
           className={locals.keyValue}
           inverted
-          customValue="API query"
-          label="Use this expression to query our API"
+          customValue={t('in-new-components:queryBuilder.workspaceAPIQuery')}
+          label={t('in-new-components:queryBuilder.workspaceUseThisExpressionToQueryOurAPI')}
           accentuated
         />
         <CopyToClipboardButton kind="action" getText={() => jsonString} />

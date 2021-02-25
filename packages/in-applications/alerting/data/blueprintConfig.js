@@ -64,7 +64,6 @@ const slownessBlueprintConfig = Object.freeze({
   name: t('in-applications:blueprintConfig.slowness.name'),
   headline: t('in-applications:blueprintConfig.slowness.headline'),
   text: t('in-applications:blueprintConfig.slowness.text'),
-  disabledTagFilters: createDisableList(['call.latency']),
   baselineEnabled: true,
   defaultMetric: 'latency',
   getMetricName: () => 'latency',
@@ -84,7 +83,6 @@ const errorRateBlueprintConfig = Object.freeze({
   name: t('in-applications:blueprintConfig.errorRate.name'),
   headline: t('in-applications:blueprintConfig.errorRate.headline'),
   text: t('in-applications:blueprintConfig.errorRate.text'),
-  disabledTagFilters: createDisableList(['call.erroneous', 'call.error.count', 'call.error.message']),
   baselineEnabled: false,
   defaultMetric: 'errors',
   getMetricName: () => 'errors',
@@ -104,7 +102,6 @@ const logsBlueprintConfig = Object.freeze({
   name: t('in-applications:blueprintConfig.logs.name'),
   headline: t('in-applications:blueprintConfig.logs.headline'),
   text: t('in-applications:blueprintConfig.logs.text'),
-  disabledTagFilters: createDisableList(['log.message', 'log.level']),
   baselineEnabled: false,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
@@ -124,7 +121,6 @@ const statusCodeBlueprintConfig = Object.freeze({
   name: t('in-applications:blueprintConfig.statusCode.name'),
   headline: t('in-applications:blueprintConfig.statusCode.headline'),
   text: t('in-applications:blueprintConfig.statusCode.text'),
-  disabledTagFilters: createDisableList(['call.http.status']),
   baselineEnabled: false,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
@@ -144,7 +140,6 @@ const throughputBlueprintConfig = Object.freeze({
   name: t('in-applications:blueprintConfig.throughput.name'),
   headline: t('in-applications:blueprintConfig.throughput.headline'),
   text: t('in-applications:blueprintConfig.throughput.text'),
-  disabledTagFilters: createDisableList(),
   baselineEnabled: true,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
@@ -206,10 +201,6 @@ export function getSimpleModeBlueprintConfig(alertType, alertThreshold) {
   return simpleModeBlueprintConfigs
     .filter(blueprint => blueprint.type === alertType)
     .find(blueprint => !blueprint.isSelected || blueprint.isSelected(alertThreshold));
-}
-
-function createDisableList(disabledTagFilters = []) {
-  return ['application.id', 'application.name', 'service.id', 'endpoint.id', ...disabledTagFilters];
 }
 
 function getLogLevelTagFilters(alertRule) {

@@ -33,8 +33,10 @@ export default function ChartViewConfigurator({
   const [serviceId, setServiceId] = useState();
   const showEntitySelection = alertConfigWithFormModel?.evaluationType === PER_AP_SERVICE;
 
-  // TODO AP ID must be provided via selection as well for Global SmartAlerts. Furthermore, this field is deprecated
-  const { applicationId } = alertConfigWithFormModel;
+  // TODO AP ID must be provided via selection as well for Global SmartAlerts.
+  // Furthermore, this field is deprecated
+  // For websites we do not have the selection anyway
+  const applicationId = alertConfigWithFormModel?.applicationId;
 
   return (
     <>
@@ -93,7 +95,8 @@ ChartViewConfigurator.propTypes = {
   headerTransparent: PropTypes.bool,
   framed: PropTypes.bool,
   alertConfigWithFormModel: PropTypes.shape({
-    applicationId: PropTypes.string.isRequired,
+    applicationId: PropTypes.string,
+    websiteId: PropTypes.string,
     evaluationType: PropTypes.string
   }),
   onChartViewConfigChange: PropTypes.func.isRequired

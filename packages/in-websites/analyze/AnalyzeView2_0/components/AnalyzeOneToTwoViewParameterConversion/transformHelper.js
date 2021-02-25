@@ -19,7 +19,7 @@ import { createParameters } from 'in-new-components/AnalyzeView/parameters';
 
 export const analyzeTwoParameters = createParameters(analyzePath);
 
-export function transformOneZeroToTwoZero(location, tagCatalog) {
+export function transformOneZeroToTwoZero(location, tagCatalog, metricCatalog) {
   // In 1.0 zero mode the detail view has a different path. In 2.0 mode this difference
   // doesn't exist.
   location.pathname = analyzePathFullyQualified;
@@ -30,7 +30,7 @@ export function transformOneZeroToTwoZero(location, tagCatalog) {
 
   transformTagFiltersParameters(location, tagCatalog);
 
-  transformOrderByParameters(location);
+  transformOrderByParameters(location, metricCatalog);
 
   transformMetricParameters(location);
 
@@ -88,27 +88,49 @@ function transformTagFiltersParameters(location, tagCatalog) {
   }
 }
 
-function transformOrderByParameters(location) {
-  const by = getMatrixParameter(location, analyzePath, 'orderBy');
+function transformOrderByParameters(location, metricCatalog) {
+  const direction = getMatrixParameter(location, analyzePath, 'orderDirection') || 'DESC';
+  let by = getMatrixParameter(location, analyzePath, 'orderBy');
   setOrDeleteMatrixKey(location, analyzePath, 'orderDirection');
   if (by) {
-    const direction = getMatrixParameter(location, analyzePath, 'orderDirection') || 'ASC';
-    const orderBy = {
-      by,
-      direction
-    };
-    setOrDeleteMatrixKey(
+    if (by.endsWith('_Agg')) {
+      // This suffix is no longer used in the new format
+      by = by.substring(0, by.length - 4);
+    }
+
+    const groupByParam = getMatrixParameter(
       location,
-      analyzeTwoParameters.orderBy.path,
-      analyzeTwoParameters.orderBy.name,
-      analyzeTwoParameters.orderBy.serializer(orderBy)
+      analyzeTwoParameters.groupBy.path,
+      analyzeTwoParameters.groupBy.name
     );
-    setOrDeleteMatrixKey(
-      location,
-      analyzeTwoParameters.orderByGroups.path,
-      analyzeTwoParameters.orderByGroups.name,
-      analyzeTwoParameters.orderByGroups.serializer(orderBy)
-    );
+    const groupBy = analyzeTwoParameters.groupBy.parser(groupByParam);
+    const isGrouped = Boolean(groupBy.groupbyTag);
+    if (isGrouped) {
+      const orderByGroups = {
+        by: by === 'timestamp' ? 'earliestTimestamp' : by,
+        direction
+      };
+      setOrDeleteMatrixKey(location, analyzePath, 'orderBy');
+      setOrDeleteMatrixKey(
+        location,
+        analyzeTwoParameters.orderByGroups.path,
+        analyzeTwoParameters.orderByGroups.name,
+        analyzeTwoParameters.orderByGroups.serializer(orderByGroups)
+      );
+    } else {
+      const [metric] = by.split('_');
+      const metricDefinition = metricCatalog.find(({ metricId }) => metricId === metric);
+      const orderBy = {
+        by: metricDefinition?.tagName ?? metric,
+        direction
+      };
+      setOrDeleteMatrixKey(
+        location,
+        analyzeTwoParameters.orderBy.path,
+        analyzeTwoParameters.orderBy.name,
+        analyzeTwoParameters.orderBy.serializer(orderBy)
+      );
+    }
   }
 }
 

@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import metricDefinitions from 'in-forge/plugins/defaultEntity20/metricDefinitions';
 import { ms, number, percentage } from 'in-services/formatters/number';
 
@@ -10,22 +12,26 @@ export default metricDefinitions
   .concat([
     {
       metric: 'inbound_count',
-      label: 'Inbound Calls/s',
-      category: ['Inbound Calls'],
+      label: t('in-forge:plugins.application.inboundCallsS'),
+      category: [t('in-forge:plugins.application.inboundCalls')],
       min: 0,
       formatter: number
     },
     {
       metric: 'inbound_error_count',
-      label: 'Inbound Erroneous Calls/s',
-      category: ['Inbound Calls'],
+      label: t('in-forge:plugins.application.inboundErroneousCallsS'),
+      category: [t('in-forge:plugins.application.inboundCalls')],
       min: 0,
       formatter: number
     },
     {
       metrics: ['inbound_duration.mean', 'inbound_duration.min', 'inbound_duration.max'],
-      labels: ['Inbound Calls Avg. Latency', 'Inbound Calls Min Latency', 'Inbound Calls Max Latency'],
-      category: ['Inbound Calls Latency'],
+      labels: [
+        t('in-forge:plugins.application.inboundCallsAvgLatency'),
+        t('in-forge:plugins.application.inboundCallsMinLatency'),
+        t('in-forge:plugins.application.inboundCallsMaxLatency')
+      ],
+      category: [t('in-forge:plugins.application.inboundCallsLatency')],
       min: 0,
       formatter: ms
     },
@@ -39,22 +45,22 @@ export default metricDefinitions
         'inbound_duration.99th'
       ],
       labels: [
-        'Inbound Calls Latency 25th',
-        'Inbound Calls Latency 50th',
-        'Inbound Calls Latency 75th',
-        'Inbound Calls Latency 95th',
-        'Inbound Calls Latency 98th',
-        'Inbound Calls Latency 99th'
+        t('in-forge:plugins.application.inboundCallsLatency25th'),
+        t('in-forge:plugins.application.inboundCallsLatency50th'),
+        t('in-forge:plugins.application.inboundCallsLatency75th'),
+        t('in-forge:plugins.application.inboundCallsLatency95th'),
+        t('in-forge:plugins.application.inboundCallsLatency98th'),
+        t('in-forge:plugins.application.inboundCallsLatency99th')
       ],
-      category: ['Inbound Calls Latency'],
+      category: [t('in-forge:plugins.application.inboundCallsLatency')],
       min: 0,
       formatter: ms,
       isPercentile: true
     },
     {
       metric: 'inbound_error_rate',
-      label: 'Inbound Erroneous Call Rate',
-      category: ['Inbound Calls'],
+      label: t('in-forge:plugins.application.inboundErroneousCallRate'),
+      category: [t('in-forge:plugins.application.inboundCalls')],
       min: 0,
       formatter: percentage
     }

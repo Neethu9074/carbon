@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import Secion from 'in-new-components/time/TimeSelectionDialogPresenter/Section';
@@ -15,7 +16,7 @@ import locals from './Presets.mless';
 
 export default function Presets({ onChange, closeOverlay }) {
   return (
-    <Secion title="Presets">
+    <Secion title={t('in-new-components:time.presetsTitlePresets')}>
       <div className={locals.presetsContainer}>
         {getTimePresets().map(({ label, description, windowSize, to }) => (
           <Preset

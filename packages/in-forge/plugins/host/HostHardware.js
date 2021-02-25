@@ -10,7 +10,7 @@ import { getSnapshot, getFoundations } from 'in-stores/snapshot';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { alwaysNull } from 'in-services/fixedStreams';
 import useObservable from 'in-hooks/useObservable';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
@@ -30,7 +30,7 @@ export default connectTo(
     return (
       <div>
         <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>{getSingular(foundationSnapshot.get('plugin'))}</Collapsible.Header>
+          <Collapsible.Header>{getPluginName(foundationSnapshot.get('plugin'), 1)}</Collapsible.Header>
           <Collapsible.Content>
             <Details snapshot={foundationSnapshot} />
           </Collapsible.Content>

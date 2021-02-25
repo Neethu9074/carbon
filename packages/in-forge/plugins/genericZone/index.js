@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.genericZone,
-  pluginName: {
-    singular: 'Custom Zone',
-    plural: 'Custom Zones'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

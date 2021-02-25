@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -18,7 +19,7 @@ import Link from 'in-components/Link';
 
 const cols = [
   {
-    title: 'Agent',
+    title: t('in-internal:monitoringUnit.thisUnit.agent.agentTitle'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Sensor Time Consumed',
+    title: t('in-internal:monitoringUnit.thisUnit.agent.sensorTimeConsumed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -46,7 +47,7 @@ const cols = [
     }
   },
   {
-    title: 'Slow Sensors Count',
+    title: t('in-internal:monitoringUnit.thisUnit.agent.slowSensorsCount'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -62,7 +63,7 @@ const cols = [
     }
   },
   {
-    title: 'CPU Load',
+    title: t('in-internal:monitoringUnit.thisUnit.agent.cpuLoad'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -78,7 +79,7 @@ const cols = [
     }
   },
   {
-    title: 'Error Count',
+    title: t('in-internal:monitoringUnit.thisUnit.agent.errCount'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -94,7 +95,7 @@ const cols = [
     }
   },
   {
-    title: 'Warning Count',
+    title: t('in-internal:monitoringUnit.thisUnit.agent.warningCount'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -110,7 +111,7 @@ const cols = [
     }
   },
   {
-    title: 'Spans Opened',
+    title: t('in-internal:monitoringUnit.thisUnit.agent.spansOpened'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -127,7 +128,7 @@ const cols = [
     }
   },
   {
-    title: 'Spans Closed',
+    title: t('in-internal:monitoringUnit.thisUnit.agent.spansClosed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -144,7 +145,7 @@ const cols = [
     }
   },
   {
-    title: 'Spans Filtered',
+    title: t('in-internal:monitoringUnit.thisUnit.agent.spansFilter'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -161,7 +162,7 @@ const cols = [
     }
   },
   {
-    title: 'Spans Dropped',
+    title: t('in-internal:monitoringUnit.thisUnit.agent.spansDropped'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -207,7 +208,7 @@ export default connectTo(
         {!rows && <LoadingIndicator />}
         {rows && (
           <Table
-            cardTitle="Agents"
+            cardTitle={t('in-internal:monitoringUnit.thisUnit.agent.agents')}
             cols={cols}
             rows={rows}
             getRowDetails={getRowDetails}
@@ -232,7 +233,7 @@ function getRowDetails(row) {
           max: 1,
           formatter: percentage.compact,
           metrics: [`sensors.scheduler.consumed`],
-          labels: ['Sensor Time Consumed'],
+          labels: [t('in-internal:monitoringUnit.thisUnit.agent.sensorTimeConsumed')],
           type: 'stackedArea'
         }}
       />
@@ -243,7 +244,7 @@ function getRowDetails(row) {
           min: 0,
           formatter: number.compact,
           metrics: [`sensors.scheduler.slow`],
-          labels: ['Slow Sensors Count'],
+          labels: [t('in-internal:monitoringUnit.thisUnit.agent.slowSensorsCount')],
           type: 'stackedArea'
         }}
       />
@@ -255,7 +256,7 @@ function getRowDetails(row) {
           max: 1,
           formatter: percentage.detailed,
           metrics: [`cpu.load`],
-          labels: ['CPU Load'],
+          labels: [t('in-internal:monitoringUnit.thisUnit.agent.cpuLoad')],
           type: 'stackedArea'
         }}
       />
@@ -266,7 +267,10 @@ function getRowDetails(row) {
           min: 0,
           formatter: number.compact,
           metrics: [`log.counts.byLevel.ERROR.total`, `log.counts.byLevel.WARN.total`],
-          labels: ['Error Count', 'Warning Count'],
+          labels: [
+            t('in-internal:monitoringUnit.thisUnit.agent.errCount'),
+            t('in-internal:monitoringUnit.thisUnit.agent.warningCount')
+          ],
           type: 'line'
         }}
       />
@@ -277,7 +281,12 @@ function getRowDetails(row) {
           min: 0,
           formatter: number.compact,
           metrics: [`spans.opened`, `spans.closed`, `spans.filtered`, `spans.dropped`],
-          labels: ['Spans Opened', 'Spans Closed', 'Spans Filtered', 'Spans Dropped'],
+          labels: [
+            t('in-internal:monitoringUnit.thisUnit.agent.spansOpened'),
+            t('in-internal:monitoringUnit.thisUnit.agent.spansClosed'),
+            t('in-internal:monitoringUnit.thisUnit.agent.spansFilter'),
+            t('in-internal:monitoringUnit.thisUnit.agent.spansDropped')
+          ],
           type: 'line'
         }}
       />

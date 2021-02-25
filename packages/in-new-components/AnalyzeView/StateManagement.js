@@ -5,6 +5,7 @@
 import React, { useMemo, useState } from 'react';
 import rpt from 'prop-types';
 
+import { EQUALS, IS_EMPTY, NOT_EMPTY, IS_BLANK } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { isFormModelValid as isFilterValid } from 'in-new-components/QueryBuilder/validation/formModel';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
@@ -12,11 +13,11 @@ import { metric as metricType, custom as customType } from 'in-new-components/An
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { isValid as isValidGrouping } from 'in-new-components/GroupingConfigurator/validation';
 import { TAG, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { NUMBER, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { columnDefinitionShape } from 'in-new-components/lists/List/ColumnizedContent';
-import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
+import { UNSPECIFIED, NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { emptyArray, emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
 import { noResultObservable } from 'in-services/util/result';
@@ -342,7 +343,7 @@ function AnalyzeStateManagement({
   function getStateChangeForUngroupedView(groupValue) {
     return {
       groupBy: emptyObject,
-      formModel: addGroupingCriteriaToFormModel(groupBy, groupValue, formModel)
+      formModel: addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, groupingTagCatalogResult.data)
     };
   }
 }
@@ -417,15 +418,44 @@ export const childrenArgsAsPropTypes = {
   setDetailId: rpt.func.isRequired
 };
 
-export function addGroupingCriteriaToFormModel(groupBy, groupValue, formModel) {
-  const newTagFilter = {
-    type: TAG,
-    name: groupBy.groupbyTag,
-    key: groupBy.groupbyTagSecondLevelKey,
-    value: groupValue,
-    operator: EQUALS,
-    entity: groupBy.groupbyTagEntity ?? NOT_APPLICABLE
-  };
+export function addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, groupingTagCatalog) {
+  const groupByTagType = groupingTagCatalog?.tags.find(tag => tag.name === groupBy.groupbyTag)?.type;
+
+  let newTagFilter;
+  if (groupValue === UNSPECIFIED) {
+    newTagFilter = {
+      type: TAG,
+      operator: IS_EMPTY,
+      name: groupBy.groupbyTag,
+      key: groupBy.groupbyTagSecondLevelKey,
+      entity: groupBy.groupbyTagEntity
+    };
+  } else if (groupValue === NO_VALUE) {
+    newTagFilter = {
+      type: TAG,
+      operator: IS_BLANK,
+      name: groupBy.groupbyTag,
+      key: groupBy.groupbyTagSecondLevelKey,
+      entity: groupBy.groupbyTagEntity
+    };
+  } else if (groupByTagType === KEY_VALUE_PAIR && !groupBy.groupbyTagSecondLevelKey) {
+    newTagFilter = {
+      type: TAG,
+      operator: NOT_EMPTY,
+      name: groupBy.groupbyTag,
+      key: groupValue,
+      entity: groupBy.groupbyTagEntity
+    };
+  } else {
+    newTagFilter = {
+      type: TAG,
+      operator: EQUALS,
+      name: groupBy.groupbyTag,
+      key: groupBy.groupbyTagSecondLevelKey,
+      value: groupByTagType === NUMBER ? Number(groupValue) : groupValue,
+      entity: groupBy.groupbyTagEntity
+    };
+  }
 
   const changedFormModel = formModel.slice();
   if (changedFormModel.length > 0) {

@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsEbs,
-  pluginName: {
-    singular: 'AWS EBS Volume',
-    plural: 'AWS EBS Volumes'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getLabel(snapshot) {

@@ -10,10 +10,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.jettyApplicationContainer,
-  pluginName: {
-    singular: 'Jetty',
-    plural: 'Jetty'
-  },
+
   kpiDefinitions,
   metricDefinitions,
   getCodeView,

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -10,23 +11,23 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
-import { getSingular } from 'in-sdk/pluginName';
+import { getPluginName } from 'in-sdk/pluginName';
 import { plugins } from 'in-forge/constants';
 import search from 'in-subscription/search';
 import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Plugin',
+    title: t('in-internal:monitoringUnit.unit.entityStatistics.plugin'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return getSingular(row.plugin);
+        return getPluginName(row.plugin, 1);
       }
     }
   },
   {
-    title: 'Count',
+    title: t('in-internal:monitoringUnit.unit.entityStatistics.count'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -65,7 +66,7 @@ export default connectTo(
 
     return (
       <Fragment>
-        <DashboardSection title={`Entity Count`}>
+        <DashboardSection title={t('in-internal:monitoringUnit.unit.entityStatistics.entityCount')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -73,14 +74,14 @@ export default connectTo(
               min: 0,
               formatter: number.compact,
               metrics: [`total`],
-              labels: ['Count over time'],
+              labels: [t('in-internal:monitoringUnit.unit.entityStatistics.countOverTime')],
               type: 'line'
             }}
           />
         </DashboardSection>
 
         <Table
-          cardTitle="Per Plugin Entity Counts"
+          cardTitle={t('in-internal:monitoringUnit.unit.entityStatistics.perPluginEntityCount')}
           cols={cols}
           rows={rows}
           getRowDetails={getRowDetails}
@@ -102,7 +103,7 @@ function getRowDetails(row) {
         min: 0,
         formatter: number.compact,
         metrics: [row.plugin],
-        labels: ['Count over time'],
+        labels: [t('in-internal:monitoringUnit.unit.entityStatistics.countOverTime')],
         type: 'line'
       }}
     />

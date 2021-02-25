@@ -2,13 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { range } from 'lodash';
 
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import Skeleton from 'in-new-components/Loading/Skeleton';
 import { number } from 'in-services/formatters/number';
+import { identity } from 'in-services/util/function';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
@@ -29,10 +31,11 @@ export default function SuggestionsPresenter({
   updateFilter,
   updateGroup,
   dataSource,
-  isValid = true
+  customLabelMapper
 }) {
+  const [numberOfPresentedRows, setNumberOfPresentedRows] = useState(DEFAULT_SUGGESTIONS_SIZE);
   if (loading) {
-    return <Loading />;
+    return <Loading numberOfRows={numberOfPresentedRows} />;
   } else if (errors?.length > 0) {
     return <Errors errors={errors} />;
   } else if (!suggestions) {
@@ -46,7 +49,8 @@ export default function SuggestionsPresenter({
         updateFilter={updateFilter}
         updateGroup={updateGroup}
         dataSource={dataSource}
-        isValid={isValid}
+        setNumberOfPresentedRows={setNumberOfPresentedRows}
+        customLabelMapper={customLabelMapper}
       />
     );
   } else {
@@ -54,64 +58,81 @@ export default function SuggestionsPresenter({
   }
 }
 
-function Loading() {
-  return (
-    <div className={locals.loading}>
-      <InfiniteCircle width={72} height={24} />
+function Loading({ numberOfRows = 5 }) {
+  return range(numberOfRows + 1).map((e, i) => (
+    <div key={i} className={locals.suggestion}>
+      <div className={locals.addSuggestion}>
+        <Skeleton className={locals.skeletonContainer} darkMode />
+      </div>
     </div>
-  );
+  ));
 }
 
 function Errors({ errors }) {
-  return (
-    <>
-      {errors.map(error => (
-        <Message key={error.code} className={locals.message} type="error" small>
-          {error.message}
-        </Message>
-      ))}
-    </>
-  );
+  return errors.map(error => (
+    <Message key={error.code} className={locals.message} type="error" small>
+      {error.message}
+    </Message>
+  ));
 }
 
-function Results({ suggestions, tag, entity, updateFilter, updateGroup, dataSource, isValid }) {
+function Results({
+  suggestions,
+  tag,
+  entity,
+  updateFilter,
+  updateGroup,
+  dataSource,
+  setNumberOfPresentedRows,
+  customLabelMapper = identity
+}) {
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
   const nextBatch = Math.min(suggestions.length - showMore, 20);
+  const presentedSuggestions = sortBy(
+    suggestions,
+    suggestion => -1 * suggestion.metrics[dataSourceConstants[dataSource].metricKey][0][1]
+  ).slice(0, showMore ? showMore : undefined);
 
-  if (!isValid) {
-    return null;
-  }
+  useEffect(() => {
+    setNumberOfPresentedRows(presentedSuggestions.length);
+  }, [presentedSuggestions, setNumberOfPresentedRows]);
 
   return (
     <>
-      {sortBy(suggestions, suggestion => -1 * suggestion.metrics[dataSourceConstants[dataSource].metricKey][0][1])
-        .slice(0, showMore ? showMore : undefined)
-        .map((suggestion, i) => (
-          <div key={i} className={locals.suggestion}>
-            <Tooltip content={suggestion.label} align="rightMiddle" delay={1000}>
-              <Link
-                onClick={() =>
-                  updateFilter({
-                    add: [
-                      {
-                        type: TAG,
-                        name: tag,
-                        operator: EQUALS,
-                        value: suggestion.label
-                      }
-                    ]
-                  })
-                }
-                className={locals.addSuggestion}
-              >
-                <span className={locals.label}>{suggestion.label}</span>
-                <span className={locals.count}>
-                  {number.compact(suggestion.metrics[dataSourceConstants[dataSource].metricKey][0][1])}
-                </span>
-              </Link>
-            </Tooltip>
-          </div>
-        ))}
+      {presentedSuggestions.map((suggestion, i) => (
+        <div key={i} className={locals.suggestion}>
+          <Tooltip
+            content={
+              customLabelMapper === identity
+                ? customLabelMapper(suggestion.label)
+                : `${customLabelMapper(suggestion.label)} (${suggestion.label})`
+            }
+            align="rightMiddle"
+            delay={1000}
+          >
+            <Link
+              onClick={() =>
+                updateFilter({
+                  add: [
+                    {
+                      type: TAG,
+                      name: tag,
+                      operator: EQUALS,
+                      value: suggestion.label
+                    }
+                  ]
+                })
+              }
+              className={locals.addSuggestion}
+            >
+              <span className={locals.label}>{customLabelMapper(suggestion.label)}</span>
+              <span className={locals.count}>
+                {number.compact(suggestion.metrics[dataSourceConstants[dataSource].metricKey][0][1])}
+              </span>
+            </Link>
+          </Tooltip>
+        </div>
+      ))}
       <div className={locals.buttonRow}>
         {nextBatch > 0 && (
           <Button className={locals.showMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>

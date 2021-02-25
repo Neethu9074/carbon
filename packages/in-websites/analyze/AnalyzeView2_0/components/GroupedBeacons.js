@@ -10,13 +10,21 @@ import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeVie
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import Beacons from 'in-websites/analyze/AnalyzeView2_0/components/Beacons';
 import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
+import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default function GroupedBeacons(props) {
   return (
     <QueryBuilderWorkspace {...props}>
       <GroupedView
         {...props}
-        itemName={`in-websites:dataSources.${props.dataSource}`}
+        getItemName={({ count }) =>
+          t('in-websites:dataSource', {
+            context: props.dataSource,
+            count,
+            formattedCount: number.compact(count)
+          })
+        }
         getItemLabel={getItemLabel}
         itemlabelColumnId="name"
         getData={({ timeConfig, backendQueryModel, orderByGroups, groupBy, cursor, metrics }) =>

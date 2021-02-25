@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DraggableLightCard from 'in-cockpit/widgets/TopListWidget/DraggableLightCard';
@@ -15,7 +16,7 @@ export default function EventChartCardWidget({ config }) {
       {...config}
       icon={config.cardIcon}
       useMaxAvailableHeight
-      fullListViewLinkTitle="All Events"
+      fullListViewLinkTitle={t('in-cockpit:component.eventChartCard.allEvents')}
       fullListView$={getEventsViewFilteredBy({})}
     >
       <ChartWidget
@@ -30,7 +31,7 @@ export default function EventChartCardWidget({ config }) {
                 metric: 'eventCount',
                 timeShift: 0,
                 aggregation: 'DISTINCT_COUNT',
-                label: 'Incidents',
+                label: t('in-cockpit:component.eventChartCard.incidents'),
                 source: 'EVENT'
               },
               {
@@ -38,7 +39,7 @@ export default function EventChartCardWidget({ config }) {
                 metric: 'eventCount',
                 timeShift: 0,
                 aggregation: 'DISTINCT_COUNT',
-                label: 'Critical',
+                label: t('in-cockpit:component.eventChartCard.critical'),
                 source: 'EVENT'
               },
               {
@@ -46,7 +47,7 @@ export default function EventChartCardWidget({ config }) {
                 metric: 'eventCount',
                 timeShift: 0,
                 aggregation: 'DISTINCT_COUNT',
-                label: 'Warning',
+                label: t('in-cockpit:component.eventChartCard.warning'),
                 source: 'EVENT'
               }
             ]
@@ -62,7 +63,7 @@ export default function EventChartCardWidget({ config }) {
             {
               name: 'showEvents',
               icon: 'lib_events_inverted',
-              label: 'View Events',
+              label: t('in-cockpit:component.eventChartCard.viewEvents'),
               getHref$: highlightedTime =>
                 getEventsViewFilteredBy({
                   timeConfig: highlightedTime

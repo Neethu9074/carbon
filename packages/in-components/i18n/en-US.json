@@ -33,7 +33,9 @@
     "downloadViewDownloadJsonLabel": "Download (*.json)",
     "eventMetricDownloadViewDownloadJsonLabel": "Download (*.json)"
   },
-  "fromsTouchedMsg": "{{msgMsg}} at <codeWithClass>{{msgPath}}</codeWithClass>",
+  "touchedMessages": {
+    "withPath": "{{message}} (at <codeWithClass>{{path}}</codeWithClass>)"
+  },
   "graphView": {
     "graphTitle": "Graph",
     "explanationHeader": "Dynamic Graph Showcase",
@@ -115,6 +117,7 @@
   "sparkChart": {
     "mean": "Mean",
     "sum": "Sum",
-    "distinctCount": "Distinct Count"
+    "distinctCount": "Distinct Count",
+    "notAvailable": "N/A"
   }
 }

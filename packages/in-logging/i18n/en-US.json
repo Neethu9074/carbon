@@ -1,0 +1,4 @@
+{
+  "log": "{{formattedCount}} Log",
+  "log_plural": "{{formattedCount}} Logs"
+}

@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.couchbaseNode,
-  pluginName: {
-    singular: 'Couchbase Node',
-    plural: 'Couchbase Nodes'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

@@ -5,6 +5,11 @@
 @import '~in-themes/active.less';
 
 :local {
+  .typoSettings {
+    font-size: 0.75rem;
+    line-height: 0.75rem;
+  }
+
   .facetedCard {
     border-radius: 0;
     box-shadow: none;
@@ -35,7 +40,7 @@
       color: @lib__colors__light-blue800;
     }
     .addSuggestion {
-      font-size: 0.75rem;
+      .typoSettings();
       display: flex;
       justify-content: space-between;
       width: 100%;
@@ -43,13 +48,6 @@
         margin-left: 1rem;
       }
     }
-  }
-
-  .loading {
-    margin-top: 0.75rem;
-    width: 100%;
-    display: flex;
-    justify-content: center;
   }
 
   .noResult {
@@ -64,13 +62,13 @@
 
   .showMore {
     margin-top: 0.75rem;
-    font-size: 0.75rem;
+    .typoSettings();
     padding: 0;
   }
 
   .useAsGroup {
     margin-top: 0.75rem;
-    font-size: 0.75rem;
+    .typoSettings();
     padding: 0;
   }
 
@@ -82,14 +80,14 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    font-size: 0.75rem;
+    .typoSettings();
   }
 
   .existingLabel {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    font-size: 0.75rem;
+    .typoSettings();
     color: @lib__colors__primary1;
   }
 
@@ -112,5 +110,12 @@
   .search {
     padding: 0 0.25rem;
     height: 1.5rem;
+  }
+
+  .skeletonContainer {
+    display: block;
+    width: 100%;
+    height: 0.75rem;
+    border-radius: 0.25rem;
   }
 }

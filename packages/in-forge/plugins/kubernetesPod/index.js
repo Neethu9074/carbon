@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.kubernetesPod,
-  pluginName: {
-    singular: 'Kubernetes Pod',
-    plural: 'Kubernetes Pods'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

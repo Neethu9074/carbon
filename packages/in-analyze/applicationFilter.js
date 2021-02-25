@@ -6,33 +6,34 @@ import { get } from 'lodash';
 
 import { applicationId, serviceId, endpointId } from 'in-analyze/navigation/matrix';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
+import { t } from 'in-i18n';
 
 export const APPLICATION = {
   id: applicationId,
   name: 'application.name',
   technicalName: 'application.name',
-  label: 'Application'
+  label: t('in-analyze:applicationFilter.labelApplication')
 };
 
 export const APPLICATION_INBOUND = {
   id: applicationId,
   name: 'call.inbound_of_application',
   technicalName: 'call.inbound_of_application',
-  label: 'Application Inbound'
+  label: t('in-analyze:applicationFilter.labelApplicationInbound')
 };
 
 export const SERVICE = {
   id: serviceId,
   name: 'service.name',
   technicalName: 'service.name',
-  label: 'Service'
+  label: t('in-analyze:applicationFilter.labelService')
 };
 
 export const ENDPOINT = {
   id: endpointId,
   name: 'endpoint.name',
   technicalName: 'endpoint.name',
-  label: 'Endpoint'
+  label: t('in-analyze:applicationFilter.labelEndpoint')
 };
 
 export const operators = {
@@ -62,10 +63,10 @@ export const entityTypes = {
 };
 
 export const entityTypesLUT = {
-  SOURCE_AND_DESTINATION: 'Source & Destination',
-  DESTINATION: 'Destination',
-  SOURCE: 'Source',
-  NOT_APPLICABLE: ''
+  SOURCE_AND_DESTINATION: t('in-analyze:applicationFilter.labelSOURCE_AND_DESTINATION'),
+  DESTINATION: t('in-analyze:applicationFilter.labelDESTINATION'),
+  SOURCE: t('in-analyze:applicationFilter.labelSOURCE'),
+  NOT_APPLICABLE: t('in-analyze:applicationFilter.labelNOTAPPLICABLE')
 };
 
 export const disabledOperators = {
@@ -139,48 +140,48 @@ export const TAG_TYPES = {
 
 const operatorLabelLUT = {
   STRING: {
-    EQUALS: 'equals',
-    NOT_EQUAL: 'does not equal',
-    CONTAINS: 'contains',
-    NOT_CONTAIN: 'does not contain',
-    NOT_EMPTY: 'is present',
-    IS_EMPTY: 'is not present',
-    STARTS_WITH: 'starts with',
-    ENDS_WITH: 'ends with',
-    NOT_STARTS_WITH: 'does not start with',
-    NOT_ENDS_WITH: 'does not end with'
+    EQUALS: t('in-analyze:applicationFilter.labelStringEQUALS'),
+    NOT_EQUAL: t('in-analyze:applicationFilter.labelStringNOT_EQUAL'),
+    CONTAINS: t('in-analyze:applicationFilter.labelStringCONTAINS'),
+    NOT_CONTAIN: t('in-analyze:applicationFilter.labelStringNOT_CONTAIN'),
+    NOT_EMPTY: t('in-analyze:applicationFilter.labelStringNOT_EMPTY'),
+    IS_EMPTY: t('in-analyze:applicationFilter.labelStringIS_EMPTY'),
+    STARTS_WITH: t('in-analyze:applicationFilter.labelStringSTARTS_WITH'),
+    ENDS_WITH: t('in-analyze:applicationFilter.labelStringENDS_WITH'),
+    NOT_STARTS_WITH: t('in-analyze:applicationFilter.labelStringNOT_STARTS_WITH'),
+    NOT_ENDS_WITH: t('in-analyze:applicationFilter.labelStringNOT_ENDS_WITH')
   },
   NUMBER: {
-    EQUALS: '=',
-    NOT_EQUAL: '!=',
-    LESS_THAN: '<',
-    GREATER_THAN: '>',
-    NOT_EMPTY: 'is present',
-    IS_EMPTY: 'is not present',
-    LESS_OR_EQUAL_THAN: '<=',
-    GREATER_OR_EQUAL_THAN: '>=',
+    EQUALS: t('in-analyze:applicationFilter.labelNumberEQUALS'),
+    NOT_EQUAL: t('in-analyze:applicationFilter.labelNumberNOT_EQUAL'),
+    LESS_THAN: t('in-analyze:applicationFilter.labelNumberLESS_THAN'),
+    GREATER_THAN: t('in-analyze:applicationFilter.labelNumberGREATER_THAN'),
+    NOT_EMPTY: t('in-analyze:applicationFilter.labelNumberNOT_EMPTY'),
+    IS_EMPTY: t('in-analyze:applicationFilter.labelNumberIS_EMPTY'),
+    LESS_OR_EQUAL_THAN: t('in-analyze:applicationFilter.labelNumberLESS_OR_EQUAL_THAN'),
+    GREATER_OR_EQUAL_THAN: t('in-analyze:applicationFilter.labelNumberGREATER_OR_EQUAL_THAN'),
     // support string operators, currently used only for the 'call.http.status' tag
-    CONTAINS: 'contains',
-    NOT_CONTAIN: 'does not contain',
-    STARTS_WITH: 'starts with',
-    ENDS_WITH: 'ends with',
-    NOT_STARTS_WITH: 'does not start with',
-    NOT_ENDS_WITH: 'does not end with'
+    CONTAINS: t('in-analyze:applicationFilter.labelNumberCONTAINS'),
+    NOT_CONTAIN: t('in-analyze:applicationFilter.labelNumberNOT_CONTAIN'),
+    STARTS_WITH: t('in-analyze:applicationFilter.labelNumberSTARTS_WITH'),
+    ENDS_WITH: t('in-analyze:applicationFilter.labelNumberENDS_WITH'),
+    NOT_STARTS_WITH: t('in-analyze:applicationFilter.labelNumberNOT_STARTS_WITH'),
+    NOT_ENDS_WITH: t('in-analyze:applicationFilter.labelNumberNOT_ENDS_WITH')
   },
   BOOLEAN: {
-    EQUALS: 'is'
+    EQUALS: t('in-analyze:applicationFilter.labelBooleanEQUALS')
   },
   KEY_VALUE_PAIR: {
-    EQUALS: 'equals',
-    NOT_EQUAL: 'does not equal',
-    CONTAINS: 'contains',
-    NOT_CONTAIN: 'does not contain',
-    NOT_EMPTY: 'is present',
-    IS_EMPTY: 'is not present',
-    IS_BLANK: 'does not have value',
-    NOT_BLANK: 'has value',
-    STARTS_WITH: 'starts with',
-    ENDS_WITH: 'ends with'
+    EQUALS: t('in-analyze:applicationFilter.labelKeyPairEQUALS'),
+    NOT_EQUAL: t('in-analyze:applicationFilter.labelKeyPairNOT_EQUAL'),
+    CONTAINS: t('in-analyze:applicationFilter.labelKeyPairCONTAINS'),
+    NOT_CONTAIN: t('in-analyze:applicationFilter.labelKeyPairNOT_CONTAIN'),
+    NOT_EMPTY: t('in-analyze:applicationFilter.labelKeyPairNOT_EMPTY'),
+    IS_EMPTY: t('in-analyze:applicationFilter.labelKeyPairIS_EMPTY'),
+    IS_BLANK: t('in-analyze:applicationFilter.labelKeyPairIS_BLANK'),
+    NOT_BLANK: t('in-analyze:applicationFilter.labelKeyPairNOT_BLANK'),
+    STARTS_WITH: t('in-analyze:applicationFilter.labelKeyPairSTARTS_WITH'),
+    ENDS_WITH: t('in-analyze:applicationFilter.labelKeyPairENDS_WITH')
   }
 };
 

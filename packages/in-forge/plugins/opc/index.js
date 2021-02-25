@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.opc,
-  pluginName: {
-    singular: 'Oracle Cloud Instance',
-    plural: 'Oracle Cloud Instances'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

@@ -9,10 +9,7 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.azureRedisCache,
-  pluginName: {
-    singular: 'Azure Redis Cache',
-    plural: 'Azure Redis Caches'
-  },
+
   kpiDefinitions,
   metricDefinitions
 });

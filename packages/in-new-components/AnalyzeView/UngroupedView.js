@@ -105,7 +105,7 @@ export default function UngroupedAnalyzeView(props) {
           {...props}
           order={orderBy}
           topText={t('in-new-components:analyzeView.ungroupedViewNoGrouping')}
-          totalRepresentedItemCount={totalHits ?? 0}
+          totalRepresentedItemCount={totalHits}
           setOrder={onOrderByChange}
           availableMetrics={availableMetrics}
           metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
@@ -163,7 +163,7 @@ export default function UngroupedAnalyzeView(props) {
 UngroupedAnalyzeView.propTypes = {
   ...childrenArgsAsPropTypes,
 
-  itemName: rpt.string.isRequired,
+  getItemName: rpt.func.isRequired,
   withoutHeader: rpt.bool,
   getData: rpt.func.isRequired,
   getDetailData: rpt.func.isRequired,
@@ -180,7 +180,7 @@ UngroupedAnalyzeView.propTypes = {
 export const detailViewProps = {
   ...childrenArgsAsPropTypes,
   getId: rpt.func.isRequired,
-  itemName: rpt.string.isRequired,
+  getItemName: rpt.func.isRequired,
 
   isLoading: rpt.bool,
   hasErrors: rpt.bool,

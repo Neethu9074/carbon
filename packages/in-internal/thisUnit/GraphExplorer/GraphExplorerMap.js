@@ -7,8 +7,8 @@ import React from 'react';
 
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';
-import { getSingular } from 'in-sdk/pluginName';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { getLabel } from 'in-sdk/snapshot';
@@ -52,7 +52,7 @@ const Entry = connectTo(
   props => ({ snapshot: getSnapshot(props.id) }),
   function Entry({ id, isIn, isOut, relation, snapshot, onClick }) {
     return (
-      <Tooltip themeStyle="light" content={snapshot && getSingular(snapshot.get('plugin'))} align="bottomMiddle">
+      <Tooltip themeStyle="light" content={snapshot && getPluginName(snapshot.get('plugin'), 1)} align="bottomMiddle">
         <div
           className={classNames({
             [locals.entry]: true,

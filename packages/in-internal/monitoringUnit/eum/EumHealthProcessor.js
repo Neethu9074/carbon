@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -32,7 +33,7 @@ export default connectTo(
         <h1>eum-health-processor</h1>
 
         <Columize>
-          <DashboardSection title={`Incoming Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.incomingBeacons')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -48,7 +49,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Dropped Incoming Beacons`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.droppedIncomingBeacon')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -66,7 +67,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Beacon Processing`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.beaconProcessing')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -82,7 +83,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Beacon Processing Failures`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.beaconProcessFail')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -100,7 +101,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Config Evaluations`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.configEval')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -114,7 +115,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Config Evaluation Failures`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.configEvalFail')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -130,7 +131,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={`Outgoing Events`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.outgoingEvent')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -144,7 +145,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={`Failed Outgoing Events`}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.failOutgoingEvent')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
