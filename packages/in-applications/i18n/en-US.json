@@ -648,7 +648,7 @@
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "The service is not in the current application.",
-    "buttonLoadMoreWithRemain": "Load {{remainNumber}} more<span>(total: {{nodeNumber}})</span>",
+    "buttonLoadMoreWithRemain": "Load {{remainNumber}} more<totalSpan>(total: {{nodeNumber}})</totalSpan>",
     "buttonLoadMore": "Load {{remainNumber}} more"
   },
   "forms": {

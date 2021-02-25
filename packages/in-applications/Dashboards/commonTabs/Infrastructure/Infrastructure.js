@@ -639,18 +639,6 @@ function getColumnDefinitions(type) {
   ];
 }
 
-// function MetaEntityLink({ icon, getDashboard, entity, children }) {
-//   return (
-//     <Fragment>
-//       {children}
-//       <SvgIcon className={locals.entitiyIcon} type={icon} />
-//       <Link className={locals.entityLink} href$={getDashboard ? getDashboard(entity.id) : null}>
-//         {entity.label}
-//       </Link>
-//     </Fragment>
-//   );
-// }
-
 function UnmonitoredEntity() {
   return (
     <Tooltip content={t('in-applications:dashboards.infrastructure.tooltipUnmonitored')}>

@@ -73,7 +73,7 @@ export default connectTo(
                   remainNumber: pageSize,
                   nodeNumber: numRemainingNodes
                 }}
-                components={{ span: <span /> }}
+                components={{ totalSpan: <span className={locals.totalReminaingNodesLabel} /> }}
               />
             ) : (
               t('in-applications:flowMap.buttonLoadMore', {
