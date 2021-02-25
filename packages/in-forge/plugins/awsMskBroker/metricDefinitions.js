@@ -2,55 +2,57 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number, percentage, bytes, millis } from 'in-services/formatters/number';
 
 export default [
   {
     metric: 'bytes_in_ser_sec',
-    label: 'Bytes in per second',
-    category: ['Broker traffic'],
+    label: t('in-forge:plugins.awsMskBroker.bytesInPerSecond'),
+    category: [t('in-forge:plugins.awsMskBroker.brokerTraffic')],
     formatter: bytes
   },
   {
     metric: 'bytes_out_per_sec',
-    label: 'Bytes out per second',
-    category: ['Broker traffic'],
+    label: t('in-forge:plugins.awsMskBroker.bytesOutPerSecond'),
+    category: [t('in-forge:plugins.awsMskBroker.brokerTraffic')],
     formatter: bytes
   },
   {
     metric: 'messages_in_per_sec',
-    label: 'Messages in per second',
-    category: ['Broker traffic'],
+    label: t('in-forge:plugins.awsMskBroker.messagesInPerSecond'),
+    category: [t('in-forge:plugins.awsMskBroker.brokerTraffic')],
     formatter: number
   },
   {
     metric: 'partition_count',
-    label: 'Partition count',
-    category: ['Partition'],
+    label: t('in-forge:plugins.awsMskBroker.partitionCount'),
+    category: [t('in-forge:plugins.awsMskBroker.partition')],
     formatter: number
   },
   {
     metric: 'under_replicated_partitions',
-    label: 'Under-replicated partition count',
-    category: ['Partition'],
+    label: t('in-forge:plugins.awsMskBroker.underReplicatedPartitionCount'),
+    category: [t('in-forge:plugins.awsMskBroker.partition')],
     formatter: number
   },
   {
     metric: 'leader_count',
-    label: 'Leader count',
-    category: ['Partition'],
+    label: t('in-forge:plugins.awsMskBroker.leaderCount'),
+    category: [t('in-forge:plugins.awsMskBroker.partition')],
     formatter: number
   },
   {
     metric: 'request_throttle_time',
-    label: 'Request throttle time',
-    category: ['Throttle time'],
+    label: t('in-forge:plugins.awsMskBroker.requestThrottleTime'),
+    category: [t('in-forge:plugins.awsMskBroker.throttleTime')],
     formatter: millis
   },
   {
     metric: 'produce_throttle_time',
-    label: 'Produce throttle time',
-    category: ['Throttle time'],
+    label: t('in-forge:plugins.awsMskBroker.produceThrottleTime'),
+    category: [t('in-forge:plugins.awsMskBroker.throttleTime')],
     formatter: millis
   },
   {
@@ -61,8 +63,8 @@ export default [
   },
   {
     metric: 'fetch_throttle_time',
-    label: 'Fetch throttle time',
-    category: ['Throttle time'],
+    label: t('in-forge:plugins.awsMskBroker.fetchThrottleTime'),
+    category: [t('in-forge:plugins.awsMskBroker.throttleTime')],
     formatter: millis
   },
   {
@@ -73,20 +75,20 @@ export default [
   },
   {
     metric: 'cpu_idle',
-    label: 'CPU idle',
-    category: ['CPU'],
+    label: t('in-forge:plugins.awsMskBroker.cpuIdle'),
+    category: [t('in-forge:plugins.awsMskBroker.cpu')],
     formatter: percentage
   },
   {
     metric: 'cpu_user',
-    label: 'CPU user',
-    category: ['CPU'],
+    label: t('in-forge:plugins.awsMskBroker.cpuUser'),
+    category: [t('in-forge:plugins.awsMskBroker.cpu')],
     formatter: percentage
   },
   {
     metric: 'cpu_system',
-    label: 'CPU system',
-    category: ['CPU'],
+    label: t('in-forge:plugins.awsMskBroker.cpuSystem'),
+    category: [t('in-forge:plugins.awsMskBroker.cpu')],
     formatter: percentage
   },
   {
@@ -163,38 +165,38 @@ export default [
   },
   {
     metric: 'fetch_consumer_total_time',
-    label: 'Fetch consumer total time',
-    category: ['Fetch time'],
+    label: t('in-forge:plugins.awsMskBroker.fetchConsumerTotalTime'),
+    category: [t('in-forge:plugins.awsMskBroker.fetchTime')],
     formatter: millis
   },
   {
     metric: 'fetch_follower_total_time',
-    label: 'Fetch follower total time',
-    category: ['Fetch time'],
+    label: t('in-forge:plugins.awsMskBroker.fetchFollowerTotalTime'),
+    category: [t('in-forge:plugins.awsMskBroker.fetchTime')],
     formatter: millis
   },
   {
     metric: 'produce_total_time',
-    label: 'Produce total time',
-    category: ['Produce time'],
+    label: t('in-forge:plugins.awsMskBroker.produceTotalTime'),
+    category: [t('in-forge:plugins.awsMskBroker.produceTime')],
     formatter: millis
   },
   {
     metric: 'request_bytes_mean',
-    label: 'Request bytes',
-    category: ['Request'],
+    label: t('in-forge:plugins.awsMskBroker.requestBytes'),
+    category: [t('in-forge:plugins.awsMskBroker.request')],
     formatter: bytes
   },
   {
     metric: 'network_processor_idle',
-    label: 'Network processor idle',
-    category: ['Idle time'],
+    label: t('in-forge:plugins.awsMskBroker.networkProcessorIdle'),
+    category: [t('in-forge:plugins.awsMskBroker.idleTime')],
     formatter: percentage
   },
   {
     metric: 'request_handler_idle',
-    label: 'Request handler idle ',
-    category: ['Idle time'],
+    label: t('in-forge:plugins.awsMskBroker.requestHandlerIdle'),
+    category: [t('in-forge:plugins.awsMskBroker.idleTime')],
     formatter: percentage
   }
 ];

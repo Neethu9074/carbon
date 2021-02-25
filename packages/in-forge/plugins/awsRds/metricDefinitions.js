@@ -2,137 +2,139 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number, percentage, bytes, millis } from 'in-services/formatters/number';
 
 export default [
   {
     metric: 'cpu_utilization',
-    label: 'CPU Usage',
-    category: ['CPU'],
+    label: t('in-forge:plugins.awsRds.cpuUsage'),
+    category: [t('in-forge:plugins.awsRds.cpu')],
     formatter: percentage
   },
   {
     metric: 'cpu_credit_usage',
-    label: 'CPU Credit Usage',
-    category: ['CPU'],
+    label: t('in-forge:plugins.awsRds.cpuCreditUsage'),
+    category: [t('in-forge:plugins.awsRds.cpu')],
     min: 0,
     formatter: number
   },
   {
     metric: 'cpu_credit_balance',
-    label: 'CPU Credit Balance',
-    category: ['CPU'],
+    label: t('in-forge:plugins.awsRds.cpuCreditBalance'),
+    category: [t('in-forge:plugins.awsRds.cpu')],
     min: 0,
     formatter: number
   },
   {
     metric: 'burst_balance',
-    label: 'Burst Balance',
-    category: ['Disk'],
+    label: t('in-forge:plugins.awsRds.burstBalance'),
+    category: [t('in-forge:plugins.awsRds.disk')],
     min: 0,
     formatter: number
   },
   {
     metric: 'db_connections',
-    label: 'DB Connections',
-    category: ['Network'],
+    label: t('in-forge:plugins.awsRds.dbConnections'),
+    category: [t('in-forge:plugins.awsRds.network')],
     min: 0,
     formatter: number
   },
   {
     metric: 'disk_queue_depth',
-    label: 'Disk queue depth',
-    category: ['Disk'],
+    label: t('in-forge:plugins.awsRds.diskQueueDepth'),
+    category: [t('in-forge:plugins.awsRds.disk')],
     formatter: number
   },
   {
     metric: 'freeable_memory',
-    label: 'Freeable RAM',
-    category: ['Memory'],
+    label: t('in-forge:plugins.awsRds.freeableRam'),
+    category: [t('in-forge:plugins.awsRds.memory')],
     min: 0,
     formatter: bytes
   },
   {
     metric: 'free_storage_space',
-    label: 'Available storage space',
-    category: ['Disk'],
+    label: t('in-forge:plugins.awsRds.availableStorageSpace'),
+    category: [t('in-forge:plugins.awsRds.disk')],
     min: 0,
     formatter: bytes
   },
   {
     metric: 'replica_lag',
-    label: 'Replica lag',
+    label: t('in-forge:plugins.awsRds.replicaLag'),
     category: [],
     min: 0,
     formatter: millis
   },
   {
     metric: 'swap_usage',
-    label: 'Swap usage',
-    category: ['Disk'],
+    label: t('in-forge:plugins.awsRds.swapUsage'),
+    category: [t('in-forge:plugins.awsRds.disk')],
     min: 0,
     formatter: bytes
   },
   {
     metric: 'read_iops',
-    label: 'Read ops',
-    category: ['Disk'],
+    label: t('in-forge:plugins.awsRds.readOps'),
+    category: [t('in-forge:plugins.awsRds.disk')],
     min: 0,
     formatter: number.perSecond
   },
   {
     metric: 'write_iops',
-    label: 'Write ops',
-    category: ['Disk'],
+    label: t('in-forge:plugins.awsRds.writeOps'),
+    category: [t('in-forge:plugins.awsRds.disk')],
     min: 0,
     formatter: number.perSecond
   },
   {
     metric: 'read_latency',
-    label: 'Read latency',
-    category: ['Disk'],
+    label: t('in-forge:plugins.awsRds.readLatency'),
+    category: [t('in-forge:plugins.awsRds.disk')],
     min: 0,
     formatter: millis
   },
   {
     metric: 'write_latency',
-    label: 'Write latency',
-    category: ['Disk'],
+    label: t('in-forge:plugins.awsRds.writeLatency'),
+    category: [t('in-forge:plugins.awsRds.disk')],
     min: 0,
     formatter: millis
   },
   {
     metric: 'read_throughput',
-    label: 'Read throughput',
-    category: ['Disk'],
+    label: t('in-forge:plugins.awsRds.readThroughput'),
+    category: [t('in-forge:plugins.awsRds.disk')],
     min: 0,
     formatter: bytes.perSecond
   },
   {
     metric: 'write_throughput',
-    label: 'Write throughput',
-    category: ['Disk'],
+    label: t('in-forge:plugins.awsRds.writeThroughput'),
+    category: [t('in-forge:plugins.awsRds.disk')],
     min: 0,
     formatter: bytes.perSecond
   },
   {
     metric: 'net_receive_throughput',
-    label: 'Receive throughput',
-    category: ['Network'],
+    label: t('in-forge:plugins.awsRds.receiveThroughput'),
+    category: [t('in-forge:plugins.awsRds.network')],
     min: 0,
     formatter: bytes.perSecond
   },
   {
     metric: 'net_transmit_throughput',
-    label: 'Transmit throughput',
-    category: ['Network'],
+    label: t('in-forge:plugins.awsRds.transmitThroughput'),
+    category: [t('in-forge:plugins.awsRds.network')],
     min: 0,
     formatter: bytes.perSecond
   },
   {
     metric: 'volume_bytes_used_avg',
-    label: 'Volume Bytes Used',
-    category: ['Network'],
+    label: t('in-forge:plugins.awsRds.volumeBytesUsed'),
+    category: [t('in-forge:plugins.awsRds.network')],
     min: 0,
     formatter: bytes
   }

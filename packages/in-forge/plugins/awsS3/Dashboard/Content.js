@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
@@ -16,7 +17,7 @@ export default function AwsS3Dashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <GetMetricStatisticsInUse snapshot={snapshot} />
-      <DashboardSection title="Requests">
+      <DashboardSection title={t('in-forge:plugins.awsS3.dashboard.requests')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -31,28 +32,36 @@ export default function AwsS3Dashboard({ snapshot, timeConfig }) {
               'post_requests',
               'list_requests'
             ],
-            labels: ['All', 'Get', 'Put', 'Delete', 'Head', 'Post', 'List'],
+            labels: [
+              t('in-forge:plugins.awsS3.dashboard.all'),
+              t('in-forge:plugins.awsS3.dashboard.get'),
+              t('in-forge:plugins.awsS3.dashboard.put'),
+              t('in-forge:plugins.awsS3.dashboard.delete'),
+              t('in-forge:plugins.awsS3.dashboard.head'),
+              t('in-forge:plugins.awsS3.dashboard.post'),
+              t('in-forge:plugins.awsS3.dashboard.list')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Traffic">
+      <DashboardSection title={t('in-forge:plugins.awsS3.dashboard.traffic')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['bytes_downloaded', 'bytes_uploaded'],
-            labels: ['Downloaded', 'Uploaded'],
+            labels: [t('in-forge:plugins.awsS3.dashboard.downloaded'), t('in-forge:plugins.awsS3.dashboard.uploaded')],
             type: 'line',
             formatter: bytes.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Errors">
+      <DashboardSection title={t('in-forge:plugins.awsS3.dashboard.errors')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -66,14 +75,17 @@ export default function AwsS3Dashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Latency">
+      <DashboardSection title={t('in-forge:plugins.awsS3.dashboard.latency')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['first_byte_latency', 'total_request_latency'],
-            labels: ['First Byte Latency', 'Total Request Latency'],
+            labels: [
+              t('in-forge:plugins.awsS3.dashboard.firstByteLatency'),
+              t('in-forge:plugins.awsS3.dashboard.totalRequestLatency')
+            ],
             type: 'line',
             formatter: millis.compact
           }}

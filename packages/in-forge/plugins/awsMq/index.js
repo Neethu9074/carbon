@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import metricDefinitions from 'in-forge/plugins/awsMq/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsMq/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -16,6 +18,6 @@ registerSnapshotDefinition({
     return snapshot.getIn(['data', 'broker_name'], '');
   },
   technologyDescriptor: {
-    label: 'AWS MQ'
+    label: t('in-forge:plugins.awsMq.awsMq')
   }
 });

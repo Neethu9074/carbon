@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import BrokersTable from 'in-forge/plugins/awsMskCluster/Dashboard/BrokersTable.js';
@@ -17,65 +18,65 @@ export default function AwsMskClusterDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Active Controllers">
+        <KpiKeyValue label={t('in-forge:plugins.awsMskCluster.dashboard.activeControllers')}>
           <MetricValue snapshotId={snapshotId} metric="active_controller_count" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Topics">
+        <KpiKeyValue label={t('in-forge:plugins.awsMskCluster.dashboard.topics')}>
           <MetricValue snapshotId={snapshotId} metric="global_topic_count" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Active Controllers">
+      <DashboardSection title={t('in-forge:plugins.awsMskCluster.dashboard.activeControllers')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['active_controller_count'],
-            labels: ['Count'],
+            labels: [t('in-forge:plugins.awsMskCluster.dashboard.count')],
             formatter: number.compact,
             type: 'line'
           }}
         />
       </DashboardSection>
 
-      <DashboardSection title="Topics">
+      <DashboardSection title={t('in-forge:plugins.awsMskCluster.dashboard.topics')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['global_topic_count'],
-            labels: ['Count'],
+            labels: [t('in-forge:plugins.awsMskCluster.dashboard.count')],
             formatter: number.compact,
             type: 'line'
           }}
         />
       </DashboardSection>
 
-      <DashboardSection title="Partitions">
+      <DashboardSection title={t('in-forge:plugins.awsMskCluster.dashboard.partitions')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['global_partition_count'],
-            labels: ['Count'],
+            labels: [t('in-forge:plugins.awsMskCluster.dashboard.count')],
             formatter: number.compact,
             type: 'line'
           }}
           y2={{
             metrics: ['offline_partitions_count'],
-            labels: ['Offline'],
+            labels: [t('in-forge:plugins.awsMskCluster.dashboard.offline')],
             formatter: number.compact,
             type: 'line'
           }}
         />
       </DashboardSection>
 
-      <DashboardSection title="Data Logs">
+      <DashboardSection title={t('in-forge:plugins.awsMskCluster.dashboard.dataLogs')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['kafka_data_logs_disk_used'],
-            labels: ['Disk Used'],
+            labels: [t('in-forge:plugins.awsMskCluster.dashboard.diskUsed')],
             formatter: percentage.compact,
             type: 'line'
           }}

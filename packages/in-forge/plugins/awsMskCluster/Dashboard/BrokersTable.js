@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { combineLatest } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { number, bytes } from 'in-services/formatters/number';
@@ -13,7 +14,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.awsMskCluster.dashboard.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Leaders',
+    title: t('in-forge:plugins.awsMskCluster.dashboard.leaders'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Partitions',
+    title: t('in-forge:plugins.awsMskCluster.dashboard.partitions'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Under-replicated',
+    title: t('in-forge:plugins.awsMskCluster.dashboard.underReplicated'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages In',
+    title: t('in-forge:plugins.awsMskCluster.dashboard.messagesIn'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -86,7 +87,7 @@ const cols = [
     }
   },
   {
-    title: 'Bytes In',
+    title: t('in-forge:plugins.awsMskCluster.dashboard.bytesIn'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -102,7 +103,7 @@ const cols = [
     }
   },
   {
-    title: 'Bytes Out',
+    title: t('in-forge:plugins.awsMskCluster.dashboard.bytesOut'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -118,7 +119,7 @@ const cols = [
     }
   },
   {
-    title: 'Health',
+    title: t('in-forge:plugins.awsMskCluster.dashboard.health'),
     type: 'health',
     typeArgs: {
       getSnapshotId(row) {
@@ -149,6 +150,13 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Cluster Brokers (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.awsMq.dashboard.ClusterBrokersRows', { rows: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );
