@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
@@ -21,21 +22,22 @@ export const SourceLocation = ({ location, service, snapshotId, entity, span }) 
     <div
       className={classNames({
         [locals.serviceLine]: true,
-        [locals.unmonitored]: snapshotId === null || service.id === 'ROOT',
+        [locals.unmonitored]: service.id === 'ROOT',
         [locals.hasError]: span && span.errorCount > 0
       })}
     >
       <div className={locals.serviceLineInfo}>
         <span className={locals.locationText}>{location}</span>
-        {snapshotId === null || service.id !== 'ROOT' ? (
+        {service.id === 'ROOT' ? (
+          <span className={locals.unmonitoredText}>
+            <PluginIcon className={locals.simplePluginIcon} />
+            {t('in-analyze:traceDetail.callDetails.serviceComponent.notMonitored')}
+          </span>
+        ) : (
           <Link className={locals.link} href$={getServiceDashboard(service.id)}>
             <SvgIcon className={locals.entityIcon} type="lib_application_service" />
             {service.label}
           </Link>
-        ) : (
-          <span className={locals.unmonitoredText}>
-            <PluginIcon className={locals.simplePluginIcon} /> Not monitored by Instana
-          </span>
         )}
       </div>
       <div className={locals.serviceLineAction}>{correctTooltip(location, entity, snapshotId)}</div>

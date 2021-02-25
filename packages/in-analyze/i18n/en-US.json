@@ -40,7 +40,8 @@
         "details": "Details",
         "desClusterNotCorrelateNode": "The destination is a cluster, Instana could not correlate this call to any specific nodes.",
         "sourceUnmonitored": "The source of this call has not been traced and as a result no information can be provided about the source. All information shown about this call is provided by the destination.",
-        "sourceMonitoredByAnotherProvider": "The source of this call is traced by another distributed tracing provider. You can find more information on the source by searching the parent span within that provider with id {{foreignParentId}}."
+        "sourceMonitoredByAnotherProvider": "The source of this call is traced by another distributed tracing provider. You can find more information on the source by searching the parent span within that provider with id {{foreignParentId}}.",
+        "notMonitored": "Not monitored by Instana"
       }
     },
     "tabs": {
