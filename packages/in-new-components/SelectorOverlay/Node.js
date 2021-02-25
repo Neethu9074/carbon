@@ -28,7 +28,7 @@ const labelColumnDefinition = {
 
 const breadcrumbAndLabelColumnDefinition = {
   getContent({ node }) {
-    return <KeyValue inverted accentuated value={node.breadcrumbAndLabel} label={node.description} />;
+    return <KeyValue inverted accentuated value={node.breadcrumbAndLabel} label={node.description} multiline />;
   }
 };
 
