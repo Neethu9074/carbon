@@ -42,8 +42,8 @@ export default function AlertConfigDialogWithThreshold(props) {
   const alertConfigWithFormModel = props.form.toJS();
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
-  const { enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(
-    { ...alertConfigWithFormModel, applicationId: websiteId /* TODO replace with no application dependency */ },
+  const { enrichedTagFilterFormModel, numeratorFilter } = getEnhancedTagFilterFormModel(
+    { ...alertConfigWithFormModel },
     blueprintConfig,
     null
   );
@@ -73,6 +73,7 @@ export default function AlertConfigDialogWithThreshold(props) {
         alertConfigWithFormModel,
         blueprintConfig,
         enrichedTagFilterFormModel,
+        numeratorFilter,
         simpleMode,
         isValid
       )
@@ -131,6 +132,7 @@ function resolveThresholdRequest(
   alertConfigWithFormModel,
   blueprintConfig,
   enrichedTagFilterFormModel,
+  numeratorFilter,
   fallbackOnError,
   isValid
 ) {
@@ -171,7 +173,7 @@ function resolveThresholdRequest(
     metric: {
       metric: blueprintConfig.getMetricName(alertConfigWithFormModel.rule),
       granularity,
-      // what is it needed for at the end? Still needed? numeratorFilter,
+      numeratorFilter,
       aggregation: blueprintConfig.getAggregation(alertConfigWithFormModel.rule)
     },
     operator,
