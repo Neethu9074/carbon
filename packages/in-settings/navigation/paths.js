@@ -36,6 +36,7 @@ export const changePassword = `${authSettings}/password/change`;
 
 export const googleSSO = `${authSettings}/googleSingleSignOn`;
 export const saml = `${authSettings}/saml`;
+export const oidc = `${authSettings}/oidc`;
 export const ldap = `${authSettings}/ldap`;
 
 export const twoFactorAuth = `${authSettings}/2fa`;

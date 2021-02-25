@@ -182,5 +182,10 @@ module.exports = exports = [
     uiClientKey: 'languageSelectorEnabled',
     instanaCtlKey: 'feature.language.selector.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'oidcEnabled',
+    instanaCtlKey: 'feature.authentication.oidc.enabled',
+    defaultValue: false
   }
 ];

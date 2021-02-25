@@ -5,7 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import { createField } from 'formalistic';
 
-import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
+import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -18,12 +18,11 @@ import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
-import Link from 'in-components/Link';
 
 import indentityProvidersLocals from '../indentityProviders.mless';
-import locals from './Saml.mless';
+import locals from './OIDC.mless';
 
-export default function Saml() {
+export default function OIDC() {
   const inputDOMNode = document.createElement('input');
   const [input] = useState(inputDOMNode);
   const [file, setFile] = useState(null);
@@ -43,15 +42,29 @@ export default function Saml() {
         refresh();
       }}
       saveItem={({ setMessage, form }) => {
-        const reader = new FileReader();
-        reader.readAsText(file, 'UTF-8');
-        reader.onload = function(evt) {
+        if (file) {
+          const reader = new FileReader();
+          reader.readAsText(file, 'UTF-8');
+          reader.onload = function(evt) {
+            saveItem({
+              setMessage,
+              idpMetadata: evt.target.result,
+              spEntityId: form.get('spEntityId').value,
+              ownerEmail: form.get('ownerEmail').value,
+              discoveryUri: form.get('discoveryUri').value,
+              secret: form.get('secret').value
+            });
+          };
+        } else {
           saveItem({
-            idpMetadata: evt.target.result,
             setMessage,
-            spEntityId: form.get('spEntityId').value
+            idpMetadata: '',
+            spEntityId: form.get('spEntityId').value,
+            ownerEmail: form.get('ownerEmail').value,
+            discoveryUri: form.get('discoveryUri').value,
+            secret: form.get('secret').value
           });
-        };
+        }
       }}
       Content={Content}
     />
@@ -59,25 +72,17 @@ export default function Saml() {
 }
 
 function Content({ file, form, setForm, input, setCanSaveItem }) {
-  useEffect(() => setCanSaveItem(!!file), [file, setCanSaveItem]);
+  useEffect(
+    // allow only saving when either idP metadata has been uploaded or discovery and secret field are defined
+    () => setCanSaveItem(!!file || (form.get('discoveryUri').value && form.get('secret').value)),
+    [file, form, setCanSaveItem]
+  );
 
   return (
     <>
-      <Title title="Configure SAML" />
-      <SubViewHeader>SAML Configuration</SubViewHeader>
-      <h2>Activating SAML enables Instana to authenticate a user against your Identity Provider (IdP).</h2>
-
-      <p>
-        Quick start guides are available in our documentation pages for{' '}
-        <Link external href="https://instana.com/docs/admin/active-directory/">
-          Active Directory
-        </Link>{' '}
-        and{' '}
-        <Link external href="https://instana.com/docs/admin/okta/">
-          Okta
-        </Link>
-        .
-      </p>
+      <Title title="Configure OpenID Connect" />
+      <SubViewHeader>OIDC Configuration</SubViewHeader>
+      <h2>Activating OIDC enables Instana to authenticate a user against your Identity Provider (IdP).</h2>
 
       <form method="post" encType="multipart/form-data">
         <Section restrictWidth="50rem">
@@ -114,7 +119,7 @@ function Content({ file, form, setForm, input, setCanSaveItem }) {
 
                   <Input
                     className={locals.input}
-                    type="text"
+                    type="email"
                     id="ownerEmail"
                     value={field.value}
                     onChange={e => {
@@ -129,38 +134,19 @@ function Content({ file, form, setForm, input, setCanSaveItem }) {
         </Section>
 
         <Section restrictWidth="50rem">
-          <h2>Automatic setup</h2>
-          {form.get('spEntityId').map(field => (
-            <Button
-              kind="secondary"
-              icon="lib_actions_download"
-              href={`/api/settings/authentication/saml/metadata?spEntityId=${encodeURIComponent(field.value)}`}
-            >
-              Configuration Metadata
-            </Button>
-          ))}
-
-          <ul className={locals.list}>
-            <li>Download the Configuration Metadata via the link above.</li>
-            <li>Upload the Instana metadata file to your IdP.</li>
-            <li>Download the IdP-metadata issued from your IdP.</li>
-            <li>{`Use 'Upload IdP Metadata' below to deliver the file to Instana.`}</li>
-          </ul>
-        </Section>
-        <Section restrictWidth="50rem">
           <h2>Manual setup</h2>
           <p className={locals.descriptionText}>
             {`This option covers the case where your IdP doesn't allow the upload of our metadata. Your IdP will require the
-          creation of a SAML-app and manually entering the required values. The values required to connect to Instana
+          creation of an OIDC-app and manually entering the required values. The values required to connect to Instana
           are as follows:`}
           </p>
 
           <Row className={indentityProvidersLocals.row}>
             <Col xs={12}>
-              <CopyableText title="ACS URL" form={form} fieldName="samlSignInCallbackUrl" />
+              <CopyableText title="ACS URL" form={form} fieldName="oidcSignInCallbackUrl" />
             </Col>
             <Col xs={12}>
-              <CopyableText title="Logout URL" form={form} fieldName="samlSignOutCallbackUrl" />
+              <CopyableText title="Logout URL" form={form} fieldName="oidcSignOutCallbackUrl" />
             </Col>
             <Col xs={12}>
               <CopyableText title="Audience/SP Entity ID" form={form} fieldName="spEntityId" />
@@ -181,7 +167,11 @@ function Content({ file, form, setForm, input, setCanSaveItem }) {
 
         <Section restrictWidth="50rem">
           <h2>Upload IdP Metadata</h2>
-          <div className={locals.flexWrapper}>
+          <p>
+            You can either upload your IdP Metadata via a file upload or use a discovery URL and secret of your OIDC
+            configuration and Instana will fetch it automatically.
+          </p>
+          <div>
             <Button
               kind="secondary"
               icon="lib_views_file"
@@ -193,6 +183,46 @@ function Content({ file, form, setForm, input, setCanSaveItem }) {
             >
               {file ? shorten(file.name, 32) : 'Choose file…'}
             </Button>
+
+            <p>Some text here maybe:</p>
+
+            {form.get('discoveryUri').map(field => (
+              <FormGroup>
+                <Label htmlFor="url" hasError={!field.valid && field.touched}>
+                  Discovery URL
+                </Label>
+                <Input
+                  className={locals.input}
+                  type="text"
+                  id="discoveryUri"
+                  value={field.value}
+                  onChange={e => {
+                    setForm(form.updateIn(['discoveryUri'], f => f.setValue(e.target.value).setTouched(true)));
+                  }}
+                  disabled={!!file} // this input is disabled when a metadata file has been upload
+                  autoComplete="off"
+                />
+              </FormGroup>
+            ))}
+
+            {form.get('secret').map(field => (
+              <FormGroup>
+                <Label htmlFor="secret" hasError={!field.valid && field.touched}>
+                  Secret
+                </Label>
+                <Input
+                  className={locals.input}
+                  type="text"
+                  id="secret"
+                  value={field.value}
+                  onChange={e => {
+                    setForm(form.updateIn(['secret'], f => f.setValue(e.target.value).setTouched(true)));
+                  }}
+                  disabled={!!file} // this input is disabled when a metadata file has been upload
+                  autoComplete="off"
+                />
+              </FormGroup>
+            ))}
           </div>
         </Section>
       </form>
@@ -226,9 +256,9 @@ function deleteItem({ setMessage }) {
   );
 }
 
-function saveItem({ setMessage, idpMetadata, spEntityId }) {
+function saveItem({ setMessage, idpMetadata, spEntityId, ownerEmail, discoveryUri, secret }) {
   setMessage({ message: 'Saving config', type: neutral, isSaving: true });
-  const setConfigResult$ = setConfig({ idpMetadata, spEntityId });
+  const setConfigResult$ = setConfig({ idpMetadata, spEntityId, ownerEmail, discoveryUri, secret });
   setConfigResult$.once(
     () => setMessage({ text: 'Config successfully saved.', type: success }),
     error => setMessage({ text: `Failed to save config: ${error.message}`, type: errorType })
@@ -238,9 +268,11 @@ function saveItem({ setMessage, idpMetadata, spEntityId }) {
 function enrichForm(form, { setCanDeleteItem, result: { config } }) {
   setCanDeleteItem(!!config.activated);
   return form
-    .put('samlSignInCallbackUrl', createField({ value: config.samlSignInCallbackUrl || '' }))
-    .put('samlSignOutCallbackUrl', createField({ value: config.samlSignOutCallbackUrl || '' }))
+    .put('oidcSignInCallbackUrl', createField({ value: config.oidcSignInCallbackUrl || '' }))
+    .put('oidcSignOutCallbackUrl', createField({ value: config.oidcSignOutCallbackUrl || '' }))
     .put('spEntityId', createField({ value: config.spEntityId || '' }))
-    .put('ownerEmail', createField({ value: '' }))
-    .put('nameIdFormat', createField({ value: config.nameIdFormat || '' }));
+    .put('ownerEmail', createField({ value: config.spEntityId || '' }))
+    .put('nameIdFormat', createField({ value: config.nameIdFormat || '' }))
+    .put('discoveryUri', createField({ value: config.discoveryUri || '' }))
+    .put('secret', createField({ value: config.secret || '' }));
 }

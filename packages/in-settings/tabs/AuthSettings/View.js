@@ -8,6 +8,7 @@ import {
   authSettings,
   googleSSO,
   saml,
+  oidc,
   ldap,
   twoFactorAuth,
   twoFaUsers,
@@ -24,18 +25,23 @@ import TwoFactorSettings from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import ChangePassword from 'in-settings/tabs/AuthSettings/pages/password/ChangePassword';
 import { isAvailable as isLdapAvailable } from 'in-settings/tabs/AuthSettings/api/ldap';
+import { isAvailable as isOidcAvailable } from 'in-settings/tabs/AuthSettings/api/oidc';
 import Saml from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Saml/Saml';
+import OIDC from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/OIDC';
 import Ldap from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap';
 import SamlMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Saml/Saml';
 import LdapMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Ldap/Ldap';
 import Users from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Users';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
+import { oidcEnabled } from 'in-services/featureFlags';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { isOwner, role } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
 
 function getNavigationTree(props) {
-  const isAtLeastOneAuthMethogAvailable = props.isGoogleSSOAvailable || props.isSamlAvailable || props.isLdapAvailable;
+  const isAtLeastOneAuthMethogAvailable =
+    props.isGoogleSSOAvailable || props.isSamlAvailable || props.isLdapAvailable || props.isOidcAvailable;
+
   const isSamlActivated = props.samlConfig.data?.activated;
 
   const navigationTree = [
@@ -63,6 +69,12 @@ function getNavigationTree(props) {
           label: 'SAML',
           component: Saml
         },
+        props.isOidcAvailable &&
+          oidcEnabled && {
+            path: oidc,
+            label: 'OpenID Connect',
+            component: OIDC
+          },
         props.isLdapAvailable && {
           path: ldap,
           label: 'LDAP',
@@ -124,7 +136,8 @@ export default connectTo(
     isGoogleSSOAvailable: isGoogleSSOAvailable(),
     isSamlAvailable: isSamlAvailable(),
     samlConfig: getConfigAsResultObservable(),
-    isLdapAvailable: isLdapAvailable()
+    isLdapAvailable: isLdapAvailable(),
+    isOidcAvailable: isOidcAvailable()
   },
 
   function View(props) {

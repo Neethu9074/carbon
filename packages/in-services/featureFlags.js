@@ -47,6 +47,7 @@ export const smartAlertsAdvancedEntitySelectionEnabled = isFeatureFlagEnabled(
 export const showUserSettingInternalTagsInUA = isFeatureFlagEnabled('showUserSettingInternalTagsInUA', false);
 export const qb2InAPCreationEnabled = isFeatureFlagEnabled('qb2InAPCreationEnabled');
 export const languageSelectorEnabled = isFeatureFlagEnabled('languageSelectorEnabled');
+export const oidcEnabled = isFeatureFlagEnabled('oidcEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords
