@@ -6,6 +6,7 @@ import { t } from 'in-i18n';
 import React from 'react';
 
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
+import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import CallsErrorsChart from 'in-applications/Dashboards/commonComponents/CallsErrorsChart';
 import HttpSections from 'in-applications/Dashboards/commonComponents/http/HttpSections';
 
@@ -91,7 +92,7 @@ export default function CallsAndHttp({
   showHttp,
   hasHttpAndOtherEndpoints,
   urlMatrixParamConfig,
-  isSynthetic
+  syntheticCalls
 }) {
   const tabs = showHttp ? allTabs : callsOnlyTab;
   const metrics = showHttp
@@ -118,7 +119,7 @@ export default function CallsAndHttp({
         renderPostChartContent={renderPostChartContent}
         renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
         hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
-        isSynthetic={isSynthetic}
+        isSynthetic={isSyntheticOption(syntheticCalls)}
       />
     </TimeShiftAwareChartSelectorWithUrlState>
   );

@@ -7,21 +7,22 @@ import { t } from 'in-i18n';
 import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import { endpointDashboard, summaryTab, errorMessagesTab, logMessagesTab } from 'in-applications/navigation/paths';
 import ApplicationContextIcon from 'in-applications/components/ApplicationSwitcherContext/ApplicationContextIcon';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
+import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-services/featureFlags';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import ServiceContextIcon from 'in-applications/components/ServiceContext/ServiceContextIcon';
+import IncludeSyntheticCallsDropdown from '../commonComponents/IncludeSyntheticCallsDropdown';
 import { endpointDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAlert';
-import { endpointDashboard, summaryTab } from 'in-applications/navigation/paths';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
-import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
 import ServiceContext from 'in-applications/components/ServiceContext';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
@@ -44,12 +45,15 @@ const urlStateDefinition = {
     endpointDashboardUrlParameters.applicationId,
     endpointDashboardUrlParameters.serviceId,
     endpointDashboardUrlParameters.endpointId,
-    endpointDashboardUrlParameters.boundaryScope
+    endpointDashboardUrlParameters.boundaryScope,
+    endpointDashboardUrlParameters.syntheticCalls
   ]
 };
 
 export default function EndpointDashboard({ location }) {
-  const [{ appId, serviceId, endpointId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
+  const [{ appId, serviceId, endpointId, boundaryScope, syntheticCalls }, setUrlState] = useUrlState(
+    urlStateDefinition
+  );
   const timeConfig = useTimeConfig();
 
   const props = {
@@ -62,6 +66,8 @@ export default function EndpointDashboard({ location }) {
     onChange: setUrlState,
     timeConfig,
     onBoundaryStateChange: setUrlState,
+    syntheticCalls,
+    onSyntheticCallsStateChange: setUrlState,
     location
   };
 
@@ -82,7 +88,10 @@ export default function EndpointDashboard({ location }) {
   // Fetch the missing serviceId, so that the service name can be shown in breadcrumbs navigation.
   // This should not trigger any additional backend request, because the same endpoint is called
   // a few lines below anyway and we are reusing the same request config object.
-  const getEndpointParams = { id: props.endpointId, filter: { timeConfig } };
+  const getEndpointParams = {
+    id: props.endpointId,
+    filter: { timeConfig }
+  };
   const endpoint = useObservable(getEndpoint(getEndpointParams), [props.endpointId]);
   if (!props.serviceId) {
     props.serviceId = endpoint?.data?.serviceId;
@@ -192,7 +201,15 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
   );
 }
 
-function renderButtonLineSecondary({ currentTab, applicationId, boundaryScope, onBoundaryStateChange, timeConfig }) {
+function renderButtonLineSecondary({
+  currentTab,
+  applicationId,
+  boundaryScope,
+  onBoundaryStateChange,
+  syntheticCalls,
+  onSyntheticCallsStateChange,
+  timeConfig
+}) {
   return (
     <>
       <TimeShiftDropdown
@@ -211,6 +228,13 @@ function renderButtonLineSecondary({ currentTab, applicationId, boundaryScope, o
           boundaryScope={boundaryScope}
           onBoundaryStateChange={onBoundaryStateChange}
           disabled={location.pathname === '/endpoint/flowMap'}
+        />
+      )}
+      {syntheticCallsEnabled && (
+        <IncludeSyntheticCallsDropdown
+          syntheticCalls={syntheticCalls}
+          onSyntheticCallsStateChange={onSyntheticCallsStateChange}
+          disabled={currentTab === errorMessagesTab || currentTab === logMessagesTab}
         />
       )}
     </>

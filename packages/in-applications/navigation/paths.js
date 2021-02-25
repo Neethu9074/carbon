@@ -7,6 +7,7 @@ import {
   serviceId as matrixServiceId,
   endpointId as matrixEndpointId,
   boundaryScope as matrixBoundaryScope,
+  syntheticCalls as matrixSyntheticCalls,
   contextScope as matrixContextScope,
   applicationId as applicationIdMatrixParam,
   alertCreated as alertCreatedMatrixParam,
@@ -37,6 +38,8 @@ export const endpointDashboard = '/endpoint';
 export const configureEndpointsView = '/service/endpoints/configure';
 
 export const summaryTab = '/summary';
+export const errorMessagesTab = '/errorMessages';
+export const logMessagesTab = '/logMessages';
 
 export const alertsTab = '/alerts';
 export const alertsTabListFullyQualified = `${applicationDashboard}${alertsTab}`;
@@ -134,7 +137,7 @@ export function getServiceList({
 
 export function getApplicationDashboard(
   applicationId,
-  { serviceId, endpointId, boundaryScope, tab, tabMatrix, timeConfig } = emptyObject
+  { serviceId, endpointId, boundaryScope, tab, tabMatrix, timeConfig, syntheticCalls } = emptyObject
 ) {
   return getDashboard({
     base: applicationDashboard,
@@ -144,13 +147,14 @@ export function getApplicationDashboard(
     boundaryScope,
     tab,
     tabMatrix,
-    timeConfig
+    timeConfig,
+    syntheticCalls
   });
 }
 
 export function getServiceDashboard(
   serviceId,
-  { applicationId, endpointId, boundaryScope, tab, tabMatrix, timeConfig } = emptyObject
+  { applicationId, endpointId, boundaryScope, tab, tabMatrix, timeConfig, syntheticCalls } = emptyObject
 ) {
   return getDashboard({
     base: serviceDashboard,
@@ -160,13 +164,14 @@ export function getServiceDashboard(
     boundaryScope,
     tab,
     tabMatrix,
-    timeConfig
+    timeConfig,
+    syntheticCalls
   });
 }
 
 export function getEndpointDashboard(
   endpointId,
-  { applicationId, serviceId, boundaryScope, tab, tabMatrix, timeConfig } = emptyObject
+  { applicationId, serviceId, boundaryScope, syntheticCalls, tab, tabMatrix, timeConfig } = emptyObject
 ) {
   return getDashboard({
     base: endpointDashboard,
@@ -174,6 +179,7 @@ export function getEndpointDashboard(
     endpointId,
     serviceId,
     boundaryScope,
+    syntheticCalls,
     tab,
     tabMatrix,
     timeConfig
@@ -186,6 +192,7 @@ function getDashboard({
   serviceId,
   endpointId,
   boundaryScope,
+  syntheticCalls,
   tab = summaryTab,
   tabMatrix = {},
   timeConfig
@@ -196,6 +203,7 @@ function getDashboard({
     setOrDeleteMatrixKey(params, base, matrixServiceId, serviceId);
     setOrDeleteMatrixKey(params, base, matrixEndpointId, endpointId);
     setOrDeleteMatrixKey(params, base, matrixBoundaryScope, boundaryScope);
+    setOrDeleteMatrixKey(params, base, matrixSyntheticCalls, syntheticCalls);
 
     if (timeConfig != null) {
       setTimeConfig(params, timeConfig);

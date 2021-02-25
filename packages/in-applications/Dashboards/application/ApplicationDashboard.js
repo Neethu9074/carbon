@@ -7,12 +7,14 @@ import { t } from 'in-i18n';
 import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import IncludeSyntheticCallsDropdown from 'in-applications/Dashboards/commonComponents/IncludeSyntheticCallsDropdown';
+import { applicationDashboard, summaryTab, errorMessagesTab, logMessagesTab } from 'in-applications/navigation/paths';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
+import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAlert';
-import { applicationDashboard, summaryTab } from 'in-applications/navigation/paths';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
@@ -23,6 +25,7 @@ import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { entityTypes } from 'in-analyze/applicationFilter';
@@ -32,11 +35,15 @@ import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
 
 const urlStateDefinition = {
-  bind: [applicationDashboardUrlParameters.applicationId, applicationDashboardUrlParameters.boundaryScope]
+  bind: [
+    applicationDashboardUrlParameters.applicationId,
+    applicationDashboardUrlParameters.boundaryScope,
+    applicationDashboardUrlParameters.syntheticCalls
+  ]
 };
 
 export default function ApplicationDashboard({ location }) {
-  const [{ appId, boundaryScope }, setUrlState] = useUrlState(urlStateDefinition);
+  const [{ appId, boundaryScope, syntheticCalls }, setUrlState] = useUrlState(urlStateDefinition);
   const timeConfig = useTimeConfig();
 
   const endpointTypes = useObservable(
@@ -44,10 +51,11 @@ export default function ApplicationDashboard({ location }) {
       filter: {
         application: appId,
         timeConfig: timeConfig,
-        applicationBoundaryScope: boundaryScope
+        applicationBoundaryScope: boundaryScope,
+        includeSyntheticCalls: isSyntheticOption(syntheticCalls)
       }
     }).map(result => result?.data),
-    [appId, timeConfig, boundaryScope]
+    [appId, timeConfig, boundaryScope, syntheticCalls]
   );
 
   const props = {
@@ -59,6 +67,8 @@ export default function ApplicationDashboard({ location }) {
     location,
     currentTab: location.pathname.substr(location.pathname.lastIndexOf('/')),
     onBoundaryStateChange: setUrlState,
+    syntheticCalls: syntheticCalls,
+    onSyntheticCallsStateChange: setUrlState,
     endpointTypes
   };
 
@@ -138,7 +148,15 @@ function renderButtonLine(props) {
   );
 }
 
-function renderButtonLineSecondary({ result, boundaryScope, currentTab, onBoundaryStateChange, timeConfig }) {
+function renderButtonLineSecondary({
+  result,
+  boundaryScope,
+  syntheticCalls,
+  currentTab,
+  onBoundaryStateChange,
+  onSyntheticCallsStateChange,
+  timeConfig
+}) {
   return (
     <>
       <TimeShiftDropdown
@@ -158,6 +176,14 @@ function renderButtonLineSecondary({ result, boundaryScope, currentTab, onBounda
         onBoundaryStateChange={onBoundaryStateChange}
         disabled={location.pathname === '/application/map'}
       />
+      {syntheticCallsEnabled && (
+        <IncludeSyntheticCallsDropdown
+          data={result.data}
+          syntheticCalls={syntheticCalls}
+          onSyntheticCallsStateChange={onSyntheticCallsStateChange}
+          disabled={currentTab === errorMessagesTab || currentTab === logMessagesTab}
+        />
+      )}
     </>
   );
 }

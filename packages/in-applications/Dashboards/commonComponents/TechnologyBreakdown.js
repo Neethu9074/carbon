@@ -6,6 +6,10 @@ import theme from 'in-themes';
 import { t } from 'in-i18n';
 import React from 'react';
 
+import {
+  getTagFiltersForSyntheticOption,
+  isSyntheticOption
+} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import getTechnologyBreakdown from 'in-applications/subscriptions/getTechnologyBreakdown';
 import { endpointNameTranslations, getColorChart } from 'in-applications/endpointTypes';
@@ -22,14 +26,15 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ applicationId, serviceId, endpointId, boundaryScope, timeConfig }) => ({
+  ({ applicationId, serviceId, endpointId, boundaryScope, timeConfig, syntheticCalls }) => ({
     result: getTechnologyBreakdown({
       filter: {
         application: applicationId,
         service: serviceId,
         endpoint: endpointId,
         applicationBoundaryScope: boundaryScope,
-        timeConfig: extendWindowSizeOnLiveMode(timeConfig)
+        timeConfig: extendWindowSizeOnLiveMode(timeConfig),
+        includeSyntheticCalls: isSyntheticOption(syntheticCalls)
       },
       breakdownType: 'PROCESSING_TIME',
       granularity: getChartGranularity(timeConfig)
@@ -42,7 +47,7 @@ export default connectTo(
     timeConfig,
     result,
     boundaryScope,
-    isSynthetic,
+    syntheticCalls,
     renderPostChartContent
   }) {
     const tagCatalog = useTagCatalog(getTagCatalog);
@@ -95,11 +100,8 @@ export default connectTo(
                   timeConfig: highlightedTime,
                   showGraph: true,
                   jumpToSource: endpointId ? 'endpoint' : serviceId ? 'service' : 'application',
-                  filters: isSynthetic
-                    ? [
-                        { name: 'call.is_synthetic', value: 'true' },
-                        { name: 'include_synthetic', value: 'true' }
-                      ]
+                  filters: isSyntheticOption(syntheticCalls)
+                    ? getTagFiltersForSyntheticOption(syntheticCalls)
                     : filtersBasedOnMetrics(labels, config),
                   tagCatalog: tagCatalog,
                   groupByTag: { name: 'call.type', entity: entityTypes.NOT_APPLICABLE },

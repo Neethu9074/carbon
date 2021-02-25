@@ -10,6 +10,7 @@ export const applicationId = 'appId';
 export const serviceId = 'serviceId';
 export const endpointId = 'endpointId';
 export const boundaryScope = 'boundaryScope';
+export const syntheticCalls = 'syntheticCalls';
 export const contextScope = 'contextScope';
 export const hideUpstream = 'hideUpstream';
 export const hideDownstream = 'hideDownstream';

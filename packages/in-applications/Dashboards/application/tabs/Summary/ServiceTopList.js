@@ -28,7 +28,13 @@ const companionAggregations = [null, null, 'MEAN'];
 const companionFormatters = [null, null, percentage.detailed];
 const colors = [null, null, theme.lib.colors.failure];
 
-export default function ServiceTopList({ applicationId, boundaryScope, timeConfig, urlMatrixParamConfig }) {
+export default function ServiceTopList({
+  applicationId,
+  boundaryScope,
+  timeConfig,
+  urlMatrixParamConfig,
+  includeSyntheticCalls
+}) {
   return (
     <TopListWithUrlState
       title={t('in-applications:titleTopServices')}
@@ -50,6 +56,7 @@ export default function ServiceTopList({ applicationId, boundaryScope, timeConfi
       boundaryScope={boundaryScope}
       colors={colors}
       urlMatrixParamConfig={urlMatrixParamConfig}
+      includeSyntheticCalls={includeSyntheticCalls}
     />
   );
 }
@@ -61,7 +68,8 @@ function getList({
   selectedMetric,
   selectedMetricAggregation,
   selectedCompanionMetric,
-  selectedCompanionMetricAggregation
+  selectedCompanionMetricAggregation,
+  includeSyntheticCalls
 }) {
   const metrics = {
     [selectedMetric]: {
@@ -89,7 +97,8 @@ function getList({
     filter: {
       application: applicationId,
       applicationBoundaryScope: boundaryScope,
-      timeConfig
+      timeConfig,
+      includeSyntheticCalls
     }
   });
 }

@@ -13,6 +13,7 @@ import {
 } from 'in-applications/navigation/urlParameters';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
+import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -25,6 +26,7 @@ import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
+import { syntheticCallsOptions } from 'in-applications/constants';
 import getServices from 'in-subscription/application/getServices';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
@@ -43,7 +45,7 @@ const columnDefinitions = [
   {
     id: 'serviceLabel',
     label: t('in-applications:labelName'),
-    getContent(item, { applicationId, endpointId, boundaryScope }) {
+    getContent(item, { applicationId, endpointId, boundaryScope, syntheticCalls }) {
       return (
         <SeverityAwareEntityLink
           severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
@@ -52,7 +54,8 @@ const columnDefinitions = [
           href$={getServiceDashboard(item.service.id, {
             applicationId,
             boundaryScope,
-            endpointId
+            endpointId,
+            syntheticCalls
           })}
         />
       );
@@ -197,7 +200,8 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     applicationDashboardUrlParameters.applicationId,
     applicationDashboardUrlParameters.serviceId,
     applicationDashboardUrlParameters.endpointId,
-    applicationDashboardUrlParameters.boundaryScope
+    applicationDashboardUrlParameters.boundaryScope,
+    applicationDashboardUrlParameters.syntheticCalls
   ],
   columnDefinitions,
   defaultOrderBy: 'callsAgg',
@@ -222,12 +226,14 @@ export default function ServiceList(props) {
     endpointId,
     data: application,
     boundaryScope: urlBoundaryScope,
+    syntheticCalls: urlSyntheticCalls,
     applicationName
   } = props;
 
   const [{ endpointTypes, technologies }, setFilter] = useUrlState(urlStateDefinition);
 
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
+  const syntheticCalls = urlSyntheticCalls || syntheticCallsOptions.default;
 
   const rightHeader = ({ query }) => (
     <Filters
@@ -255,6 +261,7 @@ export default function ServiceList(props) {
           rightHeader={rightHeader}
           endpointTypes={endpointTypes}
           technologies={technologies}
+          syntheticCalls={syntheticCalls}
         />
       </Card>
       <Footer />
@@ -274,7 +281,8 @@ function getTableData({
   boundaryScope,
   endpointTypes = [],
   technologies = [],
-  timeConfig
+  timeConfig,
+  syntheticCalls
 }) {
   const granularity = getSparkChartGranularity(timeConfig);
   return getServices({
@@ -342,6 +350,7 @@ function getTableData({
       service: serviceId,
       endpoint: endpointId,
       applicationBoundaryScope: boundaryScope,
+      includeSyntheticCalls: isSyntheticOption(syntheticCalls),
       endpointTypes,
       technologies,
       timeConfig

@@ -43,6 +43,7 @@ export default function HttpSections({
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
+    includeSynthetic: isSynthetic,
     timeShift: 0
   };
 
@@ -52,6 +53,7 @@ export default function HttpSections({
     source: 'APPLICATION',
     tagFilters: [{ name: 'call.http.status', operator: IS_EMPTY }, ...tagFilters],
     timeConfig: timeConfig,
+    includeSynthetic: isSynthetic,
     timeShift: 0
   };
 

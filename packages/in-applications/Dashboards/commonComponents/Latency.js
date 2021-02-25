@@ -52,6 +52,7 @@ export default function Latency({
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
+    includeSynthetic: isSynthetic,
     timeShift: 0
   };
 

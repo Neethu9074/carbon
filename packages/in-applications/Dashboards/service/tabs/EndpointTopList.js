@@ -28,7 +28,14 @@ const companionAggregations = [null, null, 'MEAN'];
 const companionFormatters = [null, null, percentage.detailed];
 const colors = [null, null, theme.lib.colors.failure];
 
-export default function EndpointTopList({ applicationId, serviceId, boundaryScope, timeConfig, urlMatrixParamConfig }) {
+export default function EndpointTopList({
+  applicationId,
+  serviceId,
+  boundaryScope,
+  timeConfig,
+  urlMatrixParamConfig,
+  includeSyntheticCalls
+}) {
   return (
     <TopListWithUrlState
       title={t('in-applications:titleTopEndpoints')}
@@ -51,6 +58,7 @@ export default function EndpointTopList({ applicationId, serviceId, boundaryScop
       boundaryScope={boundaryScope}
       colors={colors}
       urlMatrixParamConfig={urlMatrixParamConfig}
+      includeSyntheticCalls={includeSyntheticCalls}
     />
   );
 }
@@ -63,7 +71,8 @@ function getList({
   selectedMetric,
   selectedMetricAggregation,
   selectedCompanionMetric,
-  selectedCompanionMetricAggregation
+  selectedCompanionMetricAggregation,
+  includeSyntheticCalls
 }) {
   const metrics = {
     [selectedMetric]: {
@@ -90,20 +99,21 @@ function getList({
     filter: {
       application: applicationId,
       service: serviceId,
-      includeSyntheticCalls: false,
+      includeSyntheticCalls: includeSyntheticCalls,
       applicationBoundaryScope: boundaryScope,
       timeConfig
     }
   });
 }
 
-function ViewAll({ applicationId, serviceId, boundaryScope, selectedMetric }, className) {
+function ViewAll({ applicationId, serviceId, boundaryScope, selectedMetric, syntheticCalls }, className) {
   return (
     <Link
       className={className}
       href$={getServiceDashboard(serviceId, {
         applicationId,
         boundaryScope,
+        syntheticCalls,
         tab: '/endpoints',
         tabMatrix: {
           'endpoint.orderBy': `${selectedMetric}Agg`,
@@ -116,11 +126,11 @@ function ViewAll({ applicationId, serviceId, boundaryScope, selectedMetric }, cl
   );
 }
 
-function Label({ item, applicationId, serviceId, boundaryScope }, _item, className) {
+function Label({ item, applicationId, serviceId, boundaryScope, syntheticCalls }, _item, className) {
   return (
     <Link
       className={className}
-      href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId, boundaryScope })}
+      href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId, boundaryScope, syntheticCalls })}
       onClick={() => trackTopListNavigation()}
     >
       {item.endpoint.label}

@@ -48,6 +48,7 @@ export const showUserSettingInternalTagsInUA = isFeatureFlagEnabled('showUserSet
 export const qb2InAPCreationEnabled = isFeatureFlagEnabled('qb2InAPCreationEnabled');
 export const languageSelectorEnabled = isFeatureFlagEnabled('languageSelectorEnabled');
 export const oidcEnabled = isFeatureFlagEnabled('oidcEnabled');
+export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords

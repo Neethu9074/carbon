@@ -19,10 +19,13 @@ export default connectTo(
       id: props.serviceId
     })
   }),
-  function ServiceContext({ service, serviceId, applicationId, boundaryScope }) {
+  function ServiceContext({ service, serviceId, applicationId, boundaryScope, syntheticCalls }) {
     return (
       <Tooltip content={service.data ? service.data.label : t('in-applications:labelService')} delay={500}>
-        <Link className={locals.link} href$={getServiceDashboard(serviceId, { applicationId, boundaryScope })}>
+        <Link
+          className={locals.link}
+          href$={getServiceDashboard(serviceId, { applicationId, boundaryScope, syntheticCalls })}
+        >
           {service.data ? service.data.label : t('in-applications:labelService')}
         </Link>
       </Tooltip>

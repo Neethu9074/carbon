@@ -28,3 +28,25 @@ export const boundaryScopes = {
 export const switchScope = boundaryScope => {
   return boundaryScope === boundaryScopes.all ? boundaryScopes.inbound : boundaryScopes.all;
 };
+
+export const syntheticCallsOptions = {
+  default: 'EXCLUDE',
+  exclude: 'EXCLUDE',
+  include: 'INCLUDE',
+  only: 'ONLY',
+
+  info: {
+    EXCLUDE: {
+      label: 'Exclude',
+      description: 'Synthetic calls are excluded from the metrics.'
+    },
+    INCLUDE: {
+      label: 'Include',
+      description: 'Synthetic calls are included in the metrics.'
+    },
+    ONLY: {
+      label: 'Only',
+      description: 'Only synthetic calls are shown and included in the metrics'
+    }
+  }
+};

@@ -39,6 +39,7 @@ export default function CallsErrorsChart({
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
+    includeSynthetic: isSynthetic,
     timeShift: 0
   };
 

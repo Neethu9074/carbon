@@ -6,6 +6,10 @@ import theme from 'in-themes';
 import { t } from 'in-i18n';
 import React from 'react';
 
+import {
+  getTagFiltersForSyntheticOption,
+  isSyntheticOption
+} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
@@ -23,7 +27,7 @@ export default function Errors({
   tagFilters,
   boundaryScope,
   cardTitle,
-  isSynthetic,
+  syntheticCalls,
   groupByTag,
   renderPostChartContent
 }) {
@@ -39,6 +43,7 @@ export default function Errors({
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
+    includeSynthetic: isSyntheticOption(syntheticCalls),
     granularity,
     timeShift: 0,
     color: theme.lib.colors.failure
@@ -111,12 +116,8 @@ export default function Errors({
                   timeConfig: highlightedTime,
                   boundaryScope,
                   groupByTag,
-                  filters: isSynthetic
-                    ? [
-                        { name: 'call.is_synthetic', value: 'true' },
-                        { name: 'include_synthetic', value: 'true' },
-                        { name: 'call.erroneous', value: 'true' }
-                      ]
+                  filters: isSyntheticOption(syntheticCalls)
+                    ? [...getTagFiltersForSyntheticOption(syntheticCalls), { name: 'call.erroneous', value: 'true' }]
                     : [{ name: 'call.erroneous', value: 'true' }],
                   tagCatalog: tagCatalog,
                   metrics: [

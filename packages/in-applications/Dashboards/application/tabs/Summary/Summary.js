@@ -7,6 +7,10 @@ import { t } from 'in-i18n';
 
 import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
+import {
+  getTagFiltersForSyntheticOption,
+  isSyntheticOption
+} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
@@ -15,6 +19,7 @@ import { hasHttpEndpoints, hasHttpAndOtherEndpoints } from 'in-applications/endp
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
+import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
@@ -23,7 +28,6 @@ import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { summaryTab } from 'in-applications/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { entityTypes } from 'in-analyze/applicationFilter';
-import { boundaryScopes } from 'in-applications/constants';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Footer from 'in-new-components/Footer/Footer';
 
@@ -32,11 +36,14 @@ export default function Summary({
   applicationId,
   data: application,
   boundaryScope: urlBoundaryScope,
+  syntheticCalls: urlIncludeSyntheticCalls,
   endpointTypes: types
 }) {
   const timeShiftConfig = useTimeShiftConfig();
   const tagCatalog = useTagCatalog(getTagCatalog);
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
+  const syntheticCalls = urlIncludeSyntheticCalls || syntheticCallsOptions.default;
+  const includeSyntheticCalls = isSyntheticOption(syntheticCalls);
 
   let tagFilters = [
     boundaryScope === boundaryScopes.all
@@ -46,7 +53,8 @@ export default function Summary({
           name: 'boundary.application.id',
           entity: NOT_APPLICABLE,
           operator: EQUALS
-        }
+        },
+    ...getTagFiltersForSyntheticOption(syntheticCalls)
   ];
 
   const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId });
@@ -70,6 +78,7 @@ export default function Summary({
                 aggregation: 'SUM',
                 source: 'APPLICATION',
                 tagFilters: tagFilters,
+                includeSynthetic: includeSyntheticCalls,
                 timeShift: timeShiftConfig.offset
               }
             }}
@@ -85,7 +94,7 @@ export default function Summary({
                     timeConfig,
                     boundaryScope,
                     groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
-                    filters: [],
+                    filters: getTagFiltersForSyntheticOption(syntheticCalls),
                     tagCatalog: tagCatalog,
                     metrics: [
                       { metric: 'erroneousCalls', aggregation: 'SUM' },
@@ -117,14 +126,15 @@ export default function Summary({
                 aggregation: 'SUM',
                 source: 'APPLICATION',
                 tagFilters: tagFilters,
+                includeSynthetic: includeSyntheticCalls,
                 timeShift: timeShiftConfig.offset
               },
               companionMetricConfiguration: {
                 metric: 'errors',
                 aggregation: 'MEAN',
                 source: 'APPLICATION',
-
-                tagFilters: tagFilters
+                tagFilters: tagFilters,
+                includeSynthetic: includeSyntheticCalls
               }
             }}
             iconAction={{
@@ -139,7 +149,10 @@ export default function Summary({
                     timeConfig,
                     boundaryScope,
                     groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
-                    filters: [{ name: 'call.erroneous', value: 'true' }],
+                    filters: [
+                      { name: 'call.erroneous', value: 'true' },
+                      ...getTagFiltersForSyntheticOption(syntheticCalls)
+                    ],
                     tagCatalog: tagCatalog,
                     metrics: [
                       { metric: 'errors', aggregation: 'MEAN' },
@@ -168,13 +181,15 @@ export default function Summary({
                 aggregation: 'MEAN',
                 source: 'APPLICATION',
                 tagFilters: tagFilters,
+                includeSynthetic: includeSyntheticCalls,
                 timeShift: timeShiftConfig.offset
               },
               companionMetricConfiguration: {
                 metric: 'latency',
                 aggregation: 'P90',
                 source: 'APPLICATION',
-                tagFilters: tagFilters
+                tagFilters: tagFilters,
+                includeSynthetic: includeSyntheticCalls
               }
             }}
             iconAction={{
@@ -188,6 +203,7 @@ export default function Summary({
                   {
                     timeConfig,
                     boundaryScope,
+                    filters: getTagFiltersForSyntheticOption(syntheticCalls),
                     groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
                     tagCatalog: tagCatalog,
                     orderBy: 'latency_MEAN_Agg',
@@ -213,6 +229,7 @@ export default function Summary({
             showHttp={!types || hasHttpEndpoints(types)}
             hasHttpAndOtherEndpoints={!types || hasHttpAndOtherEndpoints(types)}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'callsTab', paramMetric: 'callsMetric' }}
+            syntheticCalls={syntheticCalls}
           />
         </Col>
         <Col lg={4}>
@@ -224,6 +241,7 @@ export default function Summary({
             tagFilters={tagFilters}
             groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
             renderPostChartContent={withPotentialProblemsLane}
+            syntheticCalls={syntheticCalls}
           />
         </Col>
         <Col lg={4}>
@@ -235,6 +253,7 @@ export default function Summary({
             tagFilters={tagFilters}
             percentileGroupBy={{ name: 'service.name', entity: entityTypes.DESTINATION }}
             renderPostChartContent={withPotentialProblemsLane}
+            includeSyntheticCalls={includeSyntheticCalls}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'latencyTab', paramMetric: 'latencyMetric' }}
           />
         </Col>
@@ -249,6 +268,7 @@ export default function Summary({
             boundaryScope={boundaryScope}
             timeConfig={timeConfig}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'servicesTab' }}
+            includeSyntheticCalls={includeSyntheticCalls}
           />
         </Col>
         <Col lg={4}>
@@ -257,6 +277,7 @@ export default function Summary({
             boundaryScope={boundaryScope}
             timeConfig={timeConfig}
             renderPostChartContent={MarkerLanes}
+            syntheticCalls={syntheticCalls}
           />
         </Col>
       </Row>

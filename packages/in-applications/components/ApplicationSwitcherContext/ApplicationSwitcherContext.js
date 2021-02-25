@@ -18,7 +18,7 @@ import Link from 'in-components/Link';
 import locals from './ApplicationSwitcherContext.mless';
 
 export default function ApplicationSwitcherContext(props) {
-  const { applicationId, serviceId, endpointId, timeConfig, boundaryScope } = props;
+  const { applicationId, serviceId, endpointId, timeConfig, boundaryScope, syntheticCalls } = props;
   const application = useObservable(getApplicationObservable, [applicationId]) ?? pendingResult;
   const applications = useObservable(getApplicationsObservable, [serviceId, endpointId, timeConfig]) ?? pendingResult;
 
@@ -29,7 +29,7 @@ export default function ApplicationSwitcherContext(props) {
     applications.errors.length > 0
   ) {
     return (
-      <Link className={locals.link} href$={getApplicationDashboard(applicationId, { boundaryScope })}>
+      <Link className={locals.link} href$={getApplicationDashboard(applicationId, { boundaryScope, syntheticCalls })}>
         {t('in-applications:labelApplication')}
       </Link>
     );
@@ -41,14 +41,17 @@ export default function ApplicationSwitcherContext(props) {
   return (
     <>
       {hasOnlyOneApplication ? (
-        <Link className={locals.link} href$={getApplicationDashboard(applicationId, { boundaryScope })}>
+        <Link className={locals.link} href$={getApplicationDashboard(applicationId, { boundaryScope, syntheticCalls })}>
           <Context context={t('in-applications:labelApplication')} label={application.data.label} />
         </Link>
       ) : (
         <Overlay content={ApplicationSwitcher} props={{ ...props, application, applications }} autoOpen>
           {() => (
             <div className={locals.flexWrapper}>
-              <Link className={locals.link} href$={getApplicationDashboard(applicationId, { boundaryScope })}>
+              <Link
+                className={locals.link}
+                href$={getApplicationDashboard(applicationId, { boundaryScope, syntheticCalls })}
+              >
                 <Context
                   context={t('in-applications:labelApplicationWithNum', {
                     numApplications: numApplications

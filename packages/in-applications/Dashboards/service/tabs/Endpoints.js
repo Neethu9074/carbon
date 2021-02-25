@@ -49,7 +49,7 @@ const columnDefinitions = [
   {
     id: 'endpointLabel',
     label: t('in-applications:labelName'),
-    getContent(item, { applicationId, serviceId, boundaryScope }) {
+    getContent(item, { applicationId, serviceId, boundaryScope, syntheticCalls }) {
       return (
         <SeverityAwareEntityLink
           severity={get(item, ['metrics', 'maxSeverity', 0, 1], 0)}
@@ -57,7 +57,12 @@ const columnDefinitions = [
           label={item.endpoint.label}
           tooltip={item.endpoint.synthetic ? t('in-applications:labelSyntheticEndpoint') : null}
           specialIndicator={item.endpoint.synthetic ? true : false}
-          href$={getEndpointDashboard(item.endpoint.id, { applicationId, serviceId, boundaryScope })}
+          href$={getEndpointDashboard(item.endpoint.id, {
+            applicationId,
+            serviceId,
+            boundaryScope,
+            syntheticCalls
+          })}
         />
       );
     }
@@ -179,6 +184,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
     applicationDashboardUrlParameters.serviceId,
     applicationDashboardUrlParameters.endpointId,
     applicationDashboardUrlParameters.boundaryScope,
+    applicationDashboardUrlParameters.syntheticCalls,
     'endpointTypes',
     'technologies'
   ],
@@ -198,7 +204,7 @@ const urlStateDefinition = {
 };
 
 export default function Endpoints(props) {
-  const { timeConfig, data, applicationId, serviceId, endpointId, boundaryScope } = props;
+  const { timeConfig, data, applicationId, serviceId, endpointId, boundaryScope, syntheticCalls } = props;
 
   const applicationLabel = useObservable(getApplicationLabelObservable, [applicationId]);
   const serviceLabel = useObservable(getServiceLabelObservable, [serviceId]);
@@ -242,6 +248,7 @@ export default function Endpoints(props) {
         serviceId={serviceId}
         endpointId={endpointId}
         boundaryScope={boundaryScope}
+        syntheticCalls={syntheticCalls}
         timeConfig={timeConfig}
         rightHeader={rightHeader}
         endpointTypes={endpointTypes}

@@ -9,6 +9,10 @@ import { t } from 'in-i18n';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
+import {
+  getTagFiltersForSyntheticOption,
+  isSyntheticOption
+} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
@@ -16,27 +20,40 @@ import { getTagCatalog } from 'in-applications/analyze/components/workspace/Call
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
+import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { summaryTab } from 'in-applications/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { boundaryScopes } from 'in-applications/constants';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { emptyArray } from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {
     isInternalVisible: isInternalVisible$
   },
-  function Summary({ timeConfig, applicationId, serviceId, endpointId, boundaryScope, data }) {
+  function Summary({
+    timeConfig,
+    applicationId,
+    serviceId,
+    endpointId,
+    boundaryScope,
+    data,
+    syntheticCalls: urlIncludeSyntheticCalls
+  }) {
     const tagCatalog = useTagCatalog(getTagCatalog);
     const timeShiftConfig = useTimeShiftConfig();
-    const includeSyntheticCalls = get(data, 'synthetic', false);
+    const isSyntheticEndpoint = get(data, ['syntheticType'], 'NON_SYNTHETIC') === 'SYNTHETIC';
+    const syntheticCalls =
+      isSyntheticEndpoint && !syntheticCallsEnabled
+        ? syntheticCallsOptions.include
+        : urlIncludeSyntheticCalls || syntheticCallsOptions.default;
+    const includeSyntheticCalls = isSyntheticOption(syntheticCalls);
     const type = data.type;
 
     const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId, endpointId, serviceId });
@@ -47,13 +64,7 @@ export default connectTo(
       showPotentialProblemsLane: true
     });
 
-    const includeSyntheticTagFilters = includeSyntheticCalls
-      ? [{ value: true, name: 'include_synthetic', operator: EQUALS }]
-      : emptyArray;
-    const tagFilters = [
-      ...includeSyntheticTagFilters,
-      { stringValue: endpointId, name: 'endpoint.id', entity: DESTINATION, operator: EQUALS }
-    ];
+    const tagFilters = [{ stringValue: endpointId, name: 'endpoint.id', entity: DESTINATION, operator: EQUALS }];
 
     if (serviceId != null) {
       tagFilters.push({ stringValue: serviceId, name: 'service.id', entity: DESTINATION, operator: EQUALS });
@@ -87,6 +98,7 @@ export default connectTo(
                   aggregation: 'SUM',
                   source: 'APPLICATION',
                   tagFilters: tagFilters,
+                  includeSynthetic: includeSyntheticCalls,
                   timeShift: timeShiftConfig.offset
                 }
               }}
@@ -102,7 +114,7 @@ export default connectTo(
                       timeConfig,
                       boundaryScope,
                       groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
-                      filters: includeSyntheticTagFilters,
+                      filters: getTagFiltersForSyntheticOption(syntheticCalls),
                       tagCatalog: tagCatalog,
                       metrics: [
                         { metric: 'erroneousCalls', aggregation: 'SUM' },
@@ -134,13 +146,15 @@ export default connectTo(
                   aggregation: 'SUM',
                   source: 'APPLICATION',
                   tagFilters: tagFilters,
+                  includeSynthetic: includeSyntheticCalls,
                   timeShift: timeShiftConfig.offset
                 },
                 companionMetricConfiguration: {
                   metric: 'errors',
                   aggregation: 'MEAN',
                   source: 'APPLICATION',
-                  tagFilters: tagFilters
+                  tagFilters: tagFilters,
+                  includeSynthetic: includeSyntheticCalls
                 }
               }}
               iconAction={{
@@ -155,7 +169,10 @@ export default connectTo(
                       timeConfig,
                       boundaryScope,
                       groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
-                      filters: [...includeSyntheticTagFilters, { name: 'call.erroneous', value: 'true' }],
+                      filters: [
+                        ...getTagFiltersForSyntheticOption(syntheticCalls),
+                        { name: 'call.erroneous', value: 'true' }
+                      ],
                       tagCatalog: tagCatalog,
                       metrics: [
                         { metric: 'errors', aggregation: 'MEAN' },
@@ -184,13 +201,15 @@ export default connectTo(
                   aggregation: 'MEAN',
                   source: 'APPLICATION',
                   tagFilters: tagFilters,
+                  includeSynthetic: includeSyntheticCalls,
                   timeShift: timeShiftConfig.offset
                 },
                 companionMetricConfiguration: {
                   metric: 'latency',
                   aggregation: 'P90',
                   source: 'APPLICATION',
-                  tagFilters: tagFilters
+                  tagFilters: tagFilters,
+                  includeSynthetic: includeSyntheticCalls
                 }
               }}
               iconAction={{
@@ -207,7 +226,7 @@ export default connectTo(
                       groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
                       orderBy: 'latency_MEAN_Agg',
                       orderDirection: 'DESC',
-                      filters: includeSyntheticTagFilters,
+                      filters: getTagFiltersForSyntheticOption(syntheticCalls),
                       tagCatalog: tagCatalog
                     }
                   )
@@ -224,7 +243,7 @@ export default connectTo(
               endpointId={endpointId}
               tagFilters={tagFilters}
               boundaryScope={boundaryScope}
-              isSynthetic={includeSyntheticCalls}
+              syntheticCalls={syntheticCalls}
               timeConfig={timeConfig}
               callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
               renderPostChartContent={withPotentialProblemsLane}
@@ -240,7 +259,7 @@ export default connectTo(
               serviceId={serviceId}
               endpointId={endpointId}
               boundaryScope={boundaryScope}
-              isSynthetic={includeSyntheticCalls}
+              syntheticCalls={syntheticCalls}
               timeConfig={timeConfig}
               tagFilters={tagFilters}
               groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
@@ -291,6 +310,7 @@ export default connectTo(
                     endpointId={endpointId}
                     timeConfig={timeConfig}
                     renderPostChartContent={MarkerLanes}
+                    syntheticCalls={syntheticCalls}
                   />
                 )}
               </Col>
