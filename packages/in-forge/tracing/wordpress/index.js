@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -23,8 +25,8 @@ registerSpanDefinition({
     if (action) {
       return action;
     } else if (view) {
-      return 'Render view: ' + view;
+      return t('in-forge:tracing.wordpress.renderView', { renderview: view });
     }
-    return 'Unknown call';
+    return t('in-forge:tracing.wordpress.unknownCall');
   }
 });

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -18,16 +19,16 @@ export default function OTelSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Service">{span.getIn(['data', 'service'])}</Di>
-        <Di title="Operation">{span.getIn(['data', 'operation'])}</Di>
-        {traceState != null && <Di title="Trace State">{traceState}</Di>}
+        <Di title={t('in-forge:tracing.otel.service')}>{span.getIn(['data', 'service'])}</Di>
+        <Di title={t('in-forge:tracing.otel.operation')}>{span.getIn(['data', 'operation'])}</Di>
+        {traceState != null && <Di title={t('in-forge:tracing.otel.traceState')}>{traceState}</Di>}
         {error != null && (
-          <Di title="Error" rowClassName={locals.error}>
+          <Di title={t('in-forge:tracing.otel.error')} rowClassName={locals.error}>
             {error}
             {errorDetail != null && ` – ${errorDetail}`}
           </Di>
         )}
-        <Di title="Tags" verticalDisplay>
+        <Di title={t('in-forge:tracing.otel.tags')} verticalDisplay>
           <Code code={JSON.stringify(span.getIn(['data', 'tags'], emptyMap).toJS(), 0, 2)} lang="json" />
         </Di>
       </Dl>

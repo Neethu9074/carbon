@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -28,11 +30,11 @@ registerSpanDefinition({
       return controller + '::' + action;
     }
     if (controller && !action) {
-      return controller + '::unknown';
+      t('in-forge:tracing.zf.controllerUnknown', { controllerVar: controller });
     }
     if (!controller && !action) {
-      return 'Unknown::' + action;
+      return t('in-forge:tracing.zf.unknownAction', { actionVar: action});
     }
-    return 'Zend Framework';
+    return t('in-forge:tracing.zf.zendFramework');
   }
 });

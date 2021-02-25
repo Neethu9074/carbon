@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -11,8 +12,8 @@ export default function NatsSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Sort">{span.getIn(['data', 'nats', 'sort'])}</Di>
-        <Di title="Subject">{span.getIn(['data', 'nats', 'subject'])}</Di>
+        <Di title={t('in-forge:tracing.nats.sort')}>{span.getIn(['data', 'nats', 'sort'])}</Di>
+        <Di title={t('in-forge:tracing.nats.subject')}>{span.getIn(['data', 'nats', 'subject'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'nats', 'error'])} />
       </Dl>
     </div>

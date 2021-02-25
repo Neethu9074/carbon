@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -11,10 +12,10 @@ export default function SqsSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Queue">{span.getIn(['data', 'sqs', 'queue'])}</Di>
-        <Di title="Batch Size">{span.getIn(['data', 'sqs', 'size'])}</Di>
-        <Di title="Type">{span.getIn(['data', 'sqs', 'type'])}</Di>
-        <Di title="Response Code">{span.getIn(['data', 'sqs', 'responseCode'])}</Di>
+        <Di title={t('in-forge:tracing.sqs.queue')}>{span.getIn(['data', 'sqs', 'queue'])}</Di>
+        <Di title={t('in-forge:tracing.sqs.batchSize')}>{span.getIn(['data', 'sqs', 'size'])}</Di>
+        <Di title={t('in-forge:tracing.sqs.type')}>{span.getIn(['data', 'sqs', 'type'])}</Di>
+        <Di title={t('in-forge:tracing.sqs.responseCode')}>{span.getIn(['data', 'sqs', 'responseCode'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'sqs', 'error'])} />
       </Dl>
     </div>

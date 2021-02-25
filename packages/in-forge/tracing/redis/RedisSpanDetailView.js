@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -13,11 +14,11 @@ export default function RedisSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Connection">{span.getIn(['data', 'redis', 'connection'])}</Di>
-        <Di title="Driver">{span.getIn(['data', 'redis', 'driver'])}</Di>
-        <Di title="Command">{span.getIn(['data', 'redis', 'command'])}</Di>
-        {subCommands.size > 0 ? <Di title="Commands in Transaction">{subCommands.join(', ')}</Di> : null}
-        <Di title="Key">{span.getIn(['data', 'redis', 'key'])}</Di>
+        <Di title={t('in-forge:tracing.redis.connection')}>{span.getIn(['data', 'redis', 'connection'])}</Di>
+        <Di title={t('in-forge:tracing.redis.driver')}>{span.getIn(['data', 'redis', 'driver'])}</Di>
+        <Di title={t('in-forge:tracing.redis.command')}>{span.getIn(['data', 'redis', 'command'])}</Di>
+        {subCommands.size > 0 ? <Di title={t('in-forge:tracing.redis.commandsInTransaction')}>{subCommands.join(', ')}</Di> : null}
+        <Di title={t('in-forge:tracing.redis.key')}>{span.getIn(['data', 'redis', 'key'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'redis', 'error'])} />
       </Dl>
     </div>

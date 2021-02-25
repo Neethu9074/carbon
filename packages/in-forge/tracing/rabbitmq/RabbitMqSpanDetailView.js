@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -12,10 +13,10 @@ export default function RabbitMqSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Sort">{span.getIn(['data', 'rabbitmq', 'sort'])}</Di>
-        <Di title="Exchange">{isBlank(exchange) ? '<default exchange>' : exchange}</Di>
-        <Di title="Key">{span.getIn(['data', 'rabbitmq', 'key'])}</Di>
-        <Di title="Size">{span.getIn(['data', 'rabbitmq', 'size'])}</Di>
+        <Di title={t('in-forge:tracing.rabbitmq.sort')}>{span.getIn(['data', 'rabbitmq', 'sort'])}</Di>
+        <Di title={t('in-forge:tracing.rabbitmq.exchange')}>{isBlank(exchange) ? '<default exchange>' : exchange}</Di>
+        <Di title={t('in-forge:tracing.rabbitmq.key')}>{span.getIn(['data', 'rabbitmq', 'key'])}</Di>
+        <Di title={t('in-forge:tracing.rabbitmq.size')}>{span.getIn(['data', 'rabbitmq', 'size'])}</Di>
       </Dl>
     </div>
   );

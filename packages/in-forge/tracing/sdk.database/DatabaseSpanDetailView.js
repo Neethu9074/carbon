@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -12,9 +13,9 @@ export default function DatabaseSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Instance">{span.getIn(['data', 'db', 'instance'])}</Di>
-        <Di title="Type">{span.getIn(['data', 'db', 'type'])}</Di>
-        <Di title="User">{span.getIn(['data', 'db', 'user'])}</Di>
+        <Di title={t('in-forge:tracing.sdkDatabase.instance')}>{span.getIn(['data', 'db', 'instance'])}</Di>
+        <Di title={t('in-forge:tracing.sdkDatabase.type')}>{span.getIn(['data', 'db', 'type'])}</Di>
+        <Di title={t('in-forge:tracing.sdkDatabase.user')}>{span.getIn(['data', 'db', 'user'])}</Di>
 
         <Statement span={span} />
       </Dl>
@@ -48,7 +49,7 @@ function Statement({ span }) {
   }
 
   return (
-    <Di title="Statement" verticalDisplay>
+    <Di title={t('in-forge:tracing.sdkDatabase.statement')} verticalDisplay>
       <Code code={code} lang={lang} showLineNumbers={false} />
     </Di>
   );

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -14,10 +15,10 @@ export default function Neo4jSpanDetailView({ span }) {
 
   return (
     <Dl>
-      <Di title="Connection">{span.getIn(['data', 'neo4j', 'conn'])}</Di>
+      <Di title={t('in-forge:tracing.neo4j.connection')}>{span.getIn(['data', 'neo4j', 'conn'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'neo4j', 'error'])} />
       {statement ? (
-        <Di title="Statement" verticalDisplay>
+        <Di title={t('in-forge:tracing.neo4j.statement')} verticalDisplay>
           <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
         </Di>
       ) : null}

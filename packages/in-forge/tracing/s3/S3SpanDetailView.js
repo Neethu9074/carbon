@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -11,11 +12,11 @@ export default function S3SpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Region">{span.getIn(['data', 's3', 'region'])}</Di>
-        <Di title="Bucket">{span.getIn(['data', 's3', 'bucket'])}</Di>
-        <Di title="Operation">{span.getIn(['data', 's3', 'op'])}</Di>
-        <Di title="Key">{span.getIn(['data', 's3', 'key'])}</Di>
-        <Di title="Exists">{span.getIn(['data', 's3', 'exists'])}</Di>
+        <Di title={t('in-forge:tracing.s3.region')}>{span.getIn(['data', 's3', 'region'])}</Di>
+        <Di title={t('in-forge:tracing.s3.bucket')}>{span.getIn(['data', 's3', 'bucket'])}</Di>
+        <Di title={t('in-forge:tracing.s3.operation')}>{span.getIn(['data', 's3', 'op'])}</Di>
+        <Di title={t('in-forge:tracing.s3.key')}>{span.getIn(['data', 's3', 'key'])}</Di>
+        <Di title={t('in-forge:tracing.s3.exists')}>{span.getIn(['data', 's3', 'exists'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 's3', 'error'])} />
       </Dl>
     </div>

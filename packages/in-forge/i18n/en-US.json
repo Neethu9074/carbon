@@ -467,5 +467,282 @@
       "inboundCallsLatency99th": "Inbound Calls Latency 99th",
       "inboundErroneousCallRate": "Inbound Erroneous Call Rate"
     }
+  },
+
+  "tracing": {
+    "nats": {
+      "consumeFromSubject": "Consume to {{subjectVar}}",
+      "publishToSubject": "Publish to {{subjectVar}}",
+      "sort": "Sort",
+      "subject": "Subject"
+    },
+    "natsStreaming": {
+      "sort": "Sort",
+      "subject": "Subject"
+    },
+    "neo4j": {
+      "connection": "Connection",
+      "statement": "Statement"
+    },
+    "oci8": {
+      "unknownOci8Call": "Unknown OCI8 call",
+      "connection": "Connection",
+      "query": "Query",
+      "errorCode": "Error Code"
+    },
+    "oncrpcClient": {
+      "host": "Host",
+      "port": "Port",
+      "program": "Program",
+      "procedure": "Procedure",
+      "version": "Version"
+    },
+    "oncrpcServer": {
+      "program": "Program",
+      "procedure": "Procedure",
+      "version": "Version"
+    },
+    "otel": {
+      "service": "Service",
+      "operation": "Operation",
+      "traceState": "Trace State",
+      "error": "Error",
+      "tags": "Tags"
+    },
+    "pdo": {
+      "driver": "Driver",
+      "query": "Query",
+      "errorCode": "Error Code"
+    },
+    "php": {
+      "sapiType": "SAPI Type",
+      "phpVersion": "PHP Version",
+      "script": "Script",
+      "scriptArguments": "Script Arguments",
+      "hostHeader": "Host Header",
+      "remoteAddress": "Remote Address",
+      "requestUri": "Request URI",
+      "parameters": "Parameters",
+      "requestMethod": "Request Method",
+      "httpStatusCode": "HTTP Status Code",
+      "wordpressVersion": "Wordpress Version",
+      "wordpressCacheHits": "Wordpress Cache Hits",
+      "wordpressCacheMisses": "Wordpress Cache Misses",
+      "wordpressCurrentUser": "Wordpress Current User",
+      "peakMemoryUsage": "Peak Memory Usage",
+      "totalCompileTime": "Total Compile Time",
+      "oPcacheEnabled": "OPcache Enabled",
+      "oPcacheCacheFull": "OPcache Cache Full",
+      "oPcacheHitRate": "OPcache Hit Rate",
+      "oPcacheCachedKeys": "OPcache Cached Keys",
+      "errorMessage": "Error Message",
+      "errorType": "Error Type",
+      "errorFile": "Error File",
+      "errorLine": "Error Line",
+      "noQueryParameters": "<no query parameters>",
+      "customHeaders": "Header: {{header}}"
+    },
+    "phpCompile": {
+      "totalCompileTime": "Total Compile Time",
+      "phpCompileDetailMsg1": "This is a virtual span representing the total time spent on compiling files during the entire request.",
+      "phpCompileDetailMsg2": "The duration shown is the sum of all compile actions regardless of when they happened in the request."
+    },
+    "phpError": {
+      "message": "Message",
+      "class": "Class",
+      "level": "Level",
+      "functionMethod": "Function/Method",
+      "type": "Type",
+      "file": "File",
+      "line": "Line"
+    },
+    "postgres": {
+      "unknownPostgreSqlCall": "Unknown PostgreSQL call",
+      "host": "Host",
+      "port": "Port",
+      "database": "Database",
+      "user": "User",
+      "query": "Query"
+    },
+    "quartz": {
+      "group": "Group",
+      "name": "Name",
+      "type": "Type"
+    },
+    "rabbitmq": {
+      "sort": "Sort",
+      "exchange": "Exchange",
+      "key": "Key",
+      "size": "Size"
+    },
+    "redis": {
+      "connection": "Connection",
+      "driver": "Driver",
+      "command": "Command",
+      "commandsInTransaction": "Commands in Transaction",
+      "key": "Key"
+    },
+    "render": {
+      "type": "Type",
+      "name": "Name",
+      "errorMessage": "Error Message",
+      "errorType": "Error Type"
+    },
+    "resqueClient": {
+      "job": "Job",
+      "queue": "Queue"
+    },
+    "resqueWorker": {
+      "job": "Job",
+      "queue": "Queue"
+    },
+    "rpc": {
+      "flavor": "Flavor",
+      "host": "Host",
+      "remotePort": "Remote Port",
+      "procedureMethod": "Procedure/Method",
+      "callType": "Call Type",
+      "parameters": "Parameters",
+      "baggage": "Baggage"
+    },
+    "s3": {
+      "region": "Region",
+      "bucket": "Bucket",
+      "operation": "Operation",
+      "key": "Key",
+      "exists": "Exists"
+    },
+    "sdk": {
+      "capturedArguments": "Captured Arguments",
+      "capturedReturnValue": "Captured Return Value",
+      "exception": "Exception"
+    },
+    "sdkBatch": {
+      "job": "Job"
+    },
+    "sdkDatabase": {
+      "instance": "Instance",
+      "type": "Type",
+      "user": "User",
+      "statement": "Statement"
+    },
+    "sdkMessaging": {
+      "destination": "Destination"
+    },
+    "session": {
+      "sessionStart": "Session Start",
+      "sessionHandler": "Session Handler"
+    },
+    "shell": {
+      "shellCommand": "Shell Command"
+    },
+    "sidekiqClient": {
+      "job": "Job",
+      "queue": "Queue",
+      "retry": "Retry",
+      "jobId": "Job ID"
+    },
+    "sidekiqWorker": {
+      "job": "Job",
+      "queue": "Queue",
+      "retry": "Retry",
+      "jobId": "Job ID"
+    },
+    "sns": {
+      "topic": "Topic",
+      "target": "Target",
+      "phone": "Phone",
+      "subject": "Subject",
+      "responseCode": "Response Code"
+    },
+    "springBatch": {
+      "job": "Job",
+      "parameters": "Parameters",
+      "exitStatus": "Exit Status",
+      "error": "Error"
+    },
+    "sqlalchemy": {
+      "engine": "Engine",
+      "url": "URL",
+      "sql": "SQL"
+    },
+    "sqs": {
+      "queue": "Queue",
+      "batchSize": "Batch Size",
+      "type": "Type",
+      "responseCode": "Response Code"
+    },
+    "symfony": {
+      "route": "Route",
+      "controller": "Controller",
+      "action": "Action",
+      "apiCollectionOperation": "API Collection Operation",
+      "apiItemOperation": "API Item Operation",
+      "apiSubresourceOperation": "API Subresource Operation",
+      "apiResource": "API Resource",
+      "routeParameters": "Route Parameters",
+      "eventCount": "Event Count"
+    },
+    "twig": {
+      "templateName": "Template Name",
+      "templatePath": "Template Path",
+      "subtemplateCount": "Subtemplate Count"
+    },
+    "vertxCluster": {
+      "sort": "Sort",
+      "address": "Address"
+    },
+    "vertxRedis": {
+      "connection": "Connection",
+      "command": "Command",
+      "channel": "Channel",
+      "key": "Key"
+    },
+    "wcf": {
+      "serviceClass": "Service-Class",
+      "action": "Action",
+      "binding": "Binding",
+      "url": "Url"
+    },
+    "wcfclient": {
+      "url": "Url",
+      "contractType": "Contract-Type",
+      "method": "Method",
+      "binding": "Binding",
+      "oneway": "Oneway",
+      "channel": "Channel"
+    },
+    "webapi": {
+      "controller": "Controller",
+      "action": "Action",
+      "url": "Url"
+    },
+    "wordpress": {
+      "renderView": "Render view: {{renderview}}",
+      "unknownCall": "Unknown call",
+      "action": "Action",
+      "template": "Template",
+      "postTitle": "Post Title"
+    },
+    "zf": {
+      "controllerUnknown": "{{controllerVar}}::unknown",
+      "unknownAction": "Unknown::{{actionVar}}",
+      "zendFramework": "Zend Framework",
+      "route": "Route",
+      "module": "Module",
+      "controller": "Controller",
+      "action": "Action"
+    },
+    "zfview": {
+      "zendView": "Zend View",
+      "subtemplateCount": "Subtemplate Count",
+      "renderer": "Renderer",
+      "template": "Template"
+    },
+    "zipkin": {
+      "service": "Service",
+      "operation": "Operation",
+      "tags": "Tags"
+    }
   }
 }
