@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -40,6 +40,8 @@ export default function ServicesAndEndpointsListPresenter({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
+  const [timeTo] = useState(Date.now());
+
   return (
     <ApplicationsList
       {...props}
@@ -47,7 +49,7 @@ export default function ServicesAndEndpointsListPresenter({
       isGlobalSmartAlert={isGlobalSmartAlert}
       alertApplicationId={alertApplicationId}
       stateManagement={{ state, dispatch }}
-      timeConfig={timeConfig}
+      timeConfig={{ ...timeConfig, to: timeTo, focusedMoment: timeTo }}
     />
   );
 }
