@@ -19,10 +19,14 @@ export function createNoMatchingEntityText(entityType) {
   return `No matching ${entityType}`;
 }
 
-export function getFilteredListBySelectionState(listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem) {
-  const itemsUserInteractedWith = listData.filter(({ item: { id, isStaleItem } }) => {
-    const itemTreeIds = enhanceParentIdsWithChildId(id);
-    return hasUserInteractedWithItem(itemTreeIds) || isStaleItem; // a stale item is an item the user has interacted with, so it's also sorted to the top of the list
+export function sortListBySelectionState(listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem) {
+  return [...listData].sort((a, b) => {
+    const aInteractedState = Boolean(
+      hasUserInteractedWithItem(enhanceParentIdsWithChildId(a.item.id)) || a.item.isStaleItem
+    );
+    const bInteractedState = Boolean(
+      hasUserInteractedWithItem(enhanceParentIdsWithChildId(b.item.id)) || b.item.isStaleItem
+    );
+    return bInteractedState - aInteractedState;
   });
-  return itemsUserInteractedWith;
 }

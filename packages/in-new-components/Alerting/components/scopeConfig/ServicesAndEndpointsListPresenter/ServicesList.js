@@ -11,7 +11,7 @@ import {
   createNoMatchingEntityText,
   DEFAULT_PAGE_SIZE,
   enrichListWithStaleSelectionData,
-  getFilteredListBySelectionState
+  sortListBySelectionState
 } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/utils';
 import {
   createApplicationIdTagFilter,
@@ -72,17 +72,17 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
   );
 
   const { state } = props.stateManagement;
-  const { showInteractedItemsOnly, editMode } = props;
 
   const listData = useMemo(() => {
     if (items.length === 0) return [];
     const restructuredItems = items.map(({ service, ...rest }) => ({ ...rest, item: service }));
     const application = selectApplication(state, parentIds);
-    return searchQuery || (editMode && !showInteractedItemsOnly)
+    return searchQuery
       ? restructuredItems
       : enrichListWithStaleSelectionData(Object.entries(application?.services ?? {}), restructuredItems);
+    // only ever recalculate if items array changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items, editMode, showInteractedItemsOnly, state]);
+  }, [items]);
 
   return (
     <SharedList
@@ -90,12 +90,8 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
       {...tableProps}
       isLoading={isLoading(tableProps)}
       listData={
-        showInteractedItemsOnly
-          ? getFilteredListBySelectionState(
-              listData,
-              enhanceParentIdsWithChildId(parentIds),
-              hasUserInteractedWithItem(state)
-            )
+        props.showInteractedItemsOnly
+          ? sortListBySelectionState(listData, enhanceParentIdsWithChildId(parentIds), hasUserInteractedWithItem(state))
           : listData
       }
       renderSubList={({ applicationId, serviceId }) => () => (

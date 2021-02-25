@@ -83,7 +83,6 @@ export default function SharedList({
     shouldAdd
   },
   initiallyOpen,
-  showInteractedItemsOnly,
   isFramed = true
 }) {
   const { dispatch } = stateManagement;
@@ -135,7 +134,7 @@ export default function SharedList({
             </Li>
           );
         })}
-      {canLoadMore && !showInteractedItemsOnly && <LoadMoreLi loadMore={loadMore} />}
+      {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
       {isLoading && <LoadingList numSkeletonRows={numSkeletonRows} />}
       {!isLoading && (!listData || listData.length === 0) && <NoDataAvailable text={noDataCustomText()} height={86} />}
     </Ul>
@@ -179,6 +178,5 @@ SharedList.propTypes = {
     shouldAdd: PropTypes.func.isRequired
   }).isRequired,
   initiallyOpen: PropTypes.bool,
-  showInteractedItemsOnly: PropTypes.bool,
   isFramed: PropTypes.bool
 };

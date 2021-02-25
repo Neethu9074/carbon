@@ -3,12 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Toggle from 'react-toggle';
-import { isEqual } from 'lodash';
-import { t } from 'in-i18n';
 
 import ServicesAndEndpointsListPresenter, {
   ServicesAndEndpointsSearchInput
@@ -23,6 +21,7 @@ import getApplication from 'in-subscription/application/getApplication';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import LightCard from 'in-new-components/Card/LightCard';
 import Stack from 'in-new-components/layout/Stack';
+import { t } from 'in-i18n';
 
 import locals from './ScopeConfig.mless';
 
@@ -31,23 +30,9 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, t
   const boundaryScope = form.get('boundaryScope').value;
   const alertApplicationId = form.get('applicationId').value;
   const tagFilterExpression = form.get('tagFilterExpression').value;
-  const initialApplicationsState = form.get('hiddenFields').get('initialApplicationsState').value;
 
   const [searchQuery, setSearchQuery] = useState('');
-
   const [filterBySelectionState, setFilterBySelectionState] = useState(Boolean(editMode));
-
-  const isInDefaultState = isEqual(initialApplicationsState, applications);
-
-  useEffect(() => {
-    if (editMode && filterBySelectionState && isInDefaultState) {
-      return;
-    }
-    setFilterBySelectionState(_showInteractedItemsOnly => {
-      return !isInDefaultState && _showInteractedItemsOnly;
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isInDefaultState]);
 
   return (
     <LightCard
@@ -59,7 +44,6 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, t
           setSearchQuery={setSearchQuery}
           setFilterBySelectionState={setFilterBySelectionState}
           tagFilterExpression={tagFilterExpression}
-          isInDefaultState={isInDefaultState}
         />
       }
       withoutPadding
@@ -88,8 +72,8 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, t
               timeConfig={timeConfig}
               boundaryScope={boundaryScope}
               searchQuery={searchQuery}
-              showInteractedItemsOnly={filterBySelectionState}
               editMode={editMode}
+              showInteractedItemsOnly={filterBySelectionState}
               isGlobalSmartAlert={false}
             />
           </div>
@@ -124,18 +108,12 @@ ScopeConfig.propTypes = {
   updateForm: PropTypes.func.isRequired
 };
 
-function LightCardHeaderControls({
-  filterBySelectionState,
-  setSearchQuery,
-  setFilterBySelectionState,
-  isInDefaultState
-}) {
+function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFilterBySelectionState }) {
   return (
     <HorizontalFlexWrapper>
       <HorizontalFlexWrapper>
-        {!isInDefaultState && <div className={locals.lightCardHeaderControlsDirtyStateIndicator}>*</div>}
         <div className={locals.lightCardHeaderControlsSelectionTitle}>
-          {t('in-new-components:alerting.components.filterBySelectedEntitiesLabel')}
+          {t('in-new-components:alerting.components.sortByUserSelectionLabel')}
         </div>
         <Toggle
           checked={filterBySelectionState}

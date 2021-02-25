@@ -11,7 +11,7 @@ import {
   DEFAULT_PAGE_SIZE,
   enrichListWithStaleSelectionData,
   createNoMatchingEntityText,
-  getFilteredListBySelectionState
+  sortListBySelectionState
 } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/utils';
 import { stateManagementPropType } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import { selectApplication } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/selectors';
@@ -54,16 +54,14 @@ export default function ApplicationsList({
   );
 
   const { state } = props.stateManagement;
-  const { showInteractedItemsOnly, editMode } = props;
 
   const listData = useMemo(() => {
     if (items.length === 0) return [];
     const restructuredItems = items.map(({ application, ...rest }) => ({ ...rest, item: application }));
-    return searchQuery || (editMode && !showInteractedItemsOnly)
-      ? restructuredItems
-      : enrichListWithStaleSelectionData(Object.entries(state), restructuredItems);
+    return searchQuery ? restructuredItems : enrichListWithStaleSelectionData(Object.entries(state), restructuredItems);
+    // only ever recalculate if items array changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items, editMode, showInteractedItemsOnly, state]);
+  }, [items]);
 
   return (
     <SharedList
@@ -71,8 +69,8 @@ export default function ApplicationsList({
       {...tableProps}
       isLoading={isLoading(tableProps)}
       listData={
-        showInteractedItemsOnly
-          ? getFilteredListBySelectionState(listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem(state))
+        props.showInteractedItemsOnly
+          ? sortListBySelectionState(listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem(state))
           : listData
       }
       renderSubList={({ applicationId }) => () => {
