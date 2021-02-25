@@ -74,3 +74,6 @@ export const allowedMultiplesOfRollupSizeMissingInCharts = isInstanaEngineer ? 2
 
 //Flag which exposes the download button - enables the download of metrics from event view
 export const allowDownloadMetricsFromCharts = isInstanaEmail;
+
+// QB2 in SmartAlerts is only effectively enabled when UA2 is also enabled
+export const isQB2ModeInSmartAlertsEnabled = newAnalyticsEnabled && smartAlertsQB2Enabled;

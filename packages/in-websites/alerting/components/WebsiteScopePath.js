@@ -19,12 +19,13 @@ export default function WebsiteScopePath({
 }) {
   const entries = [];
 
-  if (websiteId && websiteName) {
+  if (websiteName) {
     entries.push({
       iconType: 'lib_website',
       label: websiteName,
       href$:
         showDashboardLinks &&
+        websiteId &&
         getLinkToWebsite(websiteId, {
           timeConfig
         })

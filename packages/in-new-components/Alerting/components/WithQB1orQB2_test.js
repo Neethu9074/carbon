@@ -12,15 +12,13 @@ const onUsesQB2 = () => 'QB2';
 
 var inQB1Mode = proxyquire('in-new-components/Alerting/components/WithQB1orQB2', {
   'in-services/featureFlags': {
-    newAnalyticsEnabled: false,
-    smartAlertsQB2Enabled: false
+    isQB2ModeInSmartAlertsEnabled: false
   }
 });
 
 var inQB2Mode = proxyquire('in-new-components/Alerting/components/WithQB1orQB2', {
   'in-services/featureFlags': {
-    newAnalyticsEnabled: true,
-    smartAlertsQB2Enabled: true
+    isQB2ModeInSmartAlertsEnabled: true
   }
 });
 

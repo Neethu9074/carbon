@@ -54,7 +54,7 @@ export default function AlertingChart({
         () => ({
           tagFilterExpression: enrichedTagFilterExpression
         }),
-        isQB2Config => isQB2Config(convertedTagFilterExpression)
+        isQB2Config => isQB2Config(Boolean(convertedTagFilterExpression))
       );
 
   return (

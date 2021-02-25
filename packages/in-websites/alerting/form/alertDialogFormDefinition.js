@@ -5,6 +5,7 @@
 import { createMapForm, createField } from 'formalistic';
 
 import createTimeThresholdForm from 'in-new-components/Alerting/advanced/TimeThresholdConfig/form';
+import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-websites/alerting/form/thresholdForm';
 import createRuleForm from 'in-websites/alerting/form/ruleForm';
 
@@ -12,6 +13,7 @@ const severityWarning = 5;
 
 export const fieldNames = Object.freeze({
   tagFilters: 'tagFilters',
+  tagFilterExpression: 'tagFilterExpression',
   alertChannelIds: 'alertChannelIds',
   enabled: 'enabled',
   triggering: 'triggering',
@@ -26,6 +28,8 @@ export const fieldNames = Object.freeze({
 export default function alertFormDefinition(alertConfig) {
   const {
     tagFilters = [],
+    tagFilterExpression,
+    convertedTagFilterExpression,
     alertChannelIds = [],
     enabled = true,
     triggering = false,
@@ -38,12 +42,27 @@ export default function alertFormDefinition(alertConfig) {
   } = alertConfig;
 
   let form = createMapForm()
+    // QB1
     .put(
       fieldNames.tagFilters,
       createField({
         value: tagFilters
       })
     )
+    // QB2
+    .put(
+      fieldNames.tagFilterExpression,
+      createField({
+        value: fromBackendModel(tagFilterExpression)
+      })
+    )
+    .put(
+      'convertedTagFilterExpression',
+      createField({
+        value: convertedTagFilterExpression ?? false
+      })
+    )
+
     .put(
       fieldNames.alertChannelIds,
       createField({

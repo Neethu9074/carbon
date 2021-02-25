@@ -6,7 +6,11 @@ import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import React from 'react';
 
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { createBoundedAlertQueryBuilder } from 'in-websites/alerting/components/AlertQueryBuilder';
 import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
+import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { websitesAlertingAddAlert } from 'in-websites/alerting/tracker';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
@@ -16,6 +20,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { reload } from 'in-settings/components/List';
 import connectTo from 'in-hoc/connectTo';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can this be moved outside of AP area, since it seems to be generic to be used in Website area as well
 
 const implicitTagFilters = ['beacon.website.id'];
 
@@ -46,6 +51,16 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
     websiteLabel = get(websiteResult, ['data', 'label']);
   }
 
+  const alertType = error?.message ? 'specificJsError' : 'slowness';
+  const metricName = error?.message ? 'errors' : 'onLoadTime';
+  const blueprintConfig = getBlueprintConfig(alertType);
+  const beaconType = blueprintConfig.getBeaconType(metricName);
+  const boundedAlertQueryBuilder = createBoundedAlertQueryBuilder(websiteId, beaconType);
+  const tagCatalog = useTagCatalog(boundedAlertQueryBuilder.getTagCatalog);
+  if (!tagCatalog) {
+    return null;
+  }
+
   if (location.pathname.includes('/websiteMonitoring/website/configuration')) {
     return null;
   }
@@ -63,7 +78,7 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
                   reload();
                 }
               }}
-              formData={generateFormData(websiteId, tagFilters, error)}
+              formData={generateFormData(websiteId, tagFilters, error, tagCatalog)}
               websiteLabel={websiteLabel}
             />
           );
@@ -88,14 +103,20 @@ CreateAlert.propTypes = {
   websiteErrorResult: PropTypes.object
 };
 
-function generateFormData(websiteId, tagFilters, error) {
+function generateFormData(websiteId, tagFilters, error, tagCatalog) {
+  const tagFiltersWithoutImplicitFilters = tagFilters.filter(({ name }) => !implicitTagFilters.includes(name));
+  const tagFilterFormModel = fromTagFiltersArray(tagFiltersWithoutImplicitFilters, tagCatalog);
+  const alertType = error?.message ? 'specificJsError' : 'slowness';
+  const metricName = error?.message ? 'errors' : 'onLoadTime';
+
   return {
-    tagFilters: tagFilters.filter(({ name }) => !implicitTagFilters.includes(name)),
+    tagFilters: tagFiltersWithoutImplicitFilters,
+    tagFilterExpression: toBackendQueryModel(tagFilterFormModel),
     rule: {
-      alertType: error?.message ? 'specificJsError' : 'slowness',
+      alertType,
       operator: 'EQUALS',
       value: error?.message ?? null,
-      metricName: error?.message ? 'errors' : 'onLoadTime'
+      metricName
     },
     threshold: {
       type: error?.message ? 'staticThreshold' : 'historicBaseline',

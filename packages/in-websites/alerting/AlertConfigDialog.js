@@ -8,9 +8,11 @@ import PropTypes from 'prop-types';
 
 import AlertConfigDialogWithThreshold from 'in-websites/alerting/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-websites/alerting/form/alertDialogFormDefinition';
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-websites/alerting/form/formUtils';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
+import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 
 const logger = createLogger('in-websites/alerting/AlertDialog');
 const initialChartConfigIndex = 0;
@@ -28,7 +30,7 @@ export default function AlertConfigDialog({ onClose, formData, websiteLabel, edi
       onChartViewConfigChange={setSelectedChartViewConfigIndex}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       onClose={onClose}
-      onCreate={() => createAlert(form, setForm, onClose, editMode, setIsSaving)}
+      onCreate={() => createAlert(form, setForm, onClose, editMode, setIsSaving, isQB2ModeInSmartAlertsEnabled)}
       timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
       websiteLabel={websiteLabel}
       editMode={editMode}
@@ -66,15 +68,16 @@ function createOnChange(setForm, externalForm) {
   };
 }
 
-function createAlert(form, setForm, onClose, editMode, setIsSaving) {
+function createAlert(form, setForm, onClose, editMode, setIsSaving, qb2Enabled) {
   setIsSaving(true);
 
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
+    setIsSaving(false);
     return;
   }
 
-  const websiteAlertConfig = toAlertConfig(form);
+  const websiteAlertConfig = toAlertConfig(form, qb2Enabled);
 
   if (editMode) {
     updateAlertConfig(websiteAlertConfig, form.get('id').value).once(
@@ -95,10 +98,9 @@ function createAlert(form, setForm, onClose, editMode, setIsSaving) {
   }
 }
 
-function toAlertConfig(form) {
-  return Object.freeze({
+function toAlertConfig(form, qb2Enabled) {
+  const common = {
     rule: form.get('rule').toJS(),
-    tagFilters: form.get(fieldNames.tagFilters).value,
     alertChannelIds: form.get(fieldNames.alertChannelIds).value,
     enabled: form.get(fieldNames.enabled).value,
     triggering: form.get(fieldNames.triggering).value,
@@ -109,5 +111,17 @@ function toAlertConfig(form) {
     threshold: form.get('threshold').toJS(),
     timeThreshold: form.get('timeThreshold').toJS(),
     granularity: form.get(fieldNames.granularity).value
-  });
+  };
+  const tagFilterFormModel = form.get(fieldNames.tagFilterExpression).value;
+  const tagFilterExpression = toBackendQueryModel(tagFilterFormModel, false);
+  const alertConfig = !qb2Enabled
+    ? {
+        ...common,
+        tagFilters: form.get(fieldNames.tagFilters).value
+      }
+    : {
+        ...common,
+        tagFilterExpression
+      };
+  return Object.freeze(alertConfig);
 }

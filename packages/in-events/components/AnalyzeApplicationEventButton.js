@@ -8,13 +8,14 @@ import React from 'react';
 
 import { getBlueprintConfig, getBaselineThresholdValue } from 'in-applications/alerting/data/blueprintConfig';
 import { joinExpressions, fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { isQB2Config, isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { containsTagName } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { toTagFilterNumberOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { getLinkToAnalyze, getDirectLinkToUA2 } from 'in-analyze/navigation/paths';
+import { isQB2Config } from 'in-new-components/Alerting/components/WithQB1orQB2';
+import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
@@ -101,7 +102,7 @@ export function getLinkToUnboundAnalytics(
   const { rule, boundaryScope, tagFilters, tagFilterExpression, convertedTagFilterExpression } = alertConfig;
   const alertType = rule.alertType;
 
-  if (isQB2ModeEnabled) {
+  if (isQB2ModeInSmartAlertsEnabled) {
     const groupByTag = groupingTagName
       ? groupingTagName
       : getGroupingTagNameUA2(alertType, tagFilterExpression, serviceId, endpointId);

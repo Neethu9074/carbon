@@ -6,16 +6,20 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { t } from 'in-i18n';
 
-import AlertingChartWithErrorMessage from 'in-new-components/Alerting/Chart/AlertingChartWithErrorMessage';
+import WebsitesAlertingChartWithErrorMessage from 'in-websites/alerting/chart/WebsitesAlertingChartWithErrorMessage';
 import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-websites/alerting/form/ruleFormData';
 import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
+import ScopeConfigPresenter from 'in-new-components/Alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
+import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
+import AlertQueryBuilder from 'in-websites/alerting/components/AlertQueryBuilder';
+import WebsiteScopePath from 'in-websites/alerting/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
@@ -34,10 +38,13 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
     rule: { operator, value, alertType },
     timeThreshold,
     alertChannelIds,
-    tagFilters
+    tagFilters, // QB1
+    tagFilterExpression, // QB2
+    convertedTagFilterExpression // QB2
   } = alertConfig;
 
   const blueprintConfig = getBlueprintConfig(alertType);
+  const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   return (
     <AlertDetailsCard>
@@ -47,6 +54,10 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
         </ListTitle>
 
         <ChartViewConfigurator
+          alertConfigWithFormModel={{
+            ...alertConfig,
+            tagFilterExpression: tagFilterFormModel
+          }}
           onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
           selectedChartViewConfigIndex={selectedChartViewConfigIndex}
           className={locals.chartContainer}
@@ -69,9 +80,11 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
                   description={getStatusCodeLabel(value)}
                 />
               )}
-
-              <AlertingChartWithErrorMessage
-                alertConfigWithFormModel={alertConfig}
+              <WebsitesAlertingChartWithErrorMessage
+                alertConfigWithFormModel={{
+                  ...alertConfig,
+                  tagFilterExpression: tagFilterFormModel
+                }}
                 viewConfig={chartViewConfig}
                 blueprintConfig={blueprintConfig}
               />
@@ -81,18 +94,26 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
 
         <ExpandableCard
           title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleScope')}
+          useMaxAvailableHeight={false}
           openByDefault
           bodyWithoutPadding
           darkFrame
-          useMaxAvailableHeight={false}
         >
-          <div className={locals.filterList}>
-            <TagFilterListPresenter
-              tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                tagFilters: [...blueprintConfig.getEntityTagFilters(alertConfig), ...tagFilters],
-                websiteLabel
-              })}
-              disabled
+          <div className={locals.paddingBodyWrapper}>
+            <ScopeConfigPresenter
+              tagFilterList={
+                <TagFilterListPresenter
+                  tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
+                    tagFilters: [...blueprintConfig.getEntityTagFilters(alertConfig), ...tagFilters],
+                    websiteLabel
+                  })}
+                  disabled
+                />
+              }
+              tagFilterFormModel={tagFilterFormModel}
+              queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
+              convertedTagFilterExpression={convertedTagFilterExpression}
+              scopePath={<WebsiteScopePath websiteName={websiteLabel} />}
             />
           </div>
         </ExpandableCard>
@@ -121,10 +142,10 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
 
         <ExpandableCard
           title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleAlertProperties')}
+          useMaxAvailableHeight={false}
           openByDefault
           bodyWithoutPadding
           darkFrame
-          useMaxAvailableHeight={false}
         >
           <AlertPropertyInfos alertConfig={alertConfig} />
         </ExpandableCard>

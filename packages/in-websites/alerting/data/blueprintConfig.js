@@ -3,11 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 import { t } from 'in-i18n';
+
 import getWebsiteRateMetricThresholdSuggestion from 'in-websites/alerting/subscriptions/getWebsiteRateMetricThresholdSuggestion';
 import getWebsiteMetricsThresholdSuggestion from 'in-websites/alerting/subscriptions/getWebsiteMetricsThresholdSuggestion';
 import getWebsiteRateMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteRateMetricAlertsPreview';
 import getWebsiteMetricAlertsPreview from 'in-websites/alerting/subscriptions/getWebsiteMetricAlertsPreview';
 import getWebsiteRateMetric from 'in-websites/alerting/subscriptions/getWebsiteRateMetric';
+import { toTagFilterNumberOperator } from 'in-new-components/Alerting/utils/alertUtils';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { getBaselineValue } from 'in-new-components/Alerting/utils/baselineUtils';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { availableFilterTags } from 'in-websites/tags';
@@ -35,12 +39,14 @@ const baseBlueprint = Object.freeze({
     isCustomRateMetric(metricName) ? getWebsiteRateMetricAlertsPreview : getWebsiteMetricAlertsPreview,
   getThresholdSuggestionRequest: metricName =>
     isCustomRateMetric(metricName) ? getWebsiteRateMetricThresholdSuggestion : getWebsiteMetricsThresholdSuggestion,
+  // QB1
   getEntityTagFilters: alertConfig => [getWebsiteIdTagFilter(alertConfig)],
   thresholdDefaults: {
     operator: '>='
   },
-  // TODO the QB2 related functions below need to be implemented as soon as we support QB2 for Website SmartAlerts
-  getEntityTagFilterFormModel: () => [],
+  // QB2
+  getEntityTagFilterFormModel: alertConfig => getWebsiteIdTagFilter(alertConfig),
+  getBeaconType: () => 'pageLoad',
   getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: () => []
 });
@@ -84,7 +90,10 @@ const slownessBlueprintConfig = Object.freeze({
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: alertRule => alertRule.aggregation,
   isRuleComplete: () => true,
-  getRuleTagFilters: () => []
+  getRuleTagFilters: () => [], // QB1
+  getRuleTagFilterFormModel: () => [], // QB2
+  getBeaconType: () => 'pageLoad',
+  getExtraAnalyzeLinkTagFilterFormModel: getExtraSlownessAnalyzeLinkTagFilterFormModel
 });
 
 const jsErrorsBlueprintConfig = Object.freeze({
@@ -103,7 +112,10 @@ const jsErrorsBlueprintConfig = Object.freeze({
   getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
   isRuleComplete: alertRule => isNotBlank(alertRule.value),
   incompleteRuleMessage: t('in-websites:alerting.data.jsErrorsBlueprintConfigIncompleteRuleMessage'),
-  getRuleTagFilters: alertRule => [getJsErrorsTagFilter(alertRule)]
+  getRuleTagFilters: alertRule => [getJsErrorsTagFilter(alertRule)], // QB1
+  getRuleTagFilterFormModel: alertRule => [tagFilter('beacon.error.message', alertRule.operator, alertRule.value)], // QB2
+  getBeaconType: () => 'error',
+  getExtraAnalyzeLinkTagFilterFormModel: () => [] // TODO in AP error blueprint, we add a call.erroneous filter, to only show erroneous calls, in WebsiteSmartAlerts we never did that. Ask PM whether we want to add such filter for Websites as well.
 });
 
 const statusCodeBlueprintConfig = Object.freeze({
@@ -122,7 +134,9 @@ const statusCodeBlueprintConfig = Object.freeze({
   getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
   isRuleComplete: alertRule => isNotBlank(alertRule.value),
   incompleteRuleMessage: t('in-websites:alerting.data.statusCodeBlueprintConfigIncompleteRuleMessage'),
-  getRuleTagFilters: alertRule => [getStatusCodeTagFilter(alertRule)]
+  getRuleTagFilters: alertRule => [getStatusCodeTagFilter(alertRule)], // QB1
+  getRuleTagFilterFormModel: alertRule => [tagFilter('beacon.http.status', alertRule.operator, alertRule.value)], // QB2
+  getBeaconType: () => 'httpRequest'
 });
 
 const throughputBlueprintConfig = Object.freeze({
@@ -141,7 +155,9 @@ const throughputBlueprintConfig = Object.freeze({
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
   isRuleComplete: () => true,
-  getRuleTagFilters: () => [],
+  getRuleTagFilters: () => [], // QB1
+  getRuleTagFilterFormModel: () => [], // QB2
+  getBeaconType: metricName => (metricName === 'pageLoads' ? 'pageLoad' : 'pageChange'),
   impactTimeThresholdDisabled: true
 });
 
@@ -199,24 +215,44 @@ function isCustomRateMetric(metricName) {
 
 function getWebsiteIdTagFilter(alertConfig) {
   return {
-    name: 'beacon.website.id',
-    operator: 'EQUALS',
-    stringValue: alertConfig.websiteId
+    ...tagFilter('beacon.website.id', 'EQUALS', alertConfig.websiteId),
+    stringValue: alertConfig.websiteId // TODO only kept for QB1 backward compatibility. Can actually be removed.
   };
 }
 
 function getJsErrorsTagFilter(alertRule) {
   return {
-    name: 'beacon.error.message',
-    operator: alertRule.operator,
-    stringValue: alertRule.value
+    ...tagFilter('beacon.error.message', alertRule.operator, alertRule.value),
+    stringValue: alertRule.value // TODO only kept for QB1 backward compatibility. Can actually be removed.
   };
 }
 
 function getStatusCodeTagFilter(alertRule) {
   return {
-    name: 'beacon.http.status',
-    operator: alertRule.operator,
-    stringValue: alertRule.value
+    ...tagFilter('beacon.http.status', alertRule.operator, alertRule.value),
+    stringValue: alertRule.value // TODO only kept for QB1 backward compatibility. Can actually be removed.
   };
+}
+
+function getExtraSlownessAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig) {
+  let value;
+  if (alertConfig.threshold.type === 'staticThreshold') {
+    value = alertConfig.threshold.value;
+  } else {
+    value = getBaselineThresholdValue(alertConfig, timeConfig);
+  }
+
+  return [tagFilter('beacon.duration', toTagFilterNumberOperator(alertConfig.threshold.operator), value)];
+}
+
+export function getBaselineThresholdValue(alertConfig, timeConfig) {
+  const { operator, baseline, deviationFactor } = alertConfig.threshold;
+  const baselineGranularity = alertConfig.granularity;
+  const isGreaterOp = operator === '>=' || operator === '>';
+
+  const baselineValues = [];
+  for (let time = timeConfig.to - timeConfig.windowSize; time <= timeConfig.to; time += baselineGranularity) {
+    baselineValues.push(getBaselineValue(time, baseline, deviationFactor, baselineGranularity, isGreaterOp));
+  }
+  return isGreaterOp ? Math.min(...baselineValues) : Math.max(...baselineValues);
 }

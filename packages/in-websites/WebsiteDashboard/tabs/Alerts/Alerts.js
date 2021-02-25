@@ -19,6 +19,7 @@ import {
   deleteAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/matrix';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
@@ -45,6 +46,11 @@ function getColumnDefinitions(websiteLabel) {
       id: 'filters',
       label: t('in-websites:websiteDashboard.tabs.alerts.alertsLabelFilters'),
       getContent: entity => getFiltersContent(entity, websiteLabel)
+    },
+    {
+      id: 'filters2',
+      label: t('in-websites:websiteDashboard.tabs.alerts.alertsLabelFilters'),
+      getContent: entity => getFiltersContentQB2(entity, websiteLabel)
     }
   ];
 }
@@ -135,6 +141,7 @@ function getSubtitle(alertConfig) {
 }
 
 function getFiltersContent(config, websiteLabel) {
+  /* remove, replace by #getFilterContentQB2 */
   const pages = config.tagFilters.filter(filter => filter.name === 'beacon.page.name');
   const otherTagFiltersCount = config.tagFilters.length - pages.length;
 
@@ -165,6 +172,53 @@ function getFiltersContent(config, websiteLabel) {
           content={
             <TagFilterListPresenter
               tagFilters={config.tagFilters.filter(({ name }) => name !== 'beacon.page.name')}
+              readonly
+            />
+          }
+          align="topMiddle"
+          delay={500}
+        >
+          <span className={locals.centered}>
+            <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
+            {t('in-websites:websiteDashboard.tabs.alerts.alertsNumberOfFilters', { count: otherTagFiltersCount })}
+          </span>
+        </Tooltip>
+      )}
+    </div>
+  );
+}
+function getFiltersContentQB2(config, websiteLabel) {
+  const tagFilterExpressions = fromBackendModel(config.tagFilterExpression);
+  const pages = tagFilterExpressions.filter(filter => filter.name === 'beacon.page.name');
+  const otherTagFiltersCount = tagFilterExpressions.length - pages.length;
+
+  return (
+    <div className={locals.filters}>
+      {websiteLabel && (
+        <span
+          className={classNames({
+            [locals.centered]: true,
+            [locals.space]: pages.length === 0,
+            [locals.devider]: pages.length > 0
+          })}
+        >
+          <SvgIcon className={locals.filterIcon} type="lib_website" />
+          {websiteLabel}
+        </span>
+      )}
+      {pages &&
+        pages.map((page, i) => (
+          <span className={classNames(locals.centered, locals.space)} key={i}>
+            <SvgIcon className={locals.filterIcon} type="lib_website_page_load" />
+            {page.stringValue}
+          </span>
+        ))}
+      {otherTagFiltersCount >= 1 && (
+        <Tooltip
+          themeStyle="light"
+          content={
+            <TagFilterListPresenter
+              tagFilters={tagFilterExpressions.filter(({ name }) => name !== 'beacon.page.name')}
               readonly
             />
           }

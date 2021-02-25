@@ -11,9 +11,9 @@ import { boundaryScopes } from 'in-applications/alerting/advanced/InboundOutboun
 import { sliTypeOptions, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServicesSelectBox';
 import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSelectBox';
-import { isQB2ModeEnabled } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import GoodBadEvents from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
+import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import HelpAction from 'in-new-components/workspace/HelpAction';
@@ -101,7 +101,7 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
         <Header>{t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliEntity')}</Header>
 
         <Stack space="xsmall">
-          {!isQB2ModeEnabled && (
+          {!isQB2ModeInSmartAlertsEnabled && (
             <Sections>
               <InputInSection
                 id="sli-form-ap"

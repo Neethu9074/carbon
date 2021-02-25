@@ -5,22 +5,27 @@
 
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import {
   getEnhancedTagFilterFormModel,
   getEnhancedTagFilters
 } from 'in-new-components/Alerting/utils/tagfilterEnrichmentUtil';
+import { isAlertQueryValid as isApplicationAlertQueryValid } from 'in-applications/alerting/components/AlertQueryBuilder';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { chartViewConfigPropType } from 'in-new-components/Alerting/Chart/chartViewConfig';
-import { isAlertQueryValid } from 'in-applications/alerting/components/AlertQueryBuilder';
 import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import AlertingChart from 'in-new-components/Alerting/Chart/AlertingChart';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
-import { t } from 'in-i18n';
 
-export default function AlertingChartWithErrorMessage({ getErrorMessage, customValidators, ...remainingProps }) {
+export default function AlertingChartWithErrorMessage({
+  getErrorMessage,
+  customValidators,
+  isAlertQueryValid = isApplicationAlertQueryValid,
+  ...remainingProps
+}) {
   const { alertConfigWithFormModel, blueprintConfig, viewConfig, subEntityId } = remainingProps;
 
   const { numeratorFilter, enrichedTagFilters, enrichedTagFilterFormModel } = switchQB1orQB2Helper(
@@ -42,7 +47,7 @@ export default function AlertingChartWithErrorMessage({ getErrorMessage, customV
     // Because of that we need this extra handling to ensure that we show the error message only if the backend
     // explicitly returns false
     () => queryValidationResult?.data !== false,
-    isQB2Config => isQB2Config(alertConfigWithFormModel.convertedTagFilterExpression)
+    isQB2Config => isQB2Config(Boolean(alertConfigWithFormModel.convertedTagFilterExpression))
   );
 
   const enrichedTagFilterExpression = useMemo(
@@ -80,6 +85,12 @@ AlertingChartWithErrorMessage.propTypes = {
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool,
   isQB1only: PropTypes.bool,
+  /**
+   * Optionally override default, application-specific validation.
+   * Called to verify if filters are valid
+   * If the result is false, an error will be shown
+   */
+  isAlertQueryValid: PropTypes.func,
   getErrorMessage: PropTypes.func,
   customValidators: PropTypes.func
 };
