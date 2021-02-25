@@ -7,21 +7,23 @@ import { t } from 'in-i18n';
 import React from 'react';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
-import AlertChannels, {
+import AlertChannelsList, {
   noRightHeader
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelsList';
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
 import NoChannelSelected from 'in-new-components/Alerting/components/channels/NoChannelSelected';
-import { getAlertChannelsByIdsMutable } from 'in-api/alertChannels';
+import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import Button from 'in-new-components/Button/Button';
 
+import locals from './SelectAlertChannel.mless';
+
 export default function SelectAlertChannel({ form, onChange, setAlertChannelsVisible }) {
   return (
     <>
-      <AlertChannels
+      <AlertChannelsList
         setTitle={false}
         loadEntities={() => getSelectedAlertChannels(form.get('alertChannelIds').value)}
         hasRowNavigation={false}
@@ -29,6 +31,7 @@ export default function SelectAlertChannel({ form, onChange, setAlertChannelsVis
         tableActions={alertChannelSelectionTableActions(form, onChange)}
         rightHeader={
           <Button
+            className={locals.selectButton}
             kind="action"
             onClick={() =>
               setAlertChannelsVisible({
@@ -66,7 +69,7 @@ function SelectListDialogContent({ form, onSubmit, reloadKey }) {
   return (
     <SelectListDialogContentComponent
       key={reloadKey}
-      listComponent={AlertChannels}
+      listComponent={AlertChannelsList}
       listComponentRightHeader={noRightHeader}
       hiddenIds={form.get('alertChannelIds').value}
       limit={limitForConnectedAlertChannels}
@@ -85,7 +88,7 @@ const getSelectedAlertChannels = createMemoizedObservableForReferencedEntities(f
     return alwaysEmptyArray;
   }
   // null is treated as a pending result when converting the HTTP response into a result
-  return getAlertChannelsByIdsMutable(selectedChannels).startWith(null);
+  return getAlertChannelsInfosMutable(selectedChannels).startWith(null);
 });
 
 function alertChannelSelectionTableActions(form, onChange) {

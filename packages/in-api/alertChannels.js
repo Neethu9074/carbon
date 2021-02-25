@@ -9,29 +9,6 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
 
-export function getAlertChannels() {
-  return getAlertChannelsMutable().map(fromJS);
-}
-
-export function getAlertChannelsMutable() {
-  return http({
-    method: 'GET',
-    maxRetries: 3,
-    url: `/api/events/settings/alertingChannels`
-  }).map(response => response.body);
-}
-
-export function getAlertChannelsByIdsMutable(ids) {
-  return http({
-    method: 'GET',
-    maxRetries: 3,
-    url: '/api/events/settings/alertingChannels',
-    queryParams: {
-      ids: ids ? ids : []
-    }
-  }).map(response => response.body);
-}
-
 export function getAlertChannelsInfosMutable(ids = []) {
   return http({
     method: 'GET',
