@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import Select from 'in-components/form/Select';
-import { light } from 'in-themes/themes';
 import Card from 'in-new-components/Card';
+import { light } from 'in-themes/themes';
 
 import locals from './EntryContent.mless';
 
@@ -42,7 +43,7 @@ export default function EntryContent(props) {
 function SubTechnologiesDropdown({ subTechnologies, selectedSubEntryIndex, onSubEntrySelected }) {
   return (
     <div className={locals.drownDownWrapper}>
-      <span className={locals.dropDownLabel}>Technology</span>
+      <span className={locals.dropDownLabel}>{t('in-waiting-for-deployment:technology')}</span>
       <Select
         className={locals.dropDown}
         value={selectedSubEntryIndex}

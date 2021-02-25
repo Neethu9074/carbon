@@ -37,7 +37,7 @@ export default function GroupedLogs(props) {
       <GroupedView
         {...props}
         getItemName={({ count }) =>
-          t('in-logging:log', {
+          t('in-logging:logCount', {
             count,
             formattedCount: number.compact(count)
           })

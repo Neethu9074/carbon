@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 
 import {
   SideNavigation,
@@ -34,7 +35,7 @@ export default function InstallDocumentation(props) {
   return (
     <div className={locals.wrapper}>
       <div className={locals.heading}>
-        <span className={locals.headingText}>Installing Instana Agents</span>
+        <span className={locals.headingText}>{t('in-waiting-for-deployment:installingInstanaAgents')}</span>
       </div>
       <div className={locals.contentWithNavigation}>
         <div className={locals.navigationWrapper}>

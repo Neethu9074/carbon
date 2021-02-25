@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SplitScreenLogItemContent from 'in-logging/analyze/AnalyzeView/components/SplitScreenLogItemContent';
@@ -31,8 +32,8 @@ export default function LogDetail(props) {
             {...props}
             icon={getIconByType('logs', 'logs')}
             contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
-            label="Log"
-            title="Log"
+            label={t('in-logging:log')}
+            title={t('in-logging:log')}
             withBorderBottom
           />
         }
@@ -58,7 +59,7 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Log"
+      title={t('in-logging:log')}
       icon={getIconByType('logs', 'logs')}
       label={`Log: ${time ? formatDateTime(time) : ''}`}
       renderButtonLine={renderButtonLine}
@@ -78,7 +79,7 @@ function renderButtonLine(props) {
         target="_blank"
         href={logId && `/api/logging/log/${encodeURIComponent(logId)}?pretty`}
       >
-        Download
+        {t('in-logging:download')}
       </Button>
     </>
   );
@@ -87,7 +88,7 @@ function renderButtonLine(props) {
 function renderContext({ getHrefToUngroupedView }) {
   return (
     <Link className={locals.analyticsLink} href={getHrefToUngroupedView()}>
-      Analytics
+      {t('in-logging:analytics')}
     </Link>
   );
 }
@@ -95,8 +96,12 @@ function renderContext({ getHrefToUngroupedView }) {
 function renderTimeSelection({ getHrefToUngroupedView }) {
   return (
     <Link href={getHrefToUngroupedView()}>
-      <Tooltip content="Close log details">
-        <SvgIcon className={locals.closeIcon} aria-label="Close log details" type="lib_openclose_cancel" />
+      <Tooltip content={t('in-logging:closeLogDetails')}>
+        <SvgIcon
+          className={locals.closeIcon}
+          aria-label={t('in-logging:closeLogDetails')}
+          type="lib_openclose_cancel"
+        />
       </Tooltip>
     </Link>
   );

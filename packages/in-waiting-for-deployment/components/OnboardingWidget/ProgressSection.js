@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ProgressInformation from 'in-waiting-for-deployment/components/OnboardingWidget/ProgressInformation';
@@ -28,26 +29,34 @@ function getText({ isBackendAvailable, isAgentDeployed }) {
   if (isAgentDeployed) {
     return (
       <>
-        <span className={locals.description}>Agents are reporting. Data is being collected.</span>
+        <span className={locals.description}>
+          {t('in-waiting-for-deployment:agentsAreReportingDataIsBeingCollected')}
+        </span>
         <br />
-        <span className={locals.description}>Time to explore Instana!</span>
+        <span className={locals.description}>{t('in-waiting-for-deployment:timeToExploreInstana')}</span>
       </>
     );
   }
   if (isBackendAvailable) {
     return (
       <>
-        <span className={locals.description}>Your Instana instance is ready, and works best with lots of data.</span>
+        <span className={locals.description}>
+          {t('in-waiting-for-deployment:yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData')}
+        </span>
         <br />
-        <span className={locals.description}>{`Let's`} get some agents running…</span>
+        <span className={locals.description}>{t('in-waiting-for-deployment:letSGetSomeAgentsRunning')}</span>
       </>
     );
   }
   return (
     <>
-      <span className={locals.description}>While we are preparing your instana instance,</span>
+      <span className={locals.description}>
+        {t('in-waiting-for-deployment:whileWeArePreparingYourInstanaInstance')}
+      </span>
       <br />
-      <span className={locals.description}>get ready to deploy Agents in your environment…</span>
+      <span className={locals.description}>
+        {t('in-waiting-for-deployment:getReadyToDeployAgentsInYourEnvironment')}
+      </span>
     </>
   );
 }

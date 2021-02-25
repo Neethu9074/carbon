@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import HighlightingHandler from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph/HighlightingHandler';
@@ -102,7 +103,7 @@ export default getElementDimensions(
               kind="primaryv2"
               onClick={() => this.props.setSelectedNode(null)}
             >
-              Reset
+              {t('in-profiling:reset')}
             </Button>
           ) : (
             <div className={locals.resetButtonPlaceholder} />

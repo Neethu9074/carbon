@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { just } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { CpuProfileChart, MemoryProfileChart } from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileChart';
@@ -16,24 +17,24 @@ import useObservable from 'in-hooks/useObservable';
 
 export default [
   {
-    label: 'Summary',
+    label: t('in-profiling:summary'),
     path: `${analyzeProfilePathFullyQualified}/summary`,
     component: HotspotView
   },
   {
-    label: 'CPU',
+    label: t('in-profiling:cpu'),
     path: `${analyzeProfilePathFullyQualified}/cpu`,
     component: CpuProfile,
     isVisible: result => result.data && result.data.cpuProfile
   },
   {
-    label: 'Memory',
+    label: t('in-profiling:memory'),
     path: `${analyzeProfilePathFullyQualified}/memory`,
     component: MemoryProfile,
     isVisible: result => result.data && result.data.memoryProfile
   },
   {
-    label: 'Wait Time',
+    label: t('in-profiling:waitTime'),
     path: `${analyzeProfilePathFullyQualified}/time`,
     component: TimeProfile,
     isVisible: result => result.data && result.data.timeProfile

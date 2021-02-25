@@ -5,6 +5,7 @@
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -199,7 +200,7 @@ function CodeDialog({ title, content, language, disabledErrorMessage }) {
   );
 }
 
-export function DownloadButton({ href, title = 'Download' }) {
+export function DownloadButton({ href, title = t('in-waiting-for-deployment:download') }) {
   return (
     <Button target="_blank" href={href} icon="lib_actions_download">
       {title}

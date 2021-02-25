@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/components/LogsDistributionChartSection';
@@ -39,7 +40,7 @@ export default function LoggingQueryBuilderWorkspace({
       <LeftRightPadding>
         <Stack space="gutter">
           <Message type={warning} withIcon small>
-            This is an alpha version of a new product capability. We advise you not to rely on the data presented.
+            {t('in-logging:thisIsAnAlphaVersionOfANewProductCapabilityWeAdviseYouNotToRelyOnTheDataPresented')}
           </Message>
 
           <Sections>
@@ -68,7 +69,7 @@ export default function LoggingQueryBuilderWorkspace({
           </Sections>
           {isInvalid && (
             <Message type={error} withIcon small>
-              The query configuration is invalid. Please address the validation failures before continuing.
+              {t('in-logging:theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing')}
             </Message>
           )}
           {children}

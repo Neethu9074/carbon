@@ -4,6 +4,7 @@
  */
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 
 // import getLogsForConsole from 'in-logging/subscriptions/getLogsForConsole';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/raw/QueryBuilderWorkspace';
@@ -30,7 +31,7 @@ const MAX_ALLOWED_ITEMS_TO_RENDER = 10000;
 const columnDefinitions = [
   {
     id: 'timestamp',
-    label: 'Time',
+    label: t('in-logging:time'),
     width: '7.75rem',
     getContent({ log }) {
       return <span className={locals.time}>{formatDateTime(log.timestamp)}</span>;
@@ -38,7 +39,7 @@ const columnDefinitions = [
   },
   {
     id: 'log',
-    label: 'Log',
+    label: t('in-logging:log'),
     getContent({ log, groupLabel, getHrefToDetailId, selectedTags }) {
       const tags = log.tags.filter(({ tag }) => selectedTags.indexOf(tag.label) >= 0);
 

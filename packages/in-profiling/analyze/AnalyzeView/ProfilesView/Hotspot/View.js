@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useEffect } from 'react';
+import { t } from 'in-i18n';
 
 import { hotspotAutoExpandRowId as hotspotAutoExpandRowIdMatrixParameter } from 'in-new-components/Profiling/navigation/matrix';
 import { cpuColorMapper, memColorMapper, timeColorMapper } from 'in-profiling/analyze/AnalyzeView/colors';
@@ -82,12 +83,14 @@ export default function HotspotView({
                 message={
                   !profilesForHighlightedTimeframeResult.data ||
                   Object.keys(profilesForHighlightedTimeframeResult.data).length === 0
-                    ? `There are no profiles in the selected timeframe (${formatTime(
-                        highlightedTimeframe[0]
-                      )} - ${formatTime(highlightedTimeframe[1])}). Showing all instead.`
-                    : `Showing profiles for selection (${formatTime(highlightedTimeframe[0])} - ${formatTime(
-                        highlightedTimeframe[1]
-                      )})`
+                    ? t('in-profiling:thereAreNoProfilesInTheSelectedTimeframeshowingAllInstead', {
+                        startTime: formatTime(highlightedTimeframe[0]),
+                        endTime: formatTime(highlightedTimeframe[1])
+                      })
+                    : t('in-profiling:showingProfilesForSelection', {
+                        startTime: formatTime(highlightedTimeframe[0]),
+                        endTime: formatTime(highlightedTimeframe[1])
+                      })
                 }
               />
             </Card>
@@ -97,7 +100,7 @@ export default function HotspotView({
 
       <Row>
         <Hotspot
-          title="CPU"
+          title={t('in-profiling:cpu')}
           profile={profiles.cpuProfile}
           getColorFn={cpuColorMapper}
           viewAllHref$={getLinkToProfiles({ subPath: 'cpu' })}
@@ -106,7 +109,7 @@ export default function HotspotView({
           profileForHighlightedTimeframe={profilesForHighlightedTimeframeResult?.data?.cpuProfile}
         />
         <Hotspot
-          title="Memory"
+          title={t('in-profiling:memory')}
           profile={profiles.memoryProfile}
           getColorFn={memColorMapper}
           viewAllHref$={getLinkToProfiles({ subPath: 'memory' })}
@@ -115,7 +118,7 @@ export default function HotspotView({
           profileForHighlightedTimeframe={profilesForHighlightedTimeframeResult?.data?.memoryProfile}
         />
         <Hotspot
-          title="Wait Time"
+          title={t('in-profiling:waitTime')}
           profile={profiles.timeProfile}
           getColorFn={timeColorMapper}
           viewAllHref$={getLinkToProfiles({ subPath: 'time' })}
@@ -152,7 +155,7 @@ function Hotspot({
       <Card title={`${title} Hotspots`}>
         {isLoadingProfilesForHighlightedTimeframe ? (
           <HorizontalFlexWrapper className={locals.contentLoadingWrapper}>
-            <LoadingIndicator width={150} height={150} text="Loading profiles" />
+            <LoadingIndicator width={150} height={150} text={t('in-profiling:loadingProfiles')} />
           </HorizontalFlexWrapper>
         ) : (
           <div className={locals.content}>
@@ -211,7 +214,7 @@ function renderSelfTimeComponents(profilesWithSelfTimes, getColorFn) {
 function ViewAll({ viewAllHref$ }, className) {
   return (
     <Link className={className} href$={viewAllHref$}>
-      View all
+      {t('in-profiling:viewAll')}
     </Link>
   );
 }

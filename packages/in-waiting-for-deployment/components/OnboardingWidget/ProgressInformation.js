@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import Button from 'in-new-components/Button';
@@ -19,13 +20,13 @@ export default function ProgressInformation({ getRedirectButtonProperties, isBac
       <div className={locals.stepsWithProgressBar}>
         <div className={locals.steps}>
           <Step
-            text="Preparing instance"
+            text={t('in-waiting-for-deployment:preparingInstance')}
             icon={isBackendAvailable ? 'lib_check' : 'lib_actions_loading'}
             spinning={!isBackendAvailable}
           />
           <div className={locals.stepSpacer} />
           <Step
-            text="Agent deployed"
+            text={t('in-waiting-for-deployment:agentDeployed')}
             disabled={!isAgentDeployed}
             spinning={isBackendAvailable && !isAgentDeployed}
             icon={isBackendAvailable ? (isAgentDeployed ? 'lib_check' : 'lib_actions_loading') : 'lib_actions_settings'}
