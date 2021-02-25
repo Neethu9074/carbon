@@ -74,7 +74,7 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
                 t('in-forge:plugins.awsMskBroker.dashboard.in'),
                 t('in-forge:plugins.awsMskBroker.dashboard.out')
               ],
-              formatter: bytes.compact,
+              formatter: bytes.perSecond.compact,
               type: 'line'
             }}
           />
@@ -102,7 +102,7 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
               min: 0,
               metrics: ['messages_in_per_sec'],
               labels: [t('in-forge:plugins.awsMskBroker.dashboard.count')],
-              formatter: number.compact,
+              formatter: number.perSecond,
               type: 'line'
             }}
           />
