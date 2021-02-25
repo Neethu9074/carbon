@@ -96,6 +96,14 @@ const ungroupedView = {
     },
     getColumnValue({ metricDefinition, beacon }) {
       return metricDefinition.pathToValueInBeacon && get(beacon, metricDefinition.pathToValueInBeacon);
+    },
+    getColumnLabel({ metricDefinition, tagCatalog }) {
+      const tagLabel = tagCatalog?.tagsByName[metricDefinition.tagName]?.label;
+      return tagLabel ?? metricDefinition.label;
+    },
+    getColumnFormatter({ metricDefinition }) {
+      // Tag definitions in the tag catalog do not specify a formatter. For now we can use metric formatter.
+      return metricDefinition.formatter;
     }
   }
 };

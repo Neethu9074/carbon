@@ -111,6 +111,8 @@ const ungroupedViewPropType = rpt.shape({
   customFieldRenderingInstructions: rpt.objectOf(rpt.shape(extendedColumnDefinitionShape).isRequired),
   metricFieldExtractors: rpt.shape({
     getColumnId: rpt.func.isRequired,
+    getColumnLabel: rpt.func.isRequired,
+    getColumnFormatter: rpt.func.isRequired,
     getColumnValue: rpt.func.isRequired
   })
 }).isRequired;

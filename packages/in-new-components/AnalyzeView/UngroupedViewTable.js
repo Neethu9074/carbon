@@ -34,6 +34,7 @@ function Table(props) {
     fixedFields,
     ungroupedViewConfiguration,
     metricCatalog,
+    filteringTagCatalog,
     progress,
     errors,
     items,
@@ -54,22 +55,29 @@ function Table(props) {
             // Ignore unknown metrics or if we don't know how to extract the respective values
             return null;
           }
-          const { getColumnId, getColumnValue } = ungroupedViewConfiguration.metricFieldExtractors;
+          const {
+            getColumnId,
+            getColumnValue,
+            getColumnLabel,
+            getColumnFormatter
+          } = ungroupedViewConfiguration.metricFieldExtractors;
           const columnId = getColumnId({ metricDefinition });
           if (columnId == null || existingColumnIds.includes(columnId)) {
             // Avoid adding the same column twice, which could happen when the same metric with different aggregations is selected
             return null;
           }
           existingColumnIds.push(columnId);
+          const columnLabel = getColumnLabel({ metricDefinition, tagCatalog: filteringTagCatalog });
+          const columnFormatter = getColumnFormatter({ metricDefinition });
           return {
-            label: metricDefinition.label,
+            label: columnLabel,
             id: columnId,
             width: '9rem',
             minWidth: '6rem',
             shrink: true,
             getContent(params) {
               const value = getColumnValue({ metricDefinition, ...params });
-              const formatter = wrapToDiscardNegativeValues(getFormatter(metricDefinition?.formatter)).compact;
+              const formatter = wrapToDiscardNegativeValues(getFormatter(columnFormatter)).compact;
               return <span>{formatter?.(value) ?? value}</span>;
             }
           };
