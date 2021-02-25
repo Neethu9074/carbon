@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import moment from 'moment';
+import { t } from 'in-i18n';
 
 import { timeFormat as defaultTimeFormat, dateFormat } from 'in-services/formatters/date';
 import { isBlank } from 'in-services/util/string';
@@ -19,7 +20,7 @@ export function timeValidator(v, timeFormat = defaultTimeFormat) {
   return [
     {
       severity: 'error',
-      message: `Time does not have the format ${timeFormat}`
+      message: t('in-services:validators.timeDoesNotHaveTheFormat', { timeFormat: timeFormat })
     }
   ];
 }
@@ -35,14 +36,14 @@ export function dateValidator(v) {
     return [
       {
         severity: 'error',
-        message: `Date does not have the format ${dateFormat}`
+        message: t('in-services:validators.dateDoesNotHaveTheFormat', { dateFormat: dateFormat })
       }
     ];
   }
   return [
     {
       severity: 'error',
-      message: `Date is invalid`
+      message: t('in-services:validators.dateIsInvalid')
     }
   ];
 }

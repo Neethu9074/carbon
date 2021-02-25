@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { isBlank } from 'in-services/util/string';
 
 export function stringMaxLengthValidator(maxLength = 128) {
@@ -10,7 +12,7 @@ export function stringMaxLengthValidator(maxLength = 128) {
       return [
         {
           severity: 'error',
-          message: `Value must be shorter than ${maxLength} characters.`
+          message: t('in-services:validators.valueMustBeShorterThanMaxLengthCharacters', { maxLength: maxLength })
         }
       ];
     }
@@ -26,7 +28,7 @@ export function notBlankValidator(str) {
     return [
       {
         severity: 'error',
-        message: 'The value must not be blank.'
+        message: t('in-services:validators.theValueMustNotBeBlank')
       }
     ];
   }

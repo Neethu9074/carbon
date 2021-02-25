@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { notANumberValidator } from 'in-services/validators/number';
 
 // These validators can be used for features such as "Edit as JSON"
@@ -61,9 +63,9 @@ function createPrototypeCheck(expectedPrototypes, validateTypeDetails) {
 
 // Exposed for testing purposes
 export function getErrorMessage(expectedType, actualType) {
-  const message = `A value of type '${expectedType}' is required.`;
+  const message = t('in-services:validators.aValueOfTypeExpectedTypeIsRequired', { expectedType: expectedType });
   if (!actualType) {
     return message;
   }
-  return `${message} Got '${actualType}'.`;
+  return t('in-services:validators.msgGotActualType', { msg: message, actualType: actualType });
 }

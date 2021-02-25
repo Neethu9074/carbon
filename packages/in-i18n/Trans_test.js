@@ -16,18 +16,6 @@ import Trans, { markAsSecureString } from 'in-i18n/Trans';
 import { getProps } from 'in-test/enzymeTestUtils';
 
 describe('in-i18n/Trans', () => {
-  beforeEach(async () => {
-    await i18n.init({
-      lng: 'de',
-      defaultNS: 'common',
-
-      interpolation: {
-        // React already escapes values
-        escapeValue: false
-      }
-    });
-  });
-
   it('must work with primitive', () => {
     const date = new Date();
     const wrapper = mount(

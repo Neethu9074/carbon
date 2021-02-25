@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 export function build(parsedResult) {
   let result = '';
   if (!parsedResult || parsedResult.length === 0) {
@@ -86,7 +88,9 @@ export function validate(parsedResult) {
     if (parsedPart.type === 'UNSUPPORTED') {
       validationResult.push({
         severity: 'error',
-        message: `The given path is unsupported (${parsedPart.name})`
+        message: t('in-services:validators.theGivenPathIsUnsupportedParsedPartName', {
+          parsedPartName: parsedPart.name
+        })
       });
     }
   }

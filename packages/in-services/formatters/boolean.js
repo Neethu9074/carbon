@@ -8,8 +8,10 @@
  * @param {value} the value to be checked for falsy
  * @returns {string} the 'Yes' if not falsy, 'No' otherwhise
  */
+import { t } from 'in-i18n';
+
 export function yesOrNo(value) {
-  return value ? 'Yes' : 'No';
+  return value ? t('in-services:formatters.yes') : t('in-services:formatters.no');
 }
 
 export function compare(b1, b2) {

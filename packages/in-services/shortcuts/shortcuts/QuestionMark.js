@@ -9,5 +9,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import HelpDialog from 'in-components/helpSystem/HelpDialog';
 
 export default function onPressed() {
-  addActiveDialog(<HelpDialog title="Shortcuts" markdownContent={t('in-services:shortcuts')} />);
+  addActiveDialog(
+    <HelpDialog title={t('in-services:shortcuts.shortcuts')} markdownContent={t('in-services:shortcuts.help')} />
+  );
 }

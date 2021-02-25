@@ -1,3 +1,58 @@
 {
-  "shortcuts": "Some important functions of Instana can be activated using keyboard shortcuts.\n\n - `c` : centering the map\n - `f` : open and focusing the searchbar\n - `esc` : close the sidebar / dashboard that is currently visible\n - `shift + ?` : open the help dialog for shortcuts"
+  "shortcuts": {
+    "help": "Some important functions of Instana can be activated using keyboard shortcuts.\n\n - `c` : centering the map\n - `f` : open and focusing the searchbar\n - `esc` : close the sidebar / dashboard that is currently visible\n - `shift + ?` : open the help dialog for shortcuts",
+    "shortcuts": "Shortcuts"
+  },
+  "formatters": {
+    "yes": "Yes",
+    "no": "No",
+    "byteUnits": {
+      "B": "{{num}} B",
+      "kiB": "{{num}} kiB",
+      "MiB": "{{num}} MiB",
+      "GiB": "{{num}} GiB",
+      "TiB": "{{num}} TiB",
+      "PiB": "{{num}} PiB",
+      "EiB": "{{num}} EiB",
+      "ZiB": "{{num}} ZiB",
+      "YiB": "{{num}} YiB"
+    },
+    "perSec": "{{num}}/s",
+    "perSec2": "{{num}} / sec",
+    "noActivity": "No activity",
+    "percent": "{{num}}%",
+    "detailedBytes": "{{bytesTwoDecimalPlaces}} ({{numCompact}} B)",
+    "healthy": "Healthy",
+    "unhealthy": "Unhealthy",
+    "timeUnits": {
+      "µs": "{{num}}µs",
+      "ns": "{{num}}ns",
+      "us": "{{num}}µs",
+      "ms": "{{num}}ms",
+      "s": "{{num}}s",
+      "min": "{{num}}min",
+      "h": "{{num}}h",
+      "d": "{{num}}d"
+    },
+    "temperature": "{{num}}°C",
+    "lt1ms": "< 1ms"
+  },
+  "validators": {
+    "timeDoesNotHaveTheFormat": "Time does not have the format {{timeFormat}}",
+    "dateDoesNotHaveTheFormat": "Date does not have the format {{dateFormat}}",
+    "valueIsNotOneOfTheSupportedValuesExpectedOneOf": "Value '{{v}}' is not one of the supported values. Expected one of: {{allowedValues}}",
+    "commaJoin": ", ",
+    "aValueOfTypeExpectedTypeIsRequired": "A value of type '{{expectedType}}' is required.",
+    "msgGotActualType": "{{msg}} Got '{{actualType}}'.",
+    "valueMustBeLargerOrEqualToMinInclusive": "Value must be larger or equal to {{minInclusive}}.",
+    "valueMustBeSmallerOrEqualToMinInclusive": "Value must be smaller or equal to {{maxInclusive}}.",
+    "valueMustBeShorterThanMaxLengthCharacters": "Value must be shorter than {{maxLength}} characters.",
+    "theGivenPathIsUnsupportedParsedPartName": "The given path is unsupported ({{parsedPartName}})",
+    "dateIsInvalid": "Date is invalid",
+    "pleaseTypeInANumber": "Please type in a number.",
+    "pleaseTypeInAPositiveNumber": "Please type in a positive number.",
+    "theProvidedNumberIsInvalid": "The provided number is invalid.",
+    "theValueMustNotBeBlank": "The value must not be blank.",
+    "theValueMustNotBeUndefined": "The value must not be undefined."
+  }
 }
