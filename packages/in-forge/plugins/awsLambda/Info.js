@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { megaBytesZeroDecimalPlaces, seconds } from 'in-services/formatters/number';
@@ -13,15 +14,21 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="ARN">{data.get('arn')}</DescriptionItem>
-      <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-      <DescriptionItem title="Description">{data.get('description')}</DescriptionItem>
-      <DescriptionItem title="Runtime">{data.get('runtime')}</DescriptionItem>
-      <DescriptionItem title="Handler">{data.get('handler')}</DescriptionItem>
-      <DescriptionItem title="Timeout">{seconds.fixedCompact(data.get('timeout'))}</DescriptionItem>
-      <DescriptionItem title="Memory Size">{megaBytesZeroDecimalPlaces(data.get('memory_size'))}</DescriptionItem>
-      <DescriptionItem title="Last Modified">{formatDateTime(data.get('last_modified'))}</DescriptionItem>
-      <DescriptionItem title="Region">{data.get('aws_grouping_zone')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.arn')}>{data.get('arn')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.name')}>{data.get('name')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.description')}>{data.get('description')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.runtime')}>{data.get('runtime')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.handler')}>{data.get('handler')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.timeout')}>
+        {seconds.fixedCompact(data.get('timeout'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.memorySize')}>
+        {megaBytesZeroDecimalPlaces(data.get('memory_size'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.lastModified')}>
+        {formatDateTime(data.get('last_modified'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.region')}>{data.get('aws_grouping_zone')}</DescriptionItem>
     </DescriptionList>
   );
 }

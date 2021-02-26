@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getDockerContainerForEcsContainer from 'in-subscription/getDockerContainerForEcsContainer';
@@ -24,11 +25,8 @@ export default connectTo(
     }
 
     return (
-      <DashboardSection title="Docker Container">
-        <p>
-          The runtime metrics and more details for this container can be found on its corresponding Docker container
-          dashboard:
-        </p>
+      <DashboardSection title={t('in-forge:plugins.awsEcsContainer.titleDockerContainer')}>
+        <p>{t('in-forge:plugins.awsEcsContainer.descriptionDockerContainer')}</p>
         <HierarchicalLink snapshot={container} />
       </DashboardSection>
     );

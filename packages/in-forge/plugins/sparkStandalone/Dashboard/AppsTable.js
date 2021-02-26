@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -12,7 +13,7 @@ import Link from 'in-components/Link';
 
 const cols = [
   {
-    title: 'Application Id',
+    title: t('in-forge:plugins.sparkStandalone.titleApplicationId'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'State',
+    title: t('in-forge:plugins.sparkStandalone.titleState'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Name',
+    title: t('in-forge:plugins.sparkStandalone.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -39,7 +40,7 @@ const cols = [
     }
   },
   {
-    title: 'User',
+    title: t('in-forge:plugins.sparkStandalone.titleUser'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -48,7 +49,7 @@ const cols = [
     }
   },
   {
-    title: 'Start Time',
+    title: t('in-forge:plugins.sparkStandalone.titleStartTime'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -58,7 +59,7 @@ const cols = [
     }
   },
   {
-    title: 'Finish Time',
+    title: t('in-forge:plugins.sparkStandalone.titleFinishTime'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -68,13 +69,13 @@ const cols = [
         if (finishTime > 0) {
           return formatDateTime(finishTime);
         } else {
-          return 'Not finished';
+          return t('in-forge:plugins.sparkStandalone.contentNotFinished');
         }
       }
     }
   },
   {
-    title: 'Cores',
+    title: t('in-forge:plugins.sparkStandalone.titleCores'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -84,7 +85,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory Per Node',
+    title: t('in-forge:plugins.sparkStandalone.titleMemoryPerNode'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -94,7 +95,7 @@ const cols = [
     }
   },
   {
-    title: 'Tracking URL',
+    title: t('in-forge:plugins.sparkStandalone.titleTrackingURL'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -103,7 +104,7 @@ const cols = [
       getContent(value) {
         return (
           <Link href={value} external>
-            Tracking URL
+            {t('in-forge:plugins.sparkStandalone.titleTrackingURL')}
           </Link>
         );
       }
@@ -131,7 +132,7 @@ export default function AppsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle="Most Recent Apps"
+      cardTitle={t('in-forge:plugins.sparkStandalone.titleMostRecentApps')}
       cols={cols}
       rows={rows}
       initialSortColumn={5}

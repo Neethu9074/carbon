@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number, percentage, millis } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
@@ -18,14 +20,14 @@ export default [
       'environment_instances_severe'
     ],
     labels: [
-      'Environment Health',
-      'OK Instances',
-      'Info Instances',
-      'Unknown Instances',
-      'No Data Instances',
-      'Warning Instances',
-      'Degraded Instances',
-      'Severe Instances'
+      t('in-forge:plugins.awsBeanstalk.labelEnvironmentHealth'),
+      t('in-forge:plugins.awsBeanstalk.labelOKInstances'),
+      t('in-forge:plugins.awsBeanstalk.labelInfoInstances'),
+      t('in-forge:plugins.awsBeanstalk.labelUnknownInstances'),
+      t('in-forge:plugins.awsBeanstalk.labelNoDataInstances'),
+      t('in-forge:plugins.awsBeanstalk.labelWarningInstances'),
+      t('in-forge:plugins.awsBeanstalk.labelDegradedInstances'),
+      t('in-forge:plugins.awsBeanstalk.labelSevereInstances')
     ],
     min: 0,
     formatter: number
@@ -42,14 +44,14 @@ export default [
       'application_latency_p99.9'
     ],
     labels: [
-      'Application Latency P10',
-      'Application Latency P50',
-      'Application Latency P75',
-      'Application Latency P85',
-      'Application Latency P90',
-      'Application Latency P95',
-      'Application Latency P99',
-      'Application Latency P99.9'
+      t('in-forge:plugins.labelApplicationLatencyMetric.p10'),
+      t('in-forge:plugins.labelApplicationLatencyMetric.p50'),
+      t('in-forge:plugins.labelApplicationLatencyMetric.p75'),
+      t('in-forge:plugins.labelApplicationLatencyMetric.p85'),
+      t('in-forge:plugins.labelApplicationLatencyMetric.p90'),
+      t('in-forge:plugins.labelApplicationLatencyMetric.p95'),
+      t('in-forge:plugins.labelApplicationLatencyMetric.p99'),
+      t('in-forge:plugins.labelApplicationLatencyMetric.p999')
     ],
     min: 0,
     formatter: millis
@@ -63,183 +65,191 @@ export default [
       'application_requests_total'
     ],
     labels: [
-      'Application Requests 2xx',
-      'Application Requests 3xx',
-      'Application Requests 4xx',
-      'Application Requests 5xx',
-      'Application Requests Total'
+      t('in-forge:plugins.labelApplicationRequestsMetric.2xx'),
+      t('in-forge:plugins.labelApplicationRequestsMetric.3xx'),
+      t('in-forge:plugins.labelApplicationRequestsMetric.4xx'),
+      t('in-forge:plugins.labelApplicationRequestsMetric.5xx'),
+      t('in-forge:plugins.labelApplicationRequestsMetric.total')
     ],
     min: 0,
     formatter: number
   },
   // instances
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'instance_health', 'Instance'),
-    labels: ['Instance Health'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'instance_health', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.awsBeanstalk.labelInstanceHealth')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_irq', 'Instance'),
-    labels: ['Instance CPU irq'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_irq', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceCPUStatesMetric.irq')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_idle', 'Instance'),
-    labels: ['Instance CPU idle'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_idle', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceCPUStatesMetric.idle')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_user', 'Instance'),
-    labels: ['Instance CPU user'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_user', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceCPUStatesMetric.user')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_system', 'Instance'),
-    labels: ['Instance CPU system'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_system', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceCPUStatesMetric.system')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_softirq', 'Instance'),
-    labels: ['Instance CPU softirq'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_softirq', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceCPUStatesMetric.softirq')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_iowait', 'Instance'),
-    labels: ['Instance CPU iowait'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_iowait', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceCPUStatesMetric.iowait')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_nice', 'Instance'),
-    labels: ['Instance CPU nice'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_nice', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceCPUStatesMetric.nice')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_load_average_1min', 'Instance'),
-    labels: ['Instance CPU Load'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'cpu_load_average_1min', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceCPUStatesMetric.load')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'disk_space_usage', 'Instance'),
-    labels: ['Instance Disk Usage'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'disk_space_usage', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.awsBeanstalk.labelInstanceDiskUsage')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p10', 'Instance'),
-    labels: ['Instance Latency P10'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p10', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceLatencyMetric.p10')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p50', 'Instance'),
-    labels: ['Instance Latency P50'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p50', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceLatencyMetric.p50')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p75', 'Instance'),
-    labels: ['Instance Latency P75'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p75', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceLatencyMetric.p75')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p85', 'Instance'),
-    labels: ['Instance Latency P85'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p85', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceLatencyMetric.p85')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p90', 'Instance'),
-    labels: ['Instance Latency P90'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p90', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceLatencyMetric.p90')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p95', 'Instance'),
-    labels: ['Instance Latency P95'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p95', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceLatencyMetric.p95')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p99', 'Instance'),
-    labels: ['Instance Latency P99'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p99', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceLatencyMetric.p99')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'application_latency_p99.9', 'Instance'),
-    labels: ['Instance Latency P99.9'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch(
+      'instanceMetrics',
+      'application_latency_p99.9',
+      t('in-forge:plugins.labelInstances')
+    ),
+    labels: [t('in-forge:plugins.labelInstanceLatencyMetric.p999')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     formatter: millis
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'application_requests_2xx', 'Instance'),
-    labels: ['Instance Requests 2xx'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_requests_2xx', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceRequestsMetric.2xx')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'application_requests_3xx', 'Instance'),
-    labels: ['Instance Requests 3xx'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_requests_3xx', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceRequestsMetric.3xx')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'application_requests_4xx', 'Instance'),
-    labels: ['Instance Requests 4xx'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_requests_4xx', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceRequestsMetric.4xx')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'application_requests_5xx', 'Instance'),
-    labels: ['Instance Requests 5xx'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch('instanceMetrics', 'application_requests_5xx', t('in-forge:plugins.labelInstances')),
+    labels: [t('in-forge:plugins.labelInstanceRequestsMetric.5xx')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('instanceMetrics', 'application_requests_total', 'Instance'),
-    labels: ['Instance Requests Total'],
-    category: ['Instances'],
+    metrics: getDynamicMetricMatch(
+      'instanceMetrics',
+      'application_requests_total',
+      t('in-forge:plugins.labelInstances')
+    ),
+    labels: [t('in-forge:plugins.labelInstanceRequestsMetric.total')],
+    category: [t('in-forge:plugins.labelInstances')],
     min: 0,
     formatter: number
   }

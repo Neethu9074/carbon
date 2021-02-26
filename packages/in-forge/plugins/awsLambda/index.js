@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import metricDefinitions from 'in-forge/plugins/awsLambda/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsLambda/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -17,11 +19,10 @@ import { plugins } from 'in-forge/constants';
 // technology tag).
 registerSnapshotDefinition({
   plugin: plugins.awsLambda,
-
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {
-    label: 'AWS Lambda'
+    label: t('in-forge:pluginName_awsLambda')
   },
 
   getLabel(snapshot) {

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
@@ -15,70 +16,73 @@ export default function AwsEbsDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <GetMetricStatisticsInUse snapshot={snapshot} />
-      <DashboardSection title="Bytes">
+      <DashboardSection title={t('in-forge:plugins.titleBytes')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['read_bytes', 'write_bytes'],
-            labels: ['Read Bytes', 'Write Bytes'],
+            labels: [t('in-forge:plugins.awsEbs.labelReadBytes'), t('in-forge:plugins.awsEbs.labelWriteBytes')],
             type: 'line',
             formatter: bytes.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Operations">
+      <DashboardSection title={t('in-forge:plugins.titleOperations')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['read_ops', 'write_ops'],
-            labels: ['Read Operations', 'Write Operations'],
+            labels: [
+              t('in-forge:plugins.awsEbs.labelReadOperations'),
+              t('in-forge:plugins.awsEbs.labelWriteOperations')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Time">
+      <DashboardSection title={t('in-forge:plugins.titleTime')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['total_read_time', 'total_write_time'],
-            labels: ['Total Read Time', 'Total Write Time'],
+            labels: [t('in-forge:plugins.awsEbs.labelTotalReadTime'), t('in-forge:plugins.awsEbs.labelTotalWriteTime')],
             type: 'line',
             formatter: seconds.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Idle">
+      <DashboardSection title={t('in-forge:plugins.titleIdle')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['idle_time'],
-            labels: ['Idle Time'],
+            labels: [t('in-forge:plugins.awsEbs.labelIdleTime')],
             type: 'line',
             formatter: seconds.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Queue">
+      <DashboardSection title={t('in-forge:plugins.titleQueue')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['queue_length'],
-            labels: ['Queue Length'],
+            labels: [t('in-forge:plugins.awsEbs.labelQueueLength')],
             type: 'line',
             formatter: number.compact
           }}
@@ -86,7 +90,7 @@ export default function AwsEbsDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       {snapshot.getIn(['data', 'type']) !== 'io1' && (
-        <DashboardSection title="Burst">
+        <DashboardSection title={t('in-forge:plugins.titleBurst')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
@@ -15,33 +16,47 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="ARN">{data.get('arn')}</DescriptionItem>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
-      <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-      <DescriptionItem title="Description">{data.get('description')}</DescriptionItem>
-      <DescriptionItem title="Revision ID">{data.get('revision')}</DescriptionItem>
-      <DescriptionItem title="Code Hash">{data.get('code_sha_256')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.arn')}>{data.get('arn')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.version')}>{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.name')}>{data.get('name')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.description')}>{data.get('description')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.revisionID')}>{data.get('revision')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.codeHash')}>{data.get('code_sha_256')}</DescriptionItem>
       {data.get('npmPackageName') && (
-        <DescriptionItem title="Node.js Package Name">{data.get('npmPackageName')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.infoTitle.nodejsPackageName')}>
+          {data.get('npmPackageName')}
+        </DescriptionItem>
       )}
       {data.get('npmPackageVersion') && (
-        <DescriptionItem title="Node.js Package Version">{data.get('npmPackageVersion')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.infoTitle.nodejsPackageVersion')}>
+          {data.get('npmPackageVersion')}
+        </DescriptionItem>
       )}
       {data.get('npmPackageDescription') && (
-        <DescriptionItem title="Node.js Package Description">{data.get('npmPackageDescription')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.infoTitle.nodejsPackageDescription')}>
+          {data.get('npmPackageDescription')}
+        </DescriptionItem>
       )}
-      <DescriptionItem title="Runtime">{getRuntimeByKey(data.get('runtime')).label}</DescriptionItem>
-      <DescriptionItem title="Handler">{data.get('handler')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.runtime')}>
+        {getRuntimeByKey(data.get('runtime')).label}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.handler')}>{data.get('handler')}</DescriptionItem>
       {data.get('timeout') != null && (
-        <DescriptionItem title="Timeout">{seconds.fixedCompact(data.get('timeout'))}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.infoTitle.timeout')}>
+          {seconds.fixedCompact(data.get('timeout'))}
+        </DescriptionItem>
       )}
       {data.get('memory_size') != null && (
-        <DescriptionItem title="Memory Size">{megaBytesZeroDecimalPlaces(data.get('memory_size'))}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.infoTitle.memorySize')}>
+          {megaBytesZeroDecimalPlaces(data.get('memory_size'))}
+        </DescriptionItem>
       )}
       {data.get('last_modified') != null && (
-        <DescriptionItem title="Last Modified">{formatDateTime(data.get('last_modified'))}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.infoTitle.lastModified')}>
+          {formatDateTime(data.get('last_modified'))}
+        </DescriptionItem>
       )}
-      <DescriptionItem title="Region">{data.get('aws_grouping_zone')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.region')}>{data.get('aws_grouping_zone')}</DescriptionItem>
       <LambdaFunctionLink snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

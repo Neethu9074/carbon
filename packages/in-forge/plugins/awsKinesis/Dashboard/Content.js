@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
@@ -16,154 +17,163 @@ export default function AwsKinesisDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <GetMetricStatisticsInUse snapshot={snapshot} />
-      <DashboardSection title="Get Records">
+      <DashboardSection title={t('in-forge:plugins.awsKinesis.titleGetRecords')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['get_records_records', 'get_records_success'],
-            labels: ['Get Records records', 'Get Records success'],
+            labels: [
+              t('in-forge:plugins.awsKinesis.labelGetRecordsRecords'),
+              t('in-forge:plugins.awsKinesis.labelGetRecordsSuccess')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Put Records">
+      <DashboardSection title={t('in-forge:plugins.awsKinesis.titlePutRecords')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['put_records_records', 'put_records_success'],
-            labels: ['Put Records records', 'Put Records success'],
+            labels: [
+              t('in-forge:plugins.awsKinesis.labelPutRecordsRecords'),
+              t('in-forge:plugins.awsKinesis.labelPutRecordsSuccess')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Get Records Performance">
+      <DashboardSection title={t('in-forge:plugins.awsKinesis.titleGetRecordsPerformance')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['get_records_age_ms'],
-            labels: ['Get Records age'],
+            labels: [t('in-forge:plugins.awsKinesis.labelGetRecordsAge')],
             type: 'line',
             formatter: millis.detailed
           }}
           y2={{
             min: 0,
             metrics: ['get_records_latency'],
-            labels: ['Get Records Latency'],
+            labels: [t('in-forge:plugins.awsKinesis.labelGetRecordsLatency')],
             type: 'line',
             formatter: millis.detailed
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Get Records Traffic">
+      <DashboardSection title={t('in-forge:plugins.awsKinesis.titleGetRecordsTraffic')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['get_records_bytes'],
-            labels: ['Get Records traffic'],
+            labels: [t('in-forge:plugins.awsKinesis.labelGetRecordsTraffic')],
             type: 'line',
             formatter: bytes.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Put Record Performance">
+      <DashboardSection title={t('in-forge:plugins.awsKinesis.titlePutRecordPerformance')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['put_record_latency'],
-            labels: ['Put Record Latency'],
+            labels: [t('in-forge:plugins.awsKinesis.labelPutRecordLatency')],
             type: 'line',
             formatter: millis.detailed
           }}
           y2={{
             min: 0,
             metrics: ['put_record_success'],
-            labels: ['Put Records success'],
+            labels: [t('in-forge:plugins.awsKinesis.labelPutRecordTraffic')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Put Record Traffic">
+      <DashboardSection title={t('in-forge:plugins.awsKinesis.titlePutRecordTraffic')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['put_record_bytes'],
-            labels: ['Put Record traffic'],
+            labels: [t('in-forge:plugins.awsKinesis.labelPutRecordTraffic')],
             type: 'line',
             formatter: bytes.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Incoming Records">
+      <DashboardSection title={t('in-forge:plugins.awsKinesis.titleIncomingRecords')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['incoming_records'],
-            labels: ['Incoming records'],
+            labels: [t('in-forge:plugins.awsKinesis.labelIncomingRecords')],
             type: 'line',
             formatter: number.compact
           }}
           y2={{
             min: 0,
             metrics: ['incoming_bytes'],
-            labels: ['Incoming traffic'],
+            labels: [t('in-forge:plugins.awsKinesis.labelIncomingTraffic')],
             type: 'line',
             formatter: bytes.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Put Records Performance">
+      <DashboardSection title={t('in-forge:plugins.awsKinesis.titlePutRecordsPerformance')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['put_records_latency'],
-            labels: ['Put Records Latency'],
+            labels: [t('in-forge:plugins.awsKinesis.labelPutRecordsLatency')],
             type: 'line',
             formatter: millis.detailed
           }}
           y2={{
             min: 0,
             metrics: ['put_records_bytes'],
-            labels: ['Put Records traffic'],
+            labels: [t('in-forge:plugins.awsKinesis.labelPutRecordsTraffic')],
             type: 'line',
             formatter: bytes.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Provisioned Throughput Exceeded">
+      <DashboardSection title={t('in-forge:plugins.awsKinesis.titleProvisionedThroughputExceeded')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['read_provisioned_throughput_exceeded', 'write_provisioned_throughput_exceeded'],
-            labels: ['Read Provisioned Throughput Exceeded', 'Write Provisioned Throughput Exceeded'],
+            labels: [
+              t('in-forge:plugins.awsKinesis.labelReadProvisionedThroughputExceeded'),
+              t('in-forge:plugins.awsKinesis.labelWriteProvisionedThroughputExceeded')
+            ],
             type: 'line',
             formatter: number.compact
           }}

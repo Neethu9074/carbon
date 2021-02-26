@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getTriggersForLambdaVersion from 'in-subscription/getTriggersForLambdaVersion';
@@ -17,7 +18,7 @@ export default function AwsLambdaVersionSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Lambda Version Info</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.awsLambdaVersion.headerLambdaVersionInfo')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -25,9 +26,16 @@ export default function AwsLambdaVersionSidebar({ snapshot }) {
 
       <TagList snapshot={snapshot} />
 
-      <SidebarSnapshotItemList snapshotId={snapshotId} subscription={getTriggersForLambdaVersion} label="Triggers" />
+      <SidebarSnapshotItemList
+        snapshotId={snapshotId}
+        subscription={getTriggersForLambdaVersion}
+        label={t('in-forge:plugins.awsLambdaVersion.labelTriggers')}
+      />
 
-      <KeyValueOverlay header="Runtime Versions" data={snapshot.getIn(['data', 'versions'])} />
+      <KeyValueOverlay
+        header={t('in-forge:plugins.awsLambdaVersion.headerRuntimeVersions')}
+        data={snapshot.getIn(['data', 'versions'])}
+      />
 
       <ServiceInstancesList snapshot={snapshot} />
     </div>

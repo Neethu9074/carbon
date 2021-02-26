@@ -9,7 +9,6 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsLambdaVersion,
-
   kpiDefinitions,
   metricDefinitions,
   supportsInfrastructureTabSubscript: true

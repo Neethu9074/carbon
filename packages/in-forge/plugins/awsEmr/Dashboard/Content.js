@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
@@ -16,14 +17,19 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <GetMetricStatisticsInUse snapshot={snapshot} />
-      <DashboardSection title="Cluster Nodes">
+      <DashboardSection title={t('in-forge:plugins.awsEmr.titleClusterNodes')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['active_nodes', 'decommissioned_nodes', 'unhealthy_nodes', 'lost_nodes'],
-            labels: ['Active', 'Decommissioned', 'Unhealthy', 'Lost'],
+            labels: [
+              t('in-forge:plugins.awsEmr.labelActive'),
+              t('in-forge:plugins.awsEmr.labelDecommissioned'),
+              t('in-forge:plugins.awsEmr.labelUnhealthy'),
+              t('in-forge:plugins.awsEmr.labelLost')
+            ],
             type: 'stackedArea',
             formatter: number.compact,
             tooltipFormatter: number.detailed
@@ -32,14 +38,18 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <Columize>
-        <DashboardSection title="Applications Status">
+        <DashboardSection title={t('in-forge:plugins.awsEmr.titleApplicationsStatus')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['apps_running', 'apps_pending', 'apps_failed'],
-              labels: ['Running', 'Pending', 'Failed'],
+              labels: [
+                t('in-forge:plugins.awsEmr.labelRunning'),
+                t('in-forge:plugins.awsEmr.labelPending'),
+                t('in-forge:plugins.awsEmr.labelFailed')
+              ],
               type: 'stackedArea',
               formatter: number.compact,
               tooltipFormatter: number.detailed
@@ -47,14 +57,18 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Memory Statistics">
+        <DashboardSection title={t('in-forge:plugins.awsEmr.titleMemoryStatistics')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['memory_allocated_megabytes', 'memory_reserved_megabytes', 'memory_available_megabytes'],
-              labels: ['Allocated', 'Reserved', 'Available'],
+              labels: [
+                t('in-forge:plugins.awsEmr.labelAllocated'),
+                t('in-forge:plugins.awsEmr.labelReserved'),
+                t('in-forge:plugins.awsEmr.labelAvailable')
+              ],
               type: 'stackedArea',
               formatter: bytes.detailed,
               tooltipFormatter: bytes.detailed
@@ -64,14 +78,14 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title="S3 Bucket I/O">
+        <DashboardSection title={t('in-forge:plugins.awsEmr.titleS3BucketIO')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['s3_bytes_written', 's3_bytes_read'],
-              labels: ['Written', 'Read'],
+              labels: [t('in-forge:plugins.awsEmr.labelWritten'), t('in-forge:plugins.awsEmr.labelWritten')],
               type: 'stackedArea',
               formatter: bytes.detailed,
               tooltipFormatter: bytes.detailed
@@ -79,14 +93,14 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Containers Allocated">
+        <DashboardSection title={t('in-forge:plugins.awsEmr.titleContainersAllocated')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['container_allocated'],
-              labels: ['Containers Allocated'],
+              labels: [t('in-forge:plugins.awsEmr.labelContainersAllocated')],
               type: 'stackedArea',
               formatter: number.compact,
               tooltipFormatter: number.detailed
@@ -96,28 +110,28 @@ export default function AwsEmrDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title="HDFS Utilization">
+        <DashboardSection title={t('in-forge:plugins.awsEmr.titleHDFSUtilization')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['HDFS_utilization'],
-              labels: ['HDFS Utilization'],
+              labels: [t('in-forge:plugins.awsEmr.labelHDFSUtilization')],
               type: 'stackedArea',
               formatter: percentage
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Total Concurrent Data Transfers">
+        <DashboardSection title={t('in-forge:plugins.awsEmr.titleTotalConcurrentDataTransfers')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['total_load'],
-              labels: ['Total Load'],
+              labels: [t('in-forge:plugins.awsEmr.labelTotalLoad')],
               type: 'stackedArea',
               formatter: number.compact,
               tooltipFormatter: number.detailed

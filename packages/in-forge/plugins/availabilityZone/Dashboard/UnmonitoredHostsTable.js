@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getHostsInAvailabilityZone from 'in-stores/graph/getHostsInAvailabilityZone';
@@ -11,7 +12,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'IP Address',
+    title: t('in-forge:plugins.availabilityZone.titleIPAddress'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -20,7 +21,7 @@ const cols = [
     }
   },
   {
-    title: 'DNS Name',
+    title: t('in-forge:plugins.availabilityZone.titleDNSName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -47,6 +48,8 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle="Hosts" cols={cols} rows={rows} maxItemsPerPage={40} />;
+    return (
+      <Table withoutPadding cardTitle={t('in-forge:plugins.titleHost')} cols={cols} rows={rows} maxItemsPerPage={40} />
+    );
   }
 );

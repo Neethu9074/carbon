@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -15,49 +16,49 @@ export default function AwsEcRedisDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title="Bytes Used">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleBytesUsed')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['bytes_used_for_cache'],
-            labels: ['Bytes used'],
+            labels: [t('in-forge:plugins.awsEc.labelBytesUsedLow')],
             type: 'line',
             formatter: bytes.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Cache">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleCache')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cache_hits', 'cache_misses'],
-            labels: ['Hits', 'Misses'],
+            labels: [t('in-forge:plugins.awsEc.labelHits'), t('in-forge:plugins.awsEc.labelMisses')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Replication">
+      <DashboardSection title={t('in-forge:plugins.titleReplication')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['replication_bytes'],
-            labels: ['Replication Bytes'],
+            labels: [t('in-forge:plugins.awsEc.labelReplicationBytes')],
             type: 'line',
             formatter: bytes.compact
           }}
           y2={{
             min: 0,
             metrics: ['replication_lag'],
-            labels: ['Replication Lag'],
+            labels: [t('in-forge:plugins.awsEc.labelReplicationLag')],
             type: 'line',
             formatter: seconds.fixedCompact
           }}
@@ -65,28 +66,38 @@ export default function AwsEcRedisDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <Columize>
-        <DashboardSection title="Commands">
+        <DashboardSection title={t('in-forge:plugins.awsEc.titleCommands')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['get_type_cmds', 'hash_based_cmds', 'key_based_cmds', 'list_based_cmds'],
-              labels: ['Get', 'Hash', 'Key', 'List'],
+              labels: [
+                t('in-forge:plugins.labelGet'),
+                t('in-forge:plugins.awsEc.labelHash'),
+                t('in-forge:plugins.awsEc.labelKey'),
+                t('in-forge:plugins.awsEc.labelList')
+              ],
               type: 'line',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Commands">
+        <DashboardSection title={t('in-forge:plugins.awsEc.titleCommands')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['set_based_cmds', 'sorted_set_based_cmds', 'string_based_cmds', 'hyper_log_log_based_cmds'],
-              labels: ['Set', 'Sorted Set', 'Strings', 'Hyper Log'],
+              labels: [
+                t('in-forge:plugins.awsEc.labelSet'),
+                t('in-forge:plugins.awsEc.labelSortedSet'),
+                t('in-forge:plugins.awsEc.labelStrings'),
+                t('in-forge:plugins.awsEc.labelHyperLog')
+              ],
               type: 'line',
               formatter: number.compact
             }}

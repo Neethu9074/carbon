@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -13,15 +14,15 @@ export default function ESClusterSummary({ snapshot }) {
 
   return (
     <KpiSection>
-      <KpiKeyValue label="Nodes">
+      <KpiKeyValue label={t('in-forge:plugins.awsEs.labelNodes')}>
         <MetricValue snapshotId={snapshotId} metric="nodes" formatter={withSiPrefixZeroDecimalPlaces} />
       </KpiKeyValue>
 
-      <KpiKeyValue label="Documents">
+      <KpiKeyValue label={t('in-forge:plugins.awsEs.titleDocuments')}>
         <MetricValue snapshotId={snapshotId} metric="searchable_documents" formatter={withSiPrefixZeroDecimalPlaces} />
       </KpiKeyValue>
 
-      <KpiKeyValue label="Free storage space">
+      <KpiKeyValue label={t('in-forge:plugins.awsEs.labelFreeStorageSpace')}>
         <MetricValue snapshotId={snapshotId} metric="free_storage_space" formatter={bytes.detailed} />
       </KpiKeyValue>
     </KpiSection>

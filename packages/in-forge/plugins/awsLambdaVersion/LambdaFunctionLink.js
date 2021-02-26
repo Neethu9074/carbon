@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getLambdaFunctionForVersion from 'in-subscription/getLambdaFunctionForVersion';
@@ -24,7 +25,7 @@ export default connectTo(
     }
 
     return (
-      <DescriptionItem title="Lambda Function">
+      <DescriptionItem title={t('in-forge:plugins.awsLambdaVersion.titleLambdaFunction')}>
         <SnapshotLink snapshotId={lambdaFunction.get('id')}>{getLabel(lambdaFunction)}</SnapshotLink>
       </DescriptionItem>
     );

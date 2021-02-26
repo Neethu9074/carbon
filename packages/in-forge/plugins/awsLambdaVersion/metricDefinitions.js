@@ -2,18 +2,29 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number, millis } from 'in-services/formatters/number';
 
 export default [
   {
     metrics: ['invocations', 'errors', 'dead_letter_error'],
-    labels: ['Invocations', 'Errors', 'Dead Letter Error'],
+    labels: [
+      t('in-forge:plugins.awsLambda.titleInvocations'),
+      t('in-forge:plugins.awsLambda.titleErrors'),
+      t('in-forge:plugins.awsLambda.titleDeadLetterErrors')
+    ],
     min: 0,
     formatter: number.compact
   },
   {
     metrics: ['duration', 'duration_maximum', 'duration_minimum', 'duration_sum'],
-    labels: ['Duration Average', 'Duration Maximum', 'Duration Minimum', 'Duration Sum'],
+    labels: [
+      t('in-forge:plugins.awsLambda.labelDurationAverage'),
+      t('in-forge:plugins.awsLambda.labelDurationMaximum'),
+      t('in-forge:plugins.awsLambda.labelDurationMinimum'),
+      t('in-forge:plugins.awsLambda.labelDurationSum')
+    ],
     min: 0,
     formatter: millis.compact
   },
@@ -27,19 +38,24 @@ export default [
       'unreserved_concurrent_executions'
     ],
     labels: [
-      'Throttles',
-      'Concurrent Executions Average',
-      'Concurrent Executions Maximum',
-      'Concurrent Executions Minimum',
-      'Concurrent Executions Sum',
-      'Unreserved Concurrent Executions'
+      t('in-forge:plugins.awsLambda.titleThrottles'),
+      t('in-forge:plugins.awsLambda.labelConcurrentExecutionsAverage'),
+      t('in-forge:plugins.awsLambda.labelConcurrentExecutionsMaximum'),
+      t('in-forge:plugins.awsLambda.labelConcurrentExecutionsMinimum'),
+      t('in-forge:plugins.awsLambda.labelConcurrentExecutionsSum'),
+      t('in-forge:plugins.awsLambda.titleUnreservedConcurrentExecutions')
     ],
     min: 0,
     formatter: number.compact
   },
   {
     metrics: ['iterator_age', 'iterator_age_minimum', 'iterator_age_maximum', 'iterator_age_sum'],
-    labels: ['Iterator Age Average', 'Iterator Age Minimum', 'Iterator Age Maximum', 'Iterator Age Sum'],
+    labels: [
+      t('in-forge:plugins.awsLambda.labelIteratorAgeAverage'),
+      t('in-forge:plugins.awsLambda.labelIteratorAgeMinimum'),
+      t('in-forge:plugins.awsLambda.labelIteratorAgeMaximum'),
+      t('in-forge:plugins.awsLambda.labelIteratorAgeSum')
+    ],
     min: 0,
     formatter: millis.compact
   }

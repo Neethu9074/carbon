@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -17,7 +18,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
-      <DashboardSection title="Cluster Workers">
+      <DashboardSection title={t('in-forge:plugins.sparkStandalone.titleClusterWorkers')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -28,7 +29,12 @@ export default function Dashboard({ snapshot, timeConfig }) {
               'workers.decommissionedWorkers',
               'workers.workersInUnknownState'
             ],
-            labels: ['Alive Workers', 'Dead Workers', 'Decommissioned Workers', 'Workers In Unknown State'],
+            labels: [
+              t('in-forge:plugins.sparkStandalone.labelAliveWorkers'),
+              t('in-forge:plugins.sparkStandalone.labelDeadWorkers'),
+              t('in-forge:plugins.sparkStandalone.labelDecommissionedWorkers'),
+              t('in-forge:plugins.sparkStandalone.labelWorkersInUnknownState')
+            ],
             formatter: zeroDecimalPlaces,
             type: 'stackedArea'
           }}
@@ -36,13 +42,16 @@ export default function Dashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <Columize>
-        <DashboardSection title="Cluster Memory">
+        <DashboardSection title={t('in-forge:plugins.sparkStandalone.titleClusterMemory')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['workers.memoryInUseTotal', 'workers.memoryTotal'],
-              labels: ['Used Memory', 'Total Memory'],
+              labels: [
+                t('in-forge:plugins.sparkStandalone.labelUsedMemory'),
+                t('in-forge:plugins.sparkStandalone.labelTotalMemory')
+              ],
               formatter: bytesZeroDecimalPlaces,
               tooltipFormatter: bytesTwoDecimalPlaces,
               type: 'line'
@@ -50,13 +59,16 @@ export default function Dashboard({ snapshot, timeConfig }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Cluster Cores">
+        <DashboardSection title={t('in-forge:plugins.sparkStandalone.titleClusterCores')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['workers.coresInUseTotal', 'workers.coresTotal'],
-              labels: ['Used Cores', 'Total Cores'],
+              labels: [
+                t('in-forge:plugins.sparkStandalone.labelUsedCores'),
+                t('in-forge:plugins.sparkStandalone.labelTotalCores')
+              ],
               formatter: zeroDecimalPlaces,
               type: 'line'
             }}

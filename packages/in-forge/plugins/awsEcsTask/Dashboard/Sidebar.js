@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getEcsContainersForEcsTask from 'in-subscription/getEcsContainersForEcsTask';
@@ -15,7 +16,7 @@ export default function AwsEcsTaskSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>AWS ECS Task Info</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.awsEcsTask.titleAWSECSTaskInfo')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

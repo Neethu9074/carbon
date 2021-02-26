@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
@@ -11,8 +12,7 @@ export default function GetMetricStatisticsInUse({ snapshot }) {
     <div>
       {snapshot.getIn(['data', 'legacy_endpoint_used'], false) && (
         <DashboardNotification type="info">
-          GetMetricStatistics method is being used for metrics acquisition! In order to reduce AWS costs enable
-          cloudwatch:GetMetricData permission for the agent.
+          {t('in-forge:plugins.awsDynamoDb.notificationGetMetricStatistics')}
         </DashboardNotification>
       )}
     </div>

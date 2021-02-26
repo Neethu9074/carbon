@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -11,9 +12,11 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="ARN">{data.get('es_domain_arn')}</DescriptionItem>
-      <DescriptionItem title="Region">{data.get('aws_grouping_zone')}</DescriptionItem>
-      <DescriptionItem title="Domain name">{data.get('es_domain_name')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleARN')}>{data.get('es_domain_arn')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleRegion')}>{data.get('aws_grouping_zone')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEs.titleDomainName')}>
+        {data.get('es_domain_name')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

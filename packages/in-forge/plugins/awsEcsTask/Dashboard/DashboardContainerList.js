@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getEcsContainersForEcsTask from 'in-subscription/getEcsContainersForEcsTask';
@@ -27,7 +28,7 @@ export default connectTo(
 
     const cols = [
       {
-        title: 'Container',
+        title: t('in-forge:plugins.awsEcsTask.titleContainer'),
         type: 'snapshotLink',
         typeArgs: {
           getSnapshotId(row) {
@@ -39,7 +40,14 @@ export default connectTo(
 
     const rows = containers.map(container => ({ key: container.get('id'), label: container.get('label') }));
 
-    return <Table withoutPadding cardTitle={`Containers (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.awsEcsTask.titleContainersCounts', { count: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );
 

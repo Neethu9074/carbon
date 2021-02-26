@@ -2,16 +2,18 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { bytes, number } from 'in-services/formatters/number';
 
 export default [
   {
-    label: 'Read Bytes',
+    label: t('in-forge:plugins.awsEbs.labelReadBytes'),
     metric: 'read_bytes',
     formatter: bytes.compact
   },
   {
-    label: 'Read Operations',
+    label: t('in-forge:plugins.awsEbs.labelReadOperations'),
     metric: 'read_ops',
     formatter: number.compact
   }

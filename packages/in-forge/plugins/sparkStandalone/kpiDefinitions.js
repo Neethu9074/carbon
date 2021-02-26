@@ -2,16 +2,18 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { bytesZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default [
   {
-    label: 'Alive Workers',
+    label: t('in-forge:plugins.sparkStandalone.labelAliveWorkers'),
     metric: 'workers.aliveWorkers',
     formatter: zeroDecimalPlaces
   },
   {
-    label: 'Used Memory',
+    label: t('in-forge:plugins.sparkStandalone.labelUsedMemory'),
     metric: 'workers.memoryInUseTotal',
     formatter: bytesZeroDecimalPlaces
   }

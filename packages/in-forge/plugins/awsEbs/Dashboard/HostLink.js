@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import createAwsHostForEbs from 'in-subscription/awsHostForEbs';
@@ -23,7 +24,7 @@ export default connectTo(
       return null;
     }
     return (
-      <DescriptionItem title="Host">
+      <DescriptionItem title={t('in-forge:plugins.titleHost')}>
         <SnapshotLink snapshotId={hostSnapshot.get('id')}>{getLabel(hostSnapshot)}</SnapshotLink>
       </DescriptionItem>
     );

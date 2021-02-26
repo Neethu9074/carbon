@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Availability Zone',
+    title: t('in-forge:plugins.awsElb.titleAvailabilityZone'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Request count',
+    title: t('in-forge:plugins.awsElb.titleRequestCount'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Response Time',
+    title: t('in-forge:plugins.awsElb.titleResponseTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -72,7 +73,7 @@ export default function AZClassicTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Availability Zones (${rows.length})`}
+      cardTitle={t('in-forge:plugins.awsElb.titleAvailabilityZonesCount', { count: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}
@@ -96,7 +97,13 @@ function getDetails(row) {
             'azMetrics.' + id + '.target_4XX_count',
             'azMetrics.' + id + '.target_5XX_count'
           ],
-          labels: ['All Requests', '2xx', '3xx', '4xx', '5xx'],
+          labels: [
+            t('in-forge:plugins.awsElb.labelAllRequests'),
+            t('in-forge:plugins.labelRequests.2xx'),
+            t('in-forge:plugins.labelRequests.3xx'),
+            t('in-forge:plugins.labelRequests.4xx'),
+            t('in-forge:plugins.labelRequests.5xx')
+          ],
           type: 'line',
           formatter: number.compact
         }}
@@ -108,14 +115,14 @@ function getDetails(row) {
         y1={{
           min: 0,
           metrics: ['azMetrics.' + id + '.target_response_time'],
-          labels: ['Response Time'],
+          labels: [t('in-forge:plugins.awsElb.labelResponseTime')],
           type: 'line',
           formatter: millis.detailed
         }}
         y2={{
           min: 0,
           metrics: ['azMetrics.' + id + '.target_connection_error_count'],
-          labels: ['Connection Error Count'],
+          labels: [t('in-forge:plugins.awsElb.labelConnectionErrorCount')],
           type: 'line',
           formatter: number.compact
         }}
@@ -130,7 +137,10 @@ function getDetails(row) {
             'azMetrics.' + id + '.client_tls_negotiation_error_count',
             'azMetrics.' + id + '.target_tls_negotiation_error_count'
           ],
-          labels: ['Client TLS Negotiation Error Count', 'Target TLS Negotiation Error Count'],
+          labels: [
+            t('in-forge:plugins.awsElb.labelClientTLSNegotiationErrorCount'),
+            t('in-forge:plugins.awsElb.labelTargetTLSNegotiationErrorCount')
+          ],
           type: 'line',
           formatter: number.compact
         }}

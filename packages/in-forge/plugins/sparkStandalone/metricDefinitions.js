@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { bytes, number } from 'in-services/formatters/number';
 
@@ -13,45 +15,56 @@ export default [
       'workers.decommissionedWorkers',
       'workers.workersInUnknownState'
     ],
-    labels: ['Alive Workers', 'Dead Workers', 'Decommissioned Workers', 'Workers In Unknown State'],
+    labels: [
+      t('in-forge:plugins.sparkStandalone.labelAliveWorkers'),
+      t('in-forge:plugins.sparkStandalone.labelDeadWorkers'),
+      t('in-forge:plugins.sparkStandalone.labelDecommissionedWorkers'),
+      t('in-forge:plugins.sparkStandalone.labelWorkersInUnknownState')
+    ],
     min: 0,
     formatter: number
   },
   {
     metrics: ['workers.memoryInUseTotal', 'workers.memoryTotal'],
-    labels: ['Used Memory', 'Total Memory'],
+    labels: [
+      t('in-forge:plugins.sparkStandalone.labelUsedMemory'),
+      t('in-forge:plugins.sparkStandalone.labelTotalMemory')
+    ],
     min: 0,
     formatter: bytes
   },
   {
     metrics: ['workers.coresInUseTotal', 'workers.coresTotal'],
-    labels: ['Used Cores', 'Total Cores'],
+    labels: [
+      t('in-forge:plugins.sparkStandalone.labelUsedCores'),
+      t('in-forge:plugins.sparkStandalone.labelTotalCores')
+    ],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('workers.metrics', 'memoryUsed', 'Worker ID'),
-    label: 'Memory Used',
-    category: ['Workers'],
+    label: t('in-forge:plugins.sparkStandalone.labelMemoryUsed'),
+    category: [t('in-forge:plugins.sparkStandalone.titleWorkers')],
     min: 0,
     formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('workers.metrics', 'coresUsed', 'Worker ID'),
-    label: 'Cores Used',
-    category: ['Workers'],
+    label: t('in-forge:plugins.sparkStandalone.labelCoresUsed'),
+    category: [t('in-forge:plugins.sparkStandalone.titleWorkers')],
     min: 0,
     formatter: number
   },
   {
     metric: 'drivers.failed',
-    label: 'Number of failed Drivers',
+    label: t('in-forge:plugins.sparkStandalone.labelNumberFailedDrivers'),
     min: 0,
     formatter: number
   },
   {
     metric: 'apps.failed',
-    label: 'Number of failed Applications',
+    label: t('in-forge:plugins.sparkStandalone.labelNumberFailedApplications'),
     min: 0,
     formatter: number
   }

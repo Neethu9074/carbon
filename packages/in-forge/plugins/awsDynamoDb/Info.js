@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -13,15 +14,27 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Table Name">{data.get('dyndb_table_name')}</DescriptionItem>
-      <DescriptionItem title="ARN">{data.get('dyndb_table_arn')}</DescriptionItem>
-      <DescriptionItem title="Status">{data.get('dyndb_table_status')}</DescriptionItem>
-      <DescriptionItem title="Item Count">{data.get('dyndb_table_item_count')}</DescriptionItem>
-      <DescriptionItem title="Created at">{formatDateTime(data.get('dyndb_table_created_at'))}</DescriptionItem>
-      <DescriptionItem title="Size">{bytesZeroDecimalPlaces(data.get('dyndb_table_size_bytes'))}</DescriptionItem>
-      <DescriptionItem title="Stream ARN">{data.get('dyndb_table_stream_arn')}</DescriptionItem>
-      <DescriptionItem title="Stream Label">{data.get('dyndb_table_stream_label')}</DescriptionItem>
-      <DescriptionItem title="Region">{data.get('aws_grouping_zone')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsDynamoDb.titleTableName')}>
+        {data.get('dyndb_table_name')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleARN')}>{data.get('dyndb_table_arn')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleStatus')}>{data.get('dyndb_table_status')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsDynamoDb.titleItemCount')}>
+        {data.get('dyndb_table_item_count')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsDynamoDb.titleCreatedAt')}>
+        {formatDateTime(data.get('dyndb_table_created_at'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleSize')}>
+        {bytesZeroDecimalPlaces(data.get('dyndb_table_size_bytes'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsDynamoDb.titleStreamARN')}>
+        {data.get('dyndb_table_stream_arn')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsDynamoDb.titleStreamLabel')}>
+        {data.get('dyndb_table_stream_label')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleRegion')}>{data.get('aws_grouping_zone')}</DescriptionItem>
     </DescriptionList>
   );
 }

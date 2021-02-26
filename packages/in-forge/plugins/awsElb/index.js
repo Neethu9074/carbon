@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import metricDefinitions from 'in-forge/plugins/awsElb/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsElb/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -9,7 +11,6 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsElb,
-
   kpiDefinitions,
   metricDefinitions,
 
@@ -17,6 +18,6 @@ registerSnapshotDefinition({
     return snapshot.getIn(['data', 'load_balancer_name'], '');
   },
   technologyDescriptor: {
-    label: 'AWS ELB'
+    label: t('in-forge:pluginName_awsElb')
   }
 });

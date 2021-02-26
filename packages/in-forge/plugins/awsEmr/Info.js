@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -12,12 +13,20 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Cluster ID">{data.get('emr_cluster_id')}</DescriptionItem>
-      <DescriptionItem title="Cluster Name">{data.get('emr_cluster_name')}</DescriptionItem>
-      <DescriptionItem title="Status">{data.get('emr_cluster_status')}</DescriptionItem>
-      <DescriptionItem title="Running AMI Version">{data.get('emr_ami_version')}</DescriptionItem>
-      <DescriptionItem title="Region">{data.get('aws_grouping_zone')}</DescriptionItem>
-      <DescriptionItem title="Creation time">{formatDateTime(data.get('emr_cluster_startTime'))}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEmr.titleClusterId')}>
+        {data.get('emr_cluster_id')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEmr.titleClusterName')}>
+        {data.get('emr_cluster_name')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleStatus')}>{data.get('emr_cluster_status')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEmr.titleRunningAMIVersion')}>
+        {data.get('emr_ami_version')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleRegion')}>{data.get('aws_grouping_zone')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEmr.titleCreationTime')}>
+        {formatDateTime(data.get('emr_cluster_startTime'))}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

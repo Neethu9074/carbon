@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { Trans } from 'in-i18n';
 import React from 'react';
 
 import getEcsTaskForEcsContainer from 'in-subscription/getEcsTaskForEcsContainer';
@@ -34,65 +35,163 @@ function InfrastructureTabSubscript({ snapshot, time }) {
   if (!data) {
     return null;
   }
-  const taskArn = abbreviatePart(data, 'taskArn', taskArnRegex, 10);
-  const taskDefinition = abbreviate(data.get('taskDefinition', '?'), 64);
+  const taskArnFullValue = data.get('taskArn', '?');
+  const taskDefinitionFullValue = data.get('taskDefinition', '?');
   const taskDefinitionVersion = data.get('taskDefinitionVersion', '?');
-  const clusterArn = abbreviatePart(data, 'clusterArn', clusterArnRegex, 32);
+  const clusterArnFullValue = data.get('clusterArn', '?');
   const region = data.get('region', '?');
-  const linkedTask = linkIfPossible(taskSnapshotId, taskArn, 'lib_aws_ecs_task');
-  const linkedRegion = linkIfPossible(regionSnapshotId, region, 'lib_views_cloud');
+  const taskArnLabel = getTaskArnLabel(
+    taskArnFullValue,
+    taskDefinitionFullValue,
+    taskSnapshotId,
+    taskDefinitionVersion,
+    'lib_aws_ecs_task',
+    'lib_aws_ecs_task_definition_version'
+  );
+  const clusterArnLabel = getClusterArnLabel(
+    clusterArnFullValue,
+    region,
+    regionSnapshotId,
+    'lib_aws_ecs_cluster',
+    'lib_views_cloud'
+  );
   return (
     <div className={locals.infrastructureTabSubscript}>
-      <div>
-        <span>in </span>
-        {linkedTask}
-        <span> of </span>
-        <Icon type="lib_aws_ecs_task_definition_version" />
-        <span>
-          {' '}
-          {taskDefinition}:{taskDefinitionVersion}
-        </span>
-      </div>
-      <div>
-        <span> on </span>
-        <Icon type="lib_aws_ecs_cluster" />
-        <span>
-          {' '}
-          {clusterArn} in {linkedRegion}
-        </span>
-      </div>
+      <div>{taskArnLabel}</div>
+      <div>{clusterArnLabel}</div>
     </div>
   );
 }
 
-function abbreviatePart(data, key, regex, length = 10) {
-  let fullValue = data.get(key, '?');
-  if (fullValue !== '?') {
-    const match = regex.exec(fullValue);
-    return withTooltip(fullValue, shorten(match?.[1] ?? fullValue, length));
+function getTaskArnLabel(arnFullValue, definitionFullValue, snapshotId, version, taskIcon, versionIcon) {
+  const definitionShort = shorten(definitionFullValue, 64);
+  if (arnFullValue !== '?') {
+    const taskAraLabel = abbreviatePart(arnFullValue, taskArnRegex, 10);
+    return snapshotId ? (
+      <Trans
+        i18nKey="in-forge:plugins.awsEcsContainer.infraTabSubscriptInWithAbbrSnapshotId"
+        values={{
+          taskLabel: taskAraLabel,
+          definition: definitionShort,
+          taskDefinitionVersion: version
+        }}
+        components={{
+          taskIcon: <Icon type={taskIcon} />,
+          taskLink: <Link href$={subscriptLink(snapshotId)} className={locals.entityLink} />,
+          titledTask: <span title={arnFullValue} />,
+          versionIcon: <Icon type={versionIcon} />,
+          titledDefinition: <span title={definitionFullValue} />
+        }}
+      />
+    ) : (
+      <Trans
+        i18nKey="in-forge:plugins.awsEcsContainer.infraTabSubscriptInWithAbbr"
+        values={{
+          taskLabel: taskAraLabel,
+          definition: definitionShort,
+          taskDefinitionVersion: version
+        }}
+        components={{
+          titledTask: <span title={arnFullValue} />,
+          versionIcon: <Icon type={versionIcon} />,
+          titledDefinition: <span title={definitionFullValue} />
+        }}
+      />
+    );
+  } else {
+    return snapshotId ? (
+      <Trans
+        i18nKey="in-forge:plugins.awsEcsContainer.infraTabSubscriptInWithSnapshotId"
+        values={{
+          taskLabel: arnFullValue,
+          definition: definitionShort,
+          taskDefinitionVersion: version
+        }}
+        components={{
+          taskIcon: <Icon type={taskIcon} />,
+          taskLink: <Link href$={subscriptLink(snapshotId)} className={locals.entityLink} />,
+          versionIcon: <Icon type={versionIcon} />,
+          titledDefinition: <span title={definitionFullValue} />
+        }}
+      />
+    ) : (
+      <Trans
+        i18nKey="in-forge:plugins.awsEcsContainer.infraTabSubscriptIn"
+        values={{
+          taskLabel: arnFullValue,
+          definition: definitionShort,
+          taskDefinitionVersion: version
+        }}
+        components={{
+          versionIcon: <Icon type={versionIcon} />,
+          titledDefinition: <span title={definitionFullValue} />
+        }}
+      />
+    );
   }
-  return fullValue;
+}
+function getClusterArnLabel(clusterArnFull, region, snapshotId, clusterIcon, cloudIcon) {
+  if (clusterArnFull !== '?') {
+    const shortClusterValue = abbreviatePart(clusterArnFull, clusterArnRegex, 32);
+    return snapshotId ? (
+      <Trans
+        i18nKey="in-forge:plugins.awsEcsContainer.infraTabSubscriptOnWithAbbrSnapshotId"
+        values={{
+          clusterArn: shortClusterValue,
+          region: region
+        }}
+        components={{
+          clusterIcon: <Icon type={clusterIcon} />,
+          titledSpan: <span title={clusterArnFull} />,
+          cloudIcon: <Icon type={cloudIcon} />,
+          regionLink: <Link href$={subscriptLink(snapshotId)} className={locals.entityLink} />
+        }}
+      />
+    ) : (
+      <Trans
+        i18nKey="in-forge:plugins.awsEcsContainer.infraTabSubscriptOnWithAbbr"
+        values={{
+          clusterArn: shortClusterValue,
+          region: region
+        }}
+        components={{
+          clusterIcon: <Icon type={clusterIcon} />,
+          titledSpan: <span title={clusterArnFull} />
+        }}
+      />
+    );
+  } else {
+    return snapshotId ? (
+      <Trans
+        i18nKey="in-forge:plugins.awsEcsContainer.infraTabSubscriptOnWithSnapshotId"
+        values={{
+          clusterArn: clusterArnFull,
+          region: region
+        }}
+        components={{
+          clusterIcon: <Icon type={clusterIcon} />,
+          cloudIcon: <Icon type={cloudIcon} />,
+          regionLink: <Link href$={subscriptLink(snapshotId)} className={locals.entityLink} />
+        }}
+      />
+    ) : (
+      <Trans
+        i18nKey="in-forge:plugins.awsEcsContainer.infraTabSubscriptOn"
+        values={{
+          clusterArn: clusterArnFull,
+          region: region
+        }}
+        components={{
+          clusterIcon: <Icon type={clusterIcon} />
+        }}
+      />
+    );
+  }
 }
 
-function abbreviate(fullLabel, length) {
-  return withTooltip(fullLabel, shorten(fullLabel, length));
-}
-
-function withTooltip(fullLabel, abbreviation) {
-  return <span title={fullLabel}>{abbreviation}</span>;
-}
-
-function linkIfPossible(snapshotId, label, icon) {
-  return snapshotId ? (
-    <>
-      <Icon type={icon} />
-      <Link href$={subscriptLink(snapshotId)} className={locals.entityLink}>
-        {label}
-      </Link>
-    </>
-  ) : (
-    label
-  );
+function abbreviatePart(fullValue, regex, length = 10) {
+  const match = regex.exec(fullValue);
+  return shorten(match?.[1] ?? fullValue, length);
 }
 
 function subscriptLink(snapshotId) {

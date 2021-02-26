@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { Trans, t } from 'in-i18n';
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
@@ -22,9 +23,12 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
   if (name == null || codeSha == null) {
     noAwsAgentData = (
       <DashboardNotification type="danger">
-        It seems you are not monitoring this Lambda with an Instana agent. Setting up an AWS agent for the corresponding
-        AWS account is a pre-requisite for native Lambda tracing. Please check our documentation on that, in particular
-        the <a href="https://instana.com/docs/ecosystem/aws#installation">AWS agent installation docs</a>.
+        <Trans
+          i18nKey="in-forge:plugins.awsLambdaFunction.descriptionLambda"
+          components={{
+            installLink: <a href="https://instana.com/docs/ecosystem/aws#installation" />
+          }}
+        />
       </DashboardNotification>
     );
   }
@@ -33,133 +37,145 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
     <>
       {noAwsAgentData}
       <GetMetricStatisticsInUse snapshot={snapshot} />
-      <DashboardSection title="Invocations">
+      <DashboardSection title={t('in-forge:plugins.awsLambda.titleInvocations')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['invocations'],
-            labels: ['Invocations'],
+            labels: [t('in-forge:plugins.awsLambda.titleInvocations')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Durations">
+      <DashboardSection title={t('in-forge:plugins.awsLambda.titleDurations')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['duration', 'duration_maximum', 'duration_minimum'],
-            labels: ['Average', 'Maximum', 'Minimum'],
+            labels: [
+              t('in-forge:plugins.labelAverage'),
+              t('in-forge:plugins.labelMaximum'),
+              t('in-forge:plugins.labelMinimum')
+            ],
             type: 'line',
             formatter: millis.detailed
           }}
           y2={{
             min: 0,
             metrics: ['duration_sum'],
-            labels: ['Sum'],
+            labels: [t('in-forge:plugins.labelSum')],
             type: 'line',
             formatter: millis.detailed
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Errors">
+      <DashboardSection title={t('in-forge:plugins.awsLambda.titleErrors')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['errors'],
-            labels: ['Errors'],
+            labels: [t('in-forge:plugins.awsLambda.titleErrors')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Throttles">
+      <DashboardSection title={t('in-forge:plugins.awsLambda.titleThrottles')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['throttles'],
-            labels: ['Throttles'],
+            labels: [t('in-forge:plugins.awsLambda.titleThrottles')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Dead Letter Errors">
+      <DashboardSection title={t('in-forge:plugins.awsLambda.titleDeadLetterErrors')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['dead_letter_error'],
-            labels: ['Dead Letter Errors'],
+            labels: [t('in-forge:plugins.awsLambda.titleDeadLetterErrors')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Iterator Age">
+      <DashboardSection title={t('in-forge:plugins.awsLambda.titleIteratorAge')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['iterator_age', 'iterator_age_maximum', 'iterator_age_minimum'],
-            labels: ['Average', 'Maximum', 'Minimum'],
+            labels: [
+              t('in-forge:plugins.labelAverage'),
+              t('in-forge:plugins.labelMaximum'),
+              t('in-forge:plugins.labelMinimum')
+            ],
             type: 'line',
             formatter: millis.detailed
           }}
           y2={{
             min: 0,
             metrics: ['iterator_age_sum'],
-            labels: ['Sum'],
+            labels: [t('in-forge:plugins.labelSum')],
             type: 'line',
             formatter: millis.detailed
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Concurrent Executions">
+      <DashboardSection title={t('in-forge:plugins.awsLambda.titleConcurrentExecutions')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['concurrent_executions', 'concurrent_executions_maximum', 'concurrent_executions_minimum'],
-            labels: ['Average', 'Maximum', 'Minimum'],
+            labels: [
+              t('in-forge:plugins.labelAverage'),
+              t('in-forge:plugins.labelMaximum'),
+              t('in-forge:plugins.labelMinimum')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           y2={{
             min: 0,
             metrics: ['concurrent_executions_sum'],
-            labels: ['Sum'],
+            labels: [t('in-forge:plugins.labelSum')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Unreserved Concurrent Executions">
+      <DashboardSection title={t('in-forge:plugins.awsLambda.titleUnreservedConcurrentExecutions')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['unreserved_concurrent_executions'],
-            labels: ['Unreserved Concurrent Executions'],
+            labels: [t('in-forge:plugins.awsLambda.titleUnreservedConcurrentExecutions')],
             type: 'line',
             formatter: number.compact
           }}

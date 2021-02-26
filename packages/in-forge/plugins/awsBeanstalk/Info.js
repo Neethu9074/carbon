@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
@@ -11,16 +12,32 @@ export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title="Application Name">{data.get('environment_name')}</DescriptionItem>
-      <DescriptionItem title="Environment Name">{data.get('application_name')}</DescriptionItem>
-      <DescriptionItem title="Environment ID">{data.get('environment_id')}</DescriptionItem>
-      <DescriptionItem title="Date Created">{formatDateTime(data.get('date_created'))}</DescriptionItem>
-      <DescriptionItem title="Environment ARN">{data.get('environment_arn')}</DescriptionItem>
-      <DescriptionItem title="Description">{data.get('description')}</DescriptionItem>
-      <DescriptionItem title="Status">{data.get('health_status')}</DescriptionItem>
-      <DescriptionItem title="Version Label">{data.get('version_label')}</DescriptionItem>
-      <DescriptionItem title="Solution Stack">{data.get('solution_stack')}</DescriptionItem>
-      <DescriptionItem title="Environment URL">{data.get('environment_url')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsBeanstalk.titleApplicationName')}>
+        {data.get('environment_name')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsBeanstalk.titleEnvironmentName')}>
+        {data.get('application_name')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsBeanstalk.titleEnvironmentID')}>
+        {data.get('environment_id')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsBeanstalk.titleDateCreated')}>
+        {formatDateTime(data.get('date_created'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsBeanstalk.titleEnvironmentARN')}>
+        {data.get('environment_arn')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleDescription')}>{data.get('description')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleStatus')}>{data.get('health_status')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsBeanstalk.titleVersionLabel')}>
+        {data.get('version_label')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsBeanstalk.titleSolutionStack')}>
+        {data.get('solution_stack')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsBeanstalk.titleEnvironmentURL')}>
+        {data.get('environment_url')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
@@ -9,8 +10,8 @@ import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotifica
 export default function AwsEcsClusterDashboard() {
   return (
     <DashboardNotification type="info">
-      <h3>Under Construction</h3>
-      More data and metrics for AWS ECS Clusters are coming soon.
+      <h3>{t('in-forge:plugins.awsEcsCluster.titleUnderConstruction')}</h3>
+      {t('in-forge:plugins.awsEcsCluster.descriptionUnderConstruction')}
     </DashboardNotification>
   );
 }

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -14,42 +15,46 @@ export default function AwsElbNetDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title="Processed Bytes">
+      <DashboardSection title={t('in-forge:plugins.awsElb.titleProcessedBytes')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['processed_bytes'],
-            labels: ['Processed Bytes'],
+            labels: [t('in-forge:plugins.awsElb.labelProcessedBytes')],
             type: 'line',
             formatter: bytes.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="New Flow Count">
+      <DashboardSection title={t('in-forge:plugins.awsElb.titleNewFlowCount')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['new_flow_count'],
-            labels: ['New Flow Count'],
+            labels: [t('in-forge:plugins.awsElb.labelNewFlowCount')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="TCP Resets (RST)">
+      <DashboardSection title={t('in-forge:plugins.awsElb.titleTCPResetsRST')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['client_reset_count', 'elb_reset_count', 'target_reset_count'],
-            labels: ['Client', 'Load Balancer', 'Target'],
+            labels: [
+              t('in-forge:plugins.awsElb.labelClient'),
+              t('in-forge:plugins.awsElb.labelLoadBalancer'),
+              t('in-forge:plugins.awsElb.labelTarget')
+            ],
             type: 'line',
             formatter: number.compact
           }}

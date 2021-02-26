@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
@@ -14,6 +16,6 @@ registerSnapshotDefinition({
   plugin: plugins.awsEcs,
 
   technologyDescriptor: {
-    label: 'AWS ECS'
+    label: t('in-forge:plugins.awsEcs.labelAWSECS')
   }
 });

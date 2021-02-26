@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getVersionsForLambdaFunction from 'in-subscription/getVersionsForLambdaFunction';
@@ -21,7 +22,7 @@ export default function AwsLambdaFunctionSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Lambda Function Info</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.awsLambdaFunction.headerLambdaFunctionInfo')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -32,9 +33,12 @@ export default function AwsLambdaFunctionSidebar({ snapshot }) {
       <SidebarSnapshotItemList
         snapshotId={snapshot.get('id')}
         subscription={getVersionsForLambdaFunction}
-        label="Versions"
+        label={t('in-forge:plugins.awsLambdaFunction.labelVersions')}
       />
-      <ServiceInstancesList snapshot={latestVersionForFunction} header="Services for $LATEST" />
+      <ServiceInstancesList
+        snapshot={latestVersionForFunction}
+        header={t('in-forge:plugins.awsLambdaFunction.headerServicesLATEST')}
+      />
     </div>
   );
 }

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -14,7 +15,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'State',
+    title: t('in-forge:plugins.sparkStandalone.titleState'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'Host',
+    title: t('in-forge:plugins.sparkStandalone.titleHost'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -32,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: 'Port',
+    title: t('in-forge:plugins.sparkStandalone.titlePort'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -42,7 +43,7 @@ const cols = [
     }
   },
   {
-    title: 'Used Cores',
+    title: t('in-forge:plugins.sparkStandalone.labelUsedCores'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -58,7 +59,7 @@ const cols = [
     }
   },
   {
-    title: 'Total Cores',
+    title: t('in-forge:plugins.sparkStandalone.labelTotalCores'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -68,7 +69,7 @@ const cols = [
     }
   },
   {
-    title: 'Used Memory',
+    title: t('in-forge:plugins.sparkStandalone.labelUsedMemory'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -84,7 +85,7 @@ const cols = [
     }
   },
   {
-    title: 'Total Memory',
+    title: t('in-forge:plugins.sparkStandalone.labelTotalMemory'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -112,7 +113,15 @@ export default function WorkersTable({ snapshot, timeConfig }) {
     })
     .toArray();
 
-  return <Table withoutPadding cardTitle="Workers" cols={cols} rows={rows} getRowDetails={getDetails} />;
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.sparkStandalone.titleWorkers')}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
+  );
 }
 
 function getDetails(row) {
@@ -127,7 +136,10 @@ function getDetails(row) {
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
             metrics: ['workers.metrics.' + id + '.memoryUsed', 'workers.metrics.' + id + '.memory'],
-            labels: ['Memory Used', 'Memory Total'],
+            labels: [
+              t('in-forge:plugins.sparkStandalone.labelMemoryUsed'),
+              t('in-forge:plugins.sparkStandalone.labelMemoryTotal')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -138,7 +150,10 @@ function getDetails(row) {
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['workers.metrics.' + id + '.coresUsed', 'workers.metrics.' + id + '.cores'],
-            labels: ['Cores Used', 'Cores Total'],
+            labels: [
+              t('in-forge:plugins.sparkStandalone.labelCoresUsed'),
+              t('in-forge:plugins.sparkStandalone.labelCoresTotal')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

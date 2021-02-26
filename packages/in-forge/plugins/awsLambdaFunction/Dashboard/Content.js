@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { Trans } from 'in-i18n';
 import React from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
@@ -15,9 +16,12 @@ export default function AwsLambdaFunctionDashboard({ snapshot }) {
   if (name == null) {
     noAwsAgentData = (
       <DashboardNotification type="danger">
-        It seems you are not monitoring this Lambda with an Instana agent. Setting up an AWS agent for the corresponding
-        AWS account is a pre-requisite for native Lambda tracing. Please check our documentation on that, in particular
-        the <a href="https://instana.com/docs/ecosystem/aws#installation">AWS agent installation docs</a>.
+        <Trans
+          i18nKey="in-forge:plugins.awsLambdaFunction.descriptionLambda"
+          components={{
+            installLink: <a href="https://instana.com/docs/ecosystem/aws#installation" />
+          }}
+        />
       </DashboardNotification>
     );
   }

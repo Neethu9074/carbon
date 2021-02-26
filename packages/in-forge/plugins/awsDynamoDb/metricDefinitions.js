@@ -2,432 +2,434 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number, millis } from 'in-services/formatters/number';
 
 export default [
   {
     metric: 'provisioned_read',
-    label: 'Provisioned read capacity',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.provisionedReadCapacity'),
     min: 0,
     formatter: number.detailed
   },
   {
     metric: 'consumed_read',
-    label: 'Consumed read capacity',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.consumedReadCapacity'),
     min: 0,
     formatter: number.detailed
   },
   {
     metric: 'throttled_get',
-    label: 'Throttled read requests (Get)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.throttledReadRequestsGet'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'throttled_scan',
-    label: 'Throttled read requests (Scan)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.throttledReadRequestsScan'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'throttled_query',
-    label: 'Throttled read requests (Query)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.throttledReadRequestsQuery'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'throttled_batch_get',
-    label: 'Throttled read requests (Batch Get)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.throttledReadRequestsBatchGet'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'provisioned_write',
-    label: 'Provisioned write capacity',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.provisionedWriteCapacity'),
     min: 0,
     formatter: number.detailed
   },
   {
     metric: 'consumed_write',
-    label: 'Consumed write capacity',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.consumedWriteCapacity'),
     min: 0,
     formatter: number.detailed
   },
   {
     metric: 'throttled_put',
-    label: 'Throttled write requests (Put)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.throttledWriteRequestsPut'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'throttled_update',
-    label: 'Throttled write requests (Update)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.throttledWriteRequestsUpdate'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'throttled_delete',
-    label: 'Throttled write requests (Delete)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.throttledWriteRequestsDelete'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'throttled_batch_write',
-    label: 'Throttled write requests (Batch Write)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.throttledWriteRequestsBatchWrite'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'lat_get_max',
-    label: 'Get latency (Maximum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.getLatencyMax'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_get_min',
-    label: 'Get latency (Minimum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.getLatencyMin'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_get_avg',
-    label: 'Get latency (Average)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.getLatencyAvg'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_get_sum',
-    label: 'Get latency (Sum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.getLatencySum'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_get_sc',
-    label: 'Get latency (Request count)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.getLatencyRequestCount'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'lat_put_max',
-    label: 'Put latency (Maximum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.putLatencyMax'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_put_min',
-    label: 'Put latency (Minimum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.putLatencyMin'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_put_avg',
-    label: 'Put latency (Average)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.putLatencyAvg'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_put_sum',
-    label: 'Put latency (Sum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.putLatencySum'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_put_sc',
-    label: 'Put latency (Request count)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.putLatencyRequestCount'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'lat_query_max',
-    label: 'Query latency (Maximum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.queryLatencyMax'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_query_min',
-    label: 'Query latency (Minimum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.queryLatencyMin'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_query_avg',
-    label: 'Query latency (Average)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.queryLatencyAvg'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_query_sum',
-    label: 'Query latency (Sum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.queryLatencySum'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_query_sc',
-    label: 'Query latency (Request count)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.queryLatencyRequestCount'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'lat_scan_max',
-    label: 'Scan latency (Maximum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.scanLatencyMax'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_scan_min',
-    label: 'Scan latency (Minimum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.scanLatencyMin'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_scan_avg',
-    label: 'Scan latency (Average)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.scanLatencyAvg'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_scan_sum',
-    label: 'Scan latency (Sum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.scanLatencySum'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_scan_sc',
-    label: 'Scan latency (Request count)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.ScanLatencyRequestCount'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'lat_up_max',
-    label: 'Update latency (Maximum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.updateLatencyMax'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_up_min',
-    label: 'Update latency (Minimum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.updateLatencyMin'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_up_avg',
-    label: 'Update latency (Average)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.updateLatencyAvg'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_up_sum',
-    label: 'Update latency (Sum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.updateLatencySum'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_up_sc',
-    label: 'Update latency (Request count)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.updateLatencyRequestCount'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'lat_del_max',
-    label: 'Delete latency (Maximum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.deleteLatencyMax'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_del_min',
-    label: 'Delete latency (Minimum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.deleteLatencyMin'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_del_avg',
-    label: 'Delete latency (Average)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.deleteLatencyAvg'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_del_sum',
-    label: 'Delete latency (Sum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.deleteLatencySum'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_del_sc',
-    label: 'Delete latency (Request count)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.deleteLatencySum'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'lat_batch_get_max',
-    label: 'Batch get latency (Maximum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.batchGetLatencyMax'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_batch_get_min',
-    label: 'Batch get latency (Minimum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.batchGetLatencyMin'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_batch_get_avg',
-    label: 'Batch get latency (Average)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.batchGetLatencyAvg'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_batch_get_sum',
-    label: 'Batch get latency (Sum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.batchGetLatencySum'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_batch_get_sc',
-    label: 'Batch get latency (Request count)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.batchGetLatencyRequestCount'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'lat_batch_write_max',
-    label: 'Batch write latency (Maximum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.batchWriteLatencyMax'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_batch_write_min',
-    label: 'Batch write latency (Minimum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.batchWriteLatencyMin'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_batch_write_avg',
-    label: 'Batch write latency (Average)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.batchWriteLatencyAvg'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_batch_write_sum',
-    label: 'Batch write latency (Sum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.batchWriteLatencySum'),
     min: 0,
     formatter: millis.detailed
   },
   {
     metric: 'lat_batch_write_sc',
-    label: 'Batch write latency (Request count)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.batchWriteLatencyRequestCount'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'scan_ret_item_max',
-    label: 'Returned scan item count (Maximum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.returnedScanItemCountMax'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'scan_ret_item_min',
-    label: 'Returned scan item count (Minimum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.returnedScanItemCountMin'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'scan_ret_item_avg',
-    label: 'Returned scan item count (Average)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.returnedScanItemCountAvg'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'scan_ret_item_sum',
-    label: 'Returned scan item count (Sum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.returnedScanItemCountSum'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'query_ret_item_max',
-    label: 'Returned query item count (Maximum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.returnedQueryItemCountMax'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'query_ret_item_min',
-    label: 'Returned query item count (Minimum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.returnedQueryItemCountMin'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'query_ret_item_avg',
-    label: 'Returned query item count (Average)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.returnedQueryItemCountAvg'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'query_ret_item_sum',
-    label: 'Returned query item count (Sum)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.returnedQueryItemCountSum'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'con_check_fail',
-    label: 'Conditional check failed',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.conCheckFailed'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'user_err',
-    label: 'User error',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.userError'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'sys_err_get',
-    label: 'System errors read (Get)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.systemErrorsReadGet'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'sys_err_scan',
-    label: 'System errors read (Scan)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.systemErrorsReadScan'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'sys_err_query',
-    label: 'System errors read (Query)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.systemErrorsReadQuery'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'sys_err_batch_get',
-    label: 'System errors read (Batch get)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.systemErrorsReadBatchGet'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'sys_err_put',
-    label: 'System errors write (Put)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.systemErrorsWritePut'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'sys_err_update',
-    label: 'System errors write (Update)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.systemErrorsWriteUpdate'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'sys_err_delete',
-    label: 'System errors write (Delete)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.systemErrorsWriteDelete'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'sys_err_batch_write',
-    label: 'System errors write (Batch write)',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.systemErrorsWriteBatchWrite'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'ttl',
-    label: 'TTL Deleted Items',
+    label: t('in-forge:plugins.awsDynamoDbMetricLabel.ttlDeletedItems'),
     min: 0,
     formatter: number.compact
   }

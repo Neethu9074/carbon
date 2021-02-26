@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import semver from 'semver';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -19,42 +20,50 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title="Bytes used">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleBytesUsedLow')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['bytes_read_into_memcached', 'bytes_written_out_from_memcached', 'bytes_used_for_cache_items'],
-            labels: ['Bytes read', 'Bytes written', 'Bytes Used'],
+            labels: [
+              t('in-forge:plugins.awsEc.labelBytesRead'),
+              t('in-forge:plugins.awsEc.labelBytesWritten'),
+              t('in-forge:plugins.awsEc.labelBytesUsed')
+            ],
             type: 'line',
             formatter: bytes.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Cache">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleCache')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cas_hits', 'cas_misses', 'cas_badval'],
-            labels: ['Hits', 'Misses', 'Bad value'],
+            labels: [
+              t('in-forge:plugins.awsEc.labelHits'),
+              t('in-forge:plugins.awsEc.labelMisses'),
+              t('in-forge:plugins.awsEc.labelBadValue')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Commands">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleCommands')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cmd_flush', 'cmd_get', 'cmd_set'],
-            labels: ['Flush', 'Get', 'Set'],
+            labels: [t('in-forge:plugins.labelFlush'), t('in-forge:plugins.labelGet'), t('in-forge:plugins.labelSet')],
             type: 'line',
             formatter: bytes.compact
           }}
@@ -62,28 +71,38 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <Columize>
-        <DashboardSection title="Operations">
+        <DashboardSection title={t('in-forge:plugins.titleOperations')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['get_hits', 'get_misses', 'delete_hits', 'delete_misses'],
-              labels: ['Get Hits', 'Get Misses', 'Delete Hits', 'Delete Misses'],
+              labels: [
+                t('in-forge:plugins.awsEc.labelGetHits'),
+                t('in-forge:plugins.awsEc.labelGetMisses'),
+                t('in-forge:plugins.awsEc.labelDeleteHits'),
+                t('in-forge:plugins.awsEc.labelDeleteMisses')
+              ],
               type: 'line',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Operations">
+        <DashboardSection title={t('in-forge:plugins.titleOperations')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['incr_hits', 'incr_misses', 'decr_hits', 'decr_misses'],
-              labels: ['Incr Hits', 'Incr Misses', 'Decr Hits', 'Decr Misses'],
+              labels: [
+                t('in-forge:plugins.awsEc.labelIncrHits'),
+                t('in-forge:plugins.awsEc.labelIncrMisses'),
+                t('in-forge:plugins.awsEc.labelDecrHits'),
+                t('in-forge:plugins.awsEc.labelDecrMisses')
+              ],
               type: 'line',
               formatter: number.compact
             }}
@@ -91,14 +110,14 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       </Columize>
-      <DashboardSection title="Unused Memory">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleUnusedMemory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['unused_memory'],
-            labels: ['Unused Memory'],
+            labels: [t('in-forge:plugins.awsEc.labelUnusedMemory')],
             type: 'line',
             formatter: bytes.compact
           }}

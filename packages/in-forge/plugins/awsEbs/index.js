@@ -9,7 +9,6 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsEbs,
-
   kpiDefinitions,
   metricDefinitions,
   getLabel(snapshot) {

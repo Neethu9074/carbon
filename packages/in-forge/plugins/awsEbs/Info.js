@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
@@ -15,16 +16,26 @@ export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title="Volume ID">{data.get('volume_id')}</DescriptionItem>
-      <DescriptionItem title="Created at">{formatDateTime(data.get('creation_time'))}</DescriptionItem>
-      <DescriptionItem title="State">{data.get('state')}</DescriptionItem>
-      <DescriptionItem title="Size">{bytesZeroDecimalPlaces(data.get('size'))}</DescriptionItem>
-      <DescriptionItem title="Type">{data.get('type')}</DescriptionItem>
-      <DescriptionItem title="IOPS">{data.get('iops')}</DescriptionItem>
-      <DescriptionItem title="Encrypted">{yesOrNo(data.get('encrypted'))}</DescriptionItem>
-      <DescriptionItem title="Mounted Instance ID">{data.get('mounted_instance_id')}</DescriptionItem>
-      <DescriptionItem title="Mounted Path">{data.get('mounted_path')}</DescriptionItem>
-      <DescriptionItem title="Region">{data.get('aws_grouping_zone')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEbs.titleVolumeID')}>{data.get('volume_id')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEbs.titleCreatedAt')}>
+        {formatDateTime(data.get('creation_time'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleState')}>{data.get('state')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleSize')}>
+        {bytesZeroDecimalPlaces(data.get('size'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleType')}>{data.get('type')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEbs.titleIOPS')}>{data.get('iops')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEbs.titleEncrypted')}>
+        {yesOrNo(data.get('encrypted'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEbs.titleMountedInstanceID')}>
+        {data.get('mounted_instance_id')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEbs.titleMountedPath')}>
+        {data.get('mounted_path')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleRegion')}>{data.get('aws_grouping_zone')}</DescriptionItem>
       <HostLink snapshot={snapshot} />
     </DescriptionList>
   );

@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import metricDefinitions from 'in-forge/plugins/awsEs/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsEs/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -9,7 +11,6 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsEs,
-
   kpiDefinitions,
   metricDefinitions,
 
@@ -17,6 +18,6 @@ registerSnapshotDefinition({
     return snapshot.getIn(['data', 'es_domain_name'], '');
   },
   technologyDescriptor: {
-    label: 'AWS Elasticsearch'
+    label: t('in-forge:pluginName_awsEs')
   }
 });

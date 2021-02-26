@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -15,7 +16,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Instance ID',
+    title: t('in-forge:plugins.awsBeanstalk.titleInstanceID'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Type',
+    title: t('in-forge:plugins.titleType'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -33,7 +34,7 @@ const cols = [
     }
   },
   {
-    title: 'Status',
+    title: t('in-forge:plugins.titleStatus'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -42,7 +43,7 @@ const cols = [
     }
   },
   {
-    title: 'Launched at',
+    title: t('in-forge:plugins.awsBeanstalk.titleLaunchedAt'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -51,7 +52,7 @@ const cols = [
     }
   },
   {
-    title: 'CPU Load',
+    title: t('in-forge:plugins.awsBeanstalk.titleCPULoad'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -67,7 +68,7 @@ const cols = [
     }
   },
   {
-    title: 'Disk Usage',
+    title: t('in-forge:plugins.awsBeanstalk.titleDiskUsage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -102,7 +103,13 @@ export default function InstancesTable({ snapshot, timeConfig }) {
     };
   });
   return (
-    <Table withoutPadding cardTitle={`Instances (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.awsBeanstalk.titleInstances', { count: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
   );
 }
 
@@ -110,20 +117,20 @@ function getDetails(row) {
   const instanceId = row.key;
   return (
     <div>
-      <DashboardSection title="Health">
+      <DashboardSection title={t('in-forge:plugins.titleHealth')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             metrics: ['instanceMetrics.' + instanceId + '.instance_health'],
-            labels: ['Instance Health'],
+            labels: [t('in-forge:plugins.awsBeanstalk.labelInstanceHealth')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="CPU States">
+      <DashboardSection title={t('in-forge:plugins.awsBeanstalk.titleCPUStates')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
@@ -139,14 +146,14 @@ function getDetails(row) {
               'instanceMetrics.' + instanceId + '.cpu_load_average_1min'
             ],
             labels: [
-              'CPU irq',
-              'CPU idle',
-              'CPU user',
-              'CPU system',
-              'CPU softirq',
-              'CPU iowait',
-              'CPU nice',
-              'CPU Load'
+              t('in-forge:plugins.labelCPUStatesMetric.irq'),
+              t('in-forge:plugins.labelCPUStatesMetric.idle'),
+              t('in-forge:plugins.labelCPUStatesMetric.user'),
+              t('in-forge:plugins.labelCPUStatesMetric.system'),
+              t('in-forge:plugins.labelCPUStatesMetric.softirq'),
+              t('in-forge:plugins.labelCPUStatesMetric.iowait'),
+              t('in-forge:plugins.labelCPUStatesMetric.nice'),
+              t('in-forge:plugins.labelCPUStatesMetric.load')
             ],
             type: 'line',
             min: 0,
@@ -155,13 +162,13 @@ function getDetails(row) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Disk Usage">
+      <DashboardSection title={t('in-forge:plugins.awsBeanstalk.titleDiskUsage')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             metrics: ['instanceMetrics.' + row.key + '.disk_space_usage'],
-            labels: ['Disk Usage'],
+            labels: [t('in-forge:plugins.awsBeanstalk.titleDiskUsage')],
             type: 'line',
             min: 0,
             formatter: percentage.detailed
@@ -169,7 +176,7 @@ function getDetails(row) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Application Latency">
+      <DashboardSection title={t('in-forge:plugins.awsBeanstalk.titleApplicationLatency')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
@@ -184,14 +191,23 @@ function getDetails(row) {
               'instanceMetrics.' + instanceId + '.application_latency_p99',
               'instanceMetrics.' + instanceId + '.application_latency_p99.9'
             ],
-            labels: ['10th', '50th', '75th', '85th', '90th', '95th', '99th', '99.9th'],
+            labels: [
+              t('in-forge:plugins.labelLatencyMetric.10th'),
+              t('in-forge:plugins.labelLatencyMetric.50th'),
+              t('in-forge:plugins.labelLatencyMetric.75th'),
+              t('in-forge:plugins.labelLatencyMetric.85th'),
+              t('in-forge:plugins.labelLatencyMetric.90th'),
+              t('in-forge:plugins.labelLatencyMetric.95th'),
+              t('in-forge:plugins.labelLatencyMetric.99th'),
+              t('in-forge:plugins.labelLatencyMetric.999th')
+            ],
             type: 'line',
             formatter: millis.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Application Requests">
+      <DashboardSection title={t('in-forge:plugins.awsBeanstalk.titleApplicationRequests')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
@@ -203,7 +219,13 @@ function getDetails(row) {
               'instanceMetrics.' + instanceId + '.application_requests_5xx',
               'instanceMetrics.' + instanceId + '.application_requests_total'
             ],
-            labels: ['2xx', '3xx', '4xx', '5xx', 'Total'],
+            labels: [
+              t('in-forge:plugins.labelRequests.2xx'),
+              t('in-forge:plugins.labelRequests.3xx'),
+              t('in-forge:plugins.labelRequests.4xx'),
+              t('in-forge:plugins.labelRequests.5xx'),
+              t('in-forge:plugins.labelRequests.total')
+            ],
             colors: [
               theme.lib.colors.green800,
               theme.lib.colors.yellow800,

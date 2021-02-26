@@ -7,6 +7,5 @@ import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
   plugin: plugins.awsEcsContainer,
-
   supportsInfrastructureTabSubscript: true
 });

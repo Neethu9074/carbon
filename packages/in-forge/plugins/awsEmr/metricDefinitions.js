@@ -2,102 +2,104 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number, bytes, percentage, percentagePlainTwoDecimalPlaces } from 'in-services/formatters/number';
 
 export default [
   {
     metric: 'apps_running',
-    label: 'Apps Running',
+    label: t('in-forge:plugins.awsEmr.labelAppsRunning'),
     min: 0,
     formatter: number
   },
   {
     metric: 'apps_pending',
-    label: 'Apps Pending',
+    label: t('in-forge:plugins.awsEmr.labelAppsPending'),
     min: 0,
     formatter: number
   },
   {
     metric: 'apps_failed',
-    label: 'Apps Failed',
+    label: t('in-forge:plugins.awsEmr.labelAppsFailed'),
     min: 0,
     formatter: number
   },
   {
     metric: 'memory_allocated_megabytes',
-    label: 'Memory Allocated',
+    label: t('in-forge:plugins.awsEmr.labelMemoryAllocated'),
     min: 0,
     formatter: bytes
   },
   {
     metric: 'memory_reserved_megabytes',
-    label: 'Memory Reserved',
+    label: t('in-forge:plugins.awsEmr.labelMemoryReserved'),
     min: 0,
     formatter: bytes
   },
   {
     metric: 'memory_available_megabytes',
-    label: 'Memory Available',
+    label: t('in-forge:plugins.awsEmr.labelMemoryAvailable'),
     min: 0,
     formatter: bytes
   },
   {
     metric: 'container_allocated',
-    label: 'Containers Allocated',
+    label: t('in-forge:plugins.awsEmr.labelContainersAllocated'),
     min: 0,
     formatter: number
   },
   {
     metric: 's3_bytes_written',
-    label: 'Written',
+    label: t('in-forge:plugins.awsEmr.labelWritten'),
     min: 0,
     formatter: bytes
   },
   {
     metric: 's3_bytes_read',
-    label: 'Read',
+    label: t('in-forge:plugins.awsEmr.labelRead'),
     min: 0,
     formatter: bytes
   },
   {
     metric: 'hdfs_utilization',
-    label: 'HDFS Utilization (deprecated)',
+    label: t('in-forge:plugins.awsEmr.labelHDFSUtilizationDeprecated'),
     min: 0,
     formatter: percentagePlainTwoDecimalPlaces
   },
   {
     metric: 'HDFS_utilization',
-    label: 'HDFS Utilization',
+    label: t('in-forge:plugins.awsEmr.labelHDFSUtilization'),
     min: 0,
     formatter: percentage
   },
   {
     metric: 'total_load',
-    label: 'Total Concurrent Data Transfers',
+    label: t('in-forge:plugins.awsEmr.labelTotalConcurrentDataTransfers'),
     min: 0,
     formatter: number
   },
   {
     metric: 'active_nodes',
-    label: 'Active Nodes',
+    label: t('in-forge:plugins.awsEmr.labelActiveNodes'),
     min: 0,
     formatter: number
   },
   {
     metric: 'decommissioned_nodes',
-    label: 'Decommissioned Nodes',
+    label: t('in-forge:plugins.awsEmr.labelDecommissionedNodes'),
     min: 0,
     formatter: number
   },
   {
     metric: 'lost_nodes',
-    label: 'Lost Nodes',
+    label: t('in-forge:plugins.awsEmr.labelLostNodes'),
     min: 0,
     formatter: number
   },
   {
     metric: 'unhealthy_nodes',
-    label: 'Unhealthy Nodes',
+    label: t('in-forge:plugins.awsEmr.labelUnhealthyNodes'),
     min: 0,
     formatter: number
   }

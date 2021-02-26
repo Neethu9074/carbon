@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DateTimeWithPeriodSinceDescriptionItem } from 'in-sdk/components/sidebar/DateTimeWithPeriodSinceDescriptionItem';
@@ -12,19 +13,39 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="ARN">{data.get('taskArn')}</DescriptionItem>
-      <DescriptionItem title="Cluster">{data.get('clusterArn')}</DescriptionItem>
-      <DescriptionItem title="Task Definition ARN">{data.get('taskDefinitionArn')}</DescriptionItem>
-      <DescriptionItem title="Task Definition Name">{data.get('taskDefinition')}</DescriptionItem>
-      <DescriptionItem title="Task Definition Version">{data.get('taskDefinitionVersion')}</DescriptionItem>
-      <DescriptionItem title="Region">{data.get('region')}</DescriptionItem>
-      <DescriptionItem title="Availability Zone">{data.get('availabilityZone')}</DescriptionItem>
-      <DescriptionItem title="Desired Status">{data.get('desiredStatus')}</DescriptionItem>
-      <DescriptionItem title="Known Status">{data.get('knownStatus')}</DescriptionItem>
-      <DateTimeWithPeriodSinceDescriptionItem title="Pull Started" dateTime={data.get('pullStartedAt')} />
-      <DateTimeWithPeriodSinceDescriptionItem title="Pull Stopped" dateTime={data.get('pullStoppedAt')} />
-      <DescriptionItem title="CPU Limit">{data.get('limits.cpu')}</DescriptionItem>
-      <DescriptionItem title="Memory Limit">{data.get('limits.memory')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleARN')}>{data.get('taskArn')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEcsTask.titleCluster')}>{data.get('clusterArn')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEcsTask.titleTaskDefinitionARN')}>
+        {data.get('taskDefinitionArn')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEcsTask.titleTaskDefinitionName')}>
+        {data.get('taskDefinition')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEcsTask.titleTaskDefinitionVersion')}>
+        {data.get('taskDefinitionVersion')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.titleRegion')}>{data.get('region')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEcsTask.titleAvailabilityZone')}>
+        {data.get('availabilityZone')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEcsTask.titleDesiredStatus')}>
+        {data.get('desiredStatus')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEcsTask.titleKnownStatus')}>
+        {data.get('knownStatus')}
+      </DescriptionItem>
+      <DateTimeWithPeriodSinceDescriptionItem
+        title={t('in-forge:plugins.awsEcsTask.titlePullStarted')}
+        dateTime={data.get('pullStartedAt')}
+      />
+      <DateTimeWithPeriodSinceDescriptionItem
+        title={t('in-forge:plugins.awsEcsTask.titlePullStopped')}
+        dateTime={data.get('pullStoppedAt')}
+      />
+      <DescriptionItem title={t('in-forge:plugins.awsEcsTask.titleCPULimit')}>{data.get('limits.cpu')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.awsEcsTask.titleMemoryLimit')}>
+        {data.get('limits.memory')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

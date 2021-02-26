@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -14,84 +15,91 @@ export default function AwsEcMemcachedDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title="Hashing">
+      <DashboardSection title={t('in-forge:plugins.titleHashing')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['bytes_used_for_hash'],
-            labels: ['Bytes Used For Hash'],
+            labels: [t('in-forge:plugins.awsEc.labelBytesUsedForHash')],
             type: 'line',
             formatter: bytes.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Config Commands">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleConfigCommands')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cmd_config_get', 'cmd_config_set', 'cmd_touch'],
-            labels: ['Config Get', 'Config Set', 'Touch'],
+            labels: [
+              t('in-forge:plugins.awsEc.labelConfigGet'),
+              t('in-forge:plugins.awsEc.labelConfigSet'),
+              t('in-forge:plugins.awsEc.labelTouch')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Commands">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleCommands')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cmd_touch'],
-            labels: ['Touch'],
+            labels: [t('in-forge:plugins.awsEc.labelTouch')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Eviction">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleEviction')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['evicted_unfetched', 'expired_unfetched'],
-            labels: ['Evicted Unfetched', 'Expired Unfetched'],
+            labels: [
+              t('in-forge:plugins.awsEc.labelEvictedUnfetched'),
+              t('in-forge:plugins.awsEc.labelExpiredUnfetched')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Touch">
+      <DashboardSection title={t('in-forge:plugins.titleTouch')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['touch_hits', 'touch_misses'],
-            labels: ['Touch hits', 'Touch misses'],
+            labels: [t('in-forge:plugins.awsEc.labelTouchHits'), t('in-forge:plugins.awsEc.labelTouchMisses')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Slabs Moved">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleSlabsMoved')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['slabs_moved'],
-            labels: ['Slabs moved'],
+            labels: [t('in-forge:plugins.awsEc.labelSlabsMoved')],
             type: 'line',
             formatter: number.compact
           }}

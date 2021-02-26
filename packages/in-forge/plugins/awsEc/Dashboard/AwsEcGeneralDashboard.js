@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -14,78 +15,82 @@ export default function AwsEcGeneralDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title="CPU Usage">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleCPUUsage')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['cpu_utilization'],
-            labels: ['CPU Utilization'],
+            labels: [t('in-forge:plugins.awsEc.labelCPUUtilization')],
             formatter: percentage.detailed,
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Freeable Memory">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleFreeableMemory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['freeable_memory'],
-            labels: ['Freeable memory'],
+            labels: [t('in-forge:plugins.awsEc.labelFreeableMemory')],
             formatter: bytes.compact,
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Network Traffic">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleNetworkTraffic')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['net_bytes_in', 'net_bytes_out'],
-            labels: ['Bytes In', 'Bytes out'],
+            labels: [t('in-forge:plugins.awsEc.labelBytesIn'), t('in-forge:plugins.awsEc.labelBytesOut')],
             formatter: bytes.compact,
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Swap Usage">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleSwapUsage')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['swap_usage'],
-            labels: ['Swap usage'],
+            labels: [t('in-forge:plugins.awsEc.labelSwapUsage')],
             formatter: bytes.compact,
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Connections">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleConnections')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['curr_connections', 'new_connections'],
-            labels: ['Current', 'New'],
+            labels: [t('in-forge:plugins.awsEc.labelCurrent'), t('in-forge:plugins.awsEc.labelNew')],
             formatter: number.compact,
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Items count">
+      <DashboardSection title={t('in-forge:plugins.awsEc.titleItemsCount')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['curr_items', 'evictions', 'reclaimed'],
-            labels: ['Current', 'Evicted', 'Reclaimed'],
+            labels: [
+              t('in-forge:plugins.awsEc.labelCurrent'),
+              t('in-forge:plugins.awsEc.labelEvicted'),
+              t('in-forge:plugins.awsEc.labelReclaimed')
+            ],
             formatter: number.compact,
             type: 'line'
           }}

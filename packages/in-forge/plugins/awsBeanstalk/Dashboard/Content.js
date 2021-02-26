@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
@@ -20,23 +21,23 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
     <div>
       <GetMetricStatisticsInUse snapshot={snapshot} />
       <KpiSection>
-        <KpiKeyValue label="OK Instances">
+        <KpiKeyValue label={t('in-forge:plugins.awsBeanstalk.labelOKInstances')}>
           <MetricValue snapshotId={snapshotId} metric="environment_instances_ok" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Degraded Instances">
+        <KpiKeyValue label={t('in-forge:plugins.awsBeanstalk.labelDegradedInstances')}>
           <MetricValue snapshotId={snapshotId} metric="environment_instances_degraded" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Severe Instances">
+        <KpiKeyValue label={t('in-forge:plugins.awsBeanstalk.labelSevereInstances')}>
           <MetricValue snapshotId={snapshotId} metric="environment_instances_severe" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Total Requests">
+        <KpiKeyValue label={t('in-forge:plugins.awsBeanstalk.labelTotalRequests')}>
           <MetricValue snapshotId={snapshotId} metric="application_requests_total" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="5xx Requests">
+        <KpiKeyValue label={t('in-forge:plugins.awsBeanstalk.label5xxRequests')}>
           <MetricValue snapshotId={snapshotId} metric="application_requests_5xx" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Status">
+      <DashboardSection title={t('in-forge:plugins.titleStatus')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -52,14 +53,14 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
               'environment_instances_severe'
             ],
             labels: [
-              'Environment Health',
-              'OK Instances',
-              'Info Instances',
-              'Unknown Instances',
-              'No Data Instances',
-              'Warning Instances',
-              'Degraded Instances',
-              'Severe Instances'
+              t('in-forge:plugins.awsBeanstalk.labelEnvironmentHealth'),
+              t('in-forge:plugins.awsBeanstalk.labelOKInstances'),
+              t('in-forge:plugins.awsBeanstalk.labelInfoInstances'),
+              t('in-forge:plugins.awsBeanstalk.labelUnknownInstances'),
+              t('in-forge:plugins.awsBeanstalk.labelNoDataInstances'),
+              t('in-forge:plugins.awsBeanstalk.labelWarningInstances'),
+              t('in-forge:plugins.awsBeanstalk.labelDegradedInstances'),
+              t('in-forge:plugins.awsBeanstalk.labelSevereInstances')
             ],
             type: 'line',
             formatter: number.compact
@@ -67,7 +68,7 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Latency">
+      <DashboardSection title={t('in-forge:plugins.titleLatency')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -82,7 +83,16 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
               'application_latency_p99',
               'application_latency_p99.9'
             ],
-            labels: ['10th', '50th', '75th', '85th', '90th', '95th', '99th', '99.9th'],
+            labels: [
+              t('in-forge:plugins.labelLatencyMetric.10th'),
+              t('in-forge:plugins.labelLatencyMetric.50th'),
+              t('in-forge:plugins.labelLatencyMetric.75th'),
+              t('in-forge:plugins.labelLatencyMetric.85th'),
+              t('in-forge:plugins.labelLatencyMetric.90th'),
+              t('in-forge:plugins.labelLatencyMetric.95th'),
+              t('in-forge:plugins.labelLatencyMetric.99th'),
+              t('in-forge:plugins.labelLatencyMetric.999th')
+            ],
             min: 0,
             type: 'line',
             formatter: millis.compact
@@ -90,7 +100,7 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Requests">
+      <DashboardSection title={t('in-forge:plugins.titleRequests')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -102,7 +112,13 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
               'application_requests_5xx',
               'application_requests_total'
             ],
-            labels: ['2xx', '3xx', '4xx', '5xx', 'Total'],
+            labels: [
+              t('in-forge:plugins.labelRequests.2xx'),
+              t('in-forge:plugins.labelRequests.3xx'),
+              t('in-forge:plugins.labelRequests.4xx'),
+              t('in-forge:plugins.labelRequests.5xx'),
+              t('in-forge:plugins.labelRequests.total')
+            ],
             colors: [
               theme.lib.colors.green800,
               theme.lib.colors.yellow800,

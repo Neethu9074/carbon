@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getVersionsForLambdaFunction from 'in-subscription/getVersionsForLambdaFunction';
@@ -27,7 +28,7 @@ export default connectTo(
 
     const cols = [
       {
-        title: 'Version',
+        title: t('in-forge:plugins.awsLambdaFunction.titleVersion'),
         type: 'snapshotLink',
         typeArgs: {
           getSnapshotId(row) {
@@ -39,7 +40,14 @@ export default connectTo(
 
     const rows = versions.map(version => ({ key: version.get('id'), label: version.get('label') }));
 
-    return <Table withoutPadding cardTitle={`Versions (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.awsLambdaFunction.titleVersionsCount', { count: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );
 

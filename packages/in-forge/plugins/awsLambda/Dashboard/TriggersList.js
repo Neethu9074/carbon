@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { ClickableList, ClickableSnapshotListItem } from 'in-sdk/components/sidebar/ClickableList';
@@ -28,7 +29,9 @@ export default connectTo(
 
     return (
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Triggers ({triggers.length})</Collapsible.Header>
+        <Collapsible.Header>
+          {t('in-forge:plugins.awsLambda.headerTriggersCount', { count: triggers.length })}
+        </Collapsible.Header>
         <Collapsible.Content>
           <ClickableList>
             {triggers.map(tg => (

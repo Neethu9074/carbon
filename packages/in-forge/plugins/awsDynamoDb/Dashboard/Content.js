@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
@@ -17,28 +18,36 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
     <div>
       <GetMetricStatisticsInUse snapshot={snapshot} />
       <Columize>
-        <DashboardSection title="Read capacity">
+        <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleReadCapacity')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['provisioned_read', 'consumed_read'],
-              labels: ['Provisioned', 'Consumed'],
+              labels: [
+                t('in-forge:plugins.awsDynamoDb.labelProvisioned'),
+                t('in-forge:plugins.awsDynamoDb.labelConsumed')
+              ],
               type: 'line',
               formatter: number.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Throttled read requests">
+        <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleThrottledReadRequests')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['throttled_get', 'throttled_scan', 'throttled_query', 'throttled_batch_get'],
-              labels: ['Get', 'Scan', 'Query', 'Batch get'],
+              labels: [
+                t('in-forge:plugins.labelGet'),
+                t('in-forge:plugins.labelScan'),
+                t('in-forge:plugins.labelQuery'),
+                t('in-forge:plugins.labelBatchGet')
+              ],
               type: 'line',
               formatter: number.compact
             }}
@@ -47,28 +56,36 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title="Write capacity">
+        <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleWriteCapacity')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['provisioned_write', 'consumed_write'],
-              labels: ['Provisioned', 'Consumed'],
+              labels: [
+                t('in-forge:plugins.awsDynamoDb.labelProvisioned'),
+                t('in-forge:plugins.awsDynamoDb.labelConsumed')
+              ],
               type: 'line',
               formatter: number.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Throttled write requests">
+        <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleThrottledWriteRequests')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['throttled_put', 'throttled_update', 'throttled_delete', 'throttled_batch_write'],
-              labels: ['Put', 'Update', 'Delete', 'Batch write'],
+              labels: [
+                t('in-forge:plugins.labelPut'),
+                t('in-forge:plugins.labelUpdate'),
+                t('in-forge:plugins.labelDelete'),
+                t('in-forge:plugins.labelBatchWrite')
+              ],
               type: 'line',
               formatter: number.compact
             }}
@@ -77,168 +94,208 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="Get latency">
+      <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleGetLatency')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['lat_get_max', 'lat_get_min', 'lat_get_avg', 'lat_get_sum'],
-            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            labels: [
+              t('in-forge:plugins.labelMaximum'),
+              t('in-forge:plugins.labelMinimum'),
+              t('in-forge:plugins.labelAverage'),
+              t('in-forge:plugins.labelSum')
+            ],
             type: 'line',
             formatter: millis.detailed
           }}
           y2={{
             min: 0,
             metrics: ['lat_get_sc'],
-            labels: ['Request count'],
+            labels: [t('in-forge:plugins.awsDynamoDb.labelRequestCount')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Put latency">
+      <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titlePutLatency')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['lat_put_max', 'lat_put_min', 'lat_put_avg', 'lat_put_sum'],
-            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            labels: [
+              t('in-forge:plugins.labelMaximum'),
+              t('in-forge:plugins.labelMinimum'),
+              t('in-forge:plugins.labelAverage'),
+              t('in-forge:plugins.labelSum')
+            ],
             type: 'line',
             formatter: millis.detailed
           }}
           y2={{
             min: 0,
             metrics: ['lat_put_sc'],
-            labels: ['Request count'],
+            labels: [t('in-forge:plugins.awsDynamoDb.labelRequestCount')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Query latency">
+      <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleQueryLatency')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['lat_query_max', 'lat_query_min', 'lat_query_avg', 'lat_query_sum'],
-            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            labels: [
+              t('in-forge:plugins.labelMaximum'),
+              t('in-forge:plugins.labelMinimum'),
+              t('in-forge:plugins.labelAverage'),
+              t('in-forge:plugins.labelSum')
+            ],
             type: 'line',
             formatter: millis.detailed
           }}
           y2={{
             min: 0,
             metrics: ['lat_query_sc'],
-            labels: ['Request count'],
+            labels: [t('in-forge:plugins.awsDynamoDb.labelRequestCount')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Scan latency">
+      <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleScanLatency')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['lat_scan_max', 'lat_scan_min', 'lat_scan_avg', 'lat_scan_sum'],
-            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            labels: [
+              t('in-forge:plugins.labelMaximum'),
+              t('in-forge:plugins.labelMinimum'),
+              t('in-forge:plugins.labelAverage'),
+              t('in-forge:plugins.labelSum')
+            ],
             type: 'line',
             formatter: millis.detailed
           }}
           y2={{
             min: 0,
             metrics: ['lat_scan_sc'],
-            labels: ['Request count'],
+            labels: [t('in-forge:plugins.awsDynamoDb.labelRequestCount')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Update latency">
+      <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleUpdateLatency')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['lat_up_max', 'lat_up_min', 'lat_up_avg', 'lat_up_sum'],
-            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            labels: [
+              t('in-forge:plugins.labelMaximum'),
+              t('in-forge:plugins.labelMinimum'),
+              t('in-forge:plugins.labelAverage'),
+              t('in-forge:plugins.labelSum')
+            ],
             type: 'line',
             formatter: millis.detailed
           }}
           y2={{
             min: 0,
             metrics: ['lat_up_sc'],
-            labels: ['Request count'],
+            labels: [t('in-forge:plugins.awsDynamoDb.labelRequestCount')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Delete latency">
+      <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleDeleteLatency')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['lat_del_max', 'lat_del_min', 'lat_del_avg', 'lat_del_sum'],
-            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            labels: [
+              t('in-forge:plugins.labelMaximum'),
+              t('in-forge:plugins.labelMinimum'),
+              t('in-forge:plugins.labelAverage'),
+              t('in-forge:plugins.labelSum')
+            ],
             type: 'line',
             formatter: millis.detailed
           }}
           y2={{
             min: 0,
             metrics: ['lat_del_sc'],
-            labels: ['Request count'],
+            labels: [t('in-forge:plugins.awsDynamoDb.labelRequestCount')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Batch get latency">
+      <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleBatchGetLatency')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['lat_batch_get_max', 'lat_batch_get_min', 'lat_batch_get_avg', 'lat_batch_get_sum'],
-            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            labels: [
+              t('in-forge:plugins.labelMaximum'),
+              t('in-forge:plugins.labelMinimum'),
+              t('in-forge:plugins.labelAverage'),
+              t('in-forge:plugins.labelSum')
+            ],
             type: 'line',
             formatter: millis.detailed
           }}
           y2={{
             min: 0,
             metrics: ['lat_batch_get_sc'],
-            labels: ['Request count'],
+            labels: [t('in-forge:plugins.awsDynamoDb.labelRequestCount')],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Batch write latency">
+      <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleBatchWriteLatency')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['lat_batch_write_max', 'lat_batch_write_min', 'lat_batch_write_avg', 'lat_batch_write_sum'],
-            labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+            labels: [
+              t('in-forge:plugins.labelMaximum'),
+              t('in-forge:plugins.labelMinimum'),
+              t('in-forge:plugins.labelAverage'),
+              t('in-forge:plugins.labelSum')
+            ],
             type: 'line',
             formatter: millis.detailed
           }}
           y2={{
             min: 0,
             metrics: ['lat_batch_write_sc'],
-            labels: ['Request count'],
+            labels: [t('in-forge:plugins.awsDynamoDb.labelRequestCount')],
             type: 'line',
             formatter: number.compact
           }}
@@ -247,28 +304,38 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <Columize>
-        <DashboardSection title="Returned scan item count">
+        <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleReturnedScanItemCount')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['scan_ret_item_max', 'scan_ret_item_min', 'scan_ret_item_avg', 'scan_ret_item_sum'],
-              labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+              labels: [
+                t('in-forge:plugins.labelMaximum'),
+                t('in-forge:plugins.labelMinimum'),
+                t('in-forge:plugins.labelAverage'),
+                t('in-forge:plugins.labelSum')
+              ],
               type: 'line',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Returned query item count">
+        <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleReturnedQueryItemCount')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['query_ret_item_max', 'query_ret_item_min', 'query_ret_item_avg', 'query_ret_item_sum'],
-              labels: ['Maximum', 'Minimum', 'Average', 'Sum'],
+              labels: [
+                t('in-forge:plugins.labelMaximum'),
+                t('in-forge:plugins.labelMinimum'),
+                t('in-forge:plugins.labelAverage'),
+                t('in-forge:plugins.labelSum')
+              ],
               type: 'line',
               formatter: number.compact
             }}
@@ -278,28 +345,28 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Conditional check failed">
+        <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleConditionalCheckFailed')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['con_check_fail'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.labelCount')],
               type: 'line',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="User error">
+        <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleUserError')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['user_err'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.labelCount')],
               type: 'line',
               formatter: number.compact
             }}
@@ -308,28 +375,38 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title="System errors write">
+        <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleSystemErrorsWrite')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['sys_err_put', 'sys_err_update', 'sys_err_delete', 'sys_err_batch_write'],
-              labels: ['Put', 'Update', 'Delete', 'Batch write'],
+              labels: [
+                t('in-forge:plugins.labelPut'),
+                t('in-forge:plugins.labelUpdate'),
+                t('in-forge:plugins.labelDelete'),
+                t('in-forge:plugins.labelBatchWrite')
+              ],
               type: 'line',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="System errors read">
+        <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleSystemErrorsRead')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['sys_err_get', 'sys_err_scan', 'sys_err_query', 'sys_err_batch_get'],
-              labels: ['Get', 'Scan', 'Query', 'Batch get'],
+              labels: [
+                t('in-forge:plugins.labelGet'),
+                t('in-forge:plugins.labelScan'),
+                t('in-forge:plugins.labelQuery'),
+                t('in-forge:plugins.labelBatchGet')
+              ],
               type: 'line',
               formatter: number.compact
             }}
@@ -337,14 +414,14 @@ export default function AwsDynamoDbDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       </Columize>
-      <DashboardSection title="TTL Deleted Item">
+      <DashboardSection title={t('in-forge:plugins.awsDynamoDb.titleTTLDeletedItem')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['ttl'],
-            labels: ['Count'],
+            labels: [t('in-forge:plugins.labelCount')],
             type: 'line',
             formatter: number.compact
           }}
