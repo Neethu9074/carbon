@@ -4,8 +4,18 @@
  */
 import React from 'react';
 
+import {
+  ua2QueryBuilderFilterAddedTracker,
+  ua2GroupChangedTracker,
+  ua2ChartChangedTracker,
+  ua2ApiQueryPressedTracker,
+  ua2NestingDepthTracker
+} from 'in-websites/tracker';
+import {
+  toBackendQueryModel,
+  getMaximumExpressionDepth
+} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
@@ -46,6 +56,14 @@ export default function WebsiteQueryBuilderWorkspace(props) {
               onChange={onFormModelChange}
               QueryBuilder={queryBuildersByDataSource[dataSource].QueryBuilder}
               useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
+              tracking={{
+                onTagAdded: tagFilter => ua2QueryBuilderFilterAddedTracker({ dataSource, tagName: tagFilter.name }),
+                onQueryChanged: formModel =>
+                  ua2NestingDepthTracker({
+                    dataSource,
+                    nestingDepth: getMaximumExpressionDepth(toBackendQueryModel(formModel))
+                  })
+              }}
             />
 
             <GroupingConfiguratorSection
@@ -53,6 +71,9 @@ export default function WebsiteQueryBuilderWorkspace(props) {
               onChange={onGroupByChange}
               GroupingConfigurator={groupingConfiguratorsByDataSource[dataSource].GroupingConfigurator}
               tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+              tracking={{
+                onGroupAdded: group => ua2GroupChangedTracker({ dataSource, tagName: group.groupbyTag })
+              }}
             />
 
             <Charting
@@ -60,9 +81,22 @@ export default function WebsiteQueryBuilderWorkspace(props) {
               metricCatalogFilter={metricCatalogFilter}
               unifiedMetricsSource="WEBSITE"
               mapMetricConfiguration={mapMetricConfiguration}
+              tracking={{
+                onChartChanged: ({ metricId, aggregationId }) =>
+                  ua2ChartChangedTracker({ dataSource, metric: metricId, aggregation: aggregationId })
+              }}
             />
 
-            <ActionSection right={<ApiQueryAction backendQueryModel={backendQueryModel} />} />
+            <ActionSection
+              right={
+                <ApiQueryAction
+                  backendQueryModel={backendQueryModel}
+                  tracking={{
+                    onClick: () => ua2ApiQueryPressedTracker({ dataSource })
+                  }}
+                />
+              }
+            />
           </Sections>
           {isInvalid && (
             <Message type={error} withIcon small>

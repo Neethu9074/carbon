@@ -11,6 +11,7 @@ import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConf
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { metric as metricType, custom as customType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { ua2OrderByChangedTracker, ua2OrderByGroupChangedTracker } from 'in-new-components/tracker';
 import { isValid as isValidGrouping } from 'in-new-components/GroupingConfigurator/validation';
 import { TAG, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { NUMBER, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
@@ -319,10 +320,15 @@ function AnalyzeStateManagement({
     },
 
     orderBy,
-    onOrderByChange: orderBy => onChange({ orderBy }),
+    onOrderByChange: orderBy => {
+      ua2OrderByChangedTracker({ dataSource, ...orderBy });
+      onChange({ orderBy });
+    },
     orderByGroups,
-    onOrderByGroupsChange: orderByGroups => onChange({ orderByGroups }),
-
+    onOrderByGroupsChange: orderByGroups => {
+      ua2OrderByGroupChangedTracker({ dataSource, ...orderByGroups });
+      onChange({ orderByGroups });
+    },
     selectableFields,
     onSelectableFieldsChange,
 

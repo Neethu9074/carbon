@@ -10,6 +10,7 @@ import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transfor
 import ExistingValue from 'in-applications/analyze/components/FacetedSearch/ExistingValue';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { ua2FacetedSearchFilterAddedTracker } from 'in-applications/tracker';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import Skeleton from 'in-new-components/Loading/Skeleton';
@@ -119,7 +120,8 @@ function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource
     return (
       <div className={locals.suggestion}>
         <Link
-          onClick={() =>
+          onClick={() => {
+            ua2FacetedSearchFilterAddedTracker({ dataSource, tagName: 'call.erroneous' });
             updateFilter({
               add: [
                 {
@@ -129,8 +131,8 @@ function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource
                   operator: EQUALS
                 }
               ]
-            })
-          }
+            });
+          }}
           className={locals.addSuggestion}
         >
           <span className={locals.label}>Erroneous</span>

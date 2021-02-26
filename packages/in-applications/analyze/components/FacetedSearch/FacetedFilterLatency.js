@@ -9,6 +9,8 @@ import {
   updateLatencySelection
 } from 'in-applications/analyze/utils/latencyUtils';
 import FacetedExpandableCard from 'in-applications/analyze/components/FacetedSearch/FacetedExpandableCard';
+import { ua2FacetedSearchFilterAddedTracker } from 'in-applications/tracker';
+import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
@@ -130,6 +132,7 @@ function validateInputAndSetTagFilter(dataSource, minLatency, maxLatency, tagFil
     setError(true);
   } else {
     setError(false);
+    ua2FacetedSearchFilterAddedTracker({ dataSource, tagName: dataSourceConstants[dataSource].latencyTag });
     updateLatencySelection({
       dataSource: dataSource,
       selection: {

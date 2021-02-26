@@ -156,6 +156,7 @@ function SearchAndSuggestions({
         getHrefToGroupedView={getHrefToGroupedView}
         tag={tag}
         customLabelMapper={customLabelMapper}
+        dataSource={dataSource}
       />
     </Stack>
   );

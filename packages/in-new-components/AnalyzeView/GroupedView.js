@@ -19,6 +19,7 @@ import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryB
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { addGroupingCriteriaToFormModel } from 'in-new-components/AnalyzeView/StateManagement';
+import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-new-components/tracker';
 import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
 import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
@@ -151,7 +152,7 @@ export default function GroupedAnalyzeView(props) {
         formModel: addGroupingCriteriaToFormModel(groupBy, getItemLabel(item), formModel)
       }))
     );
-  }, [items, isLoading, hasErrors, onChartableDataSeriesChange, formModel, getItemLabel, groupBy]);
+  }, [items, isLoading, hasErrors, onChartableDataSeriesChange, formModel, getItemLabel, groupBy, dataSource]);
 
   const sortOptions = fields
     .map(field => {
@@ -202,6 +203,12 @@ export default function GroupedAnalyzeView(props) {
           )
         }
         withSamplingTooltip={withSamplingTooltip}
+        tracking={{
+          onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+          onMetricAggregationChanged: ({ metric, aggregation }) =>
+            ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+          onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
+        }}
       />
       <div className={locals.facetedSearchResultContainer}>
         {facetedSearchItems && facetedSearchItems.length > 0 && (

@@ -13,7 +13,7 @@ import Button from 'in-new-components/Button';
 
 import locals from './ChartingConfigurator.mless';
 
-export default function ChartingConfigurator({ options, value, onChange, hideRenderer, disableClose }) {
+export default function ChartingConfigurator({ options, value, onChange, hideRenderer, disableClose, tracking }) {
   if (!value && options?.length > 0) {
     return (
       <Button
@@ -21,13 +21,15 @@ export default function ChartingConfigurator({ options, value, onChange, hideRen
         kind="subtle"
         size="compact"
         icon="lib_openclose_add"
-        onClick={() =>
-          onChange({
+        onClick={() => {
+          const chartConfig = {
             metricId: options[0].metricId,
             aggregationId: options[0].aggregations[0].id,
             rendererId: options[0].aggregations[0].renderers[0].id
-          })
-        }
+          };
+          tracking?.onChartChanged?.(chartConfig);
+          onChange(chartConfig);
+        }}
       >
         {t('in-new-components:chartingConfigurator.buttonAddChart')}
       </Button>
@@ -42,7 +44,10 @@ export default function ChartingConfigurator({ options, value, onChange, hideRen
     <ChartingConfiguratorForm
       value={value}
       options={options}
-      onChange={onChange}
+      onChange={chartConfig => {
+        tracking?.onChartChanged?.(chartConfig);
+        onChange(chartConfig);
+      }}
       hideRenderer={hideRenderer}
       disableClose={disableClose}
     />
@@ -62,6 +67,10 @@ const optionShape = PropTypes.shape({
   aggregations: PropTypes.arrayOf(aggregationShape).isRequired
 });
 
+const trackingShape = {
+  onChartChanged: PropTypes.func
+};
+
 ChartingConfigurator.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.shape({
@@ -71,5 +80,6 @@ ChartingConfigurator.propTypes = {
   }),
   options: PropTypes.arrayOf(optionShape).isRequired,
   hideRenderer: PropTypes.bool,
-  disableClose: PropTypes.bool
+  disableClose: PropTypes.bool,
+  tracking: PropTypes.shape(trackingShape)
 };

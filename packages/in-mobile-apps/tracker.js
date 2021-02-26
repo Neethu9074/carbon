@@ -26,7 +26,12 @@ import {
   MOBILE_APPS_DASHBOARD_FILTER_SET,
   MOBILE_APPS_DASHBOARD_REMOVE_MOBILE_APP,
   MOBILE_APPS_DASHBOARD_RENAME_MOBILE_APP,
-  MOBILE_APPS_DASHBOARD_TAB_CHANGE
+  MOBILE_APPS_DASHBOARD_TAB_CHANGE,
+  ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED,
+  ANALYZE_UA2_GROUP_CHANGED,
+  ANALYZE_UA2_CHART_CHANGED,
+  ANALYZE_UA2_API_QUERY_PRESSED,
+  ANALYZE_UA2_NESTING_DEPTH
 } from 'in-services/tracking/tracking';
 
 // mobile app entry point
@@ -67,3 +72,9 @@ export const navigateToBackendTraceFromSession = e =>
   track(MOBILE_APPS_ANALYZE_NAVIGATE_TO_BACKEND_TRACK_FROM_SESSION, e);
 export const navigateToSessionFromBackendTrace = e =>
   track(MOBILE_APPS_ANALYZE_NAVIGATE_TO_SESSION_FROM_BACKEND_TRACE, e);
+
+export const ua2QueryBuilderFilterAddedTracker = e => track(ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED, e);
+export const ua2GroupChangedTracker = e => track(ANALYZE_UA2_GROUP_CHANGED, e);
+export const ua2ChartChangedTracker = e => track(ANALYZE_UA2_CHART_CHANGED, e);
+export const ua2ApiQueryPressedTracker = e => track(ANALYZE_UA2_API_QUERY_PRESSED, e);
+export const ua2NestingDepthTracker = e => track(ANALYZE_UA2_NESTING_DEPTH, e);

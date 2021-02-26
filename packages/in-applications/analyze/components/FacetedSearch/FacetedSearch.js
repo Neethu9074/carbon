@@ -98,6 +98,7 @@ export default function FacetedSearch({
         title={t('in-applications:analyze.httpStatusCode')}
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
+        dataSource={dataSource}
       />
       <FacetedFilterHiddenCalls
         title={t('in-applications:analyze.hiddenCalls')}

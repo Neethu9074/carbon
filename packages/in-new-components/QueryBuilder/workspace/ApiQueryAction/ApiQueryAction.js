@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import rpt from 'prop-types';
 import { t } from 'in-i18n';
 import React from 'react';
 
@@ -9,7 +10,7 @@ import ApiQueryOverlay from 'in-new-components/QueryBuilder/workspace/ApiQueryAc
 import { Action } from 'in-new-components/workspace/ActionSection/ActionSection';
 import Overlay from 'in-new-components/overlays/Overlay';
 
-export default function ApiQueryAction({ backendQueryModel }) {
+export default function ApiQueryAction({ backendQueryModel, tracking }) {
   return (
     <Overlay withoutWrapper align="bottomMiddle" content={ApiQueryOverlay} props={{ backendQueryModel }}>
       {({ toggle, refSetter }) => (
@@ -17,7 +18,12 @@ export default function ApiQueryAction({ backendQueryModel }) {
           disabled={!backendQueryModel}
           icon="lib_views_code"
           refSetter={refSetter}
-          onClick={() => backendQueryModel && toggle()}
+          onClick={() => {
+            if (backendQueryModel) {
+              tracking?.onClick?.();
+              toggle();
+            }
+          }}
         >
           {t('in-new-components:queryBuilder.workspaceAPIQuery')}
         </Action>
@@ -25,3 +31,10 @@ export default function ApiQueryAction({ backendQueryModel }) {
     </Overlay>
   );
 }
+
+ApiQueryAction.propTypes = {
+  backendQueryModel: rpt.object,
+  tracking: rpt.shape({
+    onClick: rpt.func
+  })
+};

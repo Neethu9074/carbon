@@ -27,7 +27,12 @@ import {
   WEBSITES_DASHBOARD_REMOVE_WEBSITE,
   WEBSITES_DASHBOARD_RENAME_WEBSITE,
   WEBSITES_DASHBOARD_TAB_CHANGE,
-  WEBSITES_DASHBOARD_VIEW_DEPRECATION_DETAILS
+  WEBSITES_DASHBOARD_VIEW_DEPRECATION_DETAILS,
+  ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED,
+  ANALYZE_UA2_GROUP_CHANGED,
+  ANALYZE_UA2_CHART_CHANGED,
+  ANALYZE_UA2_API_QUERY_PRESSED,
+  ANALYZE_UA2_NESTING_DEPTH
 } from 'in-services/tracking/tracking';
 
 // website entry point
@@ -69,3 +74,9 @@ export const navigateToBackendTraceFromPageLoad = e =>
   track(WEBSITES_ANALYZE_NAVIGATE_TO_BACKEND_TRACK_FROM_PAGE_LOAD, e);
 export const navigateToPageLoadFromBackendTrace = e =>
   track(WEBSITES_ANALYZE_NAVIGATE_TO_PAGE_LOAD_FROM_BACKEND_TRACE, e);
+
+export const ua2QueryBuilderFilterAddedTracker = e => track(ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED, e);
+export const ua2GroupChangedTracker = e => track(ANALYZE_UA2_GROUP_CHANGED, e);
+export const ua2ChartChangedTracker = e => track(ANALYZE_UA2_CHART_CHANGED, e);
+export const ua2ApiQueryPressedTracker = e => track(ANALYZE_UA2_API_QUERY_PRESSED, e);
+export const ua2NestingDepthTracker = e => track(ANALYZE_UA2_NESTING_DEPTH, e);

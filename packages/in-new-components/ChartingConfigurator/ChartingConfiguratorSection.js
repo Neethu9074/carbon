@@ -18,7 +18,8 @@ export default function ChartingConfiguratorSection({
   disableClose,
   ChartingConfigurator = DefaultChartingConfigurator,
   // Option to pass in additional buttons. For example to allow configuration of percentile presentation.
-  additionalActions = noAdditionalActions
+  additionalActions = noAdditionalActions,
+  tracking
 }) {
   return (
     <Section
@@ -32,6 +33,7 @@ export default function ChartingConfiguratorSection({
         onChange={onChange}
         hideRenderer={hideRenderer}
         disableClose={disableClose}
+        tracking={tracking}
       />
     </Section>
   );

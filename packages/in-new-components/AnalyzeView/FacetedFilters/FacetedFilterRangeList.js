@@ -13,6 +13,7 @@ import { GREATER_OR_EQUAL_THAN, LESS_OR_EQUAL_THAN } from 'in-new-components/Que
 import FacetedExpandableCard from 'in-new-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import ExistingValue from 'in-new-components/AnalyzeView/FacetedFilters/ExistingValue';
+import { ua2FacetedSearchFilterAddedTracker } from 'in-new-components/tracker';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { emptyArray } from 'in-services/fixedObjects';
 import Stack from 'in-new-components/layout/Stack';
@@ -26,16 +27,23 @@ export default function FacetedFilterRangeList({
   formModel,
   getUpdatedTagExpressionHref,
   ranges,
-  openByDefault
+  openByDefault,
+  dataSource
 }) {
   return (
     <FacetedExpandableCard title={title} openByDefault={openByDefault}>
-      <Body tag={tag} formModel={formModel} ranges={ranges} getUpdatedTagExpressionHref={getUpdatedTagExpressionHref} />
+      <Body
+        tag={tag}
+        formModel={formModel}
+        ranges={ranges}
+        getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+        dataSource={dataSource}
+      />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tag, formModel, ranges, getUpdatedTagExpressionHref }) {
+function Body({ tag, formModel, ranges, getUpdatedTagExpressionHref, dataSource }) {
   const currentFilters = getExistingFiltersForTag(tag, formModel);
   const selectedRanges =
     currentFilters &&
@@ -65,6 +73,7 @@ function Body({ tag, formModel, ranges, getUpdatedTagExpressionHref }) {
           key={range.start}
           range={range}
           getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+          dataSource={dataSource}
         />
       ))}
     </Stack>
@@ -109,7 +118,7 @@ function SelectedRanges({ tag, selectedRanges, getUpdatedTagExpressionHref }) {
   );
 }
 
-function Suggestion({ tag, range, getUpdatedTagExpressionHref }) {
+function Suggestion({ tag, range, getUpdatedTagExpressionHref, dataSource }) {
   return (
     <div className={locals.suggestion}>
       <Link
@@ -129,6 +138,7 @@ function Suggestion({ tag, range, getUpdatedTagExpressionHref }) {
             }
           ]
         })}
+        onClick={() => ua2FacetedSearchFilterAddedTracker({ dataSource, tagName: tag })}
         style={{ textDecoration: 'none' }}
         className={locals.label}
       >
