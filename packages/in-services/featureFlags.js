@@ -42,7 +42,8 @@ export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSm
 export const webMobileQb2AnalyzeEnabled = isFeatureFlagEnabled('webMobileQb2AnalyzeEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const smartAlertsAdvancedEntitySelectionEnabled = isFeatureFlagEnabled(
-  'smartAlertsAdvancedEntitySelectionEnabled'
+  'smartAlertsAdvancedEntitySelectionEnabled',
+  true
 );
 export const showUserSettingInternalTagsInUA = isFeatureFlagEnabled('showUserSettingInternalTagsInUA', false);
 export const qb2InAPCreationEnabled = isFeatureFlagEnabled('qb2InAPCreationEnabled');
