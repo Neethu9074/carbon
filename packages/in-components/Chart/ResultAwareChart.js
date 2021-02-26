@@ -8,7 +8,9 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
+import { warning } from 'in-new-components/Message/types';
 import PieChart from 'in-new-components/PieChart';
+import Message from 'in-new-components/Message';
 import Card from 'in-new-components/Card';
 
 export default function ResultAwareChart({ result, config, renderLegend = true }) {
@@ -18,14 +20,14 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
 
   const height = customHeight || 160;
   if (result.errors.length > 0) {
-    content = <NoDataAvailable width={frontBufferWidth} height={height} />;
+    content = <Message type={warning} withIcon title="Something went wrong…" description="Please try again later." />;
   } else if (result.progress.loading) {
     // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
     content = <LoadingIndicator height={height} width={frontBufferWidth} />;
     withoutPadding = true;
   } else {
     if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
-      content = <NoDataAvailable width={frontBufferWidth} height={height} icon={'lib_bar_chart'} />;
+      content = <NoDataAvailable width={frontBufferWidth} height={height} />;
     } else {
       if (config.y1.renderer.id === Renderer.pie.id) {
         content = <PieChart renderLegend={renderLegend} config={config} />;

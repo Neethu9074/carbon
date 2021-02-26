@@ -100,13 +100,7 @@ export default function GroupMetricsChart({
 
   const noData = !metrics || metrics.length === 0;
   if (noData) {
-    return (
-      <NoDataAvailable
-        height={189}
-        icon={'lib_bar_chart'}
-        text={t('in-applications:analyze.chartingPresenter.noData')}
-      />
-    );
+    return <NoDataAvailable height={189} text={t('in-applications:analyze.chartingPresenter.noData')} />;
   }
 
   const groups = groupsResult?.items.slice(0, nbGroups);

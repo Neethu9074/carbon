@@ -31,7 +31,7 @@ export default function QueryProgressIndicator({ progress, errors, items }) {
       return <QueryFailed errors={errors} />;
     }
     if (items?.length === 0) {
-      return <NoDataAvailable className={locals.noData} height={height} icon={'lib_bar_chart'} />;
+      return <NoDataAvailable className={locals.noData} height={height} />;
     }
   }
   return null;

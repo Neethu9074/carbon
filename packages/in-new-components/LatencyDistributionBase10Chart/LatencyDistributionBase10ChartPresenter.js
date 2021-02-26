@@ -5,7 +5,6 @@
 import { create } from '@instana/observables';
 import React, { useState } from 'react';
 import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import PercentileMenu, {
   ALL_PERCENTILES
@@ -23,6 +22,7 @@ import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
 import Legend from 'in-components/Chart/components/Legend.js';
 import { defaultTimeShift } from 'in-stores/time/shifting';
 import useObservable from 'in-hooks/useObservable';
+import { t } from 'in-i18n';
 
 import locals from './LatencyDistributionBase10ChartPresenter.mless';
 
@@ -70,7 +70,7 @@ export default function LatencyDistributionBase10ChartPresenter({
   ) {
     return (
       <div className={locals.container}>
-        <NoDataAvailable width={chartWidth} height={chartHeight} icon={'lib_bar_chart'} />
+        <NoDataAvailable width={chartWidth} height={chartHeight} />
       </div>
     );
   } else if (
@@ -94,7 +94,6 @@ export default function LatencyDistributionBase10ChartPresenter({
         <NoDataAvailable
           width={chartWidth}
           height={chartHeight}
-          icon={'lib_bar_chart'}
           text={t('in-new-components:latencyDistributionBase10Chart.presenterLabelNoDataToDisplay')}
         />
       </div>

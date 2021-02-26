@@ -5,7 +5,6 @@
 import { t } from 'in-i18n';
 import React from 'react';
 
-export { detailViewProps, retrievalSize } from 'in-new-components/AnalyzeView/UngroupedView';
 import UngroupedView, { retrievalSize } from 'in-new-components/AnalyzeView/UngroupedView';
 import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
@@ -15,6 +14,8 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
 
 import locals from './UngroupedViewTable.mless';
+
+export { detailViewProps, retrievalSize } from 'in-new-components/AnalyzeView/UngroupedView';
 
 export default function UngroupedAnalyzeViewTable(props) {
   return <UngroupedView {...props} Presenter={Table} />;
@@ -113,7 +114,7 @@ function Table(props) {
           filterByHref={groupLabel ? getHrefToUngroupedView(groupLabel) : null}
           loadMoreLabel={t('in-new-components:analyze.loadMore', { count: retrievalSize })}
           renderNoDataAvailable={noDataMessage => (
-            <NoDataAvailable className={locals.noData} text={noDataMessage} height={80} icon={'lib_bar_chart'} />
+            <NoDataAvailable className={locals.noData} text={noDataMessage} height={80} />
           )}
         />
       ) : (

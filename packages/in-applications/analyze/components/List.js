@@ -260,7 +260,7 @@ function TableOnlyPresenter({
           loadMoreLabel={t('in-applications:analyze.listLoadMore', {
             retrievalSize: retrievalSize
           })}
-          renderNoDataAvailable={() => <NoDataAvailable className={locals.noData} icon={'lib_bar_chart'} />}
+          renderNoDataAvailable={() => <NoDataAvailable className={locals.noData} />}
           filterBy={filterBy}
         />
       )}

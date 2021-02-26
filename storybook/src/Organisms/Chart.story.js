@@ -15,6 +15,7 @@ import { percentage } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { minutes } from 'in-services/time';
 
 const oneSecond = 1000;
 const oneMinute = oneSecond * 60;
@@ -329,7 +330,8 @@ export function BarWithBaseline() {
             metrics: metricsBarWithBaseline,
             baseline: baselineBarWithBaseline,
             operator: '>=',
-            labels: ['Data']
+            labels: ['Data'],
+            thresholdGranularity: minutes.toMillis(10)
           }
         }}
       />

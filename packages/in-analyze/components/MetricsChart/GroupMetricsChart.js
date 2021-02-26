@@ -100,7 +100,7 @@ function ChartElement({
 
   const groups = items.slice(0, 5);
   if (groups.length === 0 || !groups[0]?.metrics || !groups[0]?.metrics[focusedMetric]) {
-    return <NoDataAvailable height={189} icon={'lib_bar_chart'} text={'No data to display'} />;
+    return <NoDataAvailable height={189} text={'No data to display'} />;
   }
 
   const chartDefinition = find(chartDefinitions, d => d.key === focusedMetric);
