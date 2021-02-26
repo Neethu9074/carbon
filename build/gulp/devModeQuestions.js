@@ -30,21 +30,25 @@ exports.askQuestions = cb => {
 
   const targetConfig = getTargetSelectedViaEnvironmentVariables();
   if (targetConfig && !targetConfig.custom) {
-    selectTarget(devModeOptions, targetConfig);
+    selectTarget(devModeOptions, targetConfig, {});
     cb(devModeOptions);
     return;
   }
 
   inquirer.prompt(getQuestions(), answers => {
     if (answers.targetConfig.custom) {
-      selectTarget(devModeOptions, {
-        custom: answers.targetConfig.custom,
-        tenant: answers.tenant,
-        unit: answers.unit,
-        baseDomain: answers.baseDomain
-      });
+      selectTarget(
+        devModeOptions,
+        {
+          custom: answers.targetConfig.custom,
+          tenant: answers.tenant,
+          unit: answers.unit,
+          baseDomain: answers.baseDomain
+        },
+        answers
+      );
     } else {
-      selectTarget(devModeOptions, answers.targetConfig);
+      selectTarget(devModeOptions, answers.targetConfig, answers);
     }
     cb(devModeOptions);
   });
@@ -68,12 +72,13 @@ function getTargetSelectedViaEnvironmentVariables() {
   return undefined;
 }
 
-function selectTarget(devModeOptions, targetConfig) {
+function selectTarget(devModeOptions, targetConfig, answers) {
   if (targetConfig.local) {
-    devModeOptions.target.uiBackendUrl = 'http://localhost:8080';
-    devModeOptions.target.websocketEndpoint = 'http://localhost:8082/';
-    devModeOptions.target.butlerUrl = 'http://localhost:8480';
-    devModeOptions.target.integrationUrl = 'http://localhost:8182';
+    const host = answers.localTarget || 'localhost';
+    devModeOptions.target.uiBackendUrl = `http://${host}:8080`;
+    devModeOptions.target.websocketEndpoint = `http://${host}:8082/`;
+    devModeOptions.target.butlerUrl = `http://${host}:8480`;
+    devModeOptions.target.integrationUrl = `http://${host}:8182`;
     devModeOptions.target.local = true;
     devModeOptions.target.tenant = 'instana';
     devModeOptions.target.tenantUnit = 'local';
@@ -121,6 +126,13 @@ function getQuestions() {
       }))
     },
     {
+      type: 'input',
+      when: isLocalEnvironmentSelected,
+      name: 'localTarget',
+      message: 'Host where dev-env is runnig (default: localhost)',
+      default: 'localhost'
+    },
+    {
       type: 'list',
       when: customSaasEnvironmentSelected,
       name: 'baseDomain',
@@ -159,6 +171,10 @@ function getQuestions() {
       message: 'Unit?'
     }
   ];
+}
+
+function isLocalEnvironmentSelected(answers) {
+  return answers.targetConfig.local === true;
 }
 
 function noReadyMadeEnvironmentSelected(answers) {

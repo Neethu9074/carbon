@@ -21,7 +21,7 @@ exports = module.exports = {
     // special case: Handled in `devModeQuestions`
     custom: 'selfhosted'
   },
-  'Locally Running Backend (run local UI against fully local backend or against a partially local backend with ssh tunnels)': {
+  'Local (manually started) Backend (run local UI against fully local backend or against a partially local backend with ssh tunnels)': {
     // special case: Handled in `devModeQuestions`
     local: true
   },
