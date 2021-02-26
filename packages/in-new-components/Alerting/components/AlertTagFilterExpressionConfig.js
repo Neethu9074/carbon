@@ -34,7 +34,7 @@ export default function AlertTagFilterExpressionConfig({
   inPackage,
   ...remaingProps
 }) {
-  let element = null;
+  let element;
 
   if (inPackage === inPackages.IN_APPLICATIONS && smartAlertsAdvancedEntitySelectionEnabled) {
     element = (
@@ -46,12 +46,16 @@ export default function AlertTagFilterExpressionConfig({
         timeConfig={maxChartViewTimeConfig}
       />
     );
-  }
-
-  if (inPackage === inPackages.IN_WEBSITES) {
+  } else {
     element = (
       <LightCard
-        title={<IconLabel text={label} type="lib_application" noBottomMargin />}
+        title={
+          <IconLabel
+            text={label}
+            type={inPackage === inPackages.IN_APPLICATIONS ? 'lib_application' : 'lib_website'}
+            noBottomMargin
+          />
+        }
         headerClassName={classNames({
           [locals.header]: true,
           [locals.headerTransparent]: headerTransparent

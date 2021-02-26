@@ -166,7 +166,7 @@ module.exports = exports = [
   {
     uiClientKey: 'smartAlertsAdvancedEntitySelectionEnabled',
     instanaCtlKey: 'feature.smart.alerts.advanced.entity.selection.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'showUserSettingInternalTagsInUA',
