@@ -12,7 +12,6 @@ import checkIfUserCanPass from 'in-init/steps/checkUserPass';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
-import { isInstanaEngineer } from 'in-stores/user';
 import { getAgentKey } from 'in-api/agentKey';
 import config from 'in-services/config';
 import connect from 'in-hoc/connectTo';
@@ -45,8 +44,7 @@ function InstanaOnboardingComponent({ onDialogSkip, apiCallSatisfied, agentKey =
         butlerDomain={config.butlerDomain}
         trackingIdPrefix="onboarding"
         getRedirectButtonProperties={() => ({
-          disabled: !apiCallSatisfied && !isInstanaEngineer,
-          children: !apiCallSatisfied && isInstanaEngineer ? 'Engs can always pass' : 'Go to Instana!',
+          children: 'Go to Instana!',
           onClick: onDialogSkip
         })}
         agentEndpoint={config.agentEndpoint}
