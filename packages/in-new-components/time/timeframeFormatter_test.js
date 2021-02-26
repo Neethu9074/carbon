@@ -4,7 +4,6 @@
  */
 /* eslint-env mocha */
 import { expect } from 'chai';
-import { t } from 'in-i18n';
 import sinon from 'sinon';
 
 import { timeDisplayTopFormat, timeDisplayBottomFormat, formatExact } from 'in-new-components/time/timeframeFormatter';
@@ -25,9 +24,7 @@ describe('in-new-components/time/timeframeFormatter', () => {
       expect(timeDisplayTopFormat({ autoRefresh: true, to: null, windowSize: 120000 })).to.equal('Feb 22');
       expect(timeDisplayTopFormat({ autoRefresh: true, to: null, windowSize: 3600000 })).to.equal('Feb 22');
       expect(timeDisplayTopFormat({ autoRefresh: true, to: null, windowSize: 3662000 })).to.equal('Feb 22');
-      expect(timeDisplayTopFormat({ autoRefresh: true, to: null, windowSize: 86400000 })).to.equal(
-        t('in-new-components:time.timeFrameFormatterStarting', { fromTime: 'Feb 21' })
-      );
+      expect(timeDisplayTopFormat({ autoRefresh: true, to: null, windowSize: 86400000 })).to.equal('Starting Feb 21');
     });
 
     it('must format time with no "to" value on same day', () => {
@@ -49,21 +46,13 @@ describe('in-new-components/time/timeframeFormatter', () => {
 
   describe('timeDisplayBottomFormat', () => {
     it('must format live time modes', () => {
-      expect(timeDisplayBottomFormat({ autoRefresh: true, to: null, windowSize: 60000 })).to.equal(
-        t('in-new-components:time.timeFrameFormatterLast', { duration: 'minute' })
-      );
-      expect(timeDisplayBottomFormat({ autoRefresh: true, to: null, windowSize: 120000 })).to.equal(
-        t('in-new-components:time.timeFrameFormatterLast', { duration: '2 minutes' })
-      );
-      expect(timeDisplayBottomFormat({ autoRefresh: true, to: null, windowSize: 3600000 })).to.equal(
-        t('in-new-components:time.timeFrameFormatterLast', { duration: 'hour' })
-      );
+      expect(timeDisplayBottomFormat({ autoRefresh: true, to: null, windowSize: 60000 })).to.equal('Last minute');
+      expect(timeDisplayBottomFormat({ autoRefresh: true, to: null, windowSize: 120000 })).to.equal('Last 2 minutes');
+      expect(timeDisplayBottomFormat({ autoRefresh: true, to: null, windowSize: 3600000 })).to.equal('Last hour');
       expect(timeDisplayBottomFormat({ autoRefresh: true, to: null, windowSize: 3662000 })).to.equal(
-        t('in-new-components:time.timeFrameFormatterLast', { duration: '1 hour 1 minute' })
+        'Last 1 hour 1 minute'
       );
-      expect(timeDisplayBottomFormat({ autoRefresh: true, to: null, windowSize: 86400000 })).to.equal(
-        t('in-new-components:time.timeFrameFormatterLast24Hours')
-      );
+      expect(timeDisplayBottomFormat({ autoRefresh: true, to: null, windowSize: 86400000 })).to.equal('Last 24 hours');
     });
 
     it('must format time with no "to" value on same day', () => {
