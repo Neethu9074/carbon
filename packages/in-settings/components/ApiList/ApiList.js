@@ -35,6 +35,7 @@ export default function ApiList({ deleteItem, itemName, getItems, boundedPath, o
   const setErrorMessage = text => setMessage({ text, type: error });
   const newProps = {
     ...props,
+    setMessage,
     setErrorMessage,
     currentDeletingItemIds,
     itemName,
