@@ -82,11 +82,7 @@
     "hitNameResult_plural": "Results",
     "hitNameResult_0": "Results",
     "hitNameResult_1": "Result",
-    "hitNameResult_2": "Results",
-    "result": "{{formattedCount}} Result",
-    "result_plural": "{{formattedCount}} Results",
-    "group": "{{formattedCount}} Group",
-    "group_plural": "{{formattedCount}} Groups"
+    "hitNameResult_2": "Results"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Show counts and averages across the current time window.",

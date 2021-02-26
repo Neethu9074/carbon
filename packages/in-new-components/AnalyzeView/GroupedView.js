@@ -34,7 +34,6 @@ import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import { number } from 'in-services/formatters/number';
 import { aggregationLabels } from 'in-stores/metric';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -70,6 +69,7 @@ export default function GroupedAnalyzeView(props) {
     itemlabelColumnId,
     onChartableDataSeriesChange,
     withSamplingTooltip,
+    withResultsInGroups,
     withoutSorting = false,
     withoutChartGroupMarkers = false,
     chartedMetrics,
@@ -179,12 +179,6 @@ export default function GroupedAnalyzeView(props) {
     <>
       <Header
         {...props}
-        getHitName={({ count }) =>
-          t('in-new-components:analyzeView.groupedViewHeader', {
-            count,
-            formattedCount: number.compact(count)
-          })
-        }
         sortOptions={withoutSorting ? undefined : sortOptions}
         availableMetrics={availableMetrics}
         metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
@@ -202,6 +196,8 @@ export default function GroupedAnalyzeView(props) {
             }))
           )
         }
+        withGrouping
+        withResultsInGroups={withResultsInGroups}
         withSamplingTooltip={withSamplingTooltip}
         tracking={{
           onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
@@ -408,7 +404,7 @@ GroupedAnalyzeView.propTypes = {
 
   getData: rpt.func.isRequired,
   getLabel: rpt.func.isRequired,
-  getItemName: rpt.func.isRequired,
+  getItemName: rpt.func,
   CustomHeaderActions: rpt.elementType,
   columnDefinitions: rpt.array,
   UngroupedView: rpt.elementType.isRequired

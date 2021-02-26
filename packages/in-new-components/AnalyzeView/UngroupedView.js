@@ -4,7 +4,6 @@
  */
 import { empty } from '@instana/observables';
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -56,7 +55,7 @@ export default function UngroupedAnalyzeView(props) {
     ({ cursor }) => (isValid ? getData({ timeConfig, orderBy, backendQueryModel, cursor }) : empty),
     [isValid, timeConfig, backendQueryModel, orderBy]
   );
-  const { items, errors, progress, totalHits } = cursorPaginationState;
+  const { items, errors, progress, totalHits, totalRepresentedItemCount } = cursorPaginationState;
 
   const isLoading = props.isLoading || progress?.loading;
   // We deliberately use props.isLoading, because we do not want to remove all loaded entries
@@ -105,8 +104,8 @@ export default function UngroupedAnalyzeView(props) {
         <Header
           {...props}
           order={orderBy}
-          topText={t('in-new-components:analyzeView.ungroupedViewNoGrouping')}
-          totalRepresentedItemCount={totalHits}
+          totalHits={totalHits}
+          totalRepresentedItemCount={totalRepresentedItemCount}
           setOrder={onOrderByChange}
           availableMetrics={availableMetrics}
           metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}

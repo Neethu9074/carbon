@@ -137,6 +137,10 @@
   "analyzeView": {
     "splitScreenListTooltipCloseSidebar": "Close sidebar",
     "splitScreenListTooltipOpenSidebar": "Open sidebar",
+    "result": "{{formattedCount}} Result",
+    "result_plural": "{{formattedCount}} Results",
+    "resultRetained": "{{formattedCount}} Retained",
+    "resultRetained_plural": "{{formattedCount}} Retained",
     "groupedViewHeader": "{{formattedCount}} Group",
     "groupedViewHeader_plural": "{{formattedCount}} Groups",
     "groupedViewHeader_0": "Groups",
@@ -144,7 +148,6 @@
     "groupedViewHeader_2": "Groups",
     "resultHeaderLoading": "Loading…",
     "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
-    "ungroupedViewNoGrouping": "No grouping",
     "queryProgress": {
       "preparing": "Preparing…",
       "preparingInfo": "Please don't reload - this page will update automatically.",

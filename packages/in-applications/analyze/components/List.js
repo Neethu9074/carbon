@@ -12,16 +12,16 @@ import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/Face
 import { dataSourceConstants, getTypeTextByCount } from 'in-applications/analyze/metrics';
 import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
+import CountHeader from 'in-new-components/QueryBuilder/components/Header/CountHeader';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
-import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
-import { latencyFixed, number } from 'in-services/formatters/number';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Link } from 'in-components/tables/sharedComponents';
+import { latencyFixed } from 'in-services/formatters/number';
 import HealthDot from 'in-new-components/health/HealthDot';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -78,7 +78,16 @@ export default function List({
     [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid, hiddenCalls, dataSource, queryPrecision]
   );
 
-  const { items, progress, errors, canLoadMore, loadMore, totalHits, adjustedWindowSize } = result;
+  const {
+    items,
+    progress,
+    errors,
+    canLoadMore,
+    loadMore,
+    totalRepresentedItemCount,
+    totalHits,
+    adjustedWindowSize
+  } = result;
 
   const columnDefinitions = getColumnDefinitions(dataSource, linkFormModel);
 
@@ -108,6 +117,7 @@ export default function List({
       errors={errors}
       canLoadMore={canLoadMore}
       loadMore={loadMore}
+      totalRepresentedItemCount={totalRepresentedItemCount}
       totalHits={totalHits}
       adjustedWindowSize={adjustedWindowSize}
       tagFilterExpression={tagFilterExpression}
@@ -136,6 +146,7 @@ function Presenter({
   errors,
   canLoadMore,
   loadMore,
+  totalRepresentedItemCount,
   totalHits,
   adjustedWindowSize,
   tagFilterExpression,
@@ -159,19 +170,14 @@ function Presenter({
   return (
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
-        <ResultHeader
-          getItemName={({ count }) =>
-            t('in-applications:analyze.metricCountLabel', {
-              context: dataSource,
-              count,
-              formattedCount: number.compact(count)
-            })
-          }
-          totalRepresentedItemCount={totalHits}
-          adjustedWindowSize={adjustedWindowSize}
-          withSamplingTooltip
-          isValid={isValid}
-        />
+        <div className={locals.hits}>
+          <CountHeader
+            totalRepresentedItemCount={totalRepresentedItemCount}
+            totalHits={totalHits}
+            withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
+            withSamplingTooltip
+          />
+        </div>
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
           updateFilter={updateFilter}

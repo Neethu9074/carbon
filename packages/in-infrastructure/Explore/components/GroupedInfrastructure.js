@@ -28,7 +28,6 @@ import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { emptyObject } from 'in-services/fixedObjects';
-import { number } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -126,20 +125,10 @@ function Presenter({
         sortOptions={sortOptions}
         setMetrics={setMetrics}
         totalHits={totalHits}
+        withGrouping
+        withResultsInGroups
         setOrder={setOrder}
         metrics={metrics}
-        getItemName={({ count }) =>
-          t('in-infrastructure:explore.result', {
-            count,
-            formattedCount: number.compact(count)
-          })
-        }
-        getHitName={({ count }) =>
-          t('in-infrastructure:explore.group', {
-            count,
-            formattedCount: number.compact(count)
-          })
-        }
         order={order}
         tracking={tracking}
       />
