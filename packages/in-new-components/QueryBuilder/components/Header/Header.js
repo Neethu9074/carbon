@@ -5,7 +5,7 @@
 import React from 'react';
 
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
-import HorizontalFlexWrapper from '../../../layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import CountHeader from 'in-new-components/QueryBuilder/components/Header/CountHeader';
 
 import locals from './Header.mless';
@@ -21,11 +21,12 @@ export default function Header(props) {
     getHitName,
     getItemName,
     setOrder,
-    topText,
     metrics,
     order,
     tracking,
-    withSamplingTooltip
+    withSamplingTooltip,
+    withGrouping,
+    withResultsInGroups
   } = props;
 
   return (
@@ -35,8 +36,9 @@ export default function Header(props) {
         totalHits={totalHits}
         getItemName={getItemName}
         getHitName={getHitName}
-        topText={topText}
         withSamplingTooltip={withSamplingTooltip}
+        withGrouping={withGrouping}
+        withResultsInGroups={withResultsInGroups}
       />
 
       <HorizontalFlexWrapper>

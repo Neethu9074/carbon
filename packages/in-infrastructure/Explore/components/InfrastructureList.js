@@ -15,7 +15,6 @@ import getEntities from 'in-infrastructure/subscriptions/getEntities';
 import Header from 'in-new-components/QueryBuilder/components/Header';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/util/function';
 import Pill from 'in-new-components/Pill';
@@ -36,7 +35,14 @@ export default function InfrastructureList({
   tracking
 }) {
   const timeConfig = useTimeConfig();
-  const { items, totalHits, loadMore: cursorPaginationDefaultLoadMore, cursor, ...tableProps } = useCursorPagination(
+  const {
+    items,
+    totalHits,
+    totalRepresentedItemCount,
+    loadMore: cursorPaginationDefaultLoadMore,
+    cursor,
+    ...tableProps
+  } = useCursorPagination(
     ({ cursor }) => getTableData({ timeConfig, retrievalSize, backendQueryModel, order, type, metrics, cursor }),
     [timeConfig, retrievalSize, backendQueryModel, type, order, metrics]
   );
@@ -52,14 +58,9 @@ export default function InfrastructureList({
         <Header
           availableMetrics={availableMetrics}
           setMetrics={setMetrics}
+          totalRepresentedItemCount={totalRepresentedItemCount}
           totalHits={totalHits}
           metrics={metrics}
-          getHitName={({ count }) =>
-            t('in-infrastructure:explore.result', {
-              count,
-              formattedCount: number.compact(count)
-            })
-          }
           tracking={tracking}
         />
       )}

@@ -8,53 +8,99 @@ import { historicOrLargeDataResult$ } from 'in-new-components/time/TimeSelection
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 import { emptyObject } from 'in-services/fixedObjects';
+import { number } from 'in-services/formatters/number';
 import useObservable from 'in-hooks/useObservable';
+import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './CountHeader.mless';
 
 export default function CountHeader({
-  topText,
-  totalHits,
   totalRepresentedItemCount,
-  getHitName,
-  getItemName,
-  withSamplingTooltip = false
+  totalHits,
+  withGrouping = false,
+  withResultsInGroups = false,
+  withSamplingTooltip = false,
+  withAdjustedWindowSizeTooltip = false
 }) {
-  if (totalHits == null && totalRepresentedItemCount == null) {
+  const historicOrLargeDataResult = useObservable(historicOrLargeDataResult$, []);
+  if ((totalHits == null && totalRepresentedItemCount == null) || historicOrLargeDataResult == null) {
     return <Placeholder />;
   }
-  const hitName = getHitName ? getHitName({ count: totalHits }) : null;
-  const itemName =
-    getItemName && totalRepresentedItemCount != null ? getItemName({ count: totalRepresentedItemCount }) : null;
-  return <Presenter topText={topText ?? hitName} bottomText={itemName} withSamplingTooltip={withSamplingTooltip} />;
+
+  let topText;
+  let bottomText;
+  if (withGrouping) {
+    topText = t('in-new-components:analyzeView.groupedViewHeader', {
+      count: totalHits,
+      formattedCount: number.compact(totalHits)
+    });
+    if (withResultsInGroups) {
+      bottomText = t('in-new-components:analyzeView.result', {
+        count: totalRepresentedItemCount,
+        formattedCount: number.compact(totalRepresentedItemCount)
+      });
+    }
+  } else {
+    topText = t('in-new-components:analyzeView.result', {
+      count: totalRepresentedItemCount,
+      formattedCount: number.compact(totalRepresentedItemCount)
+    });
+    const showRetainedItemsCount =
+      historicOrLargeDataResult.containsHistoricData && totalRepresentedItemCount > totalHits;
+    if (showRetainedItemsCount) {
+      bottomText = t('in-new-components:analyzeView.resultRetained', {
+        count: totalHits,
+        formattedCount: number.compact(totalHits)
+      });
+    }
+  }
+
+  return (
+    <Presenter
+      topText={topText}
+      bottomText={bottomText}
+      historicOrLargeDataResult={historicOrLargeDataResult}
+      withSamplingTooltip={withSamplingTooltip}
+      withAdjustedWindowSizeTooltip={withAdjustedWindowSizeTooltip}
+    />
+  );
 }
 
 function Placeholder() {
-  return <Presenter topText={t('in-new-components:analyzeView.resultHeaderLoading')} bottomText="&nbsp;" />;
+  return <Presenter topText={t('in-new-components:analyzeView.resultHeaderLoading')} />;
 }
 
-function Presenter({ topText, bottomText, withSamplingTooltip }) {
-  const historicOrLargeDataResult = useObservable(
-    withSamplingTooltip && !samplingIndicatorEnabled ? historicOrLargeDataResult$ : null,
-    [withSamplingTooltip]
-  );
+function Presenter({
+  topText,
+  bottomText,
+  historicOrLargeDataResult,
+  withSamplingTooltip,
+  withAdjustedWindowSizeTooltip
+}) {
   const { containsHistoricData, retention } = historicOrLargeDataResult ?? emptyObject;
+  const showSamplingTooltip = withSamplingTooltip && !samplingIndicatorEnabled && containsHistoricData;
   return (
-    <div className={locals.headerWithTooltip}>
-      <div className={locals.header}>
-        <h3 className={locals.groupCount}>{topText}</h3>
-        {bottomText && <span className={locals.itemCount}>{bottomText}</span>}
+    <div className={locals.header}>
+      <div className={locals.topTextWithTooltip}>
+        <h3 className={locals.topText}>{topText}</h3>
+        {showSamplingTooltip && (
+          <TimeIcon
+            theme="light"
+            tooltipTheme="dark"
+            tooltipAlign="rightMiddle"
+            containsHistoricData
+            retention={retention}
+          />
+        )}
+        {withAdjustedWindowSizeTooltip && (
+          <Tooltip content={t('in-new-components:analyzeView.resultHeaderTooltip')} align="rightMiddle">
+            <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />
+          </Tooltip>
+        )}
       </div>
-      {containsHistoricData && (
-        <TimeIcon
-          theme="light"
-          tooltipTheme="dark"
-          tooltipAlign="rightMiddle"
-          containsHistoricData
-          retention={retention}
-        />
-      )}
+      <span className={locals.bottomText}>{bottomText}</span>
     </div>
   );
 }

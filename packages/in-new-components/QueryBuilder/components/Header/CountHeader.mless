@@ -2,26 +2,35 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+ @import '~in-themes/active.less';
+
 :local {
-  .headerWithTooltip {
-    display: flex;
-    flex-direction: row;
-  }
   .header {
     display: flex;
     flex-direction: column;
-
     width: max-content;
+    padding: 0 1rem;
+  }
 
-    padding-left: 1rem;
-    padding-right: 1rem;
+  .topTextWithTooltip {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    height: 2rem;
+  }
 
-    .groupCount {
-      padding: 0;
-    }
+  .topText {
+    padding: 0 1rem 0 0;
+    margin: 0;
+  }
 
-    .itemCount {
-      padding: 0;
-    }
+  .adjustmentIcon {
+    fill: @lib__colors__N500;
+  }
+
+  .bottomText {
+    padding: 0;
+    height: 1rem;
   }
 }

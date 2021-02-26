@@ -21,11 +21,11 @@ import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/f
 import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
 import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-applications/tracker';
 import { NUMBER, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
+import CountHeader from 'in-new-components/QueryBuilder/components/Header/CountHeader';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
-import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
@@ -34,7 +34,6 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import { formatDateTime } from 'in-services/formatters/date';
 import List from 'in-applications/analyze/components/List';
 import KeyValue from 'in-new-components/lists/KeyValue';
-import { number } from 'in-services/formatters/number';
 import { emptyArray } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useObservable from 'in-hooks/useObservable';
@@ -184,18 +183,14 @@ function Presenter({
   return (
     <div className={locals.wrapper}>
       <div className={locals.hitsAndFacetedSearch}>
-        <ResultHeader
-          getItemName={({ count }) =>
-            t('in-applications:analyze.groupedList.groupItemName', {
-              count,
-              formattedCount: number.compact(count)
-            })
-          }
-          totalRepresentedItemCount={totalHits}
-          adjustedWindowSize={adjustedWindowSize}
-          withSamplingTooltip
-          isValid={isValid}
-        />
+        <div className={locals.hits}>
+          <CountHeader
+            totalHits={totalHits}
+            withGrouping
+            withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
+            withSamplingTooltip
+          />
+        </div>
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
           updateFilter={updateFilter}

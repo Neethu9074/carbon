@@ -20,27 +20,28 @@ export default function ResultHeader({
   label,
   getItemName,
   totalRepresentedItemCount,
+  totalHits,
   adjustedWindowSize,
   withSamplingTooltip = false,
   isValid = true
 }) {
-  const historicOrLargeDataResult = useObservable(
-    withSamplingTooltip && !samplingIndicatorEnabled ? historicOrLargeDataResult$ : null,
-    []
-  );
+  const historicOrLargeDataResult = useObservable(historicOrLargeDataResult$, []);
   const { containsHistoricData, retention } = historicOrLargeDataResult ?? emptyObject;
-
+  const showSamplingTooltip = withSamplingTooltip && !samplingIndicatorEnabled && containsHistoricData;
+  // for historic data show number of retained items
+  // otherwise show total represented item count (a single batched call can represent multiple items)
+  const resultCount = containsHistoricData ? totalHits : totalRepresentedItemCount;
   return (
     <div className={locals.wrapper}>
       {label && <span className={locals.result}>{label}</span>}
-      {totalRepresentedItemCount == null ? (
+      {(totalHits == null && totalRepresentedItemCount == null) || historicOrLargeDataResult == null ? (
         <span className={locals.number}>
           {isValid ? t('in-new-components:analyzeView.resultHeaderLoading') : t('in-new-components:analyze.noResults')}
         </span>
       ) : (
         <>
-          <span className={locals.number}>{getItemName({ count: totalRepresentedItemCount })}</span>
-          {containsHistoricData && (
+          <span className={locals.number}>{getItemName({ count: resultCount })}</span>
+          {showSamplingTooltip && (
             <TimeIcon
               theme="light"
               tooltipTheme="dark"
@@ -64,6 +65,7 @@ ResultHeader.propTypes = {
   label: rpt.string,
   getItemName: rpt.func.isRequired,
   totalRepresentedItemCount: rpt.number,
+  totalHits: rpt.number,
   adjustedWindowSize: rpt.number,
   withSamplingTooltip: rpt.bool,
   isValid: rpt.bool
