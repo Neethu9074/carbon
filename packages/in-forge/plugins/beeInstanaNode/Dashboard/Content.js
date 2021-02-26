@@ -297,27 +297,7 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Move to longterm storage durations">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: [
-                'Aggregator.MoveToLongtermStorage.period10.Duration.max',
-                'Aggregator.MoveToLongtermStorage.period60.Duration.max',
-                'Aggregator.MoveToLongtermStorage.period300.Duration.max',
-                'Aggregator.MoveToLongtermStorage.period3600.Duration.max'
-              ],
-              labels: ['10s period', '1m period', '5m period', '1h period'],
-              type: 'line',
-              formatter: seconds.detailed
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-
-        <DashboardSection title="Big chunks opened (for read)">
+        <DashboardSection title="Files opened for Read">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -328,26 +308,6 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
                 'Aggregator.AggregatorPrune.period60.NumOpenedMetricDbs.max',
                 'Aggregator.AggregatorPrune.period300.NumOpenedMetricDbs.max',
                 'Aggregator.AggregatorPrune.period3600.NumOpenedMetricDbs.max'
-              ],
-              labels: ['10s period', '1m period', '5m period', '1h period'],
-              type: 'line',
-              formatter: number.compact
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        </DashboardSection>
-
-        <DashboardSection title="Small chunks opened (for write)">
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              metrics: [
-                'Aggregator.AggregatorPrune.period10.NumLiveColumnFamilies.max',
-                'Aggregator.AggregatorPrune.period60.NumLiveColumnFamilies.max',
-                'Aggregator.AggregatorPrune.period300.NumLiveColumnFamilies.max',
-                'Aggregator.AggregatorPrune.period3600.NumLiveColumnFamilies.max'
               ],
               labels: ['10s period', '1m period', '5m period', '1h period'],
               type: 'line',
