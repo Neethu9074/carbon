@@ -23,7 +23,9 @@ export default function PhpErrorSpanDetailView({ span }) {
       <Dl>
         <Di title={t('in-forge:tracing.phpError.message')}>{span.getIn(['data', 'error', 'msg'])}</Di>
         <Di title={t('in-forge:tracing.phpError.class')}>{span.getIn(['data', 'error', 'class'])}</Di>
-        <Di title={t('in-forge:tracing.phpError.level')}>{errorLevel != null ? errorLevelTranslation[errorLevel] : null}</Di>
+        <Di title={t('in-forge:tracing.phpError.level')}>
+          {errorLevel != null ? errorLevelTranslation[errorLevel] : null}
+        </Di>
         <Di title={t('in-forge:tracing.phpError.functionMethod')}>{span.getIn(['data', 'error', 'function'])}</Di>
         <Di title={t('in-forge:tracing.phpError.type')}>{span.getIn(['data', 'error', 'type'])}</Di>
         <Di title={t('in-forge:tracing.phpError.file')}>{span.getIn(['data', 'error', 'file'])}</Di>

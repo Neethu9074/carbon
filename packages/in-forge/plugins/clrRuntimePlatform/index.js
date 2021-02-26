@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import agentMonitoringIssueDefinitions from 'in-forge/plugins/clrRuntimePlatform/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/clrRuntimePlatform/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/clrRuntimePlatform/kpiDefinitions';
@@ -15,6 +17,6 @@ registerSnapshotDefinition({
   metricDefinitions,
   agentMonitoringIssueDefinitions,
   technologyDescriptor: {
-    label: '.NET'
+    label: t('in-forge:plugins.clrRuntimePlatform.indexLabel')
   }
 });

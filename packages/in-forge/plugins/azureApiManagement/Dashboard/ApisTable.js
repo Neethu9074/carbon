@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces, millis } from 'in-services/formatters/number';
@@ -13,7 +14,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.azureApiManagement.dashboard.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -28,7 +29,7 @@ const cols = [
     }
   },
   {
-    title: 'Calls',
+    title: t('in-forge:plugins.azureApiManagement.dashboard.titleCalls'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -44,7 +45,7 @@ const cols = [
     }
   },
   {
-    title: 'Bandwidth',
+    title: t('in-forge:plugins.azureApiManagement.dashboard.titleBandwidth'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -60,7 +61,7 @@ const cols = [
     }
   },
   {
-    title: 'API response time',
+    title: t('in-forge:plugins.azureApiManagement.dashboard.titleAPIResponseTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -77,7 +78,7 @@ const cols = [
   },
 
   {
-    title: 'Service response time',
+    title: t('in-forge:plugins.azureApiManagement.dashboard.titleServiceResponseTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -113,7 +114,13 @@ export default function ApisTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <Table withoutPadding cardTitle={`APIs (${rows.length})`} cols={cols} rows={rows} getRowDetails={getRowDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.azureApiManagement.dashboard.titleApiCount', { apiCount: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 
@@ -132,7 +139,13 @@ function getRowDetails(row) {
             'metrics.apis.' + row.key + '.callCountFailed',
             'metrics.apis.' + row.key + '.callCountOther'
           ],
-          labels: ['Total Calls', 'Successful Calls', 'Blocked Calls', 'Failed Calls', 'Other Calls'],
+          labels: [
+            t('in-forge:plugins.azureApiManagement.dashboard.labelTotalCalls'),
+            t('in-forge:plugins.azureApiManagement.dashboard.labelSuccessfulCalls'),
+            t('in-forge:plugins.azureApiManagement.dashboard.labelBlockedCalls'),
+            t('in-forge:plugins.azureApiManagement.dashboard.labelFailedCalls'),
+            t('in-forge:plugins.azureApiManagement.dashboard.labelOtherCalls')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -144,7 +157,7 @@ function getRowDetails(row) {
         y1={{
           formatter: bytesTwoDecimalPlaces,
           metrics: ['metrics.apis.' + row.key + '.bandwidth'],
-          labels: ['Bandwidth'],
+          labels: [t('in-forge:plugins.azureApiManagement.dashboard.labelOtherBandwidth')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -156,7 +169,10 @@ function getRowDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['metrics.apis.' + row.key + '.cacheHitCount', 'metrics.apis.' + row.key + '.cacheMissCount'],
-          labels: ['Cache Hits', 'Cache Misses'],
+          labels: [
+            t('in-forge:plugins.azureApiManagement.dashboard.labelCacheHits'),
+            t('in-forge:plugins.azureApiManagement.dashboard.labelCacheMisses')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -172,7 +188,11 @@ function getRowDetails(row) {
               'metrics.apis.' + row.key + '.apiTimeMin',
               'metrics.apis.' + row.key + '.apiTimeMax'
             ],
-            labels: ['API Average Response Time', 'API Minimum Response Time', 'API Maximum Response Time'],
+            labels: [
+              t('in-forge:plugins.azureApiManagement.dashboard.labelAPIAverageResponseTime'),
+              t('in-forge:plugins.azureApiManagement.dashboard.labelAPIMinimumResponseTime'),
+              t('in-forge:plugins.azureApiManagement.dashboard.labelAPIMaximumResponseTime')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -188,7 +208,11 @@ function getRowDetails(row) {
               'metrics.apis.' + row.key + '.serviceTimeMin',
               'metrics.apis.' + row.key + '.serviceTimeMax'
             ],
-            labels: ['Service Average Response Time', 'Service Minimum Response Time', 'Service Maximum Response Time'],
+            labels: [
+              t('in-forge:plugins.azureApiManagement.dashboard.labelServiceAverageResponseTime'),
+              t('in-forge:plugins.azureApiManagement.dashboard.labelServiceMinimumResponseTime'),
+              t('in-forge:plugins.azureApiManagement.dashboard.labelServiceMaximumResponseTime')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { number, percentagePlainTwoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -19,21 +20,21 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="CPU">
+        <KpiKeyValue label={t('in-forge:plugins.azureSqlElasticPool.dashboard.labelCPU')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="metrics.cpu_percent"
             formatter={percentagePlainTwoDecimalPlaces}
           />
         </KpiKeyValue>
-        <KpiKeyValue label="eDTU">
+        <KpiKeyValue label={t('in-forge:plugins.azureSqlElasticPool.dashboard.labelEDTU')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="metrics.dtu_consumption_percent"
             formatter={percentagePlainTwoDecimalPlaces}
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Storage">
+        <KpiKeyValue label={t('in-forge:plugins.azureSqlElasticPool.dashboard.labelStorage')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="metrics.storage_percent"
@@ -46,20 +47,23 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
         .get('data')
         .get('kind')
         .includes('vcore') && (
-        <DashboardSection title="eDTU">
+        <DashboardSection title={t('in-forge:plugins.azureSqlElasticPool.dashboard.titleEDTU')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.detailed,
               metrics: ['metrics.eDTU_limit', 'metrics.eDTU_used'],
-              labels: ['eDTU Limit', 'eDTU Used'],
+              labels: [
+                t('in-forge:plugins.azureSqlElasticPool.dashboard.labelEDTULimit'),
+                t('in-forge:plugins.azureSqlElasticPool.dashboard.labelEDTUUsed')
+              ],
               type: 'line'
             }}
             y2={{
               formatter: percentagePlainTwoDecimalPlaces,
               metrics: ['metrics.dtu_consumption_percent'],
-              labels: ['eDTU Percentage'],
+              labels: [t('in-forge:plugins.azureSqlElasticPool.dashboard.labelEDTUPercentage')],
               type: 'bar'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -67,41 +71,44 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
 
-      <DashboardSection title="Storage">
+      <DashboardSection title={t('in-forge:plugins.azureSqlElasticPool.dashboard.titleStorage')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: bytesTwoDecimalPlaces,
             metrics: ['metrics.storage_limit', 'metrics.storage_used'],
-            labels: ['Storage Limit', 'Storage Used'],
+            labels: [
+              t('in-forge:plugins.azureSqlElasticPool.dashboard.labelStorageLimit'),
+              t('in-forge:plugins.azureSqlElasticPool.dashboard.labelStorageUsed')
+            ],
             type: 'line'
           }}
           y2={{
             formatter: percentagePlainTwoDecimalPlaces,
             metrics: ['metrics.storage_percent'],
-            labels: ['Storage percentage'],
+            labels: [t('in-forge:plugins.azureSqlElasticPool.dashboard.labelStoragePercentage')],
             type: 'bar'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="CPU">
+      <DashboardSection title={t('in-forge:plugins.azureSqlElasticPool.dashboard.titleCPU')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: percentagePlainTwoDecimalPlaces,
             metrics: ['metrics.cpu_percent'],
-            labels: ['CPU percentage'],
+            labels: [t('in-forge:plugins.azureSqlElasticPool.dashboard.labelCPUPercentage')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="IO">
+      <DashboardSection title={t('in-forge:plugins.azureSqlElasticPool.dashboard.titleIO')}>
         <Columize>
           <Chart
             snapshotId={snapshotId}
@@ -109,7 +116,7 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
             y1={{
               formatter: percentagePlainTwoDecimalPlaces,
               metrics: ['metrics.physical_data_read_percent'],
-              labels: ['Data IO'],
+              labels: [t('in-forge:plugins.azureSqlElasticPool.dashboard.labelDataIO')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -121,7 +128,7 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
             y1={{
               formatter: percentagePlainTwoDecimalPlaces,
               metrics: ['metrics.log_write_percent'],
-              labels: ['Log IO'],
+              labels: [t('in-forge:plugins.azureSqlElasticPool.dashboard.labelLogIO')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -129,7 +136,7 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
         </Columize>
       </DashboardSection>
 
-      <DashboardSection title="Workers/Sessions">
+      <DashboardSection title={t('in-forge:plugins.azureSqlElasticPool.dashboard.titleWorkers')}>
         <Columize>
           <Chart
             snapshotId={snapshotId}
@@ -137,7 +144,7 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
             y1={{
               formatter: percentagePlainTwoDecimalPlaces,
               metrics: ['metrics.workers_percent'],
-              labels: ['Workers'],
+              labels: [t('in-forge:plugins.azureSqlElasticPool.dashboard.labelWorkers')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -148,7 +155,7 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
             y1={{
               formatter: percentagePlainTwoDecimalPlaces,
               metrics: ['metrics.sessions_percent'],
-              labels: ['Sessions'],
+              labels: [t('in-forge:plugins.azureSqlElasticPool.dashboard.labelSessions')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -156,14 +163,14 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
         </Columize>
       </DashboardSection>
 
-      <DashboardSection title="In-Memory OLTP">
+      <DashboardSection title={t('in-forge:plugins.azureSqlElasticPool.dashboard.titleInMemoryOLTP')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: percentagePlainTwoDecimalPlaces,
             metrics: ['metrics.xtp_storage_percent'],
-            labels: ['In-Memory OLTP storage'],
+            labels: [t('in-forge:plugins.azureSqlElasticPool.dashboard.labelInMemoryOLTPStorage')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -174,14 +181,17 @@ export default function AzureSqlElasticPoolDashboard({ snapshot, timeConfig }) {
         .get('data')
         .get('kind')
         .includes('vcore') && (
-        <DashboardSection title="vCore">
+        <DashboardSection title={t('in-forge:plugins.azureSqlElasticPool.dashboard.titleVCore')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.detailed,
               metrics: ['metrics.cpu_limit', 'metrics.cpu_used'],
-              labels: ['CPU Limit', 'CPU Used'],
+              labels: [
+                t('in-forge:plugins.azureSqlElasticPool.dashboard.labelCPULimit'),
+                t('in-forge:plugins.azureSqlElasticPool.dashboard.labelCPUUsed')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

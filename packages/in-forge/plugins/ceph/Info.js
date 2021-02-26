@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -11,10 +12,10 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
-      <DescriptionItem title="Cluster Name">{data.get('cluster_name')}</DescriptionItem>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
-      <DescriptionItem title="Fsid">{data.get('fsid')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ceph.infoProcessID')}>{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ceph.infoClusterName')}>{data.get('cluster_name')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ceph.infoVersion')}>{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ceph.infoFsid')}>{data.get('fsid')}</DescriptionItem>
     </DescriptionList>
   );
 }

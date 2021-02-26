@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number, percentage, bytes, nanos } from 'in-services/formatters/number';
 
 export default [
@@ -38,14 +40,14 @@ export default [
       'memory.inactive_file'
     ],
     labels: [
-      'Usage',
-      'Max usage',
-      'RSS',
-      'Cache',
-      'Active anonymous',
-      'Active cache',
-      'Inactive anonymous',
-      'Inactive cache'
+      t('in-forge:plugins.containerd.labelUsage'),
+      t('in-forge:plugins.containerd.labelMaxUsage'),
+      t('in-forge:plugins.containerd.labelRSS'),
+      t('in-forge:plugins.containerd.labelCache'),
+      t('in-forge:plugins.containerd.labelActiveAnonymous'),
+      t('in-forge:plugins.containerd.labelActiveCache'),
+      t('in-forge:plugins.containerd.labelInactiveAnonymous'),
+      t('in-forge:plugins.containerd.labelInactiveCache')
     ],
     min: 0,
     category: ['Memory'],

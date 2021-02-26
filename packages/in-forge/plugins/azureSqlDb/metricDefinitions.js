@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import {
   percentagePlainTwoDecimalPlaces,
   zeroDecimalPlaces,
@@ -21,12 +23,12 @@ export default [
       getDynamicMetricMatch('metrics', 'deadlock', 'Database')
     ],
     labels: [
-      'DTU Limit',
-      'CPU Limit',
-      'Successful Connections',
-      'Failed Connections',
-      'Blocked by Firewall',
-      'Deadlocks'
+      t('in-forge:plugins.azureSqlDb.labelDTULimit'),
+      t('in-forge:plugins.azureSqlDb.labelCPULimit'),
+      t('in-forge:plugins.azureSqlDb.labelSuccessfulConnections'),
+      t('in-forge:plugins.azureSqlDb.labelFailedConnections'),
+      t('in-forge:plugins.azureSqlDb.labelBlockedByFirewall'),
+      t('in-forge:plugins.azureSqlDb.labelDeadlocks')
     ],
     formatter: zeroDecimalPlaces,
     min: 0
@@ -36,7 +38,7 @@ export default [
       getDynamicMetricMatch('metrics', 'dtu_used', 'Database'),
       getDynamicMetricMatch('metrics', 'cpu_used', 'Database')
     ],
-    labels: ['DTU Used', 'CPU Used'],
+    labels: [t('in-forge:plugins.azureSqlDb.labelDTUUsed'), t('in-forge:plugins.azureSqlDb.labelCPUUsed')],
     formatter: twoDecimalPlaces,
     min: 0
   },
@@ -52,21 +54,21 @@ export default [
       getDynamicMetricMatch('metrics', 'sessions_percent', 'Database')
     ],
     labels: [
-      'DTU Percentage',
-      'Database size',
-      'CPU percentage',
-      'Data IO',
-      'Log IO',
-      'In-Memory OLTP storage',
-      'Workers',
-      'Sessions'
+      t('in-forge:plugins.azureSqlDb.labelDTUPercentage'),
+      t('in-forge:plugins.azureSqlDb.labelDatabasesize'),
+      t('in-forge:plugins.azureSqlDb.labelCPUPercentage'),
+      t('in-forge:plugins.azureSqlDb.labelDataIO'),
+      t('in-forge:plugins.azureSqlDb.labelLogIO'),
+      t('in-forge:plugins.azureSqlDb.labelInMemoryOLTPStorage'),
+      t('in-forge:plugins.azureSqlDb.labelWorkers'),
+      t('in-forge:plugins.azureSqlDb.labelSessions')
     ],
     formatter: percentagePlainTwoDecimalPlaces,
     min: 0
   },
   {
     metrics: [getDynamicMetricMatch('metrics', 'storage', 'Database')],
-    labels: ['Total database size'],
+    labels: [t('in-forge:plugins.azureSqlDb.labelTotalDatabaseSize')],
     formatter: bytesTwoDecimalPlaces,
     min: 0
   }

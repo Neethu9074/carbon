@@ -2,16 +2,17 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import RunningQueries from 'in-forge/plugins/clickHouseDatabase/Dashboard/RunningQueries';
 import TablesTable from 'in-forge/plugins/clickHouseDatabase/Dashboard/TablesTable.js';
 import MetricsTable from 'in-forge/plugins/clickHouseDatabase/Dashboard/MetricsTable';
 import { bytes, withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 
 export default function ClickHouseDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -23,59 +24,59 @@ export default function ClickHouseDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title="Select Queries">
+      <DashboardSection title={t('in-forge:plugins.clickhouseDatabase.dashboard.titleSelectQueries')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['SelectQuery'],
-            labels: ['Select Queries'],
+            labels: [t('in-forge:plugins.clickhouseDatabase.dashboard.labelSelectQueries')],
             type: 'line'
           }}
           y2={{
             min: 0,
             metrics: ['QueryThread'],
-            labels: ['Query Threads'],
+            labels: [t('in-forge:plugins.clickhouseDatabase.dashboard.labelQueryThreads')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Insert Queries">
+      <DashboardSection title={t('in-forge:plugins.clickhouseDatabase.dashboard.titleInsertQueries')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['InsertQuery'],
-            labels: ['Insert Queries'],
+            labels: [t('in-forge:plugins.clickhouseDatabase.dashboard.labelInsertQueries')],
             type: 'line'
           }}
           y2={{
             min: 0,
             metrics: ['InsertedBytes'],
-            labels: ['Inserted Bytes'],
+            labels: [t('in-forge:plugins.clickhouseDatabase.dashboard.labelInsertBytes')],
             type: 'line',
             formatter: bytes.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Merges">
+      <DashboardSection title={t('in-forge:plugins.clickhouseDatabase.dashboard.titleMerges')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['Merge'],
-            labels: ['Merges'],
+            labels: [t('in-forge:plugins.clickhouseDatabase.dashboard.labelMerges')],
             type: 'line'
           }}
           y2={{
             min: 0,
             metrics: ['parts'],
-            labels: ['Active Parts'],
+            labels: [t('in-forge:plugins.clickhouseDatabase.dashboard.labelActiveParts')],
             type: 'line',
             formatter: withSiPrefixThreeDecimalPlaces
           }}

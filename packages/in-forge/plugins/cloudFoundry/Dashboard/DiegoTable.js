@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -13,7 +14,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Component',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleComponent'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -53,7 +54,7 @@ function auctioneerCharts(row) {
   const snapshotId = row.snapshotId;
   return (
     <Columize>
-      <DashboardSection title="Routines">
+      <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleRoutines')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={row.timeConfig}
@@ -61,14 +62,14 @@ function auctioneerCharts(row) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
             metrics: ['diego.auctioneer_num_go_routines'],
-            labels: ['Go routines'],
+            labels: [t('in-forge:plugins.cloudFoundry.dashboard.labelGoRoutines')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleMemory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={row.timeConfig}
@@ -80,7 +81,11 @@ function auctioneerCharts(row) {
               'diego.auctioneer_bytes_allocated_heap',
               'diego.auctioneer_bytes_allocated_stack'
             ],
-            labels: ['Allocated', 'Allocated Heap', 'Allocated Stack'],
+            labels: [
+              t('in-forge:plugins.cloudFoundry.dashboard.labelAllocated'),
+              t('in-forge:plugins.cloudFoundry.dashboard.labelAllocatedHeap'),
+              t('in-forge:plugins.cloudFoundry.dashboard.labelAllocatedStack')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -95,7 +100,7 @@ function stagerCharts(row) {
   return (
     <div>
       <Columize>
-        <DashboardSection title="Routines">
+        <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleRoutines')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={row.timeConfig}
@@ -103,14 +108,14 @@ function stagerCharts(row) {
               formatter: zeroDecimalPlaces,
               tooltipFormatter: zeroDecimalPlaces,
               metrics: ['diego.stager_num_go_routines'],
-              labels: ['Go routines'],
+              labels: [t('in-forge:plugins.cloudFoundry.dashboard.labelGoRoutines')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
-        <DashboardSection title="Memory">
+        <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleMemory')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={row.timeConfig}
@@ -122,14 +127,18 @@ function stagerCharts(row) {
                 'diego.stager_bytes_allocated_heap',
                 'diego.stager_bytes_allocated_stack'
               ],
-              labels: ['Allocated', 'Allocated Heap', 'Allocated Stack'],
+              labels: [
+                t('in-forge:plugins.cloudFoundry.dashboard.labelAllocated'),
+                t('in-forge:plugins.cloudFoundry.dashboard.labelAllocatedHeap'),
+                t('in-forge:plugins.cloudFoundry.dashboard.labelAllocatedStack')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
-      <DashboardSection title="Requests">
+      <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleRequests')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={row.timeConfig}
@@ -137,7 +146,10 @@ function stagerCharts(row) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
             metrics: ['diego.stager_staging_req_failed', 'diego.stager_staging_req_succeeded'],
-            labels: ['Requests failed', 'Requests succeeded'],
+            labels: [
+              t('in-forge:plugins.cloudFoundry.dashboard.labelRequestsFailed'),
+              t('in-forge:plugins.cloudFoundry.dashboard.labelRequestsSucceeded')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -151,7 +163,7 @@ function fileserverCharts(row) {
   const snapshotId = row.snapshotId;
   return (
     <Columize>
-      <DashboardSection title="Routines">
+      <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleRoutines')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={row.timeConfig}
@@ -159,14 +171,14 @@ function fileserverCharts(row) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
             metrics: ['diego.fs_num_go_routines'],
-            labels: ['Go routines'],
+            labels: [t('in-forge:plugins.cloudFoundry.dashboard.labelGoRoutines')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleMemory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={row.timeConfig}
@@ -174,7 +186,11 @@ function fileserverCharts(row) {
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesZeroDecimalPlaces,
             metrics: ['diego.fs_bytes_allocated', 'diego.fs_bytes_allocated_heap', 'diego.fs_bytes_allocated_stack'],
-            labels: ['Allocated', 'Allocated Heap', 'Allocated Stack'],
+            labels: [
+              t('in-forge:plugins.cloudFoundry.dashboard.labelAllocated'),
+              t('in-forge:plugins.cloudFoundry.dashboard.labelAllocatedHeap'),
+              t('in-forge:plugins.cloudFoundry.dashboard.labelAllocatedStack')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

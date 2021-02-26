@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import CollectionsTable from 'in-forge/plugins/azureCosmosDb/Dashboard/DatabaseTable';
@@ -21,13 +22,13 @@ export default function Region({ snapshot, timeConfig, region, databases, collec
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['metrics.regions.' + region + '.tr'],
-          labels: ['Total Requests'],
+          labels: [t('in-forge:plugins.azureCosmosDB.dashboard.labelTr')],
           type: 'line'
         }}
         y2={{
           formatter: zeroDecimalPlaces,
           metrics: ['metrics.regions.' + region + '.mr'],
-          labels: ['Metadata Requests'],
+          labels: [t('in-forge:plugins.azureCosmosDB.dashboard.labelMr')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -39,7 +40,7 @@ export default function Region({ snapshot, timeConfig, region, databases, collec
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['metrics.regions.' + region + '.dc'],
-          labels: ['Document Count'],
+          labels: [t('in-forge:plugins.azureCosmosDB.dashboard.labelDc')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { combineLatest } from '@instana/observables';
 import React from 'react';
 
@@ -13,7 +14,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Used memory',
+    title: t('in-forge:plugins.couchbaseCluster.dashboard.titleUsedMemory'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -29,7 +30,7 @@ const cols = [
     }
   },
   {
-    title: 'Used disk',
+    title: t('in-forge:plugins.couchbaseCluster.dashboard.titleUsedDisk'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -45,7 +46,7 @@ const cols = [
     }
   },
   {
-    title: 'Items in disk write queue',
+    title: t('in-forge:plugins.couchbaseCluster.dashboard.titleItemsInQueue'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -61,7 +62,7 @@ const cols = [
     }
   },
   {
-    title: 'Health',
+    title: t('in-forge:plugins.couchbaseCluster.dashboard.titleHealth'),
     type: 'health',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Name',
+    title: t('in-forge:plugins.couchbaseCluster.dashboard.titleName'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -103,6 +104,14 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle="Cluster Nodes" cols={cols} rows={rows} initialSortColumn={1} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.couchbaseCluster.dashboard.titleClusterNodes')}
+        cols={cols}
+        rows={rows}
+        initialSortColumn={1}
+      />
+    );
   }
 );

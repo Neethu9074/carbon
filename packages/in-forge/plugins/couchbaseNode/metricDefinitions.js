@@ -2,21 +2,26 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { bytes, percentage, number } from 'in-services/formatters/number';
-import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { t } from 'in-i18n';
 
 import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseNode/constants.js';
+import { bytes, percentage, number } from 'in-services/formatters/number';
+import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 const nodeMetricDefinitions = [
   {
     metrics: ['node.mem_used', 'node.couch_docs_actual_disk_size'],
-    labels: ['Used memory (bytes)', 'Used disk (bytes)'],
+    labels: [t('in-forge:plugins.couchbaseNode.labelUsedMemory'), t('in-forge:plugins.couchbaseNode.labelUsedDisk')],
     min: 0,
     formatter: bytes
   },
   {
     metrics: ['node.ep_diskqueue_fill', 'node.ep_diskqueue_drain', 'node.disk_write_queue'],
-    labels: ['Items put to disk queue per sec.', 'Items written to disk per sec.', 'Items in disk write queue'],
+    labels: [
+      t('in-forge:plugins.couchbaseNode.labelItemsPutToQueue'),
+      t('in-forge:plugins.couchbaseNode.labelItemsWriteToDisk'),
+      t('in-forge:plugins.couchbaseNode.labelItemsInQueue')
+    ],
     min: 0,
     formatter: number
   }
@@ -30,14 +35,14 @@ export function getBucketMetricDefinitions(prefix, category) {
   return [
     {
       metric: getDynamicMetricMatch(prefix, 'curr_items', 'Bucket'),
-      label: 'Items',
+      label: t('in-forge:plugins.couchbaseNode.labelItems'),
       category: [category],
       min: 0,
       formatter: number
     },
     {
       metric: getDynamicMetricMatch(prefix, 'mem_used_ratio', 'Bucket'),
-      label: 'Used memory (%)',
+      label: t('in-forge:plugins.couchbaseNode.labelUsedMemoryP'),
       category: [category],
       min: 0,
       max: 1,
@@ -45,14 +50,14 @@ export function getBucketMetricDefinitions(prefix, category) {
     },
     {
       metric: getDynamicMetricMatch(prefix, 'couch_docs_actual_disk_size', 'Bucket'),
-      label: 'Used disk (bytes)',
+      label: t('in-forge:plugins.couchbaseNode.labelUsedDisk'),
       category: [category],
       min: 0,
       formatter: bytes
     },
     {
       metric: getDynamicMetricMatch(prefix, 'ep_cache_miss_rate', 'Bucket'),
-      label: 'Cache miss (%)',
+      label: t('in-forge:plugins.couchbaseNode.labelCacheMiss'),
       category: [category],
       min: 0,
       max: 1,
@@ -60,7 +65,7 @@ export function getBucketMetricDefinitions(prefix, category) {
     },
     {
       metric: getDynamicMetricMatch(prefix, 'couch_docs_fragmentation', 'Bucket'),
-      label: 'Fragmentation (%)',
+      label: t('in-forge:plugins.couchbaseNode.labelFragmentation'),
       category: [category],
       min: 0,
       max: 1,
@@ -68,28 +73,28 @@ export function getBucketMetricDefinitions(prefix, category) {
     },
     {
       metric: getDynamicMetricMatch(prefix, 'ops', 'Bucket'),
-      label: 'Operations per sec.',
+      label: t('in-forge:plugins.couchbaseNode.labelOperationsPerSec'),
       category: [category],
       min: 0,
       formatter: number
     },
     {
       metric: getDynamicMetricMatch(prefix, 'cmd_get', 'Bucket'),
-      label: 'Gets per sec.',
+      label: t('in-forge:plugins.couchbaseNode.labelGetsPerSec'),
       category: [category],
       min: 0,
       formatter: number
     },
     {
       metric: getDynamicMetricMatch(prefix, 'cmd_set', 'Bucket'),
-      label: 'Sets per sec.',
+      label: t('in-forge:plugins.couchbaseNode.labelSetsPerSec'),
       category: [category],
       min: 0,
       formatter: number
     },
     {
       metric: getDynamicMetricMatch(prefix, 'vb_active_resident_items_ratio', 'Bucket'),
-      label: 'Active items resident in cache (%)',
+      label: t('in-forge:plugins.couchbaseNode.labelActiveItems'),
       category: [category],
       min: 0,
       max: 1,
@@ -97,14 +102,14 @@ export function getBucketMetricDefinitions(prefix, category) {
     },
     {
       metric: getDynamicMetricMatch(prefix, 'ep_bg_fetched', 'Bucket'),
-      label: 'Disk reads per sec.',
+      label: t('in-forge:plugins.couchbaseNode.labelDiskReads'),
       category: [category],
       min: 0,
       formatter: number
     },
     {
       metric: getDynamicMetricMatch(prefix, 'vb_active_eject', 'Bucket'),
-      label: 'Active items ejected per sec.',
+      label: t('in-forge:plugins.couchbaseNode.labelActiveItemsEjected'),
       category: [category],
       min: 0,
       formatter: number

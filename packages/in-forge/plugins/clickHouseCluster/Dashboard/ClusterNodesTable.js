@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { combineLatest } from '@instana/observables';
 import React from 'react';
 
@@ -13,7 +14,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.clickhouseCluster.dashboard.titleName'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Shard',
+    title: t('in-forge:plugins.clickhouseCluster.dashboard.titleShard'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Replica',
+    title: t('in-forge:plugins.clickhouseCluster.dashboard.titleReplica'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Rows',
+    title: t('in-forge:plugins.clickhouseCluster.dashboard.titleRows'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +57,7 @@ const cols = [
     }
   },
   {
-    title: 'Disk Usage',
+    title: t('in-forge:plugins.clickhouseCluster.dashboard.titleDiskUsage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -72,7 +73,7 @@ const cols = [
     }
   },
   {
-    title: 'Health',
+    title: t('in-forge:plugins.clickhouseCluster.dashboard.titleHealth'),
     type: 'health',
     typeArgs: {
       getSnapshotId(row) {
@@ -110,7 +111,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={`Cluster Nodes (${rows.length})`}
+        cardTitle={t('in-forge:plugins.clickhouseCluster.dashboard.titleClusterNodesCount', { nodeCount: rows.length })}
         cols={cols}
         rows={rows}
         initialSortColumn={1}

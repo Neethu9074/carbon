@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -24,21 +25,21 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="CPU">
+        <KpiKeyValue label={t('in-forge:plugins.azureSqlDb.dashboard.labelCPU')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="metrics.cpu_percent"
             formatter={percentagePlainTwoDecimalPlaces}
           />
         </KpiKeyValue>
-        <KpiKeyValue label="eDTU">
+        <KpiKeyValue label={t('in-forge:plugins.azureSqlDb.dashboard.labelEDTU')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="metrics.dtu_consumption_percent"
             formatter={percentagePlainTwoDecimalPlaces}
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Storage">
+        <KpiKeyValue label={t('in-forge:plugins.azureSqlDb.dashboard.labelStorage')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="metrics.storage_percent"
@@ -51,20 +52,23 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
         .get('data')
         .get('kind')
         .includes('vcore') && (
-        <DashboardSection title="DTU">
+        <DashboardSection title={t('in-forge:plugins.azureSqlDb.dashboard.titleDTU')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.detailed,
               metrics: ['metrics.dtu_limit', 'metrics.dtu_used'],
-              labels: ['DTU Limit', 'DTU Used'],
+              labels: [
+                t('in-forge:plugins.azureSqlDb.dashboard.labelDTULimit'),
+                t('in-forge:plugins.azureSqlDb.dashboard.labelDTUUsed')
+              ],
               type: 'line'
             }}
             y2={{
               formatter: percentagePlainTwoDecimalPlaces,
               metrics: ['metrics.dtu_consumption_percent'],
-              labels: ['DTU Percentage'],
+              labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelDTUPercentage')],
               type: 'bar'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -72,83 +76,86 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
 
-      <DashboardSection title="Storage">
+      <DashboardSection title={t('in-forge:plugins.azureSqlDb.dashboard.titleStorage')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: bytesTwoDecimalPlaces,
             metrics: ['metrics.storage'],
-            labels: ['Total database size'],
+            labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelTotalDatabaseSize')],
             type: 'line'
           }}
           y2={{
             formatter: percentagePlainTwoDecimalPlaces,
             metrics: ['metrics.storage_percent'],
-            labels: ['Database size'],
+            labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelDatabaseSize')],
             type: 'bar'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="CPU">
+      <DashboardSection title={t('in-forge:plugins.azureSqlDb.dashboard.titleCPU')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: percentagePlainTwoDecimalPlaces,
             metrics: ['metrics.cpu_percent'],
-            labels: ['CPU percentage'],
+            labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelCPUPercentage')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Connections">
+      <DashboardSection title={t('in-forge:plugins.azureSqlDb.dashboard.titleConnections')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['metrics.connection_successful', 'metrics.connection_failed'],
-            labels: ['Successful Connections', 'Failed Connections'],
+            labels: [
+              t('in-forge:plugins.azureSqlDb.dashboard.labelSuccessful'),
+              t('in-forge:plugins.azureSqlDb.dashboard.labelFailed')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Firewall">
+      <DashboardSection title={t('in-forge:plugins.azureSqlDb.dashboard.titleFirewall')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['metrics.blocked_by_firewall'],
-            labels: ['Blocked by Firewall'],
+            labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelBlockedByFirewall')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Deadlocks">
+      <DashboardSection title={t('in-forge:plugins.azureSqlDb.dashboard.titleDeadlocks')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['metrics.deadlock'],
-            labels: ['Deadlocks'],
+            labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelDeadlocks')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="IO">
+      <DashboardSection title={t('in-forge:plugins.azureSqlDb.dashboard.titleIO')}>
         <Columize>
           <Chart
             snapshotId={snapshotId}
@@ -156,7 +163,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             y1={{
               formatter: percentagePlainTwoDecimalPlaces,
               metrics: ['metrics.physical_data_read_percent'],
-              labels: ['Data IO'],
+              labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelDataIO')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -168,7 +175,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             y1={{
               formatter: percentagePlainTwoDecimalPlaces,
               metrics: ['metrics.log_write_percent'],
-              labels: ['Log IO'],
+              labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelLogIO')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -176,7 +183,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
         </Columize>
       </DashboardSection>
 
-      <DashboardSection title="Workers/Sessions">
+      <DashboardSection title={t('in-forge:plugins.azureSqlDb.dashboard.titleWorkers')}>
         <Columize>
           <Chart
             snapshotId={snapshotId}
@@ -184,7 +191,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             y1={{
               formatter: percentagePlainTwoDecimalPlaces,
               metrics: ['metrics.workers_percent'],
-              labels: ['Workers'],
+              labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelWorkers')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -196,7 +203,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             y1={{
               formatter: percentagePlainTwoDecimalPlaces,
               metrics: ['metrics.sessions_percent'],
-              labels: ['Sessions'],
+              labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelSessions')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -204,14 +211,14 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
         </Columize>
       </DashboardSection>
 
-      <DashboardSection title="In-Memory OLTP">
+      <DashboardSection title={t('in-forge:plugins.azureSqlDb.dashboard.titleInMemoryOLTP')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: percentagePlainTwoDecimalPlaces,
             metrics: ['metrics.xtp_storage_percent'],
-            labels: ['In-Memory OLTP storage'],
+            labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelInMemoryOLTPStorage')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -222,14 +229,17 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
         .get('data')
         .get('kind')
         .includes('vcore') && (
-        <DashboardSection title="CPU">
+        <DashboardSection title={t('in-forge:plugins.azureSqlDb.dashboard.titleCPU')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.detailed,
               metrics: ['metrics.cpu_limit', 'metrics.cpu_used'],
-              labels: ['CPU Limit', 'CPU Used'],
+              labels: [
+                t('in-forge:plugins.azureSqlDb.dashboard.labelCPULimit'),
+                t('in-forge:plugins.azureSqlDb.dashboard.labelCPUUsed')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

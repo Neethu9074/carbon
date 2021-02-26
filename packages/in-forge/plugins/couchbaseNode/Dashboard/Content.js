@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseNode/constants.js';
 import BucketsTable from 'in-forge/plugins/couchbaseNode/Dashboard/BucketsTable.js';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { bytes, number } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 
@@ -24,14 +25,14 @@ export default function CouchbaseDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title="Used Resources">
+      <DashboardSection title={t('in-forge:plugins.couchbaseNode.dashboard.titleUsedResources')}>
         <Columize>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['node.mem_used'],
-              labels: ['Used memory'],
+              labels: [t('in-forge:plugins.couchbaseNode.dashboard.labelUsedMemory')],
               type: 'line',
               min: 0,
               formatter: bytes.compact,
@@ -44,7 +45,7 @@ export default function CouchbaseDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               metrics: ['node.couch_docs_actual_disk_size'],
-              labels: ['Used disk'],
+              labels: [t('in-forge:plugins.couchbaseNode.dashboard.labelUsedDisk')],
               type: 'line',
               min: 0,
               formatter: bytes.compact,
@@ -55,7 +56,7 @@ export default function CouchbaseDashboard({ snapshot, timeConfig }) {
         </Columize>
       </DashboardSection>
 
-      <DashboardSection title="Disk Drain">
+      <DashboardSection title={t('in-forge:plugins.couchbaseNode.dashboard.titleDiskDrain')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -63,13 +64,16 @@ export default function CouchbaseDashboard({ snapshot, timeConfig }) {
             min: 0,
             formatter: number.compact,
             metrics: ['node.disk_write_queue'],
-            labels: ['Items in disk write queue'],
+            labels: [t('in-forge:plugins.couchbaseNode.dashboard.labelItemsInDiskQueue')],
             type: 'line'
           }}
           y2={{
             type: 'line',
             metrics: ['node.ep_diskqueue_fill', 'node.ep_diskqueue_drain'],
-            labels: ['Items put to disk queue per sec.', 'Items written to disk per sec.'],
+            labels: [
+              t('in-forge:plugins.couchbaseNode.dashboard.labelItemsPutToDiskQueue'),
+              t('in-forge:plugins.couchbaseNode.dashboard.labelItemsWrittenToDisk')
+            ],
             min: 0,
             formatter: number.perSecond.compact
           }}

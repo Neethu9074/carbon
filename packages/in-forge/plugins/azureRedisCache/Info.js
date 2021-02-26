@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -13,36 +14,64 @@ export default function Info({ snapshot }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-        <DescriptionItem title="Resource Group">{data.get('resourceGroup')}</DescriptionItem>
-        <DescriptionItem title="Location">{data.get('location')}</DescriptionItem>
-        <DescriptionItem title="Subscription ID">{data.get('subscription')}</DescriptionItem>
-        <DescriptionItem title="Type">{data.get('type')}</DescriptionItem>
-        <DescriptionItem title="Version">{data.get('redisVersion')}</DescriptionItem>
-        <DescriptionItem title="Host Name">{data.get('hostName')}</DescriptionItem>
-        <DescriptionItem title="Port">
+        <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoName')}>{data.get('name')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoResourceGroup')}>
+          {data.get('resourceGroup')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoLocation')}>
+          {data.get('location')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoSubscriptionID')}>
+          {data.get('subscription')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoType')}>{data.get('type')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoVersion')}>
+          {data.get('redisVersion')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoHostName')}>
+          {data.get('hostName')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoPort')}>
           {' '}
           {data.get('port')} {data.get('enableNonSslPort') ? '(Enabled)' : '(Disabled)'}
         </DescriptionItem>
-        <DescriptionItem title="SSL Port">{data.get('sslPort')}</DescriptionItem>
-        <DescriptionItem title="SKU">{data.get('sku')}</DescriptionItem>
-        <DescriptionItem title="Max Clients">{data.get('maxClients')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoSSLPort')}>
+          {data.get('sslPort')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoSKU')}>{data.get('sku')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoMaxClients')}>
+          {data.get('maxClients')}
+        </DescriptionItem>
         {data.get('maxmemoryReserved') != 0 && (
-          <DescriptionItem title="Max Memory">{bytesTwoDecimalPlaces(data.get('maxmemoryReserved'))}</DescriptionItem>
+          <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoMaxMemory')}>
+            {bytesTwoDecimalPlaces(data.get('maxmemoryReserved'))}
+          </DescriptionItem>
         )}
         {data.get('maxFragmentationmemoryReserved') != 0 && (
-          <DescriptionItem title="Max Fragmentation Memory">
+          <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoMaxFragmentationMemory')}>
             {bytesTwoDecimalPlaces(data.get('maxFragmentationmemoryReserved'))}
           </DescriptionItem>
         )}
 
         {data.get('maxmemoryDelta') != 0 && (
-          <DescriptionItem title="Memory Delta">{bytesTwoDecimalPlaces(data.get('maxmemoryDelta'))}</DescriptionItem>
+          <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoMemoryDelta')}>
+            {bytesTwoDecimalPlaces(data.get('maxmemoryDelta'))}
+          </DescriptionItem>
         )}
-        <DescriptionItem title="Static IP">{data.get('staticIP')}</DescriptionItem>
-        <DescriptionItem title="Subnet ID">{data.get('subnetId')}</DescriptionItem>
-        <DescriptionItem title="Cluster Enabled">{data.get('shardCount') > 0 ? 'Yes' : 'No'}</DescriptionItem>
-        {data.get('shardCount') > 0 && <DescriptionItem title="Shard Count">{data.get('shardCount')}</DescriptionItem>}
+        <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoStaticIP')}>
+          {data.get('staticIP')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoSubnetID')}>
+          {data.get('subnetId')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoClusterEnabled')}>
+          {data.get('shardCount') > 0 ? 'Yes' : 'No'}
+        </DescriptionItem>
+        {data.get('shardCount') > 0 && (
+          <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoShardCount')}>
+            {data.get('shardCount')}
+          </DescriptionItem>
+        )}
       </DescriptionList>
     </div>
   );

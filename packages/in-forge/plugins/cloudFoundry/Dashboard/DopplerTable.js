@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Error received',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleErrorReceived'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -28,7 +29,7 @@ const cols = [
     }
   },
   {
-    title: 'Dropped messages',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleDroppedMessages'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -44,7 +45,7 @@ const cols = [
     }
   },
   {
-    title: 'Allocated',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleAllocated'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -60,7 +61,7 @@ const cols = [
     }
   },
   {
-    title: 'Allocated Heap',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleAllocatedHeap'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -76,7 +77,7 @@ const cols = [
     }
   },
   {
-    title: 'Allocated Stack',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleAllocatedStack'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -107,7 +108,7 @@ export default function DopplerTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Doppler (${rows.length})`}
+      cardTitle={t('in-forge:plugins.cloudFoundry.dashboard.titleDopplerCount', { dopplerCount: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -119,7 +120,7 @@ function getRowDetails(row) {
   const snapshotId = row.snapshotId;
   return (
     <div>
-      <DashboardSection title="Statistics">
+      <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleStatistics')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={row.timeConfig}
@@ -127,13 +128,16 @@ function getRowDetails(row) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
             metrics: ['doppler.error_received', 'doppler.total_dropped_msg'],
-            labels: ['Error received', 'Dropped messages'],
+            labels: [
+              t('in-forge:plugins.cloudFoundry.dashboard.labelErrorRreceived'),
+              t('in-forge:plugins.cloudFoundry.dashboard.labelDroppedMessages')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleMemory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={row.timeConfig}
@@ -141,7 +145,11 @@ function getRowDetails(row) {
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesZeroDecimalPlaces,
             metrics: ['doppler.bytes_allocated', 'doppler.bytes_allocated_heap', 'doppler.bytes_allocated_stack'],
-            labels: ['Allocated', 'Allocated Heap', 'Allocated Stack'],
+            labels: [
+              t('in-forge:plugins.cloudFoundry.dashboard.labelAllocated'),
+              t('in-forge:plugins.cloudFoundry.dashboard.labelAllocatedHeap'),
+              t('in-forge:plugins.cloudFoundry.dashboard.labelAllocatedStack')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

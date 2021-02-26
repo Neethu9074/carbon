@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -14,11 +15,15 @@ export default function CockroachDBInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Cluster ID">{data.get('cluster_id')}</DescriptionItem>
-      <DescriptionItem title="Live Nodes">{data.get('node_count')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.cockroachDBCluster.titleClusterID')}>
+        {data.get('cluster_id')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.cockroachDBCluster.titleLiveNodes')}>
+        {data.get('node_count')}
+      </DescriptionItem>
 
       {data.get('suspect_node_count') != null && (
-        <DescriptionItem title="Suspect Nodes">
+        <DescriptionItem title={t('in-forge:plugins.cockroachDBCluster.titleSuspectNodes')}>
           <span
             style={{
               color: data.get('suspect_node_count') > 0 ? yellow : 'inherit'
@@ -29,7 +34,7 @@ export default function CockroachDBInfo({ snapshot }) {
         </DescriptionItem>
       )}
       {data.get('dead_node_count') != null && (
-        <DescriptionItem title="Dead Nodes">
+        <DescriptionItem title={t('in-forge:plugins.cockroachDBCluster.titleDeadNodes')}>
           <span
             style={{
               color: data.get('dead_node_count') > 0 ? red : 'inherit'

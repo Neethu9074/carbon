@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -25,23 +26,23 @@ export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Capacity">
+        <KpiKeyValue label={t('in-forge:plugins.azureApiManagement.dashboard.labelCapacity')}>
           <MetricValue snapshotId={snapshotId} metric="metrics.Capacity" formatter={percentagePlainTwoDecimalPlaces} />
         </KpiKeyValue>
 
-        <KpiKeyValue label="Latency">
+        <KpiKeyValue label={t('in-forge:plugins.azureApiManagement.dashboard.labelLatency')}>
           <MetricValue snapshotId={snapshotId} metric="metrics.Duration" formatter={millis.detailed} />
         </KpiKeyValue>
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="Capacity">
+        <DashboardSection title={t('in-forge:plugins.azureApiManagement.dashboard.labelCapacity')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['metrics.Capacity'],
-              labels: ['Capacity'],
+              labels: [t('in-forge:plugins.azureApiManagement.dashboard.labelCapacity')],
               formatter: percentagePlainTwoDecimalPlaces,
               type: 'area',
               min: 0
@@ -50,13 +51,13 @@ export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Latency">
+        <DashboardSection title={t('in-forge:plugins.azureApiManagement.dashboard.labelLatency')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['metrics.Duration'],
-              labels: ['Overall Duration of Gateway Requests'],
+              labels: [t('in-forge:plugins.azureApiManagement.dashboard.labelOverallDuration')],
               formatter: millis.detailed,
               type: 'area',
               min: 0
@@ -66,7 +67,7 @@ export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="Gateway Requests">
+      <DashboardSection title={t('in-forge:plugins.azureApiManagement.dashboard.titleGatewayRequests')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -79,11 +80,11 @@ export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
               'metrics.OtherRequests'
             ],
             labels: [
-              'Total Requests',
-              'Successful Requests',
-              'Unauthorized Requests',
-              'Failed Requests',
-              'Other Requests'
+              t('in-forge:plugins.azureApiManagement.dashboard.labelTotalRequests'),
+              t('in-forge:plugins.azureApiManagement.dashboard.labelSuccessfulRequests'),
+              t('in-forge:plugins.azureApiManagement.dashboard.labelUnauthorizedRequests'),
+              t('in-forge:plugins.azureApiManagement.dashboard.labelFailedRequests'),
+              t('in-forge:plugins.azureApiManagement.dashboard.labelOtherRequests')
             ],
             formatter: zeroDecimalPlaces,
             type: 'line'
@@ -92,7 +93,7 @@ export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Event Hub Events">
+      <DashboardSection title={t('in-forge:plugins.azureApiManagement.dashboard.titleEventHubEvents')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -108,13 +109,13 @@ export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
               'metrics.EventHubDroppedEvents'
             ],
             labels: [
-              'Total Events',
-              'Successful Events',
-              'Failed Events',
-              'Rejected Events',
-              'Throttled Events',
-              'Timed Out Events',
-              'Dropped Events'
+              t('in-forge:plugins.azureApiManagement.dashboard.labelTotalEvents'),
+              t('in-forge:plugins.azureApiManagement.dashboard.labelSuccessfulEvents'),
+              t('in-forge:plugins.azureApiManagement.dashboard.labelFailedEvents'),
+              t('in-forge:plugins.azureApiManagement.dashboard.labelRejectedEvents'),
+              t('in-forge:plugins.azureApiManagement.dashboard.labelThrottledEvents'),
+              t('in-forge:plugins.azureApiManagement.dashboard.labelTimedOutEvents'),
+              t('in-forge:plugins.azureApiManagement.dashboard.labelDroppedEvents')
             ],
             formatter: zeroDecimalPlaces,
             type: 'line'
@@ -122,7 +123,7 @@ export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
           y2={{
             min: 0,
             metrics: ['metrics.EventHubTotalBytesSent'],
-            labels: ['Size of EventHub Events'],
+            labels: [t('in-forge:plugins.azureApiManagement.dashboard.labelSizeOfEventHubEvents')],
             formatter: bytesTwoDecimalPlaces,
             type: 'line'
           }}

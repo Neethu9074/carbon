@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.cassandraCluster.dashboard.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Replication Factor',
+    title: t('in-forge:plugins.cassandraCluster.dashboard.titleReplicationFactor'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -31,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Disk Size',
+    title: t('in-forge:plugins.cassandraCluster.dashboard.titleDiskSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,7 +70,7 @@ export default function KeyspacesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Keyspace Details (${rows.length})`}
+      cardTitle={t('in-forge:plugins.cassandraCluster.dashboard.labelAvailableNodes', { keyspaceDetails: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -84,7 +85,7 @@ function getRowDetails(row) {
       timeConfig={row.timeConfig}
       y1={{
         metrics: ['keyspace.' + row.key + '.diskSize'],
-        labels: ['Disk Size'],
+        labels: [t('in-forge:plugins.cassandraCluster.dashboard.labelDiskSize')],
         formatter: bytesTwoDecimalPlaces,
         tooltipFormatter: bytesTwoDecimalPlaces,
         type: 'line'

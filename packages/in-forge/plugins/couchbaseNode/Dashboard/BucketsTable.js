@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -14,7 +15,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.couchbaseNode.dashboard.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'Type',
+    title: t('in-forge:plugins.couchbaseNode.dashboard.titleType'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -32,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: 'Items',
+    title: t('in-forge:plugins.couchbaseNode.dashboard.titleItems'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -48,7 +49,7 @@ const cols = [
     }
   },
   {
-    title: 'Used memory',
+    title: t('in-forge:plugins.couchbaseNode.dashboard.titleUsedMemory'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -64,7 +65,7 @@ const cols = [
     }
   },
   {
-    title: 'Used disk',
+    title: t('in-forge:plugins.couchbaseNode.dashboard.titleUsedDisk'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -80,7 +81,7 @@ const cols = [
     }
   },
   {
-    title: 'Cache miss',
+    title: t('in-forge:plugins.couchbaseNode.dashboard.titleCacheMiss'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -96,7 +97,7 @@ const cols = [
     }
   },
   {
-    title: 'Fragmentation',
+    title: t('in-forge:plugins.couchbaseNode.dashboard.titleFragmentation'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -133,14 +134,20 @@ export default function BucketsTable({ snapshot, timeConfig, bucketMetricsPrefix
   }
 
   return (
-    <Table withoutPadding cardTitle={`Buckets (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.couchbaseNode.dashboard.titleBucketsCount', { bucketsCount: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
   );
 }
 
 function getDetails(row) {
   return (
     <div>
-      <DashboardSection title="Throughput">
+      <DashboardSection title={t('in-forge:plugins.couchbaseNode.dashboard.titleThroughput')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
@@ -150,21 +157,25 @@ function getDetails(row) {
               `${row.bucketMetricsPrefix}.${row.key}.cmd_get`,
               `${row.bucketMetricsPrefix}.${row.key}.cmd_set`
             ],
-            labels: ['Operations per sec.', 'Gets per sec.', 'Sets per sec.'],
+            labels: [
+              t('in-forge:plugins.couchbaseNode.dashboard.labelOperationsPerSec'),
+              t('in-forge:plugins.couchbaseNode.dashboard.labelGetsPerSec'),
+              t('in-forge:plugins.couchbaseNode.dashboard.labelSetsPerSec')
+            ],
             type: 'line',
             formatter: number.perSecond.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Used Resources">
+      <DashboardSection title={t('in-forge:plugins.couchbaseNode.dashboard.titleUsedResources')}>
         <Columize>
           <Chart
             snapshotId={row.snapshotId}
             timeConfig={row.timeConfig}
             y1={{
               metrics: [`${row.bucketMetricsPrefix}.${row.key}.mem_used_ratio`],
-              labels: [`Used memory`],
+              labels: [t('in-forge:plugins.couchbaseNode.dashboard.labelUsedMemory')],
               type: 'stackedArea',
               min: 0,
               max: 1,
@@ -178,7 +189,7 @@ function getDetails(row) {
             timeConfig={row.timeConfig}
             y1={{
               metrics: [`${row.bucketMetricsPrefix}.${row.key}.couch_docs_actual_disk_size`],
-              labels: ['Used disk'],
+              labels: [t('in-forge:plugins.couchbaseNode.dashboard.labelUsedDisk')],
               type: 'line',
               formatter: bytes.detailed
             }}
@@ -186,13 +197,13 @@ function getDetails(row) {
           />
         </Columize>
       </DashboardSection>
-      <DashboardSection title="Cache">
+      <DashboardSection title={t('in-forge:plugins.couchbaseNode.dashboard.titleCache')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             metrics: [`${row.bucketMetricsPrefix}.${row.key}.vb_active_resident_items_ratio`],
-            labels: ['Active items resident in cache'],
+            labels: [t('in-forge:plugins.couchbaseNode.dashboard.labelActiveItemsResidentInCache')],
             type: 'stackedArea',
             min: 0,
             max: 1,
@@ -201,7 +212,7 @@ function getDetails(row) {
           }}
           y2={{
             metrics: [`${row.bucketMetricsPrefix}.${row.key}.ep_cache_miss_rate`],
-            labels: ['Cache miss'],
+            labels: [t('in-forge:plugins.couchbaseNode.dashboard.labelCacheMiss')],
             type: 'stackedArea',
             min: 0,
             max: 1,
@@ -218,7 +229,10 @@ function getDetails(row) {
               `${row.bucketMetricsPrefix}.${row.key}.ep_bg_fetched`,
               `${row.bucketMetricsPrefix}.${row.key}.vb_active_eject`
             ],
-            labels: ['Disk reads per sec.', 'Active items ejected per sec.'],
+            labels: [
+              t('in-forge:plugins.couchbaseNode.dashboard.labelDiskReadsPerSec'),
+              t('in-forge:plugins.couchbaseNode.dashboard.labelActiveItemsEjected')
+            ],
             type: 'line',
             min: 0,
             formatter: number.perSecond.compact
@@ -226,13 +240,13 @@ function getDetails(row) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Fragmentation">
+      <DashboardSection title={t('in-forge:plugins.couchbaseNode.dashboard.titleFragmentation')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             metrics: [`${row.bucketMetricsPrefix}.${row.key}.couch_docs_fragmentation`],
-            labels: ['Docs fragmentation'],
+            labels: [t('in-forge:plugins.couchbaseNode.dashboard.labelDocsFragmentation')],
             type: 'stackedArea',
             min: 0,
             max: 1,

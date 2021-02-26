@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import {
   number,
   bytes,
@@ -14,171 +16,171 @@ import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 export default [
   {
     metric: 'num_mons',
-    label: 'Number of monitors',
+    label: t('in-forge:plugins.ceph.labelNumberOfMonitors'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'num_active_mons',
-    label: 'Number of active monitors',
+    label: t('in-forge:plugins.ceph.labelNumberOfActiveMonitors'),
     min: 0,
     formatter: bytes.compact
   },
   {
     metric: 'num_osds',
-    label: 'Total mumber of osds',
+    label: t('in-forge:plugins.ceph.labelTotalOsds'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'num_up_osds',
-    label: 'Total number of osds in state UP',
+    label: t('in-forge:plugins.ceph.labelTotalOsdsUP'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'num_in_osds',
-    label: 'Total number of osds in state IN',
+    label: t('in-forge:plugins.ceph.labelTotalOsdsIN'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'commit_latency_ms',
-    label: 'Commit latency in ms',
+    label: t('in-forge:plugins.ceph.labelCommitLatency'),
     min: 0,
     formatter: msZeroDecimalPlaces
   },
   {
     metric: 'apply_latency_ms',
-    label: 'Apply latency in ms',
+    label: t('in-forge:plugins.ceph.labelApplyLatency'),
     min: 0,
     formatter: msZeroDecimalPlaces
   },
   {
     metric: 'num_near_full_osds',
-    label: 'Number of near full osds',
+    label: t('in-forge:plugins.ceph.labelNumberNearFullOsds'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'num_full_osds',
-    label: 'Number of full osds',
+    label: t('in-forge:plugins.ceph.labelNumberOsds'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'num_pgs',
-    label: 'Number of pgs',
+    label: t('in-forge:plugins.ceph.labelNumberPgs'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'num_full_osds',
-    label: 'Number of active+clean pgs',
+    label: t('in-forge:plugins.ceph.labelNumberActivePgs'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'num_pools',
-    label: 'Number of pools',
+    label: t('in-forge:plugins.ceph.labelNumberPools'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'num_objects',
-    label: 'Number of objects',
+    label: t('in-forge:plugins.ceph.labelNumberObjects'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'aggregate_pct_used',
-    label: 'Overall capacity usage',
+    label: t('in-forge:plugins.ceph.labelOverallCapacityUsage'),
     min: 0,
     formatter: percentageTwoDecimalPlaces
   },
   {
     metric: 'read_bytes_sec',
-    label: 'Read bytes per second',
+    label: t('in-forge:plugins.ceph.labelReadBPS'),
     min: 0,
     formatter: bytesPerSecondZeroDecimalPlaces
   },
   {
     metric: 'write_bytes_sec',
-    label: 'Write bytes per second',
+    label: t('in-forge:plugins.ceph.labelWriteBPS'),
     min: 0,
     formatter: bytesPerSecondZeroDecimalPlaces
   },
   {
     metric: 'read_op_per_sec',
-    label: 'Read ops',
+    label: t('in-forge:plugins.ceph.labelReadOps'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'write_op_per_sec',
-    label: 'Write ops',
+    label: t('in-forge:plugins.ceph.labelWriteOps'),
     min: 0,
     formatter: number.compact
   },
   {
     metric: getDynamicMetricMatch('pools', 'pct_used_pool', 'Pool'),
-    label: 'Overall Capacity Usage',
+    label: t('in-forge:plugins.ceph.labelOverallCapacityUsage'),
     category: ['Pools'],
     min: 0,
     formatter: percentageTwoDecimalPlaces
   },
   {
     metric: getDynamicMetricMatch('pools', 'num_objects_pool', 'Pool'),
-    label: 'Number of objects',
+    label: t('in-forge:plugins.ceph.labelNumberObjects'),
     category: ['Pools'],
     min: 0,
     formatter: number.compact
   },
   {
     metric: getDynamicMetricMatch('pools', 'read_bytes_pool', 'Pool'),
-    label: 'Total bytes (Read)',
+    label: t('in-forge:plugins.ceph.labelTotalRead'),
     category: ['Pools'],
     min: 0,
     formatter: bytes.compact
   },
   {
     metric: getDynamicMetricMatch('pools', 'write_bytes_pool', 'Pool'),
-    label: 'Total bytes (Write)',
+    label: t('in-forge:plugins.ceph.labelTotalWrite'),
     category: ['Pools'],
     min: 0,
     formatter: bytes.compact
   },
   {
     metric: getDynamicMetricMatch('pools', 'read_bytes_sec_pool', 'Pool'),
-    label: 'Read bytes per second',
+    label: t('in-forge:plugins.ceph.labelReadBPS'),
     category: ['Pools'],
     min: 0,
     formatter: bytesPerSecondZeroDecimalPlaces
   },
   {
     metric: getDynamicMetricMatch('pools', 'write_bytes_sec_pool', 'Pool'),
-    label: 'Write bytes per second',
+    label: t('in-forge:plugins.ceph.labelWriteBPS'),
     category: ['Pools'],
     min: 0,
     formatter: bytesPerSecondZeroDecimalPlaces
   },
   {
     metric: getDynamicMetricMatch('pools', 'read_op_per_sec', 'Pool'),
-    label: 'Read ops',
+    label: t('in-forge:plugins.ceph.labelReadOps'),
     category: ['Pools'],
     min: 0,
     formatter: number.compact
   },
   {
     metric: getDynamicMetricMatch('pools', 'write_op_per_sec', 'Pool'),
-    label: 'Write ops',
+    label: t('in-forge:plugins.ceph.labelWriteOps'),
     category: ['Pools'],
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'overall_status',
-    label: 'Status of the Ceph Cluster',
+    label: t('in-forge:plugins.ceph.labelStatus'),
     min: 0,
     formatter: number.compact
   }

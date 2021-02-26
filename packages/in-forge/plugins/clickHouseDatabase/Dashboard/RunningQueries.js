@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { number, seconds, bytes } from 'in-services/formatters/number';
 import getAgentResponse from 'in-subscription/agentResponse';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -13,7 +14,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Query ID',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleQueryID'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Query',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleQuery'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Elapsed',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleElapsed'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -41,7 +42,7 @@ const cols = [
     }
   },
   {
-    title: 'Read Rows',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleReadRows'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -51,7 +52,7 @@ const cols = [
     }
   },
   {
-    title: 'Read Bytes',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleReadBytes'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -96,7 +97,7 @@ export default connectTo(
       content = (
         <Table
           withoutPadding
-          cardTitle="Running Queries"
+          cardTitle={t('in-forge:plugins.clickhouseDatabase.dashboard.titleRunningQueries')}
           cols={cols}
           rows={rows}
           maxItemsPerPage={25}

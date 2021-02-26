@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { combineLatest } from '@instana/observables';
 import React from 'react';
 
@@ -12,7 +13,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.consulCluster.dashboard.titleName'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'State',
+    title: t('in-forge:plugins.consulCluster.dashboard.titleState'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Version',
+    title: t('in-forge:plugins.consulCluster.dashboard.titleVersion'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -39,7 +40,7 @@ const cols = [
     }
   },
   {
-    title: 'Health',
+    title: t('in-forge:plugins.consulCluster.dashboard.titleHealth'),
     type: 'health',
     typeArgs: {
       getSnapshotId(row) {
@@ -72,6 +73,13 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Live Nodes (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.consulCluster.dashboard.titleLiveNodesCount', { nodeCount: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

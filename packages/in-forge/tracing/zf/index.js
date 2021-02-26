@@ -33,7 +33,7 @@ registerSpanDefinition({
       t('in-forge:tracing.zf.controllerUnknown', { controllerVar: controller });
     }
     if (!controller && !action) {
-      return t('in-forge:tracing.zf.unknownAction', { actionVar: action});
+      return t('in-forge:tracing.zf.unknownAction', { actionVar: action });
     }
     return t('in-forge:tracing.zf.zendFramework');
   }

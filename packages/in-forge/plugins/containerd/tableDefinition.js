@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 
@@ -10,7 +12,7 @@ export default {
   initialSortDirection: 'asc',
   cols: [
     {
-      title: 'Host',
+      title: t('in-forge:plugins.containerd.titleHost'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId$(row) {
@@ -19,7 +21,7 @@ export default {
       }
     },
     {
-      title: 'Name',
+      title: t('in-forge:plugins.containerd.titleName'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId(row) {
@@ -28,7 +30,7 @@ export default {
       }
     },
     {
-      title: 'Created',
+      title: t('in-forge:plugins.containerd.titleCreated'),
       type: 'dateTime',
       typeArgs: {
         getValue(row) {
@@ -37,7 +39,7 @@ export default {
       }
     },
     {
-      title: 'Updated',
+      title: t('in-forge:plugins.containerd.titleUpdated'),
       type: 'dateTime',
       typeArgs: {
         getValue(row) {
@@ -46,7 +48,7 @@ export default {
       }
     },
     {
-      title: 'CPU Usage',
+      title: t('in-forge:plugins.containerd.titleCPUUsage'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -62,7 +64,7 @@ export default {
       }
     },
     {
-      title: 'Memory Usage',
+      title: t('in-forge:plugins.containerd.titleMemoryUsage'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {

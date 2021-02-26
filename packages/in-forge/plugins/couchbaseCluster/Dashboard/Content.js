@@ -2,16 +2,17 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React, { Fragment } from 'react';
 
 import ClusterNodesTable from 'in-forge/plugins/couchbaseCluster/Dashboard/ClusterNodesTable';
 import ClusterSummary from 'in-forge/plugins/couchbaseCluster/Dashboard/ClusterSummary';
 import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseCluster/constants.js';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import BucketsTable from 'in-forge/plugins/couchbaseNode/Dashboard/BucketsTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { number } from 'in-services/formatters/number';
 
 export default function CouchbaseClusterDashboard({ snapshot, timeConfig }) {
@@ -36,7 +37,7 @@ export default function CouchbaseClusterDashboard({ snapshot, timeConfig }) {
     <div>
       <ClusterSummary snapshot={snapshot} />
 
-      <DashboardSection title="Throughput">
+      <DashboardSection title={t('in-forge:plugins.couchbaseCluster.dashboard.titleThroughput')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -44,7 +45,11 @@ export default function CouchbaseClusterDashboard({ snapshot, timeConfig }) {
             min: 0,
             formatter: number.perSecond.compact,
             metrics: ['cluster.ops', 'cluster.cmd_get', 'cluster.cmd_set'],
-            labels: ['Operations per sec.', 'Gets per sec.', 'Sets per sec.'],
+            labels: [
+              t('in-forge:plugins.couchbaseCluster.dashboard.labelOperationsPerSec'),
+              t('in-forge:plugins.couchbaseCluster.dashboard.labelGetsPerSec'),
+              t('in-forge:plugins.couchbaseCluster.dashboard.labelSetsPerSec')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

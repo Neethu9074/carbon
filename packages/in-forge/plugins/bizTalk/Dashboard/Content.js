@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -14,13 +15,13 @@ export default function BizTalkHostDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title="Throttling & Delay">
+      <DashboardSection title={t('in-forge:plugins.bizTalk.dashboard.titleThrottling')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['delay'],
-            labels: ['Delivery Delay (MS)'],
+            labels: [t('in-forge:plugins.bizTalk.dashboard.labelThrottling')],
             formatter: millis.compact,
             type: 'bar'
           }}
@@ -28,19 +29,25 @@ export default function BizTalkHostDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Locations & Threads">
+      <DashboardSection title={t('in-forge:plugins.bizTalk.dashboard.titleLocations')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['send_locs', 'rec_locs'],
-            labels: ['Active Send Locations', 'Active Receive Locations'],
+            labels: [
+              t('in-forge:plugins.bizTalk.dashboard.labelActiveSendLocations'),
+              t('in-forge:plugins.bizTalk.dashboard.labelActiveReceiveLocations')
+            ],
             formatter: number.compact,
             type: 'line'
           }}
           y2={{
             metrics: ['send_threads', 'rec_threads'],
-            labels: ['Active Send Threads', ' Active Receive Threads'],
+            labels: [
+              t('in-forge:plugins.bizTalk.dashboard.labelActiveSendThreads'),
+              t('in-forge:plugins.bizTalk.dashboard.labelActiveReceiveThreads')
+            ],
             formatter: number.compact,
             type: 'line'
           }}
@@ -48,13 +55,18 @@ export default function BizTalkHostDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Documents">
+      <DashboardSection title={t('in-forge:plugins.bizTalk.dashboard.titleDocuments')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['docs_proc', 'docs_resub', 'docs_rec', 'docs_sus'],
-            labels: ['Processed', 'Resubmitted', 'Received', 'Suspended'],
+            labels: [
+              t('in-forge:plugins.bizTalk.dashboard.labelProcessed'),
+              t('in-forge:plugins.bizTalk.dashboard.labelResubmitted'),
+              t('in-forge:plugins.bizTalk.dashboard.labelReceived'),
+              t('in-forge:plugins.bizTalk.dashboard.labelSuspended')
+            ],
             formatter: number.compact,
             type: 'line'
           }}

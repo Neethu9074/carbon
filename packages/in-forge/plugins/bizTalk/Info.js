@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -12,8 +13,8 @@ export default function Info({ snapshot }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Name">{data.get('app')}</DescriptionItem>
-        <DescriptionItem title="Group">{data.get('group')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.bizTalk.infoName')}>{data.get('app')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.bizTalk.infoGroup')}>{data.get('group')}</DescriptionItem>
       </DescriptionList>
     </div>
   );

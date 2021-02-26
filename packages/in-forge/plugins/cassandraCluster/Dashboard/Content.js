@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -22,21 +23,21 @@ export default function CassandraClusterDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <ClusterSummary snapshot={snapshot} />
-      <DashboardSection title="Overall Requests">
+      <DashboardSection title={t('in-forge:plugins.cassandraCluster.dashboard.titleOverallRequests')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['clientrequests.read.count'],
-            labels: ['Reads'],
+            labels: [t('in-forge:plugins.cassandraCluster.dashboard.labelReads')],
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
           y2={{
             min: 0,
             metrics: ['clientrequests.write.count'],
-            labels: ['Writes'],
+            labels: [t('in-forge:plugins.cassandraCluster.dashboard.labelWrites')],
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
@@ -45,7 +46,12 @@ export default function CassandraClusterDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       {['read', 'write'].map(op => (
-        <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies Average'} key={op}>
+        <DashboardSection
+          title={t('in-forge:plugins.cassandraCluster.dashboard.titleClientRequestCount', {
+            clientCount: capitalize(op)
+          })}
+          key={op}
+        >
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -58,7 +64,12 @@ export default function CassandraClusterDashboard({ snapshot, timeConfig }) {
                 'clientrequests.' + op + '.95',
                 'clientrequests.' + op + '.99'
               ],
-              labels: ['Mean', '50th Percentile', '95th Percentile', '99th Percentile'],
+              labels: [
+                t('in-forge:plugins.cassandraCluster.dashboard.labelMean'),
+                t('in-forge:plugins.cassandraCluster.dashboard.label50P'),
+                t('in-forge:plugins.cassandraCluster.dashboard.label95P'),
+                t('in-forge:plugins.cassandraCluster.dashboard.label99P')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -66,7 +77,7 @@ export default function CassandraClusterDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       ))}
 
-      <DashboardSection title="Overall Disk Size">
+      <DashboardSection title={t('in-forge:plugins.cassandraCluster.dashboard.titleOverallDiskSize')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -74,7 +85,7 @@ export default function CassandraClusterDashboard({ snapshot, timeConfig }) {
             min: 0,
             formatter: bytesZeroDecimalPlaces,
             metrics: ['overallDiskSize'],
-            labels: ['Overall Disk Size'],
+            labels: [t('in-forge:plugins.cassandraCluster.dashboard.labelOverallDiskSize')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

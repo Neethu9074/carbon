@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number } from 'in-services/formatters/number';
 
 export default [
@@ -29,26 +31,26 @@ export default [
       'raft.term'
     ],
     labels: [
-      'Number of freed heap objects',
-      'Number of objects allocated on the heap',
-      'Number of the virtual address space reserved by the Go runtime',
-      'Number of heap objects allocated',
-      'Session time-to-live active',
-      'Autopilot: healthy',
-      'Number of total garbage collection runs',
-      'Number of loaded go routines',
-      'Number of bytes allocated by the Consul process',
-      'Autopilot: failure tolerance',
-      'Number of total garbage collection pauses in ns',
-      'Raft: applied index',
-      'Raft: commit index',
-      'Raft: finite state machine pending',
-      'Raft: last log index',
-      'Raft: last log term',
-      'Raft: last snapshot index',
-      'Raft: last snapshot term',
-      'Raft: number of peers',
-      'Raft: term - new leader elections'
+      t('in-forge:plugins.consul.labelConsulRuntimeFree_count'),
+      t('in-forge:plugins.consul.labelConsulRuntimeHeap_objects'),
+      t('in-forge:plugins.consul.labelConsulRuntimeSys_bytes'),
+      t('in-forge:plugins.consul.labelConsulRuntimeMalloc_count'),
+      t('in-forge:plugins.consul.labelConsulSession_ttlActive'),
+      t('in-forge:plugins.consul.labelConsulAutopilotHealthy'),
+      t('in-forge:plugins.consul.labelConsulRuntimeTotal_gc_runs'),
+      t('in-forge:plugins.consul.labelConsulRuntimeNum_goroutines'),
+      t('in-forge:plugins.consul.labelConsulRuntimeAlloc_bytes'),
+      t('in-forge:plugins.consul.labelConsulAutopilotFailure_tolerance'),
+      t('in-forge:plugins.consul.labelConsulRuntimeTotal_gc_pause_ns'),
+      t('in-forge:plugins.consul.labelRaftAppliedIndex'),
+      t('in-forge:plugins.consul.labelRaftCommitIndex'),
+      t('in-forge:plugins.consul.labelRaftFsmPending'),
+      t('in-forge:plugins.consul.labelRaftLastLogIndex'),
+      t('in-forge:plugins.consul.labelRaftLastLogTerm'),
+      t('in-forge:plugins.consul.labelRaftLastSnapshotIndex'),
+      t('in-forge:plugins.consul.labelRaftLastSnapshotTerm'),
+      t('in-forge:plugins.consul.labelRaftNumPeers'),
+      t('in-forge:plugins.consul.labelRaftTerm')
     ],
     min: 0,
     category: ['Consul'],

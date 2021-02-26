@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { withSiPrefixZeroDecimalPlaces, number, bytes } from 'in-services/formatters/number';
@@ -13,13 +14,13 @@ export default function ClusterSummary({ snapshot }) {
 
   return (
     <KpiSection>
-      <KpiKeyValue label="Nodes">
+      <KpiKeyValue label={t('in-forge:plugins.clickhouseCluster.dashboard.labelNodes')}>
         <MetricValue snapshotId={snapshotId} metric="nodeCount" formatter={number.compact} />
       </KpiKeyValue>
-      <KpiKeyValue label="Total Rows">
+      <KpiKeyValue label={t('in-forge:plugins.clickhouseCluster.dashboard.labelRows')}>
         <MetricValue snapshotId={snapshotId} metric="rows" formatter={withSiPrefixZeroDecimalPlaces} />
       </KpiKeyValue>
-      <KpiKeyValue label="Total Disk Usage">
+      <KpiKeyValue label={t('in-forge:plugins.clickhouseCluster.dashboard.labelTotalDiskUsage')}>
         <MetricValue snapshotId={snapshotId} metric="bytes_on_disk" formatter={bytes.detailed} />
       </KpiKeyValue>
     </KpiSection>

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -18,7 +19,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Pool Name',
+    title: t('in-forge:plugins.ceph.dashboard.titlePoolName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -27,7 +28,7 @@ const cols = [
     }
   },
   {
-    title: 'Overall Capacity Usage',
+    title: t('in-forge:plugins.ceph.dashboard.titleCapacity'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -43,7 +44,7 @@ const cols = [
     }
   },
   {
-    title: 'Number Of Objects',
+    title: t('in-forge:plugins.ceph.dashboard.titleObjects'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -59,7 +60,7 @@ const cols = [
     }
   },
   {
-    title: 'Read OPS',
+    title: t('in-forge:plugins.ceph.dashboard.titleReadOPS'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -75,7 +76,7 @@ const cols = [
     }
   },
   {
-    title: 'Write OPS',
+    title: t('in-forge:plugins.ceph.dashboard.titleWriteOPS'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -91,7 +92,7 @@ const cols = [
     }
   },
   {
-    title: 'Read',
+    title: t('in-forge:plugins.ceph.dashboard.titleRead'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -107,7 +108,7 @@ const cols = [
     }
   },
   {
-    title: 'Write',
+    title: t('in-forge:plugins.ceph.dashboard.titleWrite'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -155,7 +156,7 @@ function getDetails(row) {
           min: 0,
           max: 1,
           metrics: ['pools.' + id + '.pct_used_pool'],
-          labels: ['Overall Capacity Usage'],
+          labels: [t('in-forge:plugins.ceph.dashboard.titleCapacity')],
           type: 'line',
           formatter: percentageTwoDecimalPlaces
         }}
@@ -167,7 +168,7 @@ function getDetails(row) {
         y1={{
           min: 0,
           metrics: ['pools.' + id + '.num_objects_pool'],
-          labels: ['Number Of Objects'],
+          labels: [t('in-forge:plugins.ceph.dashboard.titleObjects')],
           type: 'line',
           formatter: number.compact
         }}
@@ -179,14 +180,14 @@ function getDetails(row) {
         y1={{
           min: 0,
           metrics: ['pools.' + id + '.read_bytes_pool'],
-          labels: ['Read'],
+          labels: [t('in-forge:plugins.ceph.dashboard.titleRead')],
           type: 'line',
           formatter: bytes.compact
         }}
         y2={{
           min: 0,
           metrics: ['pools.' + id + '.write_bytes_pool'],
-          labels: ['Write'],
+          labels: [t('in-forge:plugins.ceph.dashboard.titleWrite')],
           type: 'line',
           formatter: bytes.compact
         }}
@@ -199,14 +200,14 @@ function getDetails(row) {
           y1={{
             min: 0,
             metrics: ['pools.' + id + '.read_bytes_sec_pool'],
-            labels: ['Read'],
+            labels: [t('in-forge:plugins.ceph.dashboard.titleRead')],
             type: 'line',
             formatter: bytesPerSecondZeroDecimalPlaces
           }}
           y2={{
             min: 0,
             metrics: ['pools.' + id + '.write_bytes_sec_pool'],
-            labels: ['Write'],
+            labels: [t('in-forge:plugins.ceph.dashboard.titleWrite')],
             type: 'line',
             formatter: bytesPerSecondZeroDecimalPlaces
           }}
@@ -218,14 +219,14 @@ function getDetails(row) {
           y1={{
             min: 0,
             metrics: ['pools.' + id + '.read_op_per_sec_pool'],
-            labels: ['Read OPS'],
+            labels: [t('in-forge:plugins.ceph.dashboard.titleReadOPS')],
             type: 'line',
             formatter: number.compact
           }}
           y2={{
             min: 0,
             metrics: ['pools.' + id + '.write_op_per_sec_pool'],
-            labels: ['Write OPS'],
+            labels: [t('in-forge:plugins.ceph.dashboard.titleWriteOPS')],
             type: 'line',
             formatter: number.compact
           }}

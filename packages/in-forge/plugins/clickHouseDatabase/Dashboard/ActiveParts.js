@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { number, bytes } from 'in-services/formatters/number';
 import getAgentResponse from 'in-subscription/agentResponse';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -13,7 +14,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Database',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleDatabase'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Table',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleTable'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Active Parts',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleActiveParts'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -41,7 +42,7 @@ const cols = [
     }
   },
   {
-    title: 'Bytes on Disk',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleBytesOnDisk'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -86,7 +87,7 @@ export default connectTo(
       content = (
         <Table
           withoutPadding
-          cardTitle="Active Parts"
+          cardTitle={t('in-forge:plugins.clickhouseDatabase.dashboard.titleActiveParts')}
           cols={cols}
           rows={rows}
           maxItemsPerPage={25}

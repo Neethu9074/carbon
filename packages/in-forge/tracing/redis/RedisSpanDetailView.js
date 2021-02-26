@@ -17,7 +17,9 @@ export default function RedisSpanDetailView({ span }) {
         <Di title={t('in-forge:tracing.redis.connection')}>{span.getIn(['data', 'redis', 'connection'])}</Di>
         <Di title={t('in-forge:tracing.redis.driver')}>{span.getIn(['data', 'redis', 'driver'])}</Di>
         <Di title={t('in-forge:tracing.redis.command')}>{span.getIn(['data', 'redis', 'command'])}</Di>
-        {subCommands.size > 0 ? <Di title={t('in-forge:tracing.redis.commandsInTransaction')}>{subCommands.join(', ')}</Di> : null}
+        {subCommands.size > 0 ? (
+          <Di title={t('in-forge:tracing.redis.commandsInTransaction')}>{subCommands.join(', ')}</Di>
+        ) : null}
         <Di title={t('in-forge:tracing.redis.key')}>{span.getIn(['data', 'redis', 'key'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'redis', 'error'])} />
       </Dl>

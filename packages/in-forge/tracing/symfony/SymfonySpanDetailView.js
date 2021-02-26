@@ -19,10 +19,18 @@ export default function SymfonySpanDetailView({ span }) {
         <Di title={t('in-forge:tracing.symfony.controller')}>{span.getIn(['data', 'symfony', 'controller'])}</Di>
         <Di title={t('in-forge:tracing.symfony.action')}>{span.getIn(['data', 'symfony', 'action'])}</Di>
 
-        <Di title={t('in-forge:tracing.symfony.apiCollectionOperation')}>{span.getIn(['data', 'symfony', 'api_collection_operation'])}</Di>
-        <Di title={t('in-forge:tracing.symfony.apiItemOperation')}>{span.getIn(['data', 'symfony', 'api_item_operation'])}</Di>
-        <Di title={t('in-forge:tracing.symfony.apiSubresourceOperation')}>{span.getIn(['data', 'symfony', 'api_subresource_operation_name'])}</Di>
-        <Di title={t('in-forge:tracing.symfony.apiResource')}>{span.getIn(['data', 'symfony', 'api_resource_class'])}</Di>
+        <Di title={t('in-forge:tracing.symfony.apiCollectionOperation')}>
+          {span.getIn(['data', 'symfony', 'api_collection_operation'])}
+        </Di>
+        <Di title={t('in-forge:tracing.symfony.apiItemOperation')}>
+          {span.getIn(['data', 'symfony', 'api_item_operation'])}
+        </Di>
+        <Di title={t('in-forge:tracing.symfony.apiSubresourceOperation')}>
+          {span.getIn(['data', 'symfony', 'api_subresource_operation_name'])}
+        </Di>
+        <Di title={t('in-forge:tracing.symfony.apiResource')}>
+          {span.getIn(['data', 'symfony', 'api_resource_class'])}
+        </Di>
 
         {routeParams ? (
           <Di title={t('in-forge:tracing.symfony.routeParameters')} verticalDisplay>

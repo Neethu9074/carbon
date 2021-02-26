@@ -25,7 +25,11 @@ export default function HttpSpanDetailView({ span }) {
         <Di title={t('in-forge:tracing.php.hostHeader')}>{span.getIn(['data', 'http', 'host'])}</Di>
         <Di title={t('in-forge:tracing.php.remoteAddress')}>{span.getIn(['data', 'peer', 'ip'])}</Di>
         <Di title={t('in-forge:tracing.php.requestUri')}>{span.getIn(['data', 'http', 'url'])}</Di>
-        {params && <Di title={t('in-forge:tracing.php.parameters')}>{isBlank(params) ? t('in-forge:tracing.php.noQueryParameters') : params}</Di>}
+        {params && (
+          <Di title={t('in-forge:tracing.php.parameters')}>
+            {isBlank(params) ? t('in-forge:tracing.php.noQueryParameters') : params}
+          </Di>
+        )}
         <Di title={t('in-forge:tracing.php.requestMethod')}>{span.getIn(['data', 'http', 'method'])}</Di>
         <Di title={t('in-forge:tracing.php.httpStatusCode')}>
           {span.getIn(['data', 'http', 'status'], span.getIn(['data', 'http', 'status_code']))}
@@ -33,8 +37,12 @@ export default function HttpSpanDetailView({ span }) {
         <Di title={t('in-forge:tracing.php.wordpressVersion')}>{span.getIn(['data', 'wp', 'version'])}</Di>
         <Di title={t('in-forge:tracing.php.wordpressCacheHits')}>{span.getIn(['data', 'wp', 'cache_hits'])}</Di>
         <Di title={t('in-forge:tracing.php.wordpressCacheMisses')}>{span.getIn(['data', 'wp', 'cache_misses'])}</Di>
-        <Di title={t('in-forge:tracing.php.wordpressCurrentUser')}>{mapUserId(span.getIn(['data', 'wp', 'user_id']))}</Di>
-        <Di title={t('in-forge:tracing.php.peakMemoryUsage')}>{kiloBytesTwoDecimalPlaces(span.getIn(['data', 'php', 'memory']))}</Di>
+        <Di title={t('in-forge:tracing.php.wordpressCurrentUser')}>
+          {mapUserId(span.getIn(['data', 'wp', 'user_id']))}
+        </Di>
+        <Di title={t('in-forge:tracing.php.peakMemoryUsage')}>
+          {kiloBytesTwoDecimalPlaces(span.getIn(['data', 'php', 'memory']))}
+        </Di>
         <Di title={t('in-forge:tracing.php.totalCompileTime')}>
           {span.getIn(['data', 'compile', 'time']) &&
             millis.detailed(parseFloat(span.getIn(['data', 'compile', 'time']) / 1000))}

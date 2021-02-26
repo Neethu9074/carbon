@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -11,7 +12,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Metric',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleMetric'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -20,7 +21,7 @@ const cols = [
     }
   },
   {
-    title: 'Value',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleValue'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -50,7 +51,7 @@ export default function MetricsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle="Metrics"
+      cardTitle={t('in-forge:plugins.clickhouseDatabase.dashboard.titleMetrics')}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}

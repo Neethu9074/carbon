@@ -12,7 +12,9 @@ export default function VertxClusterSpanDetailView({ span }) {
     <div>
       <Dl>
         <Di title={t('in-forge:tracing.vertxCluster.sort')}>{span.getIn(['data', 'vertx', 'cluster', 'sort'])}</Di>
-        <Di title={t('in-forge:tracing.vertxCluster.address')}>{span.getIn(['data', 'vertx', 'cluster', 'address'])}</Di>
+        <Di title={t('in-forge:tracing.vertxCluster.address')}>
+          {span.getIn(['data', 'vertx', 'cluster', 'address'])}
+        </Di>
       </Dl>
     </div>
   );

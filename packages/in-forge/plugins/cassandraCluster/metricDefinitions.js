@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { muSecondsToMillis, number, bytes } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
     metrics: ['clientrequests.read.count', 'clientrequests.write.count'],
-    labels: ['Read', 'Write'],
+    labels: [t('in-forge:plugins.cassandraCluster.labelRead'), t('in-forge:plugins.cassandraCluster.labelWrite')],
     min: 0,
     formatter: number
   },
@@ -24,14 +25,14 @@ export default [
       'clientrequests.write.99'
     ],
     labels: [
-      'Mean',
-      '50th Percentile',
-      '95th Percentile',
-      '99th Percentile',
-      'Mean',
-      '50th Percentile',
-      '95th Percentile',
-      '99th Percentile'
+      t('in-forge:plugins.cassandraCluster.labelMean'),
+      t('in-forge:plugins.cassandraCluster.label50P'),
+      t('in-forge:plugins.cassandraCluster.label95P'),
+      t('in-forge:plugins.cassandraCluster.label99P'),
+      t('in-forge:plugins.cassandraCluster.labelMean'),
+      t('in-forge:plugins.cassandraCluster.label50P'),
+      t('in-forge:plugins.cassandraCluster.label95P'),
+      t('in-forge:plugins.cassandraCluster.label99P')
     ],
     min: 0,
     category: ['Latency'],
@@ -39,33 +40,33 @@ export default [
   },
   {
     metrics: ['overallDiskSize'],
-    labels: ['Overall Disk Size'],
+    labels: [t('in-forge:plugins.cassandraCluster.labelOverallDiskSize')],
     min: 0,
     formatter: bytes
   },
   {
     metrics: ['keyspaceCount'],
-    labels: ['Keyspace Count'],
+    labels: [t('in-forge:plugins.cassandraCluster.labelKeyspaceCount')],
     category: ['Keyspaces'],
     min: 0,
     formatter: number
   },
   {
     metrics: ['nodeCount'],
-    labels: ['Cluster Nodes'],
+    labels: [t('in-forge:plugins.cassandraCluster.labelClusterNodes')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('keyspace', 'diskSize', 'Keyspace'),
-    label: 'Disk Size',
+    label: t('in-forge:plugins.cassandraCluster.labelDiskSize'),
     category: ['Keyspaces'],
     min: 0,
     formatter: bytes
   },
   {
     metric: 'unreachableNodes',
-    label: 'Number of unreachable Cassandra Nodes',
+    label: t('in-forge:plugins.cassandraCluster.labelUnreachable'),
     min: 0,
     formatter: number
   }

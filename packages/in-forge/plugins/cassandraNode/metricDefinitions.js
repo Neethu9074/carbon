@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { muSecondsToMillis, percentage, number } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
@@ -18,14 +20,14 @@ export default [
       'clientrequests.write.99'
     ],
     labels: [
-      'Mean',
-      '50th Percentile',
-      '95th Percentile',
-      '99th Percentile',
-      'Mean',
-      '50th Percentile',
-      '95th Percentile',
-      '99th Percentile'
+      t('in-forge:plugins.cassandraNode.labelMean'),
+      t('in-forge:plugins.cassandraNode.label50P'),
+      t('in-forge:plugins.cassandraNode.label95P'),
+      t('in-forge:plugins.cassandraNode.label99P'),
+      t('in-forge:plugins.cassandraNode.labelMean'),
+      t('in-forge:plugins.cassandraNode.label50P'),
+      t('in-forge:plugins.cassandraNode.label95P'),
+      t('in-forge:plugins.cassandraNode.label99P')
     ],
     min: 0,
     category: ['Latency'],
@@ -55,61 +57,66 @@ export default [
       'compaction.pending'
     ],
     labels: [
-      'Read',
-      'Write',
-      'Mutation Pending',
-      'Read Pending',
-      'Counter Mutation Pending',
-      'Read Repair Pending',
-      'Request Response Pending',
-      'Flushwriter Pending',
-      'Mutation Blocked',
-      'Read Blocked',
-      'Counter Mutation Blocked',
-      'Read Repair Blocked',
-      'Request Response Blocked',
-      'Flushwriter Blocked',
-      'Mutation Dropped',
-      'Read Dropped',
-      'Counter Mutation Dropped',
-      'Read Repair Dropped',
-      'Request Response Dropped',
-      'Compaction Pending'
+      t('in-forge:plugins.cassandraNode.labelRead'),
+      t('in-forge:plugins.cassandraNode.labelWrite'),
+      t('in-forge:plugins.cassandraNode.labelMutationPending'),
+      t('in-forge:plugins.cassandraNode.labelReadPending'),
+      t('in-forge:plugins.cassandraNode.labelCounterMutationPending'),
+      t('in-forge:plugins.cassandraNode.labelReadRepairPending'),
+      t('in-forge:plugins.cassandraNode.labelRequestResponsePending'),
+      t('in-forge:plugins.cassandraNode.labelFlushwriterPending'),
+      t('in-forge:plugins.cassandraNode.labelMutationBlocked'),
+      t('in-forge:plugins.cassandraNode.labelReadBlocked'),
+      t('in-forge:plugins.cassandraNode.labelCounterMutationBlocked'),
+      t('in-forge:plugins.cassandraNode.labelReadRepairBlocked'),
+      t('in-forge:plugins.cassandraNode.labelRequestResponseBlocked'),
+      t('in-forge:plugins.cassandraNode.labelFlushwriterBlocked'),
+      t('in-forge:plugins.cassandraNode.labelMutationDropped'),
+      t('in-forge:plugins.cassandraNode.labelReadDropped'),
+      t('in-forge:plugins.cassandraNode.labelCounterMutationDropped'),
+      t('in-forge:plugins.cassandraNode.labelReadRepairDropped'),
+      t('in-forge:plugins.cassandraNode.labelRequestResponseDropped'),
+      t('in-forge:plugins.cassandraNode.labelCompactionPending')
     ],
     min: 0,
     formatter: number
   },
   {
     metrics: ['cache.counter.hit', 'cache.key.hit', 'cache.row.hit', 'bloomFilterFalse'],
-    labels: ['Counter', 'Key', 'Row', 'Miss Rate'],
+    labels: [
+      t('in-forge:plugins.cassandraNode.labelCounter'),
+      t('in-forge:plugins.cassandraNode.labelKey'),
+      t('in-forge:plugins.cassandraNode.labelRow'),
+      t('in-forge:plugins.cassandraNode.labelMissRate')
+    ],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
     metric: getDynamicMetricMatch('keyspace', 'readLatency', 'Keyspace'),
-    label: 'Average Read Latency',
+    label: t('in-forge:plugins.cassandraNode.labelAverageReadLatency'),
     category: ['Keyspaces'],
     min: 0,
     formatter: muSecondsToMillis
   },
   {
     metric: getDynamicMetricMatch('keyspace', 'writeLatency', 'Keyspace'),
-    label: 'Average Write Latency',
+    label: t('in-forge:plugins.cassandraNode.labelAverageWriteLatency'),
     category: ['Keyspaces'],
     min: 0,
     formatter: muSecondsToMillis
   },
   {
     metric: getDynamicMetricMatch('keyspace', 'reads', 'Keyspace'),
-    label: 'Reads',
+    label: t('in-forge:plugins.cassandraNode.labelReads'),
     category: ['Keyspaces'],
     min: 0,
     formatter: muSecondsToMillis
   },
   {
     metric: getDynamicMetricMatch('keyspace', 'writes', 'Keyspace'),
-    label: 'Writes',
+    label: t('in-forge:plugins.cassandraNode.labelWrites'),
     category: ['Keyspaces'],
     min: 0,
     formatter: muSecondsToMillis

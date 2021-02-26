@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -11,15 +12,23 @@ export default function Info({ snapshot }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-        <DescriptionItem title="Resource Group">{data.get('resourceGroup')}</DescriptionItem>
-        <DescriptionItem title="Location">{data.get('location')}</DescriptionItem>
-        <DescriptionItem title="Subscription ID">{data.get('subscription')}</DescriptionItem>
-        <DescriptionItem title="Type">{data.get('type')}</DescriptionItem>
-        <DescriptionItem title="Kind">{data.get('kind')}</DescriptionItem>
-        <DescriptionItem title="State">{data.get('state')}</DescriptionItem>
-        <DescriptionItem title="Api">{data.get('api')}</DescriptionItem>
-        <DescriptionItem title="Endpoint">{data.get('endpoint')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureCosmosDB.infoName')}>{data.get('name')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureCosmosDB.infoResourceGroup')}>
+          {data.get('resourceGroup')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureCosmosDB.infoLocation')}>
+          {data.get('location')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureCosmosDB.infoSubscriptionID')}>
+          {data.get('subscription')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureCosmosDB.infoType')}>{data.get('type')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureCosmosDB.infoKind')}>{data.get('kind')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureCosmosDB.infoState')}>{data.get('state')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureCosmosDB.infoApi')}>{data.get('api')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.azureCosmosDB.infoEndpoint')}>
+          {data.get('endpoint')}
+        </DescriptionItem>
       </DescriptionList>
     </div>
   );

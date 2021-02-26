@@ -2,12 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number } from 'in-services/formatters/number';
 
 export default [
   {
     metric: 'tr_to',
-    label: 'Total Transactions',
+    label: t('in-forge:plugins.azureStorage.labelTrTo'),
     category: ['Traffic'],
     min: 0,
     formatter: number
@@ -15,28 +17,28 @@ export default [
 
   {
     metric: 'in_to',
-    label: 'Total Ingress',
+    label: t('in-forge:plugins.azureStorage.labelInTo'),
     category: ['Traffic'],
     min: 0,
     formatter: number
   },
   {
     metric: 'in_av',
-    label: 'Average Ingress',
+    label: t('in-forge:plugins.azureStorage.labelInAv'),
     category: ['Traffic'],
     min: 0,
     formatter: number
   },
   {
     metric: 'in_mi',
-    label: 'Minimum Ingress',
+    label: t('in-forge:plugins.azureStorage.labelInMi'),
     category: ['Traffic'],
     min: 0,
     formatter: number
   },
   {
     metric: 'in_mx',
-    label: 'Maximum Ingress',
+    label: t('in-forge:plugins.azureStorage.labelInMx'),
     category: ['Traffic'],
     min: 0,
     formatter: number
@@ -44,28 +46,28 @@ export default [
 
   {
     metric: 'eg_to',
-    label: 'Total Egress',
+    label: t('in-forge:plugins.azureStorage.labelEgTo'),
     category: ['Traffic'],
     min: 0,
     formatter: number
   },
   {
     metric: 'eg_av',
-    label: 'Average Egress',
+    label: t('in-forge:plugins.azureStorage.labelEgAv'),
     category: ['Traffic'],
     min: 0,
     formatter: number
   },
   {
     metric: 'eg_mi',
-    label: 'Minimum Egress',
+    label: t('in-forge:plugins.azureStorage.labelEgMi'),
     category: ['Traffic'],
     min: 0,
     formatter: number
   },
   {
     metric: 'eg_mx',
-    label: 'Maximum Egress',
+    label: t('in-forge:plugins.azureStorage.labelEgMx'),
     category: ['Traffic'],
     min: 0,
     formatter: number
@@ -73,28 +75,28 @@ export default [
 
   {
     metric: 'sl_to',
-    label: 'Total Success Server Latency',
+    label: t('in-forge:plugins.azureStorage.labelSlTo'),
     category: ['Latency'],
     min: 0,
     formatter: number
   },
   {
     metric: 'sl_av',
-    label: 'Average Success Server Latency',
+    label: t('in-forge:plugins.azureStorage.labelSlAv'),
     category: ['Latency'],
     min: 0,
     formatter: number
   },
   {
     metric: 'sl_mi',
-    label: 'Minimum Success Server Latency',
+    label: t('in-forge:plugins.azureStorage.labelSlMi'),
     category: ['Latency'],
     min: 0,
     formatter: number
   },
   {
     metric: 'sl_mx',
-    label: 'Maximum Success Server Latency',
+    label: t('in-forge:plugins.azureStorage.labelSlMx'),
     category: ['Latency'],
     min: 0,
     formatter: number
@@ -102,28 +104,28 @@ export default [
 
   {
     metric: 'el_to',
-    label: 'Total Success E2E Latency',
+    label: t('in-forge:plugins.azureStorage.labelElTo'),
     category: ['Latency'],
     min: 0,
     formatter: number
   },
   {
     metric: 'el_av',
-    label: 'Average Success E2E Latency',
+    label: t('in-forge:plugins.azureStorage.labelElAv'),
     category: ['Latency'],
     min: 0,
     formatter: number
   },
   {
     metric: 'el_mi',
-    label: 'Minimum Success E2E Latency',
+    label: t('in-forge:plugins.azureStorage.labelElMi'),
     category: ['Latency'],
     min: 0,
     formatter: number
   },
   {
     metric: 'el_mx',
-    label: 'Maximum Success E2E Latency',
+    label: t('in-forge:plugins.azureStorage.labelElMx'),
     category: ['Latency'],
     min: 0,
     formatter: number
@@ -131,28 +133,28 @@ export default [
 
   {
     metric: 'av_to',
-    label: 'Total Availability',
+    label: t('in-forge:plugins.azureStorage.labelAvTo'),
     category: ['Availability'],
     min: 0,
     formatter: number
   },
   {
     metric: 'av_av',
-    label: 'Average Availability',
+    label: t('in-forge:plugins.azureStorage.labelAvAv'),
     category: ['Latency'],
     min: 0,
     formatter: number
   },
   {
     metric: 'av_mi',
-    label: 'Minimum Availability',
+    label: t('in-forge:plugins.azureStorage.labelAvMi'),
     category: ['Latency'],
     min: 0,
     formatter: number
   },
   {
     metric: 'av_mx',
-    label: 'Maximum Availability',
+    label: t('in-forge:plugins.azureStorage.labelAvMx'),
     category: ['Latency'],
     min: 0,
     formatter: number

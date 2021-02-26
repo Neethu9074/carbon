@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import Collection from 'in-forge/plugins/azureCosmosDb/Dashboard/Collection';
@@ -11,7 +12,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Collection',
+    title: t('in-forge:plugins.azureCosmosDB.dashboard.titleCollection'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -20,7 +21,7 @@ const cols = [
     }
   },
   {
-    title: 'Total Requests',
+    title: t('in-forge:plugins.azureCosmosDB.dashboard.labelTr'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -36,7 +37,7 @@ const cols = [
     }
   },
   {
-    title: 'Document Count',
+    title: t('in-forge:plugins.azureCosmosDB.dashboard.labelDc'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -80,7 +81,7 @@ export default function CollectionsTable({
   return (
     <Table
       withoutPadding
-      cardTitle={`Collections (${rows.size})`}
+      cardTitle={t('in-forge:plugins.azureCosmosDB.dashboard.titleCollectionCount', { collectionCount: rows.size })}
       cols={cols}
       rows={rows.toArray()}
       getRowDetails={getRowDetails}

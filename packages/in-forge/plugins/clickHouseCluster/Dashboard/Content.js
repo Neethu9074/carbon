@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ClusterNodesTable from 'in-forge/plugins/clickHouseCluster/Dashboard/ClusterNodesTable';
@@ -18,7 +19,7 @@ export default function ClickHouseClusterDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <ClusterSummary snapshot={snapshot} />
-      <DashboardSection title="Throughput">
+      <DashboardSection title={t('in-forge:plugins.clickhouseCluster.dashboard.titleThroughput')}>
         <Columize>
           <Chart
             snapshotId={snapshotId}
@@ -26,7 +27,7 @@ export default function ClickHouseClusterDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               metrics: ['SelectQuery'],
-              labels: ['Select Queries'],
+              labels: [t('in-forge:plugins.clickhouseCluster.dashboard.labelSelectQueries')],
               type: 'line'
             }}
           />
@@ -36,7 +37,7 @@ export default function ClickHouseClusterDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               metrics: ['InsertedBytes'],
-              labels: ['Inserted Bytes'],
+              labels: [t('in-forge:plugins.clickhouseCluster.dashboard.labelInsertedBytes')],
               type: 'line',
               formatter: bytes.detailed
             }}

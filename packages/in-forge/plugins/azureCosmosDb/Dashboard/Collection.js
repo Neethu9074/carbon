@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -21,13 +22,13 @@ export default function Collection({ snapshot, timeConfig, collection, statusCod
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['metrics.collections.' + collection + '.tr'],
-          labels: ['Total Requests'],
+          labels: [t('in-forge:plugins.azureCosmosDB.dashboard.labelTr')],
           type: 'line'
         }}
         y2={{
           formatter: zeroDecimalPlaces,
           metrics: ['metrics.collections.' + collection + '.mr'],
-          labels: ['Metadata Requests'],
+          labels: [t('in-forge:plugins.azureCosmosDB.dashboard.labelMr')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -39,7 +40,7 @@ export default function Collection({ snapshot, timeConfig, collection, statusCod
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['metrics.collections.' + collection + '.dc'],
-          labels: ['Document Count'],
+          labels: [t('in-forge:plugins.azureCosmosDB.dashboard.labelDc')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -56,7 +57,12 @@ export default function Collection({ snapshot, timeConfig, collection, statusCod
             'metrics.collections.' + collection + '.as',
             'metrics.collections.' + collection + '.dq'
           ],
-          labels: ['Data Usage', 'Index Usage', 'Available Storage', 'Document Quota'],
+          labels: [
+            t('in-forge:plugins.azureCosmosDB.dashboard.labelDu'),
+            t('in-forge:plugins.azureCosmosDB.dashboard.labelIu'),
+            t('in-forge:plugins.azureCosmosDB.dashboard.labelAs'),
+            t('in-forge:plugins.azureCosmosDB.dashboard.labelDq')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

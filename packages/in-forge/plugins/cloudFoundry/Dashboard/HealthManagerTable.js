@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -13,7 +14,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Routines',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleRoutines'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -29,7 +30,7 @@ const cols = [
     }
   },
   {
-    title: 'Allocated',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleAllocated'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -45,7 +46,7 @@ const cols = [
     }
   },
   {
-    title: 'Allocated heap',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleAllocatedHeap'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -61,7 +62,7 @@ const cols = [
     }
   },
   {
-    title: 'Allocated stack',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleAllocatedStack'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -77,7 +78,7 @@ const cols = [
     }
   },
   {
-    title: 'Crashed indices',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleCrashedIndices'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -93,7 +94,7 @@ const cols = [
     }
   },
   {
-    title: 'Crashed instances',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleCrashedInstances'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -109,7 +110,7 @@ const cols = [
     }
   },
   {
-    title: 'Missing indices',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleMissingIndices'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -125,7 +126,7 @@ const cols = [
     }
   },
   {
-    title: 'Running instances',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleRunningInstances'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -156,7 +157,7 @@ export default function HealthManagerTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Health Manager (${rows.length})`}
+      cardTitle={t('in-forge:plugins.cloudFoundry.dashboard.titleHealthManagerCount', { healthCount: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -169,7 +170,7 @@ function getRowDetails(row) {
   return (
     <div>
       <Columize>
-        <DashboardSection title="Routines">
+        <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleRoutines')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={row.timeConfig}
@@ -177,14 +178,14 @@ function getRowDetails(row) {
               formatter: zeroDecimalPlaces,
               tooltipFormatter: zeroDecimalPlaces,
               metrics: ['hm.hm_api_num_go_routines'],
-              labels: ['Go routines'],
+              labels: [t('in-forge:plugins.cloudFoundry.dashboard.labelGoRoutines')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
-        <DashboardSection title="Memory">
+        <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleMemory')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={row.timeConfig}
@@ -196,14 +197,18 @@ function getRowDetails(row) {
                 'hm.hm_api_bytes_allocated_heap',
                 'hm.hm_api_bytes_allocated_stack'
               ],
-              labels: ['Allocated', 'Allocated Heap', 'Allocated Stack'],
+              labels: [
+                t('in-forge:plugins.cloudFoundry.dashboard.labelAllocated'),
+                t('in-forge:plugins.cloudFoundry.dashboard.labelAllocatedHeap'),
+                t('in-forge:plugins.cloudFoundry.dashboard.labelAllocatedStack')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       </Columize>
-      <DashboardSection title="Health Manager Analyzer">
+      <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleHealthManagerAnalyzer')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={row.timeConfig}
@@ -216,7 +221,12 @@ function getRowDetails(row) {
               'hm.hm_analyzer_num_missing_indices',
               'hm.hm_analyzer_num_running_instances'
             ],
-            labels: ['Crashed indices', 'Crashed instances', 'Missing indices', 'Running instances'],
+            labels: [
+              t('in-forge:plugins.cloudFoundry.dashboard.titleCrashedIndices'),
+              t('in-forge:plugins.cloudFoundry.dashboard.titleCrashedInstances'),
+              t('in-forge:plugins.cloudFoundry.dashboard.titleMissingIndices'),
+              t('in-forge:plugins.cloudFoundry.dashboard.titleRunningInstances')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

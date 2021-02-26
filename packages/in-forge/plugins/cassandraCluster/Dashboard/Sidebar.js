@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -27,8 +28,12 @@ export default function CassandraClusterSidebar({ snapshot }) {
         <Collapsible.Header>Nodes</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="Available Nodes">{liveNodesCount}</DescriptionItem>
-            <DescriptionItem title="Unreachable Nodes">{unreachableNodesCount(data)}</DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.cassandraCluster.dashboard.labelAvailableNodes')}>
+              {liveNodesCount}
+            </DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.cassandraCluster.dashboard.labelUnreachableNodes')}>
+              {unreachableNodesCount(data)}
+            </DescriptionItem>
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>

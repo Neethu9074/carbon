@@ -2,16 +2,17 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { bytes } from 'in-services/formatters/number';
 
 export default [
   {
-    label: 'Used Disk (Bytes)',
+    label: t('in-forge:plugins.couchbaseCluster.labelUsedDisk'),
     metric: 'cluster.usedDisk',
     formatter: bytes.compact
   },
   {
-    label: 'Used Memory (Bytes)',
+    label: t('in-forge:plugins.couchbaseCluster.labelUsedMemory'),
     metric: 'cluster.usedMemory',
     formatter: bytes.compact
   }

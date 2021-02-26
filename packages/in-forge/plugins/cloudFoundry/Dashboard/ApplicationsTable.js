@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import InstancesTable from 'in-forge/plugins/cloudFoundry/Dashboard/InstancesTable';
@@ -11,7 +12,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Application',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleApplication'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -20,7 +21,7 @@ const cols = [
     }
   },
   {
-    title: 'State',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleState'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -29,7 +30,7 @@ const cols = [
     }
   },
   {
-    title: 'Disk quota',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleDiskQuota'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -39,7 +40,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory limit',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleMemoryLimit'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -49,7 +50,7 @@ const cols = [
     }
   },
   {
-    title: 'Instances',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleInstances'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -59,7 +60,7 @@ const cols = [
     }
   },
   {
-    title: 'Running instances',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleRunningInstances'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -69,7 +70,7 @@ const cols = [
     }
   },
   {
-    title: 'Urls',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleUrls'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -96,7 +97,9 @@ export default function ApplicationsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Applications (${rows.length})`}
+      cardTitle={t('in-forge:plugins.cloudFoundry.dashboard.titleApplicationsCount', {
+        applicationsCount: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}

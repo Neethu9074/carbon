@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { number, millis, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -14,19 +15,22 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title="Response Times and Requests">
+      <DashboardSection title={t('in-forge:plugins.azureAppService.dashboard.titleResponseTimesAndRequests')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['art'],
-            labels: ['Response Time'],
+            labels: [t('in-forge:plugins.azureAppService.dashboard.labelArt')],
             formatter: millis.detailed,
             type: 'line'
           }}
           y2={{
             metrics: ['trs', 'qrs'],
-            labels: ['Total Requests', 'Queued Requests'],
+            labels: [
+              t('in-forge:plugins.azureAppService.dashboard.labelTrs'),
+              t('in-forge:plugins.azureAppService.dashboard.labelQrs')
+            ],
             formatter: number.detailed,
             type: 'line'
           }}
@@ -34,13 +38,17 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="HTTP Status Codes">
+      <DashboardSection title={t('in-forge:plugins.azureAppService.dashboard.titleHTTPStatusCodes')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['h2x', 'h4x', 'h5x'],
-            labels: ['HTTP 2xx Responses', 'HTTP 4xx Responses', 'HTTP 5xx Responses'],
+            labels: [
+              t('in-forge:plugins.azureAppService.dashboard.labelH2x'),
+              t('in-forge:plugins.azureAppService.dashboard.labelH4x'),
+              t('in-forge:plugins.azureAppService.dashboard.labelH5x')
+            ],
             formatter: number.detailed,
             type: 'stackedArea'
           }}
@@ -48,19 +56,19 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Network">
+      <DashboardSection title={t('in-forge:plugins.azureAppService.dashboard.titleNetwork')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['bts'],
-            labels: ['Bytes Sent'],
+            labels: [t('in-forge:plugins.azureAppService.dashboard.labelBts')],
             formatter: bytesZeroDecimalPlaces,
             type: 'line'
           }}
           y2={{
             metrics: ['btr'],
-            labels: ['Bytes Received'],
+            labels: [t('in-forge:plugins.azureAppService.dashboard.labelBtr')],
             formatter: bytesZeroDecimalPlaces,
             type: 'line'
           }}
@@ -68,13 +76,17 @@ export default function AzureAppServiceDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Garbage Collection">
+      <DashboardSection title={t('in-forge:plugins.azureAppService.dashboard.titleGarbageCollection')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['g0c', 'g1c', 'g2c'],
-            labels: ['Generation 0', 'Generation 1', 'Generation 2'],
+            labels: [
+              t('in-forge:plugins.azureAppService.dashboard.labelG0c'),
+              t('in-forge:plugins.azureAppService.dashboard.labelG1c'),
+              t('in-forge:plugins.azureAppService.dashboard.labelG2c')
+            ],
             formatter: number.detailed,
             type: 'stackedArea'
           }}

@@ -11,7 +11,9 @@ export default function MessagingSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title={t('in-forge:tracing.sdkMessaging.destination')}>{span.getIn(['data', 'messaging', 'destination'])}</Di>
+        <Di title={t('in-forge:tracing.sdkMessaging.destination')}>
+          {span.getIn(['data', 'messaging', 'destination'])}
+        </Di>
       </Dl>
     </div>
   );

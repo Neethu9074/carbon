@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { Range } from 'immutable';
 import React from 'react';
 
@@ -13,7 +14,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Store Id',
+    title: t('in-forge:plugins.cockroachDBNode.dashboard.titleStoreID'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -29,7 +30,7 @@ const cols = [
     }
   },
   {
-    title: 'Capacity',
+    title: t('in-forge:plugins.cockroachDBNode.dashboard.titleCapacity'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -45,7 +46,7 @@ const cols = [
     }
   },
   {
-    title: 'Available',
+    title: t('in-forge:plugins.cockroachDBNode.dashboard.titleAvailable'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -61,7 +62,7 @@ const cols = [
     }
   },
   {
-    title: 'Used',
+    title: t('in-forge:plugins.cockroachDBNode.dashboard.titleUsed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -77,7 +78,7 @@ const cols = [
     }
   },
   {
-    title: 'Queries/s',
+    title: t('in-forge:plugins.cockroachDBNode.dashboard.titleStoreQueries'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -93,7 +94,7 @@ const cols = [
     }
   },
   {
-    title: 'Writes/s',
+    title: t('in-forge:plugins.cockroachDBNode.dashboard.titleStoreWrites'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -124,7 +125,15 @@ export default function StoreTable({ snapshot, timeConfig }) {
       };
     });
 
-  return <Table withoutPadding cardTitle="Store stats" cols={cols} rows={rows} getRowDetails={getRowDetails} />;
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.cockroachDBNode.dashboard.titleStoreStats')}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
+  );
 }
 
 function getRowDetails(row) {
@@ -141,7 +150,11 @@ function getRowDetails(row) {
             'storeStatuses.' + row.storeNum + '.available',
             'storeStatuses.' + row.storeNum + '.used'
           ],
-          labels: ['Capacity', 'Available', 'Used'],
+          labels: [
+            t('in-forge:plugins.cockroachDBNode.dashboard.labelCapacity'),
+            t('in-forge:plugins.cockroachDBNode.dashboard.labelAvailable'),
+            t('in-forge:plugins.cockroachDBNode.dashboard.labelUsed')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -156,7 +169,10 @@ function getRowDetails(row) {
             'storeStatuses.' + row.storeNum + '.queriesPerSecond',
             'storeStatuses.' + row.storeNum + '.writesPerSecond'
           ],
-          labels: ['Queries', 'Writes'],
+          labels: [
+            t('in-forge:plugins.cockroachDBNode.dashboard.labelQueries'),
+            t('in-forge:plugins.cockroachDBNode.dashboard.labelWrites')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -23,13 +24,15 @@ export default connectTo(
     return (
       <DescriptionList>
         {zoneSnapshot && (
-          <DescriptionItem title="Cluster">
+          <DescriptionItem title={t('in-forge:plugins.cassandraNode.titleCluster')}>
             <SnapshotLink snapshotId={zoneSnapshot.get('id')}>{getLabel(zoneSnapshot)}</SnapshotLink>
           </DescriptionItem>
         )}
-        <DescriptionItem title="Datacenter">{data.get('datacenter')}</DescriptionItem>
-        <DescriptionItem title="Rack">{data.get('rack')}</DescriptionItem>
-        <DescriptionItem title="Host ID">{data.get('hostId')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.cassandraNode.titleDatacenter')}>
+          {data.get('datacenter')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.cassandraNode.titleRack')}>{data.get('rack')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.cassandraNode.titleHostID')}>{data.get('hostId')}</DescriptionItem>
       </DescriptionList>
     );
   }

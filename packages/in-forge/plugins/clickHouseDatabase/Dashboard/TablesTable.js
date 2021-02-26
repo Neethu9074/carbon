@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { number, bytes, withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Database',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleDatabase'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Table',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleTable'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Engine',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleEngine'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -39,7 +40,7 @@ const cols = [
     }
   },
   {
-    title: 'Columns',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleColumns'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -55,7 +56,7 @@ const cols = [
     }
   },
   {
-    title: 'Rows',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleRows'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -71,7 +72,7 @@ const cols = [
     }
   },
   {
-    title: 'Disk Usage',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleDiskUsage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -87,7 +88,7 @@ const cols = [
     }
   },
   {
-    title: 'Partitions',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titlePartitions'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -103,7 +104,7 @@ const cols = [
     }
   },
   {
-    title: 'Active Parts',
+    title: t('in-forge:plugins.clickhouseDatabase.dashboard.titleActiveParts'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -141,7 +142,7 @@ export default function TablesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Tables (${rows.length})`}
+      cardTitle={t('in-forge:plugins.clickhouseDatabase.dashboard.titleTablesCount', { tableCount: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}
@@ -154,31 +155,34 @@ export default function TablesTable({ snapshot, timeConfig }) {
 function getDetails(row) {
   return (
     <div>
-      <DashboardSection title="Data">
+      <DashboardSection title={t('in-forge:plugins.clickhouseDatabase.dashboard.titleData')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             metrics: [`table_metric.${row.key}.rows`],
-            labels: ['Rows'],
+            labels: [t('in-forge:plugins.clickhouseDatabase.dashboard.labelRows')],
             type: 'line',
             formatter: withSiPrefixThreeDecimalPlaces
           }}
           y2={{
             metrics: [`table_metric.${row.key}.bytes_on_disk`],
-            labels: ['Disk Usage'],
+            labels: [t('in-forge:plugins.clickhouseDatabase.dashboard.labelDiskUsage')],
             type: 'line',
             formatter: bytes.detailed
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Partitioning">
+      <DashboardSection title={t('in-forge:plugins.clickhouseDatabase.dashboard.titlePartitioning')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             metrics: [`table_metric.${row.key}.partitions`, `table_metric.${row.key}.parts`],
-            labels: ['Partitions', 'Active Parts'],
+            labels: [
+              t('in-forge:plugins.clickhouseDatabase.dashboard.labelPartitions'),
+              t('in-forge:plugins.clickhouseDatabase.dashboard.labelActiveParts')
+            ],
             type: 'line',
             formatter: number.compact
           }}

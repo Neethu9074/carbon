@@ -2,16 +2,18 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { percentagePlainTwoDecimalPlaces } from 'in-services/formatters/number';
 
 export default [
   {
-    label: 'CPU Percentage',
+    label: t('in-forge:plugins.azureSqlDb.labelCPUPercentage'),
     metric: 'metrics.cpu_percent',
     formatter: percentagePlainTwoDecimalPlaces
   },
   {
-    label: 'DTU Percentage',
+    label: t('in-forge:plugins.azureSqlDb.labelDTUPercentage'),
     metric: 'metrics.dtu_consumption_percent',
     formatter: percentagePlainTwoDecimalPlaces
   }

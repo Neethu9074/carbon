@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -15,7 +16,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Shard Id',
+    title: t('in-forge:plugins.azureRedisCache.dashboard.titleShardId'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Connections',
+    title: t('in-forge:plugins.azureRedisCache.dashboard.titleConnections'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Operations/sec',
+    title: t('in-forge:plugins.azureRedisCache.dashboard.titleOperationsPerSec'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +57,7 @@ const cols = [
     }
   },
   {
-    title: 'Total Commands',
+    title: t('in-forge:plugins.azureRedisCache.dashboard.titleTotalCommands'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -73,7 +74,7 @@ const cols = [
   },
 
   {
-    title: 'CPU',
+    title: t('in-forge:plugins.azureRedisCache.dashboard.titleCPU'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -89,7 +90,7 @@ const cols = [
     }
   },
   {
-    title: 'Load',
+    title: t('in-forge:plugins.azureRedisCache.dashboard.titleLoad'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -105,7 +106,7 @@ const cols = [
     }
   },
   {
-    title: 'Total Keys',
+    title: t('in-forge:plugins.azureRedisCache.dashboard.titleTotalKeys'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -121,7 +122,7 @@ const cols = [
     }
   },
   {
-    title: 'Used Memory',
+    title: t('in-forge:plugins.azureRedisCache.dashboard.titleUsedMemoryTable'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -137,7 +138,7 @@ const cols = [
     }
   },
   {
-    title: 'Used Memory RSS',
+    title: t('in-forge:plugins.azureRedisCache.dashboard.titleUsedMemoryRSS'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -186,7 +187,10 @@ function getRowDetails(row) {
         y1={{
           formatter: bytesTwoDecimalPlaces,
           metrics: ['cacheRead' + row.key, 'cacheWrite' + row.key],
-          labels: ['Cache Read', 'Cache Write'],
+          labels: [
+            t('in-forge:plugins.azureRedisCache.dashboard.labelCacheRead'),
+            t('in-forge:plugins.azureRedisCache.dashboard.labelCacheWrite')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -197,7 +201,10 @@ function getRowDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['cachehits' + row.key, 'cachemisses' + row.key],
-          labels: ['Cache Hits', 'Cache Misses'],
+          labels: [
+            t('in-forge:plugins.azureRedisCache.dashboard.labelCacheHits'),
+            t('in-forge:plugins.azureRedisCache.dashboard.labelCacheMisses')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -209,7 +216,10 @@ function getRowDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['getcommands' + row.key, 'setcommands' + row.key],
-          labels: ['Gets', 'Sets'],
+          labels: [
+            t('in-forge:plugins.azureRedisCache.dashboard.labelGets'),
+            t('in-forge:plugins.azureRedisCache.dashboard.labelSets')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -221,7 +231,10 @@ function getRowDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['expiredkeys' + row.key, 'evictedkeys' + row.key],
-          labels: ['Keys Expired', 'Keys Evicted'],
+          labels: [
+            t('in-forge:plugins.azureRedisCache.dashboard.labelKeysExpired'),
+            t('in-forge:plugins.azureRedisCache.dashboard.labelKeysEvicted')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

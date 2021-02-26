@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
+import { t } from 'in-i18n';
 import semver from 'semver';
+import React from 'react';
 
-import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import GaugesTable from './GaugesTable';
 
 const runtimeMetrics = [
@@ -46,30 +47,60 @@ export default function ConsulDashboard({ snapshot, timeConfig }) {
         {semver.valid(consulVersion) &&
           semver.satisfies(consulVersion, '>=1.0.0') &&
           snapshot.getIn(['data', 'raft.state']) && (
-            <KpiKeyValue label="State">{snapshot.getIn(['data', 'raft.state'], null)}</KpiKeyValue>
+            <KpiKeyValue label={t('in-forge:plugins.consul.dashboard.labelState')}>
+              {snapshot.getIn(['data', 'raft.state'], null)}
+            </KpiKeyValue>
           )}
-        <KpiKeyValue label="Domain">{snapshot.getIn(['data', 'domain'], null)}</KpiKeyValue>
-        <KpiKeyValue label="Advertise Address">{snapshot.getIn(['data', 'advertiseAddr'], null)}</KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.consul.dashboard.labelDomain')}>
+          {snapshot.getIn(['data', 'domain'], null)}
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.consul.dashboard.labelAdvertiseAddress')}>
+          {snapshot.getIn(['data', 'advertiseAddr'], null)}
+        </KpiKeyValue>
         {snapshot.getIn(['data', 'knownServers'], null) > 0 && (
-          <KpiKeyValue label="Known Servers">{snapshot.getIn(['data', 'knownServers'], null)}</KpiKeyValue>
+          <KpiKeyValue label={t('in-forge:plugins.consul.dashboard.labelKnownServers')}>
+            {snapshot.getIn(['data', 'knownServers'], null)}
+          </KpiKeyValue>
         )}
         {snapshot.getIn(['data', 'knownDatacenters'], null) > 0 && (
-          <KpiKeyValue label="Known Datacenters">{snapshot.getIn(['data', 'knownDatacenters'], null)}</KpiKeyValue>
+          <KpiKeyValue label={t('in-forge:plugins.consul.dashboard.labelKnownDatacenters')}>
+            {snapshot.getIn(['data', 'knownDatacenters'], null)}
+          </KpiKeyValue>
         )}
       </KpiSection>
       {errorCodeMetrics === 'NO_ERROR' && (
-        <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={runtimeMetrics} title="Runtime Metrics" />
+        <GaugesTable
+          snapshot={snapshot}
+          timeConfig={timeConfig}
+          metrics={runtimeMetrics}
+          title={t('in-forge:plugins.consul.dashboard.titleRuntimeMetrics')}
+        />
       )}
-      <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={serfLanMetrics} title="SerfLan" />
+      <GaugesTable
+        snapshot={snapshot}
+        timeConfig={timeConfig}
+        metrics={serfLanMetrics}
+        title={t('in-forge:plugins.consul.dashboard.titleSerfLan')}
+      />
       {semver.valid(consulVersion) &&
         semver.satisfies(consulVersion, '>=1.0.0') &&
         snapshot.getIn(['data', 'raft.state']) && (
-          <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={raftMetrics} title="Raft" />
+          <GaugesTable
+            snapshot={snapshot}
+            timeConfig={timeConfig}
+            metrics={raftMetrics}
+            title={t('in-forge:plugins.consul.dashboard.titleRaft')}
+          />
         )}
       {semver.valid(consulVersion) &&
         semver.satisfies(consulVersion, '>=1.0.0') &&
         snapshot.getIn(['data', 'raft.state']) && (
-          <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={autopilotMetrics} title="Autopilot" />
+          <GaugesTable
+            snapshot={snapshot}
+            timeConfig={timeConfig}
+            metrics={autopilotMetrics}
+            title={t('in-forge:plugins.consul.dashboard.titleAutopilot')}
+          />
         )}
       {errorCodeMetrics === 'METRICS_NOT_ACCESSIBLE' && (
         <DashboardNotification type="warning">

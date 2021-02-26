@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { number, bytes, nanos } from 'in-services/formatters/number';
 
 export default [
@@ -13,7 +14,13 @@ export default [
       'sql.exec.latency-p99',
       'sql.exec.latency-max'
     ],
-    labels: ['Latency 50th', 'Latency 75th', 'Latency 90th', 'Latency 99th', 'Latency Max'],
+    labels: [
+      t('in-forge:plugins.cockroachDBNode.labelLatency50P'),
+      t('in-forge:plugins.cockroachDBNode.labelLatency75P'),
+      t('in-forge:plugins.cockroachDBNode.labelLatency90P'),
+      t('in-forge:plugins.cockroachDBNode.labelLatency99P'),
+      t('in-forge:plugins.cockroachDBNode.labelLatencyMax')
+    ],
     min: 0,
     formatter: nanos
   },
@@ -25,19 +32,35 @@ export default [
       'ranges.underreplicated.total',
       'ranges.unavailable.total'
     ],
-    labels: ['SQL Connections', 'SQL Write Count', 'Total Ranges', 'Underreplicated Ranges', 'Unavailable Ranges'],
+    labels: [
+      t('in-forge:plugins.cockroachDBNode.labelSQLConnections'),
+      t('in-forge:plugins.cockroachDBNode.labelSQLWriteCount'),
+      t('in-forge:plugins.cockroachDBNode.labelTotalRanges'),
+      t('in-forge:plugins.cockroachDBNode.labelUnderreplicatedRanges'),
+      t('in-forge:plugins.cockroachDBNode.labelUnavailableRanges')
+    ],
     min: 0,
     formatter: number
   },
   {
     metrics: ['sql.select.count', 'sql.update.count', 'sql.insert.count', 'sql.delete.count'],
-    labels: ['Selects', 'Updates', 'Inserts', 'Deletes'],
+    labels: [
+      t('in-forge:plugins.cockroachDBNode.labelSelects'),
+      t('in-forge:plugins.cockroachDBNode.labelUpdates'),
+      t('in-forge:plugins.cockroachDBNode.labelInserts'),
+      t('in-forge:plugins.cockroachDBNode.labelDeletes')
+    ],
     min: 0,
     formatter: number
   },
   {
     metrics: ['sys.go.allocbytes', 'sys.go.totalbytes', 'sys.cgo.allocbytes', 'sys.cgo.totalbytes'],
-    labels: ['Go memory allocated', 'Go memory total', 'CGo memory allocated', 'CGo memory total'],
+    labels: [
+      t('in-forge:plugins.cockroachDBNode.labelGoMemoryAllocated'),
+      t('in-forge:plugins.cockroachDBNode.labelGoMemoryTotal'),
+      t('in-forge:plugins.cockroachDBNode.labelCGoMemoryAllocated'),
+      t('in-forge:plugins.cockroachDBNode.labelCGoMemoryTotal')
+    ],
     min: 0,
     formatter: bytes
   },
@@ -48,13 +71,22 @@ export default [
       'sys.host.net.recv.bytes',
       'sys.host.net.send.bytes'
     ],
-    labels: ['Disk read', 'Disk write', 'Network receive', 'Network send'],
+    labels: [
+      t('in-forge:plugins.cockroachDBNode.labelDiskRead'),
+      t('in-forge:plugins.cockroachDBNode.labelDiskWrite'),
+      t('in-forge:plugins.cockroachDBNode.labelNetworkReceive'),
+      t('in-forge:plugins.cockroachDBNode.labelNetworkSend')
+    ],
     min: 0,
     formatter: bytes
   },
   {
     metrics: ['sys.host.disk.iopsinprogress', 'sys.host.disk.read.count', 'sys.host.disk.write.count'],
-    labels: ['Disk Iops', 'Disk read count', 'Disk write count'],
+    labels: [
+      t('in-forge:plugins.cockroachDBNode.labelDiskIops'),
+      t('in-forge:plugins.cockroachDBNode.labelDiskReadCount'),
+      t('in-forge:plugins.cockroachDBNode.labelDiskWriteCount')
+    ],
     min: 0,
     formatter: number
   }

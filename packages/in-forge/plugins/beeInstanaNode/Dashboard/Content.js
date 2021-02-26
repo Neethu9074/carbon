@@ -11,6 +11,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -20,24 +21,24 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
     return (
       <div>
         <KpiSection>
-          <KpiKeyValue label="Metrics">
+          <KpiKeyValue label={t('in-forge:plugins.beeInstana.dashboard.labelMetrics')}>
             <MetricValue
               snapshotId={snapshotId}
               metric="Ingestor.AggregatorFlushByTimeAndPartition.NumOfMetrics.sum"
               formatter={number.compact}
             />
           </KpiKeyValue>
-          <KpiKeyValue label="Messages">
+          <KpiKeyValue label={t('in-forge:plugins.beeInstana.dashboard.labelMessages')}>
             <MetricValue
               snapshotId={snapshotId}
               metric="Ingestor.KafkaConsumer.MessageDelay.count"
               formatter={number.compact}
             />
           </KpiKeyValue>
-          <KpiKeyValue label="Errors">
+          <KpiKeyValue label={t('in-forge:plugins.beeInstana.dashboard.labelErrors')}>
             <MetricValue snapshotId={snapshotId} metric="Ingestor.KafkaConsumer.Error.sum" formatter={number.compact} />
           </KpiKeyValue>
-          <KpiKeyValue label="SpillOver">
+          <KpiKeyValue label={t('in-forge:plugins.beeInstana.dashboard.labelSpillOver')}>
             <MetricValue
               snapshotId={snapshotId}
               metric="Ingestor.KafkaConsumer.SpillOver.sum"
@@ -46,14 +47,14 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           </KpiKeyValue>
         </KpiSection>
 
-        <DashboardSection title="Metrics">
+        <DashboardSection title={t('in-forge:plugins.beeInstana.dashboard.titleMetrics')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['Ingestor.AggregatorFlushByTimeAndPartition.NumOfMetrics.sum'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.beeInstana.dashboard.labelCount')],
               type: 'line',
               formatter: number.detailed
             }}
@@ -61,7 +62,7 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Kafka message consumer">
+        <DashboardSection title={t('in-forge:plugins.beeInstana.dashboard.titleKafka')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -73,14 +74,19 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
                 'Ingestor.KafkaConsumer.MessageDelay.count',
                 'Ingestor.KafkaConsumer.Error.sum'
               ],
-              labels: ['Metric count', 'Datapoint count', 'Message count', 'Message error count'],
+              labels: [
+                t('in-forge:plugins.beeInstana.dashboard.labelMetricCount'),
+                t('in-forge:plugins.beeInstana.dashboard.labelDatapointCount'),
+                t('in-forge:plugins.beeInstana.dashboard.labelMessageCount'),
+                t('in-forge:plugins.beeInstana.dashboard.labelMessageErrorCount')
+              ],
               type: 'line',
               formatter: number.compact
             }}
             y2={{
               min: 0,
               metrics: ['Ingestor.KafkaConsumer.MessageDelay.max'],
-              labels: ['Message delay'],
+              labels: [t('in-forge:plugins.beeInstana.dashboard.labelMessageDelay')],
               type: 'line',
               formatter: millis.compact
             }}
@@ -88,7 +94,7 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Queue and worker">
+        <DashboardSection title={t('in-forge:plugins.beeInstana.dashboard.titleQueueAndWorker')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -100,7 +106,12 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
                 'Ingestor.KafkaConsumer.SpillOver.sum',
                 'Ingestor.Configuration.WorkerPoolSize.max'
               ],
-              labels: ['MaxQueueSize', 'TaskQueueSize', 'SpillOver', 'WorkerPoolSize'],
+              labels: [
+                t('in-forge:plugins.beeInstana.dashboard.labelMaxQueueSize'),
+                t('in-forge:plugins.beeInstana.dashboard.labelTaskQueueSize'),
+                t('in-forge:plugins.beeInstana.dashboard.labelSpillOver'),
+                t('in-forge:plugins.beeInstana.dashboard.labelWorkerPoolSize')
+              ],
               type: 'line',
               formatter: number.detailed
             }}
@@ -108,21 +119,21 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Flush">
+        <DashboardSection title={t('in-forge:plugins.beeInstana.dashboard.titleFlush')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['Ingestor.AggregatorFlushByTimeAndPartition.Duration.max'],
-              labels: ['Duration'],
+              labels: [t('in-forge:plugins.beeInstana.dashboard.labelDuration')],
               type: 'line',
               formatter: seconds.detailed
             }}
             y2={{
               min: 0,
               metrics: ['Ingestor.AggregatorFlushByTimeAndPartition.Duration.count'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.beeInstana.dashboard.labelCount')],
               type: 'line',
               formatter: number.compact
             }}
@@ -130,21 +141,27 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Sender">
+        <DashboardSection title={t('in-forge:plugins.beeInstana.dashboard.titleSender')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['Ingestor.HttpSender.SucceededBytes.sum', 'Ingestor.HttpSender.FailedBytes.sum'],
-              labels: ['SucceededBytes', 'FailedBytes'],
+              labels: [
+                t('in-forge:plugins.beeInstana.dashboard.labelsSucceededBytes'),
+                t('in-forge:plugins.beeInstana.dashboard.labelFailedBytes')
+              ],
               type: 'line',
               formatter: bytes.compact
             }}
             y2={{
               min: 0,
               metrics: ['Ingestor.HttpSender.SucceededBytes.count', 'Ingestor.HttpSender.FailedBytes.count'],
-              labels: ['Succeeded count', 'Failed count'],
+              labels: [
+                t('in-forge:plugins.beeInstana.dashboard.labelSucceededCount'),
+                t('in-forge:plugins.beeInstana.dashboard.labelFailedCount')
+              ],
               type: 'line',
               formatter: number.compact
             }}
@@ -157,24 +174,24 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
     return (
       <div>
         <KpiSection>
-          <KpiKeyValue label="Metrics">
+          <KpiKeyValue label={t('in-forge:plugins.beeInstana.dashboard.labelMetrics')}>
             <MetricValue
               snapshotId={snapshotId}
               metric="Aggregator.AggregatorStats.NumMetricsWithData.max"
               formatter={number.compact}
             />
           </KpiKeyValue>
-          <KpiKeyValue label="Ready">
+          <KpiKeyValue label={t('in-forge:plugins.beeInstana.dashboard.labelReady')}>
             <MetricValue snapshotId={snapshotId} metric="Aggregator.Status.Ready.max" formatter={yesOrNo} />
           </KpiKeyValue>
-          <KpiKeyValue label="Aggregate datasize">
+          <KpiKeyValue label={t('in-forge:plugins.beeInstana.dashboard.labelAggregateDatasize')}>
             <MetricValue
               snapshotId={snapshotId}
               metric="Aggregator.AggregateBinary.DataSize.max"
               formatter={bytes.compact}
             />
           </KpiKeyValue>
-          <KpiKeyValue label="Throttled accounts">
+          <KpiKeyValue label={t('in-forge:plugins.beeInstana.dashboard.labelThrottledAccounts')}>
             <MetricValue
               snapshotId={snapshotId}
               metric="Aggregator.AggregatorStats.NumThrottledAccounts.max"
@@ -183,14 +200,14 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           </KpiKeyValue>
         </KpiSection>
 
-        <DashboardSection title="Metrics">
+        <DashboardSection title={t('in-forge:plugins.beeInstana.dashboard.titleMetrics')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['Aggregator.AggregatorStats.NumMetricsWithData.max'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.beeInstana.dashboard.labelCount')],
               type: 'line',
               formatter: number.detailed
             }}
@@ -198,14 +215,17 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Queue">
+        <DashboardSection title={t('in-forge:plugins.beeInstana.dashboard.titleQueue')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['Aggregator.AggregateBinary.SpillOver.sum', 'Aggregator.AggregatorStats.TaskQueueSize.max'],
-              labels: ['SpillOver', 'TaskQueueSize'],
+              labels: [
+                t('in-forge:plugins.beeInstana.dashboard.labelSpillOver'),
+                t('in-forge:plugins.beeInstana.dashboard.labelTaskQueueSize')
+              ],
               type: 'line',
               formatter: number.detailed
             }}
@@ -213,21 +233,24 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="GetMetrics API">
+        <DashboardSection title={t('in-forge:plugins.beeInstana.dashboard.titleGetMetricsAPI')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['Aggregator.GetMetrics.Timing.max', 'Aggregator.GetMetrics.Timing.min'],
-              labels: ['Max latency', 'Min latency'],
+              labels: [
+                t('in-forge:plugins.beeInstana.dashboard.labelMaxLatency'),
+                t('in-forge:plugins.beeInstana.dashboard.labelMinLatency')
+              ],
               type: 'line',
               formatter: millis.compact
             }}
             y2={{
               min: 0,
               metrics: ['Aggregator.GetMetrics.Timing.count'],
-              labels: ['Request count'],
+              labels: [t('in-forge:plugins.beeInstana.dashboard.labelRequestCount')],
               type: 'line',
               formatter: number.compact
             }}
@@ -235,21 +258,24 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="GetMetricData API">
+        <DashboardSection title={t('in-forge:plugins.beeInstana.dashboard.titleGetMetricDataAPI')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['Aggregator.GetMetricData.Timing.max', 'Aggregator.GetMetricData.Timing.min'],
-              labels: ['Max latency', 'Min latency'],
+              labels: [
+                t('in-forge:plugins.beeInstana.dashboard.labelMaxLatency'),
+                t('in-forge:plugins.beeInstana.dashboard.labelMinLatency')
+              ],
               type: 'line',
               formatter: millis.compact
             }}
             y2={{
               min: 0,
               metrics: ['Aggregator.GetMetricData.Timing.count'],
-              labels: ['Request count'],
+              labels: [t('in-forge:plugins.beeInstana.dashboard.labelRequestCount')],
               type: 'line',
               formatter: number.compact
             }}
@@ -257,7 +283,7 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Metric pruning durations">
+        <DashboardSection title={t('in-forge:plugins.beeInstana.dashboard.titleMetricPruningDurations')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -269,7 +295,12 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
                 'Aggregator.AggregatorPrune.period300.Duration.max',
                 'Aggregator.AggregatorPrune.period3600.Duration.max'
               ],
-              labels: ['10s period', '1m period', '5m period', '1h period'],
+              labels: [
+                t('in-forge:plugins.beeInstana.dashboard.label10s'),
+                t('in-forge:plugins.beeInstana.dashboard.label1m'),
+                t('in-forge:plugins.beeInstana.dashboard.label5m'),
+                t('in-forge:plugins.beeInstana.dashboard.label1h')
+              ],
               type: 'line',
               formatter: seconds.detailed
             }}
@@ -277,7 +308,7 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Pruned observations">
+        <DashboardSection title={t('in-forge:plugins.beeInstana.dashboard.titlePrunedObservations')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -289,7 +320,12 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
                 'Aggregator.AggregatorPrune.period300.NumPrunedObservations.max',
                 'Aggregator.AggregatorPrune.period3600.NumPrunedObservations.max'
               ],
-              labels: ['10s period', '1m period', '5m period', '1h period'],
+              labels: [
+                t('in-forge:plugins.beeInstana.dashboard.label10s'),
+                t('in-forge:plugins.beeInstana.dashboard.label1m'),
+                t('in-forge:plugins.beeInstana.dashboard.label5m'),
+                t('in-forge:plugins.beeInstana.dashboard.label1h')
+              ],
               type: 'line',
               formatter: number.compact
             }}
@@ -309,7 +345,12 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
                 'Aggregator.AggregatorPrune.period300.NumOpenedMetricDbs.max',
                 'Aggregator.AggregatorPrune.period3600.NumOpenedMetricDbs.max'
               ],
-              labels: ['10s period', '1m period', '5m period', '1h period'],
+              labels: [
+                t('in-forge:plugins.beeInstana.dashboard.label10s'),
+                t('in-forge:plugins.beeInstana.dashboard.label1m'),
+                t('in-forge:plugins.beeInstana.dashboard.label5m'),
+                t('in-forge:plugins.beeInstana.dashboard.label1h')
+              ],
               type: 'line',
               formatter: number.compact
             }}

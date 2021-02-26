@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -25,20 +26,20 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Read Requests">
+        <KpiKeyValue label={t('in-forge:plugins.cassandraNode.dashboard.labelReadRequests')}>
           <MetricValue snapshotId={snapshotId} metric="clientrequests.read.count" />
         </KpiKeyValue>
-        <KpiKeyValue label="Read Latency">
+        <KpiKeyValue label={t('in-forge:plugins.cassandraNode.dashboard.labelReadLatency')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="clientrequests.read.mean"
             formatter={muSecondsToMillisZeroDecimalPlaces}
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Write Requests">
+        <KpiKeyValue label={t('in-forge:plugins.cassandraNode.dashboard.labelWriteRequests')}>
           <MetricValue snapshotId={snapshotId} metric="clientrequests.write.count" />
         </KpiKeyValue>
-        <KpiKeyValue label="Write Latency">
+        <KpiKeyValue label={t('in-forge:plugins.cassandraNode.dashboard.labelWriteLatency')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="clientrequests.write.mean"
@@ -47,21 +48,21 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Requests">
+      <DashboardSection title={t('in-forge:plugins.cassandraNode.dashboard.titleRequests')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['clientrequests.read.count'],
-            labels: ['Reads'],
+            labels: [t('in-forge:plugins.cassandraNode.dashboard.labelReads')],
             type: 'line',
             formatter: number.detailed
           }}
           y2={{
             min: 0,
             metrics: ['clientrequests.write.count'],
-            labels: ['Writes'],
+            labels: [t('in-forge:plugins.cassandraNode.dashboard.labelWrites')],
             type: 'line',
             formatter: number.detailed
           }}
@@ -70,7 +71,10 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       {['read', 'write'].map(op => (
-        <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies'} key={op}>
+        <DashboardSection
+          title={t('in-forge:plugins.cassandraNode.dashboard.titleClientRequestCount', { clientCount: capitalize(op) })}
+          key={op}
+        >
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -83,7 +87,12 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
                 'clientrequests.' + op + '.95',
                 'clientrequests.' + op + '.99'
               ],
-              labels: ['Mean', '50th Percentile', '95th Percentile', '99th Percentile'],
+              labels: [
+                t('in-forge:plugins.cassandraNode.dashboard.labelMean'),
+                t('in-forge:plugins.cassandraNode.dashboard.label50P'),
+                t('in-forge:plugins.cassandraNode.dashboard.label95P'),
+                t('in-forge:plugins.cassandraNode.dashboard.label99P')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -92,7 +101,12 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
       ))}
 
       {['pending', 'blocked'].map(stage => (
-        <DashboardSection title={capitalize(stage) + ' Requests in Threadpools (Stages)'} key={stage}>
+        <DashboardSection
+          title={t('in-forge:plugins.cassandraNode.dashboard.titleRequestsInThreadpool', {
+            stageName: capitalize(stage)
+          })}
+          key={stage}
+        >
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -107,12 +121,12 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
                 'stage.memtableflushwriter.' + stage
               ],
               labels: [
-                'Write (Mutation)',
-                'Read',
-                'Counter Mutation',
-                'Read Repair',
-                'Request/Response',
-                'Memtable Flushwriter'
+                t('in-forge:plugins.cassandraNode.dashboard.labelWrite'),
+                t('in-forge:plugins.cassandraNode.dashboard.labelRead'),
+                t('in-forge:plugins.cassandraNode.dashboard.labelCounterMutation'),
+                t('in-forge:plugins.cassandraNode.dashboard.labelReadRepair'),
+                t('in-forge:plugins.cassandraNode.dashboard.labelRequest'),
+                t('in-forge:plugins.cassandraNode.dashboard.labelMemtableFlushwriter')
               ],
               type: 'line',
               formatter: twoDecimalPlaces
@@ -122,7 +136,7 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       ))}
 
-      <DashboardSection title="Dropped Messages">
+      <DashboardSection title={t('in-forge:plugins.cassandraNode.dashboard.titleDroppedMessages')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -135,7 +149,13 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
               'dropped.READ_REPAIR',
               'dropped.REQUEST_RESPONSE'
             ],
-            labels: ['Write (Mutation)', 'Read', 'Counter Mutation', 'Read Repair', 'Request/Response'],
+            labels: [
+              t('in-forge:plugins.cassandraNode.dashboard.labelWrite'),
+              t('in-forge:plugins.cassandraNode.dashboard.labelRead'),
+              t('in-forge:plugins.cassandraNode.dashboard.labelCounterMutation'),
+              t('in-forge:plugins.cassandraNode.dashboard.labelReadRepair'),
+              t('in-forge:plugins.cassandraNode.dashboard.labelRequest')
+            ],
             type: 'line',
             formatter: twoDecimalPlaces
           }}
@@ -145,14 +165,14 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
 
       <KeyspacesTable snapshot={snapshot} timeConfig={timeConfig} />
 
-      <DashboardSection title="Pending Compactions">
+      <DashboardSection title={t('in-forge:plugins.cassandraNode.dashboard.titlePendingCompactions')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['compaction.pending'],
-            labels: ['Compactions'],
+            labels: [t('in-forge:plugins.cassandraNode.dashboard.labelCompactions')],
             type: 'line',
             formatter: twoDecimalPlaces
           }}
@@ -160,7 +180,7 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Cache Hits">
+      <DashboardSection title={t('in-forge:plugins.cassandraNode.dashboard.titleCacheHits')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -169,14 +189,18 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
             max: 1,
             formatter: percentageTwoDecimalPlaces,
             metrics: ['cache.counter.hit', 'cache.key.hit', 'cache.row.hit'],
-            labels: ['Counter', 'Key', 'Row'],
+            labels: [
+              t('in-forge:plugins.cassandraNode.dashboard.labelCounter'),
+              t('in-forge:plugins.cassandraNode.dashboard.labelKey'),
+              t('in-forge:plugins.cassandraNode.dashboard.labelRow')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Bloom Filter">
+      <DashboardSection title={t('in-forge:plugins.cassandraNode.dashboard.titleBloomFilter')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -185,7 +209,7 @@ export default function CassandraDashboard({ snapshot, timeConfig }) {
             max: 1,
             formatter: percentageTwoDecimalPlaces,
             metrics: ['bloomFilterFalse'],
-            labels: ['Miss Rate'],
+            labels: [t('in-forge:plugins.cassandraNode.dashboard.labelMissRate')],
             type: 'stackedArea'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
@@ -28,25 +29,25 @@ export default function CassandraClusterSidebar({ snapshot }) {
         metrics={[
           {
             metric: 'nodeCount',
-            label: 'Available Nodes',
+            label: t('in-forge:plugins.cassandraCluster.sidebar.labelAvailableNodes'),
             formatter: number,
             aggregation: 'mean'
           },
           {
             metric: 'unreachableNodeCount',
-            label: 'Unreachable Nodes',
+            label: t('in-forge:plugins.cassandraCluster.sidebar.labelUnreachableNodes'),
             formatter: number,
             aggregation: 'mean'
           },
           {
             metric: 'keyspaceCount',
-            label: 'Keyspaces',
+            label: t('in-forge:plugins.cassandraCluster.sidebar.labelKeyspaces'),
             formatter: siPrefix,
             aggregation: 'mean'
           },
           {
             metric: 'overallDiskSize',
-            label: 'Store Size',
+            label: t('in-forge:plugins.cassandraCluster.sidebar.labelStoreSize'),
             formatter: bytes,
             aggregation: 'mean'
           }

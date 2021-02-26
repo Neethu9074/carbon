@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
-import Table from 'in-sdk/components/dashboard/Table';
-import { emptyMap } from 'in-services/fixedImmutables';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { emptyMap } from 'in-services/fixedImmutables';
+import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.azureSqlServer.dashboard.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -19,7 +20,7 @@ const cols = [
     }
   },
   {
-    title: 'Location',
+    title: t('in-forge:plugins.azureSqlServer.dashboard.titleLocation'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -28,7 +29,7 @@ const cols = [
     }
   },
   {
-    title: 'State',
+    title: t('in-forge:plugins.azureSqlServer.dashboard.titleState'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'SKU',
+    title: t('in-forge:plugins.azureSqlServer.dashboard.titleSKU'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -46,7 +47,7 @@ const cols = [
     }
   },
   {
-    title: 'Max Size',
+    title: t('in-forge:plugins.azureSqlServer.dashboard.titleMaxSize'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -75,5 +76,14 @@ export default function ElasticPoolTable({ snapshot, timeConfig }) {
     return null;
   }
 
-  return <Table withoutPadding cardTitle={`Elastic Pools (${rows.length})`} cols={cols} rows={rows} />;
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.azureSqlServer.dashboard.titleElasticPoolCount', {
+        elasticPoolCount: rows.length
+      })}
+      cols={cols}
+      rows={rows}
+    />
+  );
 }

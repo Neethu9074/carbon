@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DateTimeWithPeriodSinceDescriptionItem } from 'in-sdk/components/sidebar/DateTimeWithPeriodSinceDescriptionItem';
@@ -11,11 +12,17 @@ export default function ContainerdInfo({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title="Id">{data.get('id')}</DescriptionItem>
-      <DescriptionItem title="Image">{data.get('image')}</DescriptionItem>
-      <DescriptionItem title="Containerd namespace">{data.get('namespace')}</DescriptionItem>
-      <DateTimeWithPeriodSinceDescriptionItem title="Created At" dateTime={data.get('createdAt')} />
-      <DateTimeWithPeriodSinceDescriptionItem title="Updated At" dateTime={data.get('updatedAt')} />
+      <DescriptionItem title={t('in-forge:plugins.containerd.infoId')}>{data.get('id')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.containerd.infoImage')}>{data.get('image')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.containerd.infoNamespace')}>{data.get('namespace')}</DescriptionItem>
+      <DateTimeWithPeriodSinceDescriptionItem
+        title={t('in-forge:plugins.containerd.infoCreatedAt')}
+        dateTime={data.get('createdAt')}
+      />
+      <DateTimeWithPeriodSinceDescriptionItem
+        title={t('in-forge:plugins.containerd.infoUpdatedAt')}
+        dateTime={data.get('updatedAt')}
+      />
     </DescriptionList>
   );
 }

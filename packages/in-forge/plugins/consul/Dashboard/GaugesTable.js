@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -11,7 +12,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.consul.dashboard.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -20,7 +21,7 @@ const cols = [
     }
   },
   {
-    title: 'Value',
+    title: t('in-forge:plugins.consul.dashboard.titleValue'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {

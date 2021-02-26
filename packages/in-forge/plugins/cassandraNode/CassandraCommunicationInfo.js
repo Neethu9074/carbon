@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -11,13 +12,19 @@ export default function CassandraCommunicationInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Node State">{data.get('mode')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.cassandraNode.titleNodeState')}>{data.get('mode')}</DescriptionItem>
 
-      <DescriptionItem title="Gossip Running">{data.get('gossipRunning')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.cassandraNode.titleGossipRunning')}>
+        {data.get('gossipRunning')}
+      </DescriptionItem>
 
-      <DescriptionItem title="Thrift Running">{data.get('thriftRunning')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.cassandraNode.titleThriftRunning')}>
+        {data.get('thriftRunning')}
+      </DescriptionItem>
 
-      <DescriptionItem title="CQL/Native Transport Running">{data.get('nativeTransportRunning')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.cassandraNode.titleNativeRunning')}>
+        {data.get('nativeTransportRunning')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

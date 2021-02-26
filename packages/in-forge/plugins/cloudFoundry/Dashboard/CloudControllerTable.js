@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Requests completed',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleRequestsCompleted'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -28,7 +29,7 @@ const cols = [
     }
   },
   {
-    title: 'Requests outstanding',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleRequestsOutstanding'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -44,7 +45,7 @@ const cols = [
     }
   },
   {
-    title: 'Total users',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleTotalUsers'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -60,7 +61,7 @@ const cols = [
     }
   },
   {
-    title: 'Thread count',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleThreadCount'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -76,7 +77,7 @@ const cols = [
     }
   },
   {
-    title: 'Total failed jobs',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleTotalFailedJobs'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -107,7 +108,7 @@ export default function CloudControllerTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Cloud Controller (${rows.length})`}
+      cardTitle={t('in-forge:plugins.cloudFoundry.dashboard.titleCloudControllerCount', { cloudCount: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -120,7 +121,7 @@ function getRowDetails(row) {
 
   return (
     <div>
-      <DashboardSection title="Requests">
+      <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleRequests')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={row.timeConfig}
@@ -128,13 +129,16 @@ function getRowDetails(row) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
             metrics: ['cloud_controller.cc_requests_completed', 'cloud_controller.cc_requests_outstanding'],
-            labels: ['Requests completed', 'Requests outstanding'],
+            labels: [
+              t('in-forge:plugins.cloudFoundry.dashboard.labelRequestsCompleted'),
+              t('in-forge:plugins.cloudFoundry.dashboard.labelRequestsOutstanding')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Statistics">
+      <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleStatistics')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={row.timeConfig}
@@ -146,7 +150,11 @@ function getRowDetails(row) {
               'cloud_controller.cc_thread_count',
               'cloud_controller.cc_total_failed_job_count'
             ],
-            labels: ['Total users', 'Thread count', 'Total failed jobs'],
+            labels: [
+              t('in-forge:plugins.cloudFoundry.dashboard.labelTotalUsers'),
+              t('in-forge:plugins.cloudFoundry.dashboard.labelThreadCount'),
+              t('in-forge:plugins.cloudFoundry.dashboard.labelTotalFailedJobs')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

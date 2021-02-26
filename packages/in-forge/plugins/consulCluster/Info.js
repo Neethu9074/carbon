@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -11,7 +12,7 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Leader">{data.get('groupId')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.consulCluster.infoLeader')}>{data.get('groupId')}</DescriptionItem>
     </DescriptionList>
   );
 }

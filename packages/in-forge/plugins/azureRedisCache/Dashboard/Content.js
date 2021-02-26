@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -25,30 +26,30 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Operations Per Second">
+        <KpiKeyValue label={t('in-forge:plugins.azureRedisCache.dashboard.labelOperationsPerSecond')}>
           <MetricValue snapshotId={snapshotId} metric="operationsPerSecond" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
 
-        <KpiKeyValue label="Keys Evicted">
+        <KpiKeyValue label={t('in-forge:plugins.azureRedisCache.dashboard.labelEvictedKeys')}>
           <MetricValue snapshotId={snapshotId} metric="evictedkeys" />
         </KpiKeyValue>
 
-        <KpiKeyValue label="Connections">
+        <KpiKeyValue label={t('in-forge:plugins.azureRedisCache.dashboard.labelConnections')}>
           <MetricValue snapshotId={snapshotId} metric="connectedclients" />
         </KpiKeyValue>
 
-        <KpiKeyValue label="Latency">
+        <KpiKeyValue label={t('in-forge:plugins.azureRedisCache.dashboard.labelLatency')}>
           <MetricValue snapshotId={snapshotId} metric="cacheLatency" formatter={muSecondsZeroDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Operations Per Second">
+      <DashboardSection title={t('in-forge:plugins.azureRedisCache.dashboard.labelOperationsPerSecond')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['operationsPerSecond'],
-            labels: ['Operations Per Second'],
+            labels: [t('in-forge:plugins.azureRedisCache.dashboard.labelOperationsPerSecond')],
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}
@@ -56,49 +57,58 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Cache Hits/Misses">
+      <DashboardSection title={t('in-forge:plugins.azureRedisCache.dashboard.titleCachedHits')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cachehits', 'cachemisses'],
-            labels: ['Cache Hits', 'Cache Misses'],
+            labels: [
+              t('in-forge:plugins.azureRedisCache.dashboard.labelCachedHits'),
+              t('in-forge:plugins.azureRedisCache.dashboard.labelCachedMisses')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Gets/Sets">
+      <DashboardSection title={t('in-forge:plugins.azureRedisCache.dashboard.titleGetsSets')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['getcommands', 'setcommands'],
-            labels: ['Gets', 'Sets'],
+            labels: [
+              t('in-forge:plugins.azureRedisCache.dashboard.labelGets'),
+              t('in-forge:plugins.azureRedisCache.dashboard.labelSets')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Keys Expired/Evicted">
+      <DashboardSection title={t('in-forge:plugins.azureRedisCache.dashboard.titleExpired')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['expiredkeys', 'evictedkeys'],
-            labels: ['Keys Expired', 'Keys Evicted'],
+            labels: [
+              t('in-forge:plugins.azureRedisCache.dashboard.labelKeysExpired'),
+              t('in-forge:plugins.azureRedisCache.dashboard.labelKeysEvicted')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.azureRedisCache.dashboard.titleMemory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -107,14 +117,17 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
             metrics: ['usedmemoryRss', 'usedmemory'],
-            labels: ['Used RSS', 'Used'],
+            labels: [
+              t('in-forge:plugins.azureRedisCache.dashboard.labelUsedRSS'),
+              t('in-forge:plugins.azureRedisCache.dashboard.labelUsed')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Cache Read/Write">
+      <DashboardSection title={t('in-forge:plugins.azureRedisCache.dashboard.titleCache')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -123,21 +136,24 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
             metrics: ['cacheRead', 'cacheWrite'],
-            labels: ['Cache Read', 'Cache Write'],
+            labels: [
+              t('in-forge:plugins.azureRedisCache.dashboard.labelCacheRead'),
+              t('in-forge:plugins.azureRedisCache.dashboard.labelCacheWrite')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Total Operations">
+      <DashboardSection title={t('in-forge:plugins.azureRedisCache.dashboard.titleTotalOperations')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['totalcommandsprocessed'],
-            labels: ['Total Operations'],
+            labels: [t('in-forge:plugins.azureRedisCache.dashboard.labelTotalOperations')],
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}
@@ -145,14 +161,14 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Total Keys">
+      <DashboardSection title={t('in-forge:plugins.azureRedisCache.dashboard.titleTotalKeys')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['totalkeys'],
-            labels: ['Total Keys'],
+            labels: [t('in-forge:plugins.azureRedisCache.dashboard.labelTotalKeys')],
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}
@@ -160,13 +176,13 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Server Load">
+      <DashboardSection title={t('in-forge:plugins.azureRedisCache.dashboard.titleServerLoad')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['serverLoad'],
-            labels: ['Server Load'],
+            labels: [t('in-forge:plugins.azureRedisCache.dashboard.labelServerLoad')],
             formatter: twoDecimalPlaces,
             type: 'line'
           }}
@@ -174,13 +190,13 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="CPU">
+      <DashboardSection title={t('in-forge:plugins.azureRedisCache.dashboard.titleCPU')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['percentProcessorTime'],
-            labels: ['CPU'],
+            labels: [t('in-forge:plugins.azureRedisCache.dashboard.labelCPU')],
             formatter: twoDecimalPlaces,
             type: 'line'
           }}
@@ -188,13 +204,13 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Connections">
+      <DashboardSection title={t('in-forge:plugins.azureRedisCache.dashboard.titleConnections')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['connectedclients'],
-            labels: ['Connections'],
+            labels: [t('in-forge:plugins.azureRedisCache.dashboard.labelConnections')],
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}
@@ -202,13 +218,13 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Used Memory Percentage">
+      <DashboardSection title={t('in-forge:plugins.azureRedisCache.dashboard.titleUsedMemory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['usedmemorypercentage'],
-            labels: ['Used Memory Percentage'],
+            labels: [t('in-forge:plugins.azureRedisCache.dashboard.labelUsedMemory')],
             formatter: percentagePlainTwoDecimalPlaces,
             type: 'area'
           }}
@@ -216,13 +232,13 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Latency">
+      <DashboardSection title={t('in-forge:plugins.azureRedisCache.dashboard.titleLatency')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['cacheLatency'],
-            labels: ['Latency'],
+            labels: [t('in-forge:plugins.azureRedisCache.dashboard.labelLatency')],
             formatter: muSecondsZeroDecimalPlaces,
             type: 'line'
           }}
@@ -230,13 +246,13 @@ export default function AzureRedisCacheDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Errors">
+      <DashboardSection title={t('in-forge:plugins.azureRedisCache.dashboard.titleErrors')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['errors'],
-            labels: ['Errors'],
+            labels: [t('in-forge:plugins.azureRedisCache.dashboard.labelErrors')],
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}

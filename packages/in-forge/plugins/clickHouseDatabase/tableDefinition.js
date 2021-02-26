@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
@@ -18,7 +20,7 @@ export default {
 
   cols: [
     {
-      title: 'Host',
+      title: t('in-forge:plugins.clickhouseDatabase.titleHost'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId$(row) {
@@ -27,7 +29,7 @@ export default {
       }
     },
     {
-      title: 'Database',
+      title: t('in-forge:plugins.clickhouseDatabase.titleDatabase'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId(row) {
@@ -36,7 +38,7 @@ export default {
       }
     },
     {
-      title: 'Clusters',
+      title: t('in-forge:plugins.clickhouseDatabase.titleClusters'),
       type: 'string',
       typeArgs: {
         getValue(row) {
@@ -48,7 +50,7 @@ export default {
       }
     },
     {
-      title: 'HTTP Connections',
+      title: t('in-forge:plugins.clickhouseDatabase.titleHTTPConnections'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -64,7 +66,7 @@ export default {
       }
     },
     {
-      title: 'Queries',
+      title: t('in-forge:plugins.clickhouseDatabase.titleQueries'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -80,7 +82,7 @@ export default {
       }
     },
     {
-      title: 'Merges',
+      title: t('in-forge:plugins.clickhouseDatabase.titleMerges'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {

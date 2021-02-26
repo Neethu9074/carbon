@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { percentageTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -14,7 +15,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'State',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleState'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -32,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: 'Host',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titleHost'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -41,7 +42,7 @@ const cols = [
     }
   },
   {
-    title: 'Port',
+    title: t('in-forge:plugins.cloudFoundry.dashboard.titlePort'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -65,7 +66,7 @@ export default function InstancesTable({ snapshot, timeConfig, instances }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Instances (${rows.length})`}
+      cardTitle={t('in-forge:plugins.cloudFoundry.dashboard.titleInstancesCount', { instancesCount: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -76,7 +77,7 @@ export default function InstancesTable({ snapshot, timeConfig, instances }) {
 function getRowDetails(row) {
   return (
     <Columize>
-      <DashboardSection title="CPU">
+      <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleCPU')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
@@ -84,13 +85,13 @@ function getRowDetails(row) {
             formatter: percentageTwoDecimalPlaces,
             tooltipFormatter: percentageTwoDecimalPlaces,
             metrics: ['instances_metrics.' + row.key + '.cpu'],
-            labels: ['CPU'],
+            labels: [t('in-forge:plugins.cloudFoundry.dashboard.titleCPU')],
             type: 'stackedArea'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.cloudFoundry.dashboard.titleMemory')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
@@ -98,7 +99,10 @@ function getRowDetails(row) {
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesZeroDecimalPlaces,
             metrics: ['instances_metrics.' + row.key + '.disk', 'instances_metrics.' + row.key + '.memory'],
-            labels: ['Disk', 'Memory'],
+            labels: [
+              t('in-forge:plugins.cloudFoundry.dashboard.labelDisk'),
+              t('in-forge:plugins.cloudFoundry.dashboard.labelMemory')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

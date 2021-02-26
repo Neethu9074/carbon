@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Keyspace',
+    title: t('in-forge:plugins.cassandraNode.dashboard.titleKeyspace'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Reads',
+    title: t('in-forge:plugins.cassandraNode.dashboard.titleReads'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Avg. Read Latency',
+    title: t('in-forge:plugins.cassandraNode.dashboard.titleAvgReadLatency'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Writes',
+    title: t('in-forge:plugins.cassandraNode.dashboard.titleWrites'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,7 +70,7 @@ const cols = [
     }
   },
   {
-    title: 'Avg. Write Latency',
+    title: t('in-forge:plugins.cassandraNode.dashboard.titleAvgWriteLatency'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -85,7 +86,7 @@ const cols = [
     }
   },
   {
-    title: 'SSTables',
+    title: t('in-forge:plugins.cassandraNode.dashboard.titleSSTables'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -101,7 +102,7 @@ const cols = [
     }
   },
   {
-    title: 'Disk Size',
+    title: t('in-forge:plugins.cassandraNode.dashboard.titleDiskSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -132,7 +133,13 @@ export default function KeyspacesTable({ snapshot, timeConfig }) {
     });
 
   return (
-    <Table withoutPadding cardTitle={`Keyspaces (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.cassandraNode.dashboard.titleKeyspacesCount', { keyspacesCount: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
   );
 }
 
@@ -145,14 +152,20 @@ function getDetails(row) {
         min: 0,
         formatter: micros.detailed,
         metrics: ['keyspace.' + row.key + '.readLatency', 'keyspace.' + row.key + '.writeLatency'],
-        labels: ['Average Read Latency', 'Average Write Latency'],
+        labels: [
+          t('in-forge:plugins.cassandraNode.dashboard.labelAverageReadLatency'),
+          t('in-forge:plugins.cassandraNode.dashboard.labelAverageWriteLatency')
+        ],
         type: 'line'
       }}
       y2={{
         min: 0,
         formatter: number.detailed,
         metrics: ['keyspace.' + row.key + '.reads', 'keyspace.' + row.key + '.writes'],
-        labels: ['Reads', 'Writes'],
+        labels: [
+          t('in-forge:plugins.cassandraNode.dashboard.labelReads'),
+          t('in-forge:plugins.cassandraNode.dashboard.labelWrites')
+        ],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, millis, percentagePlainTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -17,11 +18,11 @@ export default function Instance({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Document Count">
+        <KpiKeyValue label={t('in-forge:plugins.azureCosmosDB.dashboard.labelDc')}>
           <MetricValue snapshotId={snapshotId} metric="metrics.instance.dc" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
 
-        <KpiKeyValue label="Service Availability">
+        <KpiKeyValue label={t('in-forge:plugins.azureCosmosDB.dashboard.labelSa')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="metrics.instance.sa"
@@ -30,20 +31,20 @@ export default function Instance({ snapshot, timeConfig }) {
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Instance metrics">
+      <DashboardSection title={t('in-forge:plugins.azureCosmosDB.dashboard.titleInstanceMetrics')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['metrics.instance.tr'],
-            labels: ['Total Requests'],
+            labels: [t('in-forge:plugins.azureCosmosDB.dashboard.labelTr')],
             type: 'line'
           }}
           y2={{
             formatter: zeroDecimalPlaces,
             metrics: ['metrics.instance.mr'],
-            labels: ['Metadata Requests'],
+            labels: [t('in-forge:plugins.azureCosmosDB.dashboard.labelMr')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -55,13 +56,13 @@ export default function Instance({ snapshot, timeConfig }) {
           y1={{
             formatter: millis.detaileds,
             metrics: ['metrics.instance.rl'],
-            labels: ['Read Latency'],
+            labels: [t('in-forge:plugins.azureCosmosDB.dashboard.labelRl')],
             type: 'line'
           }}
           y2={{
             formatter: millis.detailed,
             metrics: ['metrics.instance.wl'],
-            labels: ['Write Latency'],
+            labels: [t('in-forge:plugins.azureCosmosDB.dashboard.labelWl')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
