@@ -26,8 +26,8 @@ export default function NoDataAvailable({ width, height, title, text, className 
 
 NoDataAvailable.propTypes = {
   className: PropTypes.string,
-  height: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   text: PropTypes.string,
   title: PropTypes.string,
-  width: PropTypes.oneOf([PropTypes.string, PropTypes.number])
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
