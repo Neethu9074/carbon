@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -14,29 +15,27 @@ import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
-import createApiList from 'in-settings/components/ApiList';
 import { getView } from 'in-stores/navigation/navigation';
 import { RESTRICTED_ACCESS } from 'in-stores/permission';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import ApiList from 'in-settings/components/ApiList';
 import Button from 'in-new-components/Button';
 import Title from 'in-components/Title/Title';
-
-const GroupsList = createApiList({
-  ListRenderer,
-  getItems: getGroupsAsResultObservable,
-  deleteItem: deleteGroup,
-  itemName: 'group',
-  searchFields: ['name'],
-  orderBy: 'name',
-  renderAdditionalHeaderContent,
-  boundedPath: '/groups'
-});
 
 export default function Groups() {
   return (
     <>
       <Title title="Groups" />
-      <GroupsList />
+      <ApiList
+        ListRenderer={ListRenderer}
+        getItems={getGroupsAsResultObservable}
+        deleteItem={deleteGroup}
+        itemName={t('in-settings:teamSettings.accessControl.groups.itemName')}
+        searchFields={['name']}
+        orderBy="name"
+        renderAdditionalHeaderContent={renderAdditionalHeaderContent}
+        boundedPath="/groups"
+      />
     </>
   );
 }

@@ -2,26 +2,29 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getUsersAsResultObservable, removeUserFromTenant } from 'in-api/users';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
-import createApiList from 'in-settings/components/ApiList';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import ApiList from 'in-settings/components/ApiList';
 import Gravatar from 'in-components/Gravatar';
 
-const UsersList = createApiList({
-  getItems: getUsersAsResultObservable,
-  deleteItem: removeUserFromTenant,
-  itemName: 'User',
-  searchFields: ['fullName', 'email'],
-  orderBy: 'fullName',
-  boundedPath: '/users'
-});
-
 export default function Users(props) {
-  return <UsersList {...props} ListRenderer={DefaultListRenderer} />;
+  return (
+    <ApiList
+      {...props}
+      getItems={getUsersAsResultObservable}
+      deleteItem={removeUserFromTenant}
+      itemName={t('in-settings:teamSettings.accessControl.users.userItemName')}
+      searchFields={['fullName', 'email']}
+      orderBy="fullName"
+      boundedPath="/users"
+      ListRenderer={DefaultListRenderer}
+    />
+  );
 }
 
 export const iconColumn = {

@@ -35,6 +35,7 @@ export default function Users({ members, addUsers, removeUser, noDelete = false 
         renderAdditionalHeaderContent={renderAdditionalHeaderContent}
         getUserLink={user => getEntityIdView(teamSettingsAccessControlUsers, user.id)}
         columnDefinitions={noDelete ? columnDefinition : columnDefinitionWithDelete}
+        itemName="User"
         members={members}
         addUsers={addUsers}
         pageSize={10}

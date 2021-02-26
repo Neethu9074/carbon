@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { removeUserFromGroup, getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
@@ -10,23 +11,19 @@ import { getEntityIdView, teamSettingsAccessControlGroups } from 'in-settings/na
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
-import createApiList from 'in-settings/components/ApiList';
 import KeyValue from 'in-new-components/lists/KeyValue';
-
-const GroupList = createApiList({
-  ListRenderer,
-  getItems: getStrippedGroupsAsResultObservable,
-  itemName: 'Group',
-  orderBy: 'name',
-  renderer: ListInsideACardRenderer,
-  pageSize: 5,
-  renderAdditionalHeaderContent: renderAdditionalHeaderContent,
-  boundedPath: '/unknown' // providing a bad parameter here avoids binding page as matrix parameter.
-});
+import ApiList from 'in-settings/components/ApiList';
 
 export default function Groups({ userId, refresh }) {
   return (
-    <GroupList
+    <ApiList
+      ListRenderer={ListRenderer}
+      getItems={getStrippedGroupsAsResultObservable}
+      itemName={t('in-settings:teamSettings.accessControl.users.capitalGroupItemName')}
+      orderBy="name"
+      renderer={ListInsideACardRenderer}
+      pageSize={5}
+      renderAdditionalHeaderContent={renderAdditionalHeaderContent}
       userId={userId}
       refresh={refresh}
       filterFunction={({ members }) => {

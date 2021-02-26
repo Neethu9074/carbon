@@ -2,67 +2,56 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { compose, withProps, withPropsOnChange, withState } from 'recompose';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { DefaultListRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
+import { pendingResult } from 'in-services/fixedObjects';
 import { error } from 'in-new-components/Message/types';
-import withUrlState from 'in-hoc/withUrlState';
-import connectTo from 'in-hoc/connectTo';
+import useObservable from 'in-hooks/useObservable';
+import useUrlState from 'in-hooks/useUrlState';
 
-export default function createApiList(props) {
-  const { deleteItem, itemName, getItems, boundedPath, orderBy } = props;
+export default function ApiList({ deleteItem, itemName, getItems, boundedPath, orderBy, renderer, ...props }) {
+  const [message, setMessage] = useState();
+  const [currentDeletingItemIds, setCurrentDeletingItemIds] = useState(new Map());
+  const [{ query, page }, setState] = useUrlState({
+    bind: [
+      {
+        path: boundedPath ?? '',
+        name: 'query',
+        initialState: ''
+      },
+      {
+        path: boundedPath ?? '',
+        name: 'page',
+        initialState: 1,
+        parser: intParser
+      }
+    ]
+  });
 
-  return compose(
-    connectTo({ itemsResult: getItems() }),
-    withState('messageFromOutside', 'setMessage', undefined),
-    withPropsOnChange(['messageFromOutside', 'itemsResult'], ({ messageFromOutside }) => ({
-      message: messageFromOutside
-    })),
-    withUrlState({
-      bind: [
-        {
-          path: boundedPath,
-          name: 'query',
-          initialState: ''
-        },
-        {
-          path: boundedPath,
-          name: 'page',
-          initialState: 1,
-          parser: intParser
-        }
-      ],
-      reducerName: 'setState'
-    }),
-    withState('currentDeletingItemIds', 'setCurrentDeletingItemIds', new Map()),
-    withProps(_props => {
-      const setErrorMessage = text => _props.setMessage({ text, type: error });
+  const itemsResult = useObservable(getItems, []) ?? pendingResult;
 
-      const deleteItemAction = deleteItemInternal.bind(
-        null,
-        deleteItem,
-        _props.currentDeletingItemIds,
-        _props.setCurrentDeletingItemIds,
-        setErrorMessage,
-        itemName
-      );
+  const setErrorMessage = text => setMessage({ text, type: error });
+  const newProps = {
+    ...props,
+    setErrorMessage,
+    currentDeletingItemIds,
+    itemName,
+    getItems,
+    boundedPath,
+    deleteItem: id =>
+      deleteItemInternal(deleteItem, currentDeletingItemIds, setCurrentDeletingItemIds, setErrorMessage, itemName, id),
+    orderBy: orderBy || 'name',
+    setQuery: query => setState({ query, page: 1 }),
+    setPage: page => setState({ page }),
+    query,
+    page,
+    message,
+    itemsResult
+  };
 
-      return {
-        ...props,
-        setErrorMessage,
-        deleteItem: id => deleteItemAction(id),
-        orderBy: orderBy || 'name',
-        setQuery: query => _props.setState({ query, page: 1 }),
-        setPage: page => _props.setState({ page })
-      };
-    })
-  )(Render);
-}
-
-function Render(props) {
-  return props.renderer ? props.renderer(props) : <DefaultListRenderer {...props} />;
+  return renderer ? renderer(newProps) : <DefaultListRenderer {...newProps} />;
 }
 
 function deleteItemInternal(deleteItem, currentIds, setCurrentDeletingItemIds, setErrorMessage, itemName, id) {

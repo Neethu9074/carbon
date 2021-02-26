@@ -8,21 +8,23 @@ import TwoFactorMarker from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/T
 import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { getUsersAsResultObservable } from 'in-settings/tabs/AuthSettings/api/twoFactorAuth';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
-import createApiList from 'in-settings/components/ApiList';
 import { compare } from 'in-services/formatters/boolean';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import ApiList from 'in-settings/components/ApiList';
 import Gravatar from 'in-components/Gravatar';
 
-const UsersList = createApiList({
-  getItems: getUsersAsResultObservable,
-  itemName: 'User',
-  searchFields: ['fullName', 'email'],
-  orderBy: (user1, user2) => compare(user1.twoFaEnabled, user2.twoFaEnabled),
-  boundedPath: '/users'
-});
-
 export default function Users(props) {
-  return <UsersList {...props} ListRenderer={DefaultListRenderer} />;
+  return (
+    <ApiList
+      {...props}
+      getItems={getUsersAsResultObservable}
+      itemName="User"
+      searchFields={['fullName', 'email']}
+      orderBy={(user1, user2) => compare(user1.twoFaEnabled, user2.twoFaEnabled)}
+      boundedPath="/users"
+      ListRenderer={DefaultListRenderer}
+    />
+  );
 }
 
 const columnDefinitions = [

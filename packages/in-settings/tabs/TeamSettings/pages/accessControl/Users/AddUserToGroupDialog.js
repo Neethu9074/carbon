@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
@@ -10,18 +11,11 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
-import createApiList from 'in-settings/components/ApiList';
 import Dialog from 'in-new-components/Dialog/Dialog';
+import ApiList from 'in-settings/components/ApiList';
 import Button from 'in-new-components/Button';
 
 import locals from './AddUserToGroupDialog.mless';
-
-const GroupList = createApiList({
-  ListRenderer,
-  getItems: getGroupsAsResultObservable,
-  itemName: 'group',
-  orderBy: 'name'
-});
 
 export default withSelectableItems(function AddUserToGroupDialog({
   userId,
@@ -38,7 +32,11 @@ export default withSelectableItems(function AddUserToGroupDialog({
           onSubmit(Array.from(selectedEntities.values()));
         }}
       >
-        <GroupList
+        <ApiList
+          ListRenderer={ListRenderer}
+          getItems={getGroupsAsResultObservable}
+          itemName={t('in-settings:teamSettings.accessControl.users.groupItemName')}
+          orderBy="name"
           userId={userId}
           checkIfSelected={checkIfSelected}
           toggleItem={toggleItem}

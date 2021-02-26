@@ -62,5 +62,21 @@
       "title": "Tailored Onboarding Experience and NPS Surveys",
       "purpose": "User Onboarding and NPS store survey."
     }
+  },
+  "teamSettings": {
+    "accessControl": {
+      "invites": {
+        "itemName": "pending invitation",
+        "searchPlaceHolder": "Filter invites"
+      },
+      "groups": {
+        "itemName": "group"
+      },
+      "users": {
+        "groupItemName": "group",
+        "capitalGroupItemName": "Group",
+        "userItemName": "User"
+      }
+    }
   }
 }
