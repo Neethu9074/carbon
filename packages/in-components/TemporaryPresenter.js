@@ -2,60 +2,57 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
-export default class TemporaryPresenter extends React.PureComponent {
-  state = {
-    showChildren: false,
-    renderedForId: null
-  };
+const TemporaryPresenter = React.memo(function TemporaryPresenter(props) {
+  const [showChildren, setShowChildren] = useState(false);
+  const [renderedForId, setRenderedForId] = useState(null);
+  let timeout = null;
 
-  componentDidMount() {
-    this.onPropChange(this.props);
-  }
+  useEffect(() => {
+    return () => {
+      stopTimeout();
+    };
+  }, []);
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    this.onPropChange(nextProps);
-  }
+  useEffect(() => {
+    onPropChange(props);
+  }, [props, onPropChange]);
 
-  onPropChange(nextProps) {
-    if (this.state.renderedForId === nextProps.id) {
-      // nothing to do
+  function onPropChange(nextProps) {
+    if (renderedForId === nextProps.id) {
       return;
     }
 
-    this.stopTimeout();
-    this.setState({
-      showChildren: true,
-      renderedForId: nextProps.id
-    });
-
+    stopTimeout();
+    setShowChildren(true);
+    setRenderedForId(nextProps.id);
     if (nextProps.duration) {
-      this.timeout = setTimeout(this.hideChildren, nextProps.duration);
+      timeout = setTimeout(hideChildren, nextProps.duration);
     }
   }
 
-  hideChildren = () => {
-    this.setState({
-      showChildren: false
-    });
-    if (this.props.onHide) {
-      this.props.onHide();
-    }
-  };
-
-  componentWillUnmount() {
-    this.stopTimeout();
+  function hideChildren() {
+    setShowChildren(false);
+    props?.onHide?.();
   }
 
-  stopTimeout = () => {
-    clearTimeout(this.timeout);
-  };
-
-  render() {
-    if (this.state.showChildren && this.props.children) {
-      return this.props.children;
-    }
-    return null;
+  function stopTimeout() {
+    clearTimeout(timeout);
   }
-}
+
+  if (showChildren && props.children) {
+    return props.children;
+  }
+  return null;
+});
+
+TemporaryPresenter.propTypes = {
+  id: PropTypes.string.isRequired,
+  duration: PropTypes.number.isRequired,
+  onHide: PropTypes.func,
+  children: PropTypes.object.isRequired
+};
+
+export default TemporaryPresenter;

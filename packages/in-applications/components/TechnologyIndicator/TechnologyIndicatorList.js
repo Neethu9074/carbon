@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import React, { useState, useEffect } from 'react';
 import { uniqBy } from 'lodash';
-import React from 'react';
 
 import TechnologyIndicator from 'in-applications/components/TechnologyIndicator';
 import getElementDimensions from 'in-hoc/getElementDimensions';
@@ -11,46 +12,34 @@ import { getLabel } from 'in-applications/technologyRegistry';
 
 import locals from './TechnologyIndicatorList.mless';
 
-export default getElementDimensions(
-  class extends React.Component {
-    static displayName = 'TechnologyIndicatorList';
+export default getElementDimensions(function TechnologyIndicatorList({ technologies, getHref$, width, responsive }) {
+  const [showTechnologyLabel, setShowTechnologyLabel] = useState(true);
 
-    state = {
-      showTechnologyLabel: true
-    };
-
-    UNSAFE_componentWillUpdate(nextProps) {
-      if (!nextProps.width) {
-        return;
-      }
-
-      const responsive = nextProps.responsive === undefined ? true : nextProps.responsive;
-      const shouldShowTechnologyLabel = !responsive || (responsive && (!nextProps.width || nextProps.width > 144));
-      if (!this.props.width) {
-        if (this.state.showTechnologyLabel !== shouldShowTechnologyLabel) {
-          this.setState({
-            showTechnologyLabel: shouldShowTechnologyLabel
-          });
-        }
-      }
+  useEffect(() => {
+    if (!width) {
+      return;
     }
-
-    render() {
-      const { technologies, getHref$ } = this.props;
-
-      return (
-        <ul className={locals.list}>
-          {technologies?.length > 0 &&
-            uniqBy(technologies, getLabel).map(pluginOrGroupType => (
-              <TechnologyIndicator
-                getHref$={getHref$}
-                key={pluginOrGroupType}
-                pluginOrGroupType={pluginOrGroupType}
-                showTechnologyLabel={this.state.showTechnologyLabel}
-              />
-            ))}
-        </ul>
-      );
+    const isResponsive = responsive === undefined ? true : responsive;
+    const shouldShowTechnologyLabel = !isResponsive || (isResponsive && (!width || width > 144));
+    if (showTechnologyLabel !== shouldShowTechnologyLabel) {
+      // Width keeps changing on window resizes
+      // Update the label visibility status only when the value changes
+      setShowTechnologyLabel(shouldShowTechnologyLabel);
     }
-  }
-);
+  }, [width, responsive]);
+
+  return (
+    <ul className={locals.list}>
+      {technologies?.length > 0 &&
+        uniqBy(technologies, getLabel).map(pluginOrGroupType => (
+          <TechnologyIndicator
+            getHref$={getHref$}
+            key={pluginOrGroupType}
+            pluginOrGroupType={pluginOrGroupType}
+            showTechnologyLabel={showTechnologyLabel}
+          />
+        ))}
+    </ul>
+  );
+  // }
+});
