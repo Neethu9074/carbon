@@ -58,7 +58,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
             <MetricValue snapshotId={snapshotId} metric="status.DB_QUERY_LATENCY" formatter={millis.compact} />
           </KpiKeyValue>
         ) : null}
-        <KpiKeyValue label="Client Connections">
+        <KpiKeyValue label="Threads Connected">
           <MetricValue snapshotId={snapshotId} metric="status.THREADS_CONNECTED" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
@@ -138,7 +138,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
           y1={{
             min: 0,
             metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
-            labels: ['Connections', 'Max used connections', 'Aborted connects'],
+            labels: ['Threads connected', 'Max used connections', 'Aborted connects'],
             type: 'line',
             formatter: number.compact
           }}

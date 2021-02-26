@@ -11,7 +11,7 @@ export default [
     formatter: number.compact
   },
   {
-    label: 'Client Connections',
+    label: 'Threads connected',
     metric: 'status.THREADS_CONNECTED',
     formatter: number.compact
   }
