@@ -8,7 +8,7 @@
     "clean": "gulp clean",
     "build": "export BUILD_DEV='false' && node --max-old-space-size=4096 node_modules/.bin/gulp build",
     "try-build": "export BUILD_DEV='false' && gulp try-build",
-    "test": "yarn run copyright:check && yarn run test:unit && yarn run test:lint",
+    "test": "yarn run test:unit && yarn run test:lint",
     "test:lint": "eslint gulpfile.js packages",
     "test:lint:quiet": "eslint --quiet gulpfile.js packages",
     "test:unit": "export IS_TEST='true' && gulp prepareTestExecution && node --max-old-space-size=4096 ./node_modules/.bin/mocha --timeout 6000 --require ./packages/in-test/testHarness --reporter dot --exclude '**/node_modules/**' 'packages/**/*_test.js' --exit",
@@ -16,8 +16,6 @@
     "check:licenses": "build/create-license-report.sh",
     "check:bundle-size": "ANALYZE_BUNDLE=true yarn run build",
     "check:yarn-lock-exists": "./build/precommit/checkYarnLock.js",
-    "copyright:check": "./build/copyright/checkCopyrightHeader.js",
-    "copyright:add": "./build/copyright/addCopyrightHeader.js",
     "dev": "yarn && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=4096 node_modules/gulp/bin/gulp.js dev",
     "storybook": "export STORYBOOK='true' && export BUILD_DEV='true' && export NODE_ENV='development' && gulp prepareTestExecution && export DEV_TOOLS='eval' && node --max-old-space-size=4096 ./node_modules/.bin/start-storybook -p 9001 -c storybook/config --no-version-updates",
     "storybookTest": "export STORYBOOK='true' && chromatic test -d storybookTarget --list --exit-zero-on-changes",
@@ -26,11 +24,11 @@
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --single-quote --print-width 120 --write \"packages/**/*.{js,less}\"",
     "postinstall": "./build/postInstall",
-    "precommit": "yarn run check:yarn-lock-exists && lint-staged && yarn run copyright:check && yarn run test:unit && git add README.md "
+    "precommit": "yarn run check:yarn-lock-exists && lint-staged && yarn run test:unit && git add README.md "
   },
   "lint-staged": {
     "*.js": [
-      "eslint",
+      "eslint --fix",
       "prettier --single-quote --print-width 120 --write",
       "git add"
     ],
@@ -141,6 +139,7 @@
     "eslint": "^5.5.0",
     "eslint-config-prettier": "^3.0.1",
     "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-header": "3.1.0",
     "eslint-plugin-mocha": "^6.0.0",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-react-hooks": "^4.2.0",

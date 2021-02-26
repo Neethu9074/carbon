@@ -11,7 +11,7 @@ module.exports = {
     sourceType: 'module'
   },
 
-  plugins: ['react', 'mocha', 'babel'],
+  plugins: ['react', 'mocha', 'babel', 'header'],
 
   settings: {
     react: {
@@ -33,6 +33,24 @@ module.exports = {
   })(),
 
   rules: {
+    'header/header': [
+      2,
+      'block',
+      [
+        '',
+        {
+          template: ` * (c) Copyright IBM Corp. ${new Date().getFullYear()}`,
+          pattern: /^ \* \(c\) Copyright IBM Corp\. \d\d\d\d$/
+        },
+        {
+          template: ` * (c) Copyright Instana Inc. ${new Date().getFullYear()}`,
+          pattern: /^ \* \(c\) Copyright Instana Inc\.( \d\d\d\d)?$/
+        },
+        ' '
+      ],
+      1
+    ],
+
     // ###########################################################
     // ### Semantics / Performance impacting
     // ###########################################################

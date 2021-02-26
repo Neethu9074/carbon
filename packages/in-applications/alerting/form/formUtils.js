@@ -1,10 +1,11 @@
-import { isEmpty } from 'lodash';
-import { t } from 'in-i18n';
-
 /*
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import { isEmpty } from 'lodash';
+import { t } from 'in-i18n';
+
 import { getLogLevelRuleOperatorLabel, getStatusCodeLabel } from 'in-applications/alerting/form/ruleFormData';
 import { getValueRoundedToDecimals } from 'in-new-components/Alerting/utils/formatUtils';
 import { getAggregationText } from 'in-new-components/Alerting/utils/formUtils';

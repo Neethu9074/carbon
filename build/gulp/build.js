@@ -16,7 +16,6 @@ const gulp = require('gulp');
 const path = require('path');
 const fs = require('fs');
 
-const { copyrightHeader } = require('../copyright/copyrightHeader.js');
 const webpackConfig = require('../../webpack.config.js');
 const { createI18nFiles } = require('./i18n');
 const commonJobs = require('./common');
@@ -100,7 +99,10 @@ function webpackBuild(cb) {
       sourceMap: true,
       terserOptions: {
         output: {
-          preamble: copyrightHeader,
+          preamble: `/*
+ * (c) Copyright IBM Corp. ${new Date().getFullYear()}
+ * (c) Copyright Instana Inc. ${new Date().getFullYear()}
+ */`,
           comments: false
         }
       },
