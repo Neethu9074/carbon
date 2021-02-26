@@ -10,6 +10,7 @@ import { EXPRESSION, OPERATOR_AND } from 'in-new-components/QueryBuilder/transfo
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import ExistingValue from 'in-applications/analyze/components/FacetedSearch/ExistingValue';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { ua2FacetedSearchFilterAddedTracker } from 'in-applications/tracker';
 import Link from 'in-components/Link';
 
 import locals from './Suggestion.mless';
@@ -23,15 +24,15 @@ const ranges = [
   { start: 500, end: 599 }
 ];
 
-export default function FacetedFilterHttpStatusCodes({ title, tagFilterExpression, updateFilter }) {
+export default function FacetedFilterHttpStatusCodes({ title, tagFilterExpression, updateFilter, dataSource }) {
   return (
     <FacetedExpandableCard title={title}>
-      <Body tagFilterExpression={tagFilterExpression} updateFilter={updateFilter} />
+      <Body tagFilterExpression={tagFilterExpression} updateFilter={updateFilter} dataSource={dataSource} />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tagFilterExpression, updateFilter }) {
+function Body({ tagFilterExpression, updateFilter, dataSource }) {
   const currentFilters = existingFiltersForTag(tagFilterExpression);
   const selectedRanges =
     currentFilters &&
@@ -50,7 +51,7 @@ function Body({ tagFilterExpression, updateFilter }) {
   return (
     <>
       {ranges.map(range => (
-        <Suggestion key={range.start} range={range} updateFilter={updateFilter} />
+        <Suggestion key={range.start} range={range} updateFilter={updateFilter} dataSource={dataSource} />
       ))}
     </>
   );
@@ -97,11 +98,12 @@ function SelectedRanges({ selectedRanges, updateFilter }) {
   );
 }
 
-function Suggestion({ range, updateFilter }) {
+function Suggestion({ range, updateFilter, dataSource }) {
   return (
     <div className={locals.suggestion}>
       <Link
         onClick={() => {
+          ua2FacetedSearchFilterAddedTracker({ dataSource, tagName: tag });
           updateFilter({
             add: [
               {

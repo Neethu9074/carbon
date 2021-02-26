@@ -5,6 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import { range } from 'lodash';
 
+import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-new-components/tracker';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import Skeleton from 'in-new-components/Loading/Skeleton';
@@ -28,7 +29,8 @@ export default function SuggestionsPresenter({
   tag,
   getUpdatedTagExpressionHref,
   getHrefToGroupedView,
-  customLabelMapper
+  customLabelMapper,
+  dataSource
 }) {
   const [numberOfPresentedRows, setNumberOfPresentedRows] = useState(DEFAULT_SUGGESTIONS_SIZE);
   if (loading) {
@@ -46,6 +48,7 @@ export default function SuggestionsPresenter({
         getHrefToGroupedView={getHrefToGroupedView}
         setNumberOfPresentedRows={setNumberOfPresentedRows}
         customLabelMapper={customLabelMapper}
+        dataSource={dataSource}
       />
     );
   } else {
@@ -77,7 +80,8 @@ function Results({
   getUpdatedTagExpressionHref,
   getHrefToGroupedView,
   setNumberOfPresentedRows,
-  customLabelMapper = identity
+  customLabelMapper = identity,
+  dataSource
 }) {
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
   const nextBatch = Math.min(suggestions.length - showMore, 20);
@@ -111,6 +115,7 @@ function Results({
                   }
                 ]
               })}
+              onClick={() => ua2FacetedSearchFilterAddedTracker({ dataSource, tagName: tag })}
               className={locals.addSuggestion}
               style={{ textDecoration: 'none' }}
             >
@@ -127,7 +132,12 @@ function Results({
           </Button>
         )}
         <div />
-        <Button className={locals.useAsGroup} kind="action" href={getHrefToGroupedView(tag)}>
+        <Button
+          className={locals.useAsGroup}
+          kind="action"
+          href={getHrefToGroupedView(tag)}
+          onClick={() => ua2FacetedSearchGroupChangedTracker({ dataSource, tagName: tag })}
+        >
           {t('in-new-components:analyze.useAsGroup')}
         </Button>
       </div>

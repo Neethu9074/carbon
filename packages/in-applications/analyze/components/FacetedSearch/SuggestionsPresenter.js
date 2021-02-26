@@ -5,6 +5,7 @@
 import React, { useEffect, useState } from 'react';
 import { range } from 'lodash';
 
+import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-applications/tracker';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
@@ -111,7 +112,8 @@ function Results({
             delay={1000}
           >
             <Link
-              onClick={() =>
+              onClick={() => {
+                ua2FacetedSearchFilterAddedTracker({ dataSource, tagName: tag });
                 updateFilter({
                   add: [
                     {
@@ -121,8 +123,8 @@ function Results({
                       value: suggestion.label
                     }
                   ]
-                })
-              }
+                });
+              }}
               className={locals.addSuggestion}
             >
               <span className={locals.label}>{customLabelMapper(suggestion.label)}</span>
@@ -143,12 +145,13 @@ function Results({
         <Button
           className={locals.useAsGroup}
           kind="action"
-          onClick={() =>
+          onClick={() => {
+            ua2FacetedSearchGroupChangedTracker({ dataSource, tagName: tag });
             updateGroup({
               groupbyTag: tag,
               ...(entity && { groupbyTagEntity: entity })
-            })
-          }
+            });
+          }}
         >
           {t('in-new-components:analyze.useAsGroup')}
         </Button>

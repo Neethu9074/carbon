@@ -28,7 +28,20 @@ import {
   ungroupedChartingOptions,
   groupedChartingOptions
 } from 'in-applications/analyze/components/ChartingPresenter/chartingOptions';
-import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import {
+  ua2QueryBuilderFilterAddedTracker,
+  ua2GroupChangedTracker,
+  ua2ChartChangedTracker,
+  ua2OrderByChangedTracker,
+  ua2OrderByGroupChangedTracker,
+  ua2ApiQueryPressedTracker,
+  ua2NestingDepthTracker
+} from 'in-applications/tracker';
+import {
+  EMPTY_EXPRESSION,
+  toBackendQueryModel,
+  getMaximumExpressionDepth
+} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import TraceQueryBuilder, { isTraceQueryValid } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import CallQueryBuilder, { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -188,8 +201,14 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
       groupBy: {}
     });
   };
-  const onChangeOrderByGroups = orderBy => onChange({ orderByGroups: orderBy });
-  const onChangeOrderBy = orderBy => onChange({ orderBy: { by: orderBy.orderBy, direction: orderBy.orderDirection } });
+  const onChangeOrderByGroups = orderBy => {
+    ua2OrderByGroupChangedTracker({ dataSource, ...orderBy });
+    onChange({ orderByGroups: orderBy });
+  };
+  const onChangeOrderBy = orderBy => {
+    ua2OrderByChangedTracker({ dataSource, by: orderBy.orderBy, direction: orderBy.orderDirection });
+    onChange({ orderBy: { by: orderBy.orderBy, direction: orderBy.orderDirection } });
+  };
   const onChangeMetrics = metrics => {
     const isOrderByInMetricList = [...dataSourceConstants[dataSource].fixedMetrics, ...metrics]
       .map(metric => aggregateMetricKey(metric.metric, metric.aggregation))
@@ -269,6 +288,14 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               hasError={isInvalidExpression}
               errors={validTagFilterExpressionResult.errors}
               useLastValidStateWhenErroneous
+              tracking={{
+                onTagAdded: tagFilter => ua2QueryBuilderFilterAddedTracker({ dataSource, tagName: tagFilter.name }),
+                onQueryChanged: formModel =>
+                  ua2NestingDepthTracker({
+                    dataSource,
+                    nestingDepth: getMaximumExpressionDepth(toBackendQueryModel(formModel))
+                  })
+              }}
             />
 
             <GroupingConfiguratorSection
@@ -276,6 +303,9 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               onChange={onGroupByChange}
               GroupingConfigurator={dataSource === 'traces' ? TraceGroupingConfigurator : CallGroupingConfigurator}
               tagFilterExpression={backendQueryModel}
+              tracking={{
+                onGroupAdded: group => ua2GroupChangedTracker({ dataSource, tagName: group.groupbyTag })
+              }}
             />
 
             <ChartingConfiguratorSection
@@ -284,6 +314,10 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               onChange={onChangeCharts}
               hideRenderer
               disableClose
+              tracking={{
+                onChartChanged: ({ metricId, aggregationId }) =>
+                  ua2ChartChangedTracker({ dataSource, metric: metricId, aggregation: aggregationId })
+              }}
             />
 
             {chartEnabled && (
@@ -301,7 +335,16 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               />
             )}
 
-            <ActionSection right={<ApiQueryAction backendQueryModel={backendQueryModel} />} />
+            <ActionSection
+              right={
+                <ApiQueryAction
+                  backendQueryModel={backendQueryModel}
+                  tracking={{
+                    onClick: () => ua2ApiQueryPressedTracker({ dataSource })
+                  }}
+                />
+              }
+            />
           </Sections>
 
           {isInvalid && (

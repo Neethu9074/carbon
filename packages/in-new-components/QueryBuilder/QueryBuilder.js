@@ -77,6 +77,7 @@ function QueryBuilder({
       !useLastValidStateWhenErroneous ||
       (tagCatalog?.data && isFormModelValid({ tagCatalog: tagCatalog.data, formModel: formModel }))
     ) {
+      tracking?.onQueryChanged?.(formModel);
       onValidChange(formModel);
     } else {
       onError(true);
@@ -379,7 +380,8 @@ function Elements({
 
 export const trackingProps = {
   onTagAdded: rpt.func,
-  onTagRemoved: rpt.func
+  onTagRemoved: rpt.func,
+  onQueryChanged: rpt.func
 };
 
 QueryBuilder.propTypes = {

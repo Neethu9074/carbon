@@ -9,6 +9,7 @@ import React from 'react';
 
 import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { optionsPropType } from 'in-new-components/SortingConfigurator/SortingConfigurator';
+import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-new-components/tracker';
 import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
 import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { getAvailableMetrics } from 'in-new-components/AnalyzeView/metrics';
@@ -120,6 +121,12 @@ export default function UngroupedAnalyzeView(props) {
             )
           }
           withSamplingTooltip={withSamplingTooltip}
+          tracking={{
+            onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+            onMetricAggregationChanged: ({ metric, aggregation }) =>
+              ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+            onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
+          }}
         />
       )}
 

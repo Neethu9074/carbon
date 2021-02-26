@@ -4,13 +4,13 @@
  */
 import React from 'react';
 
-import FacetedExpandableCard from 'in-new-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
 import {
   toBackendQueryModel,
   getRangeFromBackendQueryModel,
   updateRange
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-
+import FacetedExpandableCard from 'in-new-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
+import { ua2FacetedSearchFilterAddedTracker } from 'in-new-components/tracker';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
@@ -21,15 +21,31 @@ import { t } from 'in-i18n';
 
 import locals from './FacetedFilterRangeInput.mless';
 
-export default function FacetedFilterRangeInput({ title, tag, formModel, updateFilter, isValid, openByDefault, unit }) {
+export default function FacetedFilterRangeInput({
+  title,
+  tag,
+  formModel,
+  updateFilter,
+  isValid,
+  openByDefault,
+  unit,
+  dataSource
+}) {
   return (
     <FacetedExpandableCard title={title} openByDefault={openByDefault}>
-      <Body tag={tag} formModel={formModel} updateFilter={updateFilter} isValid={isValid} unit={unit} />
+      <Body
+        tag={tag}
+        formModel={formModel}
+        updateFilter={updateFilter}
+        isValid={isValid}
+        unit={unit}
+        dataSource={dataSource}
+      />
     </FacetedExpandableCard>
   );
 }
 
-function Body({ tag, formModel, updateFilter, isValid, unit }) {
+function Body({ tag, formModel, updateFilter, isValid, unit, dataSource }) {
   const [minInput, setMinInput] = React.useState('');
   const [maxInput, setMaxInput] = React.useState('');
   const [effectiveRange, setEffectiveRange] = React.useState({});
@@ -72,12 +88,12 @@ function Body({ tag, formModel, updateFilter, isValid, unit }) {
             onChange={e => (Number(e.target.value) > 0 ? setMinInput(Number(e.target.value)) : setMinInput(''))}
             onBlur={() =>
               (effectiveRange.from !== minInput || isError) &&
-              validateInputAndSetTagFilter(tag, minInput, maxInput, formModel, updateFilter, setError)
+              validateInputAndSetTagFilter(tag, minInput, maxInput, formModel, updateFilter, setError, dataSource)
             }
             onKeyDown={e =>
               e.keyCode === keyCodes.enter &&
               (effectiveRange.from !== minInput || isError) &&
-              validateInputAndSetTagFilter(tag, minInput, maxInput, formModel, updateFilter, setError)
+              validateInputAndSetTagFilter(tag, minInput, maxInput, formModel, updateFilter, setError, dataSource)
             }
           />
         </FormGroup>
@@ -97,12 +113,12 @@ function Body({ tag, formModel, updateFilter, isValid, unit }) {
             onChange={e => (Number(e.target.value) > 0 ? setMaxInput(Number(e.target.value)) : setMaxInput(''))}
             onBlur={() =>
               (effectiveRange.to !== maxInput || isError) &&
-              validateInputAndSetTagFilter(tag, minInput, maxInput, formModel, updateFilter, setError)
+              validateInputAndSetTagFilter(tag, minInput, maxInput, formModel, updateFilter, setError, dataSource)
             }
             onKeyDown={e =>
               e.keyCode === keyCodes.enter &&
               (effectiveRange.to !== maxInput || isError) &&
-              validateInputAndSetTagFilter(tag, minInput, maxInput, formModel, updateFilter, setError)
+              validateInputAndSetTagFilter(tag, minInput, maxInput, formModel, updateFilter, setError, dataSource)
             }
           />
         </FormGroup>
@@ -114,11 +130,12 @@ function Body({ tag, formModel, updateFilter, isValid, unit }) {
   );
 }
 
-function validateInputAndSetTagFilter(tag, minInput, maxInput, formModel, updateFilter, setError) {
+function validateInputAndSetTagFilter(tag, minInput, maxInput, formModel, updateFilter, setError, dataSource) {
   if (minInput > maxInput && maxInput !== '') {
     setError(true);
   } else {
     setError(false);
+    ua2FacetedSearchFilterAddedTracker({ dataSource, tagName: tag });
     updateRange({
       tag: tag,
       selection: {

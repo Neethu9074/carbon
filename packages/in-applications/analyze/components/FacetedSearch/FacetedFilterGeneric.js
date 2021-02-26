@@ -119,7 +119,7 @@ function SearchAndSuggestions({
   valueFilter,
   setValueFilter,
   dataSource,
-  customLabelMapper
+  customLabelMapper = identity
 }) {
   const timeConfig = useTimeConfig();
   const suggestionsFromServer = () =>

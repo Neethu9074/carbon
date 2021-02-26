@@ -11,7 +11,13 @@ import { userSelectableRenderer } from 'in-custom-dashboards/widgets/Chart/rende
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { emptyArray } from 'in-services/fixedObjects';
 
-export default function Configurator({ onChartedMetricsChange, chartedMetrics, metricCatalog, metricCatalogFilter }) {
+export default function Configurator({
+  onChartedMetricsChange,
+  chartedMetrics,
+  metricCatalog,
+  metricCatalogFilter,
+  tracking
+}) {
   return (
     <ChartingConfiguratorSection
       value={chartedMetrics?.[0]}
@@ -30,6 +36,7 @@ export default function Configurator({ onChartedMetricsChange, chartedMetrics, m
           })) || emptyArray
       }
       onChange={metric => onChartedMetricsChange(metric ? [metric] : [])}
+      tracking={tracking}
       hideRenderer
       disableClose
     />
@@ -38,5 +45,8 @@ export default function Configurator({ onChartedMetricsChange, chartedMetrics, m
 
 Configurator.propTypes = {
   ...childrenArgsAsPropTypes,
-  metricCatalogFilter: rpt.func
+  metricCatalogFilter: rpt.func,
+  tracking: rpt.shape({
+    onChartChanged: rpt.func
+  })
 };

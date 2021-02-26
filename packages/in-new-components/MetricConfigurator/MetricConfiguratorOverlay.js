@@ -45,8 +45,8 @@ export default function MetricConfiguratorOverlay({
   );
 
   function onRemoveItem(metric, index) {
+    tracking?.onMetricRemoved?.({ ...metric.toJS() });
     onChange([], form => form.remove(index).setTouched(false));
-    tracking?.onMetricRemoved?.(metric);
   }
 
   function onAddItem({ metric, aggregation }) {

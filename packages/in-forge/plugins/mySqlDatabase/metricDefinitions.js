@@ -29,7 +29,7 @@ export default [
   },
   {
     metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
-    labels: ['Connections', 'Max used connections', 'Aborted connects'],
+    labels: ['Threads connected', 'Max used connections', 'Aborted connects'],
     min: 0,
     category: ['Clients'],
     formatter: number

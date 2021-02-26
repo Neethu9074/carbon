@@ -19,6 +19,7 @@ import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/bac
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
+import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-applications/tracker';
 import { NUMBER, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
@@ -100,12 +101,10 @@ export default function GroupedList({
   );
 
   useEffect(() => {
-    if (isValid) {
-      if (onResult) {
-        onResult(result);
-      }
+    if (isValid && onResult) {
+      onResult(result);
     }
-  }, [result?.progress.loading, isValid, onResult]);
+  }, [result?.progress.loading, isValid, onResult, tagFilterExpression, dataSource]);
 
   const groupingTagCatalog = useTagCatalog(
     dataSource === 'traces' ? getTraceGroupingTagCatalog : getCallGroupingTagCatalog
@@ -500,6 +499,12 @@ function HeaderRow({
         metrics={selectableMetrics}
         setMetrics={onChangeMetrics}
         metricOptions={metricOptions}
+        tracking={{
+          onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+          onMetricAggregationChanged: ({ metric, aggregation }) =>
+            ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+          onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
+        }}
       />
       {internalVisible && (
         <div className={locals.preview}>

@@ -32,6 +32,18 @@ export const ANALYZE_TRACE_CLICK = 'analyze.trace.click';
 export const ANALYZE_LATENCY_PERCENTILE_MENU_CLICK = 'analyze.latency.percentile.click';
 export const ANALYZE_LATENCY_SELECTION_CHANGED = 'analyze.latency.selection.changed';
 
+export const ANALYZE_UA2_FACETED_SEARCH_FILTER_ADDED = 'analyze.ua2.facetedSearch.filter.added';
+export const ANALYZE_UA2_FACETED_SEARCH_GROUP_CHANGED = 'analyze.ua2.facetedSearch.group.changed';
+export const ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED = 'analyze.ua2.queryBuilder.filter.added';
+export const ANALYZE_UA2_GROUP_CHANGED = 'analyze.ua2.group.changed';
+export const ANALYZE_UA2_CHART_CHANGED = 'analyze.ua2.chart.changed';
+export const ANALYZE_UA2_METRIC_ADDED = 'analyze.ua2.metric.added';
+export const ANALYZE_UA2_METRIC_REMOVED = 'analyze.ua2.metric.removed';
+export const ANALYZE_UA2_ORDER_BY_CHANGED = 'analyze.ua2.orderBy.changed';
+export const ANALYZE_UA2_ORDER_BY_GROUP_CHANGED = 'analyze.ua2.orderByGroup.changed';
+export const ANALYZE_UA2_API_QUERY_PRESSED = 'analyze.ua2.apiQuery.pressed';
+export const ANALYZE_UA2_NESTING_DEPTH = 'analyze.ua2.nesting.depth';
+
 export const APPLICATION_CLICK_CREATE = 'application.click.create';
 export const APPLICATION_CLICK_SUBMIT = 'application.click.submit';
 export const APPLICATION_CLICK_SOURCE_OR_DESTINATION = 'application.click.changeSourceOrDestination';
