@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import {
   mapApplications,
@@ -89,7 +90,7 @@ const columnDefinitions = [
   {
     width: '15rem',
     getContent({ item }) {
-      return <KeyValue label="Group" customValue={item.group.name} />;
+      return <KeyValue label={t('in-settings:tabs.group')} customValue={item.group.name} />;
     }
   }
 ];

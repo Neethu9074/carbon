@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { getUsersAsResultObservable, removeUserFromTenant } from 'in-api/users';
@@ -11,6 +10,7 @@ import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import ApiList from 'in-settings/components/ApiList';
 import Gravatar from 'in-components/Gravatar';
+import { t } from 'in-i18n';
 
 export default function Users(props) {
   return (
@@ -36,7 +36,9 @@ export const iconColumn = {
 
 export const labelColumn = {
   getContent({ user, email }) {
-    return <KeyValue value={user?.fullName || 'User does not exist'} label={email} inverted accentuated />;
+    return (
+      <KeyValue value={user?.fullName || t('in-settings:tabs.userDoesNotExist')} label={email} inverted accentuated />
+    );
   }
 };
 

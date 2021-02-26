@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createMapForm, createField, createListForm } from 'formalistic';
+import { t } from 'in-i18n';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { generateUniqueShortId } from 'in-services/util/id';
@@ -51,9 +52,9 @@ function createValidationError(errorMessage) {
   ];
 }
 
-const notBlankError = createValidationError('The value must not be blank.');
+const notBlankError = createValidationError(t('in-settings:tabs.theValueMustNotBeBlank'));
 
-const invalidCharsValidator = createValidationError(`Only '.', '-', '_' or any alpha-numerical are allowed.`);
+const invalidCharsValidator = createValidationError(t('in-settings:tabs.onlyOrAnyAlphaNumericalAreAllowed'));
 
 function keyNameValidator(s) {
   if (isBlank(s)) {
@@ -81,7 +82,7 @@ function longNumberValidator(num) {
   }
 }
 
-const numberMustBeLong = createValidationError('Number must be a Long integer value');
+const numberMustBeLong = createValidationError(t('in-settings:tabs.numberMustBeALongIntegerValue'));
 
 function needsTagAndSecondKeyMayNotBeMissingValidator(tagObject) {
   if (!tagObject || !tagObject.tagName) {
@@ -92,8 +93,8 @@ function needsTagAndSecondKeyMayNotBeMissingValidator(tagObject) {
   }
 }
 
-const tagNeedsToBeSelectedError = createValidationError('A tag needs to be selected.');
-const secondKeyMayNotBeMissingError = createValidationError('A key needs to be specified.');
+const tagNeedsToBeSelectedError = createValidationError(t('in-settings:tabs.aTagNeedsToBeSelected'));
+const secondKeyMayNotBeMissingError = createValidationError(t('in-settings:tabs.aKeyNeedsToBeSpecified'));
 
 export const validatorForType = {
   [staticStringType]: nonBlankValidator,
@@ -168,4 +169,4 @@ function onlyUniqueKeyNames(payloadItems) {
   }
 }
 
-const keyNamesMustBeUnique = createValidationError('Key names must be unique.');
+const keyNamesMustBeUnique = createValidationError(t('in-settings:tabs.keyNamesMustBeUnique'));

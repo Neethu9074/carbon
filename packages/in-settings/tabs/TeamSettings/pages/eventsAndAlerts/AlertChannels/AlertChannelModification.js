@@ -5,6 +5,7 @@
 import { createMapForm } from 'formalistic';
 import { fromJS } from 'immutable';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AlertChannelTestButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
@@ -30,7 +31,7 @@ export default function AlertChannelModification(props) {
 
   return (
     <AlertChannelModificationForm
-      title="Alert Channel"
+      title={t('in-settings:tabs.alertChannel')}
       entityId={entityId}
       createDefaultEntity={() => createAlertChannel(null, kind)}
       createForm={createForm}
@@ -71,13 +72,13 @@ const AlertChannelModificationForm = entityForm(function AlertChannelModificatio
     return (
       <SettingsDetailPage>
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
-          Unknown Alert Channel
+          {t('in-settings:tabs.unknownAlertChannel')}
         </SubViewHeader>
         <SectionLine />
         <DescriptionText>
           {entity.get('errors').get(0)}
           <br />
-          If you followed a link to get here, it has most likely been deleted.
+          {t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
         </DescriptionText>
       </SettingsDetailPage>
     );
@@ -89,9 +90,11 @@ const AlertChannelModificationForm = entityForm(function AlertChannelModificatio
 
   return (
     <SettingsDetailPage>
-      <SubViewHeader>{`${
-        isCreate ? 'Create ' + alertChannelLabel : 'Modify ' + entity.get('name')
-      } Alert Channel`}</SubViewHeader>
+      <SubViewHeader>
+        {isCreate
+          ? t('in-settings:tabs.createAlertChannelLabelAlertChannel', { alertChannelLabel: alertChannelLabel })
+          : t('in-settings:tabs.modifyEntityNameAlertChannel', { entityName: entity.get('name') })}
+      </SubViewHeader>
       <SectionLine />
 
       {message ? (

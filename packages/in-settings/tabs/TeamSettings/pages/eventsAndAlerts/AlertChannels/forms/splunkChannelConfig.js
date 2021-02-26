@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
@@ -17,24 +18,24 @@ import './Forms.less';
 const block = 'in-alert-channel-config-form';
 
 const name = 'SPLUNK';
-const label = 'Splunk';
+const label = t('in-settings:tabs.splunk');
 
 const parameters = [
   {
     key: 'name',
-    label: 'Name'
+    label: t('in-settings:tabs.name')
   },
   {
     key: 'kind',
-    label: 'Type'
+    label: t('in-settings:tabs.type')
   },
   {
     key: 'url',
-    label: 'URL'
+    label: t('in-settings:tabs.url')
   },
   {
     key: 'token',
-    label: 'Token'
+    label: t('in-settings:tabs.token')
   }
 ];
 
@@ -54,8 +55,8 @@ export default {
   createDetails(alertChannel) {
     return (
       <DescriptionList>
-        <DescriptionItem title="URL">{alertChannel.get('url')}</DescriptionItem>
-        <DescriptionItem title="Token">{alertChannel.get('token')}</DescriptionItem>
+        <DescriptionItem title={t('in-settings:tabs.url')}>{alertChannel.get('url')}</DescriptionItem>
+        <DescriptionItem title={t('in-settings:tabs.token')}>{alertChannel.get('token')}</DescriptionItem>
       </DescriptionList>
     );
   },
@@ -110,13 +111,13 @@ function Form({ form, onChange }) {
       {form.get('name').map(field => (
         <FormGroup className={block}>
           <Label htmlFor="name" hasError={!field.valid && field.touched}>
-            Name
+            {t('in-settings:tabs.name')}
           </Label>
           <Input
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="Splunk Alert Channel"
+            placeholder={t('in-settings:tabs.splunkAlertChannel')}
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -129,7 +130,7 @@ function Form({ form, onChange }) {
       {form.get('url').map(field => (
         <FormGroup>
           <Label htmlFor="url" hasError={!field.valid && field.touched}>
-            URL
+            {t('in-settings:tabs.url')}
           </Label>
           <Input
             className={`${block}__input`}
@@ -146,13 +147,13 @@ function Form({ form, onChange }) {
       {form.get('token').map(field => (
         <FormGroup>
           <Label htmlFor="token" hasError={!field.valid && field.touched}>
-            Token
+            {t('in-settings:tabs.token')}
           </Label>
           <Input
             className={`${block}__input`}
             id="token"
             type="text"
-            placeholder="Token"
+            placeholder={t('in-settings:tabs.token')}
             value={field.value}
             onChange={e => onChange('token', e.target.value)}
           />

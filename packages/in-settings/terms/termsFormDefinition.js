@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import { t } from 'in-i18n';
 
 import { isDeprecatedUserDefinedRole } from 'in-settings/terms/userSelfDefinedRole';
 
@@ -73,13 +74,13 @@ function checkboxCheckedValidator(value) {
   if (value) {
     return null;
   }
-  return [{ severity: 'error', message: 'Terms agreement missing' }];
+  return [{ severity: 'error', message: t('in-settings:terms.termsAgreementMissing') }];
 }
 
 function roleValidator(value) {
   // yes, also empty string
   if (!value) {
-    return [{ severity: 'error', message: 'Role missing' }];
+    return [{ severity: 'error', message: t('in-settings:terms.roleMissing') }];
   }
 
   return null;

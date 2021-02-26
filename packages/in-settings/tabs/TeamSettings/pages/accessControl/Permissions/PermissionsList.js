@@ -4,6 +4,7 @@
  */
 import { just } from '@instana/observables';
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import List from 'in-settings/components/List';
 import Select from 'in-components/form/Select';
@@ -28,7 +29,7 @@ const defaultColumnDefinitions = [
   },
   {
     id: 'permission',
-    label: 'Permission',
+    label: t('in-settings:tabs.permission'),
     width: 35,
     getContent({ label }) {
       return label;
@@ -36,7 +37,7 @@ const defaultColumnDefinitions = [
   },
   {
     id: 'category',
-    label: 'Category',
+    label: t('in-settings:tabs.category'),
     getContent({ category }) {
       return category;
     }
@@ -53,15 +54,15 @@ export default function PermissionsList({ permissions, listActions }) {
 
   return (
     <List
-      title="Permissions"
-      getHeader={() => 'Permissions'}
+      title={t('in-settings:tabs.permissions')}
+      getHeader={() => t('in-settings:tabs.permissions')}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       loadEntities={() => just(permissions)}
       initialOrderBy="category"
       isSearchable
       searchAttributes={['label', 'category']}
-      searchPlaceholder="Filter Permissions…"
+      searchPlaceholder={t('in-settings:tabs.filterPermissions')}
       searchMaxWidth={210}
       pageSize={50}
       extraFilters={createFilters(category)}
@@ -108,5 +109,5 @@ function permissionListRightHeader(category, setCategory, productPermissions) {
 }
 
 function getEntityName(entity) {
-  return `permission ${entity.label}`;
+  return t('in-settings:tabs.permissionEntityLabel', { entityLabel: entity.label });
 }

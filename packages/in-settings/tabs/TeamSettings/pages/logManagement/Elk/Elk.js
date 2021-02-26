@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 import { createMapForm, createField } from 'formalistic';
-import React, { Fragment } from 'react';
 import { createLogger } from '@instana/logger';
+import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import ElkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/ElkForm';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
@@ -32,7 +33,7 @@ export default class Elk extends React.Component {
   state = {
     loading: true,
     error: false,
-    message: 'Loading…',
+    message: t('in-settings:tabs.loading'),
     integration: null,
     form: null
   };
@@ -46,7 +47,7 @@ export default class Elk extends React.Component {
     this.setState({
       loading: true,
       error: false,
-      message: 'Loading…',
+      message: t('in-settings:tabs.loading'),
       id: id,
       form: null,
       integration: null
@@ -69,7 +70,7 @@ export default class Elk extends React.Component {
       this.setState({
         loading: false,
         error: true,
-        message: 'Failed to load ELK configuration.'
+        message: t('in-settings:tabs.failedToLoadElkConfiguration')
       });
     });
   };
@@ -94,15 +95,15 @@ export default class Elk extends React.Component {
 
     return (
       <SettingsDetailPage>
-        <Title title="Configure ELK" />
-        <SubViewHeader>{'Configure your ELK settings'}</SubViewHeader>
+        <Title title={t('in-settings:tabs.configureElk')} />
+        <SubViewHeader>{t('in-settings:tabs.configureYourElkSettings')}</SubViewHeader>
         <SectionLine />
         {form && (
           <form onSubmit={this.onSubmit}>
             <Fragment>
               <div style={{ marginBottom: '1rem' }}>
-                <HorizontalFormGroup helpText="Enable/Disable ELK integration for Instana">
-                  <Heading text="Show ELK link on Hosts, Containers and Pods" htmlFor="elk-enabled" />
+                <HorizontalFormGroup helpText={t('in-settings:tabs.enableDisableElkIntegrationForInstana')}>
+                  <Heading text={t('in-settings:tabs.showElkLinkOnHostsContainersAndPods')} htmlFor="elk-enabled" />
                   <Toggle
                     id="elk-enabled"
                     checked={enabled}
@@ -149,7 +150,7 @@ export default class Elk extends React.Component {
     this.setState({
       loading: true,
       error: false,
-      message: 'Saving…'
+      message: t('in-settings:tabs.saving')
     });
 
     this.responseSubscription = result$.once(() => {

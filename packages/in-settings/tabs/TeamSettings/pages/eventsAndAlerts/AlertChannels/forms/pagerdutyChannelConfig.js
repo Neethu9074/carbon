@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
@@ -17,20 +18,20 @@ import './Forms.less';
 const block = 'in-alert-channel-config-form';
 
 const name = 'PAGER_DUTY';
-const label = 'PagerDuty';
+const label = t('in-settings:tabs.pagerDuty');
 
 const parameters = [
   {
     key: 'name',
-    label: 'Name'
+    label: t('in-settings:tabs.name')
   },
   {
     key: 'kind',
-    label: 'Type'
+    label: t('in-settings:tabs.type')
   },
   {
     key: 'serviceIntegrationKey',
-    label: 'Service Integration Key'
+    label: t('in-settings:tabs.serviceIntegrationKey')
   }
 ];
 
@@ -49,7 +50,9 @@ export default {
   createDetails(alertChannel) {
     return (
       <DescriptionList>
-        <DescriptionItem title="Service Integration Key">{alertChannel.get('serviceIntegrationKey')}</DescriptionItem>
+        <DescriptionItem title={t('in-settings:tabs.serviceIntegrationKey')}>
+          {alertChannel.get('serviceIntegrationKey')}
+        </DescriptionItem>
       </DescriptionList>
     );
   },
@@ -96,13 +99,13 @@ function Form({ form, onChange }) {
       {form.get('name').map(field => (
         <FormGroup className={block}>
           <Label htmlFor="name" hasError={!field.valid && field.touched}>
-            Name
+            {t('in-settings:tabs.name')}
           </Label>
           <Input
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="PagerDuty Alert Channel"
+            placeholder={t('in-settings:tabs.pagerDutyAlertChannel')}
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -115,13 +118,13 @@ function Form({ form, onChange }) {
       {form.get('serviceIntegrationKey').map(field => (
         <FormGroup>
           <Label htmlFor="serviceIntegrationKey" hasError={!field.valid && field.touched}>
-            Service Integration Key
+            {t('in-settings:tabs.serviceIntegrationKey')}
           </Label>
           <Input
             className={`${block}__input`}
             id="serviceIntegrationKey"
             type="text"
-            placeholder="Service Integration Key"
+            placeholder={t('in-settings:tabs.serviceIntegrationKey')}
             value={field.value}
             onChange={e => onChange('serviceIntegrationKey', e.target.value)}
           />

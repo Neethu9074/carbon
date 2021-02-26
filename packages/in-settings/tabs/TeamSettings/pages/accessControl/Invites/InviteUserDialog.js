@@ -4,6 +4,7 @@
  */
 import { createField, notBlankValidator, createMapForm, createListForm } from 'formalistic';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
@@ -43,7 +44,7 @@ export default connectTo(
             return [
               {
                 severity: 'error',
-                message: `Please invite at least one user.`
+                message: t('in-settings:tabs.pleaseInviteAtLeastOneUser')
               }
             ];
           }
@@ -74,7 +75,11 @@ export default connectTo(
       const canSelectGroup = sortedGroups !== undefined && sortedGroups.length !== 0;
 
       return (
-        <Dialog className={locals.dialog} title={`Invite user to ${config.tenant}`} onClose={close}>
+        <Dialog
+          className={locals.dialog}
+          title={t('in-settings:tabs.inviteUserToTenant', { tenant: config.tenant })}
+          onClose={close}
+        >
           <form onSubmit={this.onSubmit(canSelectGroup)}>
             {form.map((invite, i) => (
               <Row className={locals.row} key={i}>
@@ -83,7 +88,7 @@ export default connectTo(
                     return (
                       <FormGroup>
                         <Label htmlFor={`invitation-email_${i}`} hasError={!field.valid && field.touched}>
-                          Email Address
+                          {t('in-settings:tabs.emailAddress')}
                         </Label>
                         <Input
                           id={`invitation-email_${i}`}
@@ -103,7 +108,7 @@ export default connectTo(
                     invite.get('groupId').map(field => (
                       <FormGroup>
                         <Label htmlFor={`invitation-role_${i}`} hasError={!field.valid && field.touched}>
-                          Group
+                          {t('in-settings:tabs.group')}
                         </Label>
                         <Select
                           id={`invitation-group_${i}`}
@@ -139,7 +144,7 @@ export default connectTo(
                   })
                 }
               >
-                Another user
+                {t('in-settings:tabs.anotherUser')}
               </Button>
             </div>
 
@@ -149,7 +154,7 @@ export default connectTo(
               type="submit"
               disabled={!form.hierarchyValid && form.touched}
             >
-              Invite User
+              {t('in-settings:tabs.inviteUser')}
             </Button>
           </form>
         </Dialog>

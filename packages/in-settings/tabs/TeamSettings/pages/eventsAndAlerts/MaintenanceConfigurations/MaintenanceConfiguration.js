@@ -5,6 +5,7 @@
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { fromJS, List } from 'immutable';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -38,7 +39,7 @@ export default function MaintenanceConfiguration(props) {
 
   return (
     <Form
-      title="Maintenance Window"
+      title={t('in-settings:tabs.maintenanceWindow')}
       entityId={entityId}
       createDefaultEntity={createMaintenanceConfig}
       createForm={config => createForm(config, !entityId)}
@@ -60,13 +61,13 @@ const Form = entityForm(function MaintenanceForm(props) {
     return (
       <SettingsDetailPage>
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
-          Unknown Maintenance Window Configuration
+          {t('in-settings:tabs.unknownMaintenanceWindowConfiguration')}
         </SubViewHeader>
         <SectionLine />
         <DescriptionText>
           {entity.get('errors').get(0)}
           <br />
-          If you followed a link to get here, it has most likely been deleted.
+          {t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
         </DescriptionText>
       </SettingsDetailPage>
     );
@@ -76,7 +77,7 @@ const Form = entityForm(function MaintenanceForm(props) {
     <SettingsDetailPage>
       <SubViewHeader>
         <SvgIcon type="lib_actions_build_outline" size="l" className={locals.headerIcon} />
-        {isCreate ? 'Schedule' : 'Change'} Maintenance Window
+        {isCreate ? t('in-settings:tabs.scheduleMaintenanceWindow') : t('in-settings:tabs.changeMaintenanceWindow')}
       </SubViewHeader>
       <SectionLine />
 
@@ -188,7 +189,7 @@ function selectedApplicationsValidator(selectedApplications) {
     return [
       {
         severity: 'error',
-        message: 'Please select at least one application.'
+        message: t('in-settings:tabs.pleaseSelectAtLeastOneApplication')
       }
     ];
   }
@@ -285,7 +286,7 @@ function windowValidator(w) {
     return [
       {
         severity: 'error',
-        message: `Start time must be smaller than end time.`
+        message: t('in-settings:tabs.startTimeMustBeSmallerThanEndTime')
       }
     ];
   }
@@ -294,7 +295,7 @@ function windowValidator(w) {
     return [
       {
         severity: 'error',
-        message: `Either both or none of start time and end time have to be specified.`
+        message: t('in-settings:tabs.eitherBothOrNoneOfStartTimeAndEndTimeHaveToBeSpecified')
       }
     ];
   }

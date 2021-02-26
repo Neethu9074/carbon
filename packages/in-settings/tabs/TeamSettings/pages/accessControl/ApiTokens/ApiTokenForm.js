@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
@@ -17,11 +18,11 @@ import { role } from 'in-stores/user';
 export default function ApiTokenForm({ form, onChange, disabled }) {
   return (
     <fieldset disabled={disabled}>
-      <SectionHeading>General</SectionHeading>
+      <SectionHeading>{t('in-settings:tabs.general')}</SectionHeading>
 
       {form.get('accessGrantingToken').map(field => (
         <FormGroup>
-          <Label htmlFor="api-token-accessGrantingToken">API Token</Label>
+          <Label htmlFor="api-token-accessGrantingToken">{t('in-settings:tabs.apiToken')}</Label>
           <Input id="api-token-accessGrantingToken" value={field.value} readOnly />
         </FormGroup>
       ))}
@@ -29,7 +30,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
       {form.get('name').map(field => (
         <FormGroup>
           <Label htmlFor="api-token-name" hasError={!field.valid && field.touched}>
-            Name
+            {t('in-settings:tabs.name')}
           </Label>
           <Input
             id="api-token-name"

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import { userSettings, teamSettings } from 'in-settings/navigation/paths';
 import { getView } from 'in-stores/navigation';
@@ -12,18 +13,15 @@ import Link from 'in-components/Link';
 export default function NotFoundPage() {
   return (
     <Fragment>
-      <Title>Not Found</Title>
-      <h1>Settings Page Not Found</h1>
-      <p>
-        We could not find the settings page you were looking for. We are sorry about that. Maybe you would like to try
-        one of the following links instead?
-      </p>
+      <Title>{t('in-settings:tabs.notFound')}</Title>
+      <h1>{t('in-settings:tabs.settingsPageNotFound')}</h1>
+      <p>{t('in-settings:tabs.weCouldNotFindTheSettingsPageYouWereLookingFor')}</p>
       <ul>
         <li>
-          <Link href$={getView(teamSettings)}>Team Settings</Link>
+          <Link href$={getView(teamSettings)}>{t('in-settings:tabs.teamSettings')}</Link>
         </li>
         <li>
-          <Link href$={getView(userSettings)}>User Settings</Link>
+          <Link href$={getView(userSettings)}>{t('in-settings:tabs.userSettings')}</Link>
         </li>
       </ul>
     </Fragment>

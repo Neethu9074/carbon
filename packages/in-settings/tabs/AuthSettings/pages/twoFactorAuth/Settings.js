@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createField } from 'formalistic';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -28,8 +29,8 @@ export default function Settings() {
       })}
       render={render}
       enrichForm={enrichForm}
-      deleteLabel="Disable two-factor"
-      saveLabel="Save token"
+      deleteLabel={t('in-settings:tabs.disableTwoFactor')}
+      saveLabel={t('in-settings:tabs.saveToken')}
       deleteItem={deleteItem}
       onSubmit={onSubmit}
     />
@@ -44,8 +45,8 @@ function render(props) {
 
   return (
     <>
-      <Title title="Two-Factor Authentication" />
-      <SubViewHeader>Two-Factor Authentication</SubViewHeader>
+      <Title title={t('in-settings:tabs.twoFactorAuthentication')} />
+      <SubViewHeader>{t('in-settings:tabs.twoFactorAuthentication')}</SubViewHeader>
 
       <Section restrictWidth="50rem">
         {twoFactorEnabled ? (
@@ -60,7 +61,7 @@ function render(props) {
 function TwoFactorDisabled() {
   return (
     <Message withIcon type={neutral}>
-      Two-factor authentication is currently disabled for this user.
+      {t('in-settings:tabs.twoFactorAuthenticationIsCurrentlyDisabledForThisUser')}
     </Message>
   );
 }
@@ -75,8 +76,8 @@ function TwoFactorUnverified({ form, setForm, twoFactorCredentials }) {
   return (
     <>
       <p>
-        Scan the QR code below with your Two-Factor authenticator to enable your account. If you cannot scan the code,
-        you can also setup the account by entering the following key manually: <strong>{secret}</strong>
+        {t('in-settings:tabs.scanTheQrCodeBelow')}
+        <strong>{secret}</strong>
       </p>
       <canvas
         style={{
@@ -84,7 +85,7 @@ function TwoFactorUnverified({ form, setForm, twoFactorCredentials }) {
         }}
         className={locals.qrCanvas}
       />
-      <p>Enter the 2FA token from your authenticator app to complete configuration:</p>
+      <p>{t('in-settings:tabs.enterThe2FaTokenFromYourAuthenticatorAppToCompleteConfiguration')}</p>
       {form.get('2faToken').map(field => (
         <Input
           className={locals.input}
@@ -105,15 +106,11 @@ function TwoFactorVerified({ twoFactorCredentials }) {
   return (
     <>
       <Message withIcon type={success}>
-        Two-factor authentication is enabled and verified.
+        {t('in-settings:tabs.twoFactorAuthenticationIsEnabledAndVerified')}
       </Message>
       <Section className={locals.scratchCodesSection}>
-        <h2>Scratch codes</h2>
-        <p>
-          Scratch codes are your backup in case you ever lose access to your device. A scratch code can only be used
-          once, so please take care when using them. Should you have exhausted all your scratch codes, you can only get
-          new ones by disabling and re-enabling two-factor authorization for your account.
-        </p>
+        <h2>{t('in-settings:tabs.scratchCodes')}</h2>
+        <p>{t('in-settings:tabs.scratchCodesAreYourBackupInCaseYouEverLoseAccessToYourDevice')}</p>
         <ul className={locals.scratchCodes}>
           {twoFactorCredentials.scratchCodes.map(scratchCode => (
             <li className={locals.scratchCode} key={scratchCode}>
@@ -140,15 +137,23 @@ function onSubmit(e, { form, setForm, setMessage }) {
 
   const token = form.get('2faToken').value;
   setMessage({
-    message: 'Saving two-factor token.',
+    message: t('in-settings:tabs.savingTwoFactorToken'),
     type: neutral,
     isSaving: true
   });
 
   const result$ = verifyTwoFactorToken(token);
   result$.once(
-    () => setMessage({ text: 'Two-factor token successfully verified.', type: success }),
-    error => setMessage({ text: 'Failed to save two-factor token: ' + error.message, type: errorType })
+    () =>
+      setMessage({
+        text: t('in-settings:tabs.twoFactorTokenSuccessfullyVerified'),
+        type: success
+      }),
+    error =>
+      setMessage({
+        text: t('in-settings:tabs.failedToSaveTwoFactorToken') + error.message,
+        type: errorType
+      })
   );
 }
 
@@ -160,7 +165,7 @@ function toggle2Fa({ form, setMessage }) {
   const twoFactorEnabled = !!form.get('twoFactorCredentials').value;
 
   setMessage({
-    message: (twoFactorEnabled ? 'Disable' : 'Enable') + ' two factor auth',
+    message: twoFactorEnabled ? t('in-settings:tabs.disableTwoFactorAuth') : t('in-settings:tabs.enableTwoFactorAuth'),
     type: neutral,
     isSaving: true
   });
@@ -169,7 +174,9 @@ function toggle2Fa({ form, setMessage }) {
     () => {},
     error =>
       setMessage({
-        text: 'Failed to ' + (twoFactorEnabled ? 'disable' : 'enable') + ' two factor auth: ' + error.message,
+        text: twoFactorEnabled
+          ? t('in-settings:tabs.failedToDisableTwoFactorAuth')
+          : t('in-settings:tabs.failedToEnableTwoFactorAuth') + error.message,
         type: errorType
       })
   );
@@ -178,7 +185,7 @@ function toggle2Fa({ form, setMessage }) {
 function enrichForm(form, { setCanSaveItem, setCanDeleteItem, setSaveLabel, result: { twoFactorCredentials } }) {
   if (!twoFactorCredentials) {
     setCanSaveItem(true);
-    setSaveLabel('Enable two-factor');
+    setSaveLabel(t('in-settings:tabs.enableTwoFactor'));
   } else {
     setCanDeleteItem(true);
   }
@@ -204,7 +211,7 @@ function tokenValidator(token) {
     return [
       {
         severity: 'error',
-        message: 'Please specify a valid token.'
+        message: t('in-settings:tabs.pleaseSpecifyAValidToken')
       }
     ];
   }

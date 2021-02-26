@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
@@ -18,32 +19,32 @@ import './Forms.less';
 const block = 'in-alert-channel-config-form';
 
 const name = 'OPS_GENIE';
-const label = 'Opsgenie';
+const label = t('in-settings:tabs.opsgenie');
 
 const parameters = [
   {
     key: 'name',
-    label: 'Name'
+    label: t('in-settings:tabs.name')
   },
   {
     key: 'kind',
-    label: 'Type'
+    label: t('in-settings:tabs.type')
   },
   {
     key: 'apiKey',
-    label: 'Api Key'
+    label: t('in-settings:tabs.apiKey')
   },
   {
     key: 'tags',
-    label: 'Tags'
+    label: t('in-settings:tabs.tags')
   },
   {
     key: 'region',
-    label: 'Region'
+    label: t('in-settings:tabs.region')
   },
   {
     key: 'alias',
-    label: 'Alias'
+    label: t('in-settings:tabs.alias')
   }
 ];
 
@@ -65,10 +66,10 @@ export default {
   createDetails(alertChannel) {
     return (
       <DescriptionList>
-        <DescriptionItem title="Api Key">{alertChannel.get('apiKey')}</DescriptionItem>
-        <DescriptionItem title="Tags">{alertChannel.get('tags')}</DescriptionItem>
-        <DescriptionItem title="Region">{alertChannel.get('region')}</DescriptionItem>
-        <DescriptionItem title="Alias">{alertChannel.get('alias')}</DescriptionItem>
+        <DescriptionItem title={t('in-settings:tabs.apiKey')}>{alertChannel.get('apiKey')}</DescriptionItem>
+        <DescriptionItem title={t('in-settings:tabs.tags')}>{alertChannel.get('tags')}</DescriptionItem>
+        <DescriptionItem title={t('in-settings:tabs.region')}>{alertChannel.get('region')}</DescriptionItem>
+        <DescriptionItem title={t('in-settings:tabs.alias')}>{alertChannel.get('alias')}</DescriptionItem>
       </DescriptionList>
     );
   },
@@ -138,13 +139,13 @@ function Form({ form, onChange }) {
       {form.get('name').map(field => (
         <FormGroup className={block}>
           <Label htmlFor="name" hasError={!field.valid && field.touched}>
-            Name
+            {t('in-settings:tabs.name')}
           </Label>
           <Input
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="Opsgenie Alert Channel"
+            placeholder={t('in-settings:tabs.opsgenieAlertChannel')}
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -157,13 +158,13 @@ function Form({ form, onChange }) {
       {form.get('apiKey').map(field => (
         <FormGroup>
           <Label htmlFor="apiKey" hasError={!field.valid && field.touched}>
-            API Key
+            {t('in-settings:tabs.apiKey')}
           </Label>
           <Input
             className={`${block}__input`}
             id="apiKey"
             type="text"
-            placeholder="API Key"
+            placeholder={t('in-settings:tabs.apiKey')}
             value={field.value}
             onChange={e => onChange('apiKey', e.target.value)}
           />
@@ -174,13 +175,13 @@ function Form({ form, onChange }) {
       {form.get('tags').map(field => (
         <FormGroup>
           <Label htmlFor="tags" hasError={!field.valid && field.touched}>
-            Tags
+            {t('in-settings:tabs.tags')}
           </Label>
           <Input
             className={`${block}__input`}
             id="tags"
             type="text"
-            placeholder="Tags (comma separated)"
+            placeholder={t('in-settings:tabs.tagsCommaSeparated')}
             value={field.value}
             onChange={e => onChange('tags', e.target.value)}
           />
@@ -191,7 +192,7 @@ function Form({ form, onChange }) {
       {form.get('region').map(field => (
         <FormGroup>
           <Label htmlFor="region" hasError={!field.valid && field.touched}>
-            Region
+            {t('in-settings:tabs.region')}
           </Label>
           <Select
             className={`${block}__input`}
@@ -199,9 +200,9 @@ function Form({ form, onChange }) {
             value={field.value}
             onChange={e => onChange('region', e.target.value)}
           >
-            <option value="">Please Select</option>
-            <option value="US">US</option>
-            <option value="EU">EU</option>
+            <option value="">{t('in-settings:tabs.pleaseSelect')}</option>
+            <option value="US">{t('in-settings:tabs.us')}</option>
+            <option value="EU">{t('in-settings:tabs.eu')}</option>
           </Select>
           <TouchedMessages field={field} />
         </FormGroup>
@@ -210,13 +211,13 @@ function Form({ form, onChange }) {
       {form.get('alias').map(field => (
         <FormGroup>
           <Label htmlFor="alias" hasError={!field.valid && field.touched}>
-            Alias
+            {t('in-settings:tabs.alias')}
           </Label>
           <Input
             className={`${block}__input`}
             id="alias"
             type="text"
-            placeholder="Alias"
+            placeholder={t('in-settings:tabs.alias')}
             value={field.value}
             onChange={e => onChange('alias', e.target.value)}
           />

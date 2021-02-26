@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import {
   authSettings,
@@ -46,27 +47,27 @@ function getNavigationTree(props) {
 
   const navigationTree = [
     !isSamlActivated && {
-      title: 'Password',
+      title: t('in-settings:tabs.password'),
       pages: [
         {
           path: changePassword,
-          label: 'Change',
+          label: t('in-settings:tabs.change'),
           component: ChangePassword
         }
       ]
     },
 
     isAtLeastOneAuthMethogAvailable && {
-      title: 'Identity Providers',
+      title: t('in-settings:tabs.identityProviders'),
       pages: [
         props.isGoogleSSOAvailable && {
           path: googleSSO,
-          label: 'Google SSO',
+          label: t('in-settings:tabs.googleSso'),
           component: GoogleSSO
         },
         props.isSamlAvailable && {
           path: saml,
-          label: 'SAML',
+          label: t('in-settings:tabs.saml'),
           component: Saml
         },
         props.isOidcAvailable &&
@@ -77,34 +78,34 @@ function getNavigationTree(props) {
           },
         props.isLdapAvailable && {
           path: ldap,
-          label: 'LDAP',
+          label: t('in-settings:tabs.ldap'),
           component: Ldap
         }
       ].filter(Boolean)
     },
 
     {
-      title: 'Two-Factor',
+      title: t('in-settings:tabs.twoFactor'),
       pages: [
         {
           path: twoFactorAuth,
-          label: 'Settings',
+          label: t('in-settings:tabs.settings'),
           component: TwoFactorSettings
         },
         isOwner && {
           path: twoFaUsers,
-          label: 'Users',
+          label: t('in-settings:tabs.users'),
           component: Users
         }
       ].filter(Boolean)
     },
 
     role.canConfigureSessionSettings && {
-      title: 'Session',
+      title: t('in-settings:tabs.session'),
       pages: [
         {
           path: timeouts,
-          label: 'Timeouts',
+          label: t('in-settings:tabs.timeouts'),
           component: SessionSettings
         }
       ]
@@ -113,16 +114,16 @@ function getNavigationTree(props) {
 
   if (__DEV__) {
     navigationTree.push({
-      title: 'Mapping',
+      title: t('in-settings:tabs.mapping'),
       pages: [
         {
           path: ldapMapping,
-          label: 'LDAP Mapping',
+          label: t('in-settings:tabs.ldapMapping'),
           component: LdapMapping
         },
         {
           path: samlMapping,
-          label: 'SAML Mapping',
+          label: t('in-settings:tabs.samlMapping'),
           component: SamlMapping
         }
       ]

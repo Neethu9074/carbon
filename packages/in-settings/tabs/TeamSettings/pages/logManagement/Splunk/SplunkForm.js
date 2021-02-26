@@ -2,14 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/SplunkForm.mless';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+
+import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/SplunkForm.mless';
 
 export default function SplunkForm({ form, onChange, disabled, areFieldsBlank }) {
   const splunkUrl = form.get('url').value;
@@ -19,7 +21,7 @@ export default function SplunkForm({ form, onChange, disabled, areFieldsBlank })
       {form.get('url').map(field => (
         <FormGroup>
           <Label htmlFor="splunk-url" hasError={!disabled && !field.valid && field.touched}>
-            Splunk Instance
+            {t('in-settings:tabs.splunkInstance')}
           </Label>
           <Input
             id="splunk-url"
@@ -31,7 +33,7 @@ export default function SplunkForm({ form, onChange, disabled, areFieldsBlank })
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Example: <b>https://cloud.splunk.com</b> or <b>http://192.168.1.128:443</b> for an internal instance.
+            <Trans i18nKey="in-settings:tabs.splunkExampleForAnInternalInstance" />
           </HelpText>
         </FormGroup>
       ))}
@@ -39,7 +41,7 @@ export default function SplunkForm({ form, onChange, disabled, areFieldsBlank })
       {form.get('index').map(field => (
         <FormGroup>
           <Label htmlFor="splunk-index" hasError={!disabled && !field.valid && field.touched}>
-            Index
+            {t('in-settings:tabs.index')}
           </Label>
           <Input
             id="splunk-index"
@@ -49,13 +51,15 @@ export default function SplunkForm({ form, onChange, disabled, areFieldsBlank })
             disabled={disabled}
           />
           {!disabled && <TouchedMessages field={field} />}
-          <HelpText className={locals.subTextFormField}>Example: the index name you have added in Splunk.</HelpText>
+          <HelpText className={locals.subTextFormField}>
+            {t('in-settings:tabs.exampleTheIndexNameYouHaveAddedInSplunk')}
+          </HelpText>
         </FormGroup>
       ))}
 
       {!areFieldsBlank && (
         <FormGroup>
-          <Label htmlFor="splunk-test-link">Test your Splunk link</Label>
+          <Label htmlFor="splunk-test-link">{t('in-settings:tabs.testYourSplunkLink')}</Label>
           <a href={splunkUrl} target={'_blank'} rel="noopener noreferrer">
             {splunkUrl}
           </a>

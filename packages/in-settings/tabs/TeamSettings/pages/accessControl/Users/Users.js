@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import InviteUserButton from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
@@ -12,7 +13,7 @@ import Title from 'in-components/Title/Title';
 export default function Users() {
   return (
     <>
-      <Title title="Users" />
+      <Title title={t('in-settings:tabs.users')} />
       <UserList
         renderAdditionalHeaderContent={renderAdditionalHeaderContent}
         getUserLink={user => getEntityIdView(teamSettingsAccessControlUsers, user.id)}

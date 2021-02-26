@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -21,11 +20,12 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 import ApiList from 'in-settings/components/ApiList';
 import Button from 'in-new-components/Button';
 import Title from 'in-components/Title/Title';
+import { t } from 'in-i18n';
 
 export default function Groups() {
   return (
     <>
-      <Title title="Groups" />
+      <Title title={t('in-settings:tabs.groups')} />
       <ApiList
         ListRenderer={ListRenderer}
         getItems={getGroupsAsResultObservable}
@@ -61,7 +61,7 @@ function ListRenderer({ items, deleteItem, currentDeletingItemIds }) {
 function renderAdditionalHeaderContent() {
   return (
     <Button kind="action" href$={getView(teamSettingsAccessControlGroupNew)} icon="lib_openclose_add_circle_outline">
-      Add Group
+      {t('in-settings:tabs.addGroup')}
     </Button>
   );
 }
@@ -71,7 +71,9 @@ const columnDefinitions = [
     getContent({ group }) {
       return (
         <WithSubscript
-          subscript={group.permissionSet.permissions?.includes(RESTRICTED_ACCESS) ? 'Limited Access' : null}
+          subscript={
+            group.permissionSet.permissions?.includes(RESTRICTED_ACCESS) ? t('in-settings:tabs.limitedAccess') : null
+          }
         >
           {group.name}
         </WithSubscript>
@@ -81,7 +83,7 @@ const columnDefinitions = [
   {
     width: '8rem',
     getContent({ group }) {
-      return <KeyValue value={group.members.length} label="Users" accentuated />;
+      return <KeyValue value={group.members.length} label={t('in-settings:tabs.users')} accentuated />;
     }
   },
   {

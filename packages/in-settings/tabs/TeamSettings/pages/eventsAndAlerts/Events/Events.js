@@ -5,6 +5,8 @@
 import { withState, compose } from 'recompose';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import {
   getEntityHref,
@@ -35,27 +37,26 @@ import { getPluginName } from 'in-sdk/pluginName';
 import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
-import theme from 'in-themes';
 
 import locals from './Events.mless';
 
 const typeOptions = [
-  { value: builtInEnumValue, label: 'Built-in' },
-  { value: customEnumValue, label: 'Custom' }
+  { value: builtInEnumValue, label: t('in-settings:tabs.builtIn') },
+  { value: customEnumValue, label: t('in-settings:tabs.custom') }
 ];
 
 const arbitrarySeverityForIncidentsFilter = -13;
 const severityOptions = [
-  { value: arbitrarySeverityForIncidentsFilter, label: 'Incidents' },
-  { value: 5, label: 'Warning' },
-  { value: 10, label: 'Critical' }
+  { value: arbitrarySeverityForIncidentsFilter, label: t('in-settings:tabs.incidents') },
+  { value: 5, label: t('in-settings:tabs.warning') },
+  { value: 10, label: t('in-settings:tabs.critical') }
 ];
 
 const entityTypeOptions = getEntityTypeOptions();
 
 const enabledOptions = Object.freeze([
-  { value: true, label: 'Enabled' },
-  { value: false, label: 'Disabled' }
+  { value: true, label: t('in-settings:tabs.enabled') },
+  { value: false, label: t('in-settings:tabs.disabled') }
 ]);
 
 export default compose(
@@ -98,7 +99,7 @@ function Events({
 }) {
   return (
     <List
-      title={setTitle ? 'Events' : null}
+      title={setTitle ? t('in-settings:tabs.events') : null}
       getHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
@@ -125,7 +126,7 @@ function Events({
       searchAttributes={['name', 'description', getEntityType]}
       extraFilters={createFilters(hiddenIds, type, severity, entityType, enabled)}
       extraFilterValues={{ type, severity, entityType, enabled }}
-      searchPlaceholder="Filter Events…"
+      searchPlaceholder={t('in-settings:tabs.filterEvents')}
       searchMaxWidth={210}
       onRowClick={onRowClick}
       getDetailsHref={
@@ -139,7 +140,7 @@ function columnDefinitions(hasRowNavigation) {
   return [
     {
       id: 'name',
-      label: 'Name',
+      label: t('in-settings:tabs.name'),
       width: 40,
       getContent(entity) {
         const icon = getIcon(entity);
@@ -176,7 +177,7 @@ function columnDefinitions(hasRowNavigation) {
     },
     {
       id: 'description',
-      label: 'Description',
+      label: t('in-settings:tabs.description'),
       width: 40,
       getContent(entity) {
         return <div className={locals.fourLines}>{entity.description}</div>;
@@ -184,7 +185,7 @@ function columnDefinitions(hasRowNavigation) {
     },
     {
       id: 'entityType',
-      label: 'Entity Type',
+      label: t('in-settings:tabs.entityType'),
       width: 20,
       getContent(entity) {
         if (entity.entityType === 'any') {
@@ -269,11 +270,11 @@ function getSubscript(entity) {
     <Fragment>
       {intersperse(
         [
-          isBuiltInRule(entity) ? <span key="built-in">Built-in</span> : null,
-          entity.enabled === false ? <span key="disabled">Disabled</span> : null,
+          isBuiltInRule(entity) ? <span key="built-in">{t('in-settings:tabs.builtIn')}</span> : null,
+          entity.enabled === false ? <span key="disabled">{t('in-settings:tabs.disabled')}</span> : null,
           entity.invalid ? (
             <span key="invalid" className={locals.invalid}>
-              Invalid Query
+              {t('in-settings:tabs.invalidQuery')}
             </span>
           ) : null
         ].filter(elem => elem),
@@ -289,7 +290,7 @@ function defaultRightHeader(type, setType, severity, setSeverity, entityType, se
   return (
     <Fragment>
       {createNewEntityButton({
-        labelNew: 'New Event',
+        labelNew: t('in-settings:tabs.newEvent'),
         pathNew: teamSettingsAlertingEventCustomNew,
         trackEvent: openEventSubmitFormTracker
       })}
@@ -324,7 +325,7 @@ function inSelectListDialogRightHeader(
         value={type}
         options={typeOptions}
         onChange={e => (e ? setType(e.value) : setType(null))}
-        placeholder="Type…"
+        placeholder={t('in-settings:tabs.type')}
         className={locals.filterDropdown}
       />
       <ComboBox
@@ -332,7 +333,7 @@ function inSelectListDialogRightHeader(
         value={severity}
         options={severityOptions}
         onChange={e => (e ? setSeverity(e.value) : setSeverity(null))}
-        placeholder="Incidents & Severity…"
+        placeholder={t('in-settings:tabs.incidentsSeverity')}
         className={classNames(locals.severityDropdown, locals.filterDropdown)}
       />
       <ComboBox
@@ -340,7 +341,7 @@ function inSelectListDialogRightHeader(
         value={entityType}
         options={entityTypeOptions}
         onChange={e => (e ? setEntityType(e.value) : setEntityType(null))}
-        placeholder="Entity Type…"
+        placeholder={t('in-settings:tabs.entityType')}
         className={classNames(locals.entityTypeDropdown, locals.filterDropdown)}
       />
       <ComboBox
@@ -348,7 +349,7 @@ function inSelectListDialogRightHeader(
         value={enabled}
         options={enabledOptions}
         onChange={e => (e ? setEnabled(e.value) : setEnabled(null))}
-        placeholder="State…"
+        placeholder={t('in-settings:tabs.state')}
         className={locals.stateDropdown}
       />
     </Fragment>

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -39,7 +40,7 @@ export default function CustomEvent(props) {
 
   return (
     <Form
-      title="Event"
+      title={t('in-settings:tabs.event')}
       entityId={entityId}
       createDefaultEntity={createCustomThresholdBasedEventSpecification}
       createForm={event => createEventFormDefinition(event, !entityId)}
@@ -61,13 +62,13 @@ const Form = entityForm(function DetailsForm(props) {
     return (
       <SettingsDetailPage>
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
-          Unknown Event
+          {t('in-settings:tabs.unknownEvent')}
         </SubViewHeader>
         <SectionLine />
         <DescriptionText>
           {entity.get('errors').get(0)}
           <br />
-          If you followed a link to get here, it has most likely been deleted.
+          {t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
         </DescriptionText>
       </SettingsDetailPage>
     );
@@ -75,7 +76,11 @@ const Form = entityForm(function DetailsForm(props) {
 
   return (
     <SettingsDetailPage>
-      <SubViewHeader>{isCreate ? 'Create A New Event' : `Configure Event: ${entity.get('name')}`}</SubViewHeader>
+      <SubViewHeader>
+        {isCreate
+          ? t('in-settings:tabs.createANewEvent')
+          : t('in-settings:tabs.configureEventEntityName', { entityName: entity.get('name') })}
+      </SubViewHeader>
       <SectionLine />
 
       {message ? (

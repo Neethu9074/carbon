@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createLogger } from '@instana/logger';
+import { t } from 'in-i18n';
 
 import { saveUserSettings } from 'in-settings/api/userSettings';
 
@@ -15,7 +16,7 @@ export function setAndSave(settings, successCallback, errorCallback) {
       successCallback();
     },
     error => {
-      logger.error(`failed to save settings: ${settings} ${error.message}`, error);
+      logger.error(t('in-settings:terms.failedToSaveSettings', { settings: settings, err: error.message }), error);
       errorCallback(error);
     }
   );

@@ -13,6 +13,7 @@ import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './AlertChannelsList.mless';
 
@@ -37,7 +38,7 @@ export default function AlertChannelsList({
 }) {
   return (
     <List
-      title={setTitle ? 'Alert Channels' : null}
+      title={setTitle ? t('in-settings:tabs.alertChannels') : null}
       getHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
@@ -51,7 +52,7 @@ export default function AlertChannelsList({
       isSearchable={isSearchable}
       searchAttributes={['name', getKind, getStringifiedParameters]}
       extraFilters={createFilters(hiddenIds)}
-      searchPlaceholder="Filter…"
+      searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
       getDetailsHref={
         onRowClick || !hasRowNavigation ? null : entity => getEntityHref(teamSettingsAlertingAlertChannels, entity.id)
@@ -64,7 +65,7 @@ function columnDefinitions(hasRowNavigation) {
   return [
     {
       id: 'name',
-      label: 'Name',
+      label: t('in-settings:tabs.name'),
       width: 50,
       getContent(entity) {
         return (
@@ -87,7 +88,7 @@ function columnDefinitions(hasRowNavigation) {
     },
     {
       id: 'properties',
-      label: 'Properties',
+      label: t('in-settings:tabs.properties'),
       sortable: false,
       width: 50,
       getContent(entity) {
@@ -113,7 +114,7 @@ function defaultGetHeader(inSelectListDialog, tableActions) {
 }
 
 function getEntityName(entity) {
-  return `alert channel "${entity.name}"`;
+  return t('in-settings:tabs.alertChannelEntityName', { entityName: entity.name });
 }
 
 function getConfig(entity) {

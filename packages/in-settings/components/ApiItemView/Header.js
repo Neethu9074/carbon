@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getView } from 'in-stores/navigation';
@@ -25,7 +26,7 @@ function BackToParentPathLink({ parentPath, parentViewName }) {
   return (
     <Link className={locals.backNavigationWrapper} href$={getView(parentPath)}>
       <SvgIcon className={locals.icon} type="lib_arrow_left" />
-      {`Back to ${parentViewName}`}
+      {t('in-settings:components.backToParentViewName', { parentViewName: parentViewName })}
     </Link>
   );
 }

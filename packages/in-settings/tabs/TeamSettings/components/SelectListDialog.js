@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { compose, withState } from 'recompose';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SelectListDialogContent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
@@ -11,7 +12,7 @@ import Dialog from 'in-new-components/Dialog/Dialog';
 
 import locals from './SelectListDialog.mless';
 
-const defaultRequiresAtLeastOneMessage = 'Please select at least one item.';
+const defaultRequiresAtLeastOneMessage = t('in-settings:tabs.pleaseSelectAtLeastOneItem');
 
 export default compose(
   withState('selectedItems', 'setSelectedItems', []),
@@ -21,7 +22,7 @@ export default compose(
 )(SelectListDialog);
 
 function SelectListDialog(props) {
-  const { title = 'Select' } = props;
+  const { title = t('in-settings:tabs.select') } = props;
   return (
     <Dialog title={title} onClose={close} className={locals.dialog}>
       <SelectListDialogContent {...props} />

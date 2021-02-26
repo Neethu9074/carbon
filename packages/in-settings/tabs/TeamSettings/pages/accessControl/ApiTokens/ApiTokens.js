@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createLogger } from '@instana/logger';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -27,15 +28,15 @@ const logger = createLogger('ApiTokens');
 export default function ApiTokens() {
   return (
     <List
-      title="API Tokens"
-      getHeader={defaultHeaderWithCount('API Tokens')}
+      title={t('in-settings:tabs.apiTokens')}
+      getHeader={defaultHeaderWithCount(t('in-settings:tabs.apiTokens'))}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
       loadEntities={getApiTokens}
       initialOrderBy="name"
       onCreateNew={onCreateNew}
-      labelNew="Add API Token"
+      labelNew={t('in-settings:tabs.addApiToken')}
       searchAttributes={['name', 'id', 'internalId', 'accessGrantingToken']}
       // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
       getDetailsHref={entity => getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId || entity.id)}
@@ -46,7 +47,7 @@ export default function ApiTokens() {
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
+    label: t('in-settings:tabs.name'),
     width: 60,
     getContent(entity) {
       // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
@@ -59,7 +60,7 @@ const columnDefinitions = [
   },
   {
     id: 'id',
-    label: 'Token',
+    label: t('in-settings:tabs.token'),
     ellipsis: true,
     getContent(apiToken) {
       // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
@@ -67,7 +68,7 @@ const columnDefinitions = [
       return (
         <div className={locals.apiTokenColContainer}>
           <div>{accessGrantingToken}</div>
-          <Tooltip align="topRight" content="Copy API token to clipboard">
+          <Tooltip align="topRight" content={t('in-settings:tabs.copyApiTokenToClipboard')}>
             <CopyToClipboard getText={() => accessGrantingToken}>
               {refSetter => (
                 <span ref={refSetter}>
@@ -95,7 +96,7 @@ const tableActions = {
 };
 
 function getEntityName(entity) {
-  return `API token "${entity.name}"`;
+  return t('in-settings:tabs.apiTokenEntityName', { entityName: entity.name });
 }
 
 function onCreateNew() {
@@ -105,7 +106,7 @@ function onCreateNew() {
     id: accessGrantingToken,
     accessGrantingToken,
     internalId: generateUniqueShortId(),
-    name: 'New API Token'
+    name: t('in-settings:tabs.newApiToken')
   });
   // Note: The backend will overwrite the end-user provided IDs during creation.
   saveResult$.once(savedApiToken =>

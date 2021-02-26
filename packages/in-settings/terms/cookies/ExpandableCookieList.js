@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
@@ -53,10 +54,10 @@ function CookieTable({ cookie }) {
     <Table>
       <Thead>
         <Tr>
-          <Th>Category</Th>
-          <Th>Name</Th>
-          <Th>Purpose</Th>
-          <Th>More Information</Th>
+          <Th>{t('in-settings:terms.category')}</Th>
+          <Th>{t('in-settings:terms.name')}</Th>
+          <Th>{t('in-settings:terms.purpose')}</Th>
+          <Th>{t('in-settings:terms.moreInformation')}</Th>
         </Tr>
       </Thead>
       <Tbody>

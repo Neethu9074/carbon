@@ -4,6 +4,7 @@
  */
 import { createField, notBlankValidator } from 'formalistic';
 import { just } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getGroupAsResultObservable, saveGroup, createNewGroup } from 'in-settings/tabs/TeamSettings/api/groups';
@@ -34,7 +35,7 @@ export default function Group({ match }) {
   const groupId = match.params.id;
   return (
     <>
-      <Title title="Group" />
+      <Title title={t('in-settings:tabs.group')} />
       <ApiItemView
         parentViewName="Groups"
         parentPath={teamSettingsAccessControlGroups}
@@ -77,7 +78,7 @@ function renderGroup(props) {
           {form.get('name').map(field => (
             <FormGroup>
               <Label htmlFor="team-name" hasError={!field.valid && field.touched}>
-                Name
+                {t('in-settings:tabs.name')}
               </Label>
               <Input
                 id="team-name"
@@ -127,7 +128,7 @@ function renderGroup(props) {
         <Col lg>
           {form.get('permissionSet').map(field => (
             <FormGroup>
-              <Label>Access</Label>
+              <Label>{t('in-settings:tabs.access')}</Label>
               {productRestrictions.map(({ value, label, help }) => (
                 <HorizontalFormGroup key={label} helpText={help}>
                   <Label htmlFor={`permission-${value}`}>{label}</Label>
@@ -148,9 +149,12 @@ function renderGroup(props) {
         <Col lg>
           {form.get('permissionSet').map(field => (
             <FormGroup>
-              <Label>Permission Scope</Label>
+              <Label>{t('in-settings:tabs.permissionScope')}</Label>
               {productAreaPermissions.map(({ value, label }) => (
-                <HorizontalFormGroup key={label} helpText={`Permits access to '${label}' monitoring functionality.`}>
+                <HorizontalFormGroup
+                  key={label}
+                  helpText={t('in-settings:tabs.permitsAccessToLabelMonitoringFunctionality', { label: label })}
+                >
                   <Label htmlFor={`permission-${value}`}>{label}</Label>
                   <Toggle
                     id={`permission-${value}`}
@@ -291,16 +295,16 @@ function saveItem({ form, setMessage, setCanSaveItem, setForm }) {
     permissionSet: form.get('permissionSet').value
   };
 
-  setMessage({ text: 'Saving group', type: neutral, isSaving: true });
+  setMessage({ text: t('in-settings:tabs.savingGroup'), type: neutral, isSaving: true });
 
   saveGroup(group).once(
     savedGroup => {
-      setMessage({ text: 'Group successfully saved.', type: success });
+      setMessage({ text: t('in-settings:tabs.groupSuccessfullySaved'), type: success });
       setForm(form.updateIn(['id'], f => f.setValue(savedGroup.id)));
       setCanSaveItem(false);
     },
     error => {
-      setMessage({ text: `Failed to save group: ${error.message}`, type: errorType });
+      setMessage({ text: t('in-settings:tabs.failedToSaveGroup', { err: error.message }), type: errorType });
     }
   );
 }

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createField } from 'formalistic';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import UserPermissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserPermissions';
@@ -25,7 +26,7 @@ export default function User({ match }) {
   const userId = match.params.id;
   return (
     <>
-      <Title title="User" />
+      <Title title={t('in-settings:tabs.user')} />
       <ApiItemView
         parentViewName="Users"
         parentPath={teamSettingsAccessControlUsers}
@@ -37,7 +38,7 @@ export default function User({ match }) {
             const userId = match.params.id;
             const user = usersResult.data.filter(user => user.id === userId)[0];
             if (!user) {
-              return errorResult([{ message: `Unable to find user: ${userId}` }]);
+              return errorResult([{ message: t('in-settings:tabs.unableToFindUserUserId', { userId: userId }) }]);
             }
 
             return successResult(user);

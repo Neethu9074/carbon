@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
@@ -14,6 +13,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import ApiList from 'in-settings/components/ApiList';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './AddUserToGroupDialog.mless';
 
@@ -25,7 +25,7 @@ export default withSelectableItems(function AddUserToGroupDialog({
   toggleItem
 }) {
   return (
-    <Dialog className={locals.dialog} title="Add user to a group" onClose={close}>
+    <Dialog className={locals.dialog} title={t('in-settings:tabs.addUserToAGroup')} onClose={close}>
       <form
         onSubmit={e => {
           stopPropagationAndPreventDefault(e);
@@ -50,7 +50,7 @@ export default withSelectableItems(function AddUserToGroupDialog({
           }}
         />
         <Button className={locals.button} kind="primary" type="submit" disabled={selectedEntities.size === 0}>
-          Add user to group
+          {t('in-settings:tabs.addUserToGroup')}
         </Button>
       </form>
     </Dialog>

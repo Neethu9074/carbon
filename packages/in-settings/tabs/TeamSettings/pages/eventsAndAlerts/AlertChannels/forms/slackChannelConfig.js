@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
@@ -17,28 +18,28 @@ import './Forms.less';
 const block = 'in-alert-channel-config-form';
 
 const name = 'SLACK';
-const label = 'Slack';
+const label = t('in-settings:tabs.slack');
 
 const parameters = [
   {
     key: 'name',
-    label: 'Name'
+    label: t('in-settings:tabs.name')
   },
   {
     key: 'kind',
-    label: 'Type'
+    label: t('in-settings:tabs.type')
   },
   {
     key: 'webhookUrl',
-    label: 'Webhook URL'
+    label: t('in-settings:tabs.webhookUrl')
   },
   {
     key: 'iconUrl',
-    label: 'Icon URL'
+    label: t('in-settings:tabs.iconUrl')
   },
   {
     key: 'channel',
-    label: 'Channel'
+    label: t('in-settings:tabs.channel')
   }
 ];
 
@@ -59,9 +60,9 @@ export default {
   createDetails(alertChannel) {
     return (
       <DescriptionList>
-        <DescriptionItem title="Webhook URL">{alertChannel.get('webhookUrl')}</DescriptionItem>
-        <DescriptionItem title="Icon URL">{alertChannel.get('iconUrl')}</DescriptionItem>
-        <DescriptionItem title="Channel">{alertChannel.get('channel')}</DescriptionItem>
+        <DescriptionItem title={t('in-settings:tabs.webhookUrl')}>{alertChannel.get('webhookUrl')}</DescriptionItem>
+        <DescriptionItem title={t('in-settings:tabs.iconUrl')}>{alertChannel.get('iconUrl')}</DescriptionItem>
+        <DescriptionItem title={t('in-settings:tabs.channel')}>{alertChannel.get('channel')}</DescriptionItem>
       </DescriptionList>
     );
   },
@@ -122,13 +123,13 @@ function Form({ form, onChange }) {
       {form.get('name').map(field => (
         <FormGroup className={block}>
           <Label htmlFor="name" hasError={!field.valid && field.touched}>
-            Name
+            {t('in-settings:tabs.name')}
           </Label>
           <Input
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="Slack Alert Channel"
+            placeholder={t('in-settings:tabs.slackAlertChannel')}
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -141,7 +142,7 @@ function Form({ form, onChange }) {
       {form.get('webhookUrl').map(field => (
         <FormGroup>
           <Label htmlFor="webhookUrl" hasError={!field.valid && field.touched}>
-            Webhook URL
+            {t('in-settings:tabs.webhookUrl')}
           </Label>
           <Input
             className={`${block}__input`}
@@ -158,7 +159,7 @@ function Form({ form, onChange }) {
       {form.get('iconUrl').map(field => (
         <FormGroup>
           <Label htmlFor="iconUrl" hasError={!field.valid && field.touched}>
-            Icon URL
+            {t('in-settings:tabs.iconUrl')}
           </Label>
           <Input
             className={`${block}__input`}
@@ -175,13 +176,13 @@ function Form({ form, onChange }) {
       {form.get('channel').map(field => (
         <FormGroup>
           <Label htmlFor="channel" hasError={!field.valid && field.touched}>
-            Channel Name
+            {t('in-settings:tabs.channelName')}
           </Label>
           <Input
             className={`${block}__input`}
             id="channel"
             type="text"
-            placeholder="Channel Name"
+            placeholder={t('in-settings:tabs.channelName')}
             value={field.value}
             onChange={e => onChange('channel', e.target.value)}
           />

@@ -4,9 +4,11 @@
  */
 import React, { useState, useEffect } from 'react';
 import { createField } from 'formalistic';
+import { t, Trans } from 'in-i18n';
 
 import { getConfigAsResultObservable as getOidcConfigAsResultObservable } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
+import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -34,7 +36,8 @@ export default function Saml() {
     <ApiItemView
       getObservables={() => ({
         config: getConfigAsResultObservable(),
-        oidcConfig: getOidcConfigAsResultObservable()
+        oidcConfig: getOidcConfigAsResultObservable(),
+        ldapConfig: getLdapConfig()
       })}
       enrichForm={enrichForm}
       deleteItem={deleteItem}
@@ -66,24 +69,22 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
 
   return (
     <>
-      <Title title="Configure SAML" />
-      <SubViewHeader>SAML Configuration</SubViewHeader>
+      <Title title={t('in-settings:tabs.configureSaml')} />
+      <SubViewHeader>{t('in-settings:tabs.samlConfiguration')}</SubViewHeader>
+
       {isAnotherIdpActivated(result.ldapConfig, result.oidcConfig) ? (
-        <h2>SAML is not configurable as long as you have another active identity provider configuration.</h2>
+        <h2>{t('in-settings:tabs.cannotConfigureSamlIfAnotherOneIsAlreadyActive')}</h2>
       ) : (
         <>
-          <h2>Activating SAML enables Instana to authenticate a user against your Identity Provider (IdP).</h2>
-
+          <h2>{t('in-settings:tabs.activatingSamlEnablesInstanaToAuthenticateAUserAgainstYourIdentityProviderIdP')}</h2>
           <p>
-            Quick start guides are available in our documentation pages for{' '}
-            <Link external href="https://instana.com/docs/admin/active-directory/">
-              Active Directory
-            </Link>{' '}
-            and{' '}
-            <Link external href="https://instana.com/docs/admin/okta/">
-              Okta
-            </Link>
-            .
+            <Trans
+              i18nKey="in-settings:tabs.samlHelpDoc"
+              components={{
+                activeDirectoryLink: <Link external href="https://instana.com/docs/admin/active-directory/" />,
+                oktaLink: <Link external href="https://instana.com/docs/admin/okta/" />
+              }}
+            />
           </p>
 
           <form method="post" encType="multipart/form-data">
@@ -93,7 +94,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                   {form.get('spEntityId').map(field => (
                     <FormGroup>
                       <Label htmlFor="spEntityId" hasError={!field.valid && field.touched}>
-                        Audience/SP Entity ID
+                        {t('in-settings:tabs.audienceSpEntityId')}
                       </Label>
 
                       <Input
@@ -116,7 +117,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                   {form.get('ownerEmail').map(field => (
                     <FormGroup>
                       <Label htmlFor="ownerEmail" hasError={!field.valid && field.touched}>
-                        This account is automatically assigned an admin role.
+                        {t('in-settings:tabs.thisAccountIsAutomaticallyAssignedAnAdminRole')}
                       </Label>
 
                       <Input
@@ -136,58 +137,61 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
             </Section>
 
             <Section restrictWidth="50rem">
-              <h2>Automatic setup</h2>
+              <h2>{t('in-settings:tabs.automaticSetup')}</h2>
               {form.get('spEntityId').map(field => (
                 <Button
                   kind="secondary"
                   icon="lib_actions_download"
                   href={`/api/settings/authentication/saml/metadata?spEntityId=${encodeURIComponent(field.value)}`}
                 >
-                  Configuration Metadata
+                  {t('in-settings:tabs.configurationMetadata')}
                 </Button>
               ))}
 
               <ul className={locals.list}>
-                <li>Download the Configuration Metadata via the link above.</li>
-                <li>Upload the Instana metadata file to your IdP.</li>
-                <li>Download the IdP-metadata issued from your IdP.</li>
-                <li>{`Use 'Upload IdP Metadata' below to deliver the file to Instana.`}</li>
+                <li>{t('in-settings:tabs.downloadTheConfigurationMetadataViaTheLinkAbove')}</li>
+                <li>{t('in-settings:tabs.uploadTheInstanaMetadataFileToYourIdP')}</li>
+                <li>{t('in-settings:tabs.downloadTheIdPMetadataIssuedFromYourIdP')}</li>
+                <li>{t('in-settings:tabs.useUploadIdPMetadataBelowToDeliverTheFileToInstana')}</li>
               </ul>
             </Section>
             <Section restrictWidth="50rem">
-              <h2>Manual setup</h2>
+              <h2>{t('in-settings:tabs.manualSetup')}</h2>
               <p className={locals.descriptionText}>
-                {`This option covers the case where your IdP doesn't allow the upload of our metadata. Your IdP will require the
-              creation of a SAML-app and manually entering the required values. The values required to connect to Instana
-              are as follows:`}
+                {t('in-settings:tabs.theValuesRequiredToConnectToInstanaAreAsFollows')}
               </p>
 
               <Row className={indentityProvidersLocals.row}>
                 <Col xs={12}>
-                  <CopyableText title="ACS URL" form={form} fieldName="samlSignInCallbackUrl" />
+                  <CopyableText title={t('in-settings:tabs.acsUrl')} form={form} fieldName="samlSignInCallbackUrl" />
                 </Col>
                 <Col xs={12}>
-                  <CopyableText title="Logout URL" form={form} fieldName="samlSignOutCallbackUrl" />
+                  <CopyableText
+                    title={t('in-settings:tabs.logoutUrl')}
+                    form={form}
+                    fieldName="samlSignOutCallbackUrl"
+                  />
                 </Col>
                 <Col xs={12}>
-                  <CopyableText title="Audience/SP Entity ID" form={form} fieldName="spEntityId" />
+                  <CopyableText title={t('in-settings:tabs.audienceSpEntityId')} form={form} fieldName="spEntityId" />
                 </Col>
                 <Col xs={12}>
-                  <CopyableText title="Name ID Format" form={form} fieldName="nameIdFormat" />
+                  <CopyableText title={t('in-settings:tabs.nameIdFormat')} form={form} fieldName="nameIdFormat" />
                 </Col>
               </Row>
 
               <ul className={locals.list}>
                 <li>
-                  There will be an option to download the IdP-metadata. Store that file in a known location on your
-                  local machine.
+                  {t(
+                    'in-settings:tabs.thereWillBeAnOptionToDownloadTheIdPMetadataStoreThatFileInAKnownLocationOnYourLocalMachine'
+                  )}
                 </li>
-                <li>{`Use 'Upload IdP Metadata' below to deliver the file to Instana`}</li>
+                <li>{t('in-settings:tabs.useUploadIdPMetadataBelowToDeliverTheFileToInstana')}</li>
               </ul>
             </Section>
 
             <Section restrictWidth="50rem">
-              <h2>Upload IdP Metadata</h2>
+              <h2>{t('in-settings:tabs.uploadIdPMetadata')}</h2>
               <div className={locals.flexWrapper}>
                 <Button
                   kind="secondary"
@@ -198,7 +202,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                     input.click();
                   }}
                 >
-                  {file ? shorten(file.name, 32) : 'Choose file…'}
+                  {file ? shorten(file.name, 32) : t('in-settings:tabs.chooseFile')}
                 </Button>
               </div>
             </Section>
@@ -225,29 +229,32 @@ function CopyableText({ title, form, fieldName }) {
 }
 
 function isAnotherIdpActivated(ldapConfig, oidcConfig) {
-  return oidcConfig?.activated || ldapConfig.base;
+  return oidcConfig?.activated || ldapConfig?.base;
 }
 
 function deleteItem({ setMessage }) {
-  setMessage({ message: 'Deleting config', type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.deletingConfig'), type: neutral, isSaving: true });
   const setConfigResult$ = deleteConfig();
   setConfigResult$.once(
     () => {
-      setMessage({ text: 'Config successfully deleted.', type: success });
+      setMessage({
+        text: t('in-settings:tabs.configSuccessfullyDeleted'),
+        type: success
+      });
     },
-    error => setMessage({ text: `Failed to delete config: ${error.message}`, type: errorType })
+    error => setMessage({ text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }), type: errorType })
   );
 }
 
 function saveItem({ result, setMessage, idpMetadata, spEntityId }) {
-  if (result.oidcConfig?.activated) {
+  if (isAnotherIdpActivated(result.ldapConfig, result.oidcConfig3)) {
     setMessage({ text: 'OIDC configuration is already active. Please deactivate OIDC first.', type: errorType });
   } else {
-    setMessage({ message: 'Saving config', type: neutral, isSaving: true });
+    setMessage({ message: t('in-settings:tabs.savingConfig'), type: neutral, isSaving: true });
     const setConfigResult$ = setConfig({ idpMetadata, spEntityId });
     setConfigResult$.once(
-      () => setMessage({ text: 'Config successfully saved.', type: success }),
-      error => setMessage({ text: `Failed to save config: ${error.message}`, type: errorType })
+      () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: success }),
+      error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: errorType })
     );
   }
 }

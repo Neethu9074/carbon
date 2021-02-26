@@ -3,17 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 import { generatePath, matchPath } from 'react-router';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { settingsBasePath, teamSettings, userSettingsGeneral, ampSettings } from 'in-settings/navigation/paths';
 import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 import { isAvailable as isSamlAvailable } from 'in-settings/tabs/AuthSettings/api/saml';
 import { isAvailable as isLdapAvailable } from 'in-settings/tabs/AuthSettings/api/ldap';
 import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
 import legacyRedirects from 'in-settings/navigation/legacy-redirects';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import getTabs from 'in-settings/tabs/index';
 import connectTo from 'in-hoc/connectTo';
 
@@ -48,9 +49,9 @@ function Header(props) {
   return (
     <DashboardHeader
       {...props}
-      title="Settings"
+      title={t('in-settings:settings')}
       icon="lib_actions_settings"
-      label="Settings"
+      label={t('in-settings:settings')}
       renderTimeSelection={isAmpView ? () => null : undefined}
     />
   );

@@ -6,6 +6,7 @@ import { plugins, customIssuesDisabledForPlugins } from 'in-forge/constants';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getPluginName } from 'in-sdk/pluginName';
 import { hasCategory } from 'in-sdk/metrics';
+import { t } from 'in-i18n';
 
 // event specification type enum names that the back end uses
 export const builtInEnumValue = 'BUILT_IN';
@@ -34,11 +35,11 @@ export function isTriggering(entity) {
 export function getSeverityText(severity) {
   switch (severity) {
     case 10:
-      return 'Critical';
+      return t('in-settings:tabs.critical');
     case 5:
-      return 'Warning';
+      return t('in-settings:tabs.warning');
     default:
-      return 'None';
+      return t('in-settings:tabs.none');
   }
 }
 
@@ -78,31 +79,31 @@ export function formatterTypeToDefinition(formatterType) {
   switch (formatterType) {
     case 'LATENCY':
     case 'MILLIS':
-      return 'Milliseconds';
+      return t('in-settings:tabs.milliseconds');
     case 'MICROS':
-      return 'Microseconds';
+      return t('in-settings:tabs.microseconds');
     case 'SECONDS':
-      return 'Seconds';
+      return t('in-settings:tabs.seconds');
     case 'MINUTES':
-      return 'Minutes';
+      return t('in-settings:tabs.minutes');
     case 'PERCENTAGE':
-      return 'Percentage';
+      return t('in-settings:tabs.percentage');
     case 'RATE':
-      return 'Rate per second';
+      return t('in-settings:tabs.ratePerSecond');
     case 'BYTE_RATE':
-      return 'Bytes per second';
+      return t('in-settings:tabs.bytesPerSecond');
     case 'KILO_BYTE_RATE':
-      return 'Kilobytes per second';
+      return t('in-settings:tabs.kilobytesPerSecond');
     case 'BYTES':
-      return 'Bytes';
+      return t('in-settings:tabs.bytes');
     case 'KILO_BYTES':
-      return 'Kilobytes';
+      return t('in-settings:tabs.kilobytes');
     case 'NUMBER':
-      return 'Count';
+      return t('in-settings:tabs.count');
     case 'UNDEFINED':
-      return 'Value';
+      return t('in-settings:tabs.value');
     default:
-      return 'Value';
+      return t('in-settings:tabs.value');
   }
 }
 

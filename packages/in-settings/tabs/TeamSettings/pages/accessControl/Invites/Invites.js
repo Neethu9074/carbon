@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import InviteUserButton from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
@@ -13,19 +12,20 @@ import ApiList from 'in-settings/components/ApiList';
 import Title from 'in-components/Title/Title';
 import Gravatar from 'in-components/Gravatar';
 import { config } from 'in-services/config';
+import { t, Trans } from 'in-i18n';
 
 export default function Invites() {
   return (
     <>
-      <Title title="Pending Invitations" />
+      <Title title={t('in-settings:tabs.pendingInvitations')} />
       <ApiList
         ListRenderer={ListRenderer}
         getItems={getInvitations$}
         deleteItem={revokeInvitation}
-        itemName={t('in-settings:teamSettings.accessControl.invites.itemName')}
+        itemName={t('in-settings:tabs.pendingInvitation')}
         searchFields={['email']}
         renderAdditionalHeaderContent={renderAdditionalHeaderContent}
-        searchPlaceholder={t('in-settings:teamSettings.accessControl.invites.searchPlaceHolder')}
+        searchPlaceholder={t('in-settings:tabs.filterInvites')}
         boundedPath="/invites"
       />
     </>
@@ -52,11 +52,16 @@ const columnDefinitions = [
           itemName={invite.email}
           doDelete={() => deleteItem(invite.email)}
           isDeleting={currentDeletingItemIds.has(invite.email)}
-          confirmLabel="Revoke"
+          confirmLabel={t('in-settings:tabs.revoke')}
           dialogMessage={() => (
             <span>
-              Are you sure you want to revoke the invitation to join the <strong>{config.tenant}</strong> tenant for{' '}
-              <strong>{invite.email}</strong>?
+              <Trans
+                i18nKey="in-settings:tabs.areYouSureYouWantToRevokeTheInvitationToJoinTheTenant"
+                values={{
+                  tenant: config.tenant,
+                  email: invite.email
+                }}
+              />
             </span>
           )}
         />

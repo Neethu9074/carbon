@@ -4,6 +4,7 @@
  */
 import { createField, notBlankValidator } from 'formalistic';
 import React, { useMemo } from 'react';
+import { t } from 'in-i18n';
 import zxcvbn from 'zxcvbn';
 
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
@@ -32,18 +33,29 @@ function Content({ form, setForm }) {
 
   return (
     <>
-      <Title title="Change Password" />
-      <SubViewHeader>Change Password</SubViewHeader>
+      <Title title={t('in-settings:tabs.changePassword')} />
+      <SubViewHeader>{t('in-settings:tabs.changePassword')}</SubViewHeader>
       <Section restrictWidth="50rem">
-        <InputField label="Password" fieldName="password" form={form} setForm={setForm} autoFocus />
         <InputField
-          label="New password"
+          label={t('in-settings:tabs.password')}
+          fieldName="password"
+          form={form}
+          setForm={setForm}
+          autoFocus
+        />
+        <InputField
+          label={t('in-settings:tabs.newPassword')}
           fieldName="newPassword"
           form={form}
           setForm={setForm}
           passwordStrength={passwordStrength}
         />
-        <InputField label="Repeat password" fieldName="repeatedPassword" form={form} setForm={setForm} />
+        <InputField
+          label={t('in-settings:tabs.repeatPassword')}
+          fieldName="repeatedPassword"
+          form={form}
+          setForm={setForm}
+        />
       </Section>
     </>
   );
@@ -68,9 +80,7 @@ function InputField({ label, fieldName, autoFocus, form, setForm, passwordStreng
         autoFocus={autoFocus}
       />
       {passwordStrength && field.value ? (
-        <ValidationBlock className={locals[`score_${passwordStrength.score}`]}>
-          The password is {passwordStrength.text}.
-        </ValidationBlock>
+        <ValidationBlock className={locals[`score_${passwordStrength.score}`]}>{passwordStrength.text}</ValidationBlock>
       ) : (
         <TouchedMessages field={field} />
       )}
@@ -81,7 +91,13 @@ function InputField({ label, fieldName, autoFocus, form, setForm, passwordStreng
 function getPasswordStrength(password) {
   const strength = zxcvbn(password);
   return {
-    text: ['very weak', 'weak', 'weak', 'strong', 'very strong'][strength.score],
+    text: [
+      t('in-settings:tabs.thePasswordIsVeryWeak'),
+      t('in-settings:tabs.thePasswordIsWeak'),
+      t('in-settings:tabs.thePasswordIsWeak'),
+      t('in-settings:tabs.thePasswordIsStrong'),
+      t('in-settings:tabs.thePasswordIsVeryStrong')
+    ][strength.score],
     score: strength.score
   };
 }
@@ -98,11 +114,15 @@ function onSubmit(e, props) {
 }
 
 function saveItem({ form, setMessage }) {
-  setMessage({ message: 'Saving new password', type: neutral, isSaving: true });
+  setMessage({
+    message: t('in-settings:tabs.savingNewPassword'),
+    type: neutral,
+    isSaving: true
+  });
   const setRoleResult$ = changePassword(form.toJS());
   setRoleResult$.once(
-    () => setMessage({ text: 'Password changed.', type: success }),
-    error => setMessage({ text: `Failed to change password: ${error.message}`, type: errorType })
+    () => setMessage({ text: t('in-settings:tabs.passwordChanged'), type: success }),
+    error => setMessage({ text: t('in-settings:tabs.failedToChangePassword', { err: error.message }), type: errorType })
   );
 }
 
@@ -137,7 +157,7 @@ function validatePassword(password) {
     return [
       {
         severity: 'error',
-        message: 'The password is not strong enough.'
+        message: t('in-settings:tabs.thePasswordIsNotStrongEnough')
       }
     ];
   }

@@ -4,12 +4,13 @@
  */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
-import Dialog from 'in-new-components/Dialog/Dialog';
 import TermsPage1 from 'in-settings/terms/dialog/TermsPage1';
 import TermsPage2 from 'in-settings/terms/dialog/TermsPage2';
 import TermsPage3 from 'in-settings/terms/dialog/TermsPage3';
 import TermsPage4 from 'in-settings/terms/dialog/TermsPage4';
+import Dialog from 'in-new-components/Dialog/Dialog';
 
 import locals from './TermsDialogPresenter.mless';
 
@@ -28,7 +29,7 @@ export default function TermsDialogPresenter({
   const nrPages = fullTermsConfigEnabled ? 4 : 3;
 
   return (
-    <Dialog title="Preferences" doNotCloseOnOutsideClick withoutBodyPadding>
+    <Dialog title={t('in-settings:terms.preferences')} doNotCloseOnOutsideClick withoutBodyPadding>
       <form onSubmit={e => onSave(e, form)} className={locals.dialogContent}>
         {pageNumber === 1 && <TermsPage1 onNext={setPageNumber} onChange={onChange} form={form} nrPages={nrPages} />}
 

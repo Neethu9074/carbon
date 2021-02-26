@@ -5,6 +5,7 @@
 import { createMapForm, createField, notBlankValidator, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { List } from 'immutable';
+import { t } from 'in-i18n';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -16,10 +17,10 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import { emptyList } from 'in-services/fixedImmutables';
 import { isNotBlank } from 'in-services/util/string';
+import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import SvgIcon from 'in-components/SvgIcon';
-import Button from 'in-new-components/Button';
 
 import locals from './webhookChannelConfig.mless';
 import './Forms.less';
@@ -27,24 +28,24 @@ import './Forms.less';
 const block = 'in-alert-channel-config-form';
 
 const name = 'WEB_HOOK';
-const label = 'Generic Webhook';
+const label = t('in-settings:tabs.genericWebhook');
 
 const parameters = [
   {
     key: 'name',
-    label: 'Name'
+    label: t('in-settings:tabs.name')
   },
   {
     key: 'kind',
-    label: 'Type'
+    label: t('in-settings:tabs.type')
   },
   {
     key: 'webhookUrls',
-    label: 'Webhook URLs'
+    label: t('in-settings:tabs.webhookUrLs')
   },
   {
     key: 'headers',
-    label: 'Additional Headers'
+    label: t('in-settings:tabs.additionalHeaders')
   }
 ];
 
@@ -68,7 +69,7 @@ export default {
 
     return (
       <DescriptionList>
-        <DescriptionItem title="Webhooks">
+        <DescriptionItem title={t('in-settings:tabs.webhooks')}>
           {webhookUrls.toArray().map(url => (
             <div key={url}>{url}</div>
           ))}
@@ -136,7 +137,7 @@ function webhooks(webhooks) {
       {
         type: 'no_webhook',
         severity: 'error',
-        message: `Please define at least one webhook URL`
+        message: t('in-settings:tabs.pleaseDefineAtLeastOneWebhookUrl')
       }
     ];
   }
@@ -161,13 +162,13 @@ function Form({ form, onChange }) {
       {form.get('name').map(field => (
         <FormGroup className={block}>
           <Label htmlFor="name" hasError={!field.valid && field.touched}>
-            Name
+            {t('in-settings:tabs.name')}
           </Label>
           <Input
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="Generic Webhook Alert Channel"
+            placeholder={t('in-settings:tabs.genericWebhookAlertChannel')}
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -179,7 +180,7 @@ function Form({ form, onChange }) {
 
       {form.get('webhookUrls').map(field => (
         <FormGroup>
-          <Label hasError={!field.valid && field.touched}>Webhook URLs</Label>
+          <Label hasError={!field.valid && field.touched}>{t('in-settings:tabs.webhookUrLs')}</Label>
           {field.touched
             ? field.messages.map((message, i) => {
                 if (message.type !== 'no_webhook') {
@@ -212,7 +213,7 @@ function Form({ form, onChange }) {
                 kind="danger"
                 onClick={() => removewebHookUrl(form, onChange, i)}
               >
-                Remove
+                {t('in-settings:tabs.remove')}
               </Button>
             </div>
             {field.touched
@@ -229,7 +230,7 @@ function Form({ form, onChange }) {
       })}
       <div className={`${block}__add-button-wrapper`}>
         <span className={`${block}__add-link`} onClick={() => addwebHookUrl(form, onChange)}>
-          Add Webhook URL
+          {t('in-settings:tabs.addWebhookUrl')}
         </span>
       </div>
 
@@ -296,12 +297,9 @@ function createHeaderForm(key, value) {
 function HttpHeaders({ form, onChange, addHeader, removeHeader, disabled }) {
   return (
     <Fragment>
-      <SectionHeading>Custom HTTP Request Headers</SectionHeading>
+      <SectionHeading>{t('in-settings:tabs.customHttpRequestHeaders')}</SectionHeading>
       <SectionHelp>
-        <p>
-          Custom HTTP headers are useful to support authentication mechanisms other than HTTP basic authentication or to
-          circumvent security mechanisms commonly available in content-delivery networks, e.g. bot detection.
-        </p>
+        <p>{t('in-settings:tabs.customHttpHeadersAreUsefulToSupportAuthenticationMechanisms')}</p>
       </SectionHelp>
 
       {form.get('headers').map((header, i) => (
@@ -314,7 +312,7 @@ function HttpHeaders({ form, onChange, addHeader, removeHeader, disabled }) {
                 {header.get('key').map(field => (
                   <FormGroup>
                     <Label htmlFor={`config-headers-${i}-key`} hasError={!field.valid && field.touched}>
-                      Key
+                      {t('in-settings:tabs.key')}
                     </Label>
                     <Input
                       id={`config-headers-${i}-key`}
@@ -331,7 +329,7 @@ function HttpHeaders({ form, onChange, addHeader, removeHeader, disabled }) {
                 {header.get('value').map(field => (
                   <FormGroup>
                     <Label htmlFor={`config-headers-${i}-value`} hasError={!field.valid && field.touched}>
-                      Value
+                      {t('in-settings:tabs.value')}
                     </Label>
                     <Input
                       id={`config-headers-${i}-value`}
@@ -357,7 +355,7 @@ function HttpHeaders({ form, onChange, addHeader, removeHeader, disabled }) {
 
       <div className={`${block}__add-button-wrapper`}>
         <span className={`${block}__add-link`} onClick={() => addHeader(form, onChange)}>
-          Add Header
+          {t('in-settings:tabs.addHeader')}
         </span>
       </div>
     </Fragment>

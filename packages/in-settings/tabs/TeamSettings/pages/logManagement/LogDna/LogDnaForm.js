@@ -2,14 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaForm.mless';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+
+import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaForm.mless';
 
 export default function LogDnaForm({ form, onChange, disabled, areFieldsBlank }) {
   const logdnaUrl = 'https://app.logdna.com/' + form.get('accountId').value + '/logs';
@@ -19,7 +21,7 @@ export default function LogDnaForm({ form, onChange, disabled, areFieldsBlank })
       {form.get('accountId').map(field => (
         <FormGroup>
           <Label htmlFor="logdna-account-id" hasError={!disabled && !field.valid && field.touched}>
-            LogDNA Account ID
+            {t('in-settings:tabs.logDnaAccountId')}
           </Label>
           <Input
             id="logdna-account-id"
@@ -31,14 +33,14 @@ export default function LogDnaForm({ form, onChange, disabled, areFieldsBlank })
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Can be found from the URL: <b>https://app.logdna.com/account_id/</b>.
+            <Trans i18nKey="in-settings:tabs.canBeFoundFromTheLogdnaUrl" />
           </HelpText>
         </FormGroup>
       ))}
 
       {!areFieldsBlank && (
         <FormGroup>
-          <Label htmlFor="logdna-test-link">Test your LogDNA link</Label>
+          <Label htmlFor="logdna-test-link">{t('in-settings:tabs.testYourLogDnaLink')}</Label>
           <a href={logdnaUrl} target={'_blank'} rel="noopener noreferrer">
             {logdnaUrl}
           </a>

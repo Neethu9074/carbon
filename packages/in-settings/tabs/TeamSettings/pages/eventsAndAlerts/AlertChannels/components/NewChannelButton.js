@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import configs from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
@@ -32,7 +33,7 @@ export default function NewChannelButton(props) {
       className={locals.createNewButton}
       kind="action"
       icon="lib_openclose_add_circle_outline"
-      label="Add Alert Channel"
+      label={t('in-settings:tabs.addAlertChannel')}
       buttons={buttons}
     />
   );

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import {
   teamSettings,
@@ -76,7 +77,7 @@ function navigationTreeForRole(role) {
     if (role.canConfigureUsers) {
       accessControlPages.push({
         path: teamSettingsAccessControlUsers,
-        label: 'Users',
+        label: t('in-settings:tabs.users'),
         component: UsersPage,
         subPages: [
           {
@@ -87,7 +88,7 @@ function navigationTreeForRole(role) {
       });
       accessControlPages.push({
         path: teamSettingsAccessControlInvites,
-        label: 'Pending Invitations',
+        label: t('in-settings:tabs.pendingInvitations'),
         component: InvitesPage
       });
     }
@@ -95,7 +96,7 @@ function navigationTreeForRole(role) {
     if (role.canConfigureTeams) {
       accessControlPages.push({
         path: teamSettingsAccessControlGroups,
-        label: 'Groups',
+        label: t('in-settings:tabs.groups'),
         component: GroupsPage,
         subPages: [
           {
@@ -113,7 +114,7 @@ function navigationTreeForRole(role) {
     if (role.canConfigureApiTokens) {
       accessControlPages.push({
         path: teamSettingsAccessControlApiTokens,
-        label: 'API Tokens',
+        label: t('in-settings:tabs.apiTokens'),
         component: ApiTokensPage,
         subPages: [
           {
@@ -125,7 +126,7 @@ function navigationTreeForRole(role) {
     }
 
     navigationTree.push({
-      title: 'Access Control',
+      title: t('in-settings:tabs.accessControl'),
       pages: accessControlPages
     });
   }
@@ -136,7 +137,7 @@ function navigationTreeForRole(role) {
     if (role.canConfigureCustomAlerts) {
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingEvents,
-        label: 'Events',
+        label: t('in-settings:tabs.events'),
         component: EventsPage,
         subPages: [
           {
@@ -156,7 +157,7 @@ function navigationTreeForRole(role) {
 
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingAlerts,
-        label: 'Alerts',
+        label: t('in-settings:tabs.alerts'),
         component: AlertsPage,
         subPages: [
           {
@@ -174,7 +175,7 @@ function navigationTreeForRole(role) {
     if (role.canConfigureIntegrations) {
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingAlertChannels,
-        label: 'Alert Channels',
+        label: t('in-settings:tabs.alertChannels'),
         component: AlertChannelsPage,
         subPages: [
           {
@@ -196,7 +197,7 @@ function navigationTreeForRole(role) {
     if (role.canConfigureCustomAlerts) {
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingMaintenanceConfigurations,
-        label: 'Maintenance Windows',
+        label: t('in-settings:tabs.maintenanceWindows'),
         component: MaintenanceWindowsPage,
         subPages: [
           {
@@ -213,43 +214,43 @@ function navigationTreeForRole(role) {
 
     eventsAndAlertsPages.push({
       path: teamSettingsAlertingCustomPayloadConfiguration,
-      label: 'Custom Payload',
+      label: t('in-settings:tabs.customPayload'),
       component: CustomPayloadPage
     });
 
     navigationTree.push({
-      title: 'Events & Alerts',
+      title: t('in-settings:tabs.eventsAlerts'),
       pages: eventsAndAlertsPages
     });
   }
 
   if (role.canConfigureLogManagement) {
     navigationTree.push({
-      title: 'Log Management',
+      title: t('in-settings:tabs.logManagement'),
       pages: [
         {
           path: teamSettingsLogManagementCoralogix,
-          label: 'Coralogix',
+          label: t('in-settings:tabs.coralogix'),
           component: CoralogixPage
         },
         {
           path: teamSettingsLogManagementElk,
-          label: 'ELK',
+          label: t('in-settings:tabs.elk'),
           component: ElkPage
         },
         {
           path: teamSettingsLogManagementHumio,
-          label: 'Humio',
+          label: t('in-settings:tabs.humio'),
           component: HumioPage
         },
         {
           path: teamSettingsLogManagementLogDna,
-          label: 'LogDNA',
+          label: t('in-settings:tabs.logDna'),
           component: LogDnaPage
         },
         {
           path: teamSettingsLogManagementSplunk,
-          label: 'Splunk',
+          label: t('in-settings:tabs.splunk'),
           component: SplunkPage
         }
       ]
@@ -258,11 +259,11 @@ function navigationTreeForRole(role) {
 
   if (role.canViewAuditLog) {
     navigationTree.push({
-      title: 'Audit',
+      title: t('in-settings:tabs.audit'),
       pages: [
         {
           path: teamSettingsAuditLog,
-          label: 'Audit Log',
+          label: t('in-settings:tabs.auditLog'),
           component: AuditLogPage
         }
       ]

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
@@ -17,24 +18,24 @@ import './Forms.less';
 const block = 'in-alert-channel-config-form';
 
 const name = 'VICTOR_OPS';
-const label = 'VictorOps';
+const label = t('in-settings:tabs.victorOps');
 
 const parameters = [
   {
     key: 'name',
-    label: 'Name'
+    label: t('in-settings:tabs.name')
   },
   {
     key: 'kind',
-    label: 'Type'
+    label: t('in-settings:tabs.type')
   },
   {
     key: 'apiKey',
-    label: 'API Key'
+    label: t('in-settings:tabs.apiKey')
   },
   {
     key: 'routingKey',
-    label: 'Routing Key'
+    label: t('in-settings:tabs.routingKey')
   }
 ];
 
@@ -54,8 +55,8 @@ export default {
   createDetails(alertChannel) {
     return (
       <DescriptionList>
-        <DescriptionItem title="API Key">{alertChannel.get('apiKey')}</DescriptionItem>
-        <DescriptionItem title="Routing Key">{alertChannel.get('routingKey')}</DescriptionItem>
+        <DescriptionItem title={t('in-settings:tabs.apiKey')}>{alertChannel.get('apiKey')}</DescriptionItem>
+        <DescriptionItem title={t('in-settings:tabs.routingKey')}>{alertChannel.get('routingKey')}</DescriptionItem>
       </DescriptionList>
     );
   },
@@ -110,13 +111,13 @@ function Form({ form, onChange }) {
       {form.get('name').map(field => (
         <FormGroup className={block}>
           <Label htmlFor="name" hasError={!field.valid && field.touched}>
-            Name
+            {t('in-settings:tabs.name')}
           </Label>
           <Input
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="VictorOps Alert Channel"
+            placeholder={t('in-settings:tabs.victorOpsAlertChannel')}
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -129,13 +130,13 @@ function Form({ form, onChange }) {
       {form.get('apiKey').map(field => (
         <FormGroup>
           <Label htmlFor="apiKey" hasError={!field.valid && field.touched}>
-            API Key
+            {t('in-settings:tabs.apiKey')}
           </Label>
           <Input
             className={`${block}__input`}
             id="apiKey"
             type="text"
-            placeholder="API Key"
+            placeholder={t('in-settings:tabs.apiKey')}
             value={field.value}
             onChange={e => onChange('apiKey', e.target.value)}
           />
@@ -146,13 +147,13 @@ function Form({ form, onChange }) {
       {form.get('routingKey').map(field => (
         <FormGroup>
           <Label htmlFor="routingKey" hasError={!field.valid && field.touched}>
-            Routing Key
+            {t('in-settings:tabs.routingKey')}
           </Label>
           <Input
             className={`${block}__input`}
             id="routingKey"
             type="text"
-            placeholder="Routing Key"
+            placeholder={t('in-settings:tabs.routingKey')}
             value={field.value}
             onChange={e => onChange('routingKey', e.target.value)}
           />

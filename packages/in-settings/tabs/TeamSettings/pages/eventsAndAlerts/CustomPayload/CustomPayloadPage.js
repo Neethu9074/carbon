@@ -6,6 +6,7 @@ import { createLogger } from '@instana/logger';
 import { createField } from 'formalistic';
 import React, { useState } from 'react';
 import classNames from 'classnames';
+import { t, Trans } from 'in-i18n';
 import { uniqBy } from 'lodash';
 
 import {
@@ -27,6 +28,12 @@ import {
   createTagBasedPayloadConfigurator
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
+  addItemAlertCustomPayloadTracker,
+  editAlertCustomPayloadTracker,
+  removeItemAlertCustomPayloadTracker,
+  submitAlertCustomPayloadTracker
+} from 'in-settings/tracker';
+import {
   getGlobalCustomPayloadAsResultObservable,
   getCustomPayloadTagCatalog,
   saveGlobalCustomPayload
@@ -35,12 +42,6 @@ import {
   useSaveToServerHandler,
   initialState
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/useSaveToServerHandler';
-import {
-  addItemAlertCustomPayloadTracker,
-  editAlertCustomPayloadTracker,
-  removeItemAlertCustomPayloadTracker,
-  submitAlertCustomPayloadTracker
-} from 'in-settings/tracker';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { isLoading, hasError, successObservableFactory } from 'in-services/util/result';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
@@ -126,21 +127,21 @@ export function CustomPayload(props) {
 
   return (
     <SettingsDetailPage>
-      <Title title="Configure Custom Payload for Alerts" />
-      <SubViewHeader>Configure Custom Payload</SubViewHeader>
+      <Title title={t('in-settings:tabs.configureCustomPayloadForAlerts')} />
+      <SubViewHeader>{t('in-settings:tabs.configureCustomPayload')}</SubViewHeader>
       <Section>
         <Message withIcon small>
-          Each key/value pair will be included as additional payload to each Issue or Incident alert notification.
-          Please refer to the{' '}
-          <Link href="https://instana.com/docs/events_alerts/custom-payload" external>
-            Custom Payload documentation
-          </Link>{' '}
-          for more details.
+          <Trans
+            i18nKey="in-settings:tabs.eachKeyValuePairWillBeIncludedAsAdditionalPayload"
+            components={{
+              docLink: <Link href="https://instana.com/docs/events_alerts/custom-payload" external />
+            }}
+          />
         </Message>
       </Section>
       {!canConfigureGlobalAlertPayload && (
         <Message withIcon small>
-          You are not permitted to edit custom payloads.
+          {t('in-settings:tabs.youAreNotPermittedToEditCustomPayloads')}
         </Message>
       )}
       <form
@@ -168,14 +169,19 @@ export function CustomPayload(props) {
           rightHeader={
             canConfigureGlobalAlertPayload ? (
               form.size >= maximumNumberOfRows ? (
-                <Tooltip content={`The number of rows is restricted to ${maximumNumberOfRows}.`} align="bottomMiddle">
+                <Tooltip
+                  content={t('in-settings:tabs.theNumberOfRowsIsRestrictedToMaximumNumberOfRows', {
+                    maximumNumberOfRows: maximumNumberOfRows
+                  })}
+                  align="bottomMiddle"
+                >
                   <Button kind="action" icon="lib_openclose_add_circle_outline" disabled>
-                    Add Row
+                    {t('in-settings:tabs.addRow')}
                   </Button>
                 </Tooltip>
               ) : (
                 <Button kind="action" onClick={addRow} icon="lib_openclose_add_circle_outline" disabled={!enabled}>
-                  Add Row
+                  {t('in-settings:tabs.addRow')}
                 </Button>
               )
             ) : (
@@ -196,7 +202,7 @@ export function CustomPayload(props) {
         {message ? (
           <Section>
             <Notification failure={error} loading={storing}>
-              {error ? 'An error occurred, please try again.' : message}
+              {error ? t('in-settings:tabs.anErrorOccurredPleaseTryAgain') : message}
             </Notification>
           </Section>
         ) : null}
@@ -229,7 +235,7 @@ const tableColumnDefinitions = [
     id: 'key',
     width: '30',
     sortable: false,
-    label: 'Key',
+    label: t('in-settings:tabs.key'),
     getContent(item, { getRowIndex, updateIn, enabled }) {
       function onChange(paths, f) {
         updateIn([getRowIndex(item), ...paths], f);
@@ -241,7 +247,7 @@ const tableColumnDefinitions = [
       return (
         <FormGroup withoutBottomMargin>
           <HorizontalFlexWrapper className={locals.colName}>
-            <span className={locals.prefix}>custom:</span>
+            <span className={locals.prefix}>{t('in-settings:tabs.custom')}</span>
             <Input
               disabled={!enabled}
               className={locals.key}
@@ -264,7 +270,7 @@ const tableColumnDefinitions = [
     width: '20',
 
     sortable: false,
-    label: 'Value type',
+    label: t('in-settings:tabs.valueType'),
     getContent(item, { getRowIndex, updateIn, enabled, trackChange }) {
       const onChangeType = newType => {
         const newValue = defaultValueForType(newType);
@@ -295,10 +301,10 @@ const tableColumnDefinitions = [
               }}
             >
               {[
-                { value: staticStringType, label: 'Static (String)' },
-                { value: staticNumberType, label: 'Static (Number)' },
-                { value: staticBooleanType, label: 'Static (Boolean)' },
-                { value: dynamicType, label: 'Dynamic' }
+                { value: staticStringType, label: t('in-settings:tabs.staticString') },
+                { value: staticNumberType, label: t('in-settings:tabs.staticNumber') },
+                { value: staticBooleanType, label: t('in-settings:tabs.staticBoolean') },
+                { value: dynamicType, label: t('in-settings:tabs.dynamic') }
               ].map(({ value, label }) => (
                 <option key={value} value={value}>
                   {label}
@@ -315,7 +321,7 @@ const tableColumnDefinitions = [
     width: '45',
 
     sortable: false,
-    label: 'Value',
+    label: t('in-settings:tabs.value'),
     getContent(itemForm, { getRowIndex, updateIn, enabled, trackChange }) {
       function onChange(paths, f) {
         updateIn([getRowIndex(itemForm), ...paths], f);
@@ -372,8 +378,8 @@ const tableColumnDefinitions = [
                 onChange(['value'], f => f.setValue(target.value).setTouched(true));
               }}
             >
-              <option value>true</option>
-              <option value={false}>false</option>
+              <option value>{t('in-settings:tabs.true')}</option>
+              <option value={false}>{t('in-settings:tabs.false')}</option>
             </Select>
             <TouchedMessages field={valueField} />
           </FormGroup>
@@ -406,7 +412,7 @@ const tableColumnDefinitions = [
         );
       }
 
-      return <span>Unknown type: {type} - it can not be edited.</span>;
+      return <span>{t('in-settings:tabs.unknownTypeTypeItCanNotBeEdited', { type: type })}</span>;
     }
   }
 ];
@@ -418,7 +424,7 @@ const deleteItemColumn = {
   getContent(itemForm, { deleteRow, enabled }) {
     return (
       <div className={locals.controls}>
-        <Tooltip content="Delete Row">
+        <Tooltip content={t('in-settings:tabs.deleteRow')}>
           <SvgIcon
             type="lib_actions_delete"
             className={classNames({

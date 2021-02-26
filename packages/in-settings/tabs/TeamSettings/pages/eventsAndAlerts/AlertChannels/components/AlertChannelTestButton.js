@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { fromJS } from 'immutable';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
@@ -32,7 +33,7 @@ export default class extends React.Component {
     this.setState({
       loading: true,
       error: false,
-      message: 'Loading...'
+      message: t('in-settings:tabs.loading')
     });
     return alertChannelTest(
       fromJS(fullyQualified[alertChannel.get('kind')].createEntity(alertChannel, form))
@@ -64,7 +65,7 @@ export default class extends React.Component {
             onClick={() => this.test(this.props.alertChannel, this.props.form)}
             disabled={!this.props.form.hierarchyValid && this.props.form.touched}
           >
-            Test Channel
+            {t('in-settings:tabs.testChannel')}
           </Button>
           {this.state.message ? <Notification failure={this.state.error}>{this.state.message}</Notification> : null}
         </Section>

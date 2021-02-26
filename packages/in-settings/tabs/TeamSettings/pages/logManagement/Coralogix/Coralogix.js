@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 import { createMapForm, createField } from 'formalistic';
-import React, { Fragment } from 'react';
 import { createLogger } from '@instana/logger';
+import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import CoralogixForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/CoralogixForm';
 import { teamSettingsLogManagementCoralogix } from 'in-settings/navigation/paths';
@@ -32,7 +33,7 @@ export default class Coralogix extends React.Component {
   state = {
     loading: true,
     error: false,
-    message: 'Loading…',
+    message: t('in-settings:tabs.loading'),
     integration: null,
     form: null
   };
@@ -46,7 +47,7 @@ export default class Coralogix extends React.Component {
     this.setState({
       loading: true,
       error: false,
-      message: 'Loading…',
+      message: t('in-settings:tabs.loading'),
       id: id,
       form: null,
       integration: null
@@ -69,7 +70,7 @@ export default class Coralogix extends React.Component {
       this.setState({
         loading: false,
         error: true,
-        message: 'Failed to load Coralogix configuration.'
+        message: t('in-settings:tabs.failedToLoadCoralogixConfiguration')
       });
     });
   };
@@ -94,15 +95,15 @@ export default class Coralogix extends React.Component {
 
     return (
       <SettingsDetailPage>
-        <Title title="Configure Coralogix" />
-        <SubViewHeader>{'Configure your Coralogix settings'}</SubViewHeader>
+        <Title title={t('in-settings:tabs.configureCoralogix')} />
+        <SubViewHeader>{t('in-settings:tabs.configureYourCoralogixSettings')}</SubViewHeader>
         <SectionLine />
         {form && (
           <form onSubmit={this.onSubmit}>
             <Fragment>
               <div style={{ marginBottom: '1rem' }}>
-                <HorizontalFormGroup helpText="Enable/Disable Coralogix integration for Instana">
-                  <Heading text="Show Coralogix link on Hosts" htmlFor="coralogix-enabled" />
+                <HorizontalFormGroup helpText={t('in-settings:tabs.enableDisableCoralogixIntegrationForInstana')}>
+                  <Heading text={t('in-settings:tabs.showCoralogixLinkOnHosts')} htmlFor="coralogix-enabled" />
                   <Toggle
                     id="coralogix-enabled"
                     checked={enabled}
@@ -154,7 +155,7 @@ export default class Coralogix extends React.Component {
     this.setState({
       loading: true,
       error: false,
-      message: 'Saving…'
+      message: t('in-settings:tabs.saving')
     });
 
     this.responseSubscription = result$.once(() => {
@@ -166,7 +167,7 @@ export default class Coralogix extends React.Component {
     });
 
     this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to save configuration: ${error.message}`;
+      const message = t('in-settings:tabs.failedToSaveConfiguration', { err: error.message });
       logger.error(message, error);
       this.setState({
         loading: false,

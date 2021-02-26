@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SearchInput from 'in-new-components/SearchInput';
@@ -38,7 +39,7 @@ export default function ApiListHeader(props) {
           <SearchInput
             className={locals.searchInput}
             maxWidth={200}
-            placeholder={searchPlaceholder || 'Search...'}
+            placeholder={searchPlaceholder || t('in-settings:components.search')}
             query={query}
             onChange={setQuery}
           />

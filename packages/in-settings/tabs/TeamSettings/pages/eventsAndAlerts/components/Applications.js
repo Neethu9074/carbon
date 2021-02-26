@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { filter } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
@@ -28,7 +29,7 @@ export default function Applications({
 }) {
   return (
     <List
-      title={setTitle ? ' Application Perspectives' : null}
+      title={setTitle ? t('in-settings:tabs.applicationPerspectives') : null}
       getHeader={getHeader}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
@@ -41,7 +42,7 @@ export default function Applications({
       isSearchable={isSearchable}
       searchAttributes={['label']}
       extraFilters={createFilters(hiddenIds)}
-      searchPlaceholder="Filter…"
+      searchPlaceholder={t('in-settings:tabs.filter')}
       onRowClick={onRowClick}
       getDetailsHref={null}
     />
@@ -52,7 +53,7 @@ function columnDefinitions() {
   return [
     {
       id: 'label',
-      label: 'Name',
+      label: t('in-settings:tabs.name'),
       width: 100,
       ellipsis: true,
       getContent(entity) {
@@ -68,11 +69,11 @@ function columnDefinitions() {
 const defaultTableActions = {};
 
 function defaultGetHeader(inSelectListDialog, tableActions) {
-  return leftHeaderWithSelectAll('Application Perspectives', inSelectListDialog, tableActions);
+  return leftHeaderWithSelectAll(t('in-settings:tabs.applicationPerspectives'), inSelectListDialog, tableActions);
 }
 
 function getEntityName(entity) {
-  return `Application Perspective "${entity.label}"`;
+  return t('in-settings:tabs.applicationPerspectiveEntityLabel', { entityLabel: entity.label });
 }
 
 export function noRightHeader() {

@@ -4,6 +4,7 @@
  */
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import locals from './StoredFilters.mless';
@@ -19,7 +20,7 @@ export default function StoredFiltersList({ filters, above, onSelect }) {
         })
       )}
     >
-      <p className={locals.heading}>Saved Filters</p>
+      <p className={locals.heading}>{t('in-settings:tabs.savedFilters')}</p>
       <ul className={locals.list}>
         {filters.length > 0 ? (
           filters.map(filter => (
@@ -28,7 +29,7 @@ export default function StoredFiltersList({ filters, above, onSelect }) {
             </li>
           ))
         ) : (
-          <span className={locals.noFiltersHelpText}>Save filters for easy access here</span>
+          <span className={locals.noFiltersHelpText}>{t('in-settings:tabs.saveFiltersForEasyAccessHere')}</span>
         )}
       </ul>
     </section>

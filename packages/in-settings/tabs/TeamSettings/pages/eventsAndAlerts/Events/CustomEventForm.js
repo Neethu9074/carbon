@@ -6,6 +6,7 @@ import { compose, lifecycle, withState } from 'recompose';
 import { create, just } from '@instana/observables';
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
+import { t, Trans } from 'in-i18n';
 import { isEqual } from 'lodash';
 
 import {
@@ -87,7 +88,7 @@ import Link from 'in-components/Link';
 import locals from './CustomEventForm.mless';
 
 const undefinedMetricFormatter = 'UNDEFINED';
-const unknownMetricLabel = 'UNKNOWN';
+const unknownMetricLabel = t('in-settings:tabs.unknown');
 
 const previewStartDate = Date.now();
 
@@ -224,14 +225,14 @@ function EventForm({
 
   return (
     <fieldset>
-      <SectionHeading>1. Event Details</SectionHeading>
+      <SectionHeading>{t('in-settings:tabs.1EventDetails')}</SectionHeading>
       <Row>
         <Col lg={8}>
           <Fragment>
             {form.get('name').map(field => (
               <FormGroup>
                 <Label htmlFor="event-name" hasError={!field.valid && field.touched}>
-                  Name
+                  {t('in-settings:tabs.name')}
                 </Label>
                 <Input
                   id="event-name"
@@ -244,14 +245,14 @@ function EventForm({
                 />
                 <TouchedMessages field={field} className={locals.subErrorTextFormField} />
                 <HelpText className={locals.subTextFormField}>
-                  Shows up in the list of events. This is also the name of issues. Should be unique and meaningful.
+                  {t('in-settings:tabs.showsUpInTheListOfEvents')}
                 </HelpText>
               </FormGroup>
             ))}
             {form.get('description').map(field => (
               <FormGroup>
                 <Label htmlFor="event-description" hasError={!field.valid && field.touched}>
-                  Description
+                  {t('in-settings:tabs.description')}
                 </Label>
                 <TextArea
                   id="event-description"
@@ -263,7 +264,7 @@ function EventForm({
                 />
                 <TouchedMessages field={field} className={locals.subErrorTextFormField} />
                 <HelpText className={locals.subTextFormField}>
-                  Shows up in the issue description. Should be as descriptive as possible. Supports markdown.
+                  {t('in-settings:tabs.showsUpInTheIssueDescription')}
                 </HelpText>
               </FormGroup>
             ))}
@@ -273,7 +274,7 @@ function EventForm({
                   {form.get('severity').map(field => (
                     <FormGroup>
                       <Label htmlFor="event-severity" hasError={!field.valid && field.touched}>
-                        Issue Severity
+                        {t('in-settings:tabs.issueSeverity')}
                       </Label>
                       <ComboBox
                         name="event-severity"
@@ -289,7 +290,7 @@ function EventForm({
                 <Col lg={4}>
                   {form.get('triggering').map(field => (
                     <FormGroup>
-                      <Label htmlFor="event-triggering">Incident</Label>
+                      <Label htmlFor="event-triggering">{t('in-settings:tabs.incident')}</Label>
                       <Toggle
                         id="event-triggering"
                         className={locals.toggle}
@@ -303,9 +304,11 @@ function EventForm({
                   {form.get('gracePeriod').map(field => (
                     <FormGroup>
                       <Label htmlFor="event-grace-period" hasError={!field.valid && field.touched}>
-                        Grace Period
+                        {t('in-settings:tabs.gracePeriod')}
                       </Label>
-                      <Helpify helpText="Period to wait before closing the issue once conditions are no longer met.">
+                      <Helpify
+                        helpText={t('in-settings:tabs.periodToWaitBeforeClosingTheIssueOnceConditionsAreNoLongerMet')}
+                      >
                         <ComboBox
                           name="event-grace-period"
                           value={field.value}
@@ -325,7 +328,7 @@ function EventForm({
         </Col>
         <Col lg={4}>
           <FormGroup>
-            <Label>Issue Preview</Label>
+            <Label>{t('in-settings:tabs.issuePreview')}</Label>
             <EventDescription
               className={locals.issuePreview}
               event={createIssueForPreview(form)}
@@ -336,11 +339,11 @@ function EventForm({
           </FormGroup>
         </Col>
       </Row>
-      <SectionHeading>2. Condition</SectionHeading>
+      <SectionHeading>{t('in-settings:tabs.2Condition')}</SectionHeading>
       {form.get('dataSource').map(field => (
         <FormGroup>
           <Label htmlFor="event-data-source" hasError={!field.valid && field.touched}>
-            Source
+            {t('in-settings:tabs.source')}
           </Label>
           <ComboBox
             name="event-data-source"
@@ -362,7 +365,7 @@ function EventForm({
           {form.get('systemRule').map(field => (
             <FormGroup>
               <Label htmlFor="event-system-rule" hasError={!field.valid && field.touched}>
-                System Rule
+                {t('in-settings:tabs.systemRule')}
               </Label>
               <ComboBox
                 name="event-system-rule"
@@ -404,7 +407,7 @@ function EventForm({
                 form.get('metricName').map(field => (
                   <FormGroup>
                     <Label htmlFor="event-metricName" hasError={!field.valid && field.touched}>
-                      Metric
+                      {t('in-settings:tabs.metric')}
                     </Label>
                     <BuiltInMetricSelector
                       id="event-metricName"
@@ -479,7 +482,7 @@ function EventForm({
                 form.get('metricName').map(field => (
                   <FormGroup>
                     <Label htmlFor="event-metricName" hasError={!field.valid && field.touched}>
-                      Metric
+                      {t('in-settings:tabs.metric')}
                     </Label>
                     <CustomMetricSelector
                       // Workaround to clear the selection when the entity-type change.
@@ -520,13 +523,13 @@ function EventForm({
         </>
       )}
 
-      <SectionHeading>3. Scope</SectionHeading>
+      <SectionHeading>{t('in-settings:tabs.3Scope')}</SectionHeading>
       <Row>
         <Col lg={6}>
           {form.get('applyOn').map(field => (
             <FormGroup>
               <Label htmlFor="event-apply-on" hasError={!field.valid && field.touched}>
-                Apply on (required)
+                {t('in-settings:tabs.applyOnRequired')}
               </Label>
               <ComboBox
                 name="event-apply-on"
@@ -538,8 +541,7 @@ function EventForm({
               <TouchedMessages field={field} />
               {form.get('applyOn').value === scopeEverything && (
                 <DescriptionText>
-                  <strong>Caution!</strong> This will match and create issues on all available entities for the
-                  conditions specified. <strong>This might affect other users in your organization as well.</strong>
+                  <Trans i18nKey="in-settings:tabs.thisWillMatchAndCreateIssuesOnAllAvailableEntitiesForTheConditionsSpecified" />
                 </DescriptionText>
               )}
             </FormGroup>
@@ -550,11 +552,13 @@ function EventForm({
             form.get('query').map(field => (
               <FormGroup>
                 <Label htmlFor="event-query" hasError={!field.valid && field.touched}>
-                  Dynamic Focus Query
+                  {t('in-settings:tabs.dynamicFocusQuery')}
                 </Label>
                 <InputWithDFQSelectionList
                   id={'event-query'}
-                  placeholder={'e.g. entity.zone:"prod" AND entity.service.name:"Shop"'}
+                  placeholder={t('in-settings:tabs.formatExample', {
+                    format: 'entity.zone:"prod" AND entity.service.name:"Shop"'
+                  })}
                   value={field.value || ''}
                   hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
                   onChange={value => {
@@ -574,13 +578,12 @@ function EventForm({
                 <BackendValidationMessages validationResult={form.get('validationResult').value} />
                 <TouchedMessages field={field} />
                 <DescriptionText>
-                  A <strong>non-empty</strong> filter query which defines for which entities the rule will be applied.
-                  Select <i>&quot;Apply on: All available entities&quot;</i> if you want this rule to be applied on all
-                  entities. For more information on syntax, please see our&nbsp;
-                  <Link href="https://instana.com/docs/dynamic_focus/#syntax" external>
-                    documentation
-                  </Link>
-                  .
+                  <Trans
+                    i18nKey="in-settings:tabs.aNonEmptyFilterQueryWhichDefinesForWhichEntitiesTheRuleWillBeApplied"
+                    components={{
+                      docLink: <Link href="https://instana.com/docs/dynamic_focus/#syntax" external />
+                    }}
+                  />
                 </DescriptionText>
               </FormGroup>
             ))}
@@ -593,24 +596,24 @@ function EventForm({
               setTitle={false}
               loadEntities={() => getSelectedApplicationsForAlert(selectedApplicationIds)}
               hasRowNavigation={false}
-              noDataMessage="No Application Perspectives Selected"
+              noDataMessage={t('in-settings:tabs.noApplicationPerspectivesSelected')}
               tableActions={applicationSelectionTableActions(form, setForm)}
               rightHeader={
                 <SelectListDialogButton
                   form={form}
                   onSubmit={selectedIds => submitApplicationSelection(form, setForm, selectedIds)}
-                  title="Add Application Perspectives"
-                  label="Add Application Perspectives"
+                  title={t('in-settings:tabs.addApplicationPerspectives')}
+                  label={t('in-settings:tabs.addApplicationPerspectives')}
                   listComponent={Applications}
                   listComponentRightHeader={noRightHeader}
                   limit={10}
                   hiddenIds={selectedApplicationIds}
                   createSubmitLabel={numberOfItems =>
                     numberOfItems > 0
-                      ? `Add ${numberOfItems} Application Perspective${numberOfItems > 1 ? 's' : ''}`
-                      : 'Add'
+                      ? t('in-settings:tabs.addNumberOfItemsApplicationPerspective', { count: numberOfItems })
+                      : t('in-settings:tabs.add')
                   }
-                  requiresAtLeastOneMessage="Please select at least one application perspectives."
+                  requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneApplicationPerspectives')}
                 />
               }
             />
@@ -625,7 +628,7 @@ function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions, onChange }) {
   return form.get('entityType').map(field => (
     <FormGroup>
       <Label htmlFor="event-entity-type" hasError={!field.valid && field.touched}>
-        Entity Type
+        {t('in-settings:tabs.entityType')}
       </Label>
       <ComboBox
         name="event-entity-type"
@@ -652,7 +655,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
             {form.get('window').map(field => (
               <FormGroup>
                 <Label htmlFor="event-window" hasError={!field.valid && field.touched}>
-                  Time Window
+                  {t('in-settings:tabs.timeWindow')}
                 </Label>
                 <ComboBox
                   name="event-window"
@@ -671,7 +674,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
             {form.get('rollup').map(field => (
               <FormGroup>
                 <Label htmlFor="event-rollup" hasError={!field.valid && field.touched}>
-                  Window Size
+                  {t('in-settings:tabs.windowSize')}
                 </Label>
                 <ComboBox
                   name="event-rollup"
@@ -690,7 +693,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
             {form.get('aggregation').map(field => (
               <FormGroup>
                 <Label htmlFor="event-aggregation" hasError={!field.valid && field.touched}>
-                  Aggregation
+                  {t('in-settings:tabs.aggregation')}
                 </Label>
                 <ComboBox
                   name="event-aggregation"
@@ -708,7 +711,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
           {form.get('conditionOperator').map(field => (
             <FormGroup>
               <Label htmlFor="event-conditionOperator" hasError={!field.valid && field.touched}>
-                Operator
+                {t('in-settings:tabs.operator')}
               </Label>
               <ComboBox
                 name="event-conditionOperator"
@@ -765,7 +768,7 @@ function DynamicBuiltInFormGroup({ form, onChange }) {
                   htmlFor="event-metricPatternOperator"
                   hasError={!metricPatternOperator.valid && metricPatternOperator.touched}
                 >
-                  Matching Operator
+                  {t('in-settings:tabs.matchingOperator')}
                 </Label>
                 <ComboBox
                   name="event-metricPatternOperator"
@@ -830,7 +833,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
         <Col lg={3}>
           <FormGroup>
             <Label htmlFor="-entity-matchingtype" hasError={!matchingEntityType.valid && matchingEntityType.touch}>
-              Entity Type
+              {t('in-settings:tabs.entityType')}
             </Label>
             <ComboBox
               name="matching-entity-type"
@@ -845,7 +848,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
         <Col lg={3}>
           <FormGroup>
             <Label htmlFor="matching-operator" hasError={!matchingOperator.valid && matchingOperator.touched}>
-              Entity Label Operator
+              {t('in-settings:tabs.entityLabelOperator')}
             </Label>
             <ComboBox
               name="matching-operator"
@@ -860,7 +863,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
         <Col lg={3}>
           <FormGroup>
             <Label htmlFor="matching-entity-label" hasError={!matchingEntityLabel.valid && matchingEntityLabel.touched}>
-              Entity Label
+              {t('in-settings:tabs.entityLabel')}
             </Label>
             <Input
               id="matching-entity-label"
@@ -877,7 +880,7 @@ function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onC
         <Col lg={3}>
           <FormGroup>
             <Label htmlFor="offline-duration" hasError={!offlineDuration.valid && offlineDuration.touched}>
-              Offline for
+              {t('in-settings:tabs.offlineFor')}
             </Label>
             <ComboBox
               name="offline-duration"
@@ -1082,14 +1085,14 @@ function isSystemRuleDataSourceSelected(form) {
 const severityWarning = '5';
 const severityCritical = '10';
 const severityOptions = Object.freeze([
-  { value: severityWarning, label: 'warning' },
-  { value: severityCritical, label: 'critical' }
+  { value: severityWarning, label: t('in-settings:tabs.warning') },
+  { value: severityCritical, label: t('in-settings:tabs.critical') }
 ]);
 
 const dataSourceOptions = Object.freeze([
-  { value: dataSourceBuiltIn, label: 'Built-in metrics' },
-  { value: dataSourceCustom, label: 'Custom metrics' },
-  { value: dataSourceSystem, label: 'System Rules' }
+  { value: dataSourceBuiltIn, label: t('in-settings:tabs.builtInMetrics') },
+  { value: dataSourceCustom, label: t('in-settings:tabs.customMetrics') },
+  { value: dataSourceSystem, label: t('in-settings:tabs.systemRules') }
 ]);
 
 function systemRuleOptions(systemRules) {
@@ -1125,50 +1128,50 @@ function getOptionsWithAdditionalValueIfMissing(options, selectedTimeValue) {
 }
 
 const gracePeriodOptions = Object.freeze([
-  { value: '5000', label: '5 s' },
-  { value: '10000', label: '10 s' },
-  { value: '30000', label: '30 s' },
-  { value: '60000', label: '60 s' },
-  { value: '90000', label: '90 s' },
-  { value: '300000', label: '5 min' },
-  { value: '600000', label: '10 min' },
-  { value: '1800000', label: '30 min' },
-  { value: '3600000', label: '60 min' },
-  { value: '5400000', label: '90 min' },
-  { value: '7200000', label: '120 min' },
-  { value: '14400000', label: '4 h' },
-  { value: '21600000', label: '6 h' },
-  { value: '43200000', label: '12 h' },
-  { value: '86400000', label: '24 h' }
+  { value: '5000', label: t('in-settings:tabs.5S') },
+  { value: '10000', label: t('in-settings:tabs.10S') },
+  { value: '30000', label: t('in-settings:tabs.30S') },
+  { value: '60000', label: t('in-settings:tabs.60S') },
+  { value: '90000', label: t('in-settings:tabs.90S') },
+  { value: '300000', label: t('in-settings:tabs.5Min') },
+  { value: '600000', label: t('in-settings:tabs.10Min') },
+  { value: '1800000', label: t('in-settings:tabs.30Min') },
+  { value: '3600000', label: t('in-settings:tabs.60Min') },
+  { value: '5400000', label: t('in-settings:tabs.90Min') },
+  { value: '7200000', label: t('in-settings:tabs.120Min') },
+  { value: '14400000', label: t('in-settings:tabs.4H') },
+  { value: '21600000', label: t('in-settings:tabs.6H') },
+  { value: '43200000', label: t('in-settings:tabs.12H') },
+  { value: '86400000', label: t('in-settings:tabs.24H') }
 ]);
 
 const windowOptions = Object.freeze([
-  { value: '1000', label: '1 s' },
-  { value: '5000', label: '5 s' },
-  { value: '10000', label: '10 s' },
-  { value: '30000', label: '30 s' },
-  { value: '60000', label: '60 s' },
-  { value: '90000', label: '90 s' },
-  { value: '300000', label: '5 min' },
-  { value: '600000', label: '10 min' },
-  { value: '1800000', label: '30 min' },
-  { value: '3600000', label: '60 min' },
-  { value: '5400000', label: '90 min' },
-  { value: '7200000', label: '120 min' }
+  { value: '1000', label: t('in-settings:tabs.1S') },
+  { value: '5000', label: t('in-settings:tabs.5S') },
+  { value: '10000', label: t('in-settings:tabs.10S') },
+  { value: '30000', label: t('in-settings:tabs.30S') },
+  { value: '60000', label: t('in-settings:tabs.60S') },
+  { value: '90000', label: t('in-settings:tabs.90S') },
+  { value: '300000', label: t('in-settings:tabs.5Min') },
+  { value: '600000', label: t('in-settings:tabs.10Min') },
+  { value: '1800000', label: t('in-settings:tabs.30Min') },
+  { value: '3600000', label: t('in-settings:tabs.60Min') },
+  { value: '5400000', label: t('in-settings:tabs.90Min') },
+  { value: '7200000', label: t('in-settings:tabs.120Min') }
 ]);
 
 const rollupOptions = Object.freeze([
-  { value: '5000', label: '5 s' },
-  { value: '60000', label: '1 min' },
-  { value: '300000', label: '5 min' },
-  { value: '3600000', label: '60 min' }
+  { value: '5000', label: t('in-settings:tabs.5S') },
+  { value: '60000', label: t('in-settings:tabs.1Min') },
+  { value: '300000', label: t('in-settings:tabs.5Min') },
+  { value: '3600000', label: t('in-settings:tabs.60Min') }
 ]);
 
 const aggregationOptions = Object.freeze([
-  { value: 'avg', label: 'avg' },
-  { value: 'sum', label: 'sum' },
-  { value: 'min', label: 'min' },
-  { value: 'max', label: 'max' }
+  { value: 'avg', label: t('in-settings:tabs.avg') },
+  { value: 'sum', label: t('in-settings:tabs.sum') },
+  { value: 'min', label: t('in-settings:tabs.min') },
+  { value: 'max', label: t('in-settings:tabs.max') }
 ]);
 
 const conditionOperatorOptions = Object.freeze([
@@ -1208,33 +1211,33 @@ const entityTypesToExcludeInVerificationRule = Object.freeze([
 ]);
 
 const entityLabelOperatorOptions = Object.freeze([
-  { value: 'is', label: 'is' },
-  { value: 'contains', label: 'contains' },
-  { value: 'startsWith', label: 'starts with' },
-  { value: 'endsWith', label: 'ends with' }
+  { value: 'is', label: t('in-settings:tabs.is') },
+  { value: 'contains', label: t('in-settings:tabs.contains') },
+  { value: 'startsWith', label: t('in-settings:tabs.startsWith') },
+  { value: 'endsWith', label: t('in-settings:tabs.endsWith') }
 ]);
 
 const offlineDurationOptions = Object.freeze([
-  { value: '60000', label: '1 min' },
-  { value: '120000', label: '2 min' },
-  { value: '180000', label: '3 min' },
-  { value: '300000', label: '5 min' },
-  { value: '600000', label: '10 min' },
-  { value: '1800000', label: '30 min' },
-  { value: '3600000', label: '60 min' },
-  { value: '5400000', label: '90 min' },
-  { value: '7200000', label: '120 min' },
-  { value: '14400000', label: '4 h' },
-  { value: '21600000', label: '6 h' },
-  { value: '43200000', label: '12 h' },
-  { value: '64800000', label: '18 h' },
-  { value: '86400000', label: '24 h' }
+  { value: '60000', label: t('in-settings:tabs.1Min') },
+  { value: '120000', label: t('in-settings:tabs.2Min') },
+  { value: '180000', label: t('in-settings:tabs.3Min') },
+  { value: '300000', label: t('in-settings:tabs.5Min') },
+  { value: '600000', label: t('in-settings:tabs.10Min') },
+  { value: '1800000', label: t('in-settings:tabs.30Min') },
+  { value: '3600000', label: t('in-settings:tabs.60Min') },
+  { value: '5400000', label: t('in-settings:tabs.90Min') },
+  { value: '7200000', label: t('in-settings:tabs.120Min') },
+  { value: '14400000', label: t('in-settings:tabs.4H') },
+  { value: '21600000', label: t('in-settings:tabs.6H') },
+  { value: '43200000', label: t('in-settings:tabs.12H') },
+  { value: '64800000', label: t('in-settings:tabs.18H') },
+  { value: '86400000', label: t('in-settings:tabs.24H') }
 ]);
 
 const metricPatternMatchingOptions = Object.freeze([
-  { value: 'is', label: 'is' },
-  { value: 'contains', label: 'contains' },
-  { value: 'startsWith', label: 'starts with' },
-  { value: 'endsWith', label: 'ends with' },
-  { value: 'any', label: 'any' }
+  { value: 'is', label: t('in-settings:tabs.is') },
+  { value: 'contains', label: t('in-settings:tabs.contains') },
+  { value: 'startsWith', label: t('in-settings:tabs.startsWith') },
+  { value: 'endsWith', label: t('in-settings:tabs.endsWith') },
+  { value: 'any', label: t('in-settings:tabs.any') }
 ]);

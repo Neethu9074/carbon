@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t, Trans } from 'in-i18n';
 
 import Applications, {
   getSelectedApplicationConfigsByName,
@@ -57,13 +58,13 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
 
   return (
     <Fragment>
-      <SectionHeading>3. Scope</SectionHeading>
+      <SectionHeading>{t('in-settings:tabs.3Scope')}</SectionHeading>
       <Row>
         <Col lg={6}>
           {form.get('applyOn').map(field => (
             <FormGroup>
               <Label htmlFor="alert-apply-on" hasError={!field.valid && field.touched}>
-                Apply on (required)
+                {t('in-settings:tabs.applyOnRequired')}
               </Label>
               <ComboBox
                 name="alert-apply-on"
@@ -80,7 +81,7 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
               <TouchedMessages field={field} />
               {form.get('applyOn').value === scopeEverything && (
                 <DescriptionText>
-                  <strong>Caution!</strong> All events that match the event types will enter the notification stream.
+                  <Trans i18nKey="in-settings:tabs.allEventsThatMatchTheEventTypesWillEnterTheNotificationStream" />
                 </DescriptionText>
               )}
             </FormGroup>
@@ -91,11 +92,13 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
             form.get('query').map(field => (
               <FormGroup>
                 <Label htmlFor="config-query" hasError={!field.valid && field.touched}>
-                  Dynamic Focus Query
+                  {t('in-settings:tabs.dynamicFocusQuery')}
                 </Label>
                 <InputWithDFQSelectionList
                   id="config-query"
-                  placeholder={'e.g. entity.zone:"production" AND NOT event.text:"TCP*"'}
+                  placeholder={t('in-settings:tabs.formatExample', {
+                    format: 'entity.zone:"production" AND NOT event.text:"TCP*"'
+                  })}
                   value={field.value}
                   onChange={value => onChange('query', value)}
                   hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
@@ -106,13 +109,12 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
                 <BackendValidationMessages validationResult={form.get('validationResult').value} />
                 <TouchedMessages field={field} />
                 <DescriptionText>
-                  A <strong>non-empty</strong> filter query which defines for which entities the configuration will be
-                  applied. Select <i>&quot;Apply on: All available entities&quot;</i> if you want this rule to be
-                  applied on all entities. For more information on syntax, please see our&nbsp;
-                  <Link href="https://instana.com/docs/dynamic_focus/#syntax" external>
-                    documentation
-                  </Link>
-                  .
+                  <Trans
+                    i18nKey="in-settings:tabs.dfqFormDesc"
+                    components={{
+                      docLink: <Link href="https://instana.com/docs/dynamic_focus/#syntax" external />
+                    }}
+                  />
                 </DescriptionText>
               </FormGroup>
             ))}
@@ -124,24 +126,24 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
             setTitle={false}
             loadEntities={() => getSelectedApplicationsForAlert(selectedApplicationIds)}
             hasRowNavigation={false}
-            noDataMessage="No Application Perspectives Selected"
+            noDataMessage={t('in-settings:tabs.noApplicationPerspectivesSelected')}
             tableActions={applicationSelectionTableActions(form, setForm)}
             rightHeader={
               <SelectListDialogButton
                 form={form}
                 onSubmit={selectedIds => submitApplicationSelection(form, setForm, selectedIds)}
-                title="Add Application Perspectives"
-                label="Add Application Perspectives"
+                title={t('in-settings:tabs.addApplicationPerspectives')}
+                label={t('in-settings:tabs.addApplicationPerspectives')}
                 listComponent={Applications}
                 listComponentRightHeader={noRightHeader}
                 limit={10}
                 hiddenIds={selectedApplicationIds}
                 createSubmitLabel={numberOfItems =>
                   numberOfItems > 0
-                    ? `Add ${numberOfItems} Application Perspective${numberOfItems > 1 ? 's' : ''}`
-                    : 'Add'
+                    ? t('in-settings:tabs.addNumberOfItemsApplicationPerspective', { count: numberOfItems })
+                    : t('in-settings:tabs.add')
                 }
-                requiresAtLeastOneMessage="Please select at least one application perspectives."
+                requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneApplicationPerspectives')}
               />
             }
           />
@@ -166,12 +168,14 @@ function MatchingEntitiesIndicator({ form }) {
             return null;
           }
           if (matchingEntities === 0) {
-            return 'Your selection matches no events in the past 2 weeks';
+            return t('in-settings:tabs.yourSelectionMatchesNoEventsInThePast2Weeks');
           } else {
             return (
               <span>
-                Your selection matches {matchingEntities >= 10000 ? '>' : ''} {matchingEntities}{' '}
-                {matchingEntities === 1 ? 'event' : 'events'} over the past 2 weeks.
+                {t('in-settings:tabs.yourSelectionMatchesSomeEventsInThePast2Weeks', {
+                  operator: matchingEntities >= 10000 ? '>' : '',
+                  count: matchingEntities
+                })}
               </span>
             );
           }

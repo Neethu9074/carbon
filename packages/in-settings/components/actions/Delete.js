@@ -5,6 +5,7 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import theme from 'in-themes';
+import { t, Trans } from 'in-i18n';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
@@ -33,17 +34,20 @@ export default forwardRef(function Delete(
               }
               addActiveDialog(
                 <ConfirmationDialog
-                  header="Please Confirm"
+                  header={t('in-settings:components.pleaseConfirm')}
                   description={
                     dialogMessage ? (
                       dialogMessage(entity)
                     ) : (
                       <span>
-                        Are you sure you want to remove the <strong>{getEntityName(entity)}</strong>?
+                        <Trans
+                          i18nKey="in-settings:components.confirmRemoveEntity"
+                          values={{ entity: getEntityName(entity) }}
+                        />
                       </span>
                     )
                   }
-                  confirmButtonLabel={confirmLabel || 'Remove'}
+                  confirmButtonLabel={confirmLabel || t('in-settings:components.removeBtn')}
                   onSubmit={() => {
                     close();
                     doDelete(entity, deleteEntity, setErrorMessage);

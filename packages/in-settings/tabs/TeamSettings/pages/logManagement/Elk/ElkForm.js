@@ -2,15 +2,17 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/ElkForm.mless';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+
+import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/ElkForm.mless';
 
 export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
   let basePath = form.get('basePath').value;
@@ -23,7 +25,7 @@ export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
       {form.get('url').map(field => (
         <FormGroup>
           <Label htmlFor="elk-url" hasError={!disabled && !field.valid && field.touched}>
-            ELK Instance
+            {t('in-settings:tabs.elkInstance')}
           </Label>
           <Input
             id="elk-url"
@@ -35,7 +37,7 @@ export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Example: <b>http://kibana.com:5601</b> or <b>http://192.168.1.128:5601</b> for an internal instance.
+            <Trans i18nKey="in-settings:tabs.elkExampleForAnInternalInstance" />
           </HelpText>
         </FormGroup>
       ))}
@@ -43,7 +45,7 @@ export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
       {form.get('basePath').map(field => (
         <FormGroup>
           <Label htmlFor="elk-basePath" hasError={!disabled && !field.valid && field.touched}>
-            Base Path
+            {t('in-settings:tabs.basePath')}
           </Label>
           <Input
             id="elk-basePath"
@@ -54,9 +56,7 @@ export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Example: http://kibana.com:5601/
-            <b>instana</b>
-            /app/kibana#. Optional base path you have configured in ELK.
+            <Trans i18nKey="in-settings:tabs.optionalBasePathYouHaveConfiguredInElk" />
           </HelpText>
         </FormGroup>
       ))}
@@ -64,7 +64,7 @@ export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
       {form.get('dashboard').map(field => (
         <FormGroup>
           <Label htmlFor="elk-dashboard" hasError={!disabled && !field.valid && field.touched}>
-            Dashboard ID
+            {t('in-settings:tabs.dashboardId')}
           </Label>
           <Input
             id="elk-dashboard"
@@ -75,15 +75,14 @@ export default function ElkForm({ form, onChange, disabled, areFieldsBlank }) {
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Example: Can be found from the URL http://kibana.com:5601/app/kibana#/dashboard/
-            <b>a23a8810-4ce8-11ea-9be2-a53f95fe8814</b>. ID of the dashboard you have configured in ELK for Instana.
+            <Trans i18nKey="in-settings:tabs.idOfTheDashboardYouHaveConfiguredInElkForInstana" />
           </HelpText>
         </FormGroup>
       ))}
 
       {!areFieldsBlank && (
         <FormGroup>
-          <Label htmlFor="elk-test-link">Test your ELK link</Label>
+          <Label htmlFor="elk-test-link">{t('in-settings:tabs.testYourElkLink')}</Label>
           <a href={elkUrl} target={'_blank'} rel="noopener noreferrer">
             {elkUrl}
           </a>

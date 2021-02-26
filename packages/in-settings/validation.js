@@ -2,9 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 export function combinedValidationResults(validationResult20) {
   if (!validationResult20.valid) {
-    return { valid: false, error: 'Dynamic Focus query is not valid: ' + validationResult20.error };
+    return {
+      valid: false,
+      error: t('in-settings:terms.dynamicFocusQueryIsNotValid', { err: validationResult20.error })
+    };
   }
   return validationResult20;
 }
@@ -21,7 +26,7 @@ export function queryValidationResultValidator(validationResult) {
     return [
       {
         severity: 'error',
-        message: `Please define a valid query`
+        message: t('in-settings:pleaseDefineAValidQuery')
       }
     ];
   }
@@ -33,7 +38,7 @@ export function queryValidationInProgressValidator(valiationInProgress) {
     return [
       {
         severity: 'error',
-        message: `Query validation still in progress`
+        message: t('in-settings:queryValidationStillInProgress')
       }
     ];
   }

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -15,7 +16,7 @@ import locals from './RolesSelector.mless';
 export default function RolesSelector({ form, onChange }) {
   return (
     <>
-      <Label>Role</Label>
+      <Label>{t('in-settings:terms.role')}</Label>
       {form.get('role').map(({ value }) => (
         <>
           <ComboBox
@@ -29,7 +30,7 @@ export default function RolesSelector({ form, onChange }) {
           />
           {form.get('dynamicRole') && (
             <>
-              <p className={locals.roleTitle}>What is your role?</p>
+              <p className={locals.roleTitle}>{t('in-settings:terms.whatIsYourRole')}</p>
               {form.get('dynamicRole').map(dynamicRoleField => (
                 <>
                   <Input

@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { removeUserFromGroup, getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
@@ -13,6 +12,7 @@ import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import ApiList from 'in-settings/components/ApiList';
+import { t, Trans } from 'in-i18n';
 
 export default function Groups({ userId, refresh }) {
   return (
@@ -47,7 +47,7 @@ const columnDefinitions = [
   {
     width: '8rem',
     getContent({ group }) {
-      return <KeyValue value={group.members.length} label="Users" accentuated />;
+      return <KeyValue value={group.members.length} label={t('in-settings:tabs.users')} accentuated />;
     }
   },
   {
@@ -61,7 +61,10 @@ const columnDefinitions = [
           dialogMessage={() => {
             return (
               <span>
-                Are you sure you want to delete this user from the <strong>{group.name}</strong> group?
+                <Trans
+                  i18nKey="in-settings:tabs.areYouSureYouWantToDeleteThisUserFromTheGroup"
+                  values={{ groupName: group.name }}
+                />
               </span>
             );
           }}
@@ -95,7 +98,7 @@ function removeUserFromGroupInternal(userId, groupId, refresh, setErrorMessage) 
       refresh();
     },
     error => {
-      setErrorMessage(`Failed to remove user from group: ${error.message}`);
+      setErrorMessage(t('in-settings:tabs.failedToRemoveUserFromGroup', { err: error.message }));
     }
   );
 }

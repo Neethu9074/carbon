@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
@@ -46,7 +47,10 @@ export default function renderListInsideCard(props) {
 
         return (
           <Card
-            title={`${itemName}s ${totalFilteredItems > 0 ? '(' + totalFilteredItems + ')' : ''}`}
+            title={
+              t('in-settings:components.' + itemName, { count: totalFilteredItems }) +
+              `${totalFilteredItems > 0 ? '(' + totalFilteredItems + ')' : ''}`
+            }
             header={<Header {..._props} />}
             bodyWithoutPadding
           >
@@ -62,7 +66,11 @@ export default function renderListInsideCard(props) {
 
 function LoadingApiList(props) {
   return (
-    <Card title={`${props.itemName}s `} bodyWithoutPadding headerClassName={locals.cardHeader}>
+    <Card
+      title={t('in-settings:components.' + props.itemName, { count: props.totalFilteredItems })}
+      bodyWithoutPadding
+      headerClassName={locals.cardHeader}
+    >
       <LoadingList />
     </Card>
   );
@@ -78,7 +86,7 @@ function Header(props) {
         <SearchInput
           className={locals.searchInput}
           maxWidth={200}
-          placeholder={searchPlaceholder || 'Search...'}
+          placeholder={searchPlaceholder || t('in-settings:components.search')}
           query={query}
           onChange={setQuery}
         />

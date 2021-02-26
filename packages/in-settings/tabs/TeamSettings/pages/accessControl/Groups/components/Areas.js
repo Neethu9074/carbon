@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
+import { t } from 'in-i18n';
 
 import {
   mapApplications,
@@ -134,7 +135,7 @@ const SelectableDialog = withSelectableItems(function Selectable(props) {
   const [dfq, setDfq] = useState(infraDfqFilter.scopeId);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   return (
-    <Dialog className={locals.dialog} title="Add areas to group" onClose={close}>
+    <Dialog className={locals.dialog} title={t('in-settings:tabs.addAreasToGroup')} onClose={close}>
       <form
         onSubmit={() => {
           update(
@@ -160,7 +161,7 @@ const SelectableDialog = withSelectableItems(function Selectable(props) {
           type="submit"
           disabled={selectedEntities.size === 0 && dfq === infraDfqFilter.scopeId}
         >
-          Add to group
+          {t('in-settings:tabs.addToGroup')}
         </Button>
       </form>
     </Dialog>

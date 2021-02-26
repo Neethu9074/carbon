@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { enableShowInternalTags, isShowInternalTagsEnabled$ } from 'in-applications/isShowInternalTagsEnabled';
@@ -31,15 +32,15 @@ export default function UiConfigAdvancedPage() {
 
   return (
     <SettingsDetailPage>
-      <Title title="Advanced User Interface Settings" />
-      <SubViewHeader>Advanced User Interface Settings</SubViewHeader>
+      <Title title={t('in-settings:tabs.advancedUserInterfaceSettings')} />
+      <SubViewHeader>{t('in-settings:tabs.advancedUserInterfaceSettings')}</SubViewHeader>
       <SectionLine />
 
-      <SectionHeading>3D Maps</SectionHeading>
+      <SectionHeading>{t('in-settings:tabs.3DMaps')}</SectionHeading>
 
       <div style={{ marginBottom: '1rem' }}>
         <HorizontalFormGroup>
-          <Heading text="Invert scroll direction" htmlFor="scroll-direction" />
+          <Heading text={t('in-settings:tabs.invertScrollDirection')} htmlFor="scroll-direction" />
           <Toggle
             id="scroll-direction"
             checked={settings['map_scrollDirection'] === -1}
@@ -48,7 +49,7 @@ export default function UiConfigAdvancedPage() {
         </HorizontalFormGroup>
 
         <HorizontalFormGroup>
-          <Heading text="Show zoom panel" htmlFor="zoom-panel" />
+          <Heading text={t('in-settings:tabs.showZoomPanel')} htmlFor="zoom-panel" />
           <Toggle
             id="zoom-panel"
             checked={settings['zoomPanelIsActive']}
@@ -57,7 +58,7 @@ export default function UiConfigAdvancedPage() {
         </HorizontalFormGroup>
 
         <HorizontalFormGroup>
-          <Heading text="Show host/container labels" htmlFor="showHostLabels" />
+          <Heading text={t('in-settings:tabs.showHostContainerLabels')} htmlFor="showHostLabels" />
           <Toggle
             id="host-labels"
             checked={settings['map_showHostLabels']}
@@ -66,7 +67,7 @@ export default function UiConfigAdvancedPage() {
         </HorizontalFormGroup>
 
         <HorizontalFormGroup>
-          <Heading text="Zoom and panning speed" htmlFor="zoom-speed" />
+          <Heading text={t('in-settings:tabs.zoomAndPanningSpeed')} htmlFor="zoom-speed" />
           <input
             type="range"
             id="zoom-speed"
@@ -81,7 +82,9 @@ export default function UiConfigAdvancedPage() {
 
         <HorizontalFormGroup>
           <Heading
-            text={`Space between groups in x direction (${settings['map_packingXSpace']})`}
+            text={t('in-settings:tabs.spaceBetweenGroupsInXDirection', {
+              packingXSpace: settings['map_packingXSpace']
+            })}
             htmlFor="packing_x_direction"
           />
           <input
@@ -98,7 +101,9 @@ export default function UiConfigAdvancedPage() {
 
         <HorizontalFormGroup>
           <Heading
-            text={`Space between groups in y direction (${settings['map_packingYSpace']})`}
+            text={t('in-settings:tabs.spaceBetweenGroupsInYDirection', {
+              packingYSpace: settings['map_packingYSpace']
+            })}
             htmlFor="packing_y_direction"
           />
           <input
@@ -114,7 +119,7 @@ export default function UiConfigAdvancedPage() {
         </HorizontalFormGroup>
 
         <HorizontalFormGroup>
-          <Heading text="Anti-aliasing" htmlFor="antialiasing" />
+          <Heading text={t('in-settings:tabs.antiAliasing')} htmlFor="antialiasing" />
           <Toggle
             id="antialiasing"
             checked={settings['map_antialias'] === 'browserAA'}
@@ -123,10 +128,10 @@ export default function UiConfigAdvancedPage() {
         </HorizontalFormGroup>
       </div>
 
-      <SectionHeading>Pod Map</SectionHeading>
+      <SectionHeading>{t('in-settings:tabs.podMap')}</SectionHeading>
       <div style={{ marginBottom: '1rem' }}>
         <HorizontalFormGroup>
-          <Heading text="Show ungrouped pods" htmlFor="kubernetes_ungrouped-pods" />
+          <Heading text={t('in-settings:tabs.showUngroupedPods')} htmlFor="kubernetes_ungrouped-pods" />
           <Toggle
             id="kubernetes_ungrouped-pods"
             checked={get(settings, ['kubernetes_ungrouped_pods_enabled'], true)}
@@ -135,11 +140,13 @@ export default function UiConfigAdvancedPage() {
         </HorizontalFormGroup>
       </div>
 
-      <SectionHeading>Infrastructure</SectionHeading>
+      <SectionHeading>{t('in-settings:tabs.infrastructure')}</SectionHeading>
       <div style={{ marginBottom: '1rem' }}>
         <HorizontalFormGroup>
           <Heading
-            text={`Compact layouter: Space between groups in x direction (${settings['map_packingXSpace']})`}
+            text={t('in-settings:tabs.compactLayouterSpaceBetweenGroupsInXDirection', {
+              packingXSpace: settings['map_packingXSpace']
+            })}
             htmlFor="packing_x_direction"
           />
           <input
@@ -155,7 +162,9 @@ export default function UiConfigAdvancedPage() {
         </HorizontalFormGroup>
         <HorizontalFormGroup>
           <Heading
-            text={`Compact layouter: Space between groups in y direction (${settings['map_packingYSpace']})`}
+            text={t('in-settings:tabs.compactLayouterSpaceBetweenGroupsInYDirection', {
+              packingYSpace: settings['map_packingYSpace']
+            })}
             htmlFor="packing_y_direction"
           />
           <input
@@ -173,10 +182,10 @@ export default function UiConfigAdvancedPage() {
 
       {newAnalyticsEnabled && (
         <>
-          <SectionHeading>Applications</SectionHeading>
+          <SectionHeading>{t('in-settings:tabs.applications')}</SectionHeading>
           <div style={{ marginBottom: '1rem' }}>
             <HorizontalFormGroup>
-              <Heading text="Use queryable tags only" htmlFor="use_queryable_tags" />
+              <Heading text={t('in-settings:tabs.useQueryableTagsOnly')} htmlFor="use_queryable_tags" />
               <Toggle
                 id="use_queryable_tags"
                 checked={get(settings, ['use_queryable_tags_enabled'], true)}
@@ -189,11 +198,14 @@ export default function UiConfigAdvancedPage() {
 
       {showUserSettingInternalTagsInUA && (
         <>
-          <SectionHeading>Troubleshooting</SectionHeading>
-          <p>The following options should never be turned on without being asked to do so by Instana Support.</p>
+          <SectionHeading>{t('in-settings:tabs.troubleshooting')}</SectionHeading>
+          <p>{t('in-settings:tabs.theFollowingOptionsShouldNeverBeTurnedOnWithoutBeingAskedToDoSoByInstanaSupport')}</p>
           <div style={{ marginBottom: '1rem' }}>
             <HorizontalFormGroup>
-              <Heading text="Show internal tags in Unbounded Analytics" htmlFor="ua-show-internal-tags" />
+              <Heading
+                text={t('in-settings:tabs.showInternalTagsInUnboundedAnalytics')}
+                htmlFor="ua-show-internal-tags"
+              />
               <Toggle
                 id="ua-show-internal-tags"
                 checked={isShowInternalTagsEnabled}

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createField } from 'formalistic';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { refresh, deleteSessionSettings, setSessionSettings } from 'in-settings/tabs/AuthSettings/api/sessionSettings';
@@ -32,7 +33,7 @@ export default function SessionSettings() {
       onCancelClick={refresh}
       enrichForm={enrichForm}
       deleteItem={deleteItem}
-      deleteLabel="Reset"
+      deleteLabel={t('in-settings:tabs.reset')}
       saveItem={saveItem}
       render={render}
     />
@@ -42,8 +43,8 @@ export default function SessionSettings() {
 function render({ form, setForm }) {
   return (
     <>
-      <Title title="Configure Session Settings" />
-      <SubViewHeader>Session Settings</SubViewHeader>
+      <Title title={t('in-settings:tabs.configureSessionSettings')} />
+      <SubViewHeader>{t('in-settings:tabs.sessionSettings')}</SubViewHeader>
 
       <form>
         <TokenLifeTimeSlider form={form} setForm={setForm} />
@@ -75,8 +76,8 @@ function TokenLifeTimeSlider({ form, setForm }) {
   return (
     <FormInput
       form={form}
-      description="Sets the time after which the user needs to login again."
-      label="Token life time"
+      description={t('in-settings:tabs.setsTheTimeAfterWhichTheUserNeedsToLoginAgain')}
+      label={t('in-settings:tabs.tokenLifeTime')}
       fieldName="tokenLifeTimeInMillis"
       labeledTicks={labeledTicks}
       min={0}
@@ -102,8 +103,10 @@ function IdleTimeSlider({ form, setForm }) {
   return (
     <FormInput
       form={form}
-      description="If the Instana UI browser tab has been hidden for the specified amount of time, the token will be invalidated."
-      label="Idle time"
+      description={t(
+        'in-settings:tabs.ifTheInstanaUiBrowserTabHasBeenHiddenForTheSpecifiedAmountOfTimeTheTokenWillBeInvalidated'
+      )}
+      label={t('in-settings:tabs.idleTime')}
       fieldName="idleTimeInMillis"
       labeledTicks={labeledTicks}
       min={min}
@@ -142,11 +145,15 @@ function FormInput({ form, fieldName, labeledTicks, label, description, onChange
 }
 
 function deleteItem({ setMessage }) {
-  setMessage({ message: 'Deleting timeouts', type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.deletingTimeouts'), type: neutral, isSaving: true });
   const deleteConfigResult$ = deleteSessionSettings();
   deleteConfigResult$.once(
-    () => setMessage({ text: 'Timeouts successfully deleted.', type: success }),
-    error => setMessage({ text: `Failed to delete timeouts: ${error.message}`, type: errorType })
+    () =>
+      setMessage({
+        text: t('in-settings:tabs.timeoutsSuccessfullyDeleted'),
+        type: success
+      }),
+    error => setMessage({ text: t('in-settings:tabs.failedToDeleteTimeouts', { err: error.message }), type: errorType })
   );
 }
 
@@ -158,15 +165,22 @@ function saveItem({ form, setMessage }) {
       denormalizeValue(form.get('tokenLifeTimeInMillis').value) * (maxTokenLifeTime - minTokenLifeTime)
   };
   if (configToSave.tokenLifeTimeInMillis < configToSave.idleTimeInMillis) {
-    return setMessage({ text: "Token life time can't be smaller than the idle timeout", type: errorType });
+    return setMessage({
+      text: t('in-settings:tabs.tokenLifeTimeCan', "Token life time can't be smaller than the idle timeout"),
+      type: errorType
+    });
   }
 
-  setMessage({ message: 'Saving timeouts', type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.savingTimeouts'), type: neutral, isSaving: true });
 
   const setConfigResult$ = setSessionSettings(configToSave);
   setConfigResult$.once(
-    () => setMessage({ text: 'Timeouts successfully saved.', type: success }),
-    error => setMessage({ text: `Failed to save timeouts: ${error.message}`, type: errorType })
+    () =>
+      setMessage({
+        text: t('in-settings:tabs.timeoutsSuccessfullySaved'),
+        type: success
+      }),
+    error => setMessage({ text: t('in-settings:tabs.failedToSaveTimeouts', { err: error.message }), type: errorType })
   );
 }
 

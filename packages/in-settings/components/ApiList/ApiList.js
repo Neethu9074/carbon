@@ -10,6 +10,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { error } from 'in-new-components/Message/types';
 import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
+import { t } from 'in-i18n';
 
 export default function ApiList({ deleteItem, itemName, getItems, boundedPath, orderBy, renderer, ...props }) {
   const [message, setMessage] = useState();
@@ -68,7 +69,11 @@ function deleteItemInternal(deleteItem, currentIds, setCurrentDeletingItemIds, s
       setCurrentDeletingItemIds(currentIds);
     },
     error => {
-      setErrorMessage(`Failed to remove ${itemName || 'item'} (${id}): ${error.message}`);
+      setErrorMessage(
+        itemName
+          ? t('in-settings:components.failedToRemoveItemName', { itemName: itemName })
+          : t('in-settings:components.failedToRemoveItem') + ` (${id}): ${error.message}`
+      );
       currentIds.delete(id);
       setCurrentDeletingItemIds(currentIds);
     }

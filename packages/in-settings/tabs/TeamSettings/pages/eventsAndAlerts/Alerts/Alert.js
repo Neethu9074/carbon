@@ -6,6 +6,7 @@ import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { compose, withState, withHandlers } from 'recompose';
 import { fromJS, List } from 'immutable';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -42,7 +43,7 @@ export default function Alert(props) {
 
   return (
     <Form
-      title="Alert"
+      title={t('in-settings:tabs.alert')}
       entityId={entityId}
       createDefaultEntity={createAlertingConfig}
       createForm={alertEntity => createForm(alertEntity, !entityId)}
@@ -64,13 +65,13 @@ function DetailsForm(props) {
     return (
       <SettingsDetailPage>
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
-          Unknown Alert
+          {t('in-settings:tabs.unknownAlert')}
         </SubViewHeader>
         <SectionLine />
         <DescriptionText>
           {entity.get('errors').get(0)}
           <br />
-          If you followed a link to get here, it has most likely been deleted.
+          {t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
         </DescriptionText>
       </SettingsDetailPage>
     );
@@ -78,7 +79,7 @@ function DetailsForm(props) {
 
   return (
     <SettingsDetailPage>
-      <SubViewHeader>{isCreate ? 'Create New' : 'Edit'} Alert</SubViewHeader>
+      <SubViewHeader>{isCreate ? t('in-settings:tabs.createNewAlert') : t('in-settings:tabs.editAlert')}</SubViewHeader>
       <SectionLine />
 
       {message && (
@@ -345,7 +346,7 @@ function eventTypeValidator(eventType) {
     return [
       {
         severity: 'error',
-        message: `Please select at least one event type.`
+        message: t('in-settings:tabs.pleaseSelectAtLeastOneEventType')
       }
     ];
   }
@@ -356,7 +357,7 @@ function selectedEventsValidator(selectedEvents) {
     return [
       {
         severity: 'error',
-        message: 'Please select at least one event.'
+        message: t('in-settings:tabs.pleaseSelectAtLeastOneEvent')
       }
     ];
   }
@@ -364,7 +365,9 @@ function selectedEventsValidator(selectedEvents) {
     return [
       {
         severity: 'error',
-        message: `Please select at most ${limitForConnectedEvents} events.`
+        message: t('in-settings:tabs.pleaseSelectAtMostLimitForConnectedEventsEvents', {
+          limitForConnectedEvents: limitForConnectedEvents
+        })
       }
     ];
   }
@@ -375,7 +378,7 @@ function selectedApplicationsValidator(selectedApplications) {
     return [
       {
         severity: 'error',
-        message: 'Please select at least one application.'
+        message: t('in-settings:tabs.pleaseSelectAtLeastOneApplication')
       }
     ];
   }
@@ -386,7 +389,9 @@ function selectedAlertChannelsValidator(selectedAlertChannels) {
     return [
       {
         severity: 'error',
-        message: `Please select at most ${limitForConnectedAlertChannels} alert channels.`
+        message: t('in-settings:tabs.pleaseSelectAtMostLimitForConnectedAlertChannelsAlertChannels', {
+          limitForConnectedAlertChannels: limitForConnectedAlertChannels
+        })
       }
     ];
   }
@@ -405,7 +410,10 @@ function save(alertEntity, form) {
   submitAlertTracker({
     numOfAlertChannels: selectedAlertChannels.length,
     numOfEvents: selectedEvents ? selectedEvents.length : 0,
-    selectionMode: eventSelectionMode === 'selected-events' ? 'Specific events' : 'Event types',
+    selectionMode:
+      eventSelectionMode === 'selected-events'
+        ? t('in-settings:tabs.specificEvents')
+        : t('in-settings:tabs.eventTypes'),
     scopeType
   });
 

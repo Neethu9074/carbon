@@ -3,15 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 import { isBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 export const scopeApplication = 'application';
 export const scopeEverything = 'all';
 export const scopeDfq = 'dfq';
 
 export const applyOnOptions = [
-  { value: scopeApplication, label: 'Application Perspective' },
-  { value: scopeDfq, label: 'Selected Entities Only (Dynamic Focus Query)' },
-  { value: scopeEverything, label: 'All Available Entities' }
+  { value: scopeApplication, label: t('in-settings:tabs.applicationPerspective') },
+  {
+    value: scopeDfq,
+    label: t('in-settings:tabs.selectedEntitiesOnlyDynamicFocusQuery')
+  },
+  { value: scopeEverything, label: t('in-settings:tabs.allAvailableEntities') }
 ];
 
 // If the applyOn-scope is set to application, this is represented as a DFQ like

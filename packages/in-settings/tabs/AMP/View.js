@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { ampSettings, ampAccountSettings, ampUsage, ampTechnologies } from 'in-settings/navigation/paths';
@@ -20,29 +21,37 @@ export default function View(props) {
       stickySidebar
       navigationTree={[
         {
-          title: 'Account & Billing',
+          title: t('in-settings:tabs.accountBilling'),
           pages: [
             ...(ampCompanyInfoEnabled
               ? [
                   {
                     path: ampUsage,
-                    label: 'Usage',
+                    label: t('in-settings:tabs.usage'),
                     component: Usage
                   },
-                  { path: ampTechnologies, label: 'Technologies Reporting', component: TechnologiesReporting },
+                  {
+                    path: ampTechnologies,
+                    label: t('in-settings:tabs.technologiesReporting'),
+                    component: TechnologiesReporting
+                  },
                   {
                     path: ampAccountSettings,
-                    label: 'Account Settings',
+                    label: t('in-settings:tabs.accountSettings'),
                     component: AccountSettings
                   }
                 ]
               : [
                   {
                     path: ampUsage,
-                    label: 'Usage',
+                    label: t('in-settings:tabs.usage'),
                     component: RestrictedUsage
                   },
-                  { path: ampTechnologies, label: 'Technologies Reporting', component: RestrictedTechnologiesReporting }
+                  {
+                    path: ampTechnologies,
+                    label: t('in-settings:tabs.technologiesReporting'),
+                    component: RestrictedTechnologiesReporting
+                  }
                 ])
           ]
         }

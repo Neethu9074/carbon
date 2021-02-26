@@ -15,6 +15,7 @@ import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
+import { t } from 'in-i18n';
 
 export default function Step4({ form, setForm }) {
   const selectedChannels = form.get('selectedAlertChannels') ? form.get('selectedAlertChannels').value.toJS() : [];
@@ -22,27 +23,29 @@ export default function Step4({ form, setForm }) {
   return (
     <Fragment>
       <div style={{ marginTop: '2rem' }} />
-      <SectionHeading>4. Alerting</SectionHeading>
+      <SectionHeading>{t('in-settings:tabs.4Alerting')}</SectionHeading>
       <AlertChannelsList
         setTitle={false}
         loadEntities={() => getSelectedAlertChannels(selectedChannels)}
         hasRowNavigation={false}
-        noDataMessage="No Alert Channels Selected"
+        noDataMessage={t('in-settings:tabs.noAlertChannelsSelected')}
         tableActions={alertChannelSelectionTableActions(form, setForm)}
         rightHeader={
           <SelectListDialogButton
             form={form}
             onSubmit={selectedIds => submitChannelSelection(form, setForm, selectedIds)}
-            title="Add Alert Channels"
-            label={'Add Alert Channels'}
+            title={t('in-settings:tabs.addAlertChannels')}
+            label={t('in-settings:tabs.addAlertChannels')}
             listComponent={AlertChannelsList}
             listComponentRightHeader={noRightHeader}
             hiddenIds={form.get('selectedAlertChannels').value.toJS()}
             limit={limitForConnectedAlertChannels}
             createSubmitLabel={numberOfItems =>
-              numberOfItems > 0 ? `Add ${numberOfItems} Channel${numberOfItems > 1 ? 's' : ''}` : 'Add'
+              numberOfItems > 0
+                ? t('in-settings:tabs.addNumberOfItemsChannel', { count: numberOfItems })
+                : t('in-settings:tabs.add')
             }
-            requiresAtLeastOneMessage="Please select at least one alert channel."
+            requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAlertChannel')}
           />
         }
       />

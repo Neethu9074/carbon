@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 import Applications, {
@@ -45,9 +46,9 @@ export default function MaintenanceConfigurationForm(props) {
 
       {form.get('name').map(field => (
         <FormGroup style={{ marginTop: '1rem' }}>
-          <HelpText large>1. Define a name for your maintenance window that will show up in the list</HelpText>
+          <HelpText large>{t('in-settings:tabs.1DefineANameForYourMaintenanceWindowThatWillShowUpInTheList')}</HelpText>
           <Label htmlFor="maintenance-name" hasError={!field.valid && field.touched}>
-            Name
+            {t('in-settings:tabs.name')}
           </Label>
           <Input
             id="maintenance-name"
@@ -59,22 +60,25 @@ export default function MaintenanceConfigurationForm(props) {
             maxLength={256}
           />
           <TouchedMessages field={field} />
-          <DescriptionText>Mainentance window names should be unique and meaningful.</DescriptionText>
+          <DescriptionText>{t('in-settings:tabs.mainentanceWindowNamesShouldBeUniqueAndMeaningful')}</DescriptionText>
         </FormGroup>
       ))}
       {form.get('applyOn').map(field => (
         <FormGroup>
-          <HelpText large>2. Select the entities to be muted</HelpText>
+          <HelpText large>{t('in-settings:tabs.2SelectTheEntitiesToBeMuted')}</HelpText>
           <Label htmlFor="maintenance-applyOn" hasError={!field.valid && field.touched}>
-            Apply on
+            {t('in-settings:tabs.applyOn')}
           </Label>
           <ComboBox
             name="maintenance-applyOn"
             value={field.value}
             options={[
-              { value: 'application', label: 'Application Perspective' },
-              { value: 'dfq', label: 'Selected entities (Dynamic Focus query)' },
-              { value: 'all', label: 'All available entities' }
+              { value: 'application', label: t('in-settings:tabs.applicationPerspective') },
+              {
+                value: 'dfq',
+                label: t('in-settings:tabs.selectedEntitiesDynamicFocusQuery')
+              },
+              { value: 'all', label: t('in-settings:tabs.allAvailableEntities') }
             ]}
             clearable={false}
             onChange={e => {
@@ -87,8 +91,7 @@ export default function MaintenanceConfigurationForm(props) {
           <TouchedMessages field={field} />
           {form.get('applyOn').value === 'all' && (
             <DescriptionText>
-              <strong>Caution!</strong> All alerts will be muted for the duration of this maintenance window.{' '}
-              <strong>This might affect other users in your organization as well.</strong>
+              <Trans i18nKey="in-settings:tabs.allAlertsWillBeMutedForTheDurationOfThisMaintenanceWindow" />
             </DescriptionText>
           )}
         </FormGroup>
@@ -98,12 +101,14 @@ export default function MaintenanceConfigurationForm(props) {
         form.get('query').map(field => (
           <FormGroup className={locals.dfqForm}>
             <Label htmlFor="maintenance-query" hasError={!field.valid && field.touched}>
-              Dynamic Focus Query
+              {t('in-settings:tabs.dynamicFocusQuery')}
             </Label>
             <InputWithDFQSelectionList
               id="maintenance-query"
               type="text"
-              placeholder={'e.g. entity.zone:"dev" AND NOT entity.host.fqdn:ip-172*'}
+              placeholder={t('in-settings:tabs.formatExample', {
+                format: 'entity.zone:"dev" AND NOT entity.host.fqdn:ip-172*'
+              })}
               value={field.value}
               onChange={value => onChange('query', value)}
               hasError={form.get('validationResult') && !form.get('validationResult').value.valid}
@@ -113,13 +118,12 @@ export default function MaintenanceConfigurationForm(props) {
             <BackendValidationMessages validationResult={form.get('validationResult').value} />
             <TouchedMessages field={field} />
             <DescriptionText>
-              A <strong>non-empty</strong> filter query which defines the matching alerts for incidents, issues, changes
-              and online/offline to be muted. Select <i>&quot;Apply on: All available entities&quot;</i> if you want to
-              mute all alerts. For more information on syntax, please see our&nbsp;
-              <Link href="https://instana.com/docs/dynamic_focus/#syntax" external>
-                documentation
-              </Link>
-              .
+              <Trans
+                i18nKey="in-settings:tabs.aNonEmptyFilterQueryWhichDefinesTheMatchingAlerts"
+                components={{
+                  docLink: <Link href="https://instana.com/docs/dynamic_focus/#syntax" external />
+                }}
+              />
             </DescriptionText>
           </FormGroup>
         ))}
@@ -131,24 +135,24 @@ export default function MaintenanceConfigurationForm(props) {
               setTitle={false}
               loadEntities={() => getSelectedApplicationsForAlert(selectedApplicationIds)}
               hasRowNavigation={false}
-              noDataMessage="No Application Perspectives Selected"
+              noDataMessage={t('in-settings:tabs.noApplicationPerspectivesSelected')}
               tableActions={applicationSelectionTableActions(form, setForm)}
               rightHeader={
                 <SelectListDialogButton
                   form={form}
                   onSubmit={selectedIds => submitApplicationSelection(form, setForm, selectedIds)}
-                  title="Add Application Perspectives"
-                  label="Add Application Perspectives"
+                  title={t('in-settings:tabs.addApplicationPerspectives')}
+                  label={t('in-settings:tabs.addApplicationPerspectives')}
                   listComponent={Applications}
                   listComponentRightHeader={noRightHeader}
                   limit={10}
                   hiddenIds={selectedApplicationIds}
                   createSubmitLabel={numberOfItems =>
                     numberOfItems > 0
-                      ? `Add ${numberOfItems} Application Perspective${numberOfItems > 1 ? 's' : ''}`
-                      : 'Add'
+                      ? t('in-settings:tabs.addNumberOfItemsApplicationPerspective', { count: numberOfItems })
+                      : t('in-settings:tabs.add')
                   }
-                  requiresAtLeastOneMessage="Please select at least one application perspectives."
+                  requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneApplicationPerspectives')}
                 />
               }
             />
@@ -156,7 +160,7 @@ export default function MaintenanceConfigurationForm(props) {
           </FormGroup>
         ))}
       <FormGroup noFlex>
-        <HelpText large>3. Set the start and end of your maintenance window</HelpText>
+        <HelpText large>{t('in-settings:tabs.3SetTheStartAndEndOfYourMaintenanceWindow')}</HelpText>
 
         <Row>
           <Col lg={12}>
@@ -166,10 +170,10 @@ export default function MaintenanceConfigurationForm(props) {
 
         <Row>
           <Col lg={5}>
-            <DateWithTime label="Start Time" path="start" {...props} />
+            <DateWithTime label={t('in-settings:tabs.startTime')} path="start" {...props} />
           </Col>
           <Col lg={5}>
-            <DateWithTime label="End Time" path="end" {...props} />
+            <DateWithTime label={t('in-settings:tabs.endTime')} path="end" {...props} />
           </Col>
           <Col lg={2}>
             <Button
@@ -191,12 +195,12 @@ export default function MaintenanceConfigurationForm(props) {
                 setForm(updatedForm);
               }}
             >
-              Clear dates
+              {t('in-settings:tabs.clearDates')}
             </Button>
           </Col>
         </Row>
         <TouchedMessages field={form.get('window')} />
-        <DescriptionText>Maintenance windows without start or end dates will be ignored.</DescriptionText>
+        <DescriptionText>{t('in-settings:tabs.maintenanceWindowsWithoutStartOrEndDatesWillBeIgnored')}</DescriptionText>
       </FormGroup>
     </fieldset>
   );
@@ -209,11 +213,14 @@ const DescriptionTextWithCurrentTimeZone = connectTo(
   }),
   function DescriptionTextWithCurrentTimeZone({ asUtc, href }) {
     const texts = {
-      timezone: `Your current timezone is "${getTimezone()}"`,
-      utcTimezone: `All dates and times are in "UTC".`,
-      utcOffset: `UTC${getUtcOffset(moment())}${isDST(moment()) ? ', DST is in effect' : ''}.`,
-      changeToUtc: 'You can change this to UTC in the',
-      changeToLocalTime: 'You can change this to local time in the'
+      timezone: t('in-settings:tabs.yourCurrentTimezoneIs', { tz: getTimezone() }),
+      utcTimezone: t('in-settings:tabs.allDatesAndTimesAreInUtc'),
+      utcOffset: t('in-settings:tabs.utcOffset', {
+        utcOffSet: getUtcOffset(moment()),
+        isDST: isDST(moment()) ? t('in-settings:tabs.dstIsInEffect') : ''
+      }),
+      changeToUtc: t('in-settings:tabs.youCanChangeThisToUtc'),
+      changeToLocalTime: t('in-settings:tabs.youCanChangeThisToLocalTime')
     };
 
     const message =
@@ -225,7 +232,7 @@ const DescriptionTextWithCurrentTimeZone = connectTo(
       <Message className={locals.messageWrapper} withIcon small>
         <div>
           {message}
-          <Link href={href}>User Settings &gt; General User Interface Settings</Link>
+          <Link href={href}>{t('in-settings:tabs.userSettingsGeneralUserInterfaceSettings')}</Link>
         </div>
       </Message>
     );
@@ -256,13 +263,21 @@ const DateWithTime = connectTo(
 
         let dstMsg = '';
         if (currentDateIsDst && !selectedDateIsDst) {
-          dstMsg = 'DST not in effect';
+          dstMsg = t('in-settings:tabs.dstNotInEffect');
         }
         if (!currentDateIsDst && selectedDateIsDst) {
-          dstMsg = 'DST in effect';
+          dstMsg = t('in-settings:tabs.dstInEffect');
         }
 
-        return dstMsg && `${dstMsg}. ${label} is "${currentTimeZone}" (UTC${selectedUtcOffset})`;
+        return (
+          dstMsg &&
+          t('in-settings:tabs.dstMsg', {
+            dstMsg: dstMsg,
+            label: label,
+            currentTimeZone: currentTimeZone,
+            selectedUtcOffset: selectedUtcOffset
+          })
+        );
       } else {
         return null;
       }

@@ -5,6 +5,7 @@
 import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import { t } from 'in-i18n';
 
 import {
   getEntityHref,
@@ -29,8 +30,8 @@ import locals from './Alerts.mless';
 const maxNumOfAlertingAlerts = get(config, ['configuration', 'maxAllowedAlertingConfigurations'], 200);
 
 const enabledOptions = Object.freeze([
-  { value: true, label: 'Enabled' },
-  { value: false, label: 'Disabled' }
+  { value: true, label: t('in-settings:tabs.enabled') },
+  { value: false, label: t('in-settings:tabs.disabled') }
 ]);
 
 export default compose(withState('enabled', 'setEnabled', null))(Alerts);
@@ -38,7 +39,7 @@ export default compose(withState('enabled', 'setEnabled', null))(Alerts);
 function Alerts({ enabled, setEnabled }) {
   return (
     <List
-      title="Alerts"
+      title={t('in-settings:tabs.alerts')}
       getHeader={defaultHeaderWithCount('Alerts')}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
@@ -47,7 +48,9 @@ function Alerts({ enabled, setEnabled }) {
       initialOrderBy="alertName"
       newButtonDisabledTooltipMessage={entities =>
         entities && entities.length >= maxNumOfAlertingAlerts
-          ? `The number of alerts is restricted to ${maxNumOfAlertingAlerts}.`
+          ? t('in-settings:tabs.theNumberOfAlertsIsRestrictedToMaxNumOfAlertingAlerts', {
+              maxNumOfAlertingAlerts: maxNumOfAlertingAlerts
+            })
           : null
       }
       rightHeader={defaultRightHeader(enabled, setEnabled)}
@@ -55,7 +58,7 @@ function Alerts({ enabled, setEnabled }) {
       extraFilters={createFilters(enabled)}
       getDetailsHref={entity => getEntityHref(teamSettingsAlertingAlerts, entity.id)}
       trackEvent={openAlertSubmitFormTracker}
-      noDataMessage="No alert configured."
+      noDataMessage={t('in-settings:tabs.noAlertConfigured')}
     />
   );
 }
@@ -63,7 +66,7 @@ function Alerts({ enabled, setEnabled }) {
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
+    label: t('in-settings:tabs.name'),
     width: 40,
     getContent(entity) {
       return (
@@ -79,14 +82,14 @@ const columnDefinitions = [
   },
   {
     id: 'scope',
-    label: 'Additional Scope',
+    label: t('in-settings:tabs.additionalScope'),
     ellipsis: true,
     getContent: renderScope,
     getValue: scopeToString
   },
   {
     id: 'channels',
-    label: 'Alert Channels',
+    label: t('in-settings:tabs.alertChannels'),
     ellipsis: true,
     getContent(entity) {
       const allChannels = concatChannelNames(entity);
@@ -123,7 +126,7 @@ function defaultRightHeader(enabled, setEnabled) {
   return (
     <Fragment>
       {createNewEntityButton({
-        labelNew: 'New Alert',
+        labelNew: t('in-settings:tabs.newAlert'),
         pathNew: teamSettingsAlertingAlertNew,
         trackEvent: openAlertSubmitFormTracker
       })}
@@ -132,7 +135,7 @@ function defaultRightHeader(enabled, setEnabled) {
         value={enabled}
         options={enabledOptions}
         onChange={e => (e ? setEnabled(e.value) : setEnabled(null))}
-        placeholder="State…"
+        placeholder={t('in-settings:tabs.state')}
         className={locals.stateDropdown}
       />
     </Fragment>
@@ -165,11 +168,11 @@ function getSubscript(entity) {
     <Fragment>
       {intersperse(
         [
-          !isEnabled(entity) ? <span key="disabled">Disabled</span> : null,
+          !isEnabled(entity) ? <span key="disabled">{t('in-settings:tabs.disabled')}</span> : null,
           typesOrNumberOfEvents ? <span key="events">{renderTypesOrNumberOfEvents(entity)}</span> : null,
           entity.invalid ? (
             <span key="invalid" className={locals.invalid}>
-              Invalid Query
+              {t('in-settings:tabs.invalidQuery')}
             </span>
           ) : null
         ].filter(elem => elem),
@@ -200,10 +203,10 @@ function renderTypesOrNumberOfEvents(entity) {
 
 function renderTypes(eventTypes) {
   if (eventTypes.length === 1 && eventTypes[0]) {
-    return `All ${renderType(eventTypes[0])}`;
+    return t('in-settings:tabs.allEventType', { eventType: renderType(eventTypes[0]) });
   }
   if (eventTypes.length >= 4) {
-    return 'Various Event Types';
+    return t('in-settings:tabs.variousEventTypes');
   } else {
     return eventTypes.map(renderType).join(', ');
   }
@@ -212,19 +215,19 @@ function renderTypes(eventTypes) {
 function renderType(t) {
   switch (t) {
     case 'incident':
-      return 'Incidents';
+      return t('in-settings:tabs.incidents');
     case 'critical':
-      return 'Critical Events';
+      return t('in-settings:tabs.criticalEvents');
     case 'warning':
-      return 'Warnings';
+      return t('in-settings:tabs.warnings');
     case 'change':
-      return 'Changes';
+      return t('in-settings:tabs.changes');
     case 'online':
-      return 'Online Events';
+      return t('in-settings:tabs.onlineEvents');
     case 'offline':
-      return 'Offline Events';
+      return t('in-settings:tabs.offlineEvents');
     case 'agent_monitoring_issue':
-      return 'Monitoring Issues';
+      return t('in-settings:tabs.monitoringIssues');
     default:
       return '?';
   }
@@ -242,7 +245,7 @@ function renderScope(entity) {
   if (applyOn === scopeDfq) {
     return (
       <Tooltip content={entity.eventFilteringConfiguration.query} delay={500}>
-        <PropertyInTable label="Filter Query" value={entity.eventFilteringConfiguration.query} />
+        <PropertyInTable label={t('in-settings:tabs.filterQuery')} value={entity.eventFilteringConfiguration.query} />
       </Tooltip>
     );
   } else if (applyOn === scopeApplication) {

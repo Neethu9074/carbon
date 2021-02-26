@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -28,9 +29,9 @@ import Title from 'in-components/Title';
 import locals from './BuiltInEvent.mless';
 
 const paramCols = [
-  stringColumn('Name', 'name'),
-  stringColumn('Description', 'description', 120),
-  formattedColumn('Value', 'defaultValue')
+  stringColumn(t('in-settings:tabs.name'), 'name'),
+  stringColumn(t('in-settings:tabs.description'), 'description', 120),
+  formattedColumn(t('in-settings:tabs.value'), 'defaultValue')
 ];
 
 export default connectTo(
@@ -46,13 +47,13 @@ export default connectTo(
       return (
         <SettingsDetailPage>
           <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
-            Unknown Event
+            {t('in-settings:tabs.unknownEvent')}
           </SubViewHeader>
           <SectionLine />
           <DescriptionText>
             {event.get('errors').get(0)}
             <br />
-            If you followed a link to get here, it has most likely been deleted.
+            {t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
           </DescriptionText>
         </SettingsDetailPage>
       );
@@ -74,27 +75,27 @@ export default connectTo(
 
     return (
       <SettingsDetailPage>
-        <Title title="Built-in Event Definition" />
-        <SubViewHeader>Configure Built-in Event: {event.get('name')}</SubViewHeader>
+        <Title title={t('in-settings:tabs.builtInEventDefinition')} />
+        <SubViewHeader>{t('in-settings:tabs.configureBuiltInEvent', { eventName: event.get('name') })}</SubViewHeader>
         <SectionLine />
 
         <FormGroup>
-          <Label>Entity type</Label>
+          <Label>{t('in-settings:tabs.entityType')}</Label>
           <div className={locals.flexWrapper}>
             <PluginIcon className={locals.entityIcon} color="#000" plugin={entityType} />
             {getPluginName(entityType, 1)}
           </div>
         </FormGroup>
         <FormGroup>
-          <Label>Name</Label>
+          <Label>{t('in-settings:tabs.name')}</Label>
           {event.get('name')}
         </FormGroup>
         <FormGroup>
-          <Label>Description</Label>
+          <Label>{t('in-settings:tabs.description')}</Label>
           {event.get('description')}
         </FormGroup>
         <FormGroup>
-          <Label>Event inputs</Label>
+          <Label>{t('in-settings:tabs.eventInputs')}</Label>
           <ul>
             {event.get('ruleInputs').map((input, i) => {
               let label = input.get('inputName');
@@ -113,7 +114,7 @@ export default connectTo(
           </ul>
         </FormGroup>
         <FormGroup moreMargin>
-          <Label>Parameters</Label>
+          <Label>{t('in-settings:tabs.parameters')}</Label>
           <Table cols={paramCols} rows={paramRows} />
         </FormGroup>
         <SaveCancel
@@ -121,7 +122,7 @@ export default connectTo(
           loading={!event}
           isCreate={false}
           listPath={teamSettingsAlertingEvents}
-          cancelButtonLabel="Back"
+          cancelButtonLabel={t('in-settings:tabs.back')}
           hasSaveButton={false}
         />
       </SettingsDetailPage>
@@ -132,15 +133,15 @@ export default connectTo(
 function mapInputKind(kind) {
   switch (kind) {
     case 'METRIC':
-      return 'Metric';
+      return t('in-settings:tabs.metric');
     case 'SNAPSHOT_FIELD':
-      return 'Snapshot field';
+      return t('in-settings:tabs.snapshotField');
     case 'EVENT':
-      return 'Event';
+      return t('in-settings:tabs.event');
     case 'DERIVED_METRIC':
-      return 'Derived metric';
+      return t('in-settings:tabs.derivedMetric');
     case 'METRIC_PATTERN':
-      return 'Metric pattern';
+      return t('in-settings:tabs.metricPattern');
     default:
       return '?';
   }

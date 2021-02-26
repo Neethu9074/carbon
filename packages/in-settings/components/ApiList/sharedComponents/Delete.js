@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -40,17 +41,17 @@ export default function Delete({
 
           addActiveDialog(
             <ConfirmationDialog
-              header="Please Confirm"
+              header={t('in-settings:components.pleaseConfirm')}
               description={
                 dialogMessage ? (
                   dialogMessage()
                 ) : (
                   <span>
-                    Are you sure you want to remove <strong>{itemName}</strong>?
+                    <Trans i18nKey="in-settings:components.confirmRemoveItem" values={{ itemName: itemName }} />
                   </span>
                 )
               }
-              confirmButtonLabel={confirmLabel || 'Remove'}
+              confirmButtonLabel={confirmLabel || t('in-settings:components.removeBtn')}
               onSubmit={() => {
                 close();
                 doDelete();

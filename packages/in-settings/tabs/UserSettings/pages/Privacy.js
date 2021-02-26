@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { create } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
@@ -37,8 +38,8 @@ function render({ form, setForm, setCanSaveItem }) {
 
   return (
     <SettingsDetailPage>
-      <Title title="Privacy Settings" />
-      <SubViewHeader>Set your preferences for third-party services below.</SubViewHeader>
+      <Title title={t('in-settings:tabs.privacySettings')} />
+      <SubViewHeader>{t('in-settings:tabs.setYourPreferencesForThirdPartyServicesBelow')}</SubViewHeader>
       <SectionLine />
 
       <ExpandableCookieList form={form} onChange={(form, key, value) => onChange(key, value)} />
@@ -47,11 +48,19 @@ function render({ form, setForm, setCanSaveItem }) {
 }
 
 function saveItem({ form, setMessage }) {
-  setMessage({ message: 'Saving privacy settings', type: neutral, isSaving: true });
+  setMessage({
+    message: t('in-settings:tabs.savingPrivacySettings'),
+    type: neutral,
+    isSaving: true
+  });
   setAndSave(
     formUserSettingsObject(form),
-    () => setMessage({ text: 'Settings successfully saved.', type: success }),
-    error => setMessage({ text: `Failed to save settings: ${error.message}`, type: errorType })
+    () =>
+      setMessage({
+        text: t('in-settings:tabs.settingsSuccessfullySaved'),
+        type: success
+      }),
+    error => setMessage({ text: t('in-settings:tabs.failedToSaveSettings', { err: error.message }), type: errorType })
   );
 }
 

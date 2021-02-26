@@ -4,6 +4,7 @@
  */
 import React, { useRef } from 'react';
 import rpt from 'prop-types';
+import { t } from 'in-i18n';
 
 import TagBasedPayload from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayload';
 import TagSelectorOverlay from 'in-new-components/TagSelectorOverlay/TagSelectorOverlay';
@@ -73,7 +74,7 @@ export default function TagBasedPayloadConfigurator({
             refSetter={refSetter}
             onClick={toggle}
           >
-            Select Tag
+            {t('in-settings:tabs.selectTag')}
           </Button>
         )
       }

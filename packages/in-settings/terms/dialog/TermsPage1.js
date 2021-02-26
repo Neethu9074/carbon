@@ -67,7 +67,9 @@ export default function TermsPage1({ form, onChange, onNext, nrPages }) {
             })}
           >
             <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="s" />
-            <span>You cannot use Instana until you have accepted the Terms of Service and Privacy Policy.</span>
+            <span>
+              {t('in-settings:terms.youCannotUseInstanaUntilYouHaveAcceptedTheTermsOfServiceAndPrivacyPolicy')}
+            </span>
           </div>
         )}
         {!isCheckboxMessagePresent && (

@@ -4,6 +4,7 @@
  */
 import { createField } from 'formalistic';
 import React, { useState } from 'react';
+import { t, Trans } from 'in-i18n';
 
 import {
   getConfigAsResultObservable,
@@ -53,14 +54,21 @@ export default function Ldap() {
 function render({ form, setForm, testResultMessage, setTestResultMessage }) {
   return (
     <>
-      <Title title="Configure LDAP" />
-      <SubViewHeader>LDAP Configuration</SubViewHeader>
+      <Title title={t('in-settings:tabs.configureLdap')} />
+      <SubViewHeader>{t('in-settings:tabs.ldapConfiguration')}</SubViewHeader>
       <h2>
-        Help and support is available in our{' '}
-        <Link target="_blank" rel="noopener noreferrer" href="https://instana.com/docs/self_hosted_instana/ldap/">
-          documentation pages
-        </Link>
-        .
+        <Trans
+          i18nKey="in-settings:tabs.ldapHelpDoc"
+          components={{
+            docLink: (
+              <Link
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://instana.com/docs/self_hosted_instana/ldap/"
+              />
+            )
+          }}
+        />
       </h2>
 
       <form>
@@ -72,7 +80,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
                 form={form}
                 setForm={setForm}
                 fieldName="url"
-                label="URL"
+                label={t('in-settings:tabs.url')}
               />
             </Col>
           </Row>
@@ -83,18 +91,18 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
                 className={locals.formGroupWithoutMargin}
                 form={form}
                 setForm={setForm}
-                label="User"
+                label={t('in-settings:tabs.user')}
                 fieldName="roUser"
                 disabled={form.get('emptyPass').value}
               />
             </Col>
             <Col xs={6}>
               <FormInput
-                placeholder="hidden"
+                placeholder={t('in-settings:tabs.hidden')}
                 className={locals.formGroupWithoutMargin}
                 form={form}
                 setForm={setForm}
-                label="Password"
+                label={t('in-settings:tabs.password')}
                 fieldName="roPassword"
                 type="password"
                 disabled={form.get('emptyPass').value}
@@ -103,7 +111,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
             <Col xs={12}>
               {form.get('emptyPass').map(field => (
                 <CheckboxFancy
-                  label="Anonymous"
+                  label={t('in-settings:tabs.anonymous')}
                   checked={field.value}
                   onChange={() => setForm(form.updateIn(['emptyPass'], f => f.setValue(!field.value).setTouched(true)))}
                 />
@@ -114,7 +122,13 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
         <Section restrictWidth="50rem">
           <Row className={indentityProvidersLocals.row}>
             <Col xs={6}>
-              <FormInput placeholder="dc=example,dc=com" form={form} setForm={setForm} fieldName="base" label="Base" />
+              <FormInput
+                placeholder="dc=example,dc=com"
+                form={form}
+                setForm={setForm}
+                fieldName="base"
+                label={t('in-settings:tabs.base')}
+              />
             </Col>
             <Col xs={6}>
               <FormInput
@@ -122,18 +136,18 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
                 form={form}
                 setForm={setForm}
                 fieldName="groupQuery"
-                label="Group Query"
+                label={t('in-settings:tabs.groupQuery')}
               />
             </Col>
           </Row>
           <Row className={indentityProvidersLocals.row}>
             <Col xs={6}>
               <FormInput
-                placeholder="member"
+                placeholder={t('in-settings:tabs.member')}
                 form={form}
                 setForm={setForm}
                 fieldName="groupMemberField"
-                label="Group Member Field"
+                label={t('in-settings:tabs.groupMemberField')}
               />
             </Col>
             <Col xs={6}>
@@ -142,18 +156,24 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
                 form={form}
                 setForm={setForm}
                 fieldName="userQueryTemplate"
-                label="User Query Template"
+                label={t('in-settings:tabs.userQueryTemplate')}
               />
             </Col>
           </Row>
           <Row className={indentityProvidersLocals.row}>
             <Col xs={6}>
-              <FormInput placeholder="mail" form={form} setForm={setForm} fieldName="emailField" label="Email Field" />
+              <FormInput
+                placeholder={t('in-settings:tabs.mail')}
+                form={form}
+                setForm={setForm}
+                fieldName="emailField"
+                label={t('in-settings:tabs.emailField')}
+              />
             </Col>
           </Row>
         </Section>
         <Section restrictWidth="50rem">
-          <h3>LDAP user account</h3>
+          <h3>{t('in-settings:tabs.ldapUserAccount')}</h3>
 
           <Row className={indentityProvidersLocals.row}>
             <Col xs={6}>
@@ -162,22 +182,22 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
                 form={form}
                 setForm={setForm}
                 fieldName="testUser"
-                label="Username"
+                label={t('in-settings:tabs.username')}
               />
             </Col>
             <Col xs={6}>
               <FormInput
-                placeholder="hidden"
+                placeholder={t('in-settings:tabs.hidden')}
                 className={locals.formGroupWithoutMargin}
                 form={form}
                 setForm={setForm}
                 fieldName="testPassword"
-                label="Password"
+                label={t('in-settings:tabs.password')}
                 type="password"
               />
             </Col>
             <Col xs={12}>
-              <DescriptionText>This account is automatically assigned an admin role.</DescriptionText>
+              <DescriptionText>{t('in-settings:tabs.thisAccountIsAutomaticallyAssignedAnAdminRole')}</DescriptionText>
             </Col>
             <Col xs={12}>
               <Button
@@ -195,7 +215,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
                   result$.errors().once(e => setTestResultMessage({ text: e, type: errorType }));
                 }}
               >
-                Test configuration
+                {t('in-settings:tabs.testConfiguration')}
               </Button>
             </Col>
           </Row>
@@ -208,24 +228,24 @@ function render({ form, setForm, testResultMessage, setTestResultMessage }) {
           )}
         </Section>
         <Section restrictWidth="50rem">
-          <h3>Optional settings</h3>
+          <h3>{t('in-settings:tabs.optionalSettings')}</h3>
           <Row className={indentityProvidersLocals.row}>
             <Col xs={6}>
               <FormInput
-                placeholder="(optional)"
+                placeholder={t('in-settings:tabs.optional')}
                 form={form}
                 setForm={setForm}
                 fieldName="userDnMapping"
-                label="User Dn Mapping"
+                label={t('in-settings:tabs.userDnMapping')}
               />
             </Col>
             <Col xs={6}>
               <FormInput
-                placeholder="(optional)"
+                placeholder={t('in-settings:tabs.optional')}
                 form={form}
                 setForm={setForm}
                 fieldName="userField"
-                label="User Field"
+                label={t('in-settings:tabs.userField')}
               />
             </Col>
           </Row>
@@ -260,22 +280,25 @@ function FormInput({ form, type, setForm, fieldName, label, className, disabled,
 }
 
 function saveItem({ form, setMessage }) {
-  setMessage({ message: 'Saving config', type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.savingConfig'), type: neutral, isSaving: true });
   const setConfigResult$ = setConfig(form.toJS());
   setConfigResult$.once(
-    () => setMessage({ text: 'Config successfully saved.', type: success }),
-    error => setMessage({ text: `Failed to save config: ${error.message}`, type: errorType })
+    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: success }),
+    error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: errorType })
   );
 }
 
 function deleteItem({ setMessage }) {
-  setMessage({ message: 'Deleting config', type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.deletingConfig'), type: neutral, isSaving: true });
   const setConfigResult$ = deleteConfig();
   setConfigResult$.once(
     () => {
-      setMessage({ text: 'Config successfully deleted.', type: success });
+      setMessage({
+        text: t('in-settings:tabs.configSuccessfullyDeleted'),
+        type: success
+      });
     },
-    error => setMessage({ text: `Failed to delete config: ${error.message}`, type: errorType })
+    error => setMessage({ text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }), type: errorType })
   );
 }
 

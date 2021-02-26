@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { create } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/termsFormDefinition';
@@ -46,14 +47,14 @@ function render({ form, setForm, termsAndPrivacySettings, setCanSaveItem }) {
 
   return (
     <SettingsDetailPage>
-      <Title title="Communication Settings" />
-      <SubViewHeader>Control for what purposes we contact you</SubViewHeader>
+      <Title title={t('in-settings:tabs.communicationSettings')} />
+      <SubViewHeader>{t('in-settings:tabs.controlForWhatPurposesWeContactYou')}</SubViewHeader>
       <SectionLine />
       <Stack>
         {form.get('productTips').map(({ value }) => (
           <CheckboxFancy
-            label="Product onboarding & success tips"
-            explanation="to help you make the most of Instana products"
+            label={t('in-settings:tabs.productOnboardingSuccessTips')}
+            explanation={t('in-settings:tabs.toHelpYouMakeTheMostOfInstanaProducts')}
             checked={value}
             onChange={() => onChange(form, 'productTips', !value)}
             size="large"
@@ -61,8 +62,8 @@ function render({ form, setForm, termsAndPrivacySettings, setCanSaveItem }) {
         ))}
         {form.get('marketingMessages').map(({ value }) => (
           <CheckboxFancy
-            label="Marketing messages"
-            explanation="related to Instana products, services and offerings"
+            label={t('in-settings:tabs.marketingMessages')}
+            explanation={t('in-settings:tabs.relatedToInstanaProductsServicesAndOfferings')}
             checked={value}
             onChange={() => onChange(form, 'marketingMessages', !value)}
             size="large"
@@ -73,8 +74,8 @@ function render({ form, setForm, termsAndPrivacySettings, setCanSaveItem }) {
             .get('testingGroup')
             .map(({ value }) => (
               <CheckboxFancy
-                label="User Testing Group"
-                explanation="to participate in optional interviews and survey with our product team"
+                label={t('in-settings:tabs.userTestingGroup')}
+                explanation={t('in-settings:tabs.toParticipateInOptionalInterviewsAndSurveyWithOurProductTeam')}
                 checked={value}
                 onChange={() => onChange(form, 'testingGroup', !value)}
                 size="large"
@@ -97,12 +98,20 @@ function saveItem({ form, setForm, setMessage }) {
     return;
   }
 
-  setMessage({ message: 'Saving privacy settings', type: neutral, isSaving: true });
+  setMessage({
+    message: t('in-settings:tabs.savingPrivacySettings'),
+    type: neutral,
+    isSaving: true
+  });
 
   setAndSave(
     formUserSettingsObject(form),
-    () => setMessage({ text: 'Settings successfully saved.', type: success }),
-    error => setMessage({ text: `Failed to save settings: ${error.message}`, type: errorType })
+    () =>
+      setMessage({
+        text: t('in-settings:tabs.settingsSuccessfullySaved'),
+        type: success
+      }),
+    error => setMessage({ text: t('in-settings:tabs.failedToSaveSettings', { err: error.message }), type: errorType })
   );
 }
 

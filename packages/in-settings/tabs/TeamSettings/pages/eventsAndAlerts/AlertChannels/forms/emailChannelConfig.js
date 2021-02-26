@@ -4,6 +4,7 @@
  */
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { List } from 'immutable';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
@@ -20,20 +21,20 @@ import './Forms.less';
 const block = 'in-alert-channel-config-form';
 
 const name = 'EMAIL';
-const label = 'Email';
+const label = t('in-settings:tabs.email');
 
 const parameters = [
   {
     key: 'name',
-    label: 'Name'
+    label: t('in-settings:tabs.name')
   },
   {
     key: 'kind',
-    label: 'Type'
+    label: t('in-settings:tabs.type')
   },
   {
     key: 'emails',
-    label: 'Emails'
+    label: t('in-settings:tabs.emails')
   }
 ];
 
@@ -57,7 +58,7 @@ export default {
 
     return (
       <DescriptionList>
-        <DescriptionItem title="EMails">
+        <DescriptionItem title={t('in-settings:tabs.eMails')}>
           {emails.toArray().map(email => (
             <div key={email}>{email}</div>
           ))}
@@ -108,7 +109,7 @@ function emails(emails) {
       {
         type: 'no_mail',
         severity: 'error',
-        message: `Please define at least one email`
+        message: t('in-settings:tabs.pleaseDefineAtLeastOneEmail')
       }
     ];
   }
@@ -133,13 +134,13 @@ function Form({ form, onChange }) {
       {form.get('name').map(field => (
         <FormGroup className={block}>
           <Label htmlFor="name" hasError={!field.valid && field.touched}>
-            Name
+            {t('in-settings:tabs.name')}
           </Label>
           <Input
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="Email Alert Channel"
+            placeholder={t('in-settings:tabs.emailAlertChannel')}
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -151,7 +152,7 @@ function Form({ form, onChange }) {
       {form.get('emails').map(field => (
         <FormGroup>
           <Label htmlFor="email" hasError={!field.valid && field.touched}>
-            Emails
+            {t('in-settings:tabs.emails')}
           </Label>
           {field.touched
             ? field.messages.map((message, i) => {
@@ -185,7 +186,7 @@ function Form({ form, onChange }) {
                 kind="danger"
                 onClick={() => removeEmail(form, onChange, i)}
               >
-                Remove
+                {t('in-settings:tabs.remove')}
               </Button>
             </div>
             {field.touched
@@ -202,7 +203,7 @@ function Form({ form, onChange }) {
       })}
       <div className={`${block}__add-button-wrapper`}>
         <span className={`${block}__add-link`} onClick={() => addEmail(form, onChange)}>
-          Add Email
+          {t('in-settings:tabs.addEmail')}
         </span>
       </div>
     </fieldset>

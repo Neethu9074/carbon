@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { iconColumn, labelColumn } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
@@ -32,7 +33,7 @@ export default function AddUserButton({ members, addUsers }) {
       }}
       icon="lib_openclose_add_circle_outline"
     >
-      Add User
+      {t('in-settings:tabs.addUser')}
     </Button>
   );
 }
@@ -45,7 +46,7 @@ const AddUserDialog = withSelectableItems(function AddUserDialog({
   toggleItem
 }) {
   return (
-    <Dialog className={locals.dialog} title="Invite user to group" onClose={close}>
+    <Dialog className={locals.dialog} title={t('in-settings:tabs.inviteUserToGroup')} onClose={close}>
       <form onSubmit={() => onSubmit(Array.from(selectedEntities.values()))}>
         <UserList
           pageSize={10}
@@ -64,7 +65,7 @@ const AddUserDialog = withSelectableItems(function AddUserDialog({
           ]}
         />
         <Button className={locals.button} kind="primary" type="submit" disabled={selectedEntities.size === 0}>
-          Add user to group
+          {t('in-settings:tabs.addUserToGroup')}
         </Button>
       </form>
     </Dialog>

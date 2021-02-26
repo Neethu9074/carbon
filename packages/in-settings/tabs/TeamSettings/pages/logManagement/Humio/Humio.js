@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 import { createMapForm, createField } from 'formalistic';
-import React, { Fragment } from 'react';
 import { createLogger } from '@instana/logger';
+import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import HumioForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm';
 import { teamSettingsLogManagementHumio } from 'in-settings/navigation/paths';
@@ -32,7 +33,7 @@ export default class Humio extends React.Component {
   state = {
     loading: true,
     error: false,
-    message: 'Loading…',
+    message: t('in-settings:tabs.loading'),
     integration: null,
     form: null
   };
@@ -46,7 +47,7 @@ export default class Humio extends React.Component {
     this.setState({
       loading: true,
       error: false,
-      message: 'Loading…',
+      message: t('in-settings:tabs.loading'),
       id: id,
       form: null,
       integration: null
@@ -69,7 +70,7 @@ export default class Humio extends React.Component {
       this.setState({
         loading: false,
         error: true,
-        message: 'Failed to load Humio configuration.'
+        message: t('in-settings:tabs.failedToLoadHumioConfiguration')
       });
     });
   };
@@ -94,15 +95,15 @@ export default class Humio extends React.Component {
 
     return (
       <SettingsDetailPage>
-        <Title title="Configure Humio" />
-        <SubViewHeader>{'Configure your Humio settings'}</SubViewHeader>
+        <Title title={t('in-settings:tabs.configureHumio')} />
+        <SubViewHeader>{t('in-settings:tabs.configureYourHumioSettings')}</SubViewHeader>
         <SectionLine />
         {form && (
           <form onSubmit={this.onSubmit}>
             <Fragment>
               <div style={{ marginBottom: '1rem' }}>
-                <HorizontalFormGroup helpText="Enable/Disable Humio integration for Instana">
-                  <Heading text="Show Humio link on Hosts, Containers and Pods" htmlFor="humio-enabled" />
+                <HorizontalFormGroup helpText={t('in-settings:tabs.enableDisableHumioIntegrationForInstana')}>
+                  <Heading text={t('in-settings:tabs.showHumioLinkOnHostsContainersAndPods')} htmlFor="humio-enabled" />
                   <Toggle
                     id="humio-enabled"
                     checked={enabled}
@@ -149,7 +150,7 @@ export default class Humio extends React.Component {
     this.setState({
       loading: true,
       error: false,
-      message: 'Saving…'
+      message: t('in-settings:tabs.saving')
     });
 
     this.responseSubscription = result$.once(() => {
@@ -161,7 +162,7 @@ export default class Humio extends React.Component {
     });
 
     this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to save configuration: ${error.message}`;
+      const message = t('in-settings:tabs.failedToSaveConfiguration', { err: error.message });
       logger.error(message, error);
       this.setState({
         loading: false,

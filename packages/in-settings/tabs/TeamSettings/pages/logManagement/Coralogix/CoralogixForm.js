@@ -2,14 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm.mless';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+
+import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm.mless';
 
 export default function CoralogixForm({ form, onChange, disabled, areFieldsBlank }) {
   const coralogixUrl = form.get('url').value + '/#/dashboard';
@@ -19,7 +21,7 @@ export default function CoralogixForm({ form, onChange, disabled, areFieldsBlank
       {form.get('url').map(field => (
         <FormGroup>
           <Label htmlFor="coralogix-url" hasError={!disabled && !field.valid && field.touched}>
-            Coralogix Instance
+            {t('in-settings:tabs.coralogixInstance')}
           </Label>
           <Input
             id="coralogix-url"
@@ -31,14 +33,14 @@ export default function CoralogixForm({ form, onChange, disabled, areFieldsBlank
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Example: <b>https://team.coralogix.com</b> or <b>http://192.168.1.128:443</b> for an internal instance.
+            <Trans i18nKey="in-settings:tabs.coralogixExampleForAnInternalInstance" />
           </HelpText>
         </FormGroup>
       ))}
 
       {!areFieldsBlank && (
         <FormGroup>
-          <Label htmlFor="coralogix-test-link">Test your Coralogix link</Label>
+          <Label htmlFor="coralogix-test-link">{t('in-settings:tabs.testYourCoralogixLink')}</Label>
           <a href={coralogixUrl} target={'_blank'} rel="noopener noreferrer">
             {coralogixUrl}
           </a>

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AuditLogDownloadView from 'in-components/DownloadButton/components/AuditLogDownloadView';
@@ -21,7 +22,7 @@ const PAGE_SIZE = 15;
 export default function AuditLog() {
   return (
     <>
-      <Title title="Audit Log" />
+      <Title title={t('in-settings:tabs.auditLog')} />
       <ServerTable
         get={({ query, page, pageSize }) =>
           getAuditLog(calcOffset(page, pageSize), query, pageSize).map(({ entries, total }) =>
@@ -53,13 +54,13 @@ export default function AuditLog() {
 const columnDefinitions = [
   {
     id: 'gravatar',
-    label: 'User',
+    label: t('in-settings:tabs.user'),
     sortable: false,
     width: '4rem',
     widthInAbsoluteUnit: true,
     getContent(logEntry) {
       if (!logEntry.actor || logEntry.actor.type !== 'USER' || !logEntry.actor.email) {
-        return 'API call';
+        return t('in-settings:tabs.apiCall');
       }
       return <Gravatar email={logEntry.actor.email} size="l" />;
     },
@@ -69,7 +70,7 @@ const columnDefinitions = [
   },
   {
     id: 'logEntry',
-    label: 'Log Entry',
+    label: t('in-settings:tabs.logEntry'),
     sortable: false,
     getContent(logEntry) {
       return (

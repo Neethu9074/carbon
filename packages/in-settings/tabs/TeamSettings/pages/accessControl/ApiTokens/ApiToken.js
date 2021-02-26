@@ -4,6 +4,7 @@
  */
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { createLogger } from '@instana/logger';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { addPermissionFields } from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/permissionsForm';
@@ -49,7 +50,7 @@ export default class extends React.Component {
     this.setState({
       loading: true,
       error: false,
-      message: 'Loading API token…',
+      message: t('in-settings:tabs.loadingApiToken'),
       form: null,
       apiToken: null
     });
@@ -69,7 +70,7 @@ export default class extends React.Component {
       this.setState({
         loading: false,
         error: true,
-        message: 'Failed to load API token.'
+        message: t('in-settings:tabs.failedToLoadApiToken')
       });
     });
   };
@@ -93,9 +94,13 @@ export default class extends React.Component {
 
     return (
       <SettingsDetailPage>
-        <Title title="API Token" />
+        <Title title={t('in-settings:tabs.apiToken')} />
 
-        <SubViewHeader>{apiToken ? `API Token: ${apiToken.name}` : 'API Token'}</SubViewHeader>
+        <SubViewHeader>
+          {apiToken
+            ? t('in-settings:tabs.apiTokenIs', { apiTokenName: apiToken.name })
+            : t('in-settings:tabs.apiToken')}
+        </SubViewHeader>
         <SectionLine />
 
         {this.state.message ? (
@@ -147,12 +152,12 @@ export default class extends React.Component {
     this.setState({
       loading: true,
       error: false,
-      message: 'Saving…'
+      message: t('in-settings:tabs.saving')
     });
     this.responseSubscription = result$.once(() => goToPath(teamSettingsAccessControlApiTokens));
 
     this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to save API token: ${error.message}`;
+      const message = t('in-settings:tabs.failedToSaveApiToken', { err: error.message });
       logger.error(message, error);
       this.setState({
         loading: false,

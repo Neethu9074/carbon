@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 import { createMapForm, createField } from 'formalistic';
-import React, { Fragment } from 'react';
 import { createLogger } from '@instana/logger';
+import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import SplunkForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/SplunkForm';
 import { teamSettingsLogManagementSplunk } from 'in-settings/navigation/paths';
@@ -32,7 +33,7 @@ export default class Splunk extends React.Component {
   state = {
     loading: true,
     error: false,
-    message: 'Loading…',
+    message: t('in-settings:tabs.loading'),
     integration: null,
     form: null
   };
@@ -46,7 +47,7 @@ export default class Splunk extends React.Component {
     this.setState({
       loading: true,
       error: false,
-      message: 'Loading…',
+      message: t('in-settings:tabs.loading'),
       id: id,
       form: null,
       integration: null
@@ -69,7 +70,7 @@ export default class Splunk extends React.Component {
       this.setState({
         loading: false,
         error: true,
-        message: 'Failed to load Splunk configuration.'
+        message: t('in-settings:tabs.failedToLoadSplunkConfiguration')
       });
     });
   };
@@ -94,15 +95,18 @@ export default class Splunk extends React.Component {
 
     return (
       <SettingsDetailPage>
-        <Title title="Configure Splunk" />
-        <SubViewHeader>{'Configure your Splunk settings'}</SubViewHeader>
+        <Title title={t('in-settings:tabs.configureSplunk')} />
+        <SubViewHeader>{t('in-settings:tabs.configureYourSplunkSettings')}</SubViewHeader>
         <SectionLine />
         {form && (
           <form onSubmit={this.onSubmit}>
             <Fragment>
               <div style={{ marginBottom: '1rem' }}>
-                <HorizontalFormGroup helpText="Enable/Disable Splunk integration for Instana">
-                  <Heading text="Show Splunk link on Hosts, Containers and Pods" htmlFor="splunk-enabled" />
+                <HorizontalFormGroup helpText={t('in-settings:tabs.enableDisableSplunkIntegrationForInstana')}>
+                  <Heading
+                    text={t('in-settings:tabs.showSplunkLinkOnHostsContainersAndPods')}
+                    htmlFor="splunk-enabled"
+                  />
                   <Toggle
                     id="splunk-enabled"
                     checked={enabled}
@@ -154,7 +158,7 @@ export default class Splunk extends React.Component {
     this.setState({
       loading: true,
       error: false,
-      message: 'Saving…'
+      message: t('in-settings:tabs.saving')
     });
 
     this.responseSubscription = result$.once(() => {
@@ -166,7 +170,7 @@ export default class Splunk extends React.Component {
     });
 
     this.errorSubscription = result$.errors().once(error => {
-      const message = `Failed to save configuration: ${error.message}`;
+      const message = t('in-settings:tabs.failedToSaveConfiguration', { err: error.message });
       logger.error(message, error);
       this.setState({
         loading: false,

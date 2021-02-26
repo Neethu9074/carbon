@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SelectListDialog from 'in-settings/tabs/TeamSettings/components/SelectListDialog';
@@ -50,7 +51,7 @@ export default function SelectListDialogButton({
   );
 
   if (disabled) {
-    return <Tooltip content={`You can select at most ${limit} items.`}>{button}</Tooltip>;
+    return <Tooltip content={t('in-settings:tabs.youCanSelectAtMostLimitItems', { limit: limit })}>{button}</Tooltip>;
   }
   return button;
 }

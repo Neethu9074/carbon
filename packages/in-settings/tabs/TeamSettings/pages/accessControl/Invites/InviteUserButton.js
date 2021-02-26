@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createLogger } from '@instana/logger';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
@@ -35,17 +36,20 @@ export default function InviteUserButton({ setMessage, reload }) {
       }}
       icon="lib_openclose_add_circle_outline"
     >
-      Invite User
+      {t('in-settings:tabs.inviteUser')}
     </Button>
   );
 }
 
 function onDoInviteUser(setMessage, emails, groupId, reload) {
   close();
-  setMessage({ text: 'Sending invitation…', type: success });
+  setMessage({ text: t('in-settings:tabs.sendingInvitation'), type: success });
   const invitationResult$ = sendInvitation(emails, groupId);
   invitationResult$.once(() => {
-    setMessage({ text: 'Invitation successfully sent.', type: success });
+    setMessage({
+      text: t('in-settings:tabs.invitationSuccessfullySent'),
+      type: success
+    });
     if (reload) {
       reload();
     }
@@ -54,7 +58,7 @@ function onDoInviteUser(setMessage, emails, groupId, reload) {
     }, 5000);
   });
   invitationResult$.errors().once(error => {
-    setMessage({ text: `Failed to send invitation: ${error.message}`, type: errorType });
+    setMessage({ text: t('in-settings:tabs.failedToSendInvitation', { err: error.message }), type: errorType });
     logger.error(error);
   });
 }

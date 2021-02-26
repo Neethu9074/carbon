@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import { t } from 'in-i18n';
 
 import {
   getAllBuiltInMetrics,
@@ -33,7 +34,7 @@ export const offlineEventDetection = Object.freeze({
 
 export const entityVerification = Object.freeze({
   id: 'entity.on.host.verification', // this id is UI internal only, because we need to group it under systemRules
-  name: 'Hosts that do not have matching entities running on them'
+  name: t('in-settings:tabs.hostsThatDoNotHaveMatchingEntitiesRunningOnThem')
 });
 
 export const systemRules = Object.freeze([offlineEventDetection, entityVerification]);
@@ -73,7 +74,7 @@ export function createEventFormDefinition(eventSpec, isCreate) {
             return [
               {
                 severity: 'error',
-                message: `Please select a severity`
+                message: t('in-settings:tabs.pleaseSelectASeverity')
               }
             ];
           }
@@ -171,7 +172,7 @@ function putAllDataSourceFields(form, eventSpec) {
             : [
                 {
                   severity: 'error',
-                  message: `Please enter a valid metric.`
+                  message: t('in-settings:tabs.pleaseEnterAValidMetric')
                 }
               ];
         }
@@ -194,7 +195,7 @@ function putAllDataSourceFields(form, eventSpec) {
             return [
               {
                 severity: 'error',
-                message: 'The value must not be blank.'
+                message: t('in-settings:tabs.theValueMustNotBeBlank')
               }
             ];
           }
@@ -204,7 +205,7 @@ function putAllDataSourceFields(form, eventSpec) {
             return [
               {
                 severity: 'error',
-                message: 'Please enter a number (use . as a decimal separator).'
+                message: t('in-settings:tabs.pleaseEnterANumberUseAsADecimalSeparator')
               }
             ];
           }
@@ -421,7 +422,7 @@ function selectedApplicationsValidator(selectedApplications) {
     return [
       {
         severity: 'error',
-        message: 'Please select at least one application.'
+        message: t('in-settings:tabs.pleaseSelectAtLeastOneApplication')
       }
     ];
   }
@@ -451,7 +452,7 @@ function notBlankOrDeprecatedValidator(entityType) {
     return [
       {
         severity: 'error',
-        message: 'The entity type value must not be blank'
+        message: t('in-settings:tabs.theEntityTypeValueMustNotBeBlank')
       }
     ];
   }
@@ -460,7 +461,7 @@ function notBlankOrDeprecatedValidator(entityType) {
     return [
       {
         severity: 'error',
-        message: `This entity type has been deprecated. Please choose a different type.`
+        message: t('in-settings:tabs.thisEntityTypeHasBeenDeprecated')
       }
     ];
   }

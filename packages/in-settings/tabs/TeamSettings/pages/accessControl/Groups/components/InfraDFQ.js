@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import FormGroup from 'in-settings/components/FormGroup';
@@ -17,7 +18,9 @@ export default function Selectable({ infraDfqFilter, setDfq }) {
           id="permission-set-name"
           value={infraDfqFilter}
           onChange={e => setDfq(e.target.value)}
-          placeholder={'e.g. entity.zone:"production" AND NOT event.text:"TCP*"'}
+          placeholder={t('in-settings:tabs.formatExample', {
+            format: 'entity.zone:"production" AND NOT event.text:"TCP*"'
+          })}
         />
       </FormGroup>
     </div>

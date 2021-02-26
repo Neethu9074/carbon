@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
+import { t } from 'in-i18n';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import EventTypesSwitcher from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventTypesSwitcher';
@@ -25,8 +26,8 @@ export const modeEventTypes = 'event-types';
 export const modeSelectedEvents = 'selected-events';
 
 const eventSelectionModeOptions = [
-  { value: modeEventTypes, label: 'Alert on Event Type(s)' },
-  { value: modeSelectedEvents, label: 'Alert on Event(s)' }
+  { value: modeEventTypes, label: t('in-settings:tabs.alertOnEventTypeS') },
+  { value: modeSelectedEvents, label: t('in-settings:tabs.alertOnEventS') }
 ];
 
 export default function Step2({ form, setForm, onChange, onChangeEventSelectionMode }) {
@@ -39,8 +40,8 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
 
   return (
     <Fragment>
-      <SectionHeading>2. Events</SectionHeading>
-      <DescriptionText>Only send alerts for event types or on selected events.</DescriptionText>
+      <SectionHeading>{t('in-settings:tabs.2Events')}</SectionHeading>
+      <DescriptionText>{t('in-settings:tabs.onlySendAlertsForEventTypesOrOnSelectedEvents')}</DescriptionText>
       <Row className={locals.eventSelection}>
         <Col lg={6}>
           {form.get('eventSelectionMode').map(field => (
@@ -73,22 +74,24 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
             setTitle={false}
             loadEntities={() => getSelectedEventsForAlert(selectedEvents)}
             hasRowNavigation={false}
-            noDataMessage="No Events Selected"
+            noDataMessage={t('in-settings:tabs.noEventsSelected')}
             tableActions={eventSelectionTableActions(form, setForm)}
             pageSize={10}
             rightHeader={
               <SelectListDialogButton
                 form={form}
                 onSubmit={selectedIds => submitEventSelection(form, setForm, selectedIds)}
-                title="Add Events"
-                label={'Add Events'}
+                title={t('in-settings:tabs.addEvents')}
+                label={t('in-settings:tabs.addEvents')}
                 listComponent={Events}
                 hiddenIds={selectedEvents}
                 limit={limitForConnectedEvents}
                 createSubmitLabel={numberOfItems =>
-                  numberOfItems > 0 ? `Add ${numberOfItems} Event${numberOfItems > 1 ? 's' : ''}` : 'Add Events'
+                  numberOfItems > 0
+                    ? t('in-settings:tabs.addNumberOfItemsEvent', { count: numberOfItems })
+                    : t('in-settings:tabs.addEvents')
                 }
-                requiresAtLeastOneMessage="Please select at least one event."
+                requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneEvent')}
               />
             }
           />

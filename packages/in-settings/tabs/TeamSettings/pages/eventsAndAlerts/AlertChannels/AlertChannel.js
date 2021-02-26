@@ -5,6 +5,7 @@
 import { createMapForm } from 'formalistic';
 import { fromJS } from 'immutable';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -47,7 +48,7 @@ export default function AlertChannel(props) {
 
   return (
     <AlertChannelForm
-      title="Alert Channel"
+      title={t('in-settings:tabs.alertChannel')}
       entityId={entityId}
       createDefaultEntity={() => createAlertChannel(null, kind)}
       createForm={createForm}
@@ -81,13 +82,13 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
     return (
       <SettingsDetailPage>
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
-          Unknown Alert Channel
+          {t('in-settings:tabs.unknownAlertChannel')}
         </SubViewHeader>
         <SectionLine />
         <DescriptionText>
           {entity.get('errors').get(0)}
           <br />
-          If you followed a link to get here, it has most likely been deleted.
+          {t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
         </DescriptionText>
       </SettingsDetailPage>
     );
@@ -96,7 +97,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
   const parameters = getConfig(entity).getParameters();
   return (
     <SettingsDetailPage>
-      <SubViewHeader>{entity.get('name') + ' Alert Channel'}</SubViewHeader>
+      <SubViewHeader>{t('in-settings:tabs.entityNameAlertChannel', { entityName: entity.get('name') })}</SubViewHeader>
       <SectionLine />
 
       {message ? (
@@ -109,7 +110,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
       <Row>
         <Col lg={5}>
           <Card
-            title="Properties"
+            title={t('in-settings:tabs.properties')}
             header={
               <Link href={getModifyAlertChannelUrl(entity.get('kind'), entityId)}>
                 <SvgIcon type={'lib_actions_edit'} size="s" color="#40535b" />
@@ -140,7 +141,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
         <Col lg={7}>
           {role.canConfigureCustomAlerts && (
             <List
-              cardTitle="Alerts"
+              cardTitle={t('in-settings:tabs.alerts')}
               getHeader={getHeader}
               tableInCard
               getEntityName={getEntityName}
@@ -157,7 +158,7 @@ const AlertChannelForm = entityForm(function AlertChannelForm(props) {
 });
 
 function getHeader() {
-  return 'Events & Alerts';
+  return t('in-settings:tabs.eventsAlerts');
 }
 
 function getEntityName(entity) {
@@ -165,9 +166,9 @@ function getEntityName(entity) {
 }
 
 const typeLabels = Object.freeze({
-  ApplicationSmartAlert: 'Application SmartAlert',
-  WebsiteSmartAlert: 'Website SmartAlert',
-  GlobalApplicationSmartAlert: 'Global Application SmartAlert'
+  ApplicationSmartAlert: t('in-settings:tabs.applicationSmartAlert'),
+  WebsiteSmartAlert: t('in-settings:tabs.websiteSmartAlert'),
+  GlobalApplicationSmartAlert: t('in-settings:tabs.globalApplicationSmartAlert')
 });
 
 const columnDefinitions = [
@@ -185,7 +186,7 @@ const columnDefinitions = [
   },
   {
     id: 'label',
-    label: 'Name',
+    label: t('in-settings:tabs.name'),
     width: 50,
     getContent(entity) {
       const { entityId, label, type, id } = entity;
@@ -212,21 +213,21 @@ const columnDefinitions = [
   },
   {
     id: 'kind',
-    label: 'Type',
+    label: t('in-settings:tabs.type'),
     getContent({ type }) {
       return typeLabels[type] || type;
     }
   },
   {
     id: 'enabled',
-    label: 'Status',
+    label: t('in-settings:tabs.status'),
     width: 20,
     ellipsis: true,
     getContent({ enabled }) {
       if (enabled) {
-        return toTitleCase('Enabled');
+        return toTitleCase(t('in-settings:tabs.enabled'));
       }
-      return toTitleCase('Disabled');
+      return toTitleCase(t('in-settings:tabs.disabled'));
     }
   }
 ];
@@ -243,7 +244,7 @@ function getSubscript({ invalid }) {
   return (
     invalid && (
       <span key="invalid" className={locals.invalid}>
-        Invalid Query
+        {t('in-settings:tabs.invalidQuery')}
       </span>
     )
   );

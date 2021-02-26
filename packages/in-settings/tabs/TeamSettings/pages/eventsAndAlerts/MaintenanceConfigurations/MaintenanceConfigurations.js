@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -12,10 +13,10 @@ import {
   teamSettingsAlertingMaintenanceConfigurationNew
 } from 'in-settings/navigation/paths';
 import { getMaintenanceConfigsMutable, deleteMaintenanceConfig } from 'in-api/maintenanceConfiguration';
+import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toTitleCase } from 'in-services/util/string';
 import WithIcon from 'in-new-components/WithIcon';
-import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
 
@@ -24,14 +25,14 @@ export default function MaintenanceWindows() {
   const getEndAsString = getFormattedDateTimeFromFirstWindow.bind(null, 'end');
   return (
     <List
-      title="Maintenance Window Configurations"
-      getHeader={defaultHeaderWithCount('Maintenance Window Configurations')}
+      title={t('in-settings:tabs.maintenanceWindowConfigurations')}
+      getHeader={defaultHeaderWithCount(t('in-settings:tabs.maintenanceWindowConfigurations'))}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}
       loadEntities={getMaintenanceConfigsMutable}
       initialOrderBy="name"
-      labelNew="Schedule Maintenance Window"
+      labelNew={t('in-settings:tabs.scheduleMaintenanceWindow')}
       pathNew={teamSettingsAlertingMaintenanceConfigurationNew}
       searchAttributes={['name', 'query', getStartAsString, getEndAsString, 'status']}
       getDetailsHref={entity => getEntityHref(teamSettingsAlertingMaintenanceConfigurations, entity.id)}
@@ -42,7 +43,7 @@ export default function MaintenanceWindows() {
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
+    label: t('in-settings:tabs.name'),
     getContent(entity) {
       return (
         <Tooltip content={entity.name} align="topLeft" delay={500}>
@@ -57,7 +58,7 @@ const columnDefinitions = [
   },
   {
     id: 'query',
-    label: 'Query',
+    label: t('in-settings:tabs.query'),
     ellipsis: true,
     getContent(entity) {
       return (
@@ -69,7 +70,7 @@ const columnDefinitions = [
   },
   {
     id: 'starts',
-    label: 'Start time',
+    label: t('in-settings:tabs.startTime'),
     ellipsis: true,
     getValue(entity) {
       return getDateTimeFromFirstWindow('start', entity);
@@ -80,7 +81,7 @@ const columnDefinitions = [
   },
   {
     id: 'ends',
-    label: 'End time',
+    label: t('in-settings:tabs.endTime'),
     ellipsis: true,
     getValue(entity) {
       return getDateTimeFromFirstWindow('end', entity);
@@ -91,7 +92,7 @@ const columnDefinitions = [
   },
   {
     id: 'status',
-    label: 'Status',
+    label: t('in-settings:tabs.status'),
     ellipsis: true,
     getContent(entity) {
       return toTitleCase(entity.status);
@@ -126,5 +127,5 @@ function getDateTimeFromFirstWindow(key, entity) {
 }
 
 function getEntityName(entity) {
-  return `maintenance window configuration "${entity.name}"`;
+  return t('in-settings:tabs.maintenanceWindowConfigurationEntityName', { entityName: entity.name });
 }

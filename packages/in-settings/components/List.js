@@ -5,10 +5,11 @@
 import { find, get, isEqual, reverse, sortBy } from 'lodash';
 import { compose, lifecycle, withState } from 'recompose';
 import React, { Fragment, forwardRef } from 'react';
-import { create } from '@instana/observables';
 import { createLogger } from '@instana/logger';
+import { create } from '@instana/observables';
 import invariant from 'invariant';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -286,7 +287,7 @@ export function createNewEntityButton({ labelNew, pathNew, onCreateNew, disabled
 }
 
 const NewEntityButton = forwardRef(function NewEntityButton(
-  { label = 'Create New', href$, onCreateNew, disabled, trackEvent },
+  { label = t('in-settings:components.createNew'), href$, onCreateNew, disabled, trackEvent },
   ref
 ) {
   return (
@@ -344,7 +345,9 @@ function addToggleEnabledAction(columns, actionDefinition, perCellLoadingIndicat
       }
       const enabled = actionDefinition.get ? actionDefinition.get(entity) : entity[actionDefinition.key];
       return (
-        <Tooltip content={`Click to ${enabled ? 'disable.' : 'enable.'}`}>
+        <Tooltip
+          content={enabled ? t('in-settings:components.clickToDisable') : t('in-settings:components.clickToEnable')}
+        >
           <SvgIcon
             type={enabled ? 'lib_actions_pause' : 'lib_actions_play'}
             color={theme.lib.colors.primary2}
@@ -399,7 +402,11 @@ function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, get
       );
 
       if (!disabled) {
-        element = <Tooltip content={`Delete ${getEntityName(entity)}.`}>{element}</Tooltip>;
+        element = (
+          <Tooltip content={t('in-settings:components.deleteEntity', { entity: getEntityName(entity) })}>
+            {element}
+          </Tooltip>
+        );
       }
 
       return <div className={locals.deleteWrapper}>{element}</div>;
@@ -430,7 +437,7 @@ function addDeselectAction(columns, actionDefinition) {
     widthInAbsoluteUnit: true,
     getContent(entity) {
       return (
-        <Tooltip content="Click to deselect.">
+        <Tooltip content={t('in-settings:components.clickToDeselect')}>
           <SvgIcon
             type={'lib_openclose_remove_circle_outline'}
             color={theme.lib.colors.primary2}
@@ -513,7 +520,9 @@ export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableAct
             kind="action"
             onClick={() => tableActions.selectCheckbox.setAllOnAllPages(entitiesBeforePagination, !allSelected)}
           >
-            {`${allSelected ? 'Deselect' : 'Select'} All (${entitiesBeforePagination.length})`}
+            {allSelected
+              ? t('in-settings:components.deselectAll', { len: entitiesBeforePagination.length })
+              : t('in-settings:components.selectAll', { len: entitiesBeforePagination.length })}
           </Button>
         </Fragment>
       );

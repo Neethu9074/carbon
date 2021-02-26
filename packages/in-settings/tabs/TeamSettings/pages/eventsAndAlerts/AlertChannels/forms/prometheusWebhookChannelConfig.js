@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
@@ -17,20 +18,20 @@ import './Forms.less';
 const block = 'in-alert-channel-config-form';
 
 const name = 'PROMETHEUS_WEBHOOK';
-const label = 'Prometheus Alertmanager Webhook';
+const label = t('in-settings:tabs.prometheusAlertmanagerWebhook');
 
 const parameters = [
   {
     key: 'name',
-    label: 'Name'
+    label: t('in-settings:tabs.name')
   },
   {
     key: 'kind',
-    label: 'Type'
+    label: t('in-settings:tabs.type')
   },
   {
     key: 'webhookUrl',
-    label: 'Webhook URL'
+    label: t('in-settings:tabs.webhookUrl')
   }
 ];
 
@@ -49,7 +50,7 @@ export default {
   createDetails(alertChannel) {
     return (
       <DescriptionList>
-        <DescriptionItem title="Prometheus Alertmanager Webhook Receiver URL">
+        <DescriptionItem title={t('in-settings:tabs.prometheusAlertmanagerWebhookReceiverUrl')}>
           {alertChannel.get('webhookUrl')}
         </DescriptionItem>
       </DescriptionList>
@@ -98,13 +99,13 @@ function Form({ form, onChange }) {
       {form.get('name').map(field => (
         <FormGroup className={block}>
           <Label htmlFor="name" hasError={!field.valid && field.touched}>
-            Name
+            {t('in-settings:tabs.name')}
           </Label>
           <Input
             id="name"
             className={`${block}__input`}
             type="text"
-            placeholder="Prometheus Alertmanager Webhook Alert Channel"
+            placeholder={t('in-settings:tabs.prometheusAlertmanagerWebhookAlertChannel')}
             value={field.value}
             onChange={e => onChange('name', e.target.value)}
             hasError={!field.valid && field.touched}
@@ -117,7 +118,7 @@ function Form({ form, onChange }) {
       {form.get('webhookUrl').map(field => (
         <FormGroup>
           <Label htmlFor="webhookUrl" hasError={!field.valid && field.touched}>
-            Prometheus Alertmanager Webhook Receiver URL
+            {t('in-settings:tabs.prometheusAlertmanagerWebhookReceiverUrl')}
           </Label>
           <Input
             className={`${block}__input`}

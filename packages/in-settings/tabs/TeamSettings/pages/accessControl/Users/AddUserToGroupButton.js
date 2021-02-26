@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import AddUserToGroupDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/AddUserToGroupDialog';
@@ -23,7 +24,7 @@ export default function AddUserToGroupButton({ userId, refresh, setErrorMessage 
       }}
       icon="lib_openclose_add_circle_outline"
     >
-      Add to a group
+      {t('in-settings:tabs.addToAGroup')}
     </Button>
   );
 }
@@ -46,7 +47,7 @@ function addUserToGroup(userId, refresh, newGroupsToAdd, setErrorMessage) {
       close();
     },
     error => {
-      setErrorMessage(`Failed to add user to groups: ${error.message}`);
+      setErrorMessage(t('in-settings:tabs.failedToAddUserToGroups', { err: error.message }));
     }
   );
 }

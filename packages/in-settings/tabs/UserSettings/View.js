@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
+import { t } from 'in-i18n';
 
 import {
   userSettings,
@@ -22,22 +23,22 @@ import SetBodyColor from 'in-components/SetBodyColor';
 
 const navigationTree = [
   {
-    title: 'User Interface',
+    title: t('in-settings:tabs.userInterface'),
     pages: [
       {
         path: userSettingsGeneral,
-        label: 'General',
+        label: t('in-settings:tabs.general'),
         component: GeneralPage
       },
       {
         path: userSettingsAdvanced,
-        label: 'Advanced',
+        label: t('in-settings:tabs.advanced'),
         component: AdvancedPage
       }
     ]
   },
   {
-    title: 'Preferences',
+    title: t('in-settings:tabs.preferences'),
     pages: getPreferencesRoutes(fullTermsConfigEnabled)
   }
 ];
@@ -67,13 +68,13 @@ export default function View(props) {
 function getPreferencesRoutes(fullTermsConfigEnabled) {
   const privacy = {
     path: userSettingsPrivacy,
-    label: 'Privacy',
+    label: t('in-settings:tabs.privacy'),
     component: Privacy
   };
 
   const communication = {
     path: userSettingsCommunication,
-    label: 'Communication',
+    label: t('in-settings:tabs.communication'),
     component: Communication
   };
 

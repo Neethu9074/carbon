@@ -2,14 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
-import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm.mless';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+
+import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm.mless';
 
 export default function HumioForm({ form, onChange, disabled, areFieldsBlank }) {
   const humioUrl = form.get('url').value + '/' + form.get('repository').value;
@@ -19,7 +21,7 @@ export default function HumioForm({ form, onChange, disabled, areFieldsBlank }) 
       {form.get('url').map(field => (
         <FormGroup>
           <Label htmlFor="humio-url" hasError={!disabled && !field.valid && field.touched}>
-            Humio Instance
+            {t('in-settings:tabs.humioInstance')}
           </Label>
           <Input
             id="humio-url"
@@ -31,7 +33,7 @@ export default function HumioForm({ form, onChange, disabled, areFieldsBlank }) 
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Example: <b>https://cloud.humio.com</b> or <b>http://192.168.1.128:443</b> for an internal instance.
+            <Trans i18nKey="in-settings:tabs.humioExampleForAnInternalInstance" />
           </HelpText>
         </FormGroup>
       ))}
@@ -39,7 +41,7 @@ export default function HumioForm({ form, onChange, disabled, areFieldsBlank }) 
       {form.get('repository').map(field => (
         <FormGroup>
           <Label htmlFor="humio-repository" hasError={!disabled && !field.valid && field.touched}>
-            View or repository
+            {t('in-settings:tabs.viewOrRepository')}
           </Label>
           <Input
             id="humio-repository"
@@ -50,14 +52,14 @@ export default function HumioForm({ form, onChange, disabled, areFieldsBlank }) 
           />
           {!disabled && <TouchedMessages field={field} />}
           <HelpText className={locals.subTextFormField}>
-            Example: the view or repo name you have configured in Humio for Instana.
+            {t('in-settings:tabs.exampleTheViewOrRepoNameYouHaveConfiguredInHumioForInstana')}
           </HelpText>
         </FormGroup>
       ))}
 
       {!areFieldsBlank && (
         <FormGroup>
-          <Label htmlFor="humio-test-link">Test your Humio link</Label>
+          <Label htmlFor="humio-test-link">{t('in-settings:tabs.testYourHumioLink')}</Label>
           <a href={humioUrl} target={'_blank'} rel="noopener noreferrer">
             {humioUrl}
           </a>

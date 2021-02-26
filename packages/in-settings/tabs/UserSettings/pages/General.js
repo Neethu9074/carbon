@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { activeLanguage } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
@@ -14,7 +16,6 @@ import SectionLine from 'in-settings/components/SectionLine';
 import { saveUserSettings } from 'in-services/userSettings';
 import ComboBox from 'in-components/ComboBox/ComboBox';
 import Toggle from 'in-components/form/Toggle';
-import { activeLanguage } from 'in-i18n';
 import Title from 'in-components/Title';
 
 import locals from './UiConfig.mless';
@@ -28,23 +29,25 @@ export default function UiConfigGeneralPage() {
 
   return (
     <SettingsDetailPage>
-      <Title title="User Interface Settings" />
-      <SubViewHeader>User Interface Settings</SubViewHeader>
+      <Title title={t('in-settings:tabs.userInterfaceSettings')} />
+      <SubViewHeader>{t('in-settings:tabs.userInterfaceSettings')}</SubViewHeader>
       <SectionLine />
       <HorizontalFormGroup
-        helpText="We will inform you about upcoming Instana server maintenance via small flyouts in the top-right
-        corner. Sometimes though, these flyouts can disturb your workflow. Untick this checkbox to permanently hide
-        maintenance notes."
+        helpText={t('in-settings:tabs.weWillInformYouAboutUpcomingInstanaServerMaintenanceViaSmall')}
       >
-        <Heading text="Show maintenance notes" htmlFor="maintenance-notes" />
+        <Heading text={t('in-settings:tabs.showMaintenanceNotes')} htmlFor="maintenance-notes" />
         <Toggle
           id="maintenance-notes"
           checked={settings['showMaintenanceNotes']}
           onChange={e => saveSetting('showMaintenanceNotes', e.target.checked)}
         />
       </HorizontalFormGroup>
-      <HorizontalFormGroup helpText="Toggle the quality of chart rendering. Disable this to have fluent chart animations on slower systems.">
-        <Heading text="High quality chart rendering" htmlFor="chart-quality" />
+      <HorizontalFormGroup
+        helpText={t(
+          'in-settings:tabs.toggleTheQualityOfChartRenderingDisableThisToHaveFluentChartAnimationsOnSlowerSystems'
+        )}
+      >
+        <Heading text={t('in-settings:tabs.highQualityChartRendering')} htmlFor="chart-quality" />
         <Toggle
           id="chart-quality"
           checked={settings['charts_adaptToDevicePixelRatio']}
@@ -55,16 +58,20 @@ export default function UiConfigGeneralPage() {
         helpText={
           <span>
             <span className={locals.warning}>
-              Requires browser refresh to become active.
+              {t('in-settings:tabs.requiresBrowserRefreshToBecomeActive')}
               <br />
             </span>
-            Define how often tables with live metrics should be refreshed. Ranges from once per second to once every ten
-            seconds. Current refresh rate is once every {settings['tables_refreshRate'] / 1000} second(s).
+            {t('in-settings:tabs.defineHowOftenTablesWithLiveMetricsShouldBeRefreshed', {
+              sec: settings['tables_refreshRate'] / 1000
+            })}
           </span>
         }
         isWarning
       >
-        <Heading text={`Table refresh rate (${settings['tables_refreshRate'] / 1000}s)`} htmlFor="table-refresh-rate" />
+        <Heading
+          text={t('in-settings:tabs.tableRefreshRate', { refreshRate: settings['tables_refreshRate'] / 1000 })}
+          htmlFor="table-refresh-rate"
+        />
         <input
           type="range"
           id="table-refresh-rate"
@@ -76,10 +83,10 @@ export default function UiConfigGeneralPage() {
         />
       </HorizontalFormGroup>
       <HorizontalFormGroup
-        helpText={<span className={locals.warning}>Requires browser refresh to become active.</span>}
+        helpText={<span className={locals.warning}>{t('in-settings:tabs.requiresBrowserRefreshToBecomeActive')}</span>}
         isWarning
       >
-        <Heading text="Format time according to UTC" htmlFor="format-time" />
+        <Heading text={t('in-settings:tabs.formatTimeAccordingToUtc')} htmlFor="format-time" />
         <Toggle
           id="format-time"
           checked={settings['formatTimestampsAsUtc']}
@@ -89,15 +96,14 @@ export default function UiConfigGeneralPage() {
       <HorizontalFormGroup
         helpText={
           <span>
-            <span className={locals.warning}>Requires browser refresh to become active.</span>
+            <span className={locals.warning}>{t('in-settings:tabs.requiresBrowserRefreshToBecomeActive')}</span>
             <br />
-            By default we will attempt to format numbers in your preferred locale
-            {`'`}s format. By checking this, you can force an <code>en-US</code> number format.
+            <Trans i18nKey="in-settings:tabs.byDefaultWeWillAttemptToFormatNumbersInYourPreferredLocaleFormat" />
           </span>
         }
         isWarning
       >
-        <Heading text="Format numbers in en-US format" htmlFor="format-numbers" />
+        <Heading text={t('in-settings:tabs.formatNumbersInEnUsFormat')} htmlFor="format-numbers" />
         <Toggle
           id="format-numbers"
           checked={settings['formatNumbersAccordingToEnUs'] || false}
@@ -106,13 +112,13 @@ export default function UiConfigGeneralPage() {
       </HorizontalFormGroup>
       {languageSelectorEnabled && (
         <HorizontalFormGroup noHelpTextSpacer>
-          <Heading text="Language" htmlFor="language" />
+          <Heading text={t('in-settings:tabs.language')} htmlFor="language" />
           <ComboBox
             name="language"
             value={activeLanguage}
             options={[
-              { value: 'en-US', label: 'English' }
-              // TODO: Activate once supported { value: 'de-DE', label: 'Deutsch' }
+              { value: 'en-US', label: t('in-settings:tabs.english') }
+              // TODO: Activate once supported { value: 'de-DE', label: t('in-settings:tabs.deutsch') }
               // TODO: add more languages here
             ]}
             onChange={e => saveUserSettings({ preferredLanguage: e.value }, () => window.location.reload())}

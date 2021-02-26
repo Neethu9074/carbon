@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -14,9 +15,9 @@ import Label from 'in-components/form/Label';
 export default function Step1({ form, onChange }) {
   return form.get('name').map(field => (
     <FormGroup>
-      <SectionHeading>1. Name</SectionHeading>
+      <SectionHeading>{t('in-settings:tabs.1Name')}</SectionHeading>
       <Label htmlFor="name" hasError={!field.valid && field.touched}>
-        Name
+        {t('in-settings:tabs.name')}
       </Label>
       <Input
         id="name"
@@ -27,7 +28,7 @@ export default function Step1({ form, onChange }) {
         hasError={!field.valid}
       />
       <TouchedMessages field={field} />
-      <DescriptionText>Shows up in the list of alerts. Should be unique and meaningful.</DescriptionText>
+      <DescriptionText>{t('in-settings:tabs.showsUpInTheListOfAlertsShouldBeUniqueAndMeaningful')}</DescriptionText>
     </FormGroup>
   ));
 }

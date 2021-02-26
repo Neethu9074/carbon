@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createField } from 'formalistic';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/googleSSO';
@@ -34,17 +35,18 @@ export default function GoogleSSO() {
 function render({ form, setForm }) {
   return (
     <>
-      <Title title="Configure Google SSO" />
-      <SubViewHeader>Google SSO Configuration</SubViewHeader>
-      <h2>Configure allowed email domains</h2>
+      <Title title={t('in-settings:tabs.configureGoogleSso')} />
+      <SubViewHeader>{t('in-settings:tabs.googleSsoConfiguration')}</SubViewHeader>
+      <h2>{t('in-settings:tabs.configureAllowedEmailDomains')}</h2>
 
       <form>
         <Section restrictWidth="50rem">
           {form.get('filter').map(field => (
             <FormGroup>
               <Label htmlFor="google_sso_filter" hasError={!field.valid && field.touched}>
-                Only users with email addresses at the following domains will be allowed to sign in to your Instana
-                tenant:
+                {t(
+                  'in-settings:tabs.onlyUsersWithEmailAddressesAtTheFollowingDomainsWillBeAllowedToSignInToYourInstanaTenant'
+                )}
               </Label>
 
               <Input
@@ -58,7 +60,7 @@ function render({ form, setForm }) {
                 autoComplete="off"
                 hasError={!field.valid && field.touched}
               />
-              <DescriptionText>Separate multiple domains with a comma.</DescriptionText>
+              <DescriptionText>{t('in-settings:tabs.separateMultipleDomainsWithAComma')}</DescriptionText>
               <TouchedMessages field={field} />
             </FormGroup>
           ))}
@@ -69,11 +71,11 @@ function render({ form, setForm }) {
 }
 
 function saveItem({ form, setMessage }) {
-  setMessage({ message: 'Saving config', type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.savingConfig'), type: neutral, isSaving: true });
   const setConfigResult$ = setConfig({ filter: form.get('filter').value });
   setConfigResult$.once(
-    () => setMessage({ text: 'Config successfully saved.', type: success }),
-    error => setMessage({ text: `Failed to save config: ${error.message}`, type: errorType })
+    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: success }),
+    error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: errorType })
   );
 }
 

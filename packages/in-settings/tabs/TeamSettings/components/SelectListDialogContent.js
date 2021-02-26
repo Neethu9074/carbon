@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { compose, withState } from 'recompose';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -12,7 +13,7 @@ import Button from 'in-new-components/Button';
 
 import locals from './SelectListDialog.mless';
 
-const defaultRequiresAtLeastOneMessage = 'Please select at least one item.';
+const defaultRequiresAtLeastOneMessage = t('in-settings:tabs.pleaseSelectAtLeastOneItem');
 
 export default compose(
   withState('selectedItems', 'setSelectedItems', []),
@@ -25,7 +26,7 @@ function SelectListDialogContent({
   listComponent,
   listComponentRightHeader,
   onSubmit,
-  createSubmitLabel = () => 'Add',
+  createSubmitLabel = () => t('in-settings:tabs.add'),
   requiresAtLeastOneMessage = defaultRequiresAtLeastOneMessage,
   hiddenIds = [],
   selectedItems,
@@ -58,7 +59,7 @@ function SelectListDialogContent({
           pageSize={pageSize}
           hiddenIds={hiddenIds}
           hasRowNavigation={false}
-          noDataMessage="No items available."
+          noDataMessage={t('in-settings:tabs.noItemsAvailable')}
           onRowClick={entity => toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage)}
           tableActions={{
             selectCheckbox: {
@@ -93,7 +94,7 @@ function SelectListDialogContent({
 
       <div className={locals.actions}>
         <Button type="submit" kind={'secondary'} onClick={() => setSelectedItems([])} className={locals.actionButton}>
-          Cancel
+          {t('in-settings:tabs.cancel')}
         </Button>
         <Button
           type="submit"
@@ -123,11 +124,11 @@ function toggle(selectedItems, setSelectedItems, entity, limit, setErrorMessage)
 function addToSelection(setSelectedItems, selectedItems, entity, limit, setErrorMessage) {
   if (selectedItems.length >= limit) {
     if (limit === 0) {
-      setErrorMessage('You cannot add more items.');
+      setErrorMessage(t('in-settings:tabs.youCannotAddMoreItems'));
     } else if (limit === 1) {
-      setErrorMessage('You can only add one item.');
+      setErrorMessage(t('in-settings:tabs.youCanOnlyAddOneItem'));
     } else {
-      setErrorMessage(`You can add at most ${limit} items.`);
+      setErrorMessage(t('in-settings:tabs.youCanAddAtMostLimitItems', { limit: limit }));
     }
     return;
   }
@@ -189,11 +190,11 @@ function setAllInternal(
     }
     if (selectedItems.length + entitiesToBeAdded > limit) {
       if (limit === 0) {
-        setErrorMessage('You cannot add more items.');
+        setErrorMessage(t('in-settings:tabs.youCannotAddMoreItems'));
       } else if (limit === 1) {
-        setErrorMessage('You can only add one item.');
+        setErrorMessage(t('in-settings:tabs.youCanOnlyAddOneItem'));
       } else {
-        setErrorMessage(`You can add at most ${limit} items. Please narrow down your selection by using the filters.`);
+        setErrorMessage(t('in-settings:tabs.pleaseNarrowDownYourSelectionByUsingTheFilters', { limit: limit }));
       }
       return;
     }

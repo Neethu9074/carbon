@@ -4,6 +4,7 @@
  */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
+import { t } from 'in-i18n';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
@@ -20,16 +21,21 @@ const EventTypesSwitcher = connectTo(
   },
   ({ form, types, onChange, formGroupStyles, isInternalVisible }) => (
     <Fragment>
-      <h3>Event Types</h3>
+      <h3>{t('in-settings:tabs.eventTypes')}</h3>
       <FormGroup noFlex className={formGroupStyles}>
-        <EventType onChange={onChange} types={types} type="incident" label="Incidents" />
-        <EventType onChange={onChange} types={types} type="critical" label="Critical Issues" />
-        <EventType onChange={onChange} types={types} type="warning" label="Warning Issues" />
-        <EventType onChange={onChange} types={types} type="change" label="Changes" />
-        <EventType onChange={onChange} types={types} type="online" label="Online" />
-        <EventType onChange={onChange} types={types} type="offline" label="Offline" />
+        <EventType onChange={onChange} types={types} type="incident" label={t('in-settings:tabs.incidents')} />
+        <EventType onChange={onChange} types={types} type="critical" label={t('in-settings:tabs.criticalIssues')} />
+        <EventType onChange={onChange} types={types} type="warning" label={t('in-settings:tabs.warningIssues')} />
+        <EventType onChange={onChange} types={types} type="change" label={t('in-settings:tabs.changes')} />
+        <EventType onChange={onChange} types={types} type="online" label={t('in-settings:tabs.online')} />
+        <EventType onChange={onChange} types={types} type="offline" label={t('in-settings:tabs.offline')} />
         {(isInternalVisible || agentMonitoringIssuesEnabled) && (
-          <EventType onChange={onChange} types={types} type="agent_monitoring_issue" label="Monitoring Issues" />
+          <EventType
+            onChange={onChange}
+            types={types}
+            type="agent_monitoring_issue"
+            label={t('in-settings:tabs.monitoringIssues')}
+          />
         )}
       </FormGroup>
       <TouchedMessages field={form.get('eventTypes')} />
