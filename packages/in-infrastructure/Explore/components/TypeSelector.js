@@ -23,6 +23,7 @@ import SearchInput from 'in-new-components/SearchInput';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import { Li } from 'in-new-components/lists/List';
+import { getPluginName } from 'in-sdk/pluginName';
 import useUrlState from 'in-hooks/useUrlState';
 import SvgIcon from 'in-components/SvgIcon';
 
@@ -132,7 +133,7 @@ function getType(type) {
     !isEmpty(snapshotDefinition) && {
       plugin: type,
       icon: `plugin:${type}`,
-      name: snapshotDefinition.pluginName.plural
+      name: getPluginName(type, 2)
     }
   );
 }

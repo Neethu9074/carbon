@@ -31,6 +31,7 @@ import { emptyObject } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { getPluginName } from 'in-sdk/pluginName';
 import SparkChart from 'in-components/SparkChart';
 import Message from 'in-new-components/Message';
 
@@ -186,7 +187,7 @@ function Presenter({
 
 function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granularity, onFocusOnGroup }) {
   const snapshotDefinition = getOptionalSnapshotDefinition(type);
-  const countLabel = snapshotDefinition ? snapshotDefinition.pluginName.plural : 'Count';
+  const countLabel = snapshotDefinition ? getPluginName(type, 2) : 'Count';
   return [
     {
       width: '3rem',
@@ -334,7 +335,7 @@ function getGroupIcon(group) {
 function getGroupTagValue(group, key) {
   if (key === pluginTag) {
     const plugin = getGroupPlugin(group);
-    return plugin && plugin.pluginName ? plugin.pluginName.singular : group.tags[key];
+    return plugin ? getPluginName(group.tags[pluginTag]) : group.tags[key];
   } else {
     return group.tags[key];
   }
