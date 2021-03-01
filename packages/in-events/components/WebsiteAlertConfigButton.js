@@ -15,7 +15,7 @@ export default function WebsiteAlertConfigButton({ alertConfig }) {
     <Button
       kind="secondary"
       onClick={() => {
-        websitesAlertingEventDetailsViewEditConfig(alertConfig.id);
+        websitesAlertingEventDetailsViewEditConfig({ id: alertConfig.id });
         goToAlertConfig(alertConfig.id, alertConfig.created, alertConfig.websiteId);
       }}
     >
