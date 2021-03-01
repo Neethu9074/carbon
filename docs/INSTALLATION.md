@@ -4,9 +4,11 @@
 
 This document lists the technical steps necessary in order to get a local UI development setup running.
 
+![Gandalf meme: You shall not skip any steps](./img/youShallNotSkip.jpg)
+
 ## Git Configuration
 
-This repository is using Git submodules. If you prefer to interact with GitHub via SSH, then we recommend that you add the following to your Git configuration in order to always use SSH instead of HTTPS access for GitHub.
+This repository is using Git submodules. If you prefer to interact with GitHub via SSH (or if you don't know what this means), then we recommend that you add the following to your Git configuration in order to always use SSH instead of HTTPS access for GitHub.
 
 ```sh
 git config --global url.git@github.com:.insteadof https://github.com/

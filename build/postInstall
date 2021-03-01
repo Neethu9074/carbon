@@ -12,10 +12,6 @@ finished() {
   echo ""
 }
 
-echo "🛰  initializing submodules"
-git submodule update --init --recursive 2>&1 | sed 's/^/    /'
-finished
-
 echo "🛩  symlinking packages"
 for name in `ls packages/`; do
   linkModule "$name" 2>&1 | sed 's/^/   /'
