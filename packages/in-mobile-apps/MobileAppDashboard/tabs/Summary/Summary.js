@@ -9,9 +9,10 @@ import HttpRequestOriginTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Sum
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';
 import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/MobileAppChartWrapper';
 import MobileAppGeoHeatMap from 'in-mobile-apps/MobileAppDashboard/components/MobileAppGeoHeatMap';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/ViewsTopList';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import { getLinkToAnalyze, summaryTab } from 'in-mobile-apps/navigation/paths';
+import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -20,6 +21,8 @@ import Card from 'in-new-components/Card';
 
 export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileAppLabel, viewId }) {
   const granularity = getChartGranularity(timeConfig);
+  const tagCatalogSessionStart = useTagCatalog('sessionStart');
+  const tagCatalogViewChange = useTagCatalog('viewChange');
 
   return (
     <Fragment>
@@ -42,17 +45,19 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$: getLinkToAnalyze({
-                beaconType: 'sessionStart',
-                tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                  mobileAppLabel,
-                  tagFilters
-                }),
-                group: {
-                  groupbyTag: 'mobileBeacon.view.name'
-                },
-                showGraph: true
-              })
+              href$:
+                tagCatalogSessionStart &&
+                getLinkToAnalyze({
+                  beaconType: 'sessionStart',
+                  formModel: translateDemocratisationTagFiltersToFormModel({
+                    mobileAppLabel,
+                    tagFilters,
+                    tagCatalog: tagCatalogSessionStart
+                  }),
+                  groupBy: {
+                    groupbyTag: 'mobileBeacon.view.name'
+                  }
+                })
             }}
           />
         </Col>
@@ -74,17 +79,19 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
               text: t('in-mobile-apps:dashboard.tabs.viewInAnalyzeIconAction'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$: getLinkToAnalyze({
-                beaconType: 'viewChange',
-                tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                  mobileAppLabel,
-                  tagFilters
-                }),
-                group: {
-                  groupbyTag: 'mobileBeacon.view.name'
-                },
-                showGraph: true
-              })
+              href$:
+                tagCatalogViewChange &&
+                getLinkToAnalyze({
+                  beaconType: 'viewChange',
+                  formModel: translateDemocratisationTagFiltersToFormModel({
+                    mobileAppLabel,
+                    tagFilters,
+                    tagCatalog: tagCatalogViewChange
+                  }),
+                  groupBy: {
+                    groupbyTag: 'mobileBeacon.view.name'
+                  }
+                })
             }}
           />
         </Col>

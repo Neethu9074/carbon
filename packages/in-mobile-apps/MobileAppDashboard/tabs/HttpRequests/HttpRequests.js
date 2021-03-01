@@ -11,7 +11,7 @@ import {
   viewIdUrlParameter
 } from 'in-mobile-apps/navigation/urlParameters';
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
-import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
+import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { getLinkToHttpRequest, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
@@ -20,6 +20,7 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { ms, number, percentage } from 'in-services/formatters/number';
 import changeExplanation from 'in-mobile-apps/emptyListExplanation';
+import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
@@ -124,14 +125,22 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 export default function HttpRequests({ timeConfig, tagFilters, mobileAppId, mobileAppLabel }) {
+  const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   const rightHeader = (
     <Button
       kind="secondary"
-      href$={getLinkToAnalyze({
-        beaconType: 'httpRequest',
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ mobileAppLabel, tagFilters }),
-        group: defaultGroupings.httpRequest
-      })}
+      href$={
+        tagCatalogHttpRequest &&
+        getLinkToAnalyze({
+          beaconType: 'httpRequest',
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            mobileAppLabel,
+            tagFilters,
+            tagCatalog: tagCatalogHttpRequest
+          }),
+          groupBy: defaultGroupings.httpRequest
+        })
+      }
       style={{ marginRight: '0.5rem' }}
     >
       {t('in-mobile-apps:dashboard.tabs.analyzeHTTPRequestsBtn')}

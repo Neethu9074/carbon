@@ -4,11 +4,13 @@
  */
 import React from 'react';
 
-import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
+import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import { actionName, getButton } from 'in-components/Chart/actions/viewInAnalytics';
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
+import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { extendMetricConfigurationOnLiveMode } from 'in-mobile-apps/metrics';
 import { getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { emptyObject } from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
@@ -18,11 +20,17 @@ export default connectTo(
     result: getMobileAppMetrics(extendMetricConfigurationOnLiveMode(props.metricsConfiguration))
   }),
   function MobileAppChartWrapper(props) {
-    return <ChartWrapper {...props} {...getAdditionalChartActions(props)} />;
+    const tagCatalogs = {
+      sessionStart: useTagCatalog('sessionStart'),
+      viewChange: useTagCatalog('viewChange'),
+      httpRequest: useTagCatalog('httpRequest'),
+      custom: useTagCatalog('custom')
+    };
+    return <ChartWrapper {...props} {...getAdditionalChartActions({ ...props, tagCatalogs })} />;
   }
 );
 
-function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics }) {
+function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics, tagCatalogs }) {
   if (!viewInAnalytics || !viewInAnalytics.mobileAppLabel) {
     if (__DEV__) {
       throw new Error(
@@ -45,21 +53,31 @@ function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics }) {
           }
 
           const metrics = getMetrics(renderedMetrics, beaconType, metricsConfiguration);
-          return getLinkToAnalyze({
-            tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-              mobileAppLabel: viewInAnalytics.mobileAppLabel,
-              tagFilters: metricsConfiguration.tagFilters
+          return (
+            tagCatalogs[beaconType] &&
+            getLinkToAnalyze({
+              formModel: translateDemocratisationTagFiltersToFormModel({
+                mobileAppLabel: viewInAnalytics.mobileAppLabel,
+                // The type tag filter is implicitly handled via the separate beaconType prop
+                tagFilters: metricsConfiguration.tagFilters?.filter(({ name }) => name !== 'mobileBeacon.type'),
+                tagCatalog: tagCatalogs[beaconType]
+              }),
+              timeConfig,
+              groupBy: viewInAnalytics.group || defaultGroupings[beaconType],
+              beaconType,
+              fields: metrics,
+              chartedMetrics:
+                metrics?.length > 0
+                  ? [
+                      {
+                        metricId: metrics[0].metricId,
+                        aggregationId: metrics[0].aggregationId,
+                        rendererId: 'stackedBar'
+                      }
+                    ]
+                  : []
             })
-              // The type tag filter is implicitly handled via the separate beaconType prop
-              .filter(({ name }) => name !== 'mobileBeacon.type'),
-            timeConfig,
-            group: viewInAnalytics.group || defaultGroupings[beaconType],
-            beaconType,
-            showGraph: true,
-            metrics,
-            focusedMetric: metrics[0]?.metric,
-            focusedMetricAggregation: metrics[0]?.aggregation
-          });
+          );
         }
       })
     ]
@@ -92,8 +110,9 @@ function getMetrics(renderedMetrics, beaconType, metricsConfiguration) {
           return;
         }
         return {
-          metric: metricDefinition.analyzeMetricName || metricDefinition.metric,
-          aggregation: metricDefinition.aggregation
+          metricId: metricDefinition.analyzeMetricName || metricDefinition.metric,
+          aggregationId: metricDefinition.aggregation,
+          type: metricType
         };
       })
       .filter(Boolean)

@@ -17,10 +17,11 @@ import MobileAppChartWrapper from 'in-mobile-apps/MobileAppDashboard/components/
 import ErrorTypesTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/ErrorTypesTopList';
 import LocationsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/LocationsTopList';
 import { httpRequestId as httpRequestIdMatrixParameter } from 'in-mobile-apps/navigation/matrix';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import ViewsTopList from 'in-mobile-apps/MobileAppDashboard/tabs/HttpRequests/ViewsTopList';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -43,6 +44,7 @@ export default connectTo(({ location }) => {
 })(HttpRequestTab);
 
 function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeConfig, httpRequestId }) {
+  const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   if (!httpRequestId) {
     return <RedirectWithHash to={httpRequestsTabFullyQualified} />;
   }
@@ -357,18 +359,22 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
 
         <Button
           kind="secondary"
-          href$={getLinkToAnalyze({
-            beaconType: 'httpRequest',
-            tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-              mobileAppLabel,
-              tagFilters: tagFilters.concat([
-                { name: 'mobileBeacon.http.origin', stringValue: httpRequestId, operator: 'EQUALS' }
-              ])
-            }),
-            group: {
-              groupbyTag: 'mobileBeacon.http.path'
-            }
-          })}
+          href$={
+            tagCatalogHttpRequest &&
+            getLinkToAnalyze({
+              beaconType: 'httpRequest',
+              formModel: translateDemocratisationTagFiltersToFormModel({
+                mobileAppLabel,
+                tagFilters: tagFilters.concat([
+                  { name: 'mobileBeacon.http.origin', stringValue: httpRequestId, operator: 'EQUALS' }
+                ]),
+                tagCatalog: tagCatalogHttpRequest
+              }),
+              groupBy: {
+                groupbyTag: 'mobileBeacon.http.path'
+              }
+            })
+          }
         >
           {t('in-mobile-apps:dashboard.tabs.AnalyzeHTTPRequestOriginBtn')}
         </Button>

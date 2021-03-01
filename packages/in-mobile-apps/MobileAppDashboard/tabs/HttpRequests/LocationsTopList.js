@@ -6,10 +6,11 @@ import { t } from 'in-i18n';
 import React from 'react';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import { TopListWithUrlState } from 'in-new-components/TopListWithUrlState';
 import { getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
+import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import { ms, number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 
@@ -75,16 +76,24 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 }
 
 function ViewAll({ tagFilters, mobileAppLabel }, className) {
+  const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   return (
     <Link
       className={className}
-      href$={getLinkToAnalyze({
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ mobileAppLabel, tagFilters }),
-        beaconType: 'httpRequest',
-        group: {
-          groupbyTag: 'mobileBeacon.http.path'
-        }
-      })}
+      href$={
+        tagCatalogHttpRequest &&
+        getLinkToAnalyze({
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            mobileAppLabel,
+            tagFilters,
+            tagCatalog: tagCatalogHttpRequest
+          }),
+          beaconType: 'httpRequest',
+          groupBy: {
+            groupbyTag: 'mobileBeacon.http.path'
+          }
+        })
+      }
     >
       {t('in-mobile-apps:dashboard.tabs.viewAllPathsLink')}
     </Link>
@@ -92,6 +101,7 @@ function ViewAll({ tagFilters, mobileAppLabel }, className) {
 }
 
 function Label({ item, mobileAppLabel, tagFilters }) {
+  const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   let label = item.name;
   try {
     label = String(JSON.parse(label));
@@ -101,14 +111,18 @@ function Label({ item, mobileAppLabel, tagFilters }) {
 
   return (
     <Link
-      href$={getLinkToAnalyze({
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-          mobileAppLabel,
-          tagFilters: tagFilters.concat({ name: 'mobileBeacon.http.path', stringValue: label, operator: 'EQUALS' })
-        }),
-        beaconType: 'httpRequest',
-        group: {}
-      })}
+      href$={
+        tagCatalogHttpRequest &&
+        getLinkToAnalyze({
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            mobileAppLabel,
+            tagFilters: tagFilters.concat({ name: 'mobileBeacon.http.path', stringValue: label, operator: 'EQUALS' }),
+            tagCatalog: tagCatalogHttpRequest
+          }),
+          beaconType: 'httpRequest',
+          groupBy: {}
+        })
+      }
     >
       {label}
     </Link>

@@ -7,10 +7,11 @@ import React from 'react';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import { getLinkToMobileApp, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import { number, percentage } from 'in-services/formatters/number';
+import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import Link from 'in-components/Link';
 
 const metrics = ['beaconCount', 'beaconErrorRate'];
@@ -65,16 +66,24 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 }
 
 function ViewAll({ tagFilters, mobileAppLabel }, className) {
+  const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   return (
     <Link
       className={className}
-      href$={getLinkToAnalyze({
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ mobileAppLabel, tagFilters }),
-        beaconType: 'httpRequest',
-        group: {
-          groupbyTag: 'mobileBeacon.view.name'
-        }
-      })}
+      href$={
+        tagCatalogHttpRequest &&
+        getLinkToAnalyze({
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            mobileAppLabel,
+            tagFilters,
+            tagCatalog: tagCatalogHttpRequest
+          }),
+          beaconType: 'httpRequest',
+          groupBy: {
+            groupbyTag: 'mobileBeacon.view.name'
+          }
+        })
+      }
     >
       {t('in-mobile-apps:dashboard.tabs.viewAllViewsLink')}
     </Link>

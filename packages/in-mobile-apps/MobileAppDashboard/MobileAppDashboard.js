@@ -8,8 +8,8 @@ import { get } from 'lodash';
 import { t } from 'in-i18n';
 
 import { mobileAppPath, mobileAppPathFullyQualified, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
-import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-mobile-apps/tags';
 import { mobileAppId as matrixMobileAppId, viewId as matrixViewId } from 'in-mobile-apps/navigation/matrix';
+import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import MobileAppContextIcon from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContextIcon';
 import MobileAppContext from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContext';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
@@ -23,6 +23,7 @@ import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-mobile-apps/tracker';
 import withUrlState from 'in-hoc/withUrlState';
@@ -136,6 +137,7 @@ function MobileAppDashboard({
 }
 
 function Header(props) {
+  const tagCatalogSessionStart = useTagCatalog('sessionStart');
   const contextConfigurations = [];
   if (props.viewId) {
     contextConfigurations.push({
@@ -155,6 +157,7 @@ function Header(props) {
         label={props.viewId || get(props.result, ['data', 'label'])}
         renderButtonLine={renderButtonLine}
         contextConfigurations={contextConfigurations}
+        tagCatalogSessionStart={tagCatalogSessionStart}
       />
       <DashboardHeaderModule>
         <QuickFilterBar
@@ -172,17 +175,24 @@ function renderMobileAppContext(props) {
   return <MobileAppContext {...props} />;
 }
 
-function renderButtonLine({ tagFilters, mobileAppLabel }) {
+function renderButtonLine({ tagFilters, mobileAppLabel, tagCatalogSessionStart }) {
   return (
     <Fragment>
       <Button
         kind="primary"
         icon="lib_mobile_app_session"
-        href$={getLinkToAnalyze({
-          beaconType: 'sessionStart',
-          tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ mobileAppLabel, tagFilters }),
-          group: defaultGroupings.sessionStart
-        })}
+        href$={
+          tagCatalogSessionStart &&
+          getLinkToAnalyze({
+            beaconType: 'sessionStart',
+            formModel: translateDemocratisationTagFiltersToFormModel({
+              mobileAppLabel,
+              tagFilters,
+              tagCatalog: tagCatalogSessionStart
+            }),
+            groupBy: defaultGroupings.sessionStart
+          })
+        }
       >
         {t('in-mobile-apps:dashboard.analyzeSessions')}
       </Button>
