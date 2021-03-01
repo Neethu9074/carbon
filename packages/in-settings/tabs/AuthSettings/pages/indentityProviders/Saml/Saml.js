@@ -247,7 +247,7 @@ function deleteItem({ setMessage }) {
 }
 
 function saveItem({ result, setMessage, idpMetadata, spEntityId }) {
-  if (isAnotherIdpActivated(result.ldapConfig, result.oidcConfig3)) {
+  if (isAnotherIdpActivated(result.ldapConfig, result.oidcConfig)) {
     setMessage({ text: 'OIDC configuration is already active. Please deactivate OIDC first.', type: errorType });
   } else {
     setMessage({ message: t('in-settings:tabs.savingConfig'), type: neutral, isSaving: true });

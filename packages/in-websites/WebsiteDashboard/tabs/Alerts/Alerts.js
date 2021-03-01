@@ -137,7 +137,9 @@ function getSubtitle(alertConfig) {
 
 function getFiltersContent(config, websiteLabel) {
   const tagFilterExpression = fromBackendModel(config.tagFilterExpression ?? []);
-  const pages = tagFilterExpression.filter(filter => filter.name === 'beacon.page.name');
+  const pages = tagFilterExpression.filter(
+    filter => filter.name === 'beacon.page.name' && filter.operator !== 'NOT_EQUAL'
+  );
   const otherTagFiltersCount = tagFilterExpression.length - pages.length;
 
   const filterCount = getFiltersCount(tagFilterExpression);
