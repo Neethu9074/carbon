@@ -33,8 +33,8 @@ import Ldap from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ld
 import SamlMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Saml/Saml';
 import LdapMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Ldap/Ldap';
 import Users from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Users';
+import { authenticationOidcEnabled } from 'in-services/featureFlags';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
-import { oidcEnabled } from 'in-services/featureFlags';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { isOwner, role } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
@@ -71,7 +71,7 @@ function getNavigationTree(props) {
           component: Saml
         },
         props.isOidcAvailable &&
-          oidcEnabled && {
+          authenticationOidcEnabled && {
             path: oidc,
             label: 'OpenID Connect',
             component: OIDC

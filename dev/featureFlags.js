@@ -41,6 +41,6 @@ module.exports = {
   smartAlertsAdvancedEntitySelectionEnabled: true,
   qb2InAPCreationEnabled: true,
   languageSelectorEnabled: true,
-  oidcEnabled: true,
+  authenticationOidcEnabled: true,
   syntheticCallsEnabled: true
 };

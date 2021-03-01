@@ -48,7 +48,7 @@ export const smartAlertsAdvancedEntitySelectionEnabled = isFeatureFlagEnabled(
 export const showUserSettingInternalTagsInUA = isFeatureFlagEnabled('showUserSettingInternalTagsInUA', false);
 export const qb2InAPCreationEnabled = isFeatureFlagEnabled('qb2InAPCreationEnabled');
 export const languageSelectorEnabled = isFeatureFlagEnabled('languageSelectorEnabled');
-export const oidcEnabled = isFeatureFlagEnabled('oidcEnabled');
+export const authenticationOidcEnabled = isFeatureFlagEnabled('authenticationOidcEnabled');
 export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');
 
 // ########################################################################################
