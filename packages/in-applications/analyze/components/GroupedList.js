@@ -440,8 +440,7 @@ function getSortingMetricLabel(sortingMetricLabel, aggregation, type) {
       sortingMetricLabel: sortingMetricLabel
     });
   } else if (type === 'time') {
-    // return `(${aggregation.toLowerCase()})`;
-    return t('in-applications:analyze.groupedList.sortingMetricLabelCount', {
+    return t('in-applications:analyze.groupedList.sortingMetricLabelTime', {
       sortingMetricLabel: sortingMetricLabel,
       time: aggregation.toLowerCase()
     });
