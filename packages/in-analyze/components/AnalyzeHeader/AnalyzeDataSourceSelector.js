@@ -14,7 +14,6 @@ import getConfigByDataSource, {
 } from 'in-analyze/AnalyzeView/dataSources';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-new-components/Profiling/navigation/paths';
-import { loggingEnabled, newAnalyticsEnabled, webMobileQb2AnalyzeEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze as getLinkToLogsAnalyze, getLinkToRawLogs } from 'in-logging/navigation/paths';
 import { hasApplicationsAccess, hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
@@ -24,6 +23,7 @@ import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatal
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { loggingEnabled } from 'in-services/featureFlags';
 import { Li, Ul } from 'in-new-components/lists/List';
 import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
@@ -38,7 +38,6 @@ const productAreas = [
     dataSources: [
       {
         dataSource: 'calls',
-        ua2: newAnalyticsEnabled,
         enabled: hasApplicationsAccess,
         getHref$: ({ isGrouped }) =>
           getLinkToAnalyze({
@@ -48,7 +47,6 @@ const productAreas = [
       },
       {
         dataSource: 'traces',
-        ua2: newAnalyticsEnabled,
         enabled: hasApplicationsAccess,
         getHref$: ({ isGrouped }) =>
           getLinkToAnalyze({
@@ -58,13 +56,13 @@ const productAreas = [
       },
       {
         dataSource: 'logs',
-        ua2: newAnalyticsEnabled,
+        beta: loggingEnabled,
         enabled: loggingEnabled,
         getHref$: getLinkToLogsAnalyze
       },
       {
         dataSource: 'rawlogs',
-        ua2: newAnalyticsEnabled,
+        beta: loggingEnabled,
         getHref$: getLinkToRawLogs,
         enabled$: isInternalVisible$.map(isInternalVisible => isInternalVisible && loggingEnabled)
       }
@@ -76,7 +74,6 @@ const productAreas = [
     dataSources: [
       {
         dataSource: 'pageLoad',
-        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped, formModel }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
@@ -86,7 +83,6 @@ const productAreas = [
       },
       {
         dataSource: 'pageChange',
-        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped, formModel }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.pageChange : emptyObject,
@@ -96,7 +92,6 @@ const productAreas = [
       },
       {
         dataSource: 'resourceLoad',
-        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped, formModel }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
@@ -106,7 +101,6 @@ const productAreas = [
       },
       {
         dataSource: 'httpRequest',
-        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped, formModel }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
@@ -116,7 +110,6 @@ const productAreas = [
       },
       {
         dataSource: 'error',
-        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped, formModel }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
@@ -126,7 +119,6 @@ const productAreas = [
       },
       {
         dataSource: 'custom',
-        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped, formModel }) =>
           getLinkToWebsiteAnalyze({
             group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
@@ -142,7 +134,6 @@ const productAreas = [
     dataSources: [
       {
         dataSource: 'sessionStart',
-        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped, formModel, mobileTagCatalogSessionStart: tagCatalog }) =>
           tagCatalog &&
           getLinkToMobileAppAnalyze({
@@ -154,7 +145,6 @@ const productAreas = [
       },
       {
         dataSource: 'viewChange',
-        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped, formModel, mobileTagCatalogViewChange: tagCatalog }) =>
           tagCatalog &&
           getLinkToMobileAppAnalyze({
@@ -166,7 +156,6 @@ const productAreas = [
       },
       {
         dataSource: 'httpRequest',
-        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped, formModel, mobileTagCatalogHttpRequest: tagCatalog }) =>
           tagCatalog &&
           getLinkToMobileAppAnalyze({
@@ -178,7 +167,6 @@ const productAreas = [
       },
       {
         dataSource: 'custom',
-        ua2: webMobileQb2AnalyzeEnabled,
         getHref$: ({ isGrouped, formModel, mobileTagCatalogCustom: tagCatalog }) =>
           tagCatalog &&
           getLinkToMobileAppAnalyze({
@@ -225,7 +213,6 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
                 formModel={formModel}
                 mobileTagCatalogs={mobileTagCatalogs}
                 productArea={productArea}
-                ua2={config.ua2}
                 activeConfiguration={activeConfiguration}
               />
             ));
@@ -264,7 +251,7 @@ function ProductAreaEntry({
   close,
   productArea,
   activeConfiguration,
-  ua2
+  beta
 }) {
   const isEnabled = useObservable(enabled$, []) ?? !enabled$;
   if (!isEnabled) {
@@ -288,7 +275,7 @@ function ProductAreaEntry({
         <SvgIcon type={getIconByType(dataSource, productArea)} />
         {getLabelByType(dataSource)}
 
-        {ua2 && (
+        {beta && (
           <Pill kind="primary" className={locals.betaPill}>
             BETA
           </Pill>
