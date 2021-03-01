@@ -10,14 +10,16 @@ import {
   sessionId as sessionIdMatrixParameterName,
   beaconTimestamp as beaconTimestampMatrixParameterName
 } from 'in-mobile-apps/navigation/matrix';
-import { analyzePath, analyzePathFullyQualified, sessionViewPath } from 'in-mobile-apps/navigation/paths';
+import {
+  analyzePath,
+  analyzePathFullyQualified,
+  analyzeTwoParameters,
+  sessionViewPath
+} from 'in-mobile-apps/navigation/paths';
 import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { deserializeTagFilters, deserializeMetrics } from 'in-mobile-apps/navigation/matrix';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
 import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
-import { createParameters } from 'in-new-components/AnalyzeView/parameters';
-
-export const analyzeTwoParameters = createParameters(analyzePath);
 
 export function transformOneZeroToTwoZero(location, tagCatalog, metricCatalog) {
   // In 1.0 zero mode the detail view has a different path. In 2.0 mode this difference

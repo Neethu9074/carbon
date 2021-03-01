@@ -5,6 +5,7 @@
 import { get } from 'lodash';
 import { t } from 'in-i18n';
 
+import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { compareIgnoreCase } from 'in-services/util/string';
 
 export const tagDefinitions = get(window, ['instana', 'tags'], [])
@@ -13,19 +14,20 @@ export const tagDefinitions = get(window, ['instana', 'tags'], [])
 
 export const tagKeys = tagDefinitions.map(t => t.name);
 
-export function translateDemocratisationTagFiltersToAnalyzeTagFilters({ mobileAppLabel, tagFilters }) {
-  let tagFiltersForAnalyze = tagFilters;
-  if (!mobileAppLabel) {
-    return tagFiltersForAnalyze;
+export function translateDemocratisationTagFiltersToFormModel({ mobileAppLabel, tagFilters, tagCatalog }) {
+  let updatedTagFilters = tagFilters;
+  if (mobileAppLabel) {
+    // replace mobile app ID filter with something more understandable by users.
+    if (updatedTagFilters.some(f => f.name === 'mobileBeacon.mobileApp.id')) {
+      updatedTagFilters = updatedTagFilters.map(f =>
+        f.name !== 'mobileBeacon.mobileApp.id' ? f : getMobileAppLabelTagFilter(mobileAppLabel)
+      );
+    } else {
+      // or add the mobile app label tag filter to the end if mobile app ID is filter is not present
+      updatedTagFilters = updatedTagFilters.concat(getMobileAppLabelTagFilter(mobileAppLabel));
+    }
   }
-  // replace mobile app ID filter with something more understandable by users.
-  if (tagFiltersForAnalyze.some(f => f.name === 'mobileBeacon.mobileApp.id')) {
-    return tagFiltersForAnalyze.map(f =>
-      f.name !== 'mobileBeacon.mobileApp.id' ? f : getMobileAppLabelTagFilter(mobileAppLabel)
-    );
-  }
-  // or add the mobile app label tag filter to the end if mobile app ID is filter is not present
-  return tagFiltersForAnalyze.concat(getMobileAppLabelTagFilter(mobileAppLabel));
+  return fromTagFiltersArray(updatedTagFilters, tagCatalog);
 }
 
 function getMobileAppLabelTagFilter(mobileAppLabel) {

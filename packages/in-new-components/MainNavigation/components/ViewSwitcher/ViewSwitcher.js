@@ -317,7 +317,7 @@ function Analyze(props) {
           hasMobileAppsAccess &&
             getLinkToMobileAppAnalyze({
               beaconType: 'sessions',
-              group: defaultMobileAppGroupings.sessions
+              groupBy: defaultMobileAppGroupings.sessions
             })
         ].filter(Boolean)[0]
       }

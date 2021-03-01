@@ -20,6 +20,7 @@ import { hasApplicationsAccess, hasMobileAppsAccess, hasWebsitesAccess } from 'i
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
+import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
@@ -142,41 +143,49 @@ const productAreas = [
       {
         dataSource: 'sessionStart',
         ua2: webMobileQb2AnalyzeEnabled,
-        getHref$: ({ isGrouped, formModel }) =>
+        getHref$: ({ isGrouped, formModel, mobileTagCatalogSessionStart: tagCatalog }) =>
+          tagCatalog &&
           getLinkToMobileAppAnalyze({
-            group: isGrouped ? defaultMobileAppGroupings.sessionStart : emptyObject,
+            groupBy: isGrouped ? defaultMobileAppGroupings.sessionStart : emptyObject,
             formModel,
-            beaconType: 'sessionStart'
+            beaconType: 'sessionStart',
+            tagCatalog
           })
       },
       {
         dataSource: 'viewChange',
         ua2: webMobileQb2AnalyzeEnabled,
-        getHref$: ({ isGrouped, formModel }) =>
+        getHref$: ({ isGrouped, formModel, mobileTagCatalogViewChange: tagCatalog }) =>
+          tagCatalog &&
           getLinkToMobileAppAnalyze({
-            group: isGrouped ? defaultMobileAppGroupings.viewChange : emptyObject,
+            groupBy: isGrouped ? defaultMobileAppGroupings.viewChange : emptyObject,
             formModel,
-            beaconType: 'viewChange'
+            beaconType: 'viewChange',
+            tagCatalog
           })
       },
       {
         dataSource: 'httpRequest',
         ua2: webMobileQb2AnalyzeEnabled,
-        getHref$: ({ isGrouped, formModel }) =>
+        getHref$: ({ isGrouped, formModel, mobileTagCatalogHttpRequest: tagCatalog }) =>
+          tagCatalog &&
           getLinkToMobileAppAnalyze({
-            group: isGrouped ? defaultMobileAppGroupings.httpRequest : emptyObject,
+            groupBy: isGrouped ? defaultMobileAppGroupings.httpRequest : emptyObject,
             formModel,
-            beaconType: 'httpRequest'
+            beaconType: 'httpRequest',
+            tagCatalog
           })
       },
       {
         dataSource: 'custom',
         ua2: webMobileQb2AnalyzeEnabled,
-        getHref$: ({ isGrouped, formModel }) =>
+        getHref$: ({ isGrouped, formModel, mobileTagCatalogCustom: tagCatalog }) =>
+          tagCatalog &&
           getLinkToMobileAppAnalyze({
-            group: isGrouped ? defaultMobileAppGroupings.custom : emptyObject,
+            groupBy: isGrouped ? defaultMobileAppGroupings.custom : emptyObject,
             formModel,
-            beaconType: 'custom'
+            beaconType: 'custom',
+            tagCatalog
           })
       }
     ]
@@ -194,6 +203,12 @@ const productAreas = [
 ];
 
 export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, formModel = emptyArray, close }) {
+  const mobileTagCatalogs = {
+    mobileTagCatalogSessionStart: useMobileTagCatalog('sessionStart'),
+    mobileTagCatalogViewChange: useMobileTagCatalog('viewChange'),
+    mobileTagCatalogHttpRequest: useMobileTagCatalog('httpRequest'),
+    mobileTagCatalogCustom: useMobileTagCatalog('custom')
+  };
   return (
     <Ul className={locals.wrapper}>
       {productAreas
@@ -208,6 +223,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
                 close={close}
                 isGrouped={isGrouped}
                 formModel={formModel}
+                mobileTagCatalogs={mobileTagCatalogs}
                 productArea={productArea}
                 ua2={config.ua2}
                 activeConfiguration={activeConfiguration}
@@ -244,6 +260,7 @@ function ProductAreaEntry({
   enabled$,
   isGrouped,
   formModel,
+  mobileTagCatalogs,
   close,
   productArea,
   activeConfiguration,
@@ -258,7 +275,7 @@ function ProductAreaEntry({
     <Li
       key={dataSource}
       noAlternatingBg
-      href$={getHref$({ isGrouped, formModel })}
+      href$={getHref$({ isGrouped, formModel, ...mobileTagCatalogs })}
       onDefaultHrefInteractionSideEffect={close}
     >
       <div
