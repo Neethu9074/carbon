@@ -315,6 +315,35 @@ const cases = [
         }
       }
     }
+  },
+  {
+    name: 'with order by count',
+    one: {
+      pathname: '/mobileAppMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/mobileAppMonitoring': {},
+        '/analyzeBeacons': {
+          group: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
+          beaconType: 'sessionStart',
+          orderBy: 'count',
+          orderDirection: 'ASC'
+        }
+      }
+    },
+    two: {
+      pathname: '/mobileAppMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/mobileAppMonitoring': {},
+        '/analyzeBeacons': {
+          groupBy: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
+          beaconType: 'sessionStart',
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~',
+          orderByGroups: '(by~beaconCount*_SUM~direction~ASC)~'
+        }
+      }
+    }
   }
 ];
 

@@ -108,8 +108,14 @@ function transformOrderByParameters(location, metricCatalog) {
     const groupBy = analyzeTwoParameters.groupBy.parser(groupByParam);
     const isGrouped = Boolean(groupBy.groupbyTag);
     if (isGrouped) {
+      if (by === 'timestamp') {
+        by = 'earliestTimestamp';
+      }
+      if (by === 'count') {
+        by = 'beaconCount_SUM';
+      }
       const orderByGroups = {
-        by: by === 'timestamp' ? 'earliestTimestamp' : by,
+        by,
         direction
       };
       setOrDeleteMatrixKey(location, analyzePath, 'orderBy');
