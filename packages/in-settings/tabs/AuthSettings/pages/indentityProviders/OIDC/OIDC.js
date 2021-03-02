@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { createField } from 'formalistic';
 
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
+import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
@@ -88,7 +89,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
     <>
       <Title title="Configure OpenID Connect" />
       <SubViewHeader>OIDC Configuration</SubViewHeader>
-      {isAnotherIdpActivated(result.ldapConfig, result.samlConfig) ? (
+      {isAnotherIdpActivated([result.ldapConfig?.base, result.samlConfig?.activated]) ? (
         <h2>OIDC is not configurable as long as you have another active identity provider configuration.</h2>
       ) : (
         <>
@@ -236,10 +237,6 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
       )}
     </>
   );
-}
-
-function isAnotherIdpActivated(ldapConfig, samlConfig) {
-  return samlConfig?.activated && ldapConfig.base;
 }
 
 function CopyableText({ title, form, fieldName }) {
