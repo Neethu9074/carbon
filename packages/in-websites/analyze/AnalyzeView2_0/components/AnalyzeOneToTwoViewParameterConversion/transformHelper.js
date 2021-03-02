@@ -10,7 +10,12 @@ import {
   pageLoadId as pageLoadIdMatrixParameterName,
   beaconTimestamp as beaconTimestampMatrixParameterName
 } from 'in-websites/navigation/matrix';
-import { analyzePath, analyzePathFullyQualified, analyzeTwoParameters, pageLoadViewPath } from 'in-websites/navigation/paths';
+import {
+  analyzePath,
+  analyzePathFullyQualified,
+  analyzeTwoParameters,
+  pageLoadViewPath
+} from 'in-websites/navigation/paths';
 import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { deserializeTagFilters, deserializeMetrics } from 'in-websites/navigation/matrix';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -115,7 +120,7 @@ function transformOrderByParameters(location, metricCatalog) {
         analyzeTwoParameters.orderByGroups.serializer(orderByGroups)
       );
     } else {
-      const [metric] = by.split('_');
+      const [metric] = by.split('_', 1);
       const metricDefinition = metricCatalog.find(({ metricId }) => metricId === metric);
       const orderBy = {
         by: metricDefinition?.tagName ?? metric,
@@ -157,7 +162,8 @@ function transformChartedMetricsParameters(location) {
   let chartedMetrics = [];
   // don't have to check showGraph value here as showGraph is always true for UA2
   if (focusedMetric) {
-    const [metricId, aggregationId] = focusedMetric.split('_', 2);
+    const [metricId] = focusedMetric.split('_', 1);
+    const aggregationId = focusedMetric.substring(metricId.length + 1);
     chartedMetrics.push({
       metricId,
       aggregationId,

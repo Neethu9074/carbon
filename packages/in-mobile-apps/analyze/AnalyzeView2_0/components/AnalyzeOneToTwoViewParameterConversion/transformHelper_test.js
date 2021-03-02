@@ -287,6 +287,34 @@ const cases = [
         }
       }
     }
+  },
+  {
+    name: 'charted metric with DISTINCT_COUNT aggregation',
+    one: {
+      pathname: '/mobileAppMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/mobileAppMonitoring': {},
+        '/analyzeBeacons': {
+          group: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
+          beaconType: 'sessionStart',
+          showGraph: 'true',
+          focusedMetric: 'uniqueUsers_DISTINCT_COUNT'
+        }
+      }
+    },
+    two: {
+      pathname: '/mobileAppMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/mobileAppMonitoring': {},
+        '/analyzeBeacons': {
+          groupBy: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
+          beaconType: 'sessionStart',
+          chartedMetrics: '!(metricId~uniqueUsers~aggregationId~DISTINCT*_COUNT~rendererId~stackedBar)~'
+        }
+      }
+    }
   }
 ];
 

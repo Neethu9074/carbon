@@ -287,6 +287,34 @@ const cases = [
         }
       }
     }
+  },
+  {
+    name: 'charted metric with DISTINCT_COUNT aggregation',
+    one: {
+      pathname: '/websiteMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/websiteMonitoring': {},
+        '/analyzeBeacons': {
+          group: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
+          beaconType: 'pageChange',
+          showGraph: 'true',
+          focusedMetric: 'uniqueUsersOrSessions_DISTINCT_COUNT'
+        }
+      }
+    },
+    two: {
+      pathname: '/websiteMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/websiteMonitoring': {},
+        '/analyzeBeacons': {
+          groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
+          beaconType: 'pageChange',
+          chartedMetrics: '!(metricId~uniqueUsersOrSessions~aggregationId~DISTINCT*_COUNT~rendererId~stackedBar)~'
+        }
+      }
+    }
   }
 ];
 
