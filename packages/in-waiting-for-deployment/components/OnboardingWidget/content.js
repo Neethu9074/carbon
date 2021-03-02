@@ -33,7 +33,7 @@ import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
 import useObservable from 'in-hooks/useObservable';
 import http from 'in-services/http';
 
-const maxClusterNameRegex = new RegExp(/^[\w-_]{1,20}$/);
+const maxClusterNameRegex = new RegExp(/^[\w-_]{1,64}$/);
 
 const lambdaLayerVersionApiBaseUrl = 'https://lambda-layers.instana.io';
 
@@ -44,7 +44,7 @@ function validateClusterName(clusterName) {
 const clusterNameValidator = {
   validator: validateClusterName,
   validationMessage: t(
-    'in-waiting-for-deployment:content.theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo20CharactersLong'
+    'in-waiting-for-deployment:content.theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong'
   )
 };
 
@@ -2150,7 +2150,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
             validate: {
               validator: validateClusterName,
               validationMessage: t(
-                'in-waiting-for-deployment:content.theFoundationNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo20CharactersLong'
+                'in-waiting-for-deployment:content.theFoundationNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong'
               )
             }
           },

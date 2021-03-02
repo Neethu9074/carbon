@@ -19,7 +19,7 @@
   "invite": "Invite",
   "sendYourAgentKeyGuideToAColleague": "Send your agent key & guide to a colleague",
   "content": {
-    "theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo20CharactersLong": "The cluster name must be a combination of letters, dashes and underscores, up to 20 characters long",
+    "theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "The cluster name must be a combination of letters, dashes and underscores, up to 64 characters long",
     "aws": "AWS",
     "amazonWebServices": "Amazon Web Services",
     "platform": "Platform",
@@ -179,7 +179,7 @@
     "theInstanaOpenShiftDocumentation": "the Instana OpenShift documentation.",
     "nameYourOpenShiftCluster": "Name your OpenShift cluster",
     "theAgentReleaseVersionMustBeAValidSemanticVersion": "The agent release version must be a valid semantic version",
-    "theFoundationNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo20CharactersLong": "The foundation name must be a combination of letters, dashes and underscores, up to 20 characters long",
+    "theFoundationNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "The foundation name must be a combination of letters, dashes and underscores, up to 64 characters long",
     "theUaaClientIdCannotBeBlank": "The UAA client id cannot be blank",
     "theUaaClientSecretCannotBeBlank": "The UAA client secret cannot be blank",
     "supportedStemcells": "Supported Stemcells",
