@@ -386,6 +386,7 @@
     "identityProviders": "Identity Providers",
     "googleSso": "Google SSO",
     "saml": "SAML",
+    "oidc": "OpenID Connect",
     "ldap": "LDAP",
     "twoFactor": "Two-Factor",
     "settings": "Settings",

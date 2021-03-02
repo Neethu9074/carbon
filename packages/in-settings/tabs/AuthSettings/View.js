@@ -57,32 +57,33 @@ function getNavigationTree(props) {
       ]
     },
 
-    isAtLeastOneAuthMethogAvailable && {
-      title: t('in-settings:tabs.identityProviders'),
-      pages: [
-        props.isGoogleSSOAvailable && {
-          path: googleSSO,
-          label: t('in-settings:tabs.googleSso'),
-          component: GoogleSSO
-        },
-        props.isSamlAvailable && {
-          path: saml,
-          label: t('in-settings:tabs.saml'),
-          component: Saml
-        },
-        props.isOidcAvailable &&
-          authenticationOidcEnabled && {
-            path: oidc,
-            label: 'OpenID Connect',
-            component: OIDC
+    role.canConfigureAuthenticationMethods &&
+      isAtLeastOneAuthMethogAvailable && {
+        title: t('in-settings:tabs.identityProviders'),
+        pages: [
+          props.isGoogleSSOAvailable && {
+            path: googleSSO,
+            label: t('in-settings:tabs.googleSso'),
+            component: GoogleSSO
           },
-        props.isLdapAvailable && {
-          path: ldap,
-          label: t('in-settings:tabs.ldap'),
-          component: Ldap
-        }
-      ].filter(Boolean)
-    },
+          props.isSamlAvailable && {
+            path: saml,
+            label: t('in-settings:tabs.saml'),
+            component: Saml
+          },
+          props.isOidcAvailable &&
+            authenticationOidcEnabled && {
+              path: oidc,
+              label: t('in-settings:tabs.oidc'),
+              component: OIDC
+            },
+          props.isLdapAvailable && {
+            path: ldap,
+            label: t('in-settings:tabs.ldap'),
+            component: Ldap
+          }
+        ].filter(Boolean)
+      },
 
     {
       title: t('in-settings:tabs.twoFactor'),
