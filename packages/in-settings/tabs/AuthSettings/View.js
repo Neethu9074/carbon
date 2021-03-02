@@ -56,32 +56,33 @@ function getNavigationTree(props) {
       ]
     },
 
-    isAtLeastOneAuthMethogAvailable && {
-      title: 'Identity Providers',
-      pages: [
-        props.isGoogleSSOAvailable && {
-          path: googleSSO,
-          label: 'Google SSO',
-          component: GoogleSSO
-        },
-        props.isSamlAvailable && {
-          path: saml,
-          label: 'SAML',
-          component: Saml
-        },
-        props.isOidcAvailable &&
-          authenticationOidcEnabled && {
-            path: oidc,
-            label: 'OpenID Connect',
-            component: OIDC
+    role.canConfigureAuthenticationMethods &&
+      isAtLeastOneAuthMethogAvailable && {
+        title: 'Identity Providers',
+        pages: [
+          props.isGoogleSSOAvailable && {
+            path: googleSSO,
+            label: 'Google SSO',
+            component: GoogleSSO
           },
-        props.isLdapAvailable && {
-          path: ldap,
-          label: 'LDAP',
-          component: Ldap
-        }
-      ].filter(Boolean)
-    },
+          props.isSamlAvailable && {
+            path: saml,
+            label: 'SAML',
+            component: Saml
+          },
+          props.isOidcAvailable &&
+            authenticationOidcEnabled && {
+              path: oidc,
+              label: 'OpenID Connect',
+              component: OIDC
+            },
+          props.isLdapAvailable && {
+            path: ldap,
+            label: 'LDAP',
+            component: Ldap
+          }
+        ].filter(Boolean)
+      },
 
     {
       title: 'Two-Factor',
