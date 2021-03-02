@@ -27,7 +27,7 @@ export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, ti
     <Button
       kind="primary"
       icon={getIcon(alertType)}
-      onClick={() => websitesAlertingEventDetailsGoToAnalyze(beaconType)}
+      onClick={() => websitesAlertingEventDetailsGoToAnalyze({ beaconType })}
       href$={getLinkToAnalyze({
         beaconType,
         formModel: joinExpressions({
