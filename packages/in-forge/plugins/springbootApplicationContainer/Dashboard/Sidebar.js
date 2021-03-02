@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
@@ -17,7 +18,7 @@ export default function SpringbootSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Application Info</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.springbootAppContainer.headerApplicationInfo')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -25,15 +26,22 @@ export default function SpringbootSidebar({ snapshot }) {
 
       {applicationConfig ? (
         <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>Application Configs</Collapsible.Header>
+          <Collapsible.Header>
+            {t('in-forge:plugins.springbootAppContainer.headerApplicationConfigs')}
+          </Collapsible.Header>
           <Collapsible.Content>
             {applicationConfig
               .map((applicationConfigData, applicationConfigPath) => (
                 <div>
                   <DescriptionList>
-                    <DescriptionItem title="Config Path">{applicationConfigPath}</DescriptionItem>
+                    <DescriptionItem title={t('in-forge:plugins.springbootAppContainer.titleConfigPath')}>
+                      {applicationConfigPath}
+                    </DescriptionItem>
                   </DescriptionList>
-                  <KeyValueOverlay header="Properties" data={applicationConfigData} />
+                  <KeyValueOverlay
+                    header={t('in-forge:plugins.springbootAppContainer.headerProperties')}
+                    data={applicationConfigData}
+                  />
                 </div>
               ))
               .valueSeq()

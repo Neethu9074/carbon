@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.tomcatAppContainer.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Context',
+    title: t('in-forge:plugins.tomcatAppContainer.titleContext'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'URL',
+    title: t('in-forge:plugins.tomcatAppContainer.titleURL'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -39,7 +40,7 @@ const cols = [
     }
   },
   {
-    title: 'Active',
+    title: t('in-forge:plugins.tomcatAppContainer.titleActive'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -55,7 +56,7 @@ const cols = [
     }
   },
   {
-    title: 'Max',
+    title: t('in-forge:plugins.tomcatAppContainer.titleMax'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -90,7 +91,7 @@ export default function DataSourcesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Data Sources (${rows.length})`}
+      cardTitle={t('in-forge:plugins.tomcatAppContainer.titleDataSourcesCount', { count: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -105,7 +106,7 @@ function getRowDetails(row) {
       timeConfig={row.timeConfig}
       y1={{
         metrics: ['datasources.' + row.key + '.active'],
-        labels: ['Active connections'],
+        labels: [t('in-forge:plugins.tomcatAppContainer.labelActiveConnections')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}
