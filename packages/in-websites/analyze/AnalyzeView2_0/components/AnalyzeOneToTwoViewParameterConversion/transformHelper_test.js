@@ -315,6 +315,35 @@ const cases = [
         }
       }
     }
+  },
+  {
+    name: 'with order by count',
+    one: {
+      pathname: '/websiteMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/websiteMonitoring': {},
+        '/analyzeBeacons': {
+          group: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
+          beaconType: 'pageLoad',
+          orderBy: 'count',
+          orderDirection: 'ASC'
+        }
+      }
+    },
+    two: {
+      pathname: '/websiteMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/websiteMonitoring': {},
+        '/analyzeBeacons': {
+          groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
+          beaconType: 'pageLoad',
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~',
+          orderByGroups: '(by~beaconCount*_SUM~direction~ASC)~'
+        }
+      }
+    }
   }
 ];
 
