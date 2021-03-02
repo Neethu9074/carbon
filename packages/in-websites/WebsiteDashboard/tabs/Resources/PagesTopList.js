@@ -2,16 +2,17 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { getLinkToWebsite, getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 const metrics = ['beaconCount'];
 const labels = [t('in-websites:websiteDashboard.tabs.resources.pageTopListLabelCalls')];
@@ -64,16 +65,24 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 }
 
 function ViewAll({ tagFilters, websiteLabel }, className) {
+  const tagCatalogResourceLoad = useTagCatalog('resourceLoad');
   return (
     <Link
       className={className}
-      href$={getLinkToAnalyze({
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
-        beaconType: 'resourceLoad',
-        group: {
-          groupbyTag: 'beacon.page.name'
-        }
-      })}
+      href$={
+        tagCatalogResourceLoad &&
+        getLinkToAnalyze({
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            websiteLabel,
+            tagFilters,
+            tagCatalog: tagCatalogResourceLoad
+          }),
+          beaconType: 'resourceLoad',
+          groupBy: {
+            groupbyTag: 'beacon.page.name'
+          }
+        })
+      }
     >
       {t('in-websites:websiteDashboard.tabs.resources.pageTopListLabelViewAllPages')}
     </Link>

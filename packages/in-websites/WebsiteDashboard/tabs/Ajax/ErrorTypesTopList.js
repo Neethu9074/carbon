@@ -2,23 +2,25 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { TopListWithUrlState } from 'in-new-components/TopListWithUrlState';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 const metrics = ['beaconCount'];
 const labels = [t('in-websites:websiteDashboard.tabs.ajax.errorTypesTopListLabelCalls')];
 const aggregations = ['SUM'];
 const formatters = [number.compact];
 
-export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagFilters }) {
+export default function ErrorTypesTopList({ websiteId, websiteLabel, timeConfig, tagFilters }) {
+  const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   return (
     <TopListWithUrlState
       title={t('in-websites:websiteDashboard.tabs.ajax.errorTypesTopListTitle')}
@@ -35,6 +37,7 @@ export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagF
       websiteLabel={websiteLabel}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
+      tagCatalogHttpRequest={tagCatalogHttpRequest}
     />
   );
 }
@@ -63,24 +66,31 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ tagFilters, websiteLabel }, className) {
+function ViewAll({ tagFilters, websiteLabel, tagCatalogHttpRequest }, className) {
   return (
     <Link
       className={className}
-      href$={getLinkToAnalyze({
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
-        beaconType: 'httpRequest',
-        group: {
-          groupbyTag: 'beacon.error.type'
-        }
-      })}
+      href$={
+        tagCatalogHttpRequest &&
+        getLinkToAnalyze({
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            websiteLabel,
+            tagFilters,
+            tagCatalog: tagCatalogHttpRequest
+          }),
+          beaconType: 'httpRequest',
+          groupBy: {
+            groupbyTag: 'beacon.error.type'
+          }
+        })
+      }
     >
       {t('in-websites:websiteDashboard.tabs.ajax.errorTypesTopListLinkLabel')}
     </Link>
   );
 }
 
-function Label({ item, websiteLabel, tagFilters }) {
+function Label({ item, websiteLabel, tagFilters, tagCatalogHttpRequest }) {
   let label = item.name;
   try {
     label = String(JSON.parse(label));
@@ -90,14 +100,18 @@ function Label({ item, websiteLabel, tagFilters }) {
 
   return (
     <Link
-      href$={getLinkToAnalyze({
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-          websiteLabel,
-          tagFilters: tagFilters.concat({ name: 'beacon.error.type', stringValue: label, operator: 'EQUALS' })
-        }),
-        beaconType: 'httpRequest',
-        group: {}
-      })}
+      href$={
+        tagCatalogHttpRequest &&
+        getLinkToAnalyze({
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            websiteLabel,
+            tagFilters: tagFilters.concat({ name: 'beacon.error.type', stringValue: label, operator: 'EQUALS' }),
+            tagCatalog: tagCatalogHttpRequest
+          }),
+          beaconType: 'httpRequest',
+          groupBy: {}
+        })
+      }
     >
       {label}
     </Link>

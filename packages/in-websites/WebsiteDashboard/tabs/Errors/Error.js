@@ -4,8 +4,6 @@
  */
 import { just } from '@instana/observables';
 import React, { Fragment } from 'react';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import { getLinkToWebsite, errorsTabFullyQualified, getLinkToAnalyze, detailsPath } from 'in-websites/navigation/paths';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
@@ -13,10 +11,11 @@ import { isScriptError, learnMoreLabel, learnMoreHref, explanation } from 'in-we
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import BrowserTopList from 'in-websites/WebsiteDashboard/tabs/Errors/BrowserTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Errors/PagesTopList';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
+import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import StackTrace from 'in-websites/WebsiteDashboard/tabs/Errors/StackTrace';
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/Errors/OsTopList';
 import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
@@ -28,6 +27,7 @@ import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import BackButton from 'in-new-components/BackButton';
@@ -37,6 +37,8 @@ import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import Code from 'in-components/Code';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './Error.mless';
 
@@ -56,6 +58,7 @@ export default connectTo(({ location, timeConfig, websiteId }) => {
 })(ErrorTab);
 
 function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters, timeConfig }) {
+  const tagCatalogError = useTagCatalog('error');
   if (!errorId) {
     return <RedirectWithHash to={errorsTabFullyQualified} />;
   }
@@ -100,17 +103,19 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                 text: t('in-websites:websiteDashboard.tabs.errors.errorLabelViewInAnalyze'),
                 kind: 'subtle',
                 icon: 'lib_analyze',
-                href$: getLinkToAnalyze({
-                  beaconType: 'error',
-                  tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                    websiteLabel,
-                    tagFilters: tagFiltersWithErrorId
-                  }),
-                  group: {
-                    groupbyTag: 'beacon.location.path'
-                  },
-                  showGraph: true
-                })
+                href$:
+                  tagCatalogError &&
+                  getLinkToAnalyze({
+                    beaconType: 'error',
+                    formModel: translateDemocratisationTagFiltersToFormModel({
+                      websiteLabel,
+                      tagFilters: tagFiltersWithErrorId,
+                      tagCatalog: tagCatalogError
+                    }),
+                    groupBy: {
+                      groupbyTag: 'beacon.location.path'
+                    }
+                  })
               }}
             />
           </Col>
@@ -132,25 +137,33 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                 text: t('in-websites:websiteDashboard.tabs.errors.errorLabelViewInAnalyze'),
                 kind: 'subtle',
                 icon: 'lib_analyze',
-                href$: getLinkToAnalyze({
-                  beaconType: 'error',
-                  tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                    websiteLabel,
-                    tagFilters: tagFiltersWithErrorId
-                  }),
-                  group: {
-                    groupbyTag: 'beacon.location.path'
-                  },
-                  showGraph: true,
-                  metrics: [
-                    {
-                      metric: 'uniqueUsersOrSessions',
-                      aggregation: 'DISTINCT_COUNT'
-                    }
-                  ],
-                  focusedMetric: 'uniqueUsersOrSessions',
-                  focusedMetricAggregation: 'DISTINCT_COUNT'
-                })
+                href$:
+                  tagCatalogError &&
+                  getLinkToAnalyze({
+                    beaconType: 'error',
+                    formModel: translateDemocratisationTagFiltersToFormModel({
+                      websiteLabel,
+                      tagFilters: tagFiltersWithErrorId,
+                      tagCatalog: tagCatalogError
+                    }),
+                    groupBy: {
+                      groupbyTag: 'beacon.location.path'
+                    },
+                    fields: [
+                      {
+                        metricId: 'uniqueUsersOrSessions',
+                        aggregationId: 'DISTINCT_COUNT',
+                        type: metricType
+                      }
+                    ],
+                    chartedMetrics: [
+                      {
+                        metricId: 'uniqueUsersOrSessions',
+                        aggregationId: 'DISTINCT_COUNT',
+                        rendererId: 'stackedBar'
+                      }
+                    ]
+                  })
               }}
             />
           </Col>
@@ -365,16 +378,20 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
 
         <Button
           kind="secondary"
-          href$={getLinkToAnalyze({
-            beaconType: 'error',
-            tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-              websiteLabel,
-              tagFilters: tagFilters.concat([{ name: 'beacon.error.id', stringValue: errorId, operator: 'EQUALS' }])
-            }),
-            group: {
-              groupbyTag: 'beacon.location.path'
-            }
-          })}
+          href$={
+            tagCatalogError &&
+            getLinkToAnalyze({
+              beaconType: 'error',
+              formModel: translateDemocratisationTagFiltersToFormModel({
+                websiteLabel,
+                tagFilters: tagFilters.concat([{ name: 'beacon.error.id', stringValue: errorId, operator: 'EQUALS' }]),
+                tagCatalog: tagCatalogError
+              }),
+              groupBy: {
+                groupbyTag: 'beacon.location.path'
+              }
+            })
+          }
         >
           {t('in-websites:websiteDashboard.tabs.errors.errorButtonAnalyzeJSError')}
         </Button>

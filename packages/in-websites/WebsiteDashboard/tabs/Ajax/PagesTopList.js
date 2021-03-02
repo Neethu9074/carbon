@@ -2,16 +2,17 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { getLinkToWebsite, getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { number, percentage } from 'in-services/formatters/number';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 const metrics = ['beaconCount', 'beaconErrorRate'];
 const labels = [
@@ -68,16 +69,24 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
 }
 
 function ViewAll({ tagFilters, websiteLabel }, className) {
+  const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   return (
     <Link
       className={className}
-      href$={getLinkToAnalyze({
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
-        beaconType: 'httpRequest',
-        group: {
-          groupbyTag: 'beacon.page.name'
-        }
-      })}
+      href$={
+        tagCatalogHttpRequest &&
+        getLinkToAnalyze({
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            websiteLabel,
+            tagFilters,
+            tagCatalog: tagCatalogHttpRequest
+          }),
+          beaconType: 'httpRequest',
+          groupBy: {
+            groupbyTag: 'beacon.page.name'
+          }
+        })
+      }
     >
       {t('in-websites:websiteDashboard.tabs.ajax.pagesTopListLinkLabel')}
     </Link>

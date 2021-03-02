@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { getLinkToWebsite, getLinkToAnalyze } from 'in-websites/navigation/paths';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 export default function PageTopList({
   websiteId,
@@ -25,6 +26,14 @@ export default function PageTopList({
   tabPath,
   urlMatrixParamConfig
 }) {
+  const tagCatalogs = {
+    pageLoad: useTagCatalog('pageLoad'),
+    pageChange: useTagCatalog('pageChange'),
+    resourceLoad: useTagCatalog('resourceLoad'),
+    httpRequest: useTagCatalog('httpRequest'),
+    error: useTagCatalog('error'),
+    custom: useTagCatalog('custom')
+  };
   return (
     <TopListWithUrlState
       title={t('in-websites:websiteDashboard.components.pageTopListTitle')}
@@ -44,6 +53,7 @@ export default function PageTopList({
       beaconType={beaconType}
       tabPath={tabPath}
       urlMatrixParamConfig={urlMatrixParamConfig}
+      tagCatalogs={tagCatalogs}
     />
   );
 }
@@ -72,17 +82,24 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ tagFilters, websiteLabel, beaconType }, className) {
+function ViewAll({ tagFilters, websiteLabel, beaconType, tagCatalogs }, className) {
   return (
     <Link
       className={className}
-      href$={getLinkToAnalyze({
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
-        beaconType,
-        group: {
-          groupbyTag: 'beacon.page.name'
-        }
-      })}
+      href$={
+        tagCatalogs[beaconType] &&
+        getLinkToAnalyze({
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            websiteLabel,
+            tagFilters,
+            tagCatalog: tagCatalogs[beaconType]
+          }),
+          beaconType,
+          groupBy: {
+            groupbyTag: 'beacon.page.name'
+          }
+        })
+      }
     >
       {t('in-websites:websiteDashboard.components.pageTopListLinkLabelViewAllPages')}
     </Link>

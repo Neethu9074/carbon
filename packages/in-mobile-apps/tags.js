@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 
 import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 export const tagDefinitions = get(window, ['instana', 'tags'], [])
   .filter(t => t.category === 'MOBILE_APP_MONITORING')
@@ -34,7 +34,7 @@ function getMobileAppLabelTagFilter(mobileAppLabel) {
   return {
     name: 'mobileBeacon.mobileApp.name',
     operator: 'EQUALS',
-    stringValue: mobileAppLabel
+    value: mobileAppLabel
   };
 }
 

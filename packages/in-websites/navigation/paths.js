@@ -11,9 +11,6 @@ import {
   resourceId as resourceIdMatrixParameter,
   xhrId as xhrIdMatrixParameter,
   customEventId as customEventIdMatrixParameter,
-  tagFilters as tagFiltersMatrixParameter,
-  serializeTagFilters,
-  deserializeTagFilters,
   group as groupMatrixParameter,
   serializeGroup,
   beaconType as beaconTypeMatrixParameter,
@@ -22,16 +19,14 @@ import {
   beaconTimestamp as beaconTimestampMatrixParameter,
   websiteId as websiteIdMatrixParam,
   alertId as alertIdMatrixParam,
-  alertCreated as alertCreatedMatrixParam,
-  serializeMetrics
+  alertCreated as alertCreatedMatrixParam
 } from 'in-websites/navigation/matrix';
+import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
-import { webMobileQb2AnalyzeEnabled } from 'in-services/featureFlags';
+import { createParameters } from 'in-new-components/AnalyzeView/parameters';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import { emptyObject } from 'in-services/fixedObjects';
-import { availableFilterTags } from 'in-websites/tags';
 import { setTimeConfig } from 'in-stores/time/config';
 
 export const websiteMonitoringPath = '/websiteMonitoring';
@@ -78,6 +73,8 @@ export const configurationOptionsFullyQualified = `${configurationTabFullyQualif
 export const configurationJsStackTraceTranslation = '/jsStackTraceTranslation';
 export const configurationJsStackTraceTranslationFullyQualified = `${configurationTabFullyQualified}${configurationJsStackTraceTranslation}`;
 export const configurationAlerts = '/alerts';
+
+export const analyzeTwoParameters = createParameters(analyzePath);
 
 export const linkToWebsites$ = getModifiedUrlStream(params => {
   params.pathname = websitesPathFullyQualified;
@@ -158,94 +155,35 @@ export function getLinkToCustomEvent(websiteId, { customEventId, pageId } = empt
   });
 }
 
-export function getLinkToAnalyze({
-  tagFilters,
-  group,
-  formModel,
-  beaconType,
-  timeConfig,
-  showGraph = false,
-  metrics,
-  focusedMetric,
-  focusedMetricAggregation
-}) {
+// tagCatalog - if specified, the formModel will be reset if any of its tags is not available in the tag catalog
+export function getLinkToAnalyze({ beaconType, groupBy, formModel, chartedMetrics, fields, timeConfig, tagCatalog }) {
   return getModifiedUrlStream(params => {
     params.pathname = analyzePathFullyQualified;
     if (__DEV__) {
-      invariant(group, 'group must be defined when generating analyze links!');
+      invariant(groupBy, 'groupBy must be defined when generating analyze links!');
       invariant(beaconType, 'beaconType must be defined when generating analyze links!');
     }
-    setOrDeleteMatrixKey(params, analyzePath, groupMatrixParameter, serializeGroup(group));
+
     setOrDeleteMatrixKey(params, analyzePath, beaconTypeMatrixParameter, beaconType);
+    setOrDeleteMatrixParameter(params, analyzeTwoParameters.groupBy, groupBy);
+    setOrDeleteMatrixParameter(params, analyzeTwoParameters.fields, fields);
+    setOrDeleteMatrixParameter(params, analyzeTwoParameters.chartedMetrics, chartedMetrics);
 
-    const filterableTags = availableFilterTags[beaconType];
-
-    if (webMobileQb2AnalyzeEnabled) {
-      // UA2
-      setOrDeleteMatrixKey(params, analyzePath, 'groupBy', serializeGroup(group));
-      setOrDeleteMatrixKey(params, analyzePath, 'orderBy');
-      setOrDeleteMatrixKey(params, analyzePath, 'orderByGroups');
-      setOrDeleteMatrixKey(params, analyzePath, 'fields');
-      if (formModel?.length > 0) {
-        const isFormModelValid = formModel
-          .filter(element => element.type === TAG_FILTER)
-          .every(tagFilter => filterableTags.includes(tagFilter.name));
-        if (!isFormModelValid) {
-          // reset query builder
-          setOrDeleteMatrixKey(params, analyzePath, 'tagFilterExpression');
-        } else {
-          setOrDeleteMatrixKey(params, analyzePath, 'tagFilterExpression', serializeTagFilters(formModel));
-        }
-      }
-      setOrDeleteMatrixKey(params, analyzePath, 'chartedMetrics');
-    } else {
-      // UA1
-
-      // reset sorting
-      setOrDeleteMatrixKey(params, analyzePath, 'orderBy');
-      setOrDeleteMatrixKey(params, analyzePath, 'orderDirection');
-
-      // reset metrics
-      setOrDeleteMatrixKey(params, analyzePath, 'metrics');
-
-      if (showGraph) {
-        setOrDeleteMatrixKey(params, analyzePath, 'showGraph', true);
-      }
-
-      if (metrics !== undefined) {
-        setOrDeleteMatrixKey(params, analyzePath, 'metrics', serializeMetrics(metrics));
-      }
-
-      if (focusedMetric !== undefined && focusedMetricAggregation !== undefined) {
-        if (focusedMetric && focusedMetricAggregation) {
-          setOrDeleteMatrixKey(params, analyzePath, 'focusedMetric', `${focusedMetric}_${focusedMetricAggregation}`);
-        } else {
-          setOrDeleteMatrixKey(params, analyzePath, 'focusedMetric');
-        }
-      }
-
-      if (tagFilters != null) {
-        const onlyAllowedTagFilters = tagFilters.filter(t => filterableTags.indexOf(t.name) !== -1);
-        setOrDeleteMatrixKey(
-          params,
-          analyzePath,
-          tagFiltersMatrixParameter,
-          serializeTagFilters(onlyAllowedTagFilters)
-        );
-      } else {
-        const existingTagFiltersStr = getMatrixParameter(params, analyzePath, tagFiltersMatrixParameter);
-        if (existingTagFiltersStr) {
-          const existingTagFilters = deserializeTagFilters(existingTagFiltersStr);
-          const onlyAllowedTagFilters = existingTagFilters.filter(t => filterableTags.indexOf(t.name) !== -1);
-          setOrDeleteMatrixKey(
-            params,
-            analyzePath,
-            tagFiltersMatrixParameter,
-            serializeTagFilters(onlyAllowedTagFilters)
-          );
-        }
+    let updatedFormModel = formModel;
+    if (tagCatalog && updatedFormModel?.length > 0) {
+      const availableTags = tagCatalog.tags.map(t => t.name);
+      const allTagsSupported = updatedFormModel
+        .filter(element => element.type === TAG_FILTER)
+        .every(tagFilter => availableTags.includes(tagFilter.name));
+      if (!allTagsSupported) {
+        updatedFormModel = null;
       }
     }
+    setOrDeleteMatrixParameter(params, analyzeTwoParameters.tagFilterExpression, updatedFormModel);
+
+    // reset sorting
+    setOrDeleteMatrixParameter(params, analyzeTwoParameters.orderBy);
+    setOrDeleteMatrixParameter(params, analyzeTwoParameters.orderByGroups);
 
     if (timeConfig) {
       setTimeConfig(params, timeConfig);

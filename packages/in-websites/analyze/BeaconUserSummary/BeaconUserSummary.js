@@ -5,6 +5,7 @@
 import { t } from 'in-i18n';
 import React from 'react';
 
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { expandNestedSerializedJson } from 'in-services/util/json';
@@ -54,14 +55,8 @@ export default function BeaconUserSummary({ beacon, beacons, withoutSideMargin }
                 <Link
                   title={t('in-websites:analyze.analyzeView.beaconUserSummary.titleSeeAllPageLoadsHavingThisSessionID')}
                   href$={getLinkToAnalyze({
-                    group: {},
-                    tagFilters: [
-                      {
-                        name: 'beacon.sessionId',
-                        operator: 'EQUALS',
-                        stringValue: beacon.sessionId
-                      }
-                    ],
+                    groupBy: {},
+                    formModel: [tagFilter('beacon.sessionId', 'EQUALS', beacon.sessionId)],
                     beaconType: 'pageLoad'
                   })}
                 >

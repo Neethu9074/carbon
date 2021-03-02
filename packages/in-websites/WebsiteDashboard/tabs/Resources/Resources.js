@@ -4,16 +4,15 @@
  */
 import React, { Fragment } from 'react';
 import { compose } from 'recompose';
-import { t } from 'in-i18n';
 
 import {
   websiteIdUrlParameter,
   tagFiltersInDashboardUrlParameter,
   pageIdUrlParameter
 } from 'in-websites/navigation/urlParameters';
-import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { resourcesTab, getLinkToResource, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { resourceType as resourceTypesMatrixParameter } from 'in-websites/navigation/matrix';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
@@ -22,12 +21,14 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import Filters from 'in-websites/WebsiteDashboard/tabs/Resources/Filters';
 import changeExplanation from 'in-websites/emptyListExplanation';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { ms, number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import withUrlState from 'in-hoc/withUrlState';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 const columnDefinitions = [
   {
@@ -124,15 +125,23 @@ export default compose(
 )(Resources);
 
 function Resources({ timeConfig, tagFilters, websiteId, resourceType, setFilter, websiteLabel }) {
+  const tagCatalogResourceLoad = useTagCatalog('resourceLoad');
   const resourcesListRightHeader = (
     <Fragment>
       <Button
         kind="secondary"
-        href$={getLinkToAnalyze({
-          beaconType: 'resourceLoad',
-          tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
-          group: defaultGroupings.resourceLoad
-        })}
+        href$={
+          tagCatalogResourceLoad &&
+          getLinkToAnalyze({
+            beaconType: 'resourceLoad',
+            formModel: translateDemocratisationTagFiltersToFormModel({
+              websiteLabel,
+              tagFilters,
+              tagCatalog: tagCatalogResourceLoad
+            }),
+            groupBy: defaultGroupings.resourceLoad
+          })
+        }
         style={{ marginRight: '0.5rem' }}
       >
         {t('in-websites:websiteDashboard.tabs.resources.resourcesButtonAnalyzeResources')}

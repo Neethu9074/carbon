@@ -20,6 +20,7 @@ import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/na
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
+import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
@@ -74,56 +75,68 @@ const productAreas = [
     dataSources: [
       {
         dataSource: 'pageLoad',
-        getHref$: ({ isGrouped, formModel }) =>
+        getHref$: ({ isGrouped, formModel, websiteTagCatalogPageLoad: tagCatalog }) =>
+          tagCatalog &&
           getLinkToWebsiteAnalyze({
-            group: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
+            groupBy: isGrouped ? defaultWebsiteGroupings.pageLoad : emptyObject,
             formModel,
-            beaconType: 'pageLoad'
+            beaconType: 'pageLoad',
+            tagCatalog
           })
       },
       {
         dataSource: 'pageChange',
-        getHref$: ({ isGrouped, formModel }) =>
+        getHref$: ({ isGrouped, formModel, websiteTagCatalogPageChange: tagCatalog }) =>
+          tagCatalog &&
           getLinkToWebsiteAnalyze({
-            group: isGrouped ? defaultWebsiteGroupings.pageChange : emptyObject,
+            groupBy: isGrouped ? defaultWebsiteGroupings.pageChange : emptyObject,
             formModel,
-            beaconType: 'pageChange'
+            beaconType: 'pageChange',
+            tagCatalog
           })
       },
       {
         dataSource: 'resourceLoad',
-        getHref$: ({ isGrouped, formModel }) =>
+        getHref$: ({ isGrouped, formModel, websiteTagCatalogResourceLoad: tagCatalog }) =>
+          tagCatalog &&
           getLinkToWebsiteAnalyze({
-            group: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
+            groupBy: isGrouped ? defaultWebsiteGroupings.resourceLoad : emptyObject,
             formModel,
-            beaconType: 'resourceLoad'
+            beaconType: 'resourceLoad',
+            tagCatalog
           })
       },
       {
         dataSource: 'httpRequest',
-        getHref$: ({ isGrouped, formModel }) =>
+        getHref$: ({ isGrouped, formModel, websiteTagCatalogHttpRequest: tagCatalog }) =>
+          tagCatalog &&
           getLinkToWebsiteAnalyze({
-            group: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
+            groupBy: isGrouped ? defaultWebsiteGroupings.httpRequest : emptyObject,
             formModel,
-            beaconType: 'httpRequest'
+            beaconType: 'httpRequest',
+            tagCatalog
           })
       },
       {
         dataSource: 'error',
-        getHref$: ({ isGrouped, formModel }) =>
+        getHref$: ({ isGrouped, formModel, websiteTagCatalogError: tagCatalog }) =>
+          tagCatalog &&
           getLinkToWebsiteAnalyze({
-            group: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
+            groupBy: isGrouped ? defaultWebsiteGroupings.error : emptyObject,
             formModel,
-            beaconType: 'error'
+            beaconType: 'error',
+            tagCatalog
           })
       },
       {
         dataSource: 'custom',
-        getHref$: ({ isGrouped, formModel }) =>
+        getHref$: ({ isGrouped, formModel, websiteTagCatalogCustom: tagCatalog }) =>
+          tagCatalog &&
           getLinkToWebsiteAnalyze({
-            group: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
+            groupBy: isGrouped ? defaultWebsiteGroupings.custom : emptyObject,
             formModel,
-            beaconType: 'custom'
+            beaconType: 'custom',
+            tagCatalog
           })
       }
     ]
@@ -191,6 +204,14 @@ const productAreas = [
 ];
 
 export default function AnalyzeDataSourceSelector({ activeConfiguration, isGrouped, formModel = emptyArray, close }) {
+  const websiteTagCatalogs = {
+    websiteTagCatalogPageLoad: useWebsiteTagCatalog('pageLoad'),
+    websiteTagCatalogPageChange: useWebsiteTagCatalog('pageChange'),
+    websiteTagCatalogResourceLoad: useWebsiteTagCatalog('resourceLoad'),
+    websiteTagCatalogHttpRequest: useWebsiteTagCatalog('httpRequest'),
+    websiteTagCatalogError: useWebsiteTagCatalog('error'),
+    websiteTagCatalogCustom: useWebsiteTagCatalog('custom')
+  };
   const mobileTagCatalogs = {
     mobileTagCatalogSessionStart: useMobileTagCatalog('sessionStart'),
     mobileTagCatalogViewChange: useMobileTagCatalog('viewChange'),
@@ -211,6 +232,7 @@ export default function AnalyzeDataSourceSelector({ activeConfiguration, isGroup
                 close={close}
                 isGrouped={isGrouped}
                 formModel={formModel}
+                websiteTagCatalogs={websiteTagCatalogs}
                 mobileTagCatalogs={mobileTagCatalogs}
                 productArea={productArea}
                 activeConfiguration={activeConfiguration}
@@ -247,6 +269,7 @@ function ProductAreaEntry({
   enabled$,
   isGrouped,
   formModel,
+  websiteTagCatalogs,
   mobileTagCatalogs,
   close,
   productArea,
@@ -262,7 +285,7 @@ function ProductAreaEntry({
     <Li
       key={dataSource}
       noAlternatingBg
-      href$={getHref$({ isGrouped, formModel, ...mobileTagCatalogs })}
+      href$={getHref$({ isGrouped, formModel, ...websiteTagCatalogs, ...mobileTagCatalogs })}
       onDefaultHrefInteractionSideEffect={close}
     >
       <div

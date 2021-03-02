@@ -2,17 +2,18 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import getWindowWidthBreakdown from 'in-websites/subscriptions/getWindowWidthBreakdown';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { TopListWithUrlState } from 'in-new-components/TopListWithUrlState';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 // Sizes and labels taken from the Chrome developer tools
 const sizes4kKey = t('in-websites:websiteDashboard.tabs.user.sizes4k');
@@ -70,9 +71,15 @@ function getList({ tagFilters, timeConfig }) {
 }
 
 function Label({ item, tagFilters, websiteLabel }) {
+  const tagCatalogPageLoad = useTagCatalog('pageLoad');
   return (
     <Tooltip content={getTechnicalLabel(item.minWindowWidth, item.maxWindowWidth)}>
-      <Link href$={getLink(tagFilters, websiteLabel, item.minWindowWidth, item.maxWindowWidth)}>
+      <Link
+        href$={
+          tagCatalogPageLoad &&
+          getLink({ tagFilters, websiteLabel, min: item.minWindowWidth, max: item.maxWindowWidth, tagCatalogPageLoad })
+        }
+      >
         {getHumanReadableLabel(item.minWindowWidth, item.maxWindowWidth)}
       </Link>
     </Tooltip>
@@ -99,8 +106,7 @@ function getTechnicalLabel(min, max) {
   }
 }
 
-function getLink(tagFilters, websiteLabel, min, max) {
-  tagFilters = translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters });
+function getLink({ tagFilters, websiteLabel, min, max, tagCatalogPageLoad }) {
   if (min > 0) {
     tagFilters.push({
       name: 'beacon.window.width',
@@ -116,8 +122,12 @@ function getLink(tagFilters, websiteLabel, min, max) {
     });
   }
   return getLinkToAnalyze({
-    tagFilters,
-    group: {
+    formModel: translateDemocratisationTagFiltersToFormModel({
+      websiteLabel,
+      tagFilters,
+      tagCatalog: tagCatalogPageLoad
+    }),
+    groupBy: {
       groupbyTag: 'beacon.window.width'
     },
     beaconType: 'pageLoad'

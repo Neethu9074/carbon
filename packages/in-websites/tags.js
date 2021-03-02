@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 
+import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 export const tagDefinitions = get(window, ['instana', 'tags'], [])
   .filter(t => t.category === 'WEBSITE_MONITORING')
@@ -24,6 +25,22 @@ export function translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteL
   }
   // or add the website label tag filter to the end if website ID is filter is not present
   return tagFiltersForAnalyze.concat(getWebsiteLabelTagFilter(websiteLabel));
+}
+
+export function translateDemocratisationTagFiltersToFormModel({ websiteLabel, tagFilters, tagCatalog }) {
+  let updatedTagFilters = tagFilters;
+  if (websiteLabel) {
+    // replace website ID filter with something more understandable by users.
+    if (updatedTagFilters.some(f => f.name === 'beacon.website.id')) {
+      updatedTagFilters = updatedTagFilters.map(f =>
+        f.name !== 'beacon.website.id' ? f : getWebsiteLabelTagFilter(websiteLabel)
+      );
+    } else {
+      // or add the website label tag filter to the end if website ID is filter is not present
+      updatedTagFilters = updatedTagFilters.concat(getWebsiteLabelTagFilter(websiteLabel));
+    }
+  }
+  return fromTagFiltersArray(updatedTagFilters, tagCatalog);
 }
 
 function getWebsiteLabelTagFilter(websiteLabel) {

@@ -4,12 +4,14 @@
  */
 import React from 'react';
 
-import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { actionName, getButton } from 'in-components/Chart/actions/viewInAnalytics';
+import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { extendMetricConfigurationOnLiveMode } from 'in-websites/metrics';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { emptyObject } from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
@@ -18,11 +20,19 @@ export default connectTo(
     result: getWebsiteMetrics(extendMetricConfigurationOnLiveMode(props.metricsConfiguration))
   }),
   function WebsiteChartWrapper(props) {
-    return <ChartWrapper {...props} {...getAdditionalChartActions(props)} />;
+    const tagCatalogs = {
+      pageLoad: useTagCatalog('pageLoad'),
+      pageChange: useTagCatalog('pageChange'),
+      resourceLoad: useTagCatalog('resourceLoad'),
+      httpRequest: useTagCatalog('httpRequest'),
+      error: useTagCatalog('error'),
+      custom: useTagCatalog('custom')
+    };
+    return <ChartWrapper {...props} {...getAdditionalChartActions({ ...props, tagCatalogs })} />;
   }
 );
 
-function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics }) {
+function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics, tagCatalogs }) {
   if (!viewInAnalytics || !viewInAnalytics.websiteLabel) {
     if (__DEV__) {
       throw new Error(
@@ -45,21 +55,31 @@ function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics }) {
           }
 
           const metrics = getMetrics(renderedMetrics, beaconType, metricsConfiguration);
-          return getLinkToAnalyze({
-            tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-              websiteLabel: viewInAnalytics.websiteLabel,
-              tagFilters: metricsConfiguration.tagFilters
+          return (
+            tagCatalogs[beaconType] &&
+            getLinkToAnalyze({
+              formModel: translateDemocratisationTagFiltersToFormModel({
+                websiteLabel: viewInAnalytics.websiteLabel,
+                // The type tag filter is implicitly handled via the separate beaconType prop
+                tagFilters: metricsConfiguration.tagFilters.filter(({ name }) => name !== 'beacon.type'),
+                tagCatalog: tagCatalogs[beaconType]
+              }),
+              timeConfig,
+              groupBy: viewInAnalytics.group || defaultGroupings[beaconType],
+              beaconType,
+              fields: metrics,
+              chartedMetrics:
+                metrics?.length > 0
+                  ? [
+                      {
+                        metricId: metrics[0].metricId,
+                        aggregationId: metrics[0].aggregationId,
+                        rendererId: 'stackedBar'
+                      }
+                    ]
+                  : []
             })
-              // The type tag filter is implicitly handled via the separate beaconType prop
-              .filter(({ name }) => name !== 'beacon.type'),
-            timeConfig,
-            group: viewInAnalytics.group || defaultGroupings[beaconType],
-            beaconType,
-            showGraph: true,
-            metrics,
-            focusedMetric: metrics[0]?.metric,
-            focusedMetricAggregation: metrics[0]?.aggregation
-          });
+          );
         }
       })
     ]
@@ -92,8 +112,9 @@ function getMetrics(renderedMetrics, beaconType, metricsConfiguration) {
           return;
         }
         return {
-          metric: metricDefinition.analyzeMetricName || metricDefinition.metric,
-          aggregation: metricDefinition.aggregation
+          metricId: metricDefinition.analyzeMetricName || metricDefinition.metric,
+          aggregationId: metricDefinition.aggregation,
+          type: metricType
         };
       })
       .filter(Boolean)

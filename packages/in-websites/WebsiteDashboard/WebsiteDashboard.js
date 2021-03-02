@@ -4,14 +4,13 @@
  */
 import { compose, withProps } from 'recompose';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
-import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import { websitePath, websitePathFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { websiteId as matrixWebsiteId, pageId as matrixPageId } from 'in-websites/navigation/matrix';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import WebsiteContextIcon from 'in-websites/WebsiteDashboard/components/WebsiteContextIcon';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
@@ -26,12 +25,14 @@ import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import CreateAlert from 'in-websites/alerting/CreateAlert';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-websites/tracker';
 import withUrlState from 'in-hoc/withUrlState';
 import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 export default compose(
   withUrlState({
@@ -148,6 +149,7 @@ function WebsiteDashboard({
 }
 
 function Header(props) {
+  const tagCatalogPageLoad = useTagCatalog('pageLoad');
   const contextConfigurations = [];
   if (props.pageId) {
     contextConfigurations.push({
@@ -169,6 +171,7 @@ function Header(props) {
         }
         renderButtonLine={renderButtonLine}
         contextConfigurations={contextConfigurations}
+        tagCatalogPageLoad={tagCatalogPageLoad}
       />
       <DashboardHeaderModule>
         <QuickFilterBar
@@ -183,7 +186,7 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ tagFilters, websiteLabel, websiteId, timeConfig }) {
+function renderButtonLine({ tagFilters, websiteLabel, websiteId, timeConfig, tagCatalogPageLoad }) {
   return (
     <>
       <WebsiteHealthIndicatorBehavior
@@ -194,10 +197,10 @@ function renderButtonLine({ tagFilters, websiteLabel, websiteId, timeConfig }) {
       <Button
         kind="primary"
         icon="lib_website_page_load"
-        href$={getLinkToAnalyze({
+        href$={tagCatalogPageLoad && getLinkToAnalyze({
           beaconType: 'pageLoad',
-          tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
-          group: defaultGroupings.pageLoad
+          formModel: translateDemocratisationTagFiltersToFormModel({ websiteLabel, tagFilters, tagCatalog: tagCatalogPageLoad }),
+          groupBy: defaultGroupings.pageLoad
         })}
       >
         {t('in-websites:websiteDashboard.websiteDashboardButtonAnalyzePageLoads')}

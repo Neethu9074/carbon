@@ -2,16 +2,17 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { TopListWithUrlState } from 'in-new-components/TopListWithUrlState';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { ms, number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 const metrics = ['beaconCount', 'beaconDuration'];
 const labels = [
@@ -22,6 +23,7 @@ const aggregations = ['SUM', 'MEAN'];
 const formatters = [number.compact, ms.compact];
 
 export default function LocationsTopList({ websiteId, websiteLabel, timeConfig, tagFilters, urlMatrixParamConfig }) {
+  const tagCatalogResourceLoad = useTagCatalog('resourceLoad');
   return (
     <TopListWithUrlState
       title={t('in-websites:websiteDashboard.tabs.resources.locationsTopListTitle')}
@@ -39,6 +41,7 @@ export default function LocationsTopList({ websiteId, websiteLabel, timeConfig, 
       timeConfig={timeConfig}
       tagFilters={tagFilters}
       urlMatrixParamConfig={urlMatrixParamConfig}
+      tagCatalogResourceLoad={tagCatalogResourceLoad}
     />
   );
 }
@@ -67,24 +70,31 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ tagFilters, websiteLabel }, className) {
+function ViewAll({ tagFilters, websiteLabel, tagCatalogResourceLoad }, className) {
   return (
     <Link
       className={className}
-      href$={getLinkToAnalyze({
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
-        beaconType: 'resourceLoad',
-        group: {
-          groupbyTag: 'beacon.http.path'
-        }
-      })}
+      href$={
+        tagCatalogResourceLoad &&
+        getLinkToAnalyze({
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            websiteLabel,
+            tagFilters,
+            tagCatalog: tagCatalogResourceLoad
+          }),
+          beaconType: 'resourceLoad',
+          groupBy: {
+            groupbyTag: 'beacon.http.path'
+          }
+        })
+      }
     >
       {t('in-websites:websiteDashboard.tabs.resources.locationsTopListLinkLabel')}
     </Link>
   );
 }
 
-function Label({ item, websiteLabel, tagFilters }) {
+function Label({ item, websiteLabel, tagFilters, tagCatalogResourceLoad }) {
   let label = item.name;
   try {
     label = String(JSON.parse(label));
@@ -94,14 +104,18 @@ function Label({ item, websiteLabel, tagFilters }) {
 
   return (
     <Link
-      href$={getLinkToAnalyze({
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-          websiteLabel,
-          tagFilters: tagFilters.concat({ name: 'beacon.http.path', stringValue: label, operator: 'EQUALS' })
-        }),
-        beaconType: 'resourceLoad',
-        group: {}
-      })}
+      href$={
+        tagCatalogResourceLoad &&
+        getLinkToAnalyze({
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            websiteLabel,
+            tagFilters: tagFilters.concat({ name: 'beacon.http.path', stringValue: label, operator: 'EQUALS' }),
+            tagCatalog: tagCatalogResourceLoad
+          }),
+          beaconType: 'resourceLoad',
+          groupBy: {}
+        })
+      }
     >
       {label}
     </Link>
