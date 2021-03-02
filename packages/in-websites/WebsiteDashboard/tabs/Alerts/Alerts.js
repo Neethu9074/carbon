@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import pluralize from 'pluralize';
@@ -19,7 +19,7 @@ import {
   deleteAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
 import { alertCreated as alertCreatedMatrixParam, alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
-import { createBoundedAlertQueryBuilder } from 'in-websites/alerting/components/AlertQueryBuilder';
+import { getQueryBuilderForBeaconType } from 'in-websites/alerting/components/AlertQueryBuilder';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
@@ -43,7 +43,7 @@ function getColumnDefinitions(websiteLabel) {
       getContent: getNameContent
     },
     {
-      id: 'filters2',
+      id: 'filters',
       label: t('in-websites:websiteDashboard.tabs.alerts.alertsLabelFilters'),
       getContent: entity => getFiltersContent(entity, websiteLabel)
     }
@@ -148,12 +148,8 @@ function getFiltersContent(config, websiteLabel) {
   const filtersToDisplay = getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay);
 
   const blueprintConfig = getBlueprintConfig(config.rule.alertType);
-  const websiteId = config.websiteId;
   const beaconType = blueprintConfig.getBeaconType(config.rule.metricName);
-  const { QueryBuilder } = useMemo(() => createBoundedAlertQueryBuilder(websiteId, beaconType), [
-    websiteId,
-    beaconType
-  ]);
+  const { QueryBuilder } = getQueryBuilderForBeaconType(beaconType);
 
   return (
     <div className={locals.filters}>
