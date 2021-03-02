@@ -21,6 +21,7 @@ import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryB
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import * as groupingConfiguratorsByDataSource from 'in-websites/groupingConfigurators';
+import { metricRenderers } from 'in-websites/analyze/AnalyzeView2_0/metrics';
 import * as queryBuildersByDataSource from 'in-websites/queryBuilder';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
@@ -44,7 +45,8 @@ export default function WebsiteQueryBuilderWorkspace(props) {
     groupBy,
     onGroupByChange,
     useLastValidStateWhenErroneous,
-    metricCatalogFilter
+    metricCatalogFilter,
+    chartedMetrics
   } = props;
   return (
     <Sticky header={<AnalyzeHeader formModel={formModel} isGrouped={isGrouped} />}>
@@ -78,6 +80,10 @@ export default function WebsiteQueryBuilderWorkspace(props) {
 
             <Charting
               {...props}
+              chartedMetrics={chartedMetrics.map(chartedMetric => ({
+                ...chartedMetric,
+                rendererId: metricRenderers[dataSource][chartedMetric.metricId] ?? 'stackedBar'
+              }))}
               metricCatalogFilter={metricCatalogFilter}
               unifiedMetricsSource="WEBSITE"
               mapMetricConfiguration={mapMetricConfiguration}

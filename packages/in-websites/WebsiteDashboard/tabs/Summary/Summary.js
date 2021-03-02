@@ -153,8 +153,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                   chartedMetrics: [
                     {
                       metricId: 'beaconDuration',
-                      aggregationId: 'MEAN',
-                      rendererId: 'stackedArea'
+                      aggregationId: 'MEAN'
                     }
                   ]
                 })
@@ -211,8 +210,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                   chartedMetrics: [
                     {
                       metricId: 'beaconDuration',
-                      aggregationId: 'P90',
-                      rendererId: 'stackedArea'
+                      aggregationId: 'P90'
                     }
                   ]
                 })
@@ -269,8 +267,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
                   chartedMetrics: [
                     {
                       metricId: 'beaconDuration',
-                      aggregationId: 'P95',
-                      rendererId: 'stackedArea'
+                      aggregationId: 'P95'
                     }
                   ]
                 })

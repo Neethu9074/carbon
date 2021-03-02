@@ -172,14 +172,12 @@ function transformChartedMetricsParameters(location) {
     const aggregationId = focusedMetric.substring(metricId.length + 1);
     chartedMetrics.push({
       metricId,
-      aggregationId,
-      rendererId: 'stackedBar'
+      aggregationId
     });
   } else {
     chartedMetrics.push({
       metricId: 'beaconCount',
-      aggregationId: 'SUM',
-      rendererId: 'stackedBar'
+      aggregationId: 'SUM'
     });
   }
 

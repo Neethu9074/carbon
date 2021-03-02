@@ -40,7 +40,7 @@ const cases = [
           tagFilterExpression:
             '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Product)~',
           groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~',
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
           orderByGroups: '(by~earliestTimestamp~direction~ASC)~'
         }
       }
@@ -73,7 +73,7 @@ const cases = [
           tagFilterExpression:
             '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Product)~',
           groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~',
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
           orderByGroups: '(by~firstPaintTime*_P90~direction~DESC)~'
         }
       }
@@ -108,7 +108,7 @@ const cases = [
             '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Product)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~beacon.page.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~*/home)~',
           groupBy: '()~',
           orderBy: '(by~timestamp~direction~ASC)~',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
       }
     }
@@ -142,7 +142,7 @@ const cases = [
             '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Product)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~beacon.page.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~*/home)~',
           groupBy: '()~',
           orderBy: '(by~beacon.timing.firstPaint~direction~DESC)~',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
       }
     }
@@ -170,7 +170,7 @@ const cases = [
         '/websiteMonitoring': {},
         '/analyzeBeacons': {
           detailId: '(pageLoadId~e8b1b13d8d8466dd~beaconTimestamp~1612361206157)~',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
       }
     }
@@ -200,7 +200,7 @@ const cases = [
           beaconType: 'pageLoad',
           fields:
             '!(type~metric~metricId~beaconDuration~aggregationId~MEAN)(type~metric~metricId~beaconDuration~aggregationId~MIN)~',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
       }
     }
@@ -228,7 +228,7 @@ const cases = [
         '/analyzeBeacons': {
           groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
           beaconType: 'pageLoad',
-          chartedMetrics: '!(metricId~beaconDuration~aggregationId~MEAN~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconDuration~aggregationId~MEAN)~'
         }
       }
     }
@@ -256,7 +256,7 @@ const cases = [
         '/analyzeBeacons': {
           groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
           beaconType: 'pageLoad',
-          chartedMetrics: '!(metricId~beaconDuration~aggregationId~MEAN~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconDuration~aggregationId~MEAN)~'
         }
       }
     }
@@ -283,7 +283,7 @@ const cases = [
         '/analyzeBeacons': {
           groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
           beaconType: 'pageLoad',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
       }
     }
@@ -311,7 +311,7 @@ const cases = [
         '/analyzeBeacons': {
           groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
           beaconType: 'pageChange',
-          chartedMetrics: '!(metricId~uniqueUsersOrSessions~aggregationId~DISTINCT*_COUNT~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~uniqueUsersOrSessions~aggregationId~DISTINCT*_COUNT)~'
         }
       }
     }
@@ -339,7 +339,7 @@ const cases = [
         '/analyzeBeacons': {
           groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
           beaconType: 'pageLoad',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~',
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
           orderByGroups: '(by~beaconCount*_SUM~direction~ASC)~'
         }
       }
