@@ -10,9 +10,10 @@ import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
+import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 export default class CustomContainerGroupingDialog extends React.Component {
   state = {
@@ -29,11 +30,11 @@ export default class CustomContainerGroupingDialog extends React.Component {
     const form = this.state.form;
 
     return (
-      <Dialog title="Custom Grouping" onClose={close}>
+      <Dialog title={t('in-map:customGrouping')} onClose={close}>
         <form onSubmit={this.onSubmit}>
           {form.get('path').map(field => (
             <FormGroup>
-              <Label htmlFor="grouping-path">Group by</Label>
+              <Label htmlFor="grouping-path">{t('in-map:groupBy')}</Label>
               <Input
                 type="text"
                 id="grouping-path"
@@ -51,7 +52,7 @@ export default class CustomContainerGroupingDialog extends React.Component {
           ))}
 
           <Button disabled={!form.valid} type="submit">
-            Apply grouping
+            {t('in-map:applyGrouping')}
           </Button>
         </form>
       </Dialog>

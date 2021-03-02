@@ -9,6 +9,7 @@ import { filteredTags$ } from 'in-stores/search/keywords/tags';
 import { emptyList } from 'in-services/fixedImmutables';
 import TagList from 'in-components/Tags/TagList';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   {
@@ -19,7 +20,7 @@ export default connectTo(
       <Control
         createMenuContent={createMenuContent}
         isActive={filteredTags.size > 0}
-        tooltipText="Show tags"
+        tooltipText={t('in-map:showTags')}
         type="lib_views_tag"
       />
     );

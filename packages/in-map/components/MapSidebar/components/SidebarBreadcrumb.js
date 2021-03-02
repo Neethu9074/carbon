@@ -9,12 +9,13 @@ import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { emptyList } from 'in-services/fixedImmutables';
 import { entitySelectedTracker } from 'in-map/tracker';
-import { getSnapshot } from 'in-stores/snapshot';
 import { getPluginName } from 'in-sdk/pluginName';
+import { getSnapshot } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './SidebarBreadcrumb.mless';
 
@@ -43,7 +44,7 @@ const Crumb = connectTo(
         <li className={locals.crumb}>
           <Link
             href$={getLinkToSnapshotInCurrentView(snapshotId)}
-            title="Select this entity."
+            title={t('in-map:selectThisEntity')}
             className={locals.crumbLink}
             onClick={() => {
               entitySelectedTracker({ origin: 'elevator', type: plugin });

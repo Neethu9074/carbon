@@ -8,8 +8,8 @@ import createViewStructureObservable from 'in-subscription/view';
 import { alwaysTrue } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import { types, view$ } from 'in-stores/view';
-
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './MapNotes.less';
 
@@ -31,13 +31,7 @@ export default connectTo(
   },
   function MapNotes({ hasLogicalViewData }) {
     if (hasLogicalViewData === false) {
-      return (
-        <div className={block}>
-          No traces available. The logical view shows the communication, relations and KPIs for discovered Services. The
-          basis for this are traces. Please review the documentation or contact support for more information about the
-          supported technologies and frameworks
-        </div>
-      );
+      return <div className={block}>{t('in-map:noLogicalViewData')}</div>;
     }
 
     return null;

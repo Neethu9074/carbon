@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useLayoutEffect, useRef } from 'react';
-import { t } from 'in-i18n';
 
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import MapNoContentMessage from 'in-map/components/MapNoContentMessage';
@@ -21,6 +20,7 @@ import useObservable from 'in-hooks/useObservable';
 import SceneGraph from 'in-map/SceneGraph';
 import Title from 'in-components/Title';
 import 'in-map/stores/statisticsStore';
+import { t } from 'in-i18n';
 
 import locals from 'in-map/Map.mless';
 
@@ -87,7 +87,7 @@ export default function Map() {
       <ViewTrackingMeta
         data={{
           productArea: 'Infrastructure',
-          pageRootName: 'Infra Map'
+          pageRootName: t('in-map:infraMap')
         }}
       />
 
@@ -103,11 +103,11 @@ export default function Map() {
 function getTitle(view) {
   switch (view) {
     case views.container:
-      return 'Infrastructure Container Map';
+      return t('in-map:infrastructureContainerMap');
     case views.physical:
-      return 'Infrastructure Host Map';
+      return t('in-map:infrastructureHostMap');
     default:
-      return 'Unknown view';
+      return t('in-map:unknownView');
   }
 }
 

@@ -14,6 +14,7 @@ import { track, MAP_METRICS_SHOW } from 'in-services/tracking/tracking';
 import { types, view$ } from 'in-stores/view';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import 'in-map/components/MapOverlayControls/components/Metrics.less';
 
@@ -37,7 +38,7 @@ export default connectTo(
         <Control
           createMenuContent={createMenuContent}
           isActive={this.props.activeMetric ? true : false}
-          tooltipText="Show metrics"
+          tooltipText={t('in-map:showMetrics')}
           type="lib_datetime_speed"
         />
       );
@@ -171,26 +172,32 @@ function getMetricList(view) {
   if (view === types.container) {
     return {
       CPU: {
-        Usage: [{ name: 'cpu.total_usage', label: 'Total CPU Usage', timeWindowAggregation: 'mean' }]
+        Usage: [
+          {
+            name: 'cpu.total_usage',
+            label: t('in-map:totalCpuUsage'),
+            timeWindowAggregation: 'mean'
+          }
+        ]
       },
       Memory: {
-        MemUsage: [{ name: 'memory.usage', label: 'Memory Usage', timeWindowAggregation: 'mean' }]
+        MemUsage: [{ name: 'memory.usage', label: t('in-map:memoryUsage'), timeWindowAggregation: 'mean' }]
       }
     };
   }
   return {
     CPU: {
-      Load: [{ name: 'load.1min', label: 'Load', timeWindowAggregation: 'mean' }],
+      Load: [{ name: 'load.1min', label: t('in-map:load'), timeWindowAggregation: 'mean' }],
       Usage: [
-        { name: 'cpu.user', label: 'User', timeWindowAggregation: 'mean' },
-        { name: 'cpu.sys', label: 'System', timeWindowAggregation: 'mean' },
-        { name: 'cpu.wait', label: 'Wait', timeWindowAggregation: 'mean' },
-        { name: 'cpu.nice', label: 'Nice', timeWindowAggregation: 'mean' },
-        { name: 'cpu.steal', label: 'Steal', timeWindowAggregation: 'mean' }
+        { name: 'cpu.user', label: t('in-map:user'), timeWindowAggregation: 'mean' },
+        { name: 'cpu.sys', label: t('in-map:system'), timeWindowAggregation: 'mean' },
+        { name: 'cpu.wait', label: t('in-map:wait'), timeWindowAggregation: 'mean' },
+        { name: 'cpu.nice', label: t('in-map:nice'), timeWindowAggregation: 'mean' },
+        { name: 'cpu.steal', label: t('in-map:steal'), timeWindowAggregation: 'mean' }
       ]
     },
     Memory: {
-      Used: [{ name: 'memory.used', label: 'Memory used', timeWindowAggregation: 'mean' }]
+      Used: [{ name: 'memory.used', label: t('in-map:memoryUsed'), timeWindowAggregation: 'mean' }]
     }
   };
 }

@@ -8,6 +8,7 @@ import { setLayoutingStrategy, simpleLayouting$, packedLayouting$ } from 'in-map
 import { currentLayoutingStrategy$ } from 'in-map/stores/physical/layouterStore';
 import Control from 'in-map/components/MapOverlayControls/components/Control';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import 'in-map/components/MapOverlayControls/components/Layouting.less';
 
@@ -23,14 +24,14 @@ export default connectTo(
         <Control
           className={`${block}__left`}
           onClick={() => setLayoutingStrategy(simpleLayouting$)}
-          tooltipText="Rearrange zones by name"
+          tooltipText={t('in-map:rearrangeZonesByName')}
           type="lib_menu_more_horizontal"
           isActive={simpleLayouting$ === currentLayoutingStrategy}
         />
         <Control
           className={`${block}__right`}
           onClick={() => setLayoutingStrategy(packedLayouting$)}
-          tooltipText="Rearrange zones as a compact structure"
+          tooltipText={t('in-map:rearrangeZonesAsACompactStructure')}
           type="lib_views_apps"
           isActive={packedLayouting$ === currentLayoutingStrategy}
         />

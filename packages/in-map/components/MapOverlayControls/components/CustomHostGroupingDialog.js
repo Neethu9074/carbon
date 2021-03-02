@@ -10,9 +10,10 @@ import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
+import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Button from 'in-new-components/Button';
+import { t, Trans } from 'in-i18n';
 
 import locals from './CustomHostGroupingDialog.mless';
 
@@ -31,16 +32,20 @@ export default class CustomHostGroupingDialog extends React.Component {
     const form = this.state.form;
 
     return (
-      <Dialog title="Custom grouping using tag prefix" onClose={close} className={locals.dialog}>
+      <Dialog title={t('in-map:customGroupingUsingTagPrefix')} onClose={close} className={locals.dialog}>
         <p>
-          Group hosts by defining a prefix which is used to define the group. For example a host tagged as{' '}
-          <code>group=demo</code> can be placed into the zone <code>demo</code> using the prefix <code>group=</code>.
+          <Trans
+            i18nKey="in-map:customGroupingExample"
+            components={{
+              code: <code />
+            }}
+          />
         </p>
 
         <form onSubmit={this.onSubmit}>
           {form.get('prefix').map(field => (
             <FormGroup>
-              <Label htmlFor="grouping-tag-prefix">Tag prefix</Label>
+              <Label htmlFor="grouping-tag-prefix">{t('in-map:tagPrefix')}</Label>
               <Input
                 type="text"
                 id="grouping-tag-prefix"
@@ -58,7 +63,7 @@ export default class CustomHostGroupingDialog extends React.Component {
           ))}
 
           <Button disabled={!form.valid} type="submit">
-            Apply grouping
+            {t('in-map:applyGrouping')}
           </Button>
         </form>
       </Dialog>

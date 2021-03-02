@@ -8,6 +8,7 @@ import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraCon
 import Control from 'in-map/components/MapOverlayControls/components/Control';
 import { getSetting$ } from 'in-services/settings';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './Zoom.less';
 
@@ -27,14 +28,14 @@ export default connectTo(
         <Control
           className={`${block}__in`}
           onClick={CameraControllerServiceLocator.zoomIn}
-          tooltipText="Zoom in"
+          tooltipText={t('in-map:zoomIn')}
           type="lib_openclose_add"
         />
 
         <Control
           className={`${block}__out`}
           onClick={CameraControllerServiceLocator.zoomOut}
-          tooltipText="Zoom out"
+          tooltipText={t('in-map:zoomOut')}
           size="xl"
           type="lib_openclose_remove"
         />

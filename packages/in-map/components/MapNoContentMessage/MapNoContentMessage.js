@@ -12,6 +12,7 @@ import { toHtml } from 'in-services/formatters/markdown';
 import { timeConfig$ } from 'in-stores/time/config';
 import { query$ } from 'in-stores/search/query';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './MapNoContentMessage.less';
 
@@ -48,18 +49,23 @@ export default connectTo(
     }
 
     UNSAFE_componentWillUpdate(nextProps, nextState) {
-      let message = `No data found for the query \`${nextProps.query}\``;
+      let message;
       if (nextProps.timeConfig.focusedMoment) {
-        message += ` at the selected moment: *${formatDateTime(nextProps.timeConfig.focusedMoment)}*.`;
+        message = t('in-map:noDataFoundForTheQueryAtTheSelectedMoment', {
+          nextPropsQuery: nextProps.query,
+          time: formatDateTime(nextProps.timeConfig.focusedMoment)
+        });
       } else {
-        message += `.`;
+        message = t('in-map:noDataFoundForTheQuery', {
+          nextPropsQuery: nextProps.query
+        });
       }
 
       if (!nextState.isContentAvailable && nextProps.query.length > 0) {
         addMessage(
           {
             type: 'info',
-            title: 'No data found',
+            title: t('in-map:noDataFound'),
             content: <DangerousHtmlPresenter className={block} html={toHtml(message)} />
           },
           'mapNoContent'

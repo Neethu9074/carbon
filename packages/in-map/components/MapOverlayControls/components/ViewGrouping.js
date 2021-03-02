@@ -18,14 +18,15 @@ import {
 } from 'in-stores/navigation/paths/mainPaths';
 import CustomContainerGroupingDialog from 'in-map/components/MapOverlayControls/components/CustomContainerGroupingDialog';
 import CustomHostGroupingDialog from 'in-map/components/MapOverlayControls/components/CustomHostGroupingDialog';
-import { track, MAP_GROUPING_CHANGED } from 'in-services/tracking/tracking';
+import MapButtonGroup from 'in-map/components/MapOverlayControls/components/MapButtonGroup';
 import Control from 'in-map/components/MapOverlayControls/components/Control';
+import { track, MAP_GROUPING_CHANGED } from 'in-services/tracking/tracking';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getView } from 'in-stores/navigation/navigation';
-import MapButtonGroup from 'in-map/components/MapOverlayControls/components/MapButtonGroup';
 import { view$, types } from 'in-stores/view';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './ViewGrouping.less';
 
@@ -35,7 +36,7 @@ export default function ViewGrouping() {
   return (
     <Control
       createMenuContent={() => <ViewGroupingMenu />}
-      tooltipText="Configure perspective and grouping"
+      tooltipText={t('in-map:configurePerspectiveAndGrouping')}
       type="lib_views_grid"
     />
   );
@@ -49,7 +50,7 @@ const ViewGroupingMenu = connectTo(
     return (
       <div className={block}>
         <div className={`${block}__left`}>
-          <h3 className={`${block}__heading`}>Perspective</h3>
+          <h3 className={`${block}__heading`}>{t('in-map:perspective')}</h3>
           <MapButtonGroup>
             <Button
               kind={view === types.physical ? 'primaryv2' : 'info'}
@@ -57,7 +58,7 @@ const ViewGroupingMenu = connectTo(
               href$={getView(physicalPath)}
               className={`${block}__button`}
             >
-              Host
+              {t('in-map:host')}
             </Button>
             <Button
               kind={view === types.container ? 'primaryv2' : 'info'}
@@ -65,7 +66,7 @@ const ViewGroupingMenu = connectTo(
               href$={getView(containerPath)}
               className={`${block}__button`}
             >
-              Container
+              {t('in-map:container')}
             </Button>
           </MapButtonGroup>
         </div>
@@ -96,7 +97,7 @@ const MenuContent = connectTo(
     }
     return (
       <div className={`${block}__right`}>
-        <h3 className={`${block}__heading`}>Grouping</h3>
+        <h3 className={`${block}__heading`}>{t('in-map:grouping')}</h3>
         <MapButtonGroup>
           {availableGroupings.map(grouping => (
             <GroupingButton view={view} grouping={grouping} activeGrouping={activeGrouping} key={grouping} />

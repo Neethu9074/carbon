@@ -18,7 +18,7 @@ const DEFAULT_STYLE = {
 
 export default function Tooltip(ComposedComponent) {
   return class extends React.Component {
-    static displayName = 'Tooltip';
+    static displayName = 'Message';
 
     static propTypes = {
       canvas: rpt.object.isRequired

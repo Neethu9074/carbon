@@ -14,7 +14,7 @@ const invisibleClass = `${block}__invisible`;
 
 export default function StickyNote(ComposedComponent) {
   return class extends React.Component {
-    static displayName = `StickyNote for ${ComposedComponent.displayName || ComposedComponent.name}`;
+    static displayName = 'stickyNoteFor';
 
     state = {
       isVisible: false

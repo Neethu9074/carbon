@@ -7,6 +7,7 @@ import React from 'react';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './ViewDashboardButton.less';
 
@@ -21,7 +22,7 @@ export default connectTo(
   function ViewDashboardButton({ href }) {
     return (
       <Button href={href} className={block}>
-        Open Dashboard
+        {t('in-map:openDashboard')}
       </Button>
     );
   }
