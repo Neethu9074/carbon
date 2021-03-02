@@ -12,6 +12,9 @@ import {
   setConfig,
   deleteConfig
 } from 'in-settings/tabs/AuthSettings/api/ldap';
+import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
+import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
+import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import TemporaryMessage from 'in-new-components/TemporaryMessage';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -37,7 +40,9 @@ export default function Ldap() {
   return (
     <ApiItemView
       getObservables={() => ({
-        config: getConfigAsResultObservable()
+        config: getConfigAsResultObservable(),
+        samlConfig: getSamlConfig(),
+        oidcConfig: getOidcConfig()
       })}
       enrichForm={enrichForm}
       onCancelClick={refresh}
@@ -50,187 +55,207 @@ export default function Ldap() {
   );
 }
 
-function render({ form, setForm, testResultMessage, setTestResultMessage }) {
+function render({ form, setForm, testResultMessage, setTestResultMessage, result }) {
   return (
     <>
       <Title title="Configure LDAP" />
       <SubViewHeader>LDAP Configuration</SubViewHeader>
-      <h2>
-        Help and support is available in our{' '}
-        <Link target="_blank" rel="noopener noreferrer" href="https://instana.com/docs/self_hosted_instana/ldap/">
-          documentation pages
-        </Link>
-        .
-      </h2>
+      {isAnotherIdpActivated([result.oidcConfig?.activated, result.samlConfig?.activated]) ? (
+        <h2>LDAP is not configurable as long as you have another active identity provider configuration.</h2>
+      ) : (
+        <>
+          <h2>
+            Help and support is available in our{' '}
+            <Link target="_blank" rel="noopener noreferrer" href="https://instana.com/docs/self_hosted_instana/ldap/">
+              documentation pages
+            </Link>
+            .
+          </h2>
 
-      <form>
-        <Section restrictWidth="50rem">
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={12}>
-              <FormInput
-                placeholder="ldaps://ldap.example.com:636"
-                form={form}
-                setForm={setForm}
-                fieldName="url"
-                label="URL"
-              />
-            </Col>
-          </Row>
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={6}>
-              <FormInput
-                placeholder="cn=admin,dc=example,dc=com"
-                className={locals.formGroupWithoutMargin}
-                form={form}
-                setForm={setForm}
-                label="User"
-                fieldName="roUser"
-                disabled={form.get('emptyPass').value}
-              />
-            </Col>
-            <Col xs={6}>
-              <FormInput
-                placeholder="hidden"
-                className={locals.formGroupWithoutMargin}
-                form={form}
-                setForm={setForm}
-                label="Password"
-                fieldName="roPassword"
-                type="password"
-                disabled={form.get('emptyPass').value}
-              />
-            </Col>
-            <Col xs={12}>
-              {form.get('emptyPass').map(field => (
-                <CheckboxFancy
-                  label="Anonymous"
-                  checked={field.value}
-                  onChange={() => setForm(form.updateIn(['emptyPass'], f => f.setValue(!field.value).setTouched(true)))}
-                />
-              ))}
-            </Col>
-          </Row>
-        </Section>
-        <Section restrictWidth="50rem">
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={6}>
-              <FormInput placeholder="dc=example,dc=com" form={form} setForm={setForm} fieldName="base" label="Base" />
-            </Col>
-            <Col xs={6}>
-              <FormInput
-                placeholder="(cn=INSTANA)"
-                form={form}
-                setForm={setForm}
-                fieldName="groupQuery"
-                label="Group Query"
-              />
-            </Col>
-          </Row>
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={6}>
-              <FormInput
-                placeholder="member"
-                form={form}
-                setForm={setForm}
-                fieldName="groupMemberField"
-                label="Group Member Field"
-              />
-            </Col>
-            <Col xs={6}>
-              <FormInput
-                placeholder="(uid=%s)"
-                form={form}
-                setForm={setForm}
-                fieldName="userQueryTemplate"
-                label="User Query Template"
-              />
-            </Col>
-          </Row>
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={6}>
-              <FormInput placeholder="mail" form={form} setForm={setForm} fieldName="emailField" label="Email Field" />
-            </Col>
-          </Row>
-        </Section>
-        <Section restrictWidth="50rem">
-          <h3>LDAP user account</h3>
+          <form>
+            <Section restrictWidth="50rem">
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={12}>
+                  <FormInput
+                    placeholder="ldaps://ldap.example.com:636"
+                    form={form}
+                    setForm={setForm}
+                    fieldName="url"
+                    label="URL"
+                  />
+                </Col>
+              </Row>
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder="cn=admin,dc=example,dc=com"
+                    className={locals.formGroupWithoutMargin}
+                    form={form}
+                    setForm={setForm}
+                    label="User"
+                    fieldName="roUser"
+                    disabled={form.get('emptyPass').value}
+                  />
+                </Col>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder="hidden"
+                    className={locals.formGroupWithoutMargin}
+                    form={form}
+                    setForm={setForm}
+                    label="Password"
+                    fieldName="roPassword"
+                    type="password"
+                    disabled={form.get('emptyPass').value}
+                  />
+                </Col>
+                <Col xs={12}>
+                  {form.get('emptyPass').map(field => (
+                    <CheckboxFancy
+                      label="Anonymous"
+                      checked={field.value}
+                      onChange={() =>
+                        setForm(form.updateIn(['emptyPass'], f => f.setValue(!field.value).setTouched(true)))
+                      }
+                    />
+                  ))}
+                </Col>
+              </Row>
+            </Section>
+            <Section restrictWidth="50rem">
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder="dc=example,dc=com"
+                    form={form}
+                    setForm={setForm}
+                    fieldName="base"
+                    label="Base"
+                  />
+                </Col>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder="(cn=INSTANA)"
+                    form={form}
+                    setForm={setForm}
+                    fieldName="groupQuery"
+                    label="Group Query"
+                  />
+                </Col>
+              </Row>
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder="member"
+                    form={form}
+                    setForm={setForm}
+                    fieldName="groupMemberField"
+                    label="Group Member Field"
+                  />
+                </Col>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder="(uid=%s)"
+                    form={form}
+                    setForm={setForm}
+                    fieldName="userQueryTemplate"
+                    label="User Query Template"
+                  />
+                </Col>
+              </Row>
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder="mail"
+                    form={form}
+                    setForm={setForm}
+                    fieldName="emailField"
+                    label="Email Field"
+                  />
+                </Col>
+              </Row>
+            </Section>
+            <Section restrictWidth="50rem">
+              <h3>LDAP user account</h3>
 
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={6}>
-              <FormInput
-                className={locals.formGroupWithoutMargin}
-                form={form}
-                setForm={setForm}
-                fieldName="testUser"
-                label="Username"
-              />
-            </Col>
-            <Col xs={6}>
-              <FormInput
-                placeholder="hidden"
-                className={locals.formGroupWithoutMargin}
-                form={form}
-                setForm={setForm}
-                fieldName="testPassword"
-                label="Password"
-                type="password"
-              />
-            </Col>
-            <Col xs={12}>
-              <DescriptionText>This account is automatically assigned an admin role.</DescriptionText>
-            </Col>
-            <Col xs={12}>
-              <Button
-                className={locals.testButton}
-                disabled={!isNotBlank(getConfig(form).testUser) && !isNotBlank(getConfig(form).testPassword)}
-                kind="secondary"
-                onClick={() => {
-                  const config = getConfig(form);
-                  const result$ = getTestResult(config);
-                  result$.once(({ testPassed, reason }) =>
-                    setTestResultMessage(
-                      testPassed ? { text: reason, type: success } : { text: reason, type: errorType }
-                    )
-                  );
-                  result$.errors().once(e => setTestResultMessage({ text: e, type: errorType }));
-                }}
-              >
-                Test configuration
-              </Button>
-            </Col>
-          </Row>
-          {testResultMessage && (
-            <Row className={indentityProvidersLocals.row}>
-              <Col xs={12}>
-                <TemporaryMessage {...testResultMessage} duration={10000} />
-              </Col>
-            </Row>
-          )}
-        </Section>
-        <Section restrictWidth="50rem">
-          <h3>Optional settings</h3>
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={6}>
-              <FormInput
-                placeholder="(optional)"
-                form={form}
-                setForm={setForm}
-                fieldName="userDnMapping"
-                label="User Dn Mapping"
-              />
-            </Col>
-            <Col xs={6}>
-              <FormInput
-                placeholder="(optional)"
-                form={form}
-                setForm={setForm}
-                fieldName="userField"
-                label="User Field"
-              />
-            </Col>
-          </Row>
-        </Section>
-      </form>
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={6}>
+                  <FormInput
+                    className={locals.formGroupWithoutMargin}
+                    form={form}
+                    setForm={setForm}
+                    fieldName="testUser"
+                    label="Username"
+                  />
+                </Col>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder="hidden"
+                    className={locals.formGroupWithoutMargin}
+                    form={form}
+                    setForm={setForm}
+                    fieldName="testPassword"
+                    label="Password"
+                    type="password"
+                  />
+                </Col>
+                <Col xs={12}>
+                  <DescriptionText>This account is automatically assigned an admin role.</DescriptionText>
+                </Col>
+                <Col xs={12}>
+                  <Button
+                    className={locals.testButton}
+                    disabled={!isNotBlank(getConfig(form).testUser) && !isNotBlank(getConfig(form).testPassword)}
+                    kind="secondary"
+                    onClick={() => {
+                      const config = getConfig(form);
+                      const result$ = getTestResult(config);
+                      result$.once(({ testPassed, reason }) =>
+                        setTestResultMessage(
+                          testPassed ? { text: reason, type: success } : { text: reason, type: errorType }
+                        )
+                      );
+                      result$.errors().once(e => setTestResultMessage({ text: e, type: errorType }));
+                    }}
+                  >
+                    Test configuration
+                  </Button>
+                </Col>
+              </Row>
+              {testResultMessage && (
+                <Row className={indentityProvidersLocals.row}>
+                  <Col xs={12}>
+                    <TemporaryMessage {...testResultMessage} duration={10000} />
+                  </Col>
+                </Row>
+              )}
+            </Section>
+            <Section restrictWidth="50rem">
+              <h3>Optional settings</h3>
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder="(optional)"
+                    form={form}
+                    setForm={setForm}
+                    fieldName="userDnMapping"
+                    label="User Dn Mapping"
+                  />
+                </Col>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder="(optional)"
+                    form={form}
+                    setForm={setForm}
+                    fieldName="userField"
+                    label="User Field"
+                  />
+                </Col>
+              </Row>
+            </Section>
+          </form>
+        </>
+      )}
     </>
   );
 }

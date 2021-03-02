@@ -7,6 +7,7 @@ import { createField } from 'formalistic';
 
 import { getConfigAsResultObservable as getOidcConfigAsResultObservable } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
+import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -68,7 +69,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
     <>
       <Title title="Configure SAML" />
       <SubViewHeader>SAML Configuration</SubViewHeader>
-      {isAnotherIdpActivated(result.ldapConfig, result.oidcConfig) ? (
+      {isAnotherIdpActivated([result.ldapConfig?.base, result.oidcConfig?.activated]) ? (
         <h2>SAML is not configurable as long as you have another active identity provider configuration.</h2>
       ) : (
         <>
@@ -222,10 +223,6 @@ function CopyableText({ title, form, fieldName }) {
       </div>
     </FormGroup>
   ));
-}
-
-function isAnotherIdpActivated(ldapConfig, oidcConfig) {
-  return oidcConfig?.activated || ldapConfig.base;
 }
 
 function deleteItem({ setMessage }) {
