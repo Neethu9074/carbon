@@ -50,26 +50,27 @@ function getNavigationTree(props) {
       ]
     },
 
-    isAtLeastOneAuthMethogAvailable && {
-      title: 'Identity Providers',
-      pages: [
-        props.isGoogleSSOAvailable && {
-          path: googleSSO,
-          label: 'Google SSO',
-          component: GoogleSSO
-        },
-        props.isSamlAvailable && {
-          path: saml,
-          label: 'SAML',
-          component: Saml
-        },
-        props.isLdapAvailable && {
-          path: ldap,
-          label: 'LDAP',
-          component: Ldap
-        }
-      ].filter(Boolean)
-    },
+    role.canConfigureAuthenticationMethods &&
+      isAtLeastOneAuthMethogAvailable && {
+        title: 'Identity Providers',
+        pages: [
+          props.isGoogleSSOAvailable && {
+            path: googleSSO,
+            label: 'Google SSO',
+            component: GoogleSSO
+          },
+          props.isSamlAvailable && {
+            path: saml,
+            label: 'SAML',
+            component: Saml
+          },
+          props.isLdapAvailable && {
+            path: ldap,
+            label: 'LDAP',
+            component: Ldap
+          }
+        ].filter(Boolean)
+      },
 
     {
       title: 'Two-Factor',
