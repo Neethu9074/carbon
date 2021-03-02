@@ -40,7 +40,7 @@ const cases = [
           tagFilterExpression:
             '!(type~TAG*_FILTER~name~mobileBeacon.mobileApp.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Demo)~',
           groupBy: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~',
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
           orderByGroups: '(by~earliestTimestamp~direction~ASC)~'
         }
       }
@@ -73,7 +73,7 @@ const cases = [
           tagFilterExpression:
             '!(type~TAG*_FILTER~name~mobileBeacon.mobileApp.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Demo)~',
           groupBy: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~',
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
           orderByGroups: '(by~uniqueUsers*_DISTINCT*_COUNT~direction~DESC)~'
         }
       }
@@ -108,7 +108,7 @@ const cases = [
             '!(type~TAG*_FILTER~name~mobileBeacon.mobileApp.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Demo)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~mobileBeacon.view.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Home)~',
           groupBy: '()~',
           orderBy: '(by~timestamp~direction~ASC)~',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
       }
     }
@@ -142,7 +142,7 @@ const cases = [
             '!(type~TAG*_FILTER~name~mobileBeacon.mobileApp.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Demo)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~mobileBeacon.view.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Home)~',
           groupBy: '()~',
           orderBy: '(by~mobileBeacon.error.count~direction~DESC)~',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
       }
     }
@@ -170,7 +170,7 @@ const cases = [
         '/mobileAppMonitoring': {},
         '/analyzeBeacons': {
           detailId: '(sessionId~a389983d-f753-4896-aaeb-6389fa93ef24~beaconTimestamp~1612361206157)~',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
       }
     }
@@ -200,7 +200,7 @@ const cases = [
           beaconType: 'sessionStart',
           fields:
             '!(type~metric~metricId~beaconDuration~aggregationId~MEAN)(type~metric~metricId~beaconDuration~aggregationId~MIN)~',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
       }
     }
@@ -228,7 +228,7 @@ const cases = [
         '/analyzeBeacons': {
           groupBy: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
           beaconType: 'sessionStart',
-          chartedMetrics: '!(metricId~beaconDuration~aggregationId~MEAN~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconDuration~aggregationId~MEAN)~'
         }
       }
     }
@@ -256,7 +256,7 @@ const cases = [
         '/analyzeBeacons': {
           groupBy: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
           beaconType: 'sessionStart',
-          chartedMetrics: '!(metricId~beaconDuration~aggregationId~MEAN~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconDuration~aggregationId~MEAN)~'
         }
       }
     }
@@ -283,7 +283,7 @@ const cases = [
         '/analyzeBeacons': {
           groupBy: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
           beaconType: 'sessionStart',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
       }
     }
@@ -311,7 +311,7 @@ const cases = [
         '/analyzeBeacons': {
           groupBy: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
           beaconType: 'sessionStart',
-          chartedMetrics: '!(metricId~uniqueUsers~aggregationId~DISTINCT*_COUNT~rendererId~stackedBar)~'
+          chartedMetrics: '!(metricId~uniqueUsers~aggregationId~DISTINCT*_COUNT)~'
         }
       }
     }
@@ -339,7 +339,7 @@ const cases = [
         '/analyzeBeacons': {
           groupBy: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
           beaconType: 'sessionStart',
-          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM~rendererId~stackedBar)~',
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
           orderByGroups: '(by~beaconCount*_SUM~direction~ASC)~'
         }
       }

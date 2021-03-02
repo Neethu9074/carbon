@@ -89,8 +89,7 @@ const fieldsPropTypes = rpt.arrayOf(
 const chartedMetricsPropTypes = rpt.arrayOf(
   rpt.shape({
     metricId: rpt.string.isRequired,
-    aggregationId: rpt.string.isRequired,
-    rendererId: rpt.string.isRequired
+    aggregationId: rpt.string.isRequired
   })
 );
 
@@ -413,8 +412,7 @@ export const childrenArgsAsPropTypes = {
   chartedMetrics: rpt.arrayOf(
     rpt.shape({
       metricId: rpt.string.isRequired,
-      aggregationId: rpt.string.isRequired,
-      rendererId: rpt.string.isRequired
+      aggregationId: rpt.string.isRequired
     })
   ),
   onChartedMetricsChange: rpt.func.isRequired,

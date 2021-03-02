@@ -164,8 +164,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
                   chartedMetrics: [
                     {
                       metricId: 'uniqueUsersOrSessions',
-                      aggregationId: 'DISTINCT_COUNT',
-                      rendererId: 'stackedBar'
+                      aggregationId: 'DISTINCT_COUNT'
                     }
                   ]
                 })

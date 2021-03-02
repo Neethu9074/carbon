@@ -73,8 +73,7 @@ function getAdditionalChartActions({ metricsConfiguration, viewInAnalytics, tagC
                   ? [
                       {
                         metricId: metrics[0].metricId,
-                        aggregationId: metrics[0].aggregationId,
-                        rendererId: 'stackedBar'
+                        aggregationId: metrics[0].aggregationId
                       }
                     ]
                   : []
