@@ -7,20 +7,19 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  applicationsAlertingAlertCreated,
   applicationsAlertingCloseDialog,
-  applicationsAlertingSwitchMode,
-  applicationsAlertingAlertCreated
+  applicationsAlertingSwitchMode
 } from 'in-applications/alerting/tracker';
-import { getTitlePlaceholder, getDescriptionPlaceholder } from 'in-applications/alerting/form/formUtils';
+import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-applications/alerting/form/formUtils';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applicationAlertConfig';
 import { SmartAlertConfigDialog } from 'in-applications/alerting/Dialog/SmartAlertConfigDialog';
 import AdvancedModeContainer from 'in-applications/alerting/advanced/AdvancedModeContainer';
 import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import SimpleModeContainer from 'in-applications/alerting/simple/SimpleModeContainer';
-import { smartAlertsAdvancedEntitySelectionEnabled } from 'in-services/featureFlags';
-import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
+import { chartViewConfigs } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { getTrackingObject } from 'in-new-components/Alerting/trackingHelpers';
 
 const logger = createLogger('in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper');
@@ -144,10 +143,6 @@ function toAlertConfig(form) {
         )
         .toJS()
   );
-
-  if (!smartAlertsAdvancedEntitySelectionEnabled) {
-    delete alertConfig.applications;
-  }
 
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
   alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);

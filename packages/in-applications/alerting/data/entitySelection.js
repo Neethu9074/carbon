@@ -80,11 +80,6 @@ export function getEntitySelectionAsTagFilterFormModel(
   applicationName,
   serviceId
 ) {
-  if (isEmpty(applications)) {
-    // backward compatibility only ever possible in case smartAlertsAdvancedEntitySelectionEnabled is disabled
-    return getExplicitEntityTagFilterFormModel(boundaryScope, applicationId, applicationName, serviceId);
-  }
-
   const application = applications[applicationId];
   if (serviceId) {
     if (serviceId in application.services) {

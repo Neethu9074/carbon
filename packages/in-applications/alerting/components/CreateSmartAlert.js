@@ -8,7 +8,6 @@ import React from 'react';
 
 import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper';
 import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
-import { smartAlertsAdvancedEntitySelectionEnabled } from 'in-services/featureFlags';
 import { getEntitySelection } from 'in-applications/alerting/data/entitySelection';
 import { applicationsAlertingAddAlert } from 'in-applications/alerting/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -99,17 +98,6 @@ CreateSmartAlert.propTypes = {
 };
 
 export function generateFormData({ boundaryScope, applicationId, serviceId, serviceLabel, endpointId, endpointLabel }) {
-  let entityScope;
-  if (smartAlertsAdvancedEntitySelectionEnabled) {
-    entityScope = {
-      applications: getEntitySelection(applicationId, serviceId, endpointId)
-    };
-  } else {
-    entityScope = {
-      tagFilterExpression: getTagFilterExpression(serviceLabel, endpointLabel)
-    };
-  }
-
   return {
     applicationId,
     boundaryScope,
@@ -138,40 +126,10 @@ export function generateFormData({ boundaryScope, applicationId, serviceId, serv
       }
     ].filter(({ stringValue }) => Boolean(stringValue)),
     // QB2
-    ...entityScope
+    applications: getEntitySelection(applicationId, serviceId, endpointId)
   };
 }
 
 function getLabel(result) {
   return result?.data?.label ?? null;
 }
-
-function getTagFilterExpression(serviceLabel, endpointLabel) {
-  const elements = [];
-
-  if (serviceLabel) {
-    elements.push(getFilter('service.name', serviceLabel));
-  }
-
-  if (endpointLabel) {
-    elements.push(getFilter('endpoint.name', endpointLabel));
-  }
-
-  if (elements.length === 1) {
-    return elements[0];
-  }
-
-  return {
-    type: 'EXPRESSION',
-    logicalOperator: 'AND',
-    elements
-  };
-}
-
-const getFilter = (name, value) => ({
-  type: 'TAG_FILTER',
-  name,
-  operator: 'EQUALS',
-  value,
-  entity: 'DESTINATION'
-});

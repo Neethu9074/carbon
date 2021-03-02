@@ -12,9 +12,6 @@ import {
   applicationsAlertingAdditionalPropsTriggerChanged,
   applicationsAlertingBlueprintChanged
 } from 'in-applications/alerting/tracker';
-import AlertTagFilterExpressionConfig, {
-  inPackages
-} from 'in-new-components/Alerting/components/AlertTagFilterExpressionConfig';
 import TimeThresholdConfigPresenter from 'in-new-components/Alerting/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import AlertEvaluationControl from 'in-applications/alerting/advanced/EvaluationSwitch/AlertEvaluationControl';
@@ -32,6 +29,7 @@ import LogsInteractiveChart from 'in-applications/alerting/advanced/LogsInteract
 import SelectAlertChannel from 'in-new-components/Alerting/components/SelectAlertChannel';
 import { alertingDialogItemPickerTimeframe } from 'in-new-components/Alerting/constants';
 import BlueprintSelection from 'in-new-components/Alerting/advanced/BlueprintSelection';
+import ScopeConfig from 'in-new-components/Alerting/components/scopeConfig/ScopeConfig';
 import ProvideLogMessage from 'in-applications/alerting/components/ProvideLogMessage';
 import ProvideStatusCode from 'in-applications/alerting/components/ProvideStatusCode';
 import createBlueprintForm from 'in-applications/alerting/form/blueprintFormCreator';
@@ -77,13 +75,12 @@ export default function AdvancedModeContainer(props) {
                   />
                 )}
                 onUsesQB2={() => (
-                  <AlertTagFilterExpressionConfig
+                  <ScopeConfig
                     form={form}
                     updateForm={updateForm}
-                    label={applicationLabel}
-                    inPackage={inPackages.IN_APPLICATIONS}
                     QueryBuilderComponent={QueryBuilderComponent}
                     editMode={editMode}
+                    timeConfig={timeConfig}
                   />
                 )}
                 shouldFallbackToQB2={isQB2Config => isQB2Config(form.get('convertedTagFilterExpression').value)}

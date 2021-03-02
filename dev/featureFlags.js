@@ -38,7 +38,6 @@ module.exports = {
   qb2InCustomDashboardsEnabled: true,
   webMobileQb2AnalyzeEnabled: true,
   loggingEnabled: true,
-  smartAlertsAdvancedEntitySelectionEnabled: true,
   qb2InAPCreationEnabled: true,
   languageSelectorEnabled: true,
   authenticationOidcEnabled: true,
