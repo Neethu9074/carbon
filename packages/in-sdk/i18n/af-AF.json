@@ -1,0 +1,60 @@
+{
+  "agentMonitoringSuffix01": "[af'ｎｏt monitoredฏูİı｜]",
+  "agentMonitoringAlert_prefix01": "[af'Ｍｏｎｉtoring issueฏูİı｜]",
+  "agentMonitoringSuffix02": "[af'not tracedฏูİı｜]",
+  "agentMonitoringAlert_prefix02": "[af'Ｍｉｓsing tracingฏูİı｜]",
+  "agentMonitoringSuffix03": "[af'ｎot profiledฏูİı｜]",
+  "agentMonitoringAlert_prefix03": "[af'Ｍｉｓｓing profilesฏูİı｜]",
+  "agentMonitoringSuffix04": "[af'ｎｏt monitoredฏูİı｜]",
+  "agentMonitoringAlert_prefix04": "[af'Ｍｏｎｉtoring issueฏูİı｜]",
+  "agentMonitoringExplanationLinkLabel": "[af'Ｔｒｏｕｂｌeshooting docsฏูİı｜]",
+  "agentMonitoringExplanationLinkHref": "[af'ｈｔｔｐｓ://ｉｎｓtana.com/docs/ฏูİı｜]",
+
+  "dashboard": {
+    "customMetricsV2": {
+      "customMetricsContent": "[af'Ｐｉｎｎｅｄ ｍｅｔｒｉｃｓ ａｒｅ ｓｈｏｗｎ ｉｎ ａ ｓｅｐａｒａｔｅ ｔａｂｌｅ ａｂｏｖｅ ｔｈｅ ｃｕｓｔｏｍ ｍｅｔｒｉｃｓ. Ｕｓｅ this to do an ad-hoc comparison between multiple custom metrics. Additionally, you can send the link to colleagues and they will see the same set of pinned metrics.ฏูİı｜]",
+      "customMetricsTitleName": "[af'Nameฏูİı｜]",
+      "customMetricsTitleValue": "[af'Valueฏูİı｜]",
+      "customMetricsLableCount": "[af'Countฏูİı｜]",
+      "customMetricsLableMean": "[af'Meanฏูİı｜]",
+      "customMetricsLableP50": "[af'50thฏูİı｜]",
+      "customMetricsLableP99": "[af'99thฏูİı｜]",
+      "customMetricsLableRate": "[af'Rateฏูİı｜]"
+    },
+    "table": {
+      "tableNoData": "[af'No data.ฏูİı｜]",
+      "tableExpandAll": "[af'Expand Allฏูİı｜]",
+      "tableCollapseAll": "[af'Ｃollapse Allฏูİı｜]"
+    }
+   },
+
+  "sidebar": {
+      "classpath": {
+        "classpathHide": "[af'Ｈｉｄe Classpathฏูİı｜]",
+        "classpathShow": "[af'Ｓｈｏw Classpathฏูİı｜]"
+      },
+      "processStartedTitle": "[af'Started Atฏูİı｜]"
+  },
+
+  "traceDetails": {
+    "errorDescription": "[af'Errorฏูİı｜]"
+  },
+
+  "snapshot": {
+    "registryHealth": "[af'Healthฏูİı｜]",
+
+    "runtimeLabelNet": "[af'.NET Coreฏูİı｜]",
+    "runtimeLabelGo": "[af'Goฏูİı｜]",
+    "runtimeLabelJava": "[af'Javaฏูİı｜]",
+    "runtimeLabelNodeJS": "[af'Node.jsฏูİı｜]",
+    "runtimeLabelPython": "[af'Pythonฏูİı｜]",
+    "runtimeLabelRuby": "[af'Rubyฏูİı｜]",
+    "runtimeLabelUnknown": "[af'Ｕｎｋnown Runtimeฏูİı｜]"
+  },
+
+  "tracing": {
+    "registryCall": "[af'Callฏูİı｜]",
+    "registryCall_plural": "[af'Callsฏูİı｜]"
+  }
+
+}

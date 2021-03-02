@@ -1,0 +1,58 @@
+{
+  "shortcuts": {
+    "help": "[af'Ｓｏｍｅ ｉｍｐｏｒｔａｎｔ ｆｕｎｃｔｉｏｎｓ ｏｆ Ｉｎｓｔａｎａ ｃａｎ ｂｅ ａｃｔｉｖａｔｅｄ ｕｓｉｎｇ ｋｅｙｂｏａｒｄ ｓｈｏｒｔｃｕｔｓ.\n\n - `ｃ` : ｃentering the map\n - `f` : open and focusing the searchbar\n - `esc` : close the sidebar / dashboard that is currently visible\n - `shift + ?` : open the help dialog for shortcutsฏูİı｜]",
+    "shortcuts": "[af'Shortcutsฏูİı｜]"
+  },
+  "formatters": {
+    "yes": "[af'Yesฏูİı｜]",
+    "no": "[af'Noฏูİı｜]",
+    "byteUnits": {
+      "B": "[af'[{{num}}] Bฏูİı｜]",
+      "kiB": "[af'[{{num}}] kiBฏูİı｜]",
+      "MiB": "[af'[{{num}}] MiBฏูİı｜]",
+      "GiB": "[af'[{{num}}] GiBฏูİı｜]",
+      "TiB": "[af'[{{num}}] TiBฏูİı｜]",
+      "PiB": "[af'[{{num}}] PiBฏูİı｜]",
+      "EiB": "[af'[{{num}}] EiBฏูİı｜]",
+      "ZiB": "[af'[{{num}}] ZiBฏูİı｜]",
+      "YiB": "[af'[{{num}}] YiBฏูİı｜]"
+    },
+    "perSec": "[af'[{{num}}]/sฏูİı｜]",
+    "perSec2": "[af'[{{num}}] / secฏูİı｜]",
+    "noActivity": "[af'Ｎo activityฏูİı｜]",
+    "percent": "[af'[{{num}}]%ฏูİı｜]",
+    "detailedBytes": "[af'[{{bytesTwoDecimalPlaces}}] ([{{numCompact}}] B)ฏูİı｜]",
+    "healthy": "[af'Healthyฏูİı｜]",
+    "unhealthy": "[af'Unhealthyฏูİı｜]",
+    "timeUnits": {
+      "µs": "[af'[{{num}}]µsฏูİı｜]",
+      "ns": "[af'[{{num}}]nsฏูİı｜]",
+      "us": "[af'[{{num}}]µsฏูİı｜]",
+      "ms": "[af'[{{num}}]msฏูİı｜]",
+      "s": "[af'[{{num}}]sฏูİı｜]",
+      "min": "[af'[{{num}}]minฏูİı｜]",
+      "h": "[af'[{{num}}]hฏูİı｜]",
+      "d": "[af'[{{num}}]dฏูİı｜]"
+    },
+    "temperature": "[af'[{{num}}]°Cฏูİı｜]",
+    "lt1ms": "[af'< 1msฏูİı｜]"
+  },
+  "validators": {
+    "timeDoesNotHaveTheFormat": "[af'Ｔｉｍｅ ｄｏｅｓ not have the format [{{timeFormat}}]ฏูİı｜]",
+    "dateDoesNotHaveTheFormat": "[af'Ｄａｔｅ ｄｏｅｓ not have the format [{{dateFormat}}]ฏูİı｜]",
+    "valueIsNotOneOfTheSupportedValuesExpectedOneOf": "[af'Ｖａｌｕｅ '[{{v}}]' ｉｓ ｎｏｔ ｏｎe of the supported values. Expected one of: [{{allowedValues}}]ฏูİı｜]",
+    "commaJoin": "[af', ฏูİı｜]",
+    "aValueOfTypeExpectedTypeIsRequired": "[af'Ａ ｖａｌｕｅ ｏｆ type '[{{expectedType}}]' is required.ฏูİı｜]",
+    "msgGotActualType": "[af'[{{msg}}] Got '[{{actualType}}]'.ฏูİı｜]",
+    "valueMustBeLargerOrEqualToMinInclusive": "[af'Ｖａｌｕｅ ｍｕｓｔ be larger or equal to [{{minInclusive}}].ฏูİı｜]",
+    "valueMustBeSmallerOrEqualToMinInclusive": "[af'Ｖａｌｕｅ ｍｕｓｔ be smaller or equal to [{{maxInclusive}}].ฏูİı｜]",
+    "valueMustBeShorterThanMaxLengthCharacters": "[af'Ｖａｌｕｅ ｍｕｓｔ ｂe shorter than [{{maxLength}}] characters.ฏูİı｜]",
+    "theGivenPathIsUnsupportedParsedPartName": "[af'Ｔｈｅ ｇｉｖｅｎ ｐath is unsupported ([{{parsedPartName}}])ฏูİı｜]",
+    "dateIsInvalid": "[af'Ｄａｔe is invalidฏูİı｜]",
+    "pleaseTypeInANumber": "[af'Ｐｌｅａｓｅ ｔype in a number.ฏูİı｜]",
+    "pleaseTypeInAPositiveNumber": "[af'Ｐｌｅａｓｅ ｔｙｐe in a positive number.ฏูİı｜]",
+    "theProvidedNumberIsInvalid": "[af'Ｔｈｅ ｐｒｏｖｉded number is invalid.ฏูİı｜]",
+    "theValueMustNotBeBlank": "[af'Ｔｈｅ ｖａｌｕｅ must not be blank.ฏูİı｜]",
+    "theValueMustNotBeUndefined": "[af'Ｔｈｅ ｖａｌｕｅ must not be undefined.ฏูİı｜]"
+  }
+}

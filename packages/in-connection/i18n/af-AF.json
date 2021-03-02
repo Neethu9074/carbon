@@ -1,0 +1,14 @@
+{
+    "stat": {
+        "connectLostState": {
+            "connecting":"[af'Ｃonnecting…ฏูİı｜]",
+            "connectingMsg":"[af'Ｃｏｎｎｅｃｔｉｏｎ ａｔｔｅｍｐｔ [{{connectAttempt}}] failed. Continuing to retry to establish persistent backend connection.ฏูİı｜]",
+            "connectLostAttempReconnect":"[af'Ｃｏｎｎｅｃｔｉｏｎ lost. Attempting reconnect…ฏูİı｜]",
+            "unauthorized":"[af'Ｕｎauthorized…ฏูİı｜]",
+            "unauthorizedMsg":"[af'Ｃａｎｎｏｔ ｅｓｔａｂｌｉｓｈ ｐｅｒｓｉｓｔent backend connection as you are unauthorized. Please refresh the page to continue.ฏูİı｜]"
+        }
+    },
+    "clientErrMsg": {
+        "techClientMsgeErrFromBackend":"[af'Ｔｅｃｈｎｉｃａｌ ｃｌｉent message (most likely error details) from backendฏูİı｜]"
+    }
+}

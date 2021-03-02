@@ -1,0 +1,6 @@
+{
+  "entityFormSaving": "[af'Saving...ฏูİı｜]",
+  "entityFormLoading": "[af'Loading...ฏูİı｜]",
+  "entityFormFailedToLoadData": "[af'Ｆａｉｌｅｄ to load data.ฏูİı｜]",
+  "entityFormFailedToSave": "[af'Ｆａｉｌed to save: [{{SaveFailureMessage}}]ฏูİı｜]"
+}

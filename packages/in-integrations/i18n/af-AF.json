@@ -1,0 +1,13 @@
+{
+  "landing": {
+    "loadingData": "[af'Ｌoading Dataฏูİı｜]",
+    "noEntitiesFound": "[af'Ｎｏ ｅｎtities foundฏูİı｜]",
+    "noEntitiesFoundFor": "[af'Ｎｏ ｅｎｔｉｔies found for [{{landingQueryCount}}]ฏูİı｜]",
+    "noMatchingEntitiesFoundTitle": "[af'Ｎｏ ｍａｔｃｈｉng entities foundฏูİı｜]",
+    "results": "[af'Resultsฏูİı｜]"
+  },
+  "logging": {
+    "goToLogs": "[af'Go To Logsฏูİı｜]"
+  }
+
+}

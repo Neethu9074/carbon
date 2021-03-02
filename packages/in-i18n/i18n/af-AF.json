@@ -1,0 +1,16 @@
+{
+  "forms": {
+    "actions": {
+      "save": "[af'Saveฏูİı｜]",
+      "cancel": "[af'Cancelฏูİı｜]",
+      "create": "[af'Createฏูİı｜]",
+      "delete": "[af'Deleteฏูİı｜]",
+      "close": "[af'Closeฏูİı｜]",
+      "submit": "[af'Submitฏูİı｜]"
+    },
+    "states": {
+      "saving": "[af'Saving…ฏูİı｜]",
+      "loading": "[af'Loading…ฏูİı｜]"
+    }
+  }
+}

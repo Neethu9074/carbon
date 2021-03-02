@@ -1,0 +1,46 @@
+{
+  "breadcrumbs": {
+    "cloudFoundryApplication": "[af'Ｃｌｏｕｄ Ｆｏｕndry Applicationฏูİı｜]",
+    "cloudFoundryApplications": "[af'Ｃｌｏｕｄ Ｆｏｕndry Applicationsฏูİı｜]"
+  },
+  "cfApplicationsWithCount": "[af'ＣＦ Ａｐｐlications ([{{count}}])ฏูİı｜]",
+  "cfApplicationsWithCount_plural": "[af'ＣＦ Ａｐｐlications ([{{count}}])ฏูİı｜]",
+  "cfApplicationsWithCount_0": "[af'ＣＦ Ａｐｐlications ([{{count}}])ฏูİı｜]",
+  "cfApplicationsWithCount_1": "[af'ＣＦ Ａｐｐlications ([{{count}}])ฏูİı｜]",
+  "cfApplicationsWithCount_2": "[af'ＣＦ Ａｐｐlications ([{{count}}])ฏูİı｜]",
+  "dashboards": {
+    "cfApplication": "[af'ＣＦ Ａpplicationฏูİı｜]",
+    "cloudFoundryApplication": "[af'Ｃｌｏｕｄ Ｆｏｕndry Applicationฏูİı｜]",
+    "name": "[af'Nameฏูİı｜]",
+    "instanceIndex": "[af'Ｉｎｓtance Indexฏูİı｜]",
+    "cpuTotal": "[af'CPU Totalฏูİı｜]",
+    "memoryTotal": "[af'Ｍemory Totalฏูİı｜]",
+    "health": "[af'Healthฏูİı｜]",
+    "containers": "[af'Containersฏูİı｜]",
+    "summary": "[af'Summaryฏูİı｜]",
+    "requestedState": "[af'Ｒｅｑuested Stateฏูİı｜]",
+    "instances": "[af'Instancesฏูİı｜]",
+    "memoryLimit": "[af'Ｍemory Limitฏูİı｜]",
+    "lastUpdated": "[af'Ｌast Updatedฏูİı｜]",
+    "buildpack": "[af'Buildpackฏูİı｜]",
+    "routes": "[af'Routesฏูİı｜]",
+    "diskLimit": "[af'Disk Limitฏูİı｜]",
+    "createdAt": "[af'Created atฏูİı｜]",
+    "analyzeCalls": "[af'Ａｎalyze Callsฏูİı｜]"
+  },
+  "name": "[af'Nameฏูİı｜]",
+  "requestedState": "[af'Ｒｅｑuested Stateฏูİı｜]",
+  "instances": "[af'Instancesฏูİı｜]",
+  "memoryLimit": "[af'Ｍemory Limitฏูİı｜]",
+  "foundation": "[af'Foundationฏูİı｜]",
+  "organization": "[af'Ｏrganizationฏูİı｜]",
+  "space": "[af'Spaceฏูİı｜]",
+  "routes": "[af'Routesฏูİı｜]",
+  "health": "[af'Healthฏูİı｜]",
+  "cloudFoundryApplications": "[af'Ｃｌｏｕｄ Ｆｏｕndry Applicationsฏูİı｜]",
+  "cfApplications": "[af'ＣＦ Ａpplicationsฏูİı｜]",
+  "noMonitoringDataFound": "[af'Ｎｏ Ｍｏｎｉｔoring Data Foundฏูİı｜]",
+  "cloudfoundry": {
+    "noData": "[af'Ａｐｐｌｉｃａｔｉｏｎ ｐｅｒｓｐｅｃｔｉｖｅｓ ｐrovide a means to model environments, sets of services, tenants, or just about anything.ฏูİı｜]"
+  }
+}
