@@ -3,15 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import {
   websiteIdUrlParameter,
   tagFiltersInDashboardUrlParameter,
   pageIdUrlParameter
 } from 'in-websites/navigation/urlParameters';
-import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import LearnMoreUserPointer from 'in-websites/WebsiteDashboard/components/LearnMoreUserPointer';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
@@ -20,6 +19,7 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getLinkToError, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import changeExplanation from 'in-websites/emptyListExplanation';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
@@ -27,6 +27,7 @@ import Button from 'in-new-components/Button';
 import Footer from 'in-new-components/Footer';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 const columnDefinitions = [
   {
@@ -102,14 +103,22 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 export default function Errors({ timeConfig, tagFilters, websiteId, websiteLabel }) {
+  const tagCatalogError = useTagCatalog('error');
   const rightHeader = (
     <Button
       kind="secondary"
-      href$={getLinkToAnalyze({
-        beaconType: 'error',
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
-        group: defaultGroupings.error
-      })}
+      href$={
+        tagCatalogError &&
+        getLinkToAnalyze({
+          beaconType: 'error',
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            websiteLabel,
+            tagFilters,
+            tagCatalog: tagCatalogError
+          }),
+          groupBy: defaultGroupings.error
+        })
+      }
       style={{ marginRight: '0.5rem' }}
     >
       {t('in-websites:websiteDashboard.tabs.errors.errorsButtonAnalyzeJSErrors')}

@@ -312,7 +312,7 @@ function Analyze(props) {
           hasWebsitesAccess &&
             getLinkToWebsiteAnalyze({
               beaconType: 'pageLoad',
-              group: defaultWebsiteGroupings.pageLoad
+              groupBy: defaultWebsiteGroupings.pageLoad
             }),
           hasMobileAppsAccess &&
             getLinkToMobileAppAnalyze({

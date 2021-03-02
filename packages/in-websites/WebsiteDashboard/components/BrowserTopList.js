@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 export default function BrowserTopList({
   websiteId,
@@ -24,6 +25,14 @@ export default function BrowserTopList({
   beaconType,
   urlMatrixParamConfig
 }) {
+  const tagCatalogs = {
+    pageLoad: useTagCatalog('pageLoad'),
+    pageChange: useTagCatalog('pageChange'),
+    resourceLoad: useTagCatalog('resourceLoad'),
+    httpRequest: useTagCatalog('httpRequest'),
+    error: useTagCatalog('error'),
+    custom: useTagCatalog('custom')
+  };
   return (
     <TopListWithUrlState
       title={t('in-websites:websiteDashboard.components.browserTopListTitle')}
@@ -42,6 +51,7 @@ export default function BrowserTopList({
       tagFilters={tagFilters}
       beaconType={beaconType}
       urlMatrixParamConfig={urlMatrixParamConfig}
+      tagCatalogs={tagCatalogs}
     />
   );
 }
@@ -70,24 +80,31 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ tagFilters, websiteLabel, beaconType }, className) {
+function ViewAll({ tagFilters, websiteLabel, beaconType, tagCatalogs }, className) {
   return (
     <Link
       className={className}
-      href$={getLinkToAnalyze({
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
-        beaconType,
-        group: {
-          groupbyTag: 'beacon.browser.name'
-        }
-      })}
+      href$={
+        tagCatalogs[beaconType] &&
+        getLinkToAnalyze({
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            websiteLabel,
+            tagFilters,
+            tagCatalog: tagCatalogs[beaconType]
+          }),
+          beaconType,
+          groupBy: {
+            groupbyTag: 'beacon.browser.name'
+          }
+        })
+      }
     >
       {t('in-websites:websiteDashboard.components.browserTopListLinkLabel')}
     </Link>
   );
 }
 
-function Label({ item, tagFilters, websiteLabel, beaconType }) {
+function Label({ item, tagFilters, websiteLabel, beaconType, tagCatalogs }) {
   let label = item.name;
   try {
     label = String(JSON.parse(label));
@@ -98,16 +115,20 @@ function Label({ item, tagFilters, websiteLabel, beaconType }) {
   return (
     <Link
       onClick={() => trackTopListNavigation()}
-      href$={getLinkToAnalyze({
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-          websiteLabel,
-          tagFilters: tagFilters.concat({ name: 'beacon.browser.name', operator: 'EQUALS', stringValue: label })
-        }),
-        beaconType,
-        group: {
-          groupbyTag: 'beacon.os.name'
-        }
-      })}
+      href$={
+        tagCatalogs[beaconType] &&
+        getLinkToAnalyze({
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            websiteLabel,
+            tagFilters: tagFilters.concat({ name: 'beacon.browser.name', operator: 'EQUALS', stringValue: label }),
+            tagCatalog: tagCatalogs[beaconType]
+          }),
+          beaconType,
+          groupBy: {
+            groupbyTag: 'beacon.os.name'
+          }
+        })
+      }
     >
       {label}
     </Link>

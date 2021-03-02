@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -10,20 +9,22 @@ import {
   tagFiltersInDashboardUrlParameter,
   pageIdUrlParameter
 } from 'in-websites/navigation/urlParameters';
-import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { getLinkToCustomEvent, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import changeExplanation from 'in-websites/emptyListExplanation';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 const columnDefinitions = [
   {
@@ -106,14 +107,22 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 export default function CustomEvents({ timeConfig, tagFilters, websiteId, websiteLabel, pageId }) {
+  const tagCatalogCustom = useTagCatalog('custom');
   const rightHeader = (
     <Button
       kind="secondary"
-      href$={getLinkToAnalyze({
-        beaconType: 'custom',
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
-        group: defaultGroupings.custom
-      })}
+      href$={
+        tagCatalogCustom &&
+        getLinkToAnalyze({
+          beaconType: 'custom',
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            websiteLabel,
+            tagFilters,
+            tagCatalog: tagCatalogCustom
+          }),
+          groupBy: defaultGroupings.custom
+        })
+      }
       style={{ marginRight: '0.5rem' }}
     >
       {t('in-websites:websiteDashboard.tabs.customEvents.customEventsButtonAnalyzeCustomEvents')}

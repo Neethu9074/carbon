@@ -4,8 +4,6 @@
  */
 import { just } from '@instana/observables';
 import React, { Fragment } from 'react';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import { getLinkToWebsite, ajaxTabFullyQualified, getLinkToAnalyze, detailsPath } from 'in-websites/navigation/paths';
 import WebsiteBeaconGroupsChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteBeaconGroupsChartWrapper';
@@ -13,13 +11,13 @@ import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/component
 import GraphqlOperationsTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/GraphqlOperationsTopList';
 import AggregationSelectorWithUrlState from 'in-new-components/AggregationSelectorWithUrlState';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import ErrorTypesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/ErrorTypesTopList';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import LocationsTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/LocationsTopList';
 import { cacheTypes } from 'in-websites/WebsiteDashboard/tabs/Resources/Resource';
 import { millis, number, bytes, percentage } from 'in-services/formatters/number';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Ajax/PagesTopList';
 import { xhrId as xhrIdMatrixParameter } from 'in-websites/navigation/matrix';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
@@ -27,6 +25,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import BackButton from 'in-new-components/BackButton';
@@ -34,6 +33,8 @@ import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './XhrRequest.mless';
 
@@ -75,6 +76,8 @@ export default connectTo(({ location, tagFilters, timeConfig }) => {
 })(XhrRequestTab);
 
 function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig, xhrId, result, graphqlCheckResult }) {
+  const tagCatalogHttpRequest = useTagCatalog('httpRequest');
+
   if (!xhrId) {
     return <RedirectWithHash to={ajaxTabFullyQualified} />;
   }
@@ -640,16 +643,20 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
 
         <Button
           kind="secondary"
-          href$={getLinkToAnalyze({
-            beaconType: 'httpRequest',
-            tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-              websiteLabel,
-              tagFilters: tagFilters.concat([{ name: 'beacon.http.origin', stringValue: xhrId, operator: 'EQUALS' }])
-            }),
-            group: {
-              groupbyTag: 'beacon.http.path'
-            }
-          })}
+          href$={
+            tagCatalogHttpRequest &&
+            getLinkToAnalyze({
+              beaconType: 'httpRequest',
+              formModel: translateDemocratisationTagFiltersToFormModel({
+                websiteLabel,
+                tagFilters: tagFilters.concat([{ name: 'beacon.http.origin', stringValue: xhrId, operator: 'EQUALS' }]),
+                tagCatalog: tagCatalogHttpRequest
+              }),
+              groupBy: {
+                groupbyTag: 'beacon.http.path'
+              }
+            })
+          }
         >
           {t('in-websites:websiteDashboard.tabs.ajax.xhrRequestButton')}
         </Button>

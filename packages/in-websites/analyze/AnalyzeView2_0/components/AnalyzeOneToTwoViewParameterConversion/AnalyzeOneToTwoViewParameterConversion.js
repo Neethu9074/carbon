@@ -14,9 +14,9 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getModifiedUrl } from 'in-stores/navigation/navigation';
 import { getMetricCatalog } from 'in-websites/api/metricCatalog';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog.js';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { analyzePath } from 'in-websites/navigation/paths';
-import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import useObservable from 'in-hooks/useObservable';
 import Sticky from 'in-components/Sticky';
 
@@ -25,13 +25,13 @@ export const analyzeTwoParameters = createParameters(analyzePath);
 export default function AnalyzeOneToTwoViewParameterConversion() {
   const location = useLocation();
   const beaconType = getMatrixParameter(location, analyzePath, beaconTypeMatrixParameterName) || 'pageLoad';
-  const tagCatalogResult = useObservable(() => getTagCatalog({ beaconType, useCase: 'FILTERING' }), [beaconType]);
+  const tagCatalog = useTagCatalog(beaconType);
   const metricCatalogResult = useObservable(() => getMetricCatalog(), []);
 
   let redirectHref;
-  if (tagCatalogResult?.data && metricCatalogResult?.data) {
+  if (tagCatalog != null && metricCatalogResult?.data) {
     redirectHref = getModifiedUrl(location, location =>
-      transformOneZeroToTwoZero(location, tagCatalogResult.data, metricCatalogResult.data)
+      transformOneZeroToTwoZero(location, tagCatalog, metricCatalogResult.data)
     );
   }
 

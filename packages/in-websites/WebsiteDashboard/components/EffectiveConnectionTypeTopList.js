@@ -7,9 +7,10 @@ import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import Link from 'in-components/Link';
 
 export default function EffectiveConnectionTypeTopList({
@@ -24,6 +25,14 @@ export default function EffectiveConnectionTypeTopList({
   beaconType,
   urlMatrixParamConfig
 }) {
+  const tagCatalogs = {
+    pageLoad: useTagCatalog('pageLoad'),
+    pageChange: useTagCatalog('pageChange'),
+    resourceLoad: useTagCatalog('resourceLoad'),
+    httpRequest: useTagCatalog('httpRequest'),
+    error: useTagCatalog('error'),
+    custom: useTagCatalog('custom')
+  };
   return (
     <TopListWithUrlState
       title={t('in-websites:websiteDashboard.components.effectiveConnectionTypeTopListTitle')}
@@ -42,6 +51,7 @@ export default function EffectiveConnectionTypeTopList({
       tagFilters={tagFilters}
       beaconType={beaconType}
       urlMatrixParamConfig={urlMatrixParamConfig}
+      tagCatalogs={tagCatalogs}
     />
   );
 }
@@ -74,7 +84,7 @@ function ViewAll() {
   return null;
 }
 
-function Label({ item, websiteLabel, tagFilters, beaconType }) {
+function Label({ item, websiteLabel, tagFilters, beaconType, tagCatalogs }) {
   let label = item.name;
   try {
     label = String(JSON.parse(label));
@@ -85,20 +95,24 @@ function Label({ item, websiteLabel, tagFilters, beaconType }) {
   return (
     <Link
       onClick={() => trackTopListNavigation()}
-      href$={getLinkToAnalyze({
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-          websiteLabel,
-          tagFilters: tagFilters.concat({
-            name: 'beacon.effectiveConnectionType',
-            operator: 'EQUALS',
-            stringValue: label
-          })
-        }),
-        beaconType,
-        group: {
-          groupbyTag: 'beacon.browser.name'
-        }
-      })}
+      href$={
+        tagCatalogs[beaconType] &&
+        getLinkToAnalyze({
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            websiteLabel,
+            tagFilters: tagFilters.concat({
+              name: 'beacon.effectiveConnectionType',
+              operator: 'EQUALS',
+              stringValue: label
+            }),
+            tagCatalog: tagCatalogs[beaconType]
+          }),
+          beaconType,
+          groupBy: {
+            groupbyTag: 'beacon.browser.name'
+          }
+        })
+      }
     >
       {label}
     </Link>

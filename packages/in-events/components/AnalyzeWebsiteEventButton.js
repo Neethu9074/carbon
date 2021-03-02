@@ -38,15 +38,8 @@ export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, ti
             blueprintConfig.getExtraAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig)
           ]
         }),
-        group: getGrouping(alertType, metricName),
-        timeConfig,
-        showGraph: true
-        // TODO select proper metric and aggregation depending on alertType / beaconType;
-        //      needs to be clarified with AP-team, because these fields are only used in QB1,
-        //      and 'chartedMetrics' cannot be set yet.
-        // metrics,
-        // focusedMetric,
-        // focusedMetricAggregation
+        groupBy: getGrouping(alertType, metricName),
+        timeConfig
       })}
     >
       {getLinkTitle(alertType, metricName)}

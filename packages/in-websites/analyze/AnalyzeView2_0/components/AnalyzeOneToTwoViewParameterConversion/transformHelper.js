@@ -10,14 +10,11 @@ import {
   pageLoadId as pageLoadIdMatrixParameterName,
   beaconTimestamp as beaconTimestampMatrixParameterName
 } from 'in-websites/navigation/matrix';
-import { analyzePath, analyzePathFullyQualified, pageLoadViewPath } from 'in-websites/navigation/paths';
+import { analyzePath, analyzePathFullyQualified, analyzeTwoParameters, pageLoadViewPath } from 'in-websites/navigation/paths';
 import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { deserializeTagFilters, deserializeMetrics } from 'in-websites/navigation/matrix';
 import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
 import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
-import { createParameters } from 'in-new-components/AnalyzeView/parameters';
-
-export const analyzeTwoParameters = createParameters(analyzePath);
 
 export function transformOneZeroToTwoZero(location, tagCatalog, metricCatalog) {
   // In 1.0 zero mode the detail view has a different path. In 2.0 mode this difference

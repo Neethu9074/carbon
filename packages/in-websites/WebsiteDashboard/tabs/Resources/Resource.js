@@ -4,8 +4,6 @@
  */
 import { just } from '@instana/observables';
 import React, { Fragment } from 'react';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import {
   getLinkToWebsite,
@@ -25,11 +23,11 @@ import ResourceTypesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/Re
 import AggregationSelectorWithUrlState from 'in-new-components/AggregationSelectorWithUrlState';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import LocationsTopList from 'in-websites/WebsiteDashboard/tabs/Resources/LocationsTopList';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import { resourceId as resourceIdMatrixParameter } from 'in-websites/navigation/matrix';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/PagesTopList';
+import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { bytes, millis, number } from 'in-services/formatters/number';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -37,6 +35,7 @@ import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import BackButton from 'in-new-components/BackButton';
@@ -44,6 +43,8 @@ import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './Resource.mless';
 
@@ -87,6 +88,7 @@ export default connectTo(({ location, tagFilters, timeConfig }) => {
 })(ResourceTab);
 
 function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagFilters, timeConfig }) {
+  const tagCatalogResourceLoad = useTagCatalog('resourceLoad');
   if (!resourceId) {
     return <RedirectWithHash to={resourcesTabFullyQualified} />;
   }
@@ -462,18 +464,22 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
 
         <Button
           kind="secondary"
-          href$={getLinkToAnalyze({
-            beaconType: 'resourceLoad',
-            tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({
-              websiteLabel,
-              tagFilters: tagFilters.concat([
-                { name: 'beacon.http.origin', stringValue: resourceId, operator: 'EQUALS' }
-              ])
-            }),
-            group: {
-              groupbyTag: 'beacon.http.path'
-            }
-          })}
+          href$={
+            tagCatalogResourceLoad &&
+            getLinkToAnalyze({
+              beaconType: 'resourceLoad',
+              formModel: translateDemocratisationTagFiltersToFormModel({
+                websiteLabel,
+                tagFilters: tagFilters.concat([
+                  { name: 'beacon.http.origin', stringValue: resourceId, operator: 'EQUALS' }
+                ]),
+                tagCatalog: tagCatalogResourceLoad
+              }),
+              groupBy: {
+                groupbyTag: 'beacon.http.path'
+              }
+            })
+          }
         >
           {t('in-websites:websiteDashboard.tabs.resources.resourceButtonAnalyzeResourceOrigin')}
         </Button>

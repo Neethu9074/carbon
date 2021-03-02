@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -10,9 +9,9 @@ import {
   tagFiltersInDashboardUrlParameter,
   pageIdUrlParameter
 } from 'in-websites/navigation/urlParameters';
-import { defaultGroupings, translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { getLinkToXhrRequest, getLinkToAnalyze } from 'in-websites/navigation/paths';
@@ -20,10 +19,12 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { ms, number, percentage } from 'in-services/formatters/number';
 import changeExplanation from 'in-websites/emptyListExplanation';
+import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 const columnDefinitions = [
   {
@@ -124,14 +125,22 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 });
 
 export default function XhrRequests({ timeConfig, tagFilters, websiteId, websiteLabel }) {
+  const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   const rightHeader = (
     <Button
       kind="secondary"
-      href$={getLinkToAnalyze({
-        beaconType: 'httpRequest',
-        tagFilters: translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }),
-        group: defaultGroupings.httpRequest
-      })}
+      href$={
+        tagCatalogHttpRequest &&
+        getLinkToAnalyze({
+          beaconType: 'httpRequest',
+          formModel: translateDemocratisationTagFiltersToFormModel({
+            websiteLabel,
+            tagFilters,
+            tagCatalog: tagCatalogHttpRequest
+          }),
+          groupBy: defaultGroupings.httpRequest
+        })
+      }
       style={{ marginRight: '0.5rem' }}
     >
       {t('in-websites:websiteDashboard.tabs.ajax.xhrRequestsButtonAnalyzeHTTPRequests')}
