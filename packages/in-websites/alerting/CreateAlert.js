@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { createBoundedAlertQueryBuilder } from 'in-websites/alerting/components/AlertQueryBuilder';
+import { getQueryBuilderForBeaconType } from 'in-websites/alerting/components/AlertQueryBuilder';
 import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
 import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
@@ -17,10 +17,10 @@ import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
 import AlertConfigDialog from 'in-websites/alerting/AlertConfigDialog';
 import { propTypeLocation } from 'in-stores/navigation/navigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can this be moved outside of AP area, since it seems to be generic to be used in Website area as well
 import { alwaysNull } from 'in-services/fixedStreams';
 import { reload } from 'in-settings/components/List';
 import connectTo from 'in-hoc/connectTo';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can this be moved outside of AP area, since it seems to be generic to be used in Website area as well
 
 const implicitTagFilters = ['beacon.website.id'];
 
@@ -55,7 +55,7 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
   const metricName = error?.message ? 'errors' : 'onLoadTime';
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType(metricName);
-  const boundedAlertQueryBuilder = createBoundedAlertQueryBuilder(websiteId, beaconType);
+  const boundedAlertQueryBuilder = getQueryBuilderForBeaconType(beaconType);
   const tagCatalog = useTagCatalog(boundedAlertQueryBuilder.getTagCatalog);
   if (!tagCatalog) {
     return null;

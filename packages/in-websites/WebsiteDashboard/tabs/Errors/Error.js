@@ -159,8 +159,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                     chartedMetrics: [
                       {
                         metricId: 'uniqueUsersOrSessions',
-                        aggregationId: 'DISTINCT_COUNT',
-                        rendererId: 'stackedBar'
+                        aggregationId: 'DISTINCT_COUNT'
                       }
                     ]
                   })

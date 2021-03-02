@@ -24,7 +24,6 @@ import { getMetricCatalog } from 'in-mobile-apps/api/metricCatalog';
 import { analyzePath } from 'in-mobile-apps/navigation/paths';
 import { beaconType } from 'in-mobile-apps/navigation/matrix';
 import { getTagCatalog } from 'in-mobile-apps/api/tagCatalog';
-import { stackedBar } from 'in-stores/metric/renderer';
 
 const facetedSearchItems = [
   {
@@ -113,7 +112,7 @@ const fixedFields = [
   { type: metricType, metricId: 'beaconCount', aggregationId: 'SUM' }
 ];
 
-const defaultChartedMetrics = [{ metricId: 'beaconCount', aggregationId: 'SUM', rendererId: stackedBar.id }];
+const defaultChartedMetrics = [{ metricId: 'beaconCount', aggregationId: 'SUM' }];
 
 const dataSourceConfigurations = {
   sessionStart: {

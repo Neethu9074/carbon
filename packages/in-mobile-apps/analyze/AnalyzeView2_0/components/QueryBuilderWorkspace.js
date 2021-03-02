@@ -21,6 +21,7 @@ import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryB
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import * as groupingConfiguratorsByDataSource from 'in-mobile-apps/groupingConfigurators';
 import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
+import { metricRenderers } from 'in-mobile-apps/analyze/AnalyzeView2_0/metrics';
 import * as queryBuildersByDataSource from 'in-mobile-apps/queryBuilder';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
@@ -45,7 +46,8 @@ export default function MobileAppsQueryBuilderWorkspace(props) {
     groupBy,
     onGroupByChange,
     useLastValidStateWhenErroneous,
-    metricCatalogFilter
+    metricCatalogFilter,
+    chartedMetrics
   } = props;
   return (
     <Sticky header={<AnalyzeHeader formModel={formModel} isGrouped={isGrouped} />}>
@@ -79,6 +81,10 @@ export default function MobileAppsQueryBuilderWorkspace(props) {
 
             <Charting
               {...props}
+              chartedMetrics={chartedMetrics.map(chartedMetric => ({
+                ...chartedMetric,
+                rendererId: metricRenderers[dataSource][chartedMetric.metricId] ?? 'stackedBar'
+              }))}
               metricCatalogFilter={metricCatalogFilter}
               unifiedMetricsSource="MOBILE_APP"
               mapMetricConfiguration={mapMetricConfiguration}
