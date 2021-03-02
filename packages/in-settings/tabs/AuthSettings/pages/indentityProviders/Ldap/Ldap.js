@@ -13,6 +13,9 @@ import {
   setConfig,
   deleteConfig
 } from 'in-settings/tabs/AuthSettings/api/ldap';
+import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
+import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
+import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import TemporaryMessage from 'in-new-components/TemporaryMessage';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -38,7 +41,9 @@ export default function Ldap() {
   return (
     <ApiItemView
       getObservables={() => ({
-        config: getConfigAsResultObservable()
+        config: getConfigAsResultObservable(),
+        samlConfig: getSamlConfig(),
+        oidcConfig: getOidcConfig()
       })}
       enrichForm={enrichForm}
       onCancelClick={refresh}
@@ -51,206 +56,216 @@ export default function Ldap() {
   );
 }
 
-function render({ form, setForm, testResultMessage, setTestResultMessage }) {
+function render({ form, setForm, testResultMessage, setTestResultMessage, result }) {
   return (
     <>
       <Title title={t('in-settings:tabs.configureLdap')} />
       <SubViewHeader>{t('in-settings:tabs.ldapConfiguration')}</SubViewHeader>
-      <h2>
-        <Trans
-          i18nKey="in-settings:tabs.ldapHelpDoc"
-          components={{
-            docLink: (
-              <Link
-                target="_blank"
-                rel="noopener noreferrer"
-                href="https://instana.com/docs/self_hosted_instana/ldap/"
-              />
-            )
-          }}
-        />
-      </h2>
+      {isAnotherIdpActivated([result.oidcConfig?.activated, result.samlConfig?.activated]) ? (
+        <h2>LDAP is not configurable as long as you have another active identity provider configuration.</h2>
+      ) : (
+        <>
+          <h2>
+            <Trans
+              i18nKey="in-settings:tabs.ldapHelpDoc"
+              components={{
+                docLink: (
+                  <Link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://instana.com/docs/self_hosted_instana/ldap/"
+                  />
+                )
+              }}
+            />
+          </h2>
 
-      <form>
-        <Section restrictWidth="50rem">
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={12}>
-              <FormInput
-                placeholder="ldaps://ldap.example.com:636"
-                form={form}
-                setForm={setForm}
-                fieldName="url"
-                label={t('in-settings:tabs.url')}
-              />
-            </Col>
-          </Row>
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={6}>
-              <FormInput
-                placeholder="cn=admin,dc=example,dc=com"
-                className={locals.formGroupWithoutMargin}
-                form={form}
-                setForm={setForm}
-                label={t('in-settings:tabs.user')}
-                fieldName="roUser"
-                disabled={form.get('emptyPass').value}
-              />
-            </Col>
-            <Col xs={6}>
-              <FormInput
-                placeholder={t('in-settings:tabs.hidden')}
-                className={locals.formGroupWithoutMargin}
-                form={form}
-                setForm={setForm}
-                label={t('in-settings:tabs.password')}
-                fieldName="roPassword"
-                type="password"
-                disabled={form.get('emptyPass').value}
-              />
-            </Col>
-            <Col xs={12}>
-              {form.get('emptyPass').map(field => (
-                <CheckboxFancy
-                  label={t('in-settings:tabs.anonymous')}
-                  checked={field.value}
-                  onChange={() => setForm(form.updateIn(['emptyPass'], f => f.setValue(!field.value).setTouched(true)))}
-                />
-              ))}
-            </Col>
-          </Row>
-        </Section>
-        <Section restrictWidth="50rem">
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={6}>
-              <FormInput
-                placeholder="dc=example,dc=com"
-                form={form}
-                setForm={setForm}
-                fieldName="base"
-                label={t('in-settings:tabs.base')}
-              />
-            </Col>
-            <Col xs={6}>
-              <FormInput
-                placeholder="(cn=INSTANA)"
-                form={form}
-                setForm={setForm}
-                fieldName="groupQuery"
-                label={t('in-settings:tabs.groupQuery')}
-              />
-            </Col>
-          </Row>
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={6}>
-              <FormInput
-                placeholder={t('in-settings:tabs.member')}
-                form={form}
-                setForm={setForm}
-                fieldName="groupMemberField"
-                label={t('in-settings:tabs.groupMemberField')}
-              />
-            </Col>
-            <Col xs={6}>
-              <FormInput
-                placeholder="(uid=%s)"
-                form={form}
-                setForm={setForm}
-                fieldName="userQueryTemplate"
-                label={t('in-settings:tabs.userQueryTemplate')}
-              />
-            </Col>
-          </Row>
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={6}>
-              <FormInput
-                placeholder={t('in-settings:tabs.mail')}
-                form={form}
-                setForm={setForm}
-                fieldName="emailField"
-                label={t('in-settings:tabs.emailField')}
-              />
-            </Col>
-          </Row>
-        </Section>
-        <Section restrictWidth="50rem">
-          <h3>{t('in-settings:tabs.ldapUserAccount')}</h3>
+          <form>
+            <Section restrictWidth="50rem">
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={12}>
+                  <FormInput
+                    placeholder="ldaps://ldap.example.com:636"
+                    form={form}
+                    setForm={setForm}
+                    fieldName="url"
+                    label={t('in-settings:tabs.url')}
+                  />
+                </Col>
+              </Row>
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder="cn=admin,dc=example,dc=com"
+                    className={locals.formGroupWithoutMargin}
+                    form={form}
+                    setForm={setForm}
+                    label={t('in-settings:tabs.user')}
+                    fieldName="roUser"
+                    disabled={form.get('emptyPass').value}
+                  />
+                </Col>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder={t('in-settings:tabs.hidden')}
+                    className={locals.formGroupWithoutMargin}
+                    form={form}
+                    setForm={setForm}
+                    label={t('in-settings:tabs.password')}
+                    fieldName="roPassword"
+                    type="password"
+                    disabled={form.get('emptyPass').value}
+                  />
+                </Col>
+                <Col xs={12}>
+                  {form.get('emptyPass').map(field => (
+                    <CheckboxFancy
+                      label={t('in-settings:tabs.anonymous')}
+                      checked={field.value}
+                      onChange={() =>
+                        setForm(form.updateIn(['emptyPass'], f => f.setValue(!field.value).setTouched(true)))
+                      }
+                    />
+                  ))}
+                </Col>
+              </Row>
+            </Section>
+            <Section restrictWidth="50rem">
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder="dc=example,dc=com"
+                    form={form}
+                    setForm={setForm}
+                    fieldName="base"
+                    label={t('in-settings:tabs.base')}
+                  />
+                </Col>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder="(cn=INSTANA)"
+                    form={form}
+                    setForm={setForm}
+                    fieldName="groupQuery"
+                    label={t('in-settings:tabs.groupQuery')}
+                  />
+                </Col>
+              </Row>
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder={t('in-settings:tabs.member')}
+                    form={form}
+                    setForm={setForm}
+                    fieldName="groupMemberField"
+                    label={t('in-settings:tabs.groupMemberField')}
+                  />
+                </Col>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder="(uid=%s)"
+                    form={form}
+                    setForm={setForm}
+                    fieldName="userQueryTemplate"
+                    label={t('in-settings:tabs.userQueryTemplate')}
+                  />
+                </Col>
+              </Row>
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder={t('in-settings:tabs.mail')}
+                    form={form}
+                    setForm={setForm}
+                    fieldName="emailField"
+                    label={t('in-settings:tabs.emailField')}
+                  />
+                </Col>
+              </Row>
+            </Section>
+            <Section restrictWidth="50rem">
+              <h3>{t('in-settings:tabs.ldapUserAccount')}</h3>
 
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={6}>
-              <FormInput
-                className={locals.formGroupWithoutMargin}
-                form={form}
-                setForm={setForm}
-                fieldName="testUser"
-                label={t('in-settings:tabs.username')}
-              />
-            </Col>
-            <Col xs={6}>
-              <FormInput
-                placeholder={t('in-settings:tabs.hidden')}
-                className={locals.formGroupWithoutMargin}
-                form={form}
-                setForm={setForm}
-                fieldName="testPassword"
-                label={t('in-settings:tabs.password')}
-                type="password"
-              />
-            </Col>
-            <Col xs={12}>
-              <DescriptionText>{t('in-settings:tabs.thisAccountIsAutomaticallyAssignedAnAdminRole')}</DescriptionText>
-            </Col>
-            <Col xs={12}>
-              <Button
-                className={locals.testButton}
-                disabled={!isNotBlank(getConfig(form).testUser) && !isNotBlank(getConfig(form).testPassword)}
-                kind="secondary"
-                onClick={() => {
-                  const config = getConfig(form);
-                  const result$ = getTestResult(config);
-                  result$.once(({ testPassed, reason }) =>
-                    setTestResultMessage(
-                      testPassed ? { text: reason, type: success } : { text: reason, type: errorType }
-                    )
-                  );
-                  result$.errors().once(e => setTestResultMessage({ text: e, type: errorType }));
-                }}
-              >
-                {t('in-settings:tabs.testConfiguration')}
-              </Button>
-            </Col>
-          </Row>
-          {testResultMessage && (
-            <Row className={indentityProvidersLocals.row}>
-              <Col xs={12}>
-                <TemporaryMessage {...testResultMessage} duration={10000} />
-              </Col>
-            </Row>
-          )}
-        </Section>
-        <Section restrictWidth="50rem">
-          <h3>{t('in-settings:tabs.optionalSettings')}</h3>
-          <Row className={indentityProvidersLocals.row}>
-            <Col xs={6}>
-              <FormInput
-                placeholder={t('in-settings:tabs.optional')}
-                form={form}
-                setForm={setForm}
-                fieldName="userDnMapping"
-                label={t('in-settings:tabs.userDnMapping')}
-              />
-            </Col>
-            <Col xs={6}>
-              <FormInput
-                placeholder={t('in-settings:tabs.optional')}
-                form={form}
-                setForm={setForm}
-                fieldName="userField"
-                label={t('in-settings:tabs.userField')}
-              />
-            </Col>
-          </Row>
-        </Section>
-      </form>
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={6}>
+                  <FormInput
+                    className={locals.formGroupWithoutMargin}
+                    form={form}
+                    setForm={setForm}
+                    fieldName="testUser"
+                    label={t('in-settings:tabs.username')}
+                  />
+                </Col>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder={t('in-settings:tabs.hidden')}
+                    className={locals.formGroupWithoutMargin}
+                    form={form}
+                    setForm={setForm}
+                    fieldName="testPassword"
+                    label={t('in-settings:tabs.password')}
+                    type="password"
+                  />
+                </Col>
+                <Col xs={12}>
+                  <DescriptionText>
+                    {t('in-settings:tabs.thisAccountIsAutomaticallyAssignedAnAdminRole')}
+                  </DescriptionText>
+                </Col>
+                <Col xs={12}>
+                  <Button
+                    className={locals.testButton}
+                    disabled={!isNotBlank(getConfig(form).testUser) && !isNotBlank(getConfig(form).testPassword)}
+                    kind="secondary"
+                    onClick={() => {
+                      const config = getConfig(form);
+                      const result$ = getTestResult(config);
+                      result$.once(({ testPassed, reason }) =>
+                        setTestResultMessage(
+                          testPassed ? { text: reason, type: success } : { text: reason, type: errorType }
+                        )
+                      );
+                      result$.errors().once(e => setTestResultMessage({ text: e, type: errorType }));
+                    }}
+                  >
+                    {t('in-settings:tabs.testConfiguration')}
+                  </Button>
+                </Col>
+              </Row>
+              {testResultMessage && (
+                <Row className={indentityProvidersLocals.row}>
+                  <Col xs={12}>
+                    <TemporaryMessage {...testResultMessage} duration={10000} />
+                  </Col>
+                </Row>
+              )}
+            </Section>
+            <Section restrictWidth="50rem">
+              <h3>{t('in-settings:tabs.optionalSettings')}</h3>
+              <Row className={indentityProvidersLocals.row}>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder={t('in-settings:tabs.optional')}
+                    form={form}
+                    setForm={setForm}
+                    fieldName="userDnMapping"
+                    label={t('in-settings:tabs.userDnMapping')}
+                  />
+                </Col>
+                <Col xs={6}>
+                  <FormInput
+                    placeholder={t('in-settings:tabs.optional')}
+                    form={form}
+                    setForm={setForm}
+                    fieldName="userField"
+                    label={t('in-settings:tabs.userField')}
+                  />
+                </Col>
+              </Row>
+            </Section>
+          </form>
+        </>
+      )}
     </>
   );
 }
