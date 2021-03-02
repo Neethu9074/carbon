@@ -46,7 +46,7 @@
       "website":"Website",
       "mobileApp":"Mobile App"
     }
-  }, 
+  },
   "cockpit": {
     "deployAgent": "Deploy Agent",
     "applications":"Applications",
