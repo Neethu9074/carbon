@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -15,11 +16,15 @@ export default function JettyThreadsInfo({ snapshot }) {
   }
   return (
     <Collapsible initiallyOpen={false}>
-      <Collapsible.Header>Queued Thread Pool</Collapsible.Header>
+      <Collapsible.Header>{t('in-forge:plugins.jettyApplicationContainer.queuedThreadPool')}</Collapsible.Header>
       <Collapsible.Content>
         <DescriptionList>
-          <DescriptionItem title="Min Threads">{minThreads}</DescriptionItem>
-          <DescriptionItem title="Max Threads">{data.get('maxThreads')}</DescriptionItem>
+          <DescriptionItem title={t('in-forge:plugins.jettyApplicationContainer.minThreads')}>
+            {minThreads}
+          </DescriptionItem>
+          <DescriptionItem title={t('in-forge:plugins.jettyApplicationContainer.maxThreads')}>
+            {data.get('maxThreads')}
+          </DescriptionItem>
         </DescriptionList>
       </Collapsible.Content>
     </Collapsible>

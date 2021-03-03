@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -13,30 +14,30 @@ export default function JiraDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title="Traffic">
+      <DashboardSection title={t('in-forge:plugins.jiraApplication.traffic')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['instruments.http.sessions'],
-            labels: ['Current Sessions'],
+            labels: [t('in-forge:plugins.jiraApplication.currentSessions')],
             type: 'line'
           }}
           y2={{
             metrics: ['instruments.concurrent.requests'],
-            labels: ['Concurrent Requests'],
+            labels: [t('in-forge:plugins.jiraApplication.concurrentRequests')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="DB Pool">
+      <DashboardSection title={t('in-forge:plugins.jiraApplication.dbPool')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['instruments.dbcp.numIdle'],
-            labels: ['Idle Connections'],
+            labels: [t('in-forge:plugins.jiraApplication.idleConnections')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

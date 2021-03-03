@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Servlet',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.servlet'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Requests',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.requests'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Average Response Time',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.averageResponseTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -74,7 +75,7 @@ export default function ServletsTable({ deploymentContext, snapshot, timeConfig 
   return (
     <Table
       withoutPadding
-      cardTitle={`Servlets (${rows.length})`}
+      cardTitle={t('in-forge:plugins.jBossAsApplicationContainer.servletsWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -92,7 +93,7 @@ function getRowDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           metrics: ['servlets.' + servletKey + '.requests'],
-          labels: ['Requests'],
+          labels: [t('in-forge:plugins.jBossAsApplicationContainer.requests')],
           type: 'stackedBar',
           aggregation: 'sum',
           formatter: number.compact
@@ -105,7 +106,7 @@ function getRowDetails(row) {
         y1={{
           formatter: millis.detailed,
           metrics: ['servlets.' + servletKey + '.avgResponseTime'],
-          labels: ['Average Response Time'],
+          labels: [t('in-forge:plugins.jBossAsApplicationContainer.averageResponseTime')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

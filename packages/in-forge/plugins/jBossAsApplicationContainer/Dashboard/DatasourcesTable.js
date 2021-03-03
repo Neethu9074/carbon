@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Datasource JNDI Name',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.datasourceJndiName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Active Connections',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.activeConnections'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Available Connections',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.availableConnections'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Connections Currently In Use',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.connectionsCurrentlyInUse'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,7 +70,7 @@ const cols = [
     }
   },
   {
-    title: 'Time Waited for Exclusive Lock on Pool',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.timeWaitedForExclusiveLockOnPool'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -107,7 +108,9 @@ export default function DatasourcesTable({ snapshot, timeConfig }) {
 
   return (
     <Table
-      cardTitle={`Datasource Connection Pools (${rows.length})`}
+      cardTitle={t('in-forge:plugins.jBossAsApplicationContainer.datasourceConnectionPoolsWithCount', {
+        len: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -131,7 +134,13 @@ function getRowDetails(row) {
             'datasources.metrics.' + row.key + '.created',
             'datasources.metrics.' + row.key + '.timedOut'
           ],
-          labels: ['Active', 'Available', 'In Use', 'Created', 'Timed Out'],
+          labels: [
+            t('in-forge:plugins.jBossAsApplicationContainer.active'),
+            t('in-forge:plugins.jBossAsApplicationContainer.available'),
+            t('in-forge:plugins.jBossAsApplicationContainer.inUse'),
+            t('in-forge:plugins.jBossAsApplicationContainer.created'),
+            t('in-forge:plugins.jBossAsApplicationContainer.timedOut')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -145,7 +154,10 @@ function getRowDetails(row) {
             'datasources.metrics.' + row.key + '.blockingTime',
             'datasources.metrics.' + row.key + '.creationTime'
           ],
-          labels: ['Time Waited for Exclusive Lock on Pool', 'Time Spent on Creating Connections'],
+          labels: [
+            t('in-forge:plugins.jBossAsApplicationContainer.timeWaitedForExclusiveLockOnPool'),
+            t('in-forge:plugins.jBossAsApplicationContainer.timeSpentOnCreatingConnections')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

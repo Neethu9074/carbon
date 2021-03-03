@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -17,8 +18,7 @@ export default function JettyDashboard({ snapshot, timeConfig }) {
   if (!version) {
     return (
       <DashboardNotification type="info">
-        Jmx module is not enabled in jetty. Please enable it to be able to collect data. You can do so by adding{' '}
-        <code>--module=jmx</code> to <code>start.ini</code>.
+        <Trans i18nKey="in-forge:plugins.jettyApplicationContainer.jmxModuleIsNotEnabledInJetty" />
       </DashboardNotification>
     );
   }
@@ -28,21 +28,26 @@ export default function JettyDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Idle Threads">
+        <KpiKeyValue label={t('in-forge:plugins.jettyApplicationContainer.idleThreads')}>
           <MetricValue snapshotId={snapshotId} metric="idleThreads" />
         </KpiKeyValue>
-        <KpiKeyValue label="Total Threads">
+        <KpiKeyValue label={t('in-forge:plugins.jettyApplicationContainer.totalThreads')}>
           <MetricValue snapshotId={snapshotId} metric="threads" />
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Queued Thread Pool Stats">
+      <DashboardSection title={t('in-forge:plugins.jettyApplicationContainer.queuedThreadPoolStats')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['idleThreads', 'busyThreads', 'threads', 'threadsQueueSize'],
-            labels: ['Idle Threads', 'Busy Threads', 'Total Threads', 'Threads Queue Size'],
+            labels: [
+              t('in-forge:plugins.jettyApplicationContainer.idleThreads'),
+              t('in-forge:plugins.jettyApplicationContainer.busyThreads'),
+              t('in-forge:plugins.jettyApplicationContainer.totalThreads'),
+              t('in-forge:plugins.jettyApplicationContainer.threadsQueueSize')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

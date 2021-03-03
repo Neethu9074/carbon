@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Cache Name',
+    title: t('in-forge:plugins.jbossDataGrid.cacheName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Defined caches',
+    title: t('in-forge:plugins.jbossDataGrid.definedCaches'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Created caches',
+    title: t('in-forge:plugins.jbossDataGrid.createdCaches'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +57,7 @@ const cols = [
     }
   },
   {
-    title: 'Running caches',
+    title: t('in-forge:plugins.jbossDataGrid.runningCaches'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -89,7 +90,13 @@ export default function CacheManagersTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <Table withoutPadding cardTitle="Cache Manager Caches" cols={cols} rows={rows} getRowDetails={getRowDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.jbossDataGrid.cacheManagerCaches')}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 
@@ -106,7 +113,11 @@ function getRowDetails(row) {
             'cacheManagers.' + row.key + '.created_caches',
             'cacheManagers.' + row.key + '.running_caches'
           ],
-          labels: ['Defined', 'Created', 'Running'],
+          labels: [
+            t('in-forge:plugins.jbossDataGrid.defined'),
+            t('in-forge:plugins.jbossDataGrid.created'),
+            t('in-forge:plugins.jbossDataGrid.running')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

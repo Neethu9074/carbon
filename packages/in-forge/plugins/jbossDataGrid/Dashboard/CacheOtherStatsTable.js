@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Cache Name',
+    title: t('in-forge:plugins.jbossDataGrid.cacheName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Cache Puts',
+    title: t('in-forge:plugins.jbossDataGrid.cachePuts'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Read/Write Ratio',
+    title: t('in-forge:plugins.jbossDataGrid.readWriteRatio'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +57,7 @@ const cols = [
     }
   },
   {
-    title: 'Entries',
+    title: t('in-forge:plugins.jbossDataGrid.entries'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -72,7 +73,7 @@ const cols = [
     }
   },
   {
-    title: 'Evictions',
+    title: t('in-forge:plugins.jbossDataGrid.evictions'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -109,7 +110,13 @@ export default function CacheStatisticsTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <Table withoutPadding cardTitle="Other Cache Statistics" cols={cols} rows={rows} getRowDetails={getRowDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.jbossDataGrid.otherCacheStatistics')}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 
@@ -122,7 +129,7 @@ function getRowDetails(row) {
         y1={{
           formatter: number.compact,
           metrics: ['cachesStatistics.' + row.key + '.stores'],
-          labels: ['Cache Puts'],
+          labels: [t('in-forge:plugins.jbossDataGrid.cachePuts')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -134,7 +141,7 @@ function getRowDetails(row) {
           formatter: hitRate.compact,
           tooltipFormatter: hitRate.detailed,
           metrics: ['cachesStatistics.' + row.key + '.readWriteRatioV2'],
-          labels: ['Read/Write Ratio'],
+          labels: [t('in-forge:plugins.jbossDataGrid.readWriteRatio')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -145,7 +152,7 @@ function getRowDetails(row) {
         y1={{
           formatter: number.compact,
           metrics: ['cachesStatistics.' + row.key + '.numberOfEntries'],
-          labels: ['Entries'],
+          labels: [t('in-forge:plugins.jbossDataGrid.entries')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -156,7 +163,7 @@ function getRowDetails(row) {
         y1={{
           formatter: number.compact,
           metrics: ['cachesStatistics.' + row.key + '.evictions'],
-          labels: ['Evictions'],
+          labels: [t('in-forge:plugins.jbossDataGrid.evictions')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

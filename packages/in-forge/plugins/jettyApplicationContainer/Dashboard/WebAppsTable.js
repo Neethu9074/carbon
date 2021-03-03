@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Web App',
+    title: t('in-forge:plugins.jettyApplicationContainer.webApp'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Active Sessions',
+    title: t('in-forge:plugins.jettyApplicationContainer.activeSessions'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -58,7 +59,7 @@ export default function WebAppsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Web Apps (${rows.length})`}
+      cardTitle={t('in-forge:plugins.jettyApplicationContainer.webAppsWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -73,7 +74,7 @@ function getRowDetails(row) {
       timeConfig={row.timeConfig}
       y1={{
         metrics: ['webAppsSessionData.' + row.name + '.sessions'],
-        labels: ['Active Sessions'],
+        labels: [t('in-forge:plugins.jettyApplicationContainer.activeSessions')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

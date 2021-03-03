@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -15,7 +16,7 @@ import { getMaxValue } from 'in-sdk/metrics';
 
 const cols = [
   {
-    title: 'Pool',
+    title: t('in-forge:plugins.jvmRuntimePlatform.pool'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Initial',
+    title: t('in-forge:plugins.jvmRuntimePlatform.initial'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -34,7 +35,7 @@ const cols = [
     }
   },
   {
-    title: 'Maximum',
+    title: t('in-forge:plugins.jvmRuntimePlatform.maximum'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -44,7 +45,7 @@ const cols = [
     }
   },
   {
-    title: 'Value',
+    title: t('in-forge:plugins.jvmRuntimePlatform.value'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -84,15 +85,13 @@ export default function MemoryPoolsTable({ snapshot, timeConfig }) {
 
   const explanation = (
     <TableExplanation>
-      Not all memory pools are considered to be part of the JVM heap. Usually only <code>Eden</code>,{' '}
-      <code>Survivor</code> and <code>Old</code> are part of the heap. Depending on the configuration of the JVM it may
-      resize any of these pools.
+      <Trans i18nKey="in-forge:plugins.jvmRuntimePlatform.notAllMemoryPoolsAreConsideredToBePartOfTheJvmHeap" />
     </TableExplanation>
   );
 
   return (
     <Table
-      cardTitle={`Memory Pools`}
+      cardTitle={t('in-forge:plugins.jvmRuntimePlatform.memoryPools')}
       withoutPadding
       cols={cols}
       rows={rows}
@@ -103,7 +102,7 @@ export default function MemoryPoolsTable({ snapshot, timeConfig }) {
 }
 
 function formatMax(bytes) {
-  return bytes === -1 ? 'unlimited' : bytesTwoDecimalPlaces(bytes);
+  return bytes === -1 ? t('in-forge:plugins.jvmRuntimePlatform.unlimited') : bytesTwoDecimalPlaces(bytes);
 }
 
 function getDetails(row) {
@@ -116,7 +115,7 @@ function getDetails(row) {
         formatter: bytes.detailed,
         tooltipFormatter: bytes.detailedWithRaw,
         metrics: ['pools.' + row.name],
-        labels: [row.name + ' Usage'],
+        labels: [t('in-forge:plugins.jvmRuntimePlatform.nameUsage', { name: row.name })],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

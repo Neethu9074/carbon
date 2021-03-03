@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Cluster name',
+    title: t('in-forge:plugins.jbossDataGrid.clusterName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Timer Threads Size',
+    title: t('in-forge:plugins.jbossDataGrid.timerThreadsSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Timer Queue Size',
+    title: t('in-forge:plugins.jbossDataGrid.timerQueueSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +57,7 @@ const cols = [
     }
   },
   {
-    title: 'Timer Tasks Size',
+    title: t('in-forge:plugins.jbossDataGrid.timerTasksSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -95,7 +96,7 @@ export default function ClusterUDPStatisticsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle="JGroups Timer Thread Pool Statistics"
+      cardTitle={t('in-forge:plugins.jbossDataGrid.jGroupsTimerThreadPoolStatistics')}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -116,7 +117,11 @@ function getRowDetails(row) {
             'clustersUDPStatistics.' + row.key + '.timerQueueSize',
             'clustersUDPStatistics.' + row.key + '.timerTasks'
           ],
-          labels: ['Timer Threads Size', 'Timer Queue Size', 'Timer Tasks Size'],
+          labels: [
+            t('in-forge:plugins.jbossDataGrid.timerThreadsSize'),
+            t('in-forge:plugins.jbossDataGrid.timerQueueSize'),
+            t('in-forge:plugins.jbossDataGrid.timerTasksSize')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

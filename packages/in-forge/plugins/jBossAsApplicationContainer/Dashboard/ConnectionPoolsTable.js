@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Pool Name',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.poolName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Active Connections',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.activeConnections'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Available Connections',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.availableConnections'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'In Use Connection',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.inUseConnection'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -88,7 +89,7 @@ export default function ConnectionPoolsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Connection Pools (${rows.length})`}
+      cardTitle={t('in-forge:plugins.jBossAsApplicationContainer.connectionPoolsWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -110,7 +111,12 @@ function getRowDetails(row) {
             'connectionPools.' + row.key + '.inUse',
             'connectionPools.' + row.key + '.created'
           ],
-          labels: ['Active', 'Available', 'In use', 'Created'],
+          labels: [
+            t('in-forge:plugins.jBossAsApplicationContainer.active'),
+            t('in-forge:plugins.jBossAsApplicationContainer.available'),
+            t('in-forge:plugins.jBossAsApplicationContainer.inUse'),
+            t('in-forge:plugins.jBossAsApplicationContainer.created')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

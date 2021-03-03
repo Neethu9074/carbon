@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -34,24 +35,24 @@ export default connectTo({
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Memory Used">
+        <KpiKeyValue label={t('in-forge:plugins.jvmRuntimePlatform.memoryUsed')}>
           <MetricValue snapshotId={snapshotId} metric="memory.used" formatter={bytes.detailed} />
         </KpiKeyValue>
 
         {isInternalVisible && (
           <Button onClick={() => getSource(snapshot)} kind="secondary">
-            Get source for arbitrary class
+            {t('in-forge:plugins.jvmRuntimePlatform.getSourceForArbitraryClass')}
           </Button>
         )}
         {isInternalVisible && (
           <Button onClick={() => getPackage(snapshot)} kind="secondary">
-            Get classes for arbitrary package
+            {t('in-forge:plugins.jvmRuntimePlatform.getClassesForArbitraryPackage')}
           </Button>
         )}
       </KpiSection>
 
       <DashboardSection
-        title="Threads"
+        title={t('in-forge:plugins.jvmRuntimePlatform.threads')}
         button={
           <span>
             <ThreadDumpButton className="in-jvm-dashboard-thread-dump-button" snapshot={snapshot} />
@@ -60,9 +61,7 @@ export default connectTo({
         }
       >
         <ChartExplanation>
-          The number of threads is quite static in most apps and usually most of them will be in <code>runnable</code>,
-          which means potentially executing code, or in <code>waiting</code> or <code>timed-waiting</code>, which
-          usually is some kind of network read.
+          <Trans i18nKey="in-forge:plugins.jvmRuntimePlatform.theNumberOfThreadsIsQuiteStaticInMostApps" />
         </ChartExplanation>
 
         <Chart
@@ -71,7 +70,13 @@ export default connectTo({
           y1={{
             min: 0,
             metrics: ['threads.new', 'threads.runnable', 'threads.timed-waiting', 'threads.waiting', 'threads.blocked'],
-            labels: ['New', 'Runnable', 'Timed-Waiting', 'Waiting', 'Blocked'],
+            labels: [
+              t('in-forge:plugins.jvmRuntimePlatform.new'),
+              t('in-forge:plugins.jvmRuntimePlatform.runnable'),
+              'Timed-Waiting',
+              t('in-forge:plugins.jvmRuntimePlatform.waiting'),
+              t('in-forge:plugins.jvmRuntimePlatform.blocked')
+            ],
             type: 'stackedArea',
             formatter: twoDecimalPlaces
           }}
@@ -79,10 +84,9 @@ export default connectTo({
         />
       </DashboardSection>
 
-      <DashboardSection title="Heap Memory">
+      <DashboardSection title={t('in-forge:plugins.jvmRuntimePlatform.heapMemory')}>
         <ChartExplanation>
-          The total used heap memory usage will usually go up until a garbage collection makes memory available to the
-          JVM again.
+          {t('in-forge:plugins.jvmRuntimePlatform.theTotalUsedHeapMemoryUsageWillUsuallyGoUpUntil')}
         </ChartExplanation>
         <Chart
           snapshotId={snapshotId}
@@ -93,13 +97,13 @@ export default connectTo({
             formatter: bytes.detailed,
             tooltipFormatter: bytes.detailedWithRaw,
             metrics: ['memory.used'],
-            labels: ['Used'],
+            labels: [t('in-forge:plugins.jvmRuntimePlatform.used')],
             type: 'stackedArea'
           }}
           y2={{
             min: 0,
             metrics: ['memory.usedPercentage'],
-            labels: ['Used'],
+            labels: [t('in-forge:plugins.jvmRuntimePlatform.used')],
             formatter: percentage.detailed,
             type: 'line'
           }}
@@ -110,23 +114,28 @@ export default connectTo({
       <MemoryPoolsTable snapshot={snapshot} timeConfig={timeConfig} />
 
       {collectors ? (
-        <DashboardSection title="Garbage Collection">
+        <DashboardSection title={t('in-forge:plugins.jvmRuntimePlatform.garbageCollection')}>
           <ChartExplanation>
-            Garbage collectors will report their activation and runtime after they have finished. Depending on the
-            collector, some, if not most, of its activity will be concurrent to the application execution.
+            {t(
+              'in-forge:plugins.jvmRuntimePlatform.garbageCollectorsWillReportTheirActivationAndRuntimeAfterTheyHaveFinished'
+            )}
           </ChartExplanation>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: collectors.map(name => 'gc.' + name + '.time').toArray(),
-              labels: collectors.map(name => name + ' Time').toArray(),
+              labels: collectors
+                .map(name => t('in-forge:plugins.jvmRuntimePlatform.nameTime', { name: name }))
+                .toArray(),
               type: 'line',
               formatter: time
             }}
             y2={{
               metrics: collectors.map(name => 'gc.' + name + '.inv').toArray(),
-              labels: collectors.map(name => name + ' Invocations').toArray(),
+              labels: collectors
+                .map(name => t('in-forge:plugins.jvmRuntimePlatform.nameInvocations', { name: name }))
+                .toArray(),
               type: 'point',
               formatter: twoDecimalPlaces
             }}
@@ -135,10 +144,11 @@ export default connectTo({
         </DashboardSection>
       ) : null}
 
-      <DashboardSection title="Suspension">
+      <DashboardSection title={t('in-forge:plugins.jvmRuntimePlatform.suspension')}>
         <ChartExplanation>
-          Suspension is an indication of how much application execution might have been delayed by the JVM, OS or CPU
-          during the last second. This is predominantly caused by GC activations.
+          {t(
+            'in-forge:plugins.jvmRuntimePlatform.suspensionIsAnIndicationOfHowMuchApplicationExecutionMightHaveBeenDelayed'
+          )}
         </ChartExplanation>
         <Chart
           snapshotId={snapshotId}
@@ -146,7 +156,7 @@ export default connectTo({
           y1={{
             min: 0,
             metrics: ['suspension.time'],
-            labels: ['Suspension'],
+            labels: [t('in-forge:plugins.jvmRuntimePlatform.suspension')],
             type: 'line',
             formatter: timeByMicroTwoDecimalPlaces
           }}
@@ -163,7 +173,7 @@ export default connectTo({
 });
 
 function getSource(snapshot) {
-  const className = prompt('Please provide the fully qualified class name');
+  const className = prompt(t('in-forge:plugins.jvmRuntimePlatform.pleaseProvideTheFullyQualifiedClassName'));
   if (!className) {
     return;
   }
@@ -171,7 +181,7 @@ function getSource(snapshot) {
 }
 
 function getPackage(snapshot) {
-  const packageName = prompt('Please provide the fully qualified package name');
+  const packageName = prompt(t('in-forge:plugins.jvmRuntimePlatform.pleaseProvideTheFullyQualifiedPackageName'));
   if (!packageName) {
     return;
   }

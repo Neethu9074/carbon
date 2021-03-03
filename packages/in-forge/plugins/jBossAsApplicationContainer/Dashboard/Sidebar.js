@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -22,7 +23,9 @@ export default function JBossAsSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>JBoss Application Server</Collapsible.Header>
+        <Collapsible.Header>
+          {t('in-forge:plugins.jBossAsApplicationContainer.jBossApplicationServer')}
+        </Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -30,7 +33,7 @@ export default function JBossAsSidebar({ snapshot }) {
 
       {deployments.size > 0 ? (
         <Collapsible initiallyOpen>
-          <Collapsible.Header>Deployments</Collapsible.Header>
+          <Collapsible.Header>{t('in-forge:plugins.jBossAsApplicationContainer.deployments')}</Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
               {deployments
@@ -48,7 +51,7 @@ export default function JBossAsSidebar({ snapshot }) {
 
       {sockets.size > 0 ? (
         <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>Ports</Collapsible.Header>
+          <Collapsible.Header>{t('in-forge:plugins.jBossAsApplicationContainer.ports')}</Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
               {sockets

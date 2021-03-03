@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
@@ -20,13 +21,15 @@ export default function JvmRuntimeSidebar({ snapshot }) {
       <AppInfo snapshot={snapshot} />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>JVM</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.jvmRuntimePlatform.jvm')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 
-      {args ? <KeyValueOverlay header="JVM Arguments" data={args} sort={false} /> : null}
+      {args ? (
+        <KeyValueOverlay header={t('in-forge:plugins.jvmRuntimePlatform.jvmArguments')} data={args} sort={false} />
+      ) : null}
 
       <RunningComponentsList snapshotId={snapshot.get('id')} />
       <ServiceInstancesList snapshot={snapshot} />

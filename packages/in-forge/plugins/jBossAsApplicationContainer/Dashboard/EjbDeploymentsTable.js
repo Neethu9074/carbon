@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Deployment',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.deployment'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Pool',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.pool'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Pool Size',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.poolSize'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Pool Available',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.poolAvailable'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -79,7 +80,7 @@ export default function EjbDeploymentsTable({ snapshot, timeConfig }) {
 
   return (
     <Table
-      cardTitle={`EJB Deployments (${rows.length})`}
+      cardTitle={t('in-forge:plugins.jBossAsApplicationContainer.ejbDeploymentsWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -96,7 +97,7 @@ function getRowDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           metrics: ['ejbs.' + row.key + '.poolAvailable'],
-          labels: ['Available'],
+          labels: [t('in-forge:plugins.jBossAsApplicationContainer.available')],
           type: 'line',
           min: 0
         }}

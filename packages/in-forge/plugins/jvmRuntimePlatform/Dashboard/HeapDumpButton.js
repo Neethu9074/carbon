@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -23,10 +24,10 @@ export default connectTo(
   function HeapDumpButton({ snapshot, className, isOnline }) {
     const maxMemory = snapshot.get('data').get('memory.max');
     const description = maxMemory
-      ? 'Taking a heap dump is an invasive operation and will require about ' +
-        bytesTwoDecimalPlaces(maxMemory) +
-        ' disk space. Please provide the path to store the heap dump:'
-      : 'Taking a heap dump is an invasive operation. Please provide the path to store the heap dump:';
+      ? t('in-forge:plugins.jvmRuntimePlatform.takingAHeapDumpIsAnInvasiveOperationAndWillRequire', {
+          size: bytesTwoDecimalPlaces(maxMemory)
+        })
+      : t('in-forge:plugins.jvmRuntimePlatform.takingAHeapDumpIsAnInvasiveOperationPleaseProvide');
     const button = (
       <Button
         kind="secondary"
@@ -34,10 +35,10 @@ export default connectTo(
           if (isOnline) {
             addActiveDialog(
               <Prompt
-                header="JVM Heap Dump"
+                header={t('in-forge:plugins.jvmRuntimePlatform.jvmHeapDump')}
                 description={description}
-                inputLabel="Storage Path"
-                confirmButtonLabel="Take Heap Dump"
+                inputLabel={t('in-forge:plugins.jvmRuntimePlatform.storagePath')}
+                confirmButtonLabel={t('in-forge:plugins.jvmRuntimePlatform.takeHeapDump')}
                 onSubmit={path => {
                   close();
                   takeHeapDump(path, snapshot);
@@ -49,16 +50,20 @@ export default connectTo(
         className={className}
         disabled={!isOnline}
       >
-        Get Heap Dump
+        {t('in-forge:plugins.jvmRuntimePlatform.getHeapDump')}
       </Button>
     );
 
     if (isOnline) {
-      return <Tooltip content="Heap dumps are always live.">{button}</Tooltip>;
+      return <Tooltip content={t('in-forge:plugins.jvmRuntimePlatform.heapDumpsAreAlwaysLive')}>{button}</Tooltip>;
     }
 
     return (
-      <Tooltip content="Heap dumps can only be retrieved for JVMs that are still under monitoring by Instana.">
+      <Tooltip
+        content={t(
+          'in-forge:plugins.jvmRuntimePlatform.heapDumpsCanOnlyBeRetrievedForJvMsThatAreStillUnderMonitoringByInstana'
+        )}
+      >
         {button}
       </Tooltip>
     );
@@ -69,7 +74,7 @@ function takeHeapDump(path, snapshot) {
   addMessage(
     {
       type: 'info',
-      content: `Taking heap dump…`
+      content: t('in-forge:plugins.jvmRuntimePlatform.takingHeapDump')
     },
     'jvm-heap-dump'
   );
@@ -85,7 +90,7 @@ function takeHeapDump(path, snapshot) {
         {
           type: 'info',
           timeout: 5000,
-          content: `Heap dump available via: ${data}.`
+          content: t('in-forge:plugins.jvmRuntimePlatform.heapDumpAvailableVia', { data: data })
         },
         'jvm-heap-dump'
       );
@@ -94,7 +99,7 @@ function takeHeapDump(path, snapshot) {
         {
           type: 'danger',
           timeout: 5000,
-          content: `Failed to collect heap dump: ${error}.`
+          content: t('in-forge:plugins.jvmRuntimePlatform.failedToCollectHeapDump', { error: error })
         },
         'jvm-heap-dump'
       );

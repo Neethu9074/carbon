@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 export default {
@@ -10,14 +11,15 @@ export default {
       Component: function java8UnmonitoredVersion({ version, unmonitoredVersion }) {
         return (
           <span>
-            The Java 8 builds up to 1.8.0_
-            {unmonitoredVersion} have several known issues relating to the implementation of lambdas. Due to these
-            issues this JVM with version {version} will not be monitored.
+            {t('in-forge:plugins.jvmRuntimePlatform.theJava8BuildsUpTo180HaveSeveralKnownIssues', {
+              unmonitoredVersion: unmonitoredVersion,
+              version: version
+            })}
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.jvmRuntimePlatform.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#java_8_unmonitored_version`
   },
   jvm_incompatible_agent_detected: {
@@ -25,14 +27,19 @@ export default {
       Component: function javaTraceBannedAgent({ agent, vendor, startupParameter }) {
         return (
           <span>
-            This JVM seems to run with {agent} by {vendor} installed (the <code>{startupParameter}</code> parameter is
-            provided at startup), which is known to be incompatible with the Instana agent. Tracing will not be enabled
-            for this JVM.
+            <Trans
+              i18nKey="in-forge:plugins.jvmRuntimePlatform.thisJvmIsKnownToBeIncompatibleWithTheInstanaAgent"
+              values={{
+                agent: agent,
+                vendor: vendor,
+                startupParameter: startupParameter
+              }}
+            />
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.jvmRuntimePlatform.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm_incompatible_agent_detected`
   }
 };

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import JgroupsDefaultThreadPoolTable from './JgroupsDefaultThreadPoolTable.js';
@@ -26,14 +27,17 @@ export default function JbossDataGridDashboard({ snapshot, timeConfig }) {
       <CacheHitsAndMissesTable snapshot={snapshot} timeConfig={timeConfig} />
       <CacheOtherStatsTable snapshot={snapshot} timeConfig={timeConfig} />
       <CacheManagersTable snapshot={snapshot} timeConfig={timeConfig} />
-      <DashboardSection title="Hot Rod Connections">
+      <DashboardSection title={t('in-forge:plugins.jbossDataGrid.hotRodConnections')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['hotRod.numberOfLocalConnections', 'hotRod.numberOfGlobalConnections'],
-            labels: ['Number Of Local Connections', 'Number Of Global Connections'],
+            labels: [
+              t('in-forge:plugins.jbossDataGrid.numberOfLocalConnections'),
+              t('in-forge:plugins.jbossDataGrid.numberOfGlobalConnections')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

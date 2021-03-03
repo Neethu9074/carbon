@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -11,12 +12,16 @@ export default function JbossDataGridInfo({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <Collapsible initiallyOpen>
-      <Collapsible.Header>JBoss Data Grid Info</Collapsible.Header>
+      <Collapsible.Header>{t('in-forge:plugins.jbossDataGrid.jBossDataGridInfo')}</Collapsible.Header>
       <Collapsible.Content>
         <DescriptionList>
-          <DescriptionItem title="JBoss Data Grid Version">{data.get('version')}</DescriptionItem>
-          <DescriptionItem title="JGroups Version">{data.get('jGroupsVersion')}</DescriptionItem>
-          <DescriptionItem title="HotRod Max Worker Threads">
+          <DescriptionItem title={t('in-forge:plugins.jbossDataGrid.jBossDataGridVersion')}>
+            {data.get('version')}
+          </DescriptionItem>
+          <DescriptionItem title={t('in-forge:plugins.jbossDataGrid.jGroupsVersion')}>
+            {data.get('jGroupsVersion')}
+          </DescriptionItem>
+          <DescriptionItem title={t('in-forge:plugins.jbossDataGrid.hotRodMaxWorkerThreads')}>
             {data.get('hotRod.numberOfWorkerThreads')}
           </DescriptionItem>
         </DescriptionList>
