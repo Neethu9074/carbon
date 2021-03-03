@@ -11,6 +11,7 @@ import {
   isAnalyticsOneLocation,
   transformOneZeroToTwoZero
 } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
+import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 
 const cases = [
@@ -339,6 +340,34 @@ const cases = [
         }
       }
     }
+  },
+  {
+    name: 'with selected fixed field "metric~beaconCount~aggregation~SUM"',
+    one: {
+      pathname: '/mobileAppMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/mobileAppMonitoring': {},
+        '/analyzeBeacons': {
+          group: '(groupbyTag~mobileBeacon.mobileApp.name~entity~NOT*_APPLICABLE)~',
+          beaconType: 'sessionStart',
+          metrics: '!(metric~uniqueUsers~aggregation~DISTINCT*_COUNT)(metric~beaconCount~aggregation~SUM)~'
+        }
+      }
+    },
+    two: {
+      pathname: '/mobileAppMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/mobileAppMonitoring': {},
+        '/analyzeBeacons': {
+          groupBy: '(groupbyTag~mobileBeacon.mobileApp.name)~',
+          beaconType: 'sessionStart',
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
+          fields: '!(type~metric~metricId~uniqueUsers~aggregationId~DISTINCT*_COUNT)~'
+        }
+      }
+    }
   }
 ];
 
@@ -363,12 +392,16 @@ const metricCatalog = [
   }
 ];
 
+const dataSourceConfig = {
+  fixedFields: [{ type: metricType, metricId: 'beaconCount', aggregationId: 'SUM' }]
+};
+
 describe('in-mobile-apps/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper', () => {
   describe('transformOneZeroToTwoZero', () => {
     cases.forEach(({ name, one, two }) => {
       it(`must convert ${name}`, () => {
         const transformed = cloneLocation(one);
-        transformOneZeroToTwoZero(transformed, tagCatalog, metricCatalog);
+        transformOneZeroToTwoZero(transformed, tagCatalog, metricCatalog, dataSourceConfig);
         expect(transformed).to.deep.equal(two);
       });
     });

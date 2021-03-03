@@ -221,7 +221,7 @@ const dataSourceParameter = {
 export default function WebsiteAnalyzeView() {
   const location = useLocation();
   if (isAnalyticsOneLocation(location)) {
-    return <AnalyzeOneToTwoViewParameterConversion />;
+    return <AnalyzeOneToTwoViewParameterConversion dataSourceConfigurations={dataSourceConfigurations} />;
   }
 
   return (

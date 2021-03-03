@@ -23,7 +23,7 @@ import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entitie
 import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { type } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 
-export function transformOneZeroToTwoZero(location, tagCatalog, metricCatalog) {
+export function transformOneZeroToTwoZero(location, tagCatalog, metricCatalog, dataSourceConfiguration) {
   // In 1.0 zero mode the detail view has a different path. In 2.0 mode this difference
   // doesn't exist.
   location.pathname = analyzePathFullyQualified;
@@ -36,7 +36,7 @@ export function transformOneZeroToTwoZero(location, tagCatalog, metricCatalog) {
 
   transformOrderByParameters(location, metricCatalog);
 
-  transformMetricParameters(location);
+  transformMetricParameters(location, dataSourceConfiguration);
 
   transformChartedMetricsParameters(location);
 }
@@ -152,15 +152,22 @@ function transformOrderByParameters(location, metricCatalog) {
   }
 }
 
-function transformMetricParameters(location) {
+function transformMetricParameters(location, dataSourceConfiguration) {
   const metrics = getMatrixParameter(location, analyzePath, metricsMatrixParameterName);
   setOrDeleteMatrixKey(location, analyzePath, metricsMatrixParameterName);
   if (metrics) {
-    const fields = deserializeMetrics(metrics).map(eachMetric => ({
-      type: metricType,
-      metricId: eachMetric.metric,
-      aggregationId: eachMetric.aggregation
-    }));
+    const fixedFields = dataSourceConfiguration.fixedFields ?? [];
+    const fields = deserializeMetrics(metrics)
+      .map(eachMetric => ({
+        type: metricType,
+        metricId: eachMetric.metric,
+        aggregationId: eachMetric.aggregation
+      }))
+      // filter out fixed fields
+      .filter(
+        m =>
+          !fixedFields.some(f => f.type === m.type && f.metricId === m.metricId && f.aggregationId === m.aggregationId)
+      );
     setOrDeleteMatrixKey(
       location,
       analyzeTwoParameters.fields.path,

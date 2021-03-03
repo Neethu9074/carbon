@@ -11,6 +11,7 @@ import {
   isAnalyticsOneLocation,
   transformOneZeroToTwoZero
 } from 'in-websites/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
+import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 
 const cases = [
@@ -339,6 +340,34 @@ const cases = [
         }
       }
     }
+  },
+  {
+    name: 'with selected fixed field "metric~beaconCount~aggregation~SUM"',
+    one: {
+      pathname: '/websiteMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/websiteMonitoring': {},
+        '/analyzeBeacons': {
+          group: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
+          beaconType: 'httpRequest',
+          metrics: '!(metric~beaconDuration~aggregation~MEAN)(metric~beaconCount~aggregation~SUM)~'
+        }
+      }
+    },
+    two: {
+      pathname: '/websiteMonitoring/analyzeBeacons',
+      query: {},
+      matrix: {
+        '/websiteMonitoring': {},
+        '/analyzeBeacons': {
+          groupBy: '(groupbyTag~beacon.website.name)~',
+          beaconType: 'httpRequest',
+          chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
+          fields: '!(type~metric~metricId~beaconDuration~aggregationId~MEAN)~'
+        }
+      }
+    }
   }
 ];
 
@@ -380,12 +409,16 @@ const metricCatalog = [
   }
 ];
 
+const dataSourceConfig = {
+  fixedFields: [{ type: metricType, metricId: 'beaconCount', aggregationId: 'SUM' }]
+};
+
 describe('in-websites/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper', () => {
   describe('transformOneZeroToTwoZero', () => {
     cases.forEach(({ name, one, two }) => {
       it(`must convert ${name}`, () => {
         const transformed = cloneLocation(one);
-        transformOneZeroToTwoZero(transformed, tagCatalog, metricCatalog);
+        transformOneZeroToTwoZero(transformed, tagCatalog, metricCatalog, dataSourceConfig);
         expect(transformed).to.deep.equal(two);
       });
     });
