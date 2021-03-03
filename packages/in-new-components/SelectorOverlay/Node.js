@@ -22,13 +22,31 @@ const iconColumnDefinition = {
 
 const labelColumnDefinition = {
   getContent({ node }) {
-    return <KeyValue inverted accentuated value={node.label} label={node.description} multiline />;
+    return (
+      <KeyValue
+        inverted
+        accentuated
+        value={node.label}
+        label={node.description}
+        className={locals.keyValue}
+        multiline
+      />
+    );
   }
 };
 
 const breadcrumbAndLabelColumnDefinition = {
   getContent({ node }) {
-    return <KeyValue inverted accentuated value={node.breadcrumbAndLabel} label={node.description} multiline />;
+    return (
+      <KeyValue
+        inverted
+        accentuated
+        value={node.breadcrumbAndLabel}
+        label={node.description}
+        className={locals.keyValue}
+        multiline
+      />
+    );
   }
 };
 
