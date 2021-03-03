@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { combineLatest } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlacesPerSecond } from 'in-services/formatters/number';
@@ -15,7 +16,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.kafkaConnectConnector.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Status',
+    title: t('in-forge:plugins.kafkaConnectConnector.status'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -33,7 +34,7 @@ const cols = [
     }
   },
   {
-    title: 'Running Ratio',
+    title: t('in-forge:plugins.kafkaConnectConnector.runningRatio'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -49,7 +50,7 @@ const cols = [
     }
   },
   {
-    title: 'Paused Ratio',
+    title: t('in-forge:plugins.kafkaConnectConnector.pausedRatio'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -97,7 +98,13 @@ export default connectTo(
     });
 
     return (
-      <Table withoutPadding cardTitle={`Tasks (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.kafkaConnectConnector.tasksWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+        getRowDetails={getDetails}
+      />
     );
   }
 );
@@ -113,14 +120,17 @@ function getDetails(row) {
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces,
             metrics: [`partitionCount`],
-            labels: ['Partition Count'],
+            labels: [t('in-forge:plugins.kafkaConnectConnector.partitionCount')],
             type: 'line'
           }}
           y2={{
             formatter: twoDecimalPlacesPerSecond,
             tooltipFormatter: twoDecimalPlacesPerSecond,
             metrics: [`sinkRecordReadRate`, `sinkRecordSendRate`],
-            labels: ['Record Read Rate', 'Record Send Rate'],
+            labels: [
+              t('in-forge:plugins.kafkaConnectConnector.recordReadRate'),
+              t('in-forge:plugins.kafkaConnectConnector.recordSendRate')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -138,7 +148,10 @@ function getDetails(row) {
             formatter: twoDecimalPlacesPerSecond,
             tooltipFormatter: twoDecimalPlacesPerSecond,
             metrics: [`sourceRecordPollRate`, `sourceRecordWriteRate`],
-            labels: ['Record Poll Rate', 'Record Write Rate'],
+            labels: [
+              t('in-forge:plugins.kafkaConnectConnector.recordPollRate'),
+              t('in-forge:plugins.kafkaConnectConnector.recordWriteRate')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

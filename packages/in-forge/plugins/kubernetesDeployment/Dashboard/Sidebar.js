@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -15,7 +16,7 @@ export default function KubernetesDeploymentSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Kubernetes Deployment</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.kubernetesDeployment.kubernetesDeployment')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -24,10 +25,10 @@ export default function KubernetesDeploymentSidebar({ snapshot }) {
       <ConditionsList snapshot={snapshot} />
 
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>kubectl</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.kubernetesDeployment.kubectl')}</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="describe">
+            <DescriptionItem title={t('in-forge:plugins.kubernetesDeployment.describe')}>
               <code>
                 kubectl describe deployment -n {data.get('namespace')} {data.get('name')}
               </code>

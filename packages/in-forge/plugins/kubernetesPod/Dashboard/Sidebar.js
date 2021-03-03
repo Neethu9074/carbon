@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ConditionsList from 'in-forge/plugins/kubernetesCluster/Sidebar/ConditionsList';
@@ -16,7 +17,7 @@ export default function KubernetesPodSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Kubernetes Pod</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.kubernetesPod.kubernetesPod')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -25,10 +26,10 @@ export default function KubernetesPodSidebar({ snapshot }) {
       <ConditionsList snapshot={snapshot} />
 
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>kubectl</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.kubernetesPod.kubectl')}</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="describe">
+            <DescriptionItem title={t('in-forge:plugins.kubernetesPod.describe')}>
               <code>
                 kubectl describe pod -n {data.get('namespace')} {data.get('name')}
               </code>

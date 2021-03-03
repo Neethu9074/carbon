@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import TasksTable from 'in-forge/plugins/kafkaConnectConnector/Dashboard/TasksTable.js';
@@ -15,7 +16,7 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
   return (
     <div>
-      <DashboardSection title="Connector Tasks">
+      <DashboardSection title={t('in-forge:plugins.kafkaConnectConnector.connectorTasks')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -29,7 +30,14 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
               'connectorPausedTaskCount',
               'connectorUnassignedTaskCount'
             ],
-            labels: ['Total', 'Running', 'Failed', 'Destroyed', 'Paused', 'Unassigned'],
+            labels: [
+              t('in-forge:plugins.kafkaConnectConnector.total'),
+              t('in-forge:plugins.kafkaConnectConnector.running'),
+              t('in-forge:plugins.kafkaConnectConnector.failed'),
+              t('in-forge:plugins.kafkaConnectConnector.destroyed'),
+              t('in-forge:plugins.kafkaConnectConnector.paused'),
+              t('in-forge:plugins.kafkaConnectConnector.unassigned')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

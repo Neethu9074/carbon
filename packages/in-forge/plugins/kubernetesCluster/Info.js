@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -11,13 +12,15 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Cluster">{data.get('clusterId')}</DescriptionItem>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
-      <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
-      <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-      <DescriptionItem title="Host IP">{data.get('hostIp')}</DescriptionItem>
-      <DescriptionItem title="Pod IP">{data.get('podIp')}</DescriptionItem>
-      <DescriptionItem title="Phase">{data.get('phase')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kubernetesCluster.cluster')}>{data.get('clusterId')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kubernetesCluster.version')}>{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kubernetesCluster.namespace')}>
+        {data.get('namespace')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kubernetesCluster.name')}>{data.get('name')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kubernetesCluster.hostIp')}>{data.get('hostIp')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kubernetesCluster.podIp')}>{data.get('podIp')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kubernetesCluster.phase')}>{data.get('phase')}</DescriptionItem>
     </DescriptionList>
   );
 }

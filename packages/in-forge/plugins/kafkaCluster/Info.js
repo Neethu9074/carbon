@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -14,9 +15,13 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      {uniqueClusterName ? <DescriptionItem title="Cluster Name">{data.get('clusterName')}</DescriptionItem> : null}
-      <DescriptionItem title="Zookeeper">{data.get('zookeeper')}</DescriptionItem>
-      <DescriptionItem title="Nodes">{nodes.size}</DescriptionItem>
+      {uniqueClusterName ? (
+        <DescriptionItem title={t('in-forge:plugins.kafkaCluster.clusterName')}>
+          {data.get('clusterName')}
+        </DescriptionItem>
+      ) : null}
+      <DescriptionItem title={t('in-forge:plugins.kafkaCluster.zookeeper')}>{data.get('zookeeper')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kafkaCluster.nodes')}>{nodes.size}</DescriptionItem>
     </DescriptionList>
   );
 }

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -14,17 +15,17 @@ export default function KubernetesNamespaceSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Kubernetes Namespace</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.kubernetesNamespace.kubernetesNamespace')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>kubectl</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.kubernetesNamespace.kubectl')}</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="describe">
+            <DescriptionItem title={t('in-forge:plugins.kubernetesNamespace.describe')}>
               <code>kubectl describe namespace {data.get('name')}</code>
             </DescriptionItem>
           </DescriptionList>

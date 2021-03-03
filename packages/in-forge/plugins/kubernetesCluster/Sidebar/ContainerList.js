@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -18,7 +19,9 @@ export default function ContainerList({ snapshot }) {
 
   return (
     <Collapsible initiallyOpen={false}>
-      <Collapsible.Header>Containers ({containers.size})</Collapsible.Header>
+      <Collapsible.Header>
+        {t('in-forge:plugins.kubernetesCluster.containersSize', { size: containers.size })}
+      </Collapsible.Header>
       <Collapsible.Content>
         <DescriptionList>
           {containers.toArray().map(c => (

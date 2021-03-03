@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { combineLatest } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, ms, bytesZeroDecimalPlaces, bitReadableString } from 'in-services/formatters/number';
@@ -13,7 +14,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.kafkaCluster.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Version',
+    title: t('in-forge:plugins.kafkaCluster.version'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Controller',
+    title: t('in-forge:plugins.kafkaCluster.controller'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -47,7 +48,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages In',
+    title: t('in-forge:plugins.kafkaCluster.messagesIn'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -63,7 +64,7 @@ const cols = [
     }
   },
   {
-    title: 'Bytes In',
+    title: t('in-forge:plugins.kafkaCluster.bytesIn'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -79,7 +80,7 @@ const cols = [
     }
   },
   {
-    title: 'Bytes Out',
+    title: t('in-forge:plugins.kafkaCluster.bytesOut'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -95,7 +96,7 @@ const cols = [
     }
   },
   {
-    title: 'Average Response Time',
+    title: t('in-forge:plugins.kafkaCluster.averageResponseTime'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -111,7 +112,7 @@ const cols = [
     }
   },
   {
-    title: 'Health',
+    title: t('in-forge:plugins.kafkaCluster.health'),
     type: 'health',
     typeArgs: {
       getSnapshotId(row) {
@@ -142,6 +143,13 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Cluster Nodes (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.kafkaCluster.clusterNodesWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

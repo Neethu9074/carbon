@@ -2,35 +2,45 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { percentage, millis, number, bytes } from 'in-services/formatters/number';
 
 export default [
   {
     metrics: ['broker.bytesIn', 'broker.bytesOut', 'broker.bytesRejected'],
-    labels: ['In', 'Out', 'Rejected'],
+    labels: [t('in-forge:plugins.kafka.in'), t('in-forge:plugins.kafka.out'), t('in-forge:plugins.kafka.rejected')],
     min: 0,
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.kafka.traffic')],
     formatter: bytes
   },
   {
     metrics: ['broker.produceRequests', 'broker.fetchConsumerRequests', 'broker.fetchFollowerRequests'],
-    labels: ['Produce Throughput', 'Fetch Consumer Throughput', 'Fetch Follower Throughput'],
+    labels: [
+      t('in-forge:plugins.kafka.produceThroughput'),
+      t('in-forge:plugins.kafka.fetchConsumerThroughput'),
+      t('in-forge:plugins.kafka.fetchFollowerThroughput')
+    ],
     min: 0,
-    category: ['Throughput'],
+    category: [t('in-forge:plugins.kafka.throughput')],
     formatter: number
   },
   {
     metrics: ['broker.totalTimeProduce', 'broker.totalTimeFetchConsumer', 'broker.totalTimeFetchFollower'],
-    labels: ['Produce Latency', 'Fetch Consumer Latency', 'Fetch Follower Latency'],
+    labels: [
+      t('in-forge:plugins.kafka.produceLatency'),
+      t('in-forge:plugins.kafka.fetchConsumerLatency'),
+      t('in-forge:plugins.kafka.fetchFollowerLatency')
+    ],
     min: 0,
-    category: ['Latency'],
+    category: [t('in-forge:plugins.kafka.latency')],
     formatter: millis
   },
   {
     metrics: ['broker.failedFetch', 'broker.failedProduce'],
-    labels: ['Fetch', 'Produce'],
+    labels: [t('in-forge:plugins.kafka.fetch'), t('in-forge:plugins.kafka.produce')],
     min: 0,
-    category: ['Failures'],
+    category: [t('in-forge:plugins.kafka.failures')],
     formatter: number
   },
   {
@@ -44,33 +54,37 @@ export default [
       'broker.activeControllerCount'
     ],
     labels: [
-      'Under-replicated Partitions',
-      'Offline Partitions',
-      'Leader Elections',
-      'Unclean Leader Elections',
-      'ISR Shrinks',
-      'ISR Expansions',
-      'Active controller count'
+      t('in-forge:plugins.kafka.underReplicatedPartitions'),
+      t('in-forge:plugins.kafka.offlinePartitions'),
+      t('in-forge:plugins.kafka.leaderElections'),
+      t('in-forge:plugins.kafka.uncleanLeaderElections'),
+      t('in-forge:plugins.kafka.isrShrinks'),
+      t('in-forge:plugins.kafka.isrExpansions'),
+      t('in-forge:plugins.kafka.activeControllerCount')
     ],
     min: 0,
     formatter: number
   },
   {
     metrics: ['broker.networkProcessorIdle', 'broker.requestHandlerIdle'],
-    labels: ['Network Processor', 'Request Handler'],
+    labels: [t('in-forge:plugins.kafka.networkProcessor'), t('in-forge:plugins.kafka.requestHandler')],
     min: 0,
-    category: ['Idle Times'],
+    category: [t('in-forge:plugins.kafka.idleTimes')],
     formatter: percentage
   },
   {
     metrics: ['broker.partitionCount', 'broker.messagesIn', 'logflush.inv'],
-    labels: ['Count', 'Messages In', 'Log Flushes'],
+    labels: [
+      t('in-forge:plugins.kafka.count'),
+      t('in-forge:plugins.kafka.messagesIn'),
+      t('in-forge:plugins.kafka.logFlushes')
+    ],
     min: 0,
     formatter: number
   },
   {
     metrics: ['logflush.mean'],
-    labels: ['Log Flush Mean'],
+    labels: [t('in-forge:plugins.kafka.logFlushMean')],
     min: 0,
     formatter: millis
   }

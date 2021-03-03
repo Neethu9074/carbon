@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { percentageTwoDecimalPlaces, msTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
@@ -10,7 +11,7 @@ import { getPluginName } from 'in-sdk/pluginName';
 
 export default [
   {
-    title: 'Type',
+    title: t('in-forge:plugins.kubernetesCluster.type'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ export default [
     }
   },
   {
-    title: 'Name',
+    title: t('in-forge:plugins.kubernetesCluster.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -31,7 +32,7 @@ export default [
     }
   },
   {
-    title: 'Calls',
+    title: t('in-forge:plugins.kubernetesCluster.calls'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -47,7 +48,7 @@ export default [
     }
   },
   {
-    title: 'Avg. Latency',
+    title: t('in-forge:plugins.kubernetesCluster.avgLatency'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -63,7 +64,7 @@ export default [
     }
   },
   {
-    title: 'Error Rate',
+    title: t('in-forge:plugins.kubernetesCluster.errorRate'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -79,7 +80,7 @@ export default [
     }
   },
   {
-    title: '#Instances',
+    title: t('in-forge:plugins.kubernetesCluster.instances'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {

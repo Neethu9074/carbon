@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 export default {
@@ -11,14 +12,13 @@ export default {
         return (
           <span>
             <p>
-              Kafka monitoring requires <code>sslTruststoreLocation</code> and <code>sslTruststorePassword</code> to be
-              configured in Instana agent <code>configuration.yaml</code> for Kafka instances secured with TLS.
+              <Trans i18nKey="in-forge:plugins.kafka.kafkaMonitoringRequiresSslTruststoreLocation" />
             </p>
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.kafka.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/kafka/#kafka_ssl_not_configured`
   },
   kafka_ssl_client_not_configured: {
@@ -27,15 +27,13 @@ export default {
         return (
           <span>
             <p>
-              Kafka monitoring requires <code>sslKeyStoreLocation</code> and <code>sslKeyStorePassword</code> to be
-              configured in Instana agent <code>configuration.yaml</code> for Kafka instances requiring SSL client
-              authentication.
+              <Trans i18nKey="in-forge:plugins.kafka.kafkaMonitoringRequiresSslKeyStoreLocation" />
             </p>
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.kafka.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/kafka/#kafka_ssl_client_not_configured`
   }
 };

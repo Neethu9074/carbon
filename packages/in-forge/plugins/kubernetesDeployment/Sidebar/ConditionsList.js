@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -18,7 +19,9 @@ export default function ConditionsList({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Conditions ({conditions.size})</Collapsible.Header>
+        <Collapsible.Header>
+          {t('in-forge:plugins.kubernetesCluster.conditionsSize', { size: conditions.size })}
+        </Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
             {conditions.toArray().map(cond => (

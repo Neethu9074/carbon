@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import {
   resourceQuotaPercentage,
   resourceQuotaBytes,
@@ -12,19 +14,32 @@ import {
 export default [
   {
     metrics: ['cap_requests_memory', 'used_requests_memory', 'cap_limits_memory', 'used_limits_memory'],
-    labels: ['Capacity Requests', 'Used Requests', 'Capacity Limits ', 'Used Limits'],
+    labels: [
+      t('in-forge:plugins.kubernetesNamespace.capacityRequests'),
+      t('in-forge:plugins.kubernetesNamespace.usedRequests'),
+      t('in-forge:plugins.kubernetesNamespace.capacityLimits'),
+      t('in-forge:plugins.kubernetesNamespace.usedLimits')
+    ],
     min: 0,
     formatter: resourceQuotaBytes
   },
   {
     metrics: ['cap_requests_cpu', 'used_requests_cpu', 'cap_limits_cpu', 'used_limits_cpu'],
-    labels: ['Capacity Requests', 'Used Requests', 'Capacity Limits', 'Used Limits'],
+    labels: [
+      t('in-forge:plugins.kubernetesNamespace.capacityRequests'),
+      t('in-forge:plugins.kubernetesNamespace.usedRequests'),
+      t('in-forge:plugins.kubernetesNamespace.capacityLimits'),
+      t('in-forge:plugins.kubernetesNamespace.usedLimits')
+    ],
     min: 0,
     formatter: resourceQuotaTwoDecimalPlaces
   },
   {
     metrics: ['used_pods', 'cap_pods'],
-    labels: ['Used Pods', 'Pods Capacity'],
+    labels: [
+      t('in-forge:plugins.kubernetesNamespace.usedPods'),
+      t('in-forge:plugins.kubernetesNamespace.podsCapacity')
+    ],
     min: 0,
     formatter: resourceQuotaZeroDecimalPlaces
   },
@@ -37,18 +52,18 @@ export default [
       'limit_mem_percentage'
     ],
     labels: [
-      'Pods Allocation',
-      'CPU Requests Allocation',
-      'CPU Limits Allocation',
-      'Memory Requests Allocation',
-      'Memory Limits Allocation'
+      t('in-forge:plugins.kubernetesNamespace.podsAllocation'),
+      t('in-forge:plugins.kubernetesNamespace.cpuRequestsAllocation'),
+      t('in-forge:plugins.kubernetesNamespace.cpuLimitsAllocation'),
+      t('in-forge:plugins.kubernetesNamespace.memoryRequestsAllocation'),
+      t('in-forge:plugins.kubernetesNamespace.memoryLimitsAllocation')
     ],
     min: 0,
     formatter: resourceQuotaPercentage
   },
   {
     metric: 'alloc_pods_percentage',
-    label: 'Allocated pods percentage',
+    label: t('in-forge:plugins.kubernetesNamespace.allocatedPodsPercentage'),
     formatter: resourceQuotaPercentage
   }
 ];
