@@ -5,7 +5,7 @@
 @import '~in-themes/active.less';
 
 :local {
-  .marginBottom {
-    margin-bottom: 1rem;
+  .wrapper {
+    margin-top: 1rem;
   }
 }

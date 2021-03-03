@@ -14,7 +14,7 @@ export default function ReadOnlyIncludeInternalOrSyntheticCallsSwitch({ alertCon
     return null;
   }
   return (
-    <div className={locals.marginBottom}>
+    <div className={locals.wrapper}>
       <HorizontalFlexWrapper>
         {includeInternal &&
           !includeSynthetic &&
