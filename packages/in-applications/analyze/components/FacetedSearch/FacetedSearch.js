@@ -33,7 +33,6 @@ export default function FacetedSearch({
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
         isValid={isValid}
-        openByDefault
       />
       <FacetedFilterErroneous
         title={t('in-applications:analyze.erroneous')}
@@ -41,7 +40,6 @@ export default function FacetedSearch({
         updateFilter={updateFilter}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
-        openByDefault
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.applications')}
@@ -116,7 +114,6 @@ export default function FacetedSearch({
             includeSynthetic: hiddenCalls?.includeSynthetic
           })
         }
-        openByDefault
       />
     </div>
   );
