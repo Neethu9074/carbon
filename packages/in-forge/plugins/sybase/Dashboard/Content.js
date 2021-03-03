@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
@@ -21,13 +22,13 @@ export default function SybaseDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title="Connections">
+      <DashboardSection title={t('in-forge:plugins.sybase.titleConnections')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['stats.connCount'],
-            labels: ['User Connections'],
+            labels: [t('in-forge:plugins.sybase.labelUserConnections')],
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
@@ -36,13 +37,13 @@ export default function SybaseDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Disk Reads &amp; Writes">
+      <DashboardSection title={t('in-forge:plugins.sybase.titleDiskReadsWrites')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['stats.diskRead', 'stats.diskWrite'],
-            labels: ['Reads', 'Writes'],
+            labels: [t('in-forge:plugins.sybase.labelReads'), t('in-forge:plugins.sybase.labelWrites')],
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
@@ -51,13 +52,13 @@ export default function SybaseDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Bytes Received &amp; Sent">
+      <DashboardSection title={t('in-forge:plugins.sybase.titleBytesReceivedSent')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['stats.bytesReceived', 'stats.bytesSent'],
-            labels: ['Received', 'Sent'],
+            labels: [t('in-forge:plugins.sybase.labelReceived'), t('in-forge:plugins.sybase.labelSent')],
             type: 'line',
             formatter: bytesTwoDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces
@@ -66,13 +67,13 @@ export default function SybaseDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Thread Dead Locks Avoided &amp; Reported">
+      <DashboardSection title={t('in-forge:plugins.sybase.titleThreadDeadLocksAvoidedReported')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['stats.threadDeadlocksAvoided', 'stats.threadDeadlocksReported'],
-            labels: ['Avoided', 'Reported'],
+            labels: [t('in-forge:plugins.sybase.labelAvoided'), t('in-forge:plugins.sybase.labelReported')],
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces

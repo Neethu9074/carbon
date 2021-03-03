@@ -2,11 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default [
   {
-    label: 'Total Sessions',
+    label: t('in-forge:plugins.tomcatAppContainer.labelTotalSessions'),
     metric: 'totalSessionCount',
     formatter: zeroDecimalPlaces
   }

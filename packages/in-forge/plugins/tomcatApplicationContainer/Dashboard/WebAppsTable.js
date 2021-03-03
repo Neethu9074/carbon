@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ServletsInWebAppTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/ServletsInWebAppTable';
@@ -13,7 +14,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Context',
+    title: t('in-forge:plugins.tomcatAppContainer.titleContext'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Name',
+    title: t('in-forge:plugins.tomcatAppContainer.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Session Timeout',
+    title: t('in-forge:plugins.tomcatAppContainer.titleSessionTimeout'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -41,7 +42,7 @@ const cols = [
     }
   },
   {
-    title: 'Number of Sessions',
+    title: t('in-forge:plugins.tomcatAppContainer.labelNumberOfSessions'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -81,7 +82,7 @@ export default function WebAppsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Web Apps (${rows.length})`}
+      cardTitle={t('in-forge:plugins.tomcatAppContainer.titleWebAppsCount', { count: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -99,7 +100,7 @@ function getRowDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           metrics: ['sessions.' + row.key],
-          labels: ['Sessions'],
+          labels: [t('in-forge:plugins.tomcatAppContainer.labelSessions')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

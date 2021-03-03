@@ -2,16 +2,18 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number } from 'in-services/formatters/number';
 
 export default [
   {
-    label: 'Active Sessions',
+    label: t('in-forge:plugins.springbootAppContainer.labelActiveSessions'),
     metric: 'metrics.httpsessions.active',
     formatter: number.compact
   },
   {
-    label: 'All Requests',
+    label: t('in-forge:plugins.springbootAppContainer.labelAllRequests'),
     metric: 'metrics.requests',
     formatter: number.compact
   }

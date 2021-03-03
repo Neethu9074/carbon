@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -13,7 +14,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Database',
+    title: t('in-forge:plugins.sybase.headerDatabases'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -44,20 +45,26 @@ export default function DatabasesTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <Table withoutPadding cardTitle={`Databases (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.sybase.titleDatabasesCount', { count: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
   );
 }
 
 function getDetails(row) {
   return (
     <div>
-      <DashboardSection title="Connections">
+      <DashboardSection title={t('in-forge:plugins.sybase.titleConnections')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             metrics: ['databases.' + row.key + '.connCount'],
-            labels: ['User Connections'],
+            labels: [t('in-forge:plugins.sybase.labelUserConnections')],
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
@@ -65,13 +72,13 @@ function getDetails(row) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Disk Reads &amp; Writes">
+      <DashboardSection title={t('in-forge:plugins.sybase.titleDiskReadsWrites')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             metrics: ['databases.' + row.key + '.diskRead', 'databases.' + row.key + '.diskWrite'],
-            labels: ['Reads', 'Writes'],
+            labels: [t('in-forge:plugins.sybase.labelReads'), t('in-forge:plugins.sybase.labelWrites')],
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
@@ -79,13 +86,13 @@ function getDetails(row) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Bytes Received &amp; Sent">
+      <DashboardSection title={t('in-forge:plugins.sybase.titleBytesReceivedSent')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             metrics: ['databases.' + row.key + '.bytesReceived', 'databases.' + row.key + '.bytesSent'],
-            labels: ['Received', 'Sent'],
+            labels: [t('in-forge:plugins.sybase.labelReceived'), t('in-forge:plugins.sybase.labelSent')],
             type: 'line',
             formatter: bytesTwoDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces

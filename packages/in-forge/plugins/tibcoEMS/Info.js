@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
@@ -14,20 +15,26 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.name')}>{data.get('name')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.processId')}>{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.version')}>{data.get('version')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Ports">
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.ports')}>
         {data
           .get('ports', emptyList)
           .sort()
           .join(', ')}
       </DescriptionItem>
-      <DescriptionItem title="State">{data.get('state')}</DescriptionItem>
-      <DescriptionItem title="Max Connections">{positiveNumber(data.get('maxConnections'))}</DescriptionItem>
-      <DescriptionItem title="Topics">{data.get('topicNames', emptyList).size}</DescriptionItem>
-      <DescriptionItem title="Queues">{data.get('queueNames', emptyList).size}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.state')}>{data.get('state')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.maxConnections')}>
+        {positiveNumber(data.get('maxConnections'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.topics')}>
+        {data.get('topicNames', emptyList).size}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.queues')}>
+        {data.get('queueNames', emptyList).size}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

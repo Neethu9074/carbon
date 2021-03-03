@@ -2,16 +2,18 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number } from 'in-services/formatters/number';
 
 export default [
   {
-    label: 'Connections',
+    label: t('in-forge:plugins.tibcoEMS.labelConnections'),
     metric: 'connectionCount',
     formatter: number.compact
   },
   {
-    label: 'Sessions',
+    label: t('in-forge:plugins.tibcoEMS.labelSessions'),
     metric: 'sessionCount',
     formatters: number.compact
   }
