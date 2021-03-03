@@ -4,8 +4,8 @@
  */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 
+import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-applications/alerting/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
 import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/chart/ApplicationAlertingChartWithErrorMessage';
 import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import ReadOnlyAlertEvaluation from 'in-applications/alerting/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
@@ -28,6 +28,7 @@ import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
 import { light } from 'in-themes/themes';
+import { t } from 'in-i18n';
 
 import locals from 'in-new-components/Alerting/shared-styles/AlertConfiguration.mless';
 
@@ -118,6 +119,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
               />
             </div>
             <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
+            <ReadOnlyIncludeInternalOrSyntheticCallsSwitch alertConfig={alertConfig} />
           </div>
         </ExpandableCard>
 

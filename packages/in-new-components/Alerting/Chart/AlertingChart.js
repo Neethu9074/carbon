@@ -37,7 +37,15 @@ export default function AlertingChart({
   isQB1only,
   canReload
 }) {
-  const { granularity, rule, threshold, timeThreshold, convertedTagFilterExpression } = alertConfigWithFormModel;
+  const {
+    granularity,
+    rule,
+    threshold,
+    timeThreshold,
+    convertedTagFilterExpression,
+    includeInternal,
+    includeSynthetic
+  } = alertConfigWithFormModel;
 
   const metricName = blueprintConfig.getMetricName(rule);
   const metricChartGranularity = Math.max(granularity, viewConfig.minChartMetricGranularity);
@@ -68,6 +76,8 @@ export default function AlertingChart({
             getAlertsPreview={blueprintConfig.getAlertsPreviewRequest(metricName)}
             alertsPreviewConfiguration={getAlertsPreviewQuery({
               filterQuery,
+              includeInternal,
+              includeSynthetic,
               timeConfig: viewConfig.timeConfig,
               metricName,
               numeratorFilter,
@@ -92,6 +102,8 @@ export default function AlertingChart({
       getMetric={blueprintConfig.getMetricsRequest(metricName)}
       metricsConfiguration={{
         ...filterQuery,
+        includeInternal,
+        includeSynthetic,
         timeConfig: viewConfig.timeConfig,
         metrics: {
           [metricName]: {
@@ -149,6 +161,8 @@ export default function AlertingChart({
 function getAlertsPreviewQuery({
   timeConfig,
   filterQuery,
+  includeInternal,
+  includeSynthetic,
   metricName,
   numeratorFilter,
   aggregation,
@@ -159,6 +173,8 @@ function getAlertsPreviewQuery({
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
       ...filterQuery,
+      includeInternal,
+      includeSynthetic,
       timeConfig,
       timeThreshold,
       threshold,

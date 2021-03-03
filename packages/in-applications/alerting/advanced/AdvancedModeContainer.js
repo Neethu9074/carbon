@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
-import { t } from 'in-i18n';
 
 import {
   applicationsAlertingAdditionalPropsAlertLevelChanged,
@@ -12,6 +11,7 @@ import {
   applicationsAlertingAdditionalPropsTriggerChanged,
   applicationsAlertingBlueprintChanged
 } from 'in-applications/alerting/tracker';
+import IncludeInternalOrSyntheticCallsSwitch from 'in-applications/alerting/advanced/IncludeInternalOrSyntheticCallsSwitch/IncludeInternalOrSyntheticCallsSwitch';
 import AlertTagFilterExpressionConfig, {
   inPackages
 } from 'in-new-components/Alerting/components/AlertTagFilterExpressionConfig';
@@ -38,6 +38,7 @@ import createBlueprintForm from 'in-applications/alerting/form/blueprintFormCrea
 import AlertTypeSwitch from 'in-applications/alerting/components/AlertTypeSwitch';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import LightCard from 'in-new-components/Card/LightCard';
+import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props) {
   const {
@@ -67,6 +68,8 @@ export default function AdvancedModeContainer(props) {
           content: (
             <>
               <AlertEvaluationControl form={form} updateForm={updateForm} />
+              <InboundOutboundCallsSwitch form={form} updateForm={updateForm} />
+              <IncludeInternalOrSyntheticCallsSwitch form={form} updateForm={updateForm} />
               <WithQB1orQB2
                 onUsesQB1={() => (
                   <AlertLocationFilters
@@ -88,7 +91,6 @@ export default function AdvancedModeContainer(props) {
                 )}
                 shouldFallbackToQB2={isQB2Config => isQB2Config(form.get('convertedTagFilterExpression').value)}
               />
-              <InboundOutboundCallsSwitch form={form} updateForm={updateForm} />
             </>
           ),
           checked: true

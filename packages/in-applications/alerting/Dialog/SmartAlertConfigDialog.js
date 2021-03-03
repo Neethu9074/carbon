@@ -108,6 +108,8 @@ function resolveThresholdRequest(
     rule: { metricName },
     threshold: { operator, seasonality = null },
     tagFilters,
+    includeInternal,
+    includeSynthetic,
     granularity
   } = alertConfigWithFormModel;
 
@@ -138,6 +140,8 @@ function resolveThresholdRequest(
       }),
       isQB2Config => isQB2Config(alertConfigWithFormModel.convertedTagFilterExpression)
     ),
+    includeInternal,
+    includeSynthetic,
     metric: {
       metric: blueprintConfig.getMetricName(alertConfigWithFormModel.rule),
       granularity,
