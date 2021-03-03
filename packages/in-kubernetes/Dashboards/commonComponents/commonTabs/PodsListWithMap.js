@@ -8,11 +8,11 @@ import React from 'react';
 import ControlFrame from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/ControlFrame';
 import PodTreeMap from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/PodTreeMap';
 import MapListToggle from 'in-kubernetes/Dashboards/commonComponents/commonTabs/MapListToggle';
-import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import ServerTreeMap from 'in-new-components/TreeMap/ServerTreeMap';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import { getInfraGranularity } from 'in-stores/metric/metric';
 import Card from 'in-new-components/Card';
 
 export default compose(
@@ -92,6 +92,6 @@ function getHasDataToRender({
       timeConfig,
       phase: null
     },
-    granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
+    granularity: getInfraGranularity(timeConfig)
   }).map(result => !result.data || result.data.totalHits > 0);
 }

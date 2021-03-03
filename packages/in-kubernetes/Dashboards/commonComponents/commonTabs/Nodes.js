@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
@@ -16,12 +15,13 @@ import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPr
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
 import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
+import { getInfraGranularity } from 'in-stores/metric/metric';
 import { formatDuration } from 'in-services/formatters/date';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 const pathSegment = '/nodes';
 const matrixPrefix = 'node.';
@@ -191,6 +191,6 @@ function getTableData({
       workloadControllerId,
       timeConfig
     },
-    granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
+    granularity: getInfraGranularity(timeConfig)
   });
 }

@@ -13,6 +13,8 @@ module.exports = {
   infraMetricsWidgetEnabled: true,
   infraExplorePresentationEnabled: true,
   infraExploreDataEnabled: true,
+  beeInstanaInfraMetricsEnabled: true,
+  highResolutionInfrastructureMetricsEnabled: true,
   internalMonitoringUnit: true,
   showUserSettingInternalTagsInUA: true,
   isSelfService: false,

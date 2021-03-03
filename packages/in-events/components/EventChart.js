@@ -21,11 +21,12 @@ import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constan
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { formatDurationAccurately } from 'in-services/formatters/date';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import { always, alwaysNull } from 'in-services/fixedStreams';
 import DownloadButton from 'in-components/DownloadButton';
-import { getRollupForTimeframe } from 'in-stores/metric';
 import { emptyList } from 'in-services/fixedImmutables';
+import { getInfraGranularity } from 'in-stores/metric';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -48,7 +49,7 @@ export default connectTo(
         {triggeringMetrics.map(metric => {
           const metricName = metric.get('metricName');
           const timeConfig = getChartTimeConfigByEvent({ event, to });
-          const rollup = getRollupForTimeframe(timeConfig);
+          const rollup = getInfraGranularity(timeConfig);
           const plugin = translateFullyQualifiedPluginToShortPluginName(metric.getIn(['entityId', 'pluginId']));
 
           return (
@@ -62,7 +63,7 @@ export default connectTo(
               start={event.get('start')}
               plugin={plugin}
               timeConfig={getTimeConfigFromEvent(event)}
-              rollup={rollup.label}
+              rollup={formatDurationAccurately(rollup)}
             />
           );
         })}

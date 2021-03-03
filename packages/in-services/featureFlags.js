@@ -28,6 +28,11 @@ export const sloWidgetEnabled = isFeatureFlagEnabled('sloWidgetEnabled', true);
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
 export const infraExplorePresentationEnabled = isFeatureFlagEnabled('infraExplorePresentationEnabled');
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');
+export const beeInstanaInfraMetricsEnabled = isFeatureFlagEnabled('beeInstanaInfraMetricsEnabled');
+export const highResolutionInfrastructureMetricsEnabled = isFeatureFlagEnabled(
+  'highResolutionInfrastructureMetricsEnabled',
+  true
+);
 export const newApCreationEnabled = isFeatureFlagEnabled('newApCreationEnabled');
 export const entityCountWidgetEnabled = isFeatureFlagEnabled('entityCountWidgetEnabled');
 export const infraMetricsWidgetEnabled = isFeatureFlagEnabled('infraMetricsWidgetEnabled');

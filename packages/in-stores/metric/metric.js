@@ -2,23 +2,19 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { just, combineLatest } from '@instana/observables';
+import { just } from '@instana/observables';
 
-import { useBeeInstant$, granularityForBeeInstantMetrics, DEFAULT_STAT } from 'in-stores/metric/beeInstant';
+import { beeInstanaInfraMetricsEnabled, highResolutionInfrastructureMetricsEnabled } from 'in-services/featureFlags';
 import createDynamicAggregatedMetricObservable from 'in-subscription/dynamicAggregatedMetric';
 import createTimeWindowMetricAggregation from 'in-subscription/timeWindowMetricAggregation';
 import createLatestMetricsObservable from 'in-subscription/latestMetrics';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
+import { timeConfig$, fixateTimeConfig } from 'in-stores/time/config';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { days, hours, minutes, seconds } from 'in-services/time';
 import createMetricsObservable from 'in-subscription/metrics';
-import { timeConfig$ } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';
 import { t } from 'in-i18n';
-
-export const MINIMUM_ROLLUP = 1000;
-
-const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
 
 export const aggregationLabels = {
   MEAN: t('in-stores:metric.metric.MEAN'),
@@ -57,52 +53,64 @@ export const sensibleGranularities = [
   days.toMillis(10)
 ];
 
-const maximumNumberOfUsefulDataPoints = 80;
+const MINIMUM_GRANULARITY = 1000;
+const MINIMUM_INFRA_GRANULARITY = highResolutionInfrastructureMetricsEnabled ? 1000 : 10000;
+const DEFAULT_MAX_DATAPOINTS = 80;
+const MAXIMUM_INFRA_DATAPOINTS = 800;
 
-export function getChartGranularity({ windowSize }, maxDataPoints = maximumNumberOfUsefulDataPoints) {
-  const granularity = sensibleGranularities.find(granularity => windowSize / granularity <= maxDataPoints);
+export function getChartGranularity(
+  { windowSize },
+  maxDataPoints = DEFAULT_MAX_DATAPOINTS,
+  minGranularity = MINIMUM_GRANULARITY
+) {
+  const granularity = sensibleGranularities.find(
+    granularity => windowSize / granularity <= maxDataPoints && granularity >= minGranularity
+  );
   return granularity || sensibleGranularities[sensibleGranularities.length - 1];
 }
 
-const rollupDurationThresholds = [
+const INFRA_GRANULARITIES = [
   {
     availableFor: days.toMillis(1),
-    rollup: null, // 1s
-    label: t('in-stores:metric.metric.1s')
+    granularity: seconds.toMillis(1),
+    highResolution: true
   },
   {
     availableFor: days.toMillis(1),
-    rollup: seconds.toMillis(5),
-    label: t('in-stores:metric.metric.5s')
+    granularity: seconds.toMillis(5),
+    highResolution: true
+  },
+  {
+    granularity: seconds.toMillis(10),
+    availableFor: days.toMillis(1),
+    beeInstanaOnly: true
   },
   {
     availableFor: days.toMillis(31),
-    rollup: minutes.toMillis(1),
-    label: t('in-stores:metric.metric.1min')
+    granularity: minutes.toMillis(1)
   },
   {
     availableFor: days.toMillis(31 * 3), // 3 months
-    rollup: minutes.toMillis(5),
-    label: t('in-stores:metric.metric.5min')
+    granularity: minutes.toMillis(5)
   },
   {
     availableFor: Number.MAX_VALUE, // forever
-    rollup: hours.toMillis(1),
-    label: t('in-stores:metric.metric.1h')
+    granularity: hours.toMillis(1)
   }
-];
+]
+  .filter(granularityIsSupported)
+  .sort((l, r) => r.granularity - l.granularity);
 
-const getLatestMetrics = resolveTimeConfigAndStat(createLatestMetricsObservable, true);
+const getLatestMetrics = resolveTimeConfigAndRollup(createLatestMetricsObservable);
 
-const getMetrics = resolveTimeConfigAndStat(createMetricsObservable, false);
+const getMetrics = resolveTimeConfigAndRollup(createMetricsObservable);
 
-function resolveTimeConfigAndStat(createFn, single) {
-  return ({ timeConfig, rollup, stat, ...rest }) =>
-    combineLatest([resolveTimeConfig(timeConfig), resolveStat(stat)]).flatMap(([timeConfig, stat]) =>
+function resolveTimeConfigAndRollup(createFn) {
+  return ({ timeConfig, rollup, ...rest }) =>
+    resolveTimeConfig(timeConfig).flatMap(timeConfig =>
       createFn({
         timeConfig,
-        rollup: resolveRollup(rollup, timeConfig, stat, single),
-        stat,
+        rollup: resolveRollup(rollup, timeConfig),
         ...rest
       })
     );
@@ -116,27 +124,9 @@ function resolveTimeConfig(timeConfig) {
   }
 }
 
-function resolveStat(stat) {
-  return useBeeInstant$.map(useBeeInstant => {
-    if (useBeeInstant) {
-      return stat || DEFAULT_STAT;
-    } else {
-      return null;
-    }
-  });
-}
-
-function resolveRollup(rollup, timeConfig, stat, single) {
-  const nonBeeInstantRollup = rollup || getDefaultMetricRollupDuration(timeConfig).rollup;
-  if (stat) {
-    if (single) {
-      return granularityForBeeInstantMetrics(timeConfig.windowSize, timeConfig);
-    } else {
-      return granularityForBeeInstantMetrics(rollup, timeConfig);
-    }
-  } else {
-    return nonBeeInstantRollup;
-  }
+function resolveRollup(rollup, timeConfig) {
+  const nonBeeInstantRollup = rollup || getInfraGranularity(timeConfig);
+  return nonBeeInstantRollup;
 }
 
 export const getMetric = memoize(
@@ -175,7 +165,7 @@ export const getMetricForFocusedMoment = memoize(
 );
 
 export function getHistoricMetric({ snapshotId, metric, timeConfig }) {
-  const rollup = getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP;
+  const rollup = getInfraGranularity(timeConfig);
 
   return getLatestMetrics({
     snapshotId,
@@ -197,52 +187,37 @@ export function getDynamicAggregatedMetricsForTimeframe(opts) {
   return createDynamicAggregatedMetricObservable(opts);
 }
 
-export function getDefaultMetricRollupDuration(timeConfig, minRollup = MINIMUM_ROLLUP) {
-  if (!timeConfig) {
-    return rollupDurationThresholds[0];
-  }
+export function getInfraGranularity(
+  timeConfig,
+  minGranularity = MINIMUM_INFRA_GRANULARITY,
+  maxDataPoints = MAXIMUM_INFRA_DATAPOINTS
+) {
+  const fallbackGranularity = INFRA_GRANULARITIES[0].granularity;
+  if (!timeConfig) return fallbackGranularity;
 
-  // Ignoring time differences for now since small time differences
-  // can be accepted. This time is only used to calculate the rollup.
-  const now = Date.now();
-  const to = timeConfig.to ? timeConfig.to : now;
-  const from = to - timeConfig.windowSize;
-
-  let availableRollupDefinitions = rollupDurationThresholds.filter(
-    rollupDefinition => from >= now - rollupDefinition.availableFor
+  const desiredGranularity = getChartGranularity(
+    timeConfig,
+    Math.min(maxDataPoints, MAXIMUM_INFRA_DATAPOINTS),
+    Math.max(minGranularity, MINIMUM_INFRA_GRANULARITY)
   );
-  if (minRollup > MINIMUM_ROLLUP) {
-    availableRollupDefinitions = availableRollupDefinitions.filter(
-      rollupDefinition => rollupDefinition.rollup != null && rollupDefinition.rollup >= minRollup
-    );
-  }
 
-  for (let i = 0, len = availableRollupDefinitions.length; i < len; i++) {
-    // this works because the rollupDurationThresholds array is sorted by rollup
-    // the first rollup matching the requirements is returned
-    const rollupDefinition = availableRollupDefinitions[i];
-    const rollup = rollupDefinition && rollupDefinition.rollup ? rollupDefinition.rollup : MINIMUM_ROLLUP;
-    if (timeConfig.windowSize / rollup <= MAX_NUMBER_OF_METRICS_FOR_CHARTS) {
-      return rollupDefinition;
-    }
-  }
+  const { to, windowSize } = fixateTimeConfig(timeConfig);
+  const from = to - windowSize;
+  const metricAge = Date.now() - from;
 
-  return rollupDurationThresholds[rollupDurationThresholds.length - 1];
+  const availableGranularities = INFRA_GRANULARITIES.filter(g => g.availableFor > metricAge);
+
+  if (availableGranularities.length == 0) return fallbackGranularity;
+
+  const bestAvailableGranularity = availableGranularities[availableGranularities.length - 1].granularity;
+  const base = availableGranularities.find(g => g.granularity <= desiredGranularity)?.granularity;
+
+  if (!base) return bestAvailableGranularity;
+
+  return Math.floor(desiredGranularity / base) * base;
 }
 
-export const currentRollup$ = timeConfig$.map(getRollupForTimeframe);
-
-export function getRollupForTimeframe(timeConfig) {
-  const rollup = getDefaultMetricRollupDuration(timeConfig).rollup;
-
-  for (let i = 0, len = rollupDurationThresholds.length; i < len; i++) {
-    if (rollupDurationThresholds[i].rollup === rollup) {
-      return rollupDurationThresholds[i];
-    }
-  }
-
-  throw new Error(`Unknown rollup for ${timeConfig}`);
-}
+export const currentRollup$ = timeConfig$.map(getInfraGranularity);
 
 export const activeMetric = createStore({
   name: 'metric',
@@ -260,25 +235,8 @@ export function clearActiveMetric() {
 }
 
 export function getPixelAwareRollupSize(timeConfig, pixels) {
-  const now = Date.now();
-  const to = timeConfig.to ? timeConfig.to : now;
-  const from = to - timeConfig.windowSize;
   const maxNumberOfDataPoints = pixels * (window.devicePixelRatio || 1);
-  const availableRollupDefinitions = rollupDurationThresholds.filter(
-    rollupDefinition => from >= now - rollupDefinition.availableFor
-  );
-
-  for (let i = 0, len = availableRollupDefinitions.length; i < len; i++) {
-    // this works because the rollupDurationThresholds array is sorted by rollup
-    // the first rollup matching the requirements is returned
-    const rollupDefinition = availableRollupDefinitions[i];
-    const rollup = rollupDefinition && rollupDefinition.rollup ? rollupDefinition.rollup : MINIMUM_ROLLUP;
-    if (timeConfig.windowSize / rollup <= maxNumberOfDataPoints) {
-      return rollupDefinition.rollup;
-    }
-  }
-
-  return rollupDurationThresholds[rollupDurationThresholds.length - 1].rollup;
+  return getInfraGranularity(timeConfig, MINIMUM_INFRA_GRANULARITY, maxNumberOfDataPoints);
 }
 
 export function getTimeWindowBasedMetricAggregation({ snapshotId, metric, timeWindowAggregation, timeConfig }) {
@@ -290,7 +248,7 @@ export function getTimeWindowBasedMetricAggregation({ snapshotId, metric, timeWi
 }
 
 function getTimeWindowMetricAggregationSubscription(timeConfig, snapshotId, metric, timeWindowAggregation) {
-  const rollup = getDefaultMetricRollupDuration(timeConfig).rollup;
+  const rollup = getInfraGranularity(timeConfig);
 
   return createTimeWindowMetricAggregation({
     snapshotId,
@@ -299,4 +257,11 @@ function getTimeWindowMetricAggregationSubscription(timeConfig, snapshotId, metr
     rollup,
     timeWindowAggregation
   });
+}
+
+function granularityIsSupported(granularity) {
+  return !(
+    (granularity.highResolution && !highResolutionInfrastructureMetricsEnabled) ||
+    (granularity.beeInstanaOnly && !beeInstanaInfraMetricsEnabled)
+  );
 }

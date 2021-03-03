@@ -110,6 +110,16 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'beeInstanaInfraMetricsEnabled',
+    instanaCtlKey: 'feature.beeinstana.infra.metrics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'highResolutionInfrastructureMetricsEnabled',
+    instanaCtlKey: 'feature.high.resolution.infrastructure.metrics.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'newApCreationEnabled',
     instanaCtlKey: 'feature.new.ap.creation.enabled',
     defaultValue: true

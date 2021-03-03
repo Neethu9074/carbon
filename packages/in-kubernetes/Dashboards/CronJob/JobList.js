@@ -2,9 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
-import theme from 'in-themes';
 
 import { clusterIdUrlParameter, namespaceIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -14,12 +12,14 @@ import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPr
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import getKubernetesJobs from 'in-subscription/kubernetes/getKubernetesJobs';
+import { getInfraGranularity } from 'in-stores/metric/metric';
 import { getMetricForFocusedMoment } from 'in-stores/metric';
 import { formatDuration } from 'in-services/formatters/date';
 import TwoValueBar from 'in-new-components/TwoValueBar';
 import useObservable from 'in-hooks/useObservable';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 const pathSegment = '/jobs';
 const matrixPrefix = 'job.';
@@ -117,7 +117,7 @@ function getTableData({
       cronJobId,
       timeConfig
     },
-    granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
+    granularity: getInfraGranularity(timeConfig)
   });
 }
 

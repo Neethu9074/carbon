@@ -7,7 +7,6 @@ import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
-import UseBeeInstantToggle from 'in-infrastructure/Dashboard/components/UseBeeInstantToggle';
 import TypeSelector from 'in-infrastructure/Explore/components/TypeSelector';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
@@ -44,7 +43,6 @@ export default function InfraPageHeaderWithTabs({
                       { renderContext: () => 'Infrastructure', contextIcon: 'lib_infrastructure' }
                     ]}
                     label={isInfraExploreActive ? <TypeSelector onTypeSelected={onTypeSelected} /> : undefined}
-                    renderTopLevelButtonLine={UseBeeInstantToggle}
                   />
                   <DashboardHeaderModule theme={theme} withBottomBorder>
                     <ViewSwitcher theme={theme} showSearchBar={showSearchBar} />

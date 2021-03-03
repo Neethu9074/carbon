@@ -2,19 +2,19 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
-import { MINIMUM_ROLLUP, getDefaultMetricRollupDuration } from 'in-stores/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import { getInfraGranularity } from 'in-stores/metric';
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default function SloViolationsChart({
   timeConfig,
   cardTitle = t('in-internal:components.sloViolationsChart.sLOViolations')
 }) {
-  const granularity = getDefaultMetricRollupDuration(timeConfig).rollup || MINIMUM_ROLLUP;
+  const granularity = getInfraGranularity(timeConfig);
 
   return (
     <OpenEventsCountChartWrapper
