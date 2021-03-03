@@ -14,20 +14,11 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { activeLanguage, fallbackLanguage } from 'in-i18n/language';
 import { ineum } from 'in-services/tracking/ineum';
 import { build } from 'in-services/config';
+import Code from 'in-components/Code';
 import http from 'in-services/http';
 
 export function init() {
   const keysAlreadyReportedAsMissing = new Map();
-  i18n.on('missingKey', (lngs, namespace, keyWithoutNamespace, i18nKey) => {
-    if (!keysAlreadyReportedAsMissing.has(i18nKey)) {
-      keysAlreadyReportedAsMissing.set(i18nKey, true);
-      reportMissingKeyToInstana(lngs, i18nKey);
-
-      if (__DEV__) {
-        reportMissingKeyToDeveloper(i18nKey);
-      }
-    }
-  });
 
   return getLanguageBundles(activeLanguage).flatMap(languageBundles =>
     fromPromise(
@@ -52,8 +43,24 @@ export function init() {
           escapeValue: false
         },
 
-        // needs to be true to support the onMissingKey event
-        saveMissing: true
+        // needs to be true to support the missingKeyHandler
+        saveMissing: true,
+        missingKeyHandler(lngs, unused0, unused1, i18nKey, unused2, options) {
+          if (!keysAlreadyReportedAsMissing.has(i18nKey)) {
+            // Remove keys that are confusing in monitoring data/in the dev mode messages
+            options = {
+              ...(options || {})
+            };
+            delete options.ns;
+            delete options.defaultValue;
+            keysAlreadyReportedAsMissing.set(i18nKey, true);
+            reportMissingKeyToInstana(lngs, i18nKey, options);
+
+            if (__DEV__) {
+              reportMissingKeyToDeveloper(i18nKey, options);
+            }
+          }
+        }
       })
     )
   );
@@ -83,23 +90,28 @@ function getLanguageBundle(language) {
   }).map(({ body }) => [language, body]);
 }
 
-function reportMissingKeyToInstana(languages, i18nKey) {
+function reportMissingKeyToInstana(languages, i18nKey, i18nOptions) {
   ineum('reportEvent', 'missingI18nKey', {
     meta: {
       languages,
-      i18nKey
+      i18nKey,
+      i18nOptions
     }
   });
 }
 
-function reportMissingKeyToDeveloper(i18nKey) {
+function reportMissingKeyToDeveloper(i18nKey, i18nOptions) {
   addMessage({
     type: 'danger',
     title: 'Missing i18n key',
     content: (
-      <p>
-        Key <code>{i18nKey}</code> was referenced, but could not be found in the active language file.
-      </p>
+      <>
+        <p>
+          Key <code>{i18nKey}</code> was referenced, but could not be found in the active language file.
+        </p>
+
+        <Code softWrap showLineNumbers={false} lang="json" code={JSON.stringify(i18nOptions, 0, 2)} />
+      </>
     )
   });
 }
