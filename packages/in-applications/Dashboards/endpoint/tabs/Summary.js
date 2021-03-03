@@ -82,6 +82,9 @@ export default connectTo(
         });
       }
     }
+    if (syntheticCallsEnabled) {
+      tagFilters.push(...getTagFiltersForSyntheticOption(syntheticCalls));
+    }
 
     return (
       <Fragment>
