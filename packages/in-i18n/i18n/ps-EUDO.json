@@ -1,0 +1,19 @@
+{
+  "forms": {
+    "actions": {
+      "save": "[ps'Saveฏูİı｜]",
+      "cancel": "[ps'Cancelฏูİı｜]",
+      "create": "[ps'Createฏูİı｜]",
+      "delete": "[ps'Deleteฏูİı｜]",
+      "close": "[ps'Closeฏูİı｜]",
+      "submit": "[ps'Submitฏูİı｜]"
+    },
+    "states": {
+      "saving": "[ps'Saving…ฏูİı｜]",
+      "loading": "[ps'Loading…ฏูİı｜]"
+    }
+  },
+  "language_en-US": "[ps'Englishฏูİı｜]",
+  "language_de-DE": "[ps'Germanฏูİı｜]",
+  "language_ps-EUDO": "[ps'Pseudo language for QA purposesฏูİı｜]"
+}

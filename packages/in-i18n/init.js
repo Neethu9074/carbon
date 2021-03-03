@@ -74,7 +74,7 @@ function getLanguageBundles(activeLanguage) {
   }
 
   return combineLatest(observables).map(languageBundles =>
-    languageBundles.reduce((agg, [language, translations]) => {
+    languageBundles.filter(Boolean).reduce((agg, [language, translations]) => {
       agg[language] = translations;
       return agg;
     }, {})
@@ -86,8 +86,14 @@ function getLanguageBundle(language) {
     method: 'GET',
     // Use the build revision for cache-busting purposes
     url: `/i18n/${language}.json?revision=${build.revision}`,
-    maxRetries: 3
-  }).map(({ body }) => [language, body]);
+    maxRetries: 3,
+    treat400AsError: language === fallbackLanguage
+  }).map(({ status, body }) => {
+    if (status < 200 || status > 299) {
+      return null;
+    }
+    return [language, body];
+  });
 }
 
 function reportMissingKeyToInstana(languages, i18nKey, i18nOptions) {

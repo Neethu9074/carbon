@@ -687,9 +687,6 @@
     "highQualityChartRendering": "High quality chart rendering",
     "formatTimeAccordingToUtc": "Format time according to UTC",
     "formatNumbersInEnUsFormat": "Format numbers in en-US format",
-    "language": "Language",
-    "english": "English",
-    "deutsch": "Deutsch",
     "privacySettings": "Privacy Settings",
     "setYourPreferencesForThirdPartyServicesBelow": "Set your preferences for third-party services below.",
     "userInterface": "User Interface",
@@ -697,6 +694,9 @@
     "preferences": "Preferences",
     "privacy": "Privacy",
     "communication": "Communication"
+  },
+  "languageSelection": {
+    "language": "Language"
   },
   "terms": {
     "failedToSaveSettings": "failed to save settings: {{settings}} {{err}}",

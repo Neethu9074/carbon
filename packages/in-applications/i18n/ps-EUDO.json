@@ -1,0 +1,737 @@
+{
+  "labelLatency": "[ps'Latencyฏูİı｜]",
+  "labelTimestamp": "[ps'Timestampฏูİı｜]",
+  "labelApplication": "[ps'Ａpplicationฏูİı｜]",
+  "labelApplications": "[ps'Ａpplicationsฏูİı｜]",
+  "labelApplicationWithNum": "[ps'Ａｐｐlication ([{{numApplications}}])ฏูİı｜]",
+  "labelAnalytic": "[ps'Analyticsฏูİı｜]",
+  "labelTrace": "[ps'Traceฏูİı｜]",
+  "linkDownload": "[ps'Downloadฏูİı｜]",
+  "labelCalls": "[ps'Callsฏูİı｜]",
+  "labelTraces": "[ps'Tracesฏูİı｜]",
+  "labelErrorRate": "[ps'Error Rateฏูİı｜]",
+  "labelDisableSizing": "[ps'Ｄｉｓable sizingฏูİı｜]",
+  "labelIncomingCalling": "[ps'Ｉｎｃoming callsฏูİı｜]",
+  "labelMaxErroneousCallRate": "[ps'Ｍａｘ ｅｒｒｏneous call rateฏูİı｜]",
+  "labelMaxLatency": "[ps'Ｍax latencyฏูİı｜]",
+  "labelService": "[ps'Serviceฏูİı｜]",
+  "labelName": "[ps'Nameฏูİı｜]",
+  "labelFilters": "[ps'Filtersฏูİı｜]",
+  "labelSummary": "[ps'Summaryฏูİı｜]",
+  "labelDependencies": "[ps'Ｄependenciesฏูİı｜]",
+  "labelServices": "[ps'Servicesฏูİı｜]",
+  "labelErrorMessages": "[ps'Ｅｒｒor Messagesฏูİı｜]",
+  "labelErrorMessage": "[ps'Ｅｒror Messageฏูİı｜]",
+  "labelLogMessages": "[ps'Ｌog Messagesฏูİı｜]",
+  "labelLogMessage": "[ps'Ｌog Messageฏูİı｜]",
+  "labelInfrastructure": "[ps'Ｉｎｆrastructureฏูİı｜]",
+  "labelAlerts": "[ps'Alertsฏูİı｜]",
+  "labelConfiguration": "[ps'Ｃｏnfigurationฏูİı｜]",
+  "labelTypes": "[ps'Typesฏูİı｜]",
+  "labelTechnologies": "[ps'Ｔechnologiesฏูİı｜]",
+  "labelEndpoints": "[ps'Endpointsฏูİı｜]",
+  "labelHealth": "[ps'Healthฏูİı｜]",
+  "labelOther": "[ps'Otherฏูİı｜]",
+  "labelCallCount": "[ps'Call countฏูİı｜]",
+  "labelHTTPStatusCodes": "[ps'ＨＴＴＰ status codesฏูİı｜]",
+  "labelInfraIssues": "[ps'Ｉnfra Issuesฏูİı｜]",
+  "labelOffline": "[ps'Offlineฏูİı｜]",
+  "labelOnline": "[ps'Onlineฏูİı｜]",
+  "labelChanges": "[ps'Changesฏูİı｜]",
+  "labelViewEvents": "[ps'Ｖiew Eventsฏูİı｜]",
+  "labelOverTime": "[ps'Over Timeฏูİı｜]",
+  "labelErrors": "[ps'Errorsฏูİı｜]",
+  "labelDistribution": "[ps'Ｄistributionฏูİı｜]",
+  "labelUnmonitored": "[ps'Ｕnmonitoredฏูİı｜]",
+  "labelErroneousCallCount": "[ps'Ｅｒｒｏｎｅous Call Countฏูİı｜]",
+  "labelLogLevel": "[ps'Log Levelฏูİı｜]",
+  "labelCount": "[ps'Countฏูİı｜]",
+  "labelFlow": "[ps'Flowฏูİı｜]",
+  "labelEndpoint": "[ps'Endpointฏูİı｜]",
+  "labelSyntheticEndpoint": "[ps'Ｓｙｎｔｈetic Endpointฏูİı｜]",
+  "labelNameRule": "[ps'Name Ruleฏูİı｜]",
+  "labelTag": "[ps'Tagฏูİı｜]",
+  "labelKey": "[ps'Keyฏูİı｜]",
+  "labelPreview": "[ps'Previewฏูİı｜]",
+  "labelPleaseSelect": "[ps'Ｐｌease selectฏูİı｜]",
+  "labelServicesAffected": "[ps'Ｓｅｒｖices Affectedฏูİı｜]",
+  "labelSaving": "[ps'Saving…ฏูİı｜]",
+  "labelScope": "[ps'Scopeฏูİı｜]",
+  "labelCustomServiceRules": "[ps'Ｃｕｓｔｏｍ Service Rulesฏูİı｜]",
+  "labelSyntheticEndpoints": "[ps'Ｓｙｎｔｈetic Endpointsฏูİı｜]",
+  "titleAlertDetails": "[ps'Ａｌert Detailsฏูİı｜]",
+  "titleTopServices": "[ps'Ｔop Servicesฏูİı｜]",
+  "titleMeanLatency": "[ps'Ｍean Latencyฏูİı｜]",
+  "titleErroneousCallRate": "[ps'Ｅｒｒｏｎeous Call Rateฏูİı｜]",
+  "titleTopStatements": "[ps'Ｔｏｐ Statementsฏูİı｜]",
+  "titleProcessingTime": "[ps'Ｐｒｏcessing Timeฏูİı｜]",
+  "titleCustomHTTPRule": "[ps'Ｃｕｓｔom HTTP Ruleฏูİı｜]",
+  "titleTopEndpoints": "[ps'Ｔｏp Endpointsฏูİı｜]",
+  "titleRuleTester": "[ps'Ｒule Testerฏูİı｜]",
+  "titleTotalCalls": "[ps'Ｔotal Callsฏูİı｜]",
+  "titleErroneousCalls": "[ps'Ｅｒｒoneous Callsฏูİı｜]",
+  "titleAvgLatency": "[ps'Ａvg. Latencyฏูİı｜]",
+  "titleConfigureCustomServiceRules": "[ps'Ｃｏｎｆｉｇｕｒe Custom Service Rulesฏูİı｜]",
+  "titleCustomServiceRule": "[ps'Ｃｕｓｔｏm Service Ruleฏูİı｜]",
+  "titleUpdateApplicationPerspective": "[ps'Ｕｐｄａｔｅ Ａｐplication Perspectiveฏูİı｜]",
+  "titleCreateApplicationPerspective": "[ps'Ｃｒｅａｔｅ Ａｐplication Perspectiveฏูİı｜]",
+  "titleRemoveApplicationPerspective": "[ps'Ｒｅｍｏｖｅ Ａｐplication Perspectiveฏูİı｜]",
+  "titleCustomSyntheticRule": "[ps'Ｃｕｓｔｏｍ Synthetic Ruleฏูİı｜]",
+  "titleConfigureSyntheticEndpoints": "[ps'Ｃｏｎｆｉｇｕｒe Synthetic Endpointsฏูİı｜]",
+  "titleNoApplicationPerspectives": "[ps'Ｎｏ Ａｐｐｌｉｃation Perspectives yetฏูİı｜]",
+  "titleConfigure": "[ps'Configureฏูİı｜]",
+  "buttonGoToDashboard": "[ps'Ｇｏ ｔo Dashboardฏูİı｜]",
+  "buttonGoToFlow": "[ps'Go to Flowฏูİı｜]",
+  "buttonGoToAnalytics": "[ps'Ｇｏ ｔo Analyticsฏูİı｜]",
+  "buttonInspectIssue": "[ps'Ｉｎｓpect [{{count}}] Issueฏูİı｜]",
+  "buttonInspectIssue_plural": "[ps'Ｉｎｓｐect [{{count}}] Issuesฏูİı｜]",
+  "buttonInspectIssue_0": "[ps'Ｉｎｓｐect [{{count}}] Issuesฏูİı｜]",
+  "buttonInspectIssue_1": "[ps'Ｉｎｓpect [{{count}}] Issueฏูİı｜]",
+  "buttonInspectIssue_2": "[ps'Ｉｎｓｐect [{{count}}] Issuesฏูİı｜]",
+  "buttonAnalyzeCalls": "[ps'Ａｎalyze Callsฏูİı｜]",
+  "buttonAnalyzeWithLabel": "[ps'Analyze [{{buttonLabel}}]ฏูİı｜]",
+  "buttonClear": "[ps'Clearฏูİı｜]",
+  "buttonCluster": "[ps'Clusterฏูİı｜]",
+  "buttonProcess": "[ps'Processฏูİı｜]",
+  "buttonContainer": "[ps'Containerฏูİı｜]",
+  "buttonHost": "[ps'Hostฏูİı｜]",
+  "buttonConfigureEndpoints": "[ps'Ｃｏｎｆｉgure Endpointsฏูİı｜]",
+  "buttonAnalyzeMessages": "[ps'Ａｎａｌyze Messagesฏูİı｜]",
+  "buttonSave": "[ps'Saveฏูİı｜]",
+  "buttonAdd": "[ps'Addฏูİı｜]",
+  "buttonDeleteRule": "[ps'Ｄelete Ruleฏูİı｜]",
+  "buttonAddTest": "[ps'Add Testฏูİı｜]",
+  "buttonAddCustomHTTPRule": "[ps'Ａｄｄ Ｃｕｓtom HTTP Ruleฏูİı｜]",
+  "buttonResetToDefault": "[ps'Ｒｅｓｅt to defaultฏูİı｜]",
+  "buttonAddCustomServiceRule": "[ps'Ａｄｄ Ｃｕｓｔom Service Ruleฏูİı｜]",
+  "buttonAddTag": "[ps'Add Tagฏูİı｜]",
+  "buttonOK": "[ps'OKฏูİı｜]",
+  "buttonCreate": "[ps'Createฏูİı｜]",
+  "buttonCancel": "[ps'cancelฏูİı｜]",
+  "buttonRemoveApplicationPerspective": "[ps'Ｒｅｍｏｖｅ Ａｐplication Perspectiveฏูİı｜]",
+  "buttonAddDescription": "[ps'Ａｄｄ descriptionฏูİı｜]",
+  "buttonAddSyntheticEndpointRule": "[ps'Ａｄｄ Ｓｙｎｔｈetic Endpoint Ruleฏูİı｜]",
+  "buttonShowAllApplications": "[ps'Ｓｈｏｗ ａｌl applicationsฏูİı｜]",
+  "buttonShowAllServices": "[ps'Ｓｈｏｗ all servicesฏูİı｜]",
+  "buttonConfigureServices": "[ps'Ｃｏｎｆｉgure Servicesฏูİı｜]",
+  "helpOptional": "[ps'(optional)ฏูİı｜]",
+  "messageSuccessfullySaved": "[ps'Ｓｕｃｃｅssfully saved.ฏูİı｜]",
+  "messageErrorOccurred": "[ps'Ａｎ ｅｒｒｏｒ ｏｃcurred, please try again.ฏูİı｜]",
+  "linkViewAllServices": "[ps'Ｖｉｅｗ all servicesฏูİı｜]",
+  "linkViewAllEndpoints": "[ps'Ｖｉｅｗ ａll endpointsฏูİı｜]",
+  "lineViewInAnalyze": "[ps'Ｖｉｅw in Analyzeฏูİı｜]",
+  "placeholderType": "[ps'Type…ฏูİı｜]",
+  "placeholderTechnology": "[ps'Ｔechnology…ฏูİı｜]",
+  "Rendering": "[ps'Renderingฏูİı｜]",
+  "loadingData": "[ps'Ｌoading Dataฏูİı｜]",
+  "UnexpectedErrorOccurred": "[ps'Ａｎ ｕｎｅｘｐｅcted error occurredฏูİı｜]",
+  "noIssues": "[ps'No Issuesฏูİı｜]",
+  "openIssues": "[ps'[{{count}}] Issueฏูİı｜]",
+  "openIssues_plural": "[ps'[{{count}}] Issuesฏูİı｜]",
+  "openIssues_0": "[ps'[{{count}}] Issuesฏูİı｜]",
+  "openIssues_1": "[ps'[{{count}}] Issueฏูİı｜]",
+  "openIssues_2": "[ps'[{{count}}] Issuesฏูİı｜]",
+  "applicationMap": {
+    "webglNotSupportedTitle": "[ps'Ｂｒｏｗｓｅｒ Ｄoes Not Support WebGLฏูİı｜]",
+    "webglNotSupported": "[ps'Ｔｈｅ Ｉｎｓｔａｎａ ｕｓｅｒ ｉｎｔｅｒｆａｃｅ ｃｏｎｔａｉｎｓ 3Ｄ ｃｏｍｐｏｎｅｎｔｓ ｔｈａｔ ａｒｅ ｒｅｎｄｅｒｅｄ ｕｓｉｎｇ ａ ｔｅｃｈｎｏｌｏｇｙ ｃａｌｌｅｄ ＷｅｂＧＬ. Ｕｎｆｏｒｔｕｎａｔｅｌｙ ｔｈｉｓ ｔｅｃｈｎｏｌｏｇｙ ｉｓ ｎｏｔ ｙｅｔ ａｖａｉｌａｂｌｅ ｏｎ ａｌｌ ｐｌａｔｆｏｒｍｓ. Ｓｏｍｅ ｂｒｏｗｓｅｒｓ, ｅｓｐｅｃｉａｌｌｙ ｂｒｏｗｓｅｒｓ ｉｎ ｏｌｄｅｒ ｖｅｒｓｉｏｎｓ, ｄｏ ｎｏｔ ｓｕｐｐｏｒｔ ＷｅｂＧＬ. Ｗｅ ｒｅｃｏｍｍｅｎｄ ｕｓｉｎｇ ｔｈｅ ｎｅｗｅｓｔ ｇｅｎｅｒａｔｉｏｎ ｏｆ ａｕｔｏ-ｕｐｄａｔｉｎｇ ｂｒｏｗｓｅｒｓ: Ｃｈｒｏｍｅ, Ｆirefox, Safari 8 or MS Edge.\n\nWe try our best to support all platform and browser combinations. However, it may be that our usage of WebGL contains errors. You can use an [online test](https://get.webgl.org/) to check whether your platform supports WebGL.\n\nShould the online test state that your platform supports WebGL, but the Instana 3D Map still remains inoperable, [please contact us](https://support.instana.com/hc/en-us/requests/new).\n\nFor further troubleshooting information please refer to the [WebGL compatibility table](http://caniuse.com/#feat=webgl) or the [WebGL website](http://webgl.org/).ฏูİı｜]",
+    "webglNotInitializedTitle": "[ps'ＷｅｂＧＬ ｃａｎnot be initializedฏูİı｜]",
+    "webglNotInitialized": "[ps'Ｙｏｕ ｂｒｏｗｓｅｒ ｓｕｐｐｏｒｔｓ ＷｅｂＧＬ, ｂｕｔ ｉｔ ｃａｎ'ｔ ｂｅ ｉｎｉｔｉａｌｉｚｅｄ. Ｔｈｉｓ ｃａｎ ｈａｐｐｅｎ ｆｏｒ ｓｏｍｅ ｂｒｏｗｓｅｒ ａｎｄ ｈａｒｄｗａｒｅ ｒｅａｓｏｎｓ. Ｓｏｍｅ ｐｏｓｓｉｂｌｅ ｒｅａｓｏｎｓ ａｒｅ:\n\n  - ｔｏｏ ｍａny open tabs\n  - lack of a dedicated GPU or a busy GPU\n  - browser / hardware incompatibility\n\nFor further troubleshooting information please refer to the [WebGL test site](https://get.webgl.org/) or the [official WebGL documentation](https://www.khronos.org/webgl/wiki/FAQ).ฏูİı｜]",
+    "tooltipToggleServiceOutside": "[ps'Ｔｏｇｇｌｅ ａｌｌ ｓervices outside this applicationฏูİı｜]"
+  },
+  "applicationSwitcher": {
+    "header": "[ps'Ｙｏｕ ａｒｅ ｖｉｅｗｉng this service in the<br />context of an application perspectiveฏูİı｜]",
+    "subHeader": "[ps'Ｃｈａｎｇｅ ａｐplication perspective:ฏูİı｜]"
+  },
+  "applications": {
+    "noData": "[ps'Ａｐｐｌｉｃａｔｉｏｎ ｐｅｒｓｐｅｃｔｉｖｅｓ ｐrovide a means to model environments, sets of services, tenants, or just about anything.ฏูİı｜]"
+  },
+  "services": {
+    "noData": "[ps'Ｎｏ ｓｅｒｖｉｃｅ ｃａlls are available for the selected time range.ฏูİı｜]"
+  },
+  "alert": {
+    "individual": "[ps'Ｉｎｄｉvidual Alertsฏูİı｜]",
+    "evaluationTypePERAP": {
+      "selectionText": "[ps'ｏｎ ｔｈｅ ａｇｇｒｅｇation of all selected Services and Endpointsฏูİı｜]",
+      "columnText": "[ps'aggregatedฏูİı｜]",
+      "description": "[ps'Ａｌｅｒｔ ｏｎ ｔｈｅ ａｇgregation of all selected Services and Endpointsฏูİı｜]"
+    },
+    "evaluationTypePERAPSERVICE": {
+      "selectionText": "[ps'ｏｎ ｔｈｅ ａｇｇregation per Serviceฏูİı｜]",
+      "columnText": "[ps'ｐer Serviceฏูİı｜]",
+      "description": "[ps'Ａｌｅｒｔ ｉｎｄｉｖidually on the aggregation per Serviceฏูİı｜]"
+    },
+    "advancedModeContainer": {
+      "scope": {
+        "label": "[ps'Scopeฏูİı｜]",
+        "title": "[ps'Ｓｃｏｐｅ: Ｗｈｅｒｅ is the condition happening?ฏูİı｜]"
+      },
+      "trigger": {
+        "label": "[ps'Triggerฏูİı｜]",
+        "title": "[ps'Ｔｒｉｇｇｅｒ: Ｗｈａt do you want to be alerted on?ฏูİı｜]",
+        "logMessageCardTitle": "[ps'Ｌog Messageฏูİı｜]",
+        "httpStatusCodesCardTitle": "[ps'ＨＴＴＰ Status Codesฏูİı｜]"
+      },
+      "timeThreshold": {
+        "label": "[ps'Ｔｉｍe Thresholdฏูİı｜]",
+        "title": "[ps'Ｔｉｍｅ Ｔｈｒｅｓｈold: When do you want to be alerted?ฏูİı｜]"
+      },
+      "alertChannel": {
+        "label": "[ps'Ａｌｅrt Channelsฏูİı｜]",
+        "title": "[ps'Ａｌｅｒｔ Ｃｈａｎｎels: Who needs to be alerted?ฏูİı｜]"
+      },
+      "propertiesOptional": {
+        "label": "[ps'Ｐｒｏｐｅｒties (optional)ฏูİı｜]",
+        "title": "[ps'Ａｄｄｉｔｉｏｎａｌ Alert Properties (optional)ฏูİı｜]"
+      }
+    },
+    "thresholdLabel": "[ps'Ｔｈｒeshold Valueฏูİı｜]",
+    "chart": {
+      "noDataAvailable": "[ps'Ｐｌｅａｓｅ ｓｅｌｅct a service to see the previewฏูİı｜]"
+    },
+    "titleAlertProperties": "[ps'Ａｌｅｒt Propertiesฏูİı｜]",
+    "descriptionMessage": "[ps'[{{description}}]: \"[{{message}}]\"ฏูİı｜]",
+    "applicationSmartAlert": "[ps'Ａｐｐｌｉｃａtion Smart Alertฏูİı｜]",
+    "headerConfiguredAlerts": "[ps'Ｃｏｎｆigured Alertsฏูİı｜]",
+    "headerConfiguredAlertsNum": "[ps'[{{headerConfigAlerts}}] ([{{alertsSize}}])ฏูİı｜]",
+    "noAlertConfigured": "[ps'Ｎｏ ａｌｅｒt configured.ฏูİı｜]",
+    "getEntityName": "[ps'ａlert \"[{{entityName}}]\"ฏูİı｜]",
+    "getSubtitle": "[ps'[{{blueprintConfigName}}], [{{metricLabel}}]ฏูİı｜]",
+    "tooltipFilter": "[ps'[{{count}}] filterฏูİı｜]",
+    "tooltipFilter_plural": "[ps'[{{count}}] filtersฏูİı｜]",
+    "tooltipFilter_0": "[ps'[{{count}}] filtersฏูİı｜]",
+    "tooltipFilter_1": "[ps'[{{count}}] filterฏูİı｜]",
+    "tooltipFilter_2": "[ps'[{{count}}] filtersฏูİı｜]",
+    "tooltipMoreFilter": "[ps'+[{{moreFilterCount}}] ｍｏｒe filterฏูİı｜]",
+    "tooltipMoreFilter_plural": "[ps'+[{{moreFilterCount}}] ｍｏｒe filtersฏูİı｜]",
+    "tooltipMoreFilter_0": "[ps'+[{{moreFilterCount}}] ｍｏｒe filtersฏูİı｜]",
+    "tooltipMoreFilter_1": "[ps'+[{{moreFilterCount}}] ｍｏｒe filterฏูİı｜]",
+    "tooltipMoreFilter_2": "[ps'+[{{moreFilterCount}}] ｍｏｒe filtersฏูİı｜]",
+    "filter": "[ps'filterฏูİı｜]",
+    "filter_plural": "[ps'filtersฏูİı｜]",
+    "filter_0": "[ps'filtersฏูİı｜]",
+    "filter_1": "[ps'filterฏูİı｜]",
+    "filter_2": "[ps'filtersฏูİı｜]"
+  },
+  "inboundOutboundCalls": {
+    "config": {
+      "inbound": {
+        "text": "[ps'Ｉｎbound Callsฏูİı｜]",
+        "dashboard": "[ps'Ｏｎｌｙ ｃａｌｌｓ ｔｈａt are performed by the consumers of this application.ฏูİı｜]",
+        "overrideDefault": "[ps'Ｔｈｅ ｄｅｆａｕｌｔ ｓｃｏｐｅ ｆｏｒ ｔhis application is Inbound Calls only. You can change this in Configuration.ฏูİı｜]"
+      },
+      "all": {
+        "text": "[ps'All Callsฏูİı｜]",
+        "dashboard": "[ps'Ｃａｌｌｓ ｐｅｒｆｏｒｍｅｄ within this application, by both consumers as well as internally.ฏูİı｜]",
+        "overrideDefault": "[ps'Ｔｈｅ ｄｅｆａｕｌｔ ｓｃｏｐｅ ｆｏr this application is All Calls. You can change this in Configuration.ฏูİı｜]"
+      }
+    },
+    "constants": {
+      "inboundDashboard": "[ps'Ｔｈｅ ｄａｓｈｂｏａｒｄ ｉｓ ｄｉｓｐｌａｙｉｎｇ ｉｎformation based only on the calls that are performed by the consumers of this application.ฏูİı｜]",
+      "inboundOverrideDefault": "[ps'Ｔｈｅ ｄｅｆａｕｌｔ ｓｃｏｐｅ ｆｏｒ ｔhis application is Inbound Calls only. You can change this in Configuration.ฏูİı｜]",
+      "allDashboard": "[ps'Ｔｈｅ ｄａｓｈｂｏａｒｄ ｉｓ ｄｉｓｐｌａｙｉｎｇ ｉｎｆｏｒｍａｔion based on all calls that are performed within this application, by both consumers as well as internally.ฏูİı｜]",
+      "allOverrideDefault": "[ps'Ｔｈｅ ｄｅｆａｕｌｔ ｓｃｏｐｅ ｆｏr this application is All Calls. You can change this in Configuration.ฏูİı｜]"
+    }
+  },
+  "analyze": {
+    "quickFilter": {
+      "labelService": "[ps'Serviceฏูİı｜]",
+      "labelService_plural": "[ps'Servicesฏูİı｜]",
+      "labelService_0": "[ps'Servicesฏูİı｜]",
+      "labelService_1": "[ps'Serviceฏูİı｜]",
+      "labelService_2": "[ps'Servicesฏูİı｜]",
+      "labelEndpoint": "[ps'Endpointฏูİı｜]",
+      "labelEndpoint_plural": "[ps'Endpointsฏูİı｜]",
+      "labelEndpoint_0": "[ps'Endpointsฏูİı｜]",
+      "labelEndpoint_1": "[ps'Endpointฏูİı｜]",
+      "labelEndpoint_2": "[ps'Endpointsฏูİı｜]",
+      "labelType": "[ps'Typeฏูİı｜]",
+      "labelType_plural": "[ps'Typesฏูİı｜]",
+      "labelType_0": "[ps'Typesฏูİı｜]",
+      "labelType_1": "[ps'Typeฏูİı｜]",
+      "labelType_2": "[ps'Typesฏูİı｜]",
+      "labelTechnology": "[ps'Technologyฏูİı｜]",
+      "labelTechnology_plural": "[ps'Ｔechnologiesฏูİı｜]",
+      "labelTechnology_0": "[ps'Ｔechnologiesฏูİı｜]",
+      "labelTechnology_1": "[ps'Technologyฏูİı｜]",
+      "labelTechnology_2": "[ps'Ｔechnologiesฏูİı｜]",
+      "labelLatency": "[ps'Latencyฏูİı｜]",
+      "labelErroneous": "[ps'Erroneousฏูİı｜]",
+      "preconditionFailedTooltip": "[ps'Ｐｌｅａｓｅ ｓｅｌｅｃt a service before selecting an endpoint.ฏูİı｜]"
+    },
+    "logMessages": {
+      "messageColumn": "[ps'Ｌog Messageฏูİı｜]",
+      "levelColumn": "[ps'Log Levelฏูİı｜]",
+      "noDataMessage": "[ps'Ｎｏ ａｌｅｒt configured.ฏูİı｜]",
+      "selectLogMessageText": "[ps'Ｓｅｌｅｃｔ ｌｏｇ ｍessage as template (optional)ฏูİı｜]",
+      "selectLogMessageTitle": "[ps'Ｓｅｌｅｃt Log Messageฏูİı｜]"
+    },
+    "chartingPresenter": {
+      "noData": "[ps'Ｎｏ ｄａｔa to displayฏูİı｜]"
+    },
+    "erroneous": "[ps'Erroneousฏูİı｜]",
+    "facetedSearch": {
+      "showSyntheticCalls": "[ps'Ｓｈｏｗ Ｓｙnthetic callsฏูİı｜]",
+      "showInternalCalls": "[ps'Ｓｈｏｗ Ｉnternal callsฏูİı｜]"
+    },
+    "applications": "[ps'Ａpplicationsฏูİı｜]",
+    "services": "[ps'Servicesฏูİı｜]",
+    "endpoints": "[ps'Endpointsฏูİı｜]",
+    "types": "[ps'Typesฏูİı｜]",
+    "technologies": "[ps'Ｔechnologiesฏูİı｜]",
+    "httpStatusCode": "[ps'ＨＴＴＰ Status Codeฏูİı｜]",
+    "hiddenCalls": "[ps'Ｈidden Callsฏูİı｜]",
+    "noResults": "[ps'No resultsฏูİı｜]",
+    "showBatchMore": "[ps'ｓhow [{{nextBatch}}] moreฏูİı｜]",
+    "callBatchCountTooltip": "[ps'Ｔｈｉｓ ｃａｌｌ ｉｓ ｂatched and represents [{{callBatchCount}}] individual call.ฏูİı｜]",
+    "callBatchCountTooltip_plural": "[ps'Ｔｈｉｓ ｃａｌｌ ｉｓ ｂatched and represents [{{callBatchCount}}] individual calls.ฏูİı｜]",
+    "callBatchCountTooltip_0": "[ps'Ｔｈｉｓ ｃａｌｌ ｉｓ ｂatched and represents [{{callBatchCount}}] individual calls.ฏูİı｜]",
+    "callBatchCountTooltip_1": "[ps'Ｔｈｉｓ ｃａｌｌ ｉｓ ｂatched and represents [{{callBatchCount}}] individual call.ฏูİı｜]",
+    "callBatchCountTooltip_2": "[ps'Ｔｈｉｓ ｃａｌｌ ｉｓ ｂatched and represents [{{callBatchCount}}] individual calls.ฏูİı｜]",
+    "groupedList": {
+      "earliestTimestamp": "[ps'Ｅａｒｌｉest Timestampฏูİı｜]",
+      "focusGroupTooltip": "[ps'Ｆｏｃｕｓ on this groupฏูİı｜]",
+      "groupName": "[ps'Group Nameฏูİı｜]",
+      "sortingMetricLabelTh": "[ps'[{{sortingMetricLabel}}] ([{{num}}]th)ฏูİı｜]",
+      "sortingMetricLabelRate": "[ps'[{{sortingMetricLabel}}] (rate)ฏูİı｜]",
+      "sortingMetricLabelCount": "[ps'[{{sortingMetricLabel}}] (count)ฏูİı｜]",
+      "sortingMetricLabelTime": "[ps'[{{sortingMetricLabel}}] ([{{time}}])ฏูİı｜]",
+      "preview": "[ps'Previewฏูİı｜]"
+    },
+    "listLoadMore": "[ps'Ｌoad [{{retrievalSize}}] moreฏูİı｜]",
+    "listBatchTypeTooltip": "[ps'Ｔｈｉｓ [{{type}}] ｉｓ ｂａｔｃhed and represents [{{batchCount}}] individual [{{types}}].ฏูİı｜]",
+    "listBatchLatencyTooltip": "[ps'Ｔｏｔａｌ ｌａｔency of [{{batchCount}}] batched [{{types}}].ฏูİı｜]",
+    "traceId": "[ps'Trace ID: ฏูİı｜]",
+    "traceIdTooltip": "[ps'Ｓｏｍｅ ｄａｔａ ｒｅｌａｔｅｄ ｔｏ ｔｈｉｓ ｔｒａｃｅ ｉｓ ｄｅｌａｙｅｄ ｓｏ ｐｌｅａｓｅ ｒｅｌｏａｄ the page in a little later. An example where this may happen is viewing a very recent trace with some of its data is still being processed.ฏูİı｜]",
+    "closeTraceDetail": "[ps'Ｃｌｏｓｅ trace detailฏูİı｜]",
+    "invalidQueryConfig": "[ps'Ｔｈｅ ｑｕｅｒｙ ｃｏｎｆｉｇｕｒａtion is invalid. Please address the validation failures before continuing.ฏูİı｜]",
+    "errorRateLabel": "[ps'Ｅｒｒｏｎｅｏus Calls (rate)ฏูİı｜]",
+    "errorRateCategory": "[ps'Ｅｒｒoneous Callsฏูİı｜]",
+    "errorMetricLabel": "[ps'Ｅｒｒｏｎｅous Calls Rateฏูİı｜]",
+    "erroneousCallsLabel": "[ps'Ｅｒｒｏｎｅｏus Calls (count)ฏูİı｜]",
+    "erroneousCallsCategory": "[ps'Ｅｒｒoneous Callsฏูİı｜]",
+    "erroneousTraceRate": "[ps'Ｅｒｒｏｎｅous Traces Rateฏูİı｜]",
+    "erroneousTrace": "[ps'Ｅｒｒｏneous Tracesฏูİı｜]",
+    "metricLabel": "[ps'Callฏูİı｜]",
+    "metricLabel_plural": "[ps'Callsฏูİı｜]",
+    "metricLabel_0": "[ps'Callsฏูİı｜]",
+    "metricLabel_1": "[ps'Callฏูİı｜]",
+    "metricLabel_2": "[ps'Callsฏูİı｜]",
+    "traceLabel": "[ps'Traceฏูİı｜]",
+    "traceLabel_plural": "[ps'Tracesฏูİı｜]",
+    "traceLabel_0": "[ps'Tracesฏูİı｜]",
+    "traceLabel_1": "[ps'Traceฏูİı｜]",
+    "traceLabel_2": "[ps'Tracesฏูİı｜]",
+    "typeCall": "[ps'callฏูİı｜]",
+    "typeCall_plural": "[ps'callsฏูİı｜]",
+    "typeCall_0": "[ps'callsฏูİı｜]",
+    "typeCall_1": "[ps'callฏูİı｜]",
+    "typeCall_2": "[ps'callsฏูİı｜]",
+    "typeTrace": "[ps'traceฏูİı｜]",
+    "typeTrace_plural": "[ps'tracesฏูİı｜]",
+    "typeTrace_0": "[ps'tracesฏูİı｜]",
+    "typeTrace_1": "[ps'traceฏูİı｜]",
+    "typeTrace_2": "[ps'tracesฏูİı｜]",
+    "containsErrors": "[ps'Ｃｏｎtains Errorsฏูİı｜]",
+    "noErrors": "[ps'No Errorsฏูİı｜]"
+  },
+  "blueprintConfig": {
+    "slowness": {
+      "name": "[ps'Slow Callsฏูİı｜]",
+      "headline": "[ps'Ａｕｔｏｍａｔｉc Alerts for Slow Callsฏูİı｜]",
+      "text": "[ps'Ｒｅｃｅｉｖｅ ａｎ ａｌｅｒｔ ｗｈｅｎ ｃａｌｌｓ ｔｏ selected services and endpoints of this Application Perspective are slower than usual.ฏูİı｜]"
+    },
+    "errorRate": {
+      "name": "[ps'Ｅｒｒoneous Callsฏูİı｜]",
+      "headline": "[ps'Ａｕｔｏｍａｔｉｃ Alerts for Erroneous Callsฏูİı｜]",
+      "text": "[ps'Ｒｅｃｅｉｖｅ ａｎ ａｌｅｒｔ ｗｈｅｎ ｔｈｅ ｒａｔｅ ｏｆ ｅｒｒｏｎeous calls for selected services and endpoints of this Application Perspective is higher than normal.ฏูİı｜]",
+      "metricLabel": "[ps'Error Rateฏูİı｜]"
+    },
+    "logs": {
+      "name": "[ps'Ｅｒｒｏｒ ａｎd Warning Logsฏูİı｜]",
+      "headline": "[ps'Ａｕｔｏｍａｔｉｃ Ａlerts for Error and Warning Logsฏูİı｜]",
+      "text": "[ps'Ｒｅｃｅｉｖｅ ａｎ ａｌｅｒｔ ｗｈｅｎ ｔｈｅ ｎｕmber of calls logging matching error and warning messages is higher than expected.ฏูİı｜]",
+      "metricLabel": "[ps'Logs Countฏูİı｜]",
+      "incompleteRuleMessage": "[ps'Ｐｌｅａｓｅ ｓｅｌｅｃt a Log Message to see when this alert triggersฏูİı｜]"
+    },
+    "statusCode": {
+      "name": "[ps'ＨＴＴＰ Status Codesฏูİı｜]",
+      "headline": "[ps'Ａｕｔｏｍａｔｉｃ Ａlerts for HTTP Status Codesฏูİı｜]",
+      "text": "[ps'Ｒｅｃｅｉｖｅ ａｎ ａｌｅｒｔ ｅｖery time when matching HTTP Status Codes occur more often than usual.ฏูİı｜]",
+      "metricLabel": "[ps'Ｓtatus Codeฏูİı｜]",
+      "incompleteRuleMessage": "[ps'Ｐｌｅａｓｅ ｓｅｌｅｃt a Status Code to see when this alert triggersฏูİı｜]"
+    },
+    "throughput": {
+      "name": "[ps'Throughputฏูİı｜]",
+      "headline": "[ps'Ａｕｔｏｍａｔｉc Alerts for Calls Countฏูİı｜]",
+      "text": "[ps'Ａｕｔｏｍａｔｉｃ ａｌｅｒｔｓ ｏｎ ａｎｏｍａｌｏｕｓｌｙ low or high number of calls for selected services and endpoints of this Application Perspective.ฏูİı｜]",
+      "metricLabel": "[ps'Callsฏูİı｜]"
+    },
+    "simpleMode": {
+      "unexpectedDrop": {
+        "name": "[ps'Ｕｎｅｘｐｅｃｔedly Low Number of Callsฏูİı｜]",
+        "headline": "[ps'Ａｕｔｏｍａｔｉｃ Ａlerts on Anomalously Low Number of Callsฏูİı｜]",
+        "text": "[ps'Ｒｅｃｅｉｖｅ ａｎ ａｌｅｒｔ ｗｈｅｎ ｔｈｅ ｎｕｍｂｅｒ ｏｆ ｃａｌｌｓ ｉｓ ｓｉｇｎｉｆｉｃａｎｔｌｙ ｌｏｗｅｒ ｔｈａｎ ｅｘpected compared to the available past data. This might be an indication of a problem upstream of this application or a drop in the user traffic to the application.ฏูİı｜]"
+      },
+      "unexpectedlyHighNumber": {
+        "name": "[ps'Ｕｎｅｘｐｅｃｔｅdly High Number of Callsฏูİı｜]",
+        "headline": "[ps'Ａｕｔｏｍａｔｉｃ Ａｌerts on Anomalously High Number of Callsฏูİı｜]",
+        "text": "[ps'Ｒｅｃｅｉｖｅ ａｎ ａｌｅｒｔ ｗｈｅｎ ｔｈｅ ｎｕｍｂｅｒ ｏｆ ｃａｌｌｓ ｉｓ ｓｉｇｎｉｆｉｃａｎｔｌｙ ｈｉｇｈｅr than expected compared to the available past data. This might be an indication of an attack or a bot generating too many requests to the application.ฏูİı｜]"
+      }
+    }
+  },
+  "formUtils": {
+    "titlePlaceholder": {
+      "errorRate": "[ps'Ｅｒｒｏｎｅｏｕｓ ｃall rate is higher than normalฏูİı｜]",
+      "slowness": "[ps'Ｃａｌｌｓ ａｒｅ slower than usualฏูİı｜]",
+      "logs": {
+        "notEmptyWithANY": "[ps'Ｔｏｏ ｍａｎｙ ｃalls logging messagesฏูİı｜]",
+        "notEmptyWithoutANY": "[ps'Ｔｏｏ ｍａｎｙ ｃａlls logging [{{operatorLabel}}] messagesฏูİı｜]",
+        "withANY": "[ps'Ｔｏｏ ｍａｎｙ ｃａｌls logging messages: \"[{{message}}]\"ฏูİı｜]",
+        "default": "[ps'Ｔｏｏ ｍａｎｙ ｃａｌls logging [{{operatorLabel}}] messages: \"[{{message}}]\"ฏูİı｜]"
+      },
+      "statusCode": "[ps'Ｔｏｏ ｍａｎｙ ｃａｌls with HTTP Status Code [{{statusCodeShortText}}]ฏูİı｜]",
+      "throughputHigh": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃalls is anomalously highฏูİı｜]",
+      "throughputLow": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃalls is anomalously lowฏูİı｜]"
+    },
+    "descriptionPlaceholder": {
+      "errorRate_higherThan": "[ps'Ｔｈｅ ｅｒｒｏｎｅｏus call rate is higher than [{{valueRoundedToDecimals}}]%.ฏูİı｜]",
+      "errorRate_higherEqual": "[ps'Ｔｈｅ ｅｒｒｏｎｅｏus call rate is higher or equal to [{{valueRoundedToDecimals}}]%.ฏูİı｜]",
+      "errorRate_lowerThan": "[ps'Ｔｈｅ ｅｒｒｏｎｅｏus call rate is lower than [{{valueRoundedToDecimals}}]%.ฏูİı｜]",
+      "errorRate_lowerEqual": "[ps'Ｔｈｅ ｅｒｒｏｎｅｏus call rate is lower or equal to [{{valueRoundedToDecimals}}]%.ฏูİı｜]",
+      "slownessStaticThreshold_slowerThan": "[ps'Ｃａｌｌｓ ａｒｅ ｓｌower than [{{thresholdValue}}] ms based on latency ([{{aggregationText}}]).ฏูİı｜]",
+      "slownessStaticThreshold_slowEqual": "[ps'Ｃａｌｌｓ ａｒｅ ｓｌｏwer or equal to [{{thresholdValue}}] ms based on latency ([{{aggregationText}}]).ฏูİı｜]",
+      "slownessStaticThreshold_below": "[ps'Ｃａｌｌｓ ａｒｅ ｂｅlow [{{thresholdValue}}] ms based on latency ([{{aggregationText}}]).ฏูİı｜]",
+      "slownessStaticThreshold_belowEqual": "[ps'Ｃａｌｌｓ ａｒｅ ｂｅｌow or equal to [{{thresholdValue}}] ms based on latency ([{{aggregationText}}]).ฏูİı｜]",
+      "slownessDefault_slowerThan": "[ps'Ｃａｌｌｓ ａｒｅ ｓｌｏwer than the expectation based on latency ([{{aggregationText}}]).ฏูİı｜]",
+      "slownessDefault_slowEqual": "[ps'Ｃａｌｌｓ ａｒｅ ｓｌｏｗer or equal to the expectation based on latency ([{{aggregationText}}]).ฏูİı｜]",
+      "slownessDefault_below": "[ps'Ｃａｌｌｓ ａｒｅ ｂｅｌow the expectation based on latency ([{{aggregationText}}]).ฏูİı｜]",
+      "slownessDefault_belowEqual": "[ps'Ｃａｌｌｓ ａｒｅ ｂｅｌｏw or equal to the expectation based on latency ([{{aggregationText}}]).ฏูİı｜]",
+      "logsNotEmpty_higherThan": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌls logging [{{levelText}}] messages is higher than [{{thresholdValue}}].ฏูİı｜]",
+      "logsNotEmpty_higherEqual": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌls logging [{{levelText}}] messages is higher or equal to [{{thresholdValue}}].ฏูİı｜]",
+      "logsNotEmpty_lowerThan": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａlls logging [{{levelText}}] messages is lower than [{{thresholdValue}}].ฏูİı｜]",
+      "logsNotEmpty_lowerEqual": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌls logging [{{levelText}}] messages is lower or equal to [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_equalHigherThan": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌｌs logging [{{levelText}}] messages which equal \"[{{message}}]\" is higher than [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_equalHigherEqual": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌｌｓ logging [{{levelText}}] messages which equal \"[{{message}}]\" is higher or equal to [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_equalLowerThan": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌｌs logging [{{levelText}}] messages which equal \"[{{message}}]\" is lower than [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_equalLowerEqual": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌｌs logging [{{levelText}}] messages which equal \"[{{message}}]\" is lower or equal to [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_containHigherThan": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌls logging [{{levelText}}] messages which contain \"[{{message}}]\" is higher than [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_containHigherEqual": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌｌｓ logging [{{levelText}}] messages which contain \"[{{message}}]\" is higher or equal to [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_containLowerThan": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌls logging [{{levelText}}] messages which contain \"[{{message}}]\" is lower than [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_containLowerEqual": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌｌｓ logging [{{levelText}}] messages which contain \"[{{message}}]\" is lower or equal to [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_startHigherThan": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌｌs logging [{{levelText}}] messages which start with \"[{{message}}]\" is higher than [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_startHigherEqual": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌｌｓ ｌogging [{{levelText}}] messages which start with \"[{{message}}]\" is higher or equal to [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_startLowerThan": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌｌs logging [{{levelText}}] messages which start with \"[{{message}}]\" is lower than [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_startLowerEqual": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌｌｓ ｌogging [{{levelText}}] messages which start with \"[{{message}}]\" is lower or equal to [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_endHigherThan": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌls logging [{{levelText}}] messages which end with \"[{{message}}]\" is higher than [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_endHigherEqual": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌｌｓ ｌogging [{{levelText}}] messages which end with \"[{{message}}]\" is higher or equal to [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_endLowerThan": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌls logging [{{levelText}}] messages which end with \"[{{message}}]\" is lower than [{{thresholdValue}}].ฏูİı｜]",
+      "logsDefault_endLowerEqual": "[ps'Ｎｕｍｂｅｒ ｏｆ ｃａｌｌｓ logging [{{levelText}}] messages which end with \"[{{message}}]\" is lower or equal to [{{thresholdValue}}].ฏูİı｜]",
+      "statusCode_higherThan": "[ps'Ｏｃｃｕｒｒｅｎｃｅs of HTTP Status Code [{{statusCodeFullText}}] is higher than [{{thresholdValue}}].ฏูİı｜]",
+      "statusCode_higherEqual": "[ps'Ｏｃｃｕｒｒｅｎｃｅｓ of HTTP Status Code [{{statusCodeFullText}}] is higher or equal to [{{thresholdValue}}].ฏูİı｜]",
+      "statusCode_lowerThan": "[ps'Ｏｃｃｕｒｒｅｎｃｅs of HTTP Status Code [{{statusCodeFullText}}] is lower than [{{thresholdValue}}].ฏูİı｜]",
+      "statusCode_lowerEqual": "[ps'Ｏｃｃｕｒｒｅｎｃｅｓ of HTTP Status Code [{{statusCodeFullText}}] is lower or equal to [{{thresholdValue}}].ฏูİı｜]",
+      "throughputStaticThreshold_higherThan": "[ps'Ｔｈｅ ｎｕｍｂｅｒ ｏf calls is higher than [{{thresholdValue}}] calls.ฏูİı｜]",
+      "throughputStaticThreshold_higherEqual": "[ps'Ｔｈｅ ｎｕｍｂｅｒ ｏf calls is higher or equal to [{{thresholdValue}}] calls.ฏูİı｜]",
+      "throughputStaticThreshold_lowerThan": "[ps'Ｔｈｅ ｎｕｍｂｅｒ ｏf calls is lower than [{{thresholdValue}}] calls.ฏูİı｜]",
+      "throughputStaticThreshold_lowerEqual": "[ps'ｌｏｗ == Ｔｈｅ ｎｕｍｂｅr of calls is lower or equal to [{{thresholdValue}}] calls.ฏูİı｜]",
+      "throughputDefault_higherThan": "[ps'Ｔｈｅ ｎｕｍｂｅｒ ｏf calls is higher than expected.ฏูİı｜]",
+      "throughputDefault_higherEqual": "[ps'Ｔｈｅ ｎｕｍｂｅｒ ｏf calls is higher or equal to expected.ฏูİı｜]",
+      "throughputDefault_lowerThan": "[ps'Ｔｈｅ ｎｕｍｂｅｒ ｏf calls is lower than expected.ฏูİı｜]",
+      "throughputDefault_lowerEqual": "[ps'Ｔｈｅ ｎｕｍｂｅｒ ｏf calls is lower or equal to expected.ฏูİı｜]"
+    },
+    "customStatusCodeFullText": "[ps'ｂｅｔween [{{statusCodeStart}}] and [{{statusCodeEnd}}]ฏูİı｜]"
+  },
+  "ruleForm": {
+    "ruleLogLevelOptions": {
+      "error": "[ps'Errorฏูİı｜]",
+      "warning": "[ps'Warningฏูİı｜]",
+      "any": "[ps'Ｅｒｒｏr and Warningฏูİı｜]"
+    },
+    "ruleLogMessageOperationOptions": {
+      "notEmpty": "[ps'Anyฏูİı｜]",
+      "equals": "[ps'Equalsฏูİı｜]",
+      "contains": "[ps'Containsฏูİı｜]",
+      "startsWith": "[ps'Ｓtarts withฏูİı｜]",
+      "endsWith": "[ps'Ends withฏูİı｜]"
+    }
+  },
+  "simple": {
+    "simpleAlertStep1Headline": "[ps'Ｗｈａｔ ｄｏ ｙｏｕ want to be alerted on?ฏูİı｜]",
+    "simpleAlertStep2Headline": "[ps'Ｗｈｅｒｅ ｄｏ ｙｏｕ want the alert to trigger?ฏูİı｜]",
+    "step1Title": "[ps'Ｓｔｅｐ 1: Ｓｅlect Alertฏูİı｜]",
+    "step2Title": "[ps'Ｓｔｅｐ 2: Ｓｅlect Scopeฏูİı｜]",
+    "step3Title": "[ps'Ｓｔｅｐ 3: Ｓｅｌｅct Alerting Channelsฏูİı｜]"
+  },
+  "creation": {
+    "newAP": "[ps'Ｎｅｗ Ａｐｐｌｉcation Perspectiveฏูİı｜]",
+    "switchSimpleMode": "[ps'Ｓｗｉｔｃｈ to Simple Modeฏูİı｜]",
+    "switchAdvancedMode": "[ps'Ｓｗｉｔｃｈ ｔo Advanced Modeฏูİı｜]",
+    "simple": {
+      "step1Title": "[ps'Ｓｔｅｐ 1: Ｓｅlect Modelฏูİı｜]",
+      "step1": {
+        "headline": "[ps'Ｗｈａｔ ｋｉｎｄ ｏｆ application would you like to model?ฏูİı｜]"
+      },
+      "step2Title": "[ps'Ｓｔｅｐ 2: Ｓｐｅｃify Applicationฏูİı｜]",
+      "step2": {
+        "headline": "[ps'Ｓｐｅｃｉｆｙ ｙｏur Application Perspectiveฏูİı｜]",
+        "includeDownstreamServices": "[ps'Ｗｈｉｃｈ ｄｏｗｎｓｔream services would you like to include?ฏูİı｜]"
+      },
+      "step3Title": "[ps'Ｓｔｅｐ 3: Ｐｒｏvide Detailsฏูİı｜]",
+      "step3": {
+        "headline": "[ps'Ｗｈａｔ ｉｓ ｔｈｅ ｎame of this Application Perspective?ฏูİı｜]",
+        "apName": "[ps'Ａｐｐｌｉｃａｔion Perspective Nameฏูİı｜]",
+        "inboundAllCalls": "[ps'Ａｒｅ ｙｏｕ ｉｎｔｅｒｅｓｔｅd just in the calls to this application, or also the internal calls?ฏูİı｜]"
+      },
+      "blueprints": {
+        "whenToUse": "[ps'Ｗhen to use?ฏูİı｜]",
+        "whoShouldUse": "[ps'Ｗｈｏ should use?ฏูİı｜]",
+        "tipsForUsing": "[ps'Ｔｉｐs for usingฏูİı｜]",
+        "servicesEndpoints": {
+          "name": "[ps'Ｓｅｒｖｉｃes or Endpointsฏูİı｜]",
+          "headline": "[ps'Ａ ｃｏｌｌｅｃｔｉon of services or endpointsฏูİı｜]",
+          "whenToUse": "[ps'Ｉｆ ｔｈｅ ｓｅｒｖｉｃｅｓ ｏｒ ｅｎｄｐｏｉｎｔｓ ａｒｅ ｗｅｌｌ ｋｎｏｗｎ ａｎｄ ｔｈｅ ｇｒｏｕｐ ｗｏｎ’ｔ ｃｈａｎｇｅ ｓｏｏｎ. Ｔhis is often an application that a specific team is responsible for, or which provides a single function (eg. Payment Application). This is the simplest approach.ฏูİı｜]",
+          "whoShouldUse": "[ps'ＤｅｖＯｐｓ, Ｏｐｅｒａｔions, SRE, Developer, QA, Support, Business owner.ฏูİı｜]"
+        },
+        "userJourney": {
+          "name": "[ps'Ａ ｃｒｉｔｉｃal user journeyฏูİı｜]",
+          "headline": "[ps'Ａ ｃｒｉｔｉｃal user journeyฏูİı｜]",
+          "whenToUse": {
+            "userJourneyDescribes": "[ps'Ａ ｃｒｉｔｉｃａｌ ｕｓｅｒ ｊｏｕｒｎｅｙ ｄｅscribes a set of interactions a user has with a service to achieve some end result.ฏูİı｜]",
+            "otherTerms": "[ps'Ｏｔｈｅｒ ｔｅｒｍｓ ｆｏｒ ａ ｕｓｅｒ ｊｏｕｒｎｅｙ ａｒｅ ｂｕｓｉｎｅｓｓ ｕｓｅ ｃａｓｅ ｏｒ ｂｕｓｉｎｅｓｓ ｔｒａｎｓａction. Identifying user journeys are the first step in using Instana’s SLI/SLO. So select the service or endpoints that form the critical user journey to monitor.ฏูİı｜]"
+          },
+          "whoShouldUse": "[ps'ＤｅｖＯｐｓ, Ｏｐｅｒations, SRE, Business owner.ฏูİı｜]"
+        },
+        "location": {
+          "name": "[ps'Ｅｎｖｉｒｏnment or Regionฏูİı｜]",
+          "headline": "[ps'Ａｎ ｅｎｖｉｒｏｎｍｅnt or region (eg. prod, staging, US East)ฏูİı｜]",
+          "whenToUse": {
+            "header": "[ps'Ｗｈｅｎ ｙｏｕ ｗａｎｔ ｔｏ ｍｏdel applications using information from the environment, such as:ฏูİı｜]",
+            "cloudInfo": "[ps'Ｃｌｏｕd informationฏูİı｜]",
+            "zoneRegion": "[ps'Ｚｏｎe or regionฏูİı｜]",
+            "hostId": "[ps'Ｈｏｓt name or IDฏูİı｜]"
+          },
+          "whoShouldUse": "[ps'ＤｅｖＯｐｓ, Ｏｐｅｒations, SRE, QA, Business ownerฏูİı｜]"
+        },
+        "customerOrTenant": {
+          "name": "[ps'Ａｎ ｉｍｐｏｒｔant customer or tenantฏูİı｜]",
+          "headline": "[ps'Ａｎ ｉｍｐｏｒｔant customer or tenantฏูİı｜]",
+          "whenToUse": {
+            "header": "[ps'Ｉｍｐｏｒｔａｎｔ ｃｕｓｔｏｍｅｒｓ ｏｒ ｔｅｎａｎｔｓ ｃａｎ ｈａｖｅ ｔｈｅｉｒ own dashboard when there is an AP specified for them. There are two common ways that are used to identify the customer:ฏูİı｜]",
+            "httpParam": "[ps'Ａｎ ＨＴＴＰ ｐａｒａｍｅter is the data used to identify a customer or tenant.ฏูİı｜]",
+            "manual": "[ps'Ｍａｎｕａｌ ｉｎｓｔｒｕmentation to add meta-data to a span using <a href=\"{{url}}\" target=”_blank” rel=”noopener noreferrer”>the tracing SDK</a>.ฏูİı｜]",
+            "footer": "[ps'Ｔｈｅｓｅ ｔａｇｓ ｃａn then be specified to construct an AP.ฏูİı｜]"
+          },
+          "whoShouldUse": "[ps'ＤｅｖＯｐｓ, Ｏｐｅｒations, SRE, QA, Business ownerฏูİı｜]"
+        },
+        "container": {
+          "name": "[ps'Ｋｕｂｅｒｎｅtes or Containerฏูİı｜]",
+          "headline": "[ps'Ａｎ ａｐｐｌｉｃａｔｉon modeled by Kubernetes or container labelsฏูİı｜]",
+          "whenToUse": {
+            "header": "[ps'Ｗｈｅｎ ｙｏｕ ｗａｎt to group services based on:ฏูİı｜]",
+            "namespace": "[ps'Ｎａｍｅｓｐａｃｅ (this is frequently used)ฏูİı｜]",
+            "imageName": "[ps'Ｃｏｎｔａｉｎer or image nameฏูİı｜]",
+            "serviceNames": "[ps'Ｐｌａｔｆｏｒｍ related service namesฏูİı｜]",
+            "deployInfo": "[ps'Ｄｅｐｌｏｙｍent informationฏูİı｜]",
+            "labels": "[ps'Labelsฏูİı｜]",
+            "footer": "[ps'Ｔａｇｓ ａｒｅ ａｖａｉｌａｂｌｅ ｆor:  Kubernetes, OpenShift, Docker, Cloud Foundry, Marathon, and Nomad.ฏูİı｜]"
+          },
+          "whoShouldUse": "[ps'ＤｅｖＯｐｓ, Ｏｐｅrations, SRE, Developerฏูİı｜]"
+        },
+        "httpOrRpc": {
+          "name": "[ps'Ｒｅｑｕｅst Attributesฏูİı｜]",
+          "headline": "[ps'Ａｎ ａｐｐｌｉｃａｔｉｏｎ based on request attributes (eg. HTTP headers, query parameters)ฏูİı｜]",
+          "whenToUse": {
+            "header": "[ps'Ｉｔ ｃａｎ ｂｅ ａｄｄｅｄ to distinguish between different environments.ฏูİı｜]",
+            "headers": "[ps'ＨＴＴＰ ｈｅａｄｅrs, including X-headersฏูİı｜]",
+            "statusCodes": "[ps'ＨＴＴＰ ｒｅｔurn code statusฏูİı｜]",
+            "urlPortions": "[ps'Ｐｏｒｔｉons of the URLฏูİı｜]",
+            "reqParams": "[ps'Ｒｅｑｕｅst parametersฏูİı｜]",
+            "methodObject": "[ps'ＲＰＣ ｍｅｔhod or objectฏูİı｜]",
+            "footer": "[ps'Ｔｈｅｒｅ ａｒｅ ｓｅｖｅral RPC protocols supported using similar operators.ฏูİı｜]"
+          },
+          "whoShouldUse": "[ps'ＤｅｖＯｐｓ, Ｏｐｅｒations, SRE, Developer, QA, Supportฏูİı｜]"
+        },
+        "technologyGrouping": {
+          "name": "[ps'Technologyฏูİı｜]",
+          "headline": "[ps'Ａｌｌ ｓｅｒｖｉｃｅｓ ｏf a specific technology (eg. MySQL, all databases)ฏูİı｜]",
+          "whenToUse": {
+            "header": "[ps'Ａ ｃｏａｒｓｅ ｇｒｏｕping by the type of technology or application:ฏูİı｜]",
+            "databaseDetails": "[ps'Ｄａｔａｂａｓｅ ｄｅtails, like the type or schemaฏูİı｜]",
+            "javaName": "[ps'Ｊａｖａ ａｐplication nameฏูİı｜]",
+            "scriptingName": "[ps'Ａ ｓｃｒｉｐｔｉng application nameฏูİı｜]"
+          },
+          "whoShouldUse": "[ps'Ｏｐｅｒａｔｉｏｎｓ, ＳRE, Developer, QA, Support, Business ownerฏูİı｜]"
+        },
+        "custom": {
+          "name": "[ps'Ｃustom Tagsฏูİı｜]",
+          "headline": "[ps'Ａｎ ａｐｐｌｉｃａｔｉｏn based on custom metadata added by your or your platformฏูİı｜]",
+          "whenToUse": {
+            "header": "[ps'Ｗｈｅｎ ｙｏｕ ｗａｎｔ ｔｏ ａｄｄ ｙｏｕｒ own data via the SDK, the platform, etc. This custom data can be added from:ฏูİı｜]",
+            "httpProtocol": "[ps'ＨＴTP protocolฏูİı｜]",
+            "instanaAgent": "[ps'Ｉｎstana agentฏูİı｜]",
+            "aws": "[ps'AWSฏูİı｜]",
+            "dataCall": "[ps'Ｄａｔａ ｔｈａｔ is attached to a callฏูİı｜]",
+            "kubernetesLabels": "[ps'Ｋｕｂｅrnetes labelsฏูİı｜]",
+            "containerLabels": "[ps'Ｃｏｎｔainer labelsฏูİı｜]",
+            "footer": "[ps'Ｔｈｉｓ ｂｌｕｅｐｒｉｎt puts them all together so they are easy to find.ฏูİı｜]"
+          },
+          "whoShouldUse": "[ps'ＤｅｖＯｐｓ, Developer, QAฏูİı｜]"
+        },
+        "tipsForUsingItems": {
+          "sourcePerspective": "[ps'Ｕｓｅ \"Ｎｏ ｄｏｗｎｓｔｒｅａm services\" and \"Inbound calls\" for the source's perspective.ฏูİı｜]",
+          "endToEndView": "[ps'Ｕｓｅ \"Ａｌｌ ｄｏｗｎｓｔream services\" and  \"All calls\" for the end-to-end view.ฏูİı｜]",
+          "directServices": "[ps'Ｕｓｅ \"Ｉｍｍｅｄｉａｔｅ ｄｏｗｎｓtream services\" to include the direct database or messaging services.ฏูİı｜]",
+          "useOperatorsServices": "[ps'Ｕｓｅ ｓｔｒｉｎｇ ｏｐｅｒａｔｏｒｓ (ｅ.ｇ., ｌｉke \"contains\", \"starts with\") to select several services with one filter.ฏูİı｜]",
+          "useOperatorsEndpoints": "[ps'Ｕｓｅ ｓｔｒｉｎｇ ｏｐｅｒａｔｏｒｓ (ｅ.ｇ., ｌｉke \"contains\", \"starts with\") to select several endpoints with one filter.ฏูİı｜]",
+          "useOperators": "[ps'Ｕｓｅ ｓｔｒｉｎｇ ｏｐｅｒａｔｏrs (e.g., like \"contains\", \"starts with\") to simplify the filter.ฏูİı｜]",
+          "narrowScope": "[ps'Ａｄｄ ｓｅｔｕｐ, ｅｎｖironment, or custom tags to narrow the scope.ฏูİı｜]",
+          "specifyAp": "[ps'Ｕｓｅ ｅｉｔｈｅｒ ｒｅｑuest parameters or custom tags to specify the AP.ฏูİı｜]",
+          "preselected": "[ps'Ｔｈｅ \"Ｉｎｂｏｕｎｄ ｃalls\" and  \"All downstream services\" are preselected.ฏูİı｜]",
+          "switchMode": "[ps'Ｓｗｉｔｃｈ ｔｏ Ａｄｖａｎｃed Mode to create a query with endpoints from multiple services.ฏูİı｜]",
+          "allFilters": "[ps'Ｃｌｉｃｋ ｏｎ \"Ａｌｌ Filters\" to add additional tags.ฏูİı｜]"
+        }
+      },
+      "liveList": {
+        "matchedServicesLastHour": "[ps'Ｍａｔｃｈｅｄ ｓｅrvices in the last hourฏูİı｜]",
+        "addFiltersToBuild": "[ps'Ａｄｄ ｆｉｌｔｅｒｓ to build your Application Perspectiveฏูİı｜]",
+        "queryIsInvalid": "[ps'Ｙｏｕｒ ｑｕery is invalidฏูİı｜]"
+      }
+    },
+    "advanced": {
+      "defineName": "[ps'1. Ｄｅｆｉｎｅ ａ ｎａｍe for your Application Perspective.ฏูİı｜]",
+      "apName": "[ps'Ａｐｐｌｉｃａｔion Perspective Nameฏูİı｜]",
+      "apNameDescription": "[ps'Ａｐｐｌｉｃａｔｉｏｎ Ｐｅｒｓｐｅｃｔｉｖｅ ｎａｍｅｓ ｓｈｏｕｌｄ ｈａｖｅ ａ ｗｅｌｌ ｅｓｔａｂｌｉｓｈｅｄ ｄｅｆｉｎｉｔion within an organization. For example, to model an environment: \"Production Blue\", to model a set of services: \"Payment\", or to model a tenant: \"ACME Customer\".ฏูİı｜]",
+      "defineUsingTags": "[ps'2. Ｄｅｆｉｎｅ ｔｈｅ Ａｐplication Perspective using one or more tags.ฏูİı｜]",
+      "defineUsingTagsDescription": "[ps'Ｆｏｒ ｅｘａｍｐｌｅ ｗｈｅｒｅ ｋｅｙ ｉｓ \"ｄｏｃｋｅｒ.ｌａｂｅｌ\" ａｎｄ ｖａｌｕｅ ｉｓ \"ｅｎｖｉｒｏｎｍｅｎｔ=Ｐｒｏｄｕｃｔｉｏｎ Ｂｌｕｅ\", ｏｒ ｋｅｙ ｉｓ \"ｃａｌｌ.ｈttp.params\" and value is \"tenant=ACMECustomer\". Note that any calls to a <pill-database>DATABASE</pill-database> service or <pill-messaging>MESSAGING</pill-messaging> service from services matching this definition will automatically be included.ฏูİı｜]",
+      "andOperatorsPrecedence": "[ps'ＡＮＤ ｏｐｅｒａｔｏｒｓ take precedence and are evaluated before OR operatorsฏูİı｜]",
+      "andOperatorsPrecedenceBrackets": "[ps'ＡＮＤ ｏｐｅｒａｔｏｒｓ ｔａｋｅ ｐｒecedence and are evaluated before OR operators if not grouped in bracketsฏูİı｜]",
+      "downstreamCalls": "[ps'3. Ｓｔｏｒｅ Ｃａｌｌs of Downstream Servicesฏูİı｜]",
+      "downstreamCallsDescription": "[ps'Ｃｈｏｏｓｅ ｗｈｉｃｈ ｄownstream services to include in the Application Perspective.ฏูİı｜]",
+      "defaultDashboardView": "[ps'4. Ｓｅｌｅｃｔ ｔｈｅ Default Dashboard Viewฏูİı｜]",
+      "clear": "[ps'Clearฏูİı｜]",
+      "addTag": "[ps'Add Tagฏูİı｜]",
+      "create": "[ps'Createฏูİı｜]"
+    },
+    "scope": {
+      "optionNoDownStreamServices": "[ps'Ｎｏ ｄｏｗｎｓtream servicesฏูİı｜]",
+      "optionImmediateDownstreamServices": "[ps'Ｉｍｍｅｄｉａｔｅ ｄｏwnstream database and messaging servicesฏูİı｜]",
+      "optionAllDownstreamServices": "[ps'Ａｌｌ ｄｏｗｎstream servicesฏูİı｜]"
+    },
+    "tooltipEndpointBar": "[ps'Ｐｌｅａｓｅ ｓｅｌｅｃt a single service before selecting endpoints.ฏูİı｜]"
+  },
+  "dashboards": {
+    "percentOfCalls": "[ps'[{{percentage}}] ｏｆ ａll callsฏูİı｜]",
+    "meanLatencyFor90th": "[ps'[{{meanLatencyDetail}}] for 90thฏูİı｜]",
+    "selectInboundCalls": "[ps'Ｓｅｌｅｃｔ ｏｎｌｙ inbound calls or all callsฏูİı｜]",
+    "calculateInboundCalls": "[ps'Ｃａｌｃｕｌａｔｉｎｇ ｏｎ Ｉｎｂound Calls of [{{applicationName}}], to see this [{{entityType}}] in its entirety switch to <linkToCalls>All Calls</linkToCalls>.ฏูİı｜]",
+    "calculateAllCalls": "[ps'Ｃａｌｃｕｌａｔｉｎｇ ｏｎ <bold>Ａｌｌ Ｃａｌｌｓ</bold> ｏｆ [{{applicationName}}], ｔｏ only see the part of this [{{entityType}}] at the application boundary switch to <linkToCalls>Inbound Calls</linkToCalls>.ฏูİı｜]",
+    "infrastructureIssuesChanges": "[ps'Ｉｎｆｒａｓｔｒucture Issues & Changesฏูİı｜]",
+    "unknownTime": "[ps'Ｕnknown at [{{entityTime}}]ฏูİı｜]",
+    "infrastructure": {
+      "inEntity": "[ps'in<icon /><entityLink>[{{entityLabel}}]</entityLink>ฏูİı｜]",
+      "ofEntity": "[ps'of<icon /><entityLink>[{{entityLabel}}]</entityLink>ฏูİı｜]",
+      "instanceIndexOfEntity": "[ps'ｉｎｓｔance [{{cfInstanceIndex}}] of<icon /><entityLink>[{{entityLabel}}]</entityLink>ฏูİı｜]",
+      "instanceOfEntity": "[ps'ｉｎｓtance of<icon /><entityLink>[{{entityLabel}}]</entityLink>ฏูİı｜]",
+      "tooltipUnmonitored": "[ps'Ｕｎｍｏｎｉｔｏｒｅｄ ｉｎｆrastructure due to information outside the purview of running agentsฏูİı｜]"
+    },
+    "errorMessages": "[ps'ｅｒｒor messagesฏูİı｜]",
+    "errorCallWithoutMessage": "[ps'Ｅｒｒｏｎｅｏｕｓ call without error messageฏูİı｜]",
+    "logMessages": "[ps'ｌog messagesฏูİı｜]",
+    "noLogMessage": "[ps'Ｎｏ ｌｏｇ ｍｅssage availableฏูİı｜]",
+    "endpoints": "[ps'endpointsฏูİı｜]"
+  },
+  "flowMap": {
+    "tooltipServiceNotInApplication": "[ps'Ｔｈｅ ｓｅｒｖｉｃｅ is not in the current application.ฏูİı｜]",
+    "buttonLoadMoreWithRemain": "[ps'Ｌｏａｄ [{{remainNumber}}] ｍｏｒe<totalSpan>(total: [{{nodeNumber}}])</totalSpan>ฏูİı｜]",
+    "buttonLoadMore": "[ps'Ｌoad [{{remainNumber}}] moreฏูİı｜]"
+  },
+  "forms": {
+    "stepTitleWithNumber": "[ps'<num>[{{stepNumber}}]. </num>[{{stepTitle}}]ฏูİı｜]",
+    "helpSpecifyPathToMatch": "[ps'Ｓｐｅｃｉｆｙ ｔｈｅ path to match, eg. /api/[{version}]/*ฏูİı｜]",
+    "helpAddTestCaseToWork": "[ps'Ｏｐｔｉｏｎａｌｌｙ, ａｄｄ ｔｅｓｔ cases below to ensure the rule works as expected, eg. /api/v2/anythingฏูİı｜]",
+    "errorBlankValue": "[ps'Ｔｈｅ ｖａｌｕｅ must not be blank.ฏูİı｜]",
+    "earlyRuleResultWithQuery": "[ps'Ｐａｓｓｅｄ ａｎ earlier rule \"[{{query}}]\"ฏูİı｜]",
+    "earlyRuleResult": "[ps'Ｐａｓｓｅｄ ａn earlier ruleฏูİı｜]",
+    "testFailed": "[ps'Ｔest Failedฏูİı｜]",
+    "testPassed": "[ps'Ｔest Passedฏูİı｜]",
+    "noTestDefined": "[ps'Ｎｏ ｔｅsts definedฏูİı｜]",
+    "allTestsPassed": "[ps'Ａｌｌ ｔests passedฏูİı｜]",
+    "allTestsFailed": "[ps'Ａｌｌ ｔests failedฏูİı｜]",
+    "testResultWithNumber": "[ps'<failTag>Ｔｅｓｔｓ ｆａｉｌｅd: [{{numFailedTests}}]</failTag><passTag>, passed: [{{numSucceededTests}}] out of [{{resultLength}}]</passTag>ฏูİı｜]",
+    "rulePathTemplate": "[ps'Ｐａth Templateฏูİı｜]",
+    "ruleFirstPathSegment": "[ps'Ｆｉｒｓｔ Path Segmentฏูİı｜]",
+    "ruleRouteId": "[ps'Route IDฏูİı｜]",
+    "unspecified": "[ps'Ｕnspecifiedฏูİı｜]",
+    "titleConfigureEndpointExtraction": "[ps'Ｃｏｎｆｉｇｕｒe Endpoint Extractionฏูİı｜]",
+    "tooltipExtractsEndpointsAsSpecified": "[ps'Ｅｘｔｒａｃｔｓ ｅｎｄｐoints as specified in detected framework (if accessible)ฏูİı｜]",
+    "tooltipExtractsEndpointsOnFirstPath": "[ps'Ｅｘｔｒａｃｔｓ ｅｎdpoints based on first path parameterฏูİı｜]",
+    "tooltipExtractsEndpointsOnRouteId": "[ps'Ｅｘｔｒａｃｔｓ ｅndpoints based on route IDฏูİı｜]",
+    "tooltipEndpointCallsNotMatch": "[ps'Ｃａｌｌｓ ｔｈａｔ ｄｏ ｎot match a preceding rule are assigned to this endpointฏูİı｜]",
+    "titleConfigureEndpointsExtract": "[ps'Ｃｏｎｆｉｇｕｒｅ ｈｏｗ ｅｎdpoints are extracted from the underlying calls to this service.ฏูİı｜]",
+    "descriptionConfigureEndpointsExtract": "[ps'Ｅｎｄｐｏｉｎｔ ｒｕｌｅｓ ａｒｅ ｅｖａｌｕａｔｅｄ ｓｅｑｕｅｎｔｉａｌｌｙ, ｆｒｏｍ ｔｏｐ ｔｏ bottom, and a call is assigned to the first rule it matches. Once configured, new calls will be assigned according to updated rules.ฏูİı｜]",
+    "descriptionResetToDefaultRule": "[ps'Ｉｆ ｙｏｕ ｗｉｓｈ ｔｏ ｒｅｓｅｔ ｔｏ ｄｅｆａｕｌｔ ｅｘｔｒactions rules, please use the button below. Resetting may take up to a few minutes to register.ฏูİı｜]",
+    "understandCheckboxResetToDefaultRule": "[ps' Ｉ ｕｎｄｅｒｓｔａｎd that this action cannot be undone.ฏูİı｜]",
+    "customService": {
+      "stepTitle": "[ps'Ｅｘｔｅｎｄ ｔｈｅ ａｕｔomatic service mapping by adding a custom service rule.ฏูİı｜]",
+      "descriptionTextFirstLine": "[ps'Ｉｎｓｔａｎａ ａｕｔｏｍａｔｉｃａｌｌｙ ｍａｐｓ ｓｅｒｖｉｃｅｓ ｂａｓｅｄ ｏｎ ａｎ ｅｘｔｅｎｓｉｖｅ ｓｅｔ ｏｆ ｐｒｅｄｅｆｉｎｅｄ ｒｕｌｅｓ. Ｆｏｒ ｅｘａｍｐｌｅ, ｉｆ ｔｈe tag nodejs.app.name is found, and there are calls tagged with <bold>\"nodejs.app.name=user service\"</bold> and with <bold>\"nodejs.app.name=cart service\"</bold>, then <bold>\"user service\"</bold> and <bold>\"cart service\"</bold> will appear as services.ฏูİı｜]",
+      "descriptionVisit": "[ps'Ｐｌｅａｓｅ ｖｉｓｉｔ ｔｈｅ <bold><linkToDoc>Ｄｏｃｓ ｏｎ Application and Service Management</linkToDoc></bold> to learn more on the predefined rules.ฏูİı｜]",
+      "descriptionCustomServiceRule": "[ps'Ｄｅｆｉｎｅ ａ ｃｕｓｔｏｍ ｒｕｌｅ ｂｙ ｓｅｌｅｃｔｉｎｇ a series of tags below. If all tags are present on a call, it will be mapped to that service.ฏูİı｜]",
+      "tooltipRemoveCondition": "[ps'Ｒｅｍｏｖｅ ｔｈis match conditionฏูİı｜]"
+    },
+    "newApplication": {
+      "helpApplicationPerspectives": "[ps'Ａｐｐｌｉｃａｔｉｏｎ ｐｅｒｓｐｅｃｔｉｖｅｓ ｐrovide a means to model environments, sets of services, tenants, or just about anything.ฏูİı｜]",
+      "helpRenameApplication": "[ps'Ｒｅｎａｍｉｎｇ ａｎ ａｐｐｌｉｃａｔｉｏｎ ｉｓ ａｎ ｅｖｅｎｔｕａｌｌｙ ｃｏｎｓｉｓｔｅｎｔ ａｃｔｉｏｎ ｗｉｔｈin the Instana system. For this reason, a change to an application name may take <italic>up to a few minutes</italic> until it has populated throughout the whole system.ฏูİı｜]",
+      "descriptionApplicationName": "[ps'Ａｐｐｌｉｃａｔｉｏｎ ｐｅｒｓｐｅｃｔｉｖｅ ｎａｍｅｓ ｓｈｏｕｌｄ ｈａｖｅ ａ ｗｅｌｌ ｅｓｔａｂｌｉｓｈｅｄ ｄｅｆｉｎｉｔion within an organization. For example, to model an environment: \"Production Blue\", to model a set of services: \"Payment\", or to model a tenant: \"ACME Customer\".ฏูİı｜]",
+      "descriptionTags": "[ps'Ｆｏｒ ｅｘａｍｐｌｅ ｗｈｅｒｅ ｋｅｙ ｉｓ \"ｄｏｃｋｅｒ.ｌａｂｅｌ\" ａｎｄ ｖａｌｕｅ ｉｓ \"ｅｎｖｉｒｏｎｍｅｎｔ=Ｐｒｏｄｕｃｔｉｏｎ Ｂｌｕｅ\" ｏｒ ｋｅｙ ｉｓ \"ｃａｌｌ.http.params\" and value is \"tenant=ACMECustomer\". Note that any calls to a <pillDatabase>DATABASE</pillDatabase> service or <pillMessage>MESSAGING</pillMessage> service from services matching this definition will automatically be included.ฏูİı｜]",
+      "descriptionOperators": "[ps'ＡＮＤ ｏｐｅｒａｔｏｒｓ take precedence and are evaluated before OR operatorsฏูİı｜]",
+      "descriptionOperatorsCreationEnabled": "[ps'ＡＮＤ ｏｐｅｒａｔｏｒｓ ｔａｋｅ ｐｒecedence and are evaluated before OR operators if not grouped in bracketsฏูİı｜]",
+      "descriptionPrepareToMonitor": "[ps'Ｗｅ ａｒｅ ｐｒｅｐａｒing everything to monitor your application perspective <bold>[{{decodedLabel}}]</bold>.ฏูİı｜]",
+      "descriptionRemoveApplicationPerspective": "[ps'Ｉｆ ｙｏｕ ｎｏ ｌｏｎｇｅｒ ｗｉｓｈ ｔｏ ｍｏｎｉｔｏｒ ｔｈｅ ａｐｐｌｉｃａｔｉｏｎ ｐerspective <strong>[{{application}}]</strong>, please use the button below to remove it. Removing an application perspective may take up to a few minutes.ฏูİı｜]",
+      "stepTitleDefineApplicationName": "[ps'Ｄｅｆｉｎｅ ａ ｎａｍe for your application perspective.ฏูİı｜]",
+      "stepTitleDefineTags": "[ps'Ｄｅｆｉｎｅ ｔｈｅ ａｐplication perspective using one or more tags.ฏูİı｜]",
+      "stepTitleDownstreamServices": "[ps'Ｄｏｗｎｓｔream services.ฏูİı｜]",
+      "stepTitleApplicationScope": "[ps'Ａｐｐｌｉcation scope.ฏูİı｜]",
+      "optionNoDownstreamServices": "[ps'Ｎｏ ｄｏｗｎｓtream servicesฏูİı｜]",
+      "optionImmediateDownstreamServices": "[ps'Ｉｍｍｅｄｉａｔｅ ｄｏwnstream database and messaging servicesฏูİı｜]",
+      "optionAllDownstreamServices": "[ps'Ａｌｌ ｄｏｗｎstream servicesฏูİı｜]",
+      "errorApplicationNameBlank": "[ps'Ｔｈｅ ａｐｐｌｉｃａtion perspective name must not be blank.ฏูİı｜]",
+      "errorNameLengthExceeded": "[ps'Ｔｈｅ ａｐｐｌｉｃａｔion perspective name must not be larger than 128 characters.ฏูİı｜]",
+      "errorInvalidQuery": "[ps'Ｔｈｅ ｑｕｅｒy is not validฏูİı｜]",
+      "titleApplicationCreating": "[ps'Ａｐｐｌｉｃａｔｉｏn perspective is being created…ฏูİı｜]"
+    },
+    "customSyntheticRule": {
+      "placeholderNameRule": "[ps'Ｎａｍe your ruleฏูİı｜]",
+      "placeholderAddDescriptionForRule": "[ps'Ａｄｄ ａ ｄｅｓｃription for your ruleฏูİı｜]",
+      "helpSpecifyRule": "[ps'Ｓｐｅｃｉｆｙ ｔｈｅ ｒules to match, eg. endpoint.name contains healthฏูİı｜]",
+      "messageNoMatchRule": "[ps'Ｎｏ ｅｎｄｐｏｉnt matches this rule.ฏูİı｜]",
+      "messageNoRule": "[ps'Ｎｏ ｒｕｌｅｓ are specified.ฏูİı｜]",
+      "stepTitleConfigureSyntheticEndpoints": "[ps'Ｃｏｎｆｉｇｕｒｅ ｓｙｎｔｈｅｔic endpoints to ignore calls to them from service and application KPIsฏูİı｜]",
+      "descriptionConfigureSyntheticEndpoints": "[ps'Ｃａｌｌｓ ｔｏ ｓｙｎｔｈｅｔｉｃ ｅｎｄｐｏｉｎｔｓ ｗｉｌｌ ｃｏｎｔｉｎｕｅ ｔｏ ｂｅ ｃａｐｔｕｒｅｄ, ｂｕｔ ｗｉｌｌ ｎｏｔ ｃｏｎtribute to service and application KPIs. Our built-in rule will auto-detect and ignore your health checks, but additional endpoints can be manually added with new rulesฏูİı｜]",
+      "descriptionEndpointsRule": "[ps'Ｃａｌｌｓ ｔｏ ｔｈｅ ｅｎｄｐｏｉｎｔｓ ｍａｔｃｈｉｎｇ ｔｈｉｓ ａｕｔo-generated rule do not contribute to your application, or service KPIs within Instana and are disregarded.ฏูİı｜]",
+      "errorConditionRequired": "[ps'Ａｔ ｌｅａｓｔ ｏｎｅ match condition is required.ฏูİı｜]"
+    }
+  },
+  "list": {
+    "textNewApplicationPerspective": "[ps'Ｔｈｅｙ ｗｉｌｌ ａｐｐｅar here once an account administrator creates them.ฏูİı｜]",
+    "showApplicationsScope": "[ps'Ｓｈｏｗｉｎｇ ａpplications <bold>[{{contextScope}}]</bold> of <linkToEntity>[{{entityLabel}}]</linkToEntity>ฏูİı｜]",
+    "showServicesScope": "[ps'Ｓｈｏｗｉｎｇ ｓervices <bold>[{{contextScope}}]</bold> of <linkToEntity>[{{entityLabel}}]</linkToEntity>ฏูİı｜]",
+    "showApplicationsScopeWithApplicationLabel": "[ps'Ｓｈｏｗｉｎｇ ａｐｐlications <bold>[{{contextScope}}]</bold> of <linkToEntity>[{{entityLabel}}]</linkToEntity><span> in context of </span><linkToApplication>[{{applicationLabel}}]</linkToApplication>ฏูİı｜]",
+    "showServicesScopeWithServiceLabel": "[ps'Ｓｈｏｗｉｎｇ ｓｅｒvices <bold>[{{contextScope}}]</bold> of <linkToEntity>[{{entityLabel}}]</linkToEntity><span> in context of </span><linkToApplication>[{{applicationLabel}}]</linkToApplication>ฏูİı｜]",
+    "titleNoService": "[ps'Ｎｏ Ｓervices yetฏูİı｜]",
+    "servicesNoData": "[ps'Ｎｏ ｓｅｒｖｉｃｅ ｃａｌｌｓ ａｒｅ ａｖａｉｌａｂｌｅ ｆｏｒ ｔｈｅ ｓｅｌｅｃｔｅｄ ｔｉｍｅ ｒａｎｇｅ. Ｆｏｒ ｔｒｏｕｂｌeshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listedฏูİı｜]"
+  },
+  "endpointTypes": {
+    "batch": "[ps'Batchฏูİı｜]",
+    "shell": "[ps'Shellฏูİı｜]",
+    "database": "[ps'Databaseฏูİı｜]",
+    "http": "[ps'Httpฏูİı｜]",
+    "messaging": "[ps'Messagingฏูİı｜]",
+    "rpc": "[ps'Rpcฏูİı｜]",
+    "event": "[ps'Eventฏูİı｜]",
+    "graphQL": "[ps'GraphQLฏูİı｜]",
+    "internal": "[ps'Internalฏูİı｜]",
+    "undefined": "[ps'Undefinedฏูİı｜]",
+    "self": "[ps'Selfฏูİı｜]",
+    "sdk": "[ps'SDKฏูİı｜]"
+  }
+}

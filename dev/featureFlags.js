@@ -40,6 +40,7 @@ module.exports = {
   loggingEnabled: true,
   qb2InAPCreationEnabled: true,
   languageSelectorEnabled: true,
+  pseudoLanguageEnabled: true,
   authenticationOidcEnabled: true,
   syntheticCallsEnabled: true
 };
