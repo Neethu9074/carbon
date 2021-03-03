@@ -2696,6 +2696,48 @@
     }
   },
   "tracing": {
+    "actioncontroller": {
+      "controller": "Controller",
+      "action": "Action",
+      "errorMessage": "Error Message",
+      "errorType": "Error Type"
+    },
+    "actionview": {
+      "errorMessage": "Error Message",
+      "errorType": "Error Type"
+    },
+    "activerecord": {
+      "adapter": "Adapter",
+      "database": "Database",
+      "databaseHost": "Database Host",
+      "username": "Username",
+      "sql": "SQL"
+    },
+    "adonet": {
+      "connection": "Connection",
+      "commandType": "Command-Type",
+      "statement": "Statement",
+      "resultSize": "Result-Size"
+    },
+    "aerospike": {
+      "namespace": "Namespace",
+      "setName": "Set name",
+      "userKey": "User key",
+      "Operation": "Operation",
+      "host": "Host",
+      "port": "Port",
+      "parameters": "Parameters",
+      "statement": "Statement"
+    },
+    "akkaremote": {
+      "path": "Path",
+      "message": "Message"
+    },
+    "amqp": {
+      "command": "Command",
+      "connection": "Connection",
+      "routingKey": "Routing Key"
+    },
     "nats": {
       "consumeFromSubject": "Consume to {{subjectVar}}",
       "publishToSubject": "Publish to {{subjectVar}}",
