@@ -534,7 +534,6 @@ function ExpandedGroup({
       tagFilterExpression={tagFilterExpression}
       timeConfig={timeConfig}
       retrievalSize={20}
-      numSkeletonRows={Math.min(group.metrics[dataSourceConstants[dataSource].metricKey][0][1] ?? 20, 20)}
       filterBy={() => onFocusOnGroup(groupingFilter({ groupBy, group: group.name, groupByTagType }))}
       orderBy={subOrderBy}
       onChangeOrderBy={onChangeSubOrderBy}

@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
-import { t } from 'in-i18n';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export { detailViewProps, retrievalSize } from 'in-new-components/AnalyzeView/UngroupedView';
 import UngroupedView, { retrievalSize } from 'in-new-components/AnalyzeView/UngroupedView';
@@ -13,6 +12,7 @@ import { wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers'
 import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
+import { t } from 'in-i18n';
 
 import locals from './UngroupedViewTable.mless';
 
@@ -92,6 +92,14 @@ function Table(props) {
       .filter(Boolean)
   ];
 
+  const [numberOfSkeletonRows, setNumberOfSkeletonRows] = useState(3);
+
+  useEffect(() => {
+    if (items?.length > 0) {
+      setNumberOfSkeletonRows(items.length);
+    }
+  }, [items]);
+
   return (
     <>
       {items?.length > 0 ||
@@ -100,7 +108,7 @@ function Table(props) {
         <CursorPaginatedTable
           {...props}
           columnDefinitions={columnDefinitions}
-          numSkeletonRows={3}
+          numSkeletonRows={numberOfSkeletonRows}
           onChange={({ orderBy, orderDirection }) =>
             onOrderByChange({
               by: orderBy,
