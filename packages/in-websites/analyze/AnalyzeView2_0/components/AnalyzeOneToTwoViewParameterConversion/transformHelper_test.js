@@ -37,9 +37,8 @@ const cases = [
         '/websiteMonitoring': {},
         '/analyzeBeacons': {
           beaconType: 'pageLoad',
-          tagFilterExpression:
-            '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Product)~',
-          groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
+          tagFilterExpression: '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~value~Product)~',
+          groupBy: '(groupbyTag~beacon.website.name)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
           orderByGroups: '(by~earliestTimestamp~direction~ASC)~'
         }
@@ -70,9 +69,8 @@ const cases = [
         '/websiteMonitoring': {},
         '/analyzeBeacons': {
           beaconType: 'pageLoad',
-          tagFilterExpression:
-            '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Product)~',
-          groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
+          tagFilterExpression: '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~value~Product)~',
+          groupBy: '(groupbyTag~beacon.website.name)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
           orderByGroups: '(by~firstPaintTime*_P90~direction~DESC)~'
         }
@@ -105,8 +103,7 @@ const cases = [
         '/analyzeBeacons': {
           beaconType: 'pageLoad',
           tagFilterExpression:
-            '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Product)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~beacon.page.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~*/home)~',
-          groupBy: '()~',
+            '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~value~Product)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~beacon.page.name~operator~EQUALS~value~*/home)~',
           orderBy: '(by~timestamp~direction~ASC)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
@@ -139,8 +136,7 @@ const cases = [
         '/analyzeBeacons': {
           beaconType: 'pageLoad',
           tagFilterExpression:
-            '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~Product)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~beacon.page.name~operator~EQUALS~entity~NOT*_APPLICABLE~value~*/home)~',
-          groupBy: '()~',
+            '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~value~Product)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~beacon.page.name~operator~EQUALS~value~*/home)~',
           orderBy: '(by~beacon.timing.firstPaint~direction~DESC)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
@@ -196,7 +192,6 @@ const cases = [
       matrix: {
         '/websiteMonitoring': {},
         '/analyzeBeacons': {
-          groupBy: '()~',
           beaconType: 'pageLoad',
           fields:
             '!(type~metric~metricId~beaconDuration~aggregationId~MEAN)(type~metric~metricId~beaconDuration~aggregationId~MIN)~',
@@ -226,7 +221,7 @@ const cases = [
       matrix: {
         '/websiteMonitoring': {},
         '/analyzeBeacons': {
-          groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
+          groupBy: '(groupbyTag~beacon.website.name)~',
           beaconType: 'pageLoad',
           chartedMetrics: '!(metricId~beaconDuration~aggregationId~MEAN)~'
         }
@@ -254,7 +249,7 @@ const cases = [
       matrix: {
         '/websiteMonitoring': {},
         '/analyzeBeacons': {
-          groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
+          groupBy: '(groupbyTag~beacon.website.name)~',
           beaconType: 'pageLoad',
           chartedMetrics: '!(metricId~beaconDuration~aggregationId~MEAN)~'
         }
@@ -281,7 +276,7 @@ const cases = [
       matrix: {
         '/websiteMonitoring': {},
         '/analyzeBeacons': {
-          groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
+          groupBy: '(groupbyTag~beacon.website.name)~',
           beaconType: 'pageLoad',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
@@ -309,7 +304,7 @@ const cases = [
       matrix: {
         '/websiteMonitoring': {},
         '/analyzeBeacons': {
-          groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
+          groupBy: '(groupbyTag~beacon.website.name)~',
           beaconType: 'pageChange',
           chartedMetrics: '!(metricId~uniqueUsersOrSessions~aggregationId~DISTINCT*_COUNT)~'
         }
@@ -337,7 +332,7 @@ const cases = [
       matrix: {
         '/websiteMonitoring': {},
         '/analyzeBeacons': {
-          groupBy: '(groupbyTag~beacon.website.name~entity~NOT*_APPLICABLE)~',
+          groupBy: '(groupbyTag~beacon.website.name)~',
           beaconType: 'pageLoad',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
           orderByGroups: '(by~beaconCount*_SUM~direction~ASC)~'

@@ -16,10 +16,12 @@ import {
   analyzeTwoParameters,
   sessionViewPath
 } from 'in-mobile-apps/navigation/paths';
+import { setOrDeleteMatrixKey, getMatrixParameter, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { deserializeTagFilters, deserializeMetrics } from 'in-mobile-apps/navigation/matrix';
-import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
+import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
+import { type } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 
 export function transformOneZeroToTwoZero(location, tagCatalog, metricCatalog) {
   // In 1.0 zero mode the detail view has a different path. In 2.0 mode this difference
@@ -65,13 +67,14 @@ function transformDetailIdParameters(location) {
 
 function transformGroupByParameters(location) {
   // Rename group => groupBy and remove old parameter. Structurally both parameters
-  // are identical between UA1.0 and 2.0
-  setOrDeleteMatrixKey(
-    location,
-    analyzeTwoParameters.groupBy.path,
-    analyzeTwoParameters.groupBy.name,
-    getMatrixParameter(location, analyzePath, groupMatrixParameterName)
-  );
+  // are almost identical between UA1.0 and 2.0, except that in the latter version the
+  // entity type 'NOT_APPLICABLE' should not be set.
+  const groupByParam = getMatrixParameter(location, analyzePath, groupMatrixParameterName);
+  let groupBy = analyzeTwoParameters.groupBy.parser(groupByParam);
+  if (groupBy?.entity === NOT_APPLICABLE) {
+    delete groupBy.entity;
+  }
+  setOrDeleteMatrixParameter(location, analyzeTwoParameters.groupBy, groupBy?.groupbyTag ? groupBy : null);
   // clear old grouping value
   setOrDeleteMatrixKey(location, analyzePath, groupMatrixParameterName);
 }
@@ -81,6 +84,13 @@ function transformTagFiltersParameters(location, tagCatalog) {
   setOrDeleteMatrixKey(location, analyzePath, tagFiltersMatrixParameterName);
   if (tagFilters) {
     const tagFilterExpression = fromTagFiltersArray(deserializeTagFilters(tagFilters), tagCatalog);
+    tagFilterExpression.map(e => {
+      // In UA2 entity type 'NOT_APPLICABLE' should not be set.
+      if (e.type === type && e.entity === NOT_APPLICABLE) {
+        delete e.entity;
+      }
+      return e;
+    });
     setOrDeleteMatrixKey(
       location,
       analyzeTwoParameters.tagFilterExpression.path,
