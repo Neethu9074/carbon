@@ -220,10 +220,10 @@
       "pod_0": "all pods",
       "pod_1": "all pods",
       "pod_2": "all pods",
-      "namespace_plural": "all pods",
-      "namespace_0": "all pods",
-      "namespace_1": "all pods",
-      "namespace_2": "all pods"
+      "namespace_plural": "all namespaces",
+      "namespace_0": "all namespaces",
+      "namespace_1": "all namespaces",
+      "namespace_2": "all namespaces"
     },
     "unknownEntity": "",
     "deployment": "deployment",
