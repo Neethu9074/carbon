@@ -50,6 +50,7 @@ export const qb2InAPCreationEnabled = isFeatureFlagEnabled('qb2InAPCreationEnabl
 export const languageSelectorEnabled = isFeatureFlagEnabled('languageSelectorEnabled');
 export const authenticationOidcEnabled = isFeatureFlagEnabled('authenticationOidcEnabled');
 export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');
+export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords

@@ -12,5 +12,8 @@
       "saving": "Saving…",
       "loading": "Loading…"
     }
-  }
+  },
+  "language_en-US": "English",
+  "language_de-DE": "German",
+  "language_ps-EUDO": "Pseudo language for QA purposes"
 }

@@ -1,6 +1,0 @@
-{
-  "notMonitoringTitle": "[af'Ｎｏｔ Monitoringฏูİı｜]",
-  "noDataTitle": "[af'Ｎｏ Ｍｏｎｉｔoring Data Foundฏูİı｜]",
-  "notMonitoringText": "[af'Ｐｌｅａｓｅ ｉｎｓｔａｌｌ ｔｈｅ Ｉｎｓｔａｎａ ａｇｅｎｔ ｏｎ ｔｈｅ ｓｙｓｔｅｍｓ ｙｏｕ ｗａｎｔ ｔｏ ｍｏｎｉｔｏｒ. Ｉｎｓｔａｌｌａｔｉｏｎ ｉｎｓｔｒｕｃｔｉｏｎｓ ａｒｅ ａｖａｉｌable in our [online documentation][Docs].\n\nShould you need additional assistance, please contact us via our [support portal][Support].\n\n[Docs]:https://instana.com/docs/setup_and_manage/\n[Support]:https://support.instana.comฏูİı｜]",
-  "noData": "[af'Ｉｎｓｔａｎａ ｉｓ ｃｕｒｒｅｎｔｌｙ ｒｅｃｅｉｖｉｎｇ ｄａｔａ ｆｒｏｍ ａｇｅｎｔｓ ｂｕｔ ｈａｓ ｎｏ ｄａｔａ ｆｏｒ ｔｈｅ ｓｅｌｅｃｔｅｄ ｔｉｍｅ ｒａｎｇｅ.\nＰｌｅａｓｅ ｓｅｌｅｃｔ ａ ｄifferent time range: e.g. [the last hour].\n\nShould you need additional assistance, please contact us via our [support portal][Support].\n\n[Docs]:https://instana.com/docs/setup_and_manage/\n[Support]:https://support.instana.comฏูİı｜]"
-}
