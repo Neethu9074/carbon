@@ -22,7 +22,7 @@ import Sticky from 'in-components/Sticky';
 
 export const analyzeTwoParameters = createParameters(analyzePath);
 
-export default function AnalyzeOneToTwoViewParameterConversion() {
+export default function AnalyzeOneToTwoViewParameterConversion({ dataSourceConfigurations }) {
   const location = useLocation();
   const beaconType = getMatrixParameter(location, analyzePath, beaconTypeMatrixParameterName) || 'sessionStart';
   const tagCatalog = useTagCatalog(beaconType);
@@ -31,7 +31,7 @@ export default function AnalyzeOneToTwoViewParameterConversion() {
   let redirectHref;
   if (tagCatalog != null && metricCatalogResult?.data) {
     redirectHref = getModifiedUrl(location, location =>
-      transformOneZeroToTwoZero(location, tagCatalog, metricCatalogResult.data)
+      transformOneZeroToTwoZero(location, tagCatalog, metricCatalogResult.data, dataSourceConfigurations[beaconType])
     );
   }
 
