@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import React, { useEffect, useState } from 'react';
 import { empty } from '@instana/observables';
 import classNames from 'classnames';
 import Toggle from 'react-toggle';
-import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
@@ -36,7 +36,6 @@ const defaultDirection = 'DESC';
 
 export default function List({
   retrievalSize = 20,
-  numSkeletonRows = 3,
   tagFilterExpression,
   filterBy,
   orderBy,
@@ -93,6 +92,14 @@ export default function List({
 
   const optionalColumns = () => columnDefinitions.filter(columnDefinition => columnDefinition.optional);
 
+  const [numberOfSkeletonRows, setNumberOfSkeletonRows] = useState(3);
+
+  useEffect(() => {
+    if (items?.length > 0) {
+      setNumberOfSkeletonRows(items.length);
+    }
+  }, [items]);
+
   return tableOnly ? (
     <TableOnlyPresenter
       items={items}
@@ -103,7 +110,7 @@ export default function List({
       columnDefinitions={columnDefinitions}
       withoutPadding={withoutPadding}
       optionalColumns={optionalColumns}
-      numSkeletonRows={numSkeletonRows}
+      numSkeletonRows={numberOfSkeletonRows}
       onChangeOrderBy={onChangeOrderBy}
       order={order}
       retrievalSize={retrievalSize}
@@ -125,7 +132,7 @@ export default function List({
       updateGroup={updateGroup}
       columnDefinitions={columnDefinitions}
       optionalColumns={optionalColumns}
-      numSkeletonRows={numSkeletonRows}
+      numSkeletonRows={numberOfSkeletonRows}
       onChangeOrderBy={onChangeOrderBy}
       order={order}
       retrievalSize={retrievalSize}
