@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -11,7 +12,7 @@ import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 
 const deviceColumn = {
-  title: 'Device',
+  title: t('in-forge:plugins.lxc.device', 'Device'),
   type: 'string',
   typeArgs: {
     getValue(row) {
@@ -21,7 +22,7 @@ const deviceColumn = {
 };
 
 const mountColumn = {
-  title: 'Mount',
+  title: t('in-forge:plugins.lxc.mount', 'Mount'),
   type: 'string',
   typeArgs: {
     getValue(row) {
@@ -30,7 +31,7 @@ const mountColumn = {
   }
 };
 const optionsColumn = {
-  title: 'Options',
+  title: t('in-forge:plugins.lxc.options', 'Options'),
   type: 'string',
   typeArgs: {
     getValue(row) {
@@ -39,7 +40,7 @@ const optionsColumn = {
   }
 };
 const typeColumn = {
-  title: 'Type',
+  title: t('in-forge:plugins.lxc.type', 'Type'),
   type: 'string',
   typeArgs: {
     getValue(row) {
@@ -49,7 +50,7 @@ const typeColumn = {
 };
 
 const totalColumn = {
-  title: 'Total',
+  title: t('in-forge:plugins.lxc.total', 'Total'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row) {
@@ -66,7 +67,7 @@ const totalColumn = {
 };
 
 const usedColumn = {
-  title: 'Used',
+  title: t('in-forge:plugins.lxc.used', 'Used'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row) {
@@ -103,7 +104,7 @@ export default function FilesystemsTable({ snapshot, timeConfig }) {
 
   return (
     <Table
-      cardTitle="Filesystems"
+      cardTitle={t('in-forge:plugins.lxc.filesystems', 'Filesystems')}
       withoutPadding
       cols={cols}
       rows={rows}
@@ -124,7 +125,7 @@ function getDetails(row) {
         formatter: bytes,
         tooltipFormatter: bytes.detailed,
         metrics: ['filesystems.' + row.key + '.free'],
-        labels: ['Free'],
+        labels: [t('in-forge:plugins.lxc.free', 'Free')],
         type: 'line'
       }}
       y2={{
@@ -132,7 +133,7 @@ function getDetails(row) {
         formatter: percentage,
         tooltipFormatter: percentage.detailed,
         metrics: ['filesystems.' + row.key + '.usedPercentage'],
-        labels: ['Used'],
+        labels: [t('in-forge:plugins.lxc.used', 'Used')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

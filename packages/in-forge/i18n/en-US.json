@@ -361,7 +361,6 @@
   "pluginName_webSphereLibertyApplicationContainer": "WebSphere Liberty Server",
   "pluginName_zooKeeper": "ZooKeeper",
   "pluginName_zooKeeper_plural": "ZooKeepers",
-
   "plugins": {
     "titleARN": "ARN",
     "titleVPC": "VPC",
@@ -2052,7 +2051,6 @@
       "labelReadRepairDropped": "Read Repair Dropped",
       "labelRequestResponseDropped": "Request Response Dropped",
       "labelCompactionPending": "Compaction Pending",
-
       "labelCounter": "Counter",
       "labelKey": "Key",
       "labelRow": "Row",
@@ -2109,7 +2107,6 @@
       "infoFsid": "Fsid",
       "labelOverallStatus": "Overall Status",
       "labelActiveMonitors": "Active Monitors",
-
       "labelNumberOfMonitors": "Number of monitors",
       "labelNumberOfActiveMonitors": "Number of active monitors",
       "labelTotalOsds": "Total mumber of osds",
@@ -2301,7 +2298,6 @@
         "labelRunning": "Running",
         "labelStarting": "Starting",
         "labelStopped": "Stopped",
-
         "titleComponent": "Component",
         "titleDiegoCount": "Diego {{diegoCount}}",
         "titleRoutines": "Routines",
@@ -2312,7 +2308,6 @@
         "labelAllocatedStack": "Allocated Stack",
         "labelRequestsFailed": "Requests failed",
         "labelRequestsSucceeded": "Requests succeeded",
-
         "titleErrorReceived": "Error received",
         "titleDroppedMessages": "Dropped messages",
         "titleAllocated": "Allocated",
@@ -2581,7 +2576,6 @@
       "titleMemoryUsage": "Memory Usage",
       "dashboard": {
         "headerContainerLabels": "Container Labels",
-
         "labelCPUTotal": "CPU Total",
         "labelMemoryUsage": "Memory Usage",
         "titleCPUTime": "CPU Time",
@@ -2673,7 +2667,6 @@
         "labelItemsWrittenToDisk": "Items written to disk per sec."
       }
     },
-
     "sparkStandalone": {
       "titleApplicationId": "Application Id",
       "titleState": "State",
@@ -2875,6 +2868,75 @@
     "unmonitoredHost": {
       "headerNetworkInformation": "Network Information",
       "infoNoEntityInfo": "There is no further information about this entity."
+    },
+    "lxc": {
+      "networkWithNetworkInterface": "Network ({{networkInterface}})",
+      "network": "Network",
+      "memoryUsage": "Memory Usage",
+      "cpu": "CPU",
+      "kernel": "Kernel",
+      "user": "User",
+      "memory": "Memory",
+      "usage": "Usage",
+      "rss": "RSS",
+      "cache": "Cache",
+      "swap": "Swap",
+      "used": "Used",
+      "activeAnonymous": "Active anonymous",
+      "activeCache": "Active cache",
+      "inactiveAnonymous": "Inactive anonymous",
+      "inactiveCache": "Inactive cache",
+      "rxBytes": "RX Bytes",
+      "txBytes": "TX Bytes",
+      "rxPackets": "RX Packets",
+      "txPackets": "TX Packets",
+      "device": "Device",
+      "mount": "Mount",
+      "options": "Options",
+      "type": "Type",
+      "total": "Total",
+      "filesystems": "Filesystems",
+      "free": "Free",
+      "lxcContainer": "LXC Container",
+      "name": "Name",
+      "processId": "Process ID",
+      "state": "State",
+      "ip": "IP",
+      "networkInterface": "Network Interface",
+      "cpuSystemUsage": "CPU System Usage",
+      "kernelTime": "Kernel time",
+      "userTime": "User time",
+      "usedPercentage": "Used percentage",
+      "swapPercentage": "Swap percentage",
+      "maxUsage": "Max usage",
+      "userPercentage": "User percentage",
+      "receivedBytes": "Received Bytes",
+      "transmittedBytes": "Transmitted Bytes",
+      "receivedPackets": "Received Packets",
+      "transmittedPackets": "Transmitted Packets",
+      "host": "Host",
+      "cpuKernel": "CPU Kernel",
+      "cpuUser": "CPU User",
+      "memoryUsed": "Memory Used",
+      "swapUsed": "Swap Used",
+      "networkReceived": "Network received",
+      "networkTransmitted": "Network transmitted"
+    },
+    "liferayApplicationContainer": {
+      "averageTime": "Average Time",
+      "requestCount": "Request Count",
+      "portalLatencyOverview": "Portal Latency Overview",
+      "portalAverageTime": "Portal Average Time",
+      "portalMaxTime": "Portal Max Time",
+      "portalMinTime": "Portal Min Time",
+      "actionRequestAverageTime": "Action Request Average Time",
+      "actionRequestMaxTime": "Action Request Max Time",
+      "actionRequestMinTime": "Action Request Min Time",
+      "requests": "Requests",
+      "successCount": "Success Count",
+      "errorCount": "Error Count",
+      "liferay": "Liferay",
+      "version": "Version"
     }
   },
   "tracing": {
