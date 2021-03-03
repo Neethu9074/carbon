@@ -18,7 +18,7 @@ const metrics = ['beaconCount', 'beaconDuration', 'beaconErrorCount'];
 const labels = [
   t('in-mobile-apps:dashboard.tabs.callsLabel'),
   t('in-mobile-apps:dashboard.tabs.latencyLabel'),
-  t('in-mobile-apps:dashboard.tabs.latencyLabel')
+  t('in-mobile-apps:dashboard.tabs.errorsLabel')
 ];
 const aggregations = ['SUM', 'MEAN', 'SUM'];
 const formatters = [number.compact, ms.compact, number.compact];
