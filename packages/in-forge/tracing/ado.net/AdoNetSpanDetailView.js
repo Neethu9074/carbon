@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -15,14 +16,14 @@ export default function JdbcSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Connection">{span.getIn(['data', 'ado', 'connection'])}</Di>
-        <Di title="Command-Type">{span.getIn(['data', 'ado', 'type'])}</Di>
+        <Di title={t('in-forge:tracing.adonet.connection')}>{span.getIn(['data', 'ado', 'connection'])}</Di>
+        <Di title={t('in-forge:tracing.adonet.commandType')}>{span.getIn(['data', 'ado', 'type'])}</Di>
         {statement ? (
-          <Di title="Statement" verticalDisplay>
+          <Di title={t('in-forge:tracing.adonet.statement')} verticalDisplay>
             <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
           </Di>
         ) : null}
-        <Di title="Result-Size">{span.getIn(['data', 'ado', 'resultsize'])}</Di>
+        <Di title={t('in-forge:tracing.adonet.resultSize')}>{span.getIn(['data', 'ado', 'resultsize'])}</Di>
         <ErrorDescriptionItem error={error} />
       </Dl>
     </div>
