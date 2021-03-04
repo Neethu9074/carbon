@@ -5,6 +5,7 @@
 import React, { useMemo, useState } from 'react';
 import rpt from 'prop-types';
 
+import { TAG, CONJUNCTION, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS, IS_EMPTY, NOT_EMPTY, IS_BLANK } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { isFormModelValid as isFilterValid } from 'in-new-components/QueryBuilder/validation/formModel';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
@@ -13,7 +14,6 @@ import { metric as metricType, custom as customType } from 'in-new-components/An
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { ua2OrderByChangedTracker, ua2OrderByGroupChangedTracker } from 'in-new-components/tracker';
 import { isValid as isValidGrouping } from 'in-new-components/GroupingConfigurator/validation';
-import { TAG, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { NUMBER, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { columnDefinitionShape } from 'in-new-components/lists/List/ColumnizedContent';
 import { UNSPECIFIED, NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
@@ -465,14 +465,5 @@ export function addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, g
       entity: groupBy.groupbyTagEntity
     };
   }
-
-  const changedFormModel = formModel.slice();
-  if (changedFormModel.length > 0) {
-    changedFormModel.push({
-      type: CONJUNCTION,
-      logicalOperator: and
-    });
-  }
-  changedFormModel.push(newTagFilter);
-  return changedFormModel;
+  return joinExpressions({ expressions: [formModel, newTagFilter] });
 }
