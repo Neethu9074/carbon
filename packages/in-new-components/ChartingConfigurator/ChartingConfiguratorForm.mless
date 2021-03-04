@@ -47,6 +47,10 @@
     font-weight: 400;
   }
 
+  .singleAggregation {
+    cursor: default;
+  }
+
   .selectable {
     &:focus,
     &:active,
