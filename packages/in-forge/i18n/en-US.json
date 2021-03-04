@@ -2937,6 +2937,15 @@
       "errorCount": "Error Count",
       "liferay": "Liferay",
       "version": "Version"
+    },
+    "packet": {
+      "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity.",
+      "hostname": "Hostname",
+      "id": "ID",
+      "iqn": "IQN",
+      "facility": "Facility",
+      "plan": "Plan",
+      "tags": "Tags"
     }
   },
   "tracing": {
