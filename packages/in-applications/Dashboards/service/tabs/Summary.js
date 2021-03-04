@@ -26,6 +26,7 @@ import { meanLatency, number, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
+import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { summaryTab } from 'in-applications/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -64,6 +65,9 @@ export default connectTo(
           operator: EQUALS
         });
       }
+    }
+    if (syntheticCallsEnabled) {
+      tagFilters.push(...getTagFiltersForSyntheticOption(syntheticCalls));
     }
 
     return (

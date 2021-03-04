@@ -37,7 +37,7 @@ export function SmartAlertAffectedEntities({
   endpointName
 }) {
   const tagCatalog = useTagCatalog(getTagCatalog);
-  const { rule, boundaryScope } = alertConfig;
+  const { rule, boundaryScope, includeInternal, includeSynthetic } = alertConfig;
 
   if (rule.alertType === 'throughput') {
     // we don't show the affected services/endpoints list for this blueprint type, because there is no simple property
@@ -130,6 +130,8 @@ export function SmartAlertAffectedEntities({
         totalTagFilters={totalTagFilters}
         tagFilterExpression={tagFilterExpression}
         totalTagFilterExpression={totalTagFilterExpression}
+        includeInternal={includeInternal}
+        includeSynthetic={includeSynthetic}
         timeConfig={timeConfig}
         filterGroup={needsGroupByEndpoint ? groupByEndpointName : groupByServiceName}
         createItemLink$={createItemLink$}

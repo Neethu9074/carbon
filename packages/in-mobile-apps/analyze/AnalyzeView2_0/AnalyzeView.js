@@ -29,8 +29,7 @@ const facetedSearchItems = [
   {
     renderer: FacetedFilterGeneric,
     title: t('in-mobile-apps:facetedSearch.mobileApp'),
-    tag: 'mobileBeacon.mobileApp.name',
-    openByDefault: true
+    tag: 'mobileBeacon.mobileApp.name'
   },
   {
     renderer: FacetedFilterGeneric,

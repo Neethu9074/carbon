@@ -427,10 +427,6 @@ export const childrenArgsAsPropTypes = {
 export function addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, groupingTagCatalog) {
   const groupByTagType = groupingTagCatalog?.tags.find(tag => tag.name === groupBy.groupbyTag)?.type;
 
-  if (!groupByTagType) {
-    return formModel;
-  }
-
   let newTagFilter;
   if (groupValue === UNSPECIFIED) {
     newTagFilter = {

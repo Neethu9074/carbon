@@ -17,6 +17,8 @@ export default function AffectedEntities(props) {
     filterGroup,
     tagFilters,
     tagFilterExpression,
+    includeInternal,
+    includeSynthetic,
     orderBy,
     isValid,
     hiddenCalls,
@@ -45,7 +47,9 @@ export default function AffectedEntities(props) {
           groupbyTagSecondLevelKey: filterGroup.value ?? '',
           groupbyTagEntity: filterGroup.entity ?? entityTypes.NOT_APPLICABLE
         },
-        queryPrecision: 'FULL'
+        queryPrecision: 'FULL',
+        includeInternal,
+        includeSynthetic
       };
 
       const affected = getCallGroups({

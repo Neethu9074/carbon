@@ -39,6 +39,7 @@ function CreateSmartAlert({
   applicationLabel,
   boundaryScope: urlBoundaryScope,
   defaultBoundaryScope,
+  includeSynthetic,
   serviceId,
   serviceLabel,
   endpointId,
@@ -66,7 +67,8 @@ function CreateSmartAlert({
               serviceId,
               serviceLabel,
               endpointId,
-              endpointLabel
+              endpointLabel,
+              includeSynthetic
             })}
             onClose={() => {
               close();
@@ -94,10 +96,19 @@ CreateSmartAlert.propTypes = {
   endpointLabel: PropTypes.string,
   location: propTypeLocation.isRequired,
   boundaryScope: PropTypes.string,
-  defaultBoundaryScope: PropTypes.string
+  defaultBoundaryScope: PropTypes.string,
+  includeSynthetic: PropTypes.bool
 };
 
-export function generateFormData({ boundaryScope, applicationId, serviceId, serviceLabel, endpointId, endpointLabel }) {
+export function generateFormData({
+  boundaryScope,
+  applicationId,
+  serviceId,
+  serviceLabel,
+  endpointId,
+  endpointLabel,
+  includeSynthetic
+}) {
   return {
     applicationId,
     boundaryScope,
@@ -112,6 +123,7 @@ export function generateFormData({ boundaryScope, applicationId, serviceId, serv
       seasonality: 'DAILY'
     },
     calculateThresholdOnBackend: true,
+    includeSynthetic,
     // QB1
     tagFilters: [
       {

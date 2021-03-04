@@ -30,8 +30,7 @@ const facetedSearchItems = [
   {
     renderer: FacetedFilterGeneric,
     title: t('in-websites:facetedSearch.website'),
-    tag: 'beacon.website.name',
-    openByDefault: true
+    tag: 'beacon.website.name'
   },
   {
     renderer: FacetedFilterGeneric,

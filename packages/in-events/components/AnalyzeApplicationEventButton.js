@@ -99,7 +99,15 @@ export function getLinkToUnboundAnalytics(
   tagCatalog,
   groupingTagName = null
 ) {
-  const { rule, boundaryScope, tagFilters, tagFilterExpression, convertedTagFilterExpression } = alertConfig;
+  const {
+    rule,
+    boundaryScope,
+    tagFilters,
+    tagFilterExpression,
+    convertedTagFilterExpression,
+    includeInternal,
+    includeSynthetic
+  } = alertConfig;
   const alertType = rule.alertType;
 
   if (isQB2ModeInSmartAlertsEnabled) {
@@ -120,7 +128,11 @@ export function getLinkToUnboundAnalytics(
         serviceId,
         endpointId,
         timeConfig
-      )
+      ),
+      hiddenCalls: {
+        includeInternal,
+        includeSynthetic
+      }
     });
   } else if (!isQB2Config(convertedTagFilterExpression)) {
     const groupByTag = groupingTagName

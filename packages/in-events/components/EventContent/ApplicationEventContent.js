@@ -2,10 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
-import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
+import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-applications/alerting/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
 import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/chart/ApplicationAlertingChartWithErrorMessage';
 import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
@@ -19,6 +18,7 @@ import ApplicationScopePath from 'in-applications/alerting/components/Applicatio
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
+import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
@@ -27,6 +27,7 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 import locals from './ApplicationEventContent.mless';
 
@@ -113,6 +114,7 @@ export default function ApplicationEventContent({ event }) {
               />
             </div>
             <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
+            <ReadOnlyIncludeInternalOrSyntheticCallsSwitch alertConfig={alertConfig} />
           </Card>
         </Col>
       </Row>

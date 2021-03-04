@@ -21,6 +21,7 @@ import ApplicationSwitcherContext from 'in-applications/components/ApplicationSw
 import IncludeSyntheticCallsDropdown from '../commonComponents/IncludeSyntheticCallsDropdown';
 import { serviceDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAlert';
+import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
@@ -33,7 +34,6 @@ import getService from 'in-subscription/application/getService';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { entityTypes } from 'in-analyze/applicationFilter';
-import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
@@ -113,6 +113,7 @@ export default function ServiceDashboard({ location }) {
             applicationId={props.applicationId}
             location={location}
             boundaryScope={props.boundaryScope}
+            includeSynthetic={isSyntheticOption(props.syntheticCalls)}
           />
         </FloatingActionButtons>
       )}

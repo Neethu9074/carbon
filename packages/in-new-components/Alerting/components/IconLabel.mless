@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .container {
@@ -16,5 +17,9 @@
 
   .icon {
     margin: 0 0.5rem 0 0;
+  }
+
+  .ellipsis {
+    .ellipsis();
   }
 }
