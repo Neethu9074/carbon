@@ -143,11 +143,20 @@ function SearchAndSuggestions({
           items: data.items.filter(suggestion => valueRegex.test(customLabelMapper(suggestion.name)))
         }))
       ),
-      [getSuggestions, formModel, formModelExcludingMissingGroupingTag, hiddenCalls, tag, valueFilter, dataSource, timeConfig]
+      [
+        getSuggestions,
+        formModel,
+        formModelExcludingMissingGroupingTag,
+        hiddenCalls,
+        tag,
+        valueFilter,
+        dataSource,
+        timeConfig
+      ]
     ) ?? pendingResult;
   return (
     <Stack space="small">
-      {(!isBlank(valueFilter) || suggestions?.data?.items.length > 5 || suggestions?.progress.loading) && (
+      {(!isBlank(valueFilter) || suggestions?.data?.items.length > 5) && (
         <SearchInput onChange={setValueFilter} query={valueFilter} inputClassName={locals.search} withoutIcon />
       )}
       <SuggestionsPresenter
