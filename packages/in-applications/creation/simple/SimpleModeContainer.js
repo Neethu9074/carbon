@@ -34,7 +34,7 @@ const stepConfigs = [
     ]
   },
   {
-    title: t('in-applications:creation.simple.step2Title')
+    title: t('in-applications:creation.simple.step3Title')
   }
 ];
 
