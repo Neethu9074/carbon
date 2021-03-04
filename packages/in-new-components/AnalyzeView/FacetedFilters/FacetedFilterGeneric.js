@@ -138,7 +138,7 @@ function SearchAndSuggestions({
           items: data.items.filter(suggestion => valueRegex.test(customLabelMapper(suggestion.name)))
         }))
       ),
-      [formModel, hiddenCalls, tag, valueFilter, dataSource, timeConfig]
+      [getSuggestions, formModel, hiddenCalls, tag, valueFilter, dataSource, timeConfig]
     ) ?? pendingResult;
   return (
     <Stack space="small">
