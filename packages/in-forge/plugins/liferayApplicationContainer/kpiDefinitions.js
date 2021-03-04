@@ -6,11 +6,11 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:plugins.liferayApplicationContainer.averageTime', 'Average Time'),
+    label: t('in-forge:plugins.liferayApplicationContainer.averageTime'),
     metric: 'portalStatistics.averageTime'
   },
   {
-    label: t('in-forge:plugins.liferayApplicationContainer.requestCount', 'Request Count'),
+    label: t('in-forge:plugins.liferayApplicationContainer.requestCount'),
     metric: 'portalStatistics.requestCount'
   }
 ];

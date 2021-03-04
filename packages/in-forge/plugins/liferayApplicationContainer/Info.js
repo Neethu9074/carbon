@@ -10,7 +10,7 @@ import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/Desc
 export default function LiferayInfo({ snapshot }) {
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.liferayApplicationContainer.version', 'Version')}>
+      <DescriptionItem title={t('in-forge:plugins.liferayApplicationContainer.version')}>
         {snapshot.getIn(['data', 'version'])}
       </DescriptionItem>
     </DescriptionList>

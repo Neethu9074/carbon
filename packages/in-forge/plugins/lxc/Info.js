@@ -13,13 +13,11 @@ export default function LxcInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.lxc.name', 'Name')}>{data.get('name')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.lxc.processId', 'Process ID')}>{data.get('pid')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.lxc.state', 'State')}>
-        {data.get('state') + ' ' + privileged}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.lxc.ip', 'IP')}>{data.get('ip')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.lxc.networkInterface', 'Network Interface')}>
+      <DescriptionItem title={t('in-forge:plugins.lxc.name')}>{data.get('name')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.lxc.processId')}>{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.lxc.state')}>{data.get('state') + ' ' + privileged}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.lxc.ip')}>{data.get('ip')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.lxc.networkInterface')}>
         {data.get('networkInterface')}
       </DescriptionItem>
     </DescriptionList>

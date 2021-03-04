@@ -8,12 +8,12 @@ import { bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/f
 
 export default [
   {
-    label: t('in-forge:plugins.lxc.memoryUsage', 'Memory Usage'),
+    label: t('in-forge:plugins.lxc.memoryUsage'),
     metric: 'memory.usage',
     formatter: bytesTwoDecimalPlaces
   },
   {
-    label: t('in-forge:plugins.lxc.cpuSystemUsage', 'CPU System Usage'),
+    label: t('in-forge:plugins.lxc.cpuSystemUsage'),
     metric: 'cpu.system_usage',
     formatter: percentageTwoDecimalPlaces
   }

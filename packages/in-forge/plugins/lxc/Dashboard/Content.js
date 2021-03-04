@@ -20,19 +20,19 @@ export default function LxcDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.lxc.memoryUsage', 'Memory Usage')}>
+        <KpiKeyValue label={t('in-forge:plugins.lxc.memoryUsage')}>
           <MetricValue snapshotId={snapshotId} metric="memory.usage" formatter={bytesTwoDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title={t('in-forge:plugins.lxc.cpu', 'CPU')}>
+      <DashboardSection title={t('in-forge:plugins.lxc.cpu')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cpu.system_usage', 'cpu.user_usage'],
-            labels: [t('in-forge:plugins.lxc.kernel', 'Kernel'), t('in-forge:plugins.lxc.user', 'User')],
+            labels: [t('in-forge:plugins.lxc.kernel'), t('in-forge:plugins.lxc.user')],
             formatter: percentageTwoDecimalPlaces,
             type: 'line'
           }}
@@ -40,7 +40,7 @@ export default function LxcDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title={t('in-forge:plugins.lxc.memory', 'Memory')}>
+      <DashboardSection title={t('in-forge:plugins.lxc.memory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -48,10 +48,10 @@ export default function LxcDashboard({ snapshot, timeConfig }) {
             min: 0,
             metrics: ['memory.usage', 'memory.rss', 'memory.cache', 'memory.swap'],
             labels: [
-              t('in-forge:plugins.lxc.usage', 'Usage'),
-              t('in-forge:plugins.lxc.rss', 'RSS'),
-              t('in-forge:plugins.lxc.cache', 'Cache'),
-              t('in-forge:plugins.lxc.swap', 'Swap')
+              t('in-forge:plugins.lxc.usage'),
+              t('in-forge:plugins.lxc.rss'),
+              t('in-forge:plugins.lxc.cache'),
+              t('in-forge:plugins.lxc.swap')
             ],
             formatter: bytesTwoDecimalPlaces,
             type: 'line'
@@ -59,7 +59,7 @@ export default function LxcDashboard({ snapshot, timeConfig }) {
           y2={{
             min: 0,
             metrics: ['memory.usedPercentage', 'memory.swapPercentage'],
-            labels: [t('in-forge:plugins.lxc.used', 'Used'), t('in-forge:plugins.lxc.swap', 'Swap')],
+            labels: [t('in-forge:plugins.lxc.used'), t('in-forge:plugins.lxc.swap')],
             formatter: percentageTwoDecimalPlaces,
             type: 'line'
           }}
@@ -72,10 +72,10 @@ export default function LxcDashboard({ snapshot, timeConfig }) {
             min: 0,
             metrics: ['memory.active_anon', 'memory.active_file', 'memory.inactive_anon', 'memory.inactive_file'],
             labels: [
-              t('in-forge:plugins.lxc.activeAnonymous', 'Active anonymous'),
-              t('in-forge:plugins.lxc.activeCache', 'Active cache'),
-              t('in-forge:plugins.lxc.inactiveAnonymous', 'Inactive anonymous'),
-              t('in-forge:plugins.lxc.inactiveCache', 'Inactive cache')
+              t('in-forge:plugins.lxc.activeAnonymous'),
+              t('in-forge:plugins.lxc.activeCache'),
+              t('in-forge:plugins.lxc.inactiveAnonymous'),
+              t('in-forge:plugins.lxc.inactiveCache')
             ],
             formatter: bytesTwoDecimalPlaces,
             type: 'line'
@@ -98,17 +98,14 @@ export default function LxcDashboard({ snapshot, timeConfig }) {
             min: 0,
             formatter: bytesTwoDecimalPlaces,
             metrics: ['network.rxBytes', 'network.txBytes'],
-            labels: [t('in-forge:plugins.lxc.rxBytes', 'RX Bytes'), t('in-forge:plugins.lxc.txBytes', 'TX Bytes')],
+            labels: [t('in-forge:plugins.lxc.rxBytes'), t('in-forge:plugins.lxc.txBytes')],
             type: 'line'
           }}
           y2={{
             min: 0,
             max: 1,
             metrics: ['network.rxPackets', 'network.txPackets'],
-            labels: [
-              t('in-forge:plugins.lxc.rxPackets', 'RX Packets'),
-              t('in-forge:plugins.lxc.txPackets', 'TX Packets')
-            ],
+            labels: [t('in-forge:plugins.lxc.rxPackets'), t('in-forge:plugins.lxc.txPackets')],
             formatter: number.compact,
             type: 'line'
           }}

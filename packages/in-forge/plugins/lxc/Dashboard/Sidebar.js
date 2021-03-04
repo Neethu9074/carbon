@@ -13,7 +13,7 @@ export default function LxcSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>{t('in-forge:plugins.lxc.lxcContainer', 'LXC Container')}</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.lxc.lxcContainer')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

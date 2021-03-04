@@ -10,20 +10,17 @@ import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 export default [
   {
     metrics: ['cpu.system_usage', 'cpu.user_usage'],
-    labels: [t('in-forge:plugins.lxc.kernelTime', 'Kernel time'), t('in-forge:plugins.lxc.userTime', 'User time')],
+    labels: [t('in-forge:plugins.lxc.kernelTime'), t('in-forge:plugins.lxc.userTime')],
     min: 0,
-    category: [t('in-forge:plugins.lxc.cpu', 'CPU')],
+    category: [t('in-forge:plugins.lxc.cpu')],
     formatter: percentage
   },
   {
     metrics: ['memory.usedPercentage', 'memory.swapPercentage'],
-    labels: [
-      t('in-forge:plugins.lxc.usedPercentage', 'Used percentage'),
-      t('in-forge:plugins.lxc.swapPercentage', 'Swap percentage')
-    ],
+    labels: [t('in-forge:plugins.lxc.usedPercentage'), t('in-forge:plugins.lxc.swapPercentage')],
     min: 0,
     max: 1,
-    category: [t('in-forge:plugins.lxc.memory', 'Memory')],
+    category: [t('in-forge:plugins.lxc.memory')],
     formatter: percentage
   },
   {
@@ -38,54 +35,45 @@ export default [
       'memory.inactive_file'
     ],
     labels: [
-      t('in-forge:plugins.lxc.usage', 'Usage'),
-      t('in-forge:plugins.lxc.maxUsage', 'Max usage'),
-      t('in-forge:plugins.lxc.rss', 'RSS'),
-      t('in-forge:plugins.lxc.cache', 'Cache'),
-      t('in-forge:plugins.lxc.swap', 'Swap'),
-      t('in-forge:plugins.lxc.activeAnonymous', 'Active anonymous'),
-      t('in-forge:plugins.lxc.activeCache', 'Active cache'),
-      t('in-forge:plugins.lxc.inactiveAnonymous', 'Inactive anonymous'),
-      t('in-forge:plugins.lxc.inactiveCache', 'Inactive cache')
+      t('in-forge:plugins.lxc.usage'),
+      t('in-forge:plugins.lxc.maxUsage'),
+      t('in-forge:plugins.lxc.rss'),
+      t('in-forge:plugins.lxc.cache'),
+      t('in-forge:plugins.lxc.swap'),
+      t('in-forge:plugins.lxc.activeAnonymous'),
+      t('in-forge:plugins.lxc.activeCache'),
+      t('in-forge:plugins.lxc.inactiveAnonymous'),
+      t('in-forge:plugins.lxc.inactiveCache')
     ],
     min: 0,
-    category: [t('in-forge:plugins.lxc.memory', 'Memory')],
+    category: [t('in-forge:plugins.lxc.memory')],
     formatter: bytes
   },
   {
     metrics: ['memory.usedPercentage', 'memory.swapPercentage'],
-    labels: [
-      t('in-forge:plugins.lxc.userPercentage', 'User percentage'),
-      t('in-forge:plugins.lxc.swapPercentage', 'Swap percentage')
-    ],
+    labels: [t('in-forge:plugins.lxc.userPercentage'), t('in-forge:plugins.lxc.swapPercentage')],
     min: 0,
-    category: [t('in-forge:plugins.lxc.memory', 'Memory')],
+    category: [t('in-forge:plugins.lxc.memory')],
     formatter: percentage
   },
   {
     metrics: ['network.rxBytes', 'network.txBytes'],
-    labels: [
-      t('in-forge:plugins.lxc.receivedBytes', 'Received Bytes'),
-      t('in-forge:plugins.lxc.transmittedBytes', 'Transmitted Bytes')
-    ],
+    labels: [t('in-forge:plugins.lxc.receivedBytes'), t('in-forge:plugins.lxc.transmittedBytes')],
     min: 0,
-    category: [t('in-forge:plugins.lxc.network', 'Network')],
+    category: [t('in-forge:plugins.lxc.network')],
     formatter: bytes
   },
   {
     metrics: ['network.rxPackets', 'network.txPackets'],
-    labels: [
-      t('in-forge:plugins.lxc.receivedPackets', 'Received Packets'),
-      t('in-forge:plugins.lxc.transmittedPackets', 'Transmitted Packets')
-    ],
+    labels: [t('in-forge:plugins.lxc.receivedPackets'), t('in-forge:plugins.lxc.transmittedPackets')],
     min: 0,
-    category: [t('in-forge:plugins.lxc.network', 'Network')],
+    category: [t('in-forge:plugins.lxc.network')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('filesystems', 'usedPercentage', 'Device'),
-    label: t('in-forge:plugins.lxc.usedPercentage', 'Used percentage'),
-    category: [t('in-forge:plugins.lxc.filesystems', 'Filesystems')],
+    label: t('in-forge:plugins.lxc.usedPercentage'),
+    category: [t('in-forge:plugins.lxc.filesystems')],
     min: 0,
     max: 1,
     formatter: percentage
@@ -95,9 +83,9 @@ export default [
       getDynamicMetricMatch('filesystems', 'used', 'Device'),
       getDynamicMetricMatch('filesystems', 'free', 'Device')
     ],
-    labels: [t('in-forge:plugins.lxc.used', 'Used'), t('in-forge:plugins.lxc.free', 'Free')],
+    labels: [t('in-forge:plugins.lxc.used'), t('in-forge:plugins.lxc.free')],
     min: 0,
-    category: [t('in-forge:plugins.lxc.filesystems', 'Filesystems')],
+    category: [t('in-forge:plugins.lxc.filesystems')],
     formatter: bytes
   }
 ];

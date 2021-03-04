@@ -12,7 +12,7 @@ export default {
   initialSortDirection: 'asc',
   cols: [
     {
-      title: t('in-forge:plugins.lxc.host', 'Host'),
+      title: t('in-forge:plugins.lxc.host'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId$(row) {
@@ -21,7 +21,7 @@ export default {
       }
     },
     {
-      title: t('in-forge:plugins.lxc.name', 'Name'),
+      title: t('in-forge:plugins.lxc.name'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId(row) {
@@ -30,7 +30,7 @@ export default {
       }
     },
     {
-      title: t('in-forge:plugins.lxc.cpuKernel', 'CPU Kernel'),
+      title: t('in-forge:plugins.lxc.cpuKernel'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -46,7 +46,7 @@ export default {
       }
     },
     {
-      title: t('in-forge:plugins.lxc.cpuUser', 'CPU User'),
+      title: t('in-forge:plugins.lxc.cpuUser'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -62,7 +62,7 @@ export default {
       }
     },
     {
-      title: t('in-forge:plugins.lxc.memoryUsed', 'Memory Used'),
+      title: t('in-forge:plugins.lxc.memoryUsed'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -78,7 +78,7 @@ export default {
       }
     },
     {
-      title: t('in-forge:plugins.lxc.swapUsed', 'Swap Used'),
+      title: t('in-forge:plugins.lxc.swapUsed'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -94,7 +94,7 @@ export default {
       }
     },
     {
-      title: t('in-forge:plugins.lxc.networkReceived', 'Network received'),
+      title: t('in-forge:plugins.lxc.networkReceived'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -112,7 +112,7 @@ export default {
       }
     },
     {
-      title: t('in-forge:plugins.lxc.networkTransmitted', 'Network transmitted'),
+      title: t('in-forge:plugins.lxc.networkTransmitted'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {

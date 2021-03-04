@@ -14,7 +14,7 @@ export default function LiferaySidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>{t('in-forge:plugins.liferayApplicationContainer.liferay', 'Liferay')}</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.liferayApplicationContainer.liferay')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
