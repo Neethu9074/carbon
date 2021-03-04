@@ -22,6 +22,7 @@ import locals from './Beacons.mless';
 const websiteColumnDefinition = {
   id: 'website',
   label: t('in-websites:beacons.website'),
+  sortable: false,
   getContent({ beacon }) {
     return (
       <Link className={locals.link} href$={getLinkToWebsite(beacon.websiteId)}>
@@ -55,6 +56,7 @@ const columnsPerDataSource = {
     {
       id: 'path',
       label: t('in-websites:beacons.path'),
+      sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
           <LinkToDetailPage
@@ -75,6 +77,7 @@ const columnsPerDataSource = {
     {
       id: 'page',
       label: t('in-websites:beacons.page'),
+      sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
           <LinkToDetailPage
@@ -93,6 +96,7 @@ const columnsPerDataSource = {
     {
       id: 'uri',
       label: t('in-websites:beacons.uri'),
+      sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
           <LinkToDetailPage
@@ -111,6 +115,7 @@ const columnsPerDataSource = {
     {
       id: 'access',
       label: t('in-websites:beacons.access'),
+      sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
           <LinkToDetailPage
@@ -129,6 +134,7 @@ const columnsPerDataSource = {
     {
       id: 'errorMessage',
       label: t('in-websites:beacons.errorMessage'),
+      sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
           <LinkToDetailPage
@@ -147,6 +153,7 @@ const columnsPerDataSource = {
     {
       id: 'eventName',
       label: t('in-websites:beacons.eventName'),
+      sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
           <LinkToDetailPage

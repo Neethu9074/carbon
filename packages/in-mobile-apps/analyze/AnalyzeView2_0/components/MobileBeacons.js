@@ -43,6 +43,7 @@ const erroneousColumnDefinition = {
 const mobileAppColumnDefinition = {
   id: 'mobileApp',
   label: t('in-mobile-apps:mobileBeacons.mobileApp'),
+  sortable: false,
   getContent({ beacon }) {
     return (
       <Link className={locals.link} href$={getLinkToMobileApp(beacon.mobileAppId)}>
@@ -58,6 +59,7 @@ const columnsPerDataSource = {
     {
       id: 'sessionId',
       label: t('in-mobile-apps:mobileBeacons.sessionId'),
+      sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
           <LinkToDetailPage
@@ -76,6 +78,7 @@ const columnsPerDataSource = {
     {
       id: 'viewName',
       label: t('in-mobile-apps:mobileBeacons.viewName'),
+      sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
           <LinkToDetailPage
@@ -94,6 +97,7 @@ const columnsPerDataSource = {
     {
       id: 'access',
       label: t('in-mobile-apps:mobileBeacons.access'),
+      sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
           <LinkToDetailPage
@@ -112,6 +116,7 @@ const columnsPerDataSource = {
     {
       id: 'eventName',
       label: t('in-mobile-apps:mobileBeacons.eventName'),
+      sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
           <LinkToDetailPage
