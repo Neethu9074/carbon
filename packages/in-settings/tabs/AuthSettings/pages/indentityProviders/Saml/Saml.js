@@ -117,7 +117,8 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                   {form.get('ownerEmail').map(field => (
                     <FormGroup>
                       <Label htmlFor="ownerEmail" hasError={!field.valid && field.touched}>
-                        This account is automatically assigned an admin role.
+                        This account is automatically assigned an admin role. Please enter the account&apos;s e-mail
+                        address.
                       </Label>
 
                       <Input

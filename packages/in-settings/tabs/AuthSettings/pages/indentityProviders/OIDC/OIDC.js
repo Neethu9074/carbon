@@ -124,7 +124,8 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                   {form.get('ownerEmail').map(field => (
                     <FormGroup>
                       <Label htmlFor="ownerEmail" hasError={!field.valid && field.touched}>
-                        This account is automatically assigned an admin role.
+                        This account is automatically assigned an admin role. Please enter the account&apos;s e-mail
+                        address.
                       </Label>
 
                       <Input
@@ -219,9 +220,6 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                 <Col xs={12}>
                   <CopyableText title="End Session URL" form={form} fieldName="oidcSignOutCallbackUrl" />
                 </Col>
-                <Col xs={12}>
-                  <CopyableText title="Name ID Format" form={form} fieldName="nameIdFormat" />
-                </Col>
               </Row>
 
               <ul className={locals.list}>
@@ -285,7 +283,6 @@ function enrichForm(form, { setCanDeleteItem, result: { config } }) {
     .put('oidcSignOutCallbackUrl', createField({ value: config.oidcSignOutCallbackUrl || '' }))
     .put('spEntityId', createField({ value: config.spEntityId || '' }))
     .put('ownerEmail', createField({ value: '' }))
-    .put('nameIdFormat', createField({ value: config.nameIdFormat || '' }))
     .put('discoveryUri', createField({ value: config.discoveryUri || '' }))
     .put('secret', createField({ value: config.secret || '' }));
 }
