@@ -61,7 +61,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                   metric: 'onLoadTime',
                   granularity,
                   aggregation: 'MEAN',
-                  analyzeMetricName: 'beaconDuration',
+                  analyzeMetricName: 'onLoadTime',
                   beaconType: 'pageLoad'
                 }
               }
@@ -106,42 +106,42 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                   metric: 'onLoadTime',
                   granularity,
                   aggregation: 'P50',
-                  analyzeMetricName: 'beaconDuration',
+                  analyzeMetricName: 'onLoadTime',
                   beaconType: 'pageLoad'
                 },
                 onLoadTime90th: {
                   metric: 'onLoadTime',
                   granularity,
                   aggregation: 'P90',
-                  analyzeMetricName: 'beaconDuration',
+                  analyzeMetricName: 'onLoadTime',
                   beaconType: 'pageLoad'
                 },
                 onLoadTime95th: {
                   metric: 'onLoadTime',
                   granularity,
                   aggregation: 'P95',
-                  analyzeMetricName: 'beaconDuration',
+                  analyzeMetricName: 'onLoadTime',
                   beaconType: 'pageLoad'
                 },
                 onLoadTime99th: {
                   metric: 'onLoadTime',
                   granularity,
                   aggregation: 'P99',
-                  analyzeMetricName: 'beaconDuration',
+                  analyzeMetricName: 'onLoadTime',
                   beaconType: 'pageLoad'
                 },
                 onLoadTimeMax: {
                   metric: 'onLoadTime',
                   granularity,
                   aggregation: 'MAX',
-                  analyzeMetricName: 'beaconDuration',
+                  analyzeMetricName: 'onLoadTime',
                   beaconType: 'pageLoad'
                 },
                 onLoadTimeMean: {
                   metric: 'onLoadTime',
                   granularity,
                   aggregation: 'MEAN',
-                  analyzeMetricName: 'beaconDuration',
+                  analyzeMetricName: 'onLoadTime',
                   beaconType: 'pageLoad'
                 }
               }
