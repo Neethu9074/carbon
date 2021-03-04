@@ -325,7 +325,7 @@
     "emailField": "Email Field",
     "ldapUserAccount": "LDAP user account",
     "username": "Username",
-    "thisAccountIsAutomaticallyAssignedAnAdminRole": "This account is automatically assigned an admin role.",
+    "thisAccountIsAutomaticallyAssignedAnAdminRole": "This account is automatically assigned an admin role. Please enter the account's e-mail address.",
     "optionalSettings": "Optional settings",
     "optional": "(optional)",
     "userDnMapping": "User Dn Mapping",
