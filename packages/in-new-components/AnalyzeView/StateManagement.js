@@ -176,7 +176,10 @@ function AnalyzeStateManagement({
   const groupBy = useStableObjectInstance(urlState.groupBy);
   const detailId = useStableObjectInstance(urlState.detailId);
   const selectableFields = useStableObjectInstance(urlState.fields ?? defaultSelectableFields);
-  const chartedMetrics = useStableObjectInstance(urlState.chartedMetrics ?? defaultChartedMetrics);
+  // charts should be shown, even if not explicitly selected
+  const chartedMetrics = useStableObjectInstance(
+    urlState.chartedMetrics?.length > 0 ? urlState.chartedMetrics : defaultChartedMetrics
+  );
 
   const filteringTagCatalogResult =
     useObservable(
