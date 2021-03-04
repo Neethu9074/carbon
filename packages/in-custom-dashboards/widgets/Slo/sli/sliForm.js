@@ -85,6 +85,18 @@ function createSliEntityForm(sliEntity, apDefaultBoundaryScope) {
           sliEntity.boundaryScope ??
           (apDefaultBoundaryScope === 'DEFAULT' ? boundaryScopes.inbound : apDefaultBoundaryScope)
       })
+    )
+    .put(
+      'includeInternal',
+      createField({
+        value: Boolean(sliEntity.includeInternal)
+      })
+    )
+    .put(
+      'includeSynthetic',
+      createField({
+        value: Boolean(sliEntity.includeSynthetic)
+      })
     );
 
   if (sliEntity.sliType === availabilityType) {

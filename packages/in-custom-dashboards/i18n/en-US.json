@@ -413,6 +413,9 @@
         "pleaseSelect": "Please select",
         "appPerspective":"Application Perspective",
         "boundary":"Boundary",
+        "hiddenCalls": "Hidden Calls",
+        "includeInternalCalls": "Include Internal Calls",
+        "includeSyntheticCalls": "Include Synthetic Calls",
         "type":"Type",
         "sliEntity": "SLI Entity"
       },

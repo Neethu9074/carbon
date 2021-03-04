@@ -130,6 +130,10 @@ function getLinkToUnboundAnalytics(sliConfig, tagCatalog, highlightedTime) {
       {
         timeConfig: highlightedTime,
         groupBy: getGroupByParam(sliEntity),
+        hiddenCalls: {
+          includeInternal: sliEntity.includeInternal,
+          includeSynthetic: sliEntity.includeSynthetic
+        },
         charts: getChartsParam(sliConfig)
       }
     );
