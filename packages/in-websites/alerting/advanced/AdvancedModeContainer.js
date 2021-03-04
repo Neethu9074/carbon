@@ -52,7 +52,8 @@ export default function AdvancedModeContainer(props) {
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
     thresholdResult,
-    QueryBuilderComponent
+    QueryBuilderComponent,
+    isTagFilterFormModelValid
   } = props;
   const alertType = form.get('rule').get('alertType').value;
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -222,6 +223,7 @@ export default function AdvancedModeContainer(props) {
           )
         }
       ]}
+      additionalValidationCheck={() => isTagFilterFormModelValid}
     />
   );
 }

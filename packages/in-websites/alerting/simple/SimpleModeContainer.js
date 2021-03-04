@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import SimpleAlertConfigDialogStep3 from 'in-new-components/Alerting/simple/SimpleAlertConfigDialogStep3';
@@ -10,6 +9,7 @@ import SimpleModePageNavigation from 'in-new-components/BlueprintFormMultistep/S
 import SimpleAlertConfigDialogStep1 from 'in-websites/alerting/simple/SimpleAlertConfigDialogStep1';
 import SimpleAlertConfigDialogStep2 from 'in-websites/alerting/simple/SimpleAlertConfigDialogStep2';
 import { websitesAlertingStepSwitch } from 'in-websites/alerting/tracker';
+import { t } from 'in-i18n';
 
 const stepConfigs = [
   {
@@ -39,7 +39,8 @@ export default function SimpleModeContainer({
   isSaving,
   QueryBuilderComponent,
   onChartViewConfigChange,
-  selectedChartViewConfigIndex
+  selectedChartViewConfigIndex,
+  isTagFilterFormModelValid
 }) {
   return (
     <SimpleModePageNavigation
@@ -82,6 +83,9 @@ export default function SimpleModeContainer({
               <SimpleAlertConfigDialogStep3 form={form} onChange={onChange} setAlertChannelsVisible={setSliderState} />
             );
         }
+      }}
+      additionalStepCheck={step => {
+        return step !== 1 ? isTagFilterFormModelValid : true;
       }}
     />
   );

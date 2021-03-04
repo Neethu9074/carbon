@@ -39,7 +39,6 @@ const columnDefinitions = [
     }
   },
   {
-    // width: 'min-content',
     getContent({ label, tooltipSettings, isStaleItem, touched }) {
       return (
         <Tooltip

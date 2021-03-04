@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
-import { t } from 'in-i18n';
 
 import SimpleAlertConfigDialogStep3 from 'in-new-components/Alerting/simple/SimpleAlertConfigDialogStep3';
 import SimpleModePageNavigation from 'in-new-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import SimpleAlertConfigDialogStep2 from 'in-applications/alerting/simple/SimpleAlertConfigDialogStep2';
 import SimpleAlertConfigDialogStep1 from 'in-applications/alerting/simple/SimpleAlertConfigDialogStep1';
 import { applicationsAlertingStepSwitch } from 'in-applications/alerting/tracker';
+import { t } from 'in-i18n';
 
 import locals from './SimpleModeContainer.mless';
 
@@ -43,7 +43,8 @@ export default function SimpleModeContainer({
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
-  QueryBuilderComponent
+  QueryBuilderComponent,
+  isTagFilterFormModelValid
 }) {
   return (
     <div className={locals.container}>
@@ -88,6 +89,9 @@ export default function SimpleModeContainer({
                 />
               );
           }
+        }}
+        additionalStepCheck={step => {
+          return step !== 1 ? isTagFilterFormModelValid : true;
         }}
       />
     </div>
