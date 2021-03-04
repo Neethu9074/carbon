@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { empty } from '@instana/observables';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { range } from 'lodash';
 import theme from 'in-themes';
 import rpt from 'prop-types';
@@ -15,7 +15,7 @@ import {
   getSparkChartTimeSeriesMetricId,
   groupName
 } from 'in-new-components/AnalyzeView/metrics';
-import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { joinExpressions, removeTopLevelFilters, TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { addGroupingCriteriaToFormModel } from 'in-new-components/AnalyzeView/StateManagement';
@@ -23,6 +23,7 @@ import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-new-component
 import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
 import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import FacetedSearch from 'in-new-components/AnalyzeView/FacetedSearch';
@@ -32,6 +33,7 @@ import Header from 'in-new-components/QueryBuilder/components/Header';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
+import { NOT_EMPTY } from '../QueryBuilder/tagFilter/operators';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { aggregationLabels } from 'in-stores/metric';
@@ -185,6 +187,23 @@ export default function GroupedAnalyzeView(props) {
 
   const availableMetrics = getAvailableMetrics({ metricCatalog, metricCatalogFilter, fixedFields });
 
+  const formModelExcludingMissingGroupingTag = useMemo(() => {
+    const excludeMissingGroupTagFilter = {
+      type: TAG,
+      operator: NOT_EMPTY,
+      name: groupBy.groupbyTag
+    };
+    const groupByTagType = groupingTagCatalog?.tags.find(t => t.name === groupBy.groupbyTag)?.type;
+    if (groupByTagType === KEY_VALUE_PAIR) {
+      excludeMissingGroupTagFilter.key = groupBy.groupbyTagSecondLevelKey;
+    }
+    return joinExpressions({ expressions: [formModel, excludeMissingGroupTagFilter] });
+  }, [formModel, groupBy, groupingTagCatalog]);
+
+  const backendQueryModelExcludingMissingGroupingTag = useMemo(() => {
+    return isValid ? toBackendQueryModel(formModelExcludingMissingGroupingTag) : null;
+  }, [isValid, formModelExcludingMissingGroupingTag]);
+
   return (
     <>
       <Header
@@ -221,6 +240,7 @@ export default function GroupedAnalyzeView(props) {
           <FacetedSearch
             facetedSearchItems={facetedSearchItems}
             formModel={formModel}
+            formModelExcludingMissingGroupingTag={formModelExcludingMissingGroupingTag}
             onFacetedSearchChange={updateAddAndRemove =>
               onFormModelChange(getNewTagFilterExpression(updateAddAndRemove))
             }
@@ -234,6 +254,7 @@ export default function GroupedAnalyzeView(props) {
               getFacetedSearchSuggestions({
                 timeConfig,
                 backendQueryModel,
+                backendQueryModelExcludingMissingGroupingTag,
                 metricKey: 'facetedSearchMetric',
                 group: {
                   groupbyTag: tag
