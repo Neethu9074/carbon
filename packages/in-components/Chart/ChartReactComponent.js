@@ -2,16 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-/* eslint-disable react/no-multi-comp */
-import { withState, compose } from 'recompose';
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { isEqual } from 'lodash';
 
 import ExternallyDefinedWidthAndHeight from 'in-new-components/layout/ExternallyDefinedWidthAndHeight';
-import { HEIGHT as legendHeight } from 'in-components/Chart/components/Legend';
+import { HEIGHT as commonLegendHeight } from 'in-components/Chart/components/Legend';
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
 import ChartLegend from 'in-components/Chart/components/ChartLegend';
 import getElementDimensions from 'in-hoc/getElementDimensions';
+import useResizeObserver from 'in-hooks/useResizeObserver';
 import Chart from 'in-components/Chart/Chart';
 
 import locals from './Chart.mless';
@@ -31,101 +31,118 @@ const HorizontallyAutomaticallySized = getElementDimensions(function Horizontall
 function CompletelyAutomaticallySized(props) {
   return (
     <ExternallyDefinedWidthAndHeight>
-      {({ width, height }) => <ChartReactWrapper {...props} width={width} height={height - legendHeight} />}
+      {({ width, height }) => <ChartReactWrapper {...props} width={width} height={height} />}
     </ExternallyDefinedWidthAndHeight>
   );
 }
 
-const ChartReactWrapper = compose(withState('chart', 'setChart', null))(
-  class ChartReactWrapper extends React.Component {
-    static displayName = 'ChartReactWrapper';
+function ChartReactWrapper(props) {
+  const {
+    width,
+    height: heightOfWrapper,
+    timeConfig,
+    originalTimeConfig,
+    renderLegend = true,
+    reverseTooltipOrder,
+    renderPostChartContent,
+    renderPreChartContent,
+    nonInteractive
+  } = props;
 
-    componentDidMount() {
-      const chart = new Chart(this.canvas, this.props);
-      this.props.setChart(chart);
+  const [preAndPostContentConfig, setPreAndPostContentConfig] = useState();
+  const { ref: legendRef, height: calculatedLegendHeight } = useResizeObserver();
+  const actualLegendHeight = calculatedLegendHeight ?? commonLegendHeight;
+  const chartHeight = heightOfWrapper - actualLegendHeight;
+  const chartProps = {
+    ...props,
+    height: chartHeight
+  };
+
+  const chartWrapperRef = useRef();
+  const [chart, setChart] = useState();
+  const canvasRefSetter = canvas => {
+    // Check that the canvas domElement != null. As part of the React lifecycle canvas
+    // would rotate constantly between the DOM element and null and our setState call
+    // would then causing an infinite update loop.
+    if (canvas && canvas !== chart?.canvas) {
+      chart?.dispose();
+      setChart(new Chart(canvas, chartProps));
     }
+  };
 
-    UNSAFE_componentWillUpdate(nextProps) {
-      nextProps.chart.update(nextProps);
+  // We always need to execute this to force-update the chart (which has its own efficient
+  // change identification).
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    chart?.update(chartProps);
+
+    // We need to align the behavior of the pre-/post- content to some Chart configuration
+    // that depends on the props. Therefore, we need to update the preAndPostContentConfig
+    // only after the chart has been updated with the latest props.
+    const nextPreAndPostContentConfig = {
+      // for non live mode we need the chart-time-config.
+      timeConfig: timeConfig.autoRefresh ? originalTimeConfig ?? timeConfig : timeConfig,
+      granularity: chart?.config?.rollup,
+      chartBucketWidth: chart?.renderScheduler?.getRenderProps()?.xScaleBackBuffer?.getRangeArea(chart?.config?.rollup),
+      chartWidth: width,
+      chartHeight,
+      timeAxisHeight: chart?.config?.timeAxisHeight,
+      markerPaneHeight: chart?.config?.markerPaneHeight
+    };
+    if (!isEqual(nextPreAndPostContentConfig, preAndPostContentConfig)) {
+      setPreAndPostContentConfig(nextPreAndPostContentConfig);
     }
+  });
 
-    componentWillUnmount() {
-      if (this.props.chart) {
-        this.props.chart.dispose();
-      }
-    }
+  // We need to execute a dispose call when the chart changes. This is already handled within
+  // canvasRefSetter. With this effect we only want to handle unmounting of the component.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => () => chart?.dispose(), []);
 
-    render() {
-      const {
-        chart,
-        width,
-        height,
-        timeConfig,
-        renderLegend = true,
-        reverseTooltipOrder,
-        renderPostChartContent,
-        renderPreChartContent
-      } = this.props;
-      const heightOfDrawableCanvas = chart ? height - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
+  const heightOfDrawableCanvas = chart ? chartHeight - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
 
-      const preAndPostContentConfig = {
-        timeConfig: this.props.timeConfig.autoRefresh
-          ? this.props.originalTimeConfig ?? this.props.timeConfig
-          : this.props.timeConfig, // for non live mode we need the chart-time-config.
-        granularity: this.props.chart?.config?.rollup,
-        chartBucketWidth: chart?.renderScheduler
-          ?.getRenderProps()
-          ?.xScaleBackBuffer?.getRangeArea(chart?.config?.rollup),
-        chartWidth: width,
-        chartHeight: height,
-        timeAxisHeight: chart?.config?.timeAxisHeight,
-        markerPaneHeight: chart?.config?.markerPaneHeight
-      };
+  return (
+    <div className={locals.chart} ref={chartWrapperRef}>
+      <div ref={legendRef}>
+        {chart && renderLegend && <ChartLegend chart={chart} filteredDataSeries={chart.config.filteredDataSeries} />}
+      </div>
 
-      return (
-        <div className={locals.chart} ref={chartWrapper => (this.chartWrapper = chartWrapper)}>
-          {chart && renderLegend && <ChartLegend chart={chart} filteredDataSeries={chart.config.filteredDataSeries} />}
+      <div className={locals.markerLanesWrapper}>
+        {preAndPostContentConfig &&
+          renderPreChartContent?.({
+            ...preAndPostContentConfig,
+            chartContentPosition: 'pre'
+          })}
 
-          <HighlightOverlayWrapper>
-            {renderPreChartContent &&
-              renderPreChartContent({
-                ...preAndPostContentConfig,
-                chartContentPosition: 'pre'
-              })}
-            <div className={locals.chartAxisWrapper}>
-              {chart && chart.config.y1 && (
-                <MetricAwareAxis chart={chart} axisName="y1" height={heightOfDrawableCanvas} align="left" />
-              )}
-              <>
-                {chart && width && (
-                  <ChartOverlay
-                    width={width}
-                    timeConfig={timeConfig}
-                    chart={chart}
-                    chartWrapper={this.chartWrapper}
-                    reverseTooltipOrder={reverseTooltipOrder}
-                    metrics={this.props}
-                    nonInteractive={this.props.nonInteractive}
-                  />
-                )}
-                <canvas className={locals.canvas} ref={canvas => (this.canvas = canvas)} />
-              </>
-              {chart && chart.config.y2 && (
-                <MetricAwareAxis chart={chart} axisName="y2" height={heightOfDrawableCanvas} align="right" />
-              )}
-            </div>
-            {renderPostChartContent &&
-              renderPostChartContent({
-                ...preAndPostContentConfig,
-                chartContentPosition: 'post'
-              })}
-          </HighlightOverlayWrapper>
+        <div className={locals.chartAxisWrapper}>
+          {chart?.config.y1 && (
+            <MetricAwareAxis chart={chart} axisName="y1" height={heightOfDrawableCanvas} align="left" />
+          )}
+
+          {chart && width && (
+            <ChartOverlay
+              width={width}
+              timeConfig={timeConfig}
+              chart={chart}
+              chartWrapper={chartWrapperRef.current}
+              reverseTooltipOrder={reverseTooltipOrder}
+              metrics={props}
+              nonInteractive={nonInteractive}
+            />
+          )}
+          <canvas className={locals.canvas} ref={canvasRefSetter} />
+
+          {chart?.config.y2 && (
+            <MetricAwareAxis chart={chart} axisName="y2" height={heightOfDrawableCanvas} align="right" />
+          )}
         </div>
-      );
-    }
-  }
-);
 
-function HighlightOverlayWrapper({ children }) {
-  return <div className={locals.markerLanesWrapper}>{children}</div>;
+        {preAndPostContentConfig &&
+          renderPostChartContent?.({
+            ...preAndPostContentConfig,
+            chartContentPosition: 'post'
+          })}
+      </div>
+    </div>
+  );
 }

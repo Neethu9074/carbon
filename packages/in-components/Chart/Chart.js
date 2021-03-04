@@ -19,6 +19,7 @@ const STEADY_FRAMERATE = 1000 / 30; // max FPS in ms the render scheduler render
 
 export default class Chart {
   constructor(canvas, props) {
+    this.canvas = canvas;
     this.config = new Config(props);
     this.renderScheduler = new DoubleBufferRenderScheduler(canvas, this);
 

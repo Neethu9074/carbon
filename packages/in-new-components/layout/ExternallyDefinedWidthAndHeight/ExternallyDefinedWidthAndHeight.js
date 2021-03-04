@@ -4,59 +4,15 @@
  */
 import React from 'react';
 
-import { debouncedResize$ } from 'in-services/browser';
+import useResizeObserver from 'in-hooks/useResizeObserver';
 
 import locals from './ExternallyDefinedWidthAndHeight.mless';
 
-export default class ExternallyDefinedWidthAndHeight extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      width: null,
-      height: null
-    };
-  }
-
-  setDomNode = domNode => {
-    this.domNode = domNode;
-    this.onResize();
-  };
-
-  onResize = () => {
-    if (!this.domNode) {
-      return;
-    }
-
-    const width = this.domNode.clientWidth;
-    const height = this.domNode.clientHeight;
-    if (width !== this.state.width || height !== this.state.height) {
-      this.setState({
-        width,
-        height
-      });
-    }
-  };
-
-  componentDidMount() {
-    this.subscription = debouncedResize$.subscribe(this.onResize);
-    this.onResize();
-  }
-
-  componentDidUpdate() {
-    this.onResize();
-  }
-
-  componentWillUnmount() {
-    if (this.subscription) {
-      this.subscription.dispose();
-    }
-  }
-
-  render() {
-    return (
-      <div className={locals.outterWrapper} ref={this.setDomNode}>
-        {this.state.width && <div className={locals.innerWrapper}>{this.props.children(this.state)}</div>}
-      </div>
-    );
-  }
+export default function ExternallyDefinedWidthAndHeight({ children }) {
+  const { ref, width, height } = useResizeObserver();
+  return (
+    <div className={locals.outterWrapper} ref={ref}>
+      {width && <div className={locals.innerWrapper}>{children({ width, height })}</div>}
+    </div>
+  );
 }
