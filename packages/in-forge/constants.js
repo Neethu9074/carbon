@@ -117,6 +117,7 @@ export const nonServicePlugins = {
   kafkaConnectWorker: 'kafkaConnectWorker',
   kubernetesCluster: 'kubernetesCluster',
   kubernetesCronJob: 'kubernetesCronJob',
+  kubernetesJob: 'kubernetesJob',
   kubernetesDaemonSet: 'kubernetesDaemonSet',
   kubernetesDeployment: 'kubernetesDeployment',
   kubernetesNamespace: 'kubernetesNamespace',
@@ -125,6 +126,8 @@ export const nonServicePlugins = {
   kubernetesReplicaSet: 'kubernetesReplicaSet',
   kubernetesService: 'kubernetesService',
   kubernetesStatefulSet: 'kubernetesStatefulSet',
+  kubernetesPersistentVolume: 'kubernetesPersistentVolume',
+  kubernetesPersistentVolumeClaim: 'kubernetesPersistentVolumeClaim',
   liferayApplicationContainer: 'liferayApplicationContainer',
   lxc: 'lxc',
   mariaDbDatabase: 'mariaDbDatabase',
@@ -327,8 +330,13 @@ export const fullyQualifiedPlugins = {
   kubernetesDaemonSet: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.daemonset.KubernetesDaemonSet',
   kubernetesDeployment:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.deployment.KubernetesDeployment',
+  kubernetesJob: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.job.KubernetesJob',
   kubernetesNamespace: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.namespace.KubernetesNamespace',
   kubernetesNode: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.node.KubernetesNode',
+  kubernetesPersistentVolume:
+    'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.volume.kubernetesPersistentVolume',
+  kubernetesPersistentVolumeClaim:
+    'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.volume.kubernetesPersistentVolumeClaim',
   kubernetesPod: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.pod.KubernetesPod',
   kubernetesReplicaSet:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.replicaset.KubernetesReplicaSet',

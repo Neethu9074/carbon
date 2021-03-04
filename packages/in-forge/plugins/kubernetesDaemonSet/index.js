@@ -1,6 +1,6 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
 import metricDefinitions from 'in-forge/plugins/kubernetesDaemonSet/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/kubernetesDaemonSet/kpiDefinitions';
