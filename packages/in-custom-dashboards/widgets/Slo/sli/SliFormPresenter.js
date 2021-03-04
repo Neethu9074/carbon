@@ -7,8 +7,8 @@ import React from 'react';
 
 import InboundOrAllCallsOption from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
+import { sliTypeOptions, applicationType, availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { boundaryScopes } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
-import { sliTypeOptions, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServicesSelectBox';
 import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSelectBox';
 import GoodBadEvents from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';
@@ -17,6 +17,7 @@ import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import HelpAction from 'in-new-components/workspace/HelpAction';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Sections from 'in-new-components/workspace/Sections';
 import Divider from 'in-new-components/workspace/Divider';
 import Section from 'in-new-components/workspace/Section';
@@ -30,9 +31,15 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
   const serviceId = sliEntityForm.get('serviceId')?.value;
   const endpointId = sliEntityForm.get('endpointId')?.value;
   const boundaryScope = sliEntityForm.get('boundaryScope')?.value;
+  const includeInternal = sliEntityForm.get('includeInternal').value;
+  const includeSynthetic = sliEntityForm.get('includeSynthetic').value;
 
   const onUpdateBoundaryScope = value => {
     onChange(['sliEntity', 'boundaryScope'], f => f.setValue(value).setTouched(true));
+  };
+
+  const onUpdateSliEntityField = (fieldName, value) => {
+    onChange(['sliEntity', fieldName], f => f.setValue(value).setTouched(true));
   };
 
   const sliTypeForm = sliEntityForm.get('sliType');
@@ -132,7 +139,28 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
               </Row>
             </Section>
           </Sections>
-
+          {sliType === availabilityType && (
+            <Sections>
+              <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.hiddenCalls')}>
+                <Row>
+                  <Col md={5} xs={5}>
+                    <CheckboxFancy
+                      label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.includeInternalCalls')}
+                      checked={includeInternal}
+                      onChange={() => onUpdateSliEntityField('includeInternal', !includeInternal)}
+                    />
+                  </Col>
+                  <Col md={5} xs={5}>
+                    <CheckboxFancy
+                      label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.includeSyntheticCalls')}
+                      checked={includeSynthetic}
+                      onChange={() => onUpdateSliEntityField('includeSynthetic', !includeSynthetic)}
+                    />
+                  </Col>
+                </Row>
+              </Section>
+            </Sections>
+          )}
           {sliType === applicationType && (
             <>
               <Sections>
