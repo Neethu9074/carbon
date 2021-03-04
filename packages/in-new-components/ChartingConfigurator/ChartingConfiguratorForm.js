@@ -88,7 +88,7 @@ export default function ChartingConfiguratorForm({ value, options, onChange, hid
           )}
         </ComboBoxBehavior>
       ) : (
-        <div className={locals.aggregation}>{activeAggregation.label}</div>
+        <div className={classNames(locals.aggregation, locals.singleAggregation)}>{activeAggregation.label}</div>
       )}
 
       {!hideRenderer && (
