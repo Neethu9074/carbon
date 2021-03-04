@@ -217,13 +217,25 @@ function createMetricCatalogFilter(dataSource) {
   return ({ beaconTypes }) => beaconTypes.includes(dataSource);
 }
 
-function getFacetedSearchSuggestions({ timeConfig, backendQueryModel, group, metricKey, dataSource }) {
+function getFacetedSearchSuggestions({
+  timeConfig,
+  backendQueryModel,
+  backendQueryModelExcludingMissingGroupingTag,
+  group,
+  metricKey,
+  dataSource
+}) {
   return getMobileAppBeaconGroups({
     pagination: {
       retrievalSize: 200
     },
     timeConfig,
-    tagFilterExpression: addDataSourceToBackendQueryModel({ backendQueryModel, dataSource }),
+    tagFilterExpression: addDataSourceToBackendQueryModel({
+      // Because the grouped view doesn't support a special 'Tag not present' group, faceted search
+      // should filter out items which would belong to this group for consistency with the result list.
+      backendQueryModel: backendQueryModelExcludingMissingGroupingTag ?? backendQueryModel,
+      dataSource
+    }),
     group,
     order: {
       by: metricKey,
