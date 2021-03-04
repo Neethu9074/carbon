@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -16,14 +17,14 @@ export default function LiferayDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Average Time">
+        <KpiKeyValue label={t('in-forge:plugins.liferayApplicationContainer.averageTime')}>
           <MetricValue snapshotId={snapshotId} metric="portalStatistics.averageTime" />
         </KpiKeyValue>
-        <KpiKeyValue label="Request Count">
+        <KpiKeyValue label={t('in-forge:plugins.liferayApplicationContainer.requestCount')}>
           <MetricValue snapshotId={snapshotId} metric="portalStatistics.requestCount" />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Portal Latency Overview">
+      <DashboardSection title={t('in-forge:plugins.liferayApplicationContainer.portalLatencyOverview')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -37,25 +38,29 @@ export default function LiferayDashboard({ snapshot, timeConfig }) {
               'actionRequestStatistics.minTime'
             ],
             labels: [
-              'Portal Average Time',
-              'Portal Max Time',
-              'Portal Min Time',
-              'Action Request Average Time',
-              'Action Request Max Time',
-              'Action Request Min Time'
+              t('in-forge:plugins.liferayApplicationContainer.portalAverageTime'),
+              t('in-forge:plugins.liferayApplicationContainer.portalMaxTime'),
+              t('in-forge:plugins.liferayApplicationContainer.portalMinTime'),
+              t('in-forge:plugins.liferayApplicationContainer.actionRequestAverageTime'),
+              t('in-forge:plugins.liferayApplicationContainer.actionRequestMaxTime'),
+              t('in-forge:plugins.liferayApplicationContainer.actionRequestMinTime')
             ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Requests">
+      <DashboardSection title={t('in-forge:plugins.liferayApplicationContainer.requests')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['portalStatistics.requestCount', 'portalStatistics.successCount', 'portalStatistics.errorCount'],
-            labels: ['Request Count', 'Success Count', 'Error Count'],
+            labels: [
+              t('in-forge:plugins.liferayApplicationContainer.requestCount'),
+              t('in-forge:plugins.liferayApplicationContainer.successCount'),
+              t('in-forge:plugins.liferayApplicationContainer.errorCount')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
