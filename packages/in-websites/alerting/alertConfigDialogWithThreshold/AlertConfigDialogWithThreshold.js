@@ -124,6 +124,7 @@ export default function AlertConfigDialogWithThreshold(props) {
         websitesAlertingAlertCreated(getTrackingObject(form, { mode: simpleMode ? modeSimple : modeAdvanced }));
         onCreate();
       }}
+      isTagFilterFormModelValid={isTagFilterFormModelValid}
     />
   );
 }

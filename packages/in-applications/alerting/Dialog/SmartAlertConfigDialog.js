@@ -93,6 +93,7 @@ function SmartAlertConfigDialogWithQueryValidation({
           }}
         />
       }
+      isTagFilterFormModelValid={isTagFilterFormModelValid}
     />
   );
 }
