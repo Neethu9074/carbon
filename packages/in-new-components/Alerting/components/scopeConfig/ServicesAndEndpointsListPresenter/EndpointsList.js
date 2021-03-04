@@ -7,9 +7,9 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import {
+  createNoMatchingEntityText,
   DEFAULT_PAGE_SIZE,
   enrichListWithStaleSelectionData,
-  createNoMatchingEntityText,
   sortListBySelectionState
 } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/utils';
 import {
@@ -27,6 +27,7 @@ import SharedList from 'in-new-components/Alerting/components/scopeConfig/Servic
 import { and, or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import TableBadge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
@@ -141,6 +142,9 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
         },
         shouldAdd(itemTreeIds) {
           return selectEndpoint(state, itemTreeIds)?.inclusive === undefined;
+        },
+        getBadgeElement({ type }) {
+          return <TableBadge>{type}</TableBadge>;
         },
         numSkeletonRows: 1,
         getLabel$: getEndpointInfo

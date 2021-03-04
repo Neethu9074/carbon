@@ -12,20 +12,30 @@ import { lib } from 'in-themes/theme';
 
 import locals from './IconLabel.mless';
 
-const IconLabel = forwardRef(({ text = '', type, noBottomMargin, color = lib.colors.N900Primary }, ref) => {
-  return (
-    <HorizontalFlexWrapper
-      ref={ref}
-      className={classNames({
-        [locals.container]: true,
-        [locals.noBottomMargin]: noBottomMargin
-      })}
-      color={color}
-    >
-      <SvgIcon className={locals.icon} color={color} type={type} /> <span style={{ color }}>{text}</span>
-    </HorizontalFlexWrapper>
-  );
-});
+const IconLabel = forwardRef(
+  ({ text = '', type, noBottomMargin, color = lib.colors.N900Primary, width, ellipsis }, ref) => {
+    return (
+      <HorizontalFlexWrapper
+        ref={ref}
+        className={classNames({
+          [locals.container]: true,
+          [locals.noBottomMargin]: noBottomMargin
+        })}
+        style={{ color, width }}
+      >
+        <SvgIcon className={locals.icon} color={color} type={type} />
+        <div
+          className={classNames({
+            [locals.text]: true,
+            [locals.ellipsis]: ellipsis
+          })}
+        >
+          {text}
+        </div>
+      </HorizontalFlexWrapper>
+    );
+  }
+);
 
 IconLabel.displayName = 'IconLabel';
 
@@ -33,7 +43,9 @@ IconLabel.propTypes = {
   text: PropTypes.string,
   type: PropTypes.string,
   color: PropTypes.string,
-  noBottomMargin: PropTypes.bool
+  noBottomMargin: PropTypes.bool,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  ellipsis: PropTypes.bool
 };
 
 export default IconLabel;
