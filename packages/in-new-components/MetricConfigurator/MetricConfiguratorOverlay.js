@@ -16,7 +16,7 @@ export default function MetricConfiguratorOverlay({
   onChange: onChangeExternal,
   values,
   options,
-  maximumNumberOfMetrics = 10,
+  maximumNumberOfMetrics = 5,
   tracking
 }) {
   const initialForm = useMemo(() => getInitialForm(values, options, maximumNumberOfMetrics), [
