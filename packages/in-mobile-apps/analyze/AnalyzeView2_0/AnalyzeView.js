@@ -101,6 +101,11 @@ const ungroupedView = {
     },
     getColumnFormatter({ metricDefinition }) {
       // Tag definitions in the tag catalog do not specify a formatter. For now we can use metric formatter.
+      if (metricDefinition.formatter === 'PERCENTAGE') {
+        // 'PERCENTAGE' formatter is currently used only for a calculated metric (beaconErrorRate),
+        // which is based on a numeric tag.
+        return 'NUMBER';
+      }
       return metricDefinition.formatter;
     }
   }
