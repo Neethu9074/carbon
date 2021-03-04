@@ -234,6 +234,9 @@
     "labelBETA": "BETA",
     "linkLabelYouCanSendUsFeedback": "You can send us feedback"
   },
+  "featureNew": {
+    "labelNEW": "NEW"
+  },
   "geoHeatMap": {
     "loadingIndicatorLoadingData": "Loading Data",
     "tooltipResetView": "Reset view",

@@ -110,7 +110,8 @@
     "labelKeyPairENDS_WITH": "ends with"
   },
   "analyzeHeader": {
-    "title": "Analytics"
+    "title": "Analytics",
+    "learnNewUI": "Learn about the new UI."
   },
   "editTagFilterDialog": {
     "dialogTitleEdit": "Edit Filter",
@@ -238,6 +239,5 @@
       "messageExit_spans_followed_by_intermediate_spans": "Some exit spans are followed by intermediate spans."
     }
   },
-
   "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly."
 }

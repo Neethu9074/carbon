@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import { useLocation } from 'react-router';
 import React from 'react';
 
@@ -34,10 +33,12 @@ import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
+import FeatureNew from 'in-new-components/FeatureNew/FeatureNew';
 import { emptyArray } from 'in-services/fixedObjects';
 import { isNotBlank } from 'in-services/util/string';
 import Title from 'in-components/Title/Title';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './AnalyzeHeader.mless';
 
@@ -49,15 +50,26 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped, formMod
     <>
       <DashboardHeader
         contextConfigurations={[{ renderContext: () => 'Analytics', contextIcon: 'lib_analyze_inverted' }]}
-        renderMetaInformation={() =>
-          activeConfiguration?.ua2 && (
-            <FeatureFeedback
-              href={`https://docs.google.com/forms/d/e/1FAIpQLSejuUF8Gc-wQQN58ffivTnGjYe6OWdqVgLuBo59za3LTTMfIg/viewform?usp=pp_url&entry.558784134=${encodeURIComponent(
-                window.location.href
-              )}`}
-            />
-          )
-        }
+        renderMetaInformation={() => {
+          if (activeConfiguration?.beta) {
+            return (
+              <FeatureFeedback
+                href={`https://docs.google.com/forms/d/e/1FAIpQLSejuUF8Gc-wQQN58ffivTnGjYe6OWdqVgLuBo59za3LTTMfIg/viewform?usp=pp_url&entry.558784134=${encodeURIComponent(
+                  window.location.href
+                )}`}
+              />
+            );
+          }
+          if (activeConfiguration?.ua2) {
+            return (
+              <FeatureNew
+                text={t('in-analyze:analyzeHeader.learnNewUI')}
+                href="https://www.youtube.com/watch?v=OP1ybt80JTk"
+              />
+            );
+          }
+          return null;
+        }}
         label={
           <Overlay
             props={{ activeConfiguration, isGrouped, formModel }}
@@ -177,7 +189,8 @@ function getActiveConfiguration(location) {
       return {
         productArea,
         dataSource,
-        ua2
+        ua2,
+        beta: dataSource === 'logs' || dataSource === 'rawlogs'
       };
     }
   }
