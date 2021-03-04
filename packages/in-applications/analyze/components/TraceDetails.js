@@ -190,18 +190,19 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ traceId }) {
+function renderButtonLine({ traceId, result }) {
   if (!role.canViewLogs || !role.canViewTraceDetails) {
     return null;
   }
 
+  const traceIdInUrl = result?.data?.id ?? traceId;
   return (
     <>
       <Button
         icon="lib_actions_download"
         kind="secondary"
         target="_blank"
-        href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`}
+        href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceIdInUrl)}?pretty`}
       >
         {t('in-applications:linkDownload')}
       </Button>
@@ -210,10 +211,11 @@ function renderButtonLine({ traceId }) {
 }
 
 function renderMetaInformation({ traceId, result }) {
+  const displayedTraceId = result?.data?.id ?? traceId;
   return (
     <div>
       <span className={locals.traceIdLabel}>Trace ID: </span>
-      <code className={locals.traceId}>{traceId}</code>
+      <code className={locals.traceId}>{displayedTraceId}</code>
       {// When jumping from very recent beacons to the backend traces, calls might not be
       // available in ClickHouse yet, even though some trace information from Cassandra
       // may be shown already.
