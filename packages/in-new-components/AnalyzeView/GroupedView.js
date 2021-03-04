@@ -149,10 +149,20 @@ export default function GroupedAnalyzeView(props) {
     onChartableDataSeriesChange(
       items.slice(0, 5).map(item => ({
         label: getItemLabel(item),
-        formModel: addGroupingCriteriaToFormModel(groupBy, getItemLabel(item), formModel)
+        formModel: addGroupingCriteriaToFormModel(groupBy, getItemLabel(item), formModel, groupingTagCatalog)
       }))
     );
-  }, [items, isLoading, hasErrors, onChartableDataSeriesChange, formModel, getItemLabel, groupBy, dataSource]);
+  }, [
+    items,
+    isLoading,
+    hasErrors,
+    onChartableDataSeriesChange,
+    formModel,
+    getItemLabel,
+    groupBy,
+    dataSource,
+    groupingTagCatalog
+  ]);
 
   const sortOptions = fields
     .map(field => {
