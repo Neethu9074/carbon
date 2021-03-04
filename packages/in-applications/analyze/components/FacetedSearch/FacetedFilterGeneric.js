@@ -146,7 +146,7 @@ function SearchAndSuggestions({
   );
   return (
     <>
-      {(!isBlank(valueFilter) || suggestions?.data?.results.length > 5 || suggestions?.progress.loading) && (
+      {(!isBlank(valueFilter) || suggestions?.data?.results.length > 5) && (
         <SearchInput onChange={setValueFilter} query={valueFilter} inputClassName={locals.search} withoutIcon />
       )}
       <SuggestionsPresenter
