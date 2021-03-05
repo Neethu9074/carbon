@@ -34,6 +34,8 @@ export const ANALYZE_LATENCY_SELECTION_CHANGED = 'analyze.latency.selection.chan
 
 export const ANALYZE_UA2_FACETED_SEARCH_FILTER_ADDED = 'analyze.ua2.facetedSearch.filter.added';
 export const ANALYZE_UA2_FACETED_SEARCH_GROUP_CHANGED = 'analyze.ua2.facetedSearch.group.changed';
+export const ANALYZE_UA2_FACETED_SEARCH_SYNTHETIC_CALLS_TOGGLED = 'analyze.ua2.facetedSearch.synthetic.calls.toggled';
+export const ANALYZE_UA2_FACETED_SEARCH_INTERNAL_CALLS_TOGGLED = 'analyze.ua2.facetedSearch.internal.calls.toggled';
 export const ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED = 'analyze.ua2.queryBuilder.filter.added';
 export const ANALYZE_UA2_GROUP_CHANGED = 'analyze.ua2.group.changed';
 export const ANALYZE_UA2_CHART_CHANGED = 'analyze.ua2.chart.changed';

@@ -4,6 +4,10 @@
  */
 import React from 'react';
 
+import {
+  ua2FacetedSearchSyntheticCallsToggledTracker,
+  ua2FacetedSearchInternalCallsToggledTracker
+} from 'in-applications/tracker';
 import FacetedExpandableCard from 'in-applications/analyze/components/FacetedSearch/FacetedExpandableCard';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
@@ -16,6 +20,7 @@ export default function FacetedFilterHiddenCalls({
   includeInternal = false,
   setIncludeSynthetic,
   setIncludeInternal,
+  dataSource,
   openByDefault
 }) {
   return (
@@ -23,12 +28,18 @@ export default function FacetedFilterHiddenCalls({
       <HiddenCallCheck
         label={t('in-applications:analyze.facetedSearch.showSyntheticCalls')}
         checked={includeSynthetic}
-        onChange={() => setIncludeSynthetic(!includeSynthetic)}
+        onChange={() => {
+          ua2FacetedSearchSyntheticCallsToggledTracker({ dataSource, value: !includeSynthetic });
+          setIncludeSynthetic(!includeSynthetic);
+        }}
       />
       <HiddenCallCheck
         label={t('in-applications:analyze.facetedSearch.showInternalCalls')}
         checked={includeInternal}
-        onChange={() => setIncludeInternal(!includeInternal)}
+        onChange={() => {
+          ua2FacetedSearchInternalCallsToggledTracker({ dataSource, value: !includeInternal });
+          setIncludeInternal(!includeInternal);
+        }}
       />
     </FacetedExpandableCard>
   );

@@ -114,6 +114,8 @@ export default function FacetedSearch({
             includeSynthetic: hiddenCalls?.includeSynthetic
           })
         }
+        dataSource={dataSource}
+        openByDefault
       />
     </div>
   );
