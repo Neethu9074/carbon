@@ -13,9 +13,13 @@
   "dashboard": {
     "customMetricsV2": {
       "customMetricsContent": "Pinned metrics are shown in a separate table above the custom metrics. Use this to do an ad-hoc comparison between multiple custom metrics. Additionally, you can send the link to colleagues and they will see the same set of pinned metrics.",
+      "customMetricsTitleType": "Type",
       "customMetricsTitleName": "Name",
       "customMetricsTitleValue": "Value",
+      "customMetricsTitlePinned": "{{pinnedPrefix}} Pinned Metrics ({{pinnedLength}})",
+      "customMetricsTitleCustom": "{{customPrefix}} Custom Metrics ({{customLength}})",
       "customMetricsLableCount": "Count",
+      "customMetricsLableValue": "Value",
       "customMetricsLableMean": "Mean",
       "customMetricsLableP50": "50th",
       "customMetricsLableP99": "99th",

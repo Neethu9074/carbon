@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React, { Fragment } from 'react';
 
 import { timeByMillisTwoDecimalPlaces, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
@@ -37,8 +38,7 @@ const cols = [
           content: (
             <Tooltip
               align="topMiddle"
-              content="Pinned metrics are shown in a separate table above the custom metrics. Use this to do an ad-hoc comparison between multiple custom metrics. Additionally, you can send the link to colleagues and they will see the same set of pinned metrics."
-            >
+              content={t('in-sdk:dashboard.customMetricsV2.customMetricsContent')}>
               <SvgIcon
                 type={isPinned ? 'lib_fancy_checkbox_checked' : 'lib_fancy_checkbox_unchecked'}
                 className={isPinned ? locals.pinned : locals.unpinned}
@@ -58,7 +58,7 @@ const cols = [
     }
   },
   {
-    title: 'Type',
+    title: t('in-sdk:dashboard.customMetricsV2.customMetricsTitleType'),
     type: 'string',
     width: 90,
     typeArgs: {
@@ -75,7 +75,7 @@ const cols = [
     }
   },
   {
-    title: 'Name',
+    title: t('in-sdk:dashboard.customMetricsV2.customMetricsTitleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -84,7 +84,7 @@ const cols = [
     }
   },
   {
-    title: 'Value',
+    title: t('in-sdk:dashboard.customMetricsV2.customMetricsTitleValue'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -144,7 +144,7 @@ function CustomMetricsV2(props) {
     <Fragment>
       {pinnedRows.length > 0 && (
         <Table
-          cardTitle={`${titlePrefix || ''} Pinned Metrics (${pinnedRows.length})`.trim()}
+          cardTitle={t('in-sdk:dashboard.customMetricsV2.customMetricsTitlePinned', {pinnedPrefix: titlePrefix, pinnedLength: pinnedRows.length}).trim()}
           withoutPadding
           cols={cols}
           rows={pinnedRows}
@@ -156,7 +156,7 @@ function CustomMetricsV2(props) {
       )}
 
       <Table
-        cardTitle={`${titlePrefix || ''} Custom Metrics (${rows.length})`.trim()}
+        cardTitle={t('in-sdk:dashboard.customMetricsV2.customMetricsTitleCustom', {customPrefix: titlePrefix, customLength: pinnedRows.length}).trim()}
         withoutPadding
         cols={cols}
         rows={rows}
@@ -292,7 +292,7 @@ export const AVAILABLE_SPECS = {
     color: '#00CC66',
     metrics: [
       {
-        label: 'Count',
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableCount'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ]
@@ -304,7 +304,7 @@ export const AVAILABLE_SPECS = {
     color: '#D90368',
     metrics: [
       {
-        label: 'Value',
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ]
@@ -316,7 +316,7 @@ export const AVAILABLE_SPECS = {
     color: '#F1C40F',
     metrics: [
       {
-        label: 'Value',
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ]
@@ -329,17 +329,17 @@ export const AVAILABLE_SPECS = {
     metrics: [
       {
         suffix: '.mean',
-        label: 'Mean',
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableMean'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       },
       {
         suffix: '.50th',
-        label: '50th',
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP50'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       },
       {
         suffix: '.99th',
-        label: '99th',
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP99'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ]
@@ -351,7 +351,7 @@ export const AVAILABLE_SPECS = {
     color: '#2274A5',
     metrics: [
       {
-        label: 'Rate',
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableRate'),
         formatter: rateFormatter
       }
     ]
@@ -363,7 +363,7 @@ export const AVAILABLE_SPECS = {
     color: '#F75C03',
     metrics: [
       {
-        label: 'Value',
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ]
@@ -377,22 +377,22 @@ export const AVAILABLE_SPECS = {
     metrics: [
       {
         suffix: '.rate',
-        label: 'Rate',
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableRate'),
         formatter: rateFormatter
       },
       {
         suffix: '.mean',
-        label: 'Mean',
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableMean'),
         formatter: timeByMillisTwoDecimalPlaces
       },
       {
         suffix: '.50th',
-        label: '50th',
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP50'),
         formatter: timeByMillisTwoDecimalPlaces
       },
       {
         suffix: '.99th',
-        label: '99th',
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableP99'),
         formatter: timeByMillisTwoDecimalPlaces
       }
     ]
@@ -404,7 +404,7 @@ export const AVAILABLE_SPECS = {
     color: '#f75c03',
     metrics: [
       {
-        label: 'Value',
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableValue'),
         formatter: withSiMultiplyPrefixThreeDecimalPlaces
       }
     ]
