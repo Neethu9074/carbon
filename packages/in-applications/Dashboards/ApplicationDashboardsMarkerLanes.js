@@ -15,6 +15,7 @@ export default function ApplicationDashboardsMarkerLanes({
   applicationId,
   serviceId,
   endpointId,
+  includeSyntheticCalls,
   showPotentialProblemsLane = false,
   ...remainingProps
 }) {
@@ -36,6 +37,7 @@ export default function ApplicationDashboardsMarkerLanes({
             applicationId={applicationId}
             serviceId={serviceId}
             endpointId={endpointId}
+            includeSynthetic={includeSyntheticCalls}
           />
         ) : null}
       </MarkerLanesPresenter>
@@ -47,5 +49,6 @@ ApplicationDashboardsMarkerLanes.propTypes = {
   applicationId: PropTypes.string.isRequired,
   endpointId: PropTypes.string,
   serviceId: PropTypes.string,
+  includeSyntheticCalls: PropTypes.bool,
   showPotentialProblemsLane: PropTypes.element
 };

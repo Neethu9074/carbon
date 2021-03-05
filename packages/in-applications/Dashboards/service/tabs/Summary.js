@@ -50,6 +50,7 @@ export default connectTo(
     const withPotentialProblemsLane = ApplicationDashboardsMarkerLanes({
       applicationId,
       serviceId,
+      includeSyntheticCalls,
       showPotentialProblemsLane: true
     });
 

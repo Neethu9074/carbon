@@ -14,7 +14,6 @@ import { ColumnizedContent, Li, Ul } from 'in-new-components/lists/List';
 import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 import useObservable from 'in-hooks/useObservable';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -86,71 +85,61 @@ export default function SharedList({
     hasUserInteractedWithItem,
     isChecked,
     isImplicitlyChecked,
-    numSkeletonRows,
     shouldAdd,
     getBadgeElement
   },
   initiallyOpen,
-  isFramed = true,
-  timeConfig
+  isFramed = true
 }) {
   const { dispatch } = stateManagement;
 
   return (
     <Ul framed={isFramed}>
-      {!isLoading &&
-        listData.map(({ item, metrics }) => {
-          const { id, isStaleItem, label } = item;
+      {listData.map(({ item }) => {
+        const { id, isStaleItem, label } = item;
 
-          const _id = isStaleItem ? label : id; // for stale items label is equal to id
-          const itemTreeIds = enhanceParentIdsWithChildId(isStaleItem ? label : _id);
-          const _isIndeterminate = isIndeterminate(itemTreeIds);
-          const _isChecked = isChecked(itemTreeIds);
-          const _isImplicitlyChecked = isImplicitlyChecked(itemTreeIds);
+        const _id = isStaleItem ? label : id; // for stale items label is equal to id
+        const itemTreeIds = enhanceParentIdsWithChildId(isStaleItem ? label : _id);
+        const _isIndeterminate = isIndeterminate(itemTreeIds);
+        const _isChecked = isChecked(itemTreeIds);
+        const _isImplicitlyChecked = isImplicitlyChecked(itemTreeIds);
 
-          return (
-            <Li
-              key={_id}
-              renderNestedContent={renderSubList?.(itemTreeIds)}
-              toggleContentOnRowClick={Boolean(renderSubList)}
-              className={locals.listItem}
-              initiallyOpen={initiallyOpen}
-            >
-              <StaleItemLabelPropInjector
-                getLabel$={getLabel$}
-                isStaleItem={isStaleItem}
-                originalLabel={label}
-                id={_id}
-              >
-                {({ resolvedLabel, itemExistsInBackend }) => (
-                  <ColumnizedContent
-                    label={resolvedLabel}
-                    isStaleItem={isStaleItem && !itemExistsInBackend}
-                    touched={hasUserInteractedWithItem(itemTreeIds)}
-                    columnDefinitions={columnDefinitions}
-                    tooltipSettings={getTooltipSettings()}
-                    checked={_isIndeterminate ? null : _isImplicitlyChecked || _isChecked}
-                    indeterminate={_isIndeterminate}
-                    virtuallyChecked={!_isChecked && _isImplicitlyChecked}
-                    onChange={() => {
-                      if (shouldAdd(itemTreeIds)) {
-                        dispatch({ type: `ADD_${entityType}`, ...itemTreeIds });
-                      } else {
-                        dispatch({ type: `REMOVE_${entityType}`, ...itemTreeIds });
-                      }
-                    }}
-                    BadgeElement={getBadgeElement(item)}
-                    metrics={metrics}
-                    timeConfig={timeConfig}
-                  />
-                )}
-              </StaleItemLabelPropInjector>
-            </Li>
-          );
-        })}
+        return (
+          <Li
+            key={_id}
+            renderNestedContent={renderSubList?.(itemTreeIds)}
+            toggleContentOnRowClick={Boolean(renderSubList)}
+            className={locals.listItem}
+            initiallyOpen={initiallyOpen}
+          >
+            <StaleItemLabelPropInjector getLabel$={getLabel$} isStaleItem={isStaleItem} originalLabel={label} id={_id}>
+              {({ resolvedLabel, itemExistsInBackend }) => (
+                <ColumnizedContent
+                  label={resolvedLabel}
+                  isStaleItem={isStaleItem && !itemExistsInBackend}
+                  touched={hasUserInteractedWithItem(itemTreeIds)}
+                  columnDefinitions={columnDefinitions}
+                  tooltipSettings={getTooltipSettings()}
+                  checked={_isIndeterminate ? null : _isImplicitlyChecked || _isChecked}
+                  indeterminate={_isIndeterminate}
+                  virtuallyChecked={!_isChecked && _isImplicitlyChecked}
+                  onChange={() => {
+                    if (shouldAdd(itemTreeIds)) {
+                      dispatch({ type: `ADD_${entityType}`, ...itemTreeIds });
+                    } else {
+                      dispatch({ type: `REMOVE_${entityType}`, ...itemTreeIds });
+                    }
+                  }}
+                  BadgeElement={getBadgeElement(item)}
+                />
+              )}
+            </StaleItemLabelPropInjector>
+          </Li>
+        );
+      })}
       {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
-      {isLoading && <LoadingList numSkeletonRows={numSkeletonRows} />}
-      {!isLoading && (!listData || listData.length === 0) && <NoDataAvailable text={noDataCustomText()} height={86} />}
+      {isLoading && <LoadingList numSkeletonRows="1" />}
+      {!isLoading && !listData?.length && <NoDataAvailable text={noDataCustomText()} height={86} />}
     </Ul>
   );
 }
@@ -188,11 +177,9 @@ SharedList.propTypes = {
     hasUserInteractedWithItem: PropTypes.func.isRequired,
     isChecked: PropTypes.func.isRequired,
     isImplicitlyChecked: PropTypes.func.isRequired,
-    numSkeletonRows: PropTypes.number.isRequired,
     shouldAdd: PropTypes.func.isRequired,
     getBadgeElement: PropTypes.func.isRequired
   }).isRequired,
   initiallyOpen: PropTypes.bool,
-  isFramed: PropTypes.bool,
-  timeConfig: propTypeTimeConfig
+  isFramed: PropTypes.bool
 };

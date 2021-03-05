@@ -492,7 +492,7 @@
   },
   "timeShift": {
     "changeSelectedTimeShift": "Change selected time shift",
-    "timeShiftValue": "Time Shift: {{valueLabel}}",
+    "timeShiftValue": "Time Shift: {{timeShiftValue}}",
     "compareToTimeShiftTimeConfig": "Compare to {{timeShiftTimeConfig}}"
   },
   "topListCard": {

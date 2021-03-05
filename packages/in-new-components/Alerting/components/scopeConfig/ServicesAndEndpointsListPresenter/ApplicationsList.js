@@ -107,7 +107,6 @@ export default function ApplicationsList({
         getBadgeElement() {
           return null;
         },
-        numSkeletonRows: 3,
         getLabel$: getApplication
       }}
       initiallyOpen={Boolean(searchQuery) && items.length > 0}

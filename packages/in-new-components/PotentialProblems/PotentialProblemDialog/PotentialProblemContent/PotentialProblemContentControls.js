@@ -29,6 +29,7 @@ export default function PotentialProblemContentControls({
   applications,
   tagFilters,
   tagFilterExpression,
+  includeSynthetic,
   alert,
   rule,
   threshold,
@@ -61,6 +62,7 @@ export default function PotentialProblemContentControls({
             threshold,
             tagFilters,
             tagFilterExpression,
+            includeSynthetic,
             granularity: defaultGranularity,
             convertedTagFilterExpression: true
           },
@@ -116,5 +118,6 @@ PotentialProblemContentControls.propTypes = {
   renderSmartAlertDialogComponent: PropTypes.func.isRequired,
   tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
   tagFilterExpression: PropTypes.object,
+  includeSynthetic: PropTypes.bool,
   threshold: thresholdPropType.isRequired
 };

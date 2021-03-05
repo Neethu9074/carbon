@@ -29,7 +29,8 @@ const labelColumnDefinition = {
         value={node.label}
         label={node.description}
         className={locals.keyValue}
-        multiline
+        multilineValue
+        multilineLabel
       />
     );
   }
@@ -44,7 +45,8 @@ const breadcrumbAndLabelColumnDefinition = {
         value={node.breadcrumbAndLabel}
         label={node.description}
         className={locals.keyValue}
-        multiline
+        multilineValue
+        multilineLabel
       />
     );
   }
