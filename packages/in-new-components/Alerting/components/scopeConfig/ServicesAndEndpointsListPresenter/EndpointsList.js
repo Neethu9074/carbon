@@ -25,10 +25,10 @@ import {
 import { stateManagementPropType } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import SharedList from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
 import { and, or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import TableBadge from 'in-components/tables/ServerTable/components/Badge';
-import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
+import getEndpoint from 'in-subscription/application/getEndpoint';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { isLoading } from 'in-services/util/result';
@@ -144,9 +144,9 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
           return selectEndpoint(state, itemTreeIds)?.inclusive === undefined;
         },
         getBadgeElement({ type }) {
-          return <TableBadge>{type}</TableBadge>;
+          return <EndpointTypeBadgeList types={[type]} />;
         },
-        getLabel$: getEndpointInfo
+        getStaleEntity$: getEndpoint
       }}
       initiallyOpen={Boolean(searchQuery) && items.length > 0}
     />

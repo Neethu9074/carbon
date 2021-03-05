@@ -107,7 +107,7 @@ export default function ApplicationsList({
         getBadgeElement() {
           return null;
         },
-        getLabel$: getApplication
+        getStaleEntity$: getApplication
       }}
       initiallyOpen={Boolean(searchQuery) && items.length > 0}
       isFramed={false}
