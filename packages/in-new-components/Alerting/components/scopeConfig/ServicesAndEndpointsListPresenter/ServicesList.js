@@ -26,14 +26,13 @@ import { stateManagementPropType } from 'in-new-components/Alerting/components/s
 import EndpointsList from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/EndpointsList';
 import SharedList from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
 import { and, or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import getService from 'in-subscription/application/getService';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { isLoading } from 'in-services/util/result';
-import Pill from 'in-new-components/Pill/Pill';
 
 export default function ServicesList({ getServicesCursorPaginated, parentIds, ...props }) {
   const { boundaryScope } = props;
@@ -132,9 +131,9 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
           return selectService(state, itemTreeIds)?.inclusive === undefined;
         },
         getBadgeElement({ types }) {
-          return types ? <EndpointTypeBadgeList types={types} /> : <Pill>Unknown Type</Pill>;
+          return <EndpointTypeBadgeList types={types} />;
         },
-        getLabel$: getServiceLabel
+        getStaleEntity$: getService
       }}
       initiallyOpen={Boolean(searchQuery) && items.length > 0}
     />

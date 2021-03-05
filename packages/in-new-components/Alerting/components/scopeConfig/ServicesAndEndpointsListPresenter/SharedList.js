@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { just } from '@instana/observables';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -14,6 +15,7 @@ import { ColumnizedContent, Li, Ul } from 'in-new-components/lists/List';
 import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import useObservable from 'in-hooks/useObservable';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -78,7 +80,7 @@ export default function SharedList({
   stateProcessors: {
     enhanceParentIdsWithChildId,
     entityType,
-    getLabel$,
+    getStaleEntity$,
     getNoDataCustomText: noDataCustomText,
     getTooltipSettings,
     isIndeterminate,
@@ -89,6 +91,7 @@ export default function SharedList({
     getBadgeElement
   },
   initiallyOpen,
+  timeConfig,
   isFramed = true
 }) {
   const { dispatch } = stateManagement;
@@ -112,8 +115,14 @@ export default function SharedList({
             className={locals.listItem}
             initiallyOpen={initiallyOpen}
           >
-            <StaleItemLabelPropInjector getLabel$={getLabel$} isStaleItem={isStaleItem} originalLabel={label} id={_id}>
-              {({ resolvedLabel, itemExistsInBackend }) => (
+            <StaleItemPropsInjector
+              getStaleEntity$={getStaleEntity$}
+              itemTreeIds={itemTreeIds}
+              timeConfig={timeConfig}
+              item={item}
+              id={_id}
+            >
+              {({ resolvedLabel, itemExistsInBackend, bagdeContent }) => (
                 <ColumnizedContent
                   label={resolvedLabel}
                   isStaleItem={isStaleItem && !itemExistsInBackend}
@@ -130,10 +139,10 @@ export default function SharedList({
                       dispatch({ type: `REMOVE_${entityType}`, ...itemTreeIds });
                     }
                   }}
-                  BadgeElement={getBadgeElement(item)}
+                  BadgeElement={getBadgeElement(bagdeContent)}
                 />
               )}
-            </StaleItemLabelPropInjector>
+            </StaleItemPropsInjector>
           </Li>
         );
       })}
@@ -144,15 +153,29 @@ export default function SharedList({
   );
 }
 
-function StaleItemLabelPropInjector({ getLabel$, isStaleItem, id, originalLabel, children }) {
-  const staleItemLabel = useObservable(isStaleItem ? getLabel$({ id }).map(({ data }) => data?.label) : undefined, [
-    isStaleItem,
-    originalLabel
-  ]);
+function StaleItemPropsInjector({ getStaleEntity$, id, children, timeConfig, item }) {
+  const { isStaleItem, label: originalLabel, types: originalTypes, type: originalType } = item;
+
+  const { label, types, type } =
+    useObservable(
+      isStaleItem
+        ? getStaleEntity$({
+            id,
+            filter: {
+              timeConfig
+            }
+          }).map(({ data = {} }) => data)
+        : just({}),
+      [isStaleItem, id, timeConfig, item]
+    ) ?? {};
 
   return children({
-    resolvedLabel: staleItemLabel ?? originalLabel,
-    itemExistsInBackend: Boolean(isStaleItem && staleItemLabel)
+    resolvedLabel: label ?? originalLabel,
+    itemExistsInBackend: Boolean(isStaleItem && label),
+    bagdeContent: {
+      types: types ?? originalTypes,
+      type: type ?? originalType
+    }
   });
 }
 
@@ -170,7 +193,7 @@ SharedList.propTypes = {
   stateProcessors: PropTypes.shape({
     enhanceParentIdsWithChildId: PropTypes.func.isRequired,
     entityType: PropTypes.string.isRequired,
-    getLabel$: PropTypes.func.isRequired,
+    getStaleEntity$: PropTypes.func.isRequired,
     getNoDataCustomText: PropTypes.func.isRequired,
     getTooltipSettings: PropTypes.func.isRequired,
     isIndeterminate: PropTypes.func.isRequired,
@@ -181,5 +204,6 @@ SharedList.propTypes = {
     getBadgeElement: PropTypes.func.isRequired
   }).isRequired,
   initiallyOpen: PropTypes.bool,
+  timeConfig: propTypeTimeConfig,
   isFramed: PropTypes.bool
 };
