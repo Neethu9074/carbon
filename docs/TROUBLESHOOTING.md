@@ -38,19 +38,16 @@ $ wget -q -O /tmp/libpng12.deb http://mirrors.kernel.org/ubuntu/pool/main/libp/l
     && rm /tmp/libpng12.deb
 ```
 
-## I cannot access the local development domain in Chrome due to HSTS!
+## I cannot access the local development domain due to HSTS!
 
-While we do not use certificate pinning, Chromium became even more strict as of late (February 2016). Chrome will add `*.instana.io` to its custom rule HSTS list upon visiting `instana.io`. The only solution right now is to disable this entry via [chrome://net-internals/#hsts](chrome://net-internals/#hsts). Type in the domain `instana.io` and hit the delete button.
+![HSTS error in Chrome](./img/hsts-chrome.png)
 
-## I cannot access the local development domain in Firefox due to HSTS!
+Upon your first visit to any SAAS/production `*.instana.io` URL, an [HSTS](https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) instruction gets persisted in your web browser. This causes web browsers to reject all self-signed certificates when an HSTS instruction is available. We are working on a more permanent improvement for the local development workflow. Until then you have to do the following:
 
-Similar to the Chrome topic above, but slightly different process to remove the HSTS entry. Open the file called `SiteSecurityServiceState.txt` and remove the line for the domain `instana.io`. On Mac OS, this file is located within the `~/Library/Application Support/Firefox` directory. To find the file, use `find`. Example:
+ - Chromium based web browsers (Chrome, Edge and others): Type in `thisisunsafe` on the screen mentioning the security issue (there is no input, just click into the page and start typing). Alternatively, remove the HSTS instruction via [chrome://net-internals/#hsts](chrome://net-internals/#hsts). Type in the domain `instana.io` within the `Delete domain security policies` section and hit the delete button.
+ - Firefox: Open the file called `SiteSecurityServiceState.txt` and remove the line for the domain `instana.io`. On MacOS, this file is located within the `~/Library/Application Support/Firefox` directory.
 
-```
-# ben at bripkens in ~/Library/Application Support/Firefox
-$ find . -name "SiteSecurityServiceState.txt"
-./Profiles/z30fu953.default/SiteSecurityServiceState.txt
-```
+**Note:** We temporarily had HSTS enabled for our development environments (`*.rocks`). While we no longer instruct web browsers to persist a HSTS configuration, your web browser may still have the previous instruction persisted.
 
 ## Instana dev extensions are saying that no stores could be found
 
