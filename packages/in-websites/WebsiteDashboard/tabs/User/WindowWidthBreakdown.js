@@ -107,15 +107,16 @@ function getTechnicalLabel(min, max) {
 }
 
 function getLink({ tagFilters, websiteLabel, min, max, tagCatalogPageLoad }) {
+  let linkTagFilters = Array.from(tagFilters);
   if (min > 0) {
-    tagFilters.push({
+    linkTagFilters.push({
       name: 'beacon.window.width',
       numberValue: min - 1,
       operator: 'GREATER_THAN'
     });
   }
   if (max > 0) {
-    tagFilters.push({
+    linkTagFilters.push({
       name: 'beacon.window.width',
       numberValue: max + 1,
       operator: 'LESS_THAN'
@@ -124,7 +125,7 @@ function getLink({ tagFilters, websiteLabel, min, max, tagCatalogPageLoad }) {
   return getLinkToAnalyze({
     formModel: translateDemocratisationTagFiltersToFormModel({
       websiteLabel,
-      tagFilters,
+      tagFilters: linkTagFilters,
       tagCatalog: tagCatalogPageLoad
     }),
     groupBy: {

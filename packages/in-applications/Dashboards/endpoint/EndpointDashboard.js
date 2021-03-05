@@ -169,7 +169,7 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope, timeConfig, result }) {
+function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope, timeConfig, result, syntheticCalls }) {
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
@@ -197,6 +197,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         syntheticType={get(result, ['data', 'syntheticType'])}
         timeConfig={timeConfig}
         groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+        syntheticCalls={syntheticCalls}
         area="endpoint"
       />
     </>
