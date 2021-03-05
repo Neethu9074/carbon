@@ -146,7 +146,6 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
         getBadgeElement({ type }) {
           return <TableBadge>{type}</TableBadge>;
         },
-        numSkeletonRows: 1,
         getLabel$: getEndpointInfo
       }}
       initiallyOpen={Boolean(searchQuery) && items.length > 0}

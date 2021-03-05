@@ -134,7 +134,6 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
         getBadgeElement({ types }) {
           return types ? <EndpointTypeBadgeList types={types} /> : <Pill>Unknown Type</Pill>;
         },
-        numSkeletonRows: 2,
         getLabel$: getServiceLabel
       }}
       initiallyOpen={Boolean(searchQuery) && items.length > 0}
