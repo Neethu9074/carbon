@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -20,7 +21,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.kubernetesCluster.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -29,7 +30,7 @@ const cols = [
     }
   },
   {
-    title: 'Status',
+    title: t('in-forge:plugins.kubernetesCluster.status'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'CPU Requests Allocation',
+    title: t('in-forge:plugins.kubernetesCluster.cpuRequestsAllocation'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'CPU Limits Allocation',
+    title: t('in-forge:plugins.kubernetesCluster.cpuLimitsAllocation'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory Requests Allocation',
+    title: t('in-forge:plugins.kubernetesCluster.memoryRequestsAllocation'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -86,7 +87,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory Limits Allocation',
+    title: t('in-forge:plugins.kubernetesCluster.memoryLimitsAllocation'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -102,7 +103,7 @@ const cols = [
     }
   },
   {
-    title: 'Pods Allocation',
+    title: t('in-forge:plugins.kubernetesCluster.podsAllocation'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -143,7 +144,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={`Namespaces (${rows.length})`}
+        cardTitle={t('in-forge:plugins.kubernetesCluster.namespacesWithCount', { len: rows.length })}
         cols={cols}
         rows={rows}
         getRowDetails={getNamespaceRowDetails}
@@ -156,14 +157,19 @@ function getNamespaceRowDetails(row) {
   return (
     <div>
       <Columize>
-        <DashboardSection title={`CPU Requests / Limits`}>
+        <DashboardSection title={t('in-forge:plugins.kubernetesCluster.cpuRequestsLimits')}>
           <Chart
             snapshotId={row.snapshotId}
             timeConfig={row.timeConfig}
             y1={{
               formatter: resourceQuotaTwoDecimalPlaces,
               metrics: [`cap_requests_cpu`, `used_requests_cpu`, `cap_limits_cpu`, `used_limits_cpu`],
-              labels: ['Capacity Requests', 'Used Requests', 'Capacity Limits', 'Used Limits'],
+              labels: [
+                t('in-forge:plugins.kubernetesCluster.capacityRequests'),
+                t('in-forge:plugins.kubernetesCluster.usedRequests'),
+                t('in-forge:plugins.kubernetesCluster.capacityLimits'),
+                t('in-forge:plugins.kubernetesCluster.usedLimits')
+              ],
               type: 'line',
               min: 0
             }}
@@ -171,14 +177,19 @@ function getNamespaceRowDetails(row) {
           />
         </DashboardSection>
 
-        <DashboardSection title={`Memory Requests / Limits`}>
+        <DashboardSection title={t('in-forge:plugins.kubernetesCluster.memoryRequestsLimits')}>
           <Chart
             snapshotId={row.snapshotId}
             timeConfig={row.timeConfig}
             y1={{
               formatter: resourceQuotaBytes,
               metrics: [`cap_requests_memory`, `used_requests_memory`, `cap_limits_memory`, `used_limits_memory`],
-              labels: ['Capacity Requests', 'Used Requests', 'Capacity Limits ', 'Used Limits'],
+              labels: [
+                t('in-forge:plugins.kubernetesCluster.capacityRequests'),
+                t('in-forge:plugins.kubernetesCluster.usedRequests'),
+                t('in-forge:plugins.kubernetesCluster.capacityLimits'),
+                t('in-forge:plugins.kubernetesCluster.usedLimits')
+              ],
               type: 'line',
               min: 0
             }}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -18,36 +19,36 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Connector Count">
+        <KpiKeyValue label={t('in-forge:plugins.kafkaConnectWorker.connectorCount')}>
           <MetricValue snapshotId={snapshotId} metric="connectorCount" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Task Startup Failure">
+        <KpiKeyValue label={t('in-forge:plugins.kafkaConnectWorker.taskStartupFailure')}>
           <MetricValue snapshotId={snapshotId} metric="taskStartupFailurePercentage" formatter={percentage.compact} />
         </KpiKeyValue>
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="Completed Rebalances">
+        <DashboardSection title={t('in-forge:plugins.kafkaConnectWorker.completedRebalances')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['completedRebalancesTotal'],
-              labels: ['Completed Rebalances'],
+              labels: [t('in-forge:plugins.kafkaConnectWorker.completedRebalances')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Rebalancing">
+        <DashboardSection title={t('in-forge:plugins.kafkaConnectWorker.rebalancing')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               formatter: number.detailed,
               metrics: ['rebalancing'],
-              labels: ['Rebalancing'],
+              labels: [t('in-forge:plugins.kafkaConnectWorker.rebalancing')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -55,27 +56,27 @@ export default function KafkaConnectWorkerDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title="Rebalance Time">
+        <DashboardSection title={t('in-forge:plugins.kafkaConnectWorker.rebalanceTime')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               formatter: millis,
               metrics: ['timeSinceLastRebalanceMs'],
-              labels: ['Time Since Last Rebalance'],
+              labels: [t('in-forge:plugins.kafkaConnectWorker.timeSinceLastRebalance')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Rebalance Average Time">
+        <DashboardSection title={t('in-forge:plugins.kafkaConnectWorker.rebalanceAverageTime')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               formatter: millis,
               metrics: ['rebalanceAvgTimeMs'],
-              labels: ['Rebalance Average Time'],
+              labels: [t('in-forge:plugins.kafkaConnectWorker.rebalanceAverageTime')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

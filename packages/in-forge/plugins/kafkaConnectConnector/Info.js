@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
@@ -12,10 +13,18 @@ export default function KafkaConnectConnectorInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Connector Name">{data.get('connectorName')}</DescriptionItem>
-      <DescriptionItem title="Connector Class">{data.get('connectorClass')}</DescriptionItem>
-      <DescriptionItem title="Connector Type">{data.get('connectorType')}</DescriptionItem>
-      <DescriptionItem title="Connector Version">{data.get('connectorVersion')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kafkaConnectConnector.connectorName')}>
+        {data.get('connectorName')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kafkaConnectConnector.connectorClass')}>
+        {data.get('connectorClass')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kafkaConnectConnector.connectorType')}>
+        {data.get('connectorType')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kafkaConnectConnector.connectorVersion')}>
+        {data.get('connectorVersion')}
+      </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

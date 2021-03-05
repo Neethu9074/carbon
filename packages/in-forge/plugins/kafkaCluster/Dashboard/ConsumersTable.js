@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { bytesPerSecondTwoDecimalPlaces, millis } from 'in-services/formatters/number';
@@ -11,7 +12,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'JVM',
+    title: t('in-forge:plugins.kafkaCluster.jvm'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -20,7 +21,7 @@ const cols = [
     }
   },
   {
-    title: 'ID',
+    title: t('in-forge:plugins.kafkaCluster.id'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -29,7 +30,7 @@ const cols = [
     }
   },
   {
-    title: 'Byte Rate',
+    title: t('in-forge:plugins.kafkaCluster.byteRate'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -45,7 +46,7 @@ const cols = [
     }
   },
   {
-    title: 'Throttling',
+    title: t('in-forge:plugins.kafkaCluster.throttling'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -61,7 +62,7 @@ const cols = [
     }
   },
   {
-    title: 'Latency',
+    title: t('in-forge:plugins.kafkaCluster.latency'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -105,7 +106,7 @@ export default function ConsumersTable({ clientSnapshots, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Consumers (` + rows.length + `)`}
+      cardTitle={t('in-forge:plugins.kafkaCluster.consumersWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}
@@ -122,7 +123,7 @@ function getDetails(row) {
         formatter: bytesPerSecondTwoDecimalPlaces,
         tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
         metrics: [`kafkaClient.consumer.${row.consumerId}.consumedByteRate`],
-        labels: ['Byte Rate'],
+        labels: [t('in-forge:plugins.kafkaCluster.byteRate')],
         type: 'line'
       }}
       y2={{
@@ -132,7 +133,7 @@ function getDetails(row) {
           `kafkaClient.consumer.${row.consumerId}.consumerFetchThrottleTime`,
           `kafkaClient.consumer.${row.consumerId}.consumerFetchLatency`
         ],
-        labels: ['Throttling', 'Latency'],
+        labels: [t('in-forge:plugins.kafkaCluster.throttling'), t('in-forge:plugins.kafkaCluster.latency')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

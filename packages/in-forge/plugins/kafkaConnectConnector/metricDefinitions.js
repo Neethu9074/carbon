@@ -2,37 +2,39 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number } from 'in-services/formatters/number';
 
 export default [
   {
     metric: 'connectorDestroyedTaskCount',
-    label: 'Destroyed Tasks',
+    label: t('in-forge:plugins.kafkaConnectConnector.destroyedTasks'),
     formatter: number
   },
   {
     metric: 'connectorFailedTaskCount',
-    label: 'Failed Tasks',
+    label: t('in-forge:plugins.kafkaConnectConnector.failedTasks'),
     formatter: number
   },
   {
     metric: 'connectorPausedTaskCount',
-    label: 'Paused Tasks',
+    label: t('in-forge:plugins.kafkaConnectConnector.pausedTasks'),
     formatter: number
   },
   {
     metric: 'connectorRunningTaskCount',
-    label: 'Running Tasks',
+    label: t('in-forge:plugins.kafkaConnectConnector.runningTasks'),
     formatter: number
   },
   {
     metric: 'connectorTotalTaskCount',
-    label: 'Total Tasks',
+    label: t('in-forge:plugins.kafkaConnectConnector.totalTasks'),
     formatter: number
   },
   {
     metric: 'connectorUnassignedTaskCount',
-    label: 'Unassigned Tasks',
+    label: t('in-forge:plugins.kafkaConnectConnector.unassignedTasks'),
     formatter: number
   }
 ];

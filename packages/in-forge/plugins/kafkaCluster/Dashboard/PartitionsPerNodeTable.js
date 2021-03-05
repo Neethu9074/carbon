@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { combineLatest } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
@@ -13,7 +14,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Node',
+    title: t('in-forge:plugins.kafkaCluster.node'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Partitions',
+    title: t('in-forge:plugins.kafkaCluster.partitions'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Leaders',
+    title: t('in-forge:plugins.kafkaCluster.leaders'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Offline Partitions',
+    title: t('in-forge:plugins.kafkaCluster.offlinePartitions'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Under-replicated Partitions',
+    title: t('in-forge:plugins.kafkaCluster.underReplicatedPartitions'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -108,6 +109,8 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Partitions Per Node`} cols={cols} rows={rows} />;
+    return (
+      <Table withoutPadding cardTitle={t('in-forge:plugins.kafkaCluster.partitionsPerNode')} cols={cols} rows={rows} />
+    );
   }
 );

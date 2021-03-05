@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { combineLatest } from '@instana/observables';
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, percentage, number, ms } from 'in-services/formatters/number';
@@ -13,7 +14,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.kafkaConnectCluster.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Connector Startup Failure',
+    title: t('in-forge:plugins.kafkaConnectCluster.connectorStartupFailure'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Task Startup Failure',
+    title: t('in-forge:plugins.kafkaConnectCluster.taskStartupFailure'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Completed Rebalances',
+    title: t('in-forge:plugins.kafkaConnectCluster.completedRebalances'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Rebalance Average Time',
+    title: t('in-forge:plugins.kafkaConnectCluster.rebalanceAverageTime'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -86,7 +87,7 @@ const cols = [
     }
   },
   {
-    title: 'Rebalancing',
+    title: t('in-forge:plugins.kafkaConnectCluster.rebalancing'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -102,7 +103,7 @@ const cols = [
     }
   },
   {
-    title: 'Time Since Last Rebalance',
+    title: t('in-forge:plugins.kafkaConnectCluster.timeSinceLastRebalance'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -144,6 +145,13 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Workers (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.kafkaConnectCluster.workersWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 export default {
@@ -10,14 +11,17 @@ export default {
       Component: function kubernetesMissingPermissions({ appliesTo }) {
         return (
           <span>
-            The Instana Agent ClusterRole is missing permissions for the following resources:{' '}
-            <code>{appliesTo.join(', ')}</code>. Please update to the latest version of the Instana Agent YAML, Helm{' '}
-            chart or Operator to ensure it has the most up-to-date permissions.
+            <Trans
+              i18nKey="in-forge:plugins.kubernetesCluster.theInstanaAgentClusterRoleIsMissing"
+              values={{
+                appliesTo: appliesTo.join(', ')
+              }}
+            />
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.kubernetesCluster.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/kubernetes/#missing-clusterrole-permissions`
   }
 };

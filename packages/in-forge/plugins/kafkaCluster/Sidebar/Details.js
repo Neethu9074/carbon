@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
@@ -18,7 +19,7 @@ export default function KafkaClusterSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Kafka Cluster</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.kafkaCluster.kafkaCluster')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -29,19 +30,19 @@ export default function KafkaClusterSidebar({ snapshot }) {
         metrics={[
           {
             metric: 'broker.messagesIn',
-            label: 'Brokers Msg.In',
+            label: t('in-forge:plugins.kafkaCluster.brokersMsgIn'),
             formatter: number,
             aggregation: 'sum'
           },
           {
             metric: 'broker.partitionCount',
-            label: 'Brokers Partitions',
+            label: t('in-forge:plugins.kafkaCluster.brokersPartitions'),
             formatter: number,
             aggregation: 'mean'
           },
           {
             metric: 'broker.totalTimeProduce',
-            label: 'Prod. Latency',
+            label: t('in-forge:plugins.kafkaCluster.prodLatency'),
             formatter: ms,
             aggregation: 'mean'
           }

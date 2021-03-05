@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Consumer Group',
+    title: t('in-forge:plugins.kafkaCluster.consumerGroup'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Topic',
+    title: t('in-forge:plugins.kafkaCluster.topic'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages Lag',
+    title: t('in-forge:plugins.kafkaCluster.messagesLag'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -65,7 +66,7 @@ export default function ConsumerGroupsLagPerTopicTable({ snapshot, timeConfig })
   return (
     <Table
       withoutPadding
-      cardTitle={`Consumer Groups Lag Per Topic (${rows.length})`}
+      cardTitle={t('in-forge:plugins.kafkaCluster.consumerGroupsLagPerTopicWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}
@@ -82,7 +83,7 @@ function getDetails(row) {
         formatter: zeroDecimalPlaces,
         tooltipFormatter: zeroDecimalPlaces,
         metrics: [`broker.lagData.data.${row.key}.lag`],
-        labels: ['Messages Lag'],
+        labels: [t('in-forge:plugins.kafkaCluster.messagesLag')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

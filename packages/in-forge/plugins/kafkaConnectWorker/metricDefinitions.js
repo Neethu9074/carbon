@@ -2,27 +2,29 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number, millis } from 'in-services/formatters/number';
 
 export default [
   {
     metric: 'completedRebalancesTotal',
-    label: 'Completed Rebalances',
+    label: t('in-forge:plugins.kafkaConnectWorker.completedRebalances'),
     formatter: number
   },
   {
     metric: 'rebalanceAvgTimeMs',
-    label: 'Rebalance Average Time',
+    label: t('in-forge:plugins.kafkaConnectWorker.rebalanceAverageTime'),
     formatter: millis
   },
   {
     metric: 'rebalancing',
-    label: 'Rebalancing',
+    label: t('in-forge:plugins.kafkaConnectWorker.rebalancing'),
     formatter: number
   },
   {
     metric: 'timeSinceLastRebalanceMs',
-    label: 'Time Since Last Rebalance',
+    label: t('in-forge:plugins.kafkaConnectWorker.timeSinceLastRebalance'),
     formatter: millis
   }
 ];

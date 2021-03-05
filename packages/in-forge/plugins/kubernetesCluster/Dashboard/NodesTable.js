@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { twoDecimalPlaces, bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -14,7 +15,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Node',
+    title: t('in-forge:plugins.kubernetesCluster.node'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'CPU Requests Allocation',
+    title: t('in-forge:plugins.kubernetesCluster.cpuRequestsAllocation'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -39,7 +40,7 @@ const cols = [
     }
   },
   {
-    title: 'CPU Limits Allocation',
+    title: t('in-forge:plugins.kubernetesCluster.cpuLimitsAllocation'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -55,7 +56,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory Requests Allocation',
+    title: t('in-forge:plugins.kubernetesCluster.memoryRequestsAllocation'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -71,7 +72,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory Limits Allocation',
+    title: t('in-forge:plugins.kubernetesCluster.memoryLimitsAllocation'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -87,7 +88,7 @@ const cols = [
     }
   },
   {
-    title: 'Pods Allocation',
+    title: t('in-forge:plugins.kubernetesCluster.podsAllocation'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -103,7 +104,7 @@ const cols = [
     }
   },
   {
-    title: 'Internal IP',
+    title: t('in-forge:plugins.kubernetesCluster.internalIp'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -135,7 +136,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={`Nodes (${rows.length})`}
+        cardTitle={t('in-forge:plugins.kubernetesCluster.nodesWithCount', { len: rows.length })}
         cols={cols}
         rows={rows}
         getRowDetails={getNodeRowDetails}
@@ -153,7 +154,11 @@ function getNodeRowDetails(row) {
         y1={{
           formatter: twoDecimalPlaces,
           metrics: [`required_cpu`, `limit_cpu`, `cap_cpu`],
-          labels: ['CPU Requests', 'CPU Limits', 'CPU Capacity'],
+          labels: [
+            t('in-forge:plugins.kubernetesCluster.cpuRequests'),
+            t('in-forge:plugins.kubernetesCluster.cpuLimits'),
+            t('in-forge:plugins.kubernetesCluster.cpuCapacity')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -165,7 +170,11 @@ function getNodeRowDetails(row) {
         y1={{
           formatter: bytesTwoDecimalPlaces,
           metrics: [`required_mem`, `limit_mem`, `cap_mem`],
-          labels: ['Memory Requests', 'Memory Limits', 'Memory Capacity'],
+          labels: [
+            t('in-forge:plugins.kubernetesCluster.memoryRequests'),
+            t('in-forge:plugins.kubernetesCluster.memoryLimits'),
+            t('in-forge:plugins.kubernetesCluster.memoryCapacity')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

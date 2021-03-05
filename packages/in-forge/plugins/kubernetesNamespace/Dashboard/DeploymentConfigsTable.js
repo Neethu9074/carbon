@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import createDeploymentConfigsForNamespaceSubscription from 'in-subscription/deploymentConfigsForNamespace';
@@ -11,11 +12,11 @@ import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
-const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d));
+const msFormatter = d => (d < 0 ? t('in-forge:plugins.kubernetesCluster.noActivity') : timeByMillisTwoDecimalPlaces(d));
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.kubernetesNamespace.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Available Replicas',
+    title: t('in-forge:plugins.kubernetesNamespace.availableReplicas'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Desired Replicas',
+    title: t('in-forge:plugins.kubernetesNamespace.desiredReplicas'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +57,7 @@ const cols = [
     }
   },
   {
-    title: 'Last Pending Phase Duration',
+    title: t('in-forge:plugins.kubernetesNamespace.lastPendingPhaseDuration'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -92,6 +93,13 @@ export default connectTo(
       }));
     }
 
-    return <Table withoutPadding cardTitle={`DeploymentConfigs (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.kubernetesNamespace.deploymentConfigsWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

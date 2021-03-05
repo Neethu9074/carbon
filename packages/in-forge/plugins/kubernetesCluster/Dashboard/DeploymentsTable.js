@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import createDeploymentsForClusterSubscription from 'in-subscription/deploymentsForCluster';
@@ -15,7 +16,7 @@ const msFormatter = d => (d < 0 ? 'No activity' : timeByMillisTwoDecimalPlaces(d
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.kubernetesCluster.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Namespace',
+    title: t('in-forge:plugins.kubernetesCluster.namespace'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -33,7 +34,7 @@ const cols = [
     }
   },
   {
-    title: 'Available Replicas',
+    title: t('in-forge:plugins.kubernetesCluster.availableReplicas'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -49,7 +50,7 @@ const cols = [
     }
   },
   {
-    title: 'Desired Replicas',
+    title: t('in-forge:plugins.kubernetesCluster.desiredReplicas'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -65,7 +66,7 @@ const cols = [
     }
   },
   {
-    title: 'Last Pending Phase Duration',
+    title: t('in-forge:plugins.kubernetesCluster.lastPendingPhaseDuration'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -102,6 +103,13 @@ export default connectTo(
       }));
     }
 
-    return <Table withoutPadding cardTitle={`Deployments (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.kubernetesCluster.deploymentsWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ConditionsList from 'in-forge/plugins/kubernetesCluster/Sidebar/ConditionsList';
@@ -12,7 +13,7 @@ export default function KubernetesNodeSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Kubernetes Node</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.kubernetesNode.kubernetesNode')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

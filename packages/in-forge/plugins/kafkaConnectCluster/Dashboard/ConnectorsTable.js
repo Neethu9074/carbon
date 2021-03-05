@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import getKafkaConnectConnectorsForCluster from 'in-subscription/kafkaConnectCluster/getKafkaConnectConnectorsForCluster';
@@ -13,7 +14,7 @@ import connectTo from 'in-hoc/connectTo';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.kafkaConnectCluster.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Total Tasks',
+    title: t('in-forge:plugins.kafkaConnectCluster.totalTasks'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Running Tasks',
+    title: t('in-forge:plugins.kafkaConnectCluster.runningTasks'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Failed Tasks',
+    title: t('in-forge:plugins.kafkaConnectCluster.failedTasks'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Destroyed Tasks',
+    title: t('in-forge:plugins.kafkaConnectCluster.destroyedTasks'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -86,7 +87,7 @@ const cols = [
     }
   },
   {
-    title: 'Paused Tasks',
+    title: t('in-forge:plugins.kafkaConnectCluster.pausedTasks'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -102,7 +103,7 @@ const cols = [
     }
   },
   {
-    title: 'Unassigned Tasks',
+    title: t('in-forge:plugins.kafkaConnectCluster.unassignedTasks'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -140,6 +141,13 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Connectors (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.kafkaConnectCluster.connectorsWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

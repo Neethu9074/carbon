@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -31,28 +32,32 @@ export default connectTo(
     return (
       <DescriptionList>
         {zoneSnapshot ? (
-          <DescriptionItem title="Cluster">
+          <DescriptionItem title={t('in-forge:plugins.kubernetesNode.cluster')}>
             <SnapshotLink snapshotId={zoneSnapshot.get('id')}>{getLabel(zoneSnapshot)}</SnapshotLink>
           </DescriptionItem>
         ) : null}
         {hostSnapshot ? (
-          <DescriptionItem title="Host">
+          <DescriptionItem title={t('in-forge:plugins.kubernetesNode.host')}>
             <SnapshotLink snapshotId={hostSnapshot.get('id')}>{getLabel(hostSnapshot)}</SnapshotLink>
           </DescriptionItem>
         ) : null}
 
         {clusterSnapshot ? (
-          <DescriptionItem title="Cluster">
+          <DescriptionItem title={t('in-forge:plugins.kubernetesNode.cluster')}>
             <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{getLabel(clusterSnapshot)}</SnapshotLink>
           </DescriptionItem>
         ) : null}
 
-        <DescriptionItem title="Hostname">{data.get('hostname')}</DescriptionItem>
-        <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-        <DescriptionItem title="Internal IP">{data.get('internalIp')}</DescriptionItem>
-        <DescriptionItem title="Machine ID">{data.get('machineId')}</DescriptionItem>
-        <DescriptionItem title="Boot ID">{data.get('bootId')}</DescriptionItem>
-        <KeyValueOverlay header="Labels" data={data.get('labels')} />
+        <DescriptionItem title={t('in-forge:plugins.kubernetesNode.hostname')}>{data.get('hostname')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.kubernetesNode.name')}>{data.get('name')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.kubernetesNode.internalIp')}>
+          {data.get('internalIp')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.kubernetesNode.machineId')}>
+          {data.get('machineId')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.kubernetesNode.bootId')}>{data.get('bootId')}</DescriptionItem>
+        <KeyValueOverlay header={t('in-forge:plugins.kubernetesNode.labels')} data={data.get('labels')} />
       </DescriptionList>
     );
   }

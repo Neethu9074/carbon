@@ -2,48 +2,60 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number, bytes, millis, percentage } from 'in-services/formatters/number';
 
 export default [
   {
     metrics: ['availableReplicas', 'desiredReplicas'],
-    labels: ['Available', 'Desired'],
+    labels: [t('in-forge:plugins.kubernetesDeployment.available'), t('in-forge:plugins.kubernetesDeployment.desired')],
     min: 0,
     formatter: number
   },
   {
     metric: 'availableToDesiredReplicaRatio',
-    label: 'Available to Desired Percentage',
+    label: t('in-forge:plugins.kubernetesDeployment.availableToDesiredPercentage'),
     min: 0,
     formatter: percentage
   },
   {
     metrics: ['phase.Pending.count', 'conditions.PodScheduled.False', 'conditions.Ready.False'],
-    labels: ['Pending', 'Unscheduled', 'Unready'],
+    labels: [
+      t('in-forge:plugins.kubernetesDeployment.pending'),
+      t('in-forge:plugins.kubernetesDeployment.unscheduled'),
+      t('in-forge:plugins.kubernetesDeployment.unready')
+    ],
     min: 0,
     formatter: number
   },
   {
     metrics: ['duration'],
-    labels: ['Pending phase duration'],
+    labels: [t('in-forge:plugins.kubernetesDeployment.pendingPhaseDuration')],
     min: 0,
     formatter: millis
   },
   {
     metrics: ['pods.count'],
-    labels: ['Pods'],
+    labels: [t('in-forge:plugins.kubernetesDeployment.pods')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['pods.required_mem', 'pods.limit_mem'],
-    labels: ['Memory Requests', 'Memory Limits'],
+    labels: [
+      t('in-forge:plugins.kubernetesDeployment.memoryRequests'),
+      t('in-forge:plugins.kubernetesDeployment.memoryLimits')
+    ],
     min: 0,
     formatter: bytes
   },
   {
     metrics: ['pods.required_cpu', 'pods.limit_cpu'],
-    labels: ['CPU Requests', 'CPU Limits'],
+    labels: [
+      t('in-forge:plugins.kubernetesDeployment.cpuRequests'),
+      t('in-forge:plugins.kubernetesDeployment.cpuLimits')
+    ],
     min: 0,
     formatter: number
   }

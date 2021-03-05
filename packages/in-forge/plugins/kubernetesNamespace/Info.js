@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import createClusterForNamespaceSubscription from 'in-subscription/clusterForNamespace';
@@ -27,14 +28,18 @@ export default connectTo(
       <div>
         <DescriptionList>
           {cluster ? (
-            <DescriptionItem title="Cluster">
+            <DescriptionItem title={t('in-forge:plugins.kubernetesNamespace.cluster')}>
               <SnapshotLink snapshotId={cluster.get('id')}>{getLabel(cluster)}</SnapshotLink>
             </DescriptionItem>
           ) : null}
-          <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-          <DescriptionItem title="Status">{data.get('status')}</DescriptionItem>
-          <DescriptionItem title="Creation time">{formatDateTime(data.get('creationTime'))}</DescriptionItem>
-          <KeyValueOverlay header="Labels" data={data.get('labels')} />
+          <DescriptionItem title={t('in-forge:plugins.kubernetesNamespace.name')}>{data.get('name')}</DescriptionItem>
+          <DescriptionItem title={t('in-forge:plugins.kubernetesNamespace.status')}>
+            {data.get('status')}
+          </DescriptionItem>
+          <DescriptionItem title={t('in-forge:plugins.kubernetesNamespace.creationTime')}>
+            {formatDateTime(data.get('creationTime'))}
+          </DescriptionItem>
+          <KeyValueOverlay header={t('in-forge:plugins.kubernetesNamespace.labels')} data={data.get('labels')} />
         </DescriptionList>
       </div>
     );

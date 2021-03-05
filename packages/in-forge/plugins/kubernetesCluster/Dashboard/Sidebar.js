@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -16,7 +17,9 @@ function componentStatusToText(healthy) {
   if (healthy === undefined || healthy === null) {
     return null;
   }
-  return healthy === 'True' ? 'Healthy' : 'Not Healthy';
+  return healthy === 'True'
+    ? t('in-forge:plugins.kubernetesCluster.healthy')
+    : t('in-forge:plugins.kubernetesCluster.notHealthy');
 }
 
 export default function KubernetesClusterSidebar({ snapshot }) {
@@ -32,7 +35,7 @@ export default function KubernetesClusterSidebar({ snapshot }) {
           metrics={[
             {
               metric: 'nodes.count',
-              label: 'Nodes',
+              label: t('in-forge:plugins.kubernetesCluster.nodes'),
               formatter: number,
               aggregation: 'mean'
             }
@@ -44,7 +47,7 @@ export default function KubernetesClusterSidebar({ snapshot }) {
           metrics={[
             {
               metric: 'pods.count',
-              label: 'Pods',
+              label: t('in-forge:plugins.kubernetesCluster.pods'),
               formatter: number,
               aggregation: 'mean'
             }
@@ -54,7 +57,7 @@ export default function KubernetesClusterSidebar({ snapshot }) {
       </Columize>
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Kubernetes Cluster</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.kubernetesCluster.kubernetesCluster')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -62,14 +65,18 @@ export default function KubernetesClusterSidebar({ snapshot }) {
 
       {!isOpenshift && (
         <Collapsible initiallyOpen>
-          <Collapsible.Header>Component Status</Collapsible.Header>
+          <Collapsible.Header>{t('in-forge:plugins.kubernetesCluster.componentStatus')}</Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
-              <DescriptionItem title="Scheduler">{componentStatusToText(schedulerHealthy)}</DescriptionItem>
-              <DescriptionItem title="Controller Manager">
+              <DescriptionItem title={t('in-forge:plugins.kubernetesCluster.scheduler')}>
+                {componentStatusToText(schedulerHealthy)}
+              </DescriptionItem>
+              <DescriptionItem title={t('in-forge:plugins.kubernetesCluster.controllerManager')}>
                 {componentStatusToText(controllerMgrHealthy)}
               </DescriptionItem>
-              <DescriptionItem title="etcd">{componentStatusToText(etcdHealthy)}</DescriptionItem>
+              <DescriptionItem title={t('in-forge:plugins.kubernetesCluster.etcd')}>
+                {componentStatusToText(etcdHealthy)}
+              </DescriptionItem>
             </DescriptionList>
           </Collapsible.Content>
         </Collapsible>

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
@@ -12,9 +13,13 @@ export default function KafkaConnectWorkerInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
-      <DescriptionItem title="Worker Name">{data.get('workerId')}</DescriptionItem>
-      <DescriptionItem title="Brokers in use">{data.get('numberOfBrokers')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kafkaConnectWorker.version')}>{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kafkaConnectWorker.workerName')}>
+        {data.get('workerId')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.kafkaConnectWorker.brokersInUse')}>
+        {data.get('numberOfBrokers')}
+      </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

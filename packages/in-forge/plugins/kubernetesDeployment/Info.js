@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import createNamespaceForDeploymentSubscription from 'in-subscription/namespaceForDeployment';
@@ -28,21 +29,23 @@ export default connectTo(
       <div>
         <DescriptionList>
           {cluster ? (
-            <DescriptionItem title="Cluster">
+            <DescriptionItem title={t('in-forge:plugins.kubernetesDeployment.cluster')}>
               <SnapshotLink snapshotId={cluster.get('id')}>{getLabel(cluster)}</SnapshotLink>
             </DescriptionItem>
           ) : null}
 
           {namespace ? (
-            <DescriptionItem title="Namespace">
+            <DescriptionItem title={t('in-forge:plugins.kubernetesDeployment.namespace')}>
               <SnapshotLink snapshotId={namespace.get('id')}>{getLabel(namespace)}</SnapshotLink>
             </DescriptionItem>
           ) : (
-            <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.kubernetesDeployment.namespace')}>
+              {data.get('namespace')}
+            </DescriptionItem>
           )}
 
-          <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-          <KeyValueOverlay header="Labels" data={data.get('labels')} />
+          <DescriptionItem title={t('in-forge:plugins.kubernetesDeployment.name')}>{data.get('name')}</DescriptionItem>
+          <KeyValueOverlay header={t('in-forge:plugins.kubernetesDeployment.labels')} data={data.get('labels')} />
         </DescriptionList>
       </div>
     );

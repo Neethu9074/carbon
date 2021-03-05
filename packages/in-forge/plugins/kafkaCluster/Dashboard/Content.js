@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { number, bytes, millis, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -32,7 +33,7 @@ export default connectTo(
       <div>
         <ClusterSummary snapshot={snapshot} />
 
-        <DashboardSection title="Average Request Latency vs Throughput">
+        <DashboardSection title={t('in-forge:plugins.kafkaCluster.averageRequestLatencyVsThroughput')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -40,20 +41,28 @@ export default connectTo(
               formatter: number.detailed,
               tooltipFormatter: number.detailed,
               metrics: ['broker.produceRequests', 'broker.fetchConsumerRequests', 'broker.fetchFollowerRequests'],
-              labels: ['Produce Throughput', 'Fetch Consumer Throughput', 'Fetch Follower Throughput'],
+              labels: [
+                t('in-forge:plugins.kafkaCluster.produceThroughput'),
+                t('in-forge:plugins.kafkaCluster.fetchConsumerThroughput'),
+                t('in-forge:plugins.kafkaCluster.fetchFollowerThroughput')
+              ],
               type: 'line'
             }}
             y2={{
               formatter: millis.compact,
               tooltipFormatter: millis.detailed,
               metrics: ['broker.totalTimeProduce', 'broker.totalTimeFetchConsumer', 'broker.totalTimeFetchFollower'],
-              labels: ['Produce Latency', 'Fetch Consumer Latency', 'Fetch Follower Latency'],
+              labels: [
+                t('in-forge:plugins.kafkaCluster.produceLatency'),
+                t('in-forge:plugins.kafkaCluster.fetchConsumerLatency'),
+                t('in-forge:plugins.kafkaCluster.fetchFollowerLatency')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="All Brokers Traffic">
+        <DashboardSection title={t('in-forge:plugins.kafkaCluster.allBrokersTraffic')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -61,13 +70,17 @@ export default connectTo(
               formatter: bytes.detailed,
               tooltipFormatter: bytes.detailed,
               metrics: ['broker.bytesIn', 'broker.bytesOut', 'broker.bytesRejected'],
-              labels: ['In', 'Out', 'Rejected'],
+              labels: [
+                t('in-forge:plugins.kafkaCluster.in'),
+                t('in-forge:plugins.kafkaCluster.out'),
+                t('in-forge:plugins.kafkaCluster.rejected')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="All Brokers Messages In">
+        <DashboardSection title={t('in-forge:plugins.kafkaCluster.allBrokersMessagesIn')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -75,13 +88,13 @@ export default connectTo(
               formatter: number.compact,
               tooltipFormatter: number.compact,
               metrics: ['broker.messagesIn'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.kafkaCluster.count')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="All Brokers Failures">
+        <DashboardSection title={t('in-forge:plugins.kafkaCluster.allBrokersFailures')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -89,13 +102,13 @@ export default connectTo(
               formatter: number.compact,
               tooltipFormatter: number.compact,
               metrics: ['broker.failedFetch', 'broker.failedProduce'],
-              labels: ['Fetch', 'Produce'],
+              labels: [t('in-forge:plugins.kafkaCluster.fetch'), t('in-forge:plugins.kafkaCluster.produce')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="All Brokers state metrics">
+        <DashboardSection title={t('in-forge:plugins.kafkaCluster.allBrokersStateMetrics')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -112,20 +125,20 @@ export default connectTo(
                 'broker.activeControllerCount'
               ],
               labels: [
-                'Under-replicated Partitions',
-                'Offline Partitions',
-                'Leader Elections',
-                'Unclean Leader Elections',
-                'ISR Shrinks',
-                'ISR Expansions',
-                'Active controller count'
+                t('in-forge:plugins.kafka.underReplicatedPartitions'),
+                t('in-forge:plugins.kafka.offlinePartitions'),
+                t('in-forge:plugins.kafka.leaderElections'),
+                t('in-forge:plugins.kafka.uncleanLeaderElections'),
+                t('in-forge:plugins.kafka.isrShrinks'),
+                t('in-forge:plugins.kafka.isrExpansions'),
+                t('in-forge:plugins.kafka.activeControllerCount')
               ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Average Idle Time Percentage">
+        <DashboardSection title={t('in-forge:plugins.kafkaCluster.averageIdleTimePercentage')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -133,13 +146,16 @@ export default connectTo(
               formatter: percentageZeroDecimalPlaces,
               tooltipFormatter: percentageZeroDecimalPlaces,
               metrics: ['broker.networkProcessorIdle', 'broker.requestHandlerIdle'],
-              labels: ['Network Processor', 'Request Handler'],
+              labels: [
+                t('in-forge:plugins.kafkaCluster.networkProcessor'),
+                t('in-forge:plugins.kafkaCluster.requestHandler')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Log Flushing">
+        <DashboardSection title={t('in-forge:plugins.kafkaCluster.logFlushing')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -147,14 +163,14 @@ export default connectTo(
               formatter: millis.detailed,
               tooltipFormatter: millis.detailed,
               metrics: ['logflush.mean'],
-              labels: ['Mean'],
+              labels: [t('in-forge:plugins.kafkaCluster.mean')],
               type: 'line'
             }}
             y2={{
               formatter: number.detailed,
               tooltipFormatter: number.detailed,
               metrics: ['logflush.inv'],
-              labels: ['Flushes'],
+              labels: [t('in-forge:plugins.kafkaCluster.flushes')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

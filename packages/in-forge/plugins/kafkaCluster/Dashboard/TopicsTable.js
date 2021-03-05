@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { bytesPerSecondTwoDecimalPlaces, number } from 'in-services/formatters/number';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.kafkaCluster.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Partitions',
+    title: t('in-forge:plugins.kafkaCluster.partitions'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -31,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Bytes In',
+    title: t('in-forge:plugins.kafkaCluster.bytesIn'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -47,7 +48,7 @@ const cols = [
     }
   },
   {
-    title: 'Bytes Out',
+    title: t('in-forge:plugins.kafkaCluster.bytesOut'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -63,7 +64,7 @@ const cols = [
     }
   },
   {
-    title: 'Bytes Rejected',
+    title: t('in-forge:plugins.kafkaCluster.bytesRejected'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -79,7 +80,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages In',
+    title: t('in-forge:plugins.kafkaCluster.messagesIn'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -117,7 +118,13 @@ export default function TopicsTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <Table withoutPadding cardTitle={`Topics (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.kafkaCluster.topicsWithCount', { len: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
   );
 }
 
@@ -136,7 +143,11 @@ function getDetails(row) {
             `broker.topicData.${key}.bytesOutPerSec`,
             `broker.topicData.${key}.bytesRejectedPerSec`
           ],
-          labels: ['Bytes In', 'Bytes Out', 'Bytes Rejected'],
+          labels: [
+            t('in-forge:plugins.kafkaCluster.bytesIn'),
+            t('in-forge:plugins.kafkaCluster.bytesOut'),
+            t('in-forge:plugins.kafkaCluster.bytesRejected')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -148,7 +159,7 @@ function getDetails(row) {
           formatter: number,
           tooltipFormatter: number.compact,
           metrics: [`broker.topicData.${key}.messagesInPerSec`],
-          labels: ['Messages In'],
+          labels: [t('in-forge:plugins.kafkaCluster.messagesIn')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
