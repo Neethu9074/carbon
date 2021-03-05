@@ -50,6 +50,7 @@ export default function FacetedSearch({
         updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
+        enableUseAsGroup={dataSource !== 'traces'}
       />
 
       <FacetedFilterGeneric
@@ -61,6 +62,7 @@ export default function FacetedSearch({
         updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
+        enableUseAsGroup={dataSource !== 'traces'}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.endpoints')}
@@ -71,6 +73,7 @@ export default function FacetedSearch({
         updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
+        enableUseAsGroup={dataSource !== 'traces'}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.types')}
@@ -80,6 +83,7 @@ export default function FacetedSearch({
         updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
+        enableUseAsGroup={dataSource !== 'traces'}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.technologies')}
@@ -91,6 +95,7 @@ export default function FacetedSearch({
         hiddenCalls={hiddenCalls}
         dataSource={dataSource}
         customLabelMapper={label => getTechnologyLabel(label)}
+        enableUseAsGroup={dataSource !== 'traces'}
       />
       <FacetedFilterHttpStatusCodes
         title={t('in-applications:analyze.httpStatusCode')}

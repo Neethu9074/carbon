@@ -30,7 +30,8 @@ export default function SuggestionsPresenter({
   getUpdatedTagExpressionHref,
   getHrefToGroupedView,
   customLabelMapper,
-  dataSource
+  dataSource,
+  enableUseAsGroup = true
 }) {
   const [numberOfPresentedRows, setNumberOfPresentedRows] = useState(DEFAULT_SUGGESTIONS_SIZE);
   if (loading) {
@@ -49,6 +50,7 @@ export default function SuggestionsPresenter({
         setNumberOfPresentedRows={setNumberOfPresentedRows}
         customLabelMapper={customLabelMapper}
         dataSource={dataSource}
+        enableUseAsGroup={enableUseAsGroup}
       />
     );
   } else {
@@ -81,7 +83,8 @@ function Results({
   getHrefToGroupedView,
   setNumberOfPresentedRows,
   customLabelMapper = identity,
-  dataSource
+  dataSource,
+  enableUseAsGroup
 }) {
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
   const nextBatch = Math.min(suggestions.length - showMore, 20);
@@ -132,14 +135,16 @@ function Results({
           </Button>
         )}
         <div />
-        <Button
-          className={locals.useAsGroup}
-          kind="action"
-          href={getHrefToGroupedView(tag)}
-          onClick={() => ua2FacetedSearchGroupChangedTracker({ dataSource, tagName: tag })}
-        >
-          {t('in-new-components:analyze.useAsGroup')}
-        </Button>
+        {enableUseAsGroup && (
+          <Button
+            className={locals.useAsGroup}
+            kind="action"
+            href={getHrefToGroupedView(tag)}
+            onClick={() => ua2FacetedSearchGroupChangedTracker({ dataSource, tagName: tag })}
+          >
+            {t('in-new-components:analyze.useAsGroup')}
+          </Button>
+        )}
       </div>
     </Stack>
   );

@@ -32,7 +32,8 @@ export default function SuggestionsPresenter({
   updateFilter,
   updateGroup,
   dataSource,
-  customLabelMapper
+  customLabelMapper,
+  enableUseAsGroup = true
 }) {
   const [numberOfPresentedRows, setNumberOfPresentedRows] = useState(DEFAULT_SUGGESTIONS_SIZE);
   if (loading) {
@@ -52,6 +53,7 @@ export default function SuggestionsPresenter({
         dataSource={dataSource}
         setNumberOfPresentedRows={setNumberOfPresentedRows}
         customLabelMapper={customLabelMapper}
+        enableUseAsGroup={enableUseAsGroup}
       />
     );
   } else {
@@ -85,7 +87,8 @@ function Results({
   updateGroup,
   dataSource,
   setNumberOfPresentedRows,
-  customLabelMapper = identity
+  customLabelMapper = identity,
+  enableUseAsGroup
 }) {
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
   const nextBatch = Math.min(suggestions.length - showMore, 20);
@@ -142,19 +145,21 @@ function Results({
           </Button>
         )}
         <div />
-        <Button
-          className={locals.useAsGroup}
-          kind="action"
-          onClick={() => {
-            ua2FacetedSearchGroupChangedTracker({ dataSource, tagName: tag });
-            updateGroup({
-              groupbyTag: tag,
-              ...(entity && { groupbyTagEntity: entity })
-            });
-          }}
-        >
-          {t('in-new-components:analyze.useAsGroup')}
-        </Button>
+        {enableUseAsGroup && (
+          <Button
+            className={locals.useAsGroup}
+            kind="action"
+            onClick={() => {
+              ua2FacetedSearchGroupChangedTracker({ dataSource, tagName: tag });
+              updateGroup({
+                groupbyTag: tag,
+                ...(entity && { groupbyTagEntity: entity })
+              });
+            }}
+          >
+            {t('in-new-components:analyze.useAsGroup')}
+          </Button>
+        )}
       </div>
     </>
   );
