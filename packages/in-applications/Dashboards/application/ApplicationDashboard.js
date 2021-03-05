@@ -109,7 +109,7 @@ function Header(props) {
 }
 
 function renderButtonLine(props) {
-  const { applicationId, timeConfig, boundaryScope, label, location } = props;
+  const { applicationId, timeConfig, boundaryScope, label, location, syntheticCalls } = props;
 
   return (
     <>
@@ -130,6 +130,7 @@ function renderButtonLine(props) {
         boundaryScope={boundaryScope}
         timeConfig={timeConfig}
         groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
+        syntheticCalls={syntheticCalls}
         area="application"
       />
 

@@ -146,7 +146,7 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig, result }) {
+function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig, result, syntheticCalls }) {
   return (
     <>
       <ApplicationEntityHealthIndicatorBehavior
@@ -170,6 +170,7 @@ function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig,
         timeConfig={timeConfig}
         groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
         filters={filterByType(result.data.types)}
+        syntheticCalls={syntheticCalls}
         area="service"
       />
     </>

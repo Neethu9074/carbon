@@ -6,10 +6,15 @@ import { get } from 'lodash';
 import { t } from 'in-i18n';
 import React from 'react';
 
+import {
+  getTagFiltersForSyntheticOption,
+  isSyntheticOption
+} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
+import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import Button from 'in-new-components/Button';
@@ -37,6 +42,7 @@ function AnalyzeCallsButton({
   endpointLabel,
   boundaryScope,
   syntheticType,
+  syntheticCalls,
   filters = [],
   groupByTag
 }) {
@@ -53,7 +59,7 @@ function AnalyzeCallsButton({
           endpointName: endpointLabel,
           boundaryScope: boundaryScope || applicationBoundaryScope,
           dataSource: 'calls',
-          filters: getSyntheticCallFilters(syntheticType),
+          filters: getSyntheticCallFilters(syntheticType, syntheticCalls),
           ...filters,
           tagCatalog: tagCatalog,
           groupByTag: groupByTag ? groupByTag : {}
@@ -73,7 +79,10 @@ function getBoundaryScope(result) {
   return get(result, ['data', 'boundaryScope'], null);
 }
 
-function getSyntheticCallFilters(syntheticType) {
+function getSyntheticCallFilters(syntheticType, syntheticCalls) {
+  if (syntheticCallsEnabled && isSyntheticOption(syntheticCalls)) {
+    return getTagFiltersForSyntheticOption(syntheticCalls);
+  }
   switch (syntheticType) {
     case 'SYNTHETIC':
       return [
