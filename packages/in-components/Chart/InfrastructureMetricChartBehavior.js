@@ -7,8 +7,7 @@ import { isEqual, omit } from 'lodash';
 import React from 'react';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
-import { useBeeInstant$, granularityForBeeInstantMetrics } from 'in-stores/metric/beeInstant';
-import { getMetricsForTimeframe, getDefaultMetricRollupDuration } from 'in-stores/metric';
+import { getMetricsForTimeframe, getInfraGranularity } from 'in-stores/metric';
 import createDataHolder from 'in-components/Chart/data/dataHolder';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -34,9 +33,7 @@ export default getElementDimensions(
       this.mapProps(this.props);
       this.createQueuesAndDataHolders();
 
-      this.state = {
-        useBeeInstant: false
-      };
+      this.state = {};
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -57,17 +54,8 @@ export default getElementDimensions(
       }
     }
 
-    componentDidMount() {
-      this.useBeeInstantSubscription = useBeeInstant$.subscribe(useBeeInstant =>
-        this.setState({
-          useBeeInstant
-        })
-      );
-    }
-
     componentWillUnmount() {
       this.disposeMetricSubscriptions();
-      this.useBeeInstantSubscription.dispose();
     }
 
     shouldResetData(prevState, prevProps) {
@@ -77,7 +65,7 @@ export default getElementDimensions(
       const propsChangeShouldTriggerRedraw = widthChangeShouldTriggerRedraw
         ? !isEqual(prevProps, this.props)
         : !isEqual(omit(prevProps, 'width'), omit(this.props, 'width'));
-      return prevState.useBeeInstant !== this.state.useBeeInstant || propsChangeShouldTriggerRedraw;
+      return propsChangeShouldTriggerRedraw;
     }
 
     mapProps = props => {
@@ -93,7 +81,7 @@ export default getElementDimensions(
         originalTimeConfig
       } = props;
       this.timeConfig = resolveTimeConfig(timeConfig);
-      this.granularity = getDefaultMetricRollupDuration(timeConfig, minRollup).rollup;
+      this.granularity = getInfraGranularity(timeConfig, minRollup);
       this.primaryContextMenuAction = primaryContextMenuAction;
       this.customHeight = customHeight;
       this.renderLegend = renderLegend;
@@ -158,7 +146,7 @@ export default getElementDimensions(
       }
 
       const metrics = axis.metrics;
-      const rollup = getDefaultMetricRollupDuration(this.props.timeConfig, this.props.minRollup);
+      const rollup = getInfraGranularity(this.props.timeConfig, this.props.minRollup);
 
       for (let i = 0, len = metrics.length; i < len; i++) {
         const snapshotId = axis.snapshotId || this.props.snapshotId || this.props.snapshotIds[i];
@@ -172,7 +160,7 @@ export default getElementDimensions(
               maxDataPoints: axis.maxDataPoints,
               minPixelsPerBlock: axis.minPixelsPerBlock || 1,
               width: getChartCanvasWidth(this.props),
-              rollup: rollup.rollup
+              rollup: rollup
             })
           );
         }
@@ -244,13 +232,10 @@ export default getElementDimensions(
         renderLegend,
         primaryContextMenuAction,
         renderPostChartContent,
-        originalTimeConfig
+        originalTimeConfig,
+        granularity
       } = this;
-      const { y1Metrics = [], y2Metrics = [], useBeeInstant } = this.state;
-
-      const granularity = useBeeInstant
-        ? granularityForBeeInstantMetrics(this.granularity, timeConfig)
-        : this.granularity;
+      const { y1Metrics = [], y2Metrics = [] } = this.state;
 
       y1.metrics = y1Metrics;
       if (y2) {

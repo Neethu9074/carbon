@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { getCustomMetricMatch, getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { siPrefix, micros, millis, number, bytes, percentage } from 'in-services/formatters/number';
 
@@ -12,47 +14,53 @@ function getLabel(postfix) {
 export default [
   {
     metrics: ['threads.new', 'threads.runnable', 'threads.timed-waiting', 'threads.waiting', 'threads.blocked'],
-    labels: ['New', 'Runnable', 'Timed-Waiting', 'Waiting', 'Blocked'],
+    labels: [
+      t('in-forge:plugins.jvmRuntimePlatform.new'),
+      t('in-forge:plugins.jvmRuntimePlatform.runnable'),
+      'Timed-Waiting',
+      t('in-forge:plugins.jvmRuntimePlatform.waiting'),
+      t('in-forge:plugins.jvmRuntimePlatform.blocked')
+    ],
     min: 0,
-    category: ['Threads'],
+    category: [t('in-forge:plugins.jvmRuntimePlatform.threads')],
     formatter: number
   },
   {
     metric: 'suspension.time',
-    label: 'Time',
+    label: t('in-forge:plugins.jvmRuntimePlatform.time'),
     min: 0,
-    category: ['Suspension'],
+    category: [t('in-forge:plugins.jvmRuntimePlatform.suspension')],
     formatter: micros
   },
   {
     metrics: ['memory.usedPercentage'],
-    labels: ['Used percentage'],
+    labels: [t('in-forge:plugins.jvmRuntimePlatform.usedPercentage')],
     min: 0,
     max: 1,
-    category: ['Memory'],
+    category: [t('in-forge:plugins.jvmRuntimePlatform.memory')],
     formatter: percentage
   },
   {
     metrics: ['memory.used', 'memory.free'],
-    labels: ['Used', 'Free'],
+    labels: [t('in-forge:plugins.jvmRuntimePlatform.used'), t('in-forge:plugins.jvmRuntimePlatform.free')],
     min: 0,
     getMax(snapshot) {
       return snapshot.getIn(['data', 'memory.max']);
     },
-    category: ['Memory'],
+    category: [t('in-forge:plugins.jvmRuntimePlatform.memory')],
     formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('gc', 'time', 'Garbage Collector'),
-    label: getLabel('Time'),
-    category: ['GC'],
+    label: getLabel(t('in-forge:plugins.jvmRuntimePlatform.time')),
+    category: [t('in-forge:plugins.jvmRuntimePlatform.gc')],
     min: 0,
     formatter: millis.forcedFixedCompact
   },
   {
     metric: getDynamicMetricMatch('gc', 'inv', 'Garbage Collector'),
-    label: getLabel('Invocations'),
-    category: ['GC'],
+    label: getLabel(t('in-forge:plugins.jvmRuntimePlatform.invocations')),
+    category: [t('in-forge:plugins.jvmRuntimePlatform.gc')],
     min: 0,
     formatter: number
   },
@@ -66,14 +74,14 @@ export default [
   },
   {
     metric: 'threads.deadlocked',
-    label: 'Number of threads deadlocked',
-    category: ['Threads'],
+    label: t('in-forge:plugins.jvmRuntimePlatform.numberOfThreadsDeadlocked'),
+    category: [t('in-forge:plugins.jvmRuntimePlatform.threads')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('pools', null, 'Pool'),
-    label: getLabel('Pool'),
-    category: ['Pools'],
+    label: getLabel(t('in-forge:plugins.jvmRuntimePlatform.pool')),
+    category: [t('in-forge:plugins.jvmRuntimePlatform.pools')],
     formatter: bytes
   }
 ];

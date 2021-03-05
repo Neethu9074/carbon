@@ -23,6 +23,7 @@ import locals from './FacetedFilterGeneric.mless';
 export default function FacetedFilterGeneric({
   title,
   formModel,
+  formModelExcludingMissingGroupingTag,
   tag,
   entity,
   hiddenCalls,
@@ -37,6 +38,7 @@ export default function FacetedFilterGeneric({
     <FacetedExpandableCard title={title} openByDefault={openByDefault}>
       <Body
         formModel={formModel}
+        formModelExcludingMissingGroupingTag={formModelExcludingMissingGroupingTag}
         tag={tag}
         entity={entity}
         hiddenCalls={hiddenCalls}
@@ -52,6 +54,7 @@ export default function FacetedFilterGeneric({
 
 function Body({
   formModel,
+  formModelExcludingMissingGroupingTag,
   tag,
   entity,
   title,
@@ -79,6 +82,7 @@ function Body({
   return (
     <SearchAndSuggestions
       formModel={formModel}
+      formModelExcludingMissingGroupingTag={formModelExcludingMissingGroupingTag}
       hiddenCalls={hiddenCalls}
       tag={tag}
       getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
@@ -118,6 +122,7 @@ function ExistingFilters({ selectedValues, tag, entity, getUpdatedTagExpressionH
 
 function SearchAndSuggestions({
   formModel,
+  formModelExcludingMissingGroupingTag,
   hiddenCalls,
   tag,
   getUpdatedTagExpressionHref,
@@ -138,11 +143,20 @@ function SearchAndSuggestions({
           items: data.items.filter(suggestion => valueRegex.test(customLabelMapper(suggestion.name)))
         }))
       ),
-      [formModel, hiddenCalls, tag, valueFilter, dataSource, timeConfig]
+      [
+        getSuggestions,
+        formModel,
+        formModelExcludingMissingGroupingTag,
+        hiddenCalls,
+        tag,
+        valueFilter,
+        dataSource,
+        timeConfig
+      ]
     ) ?? pendingResult;
   return (
     <Stack space="small">
-      {(!isBlank(valueFilter) || suggestions?.data?.items.length > 5 || suggestions?.progress.loading) && (
+      {(!isBlank(valueFilter) || suggestions?.data?.items.length > 5) && (
         <SearchInput onChange={setValueFilter} query={valueFilter} inputClassName={locals.search} withoutIcon />
       )}
       <SuggestionsPresenter

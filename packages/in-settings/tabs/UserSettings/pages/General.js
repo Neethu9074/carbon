@@ -2,20 +2,20 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { activeLanguage } from 'in-i18n';
-import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { t, Trans, supportedLanguages, activeLanguage } from 'in-i18n';
 import { languageSelectorEnabled } from 'in-services/featureFlags';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { saveUserSettings } from 'in-services/userSettings';
-import ComboBox from 'in-components/ComboBox/ComboBox';
 import Toggle from 'in-components/form/Toggle';
+import Select from 'in-components/form/Select';
 import Title from 'in-components/Title';
 
 import locals from './UiConfig.mless';
@@ -112,18 +112,25 @@ export default function UiConfigGeneralPage() {
       </HorizontalFormGroup>
       {languageSelectorEnabled && (
         <HorizontalFormGroup noHelpTextSpacer>
-          <Heading text={t('in-settings:tabs.language')} htmlFor="language" />
-          <ComboBox
+          <Heading text={t('in-settings:languageSelection.language')} htmlFor="language" />
+          <Select
+            id="language"
             name="language"
             value={activeLanguage}
-            options={[
-              { value: 'en-US', label: t('in-settings:tabs.english') }
-              // TODO: Activate once supported { value: 'de-DE', label: t('in-settings:tabs.deutsch') }
-              // TODO: add more languages here
-            ]}
-            onChange={e => saveUserSettings({ preferredLanguage: e.value }, () => window.location.reload())}
-            clearable={false}
-          />
+            onChange={e => saveUserSettings({ preferredLanguage: e.target.value }, () => window.location.reload())}
+          >
+            {supportedLanguages
+              .map(code => ({
+                code,
+                label: t('language', { context: code })
+              }))
+              .sort((a, b) => compareIgnoreCase(a.label, b.label))
+              .map(({ code, label }) => (
+                <option key={code} value={code}>
+                  {label}
+                </option>
+              ))}
+          </Select>
         </HorizontalFormGroup>
       )}
     </SettingsDetailPage>

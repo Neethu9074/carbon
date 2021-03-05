@@ -5,12 +5,10 @@
 import React from 'react';
 import { t } from 'in-i18n';
 
-import AlertTagFilterExpressionConfig, {
-  inPackages
-} from 'in-new-components/Alerting/components/AlertTagFilterExpressionConfig';
 import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SimpleAlertConfigDialogChart from 'in-applications/alerting/simple/SimpleAlertConfigDialogChart';
 import AlertLocationFilters from 'in-applications/alerting/components/AlertLocationFilters';
+import ScopeConfig from 'in-new-components/Alerting/components/scopeConfig/ScopeConfig';
 import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 
 import locals from './SimpleAlertConfigDialogStep2.mless';
@@ -38,12 +36,11 @@ export default function SimpleAlertConfigDialogStep2({
             />
           )}
           onUsesQB2={() => (
-            <AlertTagFilterExpressionConfig
+            <ScopeConfig
               form={form}
               updateForm={updateForm}
-              label={applicationLabel}
-              inPackage={inPackages.IN_APPLICATIONS}
               QueryBuilderComponent={QueryBuilderComponent}
+              timeConfig={timeConfig}
               headerTransparent
             />
           )}

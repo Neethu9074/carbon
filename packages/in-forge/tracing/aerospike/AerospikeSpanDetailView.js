@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -14,17 +15,17 @@ export default function AerospikeSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Namespace">{span.getIn(['data', 'aerospike', 'ns'])}</Di>
-        <Di title="Set name">{span.getIn(['data', 'aerospike', 'setName'])}</Di>
-        <Di title="User key">{span.getIn(['data', 'aerospike', 'userKey'])}</Di>
-        <Di title="Operation">{span.getIn(['data', 'aerospike', 'op'])}</Di>
-        <Di title="Host">{span.getIn(['data', 'aerospike', 'host'])}</Di>
-        <Di title="Port">{span.getIn(['data', 'aerospike', 'port'])}</Di>
+        <Di title={t('in-forge:tracing.aerospike.namespace')}>{span.getIn(['data', 'aerospike', 'ns'])}</Di>
+        <Di title={t('in-forge:tracing.aerospike.setName')}>{span.getIn(['data', 'aerospike', 'setName'])}</Di>
+        <Di title={t('in-forge:tracing.aerospike.userKey')}>{span.getIn(['data', 'aerospike', 'userKey'])}</Di>
+        <Di title={t('in-forge:tracing.aerospike.Operation')}>{span.getIn(['data', 'aerospike', 'op'])}</Di>
+        <Di title={t('in-forge:tracing.aerospike.host')}>{span.getIn(['data', 'aerospike', 'host'])}</Di>
+        <Di title={t('in-forge:tracing.aerospike.port')}>{span.getIn(['data', 'aerospike', 'port'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'aerospike', 'error'])} />
 
-        {parameters ? <Di title="Parameters">{parameters}</Di> : null}
+        {parameters ? <Di title={t('in-forge:tracing.aerospike.parameters')}>{parameters}</Di> : null}
 
-        {statement ? <Di title="Statement">{statement}</Di> : null}
+        {statement ? <Di title={t('in-forge:tracing.aerospike.statement')}>{statement}</Di> : null}
       </Dl>
     </div>
   );

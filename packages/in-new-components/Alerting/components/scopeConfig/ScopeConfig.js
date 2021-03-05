@@ -11,7 +11,7 @@ import Toggle from 'react-toggle';
 import ServicesAndEndpointsListPresenter, {
   ServicesAndEndpointsSearchInput
 } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
-import { ClearTagFilterExpressionButton } from 'in-new-components/Alerting/components/AlertTagFilterExpressionConfig';
+import { ClearTagFilterExpressionButton } from 'in-new-components/Alerting/components/ClearTagFilterExpressionButton';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import getApplicationsCursorPaginated from 'in-subscription/application/getApplicationsCursorPaginated';
 import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';

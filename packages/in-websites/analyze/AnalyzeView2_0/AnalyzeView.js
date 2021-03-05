@@ -25,14 +25,12 @@ import { getMetricCatalog } from 'in-websites/api/metricCatalog';
 import { analyzePath } from 'in-websites/navigation/paths';
 import { beaconType } from 'in-websites/navigation/matrix';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
-import { stackedBar } from 'in-stores/metric/renderer';
 
 const facetedSearchItems = [
   {
     renderer: FacetedFilterGeneric,
     title: t('in-websites:facetedSearch.website'),
-    tag: 'beacon.website.name',
-    openByDefault: true
+    tag: 'beacon.website.name'
   },
   {
     renderer: FacetedFilterGeneric,
@@ -114,7 +112,7 @@ const fixedFields = [
   { type: metricType, metricId: 'beaconCount', aggregationId: 'SUM' }
 ];
 
-const defaultChartedMetrics = [{ metricId: 'beaconCount', aggregationId: 'SUM', rendererId: stackedBar.id }];
+const defaultChartedMetrics = [{ metricId: 'beaconCount', aggregationId: 'SUM' }];
 
 const dataSourceConfigurations = {
   pageLoad: {
@@ -222,7 +220,7 @@ const dataSourceParameter = {
 export default function WebsiteAnalyzeView() {
   const location = useLocation();
   if (isAnalyticsOneLocation(location)) {
-    return <AnalyzeOneToTwoViewParameterConversion />;
+    return <AnalyzeOneToTwoViewParameterConversion dataSourceConfigurations={dataSourceConfigurations} />;
   }
 
   return (
@@ -253,13 +251,25 @@ function createMetricCatalogFilter(dataSource) {
   return ({ beaconTypes }) => beaconTypes.includes(dataSource);
 }
 
-function getFacetedSearchSuggestions({ timeConfig, backendQueryModel, group, metricKey, dataSource }) {
+function getFacetedSearchSuggestions({
+  timeConfig,
+  backendQueryModel,
+  backendQueryModelExcludingMissingGroupingTag,
+  group,
+  metricKey,
+  dataSource
+}) {
   return getWebsiteBeaconGroups({
     pagination: {
       retrievalSize: 200
     },
     timeConfig,
-    tagFilterExpression: addDataSourceToBackendQueryModel({ backendQueryModel, dataSource }),
+    tagFilterExpression: addDataSourceToBackendQueryModel({
+      // Because the grouped view doesn't support a special 'Tag not present' group, faceted search
+      // should filter out items which would belong to this group for consistency with the result list.
+      backendQueryModel: backendQueryModelExcludingMissingGroupingTag ?? backendQueryModel,
+      dataSource
+    }),
     group,
     order: {
       by: metricKey,

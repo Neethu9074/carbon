@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { bytesTwoDecimalPlaces, timeByMicroTwoDecimalPlaces } from 'in-services/formatters/number';
 
 export default {
@@ -10,7 +12,7 @@ export default {
 
   cols: [
     {
-      title: 'Name',
+      title: t('in-forge:plugins.jvmRuntimePlatform.name'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId(row) {
@@ -19,7 +21,7 @@ export default {
       }
     },
     {
-      title: 'Java Version',
+      title: t('in-forge:plugins.jvmRuntimePlatform.javaVersion'),
       type: 'string',
       typeArgs: {
         getValue(row) {
@@ -28,7 +30,7 @@ export default {
       }
     },
     {
-      title: 'Java Runtime',
+      title: t('in-forge:plugins.jvmRuntimePlatform.javaRuntime'),
       type: 'string',
       typeArgs: {
         getValue(row) {
@@ -37,7 +39,7 @@ export default {
       }
     },
     {
-      title: 'Max Heap',
+      title: t('in-forge:plugins.jvmRuntimePlatform.maxHeap'),
       type: 'number',
       typeArgs: {
         getValue(row) {
@@ -49,7 +51,7 @@ export default {
       }
     },
     {
-      title: 'Heap Used',
+      title: t('in-forge:plugins.jvmRuntimePlatform.heapUsed'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -65,7 +67,7 @@ export default {
       }
     },
     {
-      title: 'Suspension',
+      title: t('in-forge:plugins.jvmRuntimePlatform.suspension'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {

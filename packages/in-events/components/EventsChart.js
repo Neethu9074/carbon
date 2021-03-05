@@ -13,7 +13,6 @@ import { getNextValidRollup } from 'in-events/components/eventChartRollups';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
-import { MINIMUM_ROLLUP } from 'in-stores/metric';
 
 export default getElementDimensions(function EventsChartWidthWrapper(props) {
   return <div>{props.width && <EventsChart {...props} />}</div>;
@@ -24,8 +23,7 @@ function EventsChart({ width, timeConfig, query, eventType }) {
     getBlockSizeMillis({
       windowSize: timeConfig.windowSize,
       minPixelsPerBlock: 5,
-      width,
-      rollup: MINIMUM_ROLLUP
+      width
     })
   );
   const granularity = getNextValidRollup(blockSizeMillis);

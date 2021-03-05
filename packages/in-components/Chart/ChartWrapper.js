@@ -148,7 +148,7 @@ function determineTimeShifts(axis, metrics, timeConfig) {
 // means that the smallest time shift is the largest number
 function getSmallestTimeShift(y1, y2) {
   let smallestTimeShift = undefined;
-  if (!y1.timeShifts) {
+  if (!y1?.timeShifts) {
     return 0;
   }
   smallestTimeShift = y1.timeShifts.reduce(getSmallestTimeShiftReducer, smallestTimeShift);

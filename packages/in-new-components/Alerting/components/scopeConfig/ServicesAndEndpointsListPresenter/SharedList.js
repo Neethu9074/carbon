@@ -5,7 +5,6 @@
 
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { stateManagementPropType } from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
@@ -15,14 +14,16 @@ import { ColumnizedContent, Li, Ul } from 'in-new-components/lists/List';
 import IconLabel from 'in-new-components/Alerting/components/IconLabel';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import useObservable from 'in-hooks/useObservable';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './SharedList.mless';
 
 const columnDefinitions = [
   {
-    width: '3rem',
+    width: '2.5rem',
     getContent({ checked, indeterminate, onChange, virtuallyChecked }) {
       return (
         <CheckboxFancy
@@ -54,10 +55,16 @@ const columnDefinitions = [
               [locals.iconLabelTouched]: touched
             })}
           >
-            <IconLabel text={label} type={tooltipSettings.iconType} noBottomMargin />
+            <IconLabel text={label} type={tooltipSettings.iconType} width="100%" noBottomMargin ellipsis />
           </div>
         </Tooltip>
       );
+    }
+  },
+  {
+    width: 'max-content',
+    getContent({ BadgeElement }) {
+      return BadgeElement;
     }
   }
 ];
@@ -80,17 +87,21 @@ export default function SharedList({
     isChecked,
     isImplicitlyChecked,
     numSkeletonRows,
-    shouldAdd
+    shouldAdd,
+    getBadgeElement
   },
   initiallyOpen,
-  isFramed = true
+  isFramed = true,
+  timeConfig
 }) {
   const { dispatch } = stateManagement;
 
   return (
     <Ul framed={isFramed}>
       {!isLoading &&
-        listData.map(({ item: { id, label, isStaleItem } }) => {
+        listData.map(({ item, metrics }) => {
+          const { id, isStaleItem, label } = item;
+
           const _id = isStaleItem ? label : id; // for stale items label is equal to id
           const itemTreeIds = enhanceParentIdsWithChildId(isStaleItem ? label : _id);
           const _isIndeterminate = isIndeterminate(itemTreeIds);
@@ -128,6 +139,9 @@ export default function SharedList({
                         dispatch({ type: `REMOVE_${entityType}`, ...itemTreeIds });
                       }
                     }}
+                    BadgeElement={getBadgeElement(item)}
+                    metrics={metrics}
+                    timeConfig={timeConfig}
                   />
                 )}
               </StaleItemLabelPropInjector>
@@ -175,8 +189,10 @@ SharedList.propTypes = {
     isChecked: PropTypes.func.isRequired,
     isImplicitlyChecked: PropTypes.func.isRequired,
     numSkeletonRows: PropTypes.number.isRequired,
-    shouldAdd: PropTypes.func.isRequired
+    shouldAdd: PropTypes.func.isRequired,
+    getBadgeElement: PropTypes.func.isRequired
   }).isRequired,
   initiallyOpen: PropTypes.bool,
-  isFramed: PropTypes.bool
+  isFramed: PropTypes.bool,
+  timeConfig: propTypeTimeConfig
 };

@@ -9,7 +9,6 @@ import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-compone
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { clusterListFullyQualified, namespaceListFullyQualified } from 'in-kubernetes/navigation/paths';
 import DashboardHeaderModule, { themes } from 'in-new-components/DashboardHeader/DashboardHeaderModule';
-import UseBeeInstantToggle from 'in-infrastructure/Dashboard/components/UseBeeInstantToggle';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import connectTo from 'in-hoc/connectTo';
@@ -26,7 +25,6 @@ export default connectTo(
           icon="lib_kubernetes_inverted"
           label={t('in-kubernetes:kubernetesHeader')}
           title={t('in-kubernetes:kubernetesHeader')}
-          renderTopLevelButtonLine={UseBeeInstantToggle}
         />
         <DashboardHeaderModule theme={themes.light}>
           <SecondLevelNavigation>

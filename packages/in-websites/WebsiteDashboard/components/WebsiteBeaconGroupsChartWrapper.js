@@ -160,8 +160,7 @@ function getAdditionalChartActions(tagFilters, metrics, group, viewInAnalytics, 
                   ? [
                       {
                         metricId: focusedMetric,
-                        aggregationId: focusedMetricAggregation,
-                        rendererId: 'stackedBar'
+                        aggregationId: focusedMetricAggregation
                       }
                     ]
                   : []

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { msZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Connector',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.connector'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Average Response Time',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.averageResponseTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Requests',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.requests'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Errors',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.errors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -86,7 +87,7 @@ export default function ConnectorsTable({ snapshot, timeConfig }) {
 
   return (
     <Table
-      cardTitle={`Connectors (${rows.length})`}
+      cardTitle={t('in-forge:plugins.jBossAsApplicationContainer.connectorsWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -104,7 +105,7 @@ function getRowDetails(row) {
         y1={{
           formatter: msZeroDecimalPlaces,
           metrics: ['connectors.' + row.key + '.avgResponseTime'],
-          labels: ['Average Response Time'],
+          labels: [t('in-forge:plugins.jBossAsApplicationContainer.averageResponseTime')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -116,7 +117,10 @@ function getRowDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['connectors.' + row.key + '.requests', 'connectors.' + row.key + '.errors'],
-          labels: ['Requests', 'Errors'],
+          labels: [
+            t('in-forge:plugins.jBossAsApplicationContainer.requests'),
+            t('in-forge:plugins.jBossAsApplicationContainer.errors')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

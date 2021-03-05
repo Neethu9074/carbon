@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { createField } from 'formalistic';
 
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
+import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
@@ -88,7 +89,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
     <>
       <Title title="Configure OpenID Connect" />
       <SubViewHeader>OIDC Configuration</SubViewHeader>
-      {isAnotherIdpActivated(result.ldapConfig, result.samlConfig) ? (
+      {isAnotherIdpActivated([result.ldapConfig?.base, result.samlConfig?.activated]) ? (
         <h2>OIDC is not configurable as long as you have another active identity provider configuration.</h2>
       ) : (
         <>
@@ -123,7 +124,8 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                   {form.get('ownerEmail').map(field => (
                     <FormGroup>
                       <Label htmlFor="ownerEmail" hasError={!field.valid && field.touched}>
-                        This account is automatically assigned an admin role.
+                        This account is automatically assigned an admin role. Please enter the account&apos;s e-mail
+                        address.
                       </Label>
 
                       <Input
@@ -206,9 +208,9 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
             <Section restrictWidth="50rem">
               <h2>Client setup</h2>
               <p className={locals.descriptionText}>
-                {`This option covers the case where your IdP doesn't allow the upload of our metadata. Your IdP will require the
-              creation of an OIDC client and manually entering the required values. The values required to connect to Instana
-              are as follows:`}
+                {`This option covers the case where your IdP doesn't allow the upload of our metadata. Your IdP will
+                require the creation of an OIDC client and manually entering the required values. The values required
+                to connect to Instana are as follows:`}
               </p>
 
               <Row className={indentityProvidersLocals.row}>
@@ -217,9 +219,6 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                 </Col>
                 <Col xs={12}>
                   <CopyableText title="End Session URL" form={form} fieldName="oidcSignOutCallbackUrl" />
-                </Col>
-                <Col xs={12}>
-                  <CopyableText title="Name ID Format" form={form} fieldName="nameIdFormat" />
                 </Col>
               </Row>
 
@@ -236,10 +235,6 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
       )}
     </>
   );
-}
-
-function isAnotherIdpActivated(ldapConfig, samlConfig) {
-  return samlConfig?.activated && ldapConfig.base;
 }
 
 function CopyableText({ title, form, fieldName }) {
@@ -288,7 +283,6 @@ function enrichForm(form, { setCanDeleteItem, result: { config } }) {
     .put('oidcSignOutCallbackUrl', createField({ value: config.oidcSignOutCallbackUrl || '' }))
     .put('spEntityId', createField({ value: config.spEntityId || '' }))
     .put('ownerEmail', createField({ value: '' }))
-    .put('nameIdFormat', createField({ value: config.nameIdFormat || '' }))
     .put('discoveryUri', createField({ value: config.discoveryUri || '' }))
     .put('secret', createField({ value: config.secret || '' }));
 }

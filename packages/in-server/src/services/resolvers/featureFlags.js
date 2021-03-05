@@ -110,6 +110,16 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'beeInstanaInfraMetricsEnabled',
+    instanaCtlKey: 'feature.beeinstana.infra.metrics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'highResolutionInfrastructureMetricsEnabled',
+    instanaCtlKey: 'feature.high.resolution.infrastructure.metrics.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'newApCreationEnabled',
     instanaCtlKey: 'feature.new.ap.creation.enabled',
     defaultValue: true
@@ -164,11 +174,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'smartAlertsAdvancedEntitySelectionEnabled',
-    instanaCtlKey: 'feature.smart.alerts.advanced.entity.selection.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'showUserSettingInternalTagsInUA',
     instanaCtlKey: 'feature.show.user.setting.internal.tags.in.ua',
     defaultValue: false
@@ -181,6 +186,11 @@ module.exports = exports = [
   {
     uiClientKey: 'languageSelectorEnabled',
     instanaCtlKey: 'feature.language.selector.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'pseudoLanguageEnabled',
+    instanaCtlKey: 'feature.pseudo.language.enabled',
     defaultValue: false
   },
   {

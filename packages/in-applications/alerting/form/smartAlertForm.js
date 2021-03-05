@@ -47,6 +47,18 @@ export function createSmartAlertForm(alertConfig) {
       })
     )
     .put(
+      'includeSynthetic',
+      createField({
+        value: alertConfig.includeSynthetic || false
+      })
+    )
+    .put(
+      'includeInternal',
+      createField({
+        value: alertConfig.includeInternal || false
+      })
+    )
+    .put(
       'severity',
       createField({
         value: alertConfig.severity ?? defaultSeverity

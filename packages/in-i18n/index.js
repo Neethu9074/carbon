@@ -4,5 +4,6 @@
  */
 export { default as Trans, markAsSecureString } from 'in-i18n/Trans';
 export { activeLanguage, fallbackLanguage } from 'in-i18n/language';
+export { supportedLanguages } from 'in-i18n/supportedLanguages';
 export { init } from 'in-i18n/init';
 export { t } from 'in-i18n/t';

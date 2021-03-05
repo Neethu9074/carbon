@@ -44,22 +44,18 @@ export default function Chart({
   };
 
   if (isGrouped) {
-    if (chartableDataSeries?.length > 0) {
-      chartConfig.y1.metrics = chartableDataSeries.map(({ label, formModel }) =>
-        mapMetricConfiguration(
-          {
-            metric: metricId,
-            tagFilterExpression: toBackendQueryModel(formModel),
-            aggregation: aggregationId,
-            label: label,
-            source: unifiedMetricsSource
-          },
-          { dataSource }
-        )
-      );
-    } else {
-      return null;
-    }
+    chartConfig.y1.metrics = chartableDataSeries?.map(({ label, formModel }) =>
+      mapMetricConfiguration(
+        {
+          metric: metricId,
+          tagFilterExpression: toBackendQueryModel(formModel),
+          aggregation: aggregationId,
+          label: label,
+          source: unifiedMetricsSource
+        },
+        { dataSource }
+      )
+    );
   } else {
     chartConfig.y1.metrics.push(
       mapMetricConfiguration(

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ServletsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ServletsInDeploymentsTable';
@@ -14,7 +15,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Deployment',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.deployment'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'Context Root',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.contextRoot'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -32,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: 'Enabled',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.enabled'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -41,7 +42,7 @@ const cols = [
     }
   },
   {
-    title: 'Status',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.status'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -50,7 +51,7 @@ const cols = [
     }
   },
   {
-    title: 'Active Sessions',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.activeSessions'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -90,7 +91,7 @@ export default function WebDeploymentsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Web Deployments (${rows.length})`}
+      cardTitle={t('in-forge:plugins.jBossAsApplicationContainer.webDeploymentsWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -108,7 +109,7 @@ function getRowDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           metrics: ['sessions.' + row.key + '.activeSessions'],
-          labels: ['Active Sessions'],
+          labels: [t('in-forge:plugins.jBossAsApplicationContainer.activeSessions')],
           type: 'line',
           min: 0
         }}

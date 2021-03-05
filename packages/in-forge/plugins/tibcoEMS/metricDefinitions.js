@@ -2,11 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { number } from 'in-services/formatters/number';
 
 const TOPICS_ROOT = 'topics';
 const QUEUES_ROOT = 'queues';
+
+const placeholderTopic = t('in-forge:plugins.tibcoEMS.labelTopic');
+const placeholderQueue = t('in-forge:plugins.tibcoEMS.labelQueue');
 
 export default [
   {
@@ -26,78 +31,78 @@ export default [
       'outMessagesCount'
     ],
     labels: [
-      'Uptime',
-      'Connections Count',
-      'Sessions Count',
-      'Durables Count',
-      'Read Operations Rate',
-      'Write Operations Rate',
-      'Pending Messages Count',
-      'Pending Messages Size',
-      'Messages Memory',
-      'In Messages Rate',
-      'In Messages Count',
-      'Out Messages Count',
-      'Out Messages Rate'
+      t('in-forge:plugins.tibcoEMS.labelUpTime'),
+      t('in-forge:plugins.tibcoEMS.labelConnectionsCount'),
+      t('in-forge:plugins.tibcoEMS.labelSessionsCount'),
+      t('in-forge:plugins.tibcoEMS.labelDurablesCount'),
+      t('in-forge:plugins.tibcoEMS.labelReadOperationsRate'),
+      t('in-forge:plugins.tibcoEMS.labelWriteOperationsRate'),
+      t('in-forge:plugins.tibcoEMS.labelPendingMessagesCount'),
+      t('in-forge:plugins.tibcoEMS.labelPendingMessagesSize'),
+      t('in-forge:plugins.tibcoEMS.titleMessagesMemory'),
+      t('in-forge:plugins.tibcoEMS.labelInMessagesRate'),
+      t('in-forge:plugins.tibcoEMS.labelInMessagesCount'),
+      t('in-forge:plugins.tibcoEMS.labelOutMessagesCount'),
+      t('in-forge:plugins.tibcoEMS.labelOutMessagesRate')
     ],
     min: 0,
     formatter: number
   },
   {
     metrics: [
-      getDynamicMetricMatch(TOPICS_ROOT, 'inMessages', 'Topic'),
-      getDynamicMetricMatch(TOPICS_ROOT, 'inMessagesCount', 'Topic'),
-      getDynamicMetricMatch(TOPICS_ROOT, 'inMessagesSize', 'Topic'),
-      getDynamicMetricMatch(TOPICS_ROOT, 'outMessages', 'Topic'),
-      getDynamicMetricMatch(TOPICS_ROOT, 'outMessagesCount', 'Topic'),
-      getDynamicMetricMatch(TOPICS_ROOT, 'outMessagesSize', 'Topic'),
-      getDynamicMetricMatch(TOPICS_ROOT, 'pendingMessages', 'Topic'),
-      getDynamicMetricMatch(TOPICS_ROOT, 'pendingMessagesSize', 'Topic'),
-      getDynamicMetricMatch(TOPICS_ROOT, 'pendingMessagesLimit', 'Topic'),
-      getDynamicMetricMatch(TOPICS_ROOT, 'subscriberCount', 'Topic')
+      getDynamicMetricMatch(TOPICS_ROOT, 'inMessages', placeholderTopic),
+      getDynamicMetricMatch(TOPICS_ROOT, 'inMessagesCount', placeholderTopic),
+      getDynamicMetricMatch(TOPICS_ROOT, 'inMessagesSize', placeholderTopic),
+      getDynamicMetricMatch(TOPICS_ROOT, 'outMessages', placeholderTopic),
+      getDynamicMetricMatch(TOPICS_ROOT, 'outMessagesCount', placeholderTopic),
+      getDynamicMetricMatch(TOPICS_ROOT, 'outMessagesSize', placeholderTopic),
+      getDynamicMetricMatch(TOPICS_ROOT, 'pendingMessages', placeholderTopic),
+      getDynamicMetricMatch(TOPICS_ROOT, 'pendingMessagesSize', placeholderTopic),
+      getDynamicMetricMatch(TOPICS_ROOT, 'pendingMessagesLimit', placeholderTopic),
+      getDynamicMetricMatch(TOPICS_ROOT, 'subscriberCount', placeholderTopic)
     ],
     labels: [
-      'In Messages Rate',
-      'In Messages Count',
-      'In Messages Size',
-      'Out Messages Rate',
-      'Out Messages Count',
-      'Out Messages Size',
-      'Pending Messages Count',
-      'Pending Messages Size',
-      'Pending Messages Limit',
-      'Subscribers Count'
+      t('in-forge:plugins.tibcoEMS.labelInMessagesRate'),
+      t('in-forge:plugins.tibcoEMS.labelInMessagesCount'),
+      t('in-forge:plugins.tibcoEMS.labelInMessagesSize'),
+      t('in-forge:plugins.tibcoEMS.labelOutMessagesRate'),
+      t('in-forge:plugins.tibcoEMS.labelOutMessagesCount'),
+      t('in-forge:plugins.tibcoEMS.labelOutMessagesSize'),
+      t('in-forge:plugins.tibcoEMS.labelPendingMessagesCount'),
+      t('in-forge:plugins.tibcoEMS.labelPendingMessagesSize'),
+      t('in-forge:plugins.tibcoEMS.labelPendingMessagesLimit'),
+      t('in-forge:plugins.tibcoEMS.labelSubscribersCount')
     ],
-    category: ['Topics'],
+    category: [t('in-forge:plugins.tibcoEMS.categoryTopics')],
     min: 0,
     formatter: number
   },
   {
     metrics: [
-      getDynamicMetricMatch(QUEUES_ROOT, 'inMessages', 'Queue'),
-      getDynamicMetricMatch(QUEUES_ROOT, 'inMessagesCount', 'Queue'),
-      getDynamicMetricMatch(QUEUES_ROOT, 'inMessagesSize', 'Queue'),
-      getDynamicMetricMatch(QUEUES_ROOT, 'outMessages', 'Queue'),
-      getDynamicMetricMatch(QUEUES_ROOT, 'outMessagesCount', 'Queue'),
-      getDynamicMetricMatch(QUEUES_ROOT, 'outMessagesSize', 'Queue'),
-      getDynamicMetricMatch(QUEUES_ROOT, 'pendingMessagesCount', 'Queue'),
-      getDynamicMetricMatch(QUEUES_ROOT, 'pendingMessagesSize', 'Queue'),
-      getDynamicMetricMatch(QUEUES_ROOT, 'pendingMessagesLimit', 'Queue'),
-      getDynamicMetricMatch(QUEUES_ROOT, 'receiverCount', 'Queue')
+      getDynamicMetricMatch(QUEUES_ROOT, 'inMessages', placeholderQueue),
+      getDynamicMetricMatch(QUEUES_ROOT, 'inMessagesCount', placeholderQueue),
+      getDynamicMetricMatch(QUEUES_ROOT, 'inMessagesSize', placeholderQueue),
+      getDynamicMetricMatch(QUEUES_ROOT, 'outMessages', placeholderQueue),
+      getDynamicMetricMatch(QUEUES_ROOT, 'outMessagesCount', placeholderQueue),
+      getDynamicMetricMatch(QUEUES_ROOT, 'outMessagesSize', placeholderQueue),
+      getDynamicMetricMatch(QUEUES_ROOT, 'pendingMessagesCount', placeholderQueue),
+      getDynamicMetricMatch(QUEUES_ROOT, 'pendingMessagesSize', placeholderQueue),
+      getDynamicMetricMatch(QUEUES_ROOT, 'pendingMessagesLimit', placeholderQueue),
+      getDynamicMetricMatch(QUEUES_ROOT, 'receiverCount', placeholderQueue)
     ],
     labels: [
-      'In Messages Rate',
-      'In Messages Count',
-      'In Messages Size',
-      'Out Messages Rate',
-      'Out Messages Count',
-      'Out Messages Size',
-      'Pending Messages Count',
-      'Pending Messages Size',
-      'Pending Messages Limit',
-      'Receivers Count'
+      t('in-forge:plugins.tibcoEMS.labelInMessagesRate'),
+      t('in-forge:plugins.tibcoEMS.labelInMessagesCount'),
+      t('in-forge:plugins.tibcoEMS.labelInMessagesSize'),
+      t('in-forge:plugins.tibcoEMS.labelOutMessagesRate'),
+      t('in-forge:plugins.tibcoEMS.labelOutMessagesCount'),
+      t('in-forge:plugins.tibcoEMS.labelOutMessagesSize'),
+      t('in-forge:plugins.tibcoEMS.labelPendingMessagesCount'),
+      t('in-forge:plugins.tibcoEMS.labelPendingMessagesSize'),
+      t('in-forge:plugins.tibcoEMS.labelPendingMessagesLimit'),
+      t('in-forge:plugins.tibcoEMS.labelReceiversCount')
     ],
-    category: ['Queues'],
+    category: [t('in-forge:plugins.tibcoEMS.categoryQueues')],
     min: 0,
     formatter: number
   }

@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import metricDefinitions from 'in-forge/plugins/jBossAsApplicationContainer/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/jBossAsApplicationContainer/kpiDefinitions';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
@@ -16,6 +18,6 @@ registerSnapshotDefinition({
   getCodeView,
   supportsCodeView,
   technologyDescriptor: {
-    label: 'JBoss'
+    label: t('in-forge:plugins.jBossAsApplicationContainer.jBoss')
   }
 });

@@ -13,6 +13,8 @@ module.exports = {
   infraMetricsWidgetEnabled: true,
   infraExplorePresentationEnabled: true,
   infraExploreDataEnabled: true,
+  beeInstanaInfraMetricsEnabled: true,
+  highResolutionInfrastructureMetricsEnabled: true,
   internalMonitoringUnit: true,
   showUserSettingInternalTagsInUA: true,
   isSelfService: false,
@@ -38,9 +40,9 @@ module.exports = {
   qb2InCustomDashboardsEnabled: true,
   webMobileQb2AnalyzeEnabled: true,
   loggingEnabled: true,
-  smartAlertsAdvancedEntitySelectionEnabled: true,
   qb2InAPCreationEnabled: true,
   languageSelectorEnabled: true,
+  pseudoLanguageEnabled: true,
   authenticationOidcEnabled: true,
   syntheticCallsEnabled: true
 };

@@ -17,12 +17,6 @@ import { boundaryScopes } from 'in-applications/constants';
 
 describe('in-applications/alerting/data/entitySelection', () => {
   describe('#getEntitySelectionAsTagFilterFormModel', () => {
-    it('should return applicationId filter for missing application selection for backward compatibility', () => {
-      const actualFormModel = getEntitySelectionAsTagFilterFormModel(null, boundaryScopes.all, 'app1', null, null);
-
-      expect(actualFormModel).to.deep.equal([tagFilter('application.id', EQUALS, 'app1')]);
-    });
-
     it('should return applicationId filter for full application selection', () => {
       const applications = {
         app1: {
@@ -335,22 +329,6 @@ describe('in-applications/alerting/data/entitySelection', () => {
     });
 
     describe('scoped to sub-entity via serviceId', () => {
-      it('should return (applicationId AND serviceId) filter for missing application selection for backward compatibility', () => {
-        const actualFormModel = getEntitySelectionAsTagFilterFormModel(
-          null,
-          boundaryScopes.inbound,
-          'app1',
-          null,
-          'service1'
-        );
-
-        expect(actualFormModel).to.deep.equal([
-          tagFilter('boundary.application.id', EQUALS, 'app1'),
-          { type: CONJUNCTION, logicalOperator: and },
-          tagFilter('service.id', EQUALS, 'service1')
-        ]);
-      });
-
       it('should return (applicationId AND serviceId) filter for full application selection', () => {
         const applications = {
           app1: {

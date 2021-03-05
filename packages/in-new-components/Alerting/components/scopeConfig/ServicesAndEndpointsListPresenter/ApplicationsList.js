@@ -104,6 +104,9 @@ export default function ApplicationsList({
         shouldAdd() {
           return true;
         },
+        getBadgeElement() {
+          return null;
+        },
         numSkeletonRows: 3,
         getLabel$: getApplication
       }}

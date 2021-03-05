@@ -201,7 +201,8 @@ export function getDirectLinkToUA2({
   timeConfig,
   metrics,
   charts,
-  tagFilterExpression
+  tagFilterExpression,
+  hiddenCalls = {}
 } = emptyObject) {
   return getModifiedUrlStream(location => {
     location.pathname = analyze;
@@ -219,6 +220,10 @@ export function getDirectLinkToUA2({
       setTimeConfig(location, timeConfig);
     }
     setOrDeleteMatrixParameter(location, tagFilterExpressionMatrixParameter, tagFilterExpression);
+
+    if (hiddenCalls.includeInternal || hiddenCalls.includeSynthetic) {
+      setOrDeleteMatrixParameter(location, hiddenCallsMatrixParameter, hiddenCalls);
+    }
   });
 }
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import DataSourcesTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/DataSourcesTable';
@@ -19,12 +20,12 @@ export default function TomcatDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Number of Sessions">
+        <KpiKeyValue label={t('in-forge:plugins.tomcatAppContainer.labelNumberOfSessions')}>
           <MetricValue snapshotId={snapshot.get('id')} metric="totalSessionCount" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Total session count">
+      <DashboardSection title={t('in-forge:plugins.tomcatAppContainer.titleConnector')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -32,7 +33,7 @@ export default function TomcatDashboard({ snapshot, timeConfig }) {
             min: 0,
             formatter: twoDecimalPlaces,
             metrics: ['totalSessionCount'],
-            labels: ['Total session count'],
+            labels: [t('in-forge:plugins.tomcatAppContainer.titleConnector')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

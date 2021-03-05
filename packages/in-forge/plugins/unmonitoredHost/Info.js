@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -11,8 +12,8 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="IPv4">{data.get('ipv4')}</DescriptionItem>
-      <DescriptionItem title="Reverse Lookup">{data.get('dnsName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.ipv4')}>{data.get('ipv4')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.reverseLookup')}>{data.get('dnsName')}</DescriptionItem>
     </DescriptionList>
   );
 }

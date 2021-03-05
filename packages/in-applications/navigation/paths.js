@@ -22,6 +22,7 @@ import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation
 import { getTagFilterToUrlString } from 'in-analyze/filterBuilder';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
+import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 
@@ -203,7 +204,10 @@ function getDashboard({
     setOrDeleteMatrixKey(params, base, matrixServiceId, serviceId);
     setOrDeleteMatrixKey(params, base, matrixEndpointId, endpointId);
     setOrDeleteMatrixKey(params, base, matrixBoundaryScope, boundaryScope);
-    setOrDeleteMatrixKey(params, base, matrixSyntheticCalls, syntheticCalls);
+
+    if (syntheticCallsEnabled) {
+      setOrDeleteMatrixKey(params, base, matrixSyntheticCalls, syntheticCalls);
+    }
 
     if (timeConfig != null) {
       setTimeConfig(params, timeConfig);

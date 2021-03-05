@@ -5,7 +5,6 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import ScrollStep from 'in-new-components/Alerting/advanced/ScrollStep';
@@ -14,10 +13,19 @@ import Header from 'in-new-components/workspace/Header';
 import Stack from 'in-new-components/layout/Stack';
 import SideNav from 'in-new-components/SideNav';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './AdvancedModeContainer.mless';
 
-export default function AdvancedModeContainer({ form, onClose, onCreate, editMode, navItems, isSaving }) {
+export default function AdvancedModeContainer({
+  form,
+  onClose,
+  onCreate,
+  editMode,
+  navItems,
+  isSaving,
+  additionalValidationCheck = () => true
+}) {
   return (
     <nav className={locals.container}>
       <div className={locals.scrollWrapper}>
@@ -43,7 +51,12 @@ export default function AdvancedModeContainer({ form, onClose, onCreate, editMod
       <FormFooter className={locals.controls}>
         <CancelButton onClick={() => onClose()} />
 
-        <SaveButton onClick={() => onCreate()} isSaving={isSaving} form={form} disabled={!form.hierarchyValid}>
+        <SaveButton
+          onClick={() => onCreate()}
+          isSaving={isSaving}
+          form={form}
+          disabled={!form.hierarchyValid || !additionalValidationCheck()}
+        >
           {editMode
             ? t('in-new-components:alerting.advanced.buttonSave')
             : t('in-new-components:alerting.advanced.buttonCreate')}
@@ -59,7 +72,12 @@ AdvancedModeContainer.propTypes = {
   onCreate: PropTypes.func.isRequired,
   editMode: PropTypes.bool,
   navItems: PropTypes.arrayOf(PropTypes.object).isRequired,
-  isSaving: PropTypes.bool
+  isSaving: PropTypes.bool,
+  /**
+   * Defines addtional validation logic to control the disabled state of the Create button.
+   * It enhances the form validation and does not replace it.
+   */
+  additionalValidationCheck: PropTypes.func
 };
 
 function renderIcon({ checked }) {

@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
+import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-applications/alerting/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
 import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/chart/ApplicationAlertingChartWithErrorMessage';
 import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
@@ -24,6 +24,7 @@ import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import { DescriptionItem } from 'in-components/DescriptionList';
+import { t } from 'in-i18n';
 
 import locals from './ApplicationEventListItemContent.mless';
 
@@ -86,6 +87,7 @@ export default function ApplicationEventListItemContent({ event }) {
               />
             </div>
             <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
+            <ReadOnlyIncludeInternalOrSyntheticCallsSwitch alertConfig={alertConfig} />
           </div>
         </DescriptionItem>
       </div>

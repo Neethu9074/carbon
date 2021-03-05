@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
@@ -20,15 +21,26 @@ export default function JbossDataGridCaches({ snapshot }) {
       {caches
         .map((cache, cacheName) => (
           <Collapsible initiallyOpen={false} key={cacheName}>
-            <Collapsible.Header>Cache [{cacheName}]</Collapsible.Header>
+            <Collapsible.Header>
+              {t('in-forge:plugins.jbossDataGrid.cacheName', { cacheName: cacheName })}
+            </Collapsible.Header>
             <Collapsible.Content>
               <DescriptionList>
-                <DescriptionItem title="Status">{cache.get('status')}</DescriptionItem>
+                <DescriptionItem title={t('in-forge:plugins.jbossDataGrid.status')}>
+                  {cache.get('status')}
+                </DescriptionItem>
                 <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-                <DescriptionItem title="Cluster Name">{cache.get('clusterName')}</DescriptionItem>
-                <DescriptionItem title="Statistics Enabled">{yesOrNo(cache.get('statisticsEnabled'))}</DescriptionItem>
+                <DescriptionItem title={t('in-forge:plugins.jbossDataGrid.clusterName')}>
+                  {cache.get('clusterName')}
+                </DescriptionItem>
+                <DescriptionItem title={t('in-forge:plugins.jbossDataGrid.statisticsEnabled')}>
+                  {yesOrNo(cache.get('statisticsEnabled'))}
+                </DescriptionItem>
               </DescriptionList>
-              <KeyValueOverlay header="Configuration" data={cache.get('configuration')} />
+              <KeyValueOverlay
+                header={t('in-forge:plugins.jbossDataGrid.configuration')}
+                data={cache.get('configuration')}
+              />
             </Collapsible.Content>
           </Collapsible>
         ))

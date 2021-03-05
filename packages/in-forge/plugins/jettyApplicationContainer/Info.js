@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
@@ -12,7 +13,9 @@ export default function JettyInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.jettyApplicationContainer.version')}>
+        {data.get('version')}
+      </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

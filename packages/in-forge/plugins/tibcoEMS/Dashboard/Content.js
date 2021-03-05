@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { Trans, t } from 'in-i18n';
 import React from 'react';
 
 import { number, bytesTwoDecimalPlaces, millis } from 'in-services/formatters/number';
@@ -20,22 +21,24 @@ export default function TibcoDashboard({ snapshot, timeConfig }) {
   if (sensorConnectionStatus === 'STATISTICS_DISABLED') {
     return (
       <DashboardNotification type="info">
-        Please enable statistics for Tibco EMS to enable metric collection. Add <code>statistics = enabled</code> to{' '}
-        <strong>tibemsd.conf</strong> file and restart the server or run <code>set server statistics=enabled</code>{' '}
-        using <strong>tibemsadmin</strong>.
+        <Trans
+          i18nKey="in-forge:plugins.tibcoEMS.infoStatisticsDisabled"
+          components={{
+            codeTag: <code />,
+            bold: <strong />
+          }}
+        />
       </DashboardNotification>
     );
   } else if (sensorConnectionStatus !== 'OK') {
     return (
       <DashboardNotification type="info">
-        To enable metric collection, please add <strong>tibjms-8.5.1.jar</strong> and{' '}
-        <strong>tibjmsadmin-8.5.1.jar</strong> to {'<'}
-        agent_install_dir
-        {'>'}
-        /system/com/tibco/tibjms/tibjms/8.5.1 and {'<'}
-        agent_install_dir
-        {'>'}
-        /system/com/tibco/tibjms/tibjmsadmin/8.5.1 respetively.
+        <Trans
+          i18nKey="in-forge:plugins.tibcoEMS.infoEnableMetricCollection"
+          components={{
+            bold: <strong />
+          }}
+        />
       </DashboardNotification>
     );
   }
@@ -45,39 +48,39 @@ export default function TibcoDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Connections">
+        <KpiKeyValue label={t('in-forge:plugins.tibcoEMS.labelConnections')}>
           <MetricValue snapshotId={snapshotId} metric="connectionCount" />
         </KpiKeyValue>
-        <KpiKeyValue label="Sessions">
+        <KpiKeyValue label={t('in-forge:plugins.tibcoEMS.labelSessions')}>
           <MetricValue snapshotId={snapshotId} metric="sessionCount" />
         </KpiKeyValue>
-        <KpiKeyValue label="UpTime">
+        <KpiKeyValue label={t('in-forge:plugins.tibcoEMS.labelUpTime')}>
           <MetricValue snapshotId={snapshotId} metric="uptime" formatter={millis.compact} />
         </KpiKeyValue>
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="Connectivity">
+        <DashboardSection title={t('in-forge:plugins.tibcoEMS.titleConnectivity')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['connectionCount', 'sessionCount'],
-              labels: ['Connections', 'Sessions'],
+              labels: [t('in-forge:plugins.tibcoEMS.labelConnections'), t('in-forge:plugins.tibcoEMS.labelSessions')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Durables">
+        <DashboardSection title={t('in-forge:plugins.tibcoEMS.titleDurables')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['durableCount'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.tibcoEMS.labelCount')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -85,14 +88,17 @@ export default function TibcoDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="Storage">
+      <DashboardSection title={t('in-forge:plugins.tibcoEMS.titleStorage')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: number.compact,
             metrics: ['readOperations', 'writeOperations'],
-            labels: ['Read Operations Rate', 'Write Operations Rate'],
+            labels: [
+              t('in-forge:plugins.tibcoEMS.labelReadOperationsRate'),
+              t('in-forge:plugins.tibcoEMS.labelWriteOperationsRate')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -100,33 +106,33 @@ export default function TibcoDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <Columize>
-        <DashboardSection title="Pending Messages">
+        <DashboardSection title={t('in-forge:plugins.tibcoEMS.titlePendingMessages')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['pendingMessagesCount'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.tibcoEMS.labelCount')],
               type: 'line'
             }}
             y2={{
               formatter: bytesTwoDecimalPlaces,
               metrics: ['pendingMessagesSize'],
-              labels: ['Size'],
+              labels: [t('in-forge:plugins.tibcoEMS.labelSize')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Messages Memory">
+        <DashboardSection title={t('in-forge:plugins.tibcoEMS.titleMessagesMemory')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: bytesTwoDecimalPlaces,
               metrics: ['messagesMemory'],
-              labels: ['Used Memory'],
+              labels: [t('in-forge:plugins.tibcoEMS.labelUsedMemory')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -134,20 +140,26 @@ export default function TibcoDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="Messages">
+      <DashboardSection title={t('in-forge:plugins.tibcoEMS.titleMessages')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: number.compact,
             metrics: ['inMessagesCount', 'outMessagesCount'],
-            labels: ['In Messages Count', 'Out Messages Count'],
+            labels: [
+              t('in-forge:plugins.tibcoEMS.labelInMessagesCount'),
+              t('in-forge:plugins.tibcoEMS.labelOutMessagesCount')
+            ],
             type: 'line'
           }}
           y2={{
             formatter: number.compact,
             metrics: ['inMessages', 'outMessages'],
-            labels: ['In Messages Rate', 'Out Messages Rate'],
+            labels: [
+              t('in-forge:plugins.tibcoEMS.labelInMessagesRate'),
+              t('in-forge:plugins.tibcoEMS.labelOutMessagesRate')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

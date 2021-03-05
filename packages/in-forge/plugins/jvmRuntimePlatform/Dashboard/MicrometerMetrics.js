@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -23,7 +24,7 @@ export const SPECS = [
     color: '#D90368',
     metrics: [
       {
-        label: 'Value',
+        label: t('in-forge:plugins.jvmRuntimePlatform.value'),
         formatter: withSiPrefixThreeDecimalPlaces
       }
     ]
@@ -35,7 +36,7 @@ export const SPECS = [
     color: '#D90368',
     metrics: [
       {
-        label: 'Value',
+        label: t('in-forge:plugins.jvmRuntimePlatform.value'),
         formatter: withSiPrefixThreeDecimalPlaces
       }
     ]
@@ -47,7 +48,7 @@ export const SPECS = [
     color: '#00CC66',
     metrics: [
       {
-        label: 'Count',
+        label: t('in-forge:plugins.jvmRuntimePlatform.count'),
         formatter: withSiPrefixThreeDecimalPlaces
       }
     ]
@@ -59,7 +60,7 @@ export const SPECS = [
     color: '#00CC66',
     metrics: [
       {
-        label: 'Count',
+        label: t('in-forge:plugins.jvmRuntimePlatform.count'),
         formatter: withSiPrefixThreeDecimalPlaces
       }
     ]
@@ -71,7 +72,7 @@ export const SPECS = [
     color: '#F75C03',
     metrics: [
       {
-        label: 'Value',
+        label: t('in-forge:plugins.jvmRuntimePlatform.value'),
         formatter: timeByMillisTwoDecimalPlaces
       }
     ]
@@ -83,7 +84,7 @@ export const SPECS = [
     color: '#F75C03',
     metrics: [
       {
-        label: 'Value',
+        label: t('in-forge:plugins.jvmRuntimePlatform.value'),
         formatter: timeByMillisTwoDecimalPlaces
       }
     ]
@@ -95,7 +96,7 @@ export const SPECS = [
     color: '#F75C03',
     metrics: [
       {
-        label: 'Value',
+        label: t('in-forge:plugins.jvmRuntimePlatform.value'),
         formatter: withSiPrefixZeroDecimalPlaces
       }
     ]
@@ -107,7 +108,7 @@ export const SPECS = [
     color: '#f7b320',
     metrics: [
       {
-        label: 'Value',
+        label: t('in-forge:plugins.jvmRuntimePlatform.value'),
         formatter: withSiPrefixThreeDecimalPlaces
       }
     ]

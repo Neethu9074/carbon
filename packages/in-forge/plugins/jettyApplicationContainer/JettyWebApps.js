@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ClasspathLayouter from 'in-sdk/components/sidebar/ClassPathLayouter';
@@ -18,21 +19,29 @@ export default function JettyWebApps({ snapshot }) {
 
   return (
     <Collapsible initiallyOpen={false}>
-      <Collapsible.Header>Web Apps</Collapsible.Header>
+      <Collapsible.Header>{t('in-forge:plugins.jettyApplicationContainer.webApps')}</Collapsible.Header>
       <Collapsible.Content>
         {webApps.map((webApp, i) => (
           <Collapsible initiallyOpen={false} key={i}>
             <Collapsible.Header>{webApp.get('displayName') || '<unnamed>'}</Collapsible.Header>
             <Collapsible.Content>
               <DescriptionList>
-                <DescriptionItem title="Context Path">{webApp.get('contextPath')}</DescriptionItem>
-                <DescriptionItem title="State">{webApp.get('state')}</DescriptionItem>
-                <DescriptionItem title="Session Timeout">
+                <DescriptionItem title={t('in-forge:plugins.jettyApplicationContainer.contextPath')}>
+                  {webApp.get('contextPath')}
+                </DescriptionItem>
+                <DescriptionItem title={t('in-forge:plugins.jettyApplicationContainer.state')}>
+                  {webApp.get('state')}
+                </DescriptionItem>
+                <DescriptionItem title={t('in-forge:plugins.jettyApplicationContainer.sessionTimeout')}>
                   {data.get('webAppsSessionData.' + webApp.get('displayName') + '.sessionTimeout')}
                 </DescriptionItem>
-                <DescriptionItem title="War File Path">{webApp.get('warFile')}</DescriptionItem>
-                <DescriptionItem title="Temporary Directory">{webApp.get('tempDirectory')}</DescriptionItem>
-                <DescriptionItem title="Classpath">
+                <DescriptionItem title={t('in-forge:plugins.jettyApplicationContainer.warFilePath')}>
+                  {webApp.get('warFile')}
+                </DescriptionItem>
+                <DescriptionItem title={t('in-forge:plugins.jettyApplicationContainer.temporaryDirectory')}>
+                  {webApp.get('tempDirectory')}
+                </DescriptionItem>
+                <DescriptionItem title={t('in-forge:plugins.jettyApplicationContainer.classpath')}>
                   <ClasspathLayouter classpath={webApp.get('classPath')} />
                 </DescriptionItem>
               </DescriptionList>

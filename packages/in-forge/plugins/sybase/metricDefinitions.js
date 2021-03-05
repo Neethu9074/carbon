@@ -2,56 +2,64 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { bytes, number } from 'in-services/formatters/number';
 
 export default [
   {
     metrics: ['stats.connCount'],
-    labels: ['Connections'],
+    labels: [t('in-forge:plugins.sybase.titleConnections')],
     min: 0,
-    category: ['Connections'],
+    category: [t('in-forge:plugins.sybase.titleConnections')],
     formatter: number
   },
   {
     metrics: ['stats.diskRead', 'stats.diskWrite'],
-    labels: ['Disk Reads', 'Disk Writes'],
+    labels: [t('in-forge:plugins.sybase.labelDiskReads'), t('in-forge:plugins.sybase.labelDiskWrites')],
     min: 0,
-    category: ['Disk Reads &amp; Writes'],
+    category: [t('in-forge:plugins.sybase.titleDiskReadsWrites')],
     formatter: number
   },
   {
     metrics: ['stats.bytesReceived', 'stats.bytesSent'],
-    labels: ['Bytes Received', 'Bytes Sent'],
+    labels: [t('in-forge:plugins.sybase.labelBytesReceived'), t('in-forge:plugins.sybase.labelBytesSent')],
     min: 0,
-    category: ['Bytes Received &amp; Sent'],
+    category: [t('in-forge:plugins.sybase.titleBytesReceivedSent')],
     formatter: bytes
   },
   {
     metrics: ['stats.threadDeadlocksAvoided', 'stats.threadDeadlocksReported'],
-    labels: ['Thread Dead Locks Avoided', 'Thread Dead Locks Reported'],
+    labels: [
+      t('in-forge:plugins.sybase.labelThreadDeadLocksAvoided'),
+      t('in-forge:plugins.sybase.labelThreadDeadLocksReported')
+    ],
     min: 0,
-    category: ['Thread Dead Locks Avoided &amp; Reported'],
+    category: [t('in-forge:plugins.sybase.titleThreadDeadLocksAvoidedReported')],
     formatter: number
   },
   {
     metrics: ['databases.connCount'],
-    labels: ['Database Connections'],
+    labels: [t('in-forge:plugins.sybase.labelDatabaseConnections')],
     min: 0,
-    category: ['Connections'],
+    category: [t('in-forge:plugins.sybase.titleConnections')],
     formatter: number
   },
   {
     metrics: ['databases.diskRead', 'databases.diskWrite'],
-    labels: ['Database Disk Reads', 'Database Disk Writes'],
+    labels: [t('in-forge:plugins.sybase.labelDatabaseDiskReads'), t('in-forge:plugins.sybase.labelDatabaseDiskWrites')],
     min: 0,
-    category: ['Database Disk Reads &amp; Writes'],
+    category: [t('in-forge:plugins.sybase.categoryDatabaseDiskReadsWrites')],
     formatter: number
   },
   {
     metrics: ['databases.bytesReceived', 'databases.bytesSent'],
-    labels: ['Database Bytes Received', 'Database Bytes Sent'],
+    labels: [
+      t('in-forge:plugins.sybase.labelDatabaseBytesReceived'),
+      t('in-forge:plugins.sybase.labelDatabaseBytesSent')
+    ],
     min: 0,
-    category: ['Database Bytes Received &amp; Sent'],
+    category: [t('in-forge:plugins.sybase.categoryDatabaseBytesReceivedSent')],
     formatter: bytes
   }
 ];

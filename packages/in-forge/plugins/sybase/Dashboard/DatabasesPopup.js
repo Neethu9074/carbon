@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
@@ -17,6 +18,6 @@ export default connectTo(
   },
   function DatabasesPopup({ snapshot }) {
     let databases = snapshot.getIn(['data', 'databaseNames'], emptyList);
-    return <KeyValueOverlay header="Databases" data={databases} />;
+    return <KeyValueOverlay header={t('in-forge:plugins.sybase.headerDatabases')} data={databases} />;
   }
 );

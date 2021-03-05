@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Cluster name',
+    title: t('in-forge:plugins.jbossDataGrid.clusterName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Incoming Messages Threads Size',
+    title: t('in-forge:plugins.jbossDataGrid.incomingMessagesThreadsSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Incoming Messages Active Threads Size',
+    title: t('in-forge:plugins.jbossDataGrid.incomingMessagesActiveThreadsSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +57,7 @@ const cols = [
     }
   },
   {
-    title: 'Incoming Messages Queue Size',
+    title: t('in-forge:plugins.jbossDataGrid.incomingMessagesQueueSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -95,7 +96,7 @@ export default function ClusterUDPStatisticsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle="JGroups Default Thread Pool Statistics"
+      cardTitle={t('in-forge:plugins.jbossDataGrid.jGroupsDefaultThreadPoolStatistics')}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -117,9 +118,9 @@ function getRowDetails(row) {
             'clustersUDPStatistics.' + row.key + '.defaultQueueSize'
           ],
           labels: [
-            'Incoming Messages Threads Size',
-            'Incoming Messages Active Threads Size',
-            'Incoming Messages Queue Size'
+            t('in-forge:plugins.jbossDataGrid.incomingMessagesThreadsSize'),
+            t('in-forge:plugins.jbossDataGrid.incomingMessagesActiveThreadsSize'),
+            t('in-forge:plugins.jbossDataGrid.incomingMessagesQueueSize')
           ],
           type: 'line'
         }}

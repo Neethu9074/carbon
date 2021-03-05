@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -12,12 +13,18 @@ export default function JBossAsInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">
+      <DescriptionItem title={t('in-forge:plugins.jBossAsApplicationContainer.version')}>
         {`${serverInfo.get('releaseVersion', '')} ${serverInfo.get('productName', '')}`}
       </DescriptionItem>
-      <DescriptionItem title="Server">{serverInfo.get('serverName')}</DescriptionItem>
-      <DescriptionItem title="Node">{serverInfo.get('nodeName')}</DescriptionItem>
-      <DescriptionItem title="Home">{serverInfo.get('homeDir')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.jBossAsApplicationContainer.server')}>
+        {serverInfo.get('serverName')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.jBossAsApplicationContainer.node')}>
+        {serverInfo.get('nodeName')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.jBossAsApplicationContainer.home')}>
+        {serverInfo.get('homeDir')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

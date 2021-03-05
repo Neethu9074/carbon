@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { millis, number, percentagePlain } from 'in-services/formatters/number';
@@ -13,7 +14,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.jenkins.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Type',
+    title: t('in-forge:plugins.jenkins.type'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Last Build #',
+    title: t('in-forge:plugins.jenkins.lastBuild'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -47,7 +48,7 @@ const cols = [
     }
   },
   {
-    title: 'Status',
+    title: t('in-forge:plugins.jenkins.status'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -65,7 +66,7 @@ const cols = [
     }
   },
   {
-    title: 'Duration',
+    title: t('in-forge:plugins.jenkins.duration'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -81,7 +82,7 @@ const cols = [
     }
   },
   {
-    title: 'Estimated Duration',
+    title: t('in-forge:plugins.jenkins.estimatedDuration'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -97,7 +98,7 @@ const cols = [
     }
   },
   {
-    title: 'Started',
+    title: t('in-forge:plugins.jenkins.started'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -113,7 +114,7 @@ const cols = [
     }
   },
   {
-    title: 'Health Score',
+    title: t('in-forge:plugins.jenkins.healthScore'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -148,7 +149,7 @@ export default function JobsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Jobs (${rows.length})`}
+      cardTitle={t('in-forge:plugins.jenkins.jobsWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       maxItemsPerPage={15}
@@ -165,14 +166,14 @@ function getDetails(row) {
       y1={{
         min: 0,
         metrics: ['jobs.' + row.key + '.lastBuildNumber'],
-        labels: ['Last Build Number'],
+        labels: [t('in-forge:plugins.jenkins.lastBuildNumber')],
         type: 'line',
         formatter: number.compact
       }}
       y2={{
         min: 0,
         metrics: ['jobs.' + row.key + '.lastBuildDuration'],
-        labels: ['Last Build Duration'],
+        labels: [t('in-forge:plugins.jenkins.lastBuildDuration')],
         type: 'line',
         formatter: millis.detailed
       }}
@@ -201,20 +202,20 @@ function getDetails(row) {
 function getStatusText(state) {
   switch (state) {
     case 1:
-      return 'Disabled';
+      return t('in-forge:plugins.jenkins.disabled');
     case 2:
-      return 'Aborted';
+      return t('in-forge:plugins.jenkins.aborted');
     case 3:
-      return 'Not Built';
+      return t('in-forge:plugins.jenkins.notBuilt');
     case 4:
-      return 'Unstable';
+      return t('in-forge:plugins.jenkins.unstable');
     case 5:
-      return 'Success';
+      return t('in-forge:plugins.jenkins.success');
     case 6:
-      return 'Unstable';
+      return t('in-forge:plugins.jenkins.unstable');
     case 7:
-      return 'Failed';
+      return t('in-forge:plugins.jenkins.failed');
     default:
-      return 'In Progress';
+      return t('in-forge:plugins.jenkins.inProgress');
   }
 }

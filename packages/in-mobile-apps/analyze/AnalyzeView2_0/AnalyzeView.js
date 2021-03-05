@@ -24,14 +24,12 @@ import { getMetricCatalog } from 'in-mobile-apps/api/metricCatalog';
 import { analyzePath } from 'in-mobile-apps/navigation/paths';
 import { beaconType } from 'in-mobile-apps/navigation/matrix';
 import { getTagCatalog } from 'in-mobile-apps/api/tagCatalog';
-import { stackedBar } from 'in-stores/metric/renderer';
 
 const facetedSearchItems = [
   {
     renderer: FacetedFilterGeneric,
     title: t('in-mobile-apps:facetedSearch.mobileApp'),
-    tag: 'mobileBeacon.mobileApp.name',
-    openByDefault: true
+    tag: 'mobileBeacon.mobileApp.name'
   },
   {
     renderer: FacetedFilterGeneric,
@@ -103,6 +101,11 @@ const ungroupedView = {
     },
     getColumnFormatter({ metricDefinition }) {
       // Tag definitions in the tag catalog do not specify a formatter. For now we can use metric formatter.
+      if (metricDefinition.formatter === 'PERCENTAGE') {
+        // 'PERCENTAGE' formatter is currently used only for a calculated metric (beaconErrorRate),
+        // which is based on a numeric tag.
+        return 'NUMBER';
+      }
       return metricDefinition.formatter;
     }
   }
@@ -113,7 +116,7 @@ const fixedFields = [
   { type: metricType, metricId: 'beaconCount', aggregationId: 'SUM' }
 ];
 
-const defaultChartedMetrics = [{ metricId: 'beaconCount', aggregationId: 'SUM', rendererId: stackedBar.id }];
+const defaultChartedMetrics = [{ metricId: 'beaconCount', aggregationId: 'SUM' }];
 
 const dataSourceConfigurations = {
   sessionStart: {
@@ -184,7 +187,7 @@ const dataSourceParameter = {
 export default function MobileAnalyzeView() {
   const location = useLocation();
   if (isAnalyticsOneLocation(location)) {
-    return <AnalyzeOneToTwoViewParameterConversion />;
+    return <AnalyzeOneToTwoViewParameterConversion dataSourceConfigurations={dataSourceConfigurations} />;
   }
 
   return (
@@ -219,13 +222,25 @@ function createMetricCatalogFilter(dataSource) {
   return ({ beaconTypes }) => beaconTypes.includes(dataSource);
 }
 
-function getFacetedSearchSuggestions({ timeConfig, backendQueryModel, group, metricKey, dataSource }) {
+function getFacetedSearchSuggestions({
+  timeConfig,
+  backendQueryModel,
+  backendQueryModelExcludingMissingGroupingTag,
+  group,
+  metricKey,
+  dataSource
+}) {
   return getMobileAppBeaconGroups({
     pagination: {
       retrievalSize: 200
     },
     timeConfig,
-    tagFilterExpression: addDataSourceToBackendQueryModel({ backendQueryModel, dataSource }),
+    tagFilterExpression: addDataSourceToBackendQueryModel({
+      // Because the grouped view doesn't support a special 'Tag not present' group, faceted search
+      // should filter out items which would belong to this group for consistency with the result list.
+      backendQueryModel: backendQueryModelExcludingMissingGroupingTag ?? backendQueryModel,
+      dataSource
+    }),
     group,
     order: {
       by: metricKey,

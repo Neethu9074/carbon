@@ -102,12 +102,7 @@
       "MAX": "max",
       "DISTINCT_COUNT": "distinct count",
       "SUM": "sum",
-      "DISTRIBUTION": "distribution",
-      "1s": "1s",
-      "5s": "5s",
-      "1min": "1min",
-      "5min": "5min",
-      "1h": "1h"
+      "DISTRIBUTION": "distribution"
     },
 
     "formatterLabelNumber": "Number, e.g. {{example}}",

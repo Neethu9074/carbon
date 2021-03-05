@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Cluster name',
+    title: t('in-forge:plugins.jbossDataGrid.clusterName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'OOB Messages Threads Size',
+    title: t('in-forge:plugins.jbossDataGrid.oobMessagesThreadsSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'OOB Messages Active Threads Size',
+    title: t('in-forge:plugins.jbossDataGrid.oobMessagesActiveThreadsSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +57,7 @@ const cols = [
     }
   },
   {
-    title: 'OOB Messages Queue Size',
+    title: t('in-forge:plugins.jbossDataGrid.oobMessagesQueueSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -95,7 +96,7 @@ export default function ClusterUDPStatisticsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle="JGroups OOB Thread Pool Statistics"
+      cardTitle={t('in-forge:plugins.jbossDataGrid.jGroupsOobThreadPoolStatistics')}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -116,7 +117,11 @@ function getRowDetails(row) {
             'clustersUDPStatistics.' + row.key + '.oobActiveThreadsSize',
             'clustersUDPStatistics.' + row.key + '.oobQueueSize'
           ],
-          labels: ['OOB Messages Threads Size', 'OOB Messages Active Threads Size', 'OOB Messages Queue Size'],
+          labels: [
+            t('in-forge:plugins.jbossDataGrid.oobMessagesThreadsSize'),
+            t('in-forge:plugins.jbossDataGrid.oobMessagesActiveThreadsSize'),
+            t('in-forge:plugins.jbossDataGrid.oobMessagesQueueSize')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

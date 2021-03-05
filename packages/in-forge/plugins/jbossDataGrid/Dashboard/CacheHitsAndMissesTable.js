@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Cache Name',
+    title: t('in-forge:plugins.jbossDataGrid.cacheName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Hit Ratio',
+    title: t('in-forge:plugins.jbossDataGrid.hitRatio'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Hits',
+    title: t('in-forge:plugins.jbossDataGrid.hits'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +57,7 @@ const cols = [
     }
   },
   {
-    title: 'Misses',
+    title: t('in-forge:plugins.jbossDataGrid.misses'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -72,7 +73,7 @@ const cols = [
     }
   },
   {
-    title: 'Remove Hits',
+    title: t('in-forge:plugins.jbossDataGrid.removeHits'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -88,7 +89,7 @@ const cols = [
     }
   },
   {
-    title: 'Remove Misses',
+    title: t('in-forge:plugins.jbossDataGrid.removeMisses'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -125,7 +126,13 @@ export default function CacheStatisticsTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <Table withoutPadding cardTitle="Cache Hits And Misses" cols={cols} rows={rows} getRowDetails={getRowDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.jbossDataGrid.cacheHitsAndMisses')}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 
@@ -139,7 +146,7 @@ function getRowDetails(row) {
           formatter: hitRate.compact,
           tooltipFormatter: hitRate.detailed,
           metrics: ['cachesStatistics.' + row.key + '.hitRatioV2'],
-          labels: ['Hit Ratio'],
+          labels: [t('in-forge:plugins.jbossDataGrid.hitRatio')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -155,7 +162,12 @@ function getRowDetails(row) {
             'cachesStatistics.' + row.key + '.removeHits',
             'cachesStatistics.' + row.key + '.removeMisses'
           ],
-          labels: ['Hits', 'Misses', 'Remove Hits', 'Remove Misses'],
+          labels: [
+            t('in-forge:plugins.jbossDataGrid.hits'),
+            t('in-forge:plugins.jbossDataGrid.misses'),
+            t('in-forge:plugins.jbossDataGrid.removeHits'),
+            t('in-forge:plugins.jbossDataGrid.removeMisses')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

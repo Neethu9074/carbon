@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { getDefaultMetricRollupDuration } from 'in-stores/metric';
+import { getInfraGranularity } from 'in-stores/metric';
 import { minutes } from 'in-services/time';
 
 const chartOffset = minutes.toMillis(5);
@@ -25,7 +25,7 @@ export function getChartTimeConfigByEvent({
     timeConfig.windowSize += chartOffset;
   }
 
-  const rollupDuration = getDefaultMetricRollupDuration(timeConfig).rollup;
+  const rollupDuration = getInfraGranularity(timeConfig);
   timeConfig.windowSize = Math.max(rollupDuration * 10, timeConfig.windowSize);
 
   return timeConfig;

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -31,7 +32,11 @@ export default connectTo(
     }
 
     return (
-      <Dialog title="Thread dump" onClose={close} renderCustomCloseBehaviour={() => header}>
+      <Dialog
+        title={t('in-forge:plugins.jvmRuntimePlatform.threadDump')}
+        onClose={close}
+        renderCustomCloseBehaviour={() => header}
+      >
         {!response && <LoadingIndicator />}
 
         {response && response.error && (

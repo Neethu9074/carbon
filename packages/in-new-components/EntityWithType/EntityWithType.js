@@ -23,7 +23,9 @@ export default function EntityWithType({ addTooltip, ...props }) {
 const Content = forwardRef(function Content({ label, type, renderType, href$, addEllipsis }, ref) {
   return (
     <div className={locals.wrapper} ref={ref}>
-      <div className={locals.type}>{renderType ? renderType(getPluginName(type, 1)) : getPluginName(type, 1)}</div>
+      {type && (
+        <div className={locals.type}>{renderType ? renderType(getPluginName(type, 1)) : getPluginName(type, 1)}</div>
+      )}
       {href$ ? (
         <Link className={locals.link} href$={href$}>
           <Label label={label} addEllipsis={addEllipsis} />

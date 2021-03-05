@@ -21,7 +21,7 @@ import locals from './BasicForm.mless';
 
 export default function BasicFormPropsEnrichment(props) {
   const entityResult = useObservable(props.getEntity(), []) ?? pendingResult;
-  const [form, updateForm] = useState(getInitialState(props.getInitialForm, entityResult));
+  const [form, updateForm] = useState(getInitialState(props.getInitialForm, entityResult.data));
 
   useEffect(() => updateForm(getInitialState(props.getInitialForm, entityResult.data)), [
     entityResult.data,

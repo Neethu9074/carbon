@@ -141,6 +141,7 @@ function renderButtonLine(props) {
             location={location}
             boundaryScope={boundaryScope}
             defaultBoundaryScope={props.result.data.boundaryScope}
+            includeSynthetic={isSyntheticOption(props.syntheticCalls)}
           />
         </FloatingActionButtons>
       )}

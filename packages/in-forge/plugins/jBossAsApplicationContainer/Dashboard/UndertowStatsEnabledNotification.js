@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { Trans } from 'in-i18n';
 import React from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
@@ -16,13 +17,12 @@ export default function UndertowStatsEnabledNotification({ snapshot }) {
 
   return (
     <DashboardNotification type="warning">
-      <strong>Statistics are not enabled for undertow subsystem</strong>
-      <p>
-        This means that we can not collect servlet statistics from JBoss. To enable statistics, set{' '}
-        <code>statistics-enabled</code> attribute to <code>true</code> for undertow subsystem configuration in server
-        configuration. For this change to take effect server reboot is required. Example:
-        <Code code={configExample} />
-      </p>
+      <Trans
+        i18nKey="in-forge:plugins.jBossAsApplicationContainer.undertowStatsEnabledNotification"
+        components={{
+          configCode: <Code code={configExample} />
+        }}
+      />
     </DashboardNotification>
   );
 }

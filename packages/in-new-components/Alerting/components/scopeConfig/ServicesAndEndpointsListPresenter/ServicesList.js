@@ -27,11 +27,13 @@ import EndpointsList from 'in-new-components/Alerting/components/scopeConfig/Ser
 import SharedList from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
 import { and, or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { isLoading } from 'in-services/util/result';
+import Pill from 'in-new-components/Pill/Pill';
 
 export default function ServicesList({ getServicesCursorPaginated, parentIds, ...props }) {
   const { boundaryScope } = props;
@@ -128,6 +130,9 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
         },
         shouldAdd(itemTreeIds) {
           return selectService(state, itemTreeIds)?.inclusive === undefined;
+        },
+        getBadgeElement({ types }) {
+          return types ? <EndpointTypeBadgeList types={types} /> : <Pill>Unknown Type</Pill>;
         },
         numSkeletonRows: 2,
         getLabel$: getServiceLabel

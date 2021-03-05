@@ -9,7 +9,7 @@ const mappings = {
   NUMBER: createFormatterWithDefault(number, 'compact'),
   RATE: createFormatterWithDefault(number.perSecond, 'detailed'),
 
-  PERCENTAGE: createFormatterWithDefault(percentage, 'compact'),
+  PERCENTAGE: createFormatterWithDefault(percentage, 'detailed'),
 
   BYTES: createFormatterWithDefault(bytes, 'detailed'),
   BYTE_RATE: createFormatterWithDefault(bytes.perSecond, 'detailed'),

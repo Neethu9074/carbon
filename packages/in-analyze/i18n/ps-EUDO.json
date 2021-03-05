@@ -1,0 +1,243 @@
+{
+  "analyzeView": {
+    "noData": "[ps'Ｎｏ ｃａｌｌｓ ａｒｅ ａｖａｉｌａｂｌｅ ｆｏｒ ｔｈｅ ｓｅｌｅｃｔｅｄ ｔｉｍｅ ｒａｎｇｅ. Ｆｏｒ ｔｒｏｕｂｌｅｓｈｏｏting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-pageฏูİı｜]",
+    "traces": "[ps'Tracesฏูİı｜]",
+    "calls": "[ps'Callsฏูİı｜]",
+    "emptyAnalyzeViewTitle": "[ps'No [{{emptyEntityName}}] foundฏูİı｜]",
+    "analyzeEditGroupHelp": "[ps'Ｓｅｌｅｃｔ ａ ｔａｇ ｂy which calls and traces should be grouped.ฏูİı｜]",
+    "notAvailable": "[ps'Ｎｏt availableฏูİı｜]",
+    "quickFilterBarLabel": {
+      "application": "[ps'Ａpplicationฏูİı｜]",
+      "application_plural": "[ps'Ａpplicationsฏูİı｜]",
+      "service": "[ps'Serviceฏูİı｜]",
+      "service_plural": "[ps'Servicesฏูİı｜]",
+      "endpoint": "[ps'Endpointฏูİı｜]",
+      "endpoint_plural": "[ps'Endpointsฏูİı｜]",
+      "type": "[ps'Typeฏูİı｜]",
+      "type_plural": "[ps'Typesฏูİı｜]",
+      "technology": "[ps'Technologyฏูİı｜]",
+      "technology_plural": "[ps'Ｔechnologiesฏูİı｜]",
+      "latency": "[ps'Latencyฏูİı｜]",
+      "erroneous": "[ps'Erroneousฏูİı｜]",
+      "hiddenCalls": "[ps'Ｈidden Callsฏูİı｜]"
+    },
+    "quickGroupBarLabelApplication": "[ps'Ａpplicationฏูİı｜]",
+    "quickGroupBarLabelService": "[ps'Serviceฏูİı｜]",
+    "quickGroupBarLabelEndpoint": "[ps'Endpointฏูİı｜]",
+    "quickGroupBarLabelType": "[ps'Typeฏูİı｜]",
+    "quickGroupBarLabelTechnology": "[ps'Technologyฏูİı｜]",
+    "quickGroupBarLabelAllGroups": "[ps'All groupsฏูİı｜]",
+    "tagGroupEmptyMessage": "[ps'Ｎｏ ｇｒoup defined.ฏูİı｜]"
+  },
+  "services": {
+    "noData": "[ps'Ｎｏ ｓｅｒｖｉｃｅ ｃａｌｌｓ ａｒｅ ａｖａｉｌａｂｌｅ ｆｏｒ ｔｈｅ ｓｅｌｅｃｔｅｄ ｔｉｍｅ ｒａｎｇｅ. Ｆｏｒ ｔｒｏｕｂｌeshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listedฏูİı｜]"
+  },
+  "traceDetail": {
+    "callDetails": {
+      "serviceComponent": {
+        "infrastructure": "[ps'Ｉｎｆrastructureฏูİı｜]",
+        "detailsAndStackTrace": "[ps'Ｄｅｔａｉｌs & Stack Traceฏูİı｜]",
+        "details": "[ps'Detailsฏูİı｜]",
+        "desClusterNotCorrelateNode": "[ps'Ｔｈｅ ｄｅｓｔｉｎａｔｉｏｎ ｉｓ ａ cluster, Instana could not correlate this call to any specific nodes.ฏูİı｜]",
+        "sourceUnmonitored": "[ps'Ｔｈｅ ｓｏｕｒｃｅ ｏｆ ｔｈｉｓ ｃａｌｌ ｈａｓ ｎｏｔ ｂｅｅｎ ｔｒａｃｅｄ ａｎｄ ａｓ ａ ｒｅsult no information can be provided about the source. All information shown about this call is provided by the destination.ฏูİı｜]",
+        "sourceMonitoredByAnotherProvider": "[ps'Ｔｈｅ ｓｏｕｒｃｅ ｏｆ ｔｈｉｓ ｃａｌｌ ｉｓ ｔｒａｃｅｄ ｂｙ ａｎｏｔｈｅｒ ｄｉｓｔｒｉｂuted tracing provider. You can find more information on the source by searching the parent span within that provider with id [{{foreignParentId}}].ฏูİı｜]",
+        "notMonitored": "[ps'Ｎｏｔ ｍｏｎｉtored by Instanaฏูİı｜]"
+      }
+    },
+    "tabs": {
+      "summary": {
+        "duplicateCalls": "[ps'Ｄｕｐlicate Callsฏูİı｜]",
+        "duplicateCallsDesc": "[ps'Ｔｈｉｓ ｔｒａｃｅ ｃｏｎｓｉｓｔｓ ｏｆ ｏｎｅ ｏｒ ｍｏｒｅ ｄｕｐｌｉｃａｔｅ ｃａｌｌｓ (ｓｐａｎｓ). Ｕｎique Calls: [{{traceCallCountIgnoringBatchSize}}] - Records: [{{traceCallRecordCount}}]. This leads to incorrect call count (with batches) and error count values, and perhaps other irregularities.ฏูİı｜]",
+        "batchedIngestion": "[ps'Ｂａｔｃhed Ingestionฏูİı｜]",
+        "traceIngestionBatchCount": "[ps'Ｔｈｉｓ ｔｒａｃｅ ｇｏｔ ｐｒｏｃｅｓｓｅｄ ｉｎ [{{traceIngestionBatchesCount}}] ｂａｔｃｈｅｓ. Ｔｈａｔ ｍａｙ ｃａｕｓｅ ｉrregularities such as spans not getting merged to a single Call, partial Service mapping or other incomplete data showing.ฏูİı｜]",
+        "subCalls": "[ps'Sub Callsฏูİı｜]",
+        "erroneousCalls": "[ps'Ｅｒｒoneous Callsฏูİı｜]",
+        "errorLogs": "[ps'Error Logsฏูİı｜]",
+        "warnLogs": "[ps'Warn Logsฏูİı｜]",
+        "latency": "[ps'Latencyฏูİı｜]",
+        "timeline": "[ps'Timelineฏูİı｜]",
+        "serviceEndpointList": "[ps'Ｓｅｒｖｉｃe Endpoint Listฏูİı｜]",
+        "largeTrace": "[ps'Ｌarge Traceฏูİı｜]",
+        "largeTraceLink": "[ps'Ｔｈｉｓ ｔｒａｃｅ ｉｓ ｌａｒｇｅ ａｎｄ ｒｅｎｄｅｒｉｎｇ ｏｆ ｔｈｉｓ ｔｒａｃｅ ｃａｎ ｒｅｓｕｌｔ ｉｎ ｐｅｒｆｏｒｍａｎｃｅ ｐｒｏｂｌｅｍｓ ｗｉｔｈｉｎ ｙｏｕｒ ｂｒowser. You can either <linkToDocs>download the trace</linkToDocs> for manual inspection or attempt trace rendering within your browser. We will only render a subset of the components in order to increase performance of this attempt.ฏูİı｜]",
+        "calls": "[ps'Callsฏูİı｜]"
+      }
+    }
+  },
+
+  "applicationFilter": {
+    "labelApplication": "[ps'Ａpplicationฏูİı｜]",
+    "labelApplicationInbound": "[ps'Ａｐｐｌｉcation Inboundฏูİı｜]",
+    "labelService": "[ps'Serviceฏูİı｜]",
+    "labelEndpoint": "[ps'Endpointฏูİı｜]",
+    "labelSOURCE_AND_DESTINATION": "[ps'Ｓｏｕｒｃｅ & Destinationฏูİı｜]",
+    "labelDESTINATION": "[ps'Ｄestinationฏูİı｜]",
+    "labelSOURCE": "[ps'Sourceฏูİı｜]",
+    "labelNOTAPPLICABLE": "",
+    "labelStringEQUALS": "[ps'equalsฏูİı｜]",
+    "labelStringNOT_EQUAL": "[ps'ｄｏｅs not equalฏูİı｜]",
+    "labelStringCONTAINS": "[ps'containsฏูİı｜]",
+    "labelStringNOT_CONTAIN": "[ps'ｄｏｅｓ not containฏูİı｜]",
+    "labelStringNOT_EMPTY": "[ps'is presentฏูİı｜]",
+    "labelStringIS_EMPTY": "[ps'ｉｓ ｎot presentฏูİı｜]",
+    "labelStringSTARTS_WITH": "[ps'ｓtarts withฏูİı｜]",
+    "labelStringENDS_WITH": "[ps'ends withฏูİı｜]",
+    "labelStringNOT_STARTS_WITH": "[ps'ｄｏｅｓ ｎot start withฏูİı｜]",
+    "labelStringNOT_ENDS_WITH": "[ps'ｄｏｅｓ not end withฏูİı｜]",
+    "labelNumberEQUALS": "[ps'=ฏูİı｜]",
+    "labelNumberNOT_EQUAL": "[ps'!=ฏูİı｜]",
+    "labelNumberLESS_THAN": "[ps'<ฏูİı｜]",
+    "labelNumberGREATER_THAN": "[ps'>ฏูİı｜]",
+    "labelNumberNOT_EMPTY": "[ps'is presentฏูİı｜]",
+    "labelNumberIS_EMPTY": "[ps'ｉｓ ｎot presentฏูİı｜]",
+    "labelNumberLESS_OR_EQUAL_THAN": "[ps'<=ฏูİı｜]",
+    "labelNumberGREATER_OR_EQUAL_THAN": "[ps'>=ฏูİı｜]",
+    "labelNumberCONTAINS": "[ps'containsฏูİı｜]",
+    "labelNumberNOT_CONTAIN": "[ps'ｄｏｅｓ not containฏูİı｜]",
+    "labelNumberSTARTS_WITH": "[ps'ｓtarts withฏูİı｜]",
+    "labelNumberENDS_WITH": "[ps'ends withฏูİı｜]",
+    "labelNumberNOT_STARTS_WITH": "[ps'ｄｏｅｓ ｎot start withฏูİı｜]",
+    "labelNumberNOT_ENDS_WITH": "[ps'ｄｏｅｓ not end withฏูİı｜]",
+    "labelBooleanEQUALS": "[ps'isฏูİı｜]",
+    "labelKeyPairEQUALS": "[ps'equalsฏูİı｜]",
+    "labelKeyPairNOT_EQUAL": "[ps'ｄｏｅs not equalฏูİı｜]",
+    "labelKeyPairCONTAINS": "[ps'containsฏูİı｜]",
+    "labelKeyPairNOT_CONTAIN": "[ps'ｄｏｅｓ not containฏูİı｜]",
+    "labelKeyPairNOT_EMPTY": "[ps'is presentฏูİı｜]",
+    "labelKeyPairIS_EMPTY": "[ps'ｉｓ ｎot presentฏูİı｜]",
+    "labelKeyPairIS_BLANK": "[ps'ｄｏｅｓ ｎot have valueฏูİı｜]",
+    "labelKeyPairNOT_BLANK": "[ps'has valueฏูİı｜]",
+    "labelKeyPairSTARTS_WITH": "[ps'ｓtarts withฏูİı｜]",
+    "labelKeyPairENDS_WITH": "[ps'ends withฏูİı｜]"
+  },
+  "analyzeHeader": {
+    "title": "[ps'Analyticsฏูİı｜]"
+  },
+  "editTagFilterDialog": {
+    "dialogTitleEdit": "[ps'Ｅdit Filterฏูİı｜]",
+    "dialogTitleAdd": "[ps'Ａdd [{{filterCategory}}] Filterฏูİı｜]",
+    "messageTitle": "[ps'Ｓｅｌｅｃｔ ａ ｔａｇ ｂｙ which your data should be filtered. Tags are case-sensitive.ฏูİı｜]",
+    "placeholder": "[ps'Ｔｙｐｅ ｔｏ ｆｉlter the results…ฏูİı｜]",
+    "saveFilter": "[ps'Ｓave Filterฏูİı｜]",
+    "addFilter": "[ps'Add Filterฏูİı｜]"
+  },
+  "filterBar": {
+    "checkboxBarOverlay": {
+      "labelSynthetic": "[ps'Ｓｈｏｗ Ｓｙnthetic callsฏูİı｜]",
+      "labelInternal": "[ps'Ｓｈｏｗ Ｉnternal callsฏูİı｜]"
+    },
+    "keyValueBarItem": {
+      "tooltip": "[ps'Ｒｅmove filterฏูİı｜]"
+    },
+    "multiSelectBarItem": {
+      "moreDataMessage": "[ps'Ｍｏｒｅ [{{pluralLabel}}] ａｖａｉｌａｂｌｅ. Ｏnly the top 200 [{{pluralLabel}}] shown. Use the filter to drill down further.ฏูİı｜]"
+    },
+    "multiSelectBarOverlay": {
+      "loadingFilters": "[ps'Ｌｏａｄｉｎｇ filter options.ฏูİı｜]",
+      "noFiltersFound": "[ps'Ｎｏ ｆｉｌｔｅr options found.ฏูİı｜]",
+      "clickToFilter": "[ps'Ｃｌｉｃｋ ｔo filter by [{{itemLabel}}]ฏูİı｜]"
+    },
+    "selectBarItem": {
+      "moreDataMessage": "[ps'Ｍｏｒｅ [{{pluralLabel}}] ａｖａｉｌａｂｌｅ. Ｏnly the top 200 [{{pluralLabel}}] shown. Use the filter to drill down further.ฏูİı｜]"
+    },
+    "selectBarOverlay": {
+      "tooltip": "[ps'Ｃｕｒｒｅｎｔｌｙ ｆiltered by [{{selectedItemLabel}}]. Click to remove filter.ฏูİı｜]",
+      "loadingFilters": "[ps'Ｌｏａｄｉｎｇ filter options.ฏูİı｜]",
+      "noFiltersFound": "[ps'Ｎｏ ｆｉｌｔｅr options found.ฏูİı｜]",
+      "clickToFilter": "[ps'Ｃｌｉｃｋ ｔo filter by [{{itemLabel}}]ฏูİı｜]"
+    },
+    "allFilters": "[ps'Ａll filtersฏูİı｜]"
+  },
+  "groupedTraces": {
+    "labelGroup": "[ps'Groupฏูİı｜]",
+    "labelCount": "[ps'Countฏูİı｜]",
+    "labelEarliestTimestamp": "[ps'Ｅａｒｌｉest Timestampฏูİı｜]",
+    "groupedTracesTitle": "[ps'Ｓｅｌect Metricsฏูİı｜]",
+    "groupedTracesHelp": "[ps'Ｓｅｌｅｃｔ ｗｈｉｃｈ ｍｅｔｒｉｃｓ ｓｈｏｕｌｄ ｂｅ ａvailable as columns within the table. It also defines which metrics could be viewed as graphs.ฏูİı｜]"
+  },
+  "groupingInfo": {
+    "removeGrouping": "[ps'Ｒｅｍove groupingฏูİı｜]"
+  },
+  "metricsChart": {
+    "count": "[ps'Countฏูİı｜]"
+  },
+  "metricSelector": {
+    "tooltipGroups": "[ps'Ｍｅｔｒｉｃ ｏｎｌｙ available when analyzing groups.ฏูİı｜]",
+    "tooltipRemove": "[ps'Ｒｅmove metricฏูİı｜]"
+  },
+  "radioButtons": {
+    "messageFilering": "[ps'Ｆｉｌｔｅｒｉｎｇ ａｎｄ grouping on source is not available for the selected timeframeฏูİı｜]",
+    "messageIndependent": "[ps'Ｔｈｉｓ ｔａｇ ｉｓ ｉndependent of source and destinationฏูİı｜]",
+    "fragmentSource": "[ps'Ａｐｐｌｉｅｓ ｏｎｌy to the source of the callฏูİı｜]",
+    "fragmentCall": "[ps'Ａｐｐｌｙ ｔｏ ｃａll source or destinationฏูİı｜]"
+  },
+  "rawCalls": {
+    "callAnalytics": "[ps'Ｃａｌl Analyticsฏูİı｜]",
+    "labelTimestamp": "[ps'Timestampฏูİı｜]",
+    "labelLatency": "[ps'Latencyฏูİı｜]",
+    "tooltipBatched": "[ps'Ｔｈｉｓ ｃａｌｌ ｉｓ ｂatched and represents [{{batchCount}}] individual calls.ฏูİı｜]",
+    "tooltipLatency": "[ps'Ｔｏｔａｌ ｌａｔｅncy of [{{batchCount}}] batched calls.ฏูİı｜]"
+  },
+  "rawTraces": {
+    "labelTimestamp": "[ps'Timestampฏูİı｜]",
+    "labelLatency": "[ps'Latencyฏูİı｜]"
+  },
+  "tagFilterList": {
+    "tooltipRemoveFilter": "[ps'Ｒｅmove filterฏูİı｜]"
+  },
+
+  "dialogs": {
+    "tooltip": "[ps'Ｓｕｇｇｅｓｔｉｏｎｓ currently not available, please type in the valueฏูİı｜]"
+  },
+
+  "traceDetails": {
+    "titleAnalytics": "[ps'Analyticsฏูİı｜]",
+    "titleTrace": "[ps'Traceฏูİı｜]",
+    "tooltipData": "[ps'Ｓｏｍｅ ｄａｔａ ｒｅｌａｔｅｄ ｔｏ ｔｈｉｓ ｔｒａｃｅ ｉｓ ｄｅｌａｙｅｄ ｓｏ ｐｌｅａｓｅ ｒｅｌｏａｄ the page in a little later. An example where this may happen is viewing a very recent trace with some of its data is still being processed.ฏูİı｜]",
+    "tooltipClose": "[ps'Ｃｌｏｓｅ trace detailฏูİı｜]",
+
+    "labelTotal": "[ps'Totalฏูİı｜]",
+    "labelNetwork": "[ps'Networkฏูİı｜]",
+    "labelSelf": "[ps'Selfฏูİı｜]",
+    "labelWaiting": "[ps'Waitingฏูİı｜]",
+    "labelService": "[ps'Serviceฏูİı｜]",
+    "labelEndpoint": "[ps'Endpointฏูİı｜]",
+    "labelAggregatedTime": "[ps'Ａｇｇregated Timeฏูİı｜]",
+    "labelErroneousCalls": "[ps'Ｅｒｒoneous Callsฏูİı｜]",
+    "buttonTechnology": "[ps'Technologyฏูİı｜]",
+
+    "appNavigatorSplitScreen": {
+      "tooltipViewPrevious": "[ps'Ｖｉｅｗ ｐｒｅｖｉｏus [{{viewType}}] (shortcut: left arrow key)ฏูİı｜]",
+      "tooltipViewNext": "[ps'Ｖｉｅｗ ｎｅｘｔ [{{viewType}}] (ｓｈortcut: left arrow key)ฏูİı｜]",
+      "tooltipCloseSidebar": "[ps'Ｃｌose sidebarฏูİı｜]",
+      "tooltipOpenSidebar": "[ps'Ｏpen sidebarฏูİı｜]"
+    },
+    "callDetails": {
+      "tooltipCloseCallDetails": "[ps'Ｃｌｏｓｅ call detailsฏูİı｜]"
+    },
+    "callTimeAxis": {
+      "started": "[ps'Started: [{{startedTime}}]ฏูİı｜]"
+    },
+    "navigatorSplitScreen": {
+      "tooltipViewPrevious": "[ps'Ｖｉｅｗ ｐｒｅｖｉｏus [{{viewType}}] (shortcut: left arrow key)ฏูİı｜]",
+      "tooltipViewNext": "[ps'Ｖｉｅｗ ｎｅｘｔ [{{viewType}}] (ｓｈortcut: left arrow key)ฏูİı｜]",
+      "tooltipCloseSidebar": "[ps'Ｃｌose sidebarฏูİı｜]",
+      "tooltipOpenSidebar": "[ps'Ｏpen sidebarฏูİı｜]"
+    }
+  },
+  "tabs": {
+    "labelDetail": "[ps'Detailฏูİı｜]",
+    "summary": {
+      "hide": "[ps'Hideฏูİı｜]",
+      "show": "[ps'Showฏูİı｜]",
+      "websiteMonitoringDataTitle": "[ps'Ｃｏｒｒｅｓｐｏnding Website Activityฏูİı｜]",
+      "messageMultiple_root_spans": "[ps'Ｔｈｅ ｔｒａｃｅ ｉｓ ｍalformed and contains multiple root callsฏูİı｜]",
+      "messageMissing_root_span": "[ps'Ｔｈｅ ｒｏｏｔ ｃａｌｌ ｏｆ ｔｈｅ trace is missing or has not yet arrived in the processing pipeline.ฏูİı｜]",
+      "messageDuplicated_spans": "[ps'Ｔｈｅ ｔｒａｃｅ ｃｏｎtains duplicated calls with the same id.ฏูİı｜]",
+      "messageToo_many_spans": "[ps'Ｔｈｅ ｔｒａｃｅ ｃｏｎｔａｉｎs too many calls, it can only be partially displayed and downloaded.ฏูİı｜]",
+      "messageMissing_parent_span": "[ps'Ｐａｒｅｎｔ ｓｐａｎ ｉｓ ｍｉｓｓing for some of the entry spans in this trace during the processing.ฏูİı｜]",
+      "messageExit_spans_followed_by_intermediate_spans": "[ps'Ｓｏｍｅ ｅｘｉｔ ｓｐans are followed by intermediate spans.ฏูİı｜]"
+    }
+  },
+
+  "resultHeaderTooltip": "[ps'Ｔｈｅ ｑｕｅｒｙ ｔｉｍｅ ｒａｎｇｅ ｈａｓ ｂeen rounded up to nearest full minute to allow this view to load more quickly.ฏูİı｜]"
+}

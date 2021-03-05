@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -19,9 +19,7 @@ import {
 } from 'in-websites/alerting/form/formUtils';
 import AlertPropertiesContainer from 'in-new-components/Alerting/advanced/AlertProperties/AlertPropertiesContainer';
 import { default as GlobalAdvancedModeContainer } from 'in-new-components/Alerting/advanced/AdvancedModeContainer';
-import AlertTagFilterExpressionConfig, {
-  inPackages
-} from 'in-new-components/Alerting/components/AlertTagFilterExpressionConfig';
+import AlertTagFilterExpressionConfig from 'in-websites/alerting/components/AlertTagFilterExpressionConfig';
 import StatusCodeInteractiveChart from 'in-websites/alerting/advanced/StatusCodeInteractiveChart';
 import ThroughputInteractiveChart from 'in-websites/alerting/advanced/ThroughputInteractiveChart';
 import { blueprintConfigs, getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
@@ -41,6 +39,7 @@ import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import ProvideJsError from 'in-websites/alerting/components/ProvideJsError';
 import { modeAdvanced } from 'in-websites/alerting/constants';
 import LightCard from 'in-new-components/Card/LightCard';
+import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props) {
   const {
@@ -53,7 +52,8 @@ export default function AdvancedModeContainer(props) {
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
     thresholdResult,
-    QueryBuilderComponent
+    QueryBuilderComponent,
+    isTagFilterFormModelValid
   } = props;
   const alertType = form.get('rule').get('alertType').value;
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -81,8 +81,7 @@ export default function AdvancedModeContainer(props) {
                   <AlertTagFilterExpressionConfig
                     form={form}
                     updateForm={updateForm}
-                    label={websiteLabel}
-                    inPackage={inPackages.IN_WEBSITES}
+                    websiteLabel={websiteLabel}
                     QueryBuilderComponent={QueryBuilderComponent}
                   />
                 )}
@@ -224,6 +223,7 @@ export default function AdvancedModeContainer(props) {
           )
         }
       ]}
+      additionalValidationCheck={() => isTagFilterFormModelValid}
     />
   );
 }

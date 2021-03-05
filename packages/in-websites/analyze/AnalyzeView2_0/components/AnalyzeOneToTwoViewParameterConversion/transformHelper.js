@@ -10,13 +10,20 @@ import {
   pageLoadId as pageLoadIdMatrixParameterName,
   beaconTimestamp as beaconTimestampMatrixParameterName
 } from 'in-websites/navigation/matrix';
-import { analyzePath, analyzePathFullyQualified, analyzeTwoParameters, pageLoadViewPath } from 'in-websites/navigation/paths';
+import {
+  analyzePath,
+  analyzePathFullyQualified,
+  analyzeTwoParameters,
+  pageLoadViewPath
+} from 'in-websites/navigation/paths';
+import { setOrDeleteMatrixKey, getMatrixParameter, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { deserializeTagFilters, deserializeMetrics } from 'in-websites/navigation/matrix';
-import { setOrDeleteMatrixKey, getMatrixParameter } from 'in-stores/navigation/matrix';
+import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
+import { type } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 
-export function transformOneZeroToTwoZero(location, tagCatalog, metricCatalog) {
+export function transformOneZeroToTwoZero(location, tagCatalog, metricCatalog, dataSourceConfiguration) {
   // In 1.0 zero mode the detail view has a different path. In 2.0 mode this difference
   // doesn't exist.
   location.pathname = analyzePathFullyQualified;
@@ -29,7 +36,7 @@ export function transformOneZeroToTwoZero(location, tagCatalog, metricCatalog) {
 
   transformOrderByParameters(location, metricCatalog);
 
-  transformMetricParameters(location);
+  transformMetricParameters(location, dataSourceConfiguration);
 
   transformChartedMetricsParameters(location);
 }
@@ -60,13 +67,14 @@ function transformDetailIdParameters(location) {
 
 function transformGroupByParameters(location) {
   // Rename group => groupBy and remove old parameter. Structurally both parameters
-  // are identical between UA1.0 and 2.0
-  setOrDeleteMatrixKey(
-    location,
-    analyzeTwoParameters.groupBy.path,
-    analyzeTwoParameters.groupBy.name,
-    getMatrixParameter(location, analyzePath, groupMatrixParameterName)
-  );
+  // are almost identical between UA1.0 and 2.0, except that in the latter version the
+  // entity type 'NOT_APPLICABLE' should not be set.
+  const groupByParam = getMatrixParameter(location, analyzePath, groupMatrixParameterName);
+  let groupBy = analyzeTwoParameters.groupBy.parser(groupByParam);
+  if (groupBy?.entity === NOT_APPLICABLE) {
+    delete groupBy.entity;
+  }
+  setOrDeleteMatrixParameter(location, analyzeTwoParameters.groupBy, groupBy?.groupbyTag ? groupBy : null);
   // clear old grouping value
   setOrDeleteMatrixKey(location, analyzePath, groupMatrixParameterName);
 }
@@ -76,6 +84,13 @@ function transformTagFiltersParameters(location, tagCatalog) {
   setOrDeleteMatrixKey(location, analyzePath, tagFiltersMatrixParameterName);
   if (tagFilters) {
     const tagFilterExpression = fromTagFiltersArray(deserializeTagFilters(tagFilters), tagCatalog);
+    tagFilterExpression.map(e => {
+      // In UA2 entity type 'NOT_APPLICABLE' should not be set.
+      if (e.type === type && e.entity === NOT_APPLICABLE) {
+        delete e.entity;
+      }
+      return e;
+    });
     setOrDeleteMatrixKey(
       location,
       analyzeTwoParameters.tagFilterExpression.path,
@@ -103,8 +118,14 @@ function transformOrderByParameters(location, metricCatalog) {
     const groupBy = analyzeTwoParameters.groupBy.parser(groupByParam);
     const isGrouped = Boolean(groupBy.groupbyTag);
     if (isGrouped) {
+      if (by === 'timestamp') {
+        by = 'earliestTimestamp';
+      }
+      if (by === 'count') {
+        by = 'beaconCount_SUM';
+      }
       const orderByGroups = {
-        by: by === 'timestamp' ? 'earliestTimestamp' : by,
+        by,
         direction
       };
       setOrDeleteMatrixKey(location, analyzePath, 'orderBy');
@@ -115,7 +136,7 @@ function transformOrderByParameters(location, metricCatalog) {
         analyzeTwoParameters.orderByGroups.serializer(orderByGroups)
       );
     } else {
-      const [metric] = by.split('_');
+      const [metric] = by.split('_', 1);
       const metricDefinition = metricCatalog.find(({ metricId }) => metricId === metric);
       const orderBy = {
         by: metricDefinition?.tagName ?? metric,
@@ -131,15 +152,22 @@ function transformOrderByParameters(location, metricCatalog) {
   }
 }
 
-function transformMetricParameters(location) {
+function transformMetricParameters(location, dataSourceConfiguration) {
   const metrics = getMatrixParameter(location, analyzePath, metricsMatrixParameterName);
   setOrDeleteMatrixKey(location, analyzePath, metricsMatrixParameterName);
   if (metrics) {
-    const fields = deserializeMetrics(metrics).map(eachMetric => ({
-      type: metricType,
-      metricId: eachMetric.metric,
-      aggregationId: eachMetric.aggregation
-    }));
+    const fixedFields = dataSourceConfiguration.fixedFields ?? [];
+    const fields = deserializeMetrics(metrics)
+      .map(eachMetric => ({
+        type: metricType,
+        metricId: eachMetric.metric,
+        aggregationId: eachMetric.aggregation
+      }))
+      // filter out fixed fields
+      .filter(
+        m =>
+          !fixedFields.some(f => f.type === m.type && f.metricId === m.metricId && f.aggregationId === m.aggregationId)
+      );
     setOrDeleteMatrixKey(
       location,
       analyzeTwoParameters.fields.path,
@@ -157,17 +185,16 @@ function transformChartedMetricsParameters(location) {
   let chartedMetrics = [];
   // don't have to check showGraph value here as showGraph is always true for UA2
   if (focusedMetric) {
-    const [metricId, aggregationId] = focusedMetric.split('_', 2);
+    const [metricId] = focusedMetric.split('_', 1);
+    const aggregationId = focusedMetric.substring(metricId.length + 1);
     chartedMetrics.push({
       metricId,
-      aggregationId,
-      rendererId: 'stackedBar'
+      aggregationId
     });
   } else {
     chartedMetrics.push({
       metricId: 'beaconCount',
-      aggregationId: 'SUM',
-      rendererId: 'stackedBar'
+      aggregationId: 'SUM'
     });
   }
 

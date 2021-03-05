@@ -2,119 +2,121 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
     metric: getDynamicMetricMatch('sessions', 'activeSessions', 'Deployment'),
-    label: 'Active Sessions',
-    category: ['Web Deployments'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.activeSessions'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.webDeployments')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('servlets', 'avgResponseTime', 'Servlet'),
-    label: 'Average Response Time',
-    category: ['Servlets'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.averageResponseTime'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.servlets')],
     min: 0,
     formatter: millis
   },
   {
     metric: getDynamicMetricMatch('servlets', 'requests', 'Servlet'),
-    label: 'Requests',
-    category: ['Servlets'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.requests'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.servlets')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('connectors', 'avgResponseTime', 'Connector'),
-    label: 'Average Response Time',
-    category: ['Connectors'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.averageResponseTime'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.connectors')],
     min: 0,
     formatter: millis
   },
   {
     metric: getDynamicMetricMatch('connectors', 'requests', 'Connector'),
-    label: 'Requests',
-    category: ['Connectors'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.requests'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.connectors')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('connectors', 'errors', 'Connector'),
-    label: 'Errors',
-    category: ['Connectors'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.errors'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.connectors')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('connectionPools', 'active', 'Datasource JNDI'),
-    label: 'Active connections',
-    category: ['Datasource Connection Pools'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.activeConnections'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.datasourceConnectionPools')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('connectionPools', 'available', 'Datasource JNDI'),
-    label: 'Available connections',
-    category: ['Datasource Connection Pools'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.availableConnections'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.datasourceConnectionPools')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('connectionPools', 'inUse', 'Datasource JNDI'),
-    label: 'Connections in use',
-    category: ['Datasource Connection Pools'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.connectionsInUse'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.datasourceConnectionPools')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('connectionPools', 'created', 'Datasource JNDI'),
-    label: 'Connections created',
-    category: ['Datasource Connection Pools'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.connectionsCreated'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.datasourceConnectionPools')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('connectionPools', 'usedRatio', 'Datasource JNDI'),
-    label: 'Connections used percentage',
-    category: ['Datasource Connection Pools'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.connectionsUsedPercentage'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.datasourceConnectionPools')],
     min: 0,
     formatter: percentage
   },
   {
     metric: getDynamicMetricMatch('threadPools', 'currentThreadCount', 'Pool'),
-    label: 'Current thread count',
-    category: ['Thread Pools'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.currentThreadCount'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.threadPools')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('threadPools', 'currentThreadsBusy', 'Pool'),
-    label: 'Current busy threads',
-    category: ['Thread Pools'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.currentBusyThreads'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.threadPools')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('threadPools', 'minSpareThreads', 'Pool'),
-    label: 'Min spare threads',
-    category: ['Thread Pools'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.minSpareThreads'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.threadPools')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('threadPools', 'maxSpareThreads', 'Pool'),
-    label: 'Max spare threads',
-    category: ['Thread Pools'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.maxSpareThreads'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.threadPools')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('threadPools', 'usedRatio', 'Pool'),
-    label: 'Threads used percentage',
-    category: ['Thread Pools'],
+    label: t('in-forge:plugins.jBossAsApplicationContainer.threadsUsedPercentage'),
+    category: [t('in-forge:plugins.jBossAsApplicationContainer.threadPools')],
     min: 0,
     formatter: percentage
   }

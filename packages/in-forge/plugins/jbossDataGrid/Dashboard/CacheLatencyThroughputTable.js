@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Cache Name',
+    title: t('in-forge:plugins.jbossDataGrid.cacheName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Average Read Time',
+    title: t('in-forge:plugins.jbossDataGrid.averageReadTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Average Write Time',
+    title: t('in-forge:plugins.jbossDataGrid.averageWriteTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +57,7 @@ const cols = [
     }
   },
   {
-    title: 'Average Remove Time',
+    title: t('in-forge:plugins.jbossDataGrid.averageRemoveTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -72,7 +73,7 @@ const cols = [
     }
   },
   {
-    title: 'Throughput (ops/sec)',
+    title: t('in-forge:plugins.jbossDataGrid.throughputOpsSec'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -111,7 +112,7 @@ export default function CacheStatisticsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle="Cache Latency and Throughput"
+      cardTitle={t('in-forge:plugins.jbossDataGrid.cacheLatencyAndThroughput')}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -132,7 +133,11 @@ function getRowDetails(row) {
             'cachesStatistics.' + row.key + '.averageRemoveTime',
             'cachesStatistics.' + row.key + '.averageWriteTime'
           ],
-          labels: ['Average Read Time', 'Average Remove Time', 'Average Write Time'],
+          labels: [
+            t('in-forge:plugins.jbossDataGrid.averageReadTime'),
+            t('in-forge:plugins.jbossDataGrid.averageRemoveTime'),
+            t('in-forge:plugins.jbossDataGrid.averageWriteTime')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -143,7 +148,7 @@ function getRowDetails(row) {
         y1={{
           formatter: number.compact,
           metrics: ['cachesStatistics.' + row.key + '.throughput'],
-          labels: ['Throughput (ops/sec)'],
+          labels: [t('in-forge:plugins.jbossDataGrid.throughputOpsSec')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

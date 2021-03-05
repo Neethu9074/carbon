@@ -197,11 +197,18 @@ function renderButtonLine({ tagFilters, websiteLabel, websiteId, timeConfig, tag
       <Button
         kind="primary"
         icon="lib_website_page_load"
-        href$={tagCatalogPageLoad && getLinkToAnalyze({
-          beaconType: 'pageLoad',
-          formModel: translateDemocratisationTagFiltersToFormModel({ websiteLabel, tagFilters, tagCatalog: tagCatalogPageLoad }),
-          groupBy: defaultGroupings.pageLoad
-        })}
+        href$={
+          tagCatalogPageLoad &&
+          getLinkToAnalyze({
+            beaconType: 'pageLoad',
+            formModel: translateDemocratisationTagFiltersToFormModel({
+              websiteLabel,
+              tagFilters,
+              tagCatalog: tagCatalogPageLoad
+            }),
+            groupBy: defaultGroupings.pageLoad
+          })
+        }
       >
         {t('in-websites:websiteDashboard.websiteDashboardButtonAnalyzePageLoads')}
       </Button>

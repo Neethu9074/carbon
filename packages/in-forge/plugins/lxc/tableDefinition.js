@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 
@@ -10,7 +12,7 @@ export default {
   initialSortDirection: 'asc',
   cols: [
     {
-      title: 'Host',
+      title: t('in-forge:plugins.lxc.host'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId$(row) {
@@ -19,7 +21,7 @@ export default {
       }
     },
     {
-      title: 'Name',
+      title: t('in-forge:plugins.lxc.name'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId(row) {
@@ -28,7 +30,7 @@ export default {
       }
     },
     {
-      title: 'CPU Kernel',
+      title: t('in-forge:plugins.lxc.cpuKernel'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -44,7 +46,7 @@ export default {
       }
     },
     {
-      title: 'CPU User',
+      title: t('in-forge:plugins.lxc.cpuUser'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -60,7 +62,7 @@ export default {
       }
     },
     {
-      title: 'Memory Used',
+      title: t('in-forge:plugins.lxc.memoryUsed'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -76,7 +78,7 @@ export default {
       }
     },
     {
-      title: 'Swap Used',
+      title: t('in-forge:plugins.lxc.swapUsed'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -92,7 +94,7 @@ export default {
       }
     },
     {
-      title: 'Network received',
+      title: t('in-forge:plugins.lxc.networkReceived'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -110,7 +112,7 @@ export default {
       }
     },
     {
-      title: 'Network transmitted',
+      title: t('in-forge:plugins.lxc.networkTransmitted'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {

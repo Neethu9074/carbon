@@ -12,6 +12,7 @@ import ApplicationContextIcon from 'in-applications/components/ApplicationSwitch
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
+import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-services/featureFlags';
@@ -129,6 +130,7 @@ export default function EndpointDashboard({ location }) {
             applicationId={props.applicationId}
             location={location}
             boundaryScope={props.boundaryScope}
+            includeSynthetic={isSyntheticOption(props.syntheticCalls)}
           />
         </FloatingActionButtons>
       )}

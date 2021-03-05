@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ThreadDumpDialog from 'in-forge/plugins/jvmRuntimePlatform/ThreadDumpDialog';
@@ -20,16 +21,20 @@ export default connectTo(
   function ThreadDumpButton({ snapshot, className, isOnline }) {
     const button = (
       <Button kind="secondary" onClick={onClick} className={className} disabled={!isOnline}>
-        Get Thread Dump
+        {t('in-forge:plugins.jvmRuntimePlatform.getThreadDump')}
       </Button>
     );
 
     if (isOnline) {
-      return <Tooltip content="Thread dumps are always live.">{button}</Tooltip>;
+      return <Tooltip content={t('in-forge:plugins.jvmRuntimePlatform.threadDumpsAreAlwaysLive')}>{button}</Tooltip>;
     }
 
     return (
-      <Tooltip content="Thread dumps can only be retrieved for entities that are still under monitoring by Instana.">
+      <Tooltip
+        content={t(
+          'in-forge:plugins.jvmRuntimePlatform.threadDumpsCanOnlyBeRetrievedForEntitiesThatAreStillUnderMonitoringByInstana'
+        )}
+      >
         {button}
       </Tooltip>
     );

@@ -6,9 +6,9 @@ import { fromJS } from 'immutable';
 import { t } from 'in-i18n';
 import React from 'react';
 
+import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import Delayed from 'in-new-components/Delayed/Delayed';
-import { getIconByPlugin } from 'in-kubernetes/icons';
 import WithIcon from 'in-new-components/WithIcon';
 import { getSnapshot } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';
@@ -49,7 +49,7 @@ export function GroupTooltipComponent({ isMetricValuePresented, group, groupEnti
     <div className={locals.wrapper}>
       <div className={locals.heading}>
         {groupEntity ? (
-          <WithIcon icon={getIconByPlugin(groupEntity.get('plugin'))}>{getLabel(groupEntity)}</WithIcon>
+          <WithIcon icon={getIconType(groupEntity.get('plugin'))}>{getLabel(groupEntity)}</WithIcon>
         ) : (
           <Skeleton className={locals.metricValueSkeleton} />
         )}

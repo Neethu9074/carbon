@@ -17,7 +17,7 @@ import Button from 'in-new-components/Button';
 
 export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, timeConfig }) {
   const { rule, tagFilterExpression } = alertConfig;
-  const { alertType, metricName } = rule;
+  const { alertType, metricName, aggregation } = rule;
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const beaconType = blueprintConfig.getBeaconType();
@@ -27,7 +27,7 @@ export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, ti
     <Button
       kind="primary"
       icon={getIcon(alertType)}
-      onClick={() => websitesAlertingEventDetailsGoToAnalyze(beaconType)}
+      onClick={() => websitesAlertingEventDetailsGoToAnalyze({ beaconType })}
       href$={getLinkToAnalyze({
         beaconType,
         formModel: joinExpressions({
@@ -39,6 +39,7 @@ export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, ti
           ]
         }),
         groupBy: getGrouping(alertType, metricName),
+        chartedMetrics: getChartedMetrics(alertType, aggregation),
         timeConfig
       })}
     >
@@ -63,6 +64,29 @@ function getGrouping(alertType, metricName) {
       return metricName === 'pageLoads' ? defaultGroupings.pageLoad : defaultGroupings.pageChange;
     case 'slowness':
       return defaultGroupings.none;
+    default:
+      throw Error('Unsupported alert type');
+  }
+}
+
+function getChartedMetrics(alertType, aggregation) {
+  switch (alertType) {
+    case 'specificJsError':
+    case 'statusCode':
+    case 'throughput':
+      return [
+        {
+          metricId: 'beaconCount',
+          aggregationId: 'SUM'
+        }
+      ];
+    case 'slowness':
+      return [
+        {
+          metricId: 'onLoadTime',
+          aggregationId: aggregation ?? 'P90'
+        }
+      ];
     default:
       throw Error('Unsupported alert type');
   }

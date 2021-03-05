@@ -13,10 +13,10 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
+import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import DateTime from 'in-components/tables/sharedComponents/DateTime';
 import EntityLink from 'in-new-components/EntityLink';
-import { getIconByPlugin } from 'in-kubernetes/icons';
 import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
 
@@ -78,7 +78,7 @@ const allColumns = [
       if (isLinkableEntity) {
         return (
           <EntityLink
-            icon={getIconByPlugin(plugin)}
+            icon={getIconType(plugin)}
             label={item.name}
             href$={getDashboardForEntity(item.sourceId, plugin)}
           />

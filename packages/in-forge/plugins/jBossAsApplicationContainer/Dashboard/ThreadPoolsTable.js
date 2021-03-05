@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Pool Name',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.poolName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Current thread count',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.currentThreadCount'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Current busy threads',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.currentBusyThreads'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Min spare threads',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.minSpareThreads'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
   },
 
   {
-    title: 'Max spare threads',
+    title: t('in-forge:plugins.jBossAsApplicationContainer.maxSpareThreads'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -105,7 +106,7 @@ export default function ThreadPoolsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Thread Pools (${rows.length})`}
+      cardTitle={t('in-forge:plugins.jBossAsApplicationContainer.threadPoolsWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -127,7 +128,12 @@ function getRowDetails(row) {
             'threadPools.' + row.key + '.minSpareThreads',
             'threadPools.' + row.key + '.maxSpareThreads'
           ],
-          labels: ['Current threads', 'Current busy', 'Min spare', 'Max spare'],
+          labels: [
+            t('in-forge:plugins.jBossAsApplicationContainer.currentThreads'),
+            t('in-forge:plugins.jBossAsApplicationContainer.currentBusy'),
+            t('in-forge:plugins.jBossAsApplicationContainer.minSpare'),
+            t('in-forge:plugins.jBossAsApplicationContainer.maxSpare')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

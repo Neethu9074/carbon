@@ -13,6 +13,7 @@
     padding: 0rem 1.2rem;
     margin: 0 0 1rem;
     border-radius: @lib__shapes__radius_medium;
+    overflow: hidden;
 
     box-shadow: @lib__shadows__strong;
 
@@ -48,6 +49,7 @@
   }
 
   .msg {
+    max-width: 100%;
     color: @lib__colors__N700Medium;
     font-weight: @lib__typography__body__font-size;
     .breakWord();

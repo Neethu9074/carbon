@@ -325,7 +325,7 @@
     "emailField": "Email Field",
     "ldapUserAccount": "LDAP user account",
     "username": "Username",
-    "thisAccountIsAutomaticallyAssignedAnAdminRole": "This account is automatically assigned an admin role.",
+    "thisAccountIsAutomaticallyAssignedAnAdminRole": "This account is automatically assigned an admin role. Please enter the account's e-mail address.",
     "optionalSettings": "Optional settings",
     "optional": "(optional)",
     "userDnMapping": "User Dn Mapping",
@@ -386,6 +386,7 @@
     "identityProviders": "Identity Providers",
     "googleSso": "Google SSO",
     "saml": "SAML",
+    "oidc": "OpenID Connect",
     "ldap": "LDAP",
     "twoFactor": "Two-Factor",
     "settings": "Settings",
@@ -686,9 +687,6 @@
     "highQualityChartRendering": "High quality chart rendering",
     "formatTimeAccordingToUtc": "Format time according to UTC",
     "formatNumbersInEnUsFormat": "Format numbers in en-US format",
-    "language": "Language",
-    "english": "English",
-    "deutsch": "Deutsch",
     "privacySettings": "Privacy Settings",
     "setYourPreferencesForThirdPartyServicesBelow": "Set your preferences for third-party services below.",
     "userInterface": "User Interface",
@@ -696,6 +694,9 @@
     "preferences": "Preferences",
     "privacy": "Privacy",
     "communication": "Communication"
+  },
+  "languageSelection": {
+    "language": "Language"
   },
   "terms": {
     "failedToSaveSettings": "failed to save settings: {{settings}} {{err}}",

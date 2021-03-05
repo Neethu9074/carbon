@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Executor',
+    title: t('in-forge:plugins.tomcatAppContainer.titleExecutor'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Thread Count',
+    title: t('in-forge:plugins.tomcatAppContainer.titleThreadCount'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Executor',
+    title: t('in-forge:plugins.tomcatAppContainer.titleExecutor'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -47,7 +48,7 @@ const cols = [
     }
   },
   {
-    title: 'Queue Size',
+    title: t('in-forge:plugins.tomcatAppContainer.titleQueueSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -86,7 +87,7 @@ export default function ExecutorsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Executors (${rows.length})`}
+      cardTitle={t('in-forge:plugins.tomcatAppContainer.titleExecutorsCount', { count: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -101,7 +102,10 @@ function getRowDetails(row) {
       timeConfig={row.timeConfig}
       y1={{
         metrics: ['executors.' + row.key + '.active', 'executors.' + row.key + '.queueSize'],
-        labels: [row.key + ' Active Threads', row.key + ' Queue Size'],
+        labels: [
+          t('in-forge:plugins.tomcatAppContainer.labelCountActiveThreads', { count: row.key }),
+          t('in-forge:plugins.tomcatAppContainer.labelCountQueueSize', { count: row.key })
+        ],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

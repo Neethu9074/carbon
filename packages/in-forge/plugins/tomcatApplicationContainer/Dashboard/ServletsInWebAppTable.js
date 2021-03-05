@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Servlet',
+    title: t('in-forge:plugins.tomcatAppContainer.titleServlet'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Requests',
+    title: t('in-forge:plugins.tomcatAppContainer.titleRequests'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Avg. Response Time',
+    title: t('in-forge:plugins.tomcatAppContainer.titleAvgResponseTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Errors',
+    title: t('in-forge:plugins.tomcatAppContainer.titleErrors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -92,7 +93,10 @@ export default function ServletsTable({ webAppContext, snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Servlets of ${webAppContext} (${rows.length})`}
+      cardTitle={t('in-forge:plugins.tomcatAppContainer.titleServletsOfWebAppCount', {
+        webAppContext: webAppContext,
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -108,12 +112,15 @@ function getRowDetails(row) {
       y1={{
         formatter: millis.detailed,
         metrics: ['servlets.' + row.servletKey + '.time'],
-        labels: ['Average Response Time'],
+        labels: [t('in-forge:plugins.tomcatAppContainer.labelAverageResponseTime')],
         type: 'line'
       }}
       y2={{
         metrics: ['servlets.' + row.servletKey + '.inv', 'servlets.' + row.servletKey + '.errors'],
-        labels: ['Requests', 'Errors'],
+        labels: [
+          t('in-forge:plugins.tomcatAppContainer.titleRequests'),
+          t('in-forge:plugins.tomcatAppContainer.titleErrors')
+        ],
         type: 'line',
         formatter: number.detailed
       }}

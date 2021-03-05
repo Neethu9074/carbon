@@ -3,15 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 import { just } from '@instana/observables';
-import { t } from 'in-i18n';
 
 import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
-import { granularityForBeeInstantMetrics } from 'in-stores/metric/beeInstant';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
+import { getInfraGranularity } from 'in-stores/metric/metric';
 import { hasError, isLoading } from 'in-services/util/result';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
+import { t } from 'in-i18n';
 
 export function fromUrlMetrics({ urlMetrics, availableMetrics }) {
   const countByName = {};
@@ -126,7 +126,7 @@ function findMetric(allMetrics, metricName) {
 export function getGranularity(timeConfig) {
   const dataPoints = 10;
 
-  return granularityForBeeInstantMetrics(timeConfig.windowSize / dataPoints, timeConfig);
+  return getInfraGranularity(timeConfig, undefined, dataPoints);
 }
 
 export function average(series) {

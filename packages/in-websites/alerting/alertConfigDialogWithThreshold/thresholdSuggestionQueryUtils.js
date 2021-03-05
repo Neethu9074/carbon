@@ -75,7 +75,7 @@ export function getThresholdQueryForStatusCode(
   });
 }
 
-function getWebsiteIdTagFilter(websiteId) {
+export function getWebsiteIdTagFilter(websiteId) {
   return Object.freeze({
     name: 'beacon.website.id',
     operator: 'EQUALS',

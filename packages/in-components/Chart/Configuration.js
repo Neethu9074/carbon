@@ -13,8 +13,8 @@ import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in
 import { collectAllDomainValues } from 'in-components/Chart/data/dataSearchUtils';
 import { enrichAxisWithColors } from 'in-components/Chart/strokeColors';
 import { formatDurationAccurately } from 'in-services/formatters/date';
-import { getDefaultMetricRollupDuration } from 'in-stores/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import { getInfraGranularity } from 'in-stores/metric';
 import { number } from 'in-services/formatters/number';
 import Scales from 'in-components/Chart/Scales';
 
@@ -102,9 +102,8 @@ export default class Config {
       this.rollup = this.granularity;
       this.rollupLabel = formatDurationAccurately(this.rollup, 100);
     } else {
-      const { rollup, label } = getDefaultMetricRollupDuration(this.timeConfig);
-      this.rollup = rollup || 1000;
-      this.rollupLabel = label;
+      this.rollup = getInfraGranularity(this.timeConfig);
+      this.rollupLabel = formatDurationAccurately(this.rollup, 100);
     }
 
     this.maxDistanceBetweenDatapointsInMillis = this.calculateMaxMillisBetweenDatapoints();

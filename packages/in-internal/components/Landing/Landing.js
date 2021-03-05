@@ -2,26 +2,26 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
-import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
-import { MINIMUM_ROLLUP, getDefaultMetricRollupDuration } from 'in-stores/metric';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { isInstanaEngineer, isInstanaEmail } from 'in-stores/user';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
-import { getModifiedUrlStream } from 'in-stores/navigation';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import TimeZones from 'in-internal/components/TimeZones';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { getInfraGranularity } from 'in-stores/metric';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import { config } from 'in-services/config';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './Landing.mless';
 
@@ -29,7 +29,7 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
   timeConfig,
   isInternalVisible
 }) {
-  const granularity = getDefaultMetricRollupDuration(timeConfig).rollup || MINIMUM_ROLLUP;
+  const granularity = getInfraGranularity(timeConfig);
 
   return (
     <>

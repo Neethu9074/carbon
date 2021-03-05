@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -21,9 +20,10 @@ import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPr
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
+import { getInfraGranularity } from 'in-stores/metric/metric';
 import Card from 'in-new-components/Card/LightCardV2';
+import { t } from 'in-i18n';
 
 const msFormatter = d => (d < 0 ? t('in-kubernetes:dashboards.noActivity') : timeByMillisTwoDecimalPlaces(d));
 const matrixPrefix = 'deployment.';
@@ -170,6 +170,6 @@ function getTableData({
       serviceId,
       timeConfig
     },
-    granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
+    granularity: getInfraGranularity(timeConfig)
   }).map(resultTransformer);
 }

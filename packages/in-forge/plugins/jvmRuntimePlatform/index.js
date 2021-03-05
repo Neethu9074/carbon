@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import agentMonitoringIssueDefinitions from 'in-forge/plugins/jvmRuntimePlatform/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/jvmRuntimePlatform/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/jvmRuntimePlatform/tableDefinition';
@@ -21,6 +23,6 @@ registerSnapshotDefinition({
   getCodeView,
   supportsCodeView,
   technologyDescriptor: {
-    label: 'JVM'
+    label: t('in-forge:plugins.jvmRuntimePlatform.jvm')
   }
 });

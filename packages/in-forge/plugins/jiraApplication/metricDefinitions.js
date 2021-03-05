@@ -2,19 +2,24 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number } from 'in-services/formatters/number';
 
 export default [
   {
     metrics: ['instruments.http.sessions', 'instruments.concurrent.requests'],
-    labels: ['Current Sessions', 'Concurrent Requests'],
+    labels: [
+      t('in-forge:plugins.jiraApplication.currentSessions'),
+      t('in-forge:plugins.jiraApplication.concurrentRequests')
+    ],
     min: 0,
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.jiraApplication.traffic')],
     formatter: number
   },
   {
     metric: 'instruments.dbcp.numIdle',
-    label: 'Idle Connections',
+    label: t('in-forge:plugins.jiraApplication.idleConnections'),
     min: 0,
     formatter: number
   }

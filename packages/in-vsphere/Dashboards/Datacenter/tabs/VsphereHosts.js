@@ -2,22 +2,22 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { MINIMUM_ROLLUP, getRollupForTimeframe } from 'in-stores/metric/metric';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
 import getVsphereHosts from 'in-vsphere/subscriptions/getVsphereHosts';
 import { MemoryTotal } from 'in-vsphere/commonComponents/MemoryTotal';
 import { getVsphereHostDashboard } from 'in-vsphere/navigation/paths';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
+import { getInfraGranularity } from 'in-stores/metric/metric';
 import { percentage } from 'in-services/formatters/number';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 const pathSegment = '/vsphere-hosts';
 const matrixPrefix = 'vhost.';
@@ -129,6 +129,6 @@ function getTableData({
       datacenterId,
       timeConfig
     },
-    granularity: getRollupForTimeframe(timeConfig).rollup || MINIMUM_ROLLUP
+    granularity: getInfraGranularity(timeConfig)
   });
 }
