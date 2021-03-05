@@ -63,6 +63,7 @@ export default function Summary({
   const MarkerLanes = ApplicationDashboardsMarkerLanes({ applicationId });
   const withPotentialProblemsLane = ApplicationDashboardsMarkerLanes({
     applicationId,
+    includeSyntheticCalls,
     showPotentialProblemsLane: true
   });
 

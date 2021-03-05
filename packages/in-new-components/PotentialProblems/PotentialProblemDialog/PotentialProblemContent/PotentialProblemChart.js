@@ -26,6 +26,7 @@ export default function PotentialProblemChart({
   rule,
   tagFilters,
   tagFilterExpression,
+  includeSynthetic = false,
   alert,
   alertType
 }) {
@@ -38,7 +39,8 @@ export default function PotentialProblemChart({
     boundaryScope,
     applications,
     granularity: defaultGranularity,
-    tagFilterExpression: fromBackendModel(tagFilterExpression)
+    tagFilterExpression: fromBackendModel(tagFilterExpression),
+    includeSynthetic
   };
 
   return (
@@ -77,6 +79,7 @@ PotentialProblemChart.propTypes = {
   rule: rulePropType.isRequired,
   tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
   tagFilterExpression: PropTypes.object,
+  includeSynthetic: PropTypes.bool,
   applications: applicationsItemTreePropType,
   threshold: thresholdPropType.isRequired
 };

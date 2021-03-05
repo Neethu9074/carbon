@@ -94,6 +94,7 @@ function PotentialProblemsLaneConnected({
   applicationId,
   tagFilters,
   tagFilterExpression,
+  includeSynthetic,
   applications,
   labels,
   alertRules,
@@ -103,7 +104,6 @@ function PotentialProblemsLaneConnected({
   ...remainingProps
 }) {
   const startTime = useRef(null);
-
   const potentialProblemsResult = useObservable(
     ([_globalTimeConfig, _alertRules]) =>
       getPotentialProblemsObservable([
@@ -111,13 +111,14 @@ function PotentialProblemsLaneConnected({
         _alertRules,
         tagFilters,
         tagFilterExpression,
+        includeSynthetic,
         applications,
         startTime,
         chartName,
         boundaryScope,
         applicationId
       ]),
-    [globalTimeConfig, alertRules, clusterSizeMillis, tagFilters, tagFilterExpression, applications]
+    [globalTimeConfig, alertRules, clusterSizeMillis, tagFilters, tagFilterExpression, includeSynthetic, applications]
   );
 
   return (
@@ -127,6 +128,7 @@ function PotentialProblemsLaneConnected({
       alertRules={alertRules}
       applicationId={applicationId}
       boundaryScope={boundaryScope}
+      includeSynthetic={includeSynthetic}
       potentialProblems={potentialProblemsResult?.data ?? emptyPotentialProblems}
       tagFilters={tagFilters} // QB1
       tagFilterExpression={tagFilterExpression} // QB2 without S/E selection
@@ -233,6 +235,7 @@ function getPotentialProblemsObservable([
   alertRules,
   tagFilters,
   tagFilterExpression,
+  includeSynthetic,
   applications,
   startTime,
   chartName,
@@ -242,6 +245,7 @@ function getPotentialProblemsObservable([
   return getPotentialProblems({
     timeConfig: globalTimeConfig,
     alertRules,
+    includeSynthetic,
     ...switchQB1orQB2Helper(
       () => ({ tagFilters: enhanceTagFilters(tagFilters, boundaryScope, applicationId) }),
       () => {

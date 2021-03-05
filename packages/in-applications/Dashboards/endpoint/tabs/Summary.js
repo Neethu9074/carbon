@@ -61,6 +61,7 @@ export default connectTo(
       applicationId,
       endpointId,
       serviceId,
+      includeSyntheticCalls,
       showPotentialProblemsLane: true
     });
 
