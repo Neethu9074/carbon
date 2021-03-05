@@ -29,7 +29,8 @@ export default function FacetedFilterGeneric({
   updateFilter,
   updateGroup,
   dataSource,
-  customLabelMapper
+  customLabelMapper,
+  enableUseAsGroup = true
 }) {
   return (
     <FacetedExpandableCard title={title}>
@@ -42,6 +43,7 @@ export default function FacetedFilterGeneric({
         updateGroup={updateGroup}
         dataSource={dataSource}
         customLabelMapper={customLabelMapper}
+        enableUseAsGroup={enableUseAsGroup}
       />
     </FacetedExpandableCard>
   );
@@ -56,7 +58,8 @@ function Body({
   updateFilter,
   updateGroup,
   dataSource,
-  customLabelMapper
+  customLabelMapper,
+  enableUseAsGroup
 }) {
   const [valueFilter, setValueFilter] = useState('');
 
@@ -95,6 +98,7 @@ function Body({
       setValueFilter={setValueFilter}
       dataSource={dataSource}
       customLabelMapper={customLabelMapper}
+      enableUseAsGroup={enableUseAsGroup}
     />
   );
 }
@@ -119,7 +123,8 @@ function SearchAndSuggestions({
   valueFilter,
   setValueFilter,
   dataSource,
-  customLabelMapper = identity
+  customLabelMapper = identity,
+  enableUseAsGroup
 }) {
   const timeConfig = useTimeConfig();
   const suggestionsFromServer = () =>
@@ -159,6 +164,7 @@ function SearchAndSuggestions({
         entity={entity}
         dataSource={dataSource}
         customLabelMapper={customLabelMapper}
+        enableUseAsGroup={enableUseAsGroup}
       />
     </>
   );

@@ -32,7 +32,8 @@ export default function FacetedFilterGeneric({
   openByDefault,
   dataSource,
   getSuggestions,
-  customLabelMapper
+  customLabelMapper,
+  enableUseAsGroup = true
 }) {
   return (
     <FacetedExpandableCard title={title} openByDefault={openByDefault}>
@@ -47,6 +48,7 @@ export default function FacetedFilterGeneric({
         dataSource={dataSource}
         getSuggestions={getSuggestions}
         customLabelMapper={customLabelMapper}
+        enableUseAsGroup={enableUseAsGroup}
       />
     </FacetedExpandableCard>
   );
@@ -63,7 +65,8 @@ function Body({
   getHrefToGroupedView,
   dataSource,
   getSuggestions,
-  customLabelMapper
+  customLabelMapper,
+  enableUseAsGroup
 }) {
   const [valueFilter, setValueFilter] = useState('');
   const selectedValues = getExistingValuesForTag(formModel, tag, entity);
@@ -92,6 +95,7 @@ function Body({
       dataSource={dataSource}
       getSuggestions={getSuggestions}
       customLabelMapper={customLabelMapper}
+      enableUseAsGroup={enableUseAsGroup}
     />
   );
 }
@@ -131,7 +135,8 @@ function SearchAndSuggestions({
   setValueFilter,
   dataSource,
   getSuggestions,
-  customLabelMapper = identity
+  customLabelMapper = identity,
+  enableUseAsGroup
 }) {
   const timeConfig = useTimeConfig();
   const valueRegex = new RegExp(valueFilter.split('').join('.*'), 'i');
@@ -171,6 +176,7 @@ function SearchAndSuggestions({
         tag={tag}
         customLabelMapper={customLabelMapper}
         dataSource={dataSource}
+        enableUseAsGroup={enableUseAsGroup}
       />
     </Stack>
   );
