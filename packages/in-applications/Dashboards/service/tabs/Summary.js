@@ -285,7 +285,7 @@ export default connectTo(
               boundaryScope={boundaryScope}
               timeConfig={timeConfig}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'endpointsTab' }}
-              includeSyntheticCalls={includeSyntheticCalls}
+              syntheticCalls={syntheticCalls}
             />
           </Col>
           <Col lg={4}>

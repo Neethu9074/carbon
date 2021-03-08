@@ -187,6 +187,7 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         boundaryScope={boundaryScope}
         serviceId={serviceId}
         endpointId={endpointId}
+        syntheticCalls={syntheticCalls}
         productArea="endpoint"
       />
       <AnalyzeCallsButton

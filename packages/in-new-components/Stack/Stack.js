@@ -66,7 +66,16 @@ export default connectTo(
     }
     return observables;
   },
-  function Stack({ applicationId, boundaryScope, serviceId, stackResult, productArea, selfEntity, plugin }) {
+  function Stack({
+    applicationId,
+    boundaryScope,
+    serviceId,
+    stackResult,
+    productArea,
+    selfEntity,
+    plugin,
+    syntheticCalls
+  }) {
     if (hasError(stackResult)) {
       return <ErroneousResultPresenter errors={stackResult.errors} />;
     }
@@ -81,6 +90,7 @@ export default connectTo(
         productArea={productArea}
         selfEntity={selfEntity}
         plugin={plugin}
+        syntheticCalls={syntheticCalls}
       />
     );
   }

@@ -30,7 +30,8 @@ export default connectTo(
     noAutoMargin,
     includeSelfEntity,
     className,
-    plugin
+    plugin,
+    syntheticCalls
   }) {
     if (isInternalVisible || contextGuideEnabled) {
       return (
@@ -46,6 +47,7 @@ export default connectTo(
               productArea={productArea}
               includeSelfEntity={includeSelfEntity}
               plugin={plugin}
+              syntheticCalls={syntheticCalls}
             />
           )}
           behindSidebar

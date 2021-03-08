@@ -14,7 +14,8 @@ export default function StackGroup({
   boundaryScope,
   serviceId,
   group: { relationship, type, items, itemCount },
-  tab
+  tab,
+  syntheticCalls
 }) {
   const numMoreItems = itemCount - items.length;
 
@@ -38,6 +39,7 @@ export default function StackGroup({
           serviceId={serviceId}
           item={item}
           tab={tab}
+          syntheticCalls={syntheticCalls}
         />
       ))}
     </ListGroup>

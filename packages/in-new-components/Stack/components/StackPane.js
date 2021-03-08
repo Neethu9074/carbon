@@ -8,7 +8,7 @@ import StackGroup from 'in-new-components/Stack/components/StackGroup';
 
 import locals from './StackPane.mless';
 
-export default function StackPane({ applicationId, boundaryScope, serviceId, groups, tab }) {
+export default function StackPane({ applicationId, boundaryScope, serviceId, groups, tab, syntheticCalls }) {
   return (
     <div className={locals.pane}>
       {groups.map(group => (
@@ -19,6 +19,7 @@ export default function StackPane({ applicationId, boundaryScope, serviceId, gro
           serviceId={serviceId}
           group={group}
           tab={tab}
+          syntheticCalls={syntheticCalls}
         />
       ))}
     </div>

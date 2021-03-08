@@ -6,6 +6,7 @@ import theme from 'in-themes';
 import { t } from 'in-i18n';
 import React from 'react';
 
+import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
 import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
@@ -34,7 +35,7 @@ export default function EndpointTopList({
   boundaryScope,
   timeConfig,
   urlMatrixParamConfig,
-  includeSyntheticCalls
+  syntheticCalls
 }) {
   return (
     <TopListWithUrlState
@@ -58,7 +59,7 @@ export default function EndpointTopList({
       boundaryScope={boundaryScope}
       colors={colors}
       urlMatrixParamConfig={urlMatrixParamConfig}
-      includeSyntheticCalls={includeSyntheticCalls}
+      syntheticCalls={syntheticCalls}
     />
   );
 }
@@ -72,7 +73,7 @@ function getList({
   selectedMetricAggregation,
   selectedCompanionMetric,
   selectedCompanionMetricAggregation,
-  includeSyntheticCalls
+  syntheticCalls
 }) {
   const metrics = {
     [selectedMetric]: {
@@ -99,7 +100,7 @@ function getList({
     filter: {
       application: applicationId,
       service: serviceId,
-      includeSyntheticCalls: includeSyntheticCalls,
+      includeSyntheticCalls: isSyntheticOption(syntheticCalls),
       applicationBoundaryScope: boundaryScope,
       timeConfig
     }

@@ -272,7 +272,7 @@ export default function Summary({
             boundaryScope={boundaryScope}
             timeConfig={timeConfig}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'servicesTab' }}
-            includeSyntheticCalls={includeSyntheticCalls}
+            syntheticCalls={syntheticCalls}
           />
         </Col>
         <Col lg={4}>

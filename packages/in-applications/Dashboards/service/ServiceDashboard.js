@@ -161,6 +161,7 @@ function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig,
         applicationId={applicationId}
         boundaryScope={boundaryScope}
         serviceId={serviceId}
+        syntheticCalls={syntheticCalls}
         productArea="service"
       />
       <AnalyzeCallsButton
