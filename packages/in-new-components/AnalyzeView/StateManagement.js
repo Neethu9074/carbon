@@ -14,6 +14,7 @@ import { metric as metricType, custom as customType } from 'in-new-components/An
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { ua2OrderByChangedTracker, ua2OrderByGroupChangedTracker } from 'in-new-components/tracker';
 import { isValid as isValidGrouping } from 'in-new-components/GroupingConfigurator/validation';
+import { sanitizeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { NUMBER, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { columnDefinitionShape } from 'in-new-components/lists/List/ColumnizedContent';
 import { UNSPECIFIED, NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
@@ -468,5 +469,5 @@ export function addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, g
       entity: groupBy.groupbyTagEntity
     };
   }
-  return joinExpressions({ expressions: [formModel, newTagFilter] });
+  return joinExpressions({ expressions: [formModel, sanitizeTagFilter(newTagFilter)] });
 }
