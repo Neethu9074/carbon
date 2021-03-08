@@ -3890,12 +3890,12 @@
       "request": "Request"
     },
     "msSqlDatabase": {
-      "connectionsAmpUsers": "Connections &amp; Users",
+      "connectionsAmpUsers": "Connections & Users",
       "userConnections": "User Connections",
       "waitTimesMsOnServer": "Wait-Times (ms) on server",
       "asyncNetworkIo": "Async Network IO",
       "writelog": "Writelog",
-      "virtualFileReadsAmpWritesBytes": "Virtual File Reads &amp; Writes (bytes)",
+      "virtualFileReadsAmpWritesBytes": "Virtual File Reads & Writes (bytes)",
       "reads": "Reads",
       "writes": "Writes",
       "transactions": "Transactions",
@@ -3922,7 +3922,7 @@
       "version": "Version",
       "pageIoLatchExWaitTimesMs": "Page IO-Latch EX Wait-Times (ms)",
       "waitTimes": "Wait Times",
-      "virtualFileReadsAmpWrites": "Virtual File Reads &amp; Writes"
+      "virtualFileReadsAmpWrites": "Virtual File Reads & Writes"
     },
     "mule": {
       "name": "Name",
