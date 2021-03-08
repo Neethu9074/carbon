@@ -199,6 +199,7 @@ function Presenter({
           onChangeHiddenCalls={onChangeHiddenCalls}
           isValid={isValid}
           dataSource={dataSource}
+          groupbyTag={groupBy.groupbyTag}
         />
       </div>
       <div className={locals.table}>
