@@ -46,7 +46,8 @@ export default function WebsiteQueryBuilderWorkspace(props) {
     onGroupByChange,
     useLastValidStateWhenErroneous,
     metricCatalogFilter,
-    chartedMetrics
+    chartedMetrics,
+    chartableDataSeries
   } = props;
   return (
     <Sticky header={<AnalyzeHeader formModel={formModel} isGrouped={isGrouped} />}>
@@ -87,6 +88,7 @@ export default function WebsiteQueryBuilderWorkspace(props) {
               metricCatalogFilter={metricCatalogFilter}
               unifiedMetricsSource="WEBSITE"
               mapMetricConfiguration={mapMetricConfiguration}
+              forceLoadingIndicator={isGrouped && chartableDataSeries == null}
               tracking={{
                 onChartChanged: ({ metricId, aggregationId }) =>
                   ua2ChartChangedTracker({ dataSource, metric: metricId, aggregation: aggregationId })

@@ -236,7 +236,7 @@ function AnalyzeStateManagement({
 
   // Eventually we might wanna store this within the URL. This might become a lot more interesting when
   // our users can (de-)select their desired data series.
-  const [chartableDataSeries, onChartableDataSeriesChange] = useState([]);
+  const [chartableDataSeries, onChartableDataSeriesChange] = useState(null);
 
   const metricCatalog = metricCatalogResult.data;
   const onSelectableFieldsChange = selectableFields => {
@@ -404,7 +404,10 @@ export const childrenArgsAsPropTypes = {
       aggregations: rpt.arrayOf(rpt.string)
     })
   ),
-
+  // If grouping is selected there is a difference between setting 'chartableDataSeries' to 'null' vs '[]'. The
+  // former means that the 'chartableDataSeries' are not known yet, e.g., the query which will determine
+  // the 'chartableDataSeries' is being executed, whereas the latter means that there is no 'chartableDataSeries'
+  // to be displayed.
   chartableDataSeries: rpt.arrayOf(
     rpt.shape({
       label: rpt.string.isRequired,
