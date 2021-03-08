@@ -3,27 +3,28 @@
  * (c) Copyright Instana Inc.
  */
 import { number, seconds, bytes } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['sent_message_count'],
-    labels: ['Sent Message Count'],
+    labels: [t('in-forge:plugins.googleCloudPubSub.sentMessageCount')],
     min: 0,
-    category: ['Messages Count'],
+    category: [t('in-forge:plugins.googleCloudPubSub.messagesCount')],
     formatter: number
   },
   {
     metrics: ['backlog_bytes'],
-    labels: ['Message size'],
+    labels: [t('in-forge:plugins.googleCloudPubSub.messageSize')],
     min: 0,
-    category: ['Messages Size'],
+    category: [t('in-forge:plugins.googleCloudPubSub.messagesSize')],
     formatter: bytes.detailed
   },
   {
     metrics: ['oldest_unacked_message_age'],
-    labels: ['Oldest Unacked Message Age'],
+    labels: [t('in-forge:plugins.googleCloudPubSub.oldestUnackedMessageAge')],
     min: 0,
-    category: ['Oldest Message'],
+    category: [t('in-forge:plugins.googleCloudPubSub.oldestMessage')],
     formatter: seconds
   }
 ];

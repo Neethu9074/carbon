@@ -6,12 +6,13 @@ import metricDefinitions from 'in-forge/plugins/googleCloudPubSub/metricDefiniti
 import kpiDefinitions from 'in-forge/plugins/googleCloudPubSub/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.googleCloudPubSub,
 
   technologyDescriptor: {
-    label: 'Google Cloud PubSub'
+    label: t('in-forge:plugins.googleCloudPubSub.googleCloudPubSub')
   },
   kpiDefinitions,
   metricDefinitions

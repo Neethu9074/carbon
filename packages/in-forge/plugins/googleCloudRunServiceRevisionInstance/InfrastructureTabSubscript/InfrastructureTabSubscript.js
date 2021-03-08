@@ -11,6 +11,7 @@ import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { alwaysNull } from 'in-services/fixedStreams';
 import useObservable from 'in-hooks/useObservable';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './InfrastructureTabSubscript.mless';
 
@@ -50,7 +51,11 @@ function InfrastructureTabSubscript({ snapshot, time }) {
   const regionComponent = linkIfPossible(regionSnapshotId, region);
   return (
     <div className={locals.infrastructureTabSubscript}>
-      revision {revisionComponent} of service {service} in region {regionComponent}
+      {t('in-forge:plugins.googleCloudRunServiceRevisionInstance.revisionOfServiceInRegion', {
+        revisionComponent: revisionComponent,
+        service: service,
+        regionComponent: regionComponent
+      })}
     </div>
   );
 }

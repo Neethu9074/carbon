@@ -5,22 +5,25 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function GardenInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Id">{data.get('id')}</DescriptionItem>
-      <DescriptionItem title="Container IP">{data.get('containerIP')}</DescriptionItem>
-      <DescriptionItem title="Host IP">{data.get('hostIP')}</DescriptionItem>
-      <DescriptionItem title="Container Path">{data.get('containerPath')}</DescriptionItem>
-      <DescriptionItem title="State">{data.get('state')}</DescriptionItem>
-      <DescriptionItem title="Status">{data.get('status')}</DescriptionItem>
-      <DescriptionItem title="Org Id">{data.get('orgId')}</DescriptionItem>
-      <DescriptionItem title="Space Id">{data.get('spaceId')}</DescriptionItem>
-      <DescriptionItem title="App Id">{data.get('appId')}</DescriptionItem>
-      <DescriptionItem title="Instance Index">{data.get('cfInstanceIndex')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.garden.id')}>{data.get('id')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.garden.containerIp')}>{data.get('containerIP')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.garden.hostIp')}>{data.get('hostIP')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.garden.containerPath')}>{data.get('containerPath')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.garden.state')}>{data.get('state')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.garden.status')}>{data.get('status')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.garden.orgId')}>{data.get('orgId')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.garden.spaceId')}>{data.get('spaceId')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.garden.appId')}>{data.get('appId')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.garden.instanceIndex')}>
+        {data.get('cfInstanceIndex')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

@@ -5,7 +5,12 @@
 import React from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import { t } from 'in-i18n';
 
 export default function GceDashboard() {
-  return <DashboardNotification type="info">There is no further information about this entity.</DashboardNotification>;
+  return (
+    <DashboardNotification type="info">
+      {t('in-forge:plugins.gce.dashboard.thereIsNoFurtherInformationAboutThisEntity')}
+    </DashboardNotification>
+  );
 }

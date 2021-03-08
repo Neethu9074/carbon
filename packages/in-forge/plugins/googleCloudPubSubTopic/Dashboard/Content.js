@@ -9,6 +9,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, bytes, seconds } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function GcpPubSubTopicDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -16,26 +17,26 @@ export default function GcpPubSubTopicDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Messages Size">
+        <KpiKeyValue label={t('in-forge:plugins.googleCloudPubSubTopic.dashboard.messagesSize')}>
           <MetricValue snapshotId={snapshotId} metric="message_sizes" formatter={bytes.detailed} />
         </KpiKeyValue>
-        <KpiKeyValue label="Oldest Unacked Message Age">
+        <KpiKeyValue label={t('in-forge:plugins.googleCloudPubSubTopic.dashboard.oldestUnackedMessageAge')}>
           <MetricValue snapshotId={snapshotId} metric="oldest_unacked_message_age" formatter={seconds.detailed} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Messages">
+      <DashboardSection title={t('in-forge:plugins.googleCloudPubSubTopic.dashboard.messages')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['message_sizes'],
-            labels: ['Size'],
+            labels: [t('in-forge:plugins.googleCloudPubSubTopic.dashboard.size')],
             type: 'line',
             formatter: bytes.detailed
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Oldest Message Age">
+      <DashboardSection title={t('in-forge:plugins.googleCloudPubSubTopic.dashboard.oldestMessageAge')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -43,19 +44,19 @@ export default function GcpPubSubTopicDashboard({ snapshot, timeConfig }) {
             formatter: seconds.detailed,
             tooltipFormatter: seconds.detailed,
             metrics: [`oldest_retained_acked_message_age`],
-            labels: ['Acked'],
+            labels: [t('in-forge:plugins.googleCloudPubSubTopic.dashboard.acked')],
             type: 'line'
           }}
           y2={{
             formatter: seconds.detailed,
             tooltipFormatter: seconds.detailed,
             metrics: [`oldest_unacked_message_age`],
-            labels: ['Unacked'],
+            labels: [t('in-forge:plugins.googleCloudPubSubTopic.dashboard.unacked')],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Publish">
+      <DashboardSection title={t('in-forge:plugins.googleCloudPubSubTopic.dashboard.publish')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -63,25 +64,25 @@ export default function GcpPubSubTopicDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`send_message_operation_count`],
-            labels: ['Operation'],
+            labels: [t('in-forge:plugins.googleCloudPubSubTopic.dashboard.operation')],
             type: 'line'
           }}
           y2={{
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`send_request_count`],
-            labels: ['Requests'],
+            labels: [t('in-forge:plugins.googleCloudPubSubTopic.dashboard.requests')],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Operations">
+      <DashboardSection title={t('in-forge:plugins.googleCloudPubSubTopic.dashboard.operations')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: [`byte_cost`],
-            labels: ['Cost'],
+            labels: [t('in-forge:plugins.googleCloudPubSubTopic.dashboard.cost')],
             type: 'line',
             formatter: bytes.detailed
           }}

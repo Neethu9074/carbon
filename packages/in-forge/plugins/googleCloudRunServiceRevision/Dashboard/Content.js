@@ -12,6 +12,7 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import DashboardRuntimeList from './DashboardRuntimeList';
 import MetricValue from 'in-components/MetricValue';
+import { Trans, t } from 'in-i18n';
 
 export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -20,13 +21,12 @@ export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeC
 
   const setUpGcpAgentWarning = !hasDataFromGcpAgent ? (
     <DashboardNotification type="warning">
-      It seems there is no Instana agent set up to monitor the GCP account of this Google Cloud Run Service Revision.
-      Please refer to{' '}
-      <a href="https://www.instana.com/docs/ecosystem/google-cloud-run/#gcp-agent-setup">
-        our Google Cloud Run documentation
-      </a>{' '}
-      to learn more about the recommened setup. Setting up a GCP agent will improve your user experience. In particular,
-      metrics for the Google Cloud Run Service Revision will only be available from the GCP agent.
+      <Trans
+        i18nKey="in-forge:plugins.googleCloudRunServiceRevision.dashboard.itSeemsThereIsNoInstanaAgentSetUpToMonitorTheGcpAccountOfThisGoogleCloudRunServiceRevision"
+        components={{
+          linkToDocs: <a href="https://www.instana.com/docs/ecosystem/google-cloud-run/#gcp-agent-setup" />
+        }}
+      />
     </DashboardNotification>
   ) : null;
 
@@ -37,16 +37,16 @@ export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeC
       {hasDataFromGcpAgent && (
         <>
           <KpiSection>
-            <KpiKeyValue label="Request Count">
+            <KpiKeyValue label={t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.requestCount')}>
               <MetricValue snapshotId={snapshotId} metric="request_count" formatter={number.compact} />
             </KpiKeyValue>
-            <KpiKeyValue label="Request Latency (P99)">
+            <KpiKeyValue label={t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.requestLatencyP99')}>
               <MetricValue snapshotId={snapshotId} metric="request_latencies_p99" formatter={millis.compact} />
             </KpiKeyValue>
           </KpiSection>
 
           <Columize>
-            <DashboardSection title="Request Count">
+            <DashboardSection title={t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.requestCount')}>
               <Chart
                 snapshotId={snapshotId}
                 timeConfig={timeConfig}
@@ -54,12 +54,12 @@ export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeC
                   formatter: number.compact,
                   tooltipFormatter: number.compact,
                   metrics: [`request_count`],
-                  labels: ['Requests'],
+                  labels: [t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.requests')],
                   type: 'line'
                 }}
               />
             </DashboardSection>
-            <DashboardSection title="Request Latency">
+            <DashboardSection title={t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.requestLatency')}>
               <Chart
                 snapshotId={snapshotId}
                 timeConfig={timeConfig}
@@ -67,7 +67,11 @@ export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeC
                   formatter: millis.compact,
                   tooltipFormatter: millis.compact,
                   metrics: ['request_latencies_p99', 'request_latencies_p95', 'request_latencies_p50'],
-                  labels: ['99th Percentile', '95th Percentile', '50th Percentile'],
+                  labels: [
+                    t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.99thPercentile'),
+                    t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.95thPercentile'),
+                    t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.50thPercentile')
+                  ],
                   type: 'line'
                 }}
               />
@@ -75,7 +79,9 @@ export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeC
           </Columize>
 
           <Columize>
-            <DashboardSection title="Container Memory Utilization">
+            <DashboardSection
+              title={t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.containerMemoryUtilization')}
+            >
               <Chart
                 snapshotId={snapshotId}
                 timeConfig={timeConfig}
@@ -87,12 +93,18 @@ export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeC
                     'container_memory_utilizations_p95',
                     'container_memory_utilizations_p50'
                   ],
-                  labels: ['99th Percentile', '95th Percentile', '50th Percentile'],
+                  labels: [
+                    t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.99thPercentile'),
+                    t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.95thPercentile'),
+                    t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.50thPercentile')
+                  ],
                   type: 'line'
                 }}
               />
             </DashboardSection>
-            <DashboardSection title="Billable Instance Time">
+            <DashboardSection
+              title={t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.billableInstanceTime')}
+            >
               <Chart
                 snapshotId={snapshotId}
                 timeConfig={timeConfig}
@@ -100,7 +112,7 @@ export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeC
                   formatter: millisPerSecondZeroDecimalPlaces,
                   tooltipFormatter: millisPerSecondZeroDecimalPlaces,
                   metrics: ['container_billable_instance_time'],
-                  labels: ['Instance Time'],
+                  labels: [t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.instanceTime')],
                   type: 'line'
                 }}
               />

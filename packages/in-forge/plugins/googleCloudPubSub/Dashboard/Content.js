@@ -12,6 +12,7 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { bytes, seconds, number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function GcpPubSubDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -24,14 +25,14 @@ export default function GcpPubSubDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Messages Count">
+        <KpiKeyValue label={t('in-forge:plugins.googleCloudPubSub.dashboard.messagesCount')}>
           <MetricValue snapshotId={snapshotId} metric="sent_message_count" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Messages Size">
+        <KpiKeyValue label={t('in-forge:plugins.googleCloudPubSub.dashboard.messagesSize')}>
           <MetricValue snapshotId={snapshotId} metric="backlog_bytes" formatter={bytes.detailed} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Messages">
+      <DashboardSection title={t('in-forge:plugins.googleCloudPubSub.dashboard.messages')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -39,19 +40,19 @@ export default function GcpPubSubDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`sent_message_count`],
-            labels: ['Count'],
+            labels: [t('in-forge:plugins.googleCloudPubSub.dashboard.count')],
             type: 'line'
           }}
           y2={{
             formatter: bytes.detailed,
             tooltipFormatter: bytes.detailed,
             metrics: [`backlog_bytes`],
-            labels: ['Size'],
+            labels: [t('in-forge:plugins.googleCloudPubSub.dashboard.size')],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Oldest Message">
+      <DashboardSection title={t('in-forge:plugins.googleCloudPubSub.dashboard.oldestMessage')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -59,7 +60,7 @@ export default function GcpPubSubDashboard({ snapshot, timeConfig }) {
             formatter: seconds.detailed,
             tooltipFormatter: seconds.detailed,
             metrics: [`oldest_unacked_message_age`],
-            labels: ['Age'],
+            labels: [t('in-forge:plugins.googleCloudPubSub.dashboard.age')],
             type: 'line'
           }}
         />

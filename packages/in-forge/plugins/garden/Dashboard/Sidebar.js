@@ -9,6 +9,7 @@ import CloudfoundryInfo from 'in-forge/plugins/garden/CloudfoundryInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { pcfEnabled } from 'in-services/featureFlags';
 import List from 'in-sdk/components/sidebar/List';
+import { t } from 'in-i18n';
 
 import Info from 'in-forge/plugins/garden/Info';
 
@@ -21,7 +22,7 @@ export default function GardenSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Garden Container</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.garden.dashboard.gardenContainer')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -31,7 +32,7 @@ export default function GardenSidebar({ snapshot }) {
 
       {ports && ports.size > 0 && (
         <Collapsible>
-          <Collapsible.Header>Ports</Collapsible.Header>
+          <Collapsible.Header>{t('in-forge:plugins.garden.dashboard.ports')}</Collapsible.Header>
           <Collapsible.Content>
             <List>
               {ports.map(port => (
@@ -44,7 +45,7 @@ export default function GardenSidebar({ snapshot }) {
 
       {events && events.size > 0 && (
         <Collapsible>
-          <Collapsible.Header>Events</Collapsible.Header>
+          <Collapsible.Header>{t('in-forge:plugins.garden.dashboard.events')}</Collapsible.Header>
           <Collapsible.Content>
             <List>
               {events.map(item => (
@@ -57,7 +58,7 @@ export default function GardenSidebar({ snapshot }) {
 
       {processIds && processIds.size > 0 && (
         <Collapsible>
-          <Collapsible.Header>Process IDs</Collapsible.Header>
+          <Collapsible.Header>{t('in-forge:plugins.garden.dashboard.processIDs')}</Collapsible.Header>
           <Collapsible.Content>
             <List>
               {processIds.map(item => (

@@ -11,6 +11,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 export default connectTo(
   ({ snapshot }) => ({
@@ -32,14 +33,14 @@ export default connectTo(
     const { id, label, space, organization } = application;
     return (
       <Collapsible>
-        <Collapsible.Header>Cloud Foundry</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.garden.cloudFoundry')}</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="Application">
+            <DescriptionItem title={t('in-forge:plugins.garden.application')}>
               <Link href$={getApplicationDashboard(id)}>{label}</Link>
             </DescriptionItem>
-            <DescriptionItem title="Space">{space}</DescriptionItem>
-            <DescriptionItem title="Organization">{organization}</DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.garden.space')}>{space}</DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.garden.organization')}>{organization}</DescriptionItem>
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>

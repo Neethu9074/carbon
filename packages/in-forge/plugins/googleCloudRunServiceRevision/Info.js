@@ -6,19 +6,35 @@ import React from 'react';
 
 import { DateTimeWithPeriodSinceDescriptionItem } from 'in-sdk/components/sidebar/DateTimeWithPeriodSinceDescriptionItem';
 import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Service">{data.get('service')}</DescriptionItem>
-      <DescriptionItem title="Revision">{data.get('revision')}</DescriptionItem>
-      <DescriptionItem title="Configuration">{data.get('configuration')}</DescriptionItem>
-      <DescriptionItem title="Region">{data.get('region')}</DescriptionItem>
-      <DescriptionItem title="Numeric Project ID">{data.get('numericProjectId')}</DescriptionItem>
-      <DescriptionItem title="Project ID">{data.get('projectId')}</DescriptionItem>
-      <DateTimeWithPeriodSinceDescriptionItem title="Created" dateTime={data.get('creationTimestamp')} />
+      <DescriptionItem title={t('in-forge:plugins.googleCloudRunServiceRevision.service')}>
+        {data.get('service')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.googleCloudRunServiceRevision.revision')}>
+        {data.get('revision')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.googleCloudRunServiceRevision.configuration')}>
+        {data.get('configuration')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.googleCloudRunServiceRevision.region')}>
+        {data.get('region')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.googleCloudRunServiceRevision.numericProjectId')}>
+        {data.get('numericProjectId')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.googleCloudRunServiceRevision.projectId')}>
+        {data.get('projectId')}
+      </DescriptionItem>
+      <DateTimeWithPeriodSinceDescriptionItem
+        title={t('in-forge:plugins.googleCloudRunServiceRevision.created')}
+        dateTime={data.get('creationTimestamp')}
+      />
     </DescriptionList>
   );
 }

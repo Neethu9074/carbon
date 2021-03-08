@@ -3,41 +3,45 @@
  * (c) Copyright Instana Inc.
  */
 import { number, seconds, bytes } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['message_sizes'],
-    labels: ['Messages Size'],
+    labels: [t('in-forge:plugins.googleCloudPubSubTopic.messagesSize')],
     min: 0,
-    category: ['Messages Size'],
+    category: [t('in-forge:plugins.googleCloudPubSubTopic.messagesSize')],
     formatter: bytes.detailed
   },
   {
     metrics: ['oldest_retained_acked_message_age', 'oldest_unacked_message_age'],
-    labels: ['Oldest Acked Message Age', 'Oldest Unacked Message Age'],
+    labels: [
+      t('in-forge:plugins.googleCloudPubSubTopic.oldestAckedMessageAge'),
+      t('in-forge:plugins.googleCloudPubSubTopic.oldestUnackedMessageAge')
+    ],
     min: 0,
-    category: ['Oldest Message'],
+    category: [t('in-forge:plugins.googleCloudPubSubTopic.oldestMessage')],
     formatter: seconds
   },
   {
     metrics: ['byte_cost'],
-    labels: ['Operations Cost'],
+    labels: [t('in-forge:plugins.googleCloudPubSubTopic.operationsCost')],
     min: 0,
-    category: ['Operations Cost'],
+    category: [t('in-forge:plugins.googleCloudPubSubTopic.operationsCost')],
     formatter: bytes.detailed
   },
   {
     metrics: ['send_request_count'],
-    labels: ['Publish Requests Count'],
+    labels: [t('in-forge:plugins.googleCloudPubSubTopic.publishRequestsCount')],
     min: 0,
-    category: ['Publish Requests'],
+    category: [t('in-forge:plugins.googleCloudPubSubTopic.publishRequests')],
     formatter: number
   },
   {
     metrics: ['send_message_operation_count'],
-    labels: ['Publish Operations Count'],
+    labels: [t('in-forge:plugins.googleCloudPubSubTopic.publishOperationsCount')],
     min: 0,
-    category: ['Publish Operations'],
+    category: [t('in-forge:plugins.googleCloudPubSubTopic.publishOperations')],
     formatter: number
   }
 ];

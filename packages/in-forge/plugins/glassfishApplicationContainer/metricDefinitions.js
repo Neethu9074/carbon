@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { hitRate, number, millis } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
@@ -22,19 +23,19 @@ export default [
       'jdbc_connection_free'
     ],
     labels: [
-      'Requests',
-      'Errors',
-      'Connections',
-      'Flushes',
-      'Hits',
-      'Refusals',
-      'Timeouts',
-      'Hits',
-      'Misses',
-      'Info Hits',
-      'Info Misses',
-      'Used',
-      'Free'
+      t('in-forge:plugins.glassfishApplicationContainer.requests'),
+      t('in-forge:plugins.glassfishApplicationContainer.errors'),
+      t('in-forge:plugins.glassfishApplicationContainer.connections'),
+      t('in-forge:plugins.glassfishApplicationContainer.flushes'),
+      t('in-forge:plugins.glassfishApplicationContainer.hits'),
+      t('in-forge:plugins.glassfishApplicationContainer.refusals'),
+      t('in-forge:plugins.glassfishApplicationContainer.timeouts'),
+      t('in-forge:plugins.glassfishApplicationContainer.hits'),
+      t('in-forge:plugins.glassfishApplicationContainer.misses'),
+      t('in-forge:plugins.glassfishApplicationContainer.infoHits'),
+      t('in-forge:plugins.glassfishApplicationContainer.infoMisses'),
+      t('in-forge:plugins.glassfishApplicationContainer.used'),
+      t('in-forge:plugins.glassfishApplicationContainer.free')
     ],
     min: 0,
     formatter: number
@@ -48,20 +49,33 @@ export default [
       'connections_ticks_total_queued',
       'connections_total'
     ],
-    labels: ['Open', 'Overflows', 'Queued', 'Peak Queued', 'Ticks Total Queued', 'Total'],
+    labels: [
+      t('in-forge:plugins.glassfishApplicationContainer.open'),
+      t('in-forge:plugins.glassfishApplicationContainer.overflows'),
+      t('in-forge:plugins.glassfishApplicationContainer.queued'),
+      t('in-forge:plugins.glassfishApplicationContainer.peakQueued'),
+      t('in-forge:plugins.glassfishApplicationContainer.ticksTotalQueued'),
+      t('in-forge:plugins.glassfishApplicationContainer.total')
+    ],
     min: 0,
-    category: ['Connections'],
+    category: [t('in-forge:plugins.glassfishApplicationContainer.connections')],
     formatter: number
   },
   {
     metrics: ['http_max_time', 'http_proc_time'],
-    labels: ['Max Time', 'Processing Time'],
+    labels: [
+      t('in-forge:plugins.glassfishApplicationContainer.maxTime'),
+      t('in-forge:plugins.glassfishApplicationContainer.processingTime')
+    ],
     min: 0,
     formatter: millis
   },
   {
     metrics: ['file_cache_rate', 'file_cache_info_rate'],
-    labels: ['Hit rate', 'Info hit rate'],
+    labels: [
+      t('in-forge:plugins.glassfishApplicationContainer.hitRate'),
+      t('in-forge:plugins.glassfishApplicationContainer.infoHitRate')
+    ],
     min: 0,
     max: 1,
     formatter: hitRate

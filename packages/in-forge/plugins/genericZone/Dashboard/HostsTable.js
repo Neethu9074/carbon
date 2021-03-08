@@ -9,10 +9,11 @@ import { percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.genericZone.dashboard.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'CPU Usage',
+    title: t('in-forge:plugins.genericZone.dashboard.cpuUsage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory Usage',
+    title: t('in-forge:plugins.genericZone.dashboard.memoryUsage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Health',
+    title: t('in-forge:plugins.genericZone.dashboard.health'),
     type: 'health',
     typeArgs: {
       getSnapshotId(row) {
@@ -81,6 +82,14 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle="Hosts" cols={cols} rows={rows} maxItemsPerPage={40} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.genericZone.dashboard.hosts')}
+        cols={cols}
+        rows={rows}
+        maxItemsPerPage={40}
+      />
+    );
   }
 );

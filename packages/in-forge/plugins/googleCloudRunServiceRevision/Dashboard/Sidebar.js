@@ -14,6 +14,7 @@ import TagList from 'in-sdk/components/sidebar/TagList';
 import { timeConfig$ } from 'in-stores/time/config';
 import useObservable from 'in-hooks/useObservable';
 import { getSnapshot } from 'in-stores/snapshot';
+import { t } from 'in-i18n';
 
 export default function GoogleCloudRunServiceRevisionSidebar({ snapshot }) {
   const snapshotId = snapshot.get('id');
@@ -31,7 +32,9 @@ export default function GoogleCloudRunServiceRevisionSidebar({ snapshot }) {
   return (
     <>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Cloud Run Service Revision Info</Collapsible.Header>
+        <Collapsible.Header>
+          {t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.cloudRunServiceRevisionInfo')}
+        </Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -39,7 +42,10 @@ export default function GoogleCloudRunServiceRevisionSidebar({ snapshot }) {
 
       <TagList snapshot={snapshot} />
 
-      <KeyValueOverlay header="Labels" data={snapshot.getIn(['data', 'labels'])} />
+      <KeyValueOverlay
+        header={t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.labels')}
+        data={snapshot.getIn(['data', 'labels'])}
+      />
 
       <RunningComponentsList snapshotId={snapshot.get('id')} />
 

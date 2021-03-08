@@ -11,6 +11,7 @@ import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotifica
 import { bytes, number } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function GcpDatastoreDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -23,14 +24,14 @@ export default function GcpDatastoreDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Requests">
+        <KpiKeyValue label={t('in-forge:plugins.googleCloudDatastore.dashboard.requests')}>
           <MetricValue snapshotId={snapshotId} metric="request_count" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Index Writes">
+        <KpiKeyValue label={t('in-forge:plugins.googleCloudDatastore.dashboard.indexWrites')}>
           <MetricValue snapshotId={snapshotId} metric="index_write_count" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Requests">
+      <DashboardSection title={t('in-forge:plugins.googleCloudDatastore.dashboard.requests')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -38,12 +39,12 @@ export default function GcpDatastoreDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`request_count`],
-            labels: ['Count'],
+            labels: [t('in-forge:plugins.googleCloudDatastore.dashboard.count')],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Index Write">
+      <DashboardSection title={t('in-forge:plugins.googleCloudDatastore.dashboard.indexWrite')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -51,13 +52,13 @@ export default function GcpDatastoreDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`index_write_count`],
-            labels: ['Count'],
+            labels: [t('in-forge:plugins.googleCloudDatastore.dashboard.count')],
             type: 'line'
           }}
         />
       </DashboardSection>
       <Columize>
-        <DashboardSection title="Entity Read">
+        <DashboardSection title={t('in-forge:plugins.googleCloudDatastore.dashboard.entityRead')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -65,12 +66,12 @@ export default function GcpDatastoreDashboard({ snapshot, timeConfig }) {
               formatter: bytes.detailed,
               tooltipFormatter: bytes.detailed,
               metrics: [`entity_read_sizes_avg`],
-              labels: ['Avg'],
+              labels: [t('in-forge:plugins.googleCloudDatastore.dashboard.avg')],
               type: 'line'
             }}
           />
         </DashboardSection>
-        <DashboardSection title="Entity Write">
+        <DashboardSection title={t('in-forge:plugins.googleCloudDatastore.dashboard.entityWrite')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -78,7 +79,7 @@ export default function GcpDatastoreDashboard({ snapshot, timeConfig }) {
               formatter: bytes.detailed,
               tooltipFormatter: bytes.detailed,
               metrics: [`entity_write_sizes_avg`],
-              labels: ['Avg'],
+              labels: [t('in-forge:plugins.googleCloudDatastore.dashboard.avg')],
               type: 'line'
             }}
           />

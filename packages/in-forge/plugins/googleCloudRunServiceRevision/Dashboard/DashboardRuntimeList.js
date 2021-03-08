@@ -11,6 +11,7 @@ import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => ({
@@ -27,7 +28,7 @@ export default connectTo(
 
     const cols = [
       {
-        title: 'Runtime/Process',
+        title: t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.runtimeProcess'),
         type: 'snapshotLink',
         typeArgs: {
           getSnapshotId(row) {
@@ -39,7 +40,14 @@ export default connectTo(
 
     const rows = processes.map(process => ({ key: process.get('id'), label: process.get('label') }));
 
-    return <Table withoutPadding cardTitle={`Runtime (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.googleCloudRunServiceRevision.dashboard.runtimeWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );
 

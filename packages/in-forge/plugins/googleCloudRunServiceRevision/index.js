@@ -6,6 +6,7 @@ import metricDefinitions from 'in-forge/plugins/googleCloudRunServiceRevision/me
 import kpiDefinitions from 'in-forge/plugins/googleCloudRunServiceRevision/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.googleCloudRunServiceRevision,
@@ -13,6 +14,6 @@ registerSnapshotDefinition({
   metricDefinitions,
   kpiDefinitions,
   technologyDescriptor: {
-    label: 'Google Cloud Run'
+    label: t('in-forge:plugins.googleCloudRunServiceRevision.googleCloudRun')
   }
 });

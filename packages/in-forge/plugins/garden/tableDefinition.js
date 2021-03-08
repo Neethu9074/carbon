@@ -4,6 +4,7 @@
  */
 import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
+import { t } from 'in-i18n';
 
 export default {
   initialSortColumn: 0,
@@ -11,7 +12,7 @@ export default {
 
   cols: [
     {
-      title: 'Host',
+      title: t('in-forge:plugins.garden.host'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId$(row) {
@@ -20,7 +21,7 @@ export default {
       }
     },
     {
-      title: 'Name',
+      title: t('in-forge:plugins.garden.name'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId(row) {
@@ -29,7 +30,7 @@ export default {
       }
     },
     {
-      title: 'State',
+      title: t('in-forge:plugins.garden.state'),
       type: 'string',
       typeArgs: {
         getValue(row) {
@@ -38,7 +39,7 @@ export default {
       }
     },
     {
-      title: 'CPU Usage',
+      title: t('in-forge:plugins.garden.cpuUsage'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -54,7 +55,7 @@ export default {
       }
     },
     {
-      title: 'Memory Usage',
+      title: t('in-forge:plugins.garden.memoryUsage'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -72,7 +73,7 @@ export default {
       }
     },
     {
-      title: 'Network received',
+      title: t('in-forge:plugins.garden.networkReceived'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -90,7 +91,7 @@ export default {
       }
     },
     {
-      title: 'Network transmitted',
+      title: t('in-forge:plugins.garden.networkTransmitted'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {

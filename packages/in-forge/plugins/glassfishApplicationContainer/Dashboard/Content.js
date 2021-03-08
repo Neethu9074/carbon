@@ -11,6 +11,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function GlassfishDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -18,37 +19,45 @@ export default function GlassfishDashboard({ snapshot, timeConfig }) {
   if (!version) {
     return (
       <DashboardNotification type="warning">
-        Amx module is not enabled. Please enable the Amx module to support metric collection.
+        {t(
+          'in-forge:plugins.glassfishApplicationContainer.dashboard.amxModuleIsNotEnabledPleaseEnableTheAmxModuleToSupportMetricCollection'
+        )}
       </DashboardNotification>
     );
   }
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Requests">
+        <KpiKeyValue label={t('in-forge:plugins.glassfishApplicationContainer.dashboard.requests')}>
           <MetricValue snapshotId={snapshotId} metric="http_request_count" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label="Errors">
+        <KpiKeyValue label={t('in-forge:plugins.glassfishApplicationContainer.dashboard.errors')}>
           <MetricValue snapshotId={snapshotId} metric="http_error" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label="Max Time">
+        <KpiKeyValue label={t('in-forge:plugins.glassfishApplicationContainer.dashboard.maxTime')}>
           <MetricValue snapshotId={snapshotId} metric="http_max_time" formatter={msZeroDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Web Requests">
+      <DashboardSection title={t('in-forge:plugins.glassfishApplicationContainer.dashboard.webRequests')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['http_request_count', 'http_error'],
-            labels: ['Requests', 'Errors'],
+            labels: [
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.requests'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.errors')
+            ],
             min: 0,
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
           y2={{
             metrics: ['http_max_time', 'http_proc_time'],
-            labels: ['Max Time', 'Processing Time'],
+            labels: [
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.maxTime'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.processingTime')
+            ],
             min: 0,
             type: 'line',
             formatter: msZeroDecimalPlaces
@@ -56,7 +65,7 @@ export default function GlassfishDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Connections">
+      <DashboardSection title={t('in-forge:plugins.glassfishApplicationContainer.dashboard.connections')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -69,7 +78,14 @@ export default function GlassfishDashboard({ snapshot, timeConfig }) {
               'connections_ticks_total_queued',
               'connections_total'
             ],
-            labels: ['Open', 'Overflows', 'Queued', 'Peak Queued', 'Ticks Total Queued', 'Total'],
+            labels: [
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.open'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.overflows'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.queued'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.peakQueued'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.ticksTotalQueued'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.total')
+            ],
             min: 0,
             type: 'line',
             formatter: zeroDecimalPlaces
@@ -77,7 +93,7 @@ export default function GlassfishDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Keep Alive">
+      <DashboardSection title={t('in-forge:plugins.glassfishApplicationContainer.dashboard.keepAlive')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -89,7 +105,13 @@ export default function GlassfishDashboard({ snapshot, timeConfig }) {
               'keep_alive_refusals',
               'keep_alive_timeouts'
             ],
-            labels: ['Connections', 'Flushes', 'Hits', 'Refusals', 'Timeouts'],
+            labels: [
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.connections'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.flushes'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.hits'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.refusals'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.timeouts')
+            ],
             min: 0,
             type: 'line',
             formatter: zeroDecimalPlaces
@@ -97,13 +119,18 @@ export default function GlassfishDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="File cache">
+      <DashboardSection title={t('in-forge:plugins.glassfishApplicationContainer.dashboard.fileCache')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['file_cache_hits', 'file_cache_misses', 'file_cache_info_hits', 'file_cache_info_misses'],
-            labels: ['Hits', 'Misses', 'Info Hits', 'Info Misses'],
+            labels: [
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.hits'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.misses'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.infoHits'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.infoMisses')
+            ],
             min: 0,
             type: 'line',
             formatter: zeroDecimalPlaces
@@ -112,20 +139,26 @@ export default function GlassfishDashboard({ snapshot, timeConfig }) {
             min: 0,
             max: 1,
             metrics: ['file_cache_rate', 'file_cache_info_rate'],
-            labels: ['Hit rate', 'Info hit rate'],
+            labels: [
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.hitRate'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.infoHitRate')
+            ],
             type: 'line',
             formatter: hitRateZeroDecimalPlaces
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="JDBC Connections">
+      <DashboardSection title={t('in-forge:plugins.glassfishApplicationContainer.dashboard.jdbcConnections')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['jdbc_connection_used', 'jdbc_connection_free'],
-            labels: ['Used', 'Free'],
+            labels: [
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.used'),
+              t('in-forge:plugins.glassfishApplicationContainer.dashboard.free')
+            ],
             min: 0,
             type: 'line',
             formatter: zeroDecimalPlaces

@@ -10,10 +10,11 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.googleCloudPubSub.dashboard.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages size',
+    title: t('in-forge:plugins.googleCloudPubSub.dashboard.messagesSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Operations Cost',
+    title: t('in-forge:plugins.googleCloudPubSub.dashboard.operationsCost'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Oldest Ack Message',
+    title: t('in-forge:plugins.googleCloudPubSub.dashboard.oldestAckMessage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Oldest Unack Message',
+    title: t('in-forge:plugins.googleCloudPubSub.dashboard.oldestUnackMessage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -108,6 +109,13 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Topics (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.googleCloudPubSub.dashboard.topicsWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

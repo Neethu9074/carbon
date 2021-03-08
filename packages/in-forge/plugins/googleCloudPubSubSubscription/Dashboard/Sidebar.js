@@ -7,13 +7,16 @@ import React, { Fragment } from 'react';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import TagList from 'in-sdk/components/sidebar/TagList';
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function GcpPubSubSubscriptionSidebar({ snapshot }) {
   return (
     <Fragment>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Subscription Info</Collapsible.Header>
+        <Collapsible.Header>
+          {t('in-forge:plugins.googleCloudPubSubSubscription.dashboard.subscriptionInfo')}
+        </Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

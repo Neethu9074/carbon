@@ -3,20 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'Requests per second',
+    label: t('in-forge:plugins.googleCloudStorage.requestsPerSecond'),
     metric: 'api.request_count',
     formatter: number.detailed
   },
   {
-    label: 'Objects Count',
+    label: t('in-forge:plugins.googleCloudStorage.objectsCount'),
     metric: 'storage.object_count',
     formatter: number.compact
   },
   {
-    label: 'Objects Size',
+    label: t('in-forge:plugins.googleCloudStorage.objectsSize'),
     metric: 'storage.total_bytes',
     formatter: bytesZeroDecimalPlaces
   }

@@ -7,6 +7,7 @@ import React from 'react';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import { emptyMap } from 'in-services/fixedImmutables';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
@@ -14,11 +15,19 @@ export default function Info({ snapshot }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Project ID">{data.get('projectId')}</DescriptionItem>
-        <DescriptionItem title="Name">{data.get('subscriptionName')}</DescriptionItem>
-        <DescriptionItem title="Topic Name">{data.get('topicName')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.googleCloudPubSubSubscription.projectId')}>
+          {data.get('projectId')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.googleCloudPubSubSubscription.name')}>
+          {data.get('subscriptionName')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.googleCloudPubSubSubscription.topicName')}>
+          {data.get('topicName')}
+        </DescriptionItem>
       </DescriptionList>
-      {labels.size > 0 && <KeyValueOverlay header="Labels" data={labels} />}
+      {labels.size > 0 && (
+        <KeyValueOverlay header={t('in-forge:plugins.googleCloudPubSubSubscription.labels')} data={labels} />
+      )}
     </div>
   );
 }
