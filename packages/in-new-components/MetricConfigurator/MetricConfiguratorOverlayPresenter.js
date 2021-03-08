@@ -23,7 +23,8 @@ export default function MetricConfiguratorOverlayPresenter({
   onAddItem,
   onRemoveItem,
   onSwap,
-  getPossibleAggregationsForMetric
+  getPossibleAggregationsForMetric,
+  MetricConfiguratorHint
 }) {
   return (
     <DraggableItemSelector
@@ -48,6 +49,7 @@ export default function MetricConfiguratorOverlayPresenter({
         />
       )}
       slideInContentTitle={t('in-new-components:metricConfigurator.titleAddAMetric')}
+      MetricConfiguratorHint={MetricConfiguratorHint}
     />
   );
 
@@ -69,7 +71,15 @@ function getAllAggregationsOfMetric(options, metric) {
   return options.find(option => option.metric === metric).aggregations;
 }
 
-function Content({ i, options, item: metric, onChangeAggregation, getPossibleAggregationsForMetric, onChange }) {
+function Content({
+  i,
+  options,
+  item: metric,
+  onChangeAggregation,
+  getPossibleAggregationsForMetric,
+  onChange,
+  MetricConfiguratorHint
+}) {
   return (
     <>
       {getAllAggregationsOfMetric(options, metric.get('metric').value).length > 1 ? (
@@ -87,7 +97,7 @@ function Content({ i, options, item: metric, onChangeAggregation, getPossibleAgg
           </Col>
 
           {metric.get('aggregation').map(field => (
-            <Col xs={5}>
+            <Col xs={4}>
               <Select
                 id={`metric-configuration-aggregation-${i}`}
                 value={field.value}
@@ -120,7 +130,7 @@ function Content({ i, options, item: metric, onChangeAggregation, getPossibleAgg
           ))}
         </>
       ) : (
-        <Col xs={10}>
+        <Col xs={9}>
           {metric.get('metric').map(field => (
             <Label
               htmlFor={`metric-configuration-metric-${i}`}
@@ -132,6 +142,7 @@ function Content({ i, options, item: metric, onChangeAggregation, getPossibleAgg
           ))}
         </Col>
       )}
+      <Col xs={1}>{MetricConfiguratorHint && <MetricConfiguratorHint metricId={metric.get('metric').value} />}</Col>
     </>
   );
 }

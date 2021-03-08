@@ -26,9 +26,9 @@ export default function Header(props) {
     tracking,
     withSamplingTooltip,
     withGrouping,
-    withResultsInGroups
+    withResultsInGroups,
+    MetricConfiguratorHint
   } = props;
-
   return (
     <div className={locals.wrapper}>
       <CountHeader
@@ -51,6 +51,7 @@ export default function Header(props) {
           metrics={metrics}
           setMetrics={setMetrics}
           tracking={tracking}
+          MetricConfiguratorHint={MetricConfiguratorHint}
         />
       </HorizontalFlexWrapper>
     </div>

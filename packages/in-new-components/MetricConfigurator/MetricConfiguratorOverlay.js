@@ -17,7 +17,8 @@ export default function MetricConfiguratorOverlay({
   values,
   options,
   maximumNumberOfMetrics = 5,
-  tracking
+  tracking,
+  MetricConfiguratorHint
 }) {
   const initialForm = useMemo(() => getInitialForm(values, options, maximumNumberOfMetrics), [
     values,
@@ -41,6 +42,7 @@ export default function MetricConfiguratorOverlay({
       onAddItem={onAddItem}
       onRemoveItem={onRemoveItem}
       onChangeAggregation={tracking?.onMetricAggregationChanged}
+      MetricConfiguratorHint={MetricConfiguratorHint}
     />
   );
 
