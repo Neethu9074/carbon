@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { clamp } from 'lodash';
 import React from 'react';
 
 import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
@@ -43,7 +44,7 @@ const erroneousColumnDefinition = {
     return (
       <Tooltip content={severity > 0 ? t('in-websites:containsErrors') : t('in-websites:noErrors')} align="rightMiddle">
         <div className={locals.erroneous}>
-          <HealthDot severity={severity} iconSize={10} />
+          <HealthDot severity={clamp(severity, 10)} iconSize={10} />
         </div>
       </Tooltip>
     );
