@@ -12,6 +12,7 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import DashboardRuntimeList from './DashboardRuntimeList';
 import MetricValue from 'in-components/MetricValue';
+import Link from 'in-components/Link';
 import { Trans, t } from 'in-i18n';
 
 export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeConfig }) {
@@ -24,7 +25,7 @@ export default function GoogleCloudRunServiceRevisionDashboard({ snapshot, timeC
       <Trans
         i18nKey="in-forge:plugins.googleCloudRunServiceRevision.dashboard.itSeemsThereIsNoInstanaAgentSetUpToMonitorTheGcpAccountOfThisGoogleCloudRunServiceRevision"
         components={{
-          linkToDocs: <a href="https://www.instana.com/docs/ecosystem/google-cloud-run/#gcp-agent-setup" />
+          linkToDocs: <Link external href="https://www.instana.com/docs/ecosystem/google-cloud-run/#gcp-agent-setup" />
         }}
       />
     </DashboardNotification>
