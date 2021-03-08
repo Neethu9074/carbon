@@ -28,7 +28,8 @@ export default function StackPresenter({
   isLoading,
   productArea,
   selfEntity,
-  plugin
+  plugin,
+  syntheticCalls
 }) {
   useDisabledBodyScroll();
   // Mixpanel tracking should deliberately only happen when isLoading changes
@@ -50,6 +51,7 @@ export default function StackPresenter({
       serviceId={serviceId}
       stack={stack}
       selfEntity={selfEntity}
+      syntheticCalls={syntheticCalls}
     />
   );
 }
@@ -87,7 +89,7 @@ const EmptyStackPane = ({ productArea, selfEntity }) => {
   );
 };
 
-const NavigableStack = ({ applicationId, boundaryScope, serviceId, stack, selfEntity }) => {
+const NavigableStack = ({ applicationId, boundaryScope, serviceId, stack, selfEntity, syntheticCalls }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(getInitialTabIndexFn(stack));
 
   const { key } = tabList[activeTabIndex];
@@ -109,6 +111,7 @@ const NavigableStack = ({ applicationId, boundaryScope, serviceId, stack, selfEn
         groups={stack[key].groups}
         tab={key}
         activeTabIndex={activeTabIndex}
+        syntheticCalls={syntheticCalls}
       />
     </>
   );

@@ -5,8 +5,9 @@
 import { t } from 'in-i18n';
 import React from 'react';
 
-import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
+import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
+import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import getServices from 'in-subscription/application/getServices';
@@ -33,7 +34,7 @@ export default function ServiceTopList({
   boundaryScope,
   timeConfig,
   urlMatrixParamConfig,
-  includeSyntheticCalls
+  syntheticCalls
 }) {
   return (
     <TopListWithUrlState
@@ -56,7 +57,7 @@ export default function ServiceTopList({
       boundaryScope={boundaryScope}
       colors={colors}
       urlMatrixParamConfig={urlMatrixParamConfig}
-      includeSyntheticCalls={includeSyntheticCalls}
+      syntheticCalls={syntheticCalls}
     />
   );
 }
@@ -69,7 +70,7 @@ function getList({
   selectedMetricAggregation,
   selectedCompanionMetric,
   selectedCompanionMetricAggregation,
-  includeSyntheticCalls
+  syntheticCalls
 }) {
   const metrics = {
     [selectedMetric]: {
@@ -98,17 +99,18 @@ function getList({
       application: applicationId,
       applicationBoundaryScope: boundaryScope,
       timeConfig,
-      includeSyntheticCalls
+      includeSyntheticCalls: isSyntheticOption(syntheticCalls)
     }
   });
 }
 
-function ViewAll({ applicationId, boundaryScope, selectedMetric }, className) {
+function ViewAll({ applicationId, boundaryScope, selectedMetric, syntheticCalls }, className) {
   return (
     <Link
       className={className}
       href$={getApplicationDashboard(applicationId, {
         boundaryScope,
+        syntheticCalls,
         tab: '/services',
         tabMatrix: {
           'service.orderBy': `${selectedMetric}Agg`,
@@ -121,11 +123,11 @@ function ViewAll({ applicationId, boundaryScope, selectedMetric }, className) {
   );
 }
 
-function Label({ item, applicationId, boundaryScope }, _item, className) {
+function Label({ item, applicationId, boundaryScope, syntheticCalls }, _item, className) {
   return (
     <Link
       className={className}
-      href$={getServiceDashboard(item.service.id, { applicationId, boundaryScope })}
+      href$={getServiceDashboard(item.service.id, { applicationId, boundaryScope, syntheticCalls })}
       onClick={() => trackTopListNavigation()}
     >
       {item.service.label}

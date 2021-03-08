@@ -30,6 +30,7 @@ export default function StackItem({
   applicationId,
   boundaryScope,
   serviceId,
+  syntheticCalls,
   item: { id, type, label, shortLabel, healthInfo, metrics, endpointTypes, technologies },
   tab
 }) {
@@ -38,7 +39,7 @@ export default function StackItem({
   const technologiesNoK8s = technologies?.filter(s => !s.startsWith('kubernetes') || !s.startsWith('openshift'));
 
   return (
-    <Li href$={dashboardLink(id, applicationId, boundaryScope, serviceId, type)} noAlternatingBg>
+    <Li href$={dashboardLink(id, applicationId, boundaryScope, serviceId, type, syntheticCalls)} noAlternatingBg>
       <div className={locals.itemWrapper}>
         <div className={locals.label}>
           {hasHealthInfo ? (
@@ -68,16 +69,21 @@ export default function StackItem({
   );
 }
 
-const dashboardLink = (id, applicationId, boundaryScope, serviceId, type) => {
+const dashboardLink = (id, applicationId, boundaryScope, serviceId, type, syntheticCalls) => {
   if (type === 'application') {
-    return getApplicationDashboard(id, { boundaryScope: boundaryScope });
+    return getApplicationDashboard(id, { boundaryScope, syntheticCalls });
   } else if (type === 'service') {
-    return getServiceDashboard(id, { applicationId: applicationId, boundaryScope: boundaryScope });
+    return getServiceDashboard(id, {
+      applicationId,
+      boundaryScope,
+      syntheticCalls
+    });
   } else if (type === 'endpoint') {
     return getEndpointDashboard(id, {
-      applicationId: applicationId,
-      boundaryScope: boundaryScope,
-      serviceId: serviceId
+      applicationId,
+      boundaryScope,
+      serviceId,
+      syntheticCalls
     });
   }
 

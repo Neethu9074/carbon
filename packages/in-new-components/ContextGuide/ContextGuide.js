@@ -19,7 +19,8 @@ export default function ContextGuide({
   productArea,
   tagFilters,
   includeSelfEntity = false,
-  plugin
+  plugin,
+  syntheticCalls
 }) {
   return (
     <>
@@ -33,6 +34,7 @@ export default function ContextGuide({
         className={locals.leftButton}
         includeSelfEntity={includeSelfEntity}
         plugin={plugin}
+        syntheticCalls={syntheticCalls}
         noAutoMargin
       />
       <UpstreamDownstreamButton

@@ -123,6 +123,7 @@ function renderButtonLine(props) {
         timeConfig={timeConfig}
         applicationId={applicationId}
         boundaryScope={boundaryScope}
+        syntheticCalls={syntheticCalls}
         productArea="application"
       />
       <AnalyzeCallsButton
