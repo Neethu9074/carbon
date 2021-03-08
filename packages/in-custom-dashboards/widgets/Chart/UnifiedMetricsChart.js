@@ -52,9 +52,16 @@ export default function UnifiedMetricsChart({
   renderPostChartContent,
   cardUseMaxAvailableHeight,
   excludedContextMenuActions,
-  renderLegend = true
+  renderLegend = true,
+  // In some cases the parent component needs to signal to this component that it is loading data needed for the chart
+  // configuration, e.g. list of groups for group charts. While this flag is set, no back-end queries should be executed
+  // and a loading indicator should be displayed.
+  forceLoadingIndicator = false
 }) {
-  config = useMemo(() => duplicateTimeShiftComparedMetrics(config), [config]);
+  config = useMemo(() => (forceLoadingIndicator ? null : duplicateTimeShiftComparedMetrics(config)), [
+    config,
+    forceLoadingIndicator
+  ]);
 
   const timeConfig = useTimeConfig();
   // timeConfigExtendedForLiveMode will be used as a hook dependency, therefore the same object must be reused unless some of its fields changes
@@ -63,12 +70,14 @@ export default function UnifiedMetricsChart({
   );
   useEffect(() => setTimeConfigExtendedForLiveMode(extendWindowSizeOnLiveMode(timeConfig)), [timeConfig]);
 
-  const suggestedNumberOfDataPoints = getSuggestedNumberOfDataPoints(config);
-  const configuredGranularity =
-    config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode, suggestedNumberOfDataPoints);
-  const minimumGranularity = getMinGranularity(config);
-  const granularity = Math.max(minimumGranularity, configuredGranularity);
-  let result = useResultData(config, granularity, timeConfigExtendedForLiveMode) ?? pendingResult;
+  const suggestedNumberOfDataPoints = forceLoadingIndicator ? null : getSuggestedNumberOfDataPoints(config);
+  const configuredGranularity = forceLoadingIndicator
+    ? null
+    : config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode, suggestedNumberOfDataPoints);
+  const minimumGranularity = forceLoadingIndicator ? null : getMinGranularity(config);
+  const granularity = forceLoadingIndicator ? null : Math.max(minimumGranularity, configuredGranularity);
+  let result =
+    useResultData(config, granularity, timeConfigExtendedForLiveMode, forceLoadingIndicator) ?? pendingResult;
 
   // Transform result data structure into the structure expected by the chart
   let resultDataAsList = result?.data;
@@ -91,11 +100,11 @@ export default function UnifiedMetricsChart({
     <ChartWrapper
       cardTitle={title}
       timeConfig={timeConfig}
-      y1={toAxisConfiguration('y1', config.y1, resultDataAsList, config)}
-      y2={toAxisConfiguration('y2', config.y2, resultDataAsList, config)}
-      metricsConfiguration={toMetricsConfiguration(config, resultDataAsList)}
-      primaryContextMenuAction={config.primaryContextMenuAction}
-      additionalContextMenuButtons={config.additionalContextMenuButtons}
+      y1={forceLoadingIndicator ? null : toAxisConfiguration('y1', config?.y1, resultDataAsList, config)}
+      y2={forceLoadingIndicator ? null : toAxisConfiguration('y2', config?.y2, resultDataAsList, config)}
+      metricsConfiguration={forceLoadingIndicator ? null : toMetricsConfiguration(config, resultDataAsList)}
+      primaryContextMenuAction={config?.primaryContextMenuAction}
+      additionalContextMenuButtons={config?.additionalContextMenuButtons}
       result={result}
       granularity={granularity}
       // pass through props
@@ -114,38 +123,47 @@ export default function UnifiedMetricsChart({
   );
 }
 
-function useResultData(config, granularity, timeConfig) {
+function useResultData(config, granularity, timeConfig, forceLoadingIndicator) {
   const metrics = {};
-  const resultType = enforceSingleNumberResult.find(({ id }) => id === config.y1.renderer)
+  const resultType = forceLoadingIndicator
+    ? null
+    : enforceSingleNumberResult.find(({ id }) => id === config.y1.renderer)
     ? 'SINGLE_NUMBER'
     : config.type;
   if (resultType === 'SINGLE_NUMBER') {
     granularity = null;
   }
 
-  config.y1.metrics.forEach(
-    (metricConfiguration, i) =>
-      (metrics[getMetricId('y1', i)] = {
-        ...metricConfiguration,
-        resultType,
-        granularity,
-        timeConfig: timeConfig,
-        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-      })
-  );
+  if (!forceLoadingIndicator) {
+    config.y1.metrics.forEach(
+      (metricConfiguration, i) =>
+        (metrics[getMetricId('y1', i)] = {
+          ...metricConfiguration,
+          resultType,
+          granularity,
+          timeConfig: timeConfig,
+          timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
+        })
+    );
 
-  config.y2?.metrics?.forEach(
-    (metricConfiguration, i) =>
-      (metrics[getMetricId('y2', i)] = {
-        ...metricConfiguration,
-        resultType,
-        granularity,
-        timeConfig: timeConfig,
-        timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
-      })
-  );
+    config.y2?.metrics?.forEach(
+      (metricConfiguration, i) =>
+        (metrics[getMetricId('y2', i)] = {
+          ...metricConfiguration,
+          resultType,
+          granularity,
+          timeConfig: timeConfig,
+          timeShift: translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
+        })
+    );
+  }
 
-  return useObservable(() => getUnifiedMetrics({ metrics }), [timeConfig, config]);
+  // do not execute the query while the parent component is still loading data for the chart configuration
+  return useObservable(() => (forceLoadingIndicator ? null : getUnifiedMetrics({ metrics })), [
+    timeConfig,
+    config,
+    forceLoadingIndicator
+  ]);
 }
 
 function toAxisConfiguration(name, axis, resultDataAsList, chartConfig) {

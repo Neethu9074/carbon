@@ -24,6 +24,7 @@ import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressI
 import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
+import { NOT_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import FacetedSearch from 'in-new-components/AnalyzeView/FacetedSearch';
@@ -33,7 +34,6 @@ import Header from 'in-new-components/QueryBuilder/components/Header';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
-import { NOT_EMPTY } from '../QueryBuilder/tagFilter/operators';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { aggregationLabels } from 'in-stores/metric';
@@ -144,16 +144,18 @@ export default function GroupedAnalyzeView(props) {
     });
 
   useEffect(() => {
-    if (isLoading || hasErrors) {
-      return;
+    if (isLoading) {
+      onChartableDataSeriesChange(null);
+    } else if (hasErrors) {
+      onChartableDataSeriesChange([]);
+    } else {
+      onChartableDataSeriesChange(
+        items.slice(0, 5).map(item => ({
+          label: getItemLabel(item),
+          formModel: addGroupingCriteriaToFormModel(groupBy, getItemLabel(item), formModel, groupingTagCatalog)
+        }))
+      );
     }
-
-    onChartableDataSeriesChange(
-      items.slice(0, 5).map(item => ({
-        label: getItemLabel(item),
-        formModel: addGroupingCriteriaToFormModel(groupBy, getItemLabel(item), formModel, groupingTagCatalog)
-      }))
-    );
   }, [
     items,
     isLoading,

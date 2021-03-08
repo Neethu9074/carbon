@@ -47,7 +47,8 @@ export default function MobileAppsQueryBuilderWorkspace(props) {
     onGroupByChange,
     useLastValidStateWhenErroneous,
     metricCatalogFilter,
-    chartedMetrics
+    chartedMetrics,
+    chartableDataSeries
   } = props;
   return (
     <Sticky header={<AnalyzeHeader formModel={formModel} isGrouped={isGrouped} />}>
@@ -88,6 +89,7 @@ export default function MobileAppsQueryBuilderWorkspace(props) {
               metricCatalogFilter={metricCatalogFilter}
               unifiedMetricsSource="MOBILE_APP"
               mapMetricConfiguration={mapMetricConfiguration}
+              forceLoadingIndicator={isGrouped && chartableDataSeries == null}
               tracking={{
                 onChartChanged: ({ metricId, aggregationId }) =>
                   ua2ChartChangedTracker({ dataSource, metric: metricId, aggregation: aggregationId })
