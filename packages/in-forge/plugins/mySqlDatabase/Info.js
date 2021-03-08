@@ -6,18 +6,23 @@ import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function MySqlInfo({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
-      <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
-      <DescriptionItem title="Version">{getVersion(data)}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.mySqlDatabase.processId')}>{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.mySqlDatabase.port')}>{data.get('port')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.mySqlDatabase.version')}>{getVersion(data)}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Role">{data.get('role')}</DescriptionItem>
-      <DescriptionItem title="Replication Group Name">{data.get('replicationGroup')}</DescriptionItem>
-      <DescriptionItem title="Max connections">{data.get('variables.MAX_CONNECTIONS')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.mySqlDatabase.role')}>{data.get('role')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.mySqlDatabase.replicationGroupName')}>
+        {data.get('replicationGroup')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.mySqlDatabase.maxConnections')}>
+        {data.get('variables.MAX_CONNECTIONS')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

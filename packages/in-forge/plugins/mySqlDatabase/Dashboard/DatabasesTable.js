@@ -10,10 +10,11 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Schema',
+    title: t('in-forge:plugins.mySqlDatabase.schema'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Queries',
+    title: t('in-forge:plugins.mySqlDatabase.queries'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Average Query Latency',
+    title: t('in-forge:plugins.mySqlDatabase.averageQueryLatency'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -73,7 +74,13 @@ export default function DatabasesTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <Table withoutPadding cardTitle={`Schemas (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.mySqlDatabase.schemasWithCount', { len: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
   );
 }
 
@@ -86,7 +93,7 @@ function getDetails(row) {
         y1={{
           min: 0,
           metrics: ['databases.' + row.key + '.avg_query_latency'],
-          labels: ['Average Query Latency'],
+          labels: [t('in-forge:plugins.mySqlDatabase.averageQueryLatency')],
           type: 'line',
           formatter: millis.detailed
         }}
@@ -100,7 +107,7 @@ function getDetails(row) {
             min: 0,
             formatter: activityTwoDecimalPlaces,
             metrics: ['databases.' + row.key + '.queries'],
-            labels: ['Queries'],
+            labels: [t('in-forge:plugins.mySqlDatabase.queries')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -118,7 +125,13 @@ function getDetails(row) {
               'databases.' + row.key + '.delete_count',
               'databases.' + row.key + '.other_count'
             ],
-            labels: ['SELECTS', 'INSERTS', 'UPDATES', 'DELETES', 'OTHER'],
+            labels: [
+              t('in-forge:plugins.mySqlDatabase.selects'),
+              t('in-forge:plugins.mySqlDatabase.inserts'),
+              t('in-forge:plugins.mySqlDatabase.updates'),
+              t('in-forge:plugins.mySqlDatabase.deletes'),
+              t('in-forge:plugins.mySqlDatabase.other')
+            ],
             type: 'stackedArea'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

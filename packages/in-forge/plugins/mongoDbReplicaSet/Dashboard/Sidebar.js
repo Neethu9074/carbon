@@ -8,7 +8,7 @@ import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/Desc
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function ReplicaSetSidebar({ snapshot }) {
@@ -17,7 +17,7 @@ export default function ReplicaSetSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>MongoDB Replica Set</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.mongoDbReplicaSet.mongoDbReplicaSet')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -25,15 +25,27 @@ export default function ReplicaSetSidebar({ snapshot }) {
 
       {clusterName ? (
         <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>Atlas Cluster</Collapsible.Header>
+          <Collapsible.Header>{t('in-forge:plugins.mongoDbReplicaSet.atlasCluster')}</Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
-              <DescriptionItem title="Name">{data.get('clusterName')}</DescriptionItem>
-              <DescriptionItem title="Type">{data.get('clusterType')}</DescriptionItem>
-              <DescriptionItem title="Cloud Provider">{data.get('clusterProvider')}</DescriptionItem>
-              <DescriptionItem title="Region">{data.get('clusterRegion')}</DescriptionItem>
-              <DescriptionItem title="Project">{data.get('clusterProjectName')}</DescriptionItem>
-              <DescriptionItem title="Organisation">{data.get('clusterOrganisationName')}</DescriptionItem>
+              <DescriptionItem title={t('in-forge:plugins.mongoDbReplicaSet.name')}>
+                {data.get('clusterName')}
+              </DescriptionItem>
+              <DescriptionItem title={t('in-forge:plugins.mongoDbReplicaSet.type')}>
+                {data.get('clusterType')}
+              </DescriptionItem>
+              <DescriptionItem title={t('in-forge:plugins.mongoDbReplicaSet.cloudProvider')}>
+                {data.get('clusterProvider')}
+              </DescriptionItem>
+              <DescriptionItem title={t('in-forge:plugins.mongoDbReplicaSet.region')}>
+                {data.get('clusterRegion')}
+              </DescriptionItem>
+              <DescriptionItem title={t('in-forge:plugins.mongoDbReplicaSet.project')}>
+                {data.get('clusterProjectName')}
+              </DescriptionItem>
+              <DescriptionItem title={t('in-forge:plugins.mongoDbReplicaSet.organisation')}>
+                {data.get('clusterOrganisationName')}
+              </DescriptionItem>
             </DescriptionList>
           </Collapsible.Content>
         </Collapsible>

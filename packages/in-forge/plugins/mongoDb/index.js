@@ -6,6 +6,7 @@ import metricDefinitions from 'in-forge/plugins/mongoDb/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/mongoDb/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.mongoDb,
@@ -13,6 +14,6 @@ registerSnapshotDefinition({
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {
-    label: 'MongoDB'
+    label: t('in-forge:plugins.mongoDb.mongoDb')
   }
 });

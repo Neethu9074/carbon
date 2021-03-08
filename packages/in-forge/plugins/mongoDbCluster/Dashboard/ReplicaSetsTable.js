@@ -10,10 +10,11 @@ import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.mongoDbCluster.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Connections',
+    title: t('in-forge:plugins.mongoDbCluster.connections'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Ops',
+    title: t('in-forge:plugins.mongoDbCluster.ops'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Network Bytes',
+    title: t('in-forge:plugins.mongoDbCluster.networkBytes'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -92,6 +93,13 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Shards/Replica Sets (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.mongoDbCluster.shardsReplicaSetsWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

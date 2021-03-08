@@ -12,12 +12,13 @@ import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import { shorten } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
+import { t } from 'in-i18n';
 
 import locals from './TopQueriesTable.mless';
 
 const cols = [
   {
-    title: 'Total Time',
+    title: t('in-forge:plugins.msSqlDatabase.totalTime'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -27,7 +28,7 @@ const cols = [
     }
   },
   {
-    title: 'Last Time',
+    title: t('in-forge:plugins.msSqlDatabase.lastTime'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Query',
+    title: t('in-forge:plugins.msSqlDatabase.query'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -49,7 +50,7 @@ const cols = [
     }
   },
   {
-    title: 'Reads',
+    title: t('in-forge:plugins.msSqlDatabase.reads'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -59,7 +60,7 @@ const cols = [
     }
   },
   {
-    title: 'Writes',
+    title: t('in-forge:plugins.msSqlDatabase.writes'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -96,7 +97,12 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={<TimeOfLastUpdateCardTitle title="Top Queries" timestamp={data.get('timestamp')} />}
+        cardTitle={
+          <TimeOfLastUpdateCardTitle
+            title={t('in-forge:plugins.msSqlDatabase.topQueries')}
+            timestamp={data.get('timestamp')}
+          />
+        }
         cols={cols}
         rows={rows}
         initialSortColumn={1}

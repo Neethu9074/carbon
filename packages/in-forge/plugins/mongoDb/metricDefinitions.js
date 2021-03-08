@@ -3,116 +3,125 @@
  * (c) Copyright Instana Inc.
  */
 import { number, bytes, millis } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['documents.deleted', 'documents.inserted', 'documents.returned', 'documents.updated'],
-    labels: ['Deleted', 'Inserted', 'Returned', 'Updated'],
+    labels: [
+      t('in-forge:plugins.mongoDb.deleted'),
+      t('in-forge:plugins.mongoDb.inserted'),
+      t('in-forge:plugins.mongoDb.returned'),
+      t('in-forge:plugins.mongoDb.updated')
+    ],
     min: 0,
-    category: ['Documents'],
+    category: [t('in-forge:plugins.mongoDb.documents')],
     formatter: number
   },
   {
     metric: 'connections',
-    label: 'Connections',
+    label: t('in-forge:plugins.mongoDb.connections'),
     min: 0,
     formatter: number
   },
   {
     metrics: ['repl.apply_ops', 'repl.apply_bathes'],
-    labels: ['Replication Apply Operations', 'Replication Apply Batches'],
-    category: ['Replica Set'],
+    labels: [
+      t('in-forge:plugins.mongoDb.replicationApplyOperations'),
+      t('in-forge:plugins.mongoDb.replicationApplyBatches')
+    ],
+    category: [t('in-forge:plugins.mongoDb.replicaSet')],
     formatter: number
   },
   {
     metric: 'repl.apply_bathes_total_ms',
-    label: 'Replication Apply Batch Total',
-    category: ['Replica Set'],
+    label: t('in-forge:plugins.mongoDb.replicationApplyBatchTotal'),
+    category: [t('in-forge:plugins.mongoDb.replicaSet')],
     formatter: millis
   },
   {
     metric: 'repl.buffer_count',
-    label: 'Replication Buffer Count',
-    category: ['Replica Set'],
+    label: t('in-forge:plugins.mongoDb.replicationBufferCount'),
+    category: [t('in-forge:plugins.mongoDb.replicaSet')],
     formatter: number
   },
   {
     metric: 'repl.buffer_size_bytes',
-    label: 'Replication Buffer Size',
-    category: ['Replica Set'],
+    label: t('in-forge:plugins.mongoDb.replicationBufferSize'),
+    category: [t('in-forge:plugins.mongoDb.replicaSet')],
     formatter: bytes
   },
   {
     metric: 'repl.network_ops',
-    label: 'Replication Network Ops',
-    category: ['Replica Set'],
+    label: t('in-forge:plugins.mongoDb.replicationNetworkOps'),
+    category: [t('in-forge:plugins.mongoDb.replicaSet')],
     formatter: number
   },
   {
     metric: 'repl.network_bytes',
-    label: 'Replication Network Traffic',
-    category: ['Replica Set'],
+    label: t('in-forge:plugins.mongoDb.replicationNetworkTraffic'),
+    category: [t('in-forge:plugins.mongoDb.replicaSet')],
     formatter: bytes
   },
   {
     metric: 'repl.preload_docs_num',
-    label: 'Replication Preload Docs',
-    category: ['Replica Set'],
+    label: t('in-forge:plugins.mongoDb.replicationPreloadDocs'),
+    category: [t('in-forge:plugins.mongoDb.replicaSet')],
     formatter: number
   },
   {
     metric: 'repl.preload_docs_total_ms',
-    label: 'Replication Preload Total',
-    category: ['Replica Set'],
+    label: t('in-forge:plugins.mongoDb.replicationPreloadTotal'),
+    category: [t('in-forge:plugins.mongoDb.replicaSet')],
     formatter: millis
   },
   {
     metric: 'repl.preload_idx_num',
-    label: 'Replication Preload Indexes',
-    category: ['Replica Set'],
+    label: t('in-forge:plugins.mongoDb.replicationPreloadIndexes'),
+    category: [t('in-forge:plugins.mongoDb.replicaSet')],
     formatter: number
   },
   {
     metric: 'repl.preload_idx_total_ms',
-    label: 'Replication Preload Indexes Total',
-    category: ['Replica Set'],
+    label: t('in-forge:plugins.mongoDb.replicationPreloadIndexesTotal'),
+    category: [t('in-forge:plugins.mongoDb.replicaSet')],
     formatter: millis
   },
   {
     metric: 'repl.replication_lag',
-    label: 'Replication Lag',
-    category: ['Replica Set'],
+    label: t('in-forge:plugins.mongoDb.replicationLag'),
+    category: [t('in-forge:plugins.mongoDb.replicaSet')],
     formatter: millis
   },
   {
     metric: 'lockQueue',
-    label: 'Lock Queue Length',
+    label: t('in-forge:plugins.mongoDb.lockQueueLength'),
     min: 0,
     formatter: number
   },
   {
     metric: 'journalWriteLock',
-    label: 'Journal Write Lock',
+    label: t('in-forge:plugins.mongoDb.journalWriteLock'),
     min: 0,
     formatter: number
   },
   {
     metric: 'pageFaults',
-    label: 'Number of Page Faults',
+    label: t('in-forge:plugins.mongoDb.numberOfPageFaults'),
     min: 0,
     formatter: number
   },
   {
     metric: 'backgroundFlushingLast',
-    label: 'Last Background Flushing Latency',
+    label: t('in-forge:plugins.mongoDb.lastBackgroundFlushingLatency'),
     min: 0,
     formatter: millis
   },
   {
     metrics: ['virtual', 'mapped'],
-    labels: ['Virtual', 'Mapped'],
+    labels: [t('in-forge:plugins.mongoDb.virtual'), t('in-forge:plugins.mongoDb.mapped')],
     min: 0,
-    category: ['Memory'],
+    category: [t('in-forge:plugins.mongoDb.memory')],
     formatter: bytes
   }
 ];

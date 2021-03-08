@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
@@ -19,16 +20,16 @@ export default [
       'status.ARIA_PAGECACHE_WRITES'
     ],
     labels: [
-      'Connections',
-      'Max used connections',
-      'Aborted connects',
-      'Slow Queries',
-      'Read Requests',
-      'Write Requests',
-      'Reads',
-      'Writes',
-      'Pagecache Reads',
-      'Pagecache Writes'
+      t('in-forge:plugins.mariaDbDatabase.connections'),
+      t('in-forge:plugins.mariaDbDatabase.maxUsedConnections'),
+      t('in-forge:plugins.mariaDbDatabase.abortedConnects'),
+      t('in-forge:plugins.mariaDbDatabase.slowQueries'),
+      t('in-forge:plugins.mariaDbDatabase.readRequests'),
+      t('in-forge:plugins.mariaDbDatabase.writeRequests'),
+      t('in-forge:plugins.mariaDbDatabase.reads'),
+      t('in-forge:plugins.mariaDbDatabase.writes'),
+      t('in-forge:plugins.mariaDbDatabase.pagecacheReads'),
+      t('in-forge:plugins.mariaDbDatabase.pagecacheWrites')
     ],
     min: 0,
     formatter: number

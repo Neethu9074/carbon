@@ -10,10 +10,11 @@ import { millis, number } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.mule.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Container Mode',
+    title: t('in-forge:plugins.mule.containerMode'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Processed Events',
+    title: t('in-forge:plugins.mule.processedEvents'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -47,7 +48,7 @@ const cols = [
     }
   },
   {
-    title: 'Execution Errors',
+    title: t('in-forge:plugins.mule.executionErrors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -63,7 +64,7 @@ const cols = [
     }
   },
   {
-    title: 'Fatal Errors',
+    title: t('in-forge:plugins.mule.fatalErrors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -79,7 +80,7 @@ const cols = [
     }
   },
   {
-    title: 'Processing time',
+    title: t('in-forge:plugins.mule.processingTtime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -95,7 +96,7 @@ const cols = [
     }
   },
   {
-    title: 'Shutdown Timeout',
+    title: t('in-forge:plugins.mule.shutdownTimeout'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -107,7 +108,7 @@ const cols = [
     }
   },
   {
-    title: 'Sync Event Timeout',
+    title: t('in-forge:plugins.mule.syncEventTimeout'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -119,7 +120,7 @@ const cols = [
     }
   },
   {
-    title: 'Transaction Timeout',
+    title: t('in-forge:plugins.mule.transactionTimeout'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -155,7 +156,7 @@ export default function ApplicationsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Applications (${rows.length})`}
+      cardTitle={t('in-forge:plugins.mule.applicationsWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}
@@ -174,14 +175,18 @@ function getDetails(row) {
           'applications.' + row.key + '.executionErrors',
           'applications.' + row.key + '.fatalErrors'
         ],
-        labels: ['Processed events', 'Execution errors', 'Fatal errors'],
+        labels: [
+          t('in-forge:plugins.mule.processedEevents'),
+          t('in-forge:plugins.mule.executionEerrors'),
+          t('in-forge:plugins.mule.fatalEerrors')
+        ],
         formatter: number.compact,
         tooltipFormatter: number.compact,
         type: 'line'
       }}
       y2={{
         metrics: ['applications.' + row.key + '.avgProcessingTime'],
-        labels: ['Average processing time'],
+        labels: [t('in-forge:plugins.mule.averagePprocessingTime')],
         formatter: millis.fixedCompact,
         type: 'line'
       }}

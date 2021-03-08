@@ -5,17 +5,20 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function MongoDBInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
-      <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
-      <DescriptionItem title="Storage Engine">{data.get('storageEngine')}</DescriptionItem>
-      <DescriptionItem title="Replica Set Name">{data.get('replicaSetName')}</DescriptionItem>
-      <DescriptionItem title="Role">{data.get('role')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.mongoDb.version')}>{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.mongoDb.port')}>{data.get('port')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.mongoDb.storageEngine')}>{data.get('storageEngine')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.mongoDb.replicaSetName')}>
+        {data.get('replicaSetName')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.mongoDb.role')}>{data.get('role')}</DescriptionItem>
     </DescriptionList>
   );
 }

@@ -4,6 +4,7 @@
  */
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { number, millis } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
@@ -12,8 +13,12 @@ export default [
       getDynamicMetricMatch('applications', 'executionErrors', 'Application'),
       getDynamicMetricMatch('applications', 'fatalErrors', 'Application')
     ],
-    labels: ['Processed Events', 'Execution Errors', 'Fatal Errors'],
-    category: ['Applications'],
+    labels: [
+      t('in-forge:plugins.mule.processedEvents'),
+      t('in-forge:plugins.mule.executionErrors'),
+      t('in-forge:plugins.mule.fatalErrors')
+    ],
+    category: [t('in-forge:plugins.mule.applications')],
     min: 0,
     formatter: number
   },
@@ -23,22 +28,26 @@ export default [
       getDynamicMetricMatch('flows', 'executionErrors', 'Flow'),
       getDynamicMetricMatch('flows', 'fatalErrors', 'Flow')
     ],
-    labels: ['Processed Events', 'Execution Errors', 'Fatal Errors'],
-    category: ['Flows'],
+    labels: [
+      t('in-forge:plugins.mule.processedEvents'),
+      t('in-forge:plugins.mule.executionErrors'),
+      t('in-forge:plugins.mule.fatalErrors')
+    ],
+    category: [t('in-forge:plugins.mule.flows')],
     min: 0,
     formatter: number
   },
   {
     metrics: [getDynamicMetricMatch('applications', 'avgProcessingTime', 'Application')],
-    labels: ['Average Processing Time'],
-    category: ['Applications'],
+    labels: [t('in-forge:plugins.mule.averageProcessingTime')],
+    category: [t('in-forge:plugins.mule.applications')],
     min: 0,
     formatter: millis.fixedCompact
   },
   {
     metrics: [getDynamicMetricMatch('flows', 'avgProcessingTime', 'Flow')],
-    labels: ['Average Processing Time'],
-    category: ['Flows'],
+    labels: [t('in-forge:plugins.mule.averageProcessingTime')],
+    category: [t('in-forge:plugins.mule.flows')],
     min: 0,
     formatter: millis.fixedCompact
   }

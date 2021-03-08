@@ -11,6 +11,7 @@ import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => ({
@@ -27,17 +28,25 @@ export default connectTo(
     return (
       <div>
         <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>Atlas Cluster</Collapsible.Header>
+          <Collapsible.Header>{t('in-forge:plugins.mongoDb.atlasCluster')}</Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
-              <DescriptionItem title="Name">
+              <DescriptionItem title={t('in-forge:plugins.mongoDb.name')}>
                 <SnapshotLink snapshotId={clusterSnapshot.get('id')}>{data.get('clusterName')}</SnapshotLink>
               </DescriptionItem>
-              <DescriptionItem title="Type">{data.get('clusterType')}</DescriptionItem>
-              <DescriptionItem title="Cloud Provider">{data.get('clusterProvider')}</DescriptionItem>
-              <DescriptionItem title="Region">{data.get('clusterRegion')}</DescriptionItem>
-              <DescriptionItem title="Project">{data.get('clusterProjectName')}</DescriptionItem>
-              <DescriptionItem title="Organisation">{data.get('clusterOrganisationName')}</DescriptionItem>
+              <DescriptionItem title={t('in-forge:plugins.mongoDb.type')}>{data.get('clusterType')}</DescriptionItem>
+              <DescriptionItem title={t('in-forge:plugins.mongoDb.cloudProvider')}>
+                {data.get('clusterProvider')}
+              </DescriptionItem>
+              <DescriptionItem title={t('in-forge:plugins.mongoDb.region')}>
+                {data.get('clusterRegion')}
+              </DescriptionItem>
+              <DescriptionItem title={t('in-forge:plugins.mongoDb.project')}>
+                {data.get('clusterProjectName')}
+              </DescriptionItem>
+              <DescriptionItem title={t('in-forge:plugins.mongoDb.organisation')}>
+                {data.get('clusterOrganisationName')}
+              </DescriptionItem>
             </DescriptionList>
           </Collapsible.Content>
         </Collapsible>

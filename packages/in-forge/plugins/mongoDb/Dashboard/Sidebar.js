@@ -4,12 +4,12 @@
  */
 import React, { Fragment } from 'react';
 
-import MongoDbClusterInfo from 'in-forge/plugins/mongoDb/MongoDbClusterInfo';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
+import MongoDbClusterInfo from 'in-forge/plugins/mongoDb/MongoDbClusterInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { emptyList } from 'in-services/fixedImmutables';
 import List from 'in-sdk/components/sidebar/List';
-
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function MongoDBSidebar({ snapshot }) {
@@ -23,7 +23,7 @@ export default function MongoDBSidebar({ snapshot }) {
   return (
     <Fragment>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>MongoDB</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.mongoDb.mongoDb')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -31,7 +31,7 @@ export default function MongoDBSidebar({ snapshot }) {
 
       {databases.length > 0 ? (
         <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>Databases</Collapsible.Header>
+          <Collapsible.Header>{t('in-forge:plugins.mongoDb.databases')}</Collapsible.Header>
           <Collapsible.Content>
             <List>
               {databases.map(database => (

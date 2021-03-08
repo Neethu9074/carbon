@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 import { bytes, number, millis, zeroDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['generalstats._total.user_connections'],
-    labels: ['User Connections'],
+    labels: [t('in-forge:plugins.msSqlDatabase.userConnections')],
     min: 0,
-    category: ['Connections &amp; Users'],
+    category: [t('in-forge:plugins.msSqlDatabase.connectionsAmpUsers')],
     formatter: number
   },
   {
@@ -20,21 +21,27 @@ export default [
       'waitstats.CXPACKET.wait_time_ms',
       'waitstats.WRITELOG.wait_time_ms'
     ],
-    labels: ['Page IO-Latch EX', 'Page IO-Latch SH', 'Async Network IO', 'CX-Packet', 'Writelog'],
+    labels: [
+      'Page IO-Latch EX',
+      'Page IO-Latch SH',
+      t('in-forge:plugins.msSqlDatabase.asyncNetworkIo'),
+      'CX-Packet',
+      t('in-forge:plugins.msSqlDatabase.writelog')
+    ],
     min: 0,
-    category: ['Wait Times'],
+    category: [t('in-forge:plugins.msSqlDatabase.waitTimes')],
     formatter: millis
   },
   {
     metrics: ['iostats._total.num_of_bytes_read', 'iostats._total.num_of_bytes_written'],
-    labels: ['Reads', 'Writes'],
-    category: ['Virtual File Reads &amp; Writes'],
+    labels: [t('in-forge:plugins.msSqlDatabase.reads'), t('in-forge:plugins.msSqlDatabase.writes')],
+    category: [t('in-forge:plugins.msSqlDatabase.virtualFileReadsAmpWrites')],
     formatter: bytes
   },
   {
     metrics: ['perfcounters.databases._total.write_transactions_sec'],
-    labels: ['Write Transactions'],
-    category: ['Transactions'],
+    labels: [t('in-forge:plugins.msSqlDatabase.writeTransactions')],
+    category: [t('in-forge:plugins.msSqlDatabase.transactions')],
     formatter: number
   },
   {
@@ -43,21 +50,25 @@ export default [
       'perfcounters.sql_errors.db_offline_errors.errors_sec',
       'perfcounters.sql_errors.kill_connection_errors.errors_sec'
     ],
-    labels: ['User Errors', 'DB Offline Errors', 'Kill Connection Errors'],
+    labels: [
+      t('in-forge:plugins.msSqlDatabase.userErrors'),
+      t('in-forge:plugins.msSqlDatabase.dbOfflineErrors'),
+      t('in-forge:plugins.msSqlDatabase.killConnectionErrors')
+    ],
     min: 0,
-    category: ['Errors'],
+    category: [t('in-forge:plugins.msSqlDatabase.errors')],
     formatter: number
   },
   {
     metrics: ['perfcounters.locks._total.lock_requests_sec'],
-    labels: ['Lock Requests'],
-    category: ['Locks'],
+    labels: [t('in-forge:plugins.msSqlDatabase.lockRequests')],
+    category: [t('in-forge:plugins.msSqlDatabase.locks')],
     formatter: zeroDecimalPlaces
   },
   {
     metrics: ['perfcounters.locks._total.number_of_deadlocks_sec'],
-    labels: ['Number of Deadlocks'],
-    category: ['Locks'],
+    labels: [t('in-forge:plugins.msSqlDatabase.numberOfDeadlocks')],
+    category: [t('in-forge:plugins.msSqlDatabase.locks')],
     formatter: zeroDecimalPlaces
   }
 ];
