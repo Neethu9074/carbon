@@ -9,10 +9,11 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import { bytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.mongoDb.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Size',
+    title: t('in-forge:plugins.mongoDb.size'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +57,13 @@ export default function DatabaseTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <Table withoutPadding cardTitle={`Databases (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.mongoDb.databasesWithCount', { len: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
   );
 }
 
@@ -70,7 +77,7 @@ function getDetails(row) {
           formatter: bytes.detailed,
           tooltipFormatter: bytes.detailed,
           metrics: ['dbs.' + row.key],
-          labels: ['Database Size'],
+          labels: [t('in-forge:plugins.mongoDb.databaseSize')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

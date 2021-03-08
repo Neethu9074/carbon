@@ -15,6 +15,7 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, millis, seconds } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
+import { t, Trans } from 'in-i18n';
 
 const msFormatter = d => (d < 0 ? 'No activity' : millis.detailed(d));
 
@@ -31,13 +32,13 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
     'wait/synch/rwlock'
   ];
   const waitEventLabels = [
-    'io file',
-    'io socket',
-    'io table',
-    'lock table',
-    'synch cond',
-    'synch mutex',
-    'synch rwlock'
+    t('in-forge:plugins.mySqlDatabase.ioFile'),
+    t('in-forge:plugins.mySqlDatabase.ioSocket'),
+    t('in-forge:plugins.mySqlDatabase.ioTable'),
+    t('in-forge:plugins.mySqlDatabase.lockTable'),
+    t('in-forge:plugins.mySqlDatabase.synchCond'),
+    t('in-forge:plugins.mySqlDatabase.synchMutex'),
+    t('in-forge:plugins.mySqlDatabase.synchRwlock')
   ];
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
@@ -50,28 +51,28 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
     <div>
       {getPerformanceSchemaHint(snapshot)}
       <KpiSection>
-        <KpiKeyValue label="Queries">
+        <KpiKeyValue label={t('in-forge:plugins.mySqlDatabase.queries')}>
           <MetricValue snapshotId={snapshotId} metric="status.QUERIES" formatter={number.compact} />
         </KpiKeyValue>
         {performanceDataAvailable ? (
-          <KpiKeyValue label="Average Query Latency">
+          <KpiKeyValue label={t('in-forge:plugins.mySqlDatabase.averageQueryLatency')}>
             <MetricValue snapshotId={snapshotId} metric="status.DB_QUERY_LATENCY" formatter={millis.compact} />
           </KpiKeyValue>
         ) : null}
-        <KpiKeyValue label="Threads Connected">
+        <KpiKeyValue label={t('in-forge:plugins.mySqlDatabase.threadsConnected')}>
           <MetricValue snapshotId={snapshotId} metric="status.THREADS_CONNECTED" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
 
       {snapshot.getIn(['data', 'role']) === 'slave' && (
-        <DashboardSection title="Replication">
+        <DashboardSection title={t('in-forge:plugins.mySqlDatabase.replication')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['replica.seconds_behind_master'],
-              labels: ['Seconds Behind Source'],
+              labels: [t('in-forge:plugins.mySqlDatabase.secondsBehindSource')],
               type: 'line',
               formatter: seconds.fixedCompact
             }}
@@ -80,7 +81,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
 
-      <DashboardSection title="Queries">
+      <DashboardSection title={t('in-forge:plugins.mySqlDatabase.queries')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -93,7 +94,13 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
               'status.COM_DELETE',
               'status.COM_OTHER'
             ],
-            labels: ['SELECTS', 'UPDATES', 'INSERTS', 'DELETES', 'OTHER'],
+            labels: [
+              t('in-forge:plugins.mySqlDatabase.selects'),
+              t('in-forge:plugins.mySqlDatabase.updates'),
+              t('in-forge:plugins.mySqlDatabase.inserts'),
+              t('in-forge:plugins.mySqlDatabase.deletes'),
+              t('in-forge:plugins.mySqlDatabase.other')
+            ],
             formatter: number.compact,
             type: 'stackedArea'
           }}
@@ -101,14 +108,14 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Slow Queries">
+      <DashboardSection title={t('in-forge:plugins.mySqlDatabase.slowQueries')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['status.SLOW_QUERIES', 'status.COM_SHOW_ERRORS'],
-            labels: ['Slow Queries', 'Errors'],
+            labels: [t('in-forge:plugins.mySqlDatabase.slowQueries'), t('in-forge:plugins.mySqlDatabase.errors')],
             type: 'line',
             formatter: number.detailed
           }}
@@ -116,14 +123,14 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       {performanceDataAvailable ? (
-        <DashboardSection title="Latency">
+        <DashboardSection title={t('in-forge:plugins.mySqlDatabase.latency')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['status.DB_QUERY_LATENCY'],
-              labels: ['Average Query Latency'],
+              labels: [t('in-forge:plugins.mySqlDatabase.averageQueryLatency')],
               type: 'line',
               formatter: millis.detailed
             }}
@@ -131,14 +138,18 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       ) : null}
-      <DashboardSection title="Clients">
+      <DashboardSection title={t('in-forge:plugins.mySqlDatabase.clients')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
-            labels: ['Threads connected', 'Max used connections', 'Aborted connects'],
+            labels: [
+              t('in-forge:plugins.mySqlDatabase.threadsCconnected'),
+              t('in-forge:plugins.mySqlDatabase.maxUsedConnections'),
+              t('in-forge:plugins.mySqlDatabase.abortedConnects')
+            ],
             type: 'line',
             formatter: number.compact
           }}
@@ -146,7 +157,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       {performanceDataAvailable ? (
-        <DashboardSection title="Wait Events">
+        <DashboardSection title={t('in-forge:plugins.mySqlDatabase.waitEvents')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -161,21 +172,24 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       ) : null}
-      <DashboardSection title="Key Access">
+      <DashboardSection title={t('in-forge:plugins.mySqlDatabase.keyAccess')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['status.KEY_READ_REQUESTS', 'status.KEY_WRITE_REQUESTS'],
-            labels: ['Read Requests', 'Write Requests'],
+            labels: [
+              t('in-forge:plugins.mySqlDatabase.readRequests'),
+              t('in-forge:plugins.mySqlDatabase.writeRequests')
+            ],
             type: 'line',
             formatter: number.detailed
           }}
           y2={{
             min: 0,
             metrics: ['status.KEY_READS', 'status.KEY_WRITES'],
-            labels: ['Reads', 'Writes'],
+            labels: [t('in-forge:plugins.mySqlDatabase.reads'), t('in-forge:plugins.mySqlDatabase.writes')],
             type: 'line',
             formatter: number.detailed
           }}
@@ -197,12 +211,19 @@ function getPerformanceSchemaHint(snapshot) {
   if (sensorPerformanceSchemaStatus !== 'OK') {
     return (
       <DashboardNotification type="info">
-        {sensorPerformanceSchemaStatus} In order to enable Average Query Latency and Wait Events metrics, access to the{' '}
-        <code>performance_schema</code> needs to be granted. Please contact us for installation support or refer to the{' '}
-        <a href="https://instana.com/docs/ecosystem/mysql/#configuration" rel="noopener noreferrer" target="_blank">
-          Instana MySql Sensor configuration
-        </a>
-        .
+        <Trans
+          i18nKey="in-forge:plugins.mySqlDatabase.instanaMySqlSensorConfigurationHelp"
+          values={{ sensorPerformanceSchemaStatus }}
+          components={{
+            mysqlConfig: (
+              <a
+                href="https://instana.com/docs/ecosystem/mysql/#configuration"
+                rel="noopener noreferrer"
+                target="_blank"
+              />
+            )
+          }}
+        />
       </DashboardNotification>
     );
   }

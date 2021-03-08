@@ -10,10 +10,11 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Schema',
+    title: t('in-forge:plugins.msSqlDatabase.schema'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'User Connections',
+    title: t('in-forge:plugins.msSqlDatabase.userConnections'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Virtual File Reads',
+    title: t('in-forge:plugins.msSqlDatabase.virtualFileReads'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Virtual File Writes',
+    title: t('in-forge:plugins.msSqlDatabase.virtualFileWrites'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Transactions',
+    title: t('in-forge:plugins.msSqlDatabase.transactions'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -105,20 +106,26 @@ export default function DatabasesTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <Table withoutPadding cardTitle={`Databases (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.msSqlDatabase.databasesWithCount', { len: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
   );
 }
 
 function getDetails(row) {
   return (
     <div>
-      <DashboardSection title="Connections &amp; Users">
+      <DashboardSection title={t('in-forge:plugins.msSqlDatabase.connectionsAmpUsers')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             metrics: ['generalstats.' + row.key + '.user_connections'],
-            labels: ['User Connections'],
+            labels: [t('in-forge:plugins.msSqlDatabase.userConnections')],
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
@@ -126,13 +133,13 @@ function getDetails(row) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Virtual File Reads &amp; Writes (bytes)">
+      <DashboardSection title={t('in-forge:plugins.msSqlDatabase.virtualFileReadsAmpWritesBytes')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             metrics: ['iostats.' + row.key + '.num_of_bytes_read', 'iostats.' + row.key + '.num_of_bytes_written'],
-            labels: ['Reads', 'Writes'],
+            labels: [t('in-forge:plugins.msSqlDatabase.reads'), t('in-forge:plugins.msSqlDatabase.writes')],
             type: 'line',
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces
@@ -140,7 +147,7 @@ function getDetails(row) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Transactions">
+      <DashboardSection title={t('in-forge:plugins.msSqlDatabase.transactions')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
@@ -148,7 +155,7 @@ function getDetails(row) {
             metrics: [
               'perfcounters.databases.' + row.key.toLowerCase().replace(/\./g, '_') + '.write_transactions_sec'
             ],
-            labels: ['Write Transactions'],
+            labels: [t('in-forge:plugins.msSqlDatabase.writeTransactions')],
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces

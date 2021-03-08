@@ -6,10 +6,11 @@ import React from 'react';
 
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.msiis.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -18,7 +19,7 @@ const cols = [
     }
   },
   {
-    title: 'ASP.NET Version',
+    title: t('in-forge:plugins.msiis.aspNetVersion'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -41,5 +42,12 @@ export default function ApplicationPoolsTable({ snapshot }) {
     };
   });
 
-  return <Table withoutPadding cardTitle={`Application Pools (${rows.length})`} cols={cols} rows={rows} />;
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.msiis.applicationPoolsWithCount', { len: rows.length })}
+      cols={cols}
+      rows={rows}
+    />
+  );
 }

@@ -13,6 +13,7 @@ import { bytes, number } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import DatabaseSizesTable from './DatabaseSizesTable';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function MongoDBDashboard({ snapshot, timeConfig }) {
   const sensorConnectionProblems = snapshot.getIn(['data', 'sensorConnectionProblems'], emptyList);
@@ -28,7 +29,7 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Connections">
+        <KpiKeyValue label={t('in-forge:plugins.mongoDb.connections')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="connections"
@@ -36,7 +37,7 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
             timeWindowAggregation="mean"
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Database Size">
+        <KpiKeyValue label={t('in-forge:plugins.mongoDb.databaseSize')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="totalDbSize"
@@ -46,13 +47,18 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Database Activity">
+      <DashboardSection title={t('in-forge:plugins.mongoDb.databaseActivity')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['documents.returned', 'documents.inserted', 'documents.updated', 'documents.deleted'],
-            labels: ['Read', 'Inserted', 'Updated', 'Deleted'],
+            labels: [
+              t('in-forge:plugins.mongoDb.read'),
+              t('in-forge:plugins.mongoDb.inserted'),
+              t('in-forge:plugins.mongoDb.updated'),
+              t('in-forge:plugins.mongoDb.deleted')
+            ],
             type: 'stackedBar',
             aggregation: 'sum',
             formatter: number.compact
@@ -61,14 +67,14 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Clients">
+      <DashboardSection title={t('in-forge:plugins.mongoDb.clients')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['connections'],
-            labels: ['Connections'],
+            labels: [t('in-forge:plugins.mongoDb.connections')],
             type: 'line',
             formatter: number.compact
           }}
@@ -76,14 +82,14 @@ export default function MongoDBDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.mongoDb.memory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['virtual', 'mapped'],
-            labels: ['Virtual', 'Mapped'],
+            labels: [t('in-forge:plugins.mongoDb.virtual'), t('in-forge:plugins.mongoDb.mapped')],
             type: 'line',
             formatter: bytes.detailed
           }}

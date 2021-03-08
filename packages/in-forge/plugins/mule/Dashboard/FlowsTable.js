@@ -9,10 +9,11 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { millis, number } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.mule.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Application',
+    title: t('in-forge:plugins.mule.application'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Processed Events',
+    title: t('in-forge:plugins.mule.processedEvents'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -46,7 +47,7 @@ const cols = [
     }
   },
   {
-    title: 'Execution Errors',
+    title: t('in-forge:plugins.mule.executionErrors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -62,7 +63,7 @@ const cols = [
     }
   },
   {
-    title: 'Fatal Errors',
+    title: t('in-forge:plugins.mule.fatalErrors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -78,7 +79,7 @@ const cols = [
     }
   },
   {
-    title: 'Processing Time',
+    title: t('in-forge:plugins.mule.processingTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -115,7 +116,13 @@ export default function FlowsTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <Table withoutPadding cardTitle={`Flows (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.mule.flowsWithCount', { len: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
   );
 }
 
@@ -131,7 +138,11 @@ function getDetails(row) {
           'flows.' + row.key + '.executionErrors',
           'flows.' + row.key + '.fatalErrors'
         ],
-        labels: ['Processed events', 'Execution errors', 'Fatal errors'],
+        labels: [
+          t('in-forge:plugins.mule.processedEevents'),
+          t('in-forge:plugins.mule.executionEerrors'),
+          t('in-forge:plugins.mule.fatalEerrors')
+        ],
         formatter: number.compact,
         tooltipFormatter: number.compact,
         type: 'line'
@@ -139,7 +150,7 @@ function getDetails(row) {
       y2={{
         min: 0,
         metrics: ['flows.' + row.key + '.avgProcessingTime'],
-        labels: ['Average processing time'],
+        labels: [t('in-forge:plugins.mule.averagePprocessingTime')],
         formatter: millis.fixedCompact,
         type: 'line'
       }}

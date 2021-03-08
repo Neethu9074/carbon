@@ -4,112 +4,134 @@
  */
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { millis, number, seconds } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['status.COM_SELECT', 'status.COM_UPDATE', 'status.COM_INSERT', 'status.COM_DELETE', 'status.COM_OTHER'],
-    labels: ['SELECTS', 'UPDATES', 'INSERTS', 'DELETES', 'OTHER'],
+    labels: [
+      t('in-forge:plugins.mySqlDatabase.selects'),
+      t('in-forge:plugins.mySqlDatabase.updates'),
+      t('in-forge:plugins.mySqlDatabase.inserts'),
+      t('in-forge:plugins.mySqlDatabase.deletes'),
+      t('in-forge:plugins.mySqlDatabase.other')
+    ],
     min: 0,
-    category: ['Queries'],
+    category: [t('in-forge:plugins.mySqlDatabase.queries')],
     formatter: number
   },
   {
     metrics: ['status.SLOW_QUERIES', 'status.COM_SHOW_ERRORS'],
     labels: [],
     min: 0,
-    category: ['Slow Queries'],
+    category: [t('in-forge:plugins.mySqlDatabase.slowQueries')],
     formatter: number
   },
   {
     metric: 'status.DB_QUERY_LATENCY',
-    label: 'avg. Query Latency',
+    label: t('in-forge:plugins.mySqlDatabase.avgQueryLatency'),
     min: 0,
-    category: ['Latency'],
+    category: [t('in-forge:plugins.mySqlDatabase.latency')],
     formatter: millis
   },
   {
     metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
-    labels: ['Threads connected', 'Max used connections', 'Aborted connects'],
+    labels: [
+      t('in-forge:plugins.mySqlDatabase.threadsCconnected'),
+      t('in-forge:plugins.mySqlDatabase.maxUsedConnections'),
+      t('in-forge:plugins.mySqlDatabase.abortedConnects')
+    ],
     min: 0,
-    category: ['Clients'],
+    category: [t('in-forge:plugins.mySqlDatabase.clients')],
     formatter: number
   },
   {
     metrics: ['replica.slave_io_running', 'replica.slave_sql_running'],
-    labels: ['Replication I/O thread running', 'Replication SQL thread running'],
+    labels: [
+      t('in-forge:plugins.mySqlDatabase.replicationIOThreadRunning'),
+      t('in-forge:plugins.mySqlDatabase.replicationSqlThreadRunning')
+    ],
     min: 0,
     max: 1,
-    category: ['Replication'],
+    category: [t('in-forge:plugins.mySqlDatabase.replication')],
     formatter: number
   },
   {
     metrics: ['replica.last_io_error_no', 'replica.last_sql_error_no'],
-    labels: ['Replication last I/O error code', 'Replication last SQL error code'],
+    labels: [
+      t('in-forge:plugins.mySqlDatabase.replicationLastIOErrorCode'),
+      t('in-forge:plugins.mySqlDatabase.replicationLastSqlErrorCode')
+    ],
     min: 0,
-    category: ['Replication'],
+    category: [t('in-forge:plugins.mySqlDatabase.replication')],
     formatter: number
   },
   {
     metrics: ['replica.seconds_behind_master'],
-    labels: ['Seconds behind master'],
+    labels: [t('in-forge:plugins.mySqlDatabase.secondsBehindMaster')],
     min: 0,
-    category: ['Replication'],
+    category: [t('in-forge:plugins.mySqlDatabase.replication')],
     formatter: seconds
   },
   {
     metrics: ['status.KEY_READ_REQUESTS', 'status.KEY_WRITE_REQUESTS', 'status.KEY_READS', 'status.KEY_WRITES'],
-    labels: ['Read Requests', 'Write Requests', 'Reads', 'Writes'],
-    category: ['Key Access'],
+    labels: [
+      t('in-forge:plugins.mySqlDatabase.readRequests'),
+      t('in-forge:plugins.mySqlDatabase.writeRequests'),
+      t('in-forge:plugins.mySqlDatabase.reads'),
+      t('in-forge:plugins.mySqlDatabase.writes')
+    ],
+    category: [t('in-forge:plugins.mySqlDatabase.keyAccess')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('databases', 'avg_query_latency', 'Schema'),
-    label: 'avg. Query Latency',
-    category: ['Schemas'],
+    label: t('in-forge:plugins.mySqlDatabase.avgQueryLatency'),
+    category: [t('in-forge:plugins.mySqlDatabase.schemas')],
     min: 0,
     formatter: millis
   },
   {
     metric: getDynamicMetricMatch('databases', 'queries', 'Schema'),
-    label: 'Queries',
-    category: ['Schemas'],
+    label: t('in-forge:plugins.mySqlDatabase.queries'),
+    category: [t('in-forge:plugins.mySqlDatabase.schemas')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('databases', 'select_count', 'Schema'),
-    label: 'SELECTS',
+    label: t('in-forge:plugins.mySqlDatabase.selects'),
     min: 0,
-    category: ['Schemas'],
+    category: [t('in-forge:plugins.mySqlDatabase.schemas')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('databases', 'insert_count', 'Schema'),
-    label: 'INSERTS',
+    label: t('in-forge:plugins.mySqlDatabase.inserts'),
     min: 0,
-    category: ['Schemas'],
+    category: [t('in-forge:plugins.mySqlDatabase.schemas')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('databases', 'update_count', 'Schema'),
-    label: 'UPDATES',
+    label: t('in-forge:plugins.mySqlDatabase.updates'),
     min: 0,
-    category: ['Schemas'],
+    category: [t('in-forge:plugins.mySqlDatabase.schemas')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('databases', 'delete_count', 'Schema'),
-    label: 'DELETES',
+    label: t('in-forge:plugins.mySqlDatabase.deletes'),
     min: 0,
-    category: ['Schemas'],
+    category: [t('in-forge:plugins.mySqlDatabase.schemas')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('databases', 'other_count', 'Schema'),
-    label: 'OTHER',
+    label: t('in-forge:plugins.mySqlDatabase.other'),
     min: 0,
-    category: ['Schemas'],
+    category: [t('in-forge:plugins.mySqlDatabase.schemas')],
     formatter: number
   },
   {
@@ -123,15 +145,15 @@ export default [
       'wait_events.wait/synch/rwlock'
     ],
     labels: [
-      'wait/io/file',
-      'wait/io/socket',
-      'wait/io/table',
-      'wait/lock/table',
-      'wait/synch/cond',
-      'wait/synch/mutex',
-      'wait/synch/rwlock'
+      t('in-forge:plugins.mySqlDatabase.waitIoFile'),
+      t('in-forge:plugins.mySqlDatabase.waitIoSocket'),
+      t('in-forge:plugins.mySqlDatabase.waitIoTable'),
+      t('in-forge:plugins.mySqlDatabase.waitLockTable'),
+      t('in-forge:plugins.mySqlDatabase.waitSynchCond'),
+      t('in-forge:plugins.mySqlDatabase.waitSynchMutex'),
+      t('in-forge:plugins.mySqlDatabase.waitSynchRwlock')
     ],
-    category: ['Wait Events'],
+    category: [t('in-forge:plugins.mySqlDatabase.waitEvents')],
     min: 0,
     formatter: number
   }

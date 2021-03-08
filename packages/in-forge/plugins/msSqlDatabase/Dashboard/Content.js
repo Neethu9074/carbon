@@ -18,6 +18,7 @@ import DatabasesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/DatabasesTa
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { t } from 'in-i18n';
 
 export default function MsSqlDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -28,13 +29,13 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
   }
   return (
     <div>
-      <DashboardSection title="Connections &amp; Users">
+      <DashboardSection title={t('in-forge:plugins.msSqlDatabase.connectionsAmpUsers')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['generalstats._total.user_connections'],
-            labels: ['User Connections'],
+            labels: [t('in-forge:plugins.msSqlDatabase.userConnections')],
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
@@ -43,7 +44,7 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Wait-Times (ms) on server">
+      <DashboardSection title={t('in-forge:plugins.msSqlDatabase.waitTimesMsOnServer')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -55,7 +56,13 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
               'waitstats.CXPACKET.wait_time_ms',
               'waitstats.WRITELOG.wait_time_ms'
             ],
-            labels: ['Page IO-Latch EX', 'Page IO-Latch SH', 'Async Network IO', 'CX-Packet', 'Writelog'],
+            labels: [
+              'Page IO-Latch EX',
+              'Page IO-Latch SH',
+              t('in-forge:plugins.msSqlDatabase.asyncNetworkIo'),
+              'CX-Packet',
+              t('in-forge:plugins.msSqlDatabase.writelog')
+            ],
             type: 'line',
             formatter: msZeroDecimalPlaces,
             tooltipFormatter: msTwoDecimalPlaces
@@ -64,13 +71,13 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Virtual File Reads &amp; Writes (bytes)">
+      <DashboardSection title={t('in-forge:plugins.msSqlDatabase.virtualFileReadsAmpWritesBytes')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['iostats._total.num_of_bytes_read', 'iostats._total.num_of_bytes_written'],
-            labels: ['Reads', 'Writes'],
+            labels: [t('in-forge:plugins.msSqlDatabase.reads'), t('in-forge:plugins.msSqlDatabase.writes')],
             type: 'line',
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces
@@ -79,13 +86,13 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Transactions">
+      <DashboardSection title={t('in-forge:plugins.msSqlDatabase.transactions')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['perfcounters.databases._total.write_transactions_sec'],
-            labels: ['Write Transactions'],
+            labels: [t('in-forge:plugins.msSqlDatabase.writeTransactions')],
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
@@ -94,7 +101,7 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Errors">
+      <DashboardSection title={t('in-forge:plugins.msSqlDatabase.errors')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -104,7 +111,11 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
               'perfcounters.sql_errors.db_offline_errors.errors_sec',
               'perfcounters.sql_errors.kill_connection_errors.errors_sec'
             ],
-            labels: ['User Errors', 'DB Offline Errors', 'Kill Connection Errors'],
+            labels: [
+              t('in-forge:plugins.msSqlDatabase.userErrors'),
+              t('in-forge:plugins.msSqlDatabase.dbOfflineErrors'),
+              t('in-forge:plugins.msSqlDatabase.killConnectionErrors')
+            ],
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces
@@ -113,7 +124,7 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Locks">
+      <DashboardSection title={t('in-forge:plugins.msSqlDatabase.locks')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -122,7 +133,10 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
               'perfcounters.locks._total.lock_requests_sec',
               'perfcounters.locks._total.number_of_deadlocks_sec'
             ],
-            labels: ['Lock Requests', 'Number of Deadlocks'],
+            labels: [
+              t('in-forge:plugins.msSqlDatabase.lockRequests'),
+              t('in-forge:plugins.msSqlDatabase.numberOfDeadlocks')
+            ],
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: zeroDecimalPlaces

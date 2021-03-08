@@ -12,6 +12,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function MariaDbDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -22,64 +23,74 @@ export default function MariaDbDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Queries">
+        <KpiKeyValue label={t('in-forge:plugins.mariaDbDatabase.queries')}>
           <MetricValue snapshotId={snapshotId} metric="status.QUERIES" />
         </KpiKeyValue>
-        <KpiKeyValue label="Client Connections">
+        <KpiKeyValue label={t('in-forge:plugins.mariaDbDatabase.clientConnections')}>
           <MetricValue snapshotId={snapshotId} metric="status.THREADS_CONNECTED" />
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Clients">
+      <DashboardSection title={t('in-forge:plugins.mariaDbDatabase.clients')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['status.THREADS_CONNECTED', 'status.MAX_USED_CONNECTIONS', 'status.ABORTED_CONNECTS'],
-            labels: ['Connections', 'Max used connections', 'Aborted connects'],
+            labels: [
+              t('in-forge:plugins.mariaDbDatabase.connections'),
+              t('in-forge:plugins.mariaDbDatabase.maxUsedConnections'),
+              t('in-forge:plugins.mariaDbDatabase.abortedConnects')
+            ],
             type: 'line',
             formatter: number.detailed
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Slow Queries">
+      <DashboardSection title={t('in-forge:plugins.mariaDbDatabase.slowQueries')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['status.SLOW_QUERIES'],
-            labels: ['Slow Queries'],
+            labels: [t('in-forge:plugins.mariaDbDatabase.slowQueries')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Key Access">
+      <DashboardSection title={t('in-forge:plugins.mariaDbDatabase.keyAccess')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['status.KEY_READ_REQUESTS', 'status.KEY_WRITE_REQUESTS'],
-            labels: ['Read Requests', 'Write Requests'],
+            labels: [
+              t('in-forge:plugins.mariaDbDatabase.readRequests'),
+              t('in-forge:plugins.mariaDbDatabase.writeRequests')
+            ],
             type: 'line'
           }}
           y2={{
             metrics: ['status.KEY_READS', 'status.KEY_WRITES'],
-            labels: ['Reads', 'Writes'],
+            labels: [t('in-forge:plugins.mariaDbDatabase.reads'), t('in-forge:plugins.mariaDbDatabase.writes')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Aria Engine Properties">
+      <DashboardSection title={t('in-forge:plugins.mariaDbDatabase.ariaEngineProperties')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['status.ARIA_PAGECACHE_READS', 'status.ARIA_PAGECACHE_WRITES'],
-            labels: ['Pagecache Reads', 'Pagecache Writes'],
+            labels: [
+              t('in-forge:plugins.mariaDbDatabase.pagecacheReads'),
+              t('in-forge:plugins.mariaDbDatabase.pagecacheWrites')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

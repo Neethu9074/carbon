@@ -6,6 +6,7 @@ import metricDefinitions from 'in-forge/plugins/msSqlDatabase/metricDefinitions'
 import kpiDefinitions from 'in-forge/plugins/msSqlDatabase/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.msSqlDatabase,
@@ -13,6 +14,6 @@ registerSnapshotDefinition({
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {
-    label: 'MS SQL'
+    label: t('in-forge:plugins.msSqlDatabase.msSql')
   }
 });
