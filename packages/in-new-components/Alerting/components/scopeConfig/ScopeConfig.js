@@ -30,6 +30,7 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, t
   const boundaryScope = form.get('boundaryScope').value;
   const alertApplicationId = form.get('applicationId').value;
   const tagFilterExpression = form.get('tagFilterExpression').value;
+  const includeSynthetic = form.get('includeSynthetic').value;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filterBySelectionState, setFilterBySelectionState] = useState(Boolean(editMode));
@@ -71,6 +72,7 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, t
               alertApplicationId={alertApplicationId}
               timeConfig={timeConfig}
               boundaryScope={boundaryScope}
+              includeSynthetic={includeSynthetic}
               searchQuery={searchQuery}
               editMode={editMode}
               showInteractedItemsOnly={filterBySelectionState}

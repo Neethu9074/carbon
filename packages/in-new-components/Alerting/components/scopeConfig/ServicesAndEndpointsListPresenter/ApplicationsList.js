@@ -28,6 +28,7 @@ export default function ApplicationsList({
   alertApplicationId,
   ...props
 }) {
+  const { timeConfig, includeSynthetic } = props;
   const searchQuery = props.searchQuery?.trim();
   const { items, ...tableProps } = useCursorPagination(
     ({ cursor }) =>
@@ -43,14 +44,15 @@ export default function ApplicationsList({
             },
             metrics: {},
             filter: {
-              timeConfig: props.timeConfig
+              timeConfig,
+              includeSyntheticCalls: includeSynthetic
             }
             // tagFilterExpression: searchQuery ? [] : [] // TODO: not usable yet since EP doesn't support tagFilterExpression.
           })
         : getApplication({ id: alertApplicationId }).map(result => {
             return { ...result, data: { items: result?.data ? [{ application: result.data }] : [] } };
           }),
-    [searchQuery, isGlobalSmartAlert]
+    [searchQuery, isGlobalSmartAlert, includeSynthetic]
   );
 
   const { state } = props.stateManagement;
@@ -133,5 +135,6 @@ ApplicationsList.propTypes = {
   searchQuery: PropTypes.string,
   boundaryScope: PropTypes.string.isRequired,
   showInteractedItemsOnly: PropTypes.bool,
-  editMode: PropTypes.bool
+  editMode: PropTypes.bool,
+  includeSynthetic: PropTypes.bool.isRequired
 };
