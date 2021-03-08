@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'ManagedConnection Objects in Use',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleManagedConnectionObjectsInUse'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Free Connections in Pool',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleFreeConnectionsInPool'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Connection Objects in Use',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleConnectionObjectsInUse'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,7 +70,7 @@ const cols = [
     }
   },
   {
-    title: 'Average Waiting Time for Connection',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleAvgWaitingTimeForConnection'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -85,7 +86,7 @@ const cols = [
     }
   },
   {
-    title: 'Connections Created',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleConnectionsCreated'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -119,7 +120,9 @@ export default function ConnectionPoolsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Database Connection Pools (${rows.length})`}
+      cardTitle={t('in-forge:plugins.webSphereLibertyAppContainer.titleDatabaseConnectionPoolsCount', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -142,10 +145,10 @@ function getRowDetails(row) {
             'connectionPools.' + row.key + '.connectionsCreated'
           ],
           labels: [
-            'ManagedConnection Objects in Use',
-            'Free Connections in Pool',
-            'Connection Objects in Use',
-            'Connections Created'
+            t('in-forge:plugins.webSphereLibertyAppContainer.titleManagedConnectionObjectsInUse'),
+            t('in-forge:plugins.webSphereLibertyAppContainer.titleFreeConnectionsInPool'),
+            t('in-forge:plugins.webSphereLibertyAppContainer.titleConnectionObjectsInUse'),
+            t('in-forge:plugins.webSphereLibertyAppContainer.titleConnectionsCreated')
           ],
           type: 'line'
         }}
@@ -157,7 +160,7 @@ function getRowDetails(row) {
         y1={{
           formatter: msZeroDecimalPlaces,
           metrics: ['connectionPools.' + row.key + '.waitTime'],
-          labels: ['Average Waiting Time for Connection'],
+          labels: [t('in-forge:plugins.webSphereLibertyAppContainer.titleAvgWaitingTimeForConnection')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

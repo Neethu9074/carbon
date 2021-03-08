@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import metricDefinitions from 'in-forge/plugins/vault/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/vault/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -13,6 +15,6 @@ registerSnapshotDefinition({
   kpiDefinitions,
 
   technologyDescriptor: {
-    label: 'Vault'
+    label: t('in-forge:plugins.vault.labelVault')
   }
 });

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
@@ -10,17 +11,24 @@ import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/Desc
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
 
-  const convertBoolToString = bool => (bool === true ? 'Yes' : 'No');
+  const convertBoolToString = bool =>
+    bool === true ? t('in-forge:plugins.infoTitle.yes') : t('in-forge:plugins.infoTitle.no');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
-      <DescriptionItem title="Initialized">{convertBoolToString(data.get('initialized'))}</DescriptionItem>
-      <DescriptionItem title="Sealed">{convertBoolToString(data.get('sealed'))}</DescriptionItem>
-      <DescriptionItem title="Standby">{convertBoolToString(data.get('standby'))}</DescriptionItem>
-      <DescriptionItem title="Performance standby">
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.name')}>{data.get('name')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.processId')}>{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.version')}>{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.initialized')}>
+        {convertBoolToString(data.get('initialized'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.sealed')}>
+        {convertBoolToString(data.get('sealed'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.standby')}>
+        {convertBoolToString(data.get('standby'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.performanceStandby')}>
         {convertBoolToString(data.get('performanceStandBy'))}
       </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />

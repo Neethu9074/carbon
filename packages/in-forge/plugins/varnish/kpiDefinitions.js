@@ -2,16 +2,18 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { hitRateZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 
 export default [
   {
-    label: 'Received Client Requests',
+    label: t('in-forge:plugins.varnish.labelReceivedClientRequestsUp'),
     metric: 'client_req',
     formatter: zeroDecimalPlaces
   },
   {
-    label: 'Cache Hit Rate',
+    label: t('in-forge:plugins.varnish.labelCacheHitRate'),
     metric: 'cache_hit_rate',
     formatter: hitRateZeroDecimalPlaces
   }

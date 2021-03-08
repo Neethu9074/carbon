@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.webSphereAppContainer.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Number of Sessions',
+    title: t('in-forge:plugins.webSphereAppContainer.titleNumberOfSessions'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Servlets Requests',
+    title: t('in-forge:plugins.webSphereAppContainer.titleServletsRequests'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Servlets Average Response Time',
+    title: t('in-forge:plugins.webSphereAppContainer.titleServletsAverageResponseTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,7 +70,7 @@ const cols = [
     }
   },
   {
-    title: 'Servlets Errors',
+    title: t('in-forge:plugins.webSphereAppContainer.titleServletsErrors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -103,7 +104,9 @@ export default function WebModulesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Web Modules (${rows.length})`}
+      cardTitle={t('in-forge:plugins.webSphereAppContainer.titleWebModulesCount', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -120,7 +123,7 @@ function getRowDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['sessionManagers.' + row.key + '.activeCount'],
-          labels: ['Sessions'],
+          labels: [t('in-forge:plugins.webSphereAppContainer.labelSessions')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -131,13 +134,16 @@ function getRowDetails(row) {
         y1={{
           formatter: msZeroDecimalPlaces,
           metrics: ['servlets.' + row.key + '.avgResponseTime'],
-          labels: ['Average Response Time'],
+          labels: [t('in-forge:plugins.webSphereAppContainer.labelAverageResponseTime')],
           type: 'line'
         }}
         y2={{
           formatter: zeroDecimalPlaces,
           metrics: ['servlets.' + row.key + '.requests', 'servlets.' + row.key + '.errors'],
-          labels: ['Request Count', 'Errors'],
+          labels: [
+            t('in-forge:plugins.webSphereAppContainer.labelRequestCount'),
+            t('in-forge:plugins.webSphereAppContainer.labelErrors')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

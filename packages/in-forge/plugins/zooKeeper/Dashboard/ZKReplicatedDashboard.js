@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -16,7 +17,7 @@ export default function ZKReplicatedDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title="Ticks">
+      <DashboardSection title={t('in-forge:plugins.zooKeeper.titleTicks')}>
         {localPeerNames.map(peer => (
           <Chart
             key={peer}
@@ -25,7 +26,7 @@ export default function ZKReplicatedDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               metrics: ['peers.' + peer + '.tick'],
-              labels: [peer + ': Ticks'],
+              labels: [t('in-forge:plugins.zooKeeper.labelPeerTicks', { peer: peer })],
               type: 'line',
               formatter: zeroDecimalPlaces
             }}

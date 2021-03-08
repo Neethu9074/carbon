@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Session Name',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleSessionName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Live Sessions',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleLiveSessions'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Active Sessions',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleActiveSessions'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Sessions Created',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleSessionsCreated'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,7 +70,7 @@ const cols = [
     }
   },
   {
-    title: 'Sessions Invalidated',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleSessionsInvalidated'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -85,7 +86,7 @@ const cols = [
     }
   },
   {
-    title: 'Sessions Invalidated by a Timeout',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleSessionsInvalidatedByTimeout'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -119,7 +120,9 @@ export default function ConnectionPoolsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Sessions (${rows.length})`}
+      cardTitle={t('in-forge:plugins.webSphereLibertyAppContainer.titleSessionsCount', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -143,11 +146,11 @@ function getRowDetails(row) {
             'sessions.' + row.key + '.invalidatedByTimeout'
           ],
           labels: [
-            'Live Sessions',
-            'Active Sessions',
-            'Sessions Created',
-            'Sessions Invalidated',
-            'Sessions Invalidated by a Timeout'
+            t('in-forge:plugins.webSphereLibertyAppContainer.titleLiveSessions'),
+            t('in-forge:plugins.webSphereLibertyAppContainer.titleActiveSessions'),
+            t('in-forge:plugins.webSphereLibertyAppContainer.titleSessionsCreated'),
+            t('in-forge:plugins.webSphereLibertyAppContainer.titleSessionsInvalidated'),
+            t('in-forge:plugins.webSphereLibertyAppContainer.titleSessionsInvalidatedByTimeout')
           ],
           type: 'line'
         }}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, muSecondsToMillisTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'App Name',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleAppName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Servlet Name',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleServletName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Requests',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleRequests'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -46,7 +47,7 @@ const cols = [
     }
   },
   {
-    title: 'Average Response Time',
+    title: t('in-forge:plugins.webSphereLibertyAppContainer.titleAvgResponseTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -95,7 +96,9 @@ export default function ServletsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Servlets (${rows.length})`}
+      cardTitle={t('in-forge:plugins.webSphereLibertyAppContainer.titleServletsCount', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -112,7 +115,7 @@ function getRowDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['servlets.' + row.key + '.' + row.servletName + '.requests'],
-          labels: ['Requests'],
+          labels: [t('in-forge:plugins.webSphereLibertyAppContainer.titleRequests')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -123,7 +126,7 @@ function getRowDetails(row) {
         y1={{
           formatter: muSecondsToMillisTwoDecimalPlaces,
           metrics: ['servlets.' + row.key + '.' + row.servletName + '.avgResponseTime'],
-          labels: ['Average Response Time'],
+          labels: [t('in-forge:plugins.webSphereLibertyAppContainer.titleAvgResponseTime')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

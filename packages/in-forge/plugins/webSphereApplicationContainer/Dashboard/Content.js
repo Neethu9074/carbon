@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -14,14 +15,17 @@ import WebModulesTable from './WebModulesTable';
 export default function WebSphereDashboard({ snapshot, timeConfig }) {
   return (
     <div>
-      <DashboardSection title="Web Container Thread Pool">
+      <DashboardSection title={t('in-forge:plugins.webSphereAppContainer.titleWebContainerThreadPool')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['threadPools.webContainer.activeThreads', 'threadPools.webContainer.poolSize'],
-            labels: ['Active Threads', 'Pool Size'],
+            labels: [
+              t('in-forge:plugins.webSphereAppContainer.labelActiveThreads'),
+              t('in-forge:plugins.webSphereAppContainer.labelPoolSize')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

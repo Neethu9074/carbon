@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -14,15 +15,23 @@ export default function JettyThreadsInfo({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>Web Container Thread Pool</Collapsible.Header>
+        <Collapsible.Header>
+          {t('in-forge:plugins.webSphereAppContainer.headerWebContainerThreadPool')}
+        </Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="Min Threads">{data.get('threadPools.webContainer.minimumSize')}</DescriptionItem>
-            <DescriptionItem title="Max Threads">{data.get('threadPools.webContainer.maximumSize')}</DescriptionItem>
-            <DescriptionItem title="Inactivity Timeout">
+            <DescriptionItem title={t('in-forge:plugins.webSphereAppContainer.titleMinThreads')}>
+              {data.get('threadPools.webContainer.minimumSize')}
+            </DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.webSphereAppContainer.titleMaxThreads')}>
+              {data.get('threadPools.webContainer.maximumSize')}
+            </DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.webSphereAppContainer.titleInactivityTimeout')}>
               {data.get('threadPools.webContainer.inactivityTimeout')}
             </DescriptionItem>
-            <DescriptionItem title="Growable">{yesOrNo(data.get('threadPools.webContainer.growable'))}</DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.webSphereAppContainer.titleGrowable')}>
+              {yesOrNo(data.get('threadPools.webContainer.growable'))}
+            </DescriptionItem>
           </DescriptionList>
         </Collapsible.Content>
       </Collapsible>

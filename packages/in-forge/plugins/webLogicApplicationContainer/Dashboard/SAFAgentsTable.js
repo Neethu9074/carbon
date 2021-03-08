@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -14,7 +15,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.webLogicAppContainer.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'Paused For Forwarding',
+    title: t('in-forge:plugins.webLogicAppContainer.titlePausedForForwarding'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -32,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: 'Paused For Incoming',
+    title: t('in-forge:plugins.webLogicAppContainer.titlePausedForIncoming'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -41,7 +42,7 @@ const cols = [
     }
   },
   {
-    title: 'Paused For Receiving',
+    title: t('in-forge:plugins.webLogicAppContainer.titlePausedForReceiving'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -50,7 +51,7 @@ const cols = [
     }
   },
   {
-    title: 'Current Messages',
+    title: t('in-forge:plugins.webLogicAppContainer.titleCurrentMessages'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -66,7 +67,7 @@ const cols = [
     }
   },
   {
-    title: 'Pending Messages',
+    title: t('in-forge:plugins.webLogicAppContainer.titlePendingMessages'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -82,7 +83,7 @@ const cols = [
     }
   },
   {
-    title: 'Remotes Endpoints Current',
+    title: t('in-forge:plugins.webLogicAppContainer.titleRemotesEndpointsCurrent'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -119,7 +120,9 @@ export default function SafAgentsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`SAF Agents (${rows.length})`}
+      cardTitle={t('in-forge:plugins.webLogicAppContainer.titleSAFAgentsCount', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -130,7 +133,7 @@ export default function SafAgentsTable({ snapshot, timeConfig }) {
 function getRowDetails(row) {
   return (
     <div>
-      <DashboardSection title="Messages">
+      <DashboardSection title={t('in-forge:plugins.webLogicAppContainer.titleMessages')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
@@ -140,20 +143,23 @@ function getRowDetails(row) {
               'safAgents.' + row.key + '.messagesCurrentCount',
               'safAgents.' + row.key + '.messagesPendingCount'
             ],
-            labels: ['Current', 'Pending'],
+            labels: [
+              t('in-forge:plugins.webLogicAppContainer.labelCurrent'),
+              t('in-forge:plugins.webLogicAppContainer.labelPending')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Remote Endpoints">
+      <DashboardSection title={t('in-forge:plugins.webLogicAppContainer.titleRemoteEndpoints')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             formatter: number.compact,
             metrics: ['safAgents.' + row.key + '.remoteEndpointsCurrentCount'],
-            labels: ['Current'],
+            labels: [t('in-forge:plugins.webLogicAppContainer.labelCurrent')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

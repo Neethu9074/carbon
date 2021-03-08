@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { zeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.webSphereAppContainer.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Pool Size',
+    title: t('in-forge:plugins.webSphereAppContainer.labelPoolSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Free Connections in Pool',
+    title: t('in-forge:plugins.webSphereAppContainer.titleFreeConnectionsInPool'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Threads Waiting for Connection',
+    title: t('in-forge:plugins.webSphereAppContainer.titleThreadsWaitingForConnection'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,7 +70,7 @@ const cols = [
     }
   },
   {
-    title: 'Average Waiting Time',
+    title: t('in-forge:plugins.webSphereAppContainer.titleAverageWaitingTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -103,7 +104,9 @@ export default function DatasourcesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Datasources (${rows.length})`}
+      cardTitle={t('in-forge:plugins.webSphereAppContainer.titleDatasourcesCount', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -120,7 +123,10 @@ function getRowDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['datasources.' + row.key + '.poolSize', 'datasources.' + row.key + '.freePoolSize'],
-          labels: ['Pool Size', 'Free Connections in Pool'],
+          labels: [
+            t('in-forge:plugins.webSphereAppContainer.labelPoolSize'),
+            t('in-forge:plugins.webSphereAppContainer.titleFreeConnectionsInPool')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -131,13 +137,13 @@ function getRowDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['datasources.' + row.key + '.waitingThreadCount'],
-          labels: ['Threads Waiting for Connection'],
+          labels: [t('in-forge:plugins.webSphereAppContainer.titleThreadsWaitingForConnection')],
           type: 'line'
         }}
         y2={{
           formatter: msZeroDecimalPlaces,
           metrics: ['datasources.' + row.key + '.averageWaitTime'],
-          labels: ['Average Waiting Time'],
+          labels: [t('in-forge:plugins.webSphereAppContainer.titleAverageWaitingTime')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

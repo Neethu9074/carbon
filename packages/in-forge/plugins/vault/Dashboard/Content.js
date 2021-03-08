@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
@@ -16,7 +17,7 @@ import MetricValue from 'in-components/MetricValue';
 export default function VaultDashboard({ snapshot, timeConfig }) {
   const sealed = snapshot.getIn(['data', 'sealed'], false);
   if (sealed) {
-    return <DashboardNotification type="info">Vault is sealed.</DashboardNotification>;
+    return <DashboardNotification type="info">{t('in-forge:plugins.vault.infoVaultSealed')}</DashboardNotification>;
   }
 
   const snapshotId = snapshot.get('id');
@@ -24,51 +25,51 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Secrets Created">
+        <KpiKeyValue label={t('in-forge:plugins.vault.titleSecretsCreated')}>
           <MetricValue snapshotId={snapshotId} metric="secret.create.count" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Secrets Read">
+        <KpiKeyValue label={t('in-forge:plugins.vault.titleSecretsRead')}>
           <MetricValue snapshotId={snapshotId} metric="secret.read.count" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Tokens Lookup">
+        <KpiKeyValue label={t('in-forge:plugins.vault.titleTokensLookup')}>
           <MetricValue snapshotId={snapshotId} metric="token.lookup.count" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="Secrets Created">
+        <DashboardSection title={t('in-forge:plugins.vault.titleSecretsCreated')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['secret.create.count'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.vault.labelCount')],
               type: 'line'
             }}
             y2={{
               formatter: millis.compact,
               metrics: ['secret.create.duration'],
-              labels: ['Duration'],
+              labels: [t('in-forge:plugins.vault.labelDuration')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Secrets Read">
+        <DashboardSection title={t('in-forge:plugins.vault.titleSecretsRead')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['secret.read.count'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.vault.labelCount')],
               type: 'line'
             }}
             y2={{
               formatter: millis.compact,
               metrics: ['secret.read.duration'],
-              labels: ['Duration'],
+              labels: [t('in-forge:plugins.vault.labelDuration')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -76,39 +77,39 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title="Secrets Updated">
+        <DashboardSection title={t('in-forge:plugins.vault.titleSecretsUpdated')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['secret.update.count'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.vault.labelCount')],
               type: 'line'
             }}
             y2={{
               formatter: millis.compact,
               metrics: ['secret.update.duration'],
-              labels: ['Duration'],
+              labels: [t('in-forge:plugins.vault.labelDuration')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Secrets Deleted">
+        <DashboardSection title={t('in-forge:plugins.vault.titleSecretsDeleted')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['secret.delete.count'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.vault.labelCount')],
               type: 'line'
             }}
             y2={{
               formatter: millis.compact,
               metrics: ['secret.delete.duration'],
-              labels: ['Duration'],
+              labels: [t('in-forge:plugins.vault.labelDuration')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -116,39 +117,39 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title="Tokens Created">
+        <DashboardSection title={t('in-forge:plugins.vault.titleTokensCreated')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['token.create.count'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.vault.labelCount')],
               type: 'line'
             }}
             y2={{
               formatter: millis.compact,
               metrics: ['token.create.duration'],
-              labels: ['Duration'],
+              labels: [t('in-forge:plugins.vault.labelDuration')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Tokens Lookup">
+        <DashboardSection title={t('in-forge:plugins.vault.titleTokensLookup')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['token.lookup.count'],
-              labels: ['Count'],
+              labels: [t('in-forge:plugins.vault.labelCount')],
               type: 'line'
             }}
             y2={{
               formatter: millis.compact,
               metrics: ['token.lookup.duration'],
-              labels: ['Duration'],
+              labels: [t('in-forge:plugins.vault.labelDuration')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -156,14 +157,14 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="Leader Failure">
+      <DashboardSection title={t('in-forge:plugins.vault.titleLeaderFailure')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: millis.compact,
             metrics: ['core.leadershipLost.duration', 'core.leadershipSetupFailed.duration'],
-            labels: ['Lost', 'Setup Failed'],
+            labels: [t('in-forge:plugins.vault.labelLost'), t('in-forge:plugins.vault.labelFailure')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -171,39 +172,39 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <Columize>
-        <DashboardSection title="Audit Log Requests">
+        <DashboardSection title={t('in-forge:plugins.vault.titleAuditLogRequests')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['audit.logRequest.count', 'audit.logRequest.failure.count'],
-              labels: ['Count', 'Failure'],
+              labels: [t('in-forge:plugins.vault.labelCount'), t('in-forge:plugins.vault.labelFailure')],
               type: 'line'
             }}
             y2={{
               formatter: millis.compact,
               metrics: ['audit.logRequest.duration'],
-              labels: ['Count Duration'],
+              labels: [t('in-forge:plugins.vault.labelCountDuration')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Audit Log Responses">
+        <DashboardSection title={t('in-forge:plugins.vault.titleAuditLogResponses')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: number.compact,
               metrics: ['audit.logResponse.count', 'audit.logResponse.failure.count'],
-              labels: ['Count', 'Failure'],
+              labels: [t('in-forge:plugins.vault.labelCount'), t('in-forge:plugins.vault.labelFailure')],
               type: 'line'
             }}
             y2={{
               formatter: millis.compact,
               metrics: ['audit.logResponse.duration'],
-              labels: ['Count Duration'],
+              labels: [t('in-forge:plugins.vault.labelCountDuration')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -211,21 +212,26 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="Barrier Operations">
+      <DashboardSection title={t('in-forge:plugins.vault.titleBarrierOperations')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: number.compact,
             metrics: ['barrier.put.count', 'barrier.get.count', 'barrier.delete.count', 'barrier.list.count'],
-            labels: ['Put', 'Get', 'Delete', 'List'],
+            labels: [
+              t('in-forge:plugins.labelPut'),
+              t('in-forge:plugins.labelGet'),
+              t('in-forge:plugins.labelDelete'),
+              t('in-forge:plugins.labelList')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Secret Engine Errors">
+      <DashboardSection title={t('in-forge:plugins.vault.titleSecretEngineErrors')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -238,7 +244,13 @@ export default function VaultDashboard({ snapshot, timeConfig }) {
               'database.renewUser.error.count',
               'database.revokeUser.error.count'
             ],
-            labels: ['Initialize', 'Close', 'Create User', 'Renew User', 'Revoke User'],
+            labels: [
+              t('in-forge:plugins.vault.labelInitialize'),
+              t('in-forge:plugins.vault.labelClose'),
+              t('in-forge:plugins.vault.labelCreateUser'),
+              t('in-forge:plugins.vault.labelRenewUser'),
+              t('in-forge:plugins.vault.labelRevokeUser')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

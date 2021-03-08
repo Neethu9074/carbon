@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -13,7 +14,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Context Root',
+    title: t('in-forge:plugins.webLogicAppContainer.titleContextRoot'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Status',
+    title: t('in-forge:plugins.webLogicAppContainer.titleStatus'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Session Timeout',
+    title: t('in-forge:plugins.webLogicAppContainer.titleSessionTimeout'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -43,7 +44,7 @@ const cols = [
     }
   },
   {
-    title: 'Active Sessions',
+    title: t('in-forge:plugins.webLogicAppContainer.titleActiveSessions'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -81,7 +82,9 @@ export default function WebAppsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Web Deployments (${rows.length})`}
+      cardTitle={t('in-forge:plugins.webLogicAppContainer.titleWebDeploymentsCount', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -100,7 +103,10 @@ function getRowDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['webApps.' + row.key + '.activeSessions', 'webApps.' + row.key + '.createdSessions'],
-          labels: ['Active Sessions', 'Created Sessions'],
+          labels: [
+            t('in-forge:plugins.webLogicAppContainer.titleActiveSessions'),
+            t('in-forge:plugins.webLogicAppContainer.labelCreatedSessions')
+          ],
           type: 'line',
           min: 0
         }}

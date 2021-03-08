@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.webLogicAppContainer.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Current Messages',
+    title: t('in-forge:plugins.webLogicAppContainer.titleCurrentMessages'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Pending Messages',
+    title: t('in-forge:plugins.webLogicAppContainer.titlePendingMessages'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Received Messages',
+    title: t('in-forge:plugins.webLogicAppContainer.titleReceivedMessages'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -87,7 +88,9 @@ export default function JMSDestinationsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`JMS Destinations (${rows.length})`}
+      cardTitle={t('in-forge:plugins.webLogicAppContainer.titleJMSDestinationsCount', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -108,7 +111,11 @@ function getRowDetails(row) {
             'jmsDestinations.' + row.key + '.messagesPendingCount',
             'jmsDestinations.' + row.key + '.messagesReceivedCount'
           ],
-          labels: ['Current Messages', 'Pending Messages', 'Received Messages'],
+          labels: [
+            t('in-forge:plugins.webLogicAppContainer.titleCurrentMessages'),
+            t('in-forge:plugins.webLogicAppContainer.titlePendingMessages'),
+            t('in-forge:plugins.webLogicAppContainer.titleReceivedMessages')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

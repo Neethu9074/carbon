@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -22,16 +23,20 @@ export default function Datasources({ snapshot }) {
     <div>
       {datasources.map((datasource, i) => (
         <Collapsible initiallyOpen={false} key={i}>
-          <Collapsible.Header>Datasource [{datasource}]</Collapsible.Header>
+          <Collapsible.Header>
+            {t('in-forge:plugins.webSphereAppContainer.headerDatasourceName', {
+              datasourceName: datasource
+            })}
+          </Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
-              <DescriptionItem title="Max Connections">
+              <DescriptionItem title={t('in-forge:plugins.webSphereAppContainer.titleMaxConnections')}>
                 {data.get('datasources.' + datasource + '.maxConnections')}
               </DescriptionItem>
-              <DescriptionItem title="Min Connections">
+              <DescriptionItem title={t('in-forge:plugins.webSphereAppContainer.titleMinConnections')}>
                 {data.get('datasources.' + datasource + '.minConnections')}
               </DescriptionItem>
-              <DescriptionItem title="Connection Timeout">
+              <DescriptionItem title={t('in-forge:plugins.webSphereAppContainer.titleConnectionTimeout')}>
                 {data.get('datasources.' + datasource + '.connectionTimeout')}
               </DescriptionItem>
             </DescriptionList>

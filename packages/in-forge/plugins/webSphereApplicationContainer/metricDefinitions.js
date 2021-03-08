@@ -2,70 +2,99 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { millis, number } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 
 export default [
   {
     metrics: ['threadPools.webContainer.activeThreads', 'threadPools.webContainer.poolSize'],
-    labels: ['Active Threads', 'Pool Size'],
+    labels: [
+      t('in-forge:plugins.webSphereAppContainer.labelActiveThreads'),
+      t('in-forge:plugins.webSphereAppContainer.labelPoolSize')
+    ],
     min: 0,
-    category: ['Thread Pool'],
+    category: [t('in-forge:plugins.webSphereAppContainer.categoryThreadPool')],
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('sessionManagers', 'activeCount', 'Web Module'),
+    metric: getDynamicMetricMatch(
+      'sessionManagers',
+      'activeCount',
+      t('in-forge:plugins.webSphereAppContainer.labelWebModule')
+    ),
     label: 'Sessions',
-    category: ['Web Modules'],
+    category: [t('in-forge:plugins.webSphereAppContainer.labelWebModule')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('servlets', 'avgResponseTime', 'Servlet'),
-    label: 'Average Response Time',
-    category: ['Servlets'],
+    metric: getDynamicMetricMatch(
+      'servlets',
+      'avgResponseTime',
+      t('in-forge:plugins.webSphereAppContainer.labelServlet')
+    ),
+    label: t('in-forge:plugins.webSphereAppContainer.labelAverageResponseTime'),
+    category: [t('in-forge:plugins.webSphereAppContainer.labelServlets')],
     min: 0,
     formatter: millis
   },
   {
-    metric: getDynamicMetricMatch('servlets', 'requests', 'Servlet'),
-    label: 'Request Count',
-    category: ['Servlets'],
+    metric: getDynamicMetricMatch('servlets', 'requests', t('in-forge:plugins.webSphereAppContainer.labelServlets')),
+    label: t('in-forge:plugins.webSphereAppContainer.labelRequestCount'),
+    category: [t('in-forge:plugins.webSphereAppContainer.labelServlets')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('servlets', 'errors', 'Servlet'),
-    label: 'Errors',
-    category: ['Servlets'],
+    metric: getDynamicMetricMatch('servlets', 'errors', t('in-forge:plugins.webSphereAppContainer.labelServlet')),
+    label: t('in-forge:plugins.webSphereAppContainer.labelErrors'),
+    category: [t('in-forge:plugins.webSphereAppContainer.labelServlets')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('datasources', 'poolSize', 'Datasource'),
-    label: 'Pool Size',
-    category: ['Datasources'],
+    metric: getDynamicMetricMatch(
+      'datasources',
+      'poolSize',
+      t('in-forge:plugins.webSphereAppContainer.labelDatasource')
+    ),
+    label: t('in-forge:plugins.webSphereAppContainer.labelPoolSize'),
+    category: [t('in-forge:plugins.webSphereAppContainer.labelDatasources')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('datasources', 'freePoolSize', 'Datasource'),
-    label: 'Free Connections in Pool',
-    category: ['Datasources'],
+    metric: getDynamicMetricMatch(
+      'datasources',
+      'freePoolSize',
+      t('in-forge:plugins.webSphereAppContainer.labelDatasource')
+    ),
+    label: t('in-forge:plugins.webSphereAppContainer.titleFreeConnectionsInPool'),
+    category: [t('in-forge:plugins.webSphereAppContainer.labelDatasources')],
     min: 0,
     formatter: millis
   },
   {
-    metric: getDynamicMetricMatch('datasources', 'waitingThreadCount', 'Datasource'),
-    label: 'Threads Waiting for Connection',
-    category: ['Datasources'],
+    metric: getDynamicMetricMatch(
+      'datasources',
+      'waitingThreadCount',
+      t('in-forge:plugins.webSphereAppContainer.labelDatasource')
+    ),
+    label: t('in-forge:plugins.webSphereAppContainer.titleThreadsWaitingForConnection'),
+    category: [t('in-forge:plugins.webSphereAppContainer.labelDatasources')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('datasources', 'averageWaitTime', 'Datasource'),
-    label: 'Average Waiting Time',
-    category: ['Datasources'],
+    metric: getDynamicMetricMatch(
+      'datasources',
+      'averageWaitTime',
+      t('in-forge:plugins.webSphereAppContainer.labelDatasource')
+    ),
+    label: t('in-forge:plugins.webSphereAppContainer.titleAverageWaitingTime'),
+    category: [t('in-forge:plugins.webSphereAppContainer.labelDatasources')],
     min: 0,
     formatter: millis
   }

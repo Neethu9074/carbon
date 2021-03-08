@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { msZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Servlet',
+    title: t('in-forge:plugins.webLogicAppContainer.titleServlet'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Requests',
+    title: t('in-forge:plugins.webLogicAppContainer.titleRequests'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Average Response Time',
+    title: t('in-forge:plugins.webLogicAppContainer.titleAverageResponseTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -72,7 +73,9 @@ export default function ServletsInWebAppTable({ contextRootPath, snapshot, timeC
   return (
     <Table
       withoutPadding
-      cardTitle={`Servlets (${rows.length})`}
+      cardTitle={t('in-forge:plugins.webLogicAppContainer.titleServletsCount', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -91,13 +94,13 @@ function getRowDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['servlets.' + servletKey + '.requests'],
-          labels: ['Requests'],
+          labels: [t('in-forge:plugins.webLogicAppContainer.titleRequests')],
           type: 'line'
         }}
         y2={{
           formatter: msZeroDecimalPlaces,
           metrics: ['servlets.' + servletKey + '.avgResponseTime'],
-          labels: ['Average Response Time'],
+          labels: [t('in-forge:plugins.webLogicAppContainer.titleAverageResponseTime')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

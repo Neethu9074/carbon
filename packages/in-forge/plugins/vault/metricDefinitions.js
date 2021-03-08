@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number, millis } from 'in-services/formatters/number';
 
 export default [
@@ -35,32 +37,32 @@ export default [
       'database.revokeUser.error.count'
     ],
     labels: [
-      'Secrets Created Count',
-      'Secrets Read Count',
-      'Secrets Update Count',
-      'Secrets Delete Count',
+      t('in-forge:plugins.vault.labelSecretsCreatedCount'),
+      t('in-forge:plugins.vault.labelSecretsReadCount'),
+      t('in-forge:plugins.vault.labelSecretsUpdateCount'),
+      t('in-forge:plugins.vault.labelSecretsDeleteCount'),
 
-      'Audit Log Requests Count',
-      'Audit Log Requests Failure',
-      'Audit Log Responses Count',
-      'Audit Log Responses Failure',
+      t('in-forge:plugins.vault.labelAuditLogRequestsCount'),
+      t('in-forge:plugins.vault.labelAuditLogRequestsFailure'),
+      t('in-forge:plugins.vault.labelAuditLogResponsesCount'),
+      t('in-forge:plugins.vault.labelAuditLogResponsesFailure'),
 
-      'Leader Failure Lost',
-      'Leader Failure Setup Failed',
+      t('in-forge:plugins.vault.labelLeaderFailureLost'),
+      t('in-forge:plugins.vault.labelLeaderFailureSetupFailed'),
 
-      'Tokens Lookup Count',
-      'Tokens Created Count',
+      t('in-forge:plugins.vault.labelTokensLookupCount'),
+      t('in-forge:plugins.vault.labelTokensCreatedCount'),
 
-      'Barrier Operations Put Count',
-      'Barrier Operations Get Count',
-      'Barrier Operations List Count',
-      'Barrier Operations Delete Count',
+      t('in-forge:plugins.vault.labelBarrierOperationsPutCount'),
+      t('in-forge:plugins.vault.labelBarrierOperationsGetCount'),
+      t('in-forge:plugins.vault.labelBarrierOperationsListCount'),
+      t('in-forge:plugins.vault.labelBarrierOperationsDeleteCount'),
 
-      'Secret Engine Initialization Errors',
-      'Secret Engine Close Errors',
-      'Secret Engine Create User Errors',
-      'Secret Engine Renew User Errors',
-      'Secret Engine Revoke User Errors'
+      t('in-forge:plugins.vault.labelSecretEngineInitializationErrors'),
+      t('in-forge:plugins.vault.labelSecretEngineCloseErrors'),
+      t('in-forge:plugins.vault.labelSecretEngineCreateUserErrors'),
+      t('in-forge:plugins.vault.labelSecretEngineRenewUserErrors'),
+      t('in-forge:plugins.vault.labelSecretEngineRevokeUserErrors')
     ],
     min: 0,
     formatter: number
@@ -80,17 +82,17 @@ export default [
       'token.create.duration'
     ],
     labels: [
-      'Secrets Creadted Duration',
-      'Secrets Read Duration',
-      'Secrets Update Duration',
-      'Secrets Delete Duration',
+      t('in-forge:plugins.vault.labelSecretsCreadtedDuration'),
+      t('in-forge:plugins.vault.labelSecretsReadDuration'),
+      t('in-forge:plugins.vault.labelSecretsUpdateDuration'),
+      t('in-forge:plugins.vault.labelSecretsDeleteDuration'),
 
-      'Audit Log Requests Duration',
+      t('in-forge:plugins.vault.labelAuditLogRequestsDuration'),
 
-      'Audit Log Responses Duration',
+      t('in-forge:plugins.vault.labelAuditLogResponsesDuration'),
 
-      'Tokens Loopup Duration',
-      'Tokens Created Duration'
+      t('in-forge:plugins.vault.labelTokensLoopupDuration'),
+      t('in-forge:plugins.vault.labelTokensCreatedDuration')
     ],
     min: 0,
     formatter: millis

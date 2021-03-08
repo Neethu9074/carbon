@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -17,7 +18,9 @@ export default function Apps({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>Application States</Collapsible.Header>
+        <Collapsible.Header>
+          {t('in-forge:plugins.webSphereLibertyAppContainer.headerApplicationStates')}
+        </Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
             {apps

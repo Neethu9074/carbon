@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,7 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.webLogicAppContainer.titleName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'State',
+    title: t('in-forge:plugins.webLogicAppContainer.titleState'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Available',
+    title: t('in-forge:plugins.webLogicAppContainer.titleAvailable'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -46,7 +47,7 @@ const cols = [
     }
   },
   {
-    title: 'Active',
+    title: t('in-forge:plugins.webLogicAppContainer.titleActive'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -62,7 +63,7 @@ const cols = [
     }
   },
   {
-    title: 'In Pool',
+    title: t('in-forge:plugins.webLogicAppContainer.titleInPool'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -78,7 +79,7 @@ const cols = [
     }
   },
   {
-    title: 'Created',
+    title: t('in-forge:plugins.webLogicAppContainer.titleCreated'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -94,7 +95,7 @@ const cols = [
     }
   },
   {
-    title: 'Requests Waiting',
+    title: t('in-forge:plugins.webLogicAppContainer.titleRequestsWaiting'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -110,7 +111,7 @@ const cols = [
     }
   },
   {
-    title: 'Leaked',
+    title: t('in-forge:plugins.webLogicAppContainer.titleLeaked'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -145,7 +146,9 @@ export default function DatasourcesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Database Connection Pools (${rows.length})`}
+      cardTitle={t('in-forge:plugins.webLogicAppContainer.titleDatabaseConnectionPoolsCount', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -169,7 +172,14 @@ function getRowDetails(row) {
             'datasources.' + row.key + '.requestsWaitingForConnection',
             'datasources.' + row.key + '.leakedConnections'
           ],
-          labels: ['Available', 'Active', 'In Pool', 'Created', 'Requests Waiting', 'Leaked'],
+          labels: [
+            t('in-forge:plugins.webLogicAppContainer.titleAvailable'),
+            t('in-forge:plugins.webLogicAppContainer.titleActive'),
+            t('in-forge:plugins.webLogicAppContainer.titleInPool'),
+            t('in-forge:plugins.webLogicAppContainer.titleCreated'),
+            t('in-forge:plugins.webLogicAppContainer.titleRequestsWaiting'),
+            t('in-forge:plugins.webLogicAppContainer.titleLeaked')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

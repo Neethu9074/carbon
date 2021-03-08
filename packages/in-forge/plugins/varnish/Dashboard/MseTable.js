@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { bytesTwoDecimalPlaces, withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
@@ -9,7 +10,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 
 const cols = [
   {
-    title: 'Used Space',
+    title: t('in-forge:plugins.varnish.titleUsedSpace'),
     type: 'metric',
     disableSorting: true,
     typeArgs: {
@@ -26,7 +27,7 @@ const cols = [
     }
   },
   {
-    title: 'Free Space',
+    title: t('in-forge:plugins.varnish.titleFreeSpace'),
     type: 'metric',
     disableSorting: true,
     typeArgs: {
@@ -43,7 +44,7 @@ const cols = [
     }
   },
   {
-    title: 'Spare Nodes',
+    title: t('in-forge:plugins.varnish.titleSpareNodes'),
     type: 'metric',
     disableSorting: true,
     typeArgs: {
@@ -69,5 +70,5 @@ export default function MseTable({ snapshot, timeConfig }) {
       snapshotId: snapshot.get('id')
     }
   ];
-  return <Table withoutPadding cardTitle="Details" cols={cols} rows={rows} />;
+  return <Table withoutPadding cardTitle={t('in-forge:plugins.varnish.titleDetails')} cols={cols} rows={rows} />;
 }

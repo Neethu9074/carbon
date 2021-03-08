@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -24,23 +25,23 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Requests">
+        <KpiKeyValue label={t('in-forge:plugins.varnish.labelRequests')}>
           <MetricValue snapshotId={snapshotId} metric="client_req" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label="Cache Hit Rate">
+        <KpiKeyValue label={t('in-forge:plugins.varnish.labelCacheHitRate')}>
           <MetricValue snapshotId={snapshotId} metric="cache_hit_rate" formatter={hitRateZeroDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Client">
+      <DashboardSection title={t('in-forge:plugins.varnish.titleClient')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['sess_conn', 'client_req', 'sess_dropped'],
             labels: [
-              'Accepted client connections',
-              'Received client requests',
-              'Connections dropped due to a full queue'
+              t('in-forge:plugins.varnish.labelAcceptedClientConnections'),
+              t('in-forge:plugins.varnish.labelReceivedClientRequests'),
+              t('in-forge:plugins.varnish.labelConnectionsDroppedFullQueue')
             ],
             formatter: zeroDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces,
@@ -49,35 +50,42 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Cache">
+      <DashboardSection title={t('in-forge:plugins.varnish.titleCache')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cache_hit', 'cache_miss', 'cache_hitpass'],
-            labels: ['Cache Hits', 'Cache Misses', 'Hits pass file'],
+            labels: [
+              t('in-forge:plugins.varnish.labelCacheHits'),
+              t('in-forge:plugins.varnish.labelCacheMisses'),
+              t('in-forge:plugins.varnish.labelHitsPassFile')
+            ],
             type: 'line'
           }}
           y2={{
             min: 0,
             max: 1,
             metrics: ['cache_hit_rate'],
-            labels: ['Cache hit rate'],
+            labels: [t('in-forge:plugins.varnish.labelCacheHitRateLow')],
             type: 'line',
             formatter: hitRateZeroDecimalPlaces
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Cached objects">
+      <DashboardSection title={t('in-forge:plugins.varnish.titleCachedObjects')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['n_expired', 'n_lru_nuked'],
-            labels: ['Expired objects', 'Nuked Objects'],
+            labels: [
+              t('in-forge:plugins.varnish.labelExpiredObjects'),
+              t('in-forge:plugins.varnish.labelNukedObjects')
+            ],
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces
@@ -85,7 +93,7 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Threads">
+      <DashboardSection title={t('in-forge:plugins.varnish.titleThreads')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -99,21 +107,28 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
               'thread_queue_len',
               'sess_queued'
             ],
-            labels: ['Threads', 'Created', 'Failed', 'Limited', 'Queue', 'Queued requests'],
+            labels: [
+              t('in-forge:plugins.varnish.titleThreads'),
+              t('in-forge:plugins.varnish.labelCreated'),
+              t('in-forge:plugins.varnish.labelFailed'),
+              t('in-forge:plugins.varnish.labelLimited'),
+              t('in-forge:plugins.varnish.labelQueue'),
+              t('in-forge:plugins.varnish.labelQueuedRequests')
+            ],
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
           y2={{
             min: 0,
             metrics: ['threads'],
-            labels: ['Threads'],
+            labels: [t('in-forge:plugins.varnish.titleThreads')],
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Backend">
+      <DashboardSection title={t('in-forge:plugins.varnish.titleBackend')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -128,7 +143,15 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
               'backend_busy',
               'backend_req'
             ],
-            labels: ['Connections', 'Recycled', 'Reused', 'Idle closed', 'Unhealthy', 'Busy', 'Requests'],
+            labels: [
+              t('in-forge:plugins.varnish.labelConnections'),
+              t('in-forge:plugins.varnish.labelRecycled'),
+              t('in-forge:plugins.varnish.labelReused'),
+              t('in-forge:plugins.varnish.labelIdleClosed'),
+              t('in-forge:plugins.varnish.labelUnhealthy'),
+              t('in-forge:plugins.varnish.labelBusy'),
+              t('in-forge:plugins.varnish.labelRequests')
+            ],
             type: 'line',
             formatter: zeroDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces
@@ -137,13 +160,13 @@ export default function VarnishDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       {hasMse ? (
-        <DashboardSection title="Massive Storage Engine">
+        <DashboardSection title={t('in-forge:plugins.varnish.titleMassiveStorageEngine')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['mse_bytes'],
-              labels: ['Used Bytes'],
+              labels: [t('in-forge:plugins.varnish.labelUsedBytes')],
               type: 'line',
               formatter: bytesZeroDecimalPlaces
             }}

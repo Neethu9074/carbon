@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -20,7 +21,7 @@ export default function WebSphereDashboard({ snapshot, timeConfig }) {
   if (!monitorFeatureEnabled) {
     return (
       <DashboardNotification type="info">
-        It seems that monitor feature is not enabled. Please add monitor-1.0 feature in server.xml
+        {t('in-forge:plugins.webSphereLibertyAppContainer.infoMonitorFeatureNotEnabled')}
       </DashboardNotification>
     );
   }
@@ -28,14 +29,17 @@ export default function WebSphereDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       {threadPoolStatsPresent ? (
-        <DashboardSection title="Thread Pool">
+        <DashboardSection title={t('in-forge:plugins.webSphereLibertyAppContainer.titleThreadPool')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
               metrics: ['threadPool.activeThreads', 'threadPool.poolSize'],
-              labels: ['Active Threads', 'Pool Size'],
+              labels: [
+                t('in-forge:plugins.webSphereLibertyAppContainer.labelActiveThreads'),
+                t('in-forge:plugins.webSphereLibertyAppContainer.labelPoolSize')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -43,9 +47,7 @@ export default function WebSphereDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       ) : (
         <DashboardNotification type="info">
-          Thread Pool stats are not available. There is a known problem when JMS features (WASJmsClient-1.1 and
-          WASJmsServer-1.0) are enabled along with the monitor-1.0 feature in server.xml. Thread Pool stats mbean is
-          overridden and not visible.
+          {t('in-forge:plugins.webSphereLibertyAppContainer.infoThreadPoolStatesNotAvailable')}
         </DashboardNotification>
       )}
       <ServletsTable snapshot={snapshot} timeConfig={timeConfig} />

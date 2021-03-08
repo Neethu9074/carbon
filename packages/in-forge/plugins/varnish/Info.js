@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
@@ -12,10 +13,10 @@ export default function VarnishInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.port')}>{data.get('port')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.version')}>{data.get('version')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Thread pools">{data.get('thread_pools')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.threadPools')}>{data.get('thread_pools')}</DescriptionItem>
     </DescriptionList>
   );
 }

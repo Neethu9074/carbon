@@ -18,11 +18,21 @@ export default [
     ],
     labels: [
       t('in-forge:plugins.springbootAppContainer.labelAllRequests'),
-      t('in-forge:plugins.requestsWithStatusCode.1xx'),
-      t('in-forge:plugins.requestsWithStatusCode.2xx'),
-      t('in-forge:plugins.requestsWithStatusCode.3xx'),
-      t('in-forge:plugins.requestsWithStatusCode.4xx'),
-      t('in-forge:plugins.requestsWithStatusCode.5xx')
+      t('in-forge:plugins.springbootAppContainer.requestsWithStatusCode', {
+        statusCode: t('in-forge:plugins.labelRequests.1xx')
+      }),
+      t('in-forge:plugins.springbootAppContainer.requestsWithStatusCode', {
+        statusCode: t('in-forge:plugins.labelRequests.2xx')
+      }),
+      t('in-forge:plugins.springbootAppContainer.requestsWithStatusCode', {
+        statusCode: t('in-forge:plugins.labelRequests.3xx')
+      }),
+      t('in-forge:plugins.springbootAppContainer.requestsWithStatusCode', {
+        statusCode: t('in-forge:plugins.labelRequests.4xx')
+      }),
+      t('in-forge:plugins.springbootAppContainer.requestsWithStatusCode', {
+        statusCode: t('in-forge:plugins.labelRequests.5xx')
+      })
     ],
     min: 0,
     category: [t('in-forge:plugins.springbootAppContainer.categoryRequests')],

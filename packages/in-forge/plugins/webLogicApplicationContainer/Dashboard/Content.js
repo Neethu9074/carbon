@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -21,10 +22,15 @@ export default function Dashboard({ snapshot, timeConfig }) {
     'threadPool.hoggingThreads',
     'threadPool.standbyThreads'
   ];
-  const threadPoolLabels = ['Idle', 'Total', 'Hogging', 'Stand by'];
+  const threadPoolLabels = [
+    t('in-forge:plugins.webLogicAppContainer.labelIdle'),
+    t('in-forge:plugins.webLogicAppContainer.labelTotal'),
+    t('in-forge:plugins.webLogicAppContainer.labelHogging'),
+    t('in-forge:plugins.webLogicAppContainer.labelStandBy')
+  ];
   if (threadPoolStuckThreadsMetricAvailable) {
     threadPoolMetrics.push('threadPool.stuckThreads');
-    threadPoolLabels.push('Stuck');
+    threadPoolLabels.push(t('in-forge:plugins.webLogicAppContainer.labelStuck'));
   }
   const serverLogRuntimeMBeanAvailable = snapshot.getIn(
     ['data', 'serverLogMessages.serverLogRuntimeMBeanAvailable'],
@@ -32,7 +38,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
   );
   return (
     <div>
-      <DashboardSection title="Thread Pool">
+      <DashboardSection title={t('in-forge:plugins.webLogicAppContainer.titleThreadPool')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -47,7 +53,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       {serverLogRuntimeMBeanAvailable ? (
-        <DashboardSection title="Server Log Messages by Severity">
+        <DashboardSection title={t('in-forge:plugins.webLogicAppContainer.titleServerLogMessagesSeverity')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -60,7 +66,13 @@ export default function Dashboard({ snapshot, timeConfig }) {
                 'serverLogMessages.criticals',
                 'serverLogMessages.emergencies'
               ],
-              labels: ['Warning', 'Error', 'Alert', 'Critical', 'Emergency'],
+              labels: [
+                t('in-forge:plugins.webLogicAppContainer.labelWarning'),
+                t('in-forge:plugins.webLogicAppContainer.labelError'),
+                t('in-forge:plugins.webLogicAppContainer.labelAlert'),
+                t('in-forge:plugins.webLogicAppContainer.labelCritical'),
+                t('in-forge:plugins.webLogicAppContainer.labelEmergency')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
