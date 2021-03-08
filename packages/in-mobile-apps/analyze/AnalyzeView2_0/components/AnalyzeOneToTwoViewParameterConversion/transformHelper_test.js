@@ -155,6 +155,7 @@ const cases = [
         '/analyzeBeacons': {},
         '/session': {
           sessionId: 'a389983d-f753-4896-aaeb-6389fa93ef24',
+          beaconId: '0311ac8b8d4243db',
           beaconTimestamp: '1612361206157'
         },
         '/summary': {}
@@ -166,7 +167,8 @@ const cases = [
       matrix: {
         '/mobileAppMonitoring': {},
         '/analyzeBeacons': {
-          detailId: '(sessionId~a389983d-f753-4896-aaeb-6389fa93ef24~beaconTimestamp~1612361206157)~',
+          detailId:
+            '(sessionId~a389983d-f753-4896-aaeb-6389fa93ef24~beaconTimestamp~1612361206157~beaconId~*0311ac8b8d4243db)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
       }

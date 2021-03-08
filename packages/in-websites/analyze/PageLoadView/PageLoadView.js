@@ -95,6 +95,12 @@ function renderSplitScreenContent_v2(props) {
       ListItemContent={SplitScreenPageLoadContent}
       getHrefToDetailId={getHrefToDetailId}
       isPageLoadView
+      onOpenItem={item => {
+        const { type, beaconId } = item.beacon;
+        if (type !== 'pageLoad') {
+          triggerHighlight(getHighlighterId(beaconId));
+        }
+      }}
     >
       <TabView
         key={pageLoadId}

@@ -7,7 +7,9 @@ import React from 'react';
 import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import UngroupedViewTable, { retrievalSize } from 'in-new-components/AnalyzeView/UngroupedViewTable';
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
+import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/Beacon';
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
+import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
@@ -185,9 +187,12 @@ export default function Beacons(props) {
         getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSource: props.dataSource })
       }
       getId={item => {
-        return { pageLoadId: item.beacon?.pageLoadId, beaconTimestamp: item.beacon?.timestamp };
+        return {
+          pageLoadId: item.beacon?.pageLoadId,
+          beaconId: item.beacon?.beaconId,
+          beaconTimestamp: item.beacon?.timestamp
+        };
       }}
-      // TODO detail view
       DetailView={PageLoadView}
       getDetailData={getWebsiteBeaconsForPageLoad}
       withSamplingTooltip
@@ -220,10 +225,16 @@ function LinkToDetailPage({ beacon, getHrefToDetailId, linkLabel, groupLabel }) 
       href={getHrefToDetailId(
         {
           pageLoadId: beacon.pageLoadId,
+          beaconId: beacon.beaconId,
           beaconTimestamp: beacon.timestamp
         },
         groupLabel
       )}
+      onClick={() => {
+        if (beacon.type !== 'pageLoad') {
+          triggerHighlight(getHighlighterId(beacon.beaconId));
+        }
+      }}
     >
       {linkLabel}
     </Link>

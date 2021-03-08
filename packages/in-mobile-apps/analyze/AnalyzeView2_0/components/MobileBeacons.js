@@ -8,7 +8,9 @@ import QueryBuilderWorkspace from 'in-mobile-apps/analyze/AnalyzeView2_0/compone
 import getMobileAppBeaconsForSession from 'in-mobile-apps/subscriptions/getMobileAppBeaconsForSession';
 import UngroupedViewTable, { retrievalSize } from 'in-new-components/AnalyzeView/UngroupedViewTable';
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
+import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
+import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import SessionView from 'in-mobile-apps/analyze/SessionView/SessionView';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot';
@@ -148,7 +150,11 @@ export default function MobileBeacons(props) {
         getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSource: props.dataSource })
       }
       getId={item => {
-        return { sessionId: item.beacon?.sessionId, beaconTimestamp: item.beacon?.timestamp };
+        return {
+          sessionId: item.beacon?.sessionId,
+          beaconId: item.beacon?.beaconId,
+          beaconTimestamp: item.beacon?.timestamp
+        };
       }}
       DetailView={SessionView}
       getDetailData={getMobileAppBeaconsForSession}
@@ -182,10 +188,16 @@ function LinkToDetailPage({ beacon, getHrefToDetailId, linkLabel, groupLabel }) 
       href={getHrefToDetailId(
         {
           sessionId: beacon.sessionId,
+          beaconId: beacon.beaconId,
           beaconTimestamp: beacon.timestamp
         },
         groupLabel
       )}
+      onClick={() => {
+        if (beacon.type !== 'sessionStart') {
+          triggerHighlight(getHighlighterId(beacon.beaconId));
+        }
+      }}
     >
       {linkLabel}
     </Link>
