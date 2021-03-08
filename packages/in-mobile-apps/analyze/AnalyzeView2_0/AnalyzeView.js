@@ -107,6 +107,9 @@ const ungroupedView = {
         return 'NUMBER';
       }
       return metricDefinition.formatter;
+    },
+    hasRawValue({ metricDefinition }) {
+      return metricDefinition.pathToValueInBeacon != null;
     }
   }
 };

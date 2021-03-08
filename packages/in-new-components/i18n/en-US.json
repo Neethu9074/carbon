@@ -553,7 +553,8 @@
         "next": "View next {{ itemName }} (shortcut: left right key)"
       }
     },
-    "groupName": "Group Name"
+    "groupName": "Group Name",
+    "groupedOnly": "Metric only available when analyzing groups."
   },
   "copyToClipboardButtonCopy": "Copy",
   "withEmptyStateFallbackTitleNoDataAvailable": "No data available",

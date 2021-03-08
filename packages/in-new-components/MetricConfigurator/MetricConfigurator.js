@@ -12,13 +12,13 @@ import { aggregationLabels } from 'in-stores/metric/metric';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { compositeRef } from 'in-services/util/react';
 
-export default function MetricConfigurator({ values, options, onChange, tracking }) {
+export default function MetricConfigurator({ values, options, onChange, tracking, MetricConfiguratorHint }) {
   const ref = useRef();
 
   return (
     <Overlay
       content={MetricConfiguratorOverlay}
-      props={{ options, values, onChange, tracking }}
+      props={{ options, values, onChange, tracking, MetricConfiguratorHint }}
       withoutWrapper
       onCloseSideEffect={() => ref.current?.focus()}
     >
@@ -58,5 +58,6 @@ MetricConfigurator.propTypes = {
       aggregation: PropTypes.oneOf(Object.keys(aggregationLabels)).isRequired
     })
   ).isRequired,
-  tracking: PropTypes.shape(trackingProps)
+  tracking: PropTypes.shape(trackingProps),
+  MetricConfiguratorHint: PropTypes.func
 };

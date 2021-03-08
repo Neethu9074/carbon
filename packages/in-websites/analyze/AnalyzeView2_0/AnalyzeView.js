@@ -103,6 +103,9 @@ const ungroupedView = {
     },
     getColumnValue({ metricDefinition, beacon }) {
       return metricDefinition.pathToValueInBeacon && get(beacon, metricDefinition.pathToValueInBeacon);
+    },
+    hasRawValue({ metricDefinition }) {
+      return metricDefinition.pathToValueInBeacon != null;
     }
   }
 };

@@ -18,6 +18,9 @@ import Header from 'in-new-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import Tooltip from 'in-components/Tooltip';
+import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './UngroupedView.mless';
 
@@ -47,7 +50,8 @@ export default function UngroupedAnalyzeView(props) {
     onFormModelChange,
     getHrefWithTagFilterExpression,
     withSamplingTooltip,
-    getHrefToGroupedView
+    getHrefToGroupedView,
+    ungroupedViewConfiguration
   } = props;
 
   const timeConfig = useTimeConfig();
@@ -96,7 +100,11 @@ export default function UngroupedAnalyzeView(props) {
     );
   }
 
-  const availableMetrics = getAvailableMetrics({ metricCatalog, metricCatalogFilter, fixedFields });
+  const availableMetrics = getAvailableMetrics({
+    metricCatalog,
+    metricCatalogFilter,
+    fixedFields
+  });
 
   return (
     <>
@@ -126,6 +134,13 @@ export default function UngroupedAnalyzeView(props) {
               ua2MetricAddedTracker({ dataSource, metric, aggregation }),
             onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
           }}
+          MetricConfiguratorHint={({ metricId }) => (
+            <GroupedViewOnlyIndicator
+              metricId={metricId}
+              getHasRawValue={ungroupedViewConfiguration.metricFieldExtractors?.hasRawValue}
+              metricCatalog={metricCatalog}
+            />
+          )}
         />
       )}
 
@@ -163,6 +178,18 @@ export default function UngroupedAnalyzeView(props) {
         </div>
       </div>
     </>
+  );
+}
+
+function GroupedViewOnlyIndicator({ metricId, metricCatalog, getHasRawValue }) {
+  const metricDefinition = metricCatalog.find(metric => metric.metricId === metricId);
+  if (getHasRawValue?.({ metricDefinition })) {
+    return null;
+  }
+  return (
+    <Tooltip content={t('in-new-components:analyze.groupedOnly')} align="bottomRight">
+      <SvgIcon type="lib_help_error_help_outline" size="s" className={locals.helpIcon} />
+    </Tooltip>
   );
 }
 
