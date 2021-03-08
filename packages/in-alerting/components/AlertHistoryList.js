@@ -25,7 +25,7 @@ import { t } from 'in-i18n';
 import locals from 'in-events/components/EventsListRowDense.mless';
 
 export const AlertHistoryListPresenter = ({ timeConfig, tableProps }) => {
-  const { canLoadMore, items = [], totalRepresentedItemCount, loadMore } = tableProps;
+  const { canLoadMore, items = [], totalRepresentedItemCount = 0, loadMore } = tableProps;
   const loading = isLoading(tableProps);
   return (
     <>
