@@ -13,6 +13,7 @@ import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeVie
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
+import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
@@ -62,14 +63,24 @@ const columnsPerDataSource = {
       sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
-          <LinkToDetailPage
-            beacon={beacon}
-            getHrefToDetailId={getHrefToDetailId}
-            linkLabel={
-              beacon.locationPath.length > 5 ? beacon.locationPath : `${beacon.locationOrigin}${beacon.locationPath}`
-            }
-            groupLabel={groupLabel}
-          />
+          <div className={locals.batchedLine}>
+            <LinkToDetailPage
+              beacon={beacon}
+              getHrefToDetailId={getHrefToDetailId}
+              linkLabel={
+                beacon.locationPath.length > 5 ? beacon.locationPath : `${beacon.locationOrigin}${beacon.locationPath}`
+              }
+              groupLabel={groupLabel}
+            />
+            <BatchingIndicator
+              batchCount={beacon.batchSize}
+              tooltipContent={t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigPageLoadTooltip', {
+                batchSize: beacon.batchSize
+              })}
+              tooltipAlign="rightMiddle"
+              noTopPosition
+            />
+          </div>
         );
       }
     },
@@ -83,12 +94,22 @@ const columnsPerDataSource = {
       sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
-          <LinkToDetailPage
-            beacon={beacon}
-            getHrefToDetailId={getHrefToDetailId}
-            linkLabel={beacon.page}
-            groupLabel={groupLabel}
-          />
+          <div className={locals.batchedLine}>
+            <LinkToDetailPage
+              beacon={beacon}
+              getHrefToDetailId={getHrefToDetailId}
+              linkLabel={beacon.page}
+              groupLabel={groupLabel}
+            />
+            <BatchingIndicator
+              batchCount={beacon.batchSize}
+              tooltipContent={t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigPageTransitionTooltip', {
+                batchSize: beacon.batchSize
+              })}
+              tooltipAlign="rightMiddle"
+              noTopPosition
+            />
+          </div>
         );
       }
     },
@@ -102,12 +123,25 @@ const columnsPerDataSource = {
       sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
-          <LinkToDetailPage
-            beacon={beacon}
-            getHrefToDetailId={getHrefToDetailId}
-            linkLabel={beacon.httpCallUrl}
-            groupLabel={groupLabel}
-          />
+          <div className={locals.batchedLine}>
+            <LinkToDetailPage
+              beacon={beacon}
+              getHrefToDetailId={getHrefToDetailId}
+              linkLabel={beacon.httpCallUrl}
+              groupLabel={groupLabel}
+            />
+            <BatchingIndicator
+              batchCount={beacon.batchSize}
+              tooltipContent={t(
+                'in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigResourceRetrievalsTooltip',
+                {
+                  batchSize: beacon.batchSize
+                }
+              )}
+              tooltipAlign="rightMiddle"
+              noTopPosition
+            />
+          </div>
         );
       }
     },
@@ -121,12 +155,22 @@ const columnsPerDataSource = {
       sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
-          <LinkToDetailPage
-            beacon={beacon}
-            getHrefToDetailId={getHrefToDetailId}
-            linkLabel={`${beacon.httpCallMethod} ${beacon.httpCallUrl}`}
-            groupLabel={groupLabel}
-          />
+          <div className={locals.batchedLine}>
+            <LinkToDetailPage
+              beacon={beacon}
+              getHrefToDetailId={getHrefToDetailId}
+              linkLabel={`${beacon.httpCallMethod} ${beacon.httpCallUrl}`}
+              groupLabel={groupLabel}
+            />
+            <BatchingIndicator
+              batchCount={beacon.batchSize}
+              tooltipContent={t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigHTTPRequestTooltip', {
+                batchSize: beacon.batchSize
+              })}
+              tooltipAlign="rightMiddle"
+              noTopPosition
+            />
+          </div>
         );
       }
     },
@@ -140,12 +184,22 @@ const columnsPerDataSource = {
       sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
-          <LinkToDetailPage
-            beacon={beacon}
-            getHrefToDetailId={getHrefToDetailId}
-            linkLabel={beacon.errorMessage}
-            groupLabel={groupLabel}
-          />
+          <div className={locals.batchedLine}>
+            <LinkToDetailPage
+              beacon={beacon}
+              getHrefToDetailId={getHrefToDetailId}
+              linkLabel={beacon.errorMessage}
+              groupLabel={groupLabel}
+            />
+            <BatchingIndicator
+              batchCount={beacon.batchSize}
+              tooltipContent={t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigErrorTooltip', {
+                batchSize: beacon.batchSize
+              })}
+              tooltipAlign="rightMiddle"
+              noTopPosition
+            />
+          </div>
         );
       }
     },
@@ -159,12 +213,22 @@ const columnsPerDataSource = {
       sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
-          <LinkToDetailPage
-            beacon={beacon}
-            getHrefToDetailId={getHrefToDetailId}
-            linkLabel={beacon.customEventName}
-            groupLabel={groupLabel}
-          />
+          <div className={locals.batchedLine}>
+            <LinkToDetailPage
+              beacon={beacon}
+              getHrefToDetailId={getHrefToDetailId}
+              linkLabel={beacon.customEventName}
+              groupLabel={groupLabel}
+            />
+            <BatchingIndicator
+              batchCount={beacon.batchSize}
+              tooltipContent={t('in-websites:analyze.analyzeView.beacons.perBeaconTypeConfigEventTooltip', {
+                batchSize: beacon.batchSize
+              })}
+              tooltipAlign="rightMiddle"
+              noTopPosition
+            />
+          </div>
         );
       }
     },

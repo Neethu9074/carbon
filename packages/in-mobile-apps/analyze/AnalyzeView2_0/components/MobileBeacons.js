@@ -13,6 +13,7 @@ import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summar
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import SessionView from 'in-mobile-apps/analyze/SessionView/SessionView';
+import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
@@ -103,12 +104,23 @@ const columnsPerDataSource = {
       sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
-          <LinkToDetailPage
-            beacon={beacon}
-            getHrefToDetailId={getHrefToDetailId}
-            linkLabel={`${beacon.httpCallMethod} ${beacon.httpCallUrl}`}
-            groupLabel={groupLabel}
-          />
+          <div className={locals.batchedLine}>
+            <LinkToDetailPage
+              beacon={beacon}
+              getHrefToDetailId={getHrefToDetailId}
+              linkLabel={`${beacon.httpCallMethod} ${beacon.httpCallUrl}`}
+              groupLabel={groupLabel}
+            />
+            <BatchingIndicator
+              batchCount={beacon.batchSize}
+              tooltipContent={t(
+                'in-mobile-apps:analyzeView.perBeaconTypeConfigs.httpRequestBatchingIndicatorTooltipContent',
+                { size: beacon.batchSize }
+              )}
+              tooltipAlign="rightMiddle"
+              noTopPosition
+            />
+          </div>
         );
       }
     },
@@ -122,12 +134,25 @@ const columnsPerDataSource = {
       sortable: false,
       getContent({ beacon }, { getHrefToDetailId, groupLabel }) {
         return (
-          <LinkToDetailPage
-            beacon={beacon}
-            getHrefToDetailId={getHrefToDetailId}
-            linkLabel={beacon.customEventName}
-            groupLabel={groupLabel}
-          />
+          <div className={locals.batchedLine}>
+            <LinkToDetailPage
+              beacon={beacon}
+              getHrefToDetailId={getHrefToDetailId}
+              linkLabel={beacon.customEventName}
+              groupLabel={groupLabel}
+            />
+            <BatchingIndicator
+              batchCount={beacon.batchSize}
+              tooltipContent={t(
+                'in-mobile-apps:analyzeView.perBeaconTypeConfigs.customBatchingIndicatorTooltipContent',
+                {
+                  size: beacon.batchSize
+                }
+              )}
+              tooltipAlign="rightMiddle"
+              noTopPosition
+            />
+          </div>
         );
       }
     },
