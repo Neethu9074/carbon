@@ -36,6 +36,7 @@ export function servicesAndEndpointsListGlobalAlerts() {
       boundaryScope="INBOUND"
       timeConfig={oneDayTimeConfig}
       onChange={noop}
+      includeSynthetic
       isGlobalSmartAlert
     />
   );
@@ -55,6 +56,7 @@ export function servicesAndEndpointsListIndividualAlerts() {
       boundaryScope="INBOUND"
       timeConfig={oneDayTimeConfig}
       onChange={noop}
+      includeSynthetic={false}
     />
   );
 }
@@ -72,6 +74,7 @@ export function servicesAndEndpointsListAlertsWithStaleConfig() {
       boundaryScope="INBOUND"
       timeConfig={oneDayTimeConfig}
       onChange={noop}
+      includeSynthetic
       isGlobalSmartAlert
     />
   );

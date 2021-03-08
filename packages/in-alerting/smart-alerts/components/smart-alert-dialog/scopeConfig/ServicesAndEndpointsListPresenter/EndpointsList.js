@@ -31,12 +31,13 @@ import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/f
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
+import { isNotBlank } from 'in-services/util/string';
 import { isLoading } from 'in-services/util/result';
 
 export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, ...props }) {
-  const { boundaryScope } = props;
+  const { boundaryScope, timeConfig, includeSynthetic } = props;
   const searchQuery = props.searchQuery?.trim();
-  const applicationIdTagFilter = createApplicationIdTagFilter(parentIds.applicationId, props.boundaryScope);
+  const applicationIdTagFilter = createApplicationIdTagFilter(parentIds.applicationId, boundaryScope);
   const serviceIdTagFilter = createServiceIdTagFilter(parentIds.serviceId);
 
   const { items, ...tableProps } = useCursorPagination(
@@ -51,29 +52,35 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
           direction: 'ASC'
         },
         filter: {
-          timeConfig: props.timeConfig
+          timeConfig,
+          applicationBoundaryScope: boundaryScope,
+          application: parentIds.applicationId,
+          // FIXME at the moment, we don't support includeSyntheticCalls filter when a searchQuery is used
+          includeSyntheticCalls: includeSynthetic
         },
         metrics: {},
-        tagFilterExpression: toBackendQueryModel(
-          searchQuery
-            ? joinExpressions({
-                logicalOperator: and,
-                expressions: [
-                  applicationIdTagFilter,
-                  serviceIdTagFilter,
-                  joinExpressions({
-                    logicalOperator: or,
-                    expressions: [createEndpointNameTagFilter(searchQuery)]
+        tagFilterExpression: isNotBlank(searchQuery)
+          ? toBackendQueryModel(
+              searchQuery
+                ? joinExpressions({
+                    logicalOperator: and,
+                    expressions: [
+                      applicationIdTagFilter,
+                      serviceIdTagFilter,
+                      joinExpressions({
+                        logicalOperator: or,
+                        expressions: [createEndpointNameTagFilter(searchQuery)]
+                      })
+                    ]
                   })
-                ]
-              })
-            : joinExpressions({
-                logicalOperator: and,
-                expressions: [applicationIdTagFilter, serviceIdTagFilter]
-              })
-        )
+                : joinExpressions({
+                    logicalOperator: and,
+                    expressions: [applicationIdTagFilter, serviceIdTagFilter]
+                  })
+            )
+          : undefined
       }),
-    [searchQuery, boundaryScope]
+    [searchQuery, boundaryScope, includeSynthetic]
   );
 
   const { state } = props.stateManagement;
@@ -172,5 +179,6 @@ EndpointsList.propTypes = {
   timeConfig: propTypeTimeConfig.isRequired,
   searchQuery: PropTypes.string,
   showInteractedItemsOnly: PropTypes.bool,
-  editMode: PropTypes.bool
+  editMode: PropTypes.bool,
+  includeSynthetic: PropTypes.bool.isRequired
 };
