@@ -12,6 +12,7 @@ import { toInteractiveElement } from 'in-new-components/interactiveCustomElement
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { generateStableHash } from 'in-services/util/id';
 import Header from 'in-new-components/workspace/Header';
 import Stack from 'in-new-components/layout/Stack';
 import SvgIcon from 'in-components/SvgIcon';
@@ -123,7 +124,14 @@ export function MetricsForAxis({
         {provided => (
           <Stack space="xxsmall" ref={provided.innerRef}>
             {metricsForm.map((metricForm, indexInAxis) => (
-              <Draggable key={indexInAxis} draggableId={String(startIndex + indexInAxis)} index={indexInAxis}>
+              // Note: react beautiful dnd requires keys to be stable or at least stable while dragging.
+              // Usage of indexInAxis is therefore not sufficient. You can validate this by trying to drag
+              // the first (and only) metric for a y2 axis.
+              <Draggable
+                key={generateStableHash(metricForm.toJS())}
+                draggableId={String(startIndex + indexInAxis)}
+                index={indexInAxis}
+              >
                 {provided => (
                   <Ul ref={provided.innerRef} {...provided.draggableProps}>
                     <Li noAlternatingBg>

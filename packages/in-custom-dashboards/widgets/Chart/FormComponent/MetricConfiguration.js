@@ -25,6 +25,7 @@ export const columnDefinitions = [
   {
     forceMinimumWidth: true,
     verticallyCenter: true,
+    shrink: false,
     getContent({ index, axisName, indexInAxis, getShortMetricKey }) {
       return (
         <Pill kind="info" id={getMetricId(index)}>
@@ -59,6 +60,7 @@ export const columnDefinitions = [
   },
   {
     forceMinimumWidth: true,
+    shrink: false,
     getContent({ onChange, axisName, indexInAxis, metricForm }) {
       return (
         <MoreMenu kind="subtle" className={locals.more}>
