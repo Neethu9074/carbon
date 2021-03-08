@@ -5,7 +5,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.1
+    app.kubernetes.io/version: 1.2.6
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -14,7 +14,32 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.1
+    app.kubernetes.io/version: 1.2.6
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: instana-agent
+  namespace: instana-agent
+  labels:
+    app.kubernetes.io/name: instana-agent
+    app.kubernetes.io/version: 1.2.6
+spec:
+  selector:
+    app.kubernetes.io/name: instana-agent
+  ports:
+    # OpenTelemetry
+    - name: opentelemetry
+      protocol: TCP
+      port: 55680
+      targetPort: 55680
+    # Prometheus remote_write, Trace Web SDK and other APIs
+    - name: agent-apis
+      protocol: TCP
+      port: 42699
+      targetPort: 42699
+  topologyKeys:
+    - "kubernetes.io/hostname"
 ---
 apiVersion: v1
 kind: Secret
@@ -23,7 +48,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.1
+    app.kubernetes.io/version: 1.2.6
 type: Opaque
 data:
   key: ${agentKey}
@@ -36,7 +61,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.1
+    app.kubernetes.io/version: 1.2.6
 data:
   cluster_name: "${clusterName}"
   configuration.yaml: |
@@ -81,7 +106,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.1
+    app.kubernetes.io/version: 1.2.6
 spec:
   selector:
     matchLabels:
@@ -94,7 +119,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: instana-agent
-        app.kubernetes.io/version: 1.2.1
+        app.kubernetes.io/version: 1.2.6
       annotations: {}
     spec:
       serviceAccountName: instana-agent
@@ -238,7 +263,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.1
+    app.kubernetes.io/version: 1.2.6
 rules:
 - nonResourceURLs:
     - "/version"
@@ -291,7 +316,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.1
+    app.kubernetes.io/version: 1.2.6
 subjects:
 - kind: ServiceAccount
   name: instana-agent
