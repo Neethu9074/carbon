@@ -9,7 +9,7 @@ import SelectedBlueprintPresenter from 'in-new-components/BlueprintFormMultistep
 import { applicationCreationSelectedBlueprint } from 'in-applications/creation/tracker';
 import { blueprintConfig } from 'in-applications/creation/data/blueprintConfig';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import Menu from 'in-new-components/Alerting/components/Menu';
+import Menu from 'in-alerting/components/Menu';
 import { t } from 'in-i18n';
 
 import locals from './SimpleCreateStep1.mless';

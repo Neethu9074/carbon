@@ -4,7 +4,7 @@
  */
 import React from 'react';
 
-import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
+import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 export default {

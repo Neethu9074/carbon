@@ -4,16 +4,15 @@
  */
 import { just } from '@instana/observables';
 import React, { useState } from 'react';
-import { t } from 'in-i18n';
 
 import { trackSliNewCreated, trackSLICloned, trackSLIEditAbort } from 'in-custom-dashboards/widgets/Slo/tracker';
 import { resetFormForSliType, createForm, sliFieldNames } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { isSliEventsQueryValid } from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
-import { switchQB1orQB2Helper } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { SliForm } from 'in-custom-dashboards/widgets/Slo/sli/SliFormPresenter';
+import { switchQB1orQB2Helper } from 'in-alerting/components/WithQB1orQB2';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
@@ -25,6 +24,7 @@ import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import Message from 'in-new-components/Message';
+import { t } from 'in-i18n';
 
 export default function CreateNewSLIForm({ apName, applicationId, apDefaultBoundaryScope, close, sliConfig }) {
   const timeConfig = useTimeConfig();

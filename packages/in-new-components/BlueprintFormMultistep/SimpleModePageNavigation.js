@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { t } from 'in-i18n';
 
-import { thresholdOrBaselineLoadingSignal$ } from 'in-new-components/Alerting/Chart/AlertingChartWrapper';
+import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import StepProgressBar from 'in-new-components/StepProgressBar/StepProgressBar';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';

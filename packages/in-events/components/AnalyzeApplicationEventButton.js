@@ -3,27 +3,30 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
-import { t, Trans } from 'in-i18n';
 import React from 'react';
 
-import { getBlueprintConfig, getBaselineThresholdValue } from 'in-applications/alerting/data/blueprintConfig';
+import {
+  getBlueprintConfig,
+  getBaselineThresholdValue
+} from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { joinExpressions, fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
 import { containsTagName } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
+import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { toTagFilterNumberOperator } from 'in-new-components/Alerting/utils/alertUtils';
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { getLinkToAnalyze, getDirectLinkToUA2 } from 'in-analyze/navigation/paths';
-import { isQB2Config } from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
+import { isQB2Config } from 'in-alerting/components/WithQB1orQB2';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { convertToAnalyzeFilters } from 'in-applications/tags';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
+import { t, Trans } from 'in-i18n';
 
 const dataSource = 'calls';
 const alertTypeWithDisabledGrouping = ['errorRate', 'slowness'];

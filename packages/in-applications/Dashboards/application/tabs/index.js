@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import { t } from 'in-i18n';
-
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';

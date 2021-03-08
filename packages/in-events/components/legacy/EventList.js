@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import { combineLatest } from '@instana/observables';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -13,6 +12,7 @@ import { emptyList } from 'in-services/fixedImmutables';
 import { getEvent } from 'in-stores/events';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import 'in-events/components/legacy/EventList.less';
 

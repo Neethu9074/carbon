@@ -3,17 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
+import { websitesAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/websites/alerting/tracker';
 import { fromBackendModel, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { websitesAlertingEventDetailsGoToAnalyze } from 'in-websites/alerting/tracker';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/alerting/data/blueprintConfig';
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { defaultGroupings } from 'in-websites/tags';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, timeConfig }) {
   const { rule, tagFilterExpression } = alertConfig;

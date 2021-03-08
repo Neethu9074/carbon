@@ -5,7 +5,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getApplicationIdTagFilter } from 'in-applications/alerting/data/entitySelection';
+import { getApplicationIdTagFilter } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 
 import locals from './FilterConfigurator.mless';
 

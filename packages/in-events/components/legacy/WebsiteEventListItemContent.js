@@ -2,27 +2,27 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
-import WebsitesAlertingChartWithErrorMessage from 'in-websites/alerting/chart/WebsitesAlertingChartWithErrorMessage';
+import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/alerting/chart/WebsitesAlertingChartWithErrorMessage';
+import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/alerting/components/AlertQueryBuilder';
+import WebsiteScopePath from 'in-alerting/smart-alerts/websites/alerting/components/WebsiteScopePath';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/alerting/data/blueprintConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { getChartTimeConfigByEvent, getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
-import ScopeConfigPresenter from 'in-new-components/Alerting/components/ScopeConfigPresenter';
-import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
+import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
+import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import useWebsiteEventAlertConfig from 'in-events/hooks/useWebsiteEventAlertConfig';
-import AlertQueryBuilder from 'in-websites/alerting/components/AlertQueryBuilder';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
-import WebsiteScopePath from 'in-websites/alerting/components/WebsiteScopePath';
-import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
+import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import { DescriptionItem } from 'in-components/DescriptionList';
+import { t } from 'in-i18n';
 
 import locals from './WebsiteEventListItemContent.mless';
 

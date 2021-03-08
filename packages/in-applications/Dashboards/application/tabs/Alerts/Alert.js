@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
-import { t } from 'in-i18n';
 
 import {
   applicationsAlertingAlertRevisionChanged,
@@ -11,7 +10,7 @@ import {
   applicationsAlertingAlertPaused,
   applicationsAlertingAlertResumed,
   applicationsAlertingAlertDeleted
-} from 'in-applications/alerting/tracker';
+} from 'in-alerting/smart-alerts/applications/tracker';
 import {
   getAlertConfigByIdAndTimestamp,
   getAllVersionsOfAlertConfig,
@@ -25,16 +24,16 @@ import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
 } from 'in-applications/navigation/matrix';
+import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { alertsTabDetailsFullyQualified, alertsTabListFullyQualified } from 'in-applications/navigation/paths';
-import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper';
 import AlertConfiguration from 'in-applications/Dashboards/application/tabs/Alerts/AlertConfiguration';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import AlertHistoryList from 'in-new-components/Alerting/components/AlertHistoryList';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import AlertHeader from 'in-new-components/Alerting/components/AlertHeader';
 import getApplication from 'in-subscription/application/getApplication';
+import AlertHistoryList from 'in-alerting/components/AlertHistoryList';
+import AlertHeader from 'in-alerting/components/AlertHeader';
 import { alertsTab } from 'in-applications/navigation/paths';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -42,6 +41,7 @@ import SetBodyColor from 'in-components/SetBodyColor';
 import Footer from 'in-new-components/Footer/Footer';
 import useObservable from 'in-hooks/useObservable';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 function getAlertConfig(id, created) {
   return created ? getAlertConfigByIdAndTimestamp(id, created) : getLatestAlertConfig(id);

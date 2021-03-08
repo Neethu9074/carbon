@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
-import IconLabel from 'in-new-components/Alerting/components/IconLabel';
+
+import IconLabel from 'in-alerting/components/IconLabel';
 
 export default {
   title: 'Molecules|alerting/IconLabel',

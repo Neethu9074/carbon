@@ -4,9 +4,9 @@
  */
 import React from 'react';
 
-import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper';
-import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
-import { generateFormData } from 'in-applications/alerting/components/CreateSmartAlert';
+import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
+import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
+import { generateFormData } from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
 
 export default {
   title: 'Templates|applications/alerting/AlertConfigDialog',

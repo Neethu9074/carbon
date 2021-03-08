@@ -13,6 +13,7 @@
 # person.
 
 packages/in-amp                     @pr-approval @instana/eng-enterprise @instana/eng-hubforce @instana/eng-ui
+packages/in-alerting                @pr-approval @instana/eng-ui @instana/eng-stan
 packages/in-analyze                 @pr-approval @instana/eng-application @instana/eng-eum @instana/eng-ui
 # Deprecated: We should not make any more changes within this package (aside from code removal)
 packages/in-api                     @pr-approval @instana/eng-ui

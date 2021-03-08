@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -13,7 +12,7 @@ import {
   tagNamesToUseEndpointGrouping
 } from 'in-events/components/AnalyzeApplicationEventButton';
 import { containsTagName, toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
+import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import AffectedEntities from 'in-events/components/AffectedEntities/AffectedEntities';
@@ -25,6 +24,7 @@ import { isApplicationEntity } from 'in-services/entityUtils';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 export function SmartAlertAffectedEntities({
   alertConfig,

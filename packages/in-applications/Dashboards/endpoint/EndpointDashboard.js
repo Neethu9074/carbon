@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -15,12 +14,12 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
+import CreateSmartAlert from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
 import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-services/featureFlags';
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import ServiceContextIcon from 'in-applications/components/ServiceContext/ServiceContextIcon';
 import IncludeSyntheticCallsDropdown from '../commonComponents/IncludeSyntheticCallsDropdown';
 import { endpointDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
-import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAlert';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
@@ -40,6 +39,7 @@ import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 const urlStateDefinition = {
   bind: [

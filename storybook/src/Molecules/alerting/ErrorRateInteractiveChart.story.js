@@ -4,9 +4,9 @@
  */
 import React, { useState } from 'react';
 
-import { ThresholdCondition } from 'in-applications/alerting/advanced/ErrorRateInteractiveChart';
-import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
-import { createSmartAlertForm } from 'in-applications/alerting/form/smartAlertForm';
+import { ThresholdCondition } from 'in-alerting/smart-alerts/applications/advanced/ErrorRateInteractiveChart';
+import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { someErrorRateFormData } from './formSampleData';
 
 export default {

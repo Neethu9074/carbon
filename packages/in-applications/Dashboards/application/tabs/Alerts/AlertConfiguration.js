@@ -5,24 +5,24 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-applications/alerting/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
-import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/chart/ApplicationAlertingChartWithErrorMessage';
-import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
-import ReadOnlyAlertEvaluation from 'in-applications/alerting/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
-import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
+import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
+import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
+import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
+import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
+import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
+import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
+import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
+import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
+import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
-import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import ScopeConfigPresenter from 'in-new-components/Alerting/components/ScopeConfigPresenter';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
-import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
-import { getLogMessageRuleOperatorLabel } from 'in-applications/alerting/form/ruleFormData';
-import ApplicationScopePath from 'in-applications/alerting/components/ApplicationScopePath';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
-import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
-import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
-import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
-import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
+import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
+import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
+import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
@@ -30,7 +30,7 @@ import ListTitle from 'in-new-components/lists/Title';
 import { light } from 'in-themes/themes';
 import { t } from 'in-i18n';
 
-import locals from 'in-new-components/Alerting/shared-styles/AlertConfiguration.mless';
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles//AlertConfiguration.mless';
 
 const logLevelList = ['ERROR', 'WARN'];
 const initialChartConfigIndex = 0;

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { t } from 'in-i18n';
 import React from 'react';
 
-import { websitesAlertingEventDetailsViewEditConfig } from 'in-websites/alerting/tracker';
+import { websitesAlertingEventDetailsViewEditConfig } from 'in-alerting/smart-alerts/websites/alerting/tracker';
 import { goToAlertConfig } from 'in-websites/navigation/paths';
 import Button from 'in-new-components/Button';
 

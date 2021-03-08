@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -13,8 +12,8 @@ import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
+import CreateSmartAlert from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
-import CreateSmartAlert from 'in-applications/alerting/components/CreateSmartAlert';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
@@ -33,6 +32,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 const urlStateDefinition = {
   bind: [

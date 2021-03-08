@@ -4,18 +4,16 @@
  */
 import { on } from '@instana/observables';
 import { findIndex } from 'lodash';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { getEventType, EVENT_TYPES, getEvent } from 'in-stores/events';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { isAppDataEntityType } from 'in-services/entityUtils';
-import { getEventType, EVENT_TYPES, getEvent } from 'in-stores/events';
 import EventsList from 'in-events/components/EventsList';
 import { eventsPath } from 'in-events/navigation/paths';
 import EventIcon from 'in-events/components/EventIcon';
@@ -25,6 +23,8 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import Link from 'in-components/Link';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './EventTable.mless';
 

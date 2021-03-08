@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
-import { Trans, t } from 'in-i18n';
 
 import { trackSliCreate, trackSliViewSLI } from 'in-custom-dashboards/widgets/Slo/tracker';
 import SlideInView, { NoHeader } from 'in-new-components/SlideInView/SlideInView';
@@ -15,6 +14,7 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
+import { Trans, t } from 'in-i18n';
 
 import locals from './SliManageList.mless';
 

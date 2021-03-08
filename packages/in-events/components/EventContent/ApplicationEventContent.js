@@ -4,26 +4,26 @@
  */
 import React from 'react';
 
-import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-applications/alerting/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
-import ApplicationAlertingChartWithErrorMessage from 'in-applications/alerting/chart/ApplicationAlertingChartWithErrorMessage';
-import ReadOnlyInboundOrAllCalls from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
+import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
+import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
+import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
+import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
+import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
-import ScopeConfigPresenter from 'in-new-components/Alerting/components/ScopeConfigPresenter';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
-import { createDefaultChartConfig } from 'in-new-components/Alerting/Chart/chartViewConfig';
-import ApplicationScopePath from 'in-applications/alerting/components/ApplicationScopePath';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { alertingEventDetailsChartTimeframe } from 'in-new-components/Alerting/constants';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
-import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
-import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
+import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
+import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
+import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';

@@ -5,10 +5,10 @@
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
-import AlertConfigDialogPresenter from 'in-new-components/Alerting/AlertConfigDialogPresenter';
-import AdvancedModeContainer from 'in-websites/alerting/advanced/AdvancedModeContainer';
-import alertFormDefinition from 'in-websites/alerting/form/alertDialogFormDefinition';
-import SimpleModeContainer from 'in-websites/alerting/simple/SimpleModeContainer';
+import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
+import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/alerting/advanced/AdvancedModeContainer';
+import alertFormDefinition from 'in-alerting/smart-alerts/websites/alerting/form/alertDialogFormDefinition';
+import SimpleModeContainer from 'in-alerting/smart-alerts/websites/alerting/simple/SimpleModeContainer';
 
 export default {
   title: 'Templates|website/alerting/AlertConfigDialog',

@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useState } from 'react';
-import { Trans, t } from 'in-i18n';
 
 import {
   sloTarget,
@@ -48,6 +47,7 @@ import Input from 'in-components/form/Input/Input';
 import Stack from 'in-new-components/layout/Stack';
 import useObservable from 'in-hooks/useObservable';
 import Button from 'in-new-components/Button';
+import { Trans, t } from 'in-i18n';
 
 import locals from './FormComponent.mless';
 

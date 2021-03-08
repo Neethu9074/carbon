@@ -4,7 +4,7 @@
  */
 import React, { useState } from 'react';
 
-import ConfigureTimeWindow from 'in-new-components/Alerting/advanced/TimeThresholdConfig/ConfigureTimeWindow';
+import ConfigureTimeWindow from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/ConfigureTimeWindow';
 import { minutes } from 'in-services/time';
 
 export default {

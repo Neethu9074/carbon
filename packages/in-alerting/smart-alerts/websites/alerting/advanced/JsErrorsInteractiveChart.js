@@ -1,0 +1,124 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+import PropTypes from 'prop-types';
+import React from 'react';
+
+import {
+  websitesAlertingThresholdOperatorChanged,
+  websitesAlertingThresholdValueChanged
+} from 'in-alerting/smart-alerts/websites/alerting/tracker';
+import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/alerting/chart/WebsitesAlertingChartWithErrorMessage';
+import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdConditionFormGroup';
+import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdOperatorDropDown';
+import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/UseSuggestedValueButton';
+import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/smart-alert-dialog/IncompleteChartPlaceholder';
+import ThresholdValueInput from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueInput';
+import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
+import { websitesAlertingThresholdMetricChanged } from 'in-alerting/smart-alerts/websites/alerting/tracker';
+import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
+import { alertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/alerting/form/ruleFormData';
+import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/alerting/form/formUtils';
+import { isPercentageMetric } from 'in-alerting/smart-alerts/websites/alerting/form/formUtils';
+import { blueprintConfigPropType } from 'in-alerting/components/constants';
+import Dropdown from 'in-alerting/components/Dropdown';
+
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles//InteractiveChart.mless';
+
+export default function JsErrorsInteractiveChart({
+  blueprintConfig,
+  form,
+  onChange,
+  updateForm,
+  onChartViewConfigChange,
+  selectedChartViewConfigIndex
+}) {
+  const alertConfigWithFormModel = alertConfigWithDefaultThreshold(form);
+
+  if (!blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule)) {
+    return (
+      <div className={locals.container}>
+        <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} />
+      </div>
+    );
+  }
+
+  return (
+    <div className={locals.container}>
+      <ThresholdCondition form={form} onChange={onChange} blueprintConfig={blueprintConfig} updateForm={updateForm} />
+
+      <ChartViewConfigurator
+        alertConfigWithFormModel={alertConfigWithFormModel}
+        onChartViewConfigChange={onChartViewConfigChange}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+        headerTransparent
+      >
+        {chartViewConfig => (
+          <WebsitesAlertingChartWithErrorMessage
+            alertConfigWithFormModel={alertConfigWithFormModel}
+            viewConfig={chartViewConfig}
+            blueprintConfig={blueprintConfig}
+            alertsPreviewEnabled
+            canReload
+          />
+        )}
+      </ChartViewConfigurator>
+    </div>
+  );
+}
+
+export function ThresholdCondition({ form, onChange, blueprintConfig, updateForm }) {
+  const metricName = form.get('rule').get('metricName').value;
+  const metricUnitPostfix = getMetricUnitPostfix(metricName);
+  const percentageMetric = isPercentageMetric(metricName);
+  const maxValue = blueprintConfig.getMaxMetricValue(metricName);
+
+  return (
+    <ThresholdConditionFormGroup>
+      <Dropdown
+        asSimpleDropdown
+        label={blueprintConfig.getMetricLabel(metricName)}
+        items={ruleMetricNameOptions.specificJsError}
+        onChange={({ value = '' }) => {
+          updateForm(
+            form
+              .updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true))
+              .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+              .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
+          );
+          websitesAlertingThresholdMetricChanged(getTrackingObject(form, { value }));
+        }}
+      />
+      <ThresholdOperatorDropDown
+        form={form}
+        onChange={onChange}
+        trackingCallback={websitesAlertingThresholdOperatorChanged}
+      />
+      <ThresholdValueInput
+        max={maxValue}
+        form={form}
+        updateForm={updateForm}
+        percentageMetric={percentageMetric}
+        trackChange={websitesAlertingThresholdValueChanged}
+        metricUnitPostfix={metricUnitPostfix}
+      />
+      <UseSuggestedValueButton
+        form={form}
+        onChange={onChange}
+        metricUnitPostfix={metricUnitPostfix}
+        percentageMetric={percentageMetric}
+      />
+    </ThresholdConditionFormGroup>
+  );
+}
+
+JsErrorsInteractiveChart.propTypes = {
+  blueprintConfig: blueprintConfigPropType,
+  form: PropTypes.object.isRequired,
+  updateForm: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onChartViewConfigChange: PropTypes.func.isRequired,
+  selectedChartViewConfigIndex: PropTypes.number.isRequired
+};

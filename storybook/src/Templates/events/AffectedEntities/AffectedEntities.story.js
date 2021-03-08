@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
+import { create } from '@instana/observables';
 
 import AffectedEntitiesPresenter from 'in-events/components/AffectedEntities/AffectedEntitiesPresenter';
 import { indeterminateProgress, finishedProgress } from 'in-services/fixedObjects';
 import { availableMetrics } from 'in-applications/analyze/metrics';
-import { create } from '@instana/observables';
 
 export default {
   title: 'Templates|events/AffectedEntities',

@@ -16,6 +16,7 @@ import WebsiteContextIcon from 'in-websites/WebsiteDashboard/components/WebsiteC
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
 import WebsiteContext from 'in-websites/WebsiteDashboard/components/WebsiteContext';
+import CreateAlert from 'in-alerting/smart-alerts/websites/alerting/CreateAlert';
 import { websiteTabs, pageTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import { dashboardTagFilters as tagFiltersTrackers } from 'in-websites/tracker';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
@@ -26,7 +27,6 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
-import CreateAlert from 'in-websites/alerting/CreateAlert';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-websites/tracker';
 import withUrlState from 'in-hoc/withUrlState';

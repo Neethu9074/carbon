@@ -4,9 +4,9 @@
  */
 import React from 'react';
 
-import PotentialProblemsDialogPresenter from 'in-new-components/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter';
+import PotentialProblemsDialogPresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
+import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { potentialProblemsCluster, alertRules as clusterAlertRules } from './potentialProblemsStorySharedData';
-import SmartAlertConfigDialogWrapper from 'in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper';
 import { close } from 'in-components/DialogPresenter/store';
 import DialogPresenter from 'in-components/DialogPresenter';
 

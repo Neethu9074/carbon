@@ -2,17 +2,17 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 import React from 'react';
 
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { barOverlapping, line } from 'in-stores/metric/renderer';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function CallsErrorsChart({
   applicationId,

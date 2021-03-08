@@ -4,7 +4,6 @@
  */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 
 import {
   HorizontalIndicatorRow,
@@ -18,6 +17,7 @@ import {
 } from 'in-components/tables/sharedComponents';
 import { AffectedEntity } from 'in-events/components/AffectedEntities/AffectedEntity';
 import { finishedProgress } from 'in-services/fixedObjects';
+import { t } from 'in-i18n';
 
 import locals from 'in-events/components/AffectedEntities/AffectedEntities.mless';
 

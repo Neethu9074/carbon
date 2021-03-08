@@ -5,7 +5,6 @@
 import { create, just, interval } from '@instana/observables';
 import React, { useState, useMemo } from 'react';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 
 import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -30,6 +29,7 @@ import { query$ } from 'in-stores/search/query';
 import useUrlState from 'in-hooks/useUrlState';
 import { seconds } from 'in-services/time';
 import Sticky from 'in-components/Sticky';
+import { t } from 'in-i18n';
 
 export default function LegacyEventViewMigration(props) {
   const query = get(props, ['location', 'query']);

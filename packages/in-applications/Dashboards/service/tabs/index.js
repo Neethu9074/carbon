@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 /* eslint-disable react/display-name */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
@@ -14,6 +13,7 @@ import FlowMap from 'in-applications/Dashboards/service/tabs/FlowMap';
 import Summary from 'in-applications/Dashboards/service/tabs/Summary';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 export default [
   {

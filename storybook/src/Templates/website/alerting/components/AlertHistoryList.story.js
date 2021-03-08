@@ -4,7 +4,7 @@
  */
 import React from 'react';
 
-import { AlertHistoryListPresenter } from 'in-new-components/Alerting/components/AlertHistoryList';
+import { AlertHistoryListPresenter } from 'in-alerting/components/AlertHistoryList';
 
 export default {
   title: 'Templates|website/alerting/components/AlertHistoryListPresenter',

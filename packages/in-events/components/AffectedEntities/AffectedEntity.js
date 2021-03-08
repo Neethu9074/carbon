@@ -5,7 +5,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-applications/alerting/tracker';
+import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
 import { Td, Tr } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
 import { number } from 'in-services/formatters/number';

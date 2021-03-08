@@ -5,29 +5,30 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 
 import {
   applicationsAlertingListAlertResumed,
   applicationsAlertingListAlertPaused,
   applicationsAlertingListAlertDeleted
-} from 'in-applications/alerting/tracker';
+} from 'in-alerting/smart-alerts/applications/tracker';
 import {
   getAllAlertConfigs,
   disableAlertConfig,
   enableAlertConfig,
   deleteAlertConfig
 } from 'in-applications/api/applicationAlertConfig';
-import alertEvaluationTypes, { PER_AP } from 'in-applications/alerting/advanced/EvaluationSwitch/alertEvaluationTypes';
+import alertEvaluationTypes, {
+  PER_AP
+} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-applications/navigation/paths';
 import { alertCreated as alertCreatedMatrixParam } from 'in-applications/navigation/matrix';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
-import AlertQueryBuilder from 'in-applications/alerting/components/AlertQueryBuilder';
-import { getBlueprintConfig } from 'in-applications/alerting/data/blueprintConfig';
 import { alertId as alertIdMatrixParam } from 'in-applications/navigation/matrix';
-import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import WithQB1orQB2 from 'in-alerting/components/WithQB1orQB2';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import Footer from 'in-new-components/Footer/Footer';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -35,6 +36,7 @@ import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import List from 'in-settings/components/List';
 import Card from 'in-new-components/Card';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 import locals from './Alerts.mless';
 

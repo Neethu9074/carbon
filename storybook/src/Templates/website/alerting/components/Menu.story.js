@@ -5,7 +5,7 @@
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import Menu from 'in-new-components/Alerting/components/Menu';
+import Menu from 'in-alerting/components/Menu';
 
 export default {
   title: 'Templates|website/alerting/components/Menu',

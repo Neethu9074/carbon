@@ -5,7 +5,7 @@
 import React, { useState } from 'react';
 import theme from 'in-themes';
 
-import AlertingRenderer from 'in-new-components/Alerting/Chart/renderer/Renderer';
+import AlertingRenderer from 'in-alerting/components/Chart/renderer/Renderer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import FormGroup from 'in-components/form/FormGroup/FormGroup';

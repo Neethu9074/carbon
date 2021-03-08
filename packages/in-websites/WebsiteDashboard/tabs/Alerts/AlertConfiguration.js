@@ -4,30 +4,30 @@
  */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 
-import WebsitesAlertingChartWithErrorMessage from 'in-websites/alerting/chart/WebsitesAlertingChartWithErrorMessage';
-import TimeThresholdDescription from 'in-new-components/Alerting/components/TimeThresholdDescription';
-import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-websites/alerting/form/ruleFormData';
-import SelectedAlertTypeInfo from 'in-new-components/Alerting/components/SelectedAlertTypeInfo';
+import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/alerting/chart/WebsitesAlertingChartWithErrorMessage';
+import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/alerting/form/ruleFormData';
+import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
+import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
+import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/alerting/components/AlertQueryBuilder';
+import WebsiteScopePath from 'in-alerting/smart-alerts/websites/alerting/components/WebsiteScopePath';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/alerting/data/blueprintConfig';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
-import ChartViewConfigurator from 'in-new-components/Alerting/components/ChartViewConfigurator';
-import ScopeConfigPresenter from 'in-new-components/Alerting/components/ScopeConfigPresenter';
-import AlertChannelsViewer from 'in-new-components/Alerting/components/AlertChannelsViewer';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
-import AlertPropertyInfos from 'in-new-components/Alerting/components/AlertPropertyInfos';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
-import AlertDetailsCard from 'in-new-components/Alerting/components/AlertDetailsCard';
-import AlertQueryBuilder from 'in-websites/alerting/components/AlertQueryBuilder';
-import WebsiteScopePath from 'in-websites/alerting/components/WebsiteScopePath';
-import { getBlueprintConfig } from 'in-websites/alerting/data/blueprintConfig';
+import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
+import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
+import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
+import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
 import { light } from 'in-themes/themes';
+import { t } from 'in-i18n';
 
-import locals from 'in-new-components/Alerting/shared-styles/AlertConfiguration.mless';
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles//AlertConfiguration.mless';
 
 const initialChartConfigIndex = 0;
 

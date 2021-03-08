@@ -2,21 +2,21 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import TagFilterExpressionConfig from 'in-custom-dashboards/widgets/Slo/sli/TagFilterExpressionConfig';
 import TagFilterConfiguration from 'in-custom-dashboards/widgets/Slo/sli/TagFilterConfiguration';
 import SliEventsQueryBuilder from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
 import { availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import WithQB1orQB2 from 'in-new-components/Alerting/components/WithQB1orQB2';
 import { sliFieldNames } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import WithQB1orQB2 from 'in-alerting/components/WithQB1orQB2';
 import FormBound from 'in-components/form/binding/FormBound';
 import Divider from 'in-new-components/workspace/Divider';
 import Header from 'in-new-components/workspace/Header';
 import Stack from 'in-new-components/layout/Stack';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm.mless';
 

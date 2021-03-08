@@ -1,9 +1,14 @@
 /*
  * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+import React from 'react';
+
+/*
+ * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import AlertThresholdConfigItemContainer from 'in-new-components/Alerting/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
-import React from 'react';
+import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 
 export default {
   title: 'Molecules|alerting/advanced/AlertThresholdConfigItemContainer',
@@ -29,7 +34,7 @@ export const ThreeColumns = () => (
   </AlertThresholdConfigItemContainer>
 );
 export const FourColumns = () => (
-  <AlertThresholdConfigItemContainer iconType="lib_datetime_timerange" hasExtraColumnOnRight={true}>
+  <AlertThresholdConfigItemContainer iconType="lib_datetime_timerange" hasExtraColumnOnRight>
     <span>column 1</span>
     <span>column 2</span>
     <span>column 3</span>

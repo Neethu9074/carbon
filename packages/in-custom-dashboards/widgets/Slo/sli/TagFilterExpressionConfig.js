@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import FilterConfigurator from 'in-custom-dashboards/widgets/Slo/sli/FilterConfigurator';
-import IconLabel from 'in-new-components/Alerting/components/IconLabel';
+import IconLabel from 'in-alerting/components/IconLabel';
 import LightCard from 'in-new-components/Card/LightCard';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './TagFilterExpressionConfig.mless';
 

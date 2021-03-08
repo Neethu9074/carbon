@@ -5,6 +5,7 @@
 import { just } from '@instana/observables';
 import React from 'react';
 
+import ServicesAndEndpointsListPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
 import {
   getApplicationResult,
   getApplicationsResult,
@@ -12,7 +13,6 @@ import {
   getServicesResult,
   storedApplicationsSelection
 } from './servicesAndEndpointsListData';
-import ServicesAndEndpointsListPresenter from 'in-new-components/Alerting/components/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
 import { noop } from 'in-services/fixedObjects';
 
 const oneDayTimeConfig = Object.freeze({

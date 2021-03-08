@@ -4,19 +4,18 @@
  */
 import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import ApplicationEventListItemContent from 'in-events/components/legacy/ApplicationEventListItemContent';
 import { getTimeConfigFromEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
+import WebsiteScopePath from 'in-alerting/smart-alerts/websites/alerting/components/WebsiteScopePath';
 import WebsiteEventListItemContent from 'in-events/components/legacy/WebsiteEventListItemContent';
-import ApplicationScopePath from 'in-applications/alerting/components/ApplicationScopePath';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventListItemContent from 'in-events/components/legacy/EventListItemContent';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
-import WebsiteScopePath from 'in-websites/alerting/components/WebsiteScopePath';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
@@ -28,6 +27,7 @@ import EventIcon from 'in-events/components/EventIcon';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import 'in-events/components/legacy/EventListItem.less';
 

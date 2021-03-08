@@ -4,7 +4,7 @@
  */
 import React from 'react';
 
-import CreateAlert from 'in-websites/alerting/CreateAlert';
+import CreateAlert from 'in-alerting/smart-alerts/websites/alerting/CreateAlert';
 
 export default {
   title: 'Templates|website/alerting/components/CreateAlertButton',

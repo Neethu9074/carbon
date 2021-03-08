@@ -2,13 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
-import InboundOrAllCallsOption from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
+import InboundOrAllCallsOption from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import { sliTypeOptions, applicationType, availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import { boundaryScopes } from 'in-applications/alerting/advanced/InboundOutboundCallsSwitch/config';
+import { boundaryScopes } from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/config';
 import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServicesSelectBox';
 import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSelectBox';
 import GoodBadEvents from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';
@@ -24,6 +23,7 @@ import Section from 'in-new-components/workspace/Section';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Header from 'in-new-components/workspace/Header';
 import Stack from 'in-new-components/layout/Stack';
+import { t } from 'in-i18n';
 
 export function SliForm({ form, onChange, onChangeType, apName }) {
   const sliEntityForm = form.get('sliEntity');
