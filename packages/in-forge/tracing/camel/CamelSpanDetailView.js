@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -11,11 +12,11 @@ export default function CamelSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Type">{span.getIn(['data', 'camel', 'type'])}</Di>
-        <Di title="Quartz">{span.getIn(['data', 'camel', 'quartz'])}</Di>
-        <Di title="Timer">{span.getIn(['data', 'camel', 'timer'])}</Di>
-        <Di title="Sort">{span.getIn(['data', 'camel', 'sort'])}</Di>
-        <Di title="Size">{span.getIn(['data', 'camel', 'size'])}</Di>
+        <Di title={t('in-forge:tracing.camel.titleType')}>{span.getIn(['data', 'camel', 'type'])}</Di>
+        <Di title={t('in-forge:tracing.camel.titleQuartz')}>{span.getIn(['data', 'camel', 'quartz'])}</Di>
+        <Di title={t('in-forge:tracing.camel.titleTimer')}>{span.getIn(['data', 'camel', 'timer'])}</Di>
+        <Di title={t('in-forge:tracing.camel.titleSort')}>{span.getIn(['data', 'camel', 'sort'])}</Di>
+        <Di title={t('in-forge:tracing.camel.titleSize')}>{span.getIn(['data', 'camel', 'size'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'camel', 'error'])} />
       </Dl>
     </div>

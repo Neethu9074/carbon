@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -9,8 +10,8 @@ registerSpanDefinition({
   category: 'batch',
 
   typeName: {
-    singular: 'Enterprise Java Beans Scheduled Job',
-    plural: 'Enterprise Java Beans Scheduled Jobs'
+    singular: t('in-forge:tracing.ejbSchedule.indexName'),
+    plural: t('in-forge:tracing.ejbSchedule.indexName_plural')
   },
 
   detailView: 'EJBScheduleSpanDetailView',

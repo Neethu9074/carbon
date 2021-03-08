@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -9,8 +10,8 @@ registerSpanDefinition({
   category: 'database',
 
   typeName: {
-    singular: 'Elasticsearch Call',
-    plural: 'Elasticsearch Calls'
+    singular: t('in-forge:tracing.elasticsearch.indexName'),
+    plural: t('in-forge:tracing.elasticsearch.indexName_plural')
   },
 
   detailView: 'ElasticsearchSpanDetailView',

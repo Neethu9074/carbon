@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -13,9 +14,9 @@ export default function WebApiSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Controller">{controller ? controller : 'unknown'}</Di>
-        <Di title="Action">{span.getIn(['data', 'aspnetmvccontroller', 'action'])}</Di>
-        <Di title="Url">{span.getIn(['data', 'aspnetmvccontroller', 'url'])}</Di>
+        <Di title={t('in-forge:tracing.aspNetMvcController.titleController')}>{controller ? controller : 'unknown'}</Di>
+        <Di title={t('in-forge:tracing.aspNetMvcController.titleAction')}>{span.getIn(['data', 'aspnetmvccontroller', 'action'])}</Di>
+        <Di title={t('in-forge:tracing.aspNetMvcController.titleUrl')}>{span.getIn(['data', 'aspnetmvccontroller', 'url'])}</Di>
         <ErrorDescriptionItem error={error} />
       </Dl>
     </div>

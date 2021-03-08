@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -14,17 +15,17 @@ export default function CassandraSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Keyspace">{span.getIn(['data', 'cassandra', 'keyspace'])}</Di>
+        <Di title={t('in-forge:tracing.cassandra.titleKeyspace')}>{span.getIn(['data', 'cassandra', 'keyspace'])}</Di>
         {span.getIn(['data', 'cassandra', 'fetchSize']) != null && (
-          <Di title="Fetch Size">
+          <Di title={t('in-forge:tracing.cassandra.titleFetchSize')}>
             {span.getIn(['data', 'cassandra', 'fetchSize'])}
 
             {/* Support string and boolean as possible types in the JSON */}
             {fullyFetched != null && ' (' + (String(fullyFetched) === 'false' ? 'not ' : '') + 'fully fetched)'}
           </Di>
         )}
-        <Di title="Achieved Consistency">{span.getIn(['data', 'cassandra', 'achievedConsistency'])}</Di>
-        <Di title="Tried Hosts">{span.getIn(['data', 'cassandra', 'triedHosts'])}</Di>
+        <Di title={t('in-forge:tracing.cassandra.titleAchievedConsistency')}>{span.getIn(['data', 'cassandra', 'achievedConsistency'])}</Di>
+        <Di title={t('in-forge:tracing.cassandra.titleTriedHosts')}>{span.getIn(['data', 'cassandra', 'triedHosts'])}</Di>
         <Query span={span} />
         <ErrorDescriptionItem error={span.getIn(['data', 'cassandra', 'error'])} />
       </Dl>
@@ -42,7 +43,7 @@ function Query({ span }) {
   let code = formatSql(statement);
 
   return (
-    <Di title="Query" verticalDisplay>
+    <Di title={t('in-forge:tracing.cassandra.titleQuery')} verticalDisplay>
       <Code code={code} lang={lang} />
     </Di>
   );

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -10,10 +11,10 @@ export default function MSMQSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Machine">{span.getIn(['data', 'msmq', 'machineName'])}</Di>
-        <Di title="Queue">{span.getIn(['data', 'msmq', 'queueName'])}</Di>
-        <Di title="Operation">{span.getIn(['data', 'msmq', 'operation'])}</Di>
-        <Di title="Transaction-Type">{span.getIn(['data', 'msmq', 'txType'])}</Di>
+        <Di title={t('in-forge:tracing.msmq.titleMachine')}>{span.getIn(['data', 'msmq', 'machineName'])}</Di>
+        <Di title={t('in-forge:tracing.msmq.titleQueue')}>{span.getIn(['data', 'msmq', 'queueName'])}</Di>
+        <Di title={t('in-forge:tracing.msmq.titleOperation')}>{span.getIn(['data', 'msmq', 'operation'])}</Di>
+        <Di title={t('in-forge:tracing.msmq.titleTransactionType')}>{span.getIn(['data', 'msmq', 'txType'])}</Di>
       </Dl>
     </div>
   );

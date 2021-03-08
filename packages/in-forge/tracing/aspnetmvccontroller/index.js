@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -9,8 +10,8 @@ registerSpanDefinition({
   category: 'generic',
 
   typeName: {
-    singular: 'ASP.Net MVC-Controller',
-    plural: 'ASP.Net MVC-Controllers'
+    singular: t('in-forge:tracing.aspNetMvcController.indexName'),
+    plural: t('in-forge:tracing.aspNetMvcController.indexName_plural')
   },
 
   detailView: 'AspNetMvcControllerSpanDetailView',

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -9,13 +10,13 @@ registerSpanDefinition({
   category: 'missing',
 
   typeName: {
-    singular: 'Span not yet received',
-    plural: 'Spans not yet received'
+    singular: t('in-forge:tracing.missing.indexName'),
+    plural: t('in-forge:tracing.missing.indexName_plural')
   },
 
   detailView: 'MissingSpanDetailView',
 
   getLabel() {
-    return 'The span did not yet arrive in the backend (e.g. long running tasks)';
+    return t('in-forge:tracing.missing.indexLabel');
   }
 });

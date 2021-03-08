@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -9,8 +10,8 @@ registerSpanDefinition({
   category: 'messaging',
 
   typeName: {
-    singular: 'MSMQ Message',
-    plural: 'MSMQ Messages'
+    singular: t('in-forge:tracing.msmq.indexName'),
+    plural: t('in-forge:tracing.msmq.indexName_plural')
   },
 
   detailView: 'MSMQSpanDetailView',

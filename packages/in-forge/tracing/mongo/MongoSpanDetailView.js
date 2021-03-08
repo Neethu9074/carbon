@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -14,17 +15,17 @@ export default function MongoSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Hostname">{span.getIn(['data', 'peer', 'hostname'])}</Di>
-        <Di title="Port">{span.getIn(['data', 'peer', 'port'])}</Di>
-        <Di title="Service">{span.getIn(['data', 'mongo', 'service'])}</Di>
-        <Di title="Namespace">{span.getIn(['data', 'mongo', 'namespace'])}</Di>
+        <Di title={t('in-forge:tracing.mongo.titleHostname')}>{span.getIn(['data', 'peer', 'hostname'])}</Di>
+        <Di title={t('in-forge:tracing.mongo.titlePort')}>{span.getIn(['data', 'peer', 'port'])}</Di>
+        <Di title={t('in-forge:tracing.mongo.titleService')}>{span.getIn(['data', 'mongo', 'service'])}</Di>
+        <Di title={t('in-forge:tracing.mongo.titleNamespace')}>{span.getIn(['data', 'mongo', 'namespace'])}</Di>
         {query ? (
-          <Di title="Query" verticalDisplay>
+          <Di title={t('in-forge:tracing.mongo.titleQuery')} verticalDisplay>
             <Code code={query} lang="json" />
           </Di>
         ) : null}
         <ErrorDescriptionItem error={span.getIn(['data', 'mongo', 'error'])} />
-        <Di title="Error Code">{span.getIn(['data', 'mongo', 'error_code'])}</Di>
+        <Di title={t('in-forge:tracing.mongo.titleErrorCode')}>{span.getIn(['data', 'mongo', 'error_code'])}</Di>
       </Dl>
     </div>
   );

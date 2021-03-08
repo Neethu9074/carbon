@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -15,11 +16,11 @@ export default function GCPSSpanDetailView({ span }) {
 
   return (
     <Dl>
-      <Di title="Operation">{data.get('op')}</Di>
-      <Di title="Project ID">{data.get('projid')}</Di>
-      {topic && <Di title="Topic">{data.get('top')}</Di>}
-      {subscription && <Di title="Subscription">{subscription}</Di>}
-      {messageId && <Di title="Message ID">{messageId}</Di>}
+      <Di title={t('in-forge:tracing.gcps.titleOperation')}>{data.get('op')}</Di>
+      <Di title={t('in-forge:tracing.gcps.titleProjectID')}>{data.get('projid')}</Di>
+      {topic && <Di title={t('in-forge:tracing.gcps.titleTopic')}>{data.get('top')}</Di>}
+      {subscription && <Di title={t('in-forge:tracing.gcps.titleSubscription')}>{subscription}</Di>}
+      {messageId && <Di title={t('in-forge:tracing.gcps.titleMessageID')}>{messageId}</Di>}
       <ErrorDescriptionItem error={data.get('error')} />
     </Dl>
   );

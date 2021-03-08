@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React, { Fragment } from 'react';
 import { fromJS, Map } from 'immutable';
 
@@ -14,8 +15,8 @@ import { emptyMap } from 'in-services/fixedImmutables';
 export default function GraphQLSpanDetailView({ span }) {
   return (
     <Dl>
-      <Di title="Operation Type">{span.getIn(['data', 'graphql', 'operationType'])}</Di>
-      <Di title="Operation Name">{span.getIn(['data', 'graphql', 'operationName'])}</Di>
+      <Di title={t('in-forge:tracing.graphql.titleOperationType')}>{span.getIn(['data', 'graphql', 'operationType'])}</Di>
+      <Di title={t('in-forge:tracing.graphql.titleOperationName')}>{span.getIn(['data', 'graphql', 'operationName'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'graphql', 'errors'])} />
       {getObjectTypeDetails(span)}
       {span.getIn(['data', 'http']) && <HttpSpanDetailViewDescriptionList span={span} />}
@@ -61,7 +62,7 @@ function getObjectTypeDetails(span) {
         );
       }
       return (
-        <Di title={`Object Type "${objectType}"`} key={`${objectType}`}>
+        <Di title={t('in-forge:tracing.graphql.titleObjectType', {typeOfObject: objectType})} key={`${objectType}`}>
           {content}
         </Di>
       );

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -9,8 +10,8 @@ registerSpanDefinition({
   category: 'database',
 
   typeName: {
-    singular: 'LDAP Query',
-    plural: 'LDAP Queries'
+    singular: t('in-forge:tracing.ldap.indexName'),
+    plural: t('in-forge:tracing.ldap.indexName_plural')
   },
 
   detailView: 'LdapSpanDetailView',
@@ -18,9 +19,9 @@ registerSpanDefinition({
   getLabel(span) {
     const query = span.getIn(['data', 'ldap', 'query'], '<unknown>');
     if (query == null) {
-      return 'LDAP';
+      return t('in-forge:tracing.ldap.indexReturn');
     }
 
-    return 'LDAP query ' + query;
+    return t('in-forge:tracing.ldap.indexReturnWithQuery', {ldapQuery: query});
   }
 });

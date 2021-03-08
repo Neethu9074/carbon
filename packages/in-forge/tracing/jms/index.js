@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -9,8 +10,8 @@ registerSpanDefinition({
   category: 'messaging',
 
   typeName: {
-    singular: 'JMS message',
-    plural: 'JMS messages'
+    singular: t('in-forge:tracing.jms.indexName'),
+    plural: t('in-forge:tracing.jms.indexName_plural')
   },
 
   detailView: 'JmsSpanDetailView',
@@ -22,6 +23,6 @@ registerSpanDefinition({
       return label;
     }
 
-    return label + ' to ' + destination;
+    return t('in-forge:tracing.jms.indexReturn', {returnLabel: label, returnDestination: destination});
   }
 });

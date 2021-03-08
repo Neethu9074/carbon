@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { shortenSqlStatement } from 'in-forge/tracing/jdbc/sql';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
@@ -10,8 +11,8 @@ registerSpanDefinition({
   category: 'database',
 
   typeName: {
-    singular: 'JDBC Call',
-    plural: 'JDBC Calls'
+    singular: t('in-forge:tracing.jdbc.indexName'),
+    plural: t('in-forge:tracing.jdbc.indexName_plural')
   },
 
   detailView: 'JdbcSpanDetailView',

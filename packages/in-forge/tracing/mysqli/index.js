@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 import { shortenSqlStatement } from 'in-forge/tracing/jdbc/sql';
 
@@ -10,8 +11,8 @@ registerSpanDefinition({
   category: 'database',
 
   typeName: {
-    singular: 'MySQL Call',
-    plural: 'MySQL Calls'
+    singular: t('in-forge:tracing.mysqli.indexName'),
+    plural: t('in-forge:tracing.mysqli.indexName_plural')
   },
 
   detailView: 'MySQLiSpanDetailView',
@@ -27,6 +28,6 @@ registerSpanDefinition({
       return dsn;
     }
 
-    return 'Unknown MySQL call';
+    return t('in-forge:tracing.mysqli.indexLabel');
   }
 });

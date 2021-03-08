@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -9,8 +10,8 @@ registerSpanDefinition({
   category: 'database',
 
   typeName: {
-    singular: 'Hazelcast Java Client call',
-    plural: 'Hazelcast Java Client calls'
+    singular: t('in-forge:tracing.hz.indexName'),
+    plural: t('in-forge:tracing.hz.indexName_plural')
   },
 
   detailView: 'HzSpanDetailView'

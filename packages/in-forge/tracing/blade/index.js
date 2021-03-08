@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -10,8 +11,8 @@ registerSpanDefinition({
   direction: 'local',
 
   typeName: {
-    singular: 'Blade',
-    plural: 'Blades'
+    singular: t('in-forge:tracing.blade.indexName'),
+    plural: t('in-forge:tracing.blade.indexName_plural')
   },
 
   detailView: 'BladeSpanDetailView',
@@ -27,6 +28,6 @@ registerSpanDefinition({
       return template_path.split('/').pop();
     }
 
-    return 'Blade';
+    return t('in-forge:tracing.blade.indexReturn');
   }
 });

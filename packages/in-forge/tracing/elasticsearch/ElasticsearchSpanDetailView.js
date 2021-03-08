@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -13,16 +14,16 @@ export default function ElasticsearchSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Endpoint">{span.getIn(['data', 'elasticsearch', 'endpoint'])}</Di>
-        <Di title="Action">{span.getIn(['data', 'elasticsearch', 'action'])}</Di>
-        <Di title="Index">{span.getIn(['data', 'elasticsearch', 'index'])}</Di>
-        <Di title="Type">{span.getIn(['data', 'elasticsearch', 'type'])}</Di>
-        <Di title="ID">{span.getIn(['data', 'elasticsearch', 'id'])}</Di>
-        <Di title="Hits">{span.getIn(['data', 'elasticsearch', 'hits'])}</Di>
+        <Di title={t('in-forge:tracing.elasticsearch.titleEndpoint')}>{span.getIn(['data', 'elasticsearch', 'endpoint'])}</Di>
+        <Di title={t('in-forge:tracing.elasticsearch.titleAction')}>{span.getIn(['data', 'elasticsearch', 'action'])}</Di>
+        <Di title={t('in-forge:tracing.elasticsearch.titleIndex')}>{span.getIn(['data', 'elasticsearch', 'index'])}</Di>
+        <Di title={t('in-forge:tracing.elasticsearch.titleType')}>{span.getIn(['data', 'elasticsearch', 'type'])}</Di>
+        <Di title={t('in-forge:tracing.elasticsearch.titleID')}>{span.getIn(['data', 'elasticsearch', 'id'])}</Di>
+        <Di title={t('in-forge:tracing.elasticsearch.titleHits')}>{span.getIn(['data', 'elasticsearch', 'hits'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'elasticsearch', 'error'])} />
 
         {query ? (
-          <Di title="Query" verticalDisplay>
+          <Di title={t('in-forge:tracing.elasticsearch.titleQuery')} verticalDisplay>
             <Code code={prettyPrintQuery(query)} lang="json" />
           </Di>
         ) : null}

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 import { shortenSqlStatement } from 'in-forge/tracing/jdbc/sql';
 
@@ -10,8 +11,8 @@ registerSpanDefinition({
   category: 'database',
 
   typeName: {
-    singular: 'IBM DB2 Universal Database, IBM Cloudscape, and Apache Derby Call',
-    plural: 'IBM DB2 Universal Database, IBM Cloudscape, and Apache Derby Calls'
+    singular: t('in-forge:tracing.ibmdb2.indexName'),
+    plural: t('in-forge:tracing.ibmdb2.indexName_plural')
   },
 
   detailView: 'IbmDb2SpanDetailView',

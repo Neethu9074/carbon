@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -18,9 +19,9 @@ export default function HttpSpanGroupingDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Host">{span.getIn(['data', 'http', 'host'])}</Di>
-        {url && url !== path ? <Di title="URL">{url}</Di> : null}
-        <Di title="Method">{span.getIn(['data', 'http', 'method'])}</Di>
+        <Di title={t('in-forge:tracing.http.titleHost')}>{span.getIn(['data', 'http', 'host'])}</Di>
+        {url && url !== path ? <Di title={t('in-forge:tracing.http.titleURL')}>{url}</Di> : null}
+        <Di title={t('in-forge:tracing.http.titleMethod')}>{span.getIn(['data', 'http', 'method'])}</Di>
       </Dl>
     </div>
   );

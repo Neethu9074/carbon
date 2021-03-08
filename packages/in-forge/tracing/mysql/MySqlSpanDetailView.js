@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -14,14 +15,14 @@ export default function MySqlSpanDetailView({ span }) {
 
   return (
     <Dl>
-      <Di title="Host">{span.getIn(['data', 'mysql', 'host'])}</Di>
-      <Di title="Port">{span.getIn(['data', 'mysql', 'port'])}</Di>
-      <Di title="Database">{span.getIn(['data', 'mysql', 'db'])}</Di>
-      <Di title="User">{span.getIn(['data', 'mysql', 'user'])}</Di>
+      <Di title={t('in-forge:tracing.mysql.titleHost')}>{span.getIn(['data', 'mysql', 'host'])}</Di>
+      <Di title={t('in-forge:tracing.mysql.titlePort')}>{span.getIn(['data', 'mysql', 'port'])}</Di>
+      <Di title={t('in-forge:tracing.mysql.titleDatabase')}>{span.getIn(['data', 'mysql', 'db'])}</Di>
+      <Di title={t('in-forge:tracing.mysql.titleUser')}>{span.getIn(['data', 'mysql', 'user'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'mysql', 'error'])} />
 
       {statement ? (
-        <Di title="Query" verticalDisplay>
+        <Di title={t('in-forge:tracing.mysql.titleQuery')} verticalDisplay>
           <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
         </Di>
       ) : null}

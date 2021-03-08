@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -10,7 +11,7 @@ export default function GlassfishSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Scheduled Task">{span.getIn(['data', 'ejb', 'schedule', 'id'])}</Di>
+        <Di title={t('in-forge:tracing.ejbSchedule.titleScheduledTask')}>{span.getIn(['data', 'ejb', 'schedule', 'id'])}</Di>
       </Dl>
     </div>
   );

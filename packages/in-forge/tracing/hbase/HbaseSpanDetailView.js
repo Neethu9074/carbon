@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -11,8 +12,8 @@ export default function HzSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Operation">{span.getIn(['data', 'hbase', 'operation'])}</Di>
-        <Di title="Table">{span.getIn(['data', 'hbase', 'table'])}</Di>
+        <Di title={t('in-forge:tracing.hbase.titleOperation')}>{span.getIn(['data', 'hbase', 'operation'])}</Di>
+        <Di title={t('in-forge:tracing.hbase.titleTable')}>{span.getIn(['data', 'hbase', 'table'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'hbase', 'error'])} />
       </Dl>
     </div>

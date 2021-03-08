@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -9,9 +10,10 @@ registerSpanDefinition({
   category: 'http',
 
   typeName: {
-    singular: 'boto3 Call',
-    plural: 'boto3 Calls'
+    singular: t('in-forge:tracing.boto3.indexName'),
+    plural: t('in-forge:tracing.boto3.indexName_plural')
   },
+
 
   detailView: 'Boto3SpanDetailView',
 

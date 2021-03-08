@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
@@ -15,7 +16,7 @@ export default function IbmDb2SpanDetailView({ span }) {
     <div>
       <Dl>
         {statement ? (
-          <Di title="Query" verticalDisplay>
+          <Di title={t('in-forge:tracing.ibmdb2.titleQuery')} verticalDisplay>
             <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
           </Di>
         ) : null}

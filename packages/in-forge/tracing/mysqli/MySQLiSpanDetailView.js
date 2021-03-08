@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -15,9 +16,9 @@ export default function MySQLiSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="DSN">{span.getIn(['data', 'mysqli', 'dsn'])}</Di>
+        <Di title={t('in-forge:tracing.mysqli.titleDSN')}>{span.getIn(['data', 'mysqli', 'dsn'])}</Di>
         {statement ? (
-          <Di title="Query" verticalDisplay>
+          <Di title={t('in-forge:tracing.mysqli.titleQuery')} verticalDisplay>
             <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
           </Di>
         ) : null}

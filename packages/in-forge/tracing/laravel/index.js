@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -10,8 +11,8 @@ registerSpanDefinition({
   direction: 'local',
 
   typeName: {
-    singular: 'Laravel',
-    plural: 'Laravels'
+    singular: t('in-forge:tracing.laravel.indexName'),
+    plural: t('in-forge:tracing.laravel.indexName_plural')
   },
 
   detailView: 'LaravelSpanDetailView',
@@ -30,6 +31,6 @@ registerSpanDefinition({
     if (!controller && !action) {
       return 'Unknown@' + 'unknown';
     }
-    return 'Laravel';
+    return t('in-forge:tracing.laravel.indexReturn');
   }
 });

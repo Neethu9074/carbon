@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -11,10 +12,10 @@ export default function MemcacheSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Operation">{span.getIn(['data', 'memcached', 'operation'])}</Di>
-        <Di title="Key">{span.getIn(['data', 'memcached', 'key'])}</Di>
-        <Di title="Result Code">{span.getIn(['data', 'memcached', 'resultCode'])}</Di>
-        <Di title="Result Message">{span.getIn(['data', 'memcached', 'resultMessage'])}</Di>
+        <Di title={t('in-forge:tracing.memcached.titleOperation')}>{span.getIn(['data', 'memcached', 'operation'])}</Di>
+        <Di title={t('in-forge:tracing.memcached.titleKey')}>{span.getIn(['data', 'memcached', 'key'])}</Di>
+        <Di title={t('in-forge:tracing.memcached.titleResultCode')}>{span.getIn(['data', 'memcached', 'resultCode'])}</Di>
+        <Di title={t('in-forge:tracing.memcached.titleResultMessage')}>{span.getIn(['data', 'memcached', 'resultMessage'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'memcached', 'error'])} />
       </Dl>
     </div>

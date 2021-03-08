@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -10,8 +11,8 @@ registerSpanDefinition({
   direction: 'local',
 
   typeName: {
-    singular: 'Laminas View',
-    plural: 'Laminas Views'
+    singular: t('in-forge:tracing.laminasView.indexName'),
+    plural: t('in-forge:tracing.laminasView.indexName_plural')
   },
 
   detailView: 'LaminasViewSpanDetailView',
@@ -23,6 +24,6 @@ registerSpanDefinition({
       return template;
     }
 
-    return 'Laminas View';
+    return t('in-forge:tracing.laminasView.indexReturn');
   }
 });

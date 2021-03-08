@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -9,8 +10,8 @@ registerSpanDefinition({
   category: 'generic',
 
   typeName: {
-    singular: 'Google Cloud PubSub',
-    plural: 'Google Cloud PubSub'
+    singular: t('in-forge:tracing.gcpsa.indexName'),
+    plural: t('in-forge:tracing.gcpsa.indexName_plural')
   },
 
   detailView: 'GCPSASpanDetailView',

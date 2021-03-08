@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -19,19 +20,19 @@ export default function JdbcSpanDetailView({ span }) {
         <ErrorDescriptionItem error={span.getIn(['data', 'jdbc', 'error'])} />
 
         {statement && (
-          <Di title="Statement" verticalDisplay>
+          <Di title={t('in-forge:tracing.jdbc.titleStatement')} verticalDisplay>
             <Code code={formatSql(statement)} lang="sql" showLineNumbers={false} />
           </Di>
         )}
 
         {connection && (
-          <Di title="Connection" verticalDisplay>
+          <Di title={t('in-forge:tracing.jdbc.titleConnection')} verticalDisplay>
             <Code softWrap code={connection} showLineNumbers={false} />
           </Di>
         )}
-        <Di title="User">{span.getIn(['data', 'jdbc', 'user'])}</Di>
-        <Di title="Timeout">{span.getIn(['data', 'jdbc', 'timeout'])}</Di>
-        <Di title="Result Size">{span.getIn(['data', 'jdbc', 'size'])}</Di>
+        <Di title={t('in-forge:tracing.jdbc.titleUser')}>{span.getIn(['data', 'jdbc', 'user'])}</Di>
+        <Di title={t('in-forge:tracing.jdbc.titleTimeout')}>{span.getIn(['data', 'jdbc', 'timeout'])}</Di>
+        <Di title={t('in-forge:tracing.jdbc.titleResultSize')}>{span.getIn(['data', 'jdbc', 'size'])}</Di>
       </Dl>
     </div>
   );

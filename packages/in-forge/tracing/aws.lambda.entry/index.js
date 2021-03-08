@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -11,8 +12,8 @@ registerSpanDefinition({
   type: 'aws.lambda.entry',
 
   typeName: {
-    singular: 'AWS Lambda Execution',
-    plural: 'AWS Lambda Executions'
+    singular: t('in-forge:tracing.aspLambdaEntry.indexName'),
+    plural: t('in-forge:tracing.aspLambdaEntry.indexName_plural')
   },
 
   detailView: 'AwsLambdaEntryDetailView',

@@ -4819,6 +4819,679 @@
       "connection": "Connection",
       "routingKey": "Routing Key"
     },
+    "aspNet": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "aspNetMvcController": {
+      "indexName": "ASP.Net MVC-Controller",
+      "indexName_plural": "ASP.Net MVC-Controllers",
+      "titleController": "Controller",
+      "titleAction": "Action",
+      "titleUrl": "Url"
+    },
+    "aspLambdaEntry": {
+      "indexName": "AWS Lambda Execution",
+      "indexName_plural": "AWS Lambda Executions",
+      "titleEventType": "Event Type",
+      "titleEventResources": "Event Resources",
+      "labelResources": "resources",
+      "titleLogGroup": "Log Group",
+      "titleLogStream": "Log Stream",
+      "titleLogEvents": "Log Events",
+      "labelEvents": "events",
+      "titleDetails": "Event Details",
+      "labelS3Events": "S3 events",
+      "titleQueues": "Queues",
+      "labelMessages": "messages",
+      "titleARN": "ARN",
+      "titleFunctionName": "Function Name",
+      "titleVersion": "Version",
+      "titleTrigger": "Trigger",
+      "bodyCloudWatchEvents": "CloudWatch Event(s)",
+      "bodyAWSEvents": "AWS S3 Event(s)",
+      "bodyAWSMessages": "AWS SQS Message(s)",
+      "bodyAWSEvent": "AWS Event",
+      "bodyAWSEventDetail": "An API Gateway call that does not use the Lambda Proxy option or an unidentified Lambda trigger."
+    },
+    "axisClient": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "axisServer": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "batchSynthetic": {
+      "indexName": "Internal trigger",
+      "indexName_plural": "Internal triggers",
+      "indexReturn": "Internal trigger",
+      "bodyApproximated": "Instana has detected this call, but has no specifics about its source. The timing and duration of what triggered this call is approximated."
+    },
+    "blade": {
+      "indexName": "Blade",
+      "indexName_plural": "Blades",
+      "indexReturn": "Blade",
+      "titleViewName": "View Name",
+      "titleViewPath": "View Path",
+      "titleSubtemplateCount": "Subtemplate Count"
+    },
+    "boto3": {
+      "indexName": "boto3 Call",
+      "indexName_plural": "boto3 Calls",
+      "titleOperation": "Operation",
+      "titleEndpoint": "Endpoint",
+      "titleRegion": "Region",
+      "titleStatus": "Status",
+      "titlePayload": "Payload"
+    },
+    "camel": {
+      "indexName": "Camel Call",
+      "indexName_plural": "Camel Calls",
+      "titleType": "Type",
+      "titleQuartz": "Quartz",
+      "titleTimer": "Timer",
+      "titleSort": "Sort",
+      "titleSize": "Size"
+    },
+    "cassandra": {
+      "indexName": "Cassandra query",
+      "indexName_plural": "Cassandra queries",
+      "titleKeyspace": "Keyspace",
+      "titleFetchSize": "Fetch Size",
+      "titleAchievedConsistency": "Achieved Consistency",
+      "titleTriedHosts": "Tried Hosts",
+      "titleQuery": "Query"
+    },
+    "celeryClient": {
+      "indexName": "Celery Client Call",
+      "indexName_plural": "Celery Client Calls",
+      "titleCeleryTask": "Celery Task",
+      "titleCeleryTaskID": "Celery Task ID",
+      "titleRetryReason": "Retry Reason"
+    },
+    "celeryWorker": {
+      "indexName": "Celery Worker Call",
+      "indexName_plural": "Celery Worker Calls",
+      "titleCeleryTask": "Celery Task",
+      "titleCeleryTaskID": "Celery Task ID",
+      "titleRetryReason": "Retry Reason"
+    },
+    "corba": {
+      "indexName": "Corba call",
+      "indexName_plural": "Corba calls",
+      "titleMethod": "Method",
+      "titleORB": "ORB"
+    },
+    "corbaClient": {
+      "indexName": "Corba call",
+      "indexName_plural": "Corba calls",
+      "titleMethod": "Method",
+      "titleORB": "ORB"
+    },
+    "cosmos": {
+      "indexName": "CosmosDB call",
+      "indexName_plural": "CosmosDB calls",
+      "titleStatement": "Statement"
+    },
+    "couchbase": {
+      "indexName": "Couchbase Call",
+      "indexName_plural": "Couchbase Calls",
+      "titleHostname": "Hostname",
+      "titleBucket": "Bucket",
+      "titleType": "Type",
+      "titleErrorCode": "Error Code",
+      "titleSQL": "SQL"
+    },
+    "cxfClient": {
+      "indexName": "HTTP call",
+      "indexName_plural": "HTTP calls"
+    },
+    "cxfServer": {
+      "indexName": "HTTP call",
+      "indexName_plural": "HTTP calls"
+    },
+    "distributeme": {
+      "indexName": "DistributeMe call",
+      "indexName_plural": "DistributeMe calls",
+      "titleService": "Service",
+      "titleMethod": "Method"
+    },
+    "distributemeClient": {
+      "indexName": "DistributeMe call",
+      "indexName_plural": "DistributeMe calls",
+      "titleService": "Service",
+      "titleMethod": "Method"
+    },
+    "django": {
+      "indexName": "Django",
+      "indexName_plural": "Django Calls"
+    },
+    "dynamoDB": {
+      "indexName": "DynamoDB call",
+      "indexName_plural": "DynamoDB calls",
+      "titleTable": "Table",
+      "titleOperation": "Operation"
+    },
+    "ehcache": {
+      "indexName": "Ehcache call",
+      "indexName_plural": "Ehcache calls",
+      "titleElements": "Elements",
+      "titleHits": "Hits"
+    },
+    "ejb": {
+      "indexName": "Enterprise Java Bean",
+      "indexName_plural": "Enterprise Java Beans",
+      "titleModule": "Module",
+      "titleApp": "App",
+      "titleBean": "Bean",
+      "titleMethod": "Method",
+      "titleNode": "Node",
+      "titleId": "Id",
+      "titleConnection": "Connection",
+      "titleResult": "Result",
+      "titleType": "Type",
+      "titleError": "Error"
+    },
+    "ejbSchedule": {
+      "indexName": "Enterprise Java Beans Scheduled Job",
+      "indexName_plural": "Enterprise Java Beans Scheduled Jobs",
+      "titleScheduledTask": "Scheduled Task"
+    },
+    "elasticsearch": {
+      "indexName": "Elasticsearch Call",
+      "indexName_plural": "Elasticsearch Calls",
+      "titleEndpoint": "Endpoint",
+      "titleAction": "Action",
+      "titleIndex": "Index",
+      "titleType": "Type",
+      "titleID": "ID",
+      "titleQuery": "Query",
+      "titleHits": "Hits"
+    },
+    "excon": {
+      "indexName": "HTTP call",
+      "indexName_plural": "HTTP calls"
+    },
+    "faunadb": {
+      "indexName": "FaunaDB call",
+      "indexName_plural": "FaunaDB calls",
+      "indexReturn": "FaunaDB",
+      "titleQuery": "Query"
+    },
+    "feign": {
+      "indexName": "HTTP call",
+      "indexName_plural": "HTTP calls"
+    },
+    "file": {
+      "indexName": "File access",
+      "indexName_plural": "File accesses"
+    },
+    "finagleClient": {
+      "indexName": "HTTP call",
+      "indexName_plural": "HTTP calls"
+    },
+    "finagleServer": {
+      "indexName": "HTTP call",
+      "indexName_plural": "HTTP calls"
+    },
+    "ftp": {
+      "indexName": "FTP access",
+      "indexName_plural": "FTP accesses",
+      "titleHost": "Host",
+      "titlePort": "Port",
+      "titleCommand": "Command",
+      "titleType": "Type",
+      "titleFile": "File"
+    },
+    "ghc": {
+      "indexName": "HTTP Client Call",
+      "indexName_plural": "HTTP Client Calls"
+    },
+    "ghttp": {
+      "indexName": "HTTP Server Call",
+      "indexName_plural": "HTTP Server Calls"
+    },
+    "grpc": {
+      "indexName": "RPC Call",
+      "indexName_plural": "RPC Calls"
+    },
+    "gcb": {
+      "indexName": "Google Cloud Bigtable call",
+      "indexName_plural": "Google Cloud Bigtable calls",
+      "titleOperation": "Operation",
+      "titleTable": "Table",
+      "titleKey": "Key"
+    },
+    "gcd": {
+      "indexName": "Google Cloud Datastore call",
+      "indexName_plural": "Google Cloud Datastore calls",
+      "titleOperation": "Operation",
+      "titleOperationMode": "Operation mode",
+      "titleNamespace": "Namespace",
+      "titleEntityIdentifier": "Entity Identifier",
+      "titleEntityproperties": "Entity properties"
+    },
+    "gcps": {
+      "indexName": "Google Cloud PubSub",
+      "indexName_plural": "Google Cloud PubSub",
+      "titleOperation": "Operation",
+      "titleProjectID": "Project ID",
+      "titleTopic": "Topic",
+      "titleSubscription": "Subscription",
+      "titleMessageID": "Message ID"
+    },
+    "gcpsa": {
+      "indexName": "Google Cloud PubSub",
+      "indexName_plural": "Google Cloud PubSub",
+      "titleOperation": "Operation",
+      "titleProjectID": "Project ID",
+      "titleTopic": "Topic",
+      "titleSubscription": "Subscription",
+      "titleSnapshot": "Snapshot"
+    },
+    "gcs": {
+      "indexName": "Google Cloud Storage",
+      "indexName_plural": "Google Cloud Storage",
+      "titleGCSOperation": "GCS Operation",
+      "titleGCSBucket": "GCS bucket",
+      "titleGCSSourceBucket": "GCS source bucket",
+      "titleGCSSourceObject": "GCS source object",
+      "titleGCSObject": "GCS object",
+      "titleGCSDestinationBucket": "GCS destination bucket",
+      "titleGCSDestinationObject": "GCS destination object",
+      "titleGCSRange": "GCS range",
+      "titleGCSNumberOfOperations": "GCS number of operations",
+      "titleGCSEntity": "GCS entity",
+      "titleGCSProjectId": "GCS project id",
+      "titleGCSAccessId": "GCS access id",
+      "titleGCSKey": "GCS key"
+    },
+    "graphql": {
+      "indexName": "GraphQL Call",
+      "indexName_plural": "GraphQL Calls",
+      "titleOperationType": "Operation Type",
+      "titleOperationName": "Operation Name",
+      "titleObjectType": "Object Type {{typeOfObject}}"
+    },
+    "graphqlClient": {
+      "indexName": "GraphQL Subscription Update",
+      "indexName_plural": "GraphQL Subscription Updates"
+    },
+    "graphqlServer": {
+      "indexName": "GraphQL Server Call",
+      "indexName_plural": "GraphQL Server Calls"
+    },
+    "grizzly": {
+      "indexName": "HTTP call",
+      "indexName_plural": "HTTP calls"
+    },
+    "gwt": {
+      "indexName": "RPC call",
+      "indexName_plural": "RPC calls"
+    },
+    "hangfire": {
+      "indexName": "Hangfire Job",
+      "indexName_plural": "Hangfire Jobs",
+      "titleId": "Id",
+      "titleName": "Name",
+      "titleType": "Type"
+    },
+    "hbase": {
+      "indexName": "HBase Java Client call",
+      "indexName_plural": "HBase Java Client calls",
+      "titleOperation": "Operation",
+      "titleTable": "Table"
+    },
+    "haskellWei": {
+      "indexName": "HTTP call",
+      "indexName_plural": "HTTP calls"
+    },
+    "hc": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "hcNio": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "hibernate": {
+      "indexName": "Hibernate Call",
+      "indexName_plural": "Hibernate Calls",
+      "titleMode": "Mode",
+      "titleID": "ID"
+    },
+    "hornetq": {
+      "indexName": "HornetQ message",
+      "indexName_plural": "HornetQ messages",
+      "titleAddress": "Address",
+      "titleUserID": "User ID",
+      "titleSize": "Size",
+      "titleLarge": "Large",
+      "titleDurable": "Durable",
+      "titleBlocking": "Blocking"
+    },
+    "http": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls",
+      "titleHost"                : "Host",
+      "titleRequestPath"         : "Request Path",
+      "titleContextRoot"         : "Context Root",
+      "titlePathTemplate"        : "Path Template" ,
+      "titleURL"                 : "URL",
+      "titleWSDLService"         : "WSDL Service",
+      "titleWSDLOperation"       : "WSDL Operation",
+      "titleSOAPAction"          : "SOAP Action",
+      "titleRouteID"             : "Route ID",
+      "titleRouteURI"            : "Route URI",
+      "titleHystrixName"         : "Hystrix Name",
+      "titleHystrixFallbackURI"  : "Hystrix Fallback URI",
+      "titleParameters"          : "Parameters",
+      "titleMethod"              : "Method",
+      "titleStatusCode"          : "Status Code",
+      "titleContentLength"       : "Content Length",
+      "titleRequestHeaderLength" : "Request Header Length",
+      "titleRemoteAddress"       : "Remote Address",
+      "titleRemotePort"          : "Remote Port",
+      "titleTraceContextState"   : "Trace Context State",
+      "titleHeader": "Header {{headerLabel}}",
+      "statusCode100": "Continue",
+      "statusCode101": "Switching Protocols",
+      "statusCode102": "Processing",
+      "statusCode103": "Early Hints",
+      "statusCode200": "OK",
+      "statusCode201": "Created",
+      "statusCode202": "Accepted",
+      "statusCode203": "Non-Authoritative Information",
+      "statusCode204": "No Content",
+      "statusCode205": "Reset Content",
+      "statusCode206": "Partial Content",
+      "statusCode207": "Multi Status",
+      "statusCode208": "Already Reported",
+      "statusCode226": "IM Used",
+      "statusCode300": "Multiple Choices",
+      "statusCode301": "Moved Permanently",
+      "statusCode302": "Found",
+      "statusCode303": "See Other",
+      "statusCode304": "Not Modified",
+      "statusCode305": "Use Proxy",
+      "statusCode306": "Switch Proxy",
+      "statusCode307": "Temporary Redirect",
+      "statusCode308": "Permanent Redirect",
+      "statusCode400": "Bad Request",
+      "statusCode401": "Unauthorized",
+      "statusCode402": "Payment Required",
+      "statusCode403": "Forbidden",
+      "statusCode404": "Not Found",
+      "statusCode405": "Method Not Allowed",
+      "statusCode406": "Not Acceptable",
+      "statusCode407": "Proxy Authentication Required",
+      "statusCode408": "Request Time-out",
+      "statusCode409": "Conflict",
+      "statusCode410": "Gone",
+      "statusCode411": "Length Required",
+      "statusCode412": "Precondition Failed",
+      "statusCode413": "Request Entity Too Large",
+      "statusCode414": "Request-URI Too Large",
+      "statusCode415": "Unsupported Media Type",
+      "statusCode416": "Requested Range not Satisfiable",
+      "statusCode417": "Expectation Failed",
+      "statusCode418": "I'm a teapot",
+      "statusCode421": "Misdirected Request",
+      "statusCode422": "Unprocessable Entity",
+      "statusCode423": "Locked",
+      "statusCode424": "Failed Dependency",
+      "statusCode426": "Upgrade Required",
+      "statusCode428": "Precondition Required",
+      "statusCode429": "Too Many Requests",
+      "statusCode431": "Request Header Fields Too Large",
+      "statusCode451": "Unavailable For Legal Reasons",
+      "statusCode500": "Internal Server Error",
+      "statusCode501": "Not Implemented",
+      "statusCode502": "Bad Gateway",
+      "statusCode503": "Service Unavailable",
+      "statusCode504": "Gateway Time-out",
+      "statusCode505": "HTTP Version not Supported",
+      "statusCode506": "Variant Also Negotiates",
+      "statusCode507": "Insufficient Storage",
+      "statusCode508": "Loop Detected",
+      "statusCode510": "Not Extended",
+      "statusCode511": "Network Authentication Required"
+    },
+    "http4sClient": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "http4sServer": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "httpkitServer": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "hz": {
+      "indexName": "Hazelcast Java Client call",
+      "indexName_plural": "Hazelcast Java Client calls",
+      "titleOperation": "Operation",
+      "titleConnection": "Connection",
+      "titleName": "Name"
+    },
+    "ibmdb2": {
+      "indexName": "IBM DB2 Universal Database, IBM Cloudscape, and Apache Derby Call",
+      "indexName_plural": "IBM DB2 Universal Database, IBM Cloudscape, and Apache Derby Calls",
+      "titleQuery": "Query"
+    },
+    "jaeger": {
+      "indexName": "Call",
+      "indexName_plural": "Calls",
+      "titleService": "Service",
+      "titleOperation": "Operation",
+      "titleTags": "Tags"
+    },
+    "javaHttp": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "javaRmiEntry": {
+      "indexName": "RPC Call",
+      "indexName_plural": "RPC Calls",
+      "titleMethod": "Method"
+    },
+    "javaRmiExit": {
+      "indexName": "RPC Call",
+      "indexName_plural": "RPC Calls",
+      "titleHost": "Host",
+      "titleMethod": "Method"
+    },
+    "jboss": {
+      "indexName": "JBoss Schedulable",
+      "indexName_plural": "JBoss Schedulables",
+      "titleJob": "Job",
+      "titleParameters": "Parameters",
+      "titleError": "Error"
+    },
+    "jdbc": {
+      "indexName": "JDBC Call",
+      "indexName_plural": "JDBC Calls",
+      "titleStatement": "Statement",
+      "titleConnection": "Connection",
+      "titleUser": "User",
+      "titleTimeout": "Timeout",
+      "titleResultSize": "Result Size"
+    },
+    "jersey": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "jerseyClient": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "jms": {
+      "indexName": "JMS message",
+      "indexName_plural": "JMS messages",
+      "indexReturn": "{{returnLabel}} to {{returnDestination}}",
+      "titleDestination": "Destination",
+      "titleMessage": "Message",
+      "titleType": "Type",
+      "titleSelector": "Selector"
+    },
+    "kafka": {
+      "indexName": "Kafka",
+      "indexName_plural": "Kafka",
+      "titleAccessType": "Access Type",
+      "titleTopic": "Topic"
+    },
+    "kinesis": {
+      "indexName": "Kinesis",
+      "indexName_plural": "Kinesis",
+      "titleStream": "Stream",
+      "titleOperation":"Operation",
+      "titleRecord": "Record",
+      "titleShard": "Shard",
+      "titleShardType": "Shard Type",
+      "titleStartSequenceNumber": "Start Sequence Number"
+    },
+    "laminas": {
+      "indexName": "Laminas",
+      "indexName_plural": "Laminas",
+      "indexReturn": "Laminas",
+      "titleRoute": "Route",
+      "titleModule": "Module",
+      "titleController": "Controller",
+      "titleAction": "Action"
+    },
+    "laminasView": {
+      "indexName": "Laminas View",
+      "indexName_plural": "Laminas Views",
+      "indexReturn": "Laminas View",
+      "titleSubtemplateCount": "Subtemplate Count",
+      "titleRenderer": "Renderer",
+      "titleTemplate": "Template"
+    },
+    "laravel": {
+      "indexName": "Laravel",
+      "indexName_plural": "Laravels",
+      "indexReturn": "Laravel",
+      "titleRoute": "Route",
+      "titleController": "Controller",
+      "titleAction": "Action"
+    },
+    "ldap": {
+      "indexName": "LDAP Query",
+      "indexName_plural": "LDAP Queries",
+      "indexReturn": "LDAP",
+      "indexReturnWithQuery": "LDAP query {{ldapQuery}}",
+      "titleURL": "URL",
+      "titleQuery": "Query"
+    },
+    "log": {
+      "indexName": "Log",
+      "indexName_plural": "Logs",
+      "titleLevel": "Level",
+      "titleLogger": "Logger",
+      "titleMessage": "Message",
+      "titleParameters": "Parameters",
+      "titleThread": "Thread"
+    },
+    "mail": {
+      "indexName": "Mail message",
+      "indexName_plural": "Mail messages",
+      "titleAddress": "Address"
+    },
+    "memcache":{
+      "indexName": "Memcache Call",
+      "indexName_plural": "Memcache Calls",
+      "titleCommand": "Command",
+      "titleKey": "Key",
+      "titleHit": "Hit",
+      "titleKeys": "Keys",
+      "titleHitCount": "Hit Count",
+      "titleNamespace":"Namespace",
+      "titleServer": "Server"
+    },
+    "memcached":{
+      "indexName": "Memcached Call",
+      "indexName_plural": "Memcached Calls",
+      "indexLabel": "Memcached {{labelData}}",
+      "titleOperation": "Operation",
+      "titleKey": "Key",
+      "titleResultCode": "Result Code",
+      "titleResultMessage": "Result Message"
+    },
+    "micronautHttp": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "micronautHttpClient": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "missing": {
+      "indexName": "Span not yet received",
+      "indexName_plural": "Span not yet received",
+      "indexLabel": "The span did not yet arrive in the backend (e.g. long running tasks)"
+    },
+    "mongo": {
+      "indexName": "MongoDB query",
+      "indexName_plural": "MongoDB queries",
+      "titleHostname": "Hostname",
+      "titlePort": "Port",
+      "titleService": "Service",
+      "titleNamespace": "Namespace",
+      "titleQuery": "Query",
+      "titleErrorCode": "Error Code",
+      "titleCommand": "Command"
+    },
+    "msmq": {
+      "indexName": "MSMQ Message",
+      "indexName_plural": "MSMQ Messages",
+      "titleMachine": "Machine",
+      "titleQueue": "Queue",
+      "titleOperation": "Operation",
+      "titleTransactionType": "Transaction-Type"
+    },
+    "muleClient": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls",
+      "titleProtocol": "Protocol",
+      "titleAddress": "Address",
+      "titlePattern": "Pattern"
+    },
+    "muleClientHttp": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "muleServer": {
+      "indexName": "Mule ESB Call",
+      "indexName_plural": "Mule ESB Calls",
+      "titleProtocol": "Protocol",
+      "titleAddress": "Address",
+      "titleFlow": "Flow",
+      "titlePattern": "Pattern"
+    },
+    "mysql": {
+      "indexName": "MySQL Call",
+      "indexName_plural": "MySQL Calls",
+      "indexLabel": "Unknown MySQL call",
+      "titleHost": "Host",
+      "titlePort": "Port",
+      "titleDatabase": "Database",
+      "titleUser": "User",
+      "titleQuery": "Query"
+    },
+    "mysqli": {
+      "indexName": "MySQL Call",
+      "indexName_plural": "MySQL Calls",
+      "indexLabel": "Unknown MySQL call",
+      "titleDSN": "DSN",
+      "titleQuery": "Query"
+    },
+    "nanohttpd": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
     "nats": {
       "consumeFromSubject": "Consume to {{subjectVar}}",
       "publishToSubject": "Publish to {{subjectVar}}",

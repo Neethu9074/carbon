@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -14,13 +15,13 @@ export default function Boto3SpanDetailView({ span }) {
 
   return (
     <Dl>
-      <Di title="Operation">{span.getIn(['data', 'boto3', 'op'])}</Di>
-      <Di title="Endpoint">{span.getIn(['data', 'boto3', 'ep'])}</Di>
-      <Di title="Region">{span.getIn(['data', 'boto3', 'reg'])}</Di>
-      <Di title="Status">{span.getIn(['data', 'http', 'status'])}</Di>
+      <Di title={t('in-forge:tracing.boto3.titleOperation')}>{span.getIn(['data', 'boto3', 'op'])}</Di>
+      <Di title={t('in-forge:tracing.boto3.titleEndpoint')}>{span.getIn(['data', 'boto3', 'ep'])}</Di>
+      <Di title={t('in-forge:tracing.boto3.titleRegion')}>{span.getIn(['data', 'boto3', 'reg'])}</Di>
+      <Di title={t('in-forge:tracing.boto3.titleStatus')}>{span.getIn(['data', 'http', 'status'])}</Di>
 
       {payload && (
-        <Di title="Payload" verticalDisplay>
+        <Di title={t('in-forge:tracing.boto3.titlePayload')} verticalDisplay>
           <Code code={JSON.stringify(expandNestedSerializedJson(payload.toJS()), 0, 2)} lang="json" />
         </Di>
       )}

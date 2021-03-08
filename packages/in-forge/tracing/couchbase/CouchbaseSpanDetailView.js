@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -15,14 +16,14 @@ export default function CouchbaseSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title="Hostname">{span.getIn(['data', 'couchbase', 'hostname'])}</Di>
-        <Di title="Bucket">{span.getIn(['data', 'couchbase', 'bucket'])}</Di>
-        <Di title="Type">{span.getIn(['data', 'couchbase', 'type'])}</Di>
+        <Di title={t('in-forge:tracing.couchbase.titleHostname')}>{span.getIn(['data', 'couchbase', 'hostname'])}</Di>
+        <Di title={t('in-forge:tracing.couchbase.titleBucket')}>{span.getIn(['data', 'couchbase', 'bucket'])}</Di>
+        <Di title={t('in-forge:tracing.couchbase.titleType')}>{span.getIn(['data', 'couchbase', 'type'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'couchbase', 'error'])} />
-        <Di title="Error Code">{span.getIn(['data', 'couchbase', 'error_code'])}</Di>
+        <Di title={t('in-forge:tracing.couchbase.titleErrorCode')}>{span.getIn(['data', 'couchbase', 'error_code'])}</Di>
 
         {sql ? (
-          <Di title="SQL" verticalDisplay>
+          <Di title={t('in-forge:tracing.couchbase.titleSQL')} verticalDisplay>
             <Code code={formatSql(sql)} lang="sql" showLineNumbers={false} />
           </Di>
         ) : null}

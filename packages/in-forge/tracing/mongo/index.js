@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -9,8 +10,8 @@ registerSpanDefinition({
   category: 'database',
 
   typeName: {
-    singular: 'MongoDB query',
-    plural: 'MongoDB queries'
+    singular: t('in-forge:tracing.mongo.indexName'),
+    plural: t('in-forge:tracing.mongo.indexName_plural')
   },
 
   detailView: 'MongoSpanDetailView',

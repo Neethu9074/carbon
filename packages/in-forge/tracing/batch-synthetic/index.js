@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -9,13 +10,13 @@ registerSpanDefinition({
   category: 'batch',
 
   typeName: {
-    singular: 'Internal trigger',
-    plural: 'Internal triggers'
+    singular: t('in-forge:tracing.batchSynthetic.indexName'),
+    plural: t('in-forge:tracing.batchSynthetic.indexName_plural')
   },
 
   detailView: 'SyntheticBatchSpanDetailView',
 
   getLabel() {
-    return 'Internal trigger';
+    return t('in-forge:tracing.batchSynthetic.indexReturn');
   }
 });
