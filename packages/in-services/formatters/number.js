@@ -412,41 +412,56 @@ function formatTime(v, units, formatNumber) {
 
 function isLatencyFormatter(numberFormatter) {
   return (
+    numberFormatter === latency ||
+    numberFormatter === latencyFixed ||
     numberFormatter === latency.compact ||
     numberFormatter === latency.detailed ||
     numberFormatter === latencyFixed.compact ||
-    numberFormatter === latencyFixed.detailed
+    numberFormatter === latencyFixed.detailed ||
+    isOfAnyFormatterFunction(numberFormatter, [
+      latency.compact,
+      latency.detailed,
+      latencyFixed.compact,
+      latencyFixed.detailed
+    ])
   );
 }
 
 function isMillisFormatter(numberFormatter) {
   return (
     numberFormatter === millis ||
-    numberFormatter === millis.detailed ||
-    numberFormatter === millis.compact ||
-    numberFormatter === millis.fixedDetailed ||
-    numberFormatter === millis.fixedCompact ||
     numberFormatter === ms ||
-    numberFormatter === msZeroDecimalPlaces ||
-    numberFormatter === msTwoDecimalPlaces
+    numberFormatter === millis.fixed ||
+    numberFormatter === millis.forcedFixedCompact ||
+    numberFormatter === millis.forcedCompactOnMs ||
+    isOfAnyFormatterFunction(numberFormatter, [
+      millis.detailed,
+      millis.compact,
+      millis.fixedDetailed,
+      millis.fixedCompact,
+      msZeroDecimalPlaces,
+      msTwoDecimalPlaces
+    ])
   );
 }
 
 function isMicrosFormatter(numberFormatter) {
   return (
     numberFormatter === micros ||
-    numberFormatter === micros.detailed ||
-    numberFormatter === micros.fixedDetailed ||
-    numberFormatter === micros.compact ||
-    numberFormatter === muSecondsToMillis
+    numberFormatter === muSecondsToMillis ||
+    isOfAnyFormatterFunction(numberFormatter, [micros.detailed, micros.fixedDetailed, micros.compact])
   );
 }
 
 function isSecondsFormatter(numberFormatter) {
   return (
     numberFormatter === seconds ||
-    numberFormatter === seconds.fromMillisFixedDetailed ||
-    numberFormatter === seconds.fixedCompact
+    isOfAnyFormatterFunction(numberFormatter, [
+      seconds.fromMillisFixedDetailed,
+      seconds.fixedCompact,
+      seconds.fixedDetailed,
+      seconds.detailed
+    ])
   );
 }
 
@@ -464,28 +479,80 @@ export function isPercentageFormatter(numberFormatter) {
     numberFormatter === percentagePlain ||
     numberFormatter === percentagePlainZeroDecimalPlaces ||
     numberFormatter === percentagePlainTwoDecimalPlaces ||
-    numberFormatter === hitRate
+    numberFormatter === hitRate ||
+    isOfAnyFormatterFunction(numberFormatter, [
+      percentage.compact,
+      percentage.detailed,
+      percentagePlain.compact,
+      percentagePlain.detailed
+    ])
   );
 }
 
 function isRateFormatter(numberFormatter) {
-  return numberFormatter === number.perSecond || numberFormatter === zeroDecimalPlacesPerSecond;
+  return (
+    numberFormatter === number.perSecond || isOfAnyFormatterFunction(numberFormatter, [zeroDecimalPlacesPerSecond])
+  );
 }
 
 function isByteRateFormatter(numberFormatter) {
   return (
     numberFormatter === bytes.perSecond ||
-    numberFormatter === bytesPerSecondZeroDecimalPlaces ||
-    numberFormatter === bytesPerSecondTwoDecimalPlaces
+    isOfAnyFormatterFunction(numberFormatter, [bytesPerSecondZeroDecimalPlaces, bytesPerSecondTwoDecimalPlaces])
   );
 }
 
-function isKiloByteRateFormatter(numberFormatter) {
+function isNumberFormatter(numberFormatter) {
+  return numberFormatter === number || isOfAnyFormatterFunction(numberFormatter, [number.detailed, number.compact]);
+}
+
+function isBytesFormatter(numberFormatter) {
   return (
-    numberFormatter === kiloBytes.perSecond ||
-    numberFormatter === kiloBytesZeroDecimalPlaces ||
-    numberFormatter === kiloBytesTwoDecimalPlaces
+    numberFormatter === bytes ||
+    isOfAnyFormatterFunction(numberFormatter, [bytes.detailed, bytes.compact, bytes.detailedWithRaw])
   );
+}
+
+function isKiloBytesFormatter(numberFormatter) {
+  return (
+    numberFormatter === kiloBytes ||
+    isOfAnyFormatterFunction(numberFormatter, [
+      kiloBytes.detailed,
+      kiloBytes.compact,
+      kiloBytesTwoDecimalPlaces,
+      kiloBytesZeroDecimalPlaces
+    ])
+  );
+}
+
+function isMegaBytesFormatter(numberFormatter) {
+  return (
+    numberFormatter === megaBytes ||
+    isOfAnyFormatterFunction(numberFormatter, [
+      megaBytes.detailed,
+      megaBytes.compact,
+      megaBytesTwoDecimalPlaces,
+      megaBytesZeroDecimalPlaces
+    ])
+  );
+}
+
+/**
+ * Checks whether the given formatter is one of the provided formatter functions, of the metric definition, that is
+ * wrapped in an object in in-sdk/metrics/metricDefinitions if defined as a plain function.
+ */
+function isOfAnyFormatterFunction(numberFormatter, formatterFunctions) {
+  if (
+    typeof numberFormatter === 'object' &&
+    typeof numberFormatter?.compact === 'function' &&
+    typeof numberFormatter?.detailed === 'function'
+  ) {
+    return formatterFunctions.some(
+      formatterFunction =>
+        formatterFunction === numberFormatter.compact && formatterFunction === numberFormatter.detailed
+    );
+  }
+  return false;
 }
 
 export function numberFormatterToFormatterType(numberFormatter) {
@@ -503,14 +570,14 @@ export function numberFormatterToFormatterType(numberFormatter) {
     return 'RATE';
   } else if (isByteRateFormatter(numberFormatter)) {
     return 'BYTE_RATE';
-  } else if (isKiloByteRateFormatter(numberFormatter)) {
-    return 'KILO_BYTE_RATE';
-  } else if (numberFormatter === number) {
+  } else if (isNumberFormatter(numberFormatter)) {
     return 'NUMBER';
-  } else if (numberFormatter === bytes) {
+  } else if (isBytesFormatter(numberFormatter)) {
     return 'BYTES';
-  } else if (numberFormatter === kiloBytes) {
+  } else if (isKiloBytesFormatter(numberFormatter)) {
     return 'KILO_BYTES';
+  } else if (isMegaBytesFormatter(numberFormatter)) {
+    return 'MEGA_BYTES';
   } else {
     return 'UNDEFINED';
   }

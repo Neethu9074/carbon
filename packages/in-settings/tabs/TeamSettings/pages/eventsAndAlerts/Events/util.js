@@ -92,12 +92,12 @@ export function formatterTypeToDefinition(formatterType) {
       return t('in-settings:tabs.ratePerSecond');
     case 'BYTE_RATE':
       return t('in-settings:tabs.bytesPerSecond');
-    case 'KILO_BYTE_RATE':
-      return t('in-settings:tabs.kilobytesPerSecond');
     case 'BYTES':
       return t('in-settings:tabs.bytes');
     case 'KILO_BYTES':
       return t('in-settings:tabs.kilobytes');
+    case 'MEGA_BYTES':
+      return t('in-settings:tabs.megabytes');
     case 'NUMBER':
       return t('in-settings:tabs.count');
     case 'UNDEFINED':

@@ -259,6 +259,7 @@
     "kilobytesPerSecond": "Kilobytes per second",
     "bytes": "Bytes",
     "kilobytes": "Kilobytes",
+    "megabytes": "Megabytes",
     "count": "Count",
     "scheduleMaintenanceWindow": "Schedule Maintenance Window",
     "changeMaintenanceWindow": "Change Maintenance Window",
