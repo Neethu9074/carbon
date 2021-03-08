@@ -33,7 +33,8 @@ export default function FacetedFilterGeneric({
   dataSource,
   getSuggestions,
   customLabelMapper,
-  enableUseAsGroup = true
+  enableUseAsGroup = true,
+  groupbyTag
 }) {
   return (
     <FacetedExpandableCard title={title} openByDefault={openByDefault}>
@@ -48,7 +49,7 @@ export default function FacetedFilterGeneric({
         dataSource={dataSource}
         getSuggestions={getSuggestions}
         customLabelMapper={customLabelMapper}
-        enableUseAsGroup={enableUseAsGroup}
+        enableUseAsGroup={enableUseAsGroup && tag !== groupbyTag}
       />
     </FacetedExpandableCard>
   );

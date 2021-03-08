@@ -15,7 +15,8 @@ export default function FacetedSearch({
   getHrefToGroupedView,
   dataSource,
   isValid,
-  getSuggestions
+  getSuggestions,
+  groupbyTag
 }) {
   return (
     <div className={locals.wrapper}>
@@ -36,6 +37,7 @@ export default function FacetedSearch({
             openByDefault={facetedSearchItem.openByDefault}
             dataSource={dataSource}
             getSuggestions={getSuggestions}
+            groupbyTag={groupbyTag}
             {...facetedSearchItem.extraProps}
           />
         );

@@ -23,7 +23,8 @@ export default function FacetedSearch({
   hiddenCalls,
   onChangeHiddenCalls,
   isValid,
-  dataSource
+  dataSource,
+  groupbyTag
 }) {
   return (
     <div className={locals.wrapper}>
@@ -51,6 +52,7 @@ export default function FacetedSearch({
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
         enableUseAsGroup={dataSource !== 'traces'}
+        groupbyTag={groupbyTag}
       />
 
       <FacetedFilterGeneric
@@ -63,6 +65,7 @@ export default function FacetedSearch({
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
         enableUseAsGroup={dataSource !== 'traces'}
+        groupbyTag={groupbyTag}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.endpoints')}
@@ -74,6 +77,7 @@ export default function FacetedSearch({
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
         enableUseAsGroup={dataSource !== 'traces'}
+        groupbyTag={groupbyTag}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.types')}
@@ -84,6 +88,7 @@ export default function FacetedSearch({
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
         enableUseAsGroup={dataSource !== 'traces'}
+        groupbyTag={groupbyTag}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.technologies')}
@@ -96,6 +101,7 @@ export default function FacetedSearch({
         dataSource={dataSource}
         customLabelMapper={label => getTechnologyLabel(label)}
         enableUseAsGroup={dataSource !== 'traces'}
+        groupbyTag={groupbyTag}
       />
       <FacetedFilterHttpStatusCodes
         title={t('in-applications:analyze.httpStatusCode')}

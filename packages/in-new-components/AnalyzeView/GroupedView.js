@@ -262,6 +262,7 @@ export default function GroupedAnalyzeView(props) {
                 dataSource
               })
             }
+            groupbyTag={groupBy.groupbyTag}
           />
         )}
         <div className={locals.resultContainer}>
