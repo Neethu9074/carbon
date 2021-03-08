@@ -119,5 +119,11 @@
     "sum": "Sum",
     "distinctCount": "Distinct Count",
     "notAvailable": "N/A"
+  },
+  "errorBoundary": {
+    "message": {
+      "title": "Error occurred",
+      "content": "<p>A part of the Instana UI could not be enabled due to an unexpected error. Please try reloading the page.</p><p>Error ID: <code>{{errorId}}</code></p>"
+    }
   }
 }

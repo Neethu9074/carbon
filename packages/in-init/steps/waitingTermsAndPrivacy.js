@@ -11,7 +11,7 @@ import React from 'react';
 
 import FullViewWrapper from 'in-waiting-for-deployment/components/FullViewWrapper';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import ErrorBoundary from 'in-components/ErrorBoundary/ErrorBoundary';
+import ErrorBoundary from 'in-components/ErrorBoundary';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import TermsDialog from 'in-settings/terms/dialog/TermsDialog';
 import DialogPresenter from 'in-components/DialogPresenter';

@@ -14,7 +14,6 @@ require('in-stores/maintenance').init();
 require('in-services/unhandledErrors').init();
 require('in-stores/events').init();
 require('in-services/favicon').init();
-require('in-components/ErrorBoundary/store').init();
 require('in-services/tracking/tracking').init();
 require('in-services/tracking/mixpanel').init();
 require('in-services/tracking/appcues').init();

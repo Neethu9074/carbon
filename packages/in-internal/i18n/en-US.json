@@ -10,7 +10,7 @@
       "inspectSLObreakingViolating": "Inspect which SLOs we are breaking/violating.",
       "groupedView": "Grouped View",
       "eventView": "Event View",
-      "definition": "Definition",        
+      "definition": "Definition",
       "learnEvolveSLOs": "Learn about & evolve our SLOs.",
       "regionStatistics": "Region Statistics",
       "statisticsWholeMonitorUnit": "Statistics across the whole monitoring unit, i.e. all units and shared components.",
@@ -38,7 +38,7 @@
       "callExtraction": "Call Extraction",
       "resilientMapping": "Resilient Mapping",
       "infrastructureMetrics": "Infrastructure Metrics",
-      "infrastructureMetricsDesc": "Information about our infrastructure metric pipeline.", 
+      "infrastructureMetricsDesc": "Information about our infrastructure metric pipeline.",
       "fillerMetricExtraction": "Filler (metric extraction)",
       "endUserMonitoring": "End-User Monitoring (EUM)",
       "endUserMonitoringDesc": "Information about our website monitoring processing pipeline. This includes acceptance of end-user requests as well as processing and writing of the received beacons.",
@@ -104,7 +104,7 @@
       "demoUnits": "Demo Units",
       "demoUnitsDesc": "These units are frequently used by the whole company for demo / presentation purposes.",
       "demousDescUs": "A SaaS demo unit running within the US.",
-      "demousDescEu": "A SaaS demo unit running within the EU."                                                                  
+      "demousDescEu": "A SaaS demo unit running within the EU."
     },
     "internalViewWrapper": {
       "internal": "Internal"
@@ -147,7 +147,7 @@
         "hostLoad": "Host Load",
         "processesCount": "processes ({{length}})",
         "hostCpuLoadLabel": "Host CPU Load",
-        "garbageCollection": "Garbage Collection"      
+        "garbageCollection": "Garbage Collection"
       },
       "appDataAggregator": {
         "host": "Host",
@@ -169,7 +169,7 @@
       },
       "appDataLiveAggreValid": {
         "validMetrics": "Validated metrics",
-        "criticalDeviations": "Critical deviations"      
+        "criticalDeviations": "Critical deviations"
       },
       "appDataProcStatistic": {
         "customer": "Customer",
@@ -183,14 +183,14 @@
         "processedSpansCallExtraction": "Processed spans during call extraction (TraceWithRawCallExtractor.total-spans)",
         "downstreamSpans": "Downstream spans (KPI.outgoing.raw_spans)",
         "downstreamCalls": "Downstream calls (KPI.outgoing.calls)",
-        "downstreamLogs": "Downstream logs (KPI.outgoing.logs)"      
+        "downstreamLogs": "Downstream logs (KPI.outgoing.logs)"
       },
       "appDataQueryPerformance": {
         "mostActiveUnits": "Most Active Units",
         "latencySum": "Latency (sum)",
         "calls": "Calls",
         "mostCommonQueries": "Most Common Queries",
-        "analyze":"Analyze"  
+        "analyze":"Analyze"
       },
       "appdataReaderStatistics": {
         "host": "Host",
@@ -224,7 +224,7 @@
         "queuedClickHouseCalls": "Queued ClickHouse Calls",
         "clickHouseQueryLatency": "ClickHouse Query Latency",
         "garbageCollection": "Garbage Collection",
-        "calls": "Calls"    
+        "calls": "Calls"
       },
       "batchingInsights": {
         "calls": "Calls",
@@ -271,7 +271,7 @@
         "appMapping": "Application Mapping",
         "serviceMapping": "Service Mapping",
         "cacheMissMultiple": "Cache misses caused by multiple entities",
-        "evictionsCacheFull": "Evictions because of cache full"      
+        "evictionsCacheFull": "Evictions because of cache full"
       }
     },
     "cashier": {
@@ -299,7 +299,7 @@
       "createInsertHourlyPayloadRollupsRate": "Create And Insert Hourly Payload Rollups (rate)",
       "createInsertHourlyPayloadRollupsMean": "Create And Insert Hourly Payload Rollups (mean)",
       "createInsertHourlyPayloadRollups50": "Create And Insert Hourly Payload Rollups (50th)",
-      "createInsertHourlyPayloadRollups99": "Create And Insert Hourly Payload Rollups (99th)"    
+      "createInsertHourlyPayloadRollups99": "Create And Insert Hourly Payload Rollups (99th)"
     },
     "eum": {
       "appDataWriter": {
@@ -309,7 +309,7 @@
         "shortTermBeaconBatchWrite": "Short term Beacon Batch Writes",
         "shortBeaconBatchWriteFail": "Short term Beacon Batch Write Failures",
         "longBeaconBatchWrite": "Long Term Beacon Batch Writes",
-        "longBeaconBatchWriteFail": "Long Term Beacon Batch Write Failures"      
+        "longBeaconBatchWriteFail": "Long Term Beacon Batch Write Failures"
       },
       "errorSimulator": {
         "triggerErrOutsideReact": "Trigger error outside of Reac",
@@ -332,7 +332,7 @@
         "customEvent": "Custom Event",
         "pageChange": "Page Change",
         "websiteBeaconWrites": "Website Beacon Writes",
-        "mobileAppBeaconWrites": "Mobile App Beacon Writes"      
+        "mobileAppBeaconWrites": "Mobile App Beacon Writes"
       },
       "eumHealthProcessor": {
         "incomingBeacons": "Incoming Beacons",
@@ -342,14 +342,14 @@
         "configEval": "Config Evaluations",
         "configEvalFail": "Config Evaluation Failures",
         "outgoingEvent": "Outgoing Events",
-        "failOutgoingEvent": "Failed Outgoing Events"      
+        "failOutgoingEvent": "Failed Outgoing Events"
       },
       "eumProcessor": {
         "hostCpuLoad": "Host CPU load",
         "incomingWebsiteBeacon": "Incoming Website Beacons",
         "failIncomingWebsiteBeacon": "Failed Incoming Website Beacons",
         "outgoingProcessWebsiteBeacon": "Outgoing Processed Website Beacons",
-        "failOutgoingProcessedWebsiteBeacon": "Failed Outgoing Processed Website Beacons"      
+        "failOutgoingProcessedWebsiteBeacon": "Failed Outgoing Processed Website Beacons"
       },
       "jsStackTraceTranslator": {
         "incomingBeacon": "Incoming Beacons",
@@ -357,7 +357,7 @@
         "beaconProcessing": "Beacon Processing",
         "beaconProcessFail": "Beacon Processing Failures",
         "outgoingBeacon": "Outgoing Beacons",
-        "failOutgoingBeacon": "Failed Outgoing Beacons"             
+        "failOutgoingBeacon": "Failed Outgoing Beacons"
       },
       "overview": {
         "loadbalancerEumEdge": "loadbalancer-eum (edge)",
@@ -383,7 +383,7 @@
         "shortBeaconBatchWrite": "Short Term Beacon Batch Writes",
         "shortBeaconBatchWriteFail": "Short Term Beacon Batch Write Failures",
         "longBeaconBatchWrite": "Long Term Beacon Batch Writes",
-        "longBeaconBatchWriteFail": "Long Term Beacon Batch Write Failures"      
+        "longBeaconBatchWriteFail": "Long Term Beacon Batch Write Failures"
       }
     },
     "fillerStats": {
@@ -391,7 +391,7 @@
         "spanMsgReceive": "Span Message Received",
         "spanMsgDrop": "Span Message Dropped",
         "spanProc": "Span Processed",
-        "spanStored": "Span Stored"      
+        "spanStored": "Span Stored"
       }
     },
     "hubforce": {
@@ -418,13 +418,13 @@
       "numOfRestApiErrors": "# REST API errors",
       "numOfSoqlApiErrors": "# SOQL API errors",
       "numOf4xx": "# 4xx",
-      "numOf5xx": "# 5xx"  
+      "numOf5xx": "# 5xx"
     },
     "infrastructureMetrics": {
       "filler": {
         "customer": "Customer",
         "dropKafkaMetricWrite": "Dropped Kafka Metric Writes",
-        "numMetrics": "#Metrics"      
+        "numMetrics": "#Metrics"
       }
     },
     "serverless": {
@@ -527,7 +527,7 @@
         "kafkaNodes_plural": "Kafka ({{count}} nodes)",
         "kafkaNodes_0": "Kafka ({{count}} nodes)",
         "kafkaNodes_1": "Kafka ({{count}} node)",
-        "kafkaNodes_2": "Kafka ({{count}} nodes)",  
+        "kafkaNodes_2": "Kafka ({{count}} nodes)",
         "brokerTrafficBytesIn":"Broker Traffic Bytes In",
         "brokerTrafficBytesOut":"Broker Traffic Bytes Out",
         "brokerTrafficByteReject":"Broker Traffic Bytes Rejected",
@@ -550,7 +550,7 @@
         "metaElasticNode_plural": "Meta Elastic ({{count}} nodes)",
         "metaElasticNode_0": "Meta Elastic ({{count}} nodes)",
         "metaElasticNode_1": "Meta Elastic ({{count}} node)",
-        "metaElasticNode_2": "Meta Elastic ({{count}} nodes)",        
+        "metaElasticNode_2": "Meta Elastic ({{count}} nodes)",
         "numQueries":"# of queries",
         "addDoc":"Added documents",
         "networkDataReceived":"Network - data received",
@@ -571,12 +571,12 @@
         "profilesCassandraNode_plural": "Profiles Cassandra ({{count}} nodes)",
         "profilesCassandraNode_0": "Profiles Cassandra ({{count}} nodes)",
         "profilesCassandraNode_1": "Profiles Cassandra ({{count}} node)",
-        "profilesCassandraNode_2": "Profiles Cassandra ({{count}} nodes)", 
+        "profilesCassandraNode_2": "Profiles Cassandra ({{count}} nodes)",
         "spansCassandraNode":"Spans Cassandra ({{count}} node)",
         "spansCassandraNode_plural":"Spans Cassandra ({{count}} nodes)",
         "spansCassandraNode_0":"Spans Cassandra ({{count}} nodes)",
         "spansCassandraNode_1":"Spans Cassandra ({{count}} node)",
-        "spansCassandraNode_2":"Spans Cassandra ({{count}} nodes)",     
+        "spansCassandraNode_2":"Spans Cassandra ({{count}} nodes)",
         "writes":"Writes",
         "reads":"Reads",
         "pendingCompactions":"Pending Compactions",
@@ -609,7 +609,7 @@
         "backendSpanDropInstChartExplanation_1":"When spans are dropped, it is important to look at individual instances.",
         "backendSpanDropInstChartExplanation_2":"All of the instances are dropping: scale out.",
         "backendSpanDropInstChartExplanation_3":"One or several instances are dropping (but not all): scaling out will not help.",
-        "backendSpanDropInstChartExplanation_4":"Traces with a high throughput are being processed (sharding key is the trace id): adjust <i>config.hard.spans.per.trace.rate.drop.threshold</i>.",       
+        "backendSpanDropInstChartExplanation_4":"Traces with a high throughput are being processed (sharding key is the trace id): adjust <i>config.hard.spans.per.trace.rate.drop.threshold</i>.",
         "backendSpanDropInstChartExplanation_5":"CPU load is too high on the underlying host(s): assign instance to a less overloaded host.",
         "srvlessAcceptorRateLimitSpanMsg":"Serverless Acceptor Rate-Limited Span Messages",
         "spanLatencyMeanInstance":"Span latency (mean across instances)",

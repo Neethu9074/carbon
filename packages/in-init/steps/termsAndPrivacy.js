@@ -8,9 +8,9 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { saveTosPrivacyAgreement } from 'in-settings/api/saveTosPrivacyAgreement';
-import ErrorBoundary from 'in-components/ErrorBoundary/ErrorBoundary';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import TermsDialog from 'in-settings/terms/dialog/TermsDialog';
+import ErrorBoundary from 'in-components/ErrorBoundary';
 
 import 'in-themes/foundation.less';
 
