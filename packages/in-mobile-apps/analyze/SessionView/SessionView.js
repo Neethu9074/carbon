@@ -114,6 +114,12 @@ function renderSplitScreenContent_v2(props) {
       ListItemContent={SplitScreenSessionContent}
       getHrefToDetailId={getHrefToDetailId}
       isPageLoadView
+      onOpenItem={item => {
+        const { type, beaconId } = item.beacon;
+        if (type !== 'sessionStart') {
+          triggerHighlight(getHighlighterId(beaconId));
+        }
+      }}
     >
       <TabView
         key={sessionId}

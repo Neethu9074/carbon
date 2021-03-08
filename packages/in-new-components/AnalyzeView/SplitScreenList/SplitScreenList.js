@@ -71,7 +71,8 @@ function ExpandedList(props) {
     setExpanded,
     detailId,
     setDetailId,
-    getDetailData
+    getDetailData,
+    onOpenItem
   } = props;
 
   const itemIndex = findIndex(items, item => isEqual(getId(item), detailId));
@@ -109,7 +110,8 @@ function ExpandedList(props) {
                         isLoading,
                         setDetailId,
                         getId,
-                        getDetailData
+                        getDetailData,
+                        onOpenItem
                       )
                     }
                   />
@@ -139,7 +141,8 @@ function ExpandedList(props) {
                         isLoading,
                         setDetailId,
                         getId,
-                        getDetailData
+                        getDetailData,
+                        onOpenItem
                       )
                     }
                   />
@@ -175,6 +178,7 @@ function ExpandedList(props) {
                         size="normal"
                         active={isEqual(id, detailId)}
                         href={getHrefToDetailId(id)}
+                        onDefaultHrefInteractionSideEffect={() => onOpenItem?.(item)}
                       >
                         <ListItemContent {...item} {...props} />
                       </Li>
@@ -211,7 +215,7 @@ function CollapsedList({ setExpanded }) {
   );
 }
 
-function openItem(itemIndex, items, canLoadMore, loadMore, isLoading, setDetailId, getId, getDetailData) {
+function openItem(itemIndex, items, canLoadMore, loadMore, isLoading, setDetailId, getId, getDetailData, onOpenItem) {
   if (itemIndex + 10 >= items.length && canLoadMore && !isLoading) {
     loadMore();
   }
@@ -226,6 +230,7 @@ function openItem(itemIndex, items, canLoadMore, loadMore, isLoading, setDetailI
     prefetch(getDetailData(getId(nextItem)));
   }
   setDetailId(getId(item));
+  onOpenItem?.(item);
 }
 
 function useExpanded() {

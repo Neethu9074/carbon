@@ -7,6 +7,7 @@ import {
   tagFilters as tagFiltersMatrixParameterName,
   group as groupMatrixParameterName,
   metrics as metricsMatrixParameterName,
+  beaconId as beaconIdMatrixParameterName,
   sessionId as sessionIdMatrixParameterName,
   beaconTimestamp as beaconTimestampMatrixParameterName
 } from 'in-mobile-apps/navigation/matrix';
@@ -43,6 +44,7 @@ export function transformOneZeroToTwoZero(location, tagCatalog, metricCatalog, d
 
 function transformDetailIdParameters(location) {
   const sessionId = getMatrixParameter(location, sessionViewPath, sessionIdMatrixParameterName);
+  const beaconId = getMatrixParameter(location, sessionViewPath, beaconIdMatrixParameterName);
   let beaconTimestamp = getMatrixParameter(location, sessionViewPath, beaconTimestampMatrixParameterName);
   if (beaconTimestamp) {
     beaconTimestamp = Number(beaconTimestamp);
@@ -52,6 +54,9 @@ function transformDetailIdParameters(location) {
       sessionId,
       beaconTimestamp
     };
+    if (beaconId) {
+      detailId.beaconId = beaconId;
+    }
     setOrDeleteMatrixKey(
       location,
       analyzeTwoParameters.detailId.path,

@@ -155,6 +155,7 @@ const cases = [
         '/analyzeBeacons': {},
         '/pageLoad': {
           pageLoadId: 'e8b1b13d8d8466dd',
+          beaconId: '0311ac8b8d4243db',
           beaconTimestamp: '1612361206157'
         },
         '/summary': {}
@@ -166,7 +167,7 @@ const cases = [
       matrix: {
         '/websiteMonitoring': {},
         '/analyzeBeacons': {
-          detailId: '(pageLoadId~e8b1b13d8d8466dd~beaconTimestamp~1612361206157)~',
+          detailId: '(pageLoadId~e8b1b13d8d8466dd~beaconTimestamp~1612361206157~beaconId~*0311ac8b8d4243db)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
       }

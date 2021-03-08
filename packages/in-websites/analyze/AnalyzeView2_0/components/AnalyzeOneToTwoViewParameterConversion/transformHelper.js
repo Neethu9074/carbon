@@ -8,6 +8,7 @@ import {
   group as groupMatrixParameterName,
   metrics as metricsMatrixParameterName,
   pageLoadId as pageLoadIdMatrixParameterName,
+  beaconId as beaconIdMatrixParameterName,
   beaconTimestamp as beaconTimestampMatrixParameterName
 } from 'in-websites/navigation/matrix';
 import {
@@ -43,6 +44,7 @@ export function transformOneZeroToTwoZero(location, tagCatalog, metricCatalog, d
 
 function transformDetailIdParameters(location) {
   const pageLoadId = getMatrixParameter(location, pageLoadViewPath, pageLoadIdMatrixParameterName);
+  const beaconId = getMatrixParameter(location, pageLoadViewPath, beaconIdMatrixParameterName);
   let beaconTimestamp = getMatrixParameter(location, pageLoadViewPath, beaconTimestampMatrixParameterName);
   if (beaconTimestamp) {
     beaconTimestamp = Number(beaconTimestamp);
@@ -52,6 +54,9 @@ function transformDetailIdParameters(location) {
       pageLoadId,
       beaconTimestamp
     };
+    if (beaconId) {
+      detailId.beaconId = beaconId;
+    }
     setOrDeleteMatrixKey(
       location,
       analyzeTwoParameters.detailId.path,
