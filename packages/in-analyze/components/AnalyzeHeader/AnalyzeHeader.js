@@ -64,7 +64,7 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped, formMod
             return (
               <FeatureNew
                 text={t('in-analyze:analyzeHeader.learnNewUI')}
-                href="https://www.youtube.com/watch?v=OP1ybt80JTk"
+                href="https://www.youtube.com/watch?v=0vDC1qI4Eew"
               />
             );
           }
