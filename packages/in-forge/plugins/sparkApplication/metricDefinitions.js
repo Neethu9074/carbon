@@ -10,159 +10,175 @@ import {
   bytesPerSecondTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['failedJobs', 'completedJobs', 'activeJobs'],
-    labels: ['All Failed Jobs', 'All Completed Jobs', 'All Active Jobs'],
-    category: ['Jobs'],
+    labels: [
+      t('in-forge:plugins.sparkApplication.allFailedJobs'),
+      t('in-forge:plugins.sparkApplication.allCompletedJobs'),
+      t('in-forge:plugins.sparkApplication.allActiveJobs')
+    ],
+    category: [t('in-forge:plugins.sparkApplication.jobs')],
     formatter: number,
     min: 0
   },
   {
     metrics: ['pendingStages', 'failedStages', 'completedStages', 'activeStages'],
-    labels: ['All Pending Stages', 'All Failed Stages', 'All Completed Stages', 'All Active Stages'],
-    category: ['Stages'],
+    labels: [
+      t('in-forge:plugins.sparkApplication.allPendingStages'),
+      t('in-forge:plugins.sparkApplication.allFailedStages'),
+      t('in-forge:plugins.sparkApplication.allCompletedStages'),
+      t('in-forge:plugins.sparkApplication.allActiveStages')
+    ],
+    category: [t('in-forge:plugins.sparkApplication.stages')],
     formatter: number,
     min: 0
   },
   {
     metrics: ['completedBatches'],
-    labels: ['Completed Batches per Second'],
-    category: ['Batches'],
+    labels: [t('in-forge:plugins.sparkApplication.completedBatchesPerSecond')],
+    category: [t('in-forge:plugins.sparkApplication.batches')],
     formatter: zeroDecimalPlacesPerSecond,
     min: 0
   },
   {
     metrics: ['schedulingDelay'],
-    labels: ['Scheduling Delay'],
-    category: ['Delay'],
+    labels: [t('in-forge:plugins.sparkApplication.schedulingDelay')],
+    category: [t('in-forge:plugins.sparkApplication.delay')],
     formatter: ms,
     min: 0
   },
   {
     metrics: ['totalDelay'],
-    labels: ['Total Delay'],
-    category: ['Delay'],
+    labels: [t('in-forge:plugins.sparkApplication.totalDelay')],
+    category: [t('in-forge:plugins.sparkApplication.delay')],
     formatter: ms,
     min: 0
   },
   {
     metrics: ['processingTime'],
-    labels: ['Processing Time'],
-    category: ['Processing Time'],
+    labels: [t('in-forge:plugins.sparkApplication.processingTime')],
+    category: [t('in-forge:plugins.sparkApplication.processingTime')],
     formatter: ms,
     min: 0
   },
   {
     metrics: ['completedOutputOperations', 'failedOutputOperations'],
-    labels: ['Completed Output Operations', 'Failed Output Operations'],
-    category: ['Output Operations'],
+    labels: [
+      t('in-forge:plugins.sparkApplication.completedOutputOperations'),
+      t('in-forge:plugins.sparkApplication.failedOutputOperations')
+    ],
+    category: [t('in-forge:plugins.sparkApplication.outputOperations')],
     formatter: number,
     min: 0
   },
   {
     metrics: ['inputRecords'],
-    labels: ['Input Records'],
-    category: ['Input Records'],
+    labels: [t('in-forge:plugins.sparkApplication.inputRecords')],
+    category: [t('in-forge:plugins.sparkApplication.inputRecords')],
     formatter: number,
     min: 0
   },
   {
     metrics: ['activeReceivers', 'activeReceivers'],
-    labels: ['Active Receivers', 'Inactive Receivers'],
-    category: ['Receivers'],
+    labels: [
+      t('in-forge:plugins.sparkApplication.activeReceivers'),
+      t('in-forge:plugins.sparkApplication.inactiveReceivers')
+    ],
+    category: [t('in-forge:plugins.sparkApplication.receivers')],
     formatter: number,
     min: 0
   },
   {
     metric: getDynamicMetricMatch('executors', 'completedTasksDelta', 'Executor ID'),
-    label: 'Completed Tasks per Second',
-    category: ['Executors'],
+    label: t('in-forge:plugins.sparkApplication.completedTasksPerSecond'),
+    category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: zeroDecimalPlacesPerSecond
   },
   {
     metric: getDynamicMetricMatch('executors', 'failedTasksDelta', 'Executor ID'),
-    label: 'Failed Tasks per Second',
-    category: ['Executors'],
+    label: t('in-forge:plugins.sparkApplication.failedTasksPerSecond'),
+    category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: zeroDecimalPlacesPerSecond
   },
   {
     metric: getDynamicMetricMatch('executors', 'completedTasks', 'Executor ID'),
-    label: 'All Completed Tasks',
-    category: ['Executors'],
+    label: t('in-forge:plugins.sparkApplication.allCompletedTasks'),
+    category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('executors', 'failedTasks', 'Executor ID'),
-    label: 'All Failed Tasks',
-    category: ['Executors'],
+    label: t('in-forge:plugins.sparkApplication.allFailedTasks'),
+    category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('executors', 'rddBlocks', 'Executor ID'),
-    label: 'RDD Blocks',
-    category: ['Executors'],
+    label: t('in-forge:plugins.sparkApplication.rddBlocks'),
+    category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('executors', 'memoryUsed', 'Executor ID'),
-    label: 'Storage Memory',
-    category: ['Executors'],
+    label: t('in-forge:plugins.sparkApplication.storageMemory'),
+    category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('executors', 'diskUsed', 'Executor ID'),
-    label: 'Disk Used',
-    category: ['Executors'],
+    label: t('in-forge:plugins.sparkApplication.diskUsed'),
+    category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('executors', 'inputBytesDelta', 'Executor ID'),
-    label: 'Input Bytes per Second',
-    category: ['Executors'],
+    label: t('in-forge:plugins.sparkApplication.inputBytesPerSecond'),
+    category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytesPerSecondTwoDecimalPlaces
   },
   {
     metric: getDynamicMetricMatch('executors', 'shuffleReadDelta', 'Executor ID'),
-    label: 'Shuffle Read per Second',
-    category: ['Executors'],
+    label: t('in-forge:plugins.sparkApplication.shuffleReadPerSecond'),
+    category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytesPerSecondTwoDecimalPlaces
   },
   {
     metric: getDynamicMetricMatch('executors', 'shuffleWriteDelta', 'Executor ID'),
-    label: 'Shuffle Write per Second',
-    category: ['Executors'],
+    label: t('in-forge:plugins.sparkApplication.shuffleWritePerSecond'),
+    category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytesPerSecondTwoDecimalPlaces
   },
   {
     metric: getDynamicMetricMatch('executors', 'inputBytes', 'Executor ID'),
-    label: 'Total Input Bytes',
-    category: ['Executors'],
+    label: t('in-forge:plugins.sparkApplication.totalInputBytes'),
+    category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('executors', 'shuffleRead', 'Executor ID'),
-    label: 'Total Shuffle Read',
-    category: ['Executors'],
+    label: t('in-forge:plugins.sparkApplication.totalShuffleRead'),
+    category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('executors', 'shuffleWrite', 'Executor ID'),
-    label: 'Total Shuffle Write',
-    category: ['Executors'],
+    label: t('in-forge:plugins.sparkApplication.totalShuffleWrite'),
+    category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytes
   }

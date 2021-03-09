@@ -8,6 +8,7 @@ import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => {
@@ -22,6 +23,13 @@ export default connectTo(
       queues = queues.concat(oneTimeQueues);
     }
 
-    return <KeyValueOverlay header={'Queues (' + queues.size + ')'} data={queues} />;
+    return (
+      <KeyValueOverlay
+        header={t('in-forge:plugins.rabbitMq.dashboard.queuesWithCount', {
+          count: queues.size
+        })}
+        data={queues}
+      />
+    );
   }
 );

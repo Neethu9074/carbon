@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -10,10 +11,11 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.pingDirectory.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'Protocol',
+    title: t('in-forge:plugins.pingDirectory.dashboard.protocol'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: 'Connections',
+    title: t('in-forge:plugins.pingDirectory.dashboard.connections'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -68,7 +70,9 @@ export default function LdapConnectorsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Ldap Connectors (${rows.length})`}
+      cardTitle={t('in-forge:plugins.pingDirectory.dashboard.ldapConnectorsWithCount', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -79,20 +83,20 @@ export default function LdapConnectorsTable({ snapshot, timeConfig }) {
 function getRowDetails(row) {
   return (
     <div>
-      <DashboardSection title="Active Connections">
+      <DashboardSection title={t('in-forge:plugins.pingDirectory.dashboard.activeConnections')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['ldap_connectors.data.' + row.key + '.connection_count'],
-            labels: ['Connections'],
+            labels: [t('in-forge:plugins.pingDirectory.dashboard.connections')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Connection Statistics">
+      <DashboardSection title={t('in-forge:plugins.pingDirectory.dashboard.connectionStatistics')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
@@ -108,13 +112,13 @@ function getRowDetails(row) {
               'ldap_connector_statistics.data.' + row.statsKey + '.search_requests'
             ],
             labels: [
-              'Add requests',
-              'Bind requests',
-              'Compare requests',
-              'Delete requests',
-              'Extended requests',
-              'Modify requests',
-              'Search requests'
+              t('in-forge:plugins.pingDirectory.dashboard.addRequests'),
+              t('in-forge:plugins.pingDirectory.dashboard.bindRequests'),
+              t('in-forge:plugins.pingDirectory.dashboard.compareRequests'),
+              t('in-forge:plugins.pingDirectory.dashboard.deleteRequests'),
+              t('in-forge:plugins.pingDirectory.dashboard.extendedRequests'),
+              t('in-forge:plugins.pingDirectory.dashboard.modifyRequests'),
+              t('in-forge:plugins.pingDirectory.dashboard.searchRequests')
             ],
             type: 'line'
           }}

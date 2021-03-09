@@ -10,6 +10,7 @@ import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function SolrCloudClusterSidebar({ snapshot }) {
@@ -18,7 +19,7 @@ export default function SolrCloudClusterSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Solr Cloud Cluster</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.solrCloudCluster.solrCloudCluster')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -29,37 +30,37 @@ export default function SolrCloudClusterSidebar({ snapshot }) {
         metrics={[
           {
             metric: 'cluster.requests',
-            label: 'Average Requests',
+            label: t('in-forge:plugins.solrCloudCluster.averageRequests'),
             formatter: number,
             aggregation: 'sum'
           },
           {
             metric: 'cluster.evictions',
-            label: 'Evictions',
+            label: t('in-forge:plugins.solrCloudCluster.evictions'),
             formatter: number,
             aggregation: 'sum'
           },
           {
             metric: 'cluster.errors',
-            label: 'Errors',
+            label: t('in-forge:plugins.solrCloudCluster.errors'),
             formatter: number,
             aggregation: 'sum'
           },
           {
             metric: 'cluster.docs_added',
-            label: 'Documents added',
+            label: t('in-forge:plugins.solrCloudCluster.documentsAdded'),
             formatter: number,
             aggregation: 'sum'
           },
           {
             metric: 'cluster.timeouts',
-            label: 'Timeouts',
+            label: t('in-forge:plugins.solrCloudCluster.timeouts'),
             formatter: number,
             aggregation: 'sum'
           },
           {
             metric: 'cluster.docs_pending',
-            label: 'Documents pending',
+            label: t('in-forge:plugins.solrCloudCluster.documentsPending'),
             formatter: number,
             aggregation: 'sum'
           }

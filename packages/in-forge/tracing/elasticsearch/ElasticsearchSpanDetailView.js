@@ -14,8 +14,12 @@ export default function ElasticsearchSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title={t('in-forge:tracing.elasticsearch.titleEndpoint')}>{span.getIn(['data', 'elasticsearch', 'endpoint'])}</Di>
-        <Di title={t('in-forge:tracing.elasticsearch.titleAction')}>{span.getIn(['data', 'elasticsearch', 'action'])}</Di>
+        <Di title={t('in-forge:tracing.elasticsearch.titleEndpoint')}>
+          {span.getIn(['data', 'elasticsearch', 'endpoint'])}
+        </Di>
+        <Di title={t('in-forge:tracing.elasticsearch.titleAction')}>
+          {span.getIn(['data', 'elasticsearch', 'action'])}
+        </Di>
         <Di title={t('in-forge:tracing.elasticsearch.titleIndex')}>{span.getIn(['data', 'elasticsearch', 'index'])}</Di>
         <Di title={t('in-forge:tracing.elasticsearch.titleType')}>{span.getIn(['data', 'elasticsearch', 'type'])}</Di>
         <Di title={t('in-forge:tracing.elasticsearch.titleID')}>{span.getIn(['data', 'elasticsearch', 'id'])}</Di>

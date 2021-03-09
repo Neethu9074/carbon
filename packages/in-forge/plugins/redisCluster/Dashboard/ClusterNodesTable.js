@@ -9,10 +9,11 @@ import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.redisCluster.dashboard.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Version',
+    title: t('in-forge:plugins.redisCluster.dashboard.version'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Hit rate',
+    title: t('in-forge:plugins.redisCluster.dashboard.hitRate'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
@@ -46,7 +47,7 @@ const cols = [
     }
   },
   {
-    title: 'Evicted keys',
+    title: t('in-forge:plugins.redisCluster.dashboard.evictedKeys'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -62,7 +63,7 @@ const cols = [
     }
   },
   {
-    title: 'Connected clients',
+    title: t('in-forge:plugins.redisCluster.dashboard.connectedClients'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -78,7 +79,7 @@ const cols = [
     }
   },
   {
-    title: 'Role',
+    title: t('in-forge:plugins.redisCluster.dashboard.role'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -87,7 +88,7 @@ const cols = [
     }
   },
   {
-    title: 'Health',
+    title: t('in-forge:plugins.redisCluster.dashboard.health'),
     type: 'health',
     typeArgs: {
       getSnapshotId(row) {
@@ -116,6 +117,15 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Available Nodes (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.redisCluster.dashboard.availableNodesWithCount', {
+          count: rows.length
+        })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

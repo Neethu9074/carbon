@@ -16,10 +16,11 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Database',
+    title: t('in-forge:plugins.postgreSqlDatabase.dashboard.database'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -28,7 +29,7 @@ const cols = [
     }
   },
   {
-    title: 'Committed transactions',
+    title: t('in-forge:plugins.postgreSqlDatabase.dashboard.committedTransactions'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -44,7 +45,7 @@ const cols = [
     }
   },
   {
-    title: 'Rolled back transactions',
+    title: t('in-forge:plugins.postgreSqlDatabase.dashboard.rolledBackTransactions'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -60,7 +61,7 @@ const cols = [
     }
   },
   {
-    title: 'Cache Hit Ratio',
+    title: t('in-forge:plugins.postgreSqlDatabase.dashboard.cacheHitRatio'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -76,7 +77,7 @@ const cols = [
     }
   },
   {
-    title: 'Standby Conflicts',
+    title: t('in-forge:plugins.postgreSqlDatabase.dashboard.standbyConflicts'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -92,7 +93,7 @@ const cols = [
     }
   },
   {
-    title: 'Tuples read',
+    title: t('in-forge:plugins.postgreSqlDatabase.dashboard.tuplesRead'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -108,7 +109,7 @@ const cols = [
     }
   },
   {
-    title: 'Tuples fetched',
+    title: t('in-forge:plugins.postgreSqlDatabase.dashboard.tuplesFetched'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -124,7 +125,7 @@ const cols = [
     }
   },
   {
-    title: 'Size',
+    title: t('in-forge:plugins.postgreSqlDatabase.dashboard.size'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -140,7 +141,7 @@ const cols = [
     }
   },
   {
-    title: 'Active Connections',
+    title: t('in-forge:plugins.postgreSqlDatabase.dashboard.activeConnections'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -175,7 +176,15 @@ export default function DatabasesTable({ snapshot, timeConfig }) {
     };
   });
 
-  return <Table withoutPadding cardTitle="Databases" cols={cols} rows={rows} getRowDetails={getRowDetails} />;
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.postgreSqlDatabase.dashboard.databases')}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
+  );
 }
 
 function getRowDetails(row) {
@@ -185,7 +194,7 @@ function getRowDetails(row) {
   return (
     <div>
       <Columize>
-        <DashboardSection title="Transactions">
+        <DashboardSection title={t('in-forge:plugins.postgreSqlDatabase.dashboard.transactions')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -193,20 +202,20 @@ function getRowDetails(row) {
               min: 0,
               formatter: activityZeroDecimalPlaces,
               metrics: ['databases.' + row.key + '.xact_commit'],
-              labels: ['Committed'],
+              labels: [t('in-forge:plugins.postgreSqlDatabase.dashboard.committed')],
               type: 'line'
             }}
             y2={{
               min: 0,
               formatter: activityZeroDecimalPlaces,
               metrics: ['databases.' + row.key + '.xact_rollback'],
-              labels: ['Rolled back'],
+              labels: [t('in-forge:plugins.postgreSqlDatabase.dashboard.rolledBack')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Cache">
+        <DashboardSection title={t('in-forge:plugins.postgreSqlDatabase.dashboard.cache')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -214,7 +223,7 @@ function getRowDetails(row) {
               min: 0,
               max: 1,
               metrics: ['databases.' + row.key + '.blks_hit_rate'],
-              labels: ['Cache Hit Ratio'],
+              labels: [t('in-forge:plugins.postgreSqlDatabase.dashboard.cacheHitRatio')],
               type: 'line',
               formatter: hitRateZeroDecimalPlaces
             }}
@@ -223,7 +232,7 @@ function getRowDetails(row) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title="Conflicts">
+        <DashboardSection title={t('in-forge:plugins.postgreSqlDatabase.dashboard.conflicts')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -231,13 +240,13 @@ function getRowDetails(row) {
               min: 0,
               formatter: zeroDecimalPlaces,
               metrics: ['databases.' + row.key + '.conflicts'],
-              labels: ['Standby Conflicts'],
+              labels: [t('in-forge:plugins.postgreSqlDatabase.dashboard.standbyConflicts')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Tuples">
+        <DashboardSection title={t('in-forge:plugins.postgreSqlDatabase.dashboard.tuples')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -245,7 +254,10 @@ function getRowDetails(row) {
               min: 0,
               formatter: activityZeroDecimalPlaces,
               metrics: ['databases.' + row.key + '.idx_tup_read', 'databases.' + row.key + '.idx_tup_fetch'],
-              labels: ['Read', 'Fetched'],
+              labels: [
+                t('in-forge:plugins.postgreSqlDatabase.dashboard.read'),
+                t('in-forge:plugins.postgreSqlDatabase.dashboard.fetched')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -253,7 +265,7 @@ function getRowDetails(row) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title="Database Size">
+        <DashboardSection title={t('in-forge:plugins.postgreSqlDatabase.dashboard.databaseSizeTitle')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -261,13 +273,13 @@ function getRowDetails(row) {
               min: 0,
               formatter: bytesTwoDecimalPlaces,
               metrics: ['databases.' + row.key + '.db_size'],
-              labels: ['Size'],
+              labels: [t('in-forge:plugins.postgreSqlDatabase.dashboard.size')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Connections">
+        <DashboardSection title={t('in-forge:plugins.postgreSqlDatabase.dashboard.connections')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -275,7 +287,7 @@ function getRowDetails(row) {
               min: 0,
               formatter: zeroDecimalPlaces,
               metrics: ['databases.' + row.key + '.active_connections'],
-              labels: ['Active'],
+              labels: [t('in-forge:plugins.postgreSqlDatabase.dashboard.active')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

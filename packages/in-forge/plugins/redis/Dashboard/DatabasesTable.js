@@ -9,10 +9,11 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.redis.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Keys',
+    title: t('in-forge:plugins.redis.dashboard.keys'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Expires',
+    title: t('in-forge:plugins.redis.dashboard.expires'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -71,7 +72,9 @@ export default function DatabasesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Databases (${dbNames.size})`}
+      cardTitle={t('in-forge:plugins.redis.dashboard.databasesWithCount', {
+        count: dbNames.size
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -87,7 +90,7 @@ function getRowDetails(row) {
       y1={{
         formatter: number.compact,
         metrics: ['db.' + row.key + '.count', 'db.' + row.key + '.expires'],
-        labels: ['Keys', 'Expires'],
+        labels: [t('in-forge:plugins.redis.dashboard.keys'), t('in-forge:plugins.redis.dashboard.expires')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

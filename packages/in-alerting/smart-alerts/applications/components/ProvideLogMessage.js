@@ -13,7 +13,10 @@ import {
   applicationsAlertingLogMsgSelected,
   applicationsAlertingLogOpenMsgSelectView
 } from 'in-alerting/smart-alerts/applications/tracker';
-import { ruleLogMessageOperatorOptions, ruleLogLevelOptions } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
+import {
+  ruleLogMessageOperatorOptions,
+  ruleLogLevelOptions
+} from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import LogMessagesList from 'in-alerting/smart-alerts/applications/components/LogMessagesList';
 import { modeAdvanced } from 'in-alerting/smart-alerts/websites/alerting/constants';
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';

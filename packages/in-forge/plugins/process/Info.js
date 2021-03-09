@@ -12,6 +12,7 @@ import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   ({ snapshot }) => ({ hostSnapshot: getHostSnapshotId(snapshot).flatMap(getSnapshot) }),
@@ -23,18 +24,22 @@ export default connectTo(
 
     return (
       <DescriptionList>
-        <DescriptionItem title="Executable">{data.get('exec')}</DescriptionItem>
-        <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
-        <DescriptionItem title="In-Container ID">{data.get('containerPid')}</DescriptionItem>
-        <DescriptionItem title="Container ID">{data.get('container')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.process.executable')}>{data.get('exec')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.process.processId')}>{data.get('pid')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.process.inContainerId')}>
+          {data.get('containerPid')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.process.containerId')}>{data.get('container')}</DescriptionItem>
         <ProcessStartedAtDescriptionItem snapshotId={snapshotId} />
-        <DescriptionItem title="User">{data.get('user')}</DescriptionItem>
-        <DescriptionItem title="Group">{data.get('group')}</DescriptionItem>
-        <DescriptionItem title="Job">{data.get('job')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.process.user')}>{data.get('user')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.process.group')}>{data.get('group')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.process.job')}>{data.get('job')}</DescriptionItem>
         <ParentProcess snapshotId={snapshotId} />
 
         {hostSnapshot && supportsOpenFiles(hostSnapshot) && openFilesMax != null && (
-          <DescriptionItem title="Max Open Files">{zeroDecimalPlaces(openFilesMax)}</DescriptionItem>
+          <DescriptionItem title={t('in-forge:plugins.process.maxOpenFiles')}>
+            {zeroDecimalPlaces(openFilesMax)}
+          </DescriptionItem>
         )}
       </DescriptionList>
     );

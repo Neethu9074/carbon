@@ -6,9 +6,5 @@ import { t } from 'in-i18n';
 import React from 'react';
 
 export default function SyntheticBatchSpanDetailView() {
-  return (
-    <div>
-      {t('in-forge:tracing.batchSynthetic.bodyApproximated')}
-    </div>
-  );
+  return <div>{t('in-forge:tracing.batchSynthetic.bodyApproximated')}</div>;
 }

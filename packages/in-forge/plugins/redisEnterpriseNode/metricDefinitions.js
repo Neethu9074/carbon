@@ -3,61 +3,62 @@
  * (c) Copyright Instana Inc.
  */
 import { bytes, number, micros } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metric: 'total_req',
-    label: 'Requests per second',
+    label: t('in-forge:plugins.redisEnterpriseNode.requestsPerSecond'),
     formatter: number.compact
   },
   {
     metric: 'avg_latency',
-    label: 'Average Latency',
+    label: t('in-forge:plugins.redisEnterpriseNode.averageLatency'),
     formatter: micros.detailed
   },
   {
     metric: 'conns',
-    label: 'Connections Count',
+    label: t('in-forge:plugins.redisEnterpriseNode.connectionsCount'),
     formatter: number.compact
   },
   {
     metric: 'cpu_user',
-    label: 'CPU User',
+    label: t('in-forge:plugins.redisEnterpriseNode.cpuUser'),
     formatter: number.detailed
   },
   {
     metric: 'cpu_system',
-    label: 'CPU System',
+    label: t('in-forge:plugins.redisEnterpriseNode.cpuSystem'),
     formatter: number.detailed
   },
   {
     metric: 'cpu_idle',
-    label: 'CPU Idle',
+    label: t('in-forge:plugins.redisEnterpriseNode.cpuIdle'),
     formatter: number.detailed
   },
   {
     metric: 'free_memory',
-    label: 'Free Memory',
+    label: t('in-forge:plugins.redisEnterpriseNode.freeMemory'),
     formatter: bytes.detailed
   },
   {
     metric: 'available_memory',
-    label: 'Available Memory',
+    label: t('in-forge:plugins.redisEnterpriseNode.availableMemory'),
     formatter: bytes.detailed
   },
   {
     metric: 'provisional_memory',
-    label: 'Provisional Memory',
+    label: t('in-forge:plugins.redisEnterpriseNode.provisionalMemory'),
     formatter: bytes.detailed
   },
   {
     metric: 'ingress_bytes',
-    label: 'Network Ingress Traffic',
+    label: t('in-forge:plugins.redisEnterpriseNode.networkIngressTraffic'),
     formatter: bytes.perSecond
   },
   {
     metric: 'egress_bytes',
-    label: 'Network Egress Traffic',
+    label: t('in-forge:plugins.redisEnterpriseNode.networkEgressTraffic'),
     formatter: bytes.perSecond
   }
 ];

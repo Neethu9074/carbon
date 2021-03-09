@@ -55,7 +55,9 @@ export function TriggerTypeSpecificFields({ span }) {
 function CloudWatchEventsDetails({ span }) {
   return (
     <Fragment>
-      <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>{t('in-forge:tracing.aspLambdaEntry.bodyCloudWatchEvents')}</Di>
+      <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>
+        {t('in-forge:tracing.aspLambdaEntry.bodyCloudWatchEvents')}
+      </Di>
       <ListWithMore
         title={t('in-forge:tracing.aspLambdaEntry.titleEventResources')}
         span={span}
@@ -70,9 +72,15 @@ function CloudWatchEventsDetails({ span }) {
 function CloudWatchLogsDetails({ span }) {
   return (
     <Fragment>
-      <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>{t('in-forge:tracing.aspLambdaEntry.bodyCloudWatchEvents')}</Di>
-      <Di title={t('in-forge:tracing.aspLambdaEntry.titleLogGroup')}>{span.getIn(['data', 'lambda', 'cw', 'logs', 'group'])}</Di>
-      <Di title={t('in-forge:tracing.aspLambdaEntry.titleLogStream')}>{span.getIn(['data', 'lambda', 'cw', 'logs', 'stream'])}</Di>
+      <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>
+        {t('in-forge:tracing.aspLambdaEntry.bodyCloudWatchEvents')}
+      </Di>
+      <Di title={t('in-forge:tracing.aspLambdaEntry.titleLogGroup')}>
+        {span.getIn(['data', 'lambda', 'cw', 'logs', 'group'])}
+      </Di>
+      <Di title={t('in-forge:tracing.aspLambdaEntry.titleLogStream')}>
+        {span.getIn(['data', 'lambda', 'cw', 'logs', 'stream'])}
+      </Di>
       <ListWithMore
         title={t('in-forge:tracing.aspLambdaEntry.titleLogEvents')}
         span={span}
@@ -87,7 +95,9 @@ function CloudWatchLogsDetails({ span }) {
 function S3EventDetails({ span }) {
   return (
     <Fragment>
-      <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>{t('in-forge:tracing.aspLambdaEntry.bodyAWSEvents')}</Di>
+      <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>
+        {t('in-forge:tracing.aspLambdaEntry.bodyAWSEvents')}
+      </Di>
       <ListWithMore
         title={t('in-forge:tracing.aspLambdaEntry.titleDetails')}
         span={span}
@@ -103,7 +113,9 @@ function S3EventDetails({ span }) {
 function SqsDetails({ span }) {
   return (
     <Fragment>
-      <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>{t('in-forge:tracing.aspLambdaEntry.bodyAWSMessages')}</Di>
+      <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>
+        {t('in-forge:tracing.aspLambdaEntry.bodyAWSMessages')}
+      </Di>
       <ListWithMore
         title={t('in-forge:tracing.aspLambdaEntry.titleQueues')}
         span={span}
@@ -119,9 +131,11 @@ function SqsDetails({ span }) {
 function UnknownTriggerDetails() {
   return (
     <Fragment>
-      <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>{t('in-forge:tracing.aspLambdaEntry.bodyAWSEvent')}</Di>
+      <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>
+        {t('in-forge:tracing.aspLambdaEntry.bodyAWSEvent')}
+      </Di>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleDetails')}>
-      {t('in-forge:tracing.aspLambdaEntry.bodyAWSEventDetail')}
+        {t('in-forge:tracing.aspLambdaEntry.bodyAWSEventDetail')}
       </Di>
     </Fragment>
   );
@@ -149,8 +163,12 @@ function CommonFaasDescriptionItems({ span }) {
     <Fragment>
       <div className={locals.header}>Lambda Attributes</div>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleARN')}>{span.getIn(['data', 'lambda', 'arn'])}</Di>
-      <Di title={t('in-forge:tracing.aspLambdaEntry.titleFunctionName')}>{span.getIn(['data', 'lambda', 'functionName'])}</Di>
-      <Di title={t('in-forge:tracing.aspLambdaEntry.titleVersion')}>{span.getIn(['data', 'lambda', 'functionVersion'])}</Di>
+      <Di title={t('in-forge:tracing.aspLambdaEntry.titleFunctionName')}>
+        {span.getIn(['data', 'lambda', 'functionName'])}
+      </Di>
+      <Di title={t('in-forge:tracing.aspLambdaEntry.titleVersion')}>
+        {span.getIn(['data', 'lambda', 'functionVersion'])}
+      </Di>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleTrigger')}>{span.getIn(['data', 'lambda', 'trigger'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'lambda', 'error'])} />
     </Fragment>

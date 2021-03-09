@@ -9,10 +9,11 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Queue',
+    title: t('in-forge:plugins.rabbitMq.dashboard.queue'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages ready',
+    title: t('in-forge:plugins.rabbitMq.dashboard.messagesReady'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages unacknowledged',
+    title: t('in-forge:plugins.rabbitMq.dashboard.messagesUnacknowledged'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages total',
+    title: t('in-forge:plugins.rabbitMq.dashboard.messagesTotal'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -88,7 +89,15 @@ export default function QueuesTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <Table withoutPadding cardTitle={`Queues (${rows.length})`} cols={cols} rows={rows} getRowDetails={getRowDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.rabbitMq.dashboard.queuesWithCount', {
+        count: rows.length
+      })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 
@@ -103,13 +112,16 @@ function getRowDetails(row) {
         timeConfig={timeConfig}
         y1={{
           metrics: ['queue_map.' + row.key + '.messages_ready', 'queue_map.' + row.key + '.messages_unacknowledged'],
-          labels: ['Messages ready', 'Messages unacknowledged'],
+          labels: [
+            t('in-forge:plugins.rabbitMq.dashboard.messagesReady'),
+            t('in-forge:plugins.rabbitMq.dashboard.messagesUnacknowledged')
+          ],
           type: 'stackedArea',
           formatter: zeroDecimalPlaces
         }}
         y2={{
           metrics: ['queue_map.' + row.key + '.messages'],
-          labels: ['Messages total'],
+          labels: [t('in-forge:plugins.rabbitMq.dashboard.messagesTotal')],
           type: 'line',
           formatter: zeroDecimalPlaces
         }}

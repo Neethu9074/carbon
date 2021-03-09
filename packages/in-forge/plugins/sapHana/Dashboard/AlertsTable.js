@@ -8,10 +8,11 @@ import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/Desc
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.sapHana.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -20,7 +21,7 @@ const cols = [
     }
   },
   {
-    title: 'Timestamp',
+    title: t('in-forge:plugins.sapHana.dashboard.timestamp'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Priority',
+    title: t('in-forge:plugins.sapHana.dashboard.priority'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -59,7 +60,9 @@ export default function AlertsTable({ snapshot }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Alerts ${rows.length}`}
+      cardTitle={t('in-forge:plugins.sapHana.dashboard.alertsWithCount', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -73,20 +76,22 @@ function getRowDetails(row) {
   return (
     <DescriptionList>
       <DescriptionItem>{row.alert.get('details')}</DescriptionItem>
-      <DescriptionItem title="User Action">{row.alert.get('userAction')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sapHana.dashboard.userAction')}>
+        {row.alert.get('userAction')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }
 
 function mapRating(rating) {
   if (rating === 1) {
-    return 'Information';
+    return t('in-forge:plugins.sapHana.dashboard.ratingInformation');
   }
   if (rating === 2 || rating === 3) {
-    return 'Medium';
+    return t('in-forge:plugins.sapHana.dashboard.ratingMedium');
   }
   if (rating === 4 || rating === 5) {
-    return 'High';
+    return t('in-forge:plugins.sapHana.dashboard.ratingHigh');
   }
   return rating;
 }

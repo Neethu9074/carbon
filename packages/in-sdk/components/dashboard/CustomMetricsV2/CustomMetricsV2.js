@@ -36,9 +36,7 @@ const cols = [
         return {
           value: isPinned ? 0 : 1,
           content: (
-            <Tooltip
-              align="topMiddle"
-              content={t('in-sdk:dashboard.customMetricsV2.customMetricsContent')}>
+            <Tooltip align="topMiddle" content={t('in-sdk:dashboard.customMetricsV2.customMetricsContent')}>
               <SvgIcon
                 type={isPinned ? 'lib_fancy_checkbox_checked' : 'lib_fancy_checkbox_unchecked'}
                 className={isPinned ? locals.pinned : locals.unpinned}
@@ -144,7 +142,10 @@ function CustomMetricsV2(props) {
     <Fragment>
       {pinnedRows.length > 0 && (
         <Table
-          cardTitle={t('in-sdk:dashboard.customMetricsV2.customMetricsTitlePinned', {pinnedPrefix: titlePrefix, pinnedLength: pinnedRows.length}).trim()}
+          cardTitle={t('in-sdk:dashboard.customMetricsV2.customMetricsTitlePinned', {
+            pinnedPrefix: titlePrefix,
+            pinnedLength: pinnedRows.length
+          }).trim()}
           withoutPadding
           cols={cols}
           rows={pinnedRows}
@@ -156,7 +157,10 @@ function CustomMetricsV2(props) {
       )}
 
       <Table
-        cardTitle={t('in-sdk:dashboard.customMetricsV2.customMetricsTitleCustom', {customPrefix: titlePrefix, customLength: pinnedRows.length}).trim()}
+        cardTitle={t('in-sdk:dashboard.customMetricsV2.customMetricsTitleCustom', {
+          customPrefix: titlePrefix,
+          customLength: pinnedRows.length
+        }).trim()}
         withoutPadding
         cols={cols}
         rows={rows}

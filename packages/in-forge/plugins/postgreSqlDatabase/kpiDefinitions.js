@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { activityZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'Committed Transactions',
+    label: t('in-forge:plugins.postgreSqlDatabase.committedTransactionsKpiLabel'),
     metric: 'totalCommittedTransactions',
     formatter: activityZeroDecimalPlaces
   },
   {
-    label: 'Total Active Connections',
+    label: t('in-forge:plugins.postgreSqlDatabase.totalActiveConnections'),
     metric: 'total_active_connections',
     formatter: zeroDecimalPlaces
   }

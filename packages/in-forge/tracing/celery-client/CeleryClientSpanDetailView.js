@@ -13,7 +13,9 @@ export default function CeleryClientSpanDetailView({ span }) {
     <Dl>
       <Di title={t('in-forge:tracing.celeryClient.titleCeleryTask')}>{span.getIn(['data', 'celery', 'task'])}</Di>
       <Di title={t('in-forge:tracing.celeryClient.titleCeleryTaskID')}>{span.getIn(['data', 'celery', 'task_id'])}</Di>
-      <Di title={t('in-forge:tracing.celeryClient.titleRetryReason')}>{span.getIn(['data', 'celery', 'retry-reason'])}</Di>
+      <Di title={t('in-forge:tracing.celeryClient.titleRetryReason')}>
+        {span.getIn(['data', 'celery', 'retry-reason'])}
+      </Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'celery', 'error'])} />
     </Dl>
   );

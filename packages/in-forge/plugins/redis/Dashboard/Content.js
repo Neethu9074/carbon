@@ -7,20 +7,28 @@ import React from 'react';
 import { bytes, number, millis, kiloBytes, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
 import PubSubChannelsTable from 'in-forge/plugins/redis/Dashboard/PubSubChannelsTable';
 import CustomMonitorsTable from 'in-forge/plugins/redis/Dashboard/CustomMonitorsTable';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import DatabasesTable from 'in-forge/plugins/redis/Dashboard/DatabasesTable';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import SlowLogsTable from 'in-forge/plugins/redis/Dashboard/SlowLogsTable';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
-const persistenceFormatter = d => (d < 0 ? 'Not in progress' : number.compact(d) + 's');
+const persistenceFormatter = d =>
+  d < 0
+    ? t('in-forge:plugins.redis.dashboard.notInProgress')
+    : t('in-forge:plugins.redis.dashboard.seconds', { number: number.compact(d) });
 
 const latencyFormatter = (d, threshold) =>
-  d < threshold ? 'Less than ' + millis.compact(threshold) : millis.compact(d);
+  d < threshold
+    ? t('in-forge:plugins.redis.dashboard.lessThan', {
+        threshold: millis.compact(threshold)
+      })
+    : millis.compact(d);
 
 function getConnectionMetricsForRole(role) {
   return role === 'master'
@@ -30,13 +38,22 @@ function getConnectionMetricsForRole(role) {
 
 function getConnectionLabelsForRole(role) {
   return role === 'master'
-    ? ['Connected', 'Blocked', 'Rejected connections', 'Connected slaves']
-    : ['Connected', 'Blocked', 'Rejected connections'];
+    ? [
+        t('in-forge:plugins.redis.dashboard.connected'),
+        t('in-forge:plugins.redis.dashboard.blocked'),
+        t('in-forge:plugins.redis.dashboard.rejectedConnections'),
+        t('in-forge:plugins.redis.dashboard.connectedSlaves')
+      ]
+    : [
+        t('in-forge:plugins.redis.dashboard.connected'),
+        t('in-forge:plugins.redis.dashboard.blocked'),
+        t('in-forge:plugins.redis.dashboard.rejectedConnections')
+      ];
 }
 
 export default function RedisDashboard({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
-  const sensorConnectionStatus = data.get('sensorConnectionStatus', 'OK');
+  const sensorConnectionStatus = data.get('sensorConnectionStatus');
   if (sensorConnectionStatus !== 'OK') {
     return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
   }
@@ -49,29 +66,29 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Throughput">
+        <KpiKeyValue label={t('in-forge:plugins.redis.dashboard.throughput')}>
           <MetricValue snapshotId={snapshotId} metric="throughput" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Hit Rate">
+        <KpiKeyValue label={t('in-forge:plugins.redis.dashboard.hitRateKpiLabel')}>
           <MetricValue snapshotId={snapshotId} metric="hit_rate" formatter={hitRateZeroDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label="Keys Evicted">
+        <KpiKeyValue label={t('in-forge:plugins.redis.dashboard.keysEvicted')}>
           <MetricValue snapshotId={snapshotId} metric="evicted_keys" />
         </KpiKeyValue>
-        <KpiKeyValue label="Connections">
+        <KpiKeyValue label={t('in-forge:plugins.redis.dashboard.connections')}>
           <MetricValue snapshotId={snapshotId} metric="connected_clients" />
         </KpiKeyValue>
       </KpiSection>
 
       {latencyThreshold > 0 ? (
-        <DashboardSection title="Latency">
+        <DashboardSection title={t('in-forge:plugins.redis.dashboard.latency')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: latencyThreshold,
               metrics: ['latency_max'],
-              labels: ['Latency'],
+              labels: [t('in-forge:plugins.redis.dashboard.latency')],
               formatter: latencyFormatter.bind(latencyThreshold),
               type: 'line'
             }}
@@ -80,13 +97,13 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       ) : null}
 
-      <DashboardSection title="Throughput">
+      <DashboardSection title={t('in-forge:plugins.redis.dashboard.throughput')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['throughput'],
-            labels: ['Throughput (ops/sec)'],
+            labels: [t('in-forge:plugins.redis.dashboard.throughputOpsSec')],
             formatter: number.detailed,
             type: 'line'
           }}
@@ -94,21 +111,21 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Key">
+      <DashboardSection title={t('in-forge:plugins.redis.dashboard.key')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['keyspace_hits', 'keyspace_misses'],
-            labels: ['Hits', 'Misses'],
+            labels: [t('in-forge:plugins.redis.dashboard.hits'), t('in-forge:plugins.redis.dashboard.misses')],
             type: 'line'
           }}
           y2={{
             min: 0,
             max: 1,
             metrics: ['hit_rate'],
-            labels: ['Hit Rate'],
+            labels: [t('in-forge:plugins.redis.dashboard.hitRateKpiLabel')],
             type: 'line',
             formatter: hitRateZeroDecimalPlaces
           }}
@@ -116,14 +133,17 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Objects">
+      <DashboardSection title={t('in-forge:plugins.redis.dashboard.objects')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['expired_keys', 'evicted_keys'],
-            labels: ['Keys Expired', 'Keys Evicted'],
+            labels: [
+              t('in-forge:plugins.redis.dashboard.keysExpired'),
+              t('in-forge:plugins.redis.dashboard.keysEvicted')
+            ],
             formatter: number.detailed,
             type: 'line'
           }}
@@ -131,7 +151,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.redis.dashboard.memory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -140,21 +160,25 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
             formatter: bytes.compact,
             tooltipFormatter: bytes.detailed,
             metrics: ['used_memory', 'used_memory_rss', 'used_memory_lua'],
-            labels: ['Used', 'Used rss', 'Used lua'],
+            labels: [
+              t('in-forge:plugins.redis.dashboard.used'),
+              t('in-forge:plugins.redis.dashboard.usedRss'),
+              t('in-forge:plugins.redis.dashboard.usedLua')
+            ],
             type: 'line'
           }}
           y2={{
             min: 0,
             formatter: number.detailed,
             metrics: ['mem_fragmentation_ratio'],
-            labels: ['Fragmentation ratio'],
+            labels: [t('in-forge:plugins.redis.dashboard.fragmentationRatio')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Connections">
+      <DashboardSection title={t('in-forge:plugins.redis.dashboard.connections')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -171,14 +195,14 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
       <PubSubChannelsTable snapshot={snapshot} timeConfig={timeConfig} />
 
       {channelNames && (
-        <DashboardSection title="Pub / Sub Subscribed patterns">
+        <DashboardSection title={t('in-forge:plugins.redis.dashboard.pubSubSubscribedPatterns')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['pubsub_subscribed_patterns'],
-              labels: ['Subscribed patterns'],
+              labels: [t('in-forge:plugins.redis.dashboard.subscribedPatterns')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -186,14 +210,17 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
 
-      <DashboardSection title="Persistence">
+      <DashboardSection title={t('in-forge:plugins.redis.dashboard.persistence')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['rdb_current_bgsave_time_sec', 'aof_current_rewrite_time_sec'],
-            labels: ['Duration of current rdb save', 'Duration of current aof log rewrite'],
+            labels: [
+              t('in-forge:plugins.redis.dashboard.durationOfCurrentRdbSave'),
+              t('in-forge:plugins.redis.dashboard.durationOfCurrentAofLogRewrite')
+            ],
             formatter: persistenceFormatter,
             type: 'line'
           }}
@@ -204,7 +231,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
       <SlowLogsTable snapshotId={snapshotId} />
 
       {role === 'slave' ? (
-        <DashboardSection title="Bytes left before syncing is complete">
+        <DashboardSection title={t('in-forge:plugins.redis.dashboard.bytesLeftBeforeSyncingIsComplete')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -213,7 +240,7 @@ export default function RedisDashboard({ snapshot, timeConfig }) {
               formatter: kiloBytes.compact,
               tooltipFormatter: kiloBytes.detailed,
               metrics: ['master_sync_left_bytes'],
-              labels: ['Bytes left before syncing is complete'],
+              labels: [t('in-forge:plugins.redis.dashboard.bytesLeftBeforeSyncingIsComplete')],
               type: 'stackedArea'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

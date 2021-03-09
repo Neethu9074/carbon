@@ -14,10 +14,11 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -26,7 +27,7 @@ const cols = [
     }
   },
   {
-    title: 'UID',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.uid'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -35,7 +36,7 @@ const cols = [
     }
   },
   {
-    title: 'Big Store',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.bigStore'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -44,7 +45,7 @@ const cols = [
     }
   },
   {
-    title: 'Key Hits',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.keyHits'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -60,7 +61,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory Used',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.memoryUsed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -76,7 +77,7 @@ const cols = [
     }
   },
   {
-    title: 'Connected Clients',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.connectedClients'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -92,7 +93,7 @@ const cols = [
     }
   },
   {
-    title: 'Latency',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.latency'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -108,7 +109,7 @@ const cols = [
     }
   },
   {
-    title: 'Status',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.status'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -146,7 +147,9 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={`Databases (${rows.length})`}
+        cardTitle={t('in-forge:plugins.redisEnterpriseCluster.dashboard.databasesWithCount', {
+          count: rows.length
+        })}
         cols={cols}
         rows={rows}
         getRowDetails={getRowDetails}
@@ -161,14 +164,17 @@ function getRowDetails(row) {
 
   return (
     <div>
-      <DashboardSection title="Keys">
+      <DashboardSection title={t('in-forge:plugins.redisEnterpriseCluster.dashboard.keys')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['key_hits', 'key_misses'],
-            labels: ['Hits', 'Misses'],
+            labels: [
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.hits'),
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.misses')
+            ],
             formatter: number.compact,
             type: 'line'
           }}
@@ -180,14 +186,17 @@ function getRowDetails(row) {
           y1={{
             min: 0,
             metrics: ['expired_objects', 'evicted_objects'],
-            labels: ['Expired', 'Evicted'],
+            labels: [
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.expired'),
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.evicted')
+            ],
             formatter: number.compact,
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.redisEnterpriseCluster.dashboard.memory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -196,41 +205,44 @@ function getRowDetails(row) {
             formatter: bytes.detailed,
             tooltipFormatter: bytes.detailed,
             metrics: ['used_memory', 'mem_size_lua'],
-            labels: ['Used', 'Lua Heap Size'],
+            labels: [
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.used'),
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.luaHeapSize')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Connections">
+      <DashboardSection title={t('in-forge:plugins.redisEnterpriseCluster.dashboard.connections')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['conns'],
-            labels: ['Connected'],
+            labels: [t('in-forge:plugins.redisEnterpriseCluster.dashboard.connected')],
             formatter: number.compact,
             type: 'line'
           }}
           y2={{
             min: 0,
             metrics: ['total_connections_received'],
-            labels: ['Rate'],
+            labels: [t('in-forge:plugins.redisEnterpriseCluster.dashboard.rate')],
             formatter: number.perSecond,
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Latency">
+      <DashboardSection title={t('in-forge:plugins.redisEnterpriseCluster.dashboard.latency')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['avg_latency'],
-            labels: ['Latency'],
+            labels: [t('in-forge:plugins.redisEnterpriseCluster.dashboard.latency')],
             formatter: millis.detailed,
             type: 'line'
           }}

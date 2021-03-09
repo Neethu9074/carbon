@@ -3,41 +3,64 @@
  * (c) Copyright Instana Inc.
  */
 import { bytes, number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['metrics.ru_utime', 'metrics.ru_stime'],
-    labels: ['Time Spent In User Mode', 'Time Spent In System Mode'],
+    labels: [
+      t('in-forge:plugins.pythonRuntimePlatform.timeSpentInUserMode'),
+      t('in-forge:plugins.pythonRuntimePlatform.timeSpentInSystemMode')
+    ],
     min: 0,
     formatter: timeByMillisTwoDecimalPlaces
   },
   {
     metrics: ['metrics.ru_ixrss', 'metrics.ru_idrss', 'metrics.ru_maxrss', 'metrics.ru_isrss'],
-    labels: ['Shared Memory Size', 'Unshared Memory Size', 'Maximum Resident Set Size', 'Unshare Stack Size'],
+    labels: [
+      t('in-forge:plugins.pythonRuntimePlatform.sharedMemorySize'),
+      t('in-forge:plugins.pythonRuntimePlatform.unsharedMemorySize'),
+      t('in-forge:plugins.pythonRuntimePlatform.maximumResidentSetSize'),
+      t('in-forge:plugins.pythonRuntimePlatform.unshareStackSize')
+    ],
     min: 0,
     formatter: bytes
   },
   {
     metrics: ['metrics.ru_minflt', 'metrics.ru_majflt', 'metrics.ru_nswap'],
-    labels: ['Page Faults Requiring I/O', 'Page Faults Not Requiring I/O', 'Swap Outs'],
+    labels: [
+      t('in-forge:plugins.pythonRuntimePlatform.pageFaultsRequiringIO'),
+      t('in-forge:plugins.pythonRuntimePlatform.pageFaultsNotRequiringIO'),
+      t('in-forge:plugins.pythonRuntimePlatform.swapOuts')
+    ],
     min: 0,
     formatter: number
   },
   {
     metrics: ['metrics.ru_inblock', 'metrics.ru_oublock'],
-    labels: ['Block Input Operations', 'Block Output Operations'],
+    labels: [
+      t('in-forge:plugins.pythonRuntimePlatform.blockInputOperations'),
+      t('in-forge:plugins.pythonRuntimePlatform.blockOutputOperations')
+    ],
     min: 0,
     formatter: number
   },
   {
     metrics: ['metrics.ru_msgsnd', 'metrics.ru_msgrcv', 'metrics.ru_nsignals'],
-    labels: ['Messages Sent', 'Messages Received', 'Signals Received'],
+    labels: [
+      t('in-forge:plugins.pythonRuntimePlatform.messagesSent'),
+      t('in-forge:plugins.pythonRuntimePlatform.messagesReceived'),
+      t('in-forge:plugins.pythonRuntimePlatform.signalsReceived')
+    ],
     min: 0,
     formatter: number
   },
   {
     metrics: ['metrics.ru_nvcsw', 'metrics.ru_nivcsw'],
-    labels: ['Voluntary Context Switches', 'Involuntary Context Switches'],
+    labels: [
+      t('in-forge:plugins.pythonRuntimePlatform.voluntaryContextSwitches'),
+      t('in-forge:plugins.pythonRuntimePlatform.involuntaryContextSwitches')
+    ],
     min: 0,
     formatter: number
   },
@@ -56,7 +79,11 @@ export default [
   },
   {
     metrics: ['metrics.alive_threads', 'metrics.dummy_threads', 'metrics.daemon_threads'],
-    labels: ['Alive Threads', 'Dummy Threads', 'Daemon Threads'],
+    labels: [
+      t('in-forge:plugins.pythonRuntimePlatform.aliveThreads'),
+      t('in-forge:plugins.pythonRuntimePlatform.dummyThreads'),
+      t('in-forge:plugins.pythonRuntimePlatform.daemonThreads')
+    ],
     min: 0,
     formatter: number
   }

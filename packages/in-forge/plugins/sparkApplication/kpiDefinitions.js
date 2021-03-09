@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'All Active Jobs',
+    label: t('in-forge:plugins.sparkApplication.allActiveJobs'),
     metric: 'activeJobs',
     formatter: number.compact
   },
   {
-    label: 'All Active Stages',
+    label: t('in-forge:plugins.sparkApplication.allActiveStages'),
     metric: 'activeStages',
     formatter: number.compact
   }

@@ -15,8 +15,12 @@ export default function WebApiSpanDetailView({ span }) {
     <div>
       <Dl>
         <Di title={t('in-forge:tracing.aspNetMvcController.titleController')}>{controller ? controller : 'unknown'}</Di>
-        <Di title={t('in-forge:tracing.aspNetMvcController.titleAction')}>{span.getIn(['data', 'aspnetmvccontroller', 'action'])}</Di>
-        <Di title={t('in-forge:tracing.aspNetMvcController.titleUrl')}>{span.getIn(['data', 'aspnetmvccontroller', 'url'])}</Di>
+        <Di title={t('in-forge:tracing.aspNetMvcController.titleAction')}>
+          {span.getIn(['data', 'aspnetmvccontroller', 'action'])}
+        </Di>
+        <Di title={t('in-forge:tracing.aspNetMvcController.titleUrl')}>
+          {span.getIn(['data', 'aspnetmvccontroller', 'url'])}
+        </Di>
         <ErrorDescriptionItem error={error} />
       </Dl>
     </div>

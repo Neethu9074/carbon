@@ -7,7 +7,6 @@ import React from 'react';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import QueuesPopup from 'in-forge/plugins/rabbitMq/Dashboard/QueuesPopup';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
 import Info from '../Info';
 
 export default function RabbitMqSidebar({ snapshot }) {

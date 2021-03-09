@@ -17,6 +17,6 @@ registerSpanDefinition({
   detailView: 'MemcachedSpanDetailView',
 
   getLabel(span) {
-    return t('in-forge:tracing.memcached.indexLabel', {labelData: span.getIn(['data', 'memcached', 'operation'])});
+    return t('in-forge:tracing.memcached.indexLabel', { labelData: span.getIn(['data', 'memcached', 'operation']) });
   }
 });

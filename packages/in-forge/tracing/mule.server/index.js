@@ -14,7 +14,6 @@ registerSpanDefinition({
     plural: t('in-forge:tracing.muleServer.indexName_plural')
   },
 
-
   detailView: 'MuleServerSpanDetailView',
 
   getLabel(span) {

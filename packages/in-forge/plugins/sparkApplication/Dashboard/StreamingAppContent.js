@@ -11,100 +11,107 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import ExecutorsStreamingAppTable from './ExecutorsStreamingAppTable';
+import { t } from 'in-i18n';
 
 export default function StreamingAppContent({ snapshot, timeConfig }) {
   const version = snapshot.getIn(['data', 'version'], '2.0.0');
 
   return (
     <div>
-      <DashboardSection title="Batches">
+      <DashboardSection title={t('in-forge:plugins.sparkApplication.dashboard.batches')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlacesPerSecond,
             metrics: ['completedBatches'],
-            labels: ['Completed Batches per Second'],
+            labels: [t('in-forge:plugins.sparkApplication.dashboard.completedBatchesPerSecond')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Scheduling Delay">
+      <DashboardSection title={t('in-forge:plugins.sparkApplication.dashboard.schedulingDelay')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: msZeroDecimalPlaces,
             metrics: ['schedulingDelay'],
-            labels: ['Scheduling Delay'],
+            labels: [t('in-forge:plugins.sparkApplication.dashboard.schedulingDelay')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Total Delay">
+      <DashboardSection title={t('in-forge:plugins.sparkApplication.dashboard.totalDelay')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: msZeroDecimalPlaces,
             metrics: ['totalDelay'],
-            labels: ['Total Delay'],
+            labels: [t('in-forge:plugins.sparkApplication.dashboard.totalDelay')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Processing Time">
+      <DashboardSection title={t('in-forge:plugins.sparkApplication.dashboard.processingTime')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: msZeroDecimalPlaces,
             metrics: ['processingTime'],
-            labels: ['Processing Time'],
+            labels: [t('in-forge:plugins.sparkApplication.dashboard.processingTime')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
       {semver.satisfies(version, '>=1.6.0') ? (
-        <DashboardSection title="Output Operations">
+        <DashboardSection title={t('in-forge:plugins.sparkApplication.dashboard.outputOperations')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               formatter: zeroDecimalPlaces,
               metrics: ['completedOutputOperations', 'failedOutputOperations'],
-              labels: ['Completed Output Operations', 'Failed Output Operations'],
+              labels: [
+                t('in-forge:plugins.sparkApplication.dashboard.completedOutputOperations'),
+                t('in-forge:plugins.sparkApplication.dashboard.failedOutputOperations')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
       ) : null}
-      <DashboardSection title="Input Records">
+      <DashboardSection title={t('in-forge:plugins.sparkApplication.dashboard.inputRecords')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['inputRecords'],
-            labels: ['Input Records'],
+            labels: [t('in-forge:plugins.sparkApplication.dashboard.inputRecords')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Receivers">
+      <DashboardSection title={t('in-forge:plugins.sparkApplication.dashboard.receivers')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['activeReceivers', 'activeReceivers'],
-            labels: ['Active Receivers', 'Inactive Receivers'],
+            labels: [
+              t('in-forge:plugins.sparkApplication.dashboard.activeReceivers'),
+              t('in-forge:plugins.sparkApplication.dashboard.inactiveReceivers')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

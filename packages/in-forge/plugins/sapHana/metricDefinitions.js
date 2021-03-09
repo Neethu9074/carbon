@@ -3,24 +3,29 @@
  * (c) Copyright Instana Inc.
  */
 import { number, bytes, percentage } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['stats.usedMemory', 'stats.residentMemory'],
-    labels: ['Used Memory', 'Resident Memory'],
+    labels: [t('in-forge:plugins.sapHana.usedMemory'), t('in-forge:plugins.sapHana.residentMemory')],
     formatter: number,
     min: 0
   },
   {
     formatter: percentage,
     metrics: ['stats.cpuUsage'],
-    labels: ['Cpu Usage'],
+    labels: [t('in-forge:plugins.sapHana.cpuUsageMetricDef')],
     min: 0
   },
   {
     formatter: bytes,
     metrics: ['stats.diskUsageData', 'stats.diskUsageLog', 'stats.diskUsageTrace'],
-    labels: ['Data Size', 'Log Size', 'Trace Size'],
+    labels: [
+      t('in-forge:plugins.sapHana.dataSize'),
+      t('in-forge:plugins.sapHana.logSize'),
+      t('in-forge:plugins.sapHana.traceSize')
+    ],
     min: 0
   },
   {
@@ -32,25 +37,43 @@ export default [
       'stats.sessionsBlockedCount',
       'stats.sessionsBlockingCount'
     ],
-    labels: ['Total', 'Idle', 'Running', 'Blocked', 'Blocking'],
+    labels: [
+      t('in-forge:plugins.sapHana.total'),
+      t('in-forge:plugins.sapHana.idle'),
+      t('in-forge:plugins.sapHana.running'),
+      t('in-forge:plugins.sapHana.blocked'),
+      t('in-forge:plugins.sapHana.blocking')
+    ],
     min: 0
   },
   {
     formatter: number,
     metrics: ['stats.sessionsDatabaseUsers', 'stats.sessionsApplications', 'stats.sessionsApplicationUsers'],
-    labels: ['Database Users', 'Running', 'Application Users'],
+    labels: [
+      t('in-forge:plugins.sapHana.databaseUsers'),
+      t('in-forge:plugins.sapHana.running'),
+      t('in-forge:plugins.sapHana.applicationUsers')
+    ],
     min: 0
   },
   {
     formatter: number,
     metrics: ['stats.threadsTotalCount', 'stats.threadsActiveCount', 'stats.threadsBlockedCount'],
-    labels: ['Total', 'Active', 'Blocked'],
+    labels: [
+      t('in-forge:plugins.sapHana.total'),
+      t('in-forge:plugins.sapHana.active'),
+      t('in-forge:plugins.sapHana.blocked')
+    ],
     min: 0
   },
   {
     formatter: number,
     metrics: ['stats.threadsJobWorkerCount', 'stats.threadsJobWorkerActiveCount', 'stats.threadsJobWorkerBlockedCount'],
-    labels: ['Total', 'Active', 'Blocked'],
+    labels: [
+      t('in-forge:plugins.sapHana.total'),
+      t('in-forge:plugins.sapHana.active'),
+      t('in-forge:plugins.sapHana.blocked')
+    ],
     min: 0
   },
   {
@@ -60,7 +83,11 @@ export default [
       'stats.threadsSqlExecutorActiveCount',
       'stats.threadsSqlExecutorBlockedCount'
     ],
-    labels: ['Total', 'Active', 'Blocked'],
+    labels: [
+      t('in-forge:plugins.sapHana.total'),
+      t('in-forge:plugins.sapHana.active'),
+      t('in-forge:plugins.sapHana.blocked')
+    ],
     min: 0
   },
   {
@@ -72,7 +99,13 @@ export default [
       'stats.rollbacks',
       'stats.commits'
     ],
-    labels: ['Statement Executions', 'Statement Compilations', 'Update Transactions', 'Rollbacks', 'Commits'],
+    labels: [
+      t('in-forge:plugins.sapHana.statementExecutions'),
+      t('in-forge:plugins.sapHana.statementCompilations'),
+      t('in-forge:plugins.sapHana.updateTransactions'),
+      t('in-forge:plugins.sapHana.rollbacks'),
+      t('in-forge:plugins.sapHana.commits')
+    ],
     min: 0
   },
   {
@@ -82,7 +115,11 @@ export default [
       'stats.indexServerActiveRequests',
       'stats.indexServerPendingRequests'
     ],
-    labels: ['Finished Requests', 'Active Requests', 'Pending Requests'],
+    labels: [
+      t('in-forge:plugins.sapHana.finishedRequests'),
+      t('in-forge:plugins.sapHana.activeRequests'),
+      t('in-forge:plugins.sapHana.pendingRequests')
+    ],
     min: 0
   }
 ];

@@ -9,6 +9,7 @@ import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/rubyRuntimePlatform/Info';
 import TagList from 'in-sdk/components/sidebar/TagList';
+import { t } from 'in-i18n';
 
 export default function RubyDashboardSidebar({ snapshot }) {
   return (
@@ -22,7 +23,10 @@ export default function RubyDashboardSidebar({ snapshot }) {
 
       <TagList snapshot={snapshot} />
 
-      <KeyValueOverlay header="Gem Bundle" data={snapshot.getIn(['data', 'versions'])} />
+      <KeyValueOverlay
+        header={t('in-forge:plugins.rubyRuntimePlatform.dashboard.gemBundle')}
+        data={snapshot.getIn(['data', 'versions'])}
+      />
 
       <ServiceInstancesList snapshot={snapshot} />
     </div>

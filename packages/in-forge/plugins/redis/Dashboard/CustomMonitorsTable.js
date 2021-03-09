@@ -9,10 +9,11 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.redis.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Value',
+    title: t('in-forge:plugins.redis.dashboard.value'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +57,9 @@ export default function CustomMonitorsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Custom Monitors (${monitors.size})`}
+      cardTitle={t('in-forge:plugins.redis.dashboard.customMonitorsWithCount', {
+        count: monitors.size
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}

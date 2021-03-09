@@ -20,7 +20,9 @@ export default function CouchbaseSpanDetailView({ span }) {
         <Di title={t('in-forge:tracing.couchbase.titleBucket')}>{span.getIn(['data', 'couchbase', 'bucket'])}</Di>
         <Di title={t('in-forge:tracing.couchbase.titleType')}>{span.getIn(['data', 'couchbase', 'type'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'couchbase', 'error'])} />
-        <Di title={t('in-forge:tracing.couchbase.titleErrorCode')}>{span.getIn(['data', 'couchbase', 'error_code'])}</Di>
+        <Di title={t('in-forge:tracing.couchbase.titleErrorCode')}>
+          {span.getIn(['data', 'couchbase', 'error_code'])}
+        </Di>
 
         {sql ? (
           <Di title={t('in-forge:tracing.couchbase.titleSQL')} verticalDisplay>

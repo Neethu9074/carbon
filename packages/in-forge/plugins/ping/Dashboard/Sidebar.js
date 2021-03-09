@@ -5,14 +5,14 @@
 import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function PingSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Information</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.ping.dashboard.information')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

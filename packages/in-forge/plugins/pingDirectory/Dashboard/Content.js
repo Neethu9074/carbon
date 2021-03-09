@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -10,50 +11,62 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import LdapConnectorsTable from './LdapConnectorsTable';
 import RecentChangesTable from './RecentChangesTable';
+import { t } from 'in-i18n';
 
 export default function PingDirectoryDashboard({ snapshot, timeConfig }) {
   return (
     <div>
-      <DashboardSection title="Activity">
+      <DashboardSection title={t('in-forge:plugins.pingDirectory.dashboard.activity')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['operations_in_progress', 'searches_in_progress'],
-            labels: ['Operations', 'Searches'],
+            labels: [
+              t('in-forge:plugins.pingDirectory.dashboard.operations'),
+              t('in-forge:plugins.pingDirectory.dashboard.searches')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Connections">
+      <DashboardSection title={t('in-forge:plugins.pingDirectory.dashboard.connections')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['established_connections', 'max_concurrent_connections', 'total_connections_since_startup'],
-            labels: ['Established', 'Max concurrent', 'Total'],
+            labels: [
+              t('in-forge:plugins.pingDirectory.dashboard.established'),
+              t('in-forge:plugins.pingDirectory.dashboard.maxConcurrent'),
+              t('in-forge:plugins.pingDirectory.dashboard.total')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Descriptors">
+      <DashboardSection title={t('in-forge:plugins.pingDirectory.dashboard.descriptors')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['available_file_descriptors', 'open_file_descriptors', 'max_file_descriptors'],
-            labels: ['Available', 'Open', 'Max'],
+            labels: [
+              t('in-forge:plugins.pingDirectory.dashboard.available'),
+              t('in-forge:plugins.pingDirectory.dashboard.open'),
+              t('in-forge:plugins.pingDirectory.dashboard.max')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Failed Operations">
+      <DashboardSection title={t('in-forge:plugins.pingDirectory.dashboard.failedOperations')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -69,13 +82,22 @@ export default function PingDirectoryDashboard({ snapshot, timeConfig }) {
               'modify_op_failed',
               'search_op_failed'
             ],
-            labels: ['All', 'Add', 'Bind', 'Compare', 'Delete', 'Extended', 'Modify', 'Search'],
+            labels: [
+              t('in-forge:plugins.pingDirectory.dashboard.all'),
+              t('in-forge:plugins.pingDirectory.dashboard.add'),
+              t('in-forge:plugins.pingDirectory.dashboard.bind'),
+              t('in-forge:plugins.pingDirectory.dashboard.compare'),
+              t('in-forge:plugins.pingDirectory.dashboard.delete'),
+              t('in-forge:plugins.pingDirectory.dashboard.extended'),
+              t('in-forge:plugins.pingDirectory.dashboard.modify'),
+              t('in-forge:plugins.pingDirectory.dashboard.search')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Total Operations">
+      <DashboardSection title={t('in-forge:plugins.pingDirectory.dashboard.totalOperations')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -91,7 +113,16 @@ export default function PingDirectoryDashboard({ snapshot, timeConfig }) {
               'modify_op_total',
               'search_op_total'
             ],
-            labels: ['All', 'Add', 'Bind', 'Compare', 'Delete', 'Extended', 'Modify', 'Search'],
+            labels: [
+              t('in-forge:plugins.pingDirectory.dashboard.all'),
+              t('in-forge:plugins.pingDirectory.dashboard.add'),
+              t('in-forge:plugins.pingDirectory.dashboard.bind'),
+              t('in-forge:plugins.pingDirectory.dashboard.compare'),
+              t('in-forge:plugins.pingDirectory.dashboard.delete'),
+              t('in-forge:plugins.pingDirectory.dashboard.extended'),
+              t('in-forge:plugins.pingDirectory.dashboard.modify'),
+              t('in-forge:plugins.pingDirectory.dashboard.search')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

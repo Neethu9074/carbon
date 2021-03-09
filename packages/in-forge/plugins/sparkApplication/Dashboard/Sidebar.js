@@ -7,7 +7,7 @@ import React from 'react';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function Sidebar({ snapshot }) {
@@ -15,12 +15,12 @@ export default function Sidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Spark Application</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.sparkApplication.dashboard.sparkApplication')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-      <KeyValueOverlay header="Spark Conf" data={conf} />
+      <KeyValueOverlay header={t('in-forge:plugins.sparkApplication.dashboard.sparkConf')} data={conf} />
 
       <ServiceInstancesList snapshot={snapshot} />
     </div>

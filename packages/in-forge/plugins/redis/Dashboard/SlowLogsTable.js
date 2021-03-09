@@ -11,6 +11,7 @@ import { micros } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import NoWrap from 'in-sdk/components/common/NoWrap';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './SlowLogsTable.less';
 
@@ -18,7 +19,7 @@ const block = 'in-redis-slow-logs';
 
 const cols = [
   {
-    title: 'Time',
+    title: t('in-forge:plugins.redis.dashboard.time'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Duration',
+    title: t('in-forge:plugins.redis.dashboard.duration'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Args',
+    title: t('in-forge:plugins.redis.dashboard.args'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -79,7 +80,12 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={<TimeOfLastUpdateCardTitle title="Slow Logs" timestamp={data.get('timestamp')} />}
+        cardTitle={
+          <TimeOfLastUpdateCardTitle
+            title={t('in-forge:plugins.redis.dashboard.slowLogs')}
+            timestamp={data.get('timestamp')}
+          />
+        }
         cols={cols}
         rows={rows}
         initialSortColumn={1}

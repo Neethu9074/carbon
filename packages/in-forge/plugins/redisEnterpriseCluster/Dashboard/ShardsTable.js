@@ -13,10 +13,11 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'UID',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.uid'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -25,7 +26,7 @@ const cols = [
     }
   },
   {
-    title: 'DB UID',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.dbUid'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -34,7 +35,7 @@ const cols = [
     }
   },
   {
-    title: 'Node UID',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.nodeUid'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -43,7 +44,7 @@ const cols = [
     }
   },
   {
-    title: 'Role',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.role'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -52,7 +53,7 @@ const cols = [
     }
   },
   {
-    title: 'Key Hits',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.keyHits'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -68,7 +69,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory Used',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.memoryUsed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -84,7 +85,7 @@ const cols = [
     }
   },
   {
-    title: 'Status',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.status'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -121,7 +122,9 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={`Shards (${rows.length})`}
+        cardTitle={t('in-forge:plugins.redisEnterpriseCluster.dashboard.shardsWithCount', {
+          count: rows.length
+        })}
         cols={cols}
         rows={rows}
         getRowDetails={getRowDetails}
@@ -135,14 +138,17 @@ function getRowDetails(row) {
   const timeConfig = row.timeConfig;
   return (
     <div>
-      <DashboardSection title="Keys">
+      <DashboardSection title={t('in-forge:plugins.redisEnterpriseCluster.dashboard.keys')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['key_hits', 'key_misses'],
-            labels: ['Hits', 'Misses'],
+            labels: [
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.hits'),
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.misses')
+            ],
             formatter: number.compact,
             type: 'line'
           }}
@@ -154,7 +160,10 @@ function getRowDetails(row) {
           y1={{
             min: 0,
             metrics: ['expired_objects', 'evicted_objects'],
-            labels: ['Expired', 'Evicted'],
+            labels: [
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.expired'),
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.evicted')
+            ],
             formatter: number.compact,
             type: 'line'
           }}
@@ -162,7 +171,7 @@ function getRowDetails(row) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.redisEnterpriseCluster.dashboard.memory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -171,7 +180,11 @@ function getRowDetails(row) {
             formatter: bytes.detailed,
             tooltipFormatter: bytes.detailed,
             metrics: ['used_memory', 'mem_size_lua', 'used_memory_rss'],
-            labels: ['Used', 'Lua Heap Size', 'Used RSS'],
+            labels: [
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.used'),
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.luaHeapSize'),
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.usedRss')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

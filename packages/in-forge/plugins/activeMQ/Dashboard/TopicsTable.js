@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -11,6 +10,7 @@ import { number, percentage } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
@@ -120,7 +120,7 @@ export default function TopicsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.activeMQ.topicsNumber', { number: rows.length })}
+      cardTitle={t('in-forge:plugins.activeMQ.topicsNumber', { count: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}

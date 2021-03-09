@@ -2,7 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
+
+import { t, Trans } from 'in-i18n';
 
 export default {
   postgresql_stats_not_enabled: {
@@ -10,14 +13,18 @@ export default {
       Component: function postgresqlStatsNotEnabled() {
         return (
           <span>
-            Statistics collection is not enabled by server configuration. Please make sure <code>track_counts</code>,{' '}
-            <code>track_activities</code>, <code>track_io_timing</code> are set to <strong>on</strong> in{' '}
-            <code>postgresql.conf</code>.
+            <Trans
+              i18nKey="in-forge:plugins.postgreSqlDatabase.statsNotEnabledIssueDescription"
+              components={{
+                code: <code />,
+                strong: <strong />
+              }}
+            />
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.postgreSqlDatabase.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/postgresql/#postgresql_stats_not_enabled`
   },
 
@@ -26,13 +33,18 @@ export default {
       Component: function postgresqlAuthenticationFailed({ user, errorcode }) {
         return (
           <span>
-            Agent could not connect to PostgreSQL. Password authentication failed for user <code>{user}</code>. Error
-            code: <code>{errorcode}</code>
+            <Trans
+              i18nKey="in-forge:plugins.postgreSqlDatabase.authFailedsDashboardNotification"
+              components={{
+                code: <code />
+              }}
+              values={{ user: user, errorcode: errorcode }}
+            />
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.postgreSqlDatabase.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/postgresql/#postgresql_authentication_failed`
   },
 
@@ -41,13 +53,18 @@ export default {
       Component: function postgresqlConnectionFailed({ user, host, port, errorcode }) {
         return (
           <span>
-            Agent could not connect to PostgreSQL on {host}:{port} with user: <code>{user}</code>. Error code:{' '}
-            <code>{errorcode}</code>
+            <Trans
+              i18nKey="in-forge:plugins.postgreSqlDatabase.connectionFailedIssueDescription"
+              components={{
+                code: <code />
+              }}
+              values={{ host: host, port: port, user: user, errorcode: errorcode }}
+            />
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.postgreSqlDatabase.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/postgresql/#postgresql_connection_failed`
   }
 };

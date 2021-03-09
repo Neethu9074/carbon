@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 import React from 'react';
+
 import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import { withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import { t } from 'in-i18n';
 
 export default function PrometheusCustomMetrics({ snapshot, timeConfig, titlePrefix }) {
   const metricIds = snapshot.get('metricIds');
@@ -13,7 +15,9 @@ export default function PrometheusCustomMetrics({ snapshot, timeConfig, titlePre
     return <CustomMetricsV2 snapshot={snapshot} timeConfig={timeConfig} titlePrefix={titlePrefix} specs={SPECS} />;
   } else {
     return (
-      <DashboardNotification>There are no metrics exposed on the given Prometheus endpoint.</DashboardNotification>
+      <DashboardNotification>
+        {t('in-forge:plugins.prometheus.dashboard.noMetricsPrometheusEndpoint')}
+      </DashboardNotification>
     );
   }
 }
@@ -25,7 +29,7 @@ const untyped = {
   color: '#2274A5',
   metrics: [
     {
-      label: 'Value',
+      label: t('in-forge:plugins.prometheus.dashboard.value'),
       formatter: withSiMultiplyPrefixThreeDecimalPlaces
     }
   ]

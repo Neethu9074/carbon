@@ -9,10 +9,11 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'DB name',
+    title: t('in-forge:plugins.pingDirectory.dashboard.dbName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'DB open records',
+    title: t('in-forge:plugins.pingDirectory.dashboard.dbOpenRecords'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Add entry',
+    title: t('in-forge:plugins.pingDirectory.dashboard.addEntry'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Add entry',
+    title: t('in-forge:plugins.pingDirectory.dashboard.addEntry'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,7 +70,7 @@ const cols = [
     }
   },
   {
-    title: 'Modify entry',
+    title: t('in-forge:plugins.pingDirectory.dashboard.modifyEntry'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -85,7 +86,7 @@ const cols = [
     }
   },
   {
-    title: 'Delete entry',
+    title: t('in-forge:plugins.pingDirectory.dashboard.deleteEntry'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -101,7 +102,7 @@ const cols = [
     }
   },
   {
-    title: 'Rename entry',
+    title: t('in-forge:plugins.pingDirectory.dashboard.renameEntry'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -117,7 +118,7 @@ const cols = [
     }
   },
   {
-    title: 'Changed entry',
+    title: t('in-forge:plugins.pingDirectory.dashboard.changedEntry'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -149,7 +150,9 @@ export default function RecentChangesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Recent changes per database (${rows.length})`}
+      cardTitle={t('in-forge:plugins.pingDirectory.dashboard.recentChangesPerDatabaseWithCount', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -172,7 +175,14 @@ function getRowDetails(row) {
             'recent_changes.data.' + row.key + '.rename_entry_count',
             'recent_changes.data.' + row.key + '.changed_entry_count'
           ],
-          labels: ['DB open records', 'Add entry', 'Modify entry', 'Delete entry', 'Rename entry', 'Changed entry'],
+          labels: [
+            t('in-forge:plugins.pingDirectory.dashboard.dbOpenRecords'),
+            t('in-forge:plugins.pingDirectory.dashboard.addEntry'),
+            t('in-forge:plugins.pingDirectory.dashboard.modifyEntry'),
+            t('in-forge:plugins.pingDirectory.dashboard.deleteEntry'),
+            t('in-forge:plugins.pingDirectory.dashboard.renameEntry'),
+            t('in-forge:plugins.pingDirectory.dashboard.changedEntry')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

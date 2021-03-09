@@ -12,6 +12,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytes, number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -20,14 +21,17 @@ export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }
     <div>
       <ClusterSummary snapshot={snapshot} />
 
-      <DashboardSection title="Keys">
+      <DashboardSection title={t('in-forge:plugins.redisEnterpriseCluster.dashboard.keys')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['key_hits', 'key_misses'],
-            labels: ['Hits', 'Misses'],
+            labels: [
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.hits'),
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.misses')
+            ],
             type: 'line',
             formatter: number.compact
           }}
@@ -39,7 +43,10 @@ export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }
           y1={{
             min: 0,
             metrics: ['expired_objects', 'evicted_objects'],
-            labels: ['Expired', 'Evicted'],
+            labels: [
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.expired'),
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.evicted')
+            ],
             formatter: number.compact,
             type: 'line'
           }}
@@ -47,7 +54,7 @@ export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }
         />
       </DashboardSection>
 
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.redisEnterpriseCluster.dashboard.memory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -56,14 +63,18 @@ export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }
             formatter: bytes.compact,
             tooltipFormatter: bytes.detailed,
             metrics: ['used_memory', 'used_memory_rss', 'mem_size_lua'],
-            labels: ['Used', 'Used RSS', 'Lua Heap Size'],
+            labels: [
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.used'),
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.usedRss'),
+              t('in-forge:plugins.redisEnterpriseCluster.dashboard.luaHeapSize')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Connections">
+      <DashboardSection title={t('in-forge:plugins.redisEnterpriseCluster.dashboard.connections')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -71,14 +82,14 @@ export default function RedisEnterpriseClusterDashboard({ snapshot, timeConfig }
             min: 0,
             formatter: number.compact,
             metrics: ['conns'],
-            labels: ['Connected'],
+            labels: [t('in-forge:plugins.redisEnterpriseCluster.dashboard.connected')],
             type: 'line'
           }}
           y2={{
             min: 0,
             formatter: number.perSecond,
             metrics: ['total_connections_received'],
-            labels: ['Total Received'],
+            labels: [t('in-forge:plugins.redisEnterpriseCluster.dashboard.totalReceived')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

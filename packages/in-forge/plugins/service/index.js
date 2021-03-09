@@ -6,6 +6,7 @@ import metricDefinitions from 'in-forge/plugins/service/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/service/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.service,
@@ -14,6 +15,6 @@ registerSnapshotDefinition({
   metricDefinitions,
   chartWiggleRoom: 20000,
   getLabel(entity) {
-    return entity.get('label', 'Service');
+    return entity.get('label', t('in-forge:plugins.service.service'));
   }
 });

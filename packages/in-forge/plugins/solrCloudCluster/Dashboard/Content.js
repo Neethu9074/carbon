@@ -10,6 +10,7 @@ import ClusterSummary from 'in-forge/plugins/solrCloudCluster/ClusterSummary';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { t } from 'in-i18n';
 
 export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -19,28 +20,28 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
       <ClusterSummary snapshot={snapshot} />
 
       <Columize>
-        <DashboardSection title="Requests">
+        <DashboardSection title={t('in-forge:plugins.solrCloudCluster.dashboard.requests')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['cluster.requests'],
-              labels: ['Requests'],
+              labels: [t('in-forge:plugins.solrCloudCluster.dashboard.requests')],
               type: 'line',
               formatter: number.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Request Time">
+        <DashboardSection title={t('in-forge:plugins.solrCloudCluster.dashboard.requestTime')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['cluster.avg_time_request'],
-              labels: ['Average Request Time'],
+              labels: [t('in-forge:plugins.solrCloudCluster.dashboard.averageRequestTime')],
               type: 'line',
               formatter: millis.detailed
             }}
@@ -50,21 +51,21 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Cache Lookups">
+        <DashboardSection title={t('in-forge:plugins.solrCloudCluster.dashboard.cacheLookups')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['cluster.lookups'],
-              labels: ['Lookups'],
+              labels: [t('in-forge:plugins.solrCloudCluster.dashboard.lookups')],
               type: 'line',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Cache Hit Rate">
+        <DashboardSection title={t('in-forge:plugins.solrCloudCluster.dashboard.cacheHitRate')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -81,28 +82,28 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Insertions">
+        <DashboardSection title={t('in-forge:plugins.solrCloudCluster.dashboard.insertions')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['cluster.inserts'],
-              labels: ['Inserts'],
+              labels: [t('in-forge:plugins.solrCloudCluster.dashboard.inserts')],
               type: 'line',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Evictions">
+        <DashboardSection title={t('in-forge:plugins.solrCloudCluster.dashboard.evictions')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['cluster.evictions'],
-              labels: ['Evictions'],
+              labels: [t('in-forge:plugins.solrCloudCluster.dashboard.evictions')],
               type: 'line',
               formatter: number.compact
             }}
@@ -112,28 +113,28 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Errors">
+        <DashboardSection title={t('in-forge:plugins.solrCloudCluster.dashboard.errors')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['cluster.errors'],
-              labels: ['Errors'],
+              labels: [t('in-forge:plugins.solrCloudCluster.dashboard.errors')],
               type: 'line',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Timeouts">
+        <DashboardSection title={t('in-forge:plugins.solrCloudCluster.dashboard.timeouts')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['cluster.timeouts'],
-              labels: ['Timeouts'],
+              labels: [t('in-forge:plugins.solrCloudCluster.dashboard.timeouts')],
               type: 'line',
               formatter: number.compact
             }}
@@ -142,14 +143,17 @@ export default function SolrCloudClusterDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="Documents">
+      <DashboardSection title={t('in-forge:plugins.solrCloudCluster.dashboard.documents')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cluster.docs_added', 'cluster.docs_pending'],
-            labels: ['Documents added', 'Documents pending'],
+            labels: [
+              t('in-forge:plugins.solrCloudCluster.dashboard.documentsAdded'),
+              t('in-forge:plugins.solrCloudCluster.dashboard.documentsPending')
+            ],
             type: 'line',
             formatter: number.compact
           }}

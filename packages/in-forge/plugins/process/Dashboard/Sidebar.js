@@ -8,7 +8,7 @@ import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsLi
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function ProcessSidebar({ snapshot }) {
@@ -18,15 +18,17 @@ export default function ProcessSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Process</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.process.dashboard.process')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
 
-      {args && args.size > 0 ? <KeyValueOverlay header="Arguments" data={args} sort={false} /> : null}
+      {args && args.size > 0 ? (
+        <KeyValueOverlay header={t('in-forge:plugins.process.dashboard.arguments')} data={args} sort={false} />
+      ) : null}
 
-      <KeyValueOverlay header="Environment Variables" data={env} />
+      <KeyValueOverlay header={t('in-forge:plugins.process.dashboard.environmentVariables')} data={env} />
       <RunningComponentsList snapshotId={snapshot.get('id')} />
       <ServiceInstancesList snapshot={snapshot} />
     </div>

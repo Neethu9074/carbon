@@ -11,7 +11,9 @@ export default function GlassfishSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title={t('in-forge:tracing.ejbSchedule.titleScheduledTask')}>{span.getIn(['data', 'ejb', 'schedule', 'id'])}</Di>
+        <Di title={t('in-forge:tracing.ejbSchedule.titleScheduledTask')}>
+          {span.getIn(['data', 'ejb', 'schedule', 'id'])}
+        </Di>
       </Dl>
     </div>
   );

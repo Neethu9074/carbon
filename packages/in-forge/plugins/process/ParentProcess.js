@@ -11,6 +11,7 @@ import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => ({
@@ -24,7 +25,7 @@ export default connectTo(
     }
 
     return (
-      <DescriptionItem title="Parent process">
+      <DescriptionItem title={t('in-forge:plugins.process.parentProcess')}>
         <SnapshotLink snapshotId={process.get('id')}>{getLabel(process)}</SnapshotLink>
       </DescriptionItem>
     );

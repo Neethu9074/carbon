@@ -14,8 +14,12 @@ export default function MemcacheSpanDetailView({ span }) {
       <Dl>
         <Di title={t('in-forge:tracing.memcached.titleOperation')}>{span.getIn(['data', 'memcached', 'operation'])}</Di>
         <Di title={t('in-forge:tracing.memcached.titleKey')}>{span.getIn(['data', 'memcached', 'key'])}</Di>
-        <Di title={t('in-forge:tracing.memcached.titleResultCode')}>{span.getIn(['data', 'memcached', 'resultCode'])}</Di>
-        <Di title={t('in-forge:tracing.memcached.titleResultMessage')}>{span.getIn(['data', 'memcached', 'resultMessage'])}</Di>
+        <Di title={t('in-forge:tracing.memcached.titleResultCode')}>
+          {span.getIn(['data', 'memcached', 'resultCode'])}
+        </Di>
+        <Di title={t('in-forge:tracing.memcached.titleResultMessage')}>
+          {span.getIn(['data', 'memcached', 'resultMessage'])}
+        </Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'memcached', 'error'])} />
       </Dl>
     </div>

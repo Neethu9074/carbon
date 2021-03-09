@@ -10,7 +10,7 @@ import PhpSnapshot from 'in-forge/plugins/phpRuntimePlatform/PhpSnapshot.js';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { formatDateTime } from 'in-services/formatters/date';
-
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function PhpFpmDashboardSidebar({ snapshot }) {
@@ -22,12 +22,12 @@ export default function PhpFpmDashboardSidebar({ snapshot }) {
       <PhpSnapshot snapshotId={snapshot.get('id')} initiallyOpen />
 
       <Collapsible initiallyOpen>
-        <Collapsible.Header>PHP-FPM Runtime</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.phpFpmRuntimePlatform.dashboard.phpFpmRuntime')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
 
           <KeyValueOverlay
-            header="Master Configuration"
+            header={t('in-forge:plugins.phpFpmRuntimePlatform.dashboard.masterConfiguration')}
             data={data.filter((v, k) => k.indexOf('worker_pool') === -1)}
           />
         </Collapsible.Content>
@@ -40,21 +40,31 @@ export default function PhpFpmDashboardSidebar({ snapshot }) {
             <Collapsible.Content>
               <DescriptionList>
                 {data.get('worker_pool.' + pool + '.start_time') ? (
-                  <DescriptionItem title="Start Time">
+                  <DescriptionItem title={t('in-forge:plugins.phpFpmRuntimePlatform.dashboard.startTime')}>
                     {formatDateTime(data.get('worker_pool.' + pool + '.start_time') * 1000)}
                   </DescriptionItem>
                 ) : null}
-                <DescriptionItem title="Process Manager">{data.get('worker_pool.' + pool + '.pm')}</DescriptionItem>
-                <DescriptionItem title="Status Path">
+                <DescriptionItem title={t('in-forge:plugins.phpFpmRuntimePlatform.dashboard.processManager')}>
+                  {data.get('worker_pool.' + pool + '.pm')}
+                </DescriptionItem>
+                <DescriptionItem title={t('in-forge:plugins.phpFpmRuntimePlatform.dashboard.statusPath')}>
                   {data.get('worker_pool.' + pool + '.pm_status_path')}
                 </DescriptionItem>
-                <DescriptionItem title="Ping Path">{data.get('worker_pool.' + pool + '.ping_path')}</DescriptionItem>
-                <DescriptionItem title="User">{data.get('worker_pool.' + pool + '.user')}</DescriptionItem>
-                <DescriptionItem title="Group">{data.get('worker_pool.' + pool + '.group')}</DescriptionItem>
+                <DescriptionItem title={t('in-forge:plugins.phpFpmRuntimePlatform.dashboard.pingPath')}>
+                  {data.get('worker_pool.' + pool + '.ping_path')}
+                </DescriptionItem>
+                <DescriptionItem title={t('in-forge:plugins.phpFpmRuntimePlatform.dashboard.user')}>
+                  {data.get('worker_pool.' + pool + '.user')}
+                </DescriptionItem>
+                <DescriptionItem title={t('in-forge:plugins.phpFpmRuntimePlatform.dashboard.group')}>
+                  {data.get('worker_pool.' + pool + '.group')}
+                </DescriptionItem>
               </DescriptionList>
 
               <KeyValueOverlay
-                header={`Worker Pool Configuration: ${pool}`}
+                header={t('in-forge:plugins.phpFpmRuntimePlatform.dashboard.workerPoolConfiguration', {
+                  pool: pool
+                })}
                 data={data
                   .filter((v, k) => k.indexOf('worker_pool.' + pool) === 0)
                   .mapKeys(k => k.split('worker_pool.' + pool + '.')[1])}

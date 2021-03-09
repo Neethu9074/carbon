@@ -17,10 +17,16 @@ export default function GCSSpanDetailView({ span }) {
         <Di title={t('in-forge:tracing.gcs.titleGCSSourceBucket')}>{span.getIn(['data', 'gcs', 'sourceBucket'])}</Di>
         <Di title={t('in-forge:tracing.gcs.titleGCSSourceObject')}>{span.getIn(['data', 'gcs', 'sourceObject'])}</Di>
         <Di title={t('in-forge:tracing.gcs.titleGCSObject')}>{span.getIn(['data', 'gcs', 'object'])}</Di>
-        <Di title={t('in-forge:tracing.gcs.titleGCSDestinationBucket')}>{span.getIn(['data', 'gcs', 'destinationBucket'])}</Di>
-        <Di title={t('in-forge:tracing.gcs.titleGCSDestinationObject')}>{span.getIn(['data', 'gcs', 'destinationObject'])}</Di>
+        <Di title={t('in-forge:tracing.gcs.titleGCSDestinationBucket')}>
+          {span.getIn(['data', 'gcs', 'destinationBucket'])}
+        </Di>
+        <Di title={t('in-forge:tracing.gcs.titleGCSDestinationObject')}>
+          {span.getIn(['data', 'gcs', 'destinationObject'])}
+        </Di>
         <Di title={t('in-forge:tracing.gcs.titleGCSRange')}>{span.getIn(['data', 'gcs', 'range'])}</Di>
-        <Di title={t('in-forge:tracing.gcs.titleGCSNumberOfOperations')}>{span.getIn(['data', 'gcs', 'numberOfOperations'])}</Di>
+        <Di title={t('in-forge:tracing.gcs.titleGCSNumberOfOperations')}>
+          {span.getIn(['data', 'gcs', 'numberOfOperations'])}
+        </Di>
         <Di title={t('in-forge:tracing.gcs.titleGCSEntity')}>{span.getIn(['data', 'gcs', 'entity'])}</Di>
         <Di title={t('in-forge:tracing.gcs.titleGCSProjectId')}>{span.getIn(['data', 'gcs', 'projectId'])}</Di>
         <Di title={t('in-forge:tracing.gcs.titleGCSAccessId')}>{span.getIn(['data', 'gcs', 'accessId'])}</Di>

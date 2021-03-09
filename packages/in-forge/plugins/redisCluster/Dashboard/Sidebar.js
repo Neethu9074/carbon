@@ -6,14 +6,14 @@ import React, { Fragment } from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
 import Info from 'in-forge/plugins/redisCluster/Info.js';
+import { t } from 'in-i18n';
 
 export default function RedisClusterSidebar({ snapshot }) {
   return (
     <Fragment>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Redis Cluster</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.redisCluster.dashboard.redisCluster')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

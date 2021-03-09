@@ -4,15 +4,16 @@
  */
 import React from 'react';
 
-import Table from 'in-sdk/components/dashboard/Table';
 import { bytesTwoDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
+import Table from 'in-sdk/components/dashboard/Table';
 import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Id',
+    title: t('in-forge:plugins.sparkApplication.dashboard.id'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Name',
+    title: t('in-forge:plugins.sparkApplication.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -33,7 +34,7 @@ const cols = [
     }
   },
   {
-    title: 'Submission Time',
+    title: t('in-forge:plugins.sparkApplication.dashboard.submissionTime'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -43,7 +44,7 @@ const cols = [
     }
   },
   {
-    title: 'Duration',
+    title: t('in-forge:plugins.sparkApplication.dashboard.duration'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Tasks',
+    title: t('in-forge:plugins.sparkApplication.dashboard.tasks'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -65,7 +66,7 @@ const cols = [
     }
   },
   {
-    title: 'GC Time',
+    title: t('in-forge:plugins.sparkApplication.dashboard.gcTime'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -75,7 +76,7 @@ const cols = [
     }
   },
   {
-    title: 'Input Bytes',
+    title: t('in-forge:plugins.sparkApplication.dashboard.inputBytes'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -85,7 +86,7 @@ const cols = [
     }
   },
   {
-    title: 'Output Bytes',
+    title: t('in-forge:plugins.sparkApplication.dashboard.outputBytes'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -95,7 +96,7 @@ const cols = [
     }
   },
   {
-    title: 'Shuffle Read',
+    title: t('in-forge:plugins.sparkApplication.dashboard.shuffleRead'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -105,7 +106,7 @@ const cols = [
     }
   },
   {
-    title: 'Shuffle Write',
+    title: t('in-forge:plugins.sparkApplication.dashboard.shuffleWrite'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -140,7 +141,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={`Top Longest Completed Stages`}
+        cardTitle={t('in-forge:plugins.sparkApplication.dashboard.topLongestCompletedStages')}
         cols={cols}
         rows={rows}
         initialSortColumn={3}

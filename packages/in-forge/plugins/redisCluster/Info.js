@@ -5,13 +5,14 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="ID">{data.get('cluster_id')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.redisCluster.id')}>{data.get('cluster_id')}</DescriptionItem>
     </DescriptionList>
   );
 }

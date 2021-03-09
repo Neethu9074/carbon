@@ -11,10 +11,11 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Core',
+    title: t('in-forge:plugins.solr.dashboard.core'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'Requests',
+    title: t('in-forge:plugins.solr.dashboard.requests'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -39,7 +40,7 @@ const cols = [
     }
   },
   {
-    title: 'Request Time',
+    title: t('in-forge:plugins.solr.dashboard.requestTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -55,7 +56,7 @@ const cols = [
     }
   },
   {
-    title: 'Cache Hit Rate',
+    title: t('in-forge:plugins.solr.dashboard.cacheHitRate'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -71,7 +72,7 @@ const cols = [
     }
   },
   {
-    title: 'Evictions',
+    title: t('in-forge:plugins.solr.dashboard.evictions'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -87,7 +88,7 @@ const cols = [
     }
   },
   {
-    title: 'Errors',
+    title: t('in-forge:plugins.solr.dashboard.errors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -122,7 +123,15 @@ export default function CoresTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <Table withoutPadding cardTitle={`Cores (${rows.length})`} cols={cols} rows={rows} getRowDetails={getRowDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.solr.dashboard.coresWithCount', {
+        count: rows.length
+      })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 
@@ -130,28 +139,28 @@ function getRowDetails(row) {
   return (
     <div>
       <Columize>
-        <DashboardSection title="Requests">
+        <DashboardSection title={t('in-forge:plugins.solr.dashboard.requests')}>
           <Chart
             snapshotId={row.snapshotId}
             timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.requests'],
-              labels: ['Requests'],
+              labels: [t('in-forge:plugins.solr.dashboard.requests')],
               type: 'line',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Request Time">
+        <DashboardSection title={t('in-forge:plugins.solr.dashboard.requestTime')}>
           <Chart
             snapshotId={row.snapshotId}
             timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.avg_time_request'],
-              labels: ['Average Request Time'],
+              labels: [t('in-forge:plugins.solr.dashboard.averageRequestTime')],
               type: 'line',
               formatter: millis.detailed
             }}
@@ -161,21 +170,21 @@ function getRowDetails(row) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Cache Lookups">
+        <DashboardSection title={t('in-forge:plugins.solr.dashboard.cacheLookups')}>
           <Chart
             snapshotId={row.snapshotId}
             timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.lookups'],
-              labels: ['Lookups'],
+              labels: [t('in-forge:plugins.solr.dashboard.lookups')],
               type: 'line',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Cache Hit Rate">
+        <DashboardSection title={t('in-forge:plugins.solr.dashboard.cacheHitRate')}>
           <Chart
             snapshotId={row.snapshotId}
             timeConfig={row.timeConfig}
@@ -192,28 +201,28 @@ function getRowDetails(row) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Insertions">
+        <DashboardSection title={t('in-forge:plugins.solr.dashboard.insertions')}>
           <Chart
             snapshotId={row.snapshotId}
             timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.inserts'],
-              labels: ['Inserts'],
+              labels: [t('in-forge:plugins.solr.dashboard.inserts')],
               type: 'line',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Evictions">
+        <DashboardSection title={t('in-forge:plugins.solr.dashboard.evictions')}>
           <Chart
             snapshotId={row.snapshotId}
             timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.evictions'],
-              labels: ['Evictions'],
+              labels: [t('in-forge:plugins.solr.dashboard.evictions')],
               type: 'line',
               formatter: number.compact
             }}
@@ -223,28 +232,28 @@ function getRowDetails(row) {
       </Columize>
 
       <Columize>
-        <DashboardSection title="Errors">
+        <DashboardSection title={t('in-forge:plugins.solr.dashboard.errors')}>
           <Chart
             snapshotId={row.snapshotId}
             timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.errors'],
-              labels: ['Errors'],
+              labels: [t('in-forge:plugins.solr.dashboard.errors')],
               type: 'line',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Timeouts">
+        <DashboardSection title={t('in-forge:plugins.solr.dashboard.timeouts')}>
           <Chart
             snapshotId={row.snapshotId}
             timeConfig={row.timeConfig}
             y1={{
               min: 0,
               metrics: ['core_stats.' + row.key + '.timeouts'],
-              labels: ['Timeouts'],
+              labels: [t('in-forge:plugins.solr.dashboard.timeouts')],
               type: 'line',
               formatter: number.compact
             }}
@@ -253,14 +262,17 @@ function getRowDetails(row) {
         </DashboardSection>
       </Columize>
 
-      <DashboardSection title="Documents">
+      <DashboardSection title={t('in-forge:plugins.solr.dashboard.documents')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             min: 0,
             metrics: ['core_stats.' + row.key + '.docs_added', 'core_stats.' + row.key + '.docs_pending'],
-            labels: ['Documents added', 'Documents pending'],
+            labels: [
+              t('in-forge:plugins.solr.dashboard.documentsAdded'),
+              t('in-forge:plugins.solr.dashboard.documentsPending')
+            ],
             type: 'line',
             formatter: number.compact
           }}

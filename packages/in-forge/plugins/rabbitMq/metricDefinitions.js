@@ -4,6 +4,7 @@
  */
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { number, bytes } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
@@ -29,116 +30,116 @@ export default [
       'Messages total rate'
     ],
     min: 0,
-    category: ['Messages'],
+    category: [t('in-forge:plugins.rabbitMq.messages')],
     formatter: number
   },
   {
     metrics: ['overview.consumers', 'overview.connections'],
-    labels: ['Consumers', 'Connections'],
+    labels: [t('in-forge:plugins.rabbitMq.consumers'), t('in-forge:plugins.rabbitMq.connections')],
     min: 0,
-    category: ['Overview'],
+    category: [t('in-forge:plugins.rabbitMq.overview')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('node_map', 'fd_used', 'Node'),
-    label: 'File descriptors used',
+    label: t('in-forge:plugins.rabbitMq.fileDescriptorsUsed'),
     min: 0,
-    category: ['Nodes'],
+    category: [t('in-forge:plugins.rabbitMq.nodes')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('node_map', 'fd_total', 'Node'),
-    label: 'Total file descriptors',
+    label: t('in-forge:plugins.rabbitMq.totalFileDescriptors'),
     min: 0,
-    category: ['Nodes'],
+    category: [t('in-forge:plugins.rabbitMq.nodes')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('node_map', 'mem_used', 'Node'),
-    label: 'Memory Used',
+    label: t('in-forge:plugins.rabbitMq.memoryUsedKpiLabel'),
     min: 0,
-    category: ['Nodes'],
+    category: [t('in-forge:plugins.rabbitMq.nodes')],
     formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('node_map', 'mem_limit', 'Node'),
-    label: 'Memory limit',
+    label: t('in-forge:plugins.rabbitMq.memoryLimit'),
     min: 0,
-    category: ['Nodes'],
+    category: [t('in-forge:plugins.rabbitMq.nodes')],
     formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('node_map', 'proc_used', 'Node'),
-    label: 'Erlang processes used',
+    label: t('in-forge:plugins.rabbitMq.erlangProcessesUsed'),
     min: 0,
-    category: ['Nodes'],
+    category: [t('in-forge:plugins.rabbitMq.nodes')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('node_map', 'proc_total', 'Node'),
-    label: 'Maximum number of Erlang processes',
+    label: t('in-forge:plugins.rabbitMq.maximumNumberOfErlangProcesses'),
     min: 0,
-    category: ['Nodes'],
+    category: [t('in-forge:plugins.rabbitMq.nodes')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('node_map', 'disk_free', 'Node'),
-    label: 'Disk free space',
+    label: t('in-forge:plugins.rabbitMq.diskFreeSpace'),
     min: 0,
-    category: ['Nodes'],
+    category: [t('in-forge:plugins.rabbitMq.nodes')],
     formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('node_map', 'disk_free_limit', 'Node'),
-    label: 'Disk alarm threshold',
+    label: t('in-forge:plugins.rabbitMq.diskAlarmThreshold'),
     min: 0,
-    category: ['Nodes'],
+    category: [t('in-forge:plugins.rabbitMq.nodes')],
     formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('node_map', 'sockets_total', 'Node'),
-    label: 'Total sockets',
+    label: t('in-forge:plugins.rabbitMq.totalSockets'),
     min: 0,
-    category: ['Nodes'],
+    category: [t('in-forge:plugins.rabbitMq.nodes')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('node_map', 'sockets_used', 'Node'),
-    label: 'Sockets used',
+    label: t('in-forge:plugins.rabbitMq.socketsUsed'),
     min: 0,
-    category: ['Nodes'],
+    category: [t('in-forge:plugins.rabbitMq.nodes')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('queue_map', 'messages_ready', 'Queue'),
-    label: 'Messages ready',
+    label: t('in-forge:plugins.rabbitMq.messagesReady'),
     min: 0,
-    category: ['Queues'],
+    category: [t('in-forge:plugins.rabbitMq.queues')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('queue_map', 'messages_unacknowledged', 'Queue'),
-    label: 'Messages unacknowledged',
+    label: t('in-forge:plugins.rabbitMq.messagesUnacknowledged'),
     min: 0,
-    category: ['Queues'],
+    category: [t('in-forge:plugins.rabbitMq.queues')],
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('queue_map', 'messages', 'Queue'),
-    label: 'Messages total',
+    label: t('in-forge:plugins.rabbitMq.messagesTotal'),
     min: 0,
-    category: ['Queues'],
+    category: [t('in-forge:plugins.rabbitMq.queues')],
     formatter: number
   },
   {
     metric: 'net_partitions_count',
-    label: 'Total number of Network partitions',
+    label: t('in-forge:plugins.rabbitMq.totalNumberOfNetworkPartitions'),
     min: 0,
     formatter: number
   },
   {
     metric: 'overview.ack',
-    label: 'Messages acknowledged',
+    label: t('in-forge:plugins.rabbitMq.messagesAcknowledged'),
     min: 0,
     formatter: number
   }

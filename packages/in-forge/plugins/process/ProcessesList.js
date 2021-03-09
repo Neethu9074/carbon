@@ -9,6 +9,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => ({
@@ -23,7 +24,7 @@ export default connectTo(
 
     const cols = [
       {
-        title: 'Name',
+        title: t('in-forge:plugins.process.name'),
         type: 'snapshotLink',
         typeArgs: {
           getSnapshotId(row) {
@@ -35,6 +36,15 @@ export default connectTo(
 
     const rows = processes.map(process => ({ key: process.get('id') }));
 
-    return <Table withoutPadding cardTitle={`Child processes (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.process.childProcessesWithCount', {
+          count: rows.length
+        })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

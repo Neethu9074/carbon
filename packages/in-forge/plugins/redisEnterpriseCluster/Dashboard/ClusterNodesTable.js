@@ -10,10 +10,11 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'UID',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.uid'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Version',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.version'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Shard Count',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.shardCount'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -50,7 +51,7 @@ const cols = [
     }
   },
   {
-    title: 'Connected Clients',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.connectedClients'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -66,7 +67,7 @@ const cols = [
     }
   },
   {
-    title: 'Status',
+    title: t('in-forge:plugins.redisEnterpriseCluster.dashboard.status'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -98,6 +99,15 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Nodes (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.redisEnterpriseCluster.dashboard.nodesWithCount', {
+          count: rows.length
+        })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

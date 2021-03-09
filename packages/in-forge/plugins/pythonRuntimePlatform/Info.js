@@ -5,20 +5,35 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function PythonInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Name">{data.get('snapshot.name')}</DescriptionItem>
-      <DescriptionItem title="Flavor">{data.get('snapshot.f')}</DescriptionItem>
-      <DescriptionItem title="Runtime Version">{data.get('snapshot.version')}</DescriptionItem>
-      <DescriptionItem title="Architecture">{data.get('snapshot.a')}</DescriptionItem>
-      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
-      <DescriptionItem title="Framework">{data.get('snapshot.fw')}</DescriptionItem>
-      <DescriptionItem title="Activation Method">{data.get('snapshot.m')}</DescriptionItem>
-      <DescriptionItem title="Instana Package Version">{data.get('snapshot.iv')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.pythonRuntimePlatform.name')}>
+        {data.get('snapshot.name')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.pythonRuntimePlatform.flavor')}>
+        {data.get('snapshot.f')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.pythonRuntimePlatform.runtimeVersion')}>
+        {data.get('snapshot.version')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.pythonRuntimePlatform.architecture')}>
+        {data.get('snapshot.a')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.pythonRuntimePlatform.processId')}>{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.pythonRuntimePlatform.framework')}>
+        {data.get('snapshot.fw')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.pythonRuntimePlatform.activationMethod')}>
+        {data.get('snapshot.m')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.pythonRuntimePlatform.instanaPackageVersion')}>
+        {data.get('snapshot.iv')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

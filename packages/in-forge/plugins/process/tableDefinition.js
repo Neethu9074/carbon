@@ -4,6 +4,7 @@
  */
 import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
+import { t } from 'in-i18n';
 
 export default {
   initialSortColumn: 2,
@@ -11,7 +12,7 @@ export default {
 
   cols: [
     {
-      title: 'Host',
+      title: t('in-forge:plugins.process.host'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId$(row) {
@@ -20,7 +21,7 @@ export default {
       }
     },
     {
-      title: 'Name',
+      title: t('in-forge:plugins.process.name'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId(row) {
@@ -29,7 +30,7 @@ export default {
       }
     },
     {
-      title: 'CPU User',
+      title: t('in-forge:plugins.process.cpuUser'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -45,7 +46,7 @@ export default {
       }
     },
     {
-      title: 'CPU System',
+      title: t('in-forge:plugins.process.cpuSystem'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -61,7 +62,7 @@ export default {
       }
     },
     {
-      title: 'Virtual Memory',
+      title: t('in-forge:plugins.process.virtualMemory'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -77,7 +78,7 @@ export default {
       }
     },
     {
-      title: 'Resident Memory',
+      title: t('in-forge:plugins.process.residentMemory'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -93,7 +94,7 @@ export default {
       }
     },
     {
-      title: 'Shared Memory',
+      title: t('in-forge:plugins.process.sharedMemory'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {

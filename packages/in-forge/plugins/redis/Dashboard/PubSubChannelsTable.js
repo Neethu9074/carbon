@@ -9,10 +9,11 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Channel',
+    title: t('in-forge:plugins.redis.dashboard.channel'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Subscriber Count',
+    title: t('in-forge:plugins.redis.dashboard.subscriberCount'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +57,9 @@ export default function PubSubChannelsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Pub / Sub Channels (${channels.size})`}
+      cardTitle={t('in-forge:plugins.redis.dashboard.pubSubChannelsWithCount', {
+        count: channels.size
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -72,7 +75,7 @@ function getRowDetails(row) {
       y1={{
         formatter: withSiPrefixThreeDecimalPlaces,
         metrics: ['pubsub_subscribers.' + row.channelName],
-        labels: ['Subscriber Count'],
+        labels: [t('in-forge:plugins.redis.dashboard.subscriberCount')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

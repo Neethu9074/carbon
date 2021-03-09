@@ -6,6 +6,7 @@ import React from 'react';
 
 import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
 import { emptyList } from 'in-services/fixedImmutables';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const counters = countMetrics(snapshot, 'metrics.counters');
@@ -16,11 +17,11 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Counters">{counters}</DescriptionItem>
-      <DescriptionItem title="Gauges">{gauges}</DescriptionItem>
-      <DescriptionItem title="Histograms">{histograms}</DescriptionItem>
-      <DescriptionItem title="Summaries">{summaries}</DescriptionItem>
-      <DescriptionItem title="Untyped">{untyped}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.prometheus.counters')}>{counters}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.prometheus.gauges')}>{gauges}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.prometheus.histograms')}>{histograms}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.prometheus.summaries')}>{summaries}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.prometheus.untyped')}>{untyped}</DescriptionItem>
     </DescriptionList>
   );
 }

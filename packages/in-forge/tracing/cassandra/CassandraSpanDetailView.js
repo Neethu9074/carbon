@@ -24,8 +24,12 @@ export default function CassandraSpanDetailView({ span }) {
             {fullyFetched != null && ' (' + (String(fullyFetched) === 'false' ? 'not ' : '') + 'fully fetched)'}
           </Di>
         )}
-        <Di title={t('in-forge:tracing.cassandra.titleAchievedConsistency')}>{span.getIn(['data', 'cassandra', 'achievedConsistency'])}</Di>
-        <Di title={t('in-forge:tracing.cassandra.titleTriedHosts')}>{span.getIn(['data', 'cassandra', 'triedHosts'])}</Di>
+        <Di title={t('in-forge:tracing.cassandra.titleAchievedConsistency')}>
+          {span.getIn(['data', 'cassandra', 'achievedConsistency'])}
+        </Di>
+        <Di title={t('in-forge:tracing.cassandra.titleTriedHosts')}>
+          {span.getIn(['data', 'cassandra', 'triedHosts'])}
+        </Di>
         <Query span={span} />
         <ErrorDescriptionItem error={span.getIn(['data', 'cassandra', 'error'])} />
       </Dl>

@@ -10,10 +10,11 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Node',
+    title: t('in-forge:plugins.rabbitMq.dashboard.node'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'File descriptors used',
+    title: t('in-forge:plugins.rabbitMq.dashboard.fileDescriptorsUsed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory used',
+    title: t('in-forge:plugins.rabbitMq.dashboard.memoryUsed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Sockets used',
+    title: t('in-forge:plugins.rabbitMq.dashboard.socketsUsed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Erlang processes',
+    title: t('in-forge:plugins.rabbitMq.dashboard.erlangProcesses'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -86,7 +87,7 @@ const cols = [
     }
   },
   {
-    title: 'Disk free',
+    title: t('in-forge:plugins.rabbitMq.dashboard.diskFree'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -102,7 +103,7 @@ const cols = [
     }
   },
   {
-    title: 'Disk alarm threshold',
+    title: t('in-forge:plugins.rabbitMq.dashboard.diskAlarmThreshold'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -137,7 +138,15 @@ export default function NodesTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <Table withoutPadding cardTitle={`Nodes (${rows.length})`} cols={cols} rows={rows} getRowDetails={getRowDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.rabbitMq.dashboard.nodesWithCount', {
+        count: rows.length
+      })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 
@@ -154,7 +163,10 @@ function getRowDetails(row) {
             timeConfig={timeConfig}
             y1={{
               metrics: ['node_map.' + row.key + '.fd_used', 'node_map.' + row.key + '.fd_total'],
-              labels: ['File descriptors used', 'Total file descriptors'],
+              labels: [
+                t('in-forge:plugins.rabbitMq.dashboard.fileDescriptorsUsed'),
+                t('in-forge:plugins.rabbitMq.dashboard.totalFileDescriptors')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -166,7 +178,10 @@ function getRowDetails(row) {
               formatter: bytesZeroDecimalPlaces,
               tooltipFormatter: bytesTwoDecimalPlaces,
               metrics: ['node_map.' + row.key + '.mem_used', 'node_map.' + row.key + '.mem_limit'],
-              labels: ['Memory used', 'Memory limit'],
+              labels: [
+                t('in-forge:plugins.rabbitMq.dashboard.memoryUsed'),
+                t('in-forge:plugins.rabbitMq.dashboard.memoryLimit')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -178,7 +193,10 @@ function getRowDetails(row) {
             timeConfig={timeConfig}
             y1={{
               metrics: ['node_map.' + row.key + '.proc_used', 'node_map.' + row.key + '.proc_total'],
-              labels: ['Erlang processes used', 'Max Erlang processes'],
+              labels: [
+                t('in-forge:plugins.rabbitMq.dashboard.erlangProcessesUsed'),
+                t('in-forge:plugins.rabbitMq.dashboard.maxErlangProcesses')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -191,7 +209,10 @@ function getRowDetails(row) {
               formatter: bytesZeroDecimalPlaces,
               tooltipFormatter: bytesTwoDecimalPlaces,
               metrics: ['node_map.' + row.key + '.disk_free', 'node_map.' + row.key + '.disk_free_limit'],
-              labels: ['Disk free space', 'Disk alarm threshold'],
+              labels: [
+                t('in-forge:plugins.rabbitMq.dashboard.diskFreeSpace'),
+                t('in-forge:plugins.rabbitMq.dashboard.diskAlarmThreshold')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -204,7 +225,10 @@ function getRowDetails(row) {
         timeConfig={timeConfig}
         y1={{
           metrics: ['node_map.' + row.key + '.sockets_used', 'node_map.' + row.key + '.sockets_total'],
-          labels: ['Sockets used', 'Total sockets'],
+          labels: [
+            t('in-forge:plugins.rabbitMq.dashboard.socketsUsed'),
+            t('in-forge:plugins.rabbitMq.dashboard.totalSockets')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

@@ -22,6 +22,6 @@ registerSpanDefinition({
       return t('in-forge:tracing.ldap.indexReturn');
     }
 
-    return t('in-forge:tracing.ldap.indexReturnWithQuery', {ldapQuery: query});
+    return t('in-forge:tracing.ldap.indexReturnWithQuery', { ldapQuery: query });
   }
 });

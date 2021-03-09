@@ -15,8 +15,12 @@ import { emptyMap } from 'in-services/fixedImmutables';
 export default function GraphQLSpanDetailView({ span }) {
   return (
     <Dl>
-      <Di title={t('in-forge:tracing.graphql.titleOperationType')}>{span.getIn(['data', 'graphql', 'operationType'])}</Di>
-      <Di title={t('in-forge:tracing.graphql.titleOperationName')}>{span.getIn(['data', 'graphql', 'operationName'])}</Di>
+      <Di title={t('in-forge:tracing.graphql.titleOperationType')}>
+        {span.getIn(['data', 'graphql', 'operationType'])}
+      </Di>
+      <Di title={t('in-forge:tracing.graphql.titleOperationName')}>
+        {span.getIn(['data', 'graphql', 'operationName'])}
+      </Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'graphql', 'errors'])} />
       {getObjectTypeDetails(span)}
       {span.getIn(['data', 'http']) && <HttpSpanDetailViewDescriptionList span={span} />}
@@ -62,7 +66,7 @@ function getObjectTypeDetails(span) {
         );
       }
       return (
-        <Di title={t('in-forge:tracing.graphql.titleObjectType', {typeOfObject: objectType})} key={`${objectType}`}>
+        <Di title={t('in-forge:tracing.graphql.titleObjectType', { typeOfObject: objectType })} key={`${objectType}`}>
           {content}
         </Di>
       );

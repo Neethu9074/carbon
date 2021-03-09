@@ -4,87 +4,88 @@
  */
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { percentage, number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metric: getDynamicMetricMatch('core_stats', 'avg_requests', 'Core'),
-    label: 'Average Requests',
-    category: ['Cores'],
+    label: t('in-forge:plugins.solr.averageRequests'),
+    category: [t('in-forge:plugins.solr.cores')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'avg_time_request', 'Core'),
-    label: 'Average Request Time',
-    category: ['Cores'],
+    label: t('in-forge:plugins.solr.averageRequestTime'),
+    category: [t('in-forge:plugins.solr.cores')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'lookups', 'Core'),
-    label: 'Lookups',
-    category: ['Cores'],
+    label: t('in-forge:plugins.solr.lookups'),
+    category: [t('in-forge:plugins.solr.cores')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'hitratio', 'Core'),
-    label: 'Hit-rate',
-    category: ['Cores'],
+    label: t('in-forge:plugins.solr.hitRate'),
+    category: [t('in-forge:plugins.solr.cores')],
     min: 0,
     formatter: percentage
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'inserts', 'Core'),
-    label: 'Inserts',
-    category: ['Cores'],
+    label: t('in-forge:plugins.solr.inserts'),
+    category: [t('in-forge:plugins.solr.cores')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'evictions', 'Core'),
-    label: 'Evictions',
-    category: ['Cores'],
+    label: t('in-forge:plugins.solr.evictions'),
+    category: [t('in-forge:plugins.solr.cores')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'errors', 'Core'),
-    label: 'Errors',
-    category: ['Cores'],
+    label: t('in-forge:plugins.solr.errors'),
+    category: [t('in-forge:plugins.solr.cores')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'timeouts', 'Core'),
-    label: 'Timeouts',
-    category: ['Cores'],
+    label: t('in-forge:plugins.solr.timeouts'),
+    category: [t('in-forge:plugins.solr.cores')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'docs_added', 'Core'),
-    label: 'Documents added',
-    category: ['Cores'],
+    label: t('in-forge:plugins.solr.documentsAdded'),
+    category: [t('in-forge:plugins.solr.cores')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('core_stats', 'docs_pending', 'Core'),
-    label: 'Documents pending',
-    category: ['Cores'],
+    label: t('in-forge:plugins.solr.documentsPending'),
+    category: [t('in-forge:plugins.solr.cores')],
     min: 0,
     formatter: number
   },
   {
     metric: 'hitratio',
-    label: 'Solr Hit Ratio',
+    label: t('in-forge:plugins.solr.solrHitRatio'),
     min: 0,
     formatter: number
   },
   {
     metric: 'evictions',
-    label: 'Solr evictions',
+    label: t('in-forge:plugins.solr.solrEvictions'),
     min: 0,
     formatter: number
   }

@@ -4,7 +4,9 @@
  */
 import React, { useState } from 'react';
 
-import LogsInteractiveChart, { ThresholdCondition } from 'in-alerting/smart-alerts/applications/advanced/LogsInteractiveChart';
+import LogsInteractiveChart, {
+  ThresholdCondition
+} from 'in-alerting/smart-alerts/applications/advanced/LogsInteractiveChart';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { someLogsFormData } from './formSampleData';

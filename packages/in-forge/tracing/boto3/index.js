@@ -14,7 +14,6 @@ registerSpanDefinition({
     plural: t('in-forge:tracing.boto3.indexName_plural')
   },
 
-
   detailView: 'Boto3SpanDetailView',
 
   getLabel(span) {

@@ -17,7 +17,9 @@ export default function KinesisSpanDetailView({ span }) {
         <Di title={t('in-forge:tracing.kinesis.titleRecord')}>{span.getIn(['data', 'kinesis', 'record'])}</Di>
         <Di title={t('in-forge:tracing.kinesis.titleShard')}>{span.getIn(['data', 'kinesis', 'shard'])}</Di>
         <Di title={t('in-forge:tracing.kinesis.titleShardType')}>{span.getIn(['data', 'kinesis', 'shardType'])}</Di>
-        <Di title={t('in-forge:tracing.kinesis.titleStartSequenceNumber')}>{span.getIn(['data', 'kinesis', 'startSequenceNumber'])}</Di>
+        <Di title={t('in-forge:tracing.kinesis.titleStartSequenceNumber')}>
+          {span.getIn(['data', 'kinesis', 'startSequenceNumber'])}
+        </Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'kinesis', 'error'])} />
       </Dl>
     </div>

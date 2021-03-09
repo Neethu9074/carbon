@@ -9,10 +9,11 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces, bytes } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Id',
+    title: t('in-forge:plugins.sparkApplication.dashboard.id'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'RDD Blocks',
+    title: t('in-forge:plugins.sparkApplication.dashboard.rddBlocks'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Storage Memory',
+    title: t('in-forge:plugins.sparkApplication.dashboard.storageMemory'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Disk Used',
+    title: t('in-forge:plugins.sparkApplication.dashboard.diskUsed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,7 +70,7 @@ const cols = [
     }
   },
   {
-    title: 'All Failed Tasks',
+    title: t('in-forge:plugins.sparkApplication.dashboard.allFailedTasks'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -85,7 +86,7 @@ const cols = [
     }
   },
   {
-    title: 'All Completed Tasks',
+    title: t('in-forge:plugins.sparkApplication.dashboard.allCompletedTasks'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -101,7 +102,7 @@ const cols = [
     }
   },
   {
-    title: 'Total Input Bytes',
+    title: t('in-forge:plugins.sparkApplication.dashboard.totalInputBytes'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -117,7 +118,7 @@ const cols = [
     }
   },
   {
-    title: 'Total Shuffle Read',
+    title: t('in-forge:plugins.sparkApplication.dashboard.totalShuffleRead'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -133,7 +134,7 @@ const cols = [
     }
   },
   {
-    title: 'Total Shuffle Write',
+    title: t('in-forge:plugins.sparkApplication.dashboard.totalShuffleWrite'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -169,7 +170,9 @@ export default function ExecutorsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Executors (${rows.length})`}
+      cardTitle={t('in-forge:plugins.sparkApplication.dashboard.executorsWithCount', {
+        count: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -186,7 +189,10 @@ function getRowDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['executors.' + row.key + '.completedTasks', 'executors.' + row.key + '.failedTasks'],
-          labels: ['All Completed Tasks', 'All Failed Tasks'],
+          labels: [
+            t('in-forge:plugins.sparkApplication.dashboard.allCompletedTasks'),
+            t('in-forge:plugins.sparkApplication.dashboard.allFailedTasks')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -197,7 +203,7 @@ function getRowDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['executors.' + row.key + '.rddBlocks'],
-          labels: ['RDD Blocks'],
+          labels: [t('in-forge:plugins.sparkApplication.dashboard.rddBlocks')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -209,7 +215,10 @@ function getRowDetails(row) {
           formatter: bytes.compact,
           tooltipFormatter: bytes.detailed,
           metrics: ['executors.' + row.key + '.memoryUsed', 'executors.' + row.key + '.maxMemory'],
-          labels: ['Storage Memory', 'Max Memory'],
+          labels: [
+            t('in-forge:plugins.sparkApplication.dashboard.storageMemory'),
+            t('in-forge:plugins.sparkApplication.dashboard.maxMemory')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -221,7 +230,7 @@ function getRowDetails(row) {
           formatter: bytes.compact,
           tooltipFormatter: bytes.detailed,
           metrics: ['executors.' + row.key + '.diskUsed'],
-          labels: ['Disk Used'],
+          labels: [t('in-forge:plugins.sparkApplication.dashboard.diskUsed')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -233,7 +242,7 @@ function getRowDetails(row) {
           formatter: bytes.compact,
           tooltipFormatter: bytes.detailed,
           metrics: ['executors.' + row.key + '.inputBytes'],
-          labels: ['Total Input Bytes'],
+          labels: [t('in-forge:plugins.sparkApplication.dashboard.totalInputBytes')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -245,7 +254,10 @@ function getRowDetails(row) {
           formatter: bytes.compact,
           tooltipFormatter: bytes.detailed,
           metrics: ['executors.' + row.key + '.shuffleRead', 'executors.' + row.key + '.shuffleWrite'],
-          labels: ['Total Shuffle Read', 'Total Shuffle Write'],
+          labels: [
+            t('in-forge:plugins.sparkApplication.dashboard.totalShuffleRead'),
+            t('in-forge:plugins.sparkApplication.dashboard.totalShuffleWrite')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

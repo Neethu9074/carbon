@@ -4,6 +4,7 @@
  */
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { millis } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default {
   initialSortColumn: 0,
@@ -11,7 +12,7 @@ export default {
 
   cols: [
     {
-      title: 'Label',
+      title: t('in-forge:plugins.ping.label'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId(row) {
@@ -20,7 +21,7 @@ export default {
       }
     },
     {
-      title: 'Type',
+      title: t('in-forge:plugins.ping.type'),
       type: 'string',
       typeArgs: {
         getValue(row) {
@@ -29,7 +30,7 @@ export default {
       }
     },
     {
-      title: 'Source',
+      title: t('in-forge:plugins.ping.source'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId$(row) {
@@ -38,7 +39,7 @@ export default {
       }
     },
     {
-      title: 'Target',
+      title: t('in-forge:plugins.ping.target'),
       type: 'string',
       typeArgs: {
         getValue(row) {
@@ -47,7 +48,7 @@ export default {
       }
     },
     {
-      title: 'Duration',
+      title: t('in-forge:plugins.ping.duration'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {

@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
 import React from 'react';
 
@@ -33,12 +32,12 @@ export default connectTo(({ snapshot, timeConfig }) => {
   if (snapshot.getIn(['data', 'tooManyMetrics'], false)) {
     return (
       <DashboardNotification type="warning">
-        <Trans
-          i18nKey="in-forge:plugins.springbootAppContainer.warningTooManyMetrics"
-          components={{
-            linkToSpring: <Link href="https://github.com/spring-projects/spring-boot/issues/5875" external />
-          }}
-        />
+        Metric collections was stopped because there are too many registered metrics in this Spring Boot application.{' '}
+        This can be due to a bug in{' '}
+        <Link href="https://github.com/spring-projects/spring-boot/issues/5875" external>
+          Spring Boot
+        </Link>
+        .
       </DashboardNotification>
     );
   }
@@ -47,12 +46,12 @@ export default connectTo(({ snapshot, timeConfig }) => {
     <div>
       {getActuatorConfiguredHint(snapshot, monitoringIssues)}
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.springbootAppContainer.labelActiveSessions')}>
+        <KpiKeyValue label="Active Sessions">
           <MetricValue snapshotId={snapshotId} metric="metrics.httpsessions.active" />
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title={t('in-forge:plugins.springbootAppContainer.titleRequests')}>
+      <DashboardSection title="Requests">
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -64,13 +63,7 @@ export default connectTo(({ snapshot, timeConfig }) => {
               'metrics.statusCode.4xx',
               'metrics.statusCode.5xx'
             ],
-            labels: [
-              t('in-forge:plugins.labelRequests.1xx'),
-              t('in-forge:plugins.labelRequests.2xx'),
-              t('in-forge:plugins.labelRequests.3xx'),
-              t('in-forge:plugins.labelRequests.4xx'),
-              t('in-forge:plugins.labelRequests.5xx')
-            ],
+            labels: ['1xx', '2xx', '3xx', '4xx', '5xx'],
             colors: [
               theme.lib.colors.lightBlue800,
               theme.lib.colors.green800,
@@ -86,13 +79,13 @@ export default connectTo(({ snapshot, timeConfig }) => {
         />
       </DashboardSection>
       {httpSessionsMax ? (
-        <DashboardSection title={t('in-forge:plugins.springbootAppContainer.titleHTTPSessions')}>
+        <DashboardSection title="HTTP Sessions">
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['metrics.httpsessions.active'],
-              labels: [t('in-forge:plugins.springbootAppContainer.labelActiveSessions')],
+              labels: ['Active Sessions'],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -120,13 +113,14 @@ function getActuatorConfiguredHint(snapshot, monitoringIssues) {
   if (status == null) {
     return (
       <DashboardNotification type="warning">
-        <p>{t('in-forge:plugins.springbootAppContainer.warningActuatorConfigured')}</p>
-        <Trans
-          i18nKey="in-forge:plugins.springbootAppContainer.warningSpringbootConfig"
-          components={{
-            linkToSpringboot: <Link href="https://instana.com/docs/ecosystem/spring-boot/#configuration" external />
-          }}
-        />
+        <p>
+          Spring Boot monitoring requires that Spring Boot Actuator is configured. For Spring Boot 2.2.x and later it is
+          necessary to enable JMX.
+        </p>
+        More info can be found on the{' '}
+        <Link href="https://instana.com/docs/ecosystem/spring-boot/#configuration" external>
+          Spring Boot configuration page
+        </Link>
       </DashboardNotification>
     );
   }

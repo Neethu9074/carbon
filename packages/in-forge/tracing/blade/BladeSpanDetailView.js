@@ -13,7 +13,9 @@ export default function BladeSpanDetailView({ span }) {
       <Dl>
         <Di title={t('in-forge:tracing.blade.titleViewName')}>{span.getIn(['data', 'blade', 'view'])}</Di>
         <Di title={t('in-forge:tracing.blade.titleViewPath')}>{span.getIn(['data', 'blade', 'path'])}</Di>
-        <Di title={t('in-forge:tracing.blade.titleSubtemplateCount')}>{span.getIn(['data', 'blade', 'subtemplate_count'])}</Di>
+        <Di title={t('in-forge:tracing.blade.titleSubtemplateCount')}>
+          {span.getIn(['data', 'blade', 'subtemplate_count'])}
+        </Di>
       </Dl>
     </div>
   );

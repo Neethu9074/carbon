@@ -8,6 +8,7 @@ import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessSt
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { bytesZeroDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
@@ -16,19 +17,27 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Application Name">{data.get('appName')}</DescriptionItem>
-      <DescriptionItem title="Application ID">{data.get('appId')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sparkApplication.applicationName')}>
+        {data.get('appName')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sparkApplication.applicationId')}>
+        {data.get('appId')}
+      </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
-      <DescriptionItem title="Spark User">{data.get('sparkUser')}</DescriptionItem>
-      <DescriptionItem title="Master">{data.get('master')}</DescriptionItem>
-      <DescriptionItem title="Executor Memory">
+      <DescriptionItem title={t('in-forge:plugins.sparkApplication.version')}>{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sparkApplication.sparkUser')}>
+        {data.get('sparkUser')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sparkApplication.master')}>{data.get('master')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sparkApplication.executorMemory')}>
         {executorMemory ? bytesZeroDecimalPlaces(executorMemory * 1024 * 1024) : null}
       </DescriptionItem>
-      <DescriptionItem title="Batch Duration">
+      <DescriptionItem title={t('in-forge:plugins.sparkApplication.batchDuration')}>
         {batchDuration ? msZeroDecimalPlaces(data.get('batchDuration')) : null}
       </DescriptionItem>
-      <DescriptionItem title="Streaming Application">{yesOrNo(data.get('streamingApp'))}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.sparkApplication.streamingApplication')}>
+        {yesOrNo(data.get('streamingApp'))}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

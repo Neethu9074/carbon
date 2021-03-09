@@ -3,41 +3,42 @@
  * (c) Copyright Instana Inc.
  */
 import { kiloBytes, number, millis } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metric: 'memory.rss_size',
-    label: 'Resident',
+    label: t('in-forge:plugins.rubyRuntimePlatform.resident'),
     min: 0,
-    category: ['Memory'],
+    category: [t('in-forge:plugins.rubyRuntimePlatform.memory')],
     formatter: kiloBytes
   },
   {
     metrics: ['gc.heap_live', 'gc.heap_free'],
-    labels: ['Live', 'Free'],
+    labels: [t('in-forge:plugins.rubyRuntimePlatform.live'), t('in-forge:plugins.rubyRuntimePlatform.free')],
     min: 0,
-    category: ['Heap Slots'],
+    category: [t('in-forge:plugins.rubyRuntimePlatform.heapSlots')],
     formatter: number
   },
   {
     metrics: ['gc.minorGcs', 'gc.majorGcs'],
-    labels: ['#Minor GCs', '#Major GCs'],
+    labels: [t('in-forge:plugins.rubyRuntimePlatform.minorGCs'), t('in-forge:plugins.rubyRuntimePlatform.majorGCs')],
     min: 0,
-    category: ['GC'],
+    category: [t('in-forge:plugins.rubyRuntimePlatform.gc')],
     formatter: number
   },
   {
     metric: 'gc.totalTime',
-    label: '#GC Run Duration',
+    label: t('in-forge:plugins.rubyRuntimePlatform.gcRunDuration'),
     min: 0,
-    category: ['GC'],
+    category: [t('in-forge:plugins.rubyRuntimePlatform.gc')],
     formatter: millis
   },
   {
     metric: 'thread.count',
-    label: '#Thread Count',
+    label: t('in-forge:plugins.rubyRuntimePlatform.threadCount'),
     min: 0,
-    category: ['Threads'],
+    category: [t('in-forge:plugins.rubyRuntimePlatform.threads')],
     formatter: number
   }
 ];

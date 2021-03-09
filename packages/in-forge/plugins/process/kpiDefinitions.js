@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'CPU Usage (User)',
+    label: t('in-forge:plugins.process.cpuUsageUser'),
     metric: 'cpu.user',
     formatter: percentageZeroDecimalPlaces
   },
   {
-    label: 'Virtual Memory',
+    label: t('in-forge:plugins.process.virtualMemory'),
     metric: 'mem.virtual',
     formatter: bytesTwoDecimalPlaces
   }

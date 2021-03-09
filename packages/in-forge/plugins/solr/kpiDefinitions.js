@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'Solr Hit Ratio',
+    label: t('in-forge:plugins.solr.solrHitRatio'),
     metric: 'hitratio',
     formatter: number.compact
   },
   {
-    label: 'Solr Evictions',
+    label: t('in-forge:plugins.solr.solrEvictionsKpiLabel'),
     metric: 'evictions',
     formatter: number.compact
   }

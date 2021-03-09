@@ -11,6 +11,7 @@ import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/redisCluster/Info.js';
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default function RedisClusterSidebar({ snapshot }) {
   const snapshotId = snapshot.get('id');
@@ -28,13 +29,13 @@ export default function RedisClusterSidebar({ snapshot }) {
         metrics={[
           {
             metric: 'cluster_known_nodes',
-            label: 'Nodes',
+            label: t('in-forge:plugins.redisCluster.nodes'),
             formatter: number.compact,
             aggregation: 'max'
           },
           {
             metric: 'cluster_size',
-            label: 'Master nodes',
+            label: t('in-forge:plugins.redisCluster.masterNodes'),
             formatter: number.compact,
             aggregation: 'max'
           }
