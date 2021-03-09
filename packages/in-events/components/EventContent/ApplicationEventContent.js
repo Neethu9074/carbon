@@ -10,10 +10,8 @@ import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/adv
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
-import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -39,7 +37,7 @@ export default function ApplicationEventContent({ event }) {
     return null;
   }
 
-  const { tagFilters, tagFilterExpression, rule, convertedTagFilterExpression, boundaryScope } = alertConfig;
+  const { tagFilterExpression, rule, convertedTagFilterExpression, boundaryScope } = alertConfig;
   const alertType = rule.alertType;
 
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -98,15 +96,6 @@ export default function ApplicationEventContent({ event }) {
           <Card title={t('in-events:titleScope')}>
             <div className={locals.alertFiltersWrapper}>
               <ScopeConfigPresenter
-                tagFilterList={
-                  <TagFilterListPresenter
-                    tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                      applicationName: eventEntity.applicationName,
-                      tagFilters: [...blueprintConfig.getEntityTagFilters(alertConfig), ...tagFilters]
-                    })}
-                    disabled
-                  />
-                }
                 tagFilterFormModel={tagFilterFormModel}
                 queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
                 convertedTagFilterExpression={convertedTagFilterExpression}

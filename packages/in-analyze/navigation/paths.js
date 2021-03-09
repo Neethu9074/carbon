@@ -611,7 +611,7 @@ function getLinkToUA1({
   });
 }
 
-export function tagFiltersForBoundaryScopeUA1(boundaryScope, applicationName) {
+function tagFiltersForBoundaryScopeUA1(boundaryScope, applicationName) {
   if (boundaryScope === boundaryScopes.all) {
     return [
       {

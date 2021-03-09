@@ -261,7 +261,7 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig) 
   return [tagFilter('call.latency', toTagFilterNumberOperator(alertConfig.threshold.operator), value)];
 }
 
-export function getBaselineThresholdValue(alertConfig, timeConfig) {
+function getBaselineThresholdValue(alertConfig, timeConfig) {
   const { operator, baseline, deviationFactor } = alertConfig.threshold;
   const baselineGranularity = alertConfig.granularity;
   const isGreaterOp = operator === '>=' || operator === '>';

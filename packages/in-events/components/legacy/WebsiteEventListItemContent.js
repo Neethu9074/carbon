@@ -8,10 +8,8 @@ import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/webs
 import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/alerting/components/AlertQueryBuilder';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/alerting/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/alerting/data/blueprintConfig';
-import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { getChartTimeConfigByEvent, getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
@@ -34,7 +32,7 @@ export default function WebsiteEventListItemContent({ event }) {
     return null;
   }
 
-  const { tagFilters, tagFilterExpression, rule, convertedTagFilterExpression } = alertConfig;
+  const { tagFilterExpression, rule, convertedTagFilterExpression } = alertConfig;
   const alertType = rule.alertType;
 
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -72,15 +70,6 @@ export default function WebsiteEventListItemContent({ event }) {
         <DescriptionItem className={locals.title} title={t('in-events:titleScope')}>
           <div className={locals.scopeContentWrapper}>
             <ScopeConfigPresenter
-              tagFilterList={
-                <TagFilterListPresenter
-                  tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                    tagFilters: [...blueprintConfig.getEntityTagFilters(alertConfig), ...tagFilters],
-                    websiteLabel: eventEntity.websiteName
-                  })}
-                  disabled
-                />
-              }
               tagFilterFormModel={tagFilterFormModel}
               queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
               convertedTagFilterExpression={convertedTagFilterExpression}

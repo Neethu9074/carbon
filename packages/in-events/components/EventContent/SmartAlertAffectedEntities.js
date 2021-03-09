@@ -5,10 +5,8 @@
 import React from 'react';
 
 import {
-  getEnrichedAnalyzeFilters,
   getLinkToUnboundAnalytics,
   getEnrichedAnalyzeTagFilterFormModel,
-  isEndpointOrServiceFilter,
   tagNamesToUseEndpointGrouping
 } from 'in-events/components/AnalyzeApplicationEventButton';
 import { containsTagName, toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
@@ -16,10 +14,7 @@ import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-a
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import AffectedEntities from 'in-events/components/AffectedEntities/AffectedEntities';
-import { tagFiltersForBoundaryScopeUA1 } from 'in-analyze/navigation/paths';
-import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { convertToAnalyzeFilters } from 'in-applications/tags';
 import { isApplicationEntity } from 'in-services/entityUtils';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import Card from 'in-new-components/Card';
@@ -37,7 +32,7 @@ export function SmartAlertAffectedEntities({
   endpointName
 }) {
   const tagCatalog = useTagCatalog(getTagCatalog);
-  const { rule, boundaryScope, includeInternal, includeSynthetic } = alertConfig;
+  const { rule, includeInternal, includeSynthetic } = alertConfig;
 
   if (rule.alertType === 'throughput') {
     // we don't show the affected services/endpoints list for this blueprint type, because there is no simple property
@@ -49,43 +44,23 @@ export function SmartAlertAffectedEntities({
   const eventEntityType = event.get('entityType');
   const timeConfig = getTimeConfigFromEvent(event);
 
-  let tagFilters;
-  let totalTagFilters;
-  let tagFilterExpression;
-  let totalTagFilterExpression;
-  let needsGroupByEndpoint;
-  if (isQB2ModeInSmartAlertsEnabled) {
-    tagFilterExpression = toBackendQueryModel(
-      getEnrichedAnalyzeTagFilterFormModel(
-        alertConfig,
-        applicationId,
-        applicationName,
-        serviceId,
-        endpointId,
-        timeConfig
-      )
-    );
-    totalTagFilterExpression = toBackendQueryModel(
-      getEnrichedAnalyzeTagFilterFormModel(
-        alertConfig,
-        applicationId,
-        applicationName,
-        serviceId,
-        endpointId,
-        timeConfig,
-        true
-      )
-    );
-    needsGroupByEndpoint =
-      !isApplicationEntity(eventEntityType) ||
-      tagNamesToUseEndpointGrouping.some(tagName => containsTagName(alertConfig.tagFilterExpression, tagName));
-  } else {
-    const applicationBoundaryScopeTagFilters = tagFiltersForBoundaryScopeUA1(boundaryScope, applicationName);
-    tagFilters = [...getEnrichedAnalyzeFilters(alertConfig, timeConfig), ...applicationBoundaryScopeTagFilters];
-    totalTagFilters = [...convertToAnalyzeFilters(alertConfig.tagFilters), ...applicationBoundaryScopeTagFilters];
-    needsGroupByEndpoint =
-      !isApplicationEntity(eventEntityType) || alertConfig.tagFilters.find(isEndpointOrServiceFilter);
-  }
+  const tagFilterExpression = toBackendQueryModel(
+    getEnrichedAnalyzeTagFilterFormModel(alertConfig, applicationId, applicationName, serviceId, endpointId, timeConfig)
+  );
+  const totalTagFilterExpression = toBackendQueryModel(
+    getEnrichedAnalyzeTagFilterFormModel(
+      alertConfig,
+      applicationId,
+      applicationName,
+      serviceId,
+      endpointId,
+      timeConfig,
+      true
+    )
+  );
+  const needsGroupByEndpoint =
+    !isApplicationEntity(eventEntityType) ||
+    tagNamesToUseEndpointGrouping.some(tagName => containsTagName(alertConfig.tagFilterExpression, tagName));
 
   const createItemLink$ = item => {
     return getLinkToUnboundAnalytics(
@@ -93,7 +68,7 @@ export function SmartAlertAffectedEntities({
       applicationName,
       needsGroupByEndpoint ? serviceId : item.id,
       needsGroupByEndpoint ? serviceName : item.name,
-      needsGroupByEndpoint ? item.id : null,
+      needsGroupByEndpoint ? item.id : null, // FIXME we never have an ID here (e.g. for a PER-SERVICE SmartAlert), because we do a grouping by name. But that name is never used yet in QB2.
       needsGroupByEndpoint ? item.name : null,
       alertConfig,
       timeConfig,
@@ -126,8 +101,6 @@ export function SmartAlertAffectedEntities({
   return (
     <Card title={needsGroupByEndpoint ? t('in-events:affectedEndpoints') : t('in-events:affectedServices')}>
       <AffectedEntities
-        tagFilters={tagFilters}
-        totalTagFilters={totalTagFilters}
         tagFilterExpression={tagFilterExpression}
         totalTagFilterExpression={totalTagFilterExpression}
         includeInternal={includeInternal}

@@ -52,9 +52,9 @@ export default function PotentialProblemContentControls({
           applicationId,
           applicationLabel,
           null, // is already included in given tagFilters/tagFilterExpression
-          null, // we don't want to override the service ID with its name
+          null,
           null, // is already included in given tagFilters/tagFilterExpression
-          null, // we don't want to override the endpoint ID with its name
+          null,
           {
             boundaryScope,
             applications,

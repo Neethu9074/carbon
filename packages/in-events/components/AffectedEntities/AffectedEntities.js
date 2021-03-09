@@ -15,14 +15,12 @@ export default function AffectedEntities(props) {
     timeConfig,
     retrievalSize,
     filterGroup,
-    tagFilters,
     tagFilterExpression,
     includeInternal,
     includeSynthetic,
     orderBy,
     isValid,
     hiddenCalls,
-    totalTagFilters,
     totalTagFilterExpression
   } = props;
 
@@ -54,7 +52,6 @@ export default function AffectedEntities(props) {
 
       const affected = getCallGroups({
         ...baseQueryParameters,
-        tagFilters: tagFilters,
         tagFilterExpression: tagFilterExpression,
         pagination: {
           cursor,
@@ -63,7 +60,6 @@ export default function AffectedEntities(props) {
       });
       const allEntities = getCallGroups({
         ...baseQueryParameters,
-        tagFilters: totalTagFilters,
         tagFilterExpression: totalTagFilterExpression,
         pagination: {
           cursor,
