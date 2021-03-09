@@ -8,6 +8,7 @@ import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { formatDateTime } from 'in-services/formatters/date';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => {
@@ -23,8 +24,12 @@ export default connectTo(
 
     return (
       <div>
-        <DescriptionItem title="Hadoop health check result">{healthy ? 'Healthy' : 'Unhealthy'}</DescriptionItem>
-        <DescriptionItem title="Last Hadoop health check">{formatDateTime(timeOfLastHealthReport)}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.hadoopYARNNode.hadoopHealthCheckResult')}>
+          {healthy ? t('in-forge:plugins.hadoopYARNNode.healthy') : t('in-forge:plugins.hadoopYARNNode.unhealthy')}
+        </DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.hadoopYARNNode.lastHadoopHealthCheck')}>
+          {formatDateTime(timeOfLastHealthReport)}
+        </DescriptionItem>
       </div>
     );
   }

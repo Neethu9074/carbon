@@ -15,10 +15,11 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Interface',
+    title: t('in-forge:plugins.host.dashboard.interface'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -27,7 +28,7 @@ const cols = [
     }
   },
   {
-    title: 'Mac',
+    title: t('in-forge:plugins.host.dashboard.mac'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -36,7 +37,7 @@ const cols = [
     }
   },
   {
-    title: 'IPs',
+    title: t('in-forge:plugins.host.dashboard.iPs'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -48,7 +49,7 @@ const cols = [
     }
   },
   {
-    title: 'RX Bytes',
+    title: t('in-forge:plugins.host.dashboard.rxBytes'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -64,7 +65,7 @@ const cols = [
     }
   },
   {
-    title: 'RX Errors',
+    title: t('in-forge:plugins.host.dashboard.rxErrors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -80,7 +81,7 @@ const cols = [
     }
   },
   {
-    title: 'TX Bytes',
+    title: t('in-forge:plugins.host.dashboard.txBytes'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -96,7 +97,7 @@ const cols = [
     }
   },
   {
-    title: 'TX Errors',
+    title: t('in-forge:plugins.host.dashboard.txErrors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -128,7 +129,15 @@ export default function NetworkInterfacesTable({ snapshot, timeConfig }) {
     .valueSeq()
     .toArray();
 
-  return <Table cardTitle="Network Interfaces" withoutPadding cols={cols} rows={rows} getRowDetails={getDetails} />;
+  return (
+    <Table
+      cardTitle={t('in-forge:plugins.host.dashboard.networkInterfaces')}
+      withoutPadding
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
+  );
 }
 
 function getDetails(row) {
@@ -141,14 +150,14 @@ function getDetails(row) {
         formatter: bytesZeroDecimalPlaces,
         tooltipFormatter: bytesTwoDecimalPlaces,
         metrics: ['ifs.' + row.name + '.rx.bytes', 'ifs.' + row.name + '.tx.bytes'],
-        labels: ['Received/s', 'Transmitted/s'],
+        labels: [t('in-forge:plugins.host.dashboard.receivedS'), t('in-forge:plugins.host.dashboard.transmittedS')],
         type: 'line'
       }}
       y2={{
         min: 0,
         max: 1,
         metrics: ['ifs.' + row.name + '.rx.errors', 'ifs.' + row.name + '.tx.errors'],
-        labels: ['RX Errors', 'TX Errors'],
+        labels: [t('in-forge:plugins.host.dashboard.rxErrors'), t('in-forge:plugins.host.dashboard.txErrors')],
         formatter: percentageZeroDecimalPlaces,
         tooltipFormatter: percentageTwoDecimalPlaces,
         type: 'line'

@@ -9,10 +9,11 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.hAProxy.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Average Response Time',
+    title: t('in-forge:plugins.hAProxy.dashboard.averageResponseTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Average Queue Time',
+    title: t('in-forge:plugins.hAProxy.dashboard.averageQueueTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Queue Size',
+    title: t('in-forge:plugins.hAProxy.dashboard.queueSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,7 +70,7 @@ const cols = [
     }
   },
   {
-    title: 'Connection Errors',
+    title: t('in-forge:plugins.hAProxy.dashboard.connectionErrors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -85,7 +86,7 @@ const cols = [
     }
   },
   {
-    title: 'Response Errors',
+    title: t('in-forge:plugins.hAProxy.dashboard.responseErrors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -101,7 +102,7 @@ const cols = [
     }
   },
   {
-    title: 'Connection Retries',
+    title: t('in-forge:plugins.hAProxy.dashboard.connectionRetries'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -117,7 +118,7 @@ const cols = [
     }
   },
   {
-    title: 'Denied Responses',
+    title: t('in-forge:plugins.hAProxy.dashboard.deniedResponses'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -133,7 +134,7 @@ const cols = [
     }
   },
   {
-    title: 'Re-Dispatched Requests',
+    title: t('in-forge:plugins.hAProxy.dashboard.reDispatchedRequests'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -166,7 +167,7 @@ export default function BackendsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Backends (${rows.length})`}
+      cardTitle={t('in-forge:plugins.hAProxy.dashboard.backendsWithCount', { count: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -183,12 +184,15 @@ function getRowDetails(row) {
         y1={{
           formatter: msTwoDecimalPlaces,
           metrics: ['backendStats.' + row.key + '.avgResponseTime', 'backendStats.' + row.key + '.avgQueueTime'],
-          labels: ['Average Response Time', 'Average Queue Time'],
+          labels: [
+            t('in-forge:plugins.hAProxy.dashboard.averageResponseTime'),
+            t('in-forge:plugins.hAProxy.dashboard.averageQueueTime')
+          ],
           type: 'line'
         }}
         y2={{
           metrics: ['backendStats.' + row.key + '.queueSize'],
-          labels: ['Queue Size'],
+          labels: [t('in-forge:plugins.hAProxy.dashboard.queueSize')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -202,7 +206,11 @@ function getRowDetails(row) {
             'backendStats.' + row.key + '.connRetries',
             'backendStats.' + row.key + '.errorRes'
           ],
-          labels: ['Connection Errors', 'Connection Retries', 'Response Errors'],
+          labels: [
+            t('in-forge:plugins.hAProxy.dashboard.connectionErrors'),
+            t('in-forge:plugins.hAProxy.dashboard.connectionRetries'),
+            t('in-forge:plugins.hAProxy.dashboard.responseErrors')
+          ],
           type: 'stackedBar',
           aggregation: 'sum',
           formatter: number.compact
@@ -214,7 +222,10 @@ function getRowDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           metrics: ['backendStats.' + row.key + '.deniedRes', 'backendStats.' + row.key + '.reDispatchedReq'],
-          labels: ['Denied Responses', 'Re-Dispatched Requests'],
+          labels: [
+            t('in-forge:plugins.hAProxy.dashboard.deniedResponses'),
+            t('in-forge:plugins.hAProxy.dashboard.reDispatchedRequests')
+          ],
           type: 'stackedBar',
           aggregation: 'sum',
           formatter: number.compact

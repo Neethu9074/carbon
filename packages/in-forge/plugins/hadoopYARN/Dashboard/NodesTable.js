@@ -11,10 +11,11 @@ import { formatDateTime } from 'in-services/formatters/date';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Labels',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.labels'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'State',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.state'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -32,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: 'Rack',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.rack'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -41,7 +42,7 @@ const cols = [
     }
   },
   {
-    title: 'Http Address',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.httpAddress'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -50,7 +51,7 @@ const cols = [
     }
   },
   {
-    title: 'Last Health Update',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.lastHealthUpdate'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -60,7 +61,7 @@ const cols = [
     }
   },
   {
-    title: 'Health Report',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.healthReport'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -69,7 +70,7 @@ const cols = [
     }
   },
   {
-    title: 'Containers Running',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.containersRunning'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -85,7 +86,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory Available',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.memoryAvailable'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -101,7 +102,7 @@ const cols = [
     }
   },
   {
-    title: 'Virtual Cores Available',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.virtualCoresAvailable'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -135,7 +136,15 @@ export default function NodesTable({ snapshot, timeConfig }) {
     })
     .toArray();
 
-  return <Table withoutPadding cardTitle="Nodes" cols={cols} rows={rows} getRowDetails={getDetails} />;
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.hadoopYARN.dashboard.nodes')}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
+  );
 }
 
 function getDetails(row) {
@@ -148,7 +157,7 @@ function getDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: ['nodes.' + id + '.containers'],
-          labels: ['Containers Running'],
+          labels: [t('in-forge:plugins.hadoopYARN.dashboard.containersRunning')],
           type: 'stackedArea'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -161,7 +170,10 @@ function getDetails(row) {
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
             metrics: ['nodes.' + id + '.memoryUsed', 'nodes.' + id + '.memoryAvailable'],
-            labels: ['Memory Used', 'Memory Available'],
+            labels: [
+              t('in-forge:plugins.hadoopYARN.dashboard.memoryUsed'),
+              t('in-forge:plugins.hadoopYARN.dashboard.memoryAvailable')
+            ],
             type: 'stackedArea'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -172,7 +184,10 @@ function getDetails(row) {
           y1={{
             formatter: zeroDecimalPlaces,
             metrics: ['nodes.' + id + '.virtualCoresUsed', 'nodes.' + id + '.virtualCoresAvailable'],
-            labels: ['Virtual Cores Used', 'Virtual Cores Available'],
+            labels: [
+              t('in-forge:plugins.hadoopYARN.dashboard.virtualCoresUsed'),
+              t('in-forge:plugins.hadoopYARN.dashboard.virtualCoresAvailable')
+            ],
             type: 'stackedArea'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

@@ -13,6 +13,7 @@ import { getClusterDashboard, getNodeDashboard } from 'in-kubernetes/navigation/
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   ({ snapshotId }) => {
@@ -45,18 +46,18 @@ export default connectTo(
 
     return (
       <Collapsible>
-        <Collapsible.Header>Kubernetes</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.host.dashboard.kubernetes')}</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
             {node && (
-              <DescriptionItem title="Node">
+              <DescriptionItem title={t('in-forge:plugins.host.dashboard.node')}>
                 <KubernetesSnapshotLink getKubernetesViewEntityDashboard={getNodeDashboard} snapshotId={node.id}>
                   {node.name}
                 </KubernetesSnapshotLink>
               </DescriptionItem>
             )}
             {cluster && (
-              <DescriptionItem title="Cluster">
+              <DescriptionItem title={t('in-forge:plugins.host.dashboard.cluster')}>
                 <KubernetesSnapshotLink getKubernetesViewEntityDashboard={getClusterDashboard} snapshotId={cluster.id}>
                   {cluster.label}
                 </KubernetesSnapshotLink>

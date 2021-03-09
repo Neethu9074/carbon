@@ -10,10 +10,11 @@ import { yesOrNo } from 'in-services/formatters/boolean';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.hazelcastCluster.dashboard.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Version',
+    title: t('in-forge:plugins.hazelcastCluster.dashboard.version'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Is Lite Member',
+    title: t('in-forge:plugins.hazelcastCluster.dashboard.isLiteMember'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Is Member Safe',
+    title: t('in-forge:plugins.hazelcastCluster.dashboard.isMemberSafe'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -49,7 +50,7 @@ const cols = [
     }
   },
   {
-    title: 'Health',
+    title: t('in-forge:plugins.hazelcastCluster.dashboard.health'),
     type: 'health',
     typeArgs: {
       getSnapshotId(row) {
@@ -84,6 +85,14 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle="Cluster Nodes" cols={cols} rows={rows} initialSortColumn={1} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.hazelcastCluster.dashboard.clusterNodes')}
+        cols={cols}
+        rows={rows}
+        initialSortColumn={1}
+      />
+    );
   }
 );

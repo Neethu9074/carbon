@@ -9,11 +9,12 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
     id: 'CPU',
-    title: 'CPU',
+    title: t('in-forge:plugins.host.dashboard.cpu'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -26,7 +27,7 @@ const cols = [
   },
   {
     id: 'User',
-    title: 'User',
+    title: t('in-forge:plugins.host.dashboard.user'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -43,7 +44,7 @@ const cols = [
   },
   {
     id: 'System',
-    title: 'System',
+    title: t('in-forge:plugins.host.dashboard.system'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -60,7 +61,7 @@ const cols = [
   },
   {
     id: 'Wait',
-    title: 'Wait',
+    title: t('in-forge:plugins.host.dashboard.wait'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -77,7 +78,7 @@ const cols = [
   },
   {
     id: 'Nice',
-    title: 'Nice',
+    title: t('in-forge:plugins.host.dashboard.nice'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -94,7 +95,7 @@ const cols = [
   },
   {
     id: 'Steal',
-    title: 'Steal',
+    title: t('in-forge:plugins.host.dashboard.steal'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -132,7 +133,7 @@ export default function CpuTable({ snapshot, timeConfig }) {
   // to have evenly filled pages, we use 8 as maxItems instead of default 10
   return (
     <Table
-      cardTitle="Individual CPU Usage"
+      cardTitle={t('in-forge:plugins.host.dashboard.individualCpuUsage')}
       withoutPadding
       cols={cols}
       rows={rows}
@@ -158,7 +159,13 @@ function getRowDetails(row) {
           'cpus.' + row.cpuNumber + '.nice',
           'cpus.' + row.cpuNumber + '.steal'
         ],
-        labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
+        labels: [
+          t('in-forge:plugins.host.dashboard.user'),
+          t('in-forge:plugins.host.dashboard.system'),
+          t('in-forge:plugins.host.dashboard.wait'),
+          t('in-forge:plugins.host.dashboard.nice'),
+          t('in-forge:plugins.host.dashboard.steal')
+        ],
         type: 'stackedArea'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

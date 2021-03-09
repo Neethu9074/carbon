@@ -10,6 +10,7 @@ import { getFoundations, getSnapshot } from 'in-stores/snapshot';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { getZone } from 'in-stores/zone';
+import { t } from 'in-i18n';
 
 export default {
   initialSortColumn: 1,
@@ -17,7 +18,7 @@ export default {
 
   cols: [
     {
-      title: 'Zone',
+      title: t('in-forge:plugins.host.zone'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId$(row) {
@@ -26,7 +27,7 @@ export default {
       }
     },
     {
-      title: 'Name',
+      title: t('in-forge:plugins.host.name'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId(row) {
@@ -35,7 +36,7 @@ export default {
       }
     },
     {
-      title: 'Hostname',
+      title: t('in-forge:plugins.host.hostname'),
       type: 'string',
       typeArgs: {
         getValue(row) {
@@ -44,7 +45,7 @@ export default {
       }
     },
     {
-      title: 'OS',
+      title: t('in-forge:plugins.host.os'),
       type: 'string',
       typeArgs: {
         getValue(row) {
@@ -62,7 +63,7 @@ export default {
       }
     },
     {
-      title: 'Type',
+      title: t('in-forge:plugins.host.type'),
       type: 'custom',
       typeArgs: {
         comparator: compareIgnoreCase,
@@ -89,7 +90,7 @@ export default {
       }
     },
     {
-      title: '#CPUs',
+      title: t('in-forge:plugins.host.cpUs'),
       type: 'number',
       typeArgs: {
         getValue(row) {
@@ -99,7 +100,7 @@ export default {
       }
     },
     {
-      title: 'CPU Usage',
+      title: t('in-forge:plugins.host.cpuUsage'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -115,7 +116,7 @@ export default {
       }
     },
     {
-      title: 'Memory',
+      title: t('in-forge:plugins.host.memory'),
       type: 'number',
       typeArgs: {
         getValue(row) {
@@ -125,7 +126,7 @@ export default {
       }
     },
     {
-      title: 'Memory Used',
+      title: t('in-forge:plugins.host.memoryUsed'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {

@@ -6,15 +6,22 @@ import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { yesOrNo } from 'in-services/formatters/boolean';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Cluster Id">{data.get('clusterId')}</DescriptionItem>
-      <DescriptionItem title="Group Name">{data.get('groupName')}</DescriptionItem>
-      <DescriptionItem title="Is Cluster Safe">{yesOrNo(data.get('isClusterSafe'))}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hazelcastCluster.clusterId')}>
+        {data.get('clusterId')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hazelcastCluster.groupName')}>
+        {data.get('groupName')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hazelcastCluster.isClusterSafe')}>
+        {yesOrNo(data.get('isClusterSafe'))}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

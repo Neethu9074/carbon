@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'CPU Used',
+    label: t('in-forge:plugins.host.cpuUsed'),
     metric: 'cpu.used',
     formatter: percentageZeroDecimalPlaces
   },
   {
-    label: 'Memory Used',
+    label: t('in-forge:plugins.host.memoryUsed'),
     metric: 'memory.used',
     formatter: percentageZeroDecimalPlaces
   }

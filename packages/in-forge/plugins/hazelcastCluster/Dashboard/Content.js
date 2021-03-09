@@ -10,13 +10,14 @@ import ClusterSummary from 'in-forge/plugins/hazelcastCluster/ClusterSummary';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default function HazelcastClusterDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <ClusterSummary snapshot={snapshot} />
 
-      <DashboardSection title="Node Count">
+      <DashboardSection title={t('in-forge:plugins.hazelcastCluster.dashboard.nodeCount')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -25,7 +26,7 @@ export default function HazelcastClusterDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: ['nodeCount'],
-            labels: ['Node Count'],
+            labels: [t('in-forge:plugins.hazelcastCluster.dashboard.nodeCount')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

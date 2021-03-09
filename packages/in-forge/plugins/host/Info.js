@@ -8,6 +8,7 @@ import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/Desc
 import { bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import { isWindows, isZos } from 'in-forge/plugins/host/hostUtils';
+import { t } from 'in-i18n';
 
 export default function HardwareInfo({ snapshot }) {
   const data = snapshot.get('data');
@@ -17,34 +18,40 @@ export default function HardwareInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="OS">
+      <DescriptionItem title={t('in-forge:plugins.host.os')}>
         {data.get('os.name')} {data.get('os.version')} ({data.get('os.arch')})
       </DescriptionItem>
-      <DescriptionItem title="Distribution">{data.get('os.dist')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.host.distribution')}>{data.get('os.dist')}</DescriptionItem>
 
-      <DescriptionItem title="CPU">
+      <DescriptionItem title={t('in-forge:plugins.host.cpu')}>
         {data.get('cpu.count')} x {data.get('cpu.model')}
       </DescriptionItem>
 
       {data.get('gpu.count') && (
-        <DescriptionItem title="GPU">
+        <DescriptionItem title={t('in-forge:plugins.host.gpu')}>
           {data.get('gpu.count')} x {data.get('gpu.model')}
         </DescriptionItem>
       )}
 
-      {memoryTotal && <DescriptionItem title="Memory">{bytesTwoDecimalPlaces(memoryTotal)}</DescriptionItem>}
-
-      {!(isWindows(snapshot) || isZos(snapshot)) && openFilesMax && (
-        <DescriptionItem title="Max Open Files">{zeroDecimalPlaces(openFilesMax)}</DescriptionItem>
+      {memoryTotal && (
+        <DescriptionItem title={t('in-forge:plugins.host.memory')}>
+          {bytesTwoDecimalPlaces(memoryTotal)}
+        </DescriptionItem>
       )}
 
-      <DescriptionItem title="Hostname">{data.get('hostname')}</DescriptionItem>
-      <DescriptionItem title="FQDN">{data.get('fqdn')}</DescriptionItem>
-      <DescriptionItem title="Machine ID">{data.get('machineId')}</DescriptionItem>
-      <DescriptionItem title="Boot ID">{data.get('bootId')}</DescriptionItem>
+      {!(isWindows(snapshot) || isZos(snapshot)) && openFilesMax && (
+        <DescriptionItem title={t('in-forge:plugins.host.maxOpenFiles')}>
+          {zeroDecimalPlaces(openFilesMax)}
+        </DescriptionItem>
+      )}
+
+      <DescriptionItem title={t('in-forge:plugins.host.hostname')}>{data.get('hostname')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.host.fqdn')}>{data.get('fqdn')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.host.machineId')}>{data.get('machineId')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.host.bootId')}>{data.get('bootId')}</DescriptionItem>
 
       {start && (
-        <DescriptionItem title="Started At">
+        <DescriptionItem title={t('in-forge:plugins.host.startedAt')}>
           {formatDateTime(start)} ({fromNowAccurately(start)})
         </DescriptionItem>
       )}

@@ -13,13 +13,14 @@ import HostHardware from 'in-forge/plugins/host/HostHardware';
 import VsphereInfo from 'in-forge/plugins/host/VsphereInfo';
 import { vsphereEnabled } from 'in-services/featureFlags';
 import TagList from 'in-sdk/components/sidebar/TagList';
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function HostSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>System</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.host.dashboard.system')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -35,7 +36,10 @@ export default function HostSidebar({ snapshot }) {
 
       {vsphereEnabled && <VsphereInfo snapshotId={snapshot.get('id')} />}
 
-      <KeyValueOverlay header="Packages" data={snapshot.getIn(['data', 'packages'])} />
+      <KeyValueOverlay
+        header={t('in-forge:plugins.host.dashboard.packages')}
+        data={snapshot.getIn(['data', 'packages'])}
+      />
 
       <RunningComponentsList snapshotId={snapshot.get('id')} />
     </div>

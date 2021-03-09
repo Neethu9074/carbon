@@ -10,6 +10,7 @@ import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { siPrefix } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function HazelcastClusterSidebar({ snapshot }) {
@@ -18,7 +19,7 @@ export default function HazelcastClusterSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Hazelcast Cluster</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.hazelcastCluster.sidebar.hazelcastCluster')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -29,7 +30,7 @@ export default function HazelcastClusterSidebar({ snapshot }) {
         metrics={[
           {
             metric: 'nodeCount',
-            label: 'Nodes',
+            label: t('in-forge:plugins.hazelcastCluster.sidebar.nodes'),
             formatter: siPrefix,
             aggregation: 'mean'
           }

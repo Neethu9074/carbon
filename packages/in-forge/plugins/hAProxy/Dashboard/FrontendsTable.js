@@ -9,10 +9,11 @@ import { bytes, number, percentage } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.hAProxy.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Requests',
+    title: t('in-forge:plugins.hAProxy.dashboard.requests'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Request Errors',
+    title: t('in-forge:plugins.hAProxy.dashboard.requestErrors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Denied Requests',
+    title: t('in-forge:plugins.hAProxy.dashboard.deniedRequests'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,7 +70,7 @@ const cols = [
     }
   },
   {
-    title: 'Sessions',
+    title: t('in-forge:plugins.hAProxy.dashboard.sessions'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -85,7 +86,7 @@ const cols = [
     }
   },
   {
-    title: 'Session Usage',
+    title: t('in-forge:plugins.hAProxy.dashboard.sessionUsage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -101,7 +102,7 @@ const cols = [
     }
   },
   {
-    title: 'Client Errors',
+    title: t('in-forge:plugins.hAProxy.dashboard.clientErrors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -117,7 +118,7 @@ const cols = [
     }
   },
   {
-    title: 'Server Errors',
+    title: t('in-forge:plugins.hAProxy.dashboard.serverErrors'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -133,7 +134,7 @@ const cols = [
     }
   },
   {
-    title: 'Bytes Sent',
+    title: t('in-forge:plugins.hAProxy.dashboard.bytesSent'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -149,7 +150,7 @@ const cols = [
     }
   },
   {
-    title: 'Bytes Received',
+    title: t('in-forge:plugins.hAProxy.dashboard.bytesReceived'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -182,7 +183,7 @@ export default function FrontendsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Frontends (${rows.length})`}
+      cardTitle={t('in-forge:plugins.hAProxy.dashboard.frontendsWithCount', { count: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -202,7 +203,11 @@ function getRowDetails(row) {
             'frontendStats.' + row.key + '.reqErrors',
             'frontendStats.' + row.key + '.deniedReq'
           ],
-          labels: ['Requests', 'Request Errors', 'Denied Requests'],
+          labels: [
+            t('in-forge:plugins.hAProxy.dashboard.requests'),
+            t('in-forge:plugins.hAProxy.dashboard.requestErrors'),
+            t('in-forge:plugins.hAProxy.dashboard.deniedRequests')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -212,13 +217,13 @@ function getRowDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           metrics: ['frontendStats.' + row.key + '.sessionRate'],
-          labels: ['Sessions'],
+          labels: [t('in-forge:plugins.hAProxy.dashboard.sessions')],
           type: 'line'
         }}
         y2={{
           formatter: percentage.detailed,
           metrics: ['frontendStats.' + row.key + '.sessionUtilization'],
-          labels: ['Session Usage'],
+          labels: [t('in-forge:plugins.hAProxy.dashboard.sessionUsage')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -228,7 +233,10 @@ function getRowDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           metrics: ['frontendStats.' + row.key + '.clientErrors', 'frontendStats.' + row.key + '.serverErrors'],
-          labels: ['Client Errors', 'Server Errors'],
+          labels: [
+            t('in-forge:plugins.hAProxy.dashboard.clientErrors'),
+            t('in-forge:plugins.hAProxy.dashboard.serverErrors')
+          ],
           type: 'stackedBar',
           aggregation: 'sum',
           formatter: number.compact
@@ -241,7 +249,10 @@ function getRowDetails(row) {
         y1={{
           formatter: bytes.detailed,
           metrics: ['frontendStats.' + row.key + '.bytesSent', 'frontendStats.' + row.key + '.bytesReceived'],
-          labels: ['Bytes Sent', 'Bytes Received'],
+          labels: [
+            t('in-forge:plugins.hAProxy.dashboard.bytesSent'),
+            t('in-forge:plugins.hAProxy.dashboard.bytesReceived')
+          ],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

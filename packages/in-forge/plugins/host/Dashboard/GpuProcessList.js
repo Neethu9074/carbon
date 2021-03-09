@@ -13,12 +13,13 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './ProcessTopList.mless';
 
 const cols = [
   {
-    title: 'PID',
+    title: t('in-forge:plugins.host.dashboard.pid'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Process Name',
+    title: t('in-forge:plugins.host.dashboard.processName'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId$(row) {
@@ -57,7 +58,7 @@ const cols = [
     }
   },
   {
-    title: 'GPU',
+    title: t('in-forge:plugins.host.dashboard.gpu'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -66,7 +67,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory',
+    title: t('in-forge:plugins.host.dashboard.memory'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -120,7 +121,7 @@ function getDetails(row) {
         min: 0,
         formatter: bytesTwoDecimalPlaces,
         metrics: ['gpuProcesses.' + row.key + '.memory'],
-        labels: ['Memory'],
+        labels: [t('in-forge:plugins.host.dashboard.memory')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

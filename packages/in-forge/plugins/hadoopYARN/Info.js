@@ -6,14 +6,15 @@ import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title="Cluster ID">{data.get('clusterId')}</DescriptionItem>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
-      <DescriptionItem title="State">{data.get('state')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hadoopYARN.clusterId')}>{data.get('clusterId')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hadoopYARN.version')}>{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hadoopYARN.state')}>{data.get('state')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

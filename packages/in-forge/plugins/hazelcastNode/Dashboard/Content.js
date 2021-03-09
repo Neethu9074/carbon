@@ -10,6 +10,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import NodeSummary from '../NodeSummary.js';
+import { t } from 'in-i18n';
 
 function isAtLeastMinorVersion(version, minorVersion) {
   if (version == undefined || version.startsWith('pre-')) {
@@ -31,7 +32,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
       <NodeSummary snapshot={snapshot} />
 
       {hasOperationCount && (
-        <DashboardSection title="Operation Count">
+        <DashboardSection title={t('in-forge:plugins.hazelcastNode.dashboard.operationCount')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -40,7 +41,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
               formatter: withSiPrefixZeroDecimalPlaces,
               tooltipFormatter: withSiPrefixZeroDecimalPlaces,
               metrics: ['nodeMetrics.operationCount'],
-              labels: ['Operation Count'],
+              labels: [t('in-forge:plugins.hazelcastNode.dashboard.operationCount')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -49,7 +50,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
       )}
 
       <Columize>
-        <DashboardSection title="MigrationQueue Size">
+        <DashboardSection title={t('in-forge:plugins.hazelcastNode.dashboard.migrationQueueSize')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -58,14 +59,14 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
               formatter: number.compact,
               tooltipFormatter: number.compact,
               metrics: ['nodeMetrics.migrationQueueSize'],
-              labels: ['MigrationQueue Size'],
+              labels: [t('in-forge:plugins.hazelcastNode.dashboard.migrationQueueSize')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
 
-        <DashboardSection title="EventQueue Size">
+        <DashboardSection title={t('in-forge:plugins.hazelcastNode.dashboard.eventQueueSize')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -75,7 +76,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
               formatter: withSiPrefixZeroDecimalPlaces,
               tooltipFormatter: withSiPrefixZeroDecimalPlaces,
               metrics: ['nodeMetrics.eventQueueSize'],
-              labels: ['EventQueue Size'],
+              labels: [t('in-forge:plugins.hazelcastNode.dashboard.eventQueueSize')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -84,7 +85,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
       </Columize>
 
       {hasDistributedObject && (
-        <DashboardSection title="Distributed Objects">
+        <DashboardSection title={t('in-forge:plugins.hazelcastNode.dashboard.distributedObjects')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -105,16 +106,16 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
                 'distributedObject.otherCount'
               ],
               labels: [
-                'ICache',
-                'IMap',
-                'ReplicatedMap',
-                'MultiMap',
-                'IQueue',
-                'IList',
-                'ISet',
-                'ITopic',
-                'IExecutorService',
-                'Other'
+                t('in-forge:plugins.hazelcastNode.dashboard.iCache'),
+                t('in-forge:plugins.hazelcastNode.dashboard.iMap'),
+                t('in-forge:plugins.hazelcastNode.dashboard.replicatedMap'),
+                t('in-forge:plugins.hazelcastNode.dashboard.multiMap'),
+                t('in-forge:plugins.hazelcastNode.dashboard.iQueue'),
+                t('in-forge:plugins.hazelcastNode.dashboard.iList'),
+                t('in-forge:plugins.hazelcastNode.dashboard.iSet'),
+                t('in-forge:plugins.hazelcastNode.dashboard.iTopic'),
+                t('in-forge:plugins.hazelcastNode.dashboard.iExecutorService'),
+                t('in-forge:plugins.hazelcastNode.dashboard.other')
               ],
               type: 'line'
             }}
@@ -124,7 +125,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
       )}
 
       {hasExecutionQueueSize && (
-        <DashboardSection title="ExecutionService Queue Sizes">
+        <DashboardSection title={t('in-forge:plugins.hazelcastNode.dashboard.executionServiceQueueSizes')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -141,12 +142,12 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
                 'executorServiceQueueSize.ioExecutor'
               ],
               labels: [
-                'AsyncExecutor',
-                'ClientExecutor',
-                'QueryExecutor',
-                'ScheduledExecutor',
-                'SystemExecutor',
-                'IOExecutor'
+                t('in-forge:plugins.hazelcastNode.dashboard.asyncExecutor'),
+                t('in-forge:plugins.hazelcastNode.dashboard.clientExecutor'),
+                t('in-forge:plugins.hazelcastNode.dashboard.queryExecutor'),
+                t('in-forge:plugins.hazelcastNode.dashboard.scheduledExecutor'),
+                t('in-forge:plugins.hazelcastNode.dashboard.systemExecutor'),
+                t('in-forge:plugins.hazelcastNode.dashboard.ioExecutor')
               ],
               type: 'line'
             }}
@@ -155,7 +156,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
 
-      <DashboardSection title="Clients">
+      <DashboardSection title={t('in-forge:plugins.hazelcastNode.dashboard.clients')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -164,7 +165,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
             formatter: withSiPrefixZeroDecimalPlaces,
             tooltipFormatter: withSiPrefixZeroDecimalPlaces,
             metrics: ['nodeMetrics.clientEndpointCount'],
-            labels: ['Connected Clients'],
+            labels: [t('in-forge:plugins.hazelcastNode.dashboard.connectedClients')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

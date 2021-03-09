@@ -17,26 +17,27 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function HBaseDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Cluster Requests">
+        <KpiKeyValue label={t('in-forge:plugins.hBase.dashboard.clusterRequests')}>
           <MetricValue snapshotId={snapshotId} metric="master_cluster_requests" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label="Average Load">
+        <KpiKeyValue label={t('in-forge:plugins.hBase.dashboard.averageLoad')}>
           <MetricValue snapshotId={snapshotId} metric="avg_load" formatter={zeroDecimalPlaces} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Master Server">
+      <DashboardSection title={t('in-forge:plugins.hBase.dashboard.masterServer')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['master_cluster_requests'],
-            labels: ['Cluster Requests'],
+            labels: [t('in-forge:plugins.hBase.dashboard.clusterRequests')],
             min: 0,
             type: 'line',
             formatter: zeroDecimalPlaces
@@ -44,13 +45,16 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Statistics">
+      <DashboardSection title={t('in-forge:plugins.hBase.dashboard.statistics')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['stats_active_sinks', 'stats_active_sources'],
-            labels: ['Active sinks', 'Active sources'],
+            labels: [
+              t('in-forge:plugins.hBase.dashboard.activeSinks'),
+              t('in-forge:plugins.hBase.dashboard.activeSources')
+            ],
             min: 0,
             type: 'line',
             formatter: zeroDecimalPlaces
@@ -58,20 +62,20 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Publish">
+      <DashboardSection title={t('in-forge:plugins.hBase.dashboard.publish')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['stats_pub_ops'],
-            labels: ['Publish operations'],
+            labels: [t('in-forge:plugins.hBase.dashboard.publishOperations')],
             min: 0,
             type: 'line',
             formatter: twoDecimalPlaces
           }}
           y2={{
             metrics: ['stats_pub_avg_time'],
-            labels: ['Publish Average Time'],
+            labels: [t('in-forge:plugins.hBase.dashboard.publishAverageTime')],
             min: 0,
             type: 'line',
             formatter: msZeroDecimalPlaces
@@ -79,20 +83,20 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Snapshot">
+      <DashboardSection title={t('in-forge:plugins.hBase.dashboard.snapshot')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['stats_snap_ops'],
-            labels: ['Snapshot operations'],
+            labels: [t('in-forge:plugins.hBase.dashboard.snapshotOperations')],
             min: 0,
             type: 'line',
             formatter: zeroDecimalPlaces
           }}
           y2={{
             metrics: ['stats_snap_avg_time'],
-            labels: ['Snapshot Average Time'],
+            labels: [t('in-forge:plugins.hBase.dashboard.snapshotAverageTime')],
             min: 0,
             type: 'line',
             formatter: msZeroDecimalPlaces
@@ -100,13 +104,16 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Region Server - Split">
+      <DashboardSection title={t('in-forge:plugins.hBase.dashboard.regionServerSplit')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['rs_split_request_count', 'rs_split_success_count'],
-            labels: ['Split requests', 'Split success'],
+            labels: [
+              t('in-forge:plugins.hBase.dashboard.splitRequests'),
+              t('in-forge:plugins.hBase.dashboard.splitSuccess')
+            ],
             min: 0,
             type: 'line',
             formatter: zeroDecimalPlaces
@@ -115,20 +122,23 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <Columize>
-        <DashboardSection title="Region Server - Compaction">
+        <DashboardSection title={t('in-forge:plugins.hBase.dashboard.regionServerCompaction')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['rs_comp_queue_length'],
-              labels: ['Compaction Queue Length'],
+              labels: [t('in-forge:plugins.hBase.dashboard.compactionQueueLength')],
               min: 0,
               type: 'line',
               formatter: zeroDecimalPlaces
             }}
             y2={{
               metrics: ['rs_comp_cells_count', 'rs_comp_cells_size'],
-              labels: ['Compaction Cell Count', 'Compaction Cell Size'],
+              labels: [
+                t('in-forge:plugins.hBase.dashboard.compactionCellCount'),
+                t('in-forge:plugins.hBase.dashboard.compactionCellSize')
+              ],
               min: 0,
               type: 'line',
               formatter: zeroDecimalPlaces
@@ -136,20 +146,23 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Region Server - Flush">
+        <DashboardSection title={t('in-forge:plugins.hBase.dashboard.regionServerFlush')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['rs_flush_queue_length'],
-              labels: ['Flush Queue Length'],
+              labels: [t('in-forge:plugins.hBase.dashboard.flushQueueLength')],
               min: 0,
               type: 'line',
               formatter: zeroDecimalPlaces
             }}
             y2={{
               metrics: ['rs_flush_cells_count', 'rs_flush_cells_size'],
-              labels: ['Flush Cell Count', 'Flush Cell Size'],
+              labels: [
+                t('in-forge:plugins.hBase.dashboard.flushCellCount'),
+                t('in-forge:plugins.hBase.dashboard.flushCellSize')
+              ],
               min: 0,
               type: 'line',
               formatter: zeroDecimalPlaces
@@ -159,20 +172,23 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       </Columize>
       <Columize>
-        <DashboardSection title="Region Server - Store File">
+        <DashboardSection title={t('in-forge:plugins.hBase.dashboard.regionServerStoreFile')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['rs_store_file_count'],
-              labels: ['Store File Count'],
+              labels: [t('in-forge:plugins.hBase.dashboard.storeFileCount')],
               min: 0,
               type: 'line',
               formatter: zeroDecimalPlaces
             }}
             y2={{
               metrics: ['rs_store_file_index_size', 'rs_store_file_size'],
-              labels: ['Store File Index Size', 'Store File Size'],
+              labels: [
+                t('in-forge:plugins.hBase.dashboard.storeFileIndexSize'),
+                t('in-forge:plugins.hBase.dashboard.storeFileSize')
+              ],
               min: 0,
               type: 'line',
               formatter: bytesTwoDecimalPlaces
@@ -180,20 +196,23 @@ export default function HBaseDashboard({ snapshot, timeConfig }) {
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Region Server - Block cache">
+        <DashboardSection title={t('in-forge:plugins.hBase.dashboard.regionServerBlockCache')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['rs_blk_cache_hit_count', 'rs_blk_cache_miss_count'],
-              labels: ['Block Cache Hit', 'Block Cache Miss'],
+              labels: [
+                t('in-forge:plugins.hBase.dashboard.blockCacheHit'),
+                t('in-forge:plugins.hBase.dashboard.blockCacheMiss')
+              ],
               min: 0,
               type: 'line',
               formatter: zeroDecimalPlaces
             }}
             y2={{
               metrics: ['rs_blk_cache_hit_rate'],
-              labels: ['Block cache hit rate'],
+              labels: [t('in-forge:plugins.hBase.dashboard.blockCacheHitRate')],
               min: 0,
               type: 'line',
               formatter: percentageTwoDecimalPlaces

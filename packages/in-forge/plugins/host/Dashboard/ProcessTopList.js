@@ -12,12 +12,13 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './ProcessTopList.mless';
 
 const cols = [
   {
-    title: 'PID',
+    title: t('in-forge:plugins.host.dashboard.pid'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -29,7 +30,7 @@ const cols = [
     }
   },
   {
-    title: 'Process Name',
+    title: t('in-forge:plugins.host.dashboard.processName'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId$(row) {
@@ -57,7 +58,7 @@ const cols = [
     }
   },
   {
-    title: 'CPU',
+    title: t('in-forge:plugins.host.dashboard.cpu'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -67,7 +68,7 @@ const cols = [
     }
   },
   {
-    title: 'CPU (normalized)',
+    title: t('in-forge:plugins.host.dashboard.cpuNormalized'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -77,7 +78,7 @@ const cols = [
     }
   },
   {
-    title: 'Memory',
+    title: t('in-forge:plugins.host.dashboard.memory'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -114,7 +115,12 @@ export default connectTo(
 
     return (
       <Table
-        cardTitle={<TimeOfLastUpdateCardTitle title="Process Top List" timestamp={data.get('timestamp')} />}
+        cardTitle={
+          <TimeOfLastUpdateCardTitle
+            title={t('in-forge:plugins.host.dashboard.processTopList')}
+            timestamp={data.get('timestamp')}
+          />
+        }
         withoutPadding
         cols={cols}
         rows={rows}

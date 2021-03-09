@@ -13,25 +13,26 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { gaugeMetricNames } from '../metricDefinitions';
 import MetricValue from 'in-components/MetricValue';
 import GaugesTable from './GaugesTable';
+import { t } from 'in-i18n';
 
 export default function HaskellDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="CPU Time/second">
+        <KpiKeyValue label={t('in-forge:plugins.haskellRuntimePlatform.dashboard.cpuTimeSecond')}>
           <MetricValue snapshotId={snapshotId} metric="rts.gc.cpu_ms_delta" formatter={millis.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="GC CPU Time/second">
+        <KpiKeyValue label={t('in-forge:plugins.haskellRuntimePlatform.dashboard.gcCpuTimeSecond')}>
           <MetricValue snapshotId={snapshotId} metric="rts.gc.gc_cpu_ms_delta" formatter={millis.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="GC Wall Clock Time/second">
+        <KpiKeyValue label={t('in-forge:plugins.haskellRuntimePlatform.dashboard.gcWallClockTimeSecond')}>
           <MetricValue snapshotId={snapshotId} metric="rts.gc.gc_wall_ms_delta" formatter={millis.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="#GCs/second">
+        <KpiKeyValue label={t('in-forge:plugins.haskellRuntimePlatform.dashboard.hashGCsSecond')}>
           <MetricValue snapshotId={snapshotId} metric="rts.gc.num_gcs_delta" formatter={twoDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label="Total Bytes Allocated/second">
+        <KpiKeyValue label={t('in-forge:plugins.haskellRuntimePlatform.dashboard.totalBytesAllocatedSecond')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="rts.gc.bytes_allocated_delta"
@@ -40,15 +41,18 @@ export default function HaskellDashboard({ snapshot, timeConfig }) {
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="GC Times">
+      <DashboardSection title={t('in-forge:plugins.haskellRuntimePlatform.dashboard.gcTimes')}>
         <ChartExplanation>
           <div>
             <ul>
-              <li>GC CPU Time: CPU time spent running GC</li>
-              <li>GC Wall Clock Time: wall clock time spent running GC</li>
+              <li>{t('in-forge:plugins.haskellRuntimePlatform.dashboard.gcCpuTimeCpuTimeSpentRunningGc')}</li>
               <li>
-                Mutator Threads CPU Time: CPU time spent running mutator threads. This does not include any profiling
-                overhead or initialization.
+                {t('in-forge:plugins.haskellRuntimePlatform.dashboard.gcWallClockTimeWallClockTimeSpentRunningGc')}
+              </li>
+              <li>
+                {t(
+                  'in-forge:plugins.haskellRuntimePlatform.dashboard.mutatorThreadsCpuTimeCpuTimeSpentRunningMutatorThreadsThisDoesNotIncludeAnyProfilingOverheadOrInitialization'
+                )}
               </li>
             </ul>
           </div>
@@ -60,18 +64,24 @@ export default function HaskellDashboard({ snapshot, timeConfig }) {
             min: 0,
             formatter: time,
             metrics: ['rts.gc.gc_cpu_ms_delta', 'rts.gc.gc_wall_ms_delta', 'rts.gc.mutator_cpu_ms_delta'],
-            labels: ['GC CPU Time/Second', 'GC Wall Clock Time/Second', 'Mutator Threads CPU Time/Second'],
+            labels: [
+              t('in-forge:plugins.haskellRuntimePlatform.dashboard.gcCpuTimeSecond2'),
+              t('in-forge:plugins.haskellRuntimePlatform.dashboard.gcWallClockTimeSecond2'),
+              t('in-forge:plugins.haskellRuntimePlatform.dashboard.mutatorThreadsCpuTimeSecond')
+            ],
             type: 'point'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="GC Bytes">
+      <DashboardSection title={t('in-forge:plugins.haskellRuntimePlatform.dashboard.gcBytes')}>
         <ChartExplanation>
           <div>
             <ul>
-              <li>Bytes Copied: number of bytes copied during GC</li>
-              <li>Byte Usage Samples: number of byte usage samples taken</li>
+              <li>{t('in-forge:plugins.haskellRuntimePlatform.dashboard.bytesCopiedNumberOfBytesCopiedDuringGc')}</li>
+              <li>
+                {t('in-forge:plugins.haskellRuntimePlatform.dashboard.byteUsageSamplesNumberOfByteUsageSamplesTaken')}
+              </li>
             </ul>
           </div>
         </ChartExplanation>
@@ -82,14 +92,19 @@ export default function HaskellDashboard({ snapshot, timeConfig }) {
             min: 0,
             formatter: bytesTwoDecimalPlaces,
             metrics: ['rts.gc.bytes_copied_delta', 'rts.gc.num_bytes_usage_samples_delta'],
-            labels: ['Bytes Copied/Second', 'Byte Usage Samples/Second'],
+            labels: [
+              t('in-forge:plugins.haskellRuntimePlatform.dashboard.bytesCopiedSecond'),
+              t('in-forge:plugins.haskellRuntimePlatform.dashboard.byteUsageSamplesSecond')
+            ],
             type: 'point'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="CPU">
-        <ChartExplanation>CPU Time: CPU time per second</ChartExplanation>
+      <DashboardSection title={t('in-forge:plugins.haskellRuntimePlatform.dashboard.cpu')}>
+        <ChartExplanation>
+          {t('in-forge:plugins.haskellRuntimePlatform.dashboard.cpuTimeCpuTimePerSecond')}
+        </ChartExplanation>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -97,13 +112,13 @@ export default function HaskellDashboard({ snapshot, timeConfig }) {
             min: 0,
             formatter: time,
             metrics: ['rts.gc.cpu_ms_delta'],
-            labels: ['Total CPU Time/Second'],
+            labels: [t('in-forge:plugins.haskellRuntimePlatform.dashboard.totalCpuTimeSecond')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="GCs/Second">
+      <DashboardSection title={t('in-forge:plugins.haskellRuntimePlatform.dashboard.gCsSecond')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -111,13 +126,18 @@ export default function HaskellDashboard({ snapshot, timeConfig }) {
             min: 0,
             formatter: twoDecimalPlaces,
             metrics: ['rts.gc.num_gcs_delta'],
-            labels: ['#GCs/Second'],
+            labels: [t('in-forge:plugins.haskellRuntimePlatform.dashboard.hashGCsSecond2')],
             type: 'point'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <GaugesTable snapshot={snapshot} timeConfig={timeConfig} metrics={gaugeMetricNames} title="GC Gauges" />
+      <GaugesTable
+        snapshot={snapshot}
+        timeConfig={timeConfig}
+        metrics={gaugeMetricNames}
+        title={t('in-forge:plugins.haskellRuntimePlatform.dashboard.gcGauges')}
+      />
     </div>
   );
 }

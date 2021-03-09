@@ -6,11 +6,14 @@ import React from 'react';
 
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { t } from 'in-i18n';
 
 export default function NodeSummary({ snapshot }) {
   return (
     <KpiSection>
-      <KpiKeyValue label="Is Local Member Safe">{yesOrNo(snapshot.getIn(['data', 'isLocalMemberSafe']))}</KpiKeyValue>
+      <KpiKeyValue label={t('in-forge:plugins.hazelcastNode.isLocalMemberSafe')}>
+        {yesOrNo(snapshot.getIn(['data', 'isLocalMemberSafe']))}
+      </KpiKeyValue>
     </KpiSection>
   );
 }

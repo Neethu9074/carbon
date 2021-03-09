@@ -17,6 +17,7 @@ import getVsphereHostByVm from 'in-vsphere/subscriptions/getVsphereHostByVm';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   ({ snapshotId }) => {
@@ -65,11 +66,11 @@ export default connectTo(
 
     return (
       <Collapsible>
-        <Collapsible.Header>vSphere</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.host.vSphere')}</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
             {vm && (
-              <DescriptionItem title="VM">
+              <DescriptionItem title={t('in-forge:plugins.host.vm')}>
                 <VsphereSnapshotLink
                   getVsphereViewEntityDashboard={getVsphereVmDashboard}
                   snapshotId={vm.id}
@@ -80,7 +81,7 @@ export default connectTo(
               </DescriptionItem>
             )}
             {host && (
-              <DescriptionItem title="ESXi Host">
+              <DescriptionItem title={t('in-forge:plugins.host.esXiHost')}>
                 <VsphereSnapshotLink
                   getVsphereViewEntityDashboard={getVsphereHostDashboard}
                   snapshotId={host.id}
@@ -91,7 +92,7 @@ export default connectTo(
               </DescriptionItem>
             )}
             {datacenter && (
-              <DescriptionItem title="Datacenter">
+              <DescriptionItem title={t('in-forge:plugins.host.datacenter')}>
                 <VsphereSnapshotLink
                   getVsphereViewEntityDashboard={getVsphereDatacenterDashboard}
                   snapshotId={datacenter.id}

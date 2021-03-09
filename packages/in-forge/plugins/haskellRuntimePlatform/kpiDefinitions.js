@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { millis } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'CPU Time/Second',
+    label: t('in-forge:plugins.haskellRuntimePlatform.cpuTimeSecond'),
     metric: 'rts.gc.cpu_ms_delta',
     formatter: millis.compact
   },
   {
-    label: 'GC CPU Time/Second',
+    label: t('in-forge:plugins.haskellRuntimePlatform.gcCpuTimeSecond'),
     metric: 'rts.gc.gc_cpu_ms_delta',
     formatter: millis.compact
   }

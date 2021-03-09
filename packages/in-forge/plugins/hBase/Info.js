@@ -7,23 +7,30 @@ import React from 'react';
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
+import { t } from 'in-i18n';
 
 export default function HBaseInfo({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hBase.processId')}>{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hBase.version')}>{data.get('version')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Sinks">{data.get('sinks')}</DescriptionItem>
-      <DescriptionItem title="Sources">{data.get('sources')}</DescriptionItem>
-      <DescriptionItem title="Region Servers">{data.get('region_servers')}</DescriptionItem>
-      <DescriptionItem title="Dead Region Servers">{data.get('dead_region_servers')}</DescriptionItem>
-      <DescriptionItem title="Cluster Id">{data.get('cluster_id')}</DescriptionItem>
-      <DescriptionItem title="Active Master">{data.get('active_master')}</DescriptionItem>
-      <DescriptionItem title="Server Name">{formatServerName(data.get('server_name'))}</DescriptionItem>
-      <DescriptionItem title="Region Server">{formatServerName(data.get('region_server'))}</DescriptionItem>
-      <DescriptionItem title="Zookeeper">{data.get('zookeeper')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hBase.sinks')}>{data.get('sinks')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hBase.sources')}>{data.get('sources')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hBase.regionServers')}>{data.get('region_servers')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hBase.deadRegionServers')}>
+        {data.get('dead_region_servers')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hBase.clusterId')}>{data.get('cluster_id')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hBase.activeMaster')}>{data.get('active_master')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hBase.serverName')}>
+        {formatServerName(data.get('server_name'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hBase.regionServer')}>
+        {formatServerName(data.get('region_server'))}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.hBase.zookeeper')}>{data.get('zookeeper')}</DescriptionItem>
     </DescriptionList>
   );
 }

@@ -6,6 +6,7 @@ import metricDefinitions from 'in-forge/plugins/haskellRuntimePlatform/metricDef
 import kpiDefinitions from 'in-forge/plugins/haskellRuntimePlatform/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.haskellRuntimePlatform,
@@ -13,6 +14,6 @@ registerSnapshotDefinition({
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {
-    label: 'Haskell'
+    label: t('in-forge:plugins.haskellRuntimePlatform.haskell')
   }
 });

@@ -31,6 +31,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import Footer from 'in-new-components/Footer';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 import locals from './Content.mless';
 
@@ -40,23 +41,23 @@ export default function HostDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="CPU Usage">
+        <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuUsage')}>
           <MetricValue snapshotId={snapshot.get('id')} metric="cpu.used" formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
 
-        <KpiKeyValue label="Memory Usage">
+        <KpiKeyValue label={t('in-forge:plugins.host.dashboard.memoryUsage')}>
           <MetricValue snapshotId={snapshot.get('id')} metric="memory.used" formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
 
         {!(isWindows(snapshot) || isZos(snapshot)) && (
-          <KpiKeyValue label="CPU Load">
+          <KpiKeyValue label={t('in-forge:plugins.host.dashboard.cpuLoad')}>
             <MetricValue snapshotId={snapshot.get('id')} metric="load.1min" formatter={twoDecimalPlaces} />
           </KpiKeyValue>
         )}
       </KpiSection>
 
       <Columize>
-        <DashboardSection title="CPU Usage">
+        <DashboardSection title={t('in-forge:plugins.host.dashboard.cpuUsage')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -65,7 +66,13 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               max: 1,
               formatter: percentageZeroDecimalPlaces,
               metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal'],
-              labels: ['User', 'System', 'Wait', 'Nice', 'Steal'],
+              labels: [
+                t('in-forge:plugins.host.dashboard.user'),
+                t('in-forge:plugins.host.dashboard.system'),
+                t('in-forge:plugins.host.dashboard.wait'),
+                t('in-forge:plugins.host.dashboard.nice'),
+                t('in-forge:plugins.host.dashboard.steal')
+              ],
               type: 'stackedArea'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -73,14 +80,14 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
 
         {isLinux(snapshot) && (
-          <DashboardSection title="Context Switches">
+          <DashboardSection title={t('in-forge:plugins.host.dashboard.contextSwitches')}>
             <Chart
               snapshotId={snapshot.get('id')}
               timeConfig={timeConfig}
               y1={{
                 formatter: number.compact,
                 metrics: ['ctxt'],
-                labels: ['Context Switches'],
+                labels: [t('in-forge:plugins.host.dashboard.contextSwitches')],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -89,7 +96,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         )}
 
         {!(isWindows(snapshot) || isZos(snapshot)) && (
-          <DashboardSection title="CPU Load">
+          <DashboardSection title={t('in-forge:plugins.host.dashboard.cpuLoad')}>
             <Chart
               snapshotId={snapshot.get('id')}
               timeConfig={timeConfig}
@@ -99,7 +106,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
                 formatter: twoDecimalPlaces,
                 tooltipFormatter: twoDecimalPlaces,
                 metrics: ['load.1min'],
-                labels: ['Load'],
+                labels: [t('in-forge:plugins.host.dashboard.load')],
                 type: 'stackedArea'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -113,7 +120,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
       {gpuInfoAvailable && <GpuTable snapshot={snapshot} timeConfig={timeConfig} />}
       {gpuInfoAvailable && <GpuProcessList snapshot={snapshot} timeConfig={timeConfig} />}
 
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.host.dashboard.memory')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -123,7 +130,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
             formatter: percentageZeroDecimalPlaces,
             tooltipFormatter: percentageTwoDecimalPlaces,
             metrics: ['memory.used'],
-            labels: ['Used'],
+            labels: [t('in-forge:plugins.host.dashboard.used')],
             type: 'stackedArea'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -136,7 +143,11 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               min: 0,
               formatter: bytes.detailed,
               metrics: ['memory.buffers', 'memory.cached', 'memory.available'],
-              labels: ['Buffers', 'Cached', 'Available'],
+              labels: [
+                t('in-forge:plugins.host.dashboard.buffers'),
+                t('in-forge:plugins.host.dashboard.cached'),
+                t('in-forge:plugins.host.dashboard.available')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -150,7 +161,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               min: 0,
               formatter: bytes.detailed,
               metrics: ['memory.swapTotal', 'memory.swapFree'],
-              labels: ['Swap total', 'Swap free'],
+              labels: [t('in-forge:plugins.host.dashboard.swapTotal'), t('in-forge:plugins.host.dashboard.swapFree')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -159,7 +170,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       {supportsOpenFiles(snapshot) && (
-        <DashboardSection title="Open Files">
+        <DashboardSection title={t('in-forge:plugins.host.dashboard.openFiles')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -168,7 +179,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               formatter: siPrefix.compact,
               tooltipFormatter: number.compact,
               metrics: ['openFiles.current'],
-              labels: ['Current'],
+              labels: [t('in-forge:plugins.host.dashboard.current')],
               type: 'line'
             }}
             y2={{
@@ -177,7 +188,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
               formatter: percentageTwoDecimalPlaces,
               tooltipFormatter: percentageTwoDecimalPlaces,
               metrics: ['openFiles.used'],
-              labels: ['Used'],
+              labels: [t('in-forge:plugins.host.dashboard.used')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -189,7 +200,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
 
       <NetworkInterfacesTable snapshot={snapshot} timeConfig={timeConfig} />
 
-      <DashboardSection title="TCP Activity">
+      <DashboardSection title={t('in-forge:plugins.host.dashboard.tcpActivity')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -197,14 +208,25 @@ export default function HostDashboard({ snapshot, timeConfig }) {
           y1={{
             type: 'line',
             metrics: ['tcp.established', 'tcp.opens', 'tcp.inSegs', 'tcp.outSegs'],
-            labels: ['Established', 'Open/s', 'In Segments/s', 'Out Segments/s'],
+            labels: [
+              t('in-forge:plugins.host.dashboard.established'),
+              t('in-forge:plugins.host.dashboard.openS'),
+              t('in-forge:plugins.host.dashboard.inSegmentsS'),
+              t('in-forge:plugins.host.dashboard.outSegmentsS')
+            ],
             formatter: zeroDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces
           }}
           y2={{
             type: 'line',
             metrics: ['tcp.establishedResets', 'tcp.resets', 'tcp.fails', 'tcp.errors', 'tcp.retrans'],
-            labels: ['Established Resets', 'Out Resets', 'Fail', 'Error', 'Retransmission'],
+            labels: [
+              t('in-forge:plugins.host.dashboard.establishedResets'),
+              t('in-forge:plugins.host.dashboard.outResets'),
+              t('in-forge:plugins.host.dashboard.fail'),
+              t('in-forge:plugins.host.dashboard.error'),
+              t('in-forge:plugins.host.dashboard.retransmission')
+            ],
             min: 0,
             max: 1,
             formatter: percentageZeroDecimalPlaces
@@ -218,14 +240,10 @@ export default function HostDashboard({ snapshot, timeConfig }) {
       <CompanionMetrics companions$={getHostCompanions(snapshot.get('id'))} timeConfig={timeConfig} />
 
       {role.canConfigureAgents && (
-        <DashboardSection title="Agent Management">
+        <DashboardSection title={t('in-forge:plugins.host.dashboard.agentManagement')}>
           <div className={locals.agentManagementContent}>
             <div className={locals.agentManagementDescription}>
-              <p>
-                The Instana Agent has management and self monitoring capabilities which assist troubleshooting and
-                provide deeper insights without the need to log in and review files. This includes inspecting the agent
-                log, running sensor versions and more.
-              </p>
+              <p>{t('in-forge:plugins.host.dashboard.theInstanaAgentHasManagementAndSelfMonitoringCapabilities')}</p>
             </div>
 
             <div>

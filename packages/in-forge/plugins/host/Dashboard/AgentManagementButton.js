@@ -10,6 +10,7 @@ import { isEntityOnline } from 'in-stores/snapshot';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => {
@@ -21,7 +22,7 @@ export default connectTo(
   function EnableSelfMonitoringButton({ isOnline, href }) {
     const button = (
       <Button kind="primary" disabled={!isOnline} href={href}>
-        Open Agent Management
+        {t('in-forge:plugins.host.dashboard.openAgentManagement')}
       </Button>
     );
 
@@ -29,6 +30,10 @@ export default connectTo(
       return button;
     }
 
-    return <Tooltip content="Agent management is only available when the agent is running.">{button}</Tooltip>;
+    return (
+      <Tooltip content={t('in-forge:plugins.host.dashboard.agentManagementIsOnlyAvailableWhenTheAgentIsRunning')}>
+        {button}
+      </Tooltip>
+    );
   }
 );

@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { number, siPrefix } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'Node Count',
+    label: t('in-forge:plugins.hazelcastCluster.nodeCount'),
     metric: 'nodeCount',
     formatter: number.compact
   },
   {
-    label: 'Is Cluster Safe',
+    label: t('in-forge:plugins.hazelcastCluster.isClusterSafe'),
     metric: 'isClusterSafe',
     formatters: siPrefix.compact
   }

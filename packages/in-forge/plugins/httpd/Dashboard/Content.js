@@ -13,6 +13,7 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import MetricValue from 'in-components/MetricValue';
 import Link from 'in-components/Link';
+import { Trans, t } from 'in-i18n';
 
 export default function HttpdDashboard({ snapshot, timeConfig }) {
   const status = snapshot.getIn(['data', 'server-status']);
@@ -22,7 +23,9 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
   if (status !== 'OK' && status !== 'EXTENDED_INFO_DISABLED') {
     if (!status) {
       return (
-        <DashboardNotification type="info">There is no further information about this entity.</DashboardNotification>
+        <DashboardNotification type="info">
+          {t('in-forge:plugins.httpd.dashboard.thereIsNoFurtherInformationAboutThisEntity')}
+        </DashboardNotification>
       );
     }
     return <DashboardNotification type="warning">{status}</DashboardNotification>;
@@ -31,16 +34,16 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         {status !== 'EXTENDED_INFO_DISABLED' ? (
-          <KpiKeyValue label="Requests">
+          <KpiKeyValue label={t('in-forge:plugins.httpd.dashboard.requests')}>
             <MetricValue snapshotId={snapshotId} metric="requests" formatter={number.compact} />
           </KpiKeyValue>
         ) : null}
         {status !== 'EXTENDED_INFO_DISABLED' ? (
-          <KpiKeyValue label="kBytes Traffic">
+          <KpiKeyValue label={t('in-forge:plugins.httpd.dashboard.kBytesTraffic')}>
             <MetricValue snapshotId={snapshotId} metric="kBytes" />
           </KpiKeyValue>
         ) : null}
-        <KpiKeyValue label="Busy Workers">
+        <KpiKeyValue label={t('in-forge:plugins.httpd.dashboard.busyWorkers')}>
           <MetricValue snapshotId={snapshotId} metric="busy_workers" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
@@ -48,18 +51,18 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
       {extendedStatusInfo(status, ver)}
 
       {status !== 'EXTENDED_INFO_DISABLED' ? (
-        <DashboardSection title="Traffic">
+        <DashboardSection title={t('in-forge:plugins.httpd.dashboard.traffic')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               metrics: ['requests'],
-              labels: ['Requests'],
+              labels: [t('in-forge:plugins.httpd.dashboard.requests')],
               type: 'line'
             }}
             y2={{
               metrics: ['kBytes'],
-              labels: ['kBytes'],
+              labels: [t('in-forge:plugins.httpd.dashboard.kBytes')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -68,20 +71,24 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
       ) : null}
 
       {snapshot.getIn(['data', 'mpm']) === 'event' && ver && semver.satisfies(semver.coerce(ver), '>=2.3.0') ? (
-        <DashboardSection title="Connections">
+        <DashboardSection title={t('in-forge:plugins.httpd.dashboard.connections')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['conns_total'],
-              labels: ['Connections'],
+              labels: [t('in-forge:plugins.httpd.dashboard.connections')],
               type: 'line'
             }}
             y2={{
               min: 0,
               metrics: ['conns_async_writing', 'conns_async_keep_alive', 'conns_async_closing'],
-              labels: ['Async Connections Writing', 'Async Connections Keep-alive', 'Async Connections Closing'],
+              labels: [
+                t('in-forge:plugins.httpd.dashboard.asyncConnectionsWriting'),
+                'Async Connections Keep-alive',
+                t('in-forge:plugins.httpd.dashboard.asyncConnectionsClosing')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -89,7 +96,7 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       ) : null}
 
-      <DashboardSection title="Worker">
+      <DashboardSection title={t('in-forge:plugins.httpd.dashboard.worker')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -108,16 +115,16 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
               'worker.idle'
             ],
             labels: [
-              'Waiting',
-              'Starting',
-              'Reading',
-              'Writing',
-              'Keepalive',
-              'Dns',
-              'Closing',
-              'Logging',
-              'Graceful',
-              'Idle'
+              t('in-forge:plugins.httpd.dashboard.waiting'),
+              t('in-forge:plugins.httpd.dashboard.starting'),
+              t('in-forge:plugins.httpd.dashboard.reading'),
+              t('in-forge:plugins.httpd.dashboard.writing'),
+              t('in-forge:plugins.httpd.dashboard.keepalive'),
+              t('in-forge:plugins.httpd.dashboard.dns'),
+              t('in-forge:plugins.httpd.dashboard.closing'),
+              t('in-forge:plugins.httpd.dashboard.logging'),
+              t('in-forge:plugins.httpd.dashboard.graceful'),
+              t('in-forge:plugins.httpd.dashboard.idle')
             ],
             type: 'stackedArea'
           }}
@@ -127,28 +134,28 @@ export default function HttpdDashboard({ snapshot, timeConfig }) {
 
       {status !== 'EXTENDED_INFO_DISABLED' ? (
         <div>
-          <DashboardSection title="CPU">
+          <DashboardSection title={t('in-forge:plugins.httpd.dashboard.cpu')}>
             <Chart
               snapshotId={snapshot.get('id')}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['cpu_load'],
-                labels: ['CPU load'],
+                labels: [t('in-forge:plugins.httpd.dashboard.cpuLoad')],
                 type: 'line',
                 formatter: percentageZeroDecimalPlaces
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
-          <DashboardSection title="Traffic per Request">
+          <DashboardSection title={t('in-forge:plugins.httpd.dashboard.trafficPerRequest2')}>
             <Chart
               snapshotId={snapshot.get('id')}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['bytes_per_req'],
-                labels: ['Traffic per request'],
+                labels: [t('in-forge:plugins.httpd.dashboard.trafficPerRequest')],
                 type: 'line',
                 formatter: bytesZeroDecimalPlaces
               }}
@@ -168,13 +175,12 @@ function extendedStatusInfo(status, ver) {
 
   return (
     <DashboardNotification type="info">
-      In order to display metrics such as: Traffic, Traffic per Request and CPU, &nbsp;
-      <strong>ExtendedStatus</strong> flag should be&nbsp;
-      <strong>enabled</strong> in Apache HTTPd configuration.&nbsp;
-      <Link href={getModStatusDoc(semver.coerce(ver))} external>
-        Apache ExtendedStatus Directive
-      </Link>
-      .
+      <Trans
+        i18nKey="in-forge:plugins.httpd.dashboard.inOrderToDisplayMetricsSuchAsTrafficTrafficPerRequestAndCpu"
+        components={{
+          linkToDocs: <Link href={getModStatusDoc(semver.coerce(ver))} external />
+        }}
+      />
     </DashboardNotification>
   );
 }

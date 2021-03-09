@@ -4,124 +4,125 @@
  */
 import { percentage, number, millis, bytes } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { t } from 'in-i18n';
 
 export default [
   {
     metric: getDynamicMetricMatch('frontendStats', 'reqRate', 'Frontend'),
-    label: 'Requests',
-    category: ['Frontend Stats'],
+    label: t('in-forge:plugins.hAProxy.requests'),
+    category: [t('in-forge:plugins.hAProxy.frontendStats')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('frontendStats', 'reqErrors', 'Frontend'),
-    label: 'Request Errors',
-    category: ['Frontend Stats'],
+    label: t('in-forge:plugins.hAProxy.requestErrors'),
+    category: [t('in-forge:plugins.hAProxy.frontendStats')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('frontendStats', 'deniedReq', 'Frontend'),
-    label: 'Denied Requests',
-    category: ['Frontend Stats'],
+    label: t('in-forge:plugins.hAProxy.deniedRequests'),
+    category: [t('in-forge:plugins.hAProxy.frontendStats')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('frontendStats', 'sessionRate', 'Frontend'),
-    label: 'Sessions',
-    category: ['Frontend Stats'],
+    label: t('in-forge:plugins.hAProxy.sessions'),
+    category: [t('in-forge:plugins.hAProxy.frontendStats')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('frontendStats', 'sessionUtilization', 'Frontend'),
-    label: 'Session Usage',
-    category: ['Frontend Stats'],
+    label: t('in-forge:plugins.hAProxy.sessionUsage'),
+    category: [t('in-forge:plugins.hAProxy.frontendStats')],
     min: 0,
     formatter: percentage
   },
   {
     metric: getDynamicMetricMatch('frontendStats', 'clientErrors', 'Frontend'),
-    label: 'Client Errors',
-    category: ['Frontend Stats'],
+    label: t('in-forge:plugins.hAProxy.clientErrors'),
+    category: [t('in-forge:plugins.hAProxy.frontendStats')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('frontendStats', 'serverErrors', 'Frontend'),
-    label: 'Server Errors',
-    category: ['Frontend Stats'],
+    label: t('in-forge:plugins.hAProxy.serverErrors'),
+    category: [t('in-forge:plugins.hAProxy.frontendStats')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('frontendStats', 'bytesSent', 'Frontend'),
-    label: 'Bytes Sent',
-    category: ['Frontend Stats'],
+    label: t('in-forge:plugins.hAProxy.bytesSent'),
+    category: [t('in-forge:plugins.hAProxy.frontendStats')],
     min: 0,
     formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('frontendStats', 'bytesReceived', 'Frontend'),
-    label: 'Bytes Received',
-    category: ['Frontend Stats'],
+    label: t('in-forge:plugins.hAProxy.bytesReceived'),
+    category: [t('in-forge:plugins.hAProxy.frontendStats')],
     min: 0,
     formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('backendStats', 'avgResponseTime', 'Backend'),
-    label: 'Average Response Time',
-    category: ['Backend Stats'],
+    label: t('in-forge:plugins.hAProxy.averageResponseTime'),
+    category: [t('in-forge:plugins.hAProxy.backendStats')],
     min: 0,
     formatter: millis
   },
   {
     metric: getDynamicMetricMatch('backendStats', 'avgQueueTime', 'Backend'),
-    label: 'Average Queue Time',
-    category: ['Backend Stats'],
+    label: t('in-forge:plugins.hAProxy.averageQueueTime'),
+    category: [t('in-forge:plugins.hAProxy.backendStats')],
     min: 0,
     formatter: millis
   },
   {
     metric: getDynamicMetricMatch('backendStats', 'queueSize', 'Backend'),
-    label: 'Queue Size',
-    category: ['Backend Stats'],
+    label: t('in-forge:plugins.hAProxy.queueSize'),
+    category: [t('in-forge:plugins.hAProxy.backendStats')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('backendStats', 'reqConnErrors', 'Backend'),
-    label: 'Connection Errors',
-    category: ['Backend Stats'],
+    label: t('in-forge:plugins.hAProxy.connectionErrors'),
+    category: [t('in-forge:plugins.hAProxy.backendStats')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('backendStats', 'errorRes', 'Backend'),
-    label: 'Response Errors',
-    category: ['Backend Stats'],
+    label: t('in-forge:plugins.hAProxy.responseErrors'),
+    category: [t('in-forge:plugins.hAProxy.backendStats')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('backendStats', 'connRetries', 'Backend'),
-    label: 'Connection Retries',
-    category: ['Backend Stats'],
+    label: t('in-forge:plugins.hAProxy.connectionRetries'),
+    category: [t('in-forge:plugins.hAProxy.backendStats')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('backendStats', 'deniedRes', 'Backend'),
-    label: 'Denied Responses',
-    category: ['Backend Stats'],
+    label: t('in-forge:plugins.hAProxy.deniedResponses'),
+    category: [t('in-forge:plugins.hAProxy.backendStats')],
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('backendStats', 'reDispatchedReq', 'Backend'),
-    label: 'Re-Dispatched Requests',
-    category: ['Backend Stats'],
+    label: t('in-forge:plugins.hAProxy.reDispatchedRequests'),
+    category: [t('in-forge:plugins.hAProxy.backendStats')],
     min: 0,
     formatter: number
   }

@@ -10,11 +10,12 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
     id: 'GPU',
-    title: 'GPU',
+    title: t('in-forge:plugins.host.dashboard.gpu'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -27,7 +28,7 @@ const cols = [
   },
   {
     id: 'GPU Usage',
-    title: 'GPU Usage',
+    title: t('in-forge:plugins.host.dashboard.gpuUsage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -47,7 +48,7 @@ const cols = [
   },
   {
     id: 'Memory',
-    title: 'Memory',
+    title: t('in-forge:plugins.host.dashboard.memory'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -67,7 +68,7 @@ const cols = [
   },
   {
     id: 'Encoder',
-    title: 'Encoder',
+    title: t('in-forge:plugins.host.dashboard.encoder'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -87,7 +88,7 @@ const cols = [
   },
   {
     id: 'Decoder',
-    title: 'Decoder',
+    title: t('in-forge:plugins.host.dashboard.decoder'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -107,7 +108,7 @@ const cols = [
   },
   {
     id: 'Temperature',
-    title: 'Temperature',
+    title: t('in-forge:plugins.host.dashboard.temperature'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -146,7 +147,7 @@ export default function GpuTable({ snapshot, timeConfig }) {
 
   return (
     <Table
-      cardTitle="Individual GPU Usage"
+      cardTitle={t('in-forge:plugins.host.dashboard.individualGpuUsage')}
       withoutPadding
       cols={cols}
       rows={rows}
@@ -168,14 +169,14 @@ function getDetails(row) {
             max: 1,
             formatter: percentage.compact,
             metrics: ['gpus.' + row.gpuNumber + '.gpuUtilization'],
-            labels: ['Usage'],
+            labels: [t('in-forge:plugins.host.dashboard.usage')],
             type: 'line'
           }}
           y2={{
             min: 0,
             formatter: temperature.compact,
             metrics: ['gpus.' + row.gpuNumber + '.temperature'],
-            labels: ['Temperature'],
+            labels: [t('in-forge:plugins.host.dashboard.temperature')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -188,7 +189,7 @@ function getDetails(row) {
             max: 1,
             formatter: percentage.compact,
             metrics: ['gpus.' + row.gpuNumber + '.encoderUtilization', 'gpus.' + row.gpuNumber + '.decoderUtilization'],
-            labels: ['Encoder', 'Decoder'],
+            labels: [t('in-forge:plugins.host.dashboard.encoder'), t('in-forge:plugins.host.dashboard.decoder')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -203,14 +204,14 @@ function getDetails(row) {
             max: 1,
             formatter: percentage.compact,
             metrics: ['gpus.' + row.gpuNumber + '.memoryUtilization'],
-            labels: ['Memory Used'],
+            labels: [t('in-forge:plugins.host.dashboard.memoryUsed')],
             type: 'line'
           }}
           y2={{
             min: 0,
             formatter: bytes.detailed,
             metrics: ['gpus.' + row.gpuNumber + '.memoryTotal'],
-            labels: ['Memory Total'],
+            labels: [t('in-forge:plugins.host.dashboard.memoryTotal')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -222,7 +223,7 @@ function getDetails(row) {
             min: 0,
             formatter: bytesPerSecondTwoDecimalPlaces,
             metrics: ['gpus.' + row.gpuNumber + '.transmitted', 'gpus.' + row.gpuNumber + '.received'],
-            labels: ['Transmitted/s', 'Received/s'],
+            labels: [t('in-forge:plugins.host.dashboard.transmittedS'), t('in-forge:plugins.host.dashboard.receivedS')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

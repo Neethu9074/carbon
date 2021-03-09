@@ -8,10 +8,11 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.haskellRuntimePlatform.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -20,7 +21,7 @@ const cols = [
     }
   },
   {
-    title: 'Value',
+    title: t('in-forge:plugins.haskellRuntimePlatform.dashboard.value'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {

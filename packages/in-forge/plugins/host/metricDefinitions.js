@@ -11,13 +11,14 @@ import {
   bytesPerSecondTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { t } from 'in-i18n';
 
 const availableCpuMetricSuffixes = {
-  user: 'User',
-  sys: 'System',
-  wait: 'Wait',
-  nice: 'Nice',
-  steal: 'Steal'
+  user: t('in-forge:plugins.host.user'),
+  sys: t('in-forge:plugins.host.system'),
+  wait: t('in-forge:plugins.host.wait'),
+  nice: t('in-forge:plugins.host.nice'),
+  steal: t('in-forge:plugins.host.steal')
 };
 
 function getMaxFilesystemCapacity(snapshot, match) {
@@ -35,8 +36,8 @@ function getFilesystemLabel(prefix) {
 export default [
   {
     metric: 'memory.free',
-    label: 'Free',
-    category: ['Memory'],
+    label: t('in-forge:plugins.host.free'),
+    category: [t('in-forge:plugins.host.memory')],
     min: 0,
     getMax(snapshot) {
       return snapshot.getIn(['data', 'memory.total']);
@@ -45,45 +46,58 @@ export default [
   },
   {
     metric: 'memory.used',
-    label: 'Used',
-    category: ['Memory'],
+    label: t('in-forge:plugins.host.used'),
+    category: [t('in-forge:plugins.host.memory')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
     metrics: ['memory.swapTotal', 'memory.swapFree', 'memory.buffers', 'memory.cached', 'memory.available'],
-    labels: ['Swap total', 'Swap free', 'Buffers', 'Cached', 'Available'],
-    category: ['Memory'],
+    labels: [
+      t('in-forge:plugins.host.swapTotal'),
+      t('in-forge:plugins.host.swapFree'),
+      t('in-forge:plugins.host.buffers'),
+      t('in-forge:plugins.host.cached'),
+      t('in-forge:plugins.host.available')
+    ],
+    category: [t('in-forge:plugins.host.memory')],
     min: 0,
     formatter: bytes
   },
   {
     metric: 'load.1min',
-    label: 'Load',
-    category: ['CPU'],
+    label: t('in-forge:plugins.host.load'),
+    category: [t('in-forge:plugins.host.cpu')],
     min: 0,
     formatter: number
   },
   {
     metric: 'ctxt',
-    label: 'Context Switches',
-    category: ['CPU'],
+    label: t('in-forge:plugins.host.contextSwitches'),
+    category: [t('in-forge:plugins.host.cpu')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['cpu.user', 'cpu.sys', 'cpu.wait', 'cpu.nice', 'cpu.steal', 'cpu.used'],
-    labels: ['User', 'System', 'Wait', 'Nice', 'Steal', 'Used'],
-    category: ['CPU'],
+    labels: [
+      t('in-forge:plugins.host.user'),
+      t('in-forge:plugins.host.system'),
+      t('in-forge:plugins.host.wait'),
+      t('in-forge:plugins.host.nice'),
+      t('in-forge:plugins.host.steal'),
+      t('in-forge:plugins.host.used')
+    ],
+    category: [t('in-forge:plugins.host.cpu')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
     metric: 'openFiles.current',
-    label: 'Current',
-    category: ['Open Files'],
+    label: t('in-forge:plugins.host.current'),
+    category: [t('in-forge:plugins.host.openFiles')],
     min: 0,
     getMax(snapshot) {
       return snapshot.getIn(['data', 'openFiles.max']);
@@ -92,15 +106,15 @@ export default [
   },
   {
     metric: 'openFiles.used',
-    label: 'Used',
-    category: ['Open Files'],
+    label: t('in-forge:plugins.host.used'),
+    category: [t('in-forge:plugins.host.openFiles')],
     min: 0,
     max: 1,
     formatter: percentage
   },
   {
     metrics: ['topPID'],
-    labels: ['Top PID'],
+    labels: [t('in-forge:plugins.host.topPid')],
     min: 0,
     hideInMetricSelector: true,
     formatter: {
@@ -112,15 +126,26 @@ export default [
   },
   {
     metrics: ['tcp.established', 'tcp.opens', 'tcp.inSegs', 'tcp.outSegs'],
-    labels: ['Established', 'Open/s', 'In Segments/s', 'Out Segments/s'],
-    category: ['Network'],
+    labels: [
+      t('in-forge:plugins.host.established'),
+      t('in-forge:plugins.host.openS'),
+      t('in-forge:plugins.host.inSegmentsS'),
+      t('in-forge:plugins.host.outSegmentsS')
+    ],
+    category: [t('in-forge:plugins.host.network')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['tcp.establishedResets', 'tcp.resets', 'tcp.fails', 'tcp.errors', 'tcp.retrans'],
-    labels: ['Established Resets', 'Out Resets', 'Fail', 'Error', 'Retransmission'],
-    category: ['Network'],
+    labels: [
+      t('in-forge:plugins.host.establishedResets'),
+      t('in-forge:plugins.host.outResets'),
+      t('in-forge:plugins.host.fail'),
+      t('in-forge:plugins.host.error'),
+      t('in-forge:plugins.host.retransmission')
+    ],
+    category: [t('in-forge:plugins.host.network')],
     min: 0,
     max: 1,
     formatter: percentage
@@ -131,7 +156,7 @@ export default [
       const suffix = metricMatch[2];
       return availableCpuMetricSuffixes[suffix] || suffix;
     },
-    category: ['CPU'],
+    category: [t('in-forge:plugins.host.cpu')],
     min: 0,
     max: 1,
     formatter: percentage
@@ -139,7 +164,7 @@ export default [
   {
     metric: getDynamicMetricMatch('fs', 'free', 'Device'),
     label: getFilesystemLabel('Free'),
-    category: ['Filesystem'],
+    category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     max: getMaxFilesystemCapacity,
     formatter: kiloBytes
@@ -147,7 +172,7 @@ export default [
   {
     metric: getDynamicMetricMatch('fs', 'used', 'Device'),
     label: getFilesystemLabel('Used'),
-    category: ['Filesystem'],
+    category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     max: 1,
     formatter: percentage
@@ -155,7 +180,7 @@ export default [
   {
     metric: getDynamicMetricMatch('fs', 'leaked', 'Device'),
     label: getFilesystemLabel('Leaked'),
-    category: ['Filesystem'],
+    category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     max: getMaxFilesystemCapacity,
     formatter: kiloBytes
@@ -163,7 +188,7 @@ export default [
   {
     metric: getDynamicMetricMatch('fs', 'inodeUsage', 'Device'),
     label: getFilesystemLabel('Inode usage'),
-    category: ['Filesystem'],
+    category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     max: 1,
     formatter: percentage
@@ -171,7 +196,7 @@ export default [
   {
     metric: getDynamicMetricMatch('fs', 'ifree', 'Device'),
     label: getFilesystemLabel('iFree'),
-    category: ['Filesystem'],
+    category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     max: getMaxFilesystemICapacity,
     formatter: siMultiplyPrefix
@@ -179,28 +204,28 @@ export default [
   {
     metric: getDynamicMetricMatch('fs', 'reads', 'Device'),
     label: getFilesystemLabel('Reads/s'),
-    category: ['Filesystem'],
+    category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
     metric: getDynamicMetricMatch('fs', 'writes', 'Device'),
     label: getFilesystemLabel('Writes/s'),
-    category: ['Filesystem'],
+    category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
     metric: getDynamicMetricMatch('fs', 'readBytes', 'Device'),
     label: getFilesystemLabel('Bytes Read/s'),
-    category: ['Filesystem'],
+    category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     formatter: kiloBytes
   },
   {
     metric: getDynamicMetricMatch('fs', 'writeBytes', 'Device'),
     label: getFilesystemLabel('Bytes Written/s'),
-    category: ['Filesystem'],
+    category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     formatter: kiloBytes
   },
@@ -209,8 +234,8 @@ export default [
       getDynamicMetricMatch('gpus', 'gpuUtilization', 'GPU UUID'),
       getDynamicMetricMatch('gpus', 'temperature', 'GPU UUID')
     ],
-    labels: ['GPU Usage', 'Temperature'],
-    category: ['GPU'],
+    labels: [t('in-forge:plugins.host.gpuUsage'), t('in-forge:plugins.host.temperature')],
+    category: [t('in-forge:plugins.host.gpu')],
     min: 0,
     formatter: number
   },
@@ -220,8 +245,12 @@ export default [
       getDynamicMetricMatch('gpus', 'decoderUtilization', 'GPU UUID'),
       getDynamicMetricMatch('gpus', 'memoryUtilization', 'GPU UUID')
     ],
-    labels: ['Encoder', 'Decoder', 'Memory Used'],
-    category: ['GPU'],
+    labels: [
+      t('in-forge:plugins.host.encoder'),
+      t('in-forge:plugins.host.decoder'),
+      t('in-forge:plugins.host.memoryUsed')
+    ],
+    category: [t('in-forge:plugins.host.gpu')],
     min: 0,
     formatter: percentage
   },
@@ -230,8 +259,8 @@ export default [
       getDynamicMetricMatch('gpus', 'transmitted', 'GPU UUID'),
       getDynamicMetricMatch('gpus', 'received', 'GPU UUID')
     ],
-    labels: ['Transmitted/s', 'Received/s'],
-    category: ['GPU'],
+    labels: [t('in-forge:plugins.host.transmittedS'), t('in-forge:plugins.host.receivedS')],
+    category: [t('in-forge:plugins.host.gpu')],
     min: 0,
     formatter: bytesPerSecondTwoDecimalPlaces
   }

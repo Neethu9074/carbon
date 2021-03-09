@@ -12,9 +12,10 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getMaxValue } from 'in-sdk/metrics';
+import { t } from 'in-i18n';
 
 const deviceColumn = {
-  title: 'Device',
+  title: t('in-forge:plugins.host.dashboard.device'),
   type: 'string',
   typeArgs: {
     getValue(row) {
@@ -23,7 +24,7 @@ const deviceColumn = {
   }
 };
 const mountColumn = {
-  title: 'Mount',
+  title: t('in-forge:plugins.host.dashboard.mount'),
   type: 'string',
   typeArgs: {
     getValue(row) {
@@ -32,7 +33,7 @@ const mountColumn = {
   }
 };
 const optionsColumn = {
-  title: 'Options',
+  title: t('in-forge:plugins.host.dashboard.options'),
   type: 'string',
   typeArgs: {
     getValue(row) {
@@ -41,7 +42,7 @@ const optionsColumn = {
   }
 };
 const typeColumn = {
-  title: 'Type',
+  title: t('in-forge:plugins.host.dashboard.type'),
   type: 'string',
   typeArgs: {
     getValue(row) {
@@ -50,7 +51,7 @@ const typeColumn = {
   }
 };
 const capacityColumn = {
-  title: 'Capacity',
+  title: t('in-forge:plugins.host.dashboard.capacity'),
   type: 'number',
   typeArgs: {
     getValue(row) {
@@ -60,7 +61,7 @@ const capacityColumn = {
   }
 };
 const usedColumn = {
-  title: 'Used',
+  title: t('in-forge:plugins.host.dashboard.used'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row) {
@@ -76,7 +77,7 @@ const usedColumn = {
   }
 };
 const leakedColumn = {
-  title: 'Leaked',
+  title: t('in-forge:plugins.host.dashboard.leaked'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row) {
@@ -93,7 +94,7 @@ const leakedColumn = {
 };
 
 const iNodeUsageColumn = {
-  title: 'Inode usage',
+  title: t('in-forge:plugins.host.dashboard.inodeUsage'),
   type: 'metric',
   typeArgs: {
     getSnapshotId(row) {
@@ -143,7 +144,7 @@ export default function FilesystemsTable({ snapshot, timeConfig }) {
 
   return (
     <Table
-      cardTitle="Filesystems"
+      cardTitle={t('in-forge:plugins.host.dashboard.filesystems')}
       withoutPadding
       cols={cols}
       rows={rows}
@@ -167,7 +168,7 @@ function getDetails(row) {
             formatter: kiloBytes.detailed,
             tooltipFormatter: kiloBytes.detailed,
             metrics: ['fs.' + row.key + '.free', 'fs.' + row.key + '.leaked'],
-            labels: ['Free', 'Leaked'],
+            labels: [t('in-forge:plugins.host.dashboard.free'), t('in-forge:plugins.host.dashboard.leaked')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -180,7 +181,7 @@ function getDetails(row) {
               min: 0,
               max: getMaxValue('fs.' + row.key + '.inodeUsage', row.snapshot),
               metrics: ['fs.' + row.key + '.inodeUsage'],
-              labels: ['Inode Usage'],
+              labels: [t('in-forge:plugins.host.dashboard.inodeUsage2')],
               type: 'line',
               formatter: percentage,
               tooltipFormatter: percentage.compact
@@ -189,7 +190,7 @@ function getDetails(row) {
               min: 0,
               max: getMaxValue('fs.' + row.key + '.ifree', row.snapshot),
               metrics: ['fs.' + row.key + '.ifree'],
-              labels: ['Inode Free'],
+              labels: [t('in-forge:plugins.host.dashboard.inodeFree')],
               type: 'line',
               formatter: withSiMultiplyPrefixThreeDecimalPlaces,
               tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
@@ -207,7 +208,7 @@ function getDetails(row) {
             formatter: withSiMultiplyPrefixThreeDecimalPlaces,
             tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces,
             metrics: ['fs.' + row.key + '.reads', 'fs.' + row.key + '.writes'],
-            labels: ['Reads/s', 'Writes/s'],
+            labels: [t('in-forge:plugins.host.dashboard.readsS'), t('in-forge:plugins.host.dashboard.writesS')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -220,7 +221,10 @@ function getDetails(row) {
             formatter: bytes.detailed,
             tooltipFormatter: bytes.detailed,
             metrics: ['fs.' + row.key + '.readBytes', 'fs.' + row.key + '.writeBytes'],
-            labels: ['Bytes Read/s', 'Bytes Written/s'],
+            labels: [
+              t('in-forge:plugins.host.dashboard.bytesReadS'),
+              t('in-forge:plugins.host.dashboard.bytesWrittenS')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

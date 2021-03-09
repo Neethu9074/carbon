@@ -11,10 +11,11 @@ import { formatDateTime } from 'in-services/formatters/date';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Application Id',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.applicationId'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'State',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.state'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -32,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: 'Name',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -41,7 +42,7 @@ const cols = [
     }
   },
   {
-    title: 'Final Status',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.finalStatus'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -50,7 +51,7 @@ const cols = [
     }
   },
   {
-    title: 'User',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.user'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -59,7 +60,7 @@ const cols = [
     }
   },
   {
-    title: 'Type',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.type'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -68,7 +69,7 @@ const cols = [
     }
   },
   {
-    title: 'Start Time',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.startTime'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -78,7 +79,7 @@ const cols = [
     }
   },
   {
-    title: 'Finish Time',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.finishTime'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -88,7 +89,7 @@ const cols = [
     }
   },
   {
-    title: 'Tracking URL',
+    title: t('in-forge:plugins.hadoopYARN.dashboard.trackingUrl'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -97,7 +98,7 @@ const cols = [
       getContent(value) {
         return (
           <Link href={value} external>
-            Tracking URL
+            {t('in-forge:plugins.hadoopYARN.dashboard.trackingUrl')}
           </Link>
         );
       }
@@ -134,7 +135,12 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={<TimeOfLastUpdateCardTitle title="Most Recent Apps" timestamp={data.get('timestamp')} />}
+        cardTitle={
+          <TimeOfLastUpdateCardTitle
+            title={t('in-forge:plugins.hadoopYARN.dashboard.mostRecentApps')}
+            timestamp={data.get('timestamp')}
+          />
+        }
         cols={cols}
         rows={rows}
         initialSortColumn={7}
@@ -150,7 +156,7 @@ function getDetails(row) {
   if (diagnostics) {
     return (
       <DashboardNotification type="danger">
-        <b>Diagnostics:</b> {diagnostics}
+        <b>{t('in-forge:plugins.hadoopYARN.dashboard.diagnostics')}</b> {diagnostics}
       </DashboardNotification>
     );
   } else {

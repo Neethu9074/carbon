@@ -7,6 +7,7 @@ import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
 import kpiDefinitions from 'in-forge/plugins/hBase/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.hBase,
@@ -16,6 +17,6 @@ registerSnapshotDefinition({
   getCodeView,
   supportsCodeView,
   technologyDescriptor: {
-    label: 'HBase'
+    label: t('in-forge:plugins.hBase.hBase')
   }
 });

@@ -6,6 +6,7 @@ import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { t } from 'in-i18n';
 
 export default function InterfaceList({ snapshot }) {
   const ifaces = snapshot.getIn(['data', 'interfaces']);
@@ -16,7 +17,7 @@ export default function InterfaceList({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>Interfaces ({ifaces.size})</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.host.interfacesWithSize', { size: ifaces.size })}</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
             {ifaces

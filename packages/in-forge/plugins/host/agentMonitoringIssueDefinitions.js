@@ -4,19 +4,22 @@
  */
 import React from 'react';
 
+import { t } from 'in-i18n';
+
 export default {
   ebpf_not_supported: {
     issueDescription: {
       Component: function epbfNotSupported() {
         return (
           <span>
-            The Operating System of this host does not seem to offer the extended Berkeley Packet Filter (eBPF)
-            functionality that is required by the Process Abnormal Termination detection.
+            {t(
+              'in-forge:plugins.host.theOperatingSystemOfThisHostDoesNotSeemToOfferTheExtendedBerkeleyPacketFilterEBpfFunctionality'
+            )}
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.host.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/host#ebpf_not_supported`
   }
 };
