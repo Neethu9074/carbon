@@ -22,6 +22,15 @@ const cols = [
     }
   },
   {
+    title: 'Version',
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'version']);
+      }
+    }
+  },
+  {
     title: 'Shard',
     type: 'string',
     typeArgs: {
