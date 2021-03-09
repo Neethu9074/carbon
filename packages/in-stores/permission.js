@@ -135,7 +135,7 @@ function getProductPermissions() {
       label: t('in-stores:permissionCanCreatePublicCustomDashboardsLabel'),
       description: t('in-stores:permissionCanCreatePublicCustomDashboardsDescription'),
       category: t('in-stores:permissionCanCreatePublicCustomDashboardsCategory'),
-      isOwnerPermission: false
+      isOwnerPermission: true
     },
     {
       keyForGroupApi: 'CAN_EDIT_ALL_ACCESSIBLE_CUSTOM_DASHBOARDS',
@@ -177,7 +177,7 @@ function getProductPermissions() {
       label: t('in-stores:permissionCanConfigureUsersLabel'),
       description: t('in-stores:permissionCanConfigureUsersDescription'),
       category: t('in-stores:permissionCanConfigureUsersCategory'),
-      isOwnerPermission: true
+      isOwnerPermission: false
     },
     {
       keyForGroupApi: 'CAN_CONFIGURE_TEAMS',
