@@ -5,7 +5,6 @@
 @import './shared.less';
 
 :local {
-
   .wrapperContainer {
     position: absolute;
     width: 100%;

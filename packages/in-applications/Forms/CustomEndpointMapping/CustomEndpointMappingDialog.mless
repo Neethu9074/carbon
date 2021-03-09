@@ -9,7 +9,7 @@
     max-width: 38rem;
     padding-bottom: 5rem;
   }
-  
+
   .addRuleButtonWrapper {
     display: flex;
     justify-content: flex-end;

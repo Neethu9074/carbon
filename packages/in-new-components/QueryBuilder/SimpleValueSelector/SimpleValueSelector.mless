@@ -55,7 +55,8 @@
     background: @lib__colors__N800Dark;
   }
 
-  .invalid:not(:focus), .invalid:focus:not(.hideValidityInformationOnFocus) {
+  .invalid:not(:focus),
+  .invalid:focus:not(.hideValidityInformationOnFocus) {
     margin-left: -1px; // to avoid having two borders next to each other
     border-left: 1px solid @lib__colors__failure;
     margin-right: -1px; // to avoid having two borders next to each other

@@ -17,7 +17,10 @@
       background: @lib__colors__N050;
     }
 
-    button, input, .checkbox, label {
+    button,
+    input,
+    .checkbox,
+    label {
       font-size: @lib__typography__body-small__font-size;
     }
     label {
@@ -40,7 +43,7 @@
   }
 
   .label {
-    padding:0 0.5rem 0 0;
+    padding: 0 0.5rem 0 0;
   }
 
   .input {

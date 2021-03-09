@@ -9,7 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
     min-width: 2.25rem;
   }
 
@@ -21,7 +21,7 @@
 
   .entityIconSmall {
     fill: @lib__colors__N600Light;
-    margin-right: .125rem;
+    margin-right: 0.125rem;
   }
 
   .entityIcon {

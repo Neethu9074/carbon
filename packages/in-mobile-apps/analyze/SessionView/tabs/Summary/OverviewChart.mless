@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 :local {
-
   .beacons {
     height: 200px;
     position: relative;

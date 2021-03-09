@@ -22,7 +22,8 @@
     }
   }
 
-  .error:not(:focus), .error:focus:not(.hideValidityInformationOnFocus) {
+  .error:not(:focus),
+  .error:focus:not(.hideValidityInformationOnFocus) {
     border-color: @lib__colors__failure;
   }
 
@@ -35,5 +36,4 @@
     margin: 0 0 0 0.5rem;
     fill: @lib__colors__N800Dark;
   }
-
 }

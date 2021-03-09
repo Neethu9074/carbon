@@ -26,7 +26,7 @@
     left: 0;
     width: 2px;
     background: @lib__colors__failure;
-    content: "";
+    content: '';
   }
 
   .header {
@@ -34,7 +34,8 @@
     display: flex;
     justify-content: space-between;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       outline: 0;
       background: @lib__colors__N300;
       cursor: pointer;

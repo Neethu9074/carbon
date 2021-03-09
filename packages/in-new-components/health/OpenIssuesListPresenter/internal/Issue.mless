@@ -17,7 +17,10 @@
     }
   }
 
-  .link, .link:hover, .link:active, .link:focus {
+  .link,
+  .link:hover,
+  .link:active,
+  .link:focus {
     display: block;
     text-decoration: none;
     color: inherit;
@@ -43,20 +46,20 @@
     top: 0;
     bottom: 0;
     left: 0;
-    width: .5rem;
+    width: 0.5rem;
 
     display: flex;
     justify-content: center;
     align-items: center;
     // position above warning icon
     z-index: 1;
-    transition: width .2s ease-in-out, background-color .2s ease-in-out;
+    transition: width 0.2s ease-in-out, background-color 0.2s ease-in-out;
   }
 
   .stripeIcon {
     flex-shrink: 0;
     opacity: 0;
-    transition: opacity .2s ease-in-out .05s;
+    transition: opacity 0.2s ease-in-out 0.05s;
   }
 
   .title {

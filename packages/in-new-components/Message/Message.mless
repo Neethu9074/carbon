@@ -5,12 +5,12 @@
 @import '~in-themes/active.less';
 
 :local {
-  @darkyellow : darken(@lib__colors__warning, 15%);
-  @lightyellow : lighten(@lib__colors__warning, 45%);
-  @darkgreen : darken(@lib__colors__success, 15%);
-  @lightgreen : lighten(@lib__colors__success, 45%);
-  @darkred : darken(@lib__colors__failure, 15%);
-  @lightred : lighten(@lib__colors__failure, 35%);
+  @darkyellow: darken(@lib__colors__warning, 15%);
+  @lightyellow: lighten(@lib__colors__warning, 45%);
+  @darkgreen: darken(@lib__colors__success, 15%);
+  @lightgreen: lighten(@lib__colors__success, 45%);
+  @darkred: darken(@lib__colors__failure, 15%);
+  @lightred: lighten(@lib__colors__failure, 35%);
 
   .message {
     box-sizing: border-box;

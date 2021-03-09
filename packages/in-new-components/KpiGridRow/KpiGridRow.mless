@@ -12,7 +12,7 @@
     margin-right: -1px * (@grid__gutter / 2);
 
     & + .row {
-      margin-top: .5rem;
+      margin-top: 0.5rem;
       border-top: 0;
     }
   }

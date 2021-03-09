@@ -32,5 +32,4 @@
     color: @lib__colors__N600Light;
     margin-top: 0.5rem;
   }
-
 }

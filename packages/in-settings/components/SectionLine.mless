@@ -5,7 +5,6 @@
 @import '~in-themes/active.less';
 
 :local {
-
   .line {
     height: 1px;
     width: 100%;

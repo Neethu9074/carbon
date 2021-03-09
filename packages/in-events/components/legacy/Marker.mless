@@ -8,12 +8,12 @@
   .marker {
     padding: 0.125rem 0.5rem 0.188rem 0.438rem;
 
-      background: #22d8d8;
-      color: white;
+    background: #22d8d8;
+    color: white;
 
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: 0.563rem;
-      white-space: nowrap;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 0.563rem;
+    white-space: nowrap;
   }
 }

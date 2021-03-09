@@ -25,6 +25,6 @@
   .descriptionHeadline {
     font-size: 0.875rem;
     font-weight: bold;
-    margin: 1rem 0 .25rem;
+    margin: 1rem 0 0.25rem;
   }
 }

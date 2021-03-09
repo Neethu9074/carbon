@@ -15,7 +15,8 @@
     align-items: center;
     padding: 1rem;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       outline: 0;
       background: @lib__colors__N300;
       cursor: pointer;
@@ -28,7 +29,7 @@
   }
 
   .pageName {
-    font-size: .875rem;
+    font-size: 0.875rem;
     font-weight: 500;
     color: @lib__colors__N600Light;
     margin: 0 0 0 0.5rem;
@@ -39,7 +40,7 @@
   }
 
   .pageIcon path {
-    fill: #A6A6A6;
+    fill: #a6a6a6;
   }
 
   .learnHow {

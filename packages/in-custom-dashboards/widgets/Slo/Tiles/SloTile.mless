@@ -61,7 +61,7 @@
     width: 100%;
     display: grid;
     column-gap: 0;
-    grid-template: "titleValue targetInfo";
+    grid-template: 'titleValue targetInfo';
     grid-template-columns: min-content min-content;
     align-items: baseline;
 

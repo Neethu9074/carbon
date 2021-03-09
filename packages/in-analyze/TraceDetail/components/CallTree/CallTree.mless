@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 :local {
-
   .skeleton {
     width: 100%;
     height: 1rem;

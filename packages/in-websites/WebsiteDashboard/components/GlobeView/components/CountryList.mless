@@ -31,7 +31,7 @@
   }
 
   .bar {
-    height: .188rem;
+    height: 0.188rem;
     border-radius: 2px;
     animation-duration: 2s;
     animation-name: slidein;

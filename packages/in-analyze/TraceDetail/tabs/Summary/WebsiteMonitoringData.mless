@@ -9,10 +9,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #F1F4F6;
+    background: #f1f4f6;
     color: @lib__colors__N700Medium;
     padding: 0.5rem;
-    font-size: .875rem;
+    font-size: 0.875rem;
     margin: 1rem 0;
     flex-wrap: wrap;
   }
@@ -25,7 +25,7 @@
 
   .icon {
     fill: @lib__colors__navy800;
-    margin: 0 .188rem 0 0;
+    margin: 0 0.188rem 0 0;
   }
 
   .title {

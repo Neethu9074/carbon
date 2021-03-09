@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
- :local {
+:local {
   .list {
     margin: 0.5rem 0;
     padding: 0 0 0 1rem;

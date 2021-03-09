@@ -62,7 +62,9 @@
     fill: @lib__colors__N400;
     cursor: pointer;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       fill: @lib__colors__light-blue800;
       outline: none;
     }
@@ -78,7 +80,6 @@
     padding: 0 0.25rem;
     border-radius: @lib__shapes__radius_medium;
     background: @lib__colors__navy800;
-      color: @lib__colors__white;
+    color: @lib__colors__white;
   }
-
 }

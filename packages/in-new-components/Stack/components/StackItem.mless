@@ -20,7 +20,7 @@
   .label {
     display: flex;
     align-items: center;
-    min-width:0;
+    min-width: 0;
   }
 
   .chartWrapper {
@@ -44,7 +44,7 @@
 
   .dot {
     margin-right: 0.25rem;
-    width:8px;
+    width: 8px;
     height: 8px;
   }
 

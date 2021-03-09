@@ -6,8 +6,7 @@
 @import '~in-themes/mixins.less';
 
 :local {
-
-  .propertyContainer{
+  .propertyContainer {
     display: flex;
     flex-direction: column;
     margin-right: 2.5rem;
@@ -17,11 +16,11 @@
     text-transform: uppercase;
     color: @lib__colors__N600Light;
     max-width: 20rem;
-    .ellipsis()
+    .ellipsis();
   }
 
   .propertyValue {
     max-width: 20rem;
-    .ellipsis()
+    .ellipsis();
   }
 }

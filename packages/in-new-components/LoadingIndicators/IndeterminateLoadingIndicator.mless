@@ -3,97 +3,97 @@
  * (c) Copyright Instana Inc.
  */
 :local {
-	.indeterminateLoadingIndicator {
-		.animatedSvgElement {
-			opacity: 0;
-			animation-fill-mode: forwards;
-			animation-iteration-count: 0;
-			animation-timing-function: ease-in-out;
+  .indeterminateLoadingIndicator {
+    .animatedSvgElement {
+      opacity: 0;
+      animation-fill-mode: forwards;
+      animation-iteration-count: 0;
+      animation-timing-function: ease-in-out;
 
-			&.animationSequenceIn {
-				animation-duration: 1s;
-				animation-name: IndeterminateLoadingIndicatorIn;
-			}
+      &.animationSequenceIn {
+        animation-duration: 1s;
+        animation-name: IndeterminateLoadingIndicatorIn;
+      }
 
-			&.animationSequenceInOut {
-				animation-duration: 6s;
-				animation-name: IndeterminateLoadingIndicatorInOut;
-			}
+      &.animationSequenceInOut {
+        animation-duration: 6s;
+        animation-name: IndeterminateLoadingIndicatorInOut;
+      }
 
-			&.animationSequenceFadeInOut {
-				animation-duration: 6s;
-				animation-name: IndeterminateLoadingIndicatorFadeInOut;
-			}
+      &.animationSequenceFadeInOut {
+        animation-duration: 6s;
+        animation-name: IndeterminateLoadingIndicatorFadeInOut;
+      }
 
-			&.animationStartOnce {
-				animation-iteration-count: 1;
-			}
+      &.animationStartOnce {
+        animation-iteration-count: 1;
+      }
 
-			&.animationStart {
-				animation-iteration-count: infinite;
-			}
-		}
-	}
+      &.animationStart {
+        animation-iteration-count: infinite;
+      }
+    }
+  }
 
-	@keyframes IndeterminateLoadingIndicatorIn {
-		50% {
-			opacity: 1;
-		}
+  @keyframes IndeterminateLoadingIndicatorIn {
+    50% {
+      opacity: 1;
+    }
 
-		to {
-			stroke-dashoffset: 0;
-			opacity: 1;
-		}
-	}
+    to {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+  }
 
-	@keyframes IndeterminateLoadingIndicatorInOut {
-		3.125% {
-			opacity: 1;
-		}
+  @keyframes IndeterminateLoadingIndicatorInOut {
+    3.125% {
+      opacity: 1;
+    }
 
-		6.25% {
-			opacity: 1;
-		}
+    6.25% {
+      opacity: 1;
+    }
 
-		10% {
-			stroke-dashoffset: 0;
-			opacity: 1;
-		}
+    10% {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
 
-		22.5% {
-			stroke-dashoffset: 0;
-			opacity: 1;
-		}
+    22.5% {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
 
-		35% {
-			stroke-dashoffset: 0;
-			opacity: 0
-		}
+    35% {
+      stroke-dashoffset: 0;
+      opacity: 0;
+    }
 
-		to {
-			opacity: 0;
-		}
-	}
+    to {
+      opacity: 0;
+    }
+  }
 
-	@keyframes IndeterminateLoadingIndicatorFadeInOut {
-		3.125% {
-			opacity: 0;
-		}
+  @keyframes IndeterminateLoadingIndicatorFadeInOut {
+    3.125% {
+      opacity: 0;
+    }
 
-		6.25% {
-			opacity: 1;
-		}
+    6.25% {
+      opacity: 1;
+    }
 
-		22.5% {
-			opacity: 1;
-		}
+    22.5% {
+      opacity: 1;
+    }
 
-		35% {
-			opacity: 0
-		}
+    35% {
+      opacity: 0;
+    }
 
-		to {
-			opacity: 0;
-		}
-	}
+    to {
+      opacity: 0;
+    }
+  }
 }

@@ -15,7 +15,7 @@
 
     & > :first-child {
       @grid__gutter__px: @grid__gutter / 2px;
-      width: ~"calc(100% - @{grid__gutter__px})";
+      width: ~'calc(100% - @{grid__gutter__px})';
     }
   }
 

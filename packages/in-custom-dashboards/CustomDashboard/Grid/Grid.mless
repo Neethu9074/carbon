@@ -15,7 +15,7 @@
 
   .widget {
     & > :last-child:not(div) {
-      transition: opacity .3s ease-in-out;
+      transition: opacity 0.3s ease-in-out;
       opacity: 0;
       background: none;
 
@@ -27,19 +27,23 @@
     }
 
     &:hover {
-      .more, .dragHandle, & > :last-child {
+      .more,
+      .dragHandle,
+      & > :last-child {
         opacity: 1;
       }
     }
   }
 
   .dragHandle {
-    transition: opacity .3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
     opacity: 0;
     cursor: grab;
     fill: @lib__colors__N500;
 
-    &:hover, &:active, &:focus {
+    &:hover,
+    &:active,
+    &:focus {
       opacity: 1;
       fill: @lib__colors__N600Light;
     }
@@ -50,10 +54,11 @@
   }
 
   .more {
-    transition: opacity .3s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
     opacity: 0;
 
-    &:active, &:focus {
+    &:active,
+    &:focus {
       opacity: 1;
     }
   }

@@ -6,7 +6,6 @@
 @import '~in-themes/mixins.less';
 
 :local {
-
   .container {
     width: 100%;
     display: flex;
@@ -15,7 +14,7 @@
   }
 
   .smallTextBelow {
-    font-size: .75rem;
+    font-size: 0.75rem;
     color: @lib__colors__N600Light;
   }
 }

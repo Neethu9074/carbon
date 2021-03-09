@@ -6,9 +6,9 @@
 
 :local {
   .list {
-    padding: 0
+    padding: 0;
   }
   .error {
-    color: @lib__colors__failure
+    color: @lib__colors__failure;
   }
 }

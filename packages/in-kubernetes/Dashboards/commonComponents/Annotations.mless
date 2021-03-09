@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 :local {
-  .noLeftPadding pre[class*="language-"] {
+  .noLeftPadding pre[class*='language-'] {
     padding-left: 0;
   }
 }

@@ -5,7 +5,6 @@
 @import '~in-themes/active.less';
 
 :local {
-
   .headerPreview {
     color: @lib__colors__teal800;
     font-size: 1rem;
@@ -24,7 +23,6 @@
   }
 
   .optionBox {
-
     &.optionBox {
       border: none;
       border-radius: 0;
@@ -48,5 +46,4 @@
   .icon {
     margin-left: 0.5rem;
   }
-
 }

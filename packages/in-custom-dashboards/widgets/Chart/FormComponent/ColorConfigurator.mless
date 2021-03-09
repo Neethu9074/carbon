@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 :local {
-  @color-configuration-icon-size: .75rem;
+  @color-configuration-icon-size: 0.75rem;
 
   .wrapper {
     display: flex;

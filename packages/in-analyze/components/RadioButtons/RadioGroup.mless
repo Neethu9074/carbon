@@ -19,7 +19,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid  @lib__colors__primary2;
+    border: 1px solid @lib__colors__primary2;
     cursor: pointer;
     width: 50%;
     padding: 0.125rem 0;
@@ -27,18 +27,18 @@
 
   .radioInputChecked {
     border: @lib__colors__primary2;
-    background:  @lib__colors__primary2;
+    background: @lib__colors__primary2;
     color: @lib__colors__white;
     fill: @lib__colors__white;
     font-weight: bold;
   }
 
   .radioInputDisabled {
-    opacity: .5;
+    opacity: 0.5;
     pointer-events: none;
   }
 
-  .inputGroup [type="radio"] {
+  .inputGroup [type='radio'] {
     position: absolute;
     border: 0;
     clip: rect(0 0 0 0);

@@ -16,7 +16,7 @@
     & > :global(.react-toggle) {
       // react-toggle introduces an ugly horizontal leading space
       // which causes it to misalign to other element.
-      margin-left: -.313rem;
+      margin-left: -0.313rem;
     }
   }
 

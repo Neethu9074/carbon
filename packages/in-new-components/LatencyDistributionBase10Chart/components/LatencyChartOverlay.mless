@@ -55,4 +55,3 @@
     z-index: @z-index__barStrike;
   }
 }
-

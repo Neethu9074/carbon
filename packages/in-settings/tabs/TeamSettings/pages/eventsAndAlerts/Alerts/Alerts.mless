@@ -5,9 +5,8 @@
 @import '~in-themes/active.less';
 
 :local {
-
   .invalid {
-    color: @lib__colors__red800
+    color: @lib__colors__red800;
   }
 
   .stateDropdown {

@@ -81,7 +81,8 @@
     transition: background 0.2s ease-in-out;
     background: @lib__colors__white;
 
-    &:nth-child(even), &.forceAlternateBg {
+    &:nth-child(even),
+    &.forceAlternateBg {
       background: @lib__colors__N050;
     }
 
@@ -159,7 +160,8 @@
     }
   }
 
-  .expanded, .active {
+  .expanded,
+  .active {
     background: @lib__colors__faded-blue800;
     &:nth-child(even) {
       background: @lib__colors__faded-blue800;
@@ -172,10 +174,8 @@
     &:hover {
       // align to subtle button colors
       // Implemented via box-shadow to avoid impacting the box model
-      box-shadow: 0.625rem 0.25rem 0 @lib__colors__N300,
-                  -0.625rem 0.25rem 0 @lib__colors__N300,
-                  0.625rem -0.25rem 0 @lib__colors__N300,
-                  -0.625rem -0.25rem 0 @lib__colors__N300;
+      box-shadow: 0.625rem 0.25rem 0 @lib__colors__N300, -0.625rem 0.25rem 0 @lib__colors__N300,
+        0.625rem -0.25rem 0 @lib__colors__N300, -0.625rem -0.25rem 0 @lib__colors__N300;
       background: @lib__colors__N300;
       border-radius: @lib__shapes__radius_small;
     }

@@ -32,7 +32,7 @@
     color: @lib__colors__N900Primary;
     margin-bottom: 1.5rem;
   }
-  
+
   .queryBuilder {
     margin: 1rem 0;
     display: flex;

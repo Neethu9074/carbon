@@ -16,7 +16,7 @@
   .key {
     color: @lib__colors__N600Light;
     font-weight: 500;
-    padding: 0 0 .188rem;
+    padding: 0 0 0.188rem;
   }
 
   .value {

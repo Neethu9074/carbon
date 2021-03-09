@@ -37,9 +37,45 @@
     }
   }
 
-  .xs--auto, .xs--1, .xs--2, .xs--3, .xs--4, .xs--5, .xs--6, .xs--7, .xs--8, .xs--9, .xs--10, .xs--11, .xs--12,
-  .md--auto, .md--1, .md--2, .md--3, .md--4, .md--5, .md--6, .md--7, .md--8, .md--9, .md--10, .md--11, .md--12,
-  .lg--auto, .lg--1, .lg--2, .lg--3, .lg--4, .lg--5, .lg--6, .lg--7, .lg--8, .lg--9, .lg--10, .lg--11, .lg--12 {
+  .xs--auto,
+  .xs--1,
+  .xs--2,
+  .xs--3,
+  .xs--4,
+  .xs--5,
+  .xs--6,
+  .xs--7,
+  .xs--8,
+  .xs--9,
+  .xs--10,
+  .xs--11,
+  .xs--12,
+  .md--auto,
+  .md--1,
+  .md--2,
+  .md--3,
+  .md--4,
+  .md--5,
+  .md--6,
+  .md--7,
+  .md--8,
+  .md--9,
+  .md--10,
+  .md--11,
+  .md--12,
+  .lg--auto,
+  .lg--1,
+  .lg--2,
+  .lg--3,
+  .lg--4,
+  .lg--5,
+  .lg--6,
+  .lg--7,
+  .lg--8,
+  .lg--9,
+  .lg--10,
+  .lg--11,
+  .lg--12 {
     position: relative;
     width: 100%;
     min-height: 1px;
@@ -50,86 +86,236 @@
     margin-top: @grid__gutter * 1px;
   }
 
-  .xs--auto { .auto(); }
-  .xs--1 { .cell(1); }
-  .xs-offset--1 { .offset(1) }
-  .xs--2 { .cell(2); }
-  .xs-offset--2 { .offset(2) }
-  .xs--3 { .cell(3); }
-  .xs-offset--3 { .offset(3) }
-  .xs--4 { .cell(4); }
-  .xs-offset--4 { .offset(4) }
-  .xs--5 { .cell(5); }
-  .xs-offset--5 { .offset(5) }
-  .xs--6 { .cell(6); }
-  .xs-offset--6 { .offset(6) }
-  .xs--7 { .cell(7); }
-  .xs-offset--7 { .offset(7) }
-  .xs--8 { .cell(8); }
-  .xs-offset--8 { .offset(8) }
-  .xs--9 { .cell(9); }
-  .xs-offset--9 { .offset(9) }
-  .xs--10 { .cell(10); }
-  .xs-offset--10 { .offset(10) }
-  .xs--11 { .cell(11); }
-  .xs-offset--11 { .offset(11) }
-  .xs--12 { .cell(12); }
-  .xs-offset--12 { .offset(12) }
+  .xs--auto {
+    .auto();
+  }
+  .xs--1 {
+    .cell(1);
+  }
+  .xs-offset--1 {
+    .offset(1);
+  }
+  .xs--2 {
+    .cell(2);
+  }
+  .xs-offset--2 {
+    .offset(2);
+  }
+  .xs--3 {
+    .cell(3);
+  }
+  .xs-offset--3 {
+    .offset(3);
+  }
+  .xs--4 {
+    .cell(4);
+  }
+  .xs-offset--4 {
+    .offset(4);
+  }
+  .xs--5 {
+    .cell(5);
+  }
+  .xs-offset--5 {
+    .offset(5);
+  }
+  .xs--6 {
+    .cell(6);
+  }
+  .xs-offset--6 {
+    .offset(6);
+  }
+  .xs--7 {
+    .cell(7);
+  }
+  .xs-offset--7 {
+    .offset(7);
+  }
+  .xs--8 {
+    .cell(8);
+  }
+  .xs-offset--8 {
+    .offset(8);
+  }
+  .xs--9 {
+    .cell(9);
+  }
+  .xs-offset--9 {
+    .offset(9);
+  }
+  .xs--10 {
+    .cell(10);
+  }
+  .xs-offset--10 {
+    .offset(10);
+  }
+  .xs--11 {
+    .cell(11);
+  }
+  .xs-offset--11 {
+    .offset(11);
+  }
+  .xs--12 {
+    .cell(12);
+  }
+  .xs-offset--12 {
+    .offset(12);
+  }
 
   @media (min-width: 768px) {
-    .md--auto { .auto(); }
-    .md--1 { .cell(1); }
-    .md-offset--1 { .offset(1) }
-    .md--2 { .cell(2); }
-    .md-offset--2 { .offset(2) }
-    .md--3 { .cell(3); }
-    .md-offset--3 { .offset(3) }
-    .md--4 { .cell(4); }
-    .md-offset--4 { .offset(4) }
-    .md--5 { .cell(5); }
-    .md-offset--5 { .offset(5) }
-    .md--6 { .cell(6); }
-    .md-offset--6 { .offset(6) }
-    .md--7 { .cell(7); }
-    .md-offset--7 { .offset(7) }
-    .md--8 { .cell(8); }
-    .md-offset--8 { .offset(8) }
-    .md--9 { .cell(9); }
-    .md-offset--9 { .offset(9) }
-    .md--10 { .cell(10); }
-    .md-offset--10 { .offset(10) }
-    .md--11 { .cell(11); }
-    .md-offset--11 { .offset(11) }
-    .md--12 { .cell(12); }
-    .md-offset--12 { .offset(12) }
+    .md--auto {
+      .auto();
+    }
+    .md--1 {
+      .cell(1);
+    }
+    .md-offset--1 {
+      .offset(1);
+    }
+    .md--2 {
+      .cell(2);
+    }
+    .md-offset--2 {
+      .offset(2);
+    }
+    .md--3 {
+      .cell(3);
+    }
+    .md-offset--3 {
+      .offset(3);
+    }
+    .md--4 {
+      .cell(4);
+    }
+    .md-offset--4 {
+      .offset(4);
+    }
+    .md--5 {
+      .cell(5);
+    }
+    .md-offset--5 {
+      .offset(5);
+    }
+    .md--6 {
+      .cell(6);
+    }
+    .md-offset--6 {
+      .offset(6);
+    }
+    .md--7 {
+      .cell(7);
+    }
+    .md-offset--7 {
+      .offset(7);
+    }
+    .md--8 {
+      .cell(8);
+    }
+    .md-offset--8 {
+      .offset(8);
+    }
+    .md--9 {
+      .cell(9);
+    }
+    .md-offset--9 {
+      .offset(9);
+    }
+    .md--10 {
+      .cell(10);
+    }
+    .md-offset--10 {
+      .offset(10);
+    }
+    .md--11 {
+      .cell(11);
+    }
+    .md-offset--11 {
+      .offset(11);
+    }
+    .md--12 {
+      .cell(12);
+    }
+    .md-offset--12 {
+      .offset(12);
+    }
   }
 
   @media (min-width: 1280px) {
-    .lg--auto { .auto(); }
-    .lg--1 { .cell(1); }
-    .lg-offset--1 { .offset(1) }
-    .lg--2 { .cell(2); }
-    .lg-offset--2 { .offset(2) }
-    .lg--3 { .cell(3); }
-    .lg-offset--3 { .offset(3) }
-    .lg--4 { .cell(4); }
-    .lg-offset--4 { .offset(4) }
-    .lg--5 { .cell(5); }
-    .lg-offset--5 { .offset(5) }
-    .lg--6 { .cell(6); }
-    .lg-offset--6 { .offset(6) }
-    .lg--7 { .cell(7); }
-    .lg-offset--7 { .offset(7) }
-    .lg--8 { .cell(8); }
-    .lg-offset--8 { .offset(8) }
-    .lg--9 { .cell(9); }
-    .lg-offset--9 { .offset(9) }
-    .lg--10 { .cell(10); }
-    .lg-offset--10 { .offset(10) }
-    .lg--11 { .cell(11); }
-    .lg-offset--11 { .offset(11) }
-    .lg--12 { .cell(12); }
-    .lg-offset--12 { .offset(12) }
+    .lg--auto {
+      .auto();
+    }
+    .lg--1 {
+      .cell(1);
+    }
+    .lg-offset--1 {
+      .offset(1);
+    }
+    .lg--2 {
+      .cell(2);
+    }
+    .lg-offset--2 {
+      .offset(2);
+    }
+    .lg--3 {
+      .cell(3);
+    }
+    .lg-offset--3 {
+      .offset(3);
+    }
+    .lg--4 {
+      .cell(4);
+    }
+    .lg-offset--4 {
+      .offset(4);
+    }
+    .lg--5 {
+      .cell(5);
+    }
+    .lg-offset--5 {
+      .offset(5);
+    }
+    .lg--6 {
+      .cell(6);
+    }
+    .lg-offset--6 {
+      .offset(6);
+    }
+    .lg--7 {
+      .cell(7);
+    }
+    .lg-offset--7 {
+      .offset(7);
+    }
+    .lg--8 {
+      .cell(8);
+    }
+    .lg-offset--8 {
+      .offset(8);
+    }
+    .lg--9 {
+      .cell(9);
+    }
+    .lg-offset--9 {
+      .offset(9);
+    }
+    .lg--10 {
+      .cell(10);
+    }
+    .lg-offset--10 {
+      .offset(10);
+    }
+    .lg--11 {
+      .cell(11);
+    }
+    .lg-offset--11 {
+      .offset(11);
+    }
+    .lg--12 {
+      .cell(12);
+    }
+    .lg-offset--12 {
+      .offset(12);
+    }
   }
 
   .auto() {

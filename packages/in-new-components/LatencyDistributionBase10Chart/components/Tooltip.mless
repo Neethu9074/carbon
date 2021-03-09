@@ -6,7 +6,6 @@
 @import '~in-themes/mixins.less';
 
 :local {
-
   .tooltipContent {
     position: absolute;
     z-index: @z-index__tooltipContent;

@@ -18,7 +18,7 @@
   }
 
   .header {
-    font-size: .75rem;
+    font-size: 0.75rem;
     color: @lib__colors__N600Light;
     font-weight: 500;
     margin: 0 0 0.4rem 0;
@@ -50,10 +50,11 @@
     color: inherit;
     font-weight: 500;
     padding: 0.2rem 0.65rem;
-    margin: 0 .125rem;
+    margin: 0 0.125rem;
     border-radius: @lib__shapes__radius_small;
 
-    &.active, &:hover {
+    &.active,
+    &:hover {
       background: @lib__colors__light-blue800;
       background: var(--type-color);
       color: #fff;

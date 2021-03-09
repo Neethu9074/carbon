@@ -38,7 +38,8 @@
     display: flex;
     align-items: center;
 
-    &:active .help, &:hover .help {
+    &:active .help,
+    &:hover .help {
       fill: @links__hover__decoration;
     }
   }

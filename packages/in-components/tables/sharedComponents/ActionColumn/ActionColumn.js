@@ -16,11 +16,15 @@ export default function ActionCol({ cols, action, actionHref, label }) {
         <Button
           kind="action"
           href={actionHref}
-          onClick={action ? e => {
-            e.preventDefault();
-            e.stopPropagation();
-            action();
-          } : undefined}
+          onClick={
+            action
+              ? e => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  action();
+                }
+              : undefined
+          }
         >
           {label}
         </Button>

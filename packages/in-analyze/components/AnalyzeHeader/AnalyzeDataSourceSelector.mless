@@ -14,7 +14,7 @@
     align-items: center;
 
     & > svg {
-      margin-right: .5rem;
+      margin-right: 0.5rem;
     }
   }
 
@@ -23,6 +23,6 @@
   }
 
   .betaPill {
-    margin-left: .5rem;
+    margin-left: 0.5rem;
   }
 }

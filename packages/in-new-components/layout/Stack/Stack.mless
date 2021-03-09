@@ -12,9 +12,15 @@
 
     // Raise the specificity to two class selectors to overwrite
     // default margins of child elements.
-    &.alignment-left { align-items: flex-start; }
-    &.alignment-center { align-items: center; }
-    &.alignment-right { align-items: flex-end; }
+    &.alignment-left {
+      align-items: flex-start;
+    }
+    &.alignment-center {
+      align-items: center;
+    }
+    &.alignment-right {
+      align-items: flex-end;
+    }
     .spacings();
   }
 }

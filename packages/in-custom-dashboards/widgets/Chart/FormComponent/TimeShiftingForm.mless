@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 :local {
-  .timeShiftHelpText, .compareToTimeShifted {
+  .timeShiftHelpText,
+  .compareToTimeShifted {
     display: flex;
     align-items: center;
   }

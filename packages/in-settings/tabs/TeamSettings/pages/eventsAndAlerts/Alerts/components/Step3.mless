@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 :local {
-
   .input {
     width: 100%;
     margin-bottom: 0.5rem;

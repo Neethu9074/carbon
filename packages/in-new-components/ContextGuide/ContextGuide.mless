@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 :local {
-
   .leftButton {
     border-radius: 2px 0 0 2px;
     margin-right: 1px;

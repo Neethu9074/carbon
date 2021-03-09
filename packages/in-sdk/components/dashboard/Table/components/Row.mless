@@ -6,10 +6,10 @@
   .tableRow {
     outline: 0;
     background: transparent;
-    border-bottom: 1px solid #E1E5E8;
+    border-bottom: 1px solid #e1e5e8;
 
     &:nth-child(even) {
-      background: #FAFBFC;
+      background: #fafbfc;
     }
     &:last-child {
       border-bottom: 0px;

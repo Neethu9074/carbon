@@ -21,7 +21,7 @@
   }
 
   .icon {
-    margin-right: .5rem;
+    margin-right: 0.5rem;
     fill: @lib__colors__N600Light;
   }
 
@@ -67,7 +67,7 @@
   .loadingBarContainer {
     width: 15rem;
     height: 0.625rem;
-    margin: 1rem 0 .5rem;
+    margin: 1rem 0 0.5rem;
   }
 
   .horizontalIndicator {
@@ -80,6 +80,6 @@
   }
 
   .errorIcon {
-    fill: @lib__colors__failure
+    fill: @lib__colors__failure;
   }
 }

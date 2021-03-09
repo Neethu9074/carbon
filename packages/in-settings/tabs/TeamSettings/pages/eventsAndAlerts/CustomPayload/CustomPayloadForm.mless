@@ -6,12 +6,13 @@
 @import '~in-themes/active.less';
 
 :local {
-
   .row {
     vertical-align: top;
   }
 
-  .colName, .colType, .colValue {
+  .colName,
+  .colType,
+  .colValue {
     width: 100%;
   }
 

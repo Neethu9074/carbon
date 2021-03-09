@@ -6,7 +6,6 @@
 @import '~in-themes/mixins.less';
 
 :local {
-
   .staticTitle,
   .staticSeverity {
     font-weight: bold;
@@ -16,5 +15,4 @@
     line-height: 1.25rem;
     color: @lib__colors__N500;
   }
-
 }

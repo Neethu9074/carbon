@@ -40,5 +40,4 @@
   .tickContainer:last-child .tickValues {
     transform: translate(-75%, 0);
   }
-
 }

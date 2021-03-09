@@ -5,19 +5,19 @@
 @import '~in-themes/active.less';
 
 :local {
-    .icon {
-      fill: @lib__colors__teal800;
-      margin: 0 4px;
-    }
+  .icon {
+    fill: @lib__colors__teal800;
+    margin: 0 4px;
+  }
 
-    .content {
-      width: 85%;
-    }
+  .content {
+    width: 85%;
+  }
 
-    .title {
-      color: @lib__colors__teal800;
-      font-size: 0.75rem;
-    }
+  .title {
+    color: @lib__colors__teal800;
+    font-size: 0.75rem;
+  }
 
   .container {
     display: flex;
@@ -28,6 +28,5 @@
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_medium;
     padding: 0.5rem;
-
   }
 }

@@ -22,15 +22,18 @@
     "storybookBuild": "export STORYBOOK='true' && gulp prepareTestExecution && node --max-old-space-size=4096 ./node_modules/.bin/build-storybook -c storybook/config -o storybookTarget",
     "translateIconRegistry": "node packages/in-components/SvgIcon/registryTranslator.js",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
-    "reformat": "prettier --single-quote --print-width 120 --write \"packages/**/*.{js,less}\"",
+    "reformat": "prettier --write \"packages/**/*.{js,less,mless,css}\"",
     "postinstall": "./build/postInstall",
     "precommit": "yarn run check:yarn-lock-exists && lint-staged && yarn run test:unit && git add README.md "
   },
   "lint-staged": {
     "*.js": [
       "eslint --fix",
-      "prettier --single-quote --print-width 120 --write",
+      "prettier --write",
       "git add"
+    ],
+    "*.(css|mless|less)": [
+      "prettier --write"
     ],
     "subTaskConcurrency": 1
   },

@@ -10,7 +10,7 @@
   }
 
   .scopeContentWrapper {
-      margin-top: 0.25rem;
+    margin-top: 0.25rem;
   }
 
   .title {

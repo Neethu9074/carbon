@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
- @import '~in-themes/active.less';
+@import '~in-themes/active.less';
 
- :local {
+:local {
   .messageBox {
     line-height: 1.4;
     margin-top: 1.5rem;

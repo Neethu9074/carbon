@@ -31,7 +31,7 @@
 
   .openedRow.erroneousCall,
   .selectedRow.erroneousCall {
-    background: #fdf4f9
+    background: #fdf4f9;
   }
 
   .detailGroup {
@@ -79,7 +79,6 @@
     margin-right: 0.5rem;
     font-size: 0.875rem;
     font-weight: 600;
-
 
     .ellipsis();
   }
