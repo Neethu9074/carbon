@@ -137,7 +137,7 @@ module.exports = exports = [
   {
     uiClientKey: 'newAnalyticsEnabled',
     instanaCtlKey: 'feature.new.analytics.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'persistentVolumeSupportEnabled',
@@ -152,11 +152,12 @@ module.exports = exports = [
   {
     uiClientKey: 'qb2InCustomDashboardsEnabled',
     instanaCtlKey: 'feature.qb2.custom.dashboards.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'webMobileQb2AnalyzeEnabled',
-    instanaCtlKey: 'feature.web.mobile.qb2.analyze.enabled'
+    instanaCtlKey: 'feature.web.mobile.qb2.analyze.enabled',
+    defaultValue: true
   },
   {
     uiClientKey: 'loggingEnabled',
@@ -176,7 +177,7 @@ module.exports = exports = [
   {
     uiClientKey: 'qb2InAPCreationEnabled',
     instanaCtlKey: 'feature.qb2.ap.creation.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'languageSelectorEnabled',
