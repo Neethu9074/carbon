@@ -14,10 +14,6 @@ import Button from 'in-new-components/Button';
 export default function DataSeriesConfigurator({ form, onChange, getShortMetricKey }) {
   const hasY2 = form.get('y2').get('metrics').size > 0;
 
-  /**
-   * Run this only once when the component renders for the first time
-   * If there is no dataset selected, add one and open it by default
-   */
   useEffect(
     () => {
       const axisForm = form.get('y1');
@@ -27,6 +23,9 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
         onChange(['y1', 'metrics'], f => f.push(createMetricForm()));
       }
     },
+    // Run this only once when the component renders for the first time
+    // If there is no dataset selected, add one and open it by default
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       /* Only on component did mount */
     ]

@@ -8,6 +8,7 @@
 :local {
   .title {
     margin: 0 1rem;
+    .ellipsis();
   }
 
   .hasError {
