@@ -4,9 +4,9 @@
  */
 import React from 'react';
 
+import SimpleAlertConfigDialogStep3 from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleAlertConfigDialogStep3';
 import SimpleAlertConfigDialogStep2 from 'in-alerting/smart-alerts/applications/simple/SimpleAlertConfigDialogStep2';
 import SimpleAlertConfigDialogStep1 from 'in-alerting/smart-alerts/applications/simple/SimpleAlertConfigDialogStep1';
-import SimpleAlertConfigDialogStep3 from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleAlertConfigDialogStep3';
 import SimpleModePageNavigation from 'in-new-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { applicationsAlertingStepSwitch } from 'in-alerting/smart-alerts/applications/tracker';
 import { t } from 'in-i18n';

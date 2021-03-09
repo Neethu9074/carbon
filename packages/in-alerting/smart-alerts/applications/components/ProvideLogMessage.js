@@ -18,8 +18,8 @@ import {
   ruleLogLevelOptions
 } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import LogMessagesList from 'in-alerting/smart-alerts/applications/components/LogMessagesList';
-import { modeAdvanced } from 'in-alerting/smart-alerts/websites/alerting/constants';
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
+import { modeAdvanced } from 'in-alerting/smart-alerts/websites/constants';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { operators } from 'in-analyze/applicationFilter';

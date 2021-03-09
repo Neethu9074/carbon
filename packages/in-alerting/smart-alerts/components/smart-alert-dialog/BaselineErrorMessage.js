@@ -2,12 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
-import theme from 'in-themes';
 import React from 'react';
 
 import Message from 'in-new-components/Message';
 import Trans from 'in-i18n/Trans';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function BaselineErrorMessage({ thresholdResult }) {
   if (!hasBaselineError(thresholdResult)) {

@@ -6,9 +6,9 @@ import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
-import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/alerting/advanced/AdvancedModeContainer';
-import alertFormDefinition from 'in-alerting/smart-alerts/websites/alerting/form/alertDialogFormDefinition';
-import SimpleModeContainer from 'in-alerting/smart-alerts/websites/alerting/simple/SimpleModeContainer';
+import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/advanced/AdvancedModeContainer';
+import alertFormDefinition from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
+import SimpleModeContainer from 'in-alerting/smart-alerts/websites/simple/SimpleModeContainer';
 
 export default {
   title: 'Templates|website/alerting/AlertConfigDialog',

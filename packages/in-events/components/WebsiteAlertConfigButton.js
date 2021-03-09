@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
-import { websitesAlertingEventDetailsViewEditConfig } from 'in-alerting/smart-alerts/websites/alerting/tracker';
+import { websitesAlertingEventDetailsViewEditConfig } from 'in-alerting/smart-alerts/websites/tracker';
 import { goToAlertConfig } from 'in-websites/navigation/paths';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 export default function WebsiteAlertConfigButton({ alertConfig }) {
   return (

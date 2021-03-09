@@ -16,10 +16,10 @@ import WebsiteContextIcon from 'in-websites/WebsiteDashboard/components/WebsiteC
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
 import WebsiteContext from 'in-websites/WebsiteDashboard/components/WebsiteContext';
-import CreateAlert from 'in-alerting/smart-alerts/websites/alerting/CreateAlert';
 import { websiteTabs, pageTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import { dashboardTagFilters as tagFiltersTrackers } from 'in-websites/tracker';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
+import CreateAlert from 'in-alerting/smart-alerts/websites/CreateAlert';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';

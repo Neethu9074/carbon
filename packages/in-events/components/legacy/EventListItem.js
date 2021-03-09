@@ -10,8 +10,8 @@ import EntityWithParentInformation from 'in-events/components/EntityInformation/
 import ApplicationEventListItemContent from 'in-events/components/legacy/ApplicationEventListItemContent';
 import { getTimeConfigFromEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
-import WebsiteScopePath from 'in-alerting/smart-alerts/websites/alerting/components/WebsiteScopePath';
 import WebsiteEventListItemContent from 'in-events/components/legacy/WebsiteEventListItemContent';
+import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventListItemContent from 'in-events/components/legacy/EventListItemContent';

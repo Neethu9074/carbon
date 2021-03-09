@@ -11,7 +11,7 @@ import {
   websitesAlertingListAlertResumed,
   websitesAlertingListAlertPaused,
   websitesAlertingListAlertDeleted
-} from 'in-alerting/smart-alerts/websites/alerting/tracker';
+} from 'in-alerting/smart-alerts/websites/tracker';
 import {
   getAllAlertConfigs,
   disableAlertConfig,
@@ -19,8 +19,8 @@ import {
   deleteAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
 import { alertCreated as alertCreatedMatrixParam, alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
-import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/alerting/components/AlertQueryBuilder';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/alerting/data/blueprintConfig';
+import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';

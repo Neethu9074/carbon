@@ -6,13 +6,6 @@ import { compose, withState } from 'recompose';
 import React from 'react';
 
 import {
-  websitesAlertingAlertRevisionChanged,
-  websitesAlertingAlertDeleted,
-  websitesAlertingAlertResumed,
-  websitesAlertingAlertPaused,
-  websitesAlertingAlertEdit
-} from 'in-alerting/smart-alerts/websites/alerting/tracker';
-import {
   getAlertConfigByIdAndTimestamp,
   getAllVersionsOfAlertConfig,
   getLatestAlertConfig,
@@ -21,13 +14,20 @@ import {
   deleteAlertConfig,
   updateAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
+import {
+  websitesAlertingAlertRevisionChanged,
+  websitesAlertingAlertDeleted,
+  websitesAlertingAlertResumed,
+  websitesAlertingAlertPaused,
+  websitesAlertingAlertEdit
+} from 'in-alerting/smart-alerts/websites/tracker';
 import { alertsTab, alertsTabListFullyQualified, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
 import AlertConfiguration from 'in-websites/WebsiteDashboard/tabs/Alerts/AlertConfiguration';
-import AlertConfigDialog from 'in-alerting/smart-alerts/websites/alerting/AlertConfigDialog';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import { alertCreated as alertCreatedMatrixParam } from 'in-websites/navigation/matrix';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import AlertConfigDialog from 'in-alerting/smart-alerts/websites/AlertConfigDialog';
 import { alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import AlertHistoryList from 'in-alerting/components/AlertHistoryList';

@@ -5,9 +5,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { websitesAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/websites/alerting/tracker';
 import { fromBackendModel, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/alerting/data/blueprintConfig';
+import { websitesAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/websites/tracker';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { propTypeTimeConfig } from 'in-stores/time/config';

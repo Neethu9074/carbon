@@ -4,10 +4,10 @@
  */
 import React from 'react';
 
-import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/alerting/chart/WebsitesAlertingChartWithErrorMessage';
-import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/alerting/components/AlertQueryBuilder';
-import WebsiteScopePath from 'in-alerting/smart-alerts/websites/alerting/components/WebsiteScopePath';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/alerting/data/blueprintConfig';
+import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
+import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';

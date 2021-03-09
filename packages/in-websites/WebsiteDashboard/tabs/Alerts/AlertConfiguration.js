@@ -5,14 +5,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/alerting/chart/WebsitesAlertingChartWithErrorMessage';
-import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/alerting/form/ruleFormData';
+import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
-import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/alerting/components/AlertQueryBuilder';
-import WebsiteScopePath from 'in-alerting/smart-alerts/websites/alerting/components/WebsiteScopePath';
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/alerting/data/blueprintConfig';
+import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
+import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
