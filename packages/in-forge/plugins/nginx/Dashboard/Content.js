@@ -12,6 +12,7 @@ import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotifica
 import { twoDecimalPlaces } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import Code from 'in-components/Code';
+import { t, Trans } from 'in-i18n';
 
 const stubStatusSampleConfig = `location /nginx_status {
   stub_status  on;
@@ -32,28 +33,24 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
   if (errorCode === 'CONFIG_FILE_NOT_ACCESSIBLE') {
     return (
       <DashboardNotification type="warning">
-        <strong>Nginx configuration file not accessible.</strong>
+        <strong>{t('in-forge:plugins.nginx.nginxConfigurationFileNotAccessibleHeader')}</strong>
         <p>
-          The config file could either not be located or could not be accessed. The agent tries to automatically{' '}
-          identify the location of the configuration file. It does so by analyzing the command line of the nginx master
-          process. Additionally, it also tries common locations for nginx config files such as{' '}
-          <code>/etc/nginx/nginx.conf</code>.
+          <Trans i18nKey="in-forge:plugins.nginx.nginxConfigurationFileNotAccessibleDesc" />
         </p>
         <p>
-          This file needs to be accessible in order to identify the URL under which nginx is exposing status
-          information.
+          {t(
+            'in-forge:plugins.nginx.thisFileNeedsToBeAccessibleInOrderToIdentifyTheUrlUnderWhichNginxIsExposingStatusInformation'
+          )}
         </p>
       </DashboardNotification>
     );
   } else if (errorCode === 'STATUS_LOCATION_NOT_FOUND') {
     return (
       <DashboardNotification type="warning">
-        <strong>Status URL not found.</strong>
+        <strong>{t('in-forge:plugins.nginx.statusUrlNotFoundHeader')}</strong>
 
         <p>
-          The nginx config file was parsed and no <code>stub_status</code> direction could be found. This directive{' '}
-          needs to be configured in order to gather nginx metrics. The following snippet shows how to configure{' '}
-          <code>stub_status</code> within an nginx config file:
+          <Trans i18nKey="in-forge:plugins.nginx.statusUrlNotFoundDesc" />
         </p>
 
         <Code code={stubStatusSampleConfig} />
@@ -62,11 +59,9 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
   } else if (errorCode === 'STATUS_LOCATION_NOT_ACCESSIBLE') {
     return (
       <DashboardNotification type="warning">
-        <strong>Status URL not accessible.</strong>
+        <strong>{t('in-forge:plugins.nginx.statusUrlNotAccessibleHeader')}</strong>
         <p>
-          Based on the nginx config, the status URL <code>{statusUrl}</code> was identified but this address could not
-          be accessed. This is commonly the case due to nginx <code>allow</code> and <code>deny</code> directives, port
-          bindings or iptable configurations.
+          <Trans i18nKey="in-forge:plugins.nginx.statusUrlNotAccessibleDesc" values={{ statusUrl }} />
         </p>
       </DashboardNotification>
     );
@@ -74,8 +69,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
     return (
       <DashboardNotification type="warning">
         <p>
-          A <code>stub_status</code> directive could not found within the nginx configuration. Please add or enable it{' '}
-          within the nginx configuration to enable monitoring metrics.
+          <Trans i18nKey="in-forge:plugins.nginx.aCodeStubStatusCodeDirectiveCouldNotFoundWithinTheNginxConfiguration" />
         </p>
         <Code code={stubStatusSampleConfig} />
       </DashboardNotification>
@@ -83,23 +77,19 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
   } else if (errorCode === 'API_LOCATION_NOT_ACCESSIBLE') {
     return (
       <DashboardNotification type="warning">
-        <strong>NgnixPlus API URL not accessible.</strong>
+        <strong>{t('in-forge:plugins.nginx.ngnixPlusApiUrlNotAccessibleHeader')}</strong>
         <p>
-          Based on the nginx config, we identified the nginx-plus API which is inaccessible on it
-          {`'`}s specified location. This is commonly the case due to nginx <code>allow</code> and <code>deny</code>{' '}
-          directives, port bindings or iptable configurations.
+          <Trans i18nKey="in-forge:plugins.nginx.ngnixPlusApiUrlNotAccessibleDesc" />
         </p>
       </DashboardNotification>
     );
   } else if (errorCode === 'API_LOCATION_NOT_FOUND') {
     return (
       <DashboardNotification type="warning">
-        <strong>API URL not found.</strong>
+        <strong>{t('in-forge:plugins.nginx.apiUrlNotFoundHeader')}</strong>
 
         <p>
-          The nginx config file was parsed and no <code>api</code> direction could be found. This directive needs to be
-          configured in order to gather nginx plus metrics. The following snippet shows how to configure{' '}
-          <code>api</code> within an nginx config file.
+          <Trans i18nKey="in-forge:plugins.nginx.apiUrlNotFoundDesc" />
         </p>
 
         <Code code={apiDirectiveSampleConfig} />
@@ -110,28 +100,28 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Requests per second">
+        <KpiKeyValue label={t('in-forge:plugins.nginx.requestsPerSecond')}>
           <MetricValue snapshotId={snapshotId} metric="requests" />
         </KpiKeyValue>
-        <KpiKeyValue label="Connections Reading">
+        <KpiKeyValue label={t('in-forge:plugins.nginx.connectionsReading')}>
           <MetricValue snapshotId={snapshotId} metric="connections.reading" />
         </KpiKeyValue>
-        <KpiKeyValue label="Connections Writing">
+        <KpiKeyValue label={t('in-forge:plugins.nginx.connectionsWriting')}>
           <MetricValue snapshotId={snapshotId} metric="connections.writing" />
         </KpiKeyValue>
-        <KpiKeyValue label="Connections Waiting">
+        <KpiKeyValue label={t('in-forge:plugins.nginx.connectionsWaiting')}>
           <MetricValue snapshotId={snapshotId} metric="connections.waiting" />
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Requests per second">
+      <DashboardSection title={t('in-forge:plugins.nginx.requestsPerSecond')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['requests'],
-            labels: ['Requests'],
+            labels: [t('in-forge:plugins.nginx.requests')],
             type: 'line',
             formatter: twoDecimalPlaces
           }}
@@ -140,7 +130,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       {isNginxPlus && (
-        <DashboardSection title="Responses for server zones">
+        <DashboardSection title={t('in-forge:plugins.nginx.responsesForServerZones')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -156,21 +146,30 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
 
-      <DashboardSection title="Connections">
+      <DashboardSection title={t('in-forge:plugins.nginx.connections')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['connections.accepted', 'connections.handled', 'connections.active', 'connections.dropped'],
-            labels: ['Accepted', 'Handled', 'Active', 'Dropped'],
+            labels: [
+              t('in-forge:plugins.nginx.accepted'),
+              t('in-forge:plugins.nginx.handled'),
+              t('in-forge:plugins.nginx.active'),
+              t('in-forge:plugins.nginx.dropped')
+            ],
             type: 'line',
             formatter: twoDecimalPlaces
           }}
           y2={{
             min: 0,
             metrics: ['connections.reading', 'connections.writing', 'connections.waiting'],
-            labels: ['Reading', 'Writing', 'Waiting'],
+            labels: [
+              t('in-forge:plugins.nginx.reading'),
+              t('in-forge:plugins.nginx.writing'),
+              t('in-forge:plugins.nginx.waiting')
+            ],
             type: 'line',
             formatter: twoDecimalPlaces
           }}
@@ -179,7 +178,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       {isNginxPlus && (
-        <DashboardSection title="Caches">
+        <DashboardSection title={t('in-forge:plugins.nginx.caches')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -193,11 +192,11 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
                 'nginx_plus.http.caches.cold'
               ],
               labels: [
-                'Misses per second',
-                'Hits per second',
-                'Caches size',
-                'Max cache size',
-                'Number of cold caches'
+                t('in-forge:plugins.nginx.missesPerSecond'),
+                t('in-forge:plugins.nginx.hitsPerSecond'),
+                t('in-forge:plugins.nginx.cachesSize'),
+                t('in-forge:plugins.nginx.maxCacheSize'),
+                t('in-forge:plugins.nginx.numberOfColdCaches')
               ],
               type: 'line',
               formatter: twoDecimalPlaces
@@ -208,7 +207,7 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
       )}
 
       {isNginxPlus && (
-        <DashboardSection title="SSL">
+        <DashboardSection title={t('in-forge:plugins.nginx.ssl')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -219,7 +218,11 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
                 'nginx_plus.ssl.handshakes_failed',
                 'nginx_plus.ssl.session_reuses'
               ],
-              labels: ['Handshakes', 'Failed hanshakes', 'Session reuses'],
+              labels: [
+                t('in-forge:plugins.nginx.handshakes'),
+                t('in-forge:plugins.nginx.failedHanshakes'),
+                t('in-forge:plugins.nginx.sessionReuses')
+              ],
               type: 'line',
               formatter: twoDecimalPlaces
             }}
@@ -229,14 +232,14 @@ export default function NginxDashboard({ snapshot, timeConfig }) {
       )}
 
       {isNginxPlus && (
-        <DashboardSection title="Processes and upstreams">
+        <DashboardSection title={t('in-forge:plugins.nginx.processesAndUpstreams')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['nginx_plus.processes.respawned', 'nginx_plus.http.upstreams.peers.failed'],
-              labels: ['Processes respawned', 'Upstreams failed'],
+              labels: [t('in-forge:plugins.nginx.processesRespawned'), t('in-forge:plugins.nginx.upstreamsFailed')],
               type: 'line',
               formatter: twoDecimalPlaces
             }}

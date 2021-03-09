@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { time, bytesTwoDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default {
   initialSortColumn: 0,
@@ -10,7 +11,7 @@ export default {
 
   cols: [
     {
-      title: 'App',
+      title: t('in-forge:plugins.nodeJsRuntimePlatform.app'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId(row) {
@@ -19,7 +20,7 @@ export default {
       }
     },
     {
-      title: 'Heap Used',
+      title: t('in-forge:plugins.nodeJsRuntimePlatform.heapUsed'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -35,7 +36,7 @@ export default {
       }
     },
     {
-      title: 'GC pause/s',
+      title: t('in-forge:plugins.nodeJsRuntimePlatform.gcPauseS'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -51,7 +52,7 @@ export default {
       }
     },
     {
-      title: 'Event Loop Lag',
+      title: t('in-forge:plugins.nodeJsRuntimePlatform.eventLoopLag'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {

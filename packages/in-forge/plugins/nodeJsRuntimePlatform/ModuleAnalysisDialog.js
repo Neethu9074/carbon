@@ -11,6 +11,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => {
@@ -24,11 +25,13 @@ export default connectTo(
   },
   function CodeDialog({ response }) {
     return (
-      <Dialog title="Node.js module analysis" onClose={close}>
+      <Dialog title={t('in-forge:plugins.nodeJsRuntimePlatform.nodeJsModuleAnalysis')} onClose={close}>
         {!response ? <LoadingIndicator /> : null}
 
         {response && response.error ? (
-          <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>
+          <DashboardNotification type="danger">
+            {t('in-forge:plugins.nodeJsRuntimePlatform.error', { err: response.error })}
+          </DashboardNotification>
         ) : null}
 
         {response && response.data ? <Code code={JSON.stringify(response.data, 0, 2)} lang="json" /> : null}

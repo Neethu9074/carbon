@@ -8,14 +8,14 @@ import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import TagList from 'in-sdk/components/sidebar/TagList';
-
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function NodejsDashboardSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Node.js</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.nodeJsRuntimePlatform.nodeJs')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -23,9 +23,15 @@ export default function NodejsDashboardSidebar({ snapshot }) {
 
       <TagList snapshot={snapshot} />
 
-      <KeyValueOverlay header="Dependencies" data={snapshot.getIn(['data', 'dependencies'])} />
+      <KeyValueOverlay
+        header={t('in-forge:plugins.nodeJsRuntimePlatform.dependencies')}
+        data={snapshot.getIn(['data', 'dependencies'])}
+      />
 
-      <KeyValueOverlay header="Runtime Versions" data={snapshot.getIn(['data', 'versions'])} />
+      <KeyValueOverlay
+        header={t('in-forge:plugins.nodeJsRuntimePlatform.runtimeVersions')}
+        data={snapshot.getIn(['data', 'versions'])}
+      />
 
       <ServiceInstancesList snapshot={snapshot} />
     </div>

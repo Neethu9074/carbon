@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'Exceptions Thrown',
+    label: t('in-forge:plugins.netCoreRuntimePlatform.exceptionsThrown'),
     metric: 'metrics.exceptionThrownCount',
     formatter: zeroDecimalPlaces
   },
   {
-    label: 'Contention Count',
+    label: t('in-forge:plugins.netCoreRuntimePlatform.contentionCount'),
     metric: 'metrics.contentionCount',
     formatter: zeroDecimalPlaces
   }

@@ -7,6 +7,7 @@ import metricDefinitions from 'in-forge/plugins/netCoreRuntimePlatform/metricDef
 import kpiDefinitions from 'in-forge/plugins/netCoreRuntimePlatform/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.netCoreRuntimePlatform,
@@ -15,6 +16,6 @@ registerSnapshotDefinition({
   metricDefinitions,
   agentMonitoringIssueDefinitions,
   technologyDescriptor: {
-    label: '.NET Core'
+    label: t('in-forge:plugins.netCoreRuntimePlatform.netCore')
   }
 });

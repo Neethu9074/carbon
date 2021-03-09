@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'Running Allocations',
+    label: t('in-forge:plugins.nomadScheduler.runningAllocations'),
     metric: 'nomad.client.allocations.running',
     formatter: number.compact
   },
   {
-    label: 'Migrating Allocations',
+    label: t('in-forge:plugins.nomadScheduler.migratingAllocations'),
     metric: 'nomad.client.allocations.migrating',
     formatter: number.compact
   }

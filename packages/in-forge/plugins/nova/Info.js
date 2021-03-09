@@ -5,6 +5,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
@@ -12,13 +13,15 @@ export default function Info({ snapshot }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Hostname">{data.get('public-hostname')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.nova.hostname')}>{data.get('public-hostname')}</DescriptionItem>
 
-        <DescriptionItem title="Instance ID">{data.get('instance-id')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.nova.instanceId')}>{data.get('instance-id')}</DescriptionItem>
 
-        <DescriptionItem title="Project ID">{data.get('project-id')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.nova.projectId')}>{data.get('project-id')}</DescriptionItem>
 
-        <DescriptionItem title="Availability Zone">{data.get('availability-zone')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.nova.availabilityZone')}>
+          {data.get('availability-zone')}
+        </DescriptionItem>
       </DescriptionList>
     </div>
   );

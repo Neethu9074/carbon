@@ -8,10 +8,11 @@ import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Health check',
+    title: t('in-forge:plugins.nodeJsRuntimePlatform.healthCheck'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -20,7 +21,7 @@ const cols = [
     }
   },
   {
-    title: 'Healthy',
+    title: t('in-forge:plugins.nodeJsRuntimePlatform.healthy'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -36,7 +37,7 @@ const cols = [
     }
   },
   {
-    title: 'Since',
+    title: t('in-forge:plugins.nodeJsRuntimePlatform.since'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -74,6 +75,12 @@ export default function HealthchecksTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <Table withoutPadding cardTitle={`Health checks (${rows.length})`} cols={cols} rows={rows} maxItemsPerPage={20} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.nodeJsRuntimePlatform.healthChecksWithCount', { len: rows.length })}
+      cols={cols}
+      rows={rows}
+      maxItemsPerPage={20}
+    />
   );
 }

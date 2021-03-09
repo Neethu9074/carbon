@@ -5,14 +5,15 @@
 import React from 'react';
 
 import { number, withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import GaugesTable from './GaugesTable';
+import { t } from 'in-i18n';
 
 export default function NomadDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -21,61 +22,67 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
   if (errorCode !== 'NO_ERROR') {
     return (
       <DashboardNotification type="warning">
-        <strong>Nomad metrics are not available</strong>
-        <p>Please check if the Nomad metrics endpoint is reachable.</p>
+        <strong>{t('in-forge:plugins.nomadScheduler.nomadMetricsAreNotAvailable')}</strong>
+        <p>{t('in-forge:plugins.nomadScheduler.pleaseCheckIfTheNomadMetricsEndpointIsReachable')}</p>
       </DashboardNotification>
     );
   } else {
     return (
       <div>
         <KpiSection>
-          <KpiKeyValue label="Running">
+          <KpiKeyValue label={t('in-forge:plugins.nomadScheduler.running')}>
             <MetricValue snapshotId={snapshotId} metric="nomad.client.allocations.running" formatter={number.compact} />
           </KpiKeyValue>
-          <KpiKeyValue label="Migrating">
+          <KpiKeyValue label={t('in-forge:plugins.nomadScheduler.migrating')}>
             <MetricValue
               snapshotId={snapshotId}
               metric="nomad.client.allocations.migrating"
               formatter={number.compact}
             />
           </KpiKeyValue>
-          <KpiKeyValue label="Pending">
+          <KpiKeyValue label={t('in-forge:plugins.nomadScheduler.pending')}>
             <MetricValue snapshotId={snapshotId} metric="nomad.client.allocations.pending" formatter={number.compact} />
           </KpiKeyValue>
-          <KpiKeyValue label="Terminal">
+          <KpiKeyValue label={t('in-forge:plugins.nomadScheduler.terminal')}>
             <MetricValue
               snapshotId={snapshotId}
               metric="nomad.client.allocations.terminal"
               formatter={number.compact}
             />
           </KpiKeyValue>
-          <KpiKeyValue label="Blocked">
+          <KpiKeyValue label={t('in-forge:plugins.nomadScheduler.blocked')}>
             <MetricValue snapshotId={snapshotId} metric="nomad.client.allocations.blocked" formatter={number.compact} />
           </KpiKeyValue>
         </KpiSection>
         <Columize>
-          <DashboardSection title="CPU (MHz)">
+          <DashboardSection title={t('in-forge:plugins.nomadScheduler.cpuMHz')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['nomad.client.allocated.cpu', 'nomad.client.unallocated.cpu'],
-                labels: ['Allocated CPU', 'Unallocated CPU'],
+                labels: [
+                  t('in-forge:plugins.nomadScheduler.allocatedCpu'),
+                  t('in-forge:plugins.nomadScheduler.unallocatedCpu')
+                ],
                 formatter: withSiPrefixZeroDecimalPlaces,
                 type: 'stackedArea'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
-          <DashboardSection title="Memory">
+          <DashboardSection title={t('in-forge:plugins.nomadScheduler.memory')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['nomad.client.allocated.memory', 'nomad.client.unallocated.memory'],
-                labels: ['Allocated memory', 'Unallocated memory'],
+                labels: [
+                  t('in-forge:plugins.nomadScheduler.allocatedMemory'),
+                  t('in-forge:plugins.nomadScheduler.unallocatedMemory')
+                ],
                 formatter: withSiPrefixZeroDecimalPlaces,
                 type: 'stackedArea'
               }}
@@ -84,28 +91,34 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
           </DashboardSection>
         </Columize>
         <Columize>
-          <DashboardSection title="Disk">
+          <DashboardSection title={t('in-forge:plugins.nomadScheduler.disk')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['nomad.client.allocated.disk', 'nomad.client.unallocated.disk'],
-                labels: ['Allocated disk', 'Unallocated disk'],
+                labels: [
+                  t('in-forge:plugins.nomadScheduler.allocatedDisk'),
+                  t('in-forge:plugins.nomadScheduler.unallocatedDisk')
+                ],
                 formatter: withSiPrefixZeroDecimalPlaces,
                 type: 'stackedArea'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
-          <DashboardSection title="IOPS">
+          <DashboardSection title={t('in-forge:plugins.nomadScheduler.iops')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['nomad.client.allocated.iops', 'nomad.client.unallocated.iops'],
-                labels: ['Allocated IOPS', 'Unallocated IOPS'],
+                labels: [
+                  t('in-forge:plugins.nomadScheduler.allocatedIops'),
+                  t('in-forge:plugins.nomadScheduler.unallocatedIops')
+                ],
                 formatter: withSiPrefixZeroDecimalPlaces,
                 type: 'stackedArea'
               }}
@@ -113,7 +126,7 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
             />
           </DashboardSection>
         </Columize>
-        <DashboardSection title="Allocations">
+        <DashboardSection title={t('in-forge:plugins.nomadScheduler.allocations')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -126,27 +139,36 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
                 'nomad.client.allocations.terminal',
                 'nomad.client.allocations.blocked'
               ],
-              labels: ['Running', 'Migrating', 'Pending', 'Terminal', 'Blocked'],
+              labels: [
+                t('in-forge:plugins.nomadScheduler.running'),
+                t('in-forge:plugins.nomadScheduler.migrating'),
+                t('in-forge:plugins.nomadScheduler.pending'),
+                t('in-forge:plugins.nomadScheduler.terminal'),
+                t('in-forge:plugins.nomadScheduler.blocked')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
         <Columize>
-          <DashboardSection title="Broker Core">
+          <DashboardSection title={t('in-forge:plugins.nomadScheduler.brokerCore')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['nomad.nomad.broker._core.unacked', 'nomad.nomad.broker._core.ready'],
-                labels: ['Unacknowledged', 'Ready'],
+                labels: [
+                  t('in-forge:plugins.nomadScheduler.unacknowledged'),
+                  t('in-forge:plugins.nomadScheduler.ready')
+                ],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
-          <DashboardSection title="Broker">
+          <DashboardSection title={t('in-forge:plugins.nomadScheduler.broker')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -158,14 +180,19 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
                   'nomad.nomad.broker.total_ready',
                   'nomad.nomad.broker.total_blocked'
                 ],
-                labels: ['Unacknowledged', 'Waiting', 'Ready', 'Blocked'],
+                labels: [
+                  t('in-forge:plugins.nomadScheduler.unacknowledged'),
+                  t('in-forge:plugins.nomadScheduler.waiting'),
+                  t('in-forge:plugins.nomadScheduler.ready'),
+                  t('in-forge:plugins.nomadScheduler.blocked')
+                ],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
         </Columize>
-        <DashboardSection title="Total Blocked Evaluations">
+        <DashboardSection title={t('in-forge:plugins.nomadScheduler.totalBlockedEvaluations')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -176,7 +203,11 @@ export default function NomadDashboard({ snapshot, timeConfig }) {
                 'nomad.nomad.blocked_evals.total_blocked',
                 'nomad.nomad.blocked_evals.total_escaped'
               ],
-              labels: ['Quota limit', 'Blocked', 'Escaped'],
+              labels: [
+                t('in-forge:plugins.nomadScheduler.quotaLimit'),
+                t('in-forge:plugins.nomadScheduler.blocked'),
+                t('in-forge:plugins.nomadScheduler.escaped')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

@@ -6,6 +6,7 @@ import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function NginxInfo({ snapshot }) {
   const data = snapshot.get('data');
@@ -13,14 +14,22 @@ export default function NginxInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
-      <DescriptionItem title="Worker processes">{data.get('worker_processes')}</DescriptionItem>
-      <DescriptionItem title="Worker connections">{data.get('worker_connections')}</DescriptionItem>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
-      {isNginxPlus && <DescriptionItem title="Build">{data.get('build')}</DescriptionItem>}
-      {isNginxPlus && <DescriptionItem title="Address">{data.get('address')}</DescriptionItem>}
-      {isNginxPlus && <DescriptionItem title="Generation">{data.get('generation')}</DescriptionItem>}
-      {isNginxPlus && <DescriptionItem title="ppid">{data.get('ppid')}</DescriptionItem>}
+      <DescriptionItem title={t('in-forge:plugins.nginx.processId')}>{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.nginx.workerProcesses')}>
+        {data.get('worker_processes')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.nginx.workerConnections')}>
+        {data.get('worker_connections')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.nginx.version')}>{data.get('version')}</DescriptionItem>
+      {isNginxPlus && <DescriptionItem title={t('in-forge:plugins.nginx.build')}>{data.get('build')}</DescriptionItem>}
+      {isNginxPlus && (
+        <DescriptionItem title={t('in-forge:plugins.nginx.address')}>{data.get('address')}</DescriptionItem>
+      )}
+      {isNginxPlus && (
+        <DescriptionItem title={t('in-forge:plugins.nginx.generation')}>{data.get('generation')}</DescriptionItem>
+      )}
+      {isNginxPlus && <DescriptionItem title={t('in-forge:plugins.nginx.ppid')}>{data.get('ppid')}</DescriptionItem>}
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

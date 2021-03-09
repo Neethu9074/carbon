@@ -7,10 +7,11 @@ import React from 'react';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { identity } from 'in-services/util/function';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Type',
+    title: t('in-forge:plugins.nodeJsRuntimePlatform.type'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -19,7 +20,7 @@ const cols = [
     }
   },
   {
-    title: 'Bind Address',
+    title: t('in-forge:plugins.nodeJsRuntimePlatform.bindAddress'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -28,7 +29,7 @@ const cols = [
     }
   },
   {
-    title: 'Port',
+    title: t('in-forge:plugins.nodeJsRuntimePlatform.port'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -60,5 +61,12 @@ export default function HttpServersTable({ snapshot, timeConfig }) {
     return null;
   }
 
-  return <Table withoutPadding cardTitle={`HTTP Servers (${rows.length})`} cols={cols} rows={rows} />;
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.nodeJsRuntimePlatform.httpServersWithCount', { len: rows.length })}
+      cols={cols}
+      rows={rows}
+    />
+  );
 }

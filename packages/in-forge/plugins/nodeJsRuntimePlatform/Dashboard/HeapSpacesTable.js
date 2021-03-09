@@ -9,10 +9,11 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Heap Space',
+    title: t('in-forge:plugins.nodeJsRuntimePlatform.heapSpace'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Available',
+    title: t('in-forge:plugins.nodeJsRuntimePlatform.available'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Current',
+    title: t('in-forge:plugins.nodeJsRuntimePlatform.current'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Used',
+    title: t('in-forge:plugins.nodeJsRuntimePlatform.used'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,7 +70,7 @@ const cols = [
     }
   },
   {
-    title: 'Physical',
+    title: t('in-forge:plugins.nodeJsRuntimePlatform.physical'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -107,7 +108,7 @@ export default function HeapSpacesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Heap Spaces (${rows.length})`}
+      cardTitle={t('in-forge:plugins.nodeJsRuntimePlatform.heapSpacesWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}
@@ -131,7 +132,12 @@ function getDetails(row) {
           'heapSpaces.' + row.name + '.used',
           'heapSpaces.' + row.name + '.physical'
         ],
-        labels: ['Available', 'Current', 'Used', 'Physical'],
+        labels: [
+          t('in-forge:plugins.nodeJsRuntimePlatform.available'),
+          t('in-forge:plugins.nodeJsRuntimePlatform.current'),
+          t('in-forge:plugins.nodeJsRuntimePlatform.used'),
+          t('in-forge:plugins.nodeJsRuntimePlatform.physical')
+        ],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

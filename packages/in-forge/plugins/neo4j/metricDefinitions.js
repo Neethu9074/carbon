@@ -8,6 +8,7 @@ import {
   bytesZeroDecimalPlaces,
   percentage
 } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
@@ -17,9 +18,14 @@ export default [
       'primitiveCount.relationshipIds',
       'primitiveCount.relationShipTypeIds'
     ],
-    labels: ['Node IDs', 'Property IDs', 'Relationship IDs', 'RelationShipType IDs'],
+    labels: [
+      t('in-forge:plugins.neo4j.nodeIDs'),
+      t('in-forge:plugins.neo4j.propertyIDs'),
+      t('in-forge:plugins.neo4j.relationshipIDs'),
+      t('in-forge:plugins.neo4j.relationShipTypeIDs')
+    ],
     min: 0,
-    category: ['ID Allocation'],
+    category: [t('in-forge:plugins.neo4j.idAllocation')],
     formatter: number
   },
   {
@@ -33,16 +39,16 @@ export default [
       'storeFileSize.totalStoreSize'
     ],
     labels: [
-      'Nodes',
-      'Properties',
-      'Relationships',
-      'String Properties',
-      'Array Properties',
-      'Logical Log',
-      'Total Store'
+      t('in-forge:plugins.neo4j.nodes'),
+      t('in-forge:plugins.neo4j.properties'),
+      t('in-forge:plugins.neo4j.relationships'),
+      t('in-forge:plugins.neo4j.stringProperties'),
+      t('in-forge:plugins.neo4j.arrayProperties'),
+      t('in-forge:plugins.neo4j.logicalLog'),
+      t('in-forge:plugins.neo4j.totalStore')
     ],
     min: 0,
-    category: ['Store File Sizes'],
+    category: [t('in-forge:plugins.neo4j.storeFileSizes')],
     formatter: bytesZeroDecimalPlaces
   },
   {
@@ -60,35 +66,35 @@ export default [
       'storeSize.totalStoreSize'
     ],
     labels: [
-      'Nodes',
-      'Properties',
-      'Relationships',
-      'Labels',
-      'String Properties',
-      'Array Properties',
-      'Schemas',
-      'Counters',
-      'Indices',
-      'Transaction Logs',
-      'Total Store'
+      t('in-forge:plugins.neo4j.nodes'),
+      t('in-forge:plugins.neo4j.properties'),
+      t('in-forge:plugins.neo4j.relationships'),
+      t('in-forge:plugins.neo4j.labels'),
+      t('in-forge:plugins.neo4j.stringProperties'),
+      t('in-forge:plugins.neo4j.arrayProperties'),
+      t('in-forge:plugins.neo4j.schemas'),
+      t('in-forge:plugins.neo4j.counters'),
+      t('in-forge:plugins.neo4j.indices'),
+      t('in-forge:plugins.neo4j.transactionLogs'),
+      t('in-forge:plugins.neo4j.totalStore')
     ],
     min: 0,
-    category: ['Store Sizes'],
+    category: [t('in-forge:plugins.neo4j.storeSizes')],
     formatter: bytesZeroDecimalPlaces
   },
   {
     metrics: ['pageCache.bytesRead', 'pageCache.bytesWritten'],
-    labels: ['Bytes Read', 'Bytes Written'],
+    labels: [t('in-forge:plugins.neo4j.bytesRead'), t('in-forge:plugins.neo4j.bytesWritten')],
     min: 0,
-    category: ['Page Cache'],
+    category: [t('in-forge:plugins.neo4j.pageCache')],
     formatter: bytesZeroDecimalPlaces
   },
   {
     metrics: ['pageCache.hitRatio', 'pageCache.usageRatio'],
-    labels: ['Hit Ratio', 'Usage Ratio'],
+    labels: [t('in-forge:plugins.neo4j.hitRatio'), t('in-forge:plugins.neo4j.usageRatio')],
     min: 0,
     max: 100,
-    category: ['Page Cache'],
+    category: [t('in-forge:plugins.neo4j.pageCache')],
     formatter: percentage.compact
   },
   {
@@ -101,9 +107,17 @@ export default [
       'pageCache.fileMappings',
       'pageCache.fileUnmappings'
     ],
-    labels: ['Pins', 'Flushes', 'Faults', 'Evictions', 'Eviction Exceptions', 'File Mappings', 'File Unmappings'],
+    labels: [
+      t('in-forge:plugins.neo4j.pins'),
+      t('in-forge:plugins.neo4j.flushes'),
+      t('in-forge:plugins.neo4j.faults'),
+      t('in-forge:plugins.neo4j.evictions'),
+      t('in-forge:plugins.neo4j.evictionExceptions'),
+      t('in-forge:plugins.neo4j.fileMappings'),
+      t('in-forge:plugins.neo4j.fileUnmappings')
+    ],
     min: 0,
-    category: ['Page Cache'],
+    category: [t('in-forge:plugins.neo4j.pageCache')],
     formatter: withSiPrefixZeroDecimalPlaces
   },
   {
@@ -115,9 +129,16 @@ export default [
       'transactions.peakConcurrentTransactions',
       'transactions.lastCommittedTxId'
     ],
-    labels: ['Open', 'Opened', 'Committed', 'Rolled Back', 'Peak Concurrent', 'Last Transaction ID'],
+    labels: [
+      t('in-forge:plugins.neo4j.open'),
+      t('in-forge:plugins.neo4j.opened'),
+      t('in-forge:plugins.neo4j.committed'),
+      t('in-forge:plugins.neo4j.rolledBack'),
+      t('in-forge:plugins.neo4j.peakConcurrent'),
+      t('in-forge:plugins.neo4j.lastTransactionId')
+    ],
     min: 0,
-    category: ['Transactions'],
+    category: [t('in-forge:plugins.neo4j.transactions')],
     formatter: number.compact
   }
 ];

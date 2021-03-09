@@ -8,41 +8,42 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default function NetCoreDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
     <div>
-      <DashboardSection title="Exceptions">
+      <DashboardSection title={t('in-forge:plugins.netCoreRuntimePlatform.exceptions')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['metrics.exceptionThrownCount'],
-            labels: ['Exceptions Thrown'],
+            labels: [t('in-forge:plugins.netCoreRuntimePlatform.exceptionsThrown')],
             type: 'point',
             formatter: zeroDecimalPlaces
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Contentions">
+      <DashboardSection title={t('in-forge:plugins.netCoreRuntimePlatform.contentions')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['metrics.contentionCount'],
-            labels: ['Contentions'],
+            labels: [t('in-forge:plugins.netCoreRuntimePlatform.contentions')],
             type: 'point',
             formatter: zeroDecimalPlaces
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Garbage Collection">
+      <DashboardSection title={t('in-forge:plugins.netCoreRuntimePlatform.garbageCollection')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -56,7 +57,7 @@ export default function NetCoreDashboard({ snapshot, timeConfig }) {
           y2={{
             min: 0,
             metrics: ['metrics.gcCount'],
-            labels: ['GC Count'],
+            labels: [t('in-forge:plugins.netCoreRuntimePlatform.gcCount')],
             type: 'point',
             formatter: zeroDecimalPlaces
           }}

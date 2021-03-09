@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'Requests/Second',
+    label: t('in-forge:plugins.nginx.requestsSecond'),
     metric: 'requests',
     formatter: number.compact
   },
   {
-    label: 'Reading Connections',
+    label: t('in-forge:plugins.nginx.readingConnections'),
     metric: 'connections.reading',
     formatters: number.compact
   }

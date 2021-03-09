@@ -5,15 +5,20 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function NetCoreInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-      <DescriptionItem title="Runtime-Version">{data.get('rv')}</DescriptionItem>
-      <DescriptionItem title="Target-Version">{data.get('tv')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.netCoreRuntimePlatform.name')}>{data.get('name')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.netCoreRuntimePlatform.runtimeVersion')}>
+        {data.get('rv')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.netCoreRuntimePlatform.targetVersion')}>
+        {data.get('tv')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

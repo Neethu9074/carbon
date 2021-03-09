@@ -9,6 +9,7 @@ import kpiDefinitions from 'in-forge/plugins/nodeJsRuntimePlatform/kpiDefinition
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { getCodeView } from 'in-forge/codeView/node';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.nodeJsRuntimePlatform,
@@ -19,6 +20,6 @@ registerSnapshotDefinition({
   tableDefinition,
   getCodeView,
   technologyDescriptor: {
-    label: 'Node.js'
+    label: t('in-forge:plugins.nodeJsRuntimePlatform.nodeJs')
   }
 });

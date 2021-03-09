@@ -7,6 +7,7 @@ import metricDefinitions from 'in-forge/plugins/nginx/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/nginx/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.nginx,
@@ -15,6 +16,6 @@ registerSnapshotDefinition({
   metricDefinitions,
   agentMonitoringIssueDefinitions,
   technologyDescriptor: {
-    label: 'Nginx'
+    label: t('in-forge:plugins.nginx.nginx')
   }
 });

@@ -7,6 +7,7 @@ import React from 'react';
 import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { getMetricForFocusedMoment } from 'in-stores/metric';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => {
@@ -22,6 +23,10 @@ export default connectTo(
       return null;
     }
 
-    return <DescriptionItem title="Health check result">{status ? 'Healthy' : 'Unhealthy'}</DescriptionItem>;
+    return (
+      <DescriptionItem title={t('in-forge:plugins.nodeJsRuntimePlatform.healthCheckResult')}>
+        {status ? 'Healthy' : 'Unhealthy'}
+      </DescriptionItem>
+    );
   }
 );

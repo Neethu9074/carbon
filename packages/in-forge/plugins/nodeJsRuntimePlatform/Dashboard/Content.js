@@ -10,12 +10,12 @@ import HttpServersTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/H
 import ModuleAnalysisDialog from 'in-forge/plugins/nodeJsRuntimePlatform/ModuleAnalysisDialog';
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
 import getMonitoringIssuesForSnapshot from 'in-subscription/getMonitoringIssuesForSnapshot';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { bytes, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Col, Row } from 'in-new-components/layout/Grid';
@@ -23,6 +23,7 @@ import MetricValue from 'in-components/MetricValue';
 import { getCodeView } from 'in-sdk/snapshot';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import { t, Trans } from 'in-i18n';
 
 export default connectTo(({ snapshot, timeConfig }) => {
   const snapshotId = snapshot.get('id');
@@ -43,22 +44,22 @@ export default connectTo(({ snapshot, timeConfig }) => {
 
       <KpiSection>
         {gcStatsSupported ? (
-          <KpiKeyValue label="GC Pause">
+          <KpiKeyValue label={t('in-forge:plugins.nodeJsRuntimePlatform.gcPause')}>
             <MetricValue snapshotId={snapshotId} metric="gc.gcPause" formatter={time} />
           </KpiKeyValue>
         ) : null}
-        <KpiKeyValue label="RSS">
+        <KpiKeyValue label={t('in-forge:plugins.nodeJsRuntimePlatform.rss')}>
           <MetricValue snapshotId={snapshotId} metric="memory.rss" formatter={bytes.detailed} />
         </KpiKeyValue>
-        <KpiKeyValue label="Heap Used">
+        <KpiKeyValue label={t('in-forge:plugins.nodeJsRuntimePlatform.heapUsed')}>
           <MetricValue snapshotId={snapshotId} metric="memory.heapUsed" formatter={bytes.detailed} />
         </KpiKeyValue>
         {snapshot.getIn(['data', 'libuv.statsSupported']) ? (
-          <KpiKeyValue label="Total time spent in loop per second">
+          <KpiKeyValue label={t('in-forge:plugins.nodeJsRuntimePlatform.totalTimeSpentInLoopPerSecond')}>
             <MetricValue snapshotId={snapshotId} metric="libuv.sum" formatter={time} />
           </KpiKeyValue>
         ) : null}
-        <KpiKeyValue label="Event loop lag">
+        <KpiKeyValue label={t('in-forge:plugins.nodeJsRuntimePlatform.eventLloopLag')}>
           <MetricValue snapshotId={snapshotId} metric="libuv.lag" formatter={time} />
         </KpiKeyValue>
       </KpiSection>
@@ -67,20 +68,22 @@ export default connectTo(({ snapshot, timeConfig }) => {
         <Row withBottomMargin>
           <Col xs>
             <Button onClick={() => getSource(snapshot)} kind="secondary">
-              Get source for arbitrary file
+              {t('in-forge:plugins.nodeJsRuntimePlatform.getSourceForArbitraryFile')}
             </Button>
           </Col>
           <Col xs>
             <Button onClick={() => getModuleAnalysis(snapshot)} kind="secondary">
-              Analyse Modules
+              {t('in-forge:plugins.nodeJsRuntimePlatform.analyseModules')}
             </Button>
           </Col>
         </Row>
       )}
 
-      <DashboardSection title="Memory Usage">{renderGcMetrics(snapshot, timeConfig)}</DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.nodeJsRuntimePlatform.memoryUsage')}>
+        {renderGcMetrics(snapshot, timeConfig)}
+      </DashboardSection>
 
-      <DashboardSection title="GC Activity">
+      <DashboardSection title={t('in-forge:plugins.nodeJsRuntimePlatform.gcActivity')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -88,7 +91,7 @@ export default connectTo(({ snapshot, timeConfig }) => {
             min: 0,
             formatter: time,
             metrics: ['gc.gcPause'],
-            labels: ['GC Pause'],
+            labels: [t('in-forge:plugins.nodeJsRuntimePlatform.gcPause')],
             type: 'stackedArea'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -97,9 +100,11 @@ export default connectTo(({ snapshot, timeConfig }) => {
 
       <HeapSpacesTable snapshot={snapshot} timeConfig={timeConfig} />
 
-      <DashboardSection title="Event Loop">{renderEventLoopMetrics(snapshot, timeConfig)}</DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.nodeJsRuntimePlatform.eventLoop')}>
+        {renderEventLoopMetrics(snapshot, timeConfig)}
+      </DashboardSection>
 
-      <DashboardSection title="Handles &amp; Requests">
+      <DashboardSection title={t('in-forge:plugins.nodeJsRuntimePlatform.handlesAmpRequests')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -107,7 +112,10 @@ export default connectTo(({ snapshot, timeConfig }) => {
             min: 0,
             formatter: twoDecimalPlaces,
             metrics: ['activeHandles', 'activeRequests'],
-            labels: ['#Handles', '#Requests'],
+            labels: [
+              t('in-forge:plugins.nodeJsRuntimePlatform.handles'),
+              t('in-forge:plugins.nodeJsRuntimePlatform.requests')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -132,14 +140,21 @@ function renderGcMetrics(snapshot, timeConfig) {
           formatter: bytes.detailed,
           tooltipFormatter: bytes.detailedWithRaw,
           metrics: ['memory.rss', 'memory.heapUsed', 'gc.usedHeapSizeAfterGc'],
-          labels: ['RSS', 'Heap Size', 'Heap Size After GC'],
+          labels: [
+            t('in-forge:plugins.nodeJsRuntimePlatform.rss'),
+            t('in-forge:plugins.nodeJsRuntimePlatform.heapSize'),
+            t('in-forge:plugins.nodeJsRuntimePlatform.heapSizeAfterGc')
+          ],
           type: 'line'
         }}
         y2={{
           min: 0,
           formatter: twoDecimalPlaces,
           metrics: ['gc.minorGcs', 'gc.majorGcs'],
-          labels: ['#Minor GCs', '#Major GCs'],
+          labels: [
+            t('in-forge:plugins.nodeJsRuntimePlatform.minorGCs'),
+            t('in-forge:plugins.nodeJsRuntimePlatform.majorGCs')
+          ],
           type: 'point'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -156,7 +171,7 @@ function renderGcMetrics(snapshot, timeConfig) {
         formatter: bytes.detailed,
         tooltipFormatter: bytes.detailedWithRaw,
         metrics: ['memory.rss', 'memory.heapUsed'],
-        labels: ['RSS', 'Heap Size'],
+        labels: [t('in-forge:plugins.nodeJsRuntimePlatform.rss'), t('in-forge:plugins.nodeJsRuntimePlatform.heapSize')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -174,14 +189,18 @@ function renderEventLoopMetrics(snapshot, timeConfig) {
           min: 0,
           formatter: time,
           metrics: ['libuv.max', 'libuv.sum', 'libuv.lag'],
-          labels: ['Longest time spent in a single loop', 'Total time spent in loop', 'Event loop lag'],
+          labels: [
+            t('in-forge:plugins.nodeJsRuntimePlatform.longestTimeSpentInASingleLoop'),
+            t('in-forge:plugins.nodeJsRuntimePlatform.totalTimeSpentInLoop'),
+            t('in-forge:plugins.nodeJsRuntimePlatform.eventLloopLag')
+          ],
           type: 'line'
         }}
         y2={{
           min: 0,
           formatter: twoDecimalPlaces,
           metrics: ['libuv.num'],
-          labels: ['Loops per second'],
+          labels: [t('in-forge:plugins.nodeJsRuntimePlatform.loopsPerSecond')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -197,7 +216,7 @@ function renderEventLoopMetrics(snapshot, timeConfig) {
         min: 0,
         formatter: time,
         metrics: ['libuv.lag'],
-        labels: ['Event loop lag'],
+        labels: [t('in-forge:plugins.nodeJsRuntimePlatform.eventLloopLag')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -234,14 +253,15 @@ function getInitializedTooLateHint(snapshot, isInternalVisible, monitoringIssues
 
   return (
     <DashboardNotification type="danger">
-      It seems you have initialized the @instana/collector package too late. Please check our documentation on that, in
-      particular the{' '}
-      <a href="https://instana.com/docs/ecosystem/node-js/installation/#installing-the-nodejs-collector-package">
-        installation docs
-      </a>{' '}
-      for @instana/collector and the{' '}
-      <a href="https://instana.com/docs/ecosystem/node-js/installation/#common-pitfalls">common pitfalls section</a>.
-      Tracing might only work partially with this setup, that is, some calls will not be captured.
+      <Trans
+        i18nKey="in-forge:plugins.nodeJsRuntimePlatform.itSeemsYouHaveInitializedTheInstanaCollectorPackageTooLate"
+        components={{
+          installLink: (
+            <a href="https://instana.com/docs/ecosystem/node-js/installation/#installing-the-nodejs-collector-package" />
+          ),
+          pitfallsLink: <a href="https://instana.com/docs/ecosystem/node-js/installation/#common-pitfalls" />
+        }}
+      />
     </DashboardNotification>
   );
 }
@@ -265,19 +285,19 @@ function getNativeExtensionHint(snapshot) {
 
   return (
     <DashboardNotification type="info">
-      Native extensions could not be loaded for detailed <strong>{missingNativeExtensions.join(' and ')}</strong>{' '}
-      monitoring. As a result, Instana can only show you a limited set of metrics. Please contact us for installation
-      support or refer to the{' '}
-      <a href="https://instana.com/docs/ecosystem/node-js/installation/#native-addons">
-        Node.js collector installation instructions
-      </a>
-      .
+      <Trans
+        i18nKey="in-forge:plugins.nodeJsRuntimePlatform.nativeExtensionsCouldNotBeLoaded"
+        values={{ missingNativeExtensions: missingNativeExtensions.join(' and ') }}
+        components={{
+          installLink: <a href="https://instana.com/docs/ecosystem/node-js/installation/#native-addons" />
+        }}
+      />
     </DashboardNotification>
   );
 }
 
 function getSource(snapshot) {
-  const filename = prompt('Please provide the absolute path to the JS file');
+  const filename = prompt(t('in-forge:plugins.nodeJsRuntimePlatform.pleaseProvideTheAbsolutePathToTheJsFile'));
   if (!filename) {
     return;
   }

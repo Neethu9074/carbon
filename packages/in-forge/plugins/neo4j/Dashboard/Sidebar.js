@@ -9,13 +9,14 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import { hitRate, siPrefix } from 'in-services/formatters/number';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function Neo4jSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Neo4j</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.neo4j.neo4J')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -26,32 +27,32 @@ export default function Neo4jSidebar({ snapshot }) {
         metrics={[
           {
             metric: 'primitiveCount.nodeIds',
-            label: 'Node IDs',
+            label: t('in-forge:plugins.neo4j.nodeIDs'),
             formatter: siPrefix
           },
           {
             metric: 'primitiveCount.propertyIds',
-            label: 'Property IDs',
+            label: t('in-forge:plugins.neo4j.propertyIDs'),
             formatter: siPrefix
           },
           {
             metric: 'primitiveCount.relationshipIds',
-            label: 'Relationship IDs',
+            label: t('in-forge:plugins.neo4j.relationshipIDs'),
             formatter: siPrefix
           },
           {
             metric: 'primitiveCount.relationShipTypeIds',
-            label: 'Relationship Type IDs',
+            label: t('in-forge:plugins.neo4j.relationshipTypeIDs'),
             formatter: siPrefix
           },
           {
             metric: 'pageCache.usageRatio',
-            label: 'Usage Ratio',
+            label: t('in-forge:plugins.neo4j.usageRatio'),
             formatter: hitRate
           },
           {
             metric: 'pageCache.hitRatio',
-            label: 'Hit Ratio',
+            label: t('in-forge:plugins.neo4j.hitRatio'),
             formatter: hitRate
           }
         ]}

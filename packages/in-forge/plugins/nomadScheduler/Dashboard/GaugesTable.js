@@ -8,6 +8,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { withSiPrefixZeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const metrics = [
   'nomad.nomad.heartbeat.active',
@@ -25,7 +26,7 @@ const metrics = [
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.nomadScheduler.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -34,7 +35,7 @@ const cols = [
     }
   },
   {
-    title: 'Value',
+    title: t('in-forge:plugins.nomadScheduler.value'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -69,7 +70,7 @@ export default function Gauges({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Gauges (${rows.length})`}
+      cardTitle={t('in-forge:plugins.nomadScheduler.gaugesWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}

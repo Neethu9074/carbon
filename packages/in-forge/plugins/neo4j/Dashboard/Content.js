@@ -11,6 +11,7 @@ import { bytes, number, siPrefix } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import isAtLeastMinorVersion from '../Neo4jVersion.js';
 import NodeSummary from '../NodeSummary.js';
+import { t } from 'in-i18n';
 
 export default function Neo4jDashboard({ snapshot, timeConfig }) {
   // we just want to show one of the store size metrics (or none, if the snapshot data is undefined)
@@ -26,7 +27,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
     <div>
       <NodeSummary snapshot={snapshot} />
 
-      <DashboardSection title="ID Allocation">
+      <DashboardSection title={t('in-forge:plugins.neo4j.idAllocation')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -40,7 +41,12 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
               'primitiveCount.relationshipIds',
               'primitiveCount.relationShipTypeIds'
             ],
-            labels: ['Node IDs', 'Property IDs', 'Relationship IDs', 'RelationShipType IDs'],
+            labels: [
+              t('in-forge:plugins.neo4j.nodeIDs'),
+              t('in-forge:plugins.neo4j.propertyIDs'),
+              t('in-forge:plugins.neo4j.relationshipIDs'),
+              t('in-forge:plugins.neo4j.relationShipTypeIDs')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -49,7 +55,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
 
       {hasPageCache && (
         <Columize>
-          <DashboardSection title="Bytes Read">
+          <DashboardSection title={t('in-forge:plugins.neo4j.bytesRead')}>
             <Chart
               snapshotId={snapshot.get('id')}
               timeConfig={timeConfig}
@@ -57,13 +63,13 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
                 min: 0,
                 formatter: bytes.compact,
                 metrics: ['pageCache.bytesRead'],
-                labels: ['Bytes Read'],
+                labels: [t('in-forge:plugins.neo4j.bytesRead')],
                 type: 'area'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
-          <DashboardSection title="Bytes Written">
+          <DashboardSection title={t('in-forge:plugins.neo4j.bytesWritten')}>
             <Chart
               snapshotId={snapshot.get('id')}
               timeConfig={timeConfig}
@@ -71,7 +77,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
                 min: 0,
                 formatter: bytes.compact,
                 metrics: ['pageCache.bytesWritten'],
-                labels: ['Bytes Written'],
+                labels: [t('in-forge:plugins.neo4j.bytesWritten')],
                 type: 'area'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -81,7 +87,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
       )}
 
       {hasStoreSizeMetrics && (
-        <DashboardSection title="Store Sizes">
+        <DashboardSection title={t('in-forge:plugins.neo4j.storeSizes')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -102,17 +108,17 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
                 'storeSize.totalStoreSize'
               ],
               labels: [
-                'Nodes',
-                'Properties',
-                'Relationships',
-                'Labels',
-                'String Properties',
-                'Array Properties',
-                'Schemas',
-                'Counters',
-                'Indices',
-                'Transaction Logs',
-                'Total Store'
+                t('in-forge:plugins.neo4j.nodes'),
+                t('in-forge:plugins.neo4j.properties'),
+                t('in-forge:plugins.neo4j.relationships'),
+                t('in-forge:plugins.neo4j.labels'),
+                t('in-forge:plugins.neo4j.stringProperties'),
+                t('in-forge:plugins.neo4j.arrayProperties'),
+                t('in-forge:plugins.neo4j.schemas'),
+                t('in-forge:plugins.neo4j.counters'),
+                t('in-forge:plugins.neo4j.indices'),
+                t('in-forge:plugins.neo4j.transactionLogs'),
+                t('in-forge:plugins.neo4j.totalStore')
               ],
               type: 'line'
             }}
@@ -121,7 +127,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
       {hasStoreFileSizeMetrics && (
-        <DashboardSection title="Store File Sizes">
+        <DashboardSection title={t('in-forge:plugins.neo4j.storeFileSizes')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -138,13 +144,13 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
                 'storeFileSize.totalStoreSize'
               ],
               labels: [
-                'Nodes',
-                'Properties',
-                'Relationships',
-                'String Properties',
-                'Array Properties',
-                'Logical Log',
-                'Total Store'
+                t('in-forge:plugins.neo4j.nodes'),
+                t('in-forge:plugins.neo4j.properties'),
+                t('in-forge:plugins.neo4j.relationships'),
+                t('in-forge:plugins.neo4j.stringProperties'),
+                t('in-forge:plugins.neo4j.arrayProperties'),
+                t('in-forge:plugins.neo4j.logicalLog'),
+                t('in-forge:plugins.neo4j.totalStore')
               ],
               type: 'line'
             }}
@@ -154,7 +160,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
       )}
 
       {hasTransactions && (
-        <DashboardSection title="Transactions">
+        <DashboardSection title={t('in-forge:plugins.neo4j.transactions')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -169,7 +175,13 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
                 'transactions.rolledBackTransactions',
                 'transactions.peakConcurrentTransactions'
               ],
-              labels: ['Open', 'Opened', 'Committed', 'Rolled Back', 'Peak Concurrent'],
+              labels: [
+                t('in-forge:plugins.neo4j.open'),
+                t('in-forge:plugins.neo4j.opened'),
+                t('in-forge:plugins.neo4j.committed'),
+                t('in-forge:plugins.neo4j.rolledBack'),
+                t('in-forge:plugins.neo4j.peakConcurrent')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -178,7 +190,7 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
       )}
 
       {hasPageCache && (
-        <DashboardSection title="Page Cache">
+        <DashboardSection title={t('in-forge:plugins.neo4j.pageCache')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -196,13 +208,13 @@ export default function Neo4jDashboard({ snapshot, timeConfig }) {
                 'pageCache.fileUnmappings'
               ],
               labels: [
-                'Pins',
-                'Flushes',
-                'Faults',
-                'Evictions',
-                'Eviction Exceptions',
-                'File Mappings',
-                'File Unmappings'
+                t('in-forge:plugins.neo4j.pins'),
+                t('in-forge:plugins.neo4j.flushes'),
+                t('in-forge:plugins.neo4j.faults'),
+                t('in-forge:plugins.neo4j.evictions'),
+                t('in-forge:plugins.neo4j.evictionExceptions'),
+                t('in-forge:plugins.neo4j.fileMappings'),
+                t('in-forge:plugins.neo4j.fileUnmappings')
               ],
               type: 'line'
             }}

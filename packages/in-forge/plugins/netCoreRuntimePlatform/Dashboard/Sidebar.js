@@ -8,6 +8,7 @@ import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsLi
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/netCoreRuntimePlatform/Info';
+import { t } from 'in-i18n';
 
 export default function NetCoreRuntimeSidebar({ snapshot }) {
   const snapshotId = snapshot.get('id');
@@ -15,7 +16,7 @@ export default function NetCoreRuntimeSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>.NET Core</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.netCoreRuntimePlatform.netCore')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
