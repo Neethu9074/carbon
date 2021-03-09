@@ -10,6 +10,7 @@ import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { siPrefix, bytes } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function ElasticsearchClusterSidebar({ snapshot }) {
@@ -18,7 +19,9 @@ export default function ElasticsearchClusterSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Elasticsearch Cluster</Collapsible.Header>
+        <Collapsible.Header>
+          {t('in-forge:plugins.elasticsearchCluster.sidebar.elasticsearchCluster')}
+        </Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -29,31 +32,31 @@ export default function ElasticsearchClusterSidebar({ snapshot }) {
         metrics={[
           {
             metric: 'node_count',
-            label: 'Nodes',
+            label: t('in-forge:plugins.elasticsearchCluster.sidebar.nodes'),
             formatter: siPrefix,
             aggregation: 'mean'
           },
           {
             metric: 'indices_count',
-            label: 'Indices',
+            label: t('in-forge:plugins.elasticsearchCluster.sidebar.indices'),
             formatter: siPrefix,
             aggregation: 'mean'
           },
           {
             metric: 'active_shards_count',
-            label: 'Active Shards',
+            label: t('in-forge:plugins.elasticsearchCluster.sidebar.activeShards'),
             formatter: siPrefix,
             aggregation: 'mean'
           },
           {
             metric: 'document_count',
-            label: 'Documents',
+            label: t('in-forge:plugins.elasticsearchCluster.sidebar.documents'),
             formatter: siPrefix,
             aggregation: 'mean'
           },
           {
             metric: 'store_size',
-            label: 'Store Size',
+            label: t('in-forge:plugins.elasticsearchCluster.sidebar.storeSize'),
             formatter: bytes,
             aggregation: 'mean'
           }

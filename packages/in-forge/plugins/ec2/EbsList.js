@@ -12,6 +12,7 @@ import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => ({
@@ -29,7 +30,9 @@ export default connectTo(
     return (
       <Fragment>
         <Collapsible initiallyOpen>
-          <Collapsible.Header>EBS Volumes ({ebses.length})</Collapsible.Header>
+          <Collapsible.Header>
+            {t('in-forge:plugins.ec2.ebsVolumesWithCount', { count: ebses.length })}
+          </Collapsible.Header>
           <Collapsible.Content>
             <ClickableList>
               {ebses.map(ebs => (

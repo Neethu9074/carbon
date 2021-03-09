@@ -12,13 +12,14 @@ import {
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { t } from 'in-i18n';
 
 export default function F5Dashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
     <div>
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.f5.dashboard.memory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -27,21 +28,21 @@ export default function F5Dashboard({ snapshot, timeConfig }) {
             max: snapshot.getIn(['data', 'memTotal']),
             formatter: bytesTwoDecimalPlaces,
             metrics: ['memFree'],
-            labels: ['Free'],
+            labels: [t('in-forge:plugins.f5.dashboard.free')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="CPU Usage">
+      <DashboardSection title={t('in-forge:plugins.f5.dashboard.cpuUsage')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cpuUsed'],
-            labels: ['CPU Usage'],
+            labels: [t('in-forge:plugins.f5.dashboard.cpuUsage')],
             formatter: percentagePlainZeroDecimalPlaces,
             type: 'stackedArea'
           }}
@@ -49,14 +50,14 @@ export default function F5Dashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="HTTP Requests">
+      <DashboardSection title={t('in-forge:plugins.f5.dashboard.httpRequests')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['httpRequests'],
-            labels: ['HTTP Requests'],
+            labels: [t('in-forge:plugins.f5.dashboard.httpRequests')],
             formatter: zeroDecimalPlaces,
             type: 'line'
           }}

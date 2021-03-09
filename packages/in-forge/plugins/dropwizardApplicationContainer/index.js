@@ -8,6 +8,7 @@ import kpiDefinitions from 'in-forge/plugins/dropwizardApplicationContainer/kpiD
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.dropwizardApplicationContainer,
@@ -18,6 +19,6 @@ registerSnapshotDefinition({
   getCodeView,
   supportsCodeView,
   technologyDescriptor: {
-    label: 'Dropwizard'
+    label: t('in-forge:plugins.dropwizardApplicationContainer.dropwizard')
   }
 });

@@ -4,11 +4,12 @@
  */
 import { siMultiplyPrefix, siPrefix, number, millis, bytes, ms } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['indices.query_latency'],
-    labels: ['Latency'],
+    labels: [t('in-forge:plugins.elasticsearchNode.latency')],
     min: 0,
     formatter: ms
   },
@@ -22,19 +23,31 @@ export default [
       'indices.index_count',
       'indices.deleted_count'
     ],
-    labels: ['Number Of Queries', 'Indices', 'Active', 'Active Primary', 'Overall Documents', 'Added', 'Removed'],
+    labels: [
+      t('in-forge:plugins.elasticsearchNode.numberOfQueries'),
+      t('in-forge:plugins.elasticsearchNode.indices'),
+      t('in-forge:plugins.elasticsearchNode.active'),
+      t('in-forge:plugins.elasticsearchNode.activePrimary'),
+      t('in-forge:plugins.elasticsearchNode.overallDocuments'),
+      t('in-forge:plugins.elasticsearchNode.added'),
+      t('in-forge:plugins.elasticsearchNode.removed')
+    ],
     min: 0,
     formatter: siPrefix
   },
   {
     metrics: ['indices.refresh_count', 'indices.flush_count', 'indices.segment_count'],
-    labels: ['Refresh Count', 'Flush Count', 'Segments'],
+    labels: [
+      t('in-forge:plugins.elasticsearchNode.refreshCount'),
+      t('in-forge:plugins.elasticsearchNode.flushCount'),
+      t('in-forge:plugins.elasticsearchNode.segments')
+    ],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
     metrics: ['indices.refresh_time', 'indices.flush_time'],
-    labels: ['Refresh Time', 'Flush Time'],
+    labels: [t('in-forge:plugins.elasticsearchNode.refreshTime'), t('in-forge:plugins.elasticsearchNode.flushTime')],
     min: 0,
     formatter: millis
   },
@@ -62,34 +75,34 @@ export default [
       'threads.refresh_queue'
     ],
     labels: [
-      'Search',
-      'Index',
-      'Bulk',
-      'Merge',
-      'Flush',
-      'Get',
-      'Management',
-      'Refresh',
-      'Search',
-      'Index',
-      'Bulk',
-      'Get',
-      'Search',
-      'Index',
-      'Bulk',
-      'Merge',
-      'Flush',
-      'Get',
-      'Management',
-      'Refresh'
+      t('in-forge:plugins.elasticsearchNode.search'),
+      t('in-forge:plugins.elasticsearchNode.index'),
+      t('in-forge:plugins.elasticsearchNode.bulk'),
+      t('in-forge:plugins.elasticsearchNode.merge'),
+      t('in-forge:plugins.elasticsearchNode.flush'),
+      t('in-forge:plugins.elasticsearchNode.get'),
+      t('in-forge:plugins.elasticsearchNode.management'),
+      t('in-forge:plugins.elasticsearchNode.refresh'),
+      t('in-forge:plugins.elasticsearchNode.search'),
+      t('in-forge:plugins.elasticsearchNode.index'),
+      t('in-forge:plugins.elasticsearchNode.bulk'),
+      t('in-forge:plugins.elasticsearchNode.get'),
+      t('in-forge:plugins.elasticsearchNode.search'),
+      t('in-forge:plugins.elasticsearchNode.index'),
+      t('in-forge:plugins.elasticsearchNode.bulk'),
+      t('in-forge:plugins.elasticsearchNode.merge'),
+      t('in-forge:plugins.elasticsearchNode.flush'),
+      t('in-forge:plugins.elasticsearchNode.get'),
+      t('in-forge:plugins.elasticsearchNode.management'),
+      t('in-forge:plugins.elasticsearchNode.refresh')
     ],
     min: 0,
-    category: ['Threads'],
+    category: [t('in-forge:plugins.elasticsearchNode.threads')],
     formatter: number
   },
   {
     metric: 'cluster_health.status',
-    label: 'Health status',
+    label: t('in-forge:plugins.elasticsearchNode.healthStatus'),
     formatter: number
   },
   {
@@ -97,8 +110,8 @@ export default [
       getDynamicMetricMatch('index', 'document_count', 'Index'),
       getDynamicMetricMatch('index', 'deleted_count', 'Index')
     ],
-    labels: ['Documents', 'Deletions'],
-    category: ['Index'],
+    labels: [t('in-forge:plugins.elasticsearchNode.documents'), t('in-forge:plugins.elasticsearchNode.deletions')],
+    category: [t('in-forge:plugins.elasticsearchNode.index')],
     min: 0,
     formatter: siMultiplyPrefix
   },
@@ -116,18 +129,18 @@ export default [
       getDynamicMetricMatch('index', 'merge_current', 'Index')
     ],
     labels: [
-      'Queries Current',
-      'Queries Total',
-      'Fetches Current',
-      'Fetches Total',
-      'Query Cache Evictions',
-      'Request Cache Evictions',
-      'Get Requests Total Count',
-      'Get Requests Failed Count',
-      'Indexing Operations Failed',
-      'Current Merges Count'
+      t('in-forge:plugins.elasticsearchNode.queriesCurrent'),
+      t('in-forge:plugins.elasticsearchNode.queriesTotal'),
+      t('in-forge:plugins.elasticsearchNode.fetchesCurrent'),
+      t('in-forge:plugins.elasticsearchNode.fetchesTotal'),
+      t('in-forge:plugins.elasticsearchNode.queryCacheEvictions'),
+      t('in-forge:plugins.elasticsearchNode.requestCacheEvictions'),
+      t('in-forge:plugins.elasticsearchNode.getRequestsTotalCount'),
+      t('in-forge:plugins.elasticsearchNode.getRequestsFailedCount'),
+      t('in-forge:plugins.elasticsearchNode.indexingOperationsFailed'),
+      t('in-forge:plugins.elasticsearchNode.currentMergesCount')
     ],
-    category: ['Index'],
+    category: [t('in-forge:plugins.elasticsearchNode.index')],
     min: 0,
     formatter: number
   },
@@ -139,8 +152,14 @@ export default [
       getDynamicMetricMatch('index', 'missing_time', 'Index'),
       getDynamicMetricMatch('index', 'merge_time', 'Index')
     ],
-    labels: ['Query Time', 'Fetch Time', 'Get Requests Time', 'Get Requests Failed Time', 'Total Merges Time'],
-    category: ['Index'],
+    labels: [
+      t('in-forge:plugins.elasticsearchNode.queryTime'),
+      t('in-forge:plugins.elasticsearchNode.fetchTime'),
+      t('in-forge:plugins.elasticsearchNode.getRequestsTime'),
+      t('in-forge:plugins.elasticsearchNode.getRequestsFailedTime'),
+      t('in-forge:plugins.elasticsearchNode.totalMergesTime')
+    ],
+    category: [t('in-forge:plugins.elasticsearchNode.index')],
     min: 0,
     formatter: millis
   },
@@ -153,8 +172,15 @@ export default [
       'rx_count',
       'tx_count'
     ],
-    labels: ['Size', 'Query Cache Memory', 'Request Cache Memory', 'Total Merges Size', 'Received', 'Sent'],
-    category: ['Index'],
+    labels: [
+      t('in-forge:plugins.elasticsearchNode.size'),
+      t('in-forge:plugins.elasticsearchNode.queryCacheMemory'),
+      t('in-forge:plugins.elasticsearchNode.requestCacheMemory'),
+      t('in-forge:plugins.elasticsearchNode.totalMergesSize'),
+      t('in-forge:plugins.elasticsearchNode.received'),
+      t('in-forge:plugins.elasticsearchNode.sent')
+    ],
+    category: [t('in-forge:plugins.elasticsearchNode.index')],
     min: 0,
     formatter: bytes
   }

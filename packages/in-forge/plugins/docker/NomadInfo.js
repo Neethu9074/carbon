@@ -8,6 +8,7 @@ import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/Desc
 import { megaBytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { t } from 'in-i18n';
 
 export default function NomadInfo({ snapshot }) {
   const nomad = snapshot.getIn(['data', 'Nomad']);
@@ -20,26 +21,32 @@ export default function NomadInfo({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>Nomad</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.docker.nomad')}</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="Task Name">{nomad.get('taskName')}</DescriptionItem>
-            <DescriptionItem title="Task Directory">{nomad.get('taskDir')}</DescriptionItem>
-            <DescriptionItem title="Allocation ID">{nomad.get('allocId')}</DescriptionItem>
-            <DescriptionItem title="Allocation Name">{nomad.get('allocName')}</DescriptionItem>
-            <DescriptionItem title="Allocation Directory">{nomad.get('allocDir')}</DescriptionItem>
-            <DescriptionItem title="Job Name">{nomad.get('jobName')}</DescriptionItem>
-            <DescriptionItem title="CPU Limit">
+            <DescriptionItem title={t('in-forge:plugins.docker.taskName')}>{nomad.get('taskName')}</DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.docker.taskDirectory')}>{nomad.get('taskDir')}</DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.docker.allocationId')}>{nomad.get('allocId')}</DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.docker.allocationName')}>
+              {nomad.get('allocName')}
+            </DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.docker.allocationDirectory')}>
+              {nomad.get('allocDir')}
+            </DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.docker.jobName')}>{nomad.get('jobName')}</DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.docker.cpuLimit')}>
               {nomad.get('cpuLimit') ? `${nomad.get('cpuLimit')} MHz` : null}
             </DescriptionItem>
             {nomad.get('memoryLimit') && (
-              <DescriptionItem title="Memory Limit">
+              <DescriptionItem title={t('in-forge:plugins.docker.memoryLimit')}>
                 {megaBytesTwoDecimalPlaces(nomad.get('memoryLimit'))}
               </DescriptionItem>
             )}
           </DescriptionList>
 
-          {ports && ports.size > 0 ? <KeyValueOverlay header="Port Names" data={ports} /> : null}
+          {ports && ports.size > 0 ? (
+            <KeyValueOverlay header={t('in-forge:plugins.docker.portNames')} data={ports} />
+          ) : null}
         </Collapsible.Content>
       </Collapsible>
     </div>

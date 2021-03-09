@@ -20,13 +20,14 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { t } from 'in-i18n';
 
 export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <ClusterSummary snapshot={snapshot} />
 
-      <DashboardSection title="Latency vs. Number of Queries">
+      <DashboardSection title={t('in-forge:plugins.elasticsearchCluster.dashboard.latencyVsNumberOfQueries')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -35,7 +36,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
             formatter: msZeroDecimalPlaces,
             tooltipFormatter: msTwoDecimalPlaces,
             metrics: ['query_latency'],
-            labels: ['Latency'],
+            labels: [t('in-forge:plugins.elasticsearchCluster.dashboard.latency')],
             type: 'line'
           }}
           y2={{
@@ -43,14 +44,14 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
             formatter: withSiPrefixZeroDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces,
             metrics: ['query_count'],
-            labels: ['Number Of Queries'],
+            labels: [t('in-forge:plugins.elasticsearchCluster.dashboard.numberOfQueries')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Documents">
+      <DashboardSection title={t('in-forge:plugins.elasticsearchCluster.dashboard.documents')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -59,7 +60,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
             formatter: withSiPrefixThreeDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces,
             metrics: ['document_count'],
-            labels: ['Overall Documents'],
+            labels: [t('in-forge:plugins.elasticsearchCluster.dashboard.overallDocuments')],
             type: 'line'
           }}
           y2={{
@@ -67,7 +68,10 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
             formatter: withSiPrefixThreeDecimalPlaces,
             tooltipFormatter: twoDecimalPlaces,
             metrics: ['index_count', 'delete_count'],
-            labels: ['Added', 'Removed'],
+            labels: [
+              t('in-forge:plugins.elasticsearchCluster.dashboard.added'),
+              t('in-forge:plugins.elasticsearchCluster.dashboard.removed')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -75,7 +79,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
       </DashboardSection>
 
       <Columize>
-        <DashboardSection title="Indices">
+        <DashboardSection title={t('in-forge:plugins.elasticsearchCluster.dashboard.indices')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -84,13 +88,13 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
               formatter: withSiPrefixZeroDecimalPlaces,
               tooltipFormatter: twoDecimalPlaces,
               metrics: ['indices_count'],
-              labels: ['Indices'],
+              labels: [t('in-forge:plugins.elasticsearchCluster.dashboard.indices')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Shards">
+        <DashboardSection title={t('in-forge:plugins.elasticsearchCluster.dashboard.shards')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -105,7 +109,13 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
                 'relocating_shards',
                 'unassigned_shards'
               ],
-              labels: ['Active', 'Active Primary', 'Initializing', 'Relocating', 'Unassigned'],
+              labels: [
+                t('in-forge:plugins.elasticsearchCluster.dashboard.active'),
+                t('in-forge:plugins.elasticsearchCluster.dashboard.activePrimary'),
+                t('in-forge:plugins.elasticsearchCluster.dashboard.initializing'),
+                t('in-forge:plugins.elasticsearchCluster.dashboard.relocating'),
+                t('in-forge:plugins.elasticsearchCluster.dashboard.unassigned')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -114,7 +124,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
       </Columize>
 
       <Columize>
-        <DashboardSection title="Cluster Store Size">
+        <DashboardSection title={t('in-forge:plugins.elasticsearchCluster.dashboard.clusterStoreSize')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -123,13 +133,13 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
               formatter: withSiPrefixZeroDecimalPlaces,
               tooltipFormatter: withSiPrefixThreeDecimalPlaces,
               metrics: ['store_size'],
-              labels: ['Cluster Store Size'],
+              labels: [t('in-forge:plugins.elasticsearchCluster.dashboard.clusterStoreSize')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Cluster State Size">
+        <DashboardSection title={t('in-forge:plugins.elasticsearchCluster.dashboard.clusterStateSize')}>
           <Chart
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
@@ -138,7 +148,7 @@ export default function ElasticsearchClusterDashboard({ snapshot, timeConfig }) 
               formatter: bytesZeroDecimalPlaces,
               tooltipFormatter: bytesTwoDecimalPlaces,
               metrics: ['clusterState.totalStateSize'],
-              labels: ['Cluster State Size'],
+              labels: [t('in-forge:plugins.elasticsearchCluster.dashboard.clusterStateSize')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}

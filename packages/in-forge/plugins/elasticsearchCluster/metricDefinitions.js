@@ -4,11 +4,12 @@
  */
 import { siMultiplyPrefix, siPrefix, number, bytes, ms } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['query_latency'],
-    labels: ['Latency'],
+    labels: [t('in-forge:plugins.elasticsearchCluster.latency')],
     min: 0,
     formatter: ms
   },
@@ -26,64 +27,68 @@ export default [
       'deleted_count'
     ],
     labels: [
-      'Number Of Queries',
-      'Indices',
-      'Active',
-      'Active Primary',
-      'Initializing',
-      'Relocating',
-      'Unassigned',
-      'Overall Documents',
-      'Added',
-      'Removed'
+      t('in-forge:plugins.elasticsearchCluster.numberOfQueries'),
+      t('in-forge:plugins.elasticsearchCluster.indices'),
+      t('in-forge:plugins.elasticsearchCluster.active'),
+      t('in-forge:plugins.elasticsearchCluster.activePrimary'),
+      t('in-forge:plugins.elasticsearchCluster.initializing'),
+      t('in-forge:plugins.elasticsearchCluster.relocating'),
+      t('in-forge:plugins.elasticsearchCluster.unassigned'),
+      t('in-forge:plugins.elasticsearchCluster.overallDocuments'),
+      t('in-forge:plugins.elasticsearchCluster.added'),
+      t('in-forge:plugins.elasticsearchCluster.removed')
     ],
     min: 0,
     formatter: siPrefix
   },
   {
     metrics: ['indices_count', 'shards.node_active_shards', 'indices.document_count'],
-    labels: ['Indices', 'Active Shards', 'Documents'],
+    labels: [
+      t('in-forge:plugins.elasticsearchCluster.indices'),
+      t('in-forge:plugins.elasticsearchCluster.activeShards'),
+      t('in-forge:plugins.elasticsearchCluster.documents')
+    ],
     min: 0,
-    category: ['Nodes'],
+    category: [t('in-forge:plugins.elasticsearchCluster.nodes')],
     formatter: number
   },
   {
     metric: 'indices.store_size',
-    label: 'Indices size',
+    label: t('in-forge:plugins.elasticsearchCluster.indicesSize'),
     min: 0,
-    category: ['Nodes'],
+    category: [t('in-forge:plugins.elasticsearchCluster.nodes')],
     formatter: bytes
   },
   {
     metric: getDynamicMetricMatch('index', 'document_count', 'Index'),
-    label: 'Documents',
-    category: ['Index'],
+    label: t('in-forge:plugins.elasticsearchCluster.documents'),
+    category: [t('in-forge:plugins.elasticsearchCluster.index')],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
     metric: getDynamicMetricMatch('index', 'deleted_count', 'Index'),
-    label: 'Deletions',
-    category: ['Index'],
+    label: t('in-forge:plugins.elasticsearchCluster.deletions'),
+    category: [t('in-forge:plugins.elasticsearchCluster.index')],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
     metric: 'node_count',
-    label: 'Number of Elasticsearch Nodes',
+    label: t('in-forge:plugins.elasticsearchCluster.numberOfElasticsearchNodes'),
     min: 0,
     formatter: number
   },
   {
     metric: 'cluster_status',
-    label: 'Status of Elasticsearch Cluster',
+    label: t('in-forge:plugins.elasticsearchCluster.statusOfElasticsearchCluster'),
     min: 0,
     formatter: number
   },
   {
     metric: getDynamicMetricMatch('index', 'size', 'Index'),
-    label: 'Size',
-    category: ['Index'],
+    label: t('in-forge:plugins.elasticsearchCluster.size'),
+    category: [t('in-forge:plugins.elasticsearchCluster.index')],
     min: 0,
     formatter: bytes
   }

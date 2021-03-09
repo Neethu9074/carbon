@@ -15,6 +15,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 function optionalCountFormatter(v) {
   if (v < 0) {
@@ -25,7 +26,7 @@ function optionalCountFormatter(v) {
 
 const cols = [
   {
-    title: 'Index',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.index'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -34,7 +35,7 @@ const cols = [
     }
   },
   {
-    title: 'Shards',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.shards'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -44,7 +45,7 @@ const cols = [
     }
   },
   {
-    title: 'Replicas',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.replicas'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Documents',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.documents'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Deleted',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.deleted'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -86,7 +87,7 @@ const cols = [
     }
   },
   {
-    title: 'Total queries',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.totalQueries'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -102,7 +103,7 @@ const cols = [
     }
   },
   {
-    title: 'Size',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.size'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -118,7 +119,7 @@ const cols = [
     }
   },
   {
-    title: 'Metadata Size',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.metadataSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -160,7 +161,7 @@ export default function IndicesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Index Details (${rows.length})`}
+      cardTitle={t('in-forge:plugins.elasticsearchCluster.dashboard.indexDetailsWithCount', { count: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}
@@ -176,14 +177,20 @@ function getDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           metrics: ['index.' + row.name + '.document_count', 'index.' + row.name + '.deleted_count'],
-          labels: ['Documents', 'Deletions'],
+          labels: [
+            t('in-forge:plugins.elasticsearchCluster.dashboard.documents'),
+            t('in-forge:plugins.elasticsearchCluster.dashboard.deletions')
+          ],
           formatter: withSiMultiplyPrefixZeroDecimalPlaces,
           tooltipFormatter: zeroDecimalPlaces,
           type: 'line'
         }}
         y2={{
           metrics: ['index.' + row.name + '.size', 'clusterState.indices.' + row.name + '.indexMetadataSize'],
-          labels: ['Size', 'Metadata Size'],
+          labels: [
+            t('in-forge:plugins.elasticsearchCluster.dashboard.size'),
+            t('in-forge:plugins.elasticsearchCluster.dashboard.metadataSize')
+          ],
           formatter: bytesZeroDecimalPlaces,
           tooltipFormatter: bytesTwoDecimalPlaces,
           type: 'line'
@@ -196,7 +203,7 @@ function getDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           metrics: ['index.' + row.name + '.query_total'],
-          labels: ['Queries'],
+          labels: [t('in-forge:plugins.elasticsearchCluster.dashboard.queries')],
           formatter: number.compact,
           type: 'line'
         }}

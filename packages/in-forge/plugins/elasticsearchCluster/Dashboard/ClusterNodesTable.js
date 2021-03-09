@@ -10,12 +10,13 @@ import { getClusterMembers } from 'in-stores/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const electedMaster = 'elected Master';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Master Status',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.masterStatus'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -44,7 +45,7 @@ const cols = [
     }
   },
   {
-    title: 'Version',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.version'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -53,7 +54,7 @@ const cols = [
     }
   },
   {
-    title: 'Type',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.type'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -62,7 +63,7 @@ const cols = [
     }
   },
   {
-    title: 'Indices',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.indices'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -78,7 +79,7 @@ const cols = [
     }
   },
   {
-    title: 'Active Shards',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.activeShards'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -94,7 +95,7 @@ const cols = [
     }
   },
   {
-    title: 'Documents',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.documents'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -110,7 +111,7 @@ const cols = [
     }
   },
   {
-    title: 'Store Size',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.storeSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -126,7 +127,7 @@ const cols = [
     }
   },
   {
-    title: 'Health',
+    title: t('in-forge:plugins.elasticsearchCluster.dashboard.health'),
     type: 'health',
     typeArgs: {
       getSnapshotId(row) {
@@ -164,7 +165,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={`Cluster Nodes (${rows.length})`}
+        cardTitle={t('in-forge:plugins.elasticsearchCluster.dashboard.clusterNodesWithCount', { count: rows.length })}
         cols={cols}
         rows={rows}
         initialSortColumn={2}

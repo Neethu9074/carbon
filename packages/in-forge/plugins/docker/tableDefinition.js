@@ -5,6 +5,7 @@
 import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { hasNetworkMetrics, hasMemoryMetrics } from 'in-forge/plugins/docker/util';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
+import { t } from 'in-i18n';
 
 export default {
   initialSortColumn: 0,
@@ -18,7 +19,7 @@ export default {
 
   cols: [
     {
-      title: 'Host',
+      title: t('in-forge:plugins.docker.host'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId$(row) {
@@ -27,7 +28,7 @@ export default {
       }
     },
     {
-      title: 'Name',
+      title: t('in-forge:plugins.docker.name'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId(row) {
@@ -36,7 +37,7 @@ export default {
       }
     },
     {
-      title: 'Created',
+      title: t('in-forge:plugins.docker.created'),
       type: 'dateTime',
       typeArgs: {
         getValue(row) {
@@ -45,7 +46,7 @@ export default {
       }
     },
     {
-      title: 'Started',
+      title: t('in-forge:plugins.docker.started'),
       type: 'dateTime',
       typeArgs: {
         getValue(row) {
@@ -54,7 +55,7 @@ export default {
       }
     },
     {
-      title: 'CPU Usage',
+      title: t('in-forge:plugins.docker.cpuUsage'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -70,7 +71,7 @@ export default {
       }
     },
     {
-      title: 'Memory Usage',
+      title: t('in-forge:plugins.docker.memoryUsage'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -91,7 +92,7 @@ export default {
       }
     },
     {
-      title: 'Network received',
+      title: t('in-forge:plugins.docker.networkReceived'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -112,7 +113,7 @@ export default {
       }
     },
     {
-      title: 'Network transmitted',
+      title: t('in-forge:plugins.docker.networkTransmitted'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {

@@ -6,17 +6,18 @@ import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function F5Info({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Signature">{data.get('signature')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.f5.signature')}>{data.get('signature')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Total Memory">{snapshot.get('memTotal')}</DescriptionItem>
-      <DescriptionItem title="Free Memory">{data.get('memFree')}</DescriptionItem>
-      <DescriptionItem title="CPU Usage">{data.get('cpuUsed')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.f5.totalMemory')}>{snapshot.get('memTotal')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.f5.freeMemory')}>{data.get('memFree')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.f5.cpuUsage')}>{data.get('cpuUsed')}</DescriptionItem>
     </DescriptionList>
   );
 }

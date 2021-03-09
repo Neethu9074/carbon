@@ -11,6 +11,7 @@ import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import { getZone } from 'in-stores/zone';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => {
@@ -23,29 +24,39 @@ export default connectTo(
 
     return (
       <DescriptionList>
-        <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.version')}>{data.get('version')}</DescriptionItem>
 
         {zoneSnapshot ? (
-          <DescriptionItem title="Cluster">
+          <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.cluster')}>
             <SnapshotLink snapshotId={zoneSnapshot.get('id')}>{getLabel(zoneSnapshot)}</SnapshotLink>
           </DescriptionItem>
         ) : null}
 
-        <DescriptionItem title="Status">
+        <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.status')}>
           <ClusterStatusLabel status={data.get('cluster_health.status')} />
         </DescriptionItem>
 
-        <DescriptionItem title="Node">{data.get('node.name')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.node')}>{data.get('node.name')}</DescriptionItem>
 
-        <DescriptionItem title="Node Type">{data.get('node.type')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.nodeType')}>
+          {data.get('node.type')}
+        </DescriptionItem>
 
-        <DescriptionItem title="Master">{data.get('node.master')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.master')}>
+          {data.get('node.master')}
+        </DescriptionItem>
 
-        <DescriptionItem title="Master Eligible">{data.get('node.master_eligible')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.masterEligible')}>
+          {data.get('node.master_eligible')}
+        </DescriptionItem>
 
-        <DescriptionItem title="Transport">{data.get('transport')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.transport')}>
+          {data.get('transport')}
+        </DescriptionItem>
 
-        <DescriptionItem title="Log Directory">{data.get('log.dir')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.elasticsearchNode.logDirectory')}>
+          {data.get('log.dir')}
+        </DescriptionItem>
       </DescriptionList>
     );
   }

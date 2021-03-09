@@ -7,16 +7,23 @@ import React from 'react';
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { emptyArray } from 'in-services/fixedObjects';
+import { t } from 'in-i18n';
 
 export default function CrystalInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="CrystalVersion">{data.get('crystal_version')}</DescriptionItem>
-      <DescriptionItem title="Runtime Arguments">{data.get('args', emptyArray).join(' ')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.crystalRuntimePlatform.crystalVersion')}>
+        {data.get('crystal_version')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.crystalRuntimePlatform.runtimeArguments')}>
+        {data.get('args', emptyArray).join(' ')}
+      </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.crystalRuntimePlatform.processId')}>
+        {data.get('pid')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

@@ -6,19 +6,20 @@ import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function EtcdInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
-      <DescriptionItem title="Cluster version">{data.get('version_cluster')}</DescriptionItem>
-      <DescriptionItem title="Server version">{data.get('version_server')}</DescriptionItem>
-      <DescriptionItem title="Id">{data.get('id')}</DescriptionItem>
-      <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-      <DescriptionItem title="Leader id">{data.get('leader_id')}</DescriptionItem>
-      <DescriptionItem title="State">{data.get('state')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.etcd.processId')}>{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.etcd.clusterVersion')}>{data.get('version_cluster')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.etcd.serverVersion')}>{data.get('version_server')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.etcd.id')}>{data.get('id')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.etcd.name')}>{data.get('name')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.etcd.leaderId')}>{data.get('leader_id')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.etcd.state')}>{data.get('state')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

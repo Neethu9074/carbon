@@ -3,20 +3,25 @@
  * (c) Copyright Instana Inc.
  */
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['gc.hs', 'gc.fb', 'gc.ub'],
-    labels: ['Size', 'Free', 'Unused'],
+    labels: [
+      t('in-forge:plugins.crystalRuntimePlatform.size'),
+      t('in-forge:plugins.crystalRuntimePlatform.free'),
+      t('in-forge:plugins.crystalRuntimePlatform.unused')
+    ],
     min: 0,
-    category: ['Heap'],
+    category: [t('in-forge:plugins.crystalRuntimePlatform.heap')],
     formatter: bytesZeroDecimalPlaces
   },
   {
     metrics: ['gc.bsgc'],
-    labels: ['Bytes Since GC'],
+    labels: [t('in-forge:plugins.crystalRuntimePlatform.bytesSinceGc')],
     min: 0,
-    category: ['GC'],
+    category: [t('in-forge:plugins.crystalRuntimePlatform.gc')],
     formatter: bytesZeroDecimalPlaces
   }
 ];

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default {
   initialSortColumn: 0,
@@ -10,7 +11,7 @@ export default {
 
   cols: [
     {
-      title: 'App',
+      title: t('in-forge:plugins.dropwizardApplicationContainer.app'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId(row) {
@@ -46,7 +47,7 @@ export default {
     //   }
     // },
     {
-      title: 'Retrieved Messages',
+      title: t('in-forge:plugins.dropwizardApplicationContainer.retrievedMessages'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {
@@ -62,7 +63,7 @@ export default {
       }
     },
     {
-      title: 'Trace Subscribe Events',
+      title: t('in-forge:plugins.dropwizardApplicationContainer.traceSubscribeEvents'),
       type: 'metric',
       typeArgs: {
         getSnapshotId(row) {

@@ -7,6 +7,7 @@ import React from 'react';
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { emptyList } from 'in-services/fixedImmutables';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
@@ -20,16 +21,26 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Dropwizard Version">{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.dropwizardApplicationContainer.dropwizardVersion')}>
+        {data.get('version')}
+      </DescriptionItem>
 
-      <DescriptionItem title="Counters">{counters}</DescriptionItem>
-      <DescriptionItem title="Gauges">{gauges}</DescriptionItem>
-      <DescriptionItem title="Histograms">{histograms}</DescriptionItem>
-      <DescriptionItem title="Meters">{meters}</DescriptionItem>
-      <DescriptionItem title="Summaries">{summaries}</DescriptionItem>
-      <DescriptionItem title="Timers">{timers}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.dropwizardApplicationContainer.counters')}>
+        {counters}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.dropwizardApplicationContainer.gauges')}>{gauges}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.dropwizardApplicationContainer.histograms')}>
+        {histograms}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.dropwizardApplicationContainer.meters')}>{meters}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.dropwizardApplicationContainer.summaries')}>
+        {summaries}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.dropwizardApplicationContainer.timers')}>{timers}</DescriptionItem>
 
-      <DescriptionItem title="Process ID">{data.get('pid')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.dropwizardApplicationContainer.processId')}>
+        {data.get('pid')}
+      </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

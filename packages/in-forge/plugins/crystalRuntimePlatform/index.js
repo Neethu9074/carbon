@@ -6,6 +6,7 @@ import metricDefinitions from 'in-forge/plugins/crystalRuntimePlatform/metricDef
 import kpiDefinitions from 'in-forge/plugins/crystalRuntimePlatform/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.crystalRuntimePlatform,
@@ -13,6 +14,6 @@ registerSnapshotDefinition({
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {
-    label: 'Crystal'
+    label: t('in-forge:plugins.crystalRuntimePlatform.crystal')
   }
 });

@@ -3,34 +3,39 @@
  * (c) Copyright Instana Inc.
  */
 import { percentage, number, nanos, bytes } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['cpu.total_usage', 'cpu.system_usage', 'cpu.user_usage'],
-    labels: ['Total', 'Kernel', 'User'],
+    labels: [
+      t('in-forge:plugins.docker.total'),
+      t('in-forge:plugins.docker.kernel'),
+      t('in-forge:plugins.docker.user')
+    ],
     min: 0,
-    category: ['CPU'],
+    category: [t('in-forge:plugins.docker.cpu')],
     formatter: percentage
   },
   {
     metrics: ['cpu.throttling_count'],
-    labels: ['Throttling count'],
-    category: ['CPU'],
+    labels: [t('in-forge:plugins.docker.throttlingCount')],
+    category: [t('in-forge:plugins.docker.cpu')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['cpu.throttling_time'],
-    labels: ['Throttling time'],
-    category: ['CPU'],
+    labels: [t('in-forge:plugins.docker.throttlingTime')],
+    category: [t('in-forge:plugins.docker.cpu')],
     min: 0,
     formatter: nanos
   },
   {
     metric: 'memory.used_percentage',
-    label: 'Used percentage',
+    label: t('in-forge:plugins.docker.usedPercentage'),
     min: 0,
-    category: ['Memory'],
+    category: [t('in-forge:plugins.docker.memory')],
     formatter: percentage
   },
   {
@@ -45,38 +50,43 @@ export default [
       'memory.inactive_file'
     ],
     labels: [
-      'Usage',
-      'Max usage',
-      'RSS',
-      'Cache',
-      'Active anonymous',
-      'Active cache',
-      'Inactive anonymous',
-      'Inactive cache'
+      t('in-forge:plugins.docker.usage'),
+      t('in-forge:plugins.docker.maxUsage'),
+      t('in-forge:plugins.docker.rss'),
+      t('in-forge:plugins.docker.cache'),
+      t('in-forge:plugins.docker.activeAnonymous'),
+      t('in-forge:plugins.docker.activeCache'),
+      t('in-forge:plugins.docker.inactiveAnonymous'),
+      t('in-forge:plugins.docker.inactiveCache')
     ],
     min: 0,
-    category: ['Memory'],
+    category: [t('in-forge:plugins.docker.memory')],
     formatter: bytes
   },
   {
     metrics: ['blkio.blk_read', 'blkio.blk_write'],
-    labels: ['Read', 'Write'],
-    category: ['Block IO'],
+    labels: [t('in-forge:plugins.docker.read'), t('in-forge:plugins.docker.write')],
+    category: [t('in-forge:plugins.docker.blockIo')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['network.rx.bytes', 'network.tx.bytes'],
-    labels: ['Received', 'Transmitted'],
+    labels: [t('in-forge:plugins.docker.received'), t('in-forge:plugins.docker.transmitted')],
     min: 0,
-    category: ['Network'],
+    category: [t('in-forge:plugins.docker.network')],
     formatter: bytes
   },
   {
     metrics: ['network.rx.errors', 'network.rx.dropped', 'network.tx.errors', 'network.tx.dropped'],
-    labels: ['RX Errors', 'RX Dropped', 'TX Errors', 'TX Dropped'],
+    labels: [
+      t('in-forge:plugins.docker.rxErrors'),
+      t('in-forge:plugins.docker.rxDropped'),
+      t('in-forge:plugins.docker.txErrors'),
+      t('in-forge:plugins.docker.txDropped')
+    ],
     min: 0,
-    category: ['Network'],
+    category: [t('in-forge:plugins.docker.network')],
     formatter: percentage
   }
 ];

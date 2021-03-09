@@ -17,6 +17,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function DockerDashboard({ snapshot, timeConfig }) {
   const memoryLimitBytes = snapshot.getIn(['data', 'memory.limit']);
@@ -32,10 +33,10 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
       ) : null}
 
       <KpiSection>
-        <KpiKeyValue label="CPU Total %">
+        <KpiKeyValue label={t('in-forge:plugins.docker.dashboard.cpuTotal')}>
           <MetricValue snapshotId={snapshotId} metric="cpu.total_usage" formatter={percentageZeroDecimalPlaces} />
         </KpiKeyValue>
-        <KpiKeyValue label="Memory Usage %">
+        <KpiKeyValue label={t('in-forge:plugins.docker.dashboard.memoryUsage')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="memory.used_percentage"
@@ -44,14 +45,18 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="CPU">
+      <DashboardSection title={t('in-forge:plugins.docker.dashboard.cpu')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['cpu.total_usage', 'cpu.system_usage', 'cpu.user_usage'],
-            labels: ['Total', 'Kernel', 'User'],
+            labels: [
+              t('in-forge:plugins.docker.dashboard.total'),
+              t('in-forge:plugins.docker.dashboard.kernel'),
+              t('in-forge:plugins.docker.dashboard.user')
+            ],
             formatter: percentageTwoDecimalPlaces,
             type: 'line'
           }}
@@ -63,13 +68,13 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
           y1={{
             min: 0,
             metrics: ['cpu.throttling_count'],
-            labels: ['Throttling count'],
+            labels: [t('in-forge:plugins.docker.dashboard.throttlingCount')],
             type: 'line'
           }}
           y2={{
             min: 0,
             metrics: ['cpu.throttling_time'],
-            labels: ['Throttling time'],
+            labels: [t('in-forge:plugins.docker.dashboard.throttlingTime')],
             type: 'line',
             formatter: timeByNanoTwoDecimalPlaces
           }}
@@ -86,14 +91,18 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               metrics: ['memory.usage', 'memory.total_rss', 'memory.total_cache'],
-              labels: ['Usage', 'RSS', 'Cache'],
+              labels: [
+                t('in-forge:plugins.docker.dashboard.usage'),
+                t('in-forge:plugins.docker.dashboard.rss'),
+                t('in-forge:plugins.docker.dashboard.cache')
+              ],
               formatter: bytesTwoDecimalPlaces,
               type: 'line'
             }}
             y2={{
               min: 0,
               metrics: ['memory.used_percentage'],
-              labels: ['Memory usage'],
+              labels: [t('in-forge:plugins.docker.dashboard.memoryUsage')],
               type: 'line',
               formatter: percentageTwoDecimalPlaces
             }}
@@ -105,7 +114,12 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               metrics: ['memory.active_anon', 'memory.active_file', 'memory.inactive_anon', 'memory.inactive_file'],
-              labels: ['Active anonymous', 'Active cache', 'Inactive anonymous', 'Inactive cache'],
+              labels: [
+                t('in-forge:plugins.docker.dashboard.activeAnonymous'),
+                t('in-forge:plugins.docker.dashboard.activeCache'),
+                t('in-forge:plugins.docker.dashboard.inactiveAnonymous'),
+                t('in-forge:plugins.docker.dashboard.inactiveCache')
+              ],
               formatter: bytesTwoDecimalPlaces,
               type: 'line'
             }}
@@ -114,14 +128,14 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       ) : null}
 
-      <DashboardSection title="Block IO">
+      <DashboardSection title={t('in-forge:plugins.docker.dashboard.blockIo')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['blkio.blk_read', 'blkio.blk_write'],
-            labels: ['Read', 'Write'],
+            labels: [t('in-forge:plugins.docker.dashboard.read'), t('in-forge:plugins.docker.dashboard.write')],
             type: 'line',
             formatter: bytesTwoDecimalPlaces
           }}
@@ -129,7 +143,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       {hasNetworkMetrics(snapshot) ? (
-        <DashboardSection title="Network">
+        <DashboardSection title={t('in-forge:plugins.docker.dashboard.network')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -137,14 +151,22 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
               min: 0,
               formatter: bytesTwoDecimalPlaces,
               metrics: ['network.rx.bytes', 'network.tx.bytes'],
-              labels: ['Received', 'Transmitted'],
+              labels: [
+                t('in-forge:plugins.docker.dashboard.received'),
+                t('in-forge:plugins.docker.dashboard.transmitted')
+              ],
               type: 'line'
             }}
             y2={{
               min: 0,
               max: 1,
               metrics: ['network.rx.errors', 'network.rx.dropped', 'network.tx.errors', 'network.tx.dropped'],
-              labels: ['RX Errors', 'RX Dropped', 'TX Errors', 'TX Dropped'],
+              labels: [
+                t('in-forge:plugins.docker.dashboard.rxErrors'),
+                t('in-forge:plugins.docker.dashboard.rxDropped'),
+                t('in-forge:plugins.docker.dashboard.txErrors'),
+                t('in-forge:plugins.docker.dashboard.txDropped')
+              ],
               formatter: percentageTwoDecimalPlaces,
               type: 'line'
             }}

@@ -12,6 +12,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import NomadInfo from 'in-forge/plugins/docker/NomadInfo';
 import Ports from 'in-forge/plugins/docker/Ports';
 import Info from 'in-forge/plugins/docker/Info';
+import { t } from 'in-i18n';
 
 export default function DockerSidebar({ snapshot }) {
   const labels = snapshot.getIn(['data', 'Labels']);
@@ -20,7 +21,7 @@ export default function DockerSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Docker Container</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.docker.dashboard.dockerContainer')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -29,7 +30,7 @@ export default function DockerSidebar({ snapshot }) {
       {ports && ports.size > 0 ? (
         <div>
           <Collapsible>
-            <Collapsible.Header>Ports</Collapsible.Header>
+            <Collapsible.Header>{t('in-forge:plugins.docker.dashboard.ports')}</Collapsible.Header>
             <Collapsible.Content>
               <Ports snapshot={snapshot} />
             </Collapsible.Content>
@@ -37,7 +38,7 @@ export default function DockerSidebar({ snapshot }) {
         </div>
       ) : null}
 
-      <KeyValueOverlay header="Container Labels" data={labels} />
+      <KeyValueOverlay header={t('in-forge:plugins.docker.dashboard.containerLabels')} data={labels} />
 
       <MarathonInfo snapshot={snapshot} />
 

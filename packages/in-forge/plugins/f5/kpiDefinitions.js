@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { bytesTwoDecimalPlaces, percentagePlainZeroDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'Free Memory',
+    label: t('in-forge:plugins.f5.freeMemory'),
     metric: 'memFree',
     formatter: bytesTwoDecimalPlaces
   },
   {
-    label: 'CPU Usage',
+    label: t('in-forge:plugins.f5.cpuUsage'),
     metric: 'cpuUsed',
     formatter: percentagePlainZeroDecimalPlaces
   }

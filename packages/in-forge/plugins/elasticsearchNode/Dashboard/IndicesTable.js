@@ -10,10 +10,11 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Index',
+    title: t('in-forge:plugins.elasticsearchNode.dashboard.index'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Documents',
+    title: t('in-forge:plugins.elasticsearchNode.dashboard.documents'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Deleted',
+    title: t('in-forge:plugins.elasticsearchNode.dashboard.deleted'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Size',
+    title: t('in-forge:plugins.elasticsearchNode.dashboard.size'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -93,7 +94,13 @@ export default function IndicesTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <Table withoutPadding cardTitle={`Indices (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.elasticsearchNode.dashboard.indicesWithCount', { count: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
   );
 }
 
@@ -105,14 +112,17 @@ function getDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           metrics: ['index.' + row.name + '.document_count', 'index.' + row.name + '.deleted_count'],
-          labels: ['Documents', 'Deletions'],
+          labels: [
+            t('in-forge:plugins.elasticsearchNode.dashboard.documents'),
+            t('in-forge:plugins.elasticsearchNode.dashboard.deletions')
+          ],
           formatter: withSiMultiplyPrefixZeroDecimalPlaces,
           tooltipFormatter: number.compact,
           type: 'line'
         }}
         y2={{
           metrics: ['index.' + row.name + '.size'],
-          labels: ['Size'],
+          labels: [t('in-forge:plugins.elasticsearchNode.dashboard.size')],
           formatter: bytes.detailed,
           type: 'line'
         }}
@@ -131,7 +141,12 @@ function getDetails(row) {
                 'index.' + row.name + '.fetch_current',
                 'index.' + row.name + '.fetch_count'
               ],
-              labels: ['Queries Current', 'Queries Total', 'Fetches Current', 'Fetches Total'],
+              labels: [
+                t('in-forge:plugins.elasticsearchNode.dashboard.queriesCurrent'),
+                t('in-forge:plugins.elasticsearchNode.dashboard.queriesTotal'),
+                t('in-forge:plugins.elasticsearchNode.dashboard.fetchesCurrent'),
+                t('in-forge:plugins.elasticsearchNode.dashboard.fetchesTotal')
+              ],
               formatter: number.compact,
               type: 'line'
             }}
@@ -143,7 +158,10 @@ function getDetails(row) {
             timeConfig={row.timeConfig}
             y1={{
               metrics: ['index.' + row.name + '.query_time', 'index.' + row.name + '.fetch_time'],
-              labels: ['Query Time', 'Fetch Time'],
+              labels: [
+                t('in-forge:plugins.elasticsearchNode.dashboard.queryTime'),
+                t('in-forge:plugins.elasticsearchNode.dashboard.fetchTime')
+              ],
               formatter: millis.detailed,
               type: 'line'
             }}
@@ -155,7 +173,10 @@ function getDetails(row) {
               timeConfig={row.timeConfig}
               y1={{
                 metrics: ['index.' + row.name + '.query_cache_size', 'index.' + row.name + '.request_cache_size'],
-                labels: ['Query Cache Memory', 'Request Cache Memory'],
+                labels: [
+                  t('in-forge:plugins.elasticsearchNode.dashboard.queryCacheMemory'),
+                  t('in-forge:plugins.elasticsearchNode.dashboard.requestCacheMemory')
+                ],
                 formatter: bytes.detailed,
                 type: 'line'
               }}
@@ -169,7 +190,10 @@ function getDetails(row) {
                   'index.' + row.name + '.query_cache_evictions',
                   'index.' + row.name + '.request_cache_evictions'
                 ],
-                labels: ['Query Cache Evictions', 'Request Cache Evictions'],
+                labels: [
+                  t('in-forge:plugins.elasticsearchNode.dashboard.queryCacheEvictions'),
+                  t('in-forge:plugins.elasticsearchNode.dashboard.requestCacheEvictions')
+                ],
                 formatter: number.compact,
                 type: 'line'
               }}
@@ -182,13 +206,13 @@ function getDetails(row) {
               timeConfig={row.timeConfig}
               y1={{
                 metrics: ['index.' + row.name + '.get_count'],
-                labels: ['Get Requests Total Count'],
+                labels: [t('in-forge:plugins.elasticsearchNode.dashboard.getRequestsTotalCount')],
                 formatter: number.compact,
                 type: 'line'
               }}
               y2={{
                 metrics: ['index.' + row.name + '.get_time'],
-                labels: ['Get Requests Time'],
+                labels: [t('in-forge:plugins.elasticsearchNode.dashboard.getRequestsTime')],
                 formatter: millis.detailed,
                 type: 'line'
               }}
@@ -199,13 +223,13 @@ function getDetails(row) {
               timeConfig={row.timeConfig}
               y1={{
                 metrics: ['index.' + row.name + '.missing_count'],
-                labels: ['Get Requests Failed Count'],
+                labels: [t('in-forge:plugins.elasticsearchNode.dashboard.getRequestsFailedCount')],
                 formatter: number.compact,
                 type: 'line'
               }}
               y2={{
                 metrics: ['index.' + row.name + '.missing_time'],
-                labels: ['Get Requests Failed Time'],
+                labels: [t('in-forge:plugins.elasticsearchNode.dashboard.getRequestsFailedTime')],
                 formatter: millis.detailed,
                 type: 'line'
               }}
@@ -217,7 +241,7 @@ function getDetails(row) {
             timeConfig={row.timeConfig}
             y1={{
               metrics: ['index.' + row.name + '.failed'],
-              labels: ['Indexing Operations Failed'],
+              labels: [t('in-forge:plugins.elasticsearchNode.dashboard.indexingOperationsFailed')],
               formatter: number.compact,
               type: 'line'
             }}
@@ -229,7 +253,7 @@ function getDetails(row) {
               timeConfig={row.timeConfig}
               y1={{
                 metrics: ['index.' + row.name + '.merge_current'],
-                labels: ['Current Merges Count'],
+                labels: [t('in-forge:plugins.elasticsearchNode.dashboard.currentMergesCount')],
                 formatter: number.compact,
                 type: 'line'
               }}
@@ -240,13 +264,13 @@ function getDetails(row) {
               timeConfig={row.timeConfig}
               y1={{
                 metrics: ['index.' + row.name + '.merge_size'],
-                labels: ['Total Merges Size'],
+                labels: [t('in-forge:plugins.elasticsearchNode.dashboard.totalMergesSize')],
                 formatter: bytes.detailed,
                 type: 'line'
               }}
               y2={{
                 metrics: ['index.' + row.name + '.merge_time'],
-                labels: ['Total Merges Time'],
+                labels: [t('in-forge:plugins.elasticsearchNode.dashboard.totalMergesTime')],
                 formatter: millis.detailed,
                 type: 'line'
               }}

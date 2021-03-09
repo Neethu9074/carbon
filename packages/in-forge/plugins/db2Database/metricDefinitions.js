@@ -4,6 +4,7 @@
  */
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { number, bytes, millis } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
@@ -25,21 +26,21 @@ export default [
       'databases.failedQueries'
     ],
     labels: [
-      'Status',
-      'All Queries',
-      'Connection Count',
-      'Rows Read',
-      'Rows Returned',
-      'Commits',
-      'Rollbacks',
-      'SELECTS',
-      'MERGES',
-      'DDLS',
-      'UIDS',
-      'XQUERIES',
-      'Static Queries',
-      'Dynamic Queries',
-      'Failed Queries'
+      t('in-forge:plugins.db2Database.status'),
+      t('in-forge:plugins.db2Database.allQueries'),
+      t('in-forge:plugins.db2Database.connectionCount'),
+      t('in-forge:plugins.db2Database.rowsRead'),
+      t('in-forge:plugins.db2Database.rowsReturned'),
+      t('in-forge:plugins.db2Database.commits'),
+      t('in-forge:plugins.db2Database.rollbacks'),
+      t('in-forge:plugins.db2Database.selects'),
+      t('in-forge:plugins.db2Database.merges'),
+      t('in-forge:plugins.db2Database.ddls'),
+      t('in-forge:plugins.db2Database.uids'),
+      t('in-forge:plugins.db2Database.xqueries'),
+      t('in-forge:plugins.db2Database.staticQueries'),
+      t('in-forge:plugins.db2Database.dynamicQueries'),
+      t('in-forge:plugins.db2Database.failedQueries')
     ],
     min: 0,
     formatter: number
@@ -52,10 +53,16 @@ export default [
       'bufferpools.temporaryDataPhysicalReads',
       'bufferpools.temporaryDataLogicalReads'
     ],
-    labels: ['Physical Writes', 'Physical Reads', 'Logical Reads', 'Temp Physical Reads', 'Temp Logical Reads'],
+    labels: [
+      t('in-forge:plugins.db2Database.physicalWrites'),
+      t('in-forge:plugins.db2Database.physicalReads'),
+      t('in-forge:plugins.db2Database.logicalReads'),
+      t('in-forge:plugins.db2Database.tempPhysicalReads'),
+      t('in-forge:plugins.db2Database.tempLogicalReads')
+    ],
     min: 0,
     formatter: number,
-    category: ['Buffer Pool Data Pages']
+    category: [t('in-forge:plugins.db2Database.bufferPoolDataPages')]
   },
   {
     metrics: [
@@ -65,10 +72,16 @@ export default [
       'bufferpools.temporaryIndexPhysicalRead',
       'bufferpools.temporaryIndexLogicalReads'
     ],
-    labels: ['Physical Writes', 'Physical Reads', 'Logical Reads', 'Temp Physical Reads', 'Temp Logical Reads'],
+    labels: [
+      t('in-forge:plugins.db2Database.physicalWrites'),
+      t('in-forge:plugins.db2Database.physicalReads'),
+      t('in-forge:plugins.db2Database.logicalReads'),
+      t('in-forge:plugins.db2Database.tempPhysicalReads'),
+      t('in-forge:plugins.db2Database.tempLogicalReads')
+    ],
     min: 0,
     formatter: number,
-    category: ['Buffer Pool Index Pages']
+    category: [t('in-forge:plugins.db2Database.bufferPoolIndexPages')]
   },
   {
     metrics: [
@@ -78,46 +91,55 @@ export default [
       'bufferpools.temporaryXdaDataPhysicalReads',
       'bufferpools.temporaryXdaDataLogicalReads'
     ],
-    labels: ['Physical Writes', 'Physical Reads', 'Logical Reads', 'Temp Physical Reads', 'Temp Logical Reads'],
+    labels: [
+      t('in-forge:plugins.db2Database.physicalWrites'),
+      t('in-forge:plugins.db2Database.physicalReads'),
+      t('in-forge:plugins.db2Database.logicalReads'),
+      t('in-forge:plugins.db2Database.tempPhysicalReads'),
+      t('in-forge:plugins.db2Database.tempLogicalReads')
+    ],
     min: 0,
     formatter: number,
-    category: ['Buffer Pool XDA']
+    category: [t('in-forge:plugins.db2Database.bufferPoolXda')]
   },
   {
     metrics: ['bufferpools.physicalReadTime', 'bufferpools.physicalWriteTime'],
-    labels: ['Buffer Pool Read Time', 'Buffer Pool Write Time'],
+    labels: [
+      t('in-forge:plugins.db2Database.bufferPoolReadTime'),
+      t('in-forge:plugins.db2Database.bufferPoolWriteTime')
+    ],
     min: 0,
     formatter: millis,
-    category: ['Buffer Pool Time']
+    category: [t('in-forge:plugins.db2Database.bufferPoolTime')]
   },
   {
     metrics: ['logs.available', 'logs.used'],
-    labels: ['Logs Available', 'Logs Used'],
+    labels: [t('in-forge:plugins.db2Database.logsAvailable'), t('in-forge:plugins.db2Database.logsUsed')],
     min: 0,
     formatter: bytes,
-    category: ['Log Space']
+    category: [t('in-forge:plugins.db2Database.logSpace')]
   },
   {
     metrics: ['logs.readsIO', 'logs.writesIO'],
-    labels: ['Log IO Reads', 'Log IO Writes'],
+    labels: [t('in-forge:plugins.db2Database.logIoReads'), t('in-forge:plugins.db2Database.logIoWrites')],
     min: 0,
     formatter: number,
-    category: ['Log IO']
+    category: [t('in-forge:plugins.db2Database.logIo')]
   },
   {
     metrics: ['logs.reads', 'logs.writes'],
-    labels: ['Log Reads', 'Log Writes'],
+    labels: [t('in-forge:plugins.db2Database.logReads'), t('in-forge:plugins.db2Database.logWrites')],
     min: 0,
     formatter: number,
-    category: ['Log']
+    category: [t('in-forge:plugins.db2Database.log')]
   },
   {
     metrics: [
       getDynamicMetricMatch('containers', 'totalSize', 'Container'),
       getDynamicMetricMatch('containers', 'usedSize', 'Container')
     ],
-    labels: ['File System Size', 'File System Used'],
-    category: ['Containers'],
+    labels: [t('in-forge:plugins.db2Database.fileSystemSize'), t('in-forge:plugins.db2Database.fileSystemUsed')],
+    category: [t('in-forge:plugins.db2Database.containers')],
     min: 0,
     formatter: bytes
   },
@@ -126,8 +148,8 @@ export default [
       getDynamicMetricMatch('containers', 'pagesRead', 'Container'),
       getDynamicMetricMatch('containers', 'pagesWritten', 'Container')
     ],
-    labels: ['Pages Read', 'Pages Written'],
-    category: ['Containers'],
+    labels: [t('in-forge:plugins.db2Database.pagesRead'), t('in-forge:plugins.db2Database.pagesWritten')],
+    category: [t('in-forge:plugins.db2Database.containers')],
     min: 0,
     formatter: number
   },
@@ -136,8 +158,8 @@ export default [
       getDynamicMetricMatch('containers', 'poolReadTime', 'Container'),
       getDynamicMetricMatch('containers', 'poolWriteTime', 'Container')
     ],
-    labels: ['Pool Read Time', 'Pool Write Time'],
-    category: ['Containers'],
+    labels: [t('in-forge:plugins.db2Database.poolReadTime'), t('in-forge:plugins.db2Database.poolWriteTime')],
+    category: [t('in-forge:plugins.db2Database.containers')],
     min: 0,
     formatter: millis
   }

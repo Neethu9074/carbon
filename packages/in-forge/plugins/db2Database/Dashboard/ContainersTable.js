@@ -10,10 +10,11 @@ import { bytes, number, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.db2Database.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'File System Size',
+    title: t('in-forge:plugins.db2Database.dashboard.fileSystemSize'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'File System Used',
+    title: t('in-forge:plugins.db2Database.dashboard.fileSystemUsed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Pages Read',
+    title: t('in-forge:plugins.db2Database.dashboard.pagesRead'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Pages Written',
+    title: t('in-forge:plugins.db2Database.dashboard.pagesWritten'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -86,7 +87,7 @@ const cols = [
     }
   },
   {
-    title: 'Pool Read Time',
+    title: t('in-forge:plugins.db2Database.dashboard.poolReadTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -102,7 +103,7 @@ const cols = [
     }
   },
   {
-    title: 'Pool Write Time',
+    title: t('in-forge:plugins.db2Database.dashboard.poolWriteTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -139,7 +140,7 @@ export default function ContainersTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Containers (${rows.length})`}
+      cardTitle={t('in-forge:plugins.db2Database.dashboard.containersWithCount', { count: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}
@@ -156,7 +157,10 @@ function getDetails(row) {
         y1={{
           min: 0,
           metrics: ['containers.' + row.key + '.totalSize', 'containers.' + row.key + '.usedSize'],
-          labels: ['File System Size', 'File System Used'],
+          labels: [
+            t('in-forge:plugins.db2Database.dashboard.fileSystemSize'),
+            t('in-forge:plugins.db2Database.dashboard.fileSystemUsed')
+          ],
           type: 'line',
           formatter: bytes.detailed
         }}
@@ -170,7 +174,10 @@ function getDetails(row) {
             min: 0,
             formatter: number.detailed,
             metrics: ['containers.' + row.key + '.pagesRead', 'containers.' + row.key + '.pagesWritten'],
-            labels: ['Pages Read', 'Pages Written'],
+            labels: [
+              t('in-forge:plugins.db2Database.dashboard.pagesRead'),
+              t('in-forge:plugins.db2Database.dashboard.pagesWritten')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -182,7 +189,10 @@ function getDetails(row) {
             min: 0,
             formatter: millis.detailed,
             metrics: ['containers.' + row.key + '.poolReadTime', 'containers.' + row.key + '.poolWriteTime'],
-            labels: ['Pool Read Time', 'Pool Write Time'],
+            labels: [
+              t('in-forge:plugins.db2Database.dashboard.poolReadTime'),
+              t('in-forge:plugins.db2Database.dashboard.poolWriteTime')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

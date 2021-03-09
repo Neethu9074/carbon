@@ -5,11 +5,14 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function FinagleInfo({ snapshot }) {
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">{snapshot.getIn(['data', 'version'])}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.finagleApplicationContainer.version')}>
+        {snapshot.getIn(['data', 'version'])}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

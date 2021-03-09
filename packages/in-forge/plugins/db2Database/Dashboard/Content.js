@@ -15,6 +15,7 @@ import { number, millis, bytes } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function Db2Dashboard({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
@@ -45,24 +46,24 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Queries">
+        <KpiKeyValue label={t('in-forge:plugins.db2Database.dashboard.queries')}>
           <MetricValue snapshotId={snapshotId} metric="databases.queries" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Status">
+        <KpiKeyValue label={t('in-forge:plugins.db2Database.dashboard.status')}>
           <MetricValue snapshotId={snapshotId} metric="databases.status" formatter={statusFormatter} />
         </KpiKeyValue>
-        <KpiKeyValue label="Client Connections">
+        <KpiKeyValue label={t('in-forge:plugins.db2Database.dashboard.clientConnections')}>
           <MetricValue snapshotId={snapshotId} metric="databases.connectionsCount" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Connections">
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.connections')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['databases.connectionsCount'],
-            labels: ['Count'],
+            labels: [t('in-forge:plugins.db2Database.dashboard.count')],
             formatter: number.compact,
             type: 'line'
           }}
@@ -70,28 +71,34 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <Columize>
-        <DashboardSection title="Rows">
+        <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.rows')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['databases.rowsRead', 'databases.rowsReturned'],
-              labels: ['Read', 'Returned'],
+              labels: [
+                t('in-forge:plugins.db2Database.dashboard.read'),
+                t('in-forge:plugins.db2Database.dashboard.returned')
+              ],
               type: 'line',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Commits/Rollbacks">
+        <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.commitsRollbacks')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['databases.commits', 'databases.rollbacks'],
-              labels: ['Commits', 'Rollbacks'],
+              labels: [
+                t('in-forge:plugins.db2Database.dashboard.commits'),
+                t('in-forge:plugins.db2Database.dashboard.rollbacks')
+              ],
               type: 'line',
               formatter: number.compact
             }}
@@ -99,35 +106,46 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       </Columize>
-      <DashboardSection title="Statements">
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.statements')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['databases.selectQueries', 'databases.mergeQueries'],
-            labels: ['SELECTS', 'MERGES'],
+            labels: [
+              t('in-forge:plugins.db2Database.dashboard.selects'),
+              t('in-forge:plugins.db2Database.dashboard.merges')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           y2={{
             min: 0,
             metrics: ['databases.ddlQueries', 'databases.uidQueries', 'databases.xQueries'],
-            labels: ['DDLS', 'UIDS', 'XQUERIES'],
+            labels: [
+              t('in-forge:plugins.db2Database.dashboard.ddls'),
+              t('in-forge:plugins.db2Database.dashboard.uids'),
+              t('in-forge:plugins.db2Database.dashboard.xqueries')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Queries">
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.queries')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['databases.staticQueries', 'databases.dynamicQueries', 'databases.failedQueries'],
-            labels: ['Static', 'Dynamic', 'Failed'],
+            labels: [
+              t('in-forge:plugins.db2Database.dashboard.static'),
+              t('in-forge:plugins.db2Database.dashboard.dynamic'),
+              t('in-forge:plugins.db2Database.dashboard.failed')
+            ],
             type: 'line',
             formatter: number.compact
           }}
@@ -135,7 +153,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Buffer Pool Data Pages">
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.bufferPoolDataPages')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -148,14 +166,20 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
               'bufferpools.temporaryDataPhysicalReads',
               'bufferpools.temporaryDataLogicalReads'
             ],
-            labels: ['Physical Writes', 'Physical Reads', 'Logical Reads', 'Temp Physical Reads', 'Temp Logical Reads'],
+            labels: [
+              t('in-forge:plugins.db2Database.dashboard.physicalWrites'),
+              t('in-forge:plugins.db2Database.dashboard.physicalReads'),
+              t('in-forge:plugins.db2Database.dashboard.logicalReads'),
+              t('in-forge:plugins.db2Database.dashboard.tempPhysicalReads'),
+              t('in-forge:plugins.db2Database.dashboard.tempLogicalReads')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Buffer Pool Index Pages">
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.bufferPoolIndexPages')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -168,14 +192,20 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
               'bufferpools.temporaryIndexPhysicalReads',
               'bufferpools.temporaryIndexLogicalReads'
             ],
-            labels: ['Physical Writes', 'Physical Reads', 'Logical Reads', 'Temp Physical Reads', 'Temp Logical Reads'],
+            labels: [
+              t('in-forge:plugins.db2Database.dashboard.physicalWrites'),
+              t('in-forge:plugins.db2Database.dashboard.physicalReads'),
+              t('in-forge:plugins.db2Database.dashboard.logicalReads'),
+              t('in-forge:plugins.db2Database.dashboard.tempPhysicalReads'),
+              t('in-forge:plugins.db2Database.dashboard.tempLogicalReads')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Buffer Pool XDA">
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.bufferPoolXda')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -188,21 +218,30 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
               'bufferpools.temporaryXdaDataPhysicalReads',
               'bufferpools.temporaryXdaDataLogicalReads'
             ],
-            labels: ['Physical Writes', 'Physical Reads', 'Logical Reads', 'Temp Physical Reads', 'Temp Logical Reads'],
+            labels: [
+              t('in-forge:plugins.db2Database.dashboard.physicalWrites'),
+              t('in-forge:plugins.db2Database.dashboard.physicalReads'),
+              t('in-forge:plugins.db2Database.dashboard.logicalReads'),
+              t('in-forge:plugins.db2Database.dashboard.tempPhysicalReads'),
+              t('in-forge:plugins.db2Database.dashboard.tempLogicalReads')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Buffer Pool Time">
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.bufferPoolTime')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['bufferpools.physicalReadTime', 'bufferpools.physicalWriteTime'],
-            labels: ['Read', 'Write'],
+            labels: [
+              t('in-forge:plugins.db2Database.dashboard.read'),
+              t('in-forge:plugins.db2Database.dashboard.write')
+            ],
             type: 'line',
             formatter: millis.detailed
           }}
@@ -210,28 +249,34 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <Columize>
-        <DashboardSection title="Log Space">
+        <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.logSpace')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['logs.available', 'logs.used'],
-              labels: ['Available', 'Used'],
+              labels: [
+                t('in-forge:plugins.db2Database.dashboard.available'),
+                t('in-forge:plugins.db2Database.dashboard.used')
+              ],
               type: 'line',
               formatter: bytes.detailed
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Log IO">
+        <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.logIo')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['logs.readsIO', 'logs.writesIO'],
-              labels: ['Reads', 'Writes'],
+              labels: [
+                t('in-forge:plugins.db2Database.dashboard.reads'),
+                t('in-forge:plugins.db2Database.dashboard.writes')
+              ],
               type: 'line',
               formatter: number.compact
             }}
@@ -239,21 +284,27 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       </Columize>
-      <DashboardSection title="Log">
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.log')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['logs.reads', 'logs.writes'],
-            labels: ['Reads', 'Writes'],
+            labels: [
+              t('in-forge:plugins.db2Database.dashboard.reads'),
+              t('in-forge:plugins.db2Database.dashboard.writes')
+            ],
             type: 'line',
             formatter: number.compact
           }}
           y2={{
             min: 0,
             metrics: ['logs.readTime', 'logs.writeTime'],
-            labels: ['Read Time', 'Write Time'],
+            labels: [
+              t('in-forge:plugins.db2Database.dashboard.readTime'),
+              t('in-forge:plugins.db2Database.dashboard.writeTime')
+            ],
             type: 'line',
             formatter: millis.detailed
           }}

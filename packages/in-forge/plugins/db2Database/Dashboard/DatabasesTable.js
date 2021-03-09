@@ -10,10 +10,11 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.db2Database.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Connections',
+    title: t('in-forge:plugins.db2Database.dashboard.connections'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Queries',
+    title: t('in-forge:plugins.db2Database.dashboard.queries'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Commits',
+    title: t('in-forge:plugins.db2Database.dashboard.commits'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -70,7 +71,7 @@ const cols = [
     }
   },
   {
-    title: 'Rollbacks',
+    title: t('in-forge:plugins.db2Database.dashboard.rollbacks'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -86,7 +87,7 @@ const cols = [
     }
   },
   {
-    title: 'Rows Read',
+    title: t('in-forge:plugins.db2Database.dashboard.rowsRead'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -102,7 +103,7 @@ const cols = [
     }
   },
   {
-    title: 'Rows Returned',
+    title: t('in-forge:plugins.db2Database.dashboard.rowsReturned'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -137,7 +138,13 @@ export default function DatabasesTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <Table withoutPadding cardTitle={`Databases (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.db2Database.dashboard.databasesWithCount', { count: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
   );
 }
 
@@ -150,7 +157,7 @@ function getDetails(row) {
         y1={{
           min: 0,
           metrics: ['databases.' + row.key + '.connections'],
-          labels: ['Count'],
+          labels: [t('in-forge:plugins.db2Database.dashboard.count')],
           type: 'line',
           formatter: number.detailed
         }}
@@ -164,7 +171,7 @@ function getDetails(row) {
             min: 0,
             formatter: number.detailed,
             metrics: ['databases.' + row.key + '.rowsRead', 'databases.' + row.key + '.rowsReturned'],
-            labels: ['Queries'],
+            labels: [t('in-forge:plugins.db2Database.dashboard.queries')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -176,7 +183,10 @@ function getDetails(row) {
             min: 0,
             formatter: number.detailed,
             metrics: ['databases.' + row.key + '.commits', 'databases.' + row.key + '.rollbacks'],
-            labels: ['Commits', 'Rollbacks'],
+            labels: [
+              t('in-forge:plugins.db2Database.dashboard.commits'),
+              t('in-forge:plugins.db2Database.dashboard.rollbacks')
+            ],
             type: 'stackedArea'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -194,7 +204,13 @@ function getDetails(row) {
             'databases.' + row.key + '.deletes',
             'databases.' + row.key + '.merges'
           ],
-          labels: ['SELECTS', 'UPDATES', 'INSERTS', 'DELETES', 'MERGES'],
+          labels: [
+            t('in-forge:plugins.db2Database.dashboard.selects'),
+            t('in-forge:plugins.db2Database.dashboard.updates'),
+            t('in-forge:plugins.db2Database.dashboard.inserts'),
+            t('in-forge:plugins.db2Database.dashboard.deletes'),
+            t('in-forge:plugins.db2Database.dashboard.merges')
+          ],
           type: 'line',
           formatter: number.compact
         }}
@@ -205,7 +221,11 @@ function getDetails(row) {
             'databases.' + row.key + '.uids',
             'databases.' + row.key + '.xqueries'
           ],
-          labels: ['DDLS', 'UIDS', 'XQUERIES'],
+          labels: [
+            t('in-forge:plugins.db2Database.dashboard.ddls'),
+            t('in-forge:plugins.db2Database.dashboard.uids'),
+            t('in-forge:plugins.db2Database.dashboard.xqueries')
+          ],
           type: 'line',
           formatter: number.compact
         }}
@@ -218,13 +238,16 @@ function getDetails(row) {
           min: 0,
           formatter: number.detailed,
           metrics: ['databases.' + row.key + '.failedQueries'],
-          labels: ['Failed Queries'],
+          labels: [t('in-forge:plugins.db2Database.dashboard.failedQueries')],
           type: 'stackedArea'
         }}
         y2={{
           min: 0,
           metrics: ['databases.' + row.key + '.staticQueries', 'databases.' + row.key + '.dynamicQueries'],
-          labels: ['Static Queries', 'Dynamic Queries'],
+          labels: [
+            t('in-forge:plugins.db2Database.dashboard.staticQueries'),
+            t('in-forge:plugins.db2Database.dashboard.dynamicQueries')
+          ],
           type: 'line',
           formatter: number.compact
         }}

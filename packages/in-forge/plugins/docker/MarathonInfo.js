@@ -7,6 +7,7 @@ import React from 'react';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { t } from 'in-i18n';
 
 export default function MarathonInfo({ snapshot }) {
   const marathon = snapshot.getIn(['data', 'Marathon']);
@@ -19,21 +20,27 @@ export default function MarathonInfo({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>Marathon</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.docker.marathon')}</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="App ID">{marathon.get('appId')}</DescriptionItem>
-            <DescriptionItem title="App Version">{marathon.get('appVersion')}</DescriptionItem>
-            <DescriptionItem title="CPU Resources">{marathon.get('cpuResources')}</DescriptionItem>
-            <DescriptionItem title="Memory Resources">
+            <DescriptionItem title={t('in-forge:plugins.docker.appId')}>{marathon.get('appId')}</DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.docker.appVersion')}>
+              {marathon.get('appVersion')}
+            </DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.docker.cpuResources')}>
+              {marathon.get('cpuResources')}
+            </DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.docker.memoryResources')}>
               {marathon.get('memoryResources') ? `${marathon.get('memoryResources')} MB` : null}
             </DescriptionItem>
-            <DescriptionItem title="Disk Resources">
+            <DescriptionItem title={t('in-forge:plugins.docker.diskResources')}>
               {marathon.get('diskResources') ? `${marathon.get('diskResources')} MB` : null}
             </DescriptionItem>
           </DescriptionList>
 
-          {labels && labels.size > 0 ? <KeyValueOverlay header="Marathon Labels" data={labels} /> : null}
+          {labels && labels.size > 0 ? (
+            <KeyValueOverlay header={t('in-forge:plugins.docker.marathonLabels')} data={labels} />
+          ) : null}
         </Collapsible.Content>
       </Collapsible>
     </div>

@@ -12,6 +12,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
+import { t } from 'in-i18n';
 
 export default connectTo(
   ({ snapshot }) => ({
@@ -31,7 +32,11 @@ export default connectTo(
     }
 
     return (
-      <Dialog title="Container Info" onClose={close} renderCustomCloseBehaviour={() => header}>
+      <Dialog
+        title={t('in-forge:plugins.docker.containerInfo')}
+        onClose={close}
+        renderCustomCloseBehaviour={() => header}
+      >
         {!response && <LoadingIndicator />}
 
         {response && response.error && (

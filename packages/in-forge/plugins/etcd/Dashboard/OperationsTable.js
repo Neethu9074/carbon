@@ -9,10 +9,11 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Operation',
+    title: t('in-forge:plugins.etcd.dashboard.operation'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Success',
+    title: t('in-forge:plugins.etcd.dashboard.success'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Fail',
+    title: t('in-forge:plugins.etcd.dashboard.fail'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -68,7 +69,7 @@ export default function OperationsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Operations (${rows.length})`}
+      cardTitle={t('in-forge:plugins.etcd.dashboard.operationsWithCount', { count: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -87,7 +88,7 @@ function getRowDetails(row) {
       y1={{
         formatter: zeroDecimalPlaces,
         metrics: ['storage.' + row.key + '_success', 'storage.' + row.key + '_fail'],
-        labels: ['Success', 'Fail'],
+        labels: [t('in-forge:plugins.etcd.dashboard.success'), t('in-forge:plugins.etcd.dashboard.fail')],
         type: 'stackedBar',
         colors: [theme.lib.colors.green800, theme.lib.colors.red800],
         aggregation: 'sum'
