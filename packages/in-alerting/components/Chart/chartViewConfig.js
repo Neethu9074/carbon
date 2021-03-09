@@ -36,14 +36,14 @@ export const maxChartViewTimeConfig = Object.freeze({
  */
 export const chartViewConfigs = Object.freeze([
   {
-    label: t('in-new-components:alerting.chart.chartViewConfigsLast24Hours'),
+    label: t('in-alerting:components.chart.chartViewConfigsLast24Hours'),
     timeConfig: {
       windowSize: hours.toMillis(24)
     },
     minChartMetricGranularity: 0
   },
   {
-    label: t('in-new-components:alerting.chart.chartViewConfigsLast7Days'),
+    label: t('in-alerting:components.chart.chartViewConfigsLast7Days'),
     timeConfig: maxChartViewTimeConfig,
     minChartMetricGranularity: 0, // at the moment we don't use a higher granularity for the metric, because we don't handle that properly for count metrics (using SUM)
     smoothMetric: true

@@ -49,14 +49,14 @@ export default function SelectAlertChannel({ form, onChange, setAlertChannelsVis
                       }}
                     />
                   ),
-                  title: t('in-new-components:alerting.components.selectAlertChannelButtonTitle')
+                  title: t('in-alerting:smartAlerts.components.smartAlertDialog.selectAlertChannelButtonTitle')
                 },
                 isVisible: true
               })
             }
             icon="lib_openclose_add_circle_outline"
           >
-            {t('in-new-components:alerting.components.selectAlertChannelButton')}
+            {t('in-alerting:smartAlerts.components.smartAlertDialog.selectAlertChannelButton')}
           </Button>
         }
       />

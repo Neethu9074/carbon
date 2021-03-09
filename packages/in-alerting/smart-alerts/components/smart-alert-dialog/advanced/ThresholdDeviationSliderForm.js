@@ -15,7 +15,7 @@ export function ThresholdDeviationSliderForm({ form, onChange, trackChange, defa
   return (
     <ThresholdConditionFormGroup
       iconType="lib_threshold"
-      label={t('in-new-components:alerting.advanced.labelSensitivity')}
+      label={t('in-alerting:smartAlerts.components.smartAlertDialog.labelSensitivity')}
     >
       <DebouncedSensitivitySlider
         value={getFormValueOrDefault(form.get('threshold'), 'deviationFactor', '')}

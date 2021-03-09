@@ -29,7 +29,9 @@ export default function RevisionDropdown({ alertConfig, alertConfigVersions, set
     >
       {({ elementProps, isOpen }) => (
         <DropdownButton {...elementProps} kind="primaryv2" icon="lib_datetime_timerange" expanded={isOpen}>
-          {t('in-new-components:alerting.components.revisionDropdownButtonRevision', { alertRevision: alertRevision })}
+          {t('in-alerting:components.revisionDropdownButtonRevision', {
+            alertRevision: alertRevision
+          })}
         </DropdownButton>
       )}
     </ComboBoxBehavior>
@@ -48,7 +50,7 @@ function renderItemContent(item, i, alertConfig, alertConfigVersions) {
           [locals.selectedItem]: item.created === alertConfig.created
         })}
       >
-        {t('in-new-components:alerting.components.revisionDropdownButtonRevision', {
+        {t('in-alerting:components.revisionDropdownButtonRevision', {
           alertRevision: toAlertRevision(i, alertConfigVersions)
         })}
       </span>

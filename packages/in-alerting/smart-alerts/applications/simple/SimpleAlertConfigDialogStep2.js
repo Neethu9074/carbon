@@ -23,7 +23,7 @@ export default function SimpleAlertConfigDialogStep2({
   QueryBuilderComponent
 }) {
   return (
-    <SimpleModeStepContentWrapper headline={t('in-applications:simple.simpleAlertStep2Headline')}>
+    <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.applications.simple.simpleAlertStep2Headline')}>
       <div className={locals.alertLocationFiltersWrapper}>
         <WithQB1orQB2
           onUsesQB1={() => (

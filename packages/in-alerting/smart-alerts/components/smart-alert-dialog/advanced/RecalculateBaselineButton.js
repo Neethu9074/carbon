@@ -27,7 +27,7 @@ export default function RecalculateBaselineButton({ onChange, editMode }) {
       }}
       disabled={isRecalculated.current}
     >
-      {t('in-new-components:alerting.advanced.buttonRecalculateBaseline')}
+      {t('in-alerting:smartAlerts.components.smartAlertDialog.buttonRecalculateBaseline')}
     </Button>
   );
 }

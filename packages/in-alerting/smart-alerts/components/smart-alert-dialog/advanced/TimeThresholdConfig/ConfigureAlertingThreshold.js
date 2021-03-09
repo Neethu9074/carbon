@@ -37,11 +37,13 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
   function getConfigureTimeWindow(timeThresholdType) {
     let label;
     if (timeThresholdType === timeThresholdTypes.violationsInSequence) {
-      label = t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfConsecutiveViolations');
+      label = t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfConsecutiveViolations');
     } else if (timeThresholdType === timeThresholdTypes.violationsInPeriod) {
-      label = t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfConsecutiveEvaluations');
+      label = t(
+        'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfConsecutiveEvaluations'
+      );
     } else if (timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence) {
-      label = t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfEvaluationWindows');
+      label = t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfEvaluationWindows');
     } else if (timeThresholdType === timeThresholdTypes.requestImpact) {
       return <ConfigureRequestImpact form={form} onChange={onChange} />;
     }
@@ -59,7 +61,7 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
     if (timeThresholdType === timeThresholdTypes.violationsInPeriod) {
       return (
         <ConfigureViolations
-          label={t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfViolations')}
+          label={t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfViolations')}
           onChange={onChangeViolationsInPeriod}
           violations={timeThresholdViolations}
           maxViolations={Math.round(timeThresholdTimeWindow / granularity)}

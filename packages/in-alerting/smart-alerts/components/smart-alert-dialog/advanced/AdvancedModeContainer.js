@@ -58,8 +58,8 @@ export default function AdvancedModeContainer({
           disabled={!form.hierarchyValid || !additionalValidationCheck()}
         >
           {editMode
-            ? t('in-new-components:alerting.advanced.buttonSave')
-            : t('in-new-components:alerting.advanced.buttonCreate')}
+            ? t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave')
+            : t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate')}
         </SaveButton>
       </FormFooter>
     </nav>

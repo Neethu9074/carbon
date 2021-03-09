@@ -28,22 +28,22 @@ export default function AlertPropertyInfos({ alertConfig: { name, description, t
   return (
     <>
       <PropContainer
-        left={t('in-new-components:alerting.components.alertPropertyInfosLabelTitle')}
+        left={t('in-alerting:components.alertPropertyInfosLabelTitle')}
         right={<Label className={locals.staticTitle}>{name}</Label>}
       />
       <PropContainer
         icon={severityProperty.icon}
-        left={t('in-new-components:alerting.components.alertPropertyInfosLabelAlertLevel')}
+        left={t('in-alerting:components.alertPropertyInfosLabelAlertLevel')}
         right={<Label className={locals.staticSeverity}>{severityProperty.label}</Label>}
       />
       <PropContainer
         icon="lib_events_incident"
-        left={t('in-new-components:alerting.components.alertPropertyInfosLabelTriggersIncident')}
+        left={t('in-alerting:components.alertPropertyInfosLabelTriggersIncident')}
         right={<Toggle checked={triggering} disabled />}
       />
       <PropContainer
         icon="lib_help_error_error_outline"
-        left={t('in-new-components:alerting.components.alertPropertyInfosLabelDescription')}
+        left={t('in-alerting:components.alertPropertyInfosLabelDescription')}
         right={<Label className={locals.staticDescription}>{description}</Label>}
       />
     </>

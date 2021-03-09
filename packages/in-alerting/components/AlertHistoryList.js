@@ -30,7 +30,7 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }) => {
   return (
     <>
       <ListTitle>
-        {t('in-new-components:alerting.components.alertHistoryListTitleWithTotalRepresentedItemCount', {
+        {t('in-alerting:components.alertHistoryListTitleWithTotalRepresentedItemCount', {
           totalRepresentedItemCount
         })}
       </ListTitle>

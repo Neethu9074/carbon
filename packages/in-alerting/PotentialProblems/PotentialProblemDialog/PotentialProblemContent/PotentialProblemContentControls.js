@@ -68,7 +68,7 @@ export default function PotentialProblemContentControls({
           tagCatalog
         )}
       >
-        {t('in-new-components:potentialProblems.buttonInvestigate')}
+        {t('in-alerting:potentialProblems.buttonInvestigate')}
       </Button>
       {role.canConfigureCustomAlerts && (
         <Button
@@ -89,7 +89,7 @@ export default function PotentialProblemContentControls({
           }}
           icon="lib_alerts_create"
         >
-          {t('in-new-components:potentialProblems.buttonAddSmartAlert')}
+          {t('in-alerting:potentialProblems.buttonAddSmartAlert')}
         </Button>
       )}
     </>

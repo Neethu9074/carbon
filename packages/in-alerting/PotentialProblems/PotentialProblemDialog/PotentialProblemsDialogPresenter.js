@@ -26,8 +26,8 @@ export default function PotentialProblemsDialogPresenterAlertChecker(props) {
 function PotentialProblemsDialogPresenter({ alertRules, thresholds, alerts, ...remainingProps }) {
   const isCluster = alerts.length > 1;
   const title = isCluster
-    ? t('in-new-components:potentialProblems.titlePotentialProblemWithCount', { count: alerts.length })
-    : t('in-new-components:potentialProblems.titlePotentialProblem');
+    ? t('in-alerting:potentialProblems.titlePotentialProblemWithCount', { count: alerts.length })
+    : t('in-alerting:potentialProblems.titlePotentialProblem');
 
   const [selectedItem, setSelectedItem] = useState(alerts[0]);
   const ruleSelected = alertRules[selectedItem.key].rule;

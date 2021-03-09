@@ -27,7 +27,7 @@ export function BlueprintDescription({ config, selectButtonDisabled, isSimpleMod
           disabled={selectButtonDisabled}
           onClick={() => onSelectBlueprint(config)}
         >
-          {t('in-new-components:alerting.components.blueprintDescriptionButtonSelect')}
+          {t('in-alerting:smartAlerts.components.smartAlertDialog.blueprintDescriptionButtonSelect')}
         </Button>
       )}
     </div>

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { createMapForm, createField } from 'formalistic';
+
 import { t } from 'in-i18n';
 
 export const percentageOfUserDefault = 0.2;
@@ -99,7 +100,7 @@ export function createRequestImpactForm(timeThresholdConfig) {
               {
                 severity: 'error',
                 message: t(
-                  'in-new-components:alerting.advanced.timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne'
+                  'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne'
                 )
               }
             ];
@@ -137,7 +138,7 @@ export function putUsersField(form, users) {
             {
               severity: 'error',
               message: t(
-                'in-new-components:alerting.advanced.timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne'
+                'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne'
               )
             }
           ];
@@ -158,7 +159,7 @@ export function putUserPercentageField(form, userPercentage) {
             {
               severity: 'error',
               message: t(
-                'in-new-components:alerting.advanced.timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent'
+                'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent'
               )
             }
           ];

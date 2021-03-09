@@ -14,7 +14,7 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
   const { alertConfigWithFormModel, serviceId } = props;
 
   if (PER_AP_SERVICE === alertConfigWithFormModel.evaluationType && !serviceId) {
-    return <NoDataAvailable text={t('in-applications:alert.chart.noDataAvailable')} height={230} />;
+    return <NoDataAvailable text={t('in-alerting:smartAlerts.applications.chart.noDataAvailable')} height={230} />;
   }
 
   const entitySelection = alertConfigWithFormModel?.applications;
@@ -37,9 +37,9 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
 
 function getErrorMessage(isQB2Error, isServicesAndEndpointsSelectionError) {
   if (isQB2Error) {
-    return t('in-new-components:alerting.chart.alertingChartMessageInvalidFilterQuery');
+    return t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery');
   }
   if (isServicesAndEndpointsSelectionError) {
-    return t('in-new-components:alerting.chart.alertingChartMessageEntitySelectionInvalid');
+    return t('in-alerting:components.chart.alertingChartMessageEntitySelectionInvalid');
   }
 }

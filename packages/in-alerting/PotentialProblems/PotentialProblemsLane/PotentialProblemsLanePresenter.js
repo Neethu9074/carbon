@@ -98,11 +98,11 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
       {...remainingProps}
       events={events}
       isClustered={false}
-      label={t('in-new-components:potentialProblems.titlePotentialProblems')}
+      label={t('in-alerting:potentialProblems.titlePotentialProblems')}
       tooltipContent={({ alerts }) => {
         let text = '';
         if (alerts.length > 1) {
-          text = t('in-new-components:potentialProblems.labelNumbersOfPotentialProblem', { count: alerts.length });
+          text = t('in-alerting:potentialProblems.labelNumbersOfPotentialProblem', { count: alerts.length });
         } else {
           const { thresholds } = potentialProblems;
           const key = alerts[0].key;

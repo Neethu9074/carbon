@@ -12,19 +12,19 @@ import { t } from 'in-i18n';
 export function getAggregationText(aggregation) {
   switch (aggregation.toUpperCase()) {
     case 'P25':
-      return t('in-new-components:alerting.utils.aggregationTextP25');
+      return t('in-alerting:smartAlerts.components.utils.aggregationTextP25');
     case 'P50':
-      return t('in-new-components:alerting.utils.aggregationTextP50');
+      return t('in-alerting:smartAlerts.components.utils.aggregationTextP50');
     case 'P75':
-      return t('in-new-components:alerting.utils.aggregationTextP75');
+      return t('in-alerting:smartAlerts.components.utils.aggregationTextP75');
     case 'P90':
-      return t('in-new-components:alerting.utils.aggregationTextP90');
+      return t('in-alerting:smartAlerts.components.utils.aggregationTextP90');
     case 'P95':
-      return t('in-new-components:alerting.utils.aggregationTextP95');
+      return t('in-alerting:smartAlerts.components.utils.aggregationTextP95');
     case 'P98':
-      return t('in-new-components:alerting.utils.aggregationTextP98');
+      return t('in-alerting:smartAlerts.components.utils.aggregationTextP98');
     case 'P99':
-      return t('in-new-components:alerting.utils.aggregationTextP99');
+      return t('in-alerting:smartAlerts.components.utils.aggregationTextP99');
     default:
       return aggregation.toLowerCase();
   }

@@ -37,7 +37,11 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, t
 
   return (
     <LightCard
-      title={<div className={locals.lightCardTitle}>{t('in-new-components:alerting.components.scopeConfigTitle')}</div>}
+      title={
+        <div className={locals.lightCardTitle}>
+          {t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitle')}
+        </div>
+      }
       headerClassName={locals.lightCardHeader}
       header={
         <LightCardHeaderControls
@@ -115,7 +119,7 @@ function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFi
     <HorizontalFlexWrapper>
       <HorizontalFlexWrapper>
         <div className={locals.lightCardHeaderControlsSelectionTitle}>
-          {t('in-new-components:alerting.components.sortByUserSelectionLabel')}
+          {t('in-alerting:smartAlerts.components.smartAlertDialog.sortByUserSelectionLabel')}
         </div>
         <Toggle
           checked={filterBySelectionState}

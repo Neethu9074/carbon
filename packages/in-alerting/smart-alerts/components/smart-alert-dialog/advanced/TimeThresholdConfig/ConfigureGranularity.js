@@ -22,7 +22,7 @@ export default function ConfigureGranularity({ onChange, granularity }) {
   const currentValue = marks.find((i => i.millis === granularity) ?? marks[1]).value;
   return (
     <AlertThresholdConfigItemContainer noIcon>
-      <label>{t('in-new-components:alerting.advanced.timeThresholdConfigEvaluationGranularity')}</label>
+      <label>{t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigEvaluationGranularity')}</label>
       <DebouncedRestrictedSlider
         marks={marks}
         max={marks[marks.length - 1].value}

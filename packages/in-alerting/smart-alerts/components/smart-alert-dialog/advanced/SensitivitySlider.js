@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import DebouncedDistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
+import { t } from 'in-i18n';
 
 export const DebouncedSensitivitySlider = ({ value, defaultValue, onChange }) => {
   const sliderStepCount = 600;
@@ -16,9 +17,9 @@ export const DebouncedSensitivitySlider = ({ value, defaultValue, onChange }) =>
   const linearScaleMin = toSliderScale(16);
   const linearScaleMax = toSliderScale(0.5);
   const labeledTicks = [
-    { value: linearScaleMin, label: t('in-new-components:alerting.advanced.sensitivitySliderLow') },
+    { value: linearScaleMin, label: t('in-alerting:smartAlerts.components.smartAlertDialog.sensitivitySliderLow') },
     { value: toSliderScale(defaultValue) },
-    { value: linearScaleMax, label: t('in-new-components:alerting.advanced.sensitivitySliderHigh') }
+    { value: linearScaleMax, label: t('in-alerting:smartAlerts.components.smartAlertDialog.sensitivitySliderHigh') }
   ];
   return (
     <DebouncedDistinctSlider

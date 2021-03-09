@@ -13,7 +13,7 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advan
 export default function ThresholdConditionFormGroup({
   children,
   iconType = 'lib_alerting_threshold_icon',
-  label = t('in-new-components:alerting.advanced.labelThreshold')
+  label = t('in-alerting:smartAlerts.components.smartAlertDialog.labelThreshold')
 }) {
   return (
     <div className={locals.thresholdConditionItem}>

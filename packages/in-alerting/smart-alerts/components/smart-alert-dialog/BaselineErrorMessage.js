@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import Message from 'in-new-components/Message';
@@ -16,9 +17,9 @@ export default function BaselineErrorMessage({ thresholdResult }) {
 
   return (
     <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
-      <Trans i18nKey="in-new-components:alerting.components.baselineErrorMessageInsufficientDataToCompute" />
+      <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.baselineErrorMessageInsufficientDataToCompute" />
       <br />
-      <b>{t('in-new-components:alerting.components.baselineErrorMessageReason')}</b>
+      <b>{t('in-alerting:smartAlerts.components.smartAlertDialog.baselineErrorMessageReason')}</b>
       {getErrorReason(thresholdResult)}
     </Message>
   );

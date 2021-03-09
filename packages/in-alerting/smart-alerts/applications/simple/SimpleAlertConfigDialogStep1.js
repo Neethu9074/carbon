@@ -33,7 +33,7 @@ export default function SimpleAlertConfigDialogStep1({
   const blueprintConfig = getSimpleModeBlueprintConfig(alertType, alertThreshold);
 
   return (
-    <SimpleModeStepContentWrapper headline={t('in-applications:simple.simpleAlertStep1Headline')}>
+    <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.applications.simple.simpleAlertStep1Headline')}>
       <Menu
         items={simpleModeBlueprintConfigs}
         onItemClick={item => {

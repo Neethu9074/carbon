@@ -46,7 +46,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
           })}
         >
           <HelpText className={locals.helpText}>
-            {t('in-applications:analyze.logMessages.selectLogMessageText')}
+            {t('in-alerting:smartAlerts.applications.logMessages.selectLogMessageText')}
           </HelpText>
           <Button
             className={classNames({
@@ -75,7 +75,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
                       slideOut={() => onSelectLogMessage({ isVisible: false })}
                     />
                   ),
-                  title: t('in-applications:analyze.logMessages.selectLogMessageTitle')
+                  title: t('in-alerting:smartAlerts.applications.logMessages.selectLogMessageTitle')
                 },
                 isVisible: true
               });

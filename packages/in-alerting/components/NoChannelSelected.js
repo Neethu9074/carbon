@@ -16,7 +16,7 @@ import locals from 'in-alerting/components/NoChannelSelected.mless';
 
 export default function NoChannelSelected({
   height = 80, // default height of an empty row with icon
-  text = t('in-new-components:alerting.components.noChannelSelectedText')
+  text = t('in-alerting:components.noChannelSelectedText')
 }) {
   return (
     <BasicWrapper

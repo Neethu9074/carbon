@@ -59,7 +59,7 @@ export default function AlertingChartWithErrorMessage({
 
   const errorMessage =
     getErrorMessage?.(isValidDependingOnMode) ??
-    t('in-new-components:alerting.chart.alertingChartMessageInvalidFilterQuery');
+    t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery');
 
   return isValidDependingOnMode && customValidationValid ? (
     <AlertingChart

@@ -17,7 +17,7 @@ import locals from 'in-alerting/smart-alerts/applications/components/LogMessages
 const columnDefinitions = [
   {
     id: 'level',
-    label: t('in-applications:analyze.logMessages.levelColumn'),
+    label: t('in-alerting:smartAlerts.applications.logMessages.levelColumn'),
     width: 10,
     getContent(item) {
       return <Pill kind="lighter">{item.level}</Pill>;
@@ -25,7 +25,7 @@ const columnDefinitions = [
   },
   {
     id: 'message',
-    label: t('in-applications:analyze.logMessages.messageColumn'),
+    label: t('in-alerting:smartAlerts.applications.logMessages.messageColumn'),
     getContent: item => LogRow(item),
     noWrap: true,
     ellipsis: '50vw'
@@ -56,7 +56,7 @@ export default function LogMessagesList({
           .map(tableData => tableData.data.items)
       }
       pageSize={10}
-      noDataMessage={t('in-applications:analyze.logMessages.noDataMessage')}
+      noDataMessage={t('in-alerting:smartAlerts.applications.logMessages.noDataMessage')}
       onRowClick={log => {
         onLogMessageSelect(log.message, log.level);
         slideOut();

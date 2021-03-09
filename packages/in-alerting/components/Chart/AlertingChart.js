@@ -195,8 +195,8 @@ function getAlertsPreviewQuery({
 function enhanceLabels(label, smoothMetric) {
   return [
     `${label}${smoothMetric ? '*' : ''}`,
-    t('in-new-components:alerting.chart.alertingChartLabelThreshold'),
-    t('in-new-components:alerting.chart.alertingChartLabelViolations')
+    t('in-alerting:components.chart.alertingChartLabelThreshold'),
+    t('in-alerting:components.chart.alertingChartLabelViolations')
   ];
 }
 
@@ -209,7 +209,7 @@ function enhanceNonToggleableSeries(metricName, tooltipContent) {
 }
 
 function getSmoothedMetricTooltipContent(isSmoothedMetric) {
-  return isSmoothedMetric ? [t('in-new-components:alerting.chart.alertingChartTooltipSmoothedMetric')] : null;
+  return isSmoothedMetric ? [t('in-alerting:components.chart.alertingChartTooltipSmoothedMetric')] : null;
 }
 
 function getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivity }) {

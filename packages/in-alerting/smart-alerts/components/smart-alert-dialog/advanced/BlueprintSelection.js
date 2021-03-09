@@ -31,7 +31,7 @@ export default function BlueprintSelection({
     <LocallyChangedTheme theme={light}>
       <ExpandableCard
         label={selectedBlueprintConfig.name}
-        title={t('in-new-components:alerting.advanced.selectedBlueprint')}
+        title={t('in-alerting:smartAlerts.components.smartAlertDialog.selectedBlueprint')}
         bodyWithoutPadding
         openByDefault
         darkFrame

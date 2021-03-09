@@ -61,9 +61,9 @@ const baseBlueprint = Object.freeze({
 const slownessBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'slowness',
-  name: t('in-applications:blueprintConfig.slowness.name'),
-  headline: t('in-applications:blueprintConfig.slowness.headline'),
-  text: t('in-applications:blueprintConfig.slowness.text'),
+  name: t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.name'),
+  headline: t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.headline'),
+  text: t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.text'),
   baselineEnabled: true,
   defaultMetric: 'latency',
   getMetricName: () => 'latency',
@@ -80,13 +80,13 @@ const slownessBlueprintConfig = Object.freeze({
 const errorRateBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'errorRate',
-  name: t('in-applications:blueprintConfig.errorRate.name'),
-  headline: t('in-applications:blueprintConfig.errorRate.headline'),
-  text: t('in-applications:blueprintConfig.errorRate.text'),
+  name: t('in-alerting:smartAlerts.applications.blueprintConfig.errorRate.name'),
+  headline: t('in-alerting:smartAlerts.applications.blueprintConfig.errorRate.headline'),
+  text: t('in-alerting:smartAlerts.applications.blueprintConfig.errorRate.text'),
   baselineEnabled: false,
   defaultMetric: 'errors',
   getMetricName: () => 'errors',
-  getMetricLabel: () => t('in-applications:blueprintConfig.errorRate.metricLabel'),
+  getMetricLabel: () => t('in-alerting:smartAlerts.applications.blueprintConfig.errorRate.metricLabel'),
   getMetricFormat: () => percentage,
   getMaxMetricValue: () => 100,
   getAggregation: () => 'MEAN',
@@ -99,18 +99,18 @@ const errorRateBlueprintConfig = Object.freeze({
 const logsBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'logs',
-  name: t('in-applications:blueprintConfig.logs.name'),
-  headline: t('in-applications:blueprintConfig.logs.headline'),
-  text: t('in-applications:blueprintConfig.logs.text'),
+  name: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.name'),
+  headline: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.headline'),
+  text: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.text'),
   baselineEnabled: false,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
-  getMetricLabel: () => t('in-applications:blueprintConfig.logs.metricLabel'),
+  getMetricLabel: () => t('in-alerting:smartAlerts.applications.blueprintConfig.logs.metricLabel'),
   getMetricFormat: () => number.forcedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
   isRuleComplete: alertRule => isNotBlank(alertRule.message),
-  incompleteRuleMessage: t('in-applications:blueprintConfig.logs.incompleteRuleMessage'),
+  incompleteRuleMessage: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.incompleteRuleMessage'),
   getRuleTagFilters: getLogLevelTagFilters, //QB1
   getRuleTagFilterFormModel: getLogLevelFormModel //QB2
 });
@@ -118,18 +118,18 @@ const logsBlueprintConfig = Object.freeze({
 const statusCodeBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'statusCode',
-  name: t('in-applications:blueprintConfig.statusCode.name'),
-  headline: t('in-applications:blueprintConfig.statusCode.headline'),
-  text: t('in-applications:blueprintConfig.statusCode.text'),
+  name: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.name'),
+  headline: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.headline'),
+  text: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.text'),
   baselineEnabled: false,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
-  getMetricLabel: () => t('in-applications:blueprintConfig.statusCode.metricLabel'),
+  getMetricLabel: () => t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.metricLabel'),
   getMetricFormat: () => number.forcedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
   isRuleComplete: alertRule => !!(alertRule.statusCodeStart && alertRule.statusCodeEnd),
-  incompleteRuleMessage: t('in-applications:blueprintConfig.statusCode.incompleteRuleMessage'),
+  incompleteRuleMessage: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.incompleteRuleMessage'),
   getRuleTagFilters: getStatusCodeTagFilters, //QB1
   getRuleTagFilterFormModel: getStatusCodeFormModel //QB2
 });
@@ -137,13 +137,13 @@ const statusCodeBlueprintConfig = Object.freeze({
 const throughputBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'throughput',
-  name: t('in-applications:blueprintConfig.throughput.name'),
-  headline: t('in-applications:blueprintConfig.throughput.headline'),
-  text: t('in-applications:blueprintConfig.throughput.text'),
+  name: t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.name'),
+  headline: t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.headline'),
+  text: t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.text'),
   baselineEnabled: true,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
-  getMetricLabel: () => t('in-applications:blueprintConfig.throughput.metricLabel'),
+  getMetricLabel: () => t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.metricLabel'),
   getMetricFormat: () => number.forcedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
@@ -169,9 +169,9 @@ export const simpleModeBlueprintConfigs = Object.freeze([
   {
     ...throughputBlueprintConfig,
     subType: 'unexpectedDrop',
-    name: t('in-applications:blueprintConfig.simpleMode.unexpectedDrop.name'),
-    headline: t('in-applications:blueprintConfig.simpleMode.unexpectedDrop.headline'),
-    text: t('in-applications:blueprintConfig.simpleMode.unexpectedDrop.text'),
+    name: t('in-alerting:smartAlerts.applications.blueprintConfig.simpleMode.unexpectedDrop.name'),
+    headline: t('in-alerting:smartAlerts.applications.blueprintConfig.simpleMode.unexpectedDrop.headline'),
+    text: t('in-alerting:smartAlerts.applications.blueprintConfig.simpleMode.unexpectedDrop.text'),
     thresholdDefaults: {
       operator: '<='
     },
@@ -180,9 +180,9 @@ export const simpleModeBlueprintConfigs = Object.freeze([
   {
     ...throughputBlueprintConfig,
     subType: 'unexpectedlyHighNumber',
-    name: t('in-applications:blueprintConfig.simpleMode.unexpectedlyHighNumber.name'),
-    headline: t('in-applications:blueprintConfig.simpleMode.unexpectedlyHighNumber.headline'),
-    text: t('in-applications:blueprintConfig.simpleMode.unexpectedlyHighNumber.text'),
+    name: t('in-alerting:smartAlerts.applications.blueprintConfig.simpleMode.unexpectedlyHighNumber.name'),
+    headline: t('in-alerting:smartAlerts.applications.blueprintConfig.simpleMode.unexpectedlyHighNumber.headline'),
+    text: t('in-alerting:smartAlerts.applications.blueprintConfig.simpleMode.unexpectedlyHighNumber.text'),
     isSelected: alertThreshold => alertThreshold.operator === '>=' || alertThreshold.operator === '>'
   }
 ]);

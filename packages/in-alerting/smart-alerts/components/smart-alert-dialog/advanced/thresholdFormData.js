@@ -17,14 +17,17 @@ export const thresholdOperatorOptions = Object.freeze([
 ]);
 
 export const thresholdTypeOptions = Object.freeze([
-  { value: 'staticThreshold', label: t('in-new-components:alerting.advanced.thresholdTypeOptionStaticThreshold') },
+  {
+    value: 'staticThreshold',
+    label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionStaticThreshold')
+  },
   {
     value: 'historicBaseline.DAILY',
-    label: t('in-new-components:alerting.advanced.thresholdTypeOptionHistoricBaselineDaily')
+    label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionHistoricBaselineDaily')
   },
   {
     value: 'historicBaseline.WEEKLY',
-    label: t('in-new-components:alerting.advanced.thresholdTypeOptionHistoricBaselineWeekly')
+    label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionHistoricBaselineWeekly')
   }
 ]);
 

@@ -9,14 +9,22 @@ export const PER_AP_SERVICE = 'PER_AP_SERVICE';
 
 const alertEvaluationTypes = {
   [PER_AP]: {
-    selectionText: t('in-applications:alert.evaluationTypePERAP.selectionText'),
-    columnText: t('in-applications:alert.evaluationTypePERAP.columnText'),
-    description: t('in-applications:alert.evaluationTypePERAP.description')
+    selectionText: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.selectionText'
+    ),
+    columnText: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.columnText'),
+    description: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.description')
   },
   [PER_AP_SERVICE]: {
-    selectionText: t('in-applications:alert.evaluationTypePERAPSERVICE.description'),
-    columnText: t('in-applications:alert.evaluationTypePERAPSERVICE.columnText'),
-    description: t('in-applications:alert.evaluationTypePERAPSERVICE.description')
+    selectionText: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.description'
+    ),
+    columnText: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.columnText'
+    ),
+    description: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.description'
+    )
   }
 };
 

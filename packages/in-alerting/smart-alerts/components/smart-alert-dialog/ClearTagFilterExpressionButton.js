@@ -20,7 +20,7 @@ export function ClearTagFilterExpressionButton({ form, updateForm, customFormUpd
           : handleChangeTagFilterExpressionChange([], form, updateForm)
       }
     >
-      {t('in-new-components:alerting.components.clearTagFilterExpressionButton')}
+      {t('in-alerting:smartAlerts.components.smartAlertDialog.clearTagFilterExpressionButton')}
     </Button>
   );
 }

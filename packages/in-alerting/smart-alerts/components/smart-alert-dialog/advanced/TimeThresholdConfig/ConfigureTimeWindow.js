@@ -28,7 +28,7 @@ export default function ConfigureTimeWindow({ label, onChange, granularity, time
         min={1}
         step={1}
         valueLabelFormat={value =>
-          t('in-new-components:alerting.advanced.timeThresholdConfigMinutes', {
+          t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigMinutes', {
             min: Math.round((value * granularity) / 60000)
           })
         }

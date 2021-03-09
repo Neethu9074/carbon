@@ -34,7 +34,7 @@ export default function PotentialProblemMarker({ eventData, xScale, onClick }) {
       }}
       onClick={clickHandler}
       {...toInteractiveElement({
-        ariaLabel: t('in-new-components:potentialProblems.labelPotentialProblem'),
+        ariaLabel: t('in-alerting:potentialProblems.labelPotentialProblem'),
         onDefaultInteraction: clickHandler
       })}
     />

@@ -23,7 +23,7 @@ export default function ConfigureViolations({ label, onChange, violations, maxVi
         max={maxViolations}
         disabled={maxViolations <= 1}
         onChange={onChange}
-        valueLabelDisplay={t('in-new-components:alerting.advanced.timeThresholdConfigOff')}
+        valueLabelDisplay={t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigOff')}
       />
     </AlertThresholdConfigItemContainer>
   );

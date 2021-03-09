@@ -46,7 +46,9 @@ const columnDefinitions = [
           content={
             isStaleItem ? (
               <span>
-                {t('in-new-components:alerting.components.sharedListTooltip', { typeName: tooltipSettings.name })}
+                {t('in-alerting:smartAlerts.components.smartAlertDialog.sharedListTooltip', {
+                  typeName: tooltipSettings.name
+                })}
               </span>
             ) : null
           }

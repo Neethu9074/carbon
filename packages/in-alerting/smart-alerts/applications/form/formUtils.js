@@ -38,9 +38,9 @@ export function getTitlePlaceholder(form) {
   const alertType = ruleForm.get('alertType').value;
   switch (alertType) {
     case 'errorRate':
-      return t('in-applications:formUtils.titlePlaceholder.errorRate');
+      return t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.errorRate');
     case 'slowness':
-      return t('in-applications:formUtils.titlePlaceholder.slowness');
+      return t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.slowness');
     case 'logs': {
       const message = ruleForm.get('message').value;
       const ruleOperator = ruleForm.get('operator').value;
@@ -48,19 +48,19 @@ export function getTitlePlaceholder(form) {
 
       if (ruleOperator === operators.NOT_EMPTY) {
         if (level === 'ANY') {
-          return t('in-applications:formUtils.titlePlaceholder.logs.notEmptyWithANY');
+          return t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.logs.notEmptyWithANY');
         }
-        return t('in-applications:formUtils.titlePlaceholder.logs.notEmptyWithoutANY', {
+        return t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.logs.notEmptyWithoutANY', {
           operatorLabel: getLogLevelRuleOperatorLabel(level)
         });
       }
 
       if (level === 'ANY') {
-        return t('in-applications:formUtils.titlePlaceholder.logs.withANY', {
+        return t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.logs.withANY', {
           message: message
         });
       }
-      return t('in-applications:formUtils.titlePlaceholder.logs.default', {
+      return t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.logs.default', {
         operatorLabel: getLogLevelRuleOperatorLabel(level),
         message: message
       });
@@ -68,7 +68,7 @@ export function getTitlePlaceholder(form) {
     case 'statusCode': {
       const statusCodeStart = ruleForm.get('statusCodeStart').value;
       const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
-      return t('in-applications:formUtils.titlePlaceholder.statusCode', {
+      return t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.statusCode', {
         statusCodeShortText: getStatusCodeShortText(statusCodeStart, statusCodeEnd)
       });
     }
@@ -76,8 +76,8 @@ export function getTitlePlaceholder(form) {
       const thresholdOperator = form.get('threshold').get('operator').value;
       const isGreaterOp = isGreaterOperator(thresholdOperator);
       return isGreaterOp
-        ? t('in-applications:formUtils.titlePlaceholder.throughputHigh')
-        : t('in-applications:formUtils.titlePlaceholder.throughputLow');
+        ? t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.throughputHigh')
+        : t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.throughputLow');
     }
     default:
       throw Error('Unsupported alertType: ' + alertType);
@@ -93,7 +93,7 @@ export function getDescriptionPlaceholder(form) {
   switch (alertType) {
     case 'errorRate': {
       const thresholdValue = thresholdForm.get('value').value;
-      return t('in-applications:formUtils.titlePlaceholder.errorRate', {
+      return t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.errorRate', {
         context: getHigherOrLowerOperatorContext(thresholdOperator),
         valueRoundedToDecimals: getValueRoundedToDecimals(thresholdValue, true)
       });
@@ -103,13 +103,13 @@ export function getDescriptionPlaceholder(form) {
       const thresholdType = thresholdForm.get('type').value;
       if (thresholdType === 'staticThreshold') {
         const thresholdValue = thresholdForm.get('value').value;
-        return t('in-applications:formUtils.descriptionPlaceholder.slownessStaticThreshold', {
+        return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.slownessStaticThreshold', {
           context: getSlowerOrBelowOperatorContext(thresholdOperator),
           thresholdValue: thresholdValue,
           aggregationText: getAggregationText(aggregation)
         });
       }
-      return t('in-applications:formUtils.descriptionPlaceholder.slownessDefault', {
+      return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.slownessDefault', {
         context: getSlowerOrBelowOperatorContext(thresholdOperator),
         aggregationText: getAggregationText(aggregation)
       });
@@ -122,13 +122,13 @@ export function getDescriptionPlaceholder(form) {
       const thresholdValue = thresholdForm.get('value').value;
 
       if (thresholdOperator === operators.NOT_EMPTY) {
-        return t('in-applications:formUtils.descriptionPlaceholder.logsNotEmpty', {
+        return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.logsNotEmpty', {
           context: getHigherOrLowerOperatorContext(thresholdOperator),
           levelText: levelText,
           thresholdValue: thresholdValue
         });
       }
-      return t('in-applications:formUtils.descriptionPlaceholder.logsDefault', {
+      return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.logsDefault', {
         context: getHigherOrLowerOperatorDescriptionContext(
           operatorDescriptionContextValues[ruleOperator],
           thresholdOperator
@@ -143,7 +143,7 @@ export function getDescriptionPlaceholder(form) {
       const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
       const thresholdForm = form.get('threshold');
       const thresholdValue = thresholdForm.get('value').value;
-      return t('in-applications:formUtils.descriptionPlaceholder.statusCode', {
+      return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.statusCode', {
         context: getHigherOrLowerOperatorContext(thresholdOperator),
         statusCodeFullText: getStatusCodeFullText(statusCodeStart, statusCodeEnd),
         thresholdValue: thresholdValue
@@ -153,12 +153,12 @@ export function getDescriptionPlaceholder(form) {
       const thresholdType = thresholdForm.get('type').value;
       if (thresholdType === 'staticThreshold') {
         const thresholdValue = thresholdForm.get('value').value;
-        return t('in-applications:formUtils.descriptionPlaceholder.throughputStaticThreshold', {
+        return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.throughputStaticThreshold', {
           context: getHigherOrLowerOperatorContext(thresholdOperator),
           thresholdValue: thresholdValue
         });
       }
-      return t('in-applications:formUtils.descriptionPlaceholder.throughputDefault', {
+      return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.throughputDefault', {
         context: getHigherOrLowerOperatorContext(thresholdOperator)
       });
     }
@@ -187,7 +187,7 @@ function getStatusCodeFullText(statusCodeStart, statusCodeEnd) {
     return getStatusCodeLabel(parseInt(statusCodeStart / 100).toString());
   } else {
     // custom ranges
-    return t('in-applications:formUtils.customStatusCodeFullText', {
+    return t('in-alerting:smartAlerts.applications.formUtils.customStatusCodeFullText', {
       statusCodeStart: statusCodeStart,
       statusCodeEnd: statusCodeEnd
     });

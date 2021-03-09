@@ -15,16 +15,16 @@ import { Trans, t } from 'in-i18n';
 
 const titleValues = {
   [timeThresholdTypes.violationsInSequence]: t(
-    'in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdTitleViolationsInSequence'
+    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdTitleViolationsInSequence'
   ),
   [timeThresholdTypes.violationsInPeriod]: t(
-    'in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdTitleViolationsInPeriod'
+    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdTitleViolationsInPeriod'
   ),
   [timeThresholdTypes.userImpactOfViolationsInSequence]: t(
-    'in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence'
+    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence'
   ),
   [timeThresholdTypes.requestImpact]: t(
-    'in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdTitleRequestImpact'
+    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdTitleRequestImpact'
   )
 };
 
@@ -56,7 +56,7 @@ export default function TimeThresholdConfigPresenter({
         get(uniqueUsersOrSessionsResult, ['data', 'count', 0, 1]) === 0 && (
           <>
             <Trans
-              i18nKey="in-new-components:alerting.advanced.timeThresholdConfigNoUserSessionDetected"
+              i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNoUserSessionDetected"
               components={{
                 linkToIdentifyingUsers: (
                   <Link external href="https://instana.com/docs/website_monitoring/api/#identifying-users" />
@@ -68,7 +68,7 @@ export default function TimeThresholdConfigPresenter({
             />
             <br />
             {t(
-              'in-new-components:alerting.advanced.timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption'
+              'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption'
             )}
           </>
         )

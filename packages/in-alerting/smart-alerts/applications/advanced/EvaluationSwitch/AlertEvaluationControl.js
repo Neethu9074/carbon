@@ -23,7 +23,7 @@ export default function AlertEvaluationControl({ form, updateForm }) {
     <div className={locals.container}>
       <IconLabel
         type="lib_alerts_multiple_alerts"
-        text={t('in-applications:alert.individual')}
+        text={t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.individual')}
         noBottomMargin
         color={theme.lib.colors.N600Light}
       />

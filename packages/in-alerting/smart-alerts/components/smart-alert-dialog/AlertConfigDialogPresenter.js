@@ -42,8 +42,8 @@ export default function AlertConfigDialogPresenter(props) {
     <DialogWithSlideInView
       title={
         editMode
-          ? t('in-new-components:alerting.alertConfigDialogPresenterTitleEditAlert')
-          : t('in-new-components:alerting.alertConfigDialogPresenterTitleCreateNewAlert')
+          ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert')
+          : t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert')
       }
       slideInViewTitle={slideInConfig && slideInConfig.title}
       onSlideInViewTitleClick={() => setSlideInViewVisible(!slideInViewVisible)}
@@ -67,7 +67,9 @@ export default function AlertConfigDialogPresenter(props) {
               }}
               kind="action"
             >
-              {t('in-new-components:alerting.alertConfigDialogPresenterButtonSwitchToAdvancedMode')}
+              {t(
+                'in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterButtonSwitchToAdvancedMode'
+              )}
             </Button>
           )}
         </>

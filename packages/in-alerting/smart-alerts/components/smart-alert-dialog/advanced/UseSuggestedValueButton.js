@@ -27,7 +27,7 @@ export default function UseSuggestedValueButton({ form, onChange, percentageMetr
           disabled={suggestedThresholdValue === thresholdValue}
         >
           <span>
-            {t('in-new-components:alerting.advanced.useSuggestedvalue')} &nbsp;
+            {t('in-alerting:smartAlerts.components.smartAlertDialog.useSuggestedvalue')} &nbsp;
             <b>{getValueRoundedToDecimals(suggestedThresholdValue, !!percentageMetric)}</b>
             &nbsp; {metricUnitPostfix}
           </span>

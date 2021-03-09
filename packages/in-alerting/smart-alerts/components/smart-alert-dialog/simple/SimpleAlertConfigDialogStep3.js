@@ -14,7 +14,7 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/simpl
 export default function SimpleAlertConfigDialogStep3({ form, onChange, setAlertChannelsVisible }) {
   return (
     <SimpleModeStepContentWrapper
-      headline={t('in-new-components:alerting.simple.simpleAlertConfigDialogStep3Headline')}
+      headline={t('in-alerting:smartAlerts.components.smartAlertDialog.simpleAlertConfigDialogStep3Headline')}
     >
       <div className={locals.alertChannelsContainer}>
         <SelectAlertChannel form={form} onChange={onChange} setAlertChannelsVisible={setAlertChannelsVisible} />

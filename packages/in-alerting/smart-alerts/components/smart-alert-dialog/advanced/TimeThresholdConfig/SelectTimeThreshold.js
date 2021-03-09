@@ -20,13 +20,17 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advan
 
 export const timeThresholdLabels = Object.freeze({
   violationsInSequence: t(
-    'in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdLabelViolationsInSequence'
+    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelViolationsInSequence'
   ),
-  violationsInPeriod: t('in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdLabelViolationsInPeriod'),
+  violationsInPeriod: t(
+    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelViolationsInPeriod'
+  ),
   userImpactOfViolationsInSequence: t(
-    'in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence'
+    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence'
   ),
-  requestImpact: t('in-new-components:alerting.advanced.timeThresholdConfigTimeThresholdLabelRequestImpact')
+  requestImpact: t(
+    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelRequestImpact'
+  )
 });
 
 export default function SelectTimeThreshold({

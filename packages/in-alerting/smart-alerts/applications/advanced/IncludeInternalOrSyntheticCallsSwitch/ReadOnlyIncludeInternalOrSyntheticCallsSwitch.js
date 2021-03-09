@@ -19,13 +19,15 @@ export default function ReadOnlyIncludeInternalOrSyntheticCallsSwitch({ alertCon
       <HorizontalFlexWrapper>
         {includeInternal &&
           !includeSynthetic &&
-          t('in-applications:alert.includeInternalOrSyntheticCallsInfo.includeOnlyInternal')}
+          t('in-alerting:smartAlerts.applications.advanced.includeInternalOrSyntheticCallsInfo.includeOnlyInternal')}
         {includeInternal &&
           includeSynthetic &&
-          t('in-applications:alert.includeInternalOrSyntheticCallsInfo.includeInternalAndSynthetic')}
+          t(
+            'in-alerting:smartAlerts.applications.advanced.includeInternalOrSyntheticCallsInfo.includeInternalAndSynthetic'
+          )}
         {!includeInternal &&
           includeSynthetic &&
-          t('in-applications:alert.includeInternalOrSyntheticCallsInfo.includeOnlySynthetic')}
+          t('in-alerting:smartAlerts.applications.advanced.includeInternalOrSyntheticCallsInfo.includeOnlySynthetic')}
       </HorizontalFlexWrapper>
     </div>
   );

@@ -19,8 +19,8 @@ const severityWarning = 5;
 const severityCritical = 10;
 
 const severitySelectOptions = [
-  { value: severityWarning, label: t('in-new-components:alerting.advanced.alertPropertiesWarning') },
-  { value: severityCritical, label: t('in-new-components:alerting.advanced.alertPropertiesCritical') }
+  { value: severityWarning, label: t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesWarning') },
+  { value: severityCritical, label: t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesCritical') }
 ];
 
 export default function AlertProperties({
@@ -38,7 +38,7 @@ export default function AlertProperties({
   return (
     <>
       <PropContainer
-        left={t('in-new-components:alerting.advanced.alertPropertiesTitle')}
+        left={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesTitle')}
         right={
           <Input
             className={locals.textInput}
@@ -58,7 +58,7 @@ export default function AlertProperties({
       />
       <PropContainer
         icon={severity <= 5 ? 'lib_events_warning' : 'lib_events_critical'}
-        left={t('in-new-components:alerting.advanced.alertPropertiesAlertLevel')}
+        left={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesAlertLevel')}
         right={
           <ComboBox
             name={'severity'}
@@ -77,7 +77,7 @@ export default function AlertProperties({
       />
       <PropContainer
         icon="lib_events_incident"
-        left={t('in-new-components:alerting.advanced.alertPropertiesTriggersIncident')}
+        left={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesTriggersIncident')}
         right={
           <Toggle
             checked={Boolean(form.get('triggering').value)}
@@ -93,7 +93,7 @@ export default function AlertProperties({
       />
       <PropContainer
         icon="lib_help_error_error_outline"
-        left={t('in-new-components:alerting.advanced.alertPropertiesDescription')}
+        left={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesDescription')}
         right={
           <TextArea
             className={locals.textArea}

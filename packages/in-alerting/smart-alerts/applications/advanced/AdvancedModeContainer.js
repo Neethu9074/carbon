@@ -62,8 +62,8 @@ export default function AdvancedModeContainer(props) {
       navItems={[
         {
           scrollId: '1',
-          label: t('in-applications:alert.advancedModeContainer.scope.label'),
-          title: t('in-applications:alert.advancedModeContainer.scope.title'),
+          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.label'),
+          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.title'),
           content: (
             <>
               <AlertEvaluationControl form={form} updateForm={updateForm} />
@@ -95,8 +95,8 @@ export default function AdvancedModeContainer(props) {
         },
         {
           scrollId: '2',
-          label: t('in-applications:alert.advancedModeContainer.trigger.label'),
-          title: t('in-applications:alert.advancedModeContainer.trigger.title'),
+          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.label'),
+          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.title'),
           checked: true,
           content: (
             <>
@@ -140,7 +140,9 @@ export default function AdvancedModeContainer(props) {
                 renderLogs={() => (
                   <>
                     <LightCard
-                      title={t('in-applications:alert.advancedModeContainer.trigger.logMessageCardTitle')}
+                      title={t(
+                        'in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.logMessageCardTitle'
+                      )}
                       withoutPadding
                       darkFrame
                     >
@@ -168,7 +170,9 @@ export default function AdvancedModeContainer(props) {
                 renderStatusCode={() => (
                   <>
                     <LightCard
-                      title={t('in-applications:alert.advancedModeContainer.trigger.httpStatusCodesCardTitle')}
+                      title={t(
+                        'in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.httpStatusCodesCardTitle'
+                      )}
                       withoutPadding
                       darkFrame
                     >
@@ -205,8 +209,8 @@ export default function AdvancedModeContainer(props) {
         },
         {
           scrollId: '3',
-          label: t('in-applications:alert.advancedModeContainer.timeThreshold.label'),
-          title: t('in-applications:alert.advancedModeContainer.timeThreshold.title'),
+          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.label'),
+          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.title'),
           checked: true,
           content: (
             <TimeThresholdConfigPresenter
@@ -220,15 +224,15 @@ export default function AdvancedModeContainer(props) {
         },
         {
           scrollId: '4',
-          label: t('in-applications:alert.advancedModeContainer.alertChannel.label'),
-          title: t('in-applications:alert.advancedModeContainer.alertChannel.title'),
+          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.label'),
+          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.title'),
           checked: form.get('alertChannelIds').value.length > 0,
           content: <SelectAlertChannel form={form} onChange={onChange} setAlertChannelsVisible={setSliderState} />
         },
         {
           scrollId: '5',
-          label: t('in-applications:alert.advancedModeContainer.propertiesOptional.label'),
-          title: t('in-applications:alert.advancedModeContainer.propertiesOptional.title'),
+          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.propertiesOptional.label'),
+          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.propertiesOptional.title'),
           checked: Boolean(form.get('name').value || form.get('description').value),
           content: (
             <AlertPropertiesContainer

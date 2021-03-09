@@ -26,9 +26,7 @@ export default function ScopeConfigPresenter({
             {scopePath}
             {tagFilterFormModel.length > 0 && (
               <>
-                <HelpText>
-                  {t('in-new-components:alerting.components.scopeConfigPresenterHelpTextAdditionalFilters')}
-                </HelpText>
+                <HelpText>{t('in-alerting:components.scopeConfigPresenterHelpTextAdditionalFilters')}</HelpText>
                 {queryBuilder}
               </>
             )}

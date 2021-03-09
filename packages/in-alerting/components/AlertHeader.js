@@ -68,11 +68,11 @@ export default function AlertHeader({
       setIsToggling(false);
 
       const errorMessage = alertConfig.enabled
-        ? t('in-new-components:alerting.components.alertHeaderToggleDisableErrorMessage', {
+        ? t('in-alerting:components.alertHeaderToggleDisableErrorMessage', {
             alertConfigID: alertConfig.id,
             errorMessage: error.message
           })
-        : t('in-new-components:alerting.components.alertHeaderToggleEnableErrorMessage', {
+        : t('in-alerting:components.alertHeaderToggleEnableErrorMessage', {
             alertConfigID: alertConfig.id,
             errorMessage: error.message
           });
@@ -94,7 +94,7 @@ export default function AlertHeader({
     });
     deletion$.errors().once(error => {
       setIsDeleting(false);
-      const errorMessage = t('in-new-components:alerting.components.alertHeaderDeleteErrorMessage', {
+      const errorMessage = t('in-alerting:components.alertHeaderDeleteErrorMessage', {
         alertConfigID: alertConfig.id,
         errorMessage: error.message
       });
@@ -110,7 +110,7 @@ export default function AlertHeader({
     doRestoreConfig$(alertConfig, alertConfig.id).once(
       () => setRevision(null),
       error => {
-        const errorMessage = t('in-new-components:alerting.components.alertHeaderRestoreErrorMessage', {
+        const errorMessage = t('in-alerting:components.alertHeaderRestoreErrorMessage', {
           alertConfigID: alertConfig.id,
           alertConfigCreated: alertConfig.created,
           errorMessage: error.message
@@ -123,7 +123,7 @@ export default function AlertHeader({
   return (
     <div>
       <BackButton
-        label={t('in-new-components:alerting.components.alertHeaderLabelBackToListOfAlerts')}
+        label={t('in-alerting:components.alertHeaderLabelBackToListOfAlerts')}
         href$={getLinkToAlerts(fullyQualifiedAlertsList)}
         withoutMargin
       />
@@ -148,7 +148,7 @@ export default function AlertHeader({
 
         <div className={locals.right}>
           <Pill className={locals.badge} color={theme.lib.colors.purple800} kind="light">
-            {t('in-new-components:alerting.components.alertHeaderAlert')}
+            {t('in-alerting:components.alertHeaderAlert')}
           </Pill>
 
           {alertConfigVersions.length > 1 && (
@@ -167,7 +167,7 @@ export default function AlertHeader({
 
           {alertConfig.readOnly && !isDeletedConfig && (
             <Tooltip
-              content={t('in-new-components:alerting.components.alertHeaderRestoreRevisionTooltip', {
+              content={t('in-alerting:components.alertHeaderRestoreRevisionTooltip', {
                 alertRevision: alertRevision
               })}
             >
@@ -177,17 +177,15 @@ export default function AlertHeader({
                 onClick={() => {
                   addActiveDialog(
                     <ConfirmationDialog
-                      header={t(
-                        'in-new-components:alerting.components.alertHeaderRestoreRevisionConfirmationDialogHeader'
-                      )}
+                      header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
                       description={
                         <Trans
-                          i18nKey="in-new-components:alerting.components.alertHeaderRestoreRevisionConfirmationDialogDescription"
+                          i18nKey="in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogDescription"
                           values={{ alertRevision: alertRevision }}
                         />
                       }
                       confirmButtonLabel={t(
-                        'in-new-components:alerting.components.alertHeaderRestoreRevisionConfirmationDialogConfirmButton'
+                        'in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogConfirmButton'
                       )}
                       onSubmit={() => {
                         close();
@@ -205,8 +203,8 @@ export default function AlertHeader({
               <Tooltip
                 content={
                   alertConfig.enabled
-                    ? t('in-new-components:alerting.components.alertHeaderDisableTooltip')
-                    : t('in-new-components:alerting.components.alertHeaderEnableTooltip')
+                    ? t('in-alerting:components.alertHeaderDisableTooltip')
+                    : t('in-alerting:components.alertHeaderEnableTooltip')
                 }
               >
                 <SvgIcon
@@ -226,7 +224,7 @@ export default function AlertHeader({
                 openDialog={openDialog}
                 convertedTagFilterExpression={alertConfig.convertedTagFilterExpression}
               />
-              <Tooltip content={t('in-new-components:alerting.components.alertHeaderRestoreDeleteTooltip')}>
+              <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')}>
                 <SvgIcon
                   className={locals.actionIcon}
                   type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
@@ -235,17 +233,15 @@ export default function AlertHeader({
                     if (!isDeleting) {
                       addActiveDialog(
                         <ConfirmationDialog
-                          header={t(
-                            'in-new-components:alerting.components.alertHeaderRestoreDeleteConfirmationDialogHeader'
-                          )}
+                          header={t('in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogHeader')}
                           description={
                             <Trans
-                              i18nKey="in-new-components:alerting.components.alertHeaderRestoreDeleteConfirmationDialogDescription"
+                              i18nKey="in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogDescription"
                               values={{ alertConfigName: alertConfig.name }}
                             />
                           }
                           confirmButtonLabel={t(
-                            'in-new-components:alerting.components.alertHeaderRestoreDeleteConfirmationDialogConfirmButton'
+                            'in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogConfirmButton'
                           )}
                           onSubmit={() => {
                             close();
@@ -272,7 +268,7 @@ export default function AlertHeader({
       {isNotLatestRevision && (
         <Message withIcon className={locals.bottomSpace}>
           <Trans
-            i18nKey="in-new-components:alerting.components.alertHeaderIsNotLatestRevisionMessage"
+            i18nKey="in-alerting:components.alertHeaderIsNotLatestRevisionMessage"
             values={{ alertRevision: alertRevision }}
             components={{
               latestRevisionButton: (
@@ -309,9 +305,9 @@ function EditButton({ openDialog, convertedTagFilterExpression }) {
       content={
         isDisabled && (
           <div>
-            {t('in-new-components:alerting.components.alertHeaderThisConfigIsStoredWithQueryBuilder2Expressions')}
+            {t('in-alerting:components.alertHeaderThisConfigIsStoredWithQueryBuilder2Expressions')}
             <br />
-            {t('in-new-components:alerting.components.alertHeaderYouCanOnlyStartOrPause')}
+            {t('in-alerting:components.alertHeaderYouCanOnlyStartOrPause')}
           </div>
         )
       }

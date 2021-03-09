@@ -30,14 +30,16 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
   return (
     <>
       <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted" noIcon>
-        <div>{t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfRequestsThreshold')}</div>
+        <div>
+          {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfRequestsThreshold')}
+        </div>
         <div className={locals.configureImpactControlsWrapper}>
           <div className={locals.operatorLabel}>
-            {t('in-new-components:alerting.advanced.timeThresholdConfigAtLeast')}
+            {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigAtLeast')}
           </div>
           <div>
             <FormGroup className={locals.formGroup} withoutBottomMargin>
-              <Label>{t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfUsers')}</Label>
+              <Label>{t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfUsers')}</Label>
               <Input
                 className={locals.input}
                 type="number"
@@ -79,14 +81,16 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
         </div>
       </AlertThresholdConfigItemContainer>
       <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted" noIcon>
-        <div>{t('in-new-components:alerting.advanced.timeThresholdConfigPercentageOfRequestsThreshold')}</div>
+        <div>
+          {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigPercentageOfRequestsThreshold')}
+        </div>
         <div className={locals.configureImpactControlsWrapper}>
           <div className={locals.operatorLabel}>
-            {t('in-new-components:alerting.advanced.timeThresholdConfigAtLeast')}
+            {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigAtLeast')}
           </div>
           <div>
             <FormGroup className={locals.formGroup} withoutBottomMargin>
-              <Label>{t('in-new-components:alerting.advanced.timeThresholdConfigNumberOfUsers')}</Label>
+              <Label>{t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfUsers')}</Label>
               <Input
                 className={locals.input}
                 type="number"

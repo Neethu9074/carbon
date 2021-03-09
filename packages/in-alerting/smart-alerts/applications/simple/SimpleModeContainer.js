@@ -15,18 +15,18 @@ import locals from 'in-alerting/smart-alerts/applications/simple/SimpleModeConta
 
 const stepConfigs = [
   {
-    title: t('in-applications:simple.step1Title'),
+    title: t('in-alerting:smartAlerts.applications.simple.step1Title'),
     validateIntermediately: [
       ['rule', 'message'],
       ['rule', 'level']
     ]
   },
   {
-    title: t('in-applications:simple.step2Title'),
+    title: t('in-alerting:smartAlerts.applications.simple.step2Title'),
     validateIntermediately: [['applications']]
   },
   {
-    title: t('in-applications:simple.step3Title'),
+    title: t('in-alerting:smartAlerts.applications.simple.step3Title'),
     validateIntermediately: [['alertChannelIds']]
   }
 ];

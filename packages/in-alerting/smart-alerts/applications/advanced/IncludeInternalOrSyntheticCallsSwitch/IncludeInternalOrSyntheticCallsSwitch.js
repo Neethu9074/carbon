@@ -6,6 +6,7 @@ import React from 'react';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { Col, Row } from 'in-new-components/layout/Grid';
+import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/InboundOrAllCallsSwitch.mless';
 
@@ -17,14 +18,18 @@ export default function IncludeInternalOrSyntheticCallsSwitch({ form, updateForm
       <Row>
         <Col lg={6} className={locals.column}>
           <CheckboxFancy
-            label={'Include Internal Calls'}
+            label={t(
+              'in-alerting:smartAlerts.applications.advanced.includeInternalOrSynthethicCalls.includeInternalCalls'
+            )}
             checked={includeInternal}
             onChange={() => updateFieldAndTriggerThresholdCalculation('includeInternal', !includeInternal)}
           />
         </Col>
         <Col lg={6} className={locals.column}>
           <CheckboxFancy
-            label={'Include Synthetic Calls'}
+            label={t(
+              'in-alerting:smartAlerts.applications.advanced.includeInternalOrSynthethicCalls.includeSyntethicCalls'
+            )}
             checked={includeSynthetic}
             onChange={() => updateFieldAndTriggerThresholdCalculation('includeSynthetic', !includeSynthetic)}
           />

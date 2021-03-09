@@ -19,7 +19,7 @@ export default function AlertPropertiesContainer(props) {
 
   return (
     <TwoColumnContainer
-      mainContentHeadline={t('in-new-components:alerting.advanced.alertPropertiesAlertProperties')}
+      mainContentHeadline={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesAlertProperties')}
       mainContent={<AlertProperties {...props} />}
       secondaryContent={<AlertPreview {...props} tagFilters={form.get('tagFilters').value} severity={severity} />}
     />
