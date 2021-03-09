@@ -10,6 +10,10 @@ export const ID_OF_PROCESSING_STATISTICS = '_9Ct9EsdanGCFtGIG_j7wNKr5hE';
 export const ID_OF_REGION = '7c238Z6UhpGTsuCTCehWnBoiaxs';
 
 export const nonServicePlugins = {
+  aceIntegrationNode: 'aceIntegrationNode',
+  aceIntegrationServer: 'aceIntegrationServer',
+  aceMessageFlow: 'aceMessageFlow',
+  aceFlowNode: 'aceFlowNode',
   activeMQ: 'activeMQ',
   activeMQArtemis: 'activeMQArtemis',
   aerospike: 'aerospike',
@@ -213,6 +217,11 @@ export const defaultAndUnknownPluginNames = [
 export const customIssuesDisabledForPlugins = [...defaultAndUnknownPluginNames];
 
 export const fullyQualifiedPlugins = {
+  aceIntegrationNode: 'com.instana.forge.infrastructure.messaging.ace.AceIntegrationNode',
+  aceIntegrationServer:
+    'com.instana.forge.infrastructure.messaging.ace.derivedentity.aceIntegrationServer.AceIntegrationServer',
+  aceMessageFlow: 'com.instana.forge.infrastructure.messaging.ace.derivedentity.aceMessageFlow.AceMessageFlow',
+  aceFlowNode: 'com.instana.forge.infrastructure.messaging.ace.derivedentity.aceFlowNode.AceFlowNode',
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
   activeMQArtemis: 'com.instana.forge.infrastructure.messaging.activemqartemis.ActiveMQArtemis',
   aerospike: 'aerospike',
