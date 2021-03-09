@@ -10,12 +10,12 @@ import {
   alertPropType,
   rulePropType,
   thresholdPropType
-} from 'in-alerting/components/PotentialProblems/PotentialProblemsLane/proptypes';
+} from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
-import { defaultGranularity } from 'in-alerting/components/PotentialProblems/constants';
+import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import { hours } from 'in-services/time';
 
 export default function PotentialProblemChart({
@@ -24,7 +24,6 @@ export default function PotentialProblemChart({
   applications,
   threshold,
   rule,
-  tagFilters,
   tagFilterExpression,
   includeSynthetic = false,
   alert,
@@ -34,7 +33,6 @@ export default function PotentialProblemChart({
   const alertConfig = {
     threshold,
     rule,
-    tagFilters: tagFilters.filter(({ name }) => name !== 'application.id'),
     applicationId,
     boundaryScope,
     applications,
@@ -77,8 +75,7 @@ PotentialProblemChart.propTypes = {
   applicationId: PropTypes.string.isRequired,
   boundaryScope: PropTypes.string.isRequired,
   rule: rulePropType.isRequired,
-  tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
-  tagFilterExpression: PropTypes.object,
+  tagFilterExpression: PropTypes.object.isRequired,
   includeSynthetic: PropTypes.bool,
   applications: applicationsItemTreePropType,
   threshold: thresholdPropType.isRequired

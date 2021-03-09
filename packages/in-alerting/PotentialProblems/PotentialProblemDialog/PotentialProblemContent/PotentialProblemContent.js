@@ -5,18 +5,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import PotentialProblemContentControls from 'in-alerting/components/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContentControls';
-import PotentialProblemChart from 'in-alerting/components/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemChart';
+import PotentialProblemContentControls from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContentControls';
+import PotentialProblemChart from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemChart';
 import {
   getIconByType,
   getType
-} from 'in-alerting/components/PotentialProblems/PotentialProblemDialog/potentialProblemsDialogUtil';
-import { alertPropType, rulePropType } from 'in-alerting/components/PotentialProblems/PotentialProblemsLane/proptypes';
+} from 'in-alerting/PotentialProblems/PotentialProblemDialog/potentialProblemsDialogUtil';
+import { alertPropType, rulePropType } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
 import { getDescription, getTitle } from 'in-alerting/PotentialProblems/textUtil';
 import { formatDateTime } from 'in-services/formatters/date';
 import SvgIcon from 'in-components/SvgIcon';
 
-import locals from 'in-alerting/components/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContent.mless';
+import locals from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContent.mless';
 
 export default function PotentialProblemContent({
   alert,

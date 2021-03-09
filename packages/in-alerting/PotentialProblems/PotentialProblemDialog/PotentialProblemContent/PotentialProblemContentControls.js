@@ -10,11 +10,11 @@ import {
   alertPropType,
   rulePropType,
   thresholdPropType
-} from 'in-alerting/components/PotentialProblems/PotentialProblemsLane/proptypes';
+} from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
 import { trackCreateSmartAlert, trackGotoAnalyze } from 'in-alerting/PotentialProblems/tracker';
 import { getLinkToUnboundAnalytics } from 'in-events/components/AnalyzeApplicationEventButton';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { defaultGranularity } from 'in-alerting/components/PotentialProblems/constants';
+import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { close } from 'in-components/DialogPresenter/store';
@@ -27,7 +27,6 @@ export default function PotentialProblemContentControls({
   applicationLabel,
   boundaryScope,
   applications,
-  tagFilters,
   tagFilterExpression,
   includeSynthetic,
   alert,
@@ -51,16 +50,15 @@ export default function PotentialProblemContentControls({
         href$={getLinkToUnboundAnalytics(
           applicationId,
           applicationLabel,
-          null, // is already included in given tagFilters/tagFilterExpression
+          null, // is already included in given tagFilterExpression
           null,
-          null, // is already included in given tagFilters/tagFilterExpression
+          null, // is already included in given tagFilterExpression
           null,
           {
             boundaryScope,
             applications,
             rule,
             threshold,
-            tagFilters,
             tagFilterExpression,
             includeSynthetic,
             granularity: defaultGranularity,
@@ -116,8 +114,7 @@ PotentialProblemContentControls.propTypes = {
   applications: applicationsItemTreePropType,
   boundaryScope: PropTypes.string,
   renderSmartAlertDialogComponent: PropTypes.func.isRequired,
-  tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
-  tagFilterExpression: PropTypes.object,
+  tagFilterExpression: PropTypes.object.isRequired,
   includeSynthetic: PropTypes.bool,
   threshold: thresholdPropType.isRequired
 };

@@ -5,7 +5,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import PotentialProblemsDialogPresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
+import PotentialProblemsDialogPresenter from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter';
 import PotentialProblemsHoverArea from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsHoverArea';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { potentialProblemsLaneAlertsPropType } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
@@ -158,14 +158,14 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
 }
 
 PotentialProblemsLanePresenter.propTypes = {
-  potentialProblems: potentialProblemsLaneAlertsPropType,
+  potentialProblems: potentialProblemsLaneAlertsPropType.isRequired,
   isClustered: PropTypes.bool,
   applicationLabel: PropTypes.string,
   serviceLabel: PropTypes.string,
   endpointLabel: PropTypes.string,
   applicationBoundaryScope: PropTypes.string,
   alertRules: PropTypes.shape({
-    // this object can contain multiples keys, but it's not possible to expresse this with propTypes
+    // this object can contain multiples keys, but it's not possible to express this with propTypes
     key: PropTypes.shape({
       rule: PropTypes.shape({
         alertType: PropTypes.string,

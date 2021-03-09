@@ -5,16 +5,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  alertRulesPropType,
-  thresholdsPropType
-} from 'in-alerting/components/PotentialProblems/PotentialProblemsLane/proptypes';
-import { getType } from 'in-alerting/components/PotentialProblems/PotentialProblemDialog/potentialProblemsDialogUtil';
+import { alertRulesPropType, thresholdsPropType } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
+import { getType } from 'in-alerting/PotentialProblems/PotentialProblemDialog/potentialProblemsDialogUtil';
 import { getTitle } from 'in-alerting/PotentialProblems/textUtil';
 import { Ul, Li } from 'in-new-components/lists/List';
 import SvgIcon from 'in-components/SvgIcon';
 
-import locals from 'in-alerting/components/PotentialProblems/PotentialProblemDialog/PotentialProblemsList.mless';
+import locals from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsList.mless';
 
 export default function PotentialProblemsList({ alerts, thresholds, alertRules, ...remainingProps }) {
   if (alerts.length === 0) return null;

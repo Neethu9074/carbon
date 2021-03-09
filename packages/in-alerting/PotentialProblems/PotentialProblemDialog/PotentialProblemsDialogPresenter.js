@@ -6,18 +6,15 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import PotentialProblemContent from 'in-alerting/components/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContent';
-import {
-  alertRulesPropType,
-  thresholdsPropType
-} from 'in-alerting/components/PotentialProblems/PotentialProblemsLane/proptypes';
-import PotentialProblemsList from 'in-alerting/components/PotentialProblems/PotentialProblemDialog/PotentialProblemsList';
+import PotentialProblemContent from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContent';
+import { alertRulesPropType, thresholdsPropType } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
+import PotentialProblemsList from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsList';
 import { trackCurrentlySelected, trackDialogClosed } from 'in-alerting/PotentialProblems/tracker';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/components/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter.mless';
+import locals from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter.mless';
 
 export default function PotentialProblemsDialogPresenterAlertChecker(props) {
   if (!props.alerts) {

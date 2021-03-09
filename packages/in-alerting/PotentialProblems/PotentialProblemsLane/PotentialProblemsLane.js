@@ -15,7 +15,6 @@ import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-new-components/QueryBu
 import getPotentialProblems from 'in-alerting/PotentialProblems/subscription/getPotentialProblems';
 import { trackRequestLoadingTime } from 'in-alerting/PotentialProblems/tracker';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
-import { switchQB1orQB2Helper } from 'in-alerting/components/WithQB1orQB2';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
@@ -60,8 +59,6 @@ export default function PotentialProblemsLane({
     return null;
   }
 
-  let tagFilterExpression = EMPTY_EXPRESSION;
-
   return (
     <PotentialProblemsLaneConnected
       {...props}
@@ -70,8 +67,6 @@ export default function PotentialProblemsLane({
       serviceId={serviceId}
       endpointId={endpointId}
       labels={labels}
-      tagFilters={getTagFilters(labels.serviceLabel, labels.endpointLabel)}
-      tagFilterExpression={tagFilterExpression}
       chartName={chartName}
       globalTimeConfig={globalTimeConfig}
       clusterSizeMillis={clusterSizeMillis}
@@ -82,8 +77,6 @@ export default function PotentialProblemsLane({
 function PotentialProblemsLaneConnected({
   boundaryScope,
   applicationId,
-  tagFilters,
-  tagFilterExpression,
   includeSynthetic,
   applications,
   labels,
@@ -99,7 +92,6 @@ function PotentialProblemsLaneConnected({
       getPotentialProblemsObservable([
         _globalTimeConfig,
         _alertRules,
-        tagFilters,
         includeSynthetic,
         applications,
         startTime,
@@ -107,7 +99,7 @@ function PotentialProblemsLaneConnected({
         boundaryScope,
         applicationId
       ]),
-    [globalTimeConfig, alertRules, clusterSizeMillis, tagFilters, includeSynthetic, applications]
+    [globalTimeConfig, alertRules, clusterSizeMillis, includeSynthetic, applications]
   );
 
   return (
@@ -119,26 +111,11 @@ function PotentialProblemsLaneConnected({
       boundaryScope={boundaryScope}
       includeSynthetic={includeSynthetic}
       potentialProblems={potentialProblemsResult?.data ?? emptyPotentialProblems}
-      tagFilters={tagFilters} // QB1
-      tagFilterExpression={tagFilterExpression} // QB2 without S/E selection
-      applications={applications} // QB2 with S/E selection
+      tagFilterExpression={EMPTY_EXPRESSION}
+      applications={applications}
       isLoading={isLoading(potentialProblemsResult)}
     />
   );
-}
-
-function getTagFilters(serviceLabel, endpointLabel) {
-  const tagFilters = [];
-
-  if (serviceLabel) {
-    tagFilters.push(qb1StringFilter('service.name', 'EQUALS', serviceLabel));
-  }
-
-  if (endpointLabel) {
-    tagFilters.push(qb1StringFilter('endpoint.name', 'EQUALS', endpointLabel));
-  }
-
-  return tagFilters;
 }
 
 function useGetLabels(applicationId, serviceId, endpointId) {
@@ -200,7 +177,6 @@ function getEndpointLabelObservable([id]) {
 function getPotentialProblemsObservable([
   globalTimeConfig,
   alertRules,
-  tagFilters,
   includeSynthetic,
   applications,
   startTime,
@@ -212,15 +188,8 @@ function getPotentialProblemsObservable([
     timeConfig: globalTimeConfig,
     alertRules,
     includeSynthetic,
-    ...switchQB1orQB2Helper(
-      () => ({ tagFilters: enhanceTagFilters(tagFilters, boundaryScope, applicationId) }),
-      () => {
-        return {
-          tagFilterExpression: toBackendQueryModel(
-            getEntitySelectionAsTagFilterFormModel(applications, boundaryScope, applicationId)
-          )
-        };
-      }
+    tagFilterExpression: toBackendQueryModel(
+      getEntitySelectionAsTagFilterFormModel(applications, boundaryScope, applicationId)
     )
   })
     .startWith(pendingResult)
@@ -240,19 +209,4 @@ function getPotentialProblemsObservable([
         }
       }
     });
-}
-
-function enhanceTagFilters(tagFilters, boundaryScope, applicationId) {
-  return [
-    ...tagFilters,
-    qb1StringFilter(boundaryScope === 'INBOUND' ? 'boundary.application.id' : 'application.id', 'EQUALS', applicationId)
-  ];
-}
-
-/**
- * Creates a tagFilter in the old QB1 format. This is needed because the new format is not fully working
- * in all places in the UI.
- */
-function qb1StringFilter(name, operator, stringValue) {
-  return { name, operator, stringValue };
 }
