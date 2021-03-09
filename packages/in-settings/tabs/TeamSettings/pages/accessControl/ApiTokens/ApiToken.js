@@ -13,9 +13,9 @@ import ApiTokenForm from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiT
 import { teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { apiTokenPermissions } from 'in-stores/permission';
 import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
-import { apiTokenPermissions } from 'in-stores/permission';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';

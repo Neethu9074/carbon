@@ -6,14 +6,23 @@ import { t } from 'in-i18n';
 import React from 'react';
 
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
+import { apiTokenPermissions, productOwnerPermissions } from 'in-stores/permission';
+import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { apiTokenPermissions } from 'in-stores/permission';
 import FormGroup from 'in-settings/components/FormGroup';
+import { Row, Col } from 'in-new-components/layout/Grid';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import Toggle from 'in-components/form/Toggle';
+import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { role } from 'in-stores/user';
+
+import locals from './ApiTokens.mless';
+
+const permissionsForList = apiTokenPermissions.filter(permission => !permission.isOwnerPermission);
 
 export default function ApiTokenForm({ form, onChange, disabled }) {
   return (
@@ -44,8 +53,34 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
         </FormGroup>
       ))}
 
+      <Row>
+        <Col lg>
+          <FormGroup>
+            <Label>{t('in-settings:tabs.ownerPermissions')}</Label>
+            {productOwnerPermissions.map(({ value, label, description, keyForApiTokenApi }) => (
+              <HorizontalFormGroup key={label} helpText={description}>
+                <Label htmlFor={`permission-${value}`}>{label}</Label>
+                <Toggle
+                  id={`permission-${keyForApiTokenApi}`}
+                  checked={form.get(keyForApiTokenApi).value}
+                  onChange={e => {
+                    // check if value is currently false -> user sets permission to true
+                    if (e.target.checked) {
+                      addActiveDialog(<ConfirmationDialog onChange={() => onChange(keyForApiTokenApi, true)} />);
+                    } else {
+                      onChange(keyForApiTokenApi, false);
+                    }
+                  }}
+                  disabled={!role.canConfigureApiTokens}
+                />
+              </HorizontalFormGroup>
+            ))}
+          </FormGroup>
+        </Col>
+      </Row>
+
       <PermissionsList
-        permissions={apiTokenPermissions}
+        permissions={permissionsForList}
         listActions={[
           {
             id: 'toggleEnabledAction',
@@ -68,3 +103,27 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
     </fieldset>
   );
 }
+
+const ConfirmationDialog = function ConfirmationDialog({ onChange }) {
+  return (
+    <Dialog
+      className={locals.confirmationDialog}
+      title={t('in-settings:tabs.ownerPermissions')}
+      doNotCloseOnOutsideClick
+      onClose={close}
+    >
+      <p>{t('in-settings:tabs.youAreAssigningThisApiTokenOwnerPermissions')}</p>
+
+      <Button
+        kind="primary"
+        className={locals.confirmationDialogButton}
+        onClick={() => {
+          onChange();
+          close();
+        }}
+      >
+        Yes, I understand
+      </Button>
+    </Dialog>
+  );
+};

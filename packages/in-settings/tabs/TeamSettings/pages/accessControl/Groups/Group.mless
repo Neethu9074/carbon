@@ -43,4 +43,13 @@
   .pointer {
     cursor: pointer;
   }
+
+  .confirmationDialog {
+    display: inline-block;
+    font-size: @lib__typography__body-large__font-size;
+  }
+
+  .confirmationDialogButton {
+    margin-top: 2rem;
+  }
 }
