@@ -292,20 +292,6 @@ export function getSourceEntityAvailability(fullyQualifiedName, timeConfig) {
   return true;
 }
 
-export function findChildByName(node, childName) {
-  if (!node) {
-    return null;
-  }
-  const children = node.getChildren();
-  for (let i = 0; i < children.length; i++) {
-    const child = children[i];
-    if (child.name === childName) {
-      return child;
-    }
-  }
-  return null;
-}
-
 export function getTagFromList(tagFilter, _tag) {
   for (let i = 0; i < tagFilter.length; i++) {
     const tag = tagFilter[i];
@@ -359,41 +345,6 @@ export function getKeyValuePairTag(_tag) {
     }
   }
   return null;
-}
-
-export function translateDemocratisationTagFiltersToAnalyzeTagFilters({ applicationName, tagFilters }) {
-  let tagFiltersForAnalyze = tagFilters;
-  if (!applicationName) {
-    return tagFiltersForAnalyze;
-  }
-  // replace application ID filter with something more understandable by users.
-  if (tagFiltersForAnalyze.some(f => f.name === 'application.id' || f.name === 'boundary.application.id')) {
-    return tagFiltersForAnalyze.map(f =>
-      f.name === 'application.id'
-        ? getApplicationNameTagFilter(applicationName)
-        : f.name === 'boundary.application.id'
-        ? getInboundApplicationNameTagFilter(applicationName)
-        : f
-    );
-  }
-  // or add the application label tag filter to the end if application ID is filter is not present
-  return tagFiltersForAnalyze.concat(getApplicationNameTagFilter(applicationName));
-}
-
-function getApplicationNameTagFilter(applicationName) {
-  return {
-    name: 'application.name',
-    operator: 'EQUALS',
-    stringValue: applicationName
-  };
-}
-
-function getInboundApplicationNameTagFilter(applicationName) {
-  return {
-    name: 'call.inbound_of_application',
-    operator: 'EQUALS',
-    stringValue: applicationName
-  };
 }
 
 export function isIdTag(tagName) {

@@ -72,7 +72,7 @@
     margin-right: 0.5rem;
   }
 
-  .centred {
+  .centered {
     .flexbox();
   }
 
@@ -82,5 +82,6 @@
 
   .filterIcon {
     fill: currentColor;
+    margin-right: 0.25rem;
   }
 }

@@ -17,15 +17,13 @@ export default {
 };
 
 export const AdvancedAlertConfigDialog = () => {
-  const { serviceLabel = 'serviceLabel', endpointLabel = 'endpointLabel', applicationId = 'applicationId' } = {};
+  const { applicationId = 'applicationId' } = {};
 
   return (
     <SmartAlertConfigDialogWrapper
       applicationLabel={'applicationLabel'}
       formData={generateFormData({
         applicationId,
-        serviceLabel,
-        endpointLabel,
         boundaryScope: 'urlBoundaryScope'
       })}
       editMode

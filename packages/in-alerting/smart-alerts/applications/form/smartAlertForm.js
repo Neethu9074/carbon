@@ -70,14 +70,6 @@ export function createSmartAlertForm(alertConfig) {
         value: alertConfig.triggering ?? false
       })
     )
-    // QB1
-    .put(
-      'tagFilters',
-      createField({
-        value: alertConfig.tagFilters ?? []
-      })
-    )
-    // QB2
     .put(
       'tagFilterExpression',
       createField({
@@ -88,12 +80,6 @@ export function createSmartAlertForm(alertConfig) {
       'evaluationType',
       createField({
         value: alertConfig.evaluationType ?? PER_AP
-      })
-    )
-    .put(
-      'convertedTagFilterExpression',
-      createField({
-        value: alertConfig.convertedTagFilterExpression
       })
     )
     .put(

@@ -3,11 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 import getApplicationMetricsThresholdSuggestion from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsThresholdSuggestion';
-import {
-  getEntitySelectionAsTagFilterFormModel,
-  getApplicationIdTagFilter
-} from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsAlertsPreview';
+import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { getBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
@@ -15,7 +12,6 @@ import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/f
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { percentage, millis, number } from 'in-services/formatters/number';
-import { getAnalyzeFilterTagKeys } from 'in-applications/tags';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -27,25 +23,6 @@ const baseBlueprint = Object.freeze({
   thresholdDefaults: {
     operator: '>='
   },
-
-  // Note: had to keep the disabled tagFilters separate from this, because of test-dependencies within
-  // in-applications/tags_test.js related to the only once-registered set of tags via getAnalyzeFilterTagKeys()
-  getAvailableTags: getIncludedTags,
-
-  // QB1
-  getEntityTagFilters: (alertConfig, serviceId, endpointId) => {
-    const tagFilters = [getApplicationIdTagFilter(alertConfig.boundaryScope, alertConfig.applicationId)];
-    if (serviceId) {
-      tagFilters.push(tagFilter('service.id', 'EQUALS', serviceId));
-    }
-    if (endpointId) {
-      tagFilters.push(tagFilter('endpoint.id', 'EQUALS', endpointId));
-    }
-    return tagFilters;
-  },
-  getRuleTagFilters: () => [],
-
-  // QB2
   getEntityTagFilterFormModel: (alertConfig, applicationId, applicationName, serviceId) =>
     getEntitySelectionAsTagFilterFormModel(
       alertConfig.applications,
@@ -72,8 +49,7 @@ const slownessBlueprintConfig = Object.freeze({
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: alertRule => alertRule.aggregation,
   isRuleComplete: () => true,
-  getRuleTagFilters: () => [], // QB1
-  getRuleTagFilterFormModel: () => [], // QB2
+  getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: getExtraSlownessAnalyzeLinkTagFilterFormModel
 });
 
@@ -91,8 +67,7 @@ const errorRateBlueprintConfig = Object.freeze({
   getMaxMetricValue: () => 100,
   getAggregation: () => 'MEAN',
   isRuleComplete: () => true,
-  getRuleTagFilters: () => [], //QB1
-  getRuleTagFilterFormModel: () => [], //QB2
+  getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: () => [tagFilter('call.erroneous', 'EQUALS', true)]
 });
 
@@ -111,8 +86,7 @@ const logsBlueprintConfig = Object.freeze({
   getAggregation: () => 'SUM',
   isRuleComplete: alertRule => isNotBlank(alertRule.message),
   incompleteRuleMessage: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.incompleteRuleMessage'),
-  getRuleTagFilters: getLogLevelTagFilters, //QB1
-  getRuleTagFilterFormModel: getLogLevelFormModel //QB2
+  getRuleTagFilterFormModel: getLogLevelFormModel
 });
 
 const statusCodeBlueprintConfig = Object.freeze({
@@ -130,8 +104,7 @@ const statusCodeBlueprintConfig = Object.freeze({
   getAggregation: () => 'SUM',
   isRuleComplete: alertRule => !!(alertRule.statusCodeStart && alertRule.statusCodeEnd),
   incompleteRuleMessage: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.incompleteRuleMessage'),
-  getRuleTagFilters: getStatusCodeTagFilters, //QB1
-  getRuleTagFilterFormModel: getStatusCodeFormModel //QB2
+  getRuleTagFilterFormModel: getStatusCodeFormModel
 });
 
 const throughputBlueprintConfig = Object.freeze({
@@ -148,8 +121,7 @@ const throughputBlueprintConfig = Object.freeze({
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
   isRuleComplete: () => true,
-  getRuleTagFilters: () => [], //QB1
-  getRuleTagFilterFormModel: () => [], //QB2
+  getRuleTagFilterFormModel: () => [],
   impactTimeThresholdDisabled: true
 });
 
@@ -187,12 +159,6 @@ export const simpleModeBlueprintConfigs = Object.freeze([
   }
 ]);
 
-const excludedApplicationTags = Object.freeze(['application.id', 'application.name']);
-
-function getIncludedTags() {
-  return getAnalyzeFilterTagKeys().filter(tag => !excludedApplicationTags.includes(tag));
-}
-
 export function getBlueprintConfig(alertType) {
   return blueprintConfigs.find(blueprint => blueprint.type === alertType);
 }
@@ -201,14 +167,6 @@ export function getSimpleModeBlueprintConfig(alertType, alertThreshold) {
   return simpleModeBlueprintConfigs
     .filter(blueprint => blueprint.type === alertType)
     .find(blueprint => !blueprint.isSelected || blueprint.isSelected(alertThreshold));
-}
-
-function getLogLevelTagFilters(alertRule) {
-  const tagFilters = [tagFilter('log.message', alertRule.operator, alertRule.message)];
-  if (alertRule.level !== 'ANY') {
-    tagFilters.push(tagFilter('log.level', 'EQUALS', alertRule.level));
-  }
-  return tagFilters;
 }
 
 function getLogLevelFormModel(alertRule) {
@@ -223,17 +181,6 @@ function getLogLevelFormModel(alertRule) {
       tagFilter('log.level', 'EQUALS', alertRule.level)
     ]
   });
-}
-
-function getStatusCodeTagFilters(alertRule) {
-  const tagFilters = [];
-  if (alertRule.statusCodeStart === alertRule.statusCodeEnd) {
-    tagFilters.push(tagFilter('call.http.status', 'EQUALS', alertRule.statusCodeStart));
-  } else {
-    tagFilters.push(tagFilter('call.http.status', 'GREATER_OR_EQUAL_THAN', alertRule.statusCodeStart));
-    tagFilters.push(tagFilter('call.http.status', 'LESS_OR_EQUAL_THAN', alertRule.statusCodeEnd));
-  }
-  return tagFilters;
 }
 
 function getStatusCodeFormModel(alertRule) {

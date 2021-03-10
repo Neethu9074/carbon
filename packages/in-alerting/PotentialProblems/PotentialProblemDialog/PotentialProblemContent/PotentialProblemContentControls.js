@@ -61,8 +61,7 @@ export default function PotentialProblemContentControls({
             threshold,
             tagFilterExpression,
             includeSynthetic,
-            granularity: defaultGranularity,
-            convertedTagFilterExpression: true
+            granularity: defaultGranularity
           },
           getTimeConfigForAnalyzeLink(alert),
           tagCatalog

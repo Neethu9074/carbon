@@ -15,7 +15,6 @@ import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
-import { switchQB1orQB2Helper } from 'in-alerting/components/WithQB1orQB2';
 import useObservable from 'in-hooks/useObservable';
 
 export function SmartAlertConfigDialog(props) {
@@ -55,11 +54,7 @@ function SmartAlertConfigDialogWithQueryValidation({
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(alertConfigWithFormModel.tagFilterExpression);
-
-  const isValid = switchQB1orQB2Helper(
-    () => blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule),
-    () => isTagFilterFormModelValid
-  );
+  const isValid = blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule) && isTagFilterFormModelValid;
 
   const thresholdResult = useObservable(
     ([form, simpleMode, isValid]) =>
@@ -108,7 +103,6 @@ function resolveThresholdRequest(
   const {
     rule: { metricName },
     threshold: { operator, seasonality = null },
-    tagFilters,
     includeInternal,
     includeSynthetic,
     granularity
@@ -128,19 +122,7 @@ function resolveThresholdRequest(
 
   const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
   return thresholdSuggestionRequest({
-    ...switchQB1orQB2Helper(
-      () => ({
-        tagFilters: [
-          ...blueprintConfig.getEntityTagFilters(alertConfigWithFormModel),
-          ...tagFilters,
-          ...blueprintConfig.getRuleTagFilters(alertConfigWithFormModel.rule)
-        ]
-      }),
-      () => ({
-        tagFilterExpression: toBackendQueryModel(enrichedTagFilterFormModel)
-      }),
-      isQB2Config => isQB2Config(alertConfigWithFormModel.convertedTagFilterExpression)
-    ),
+    tagFilterExpression: toBackendQueryModel(enrichedTagFilterFormModel),
     includeInternal,
     includeSynthetic,
     metric: {

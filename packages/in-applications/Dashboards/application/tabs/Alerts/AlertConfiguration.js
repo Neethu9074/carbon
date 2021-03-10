@@ -14,9 +14,7 @@ import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-ale
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
-import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-applications/tags';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
@@ -43,9 +41,7 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
     evaluationType,
     timeThreshold,
     alertChannelIds,
-    tagFilters, // QB1
-    tagFilterExpression, // QB2
-    convertedTagFilterExpression // QB2
+    tagFilterExpression
   } = alertConfig;
 
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -101,18 +97,8 @@ export default function AlertConfiguration({ alertConfig, applicationName }) {
           <div className={locals.paddingBodyWrapper}>
             <div className={locals.alertFiltersWrapper}>
               <ScopeConfigPresenter
-                tagFilterList={
-                  <TagFilterListPresenter
-                    tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                      applicationName,
-                      tagFilters: [...blueprintConfig.getEntityTagFilters(alertConfig), ...tagFilters]
-                    })}
-                    disabled
-                  />
-                }
                 tagFilterFormModel={tagFilterFormModel}
                 queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
-                convertedTagFilterExpression={convertedTagFilterExpression}
                 scopePath={
                   <ApplicationScopePath boundaryScope={alertConfig.boundaryScope} applicationName={applicationName} />
                 }

@@ -26,7 +26,6 @@ import ErrorRateInteractiveChart from 'in-alerting/smart-alerts/applications/adv
 import SlownessInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/SlownessInteractiveChart';
 import BaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/BaselineErrorMessage';
 import SelectAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/SelectAlertChannel';
-import AlertLocationFilters from 'in-alerting/smart-alerts/applications/components/AlertLocationFilters';
 import ScopeConfig from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ScopeConfig';
 import LogsInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/LogsInteractiveChart';
 import ProvideLogMessage from 'in-alerting/smart-alerts/applications/components/ProvideLogMessage';
@@ -34,7 +33,6 @@ import ProvideStatusCode from 'in-alerting/smart-alerts/applications/components/
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
-import WithQB1orQB2 from 'in-alerting/components/WithQB1orQB2';
 import LightCard from 'in-new-components/Card/LightCard';
 import { t } from 'in-i18n';
 
@@ -69,25 +67,12 @@ export default function AdvancedModeContainer(props) {
               <AlertEvaluationControl form={form} updateForm={updateForm} />
               <InboundOutboundCallsSwitch form={form} updateForm={updateForm} />
               <IncludeInternalOrSyntheticCallsSwitch form={form} updateForm={updateForm} />
-              <WithQB1orQB2
-                onUsesQB1={() => (
-                  <AlertLocationFilters
-                    form={form}
-                    applicationLabel={applicationLabel}
-                    timeConfig={timeConfig}
-                    updateForm={updateForm}
-                  />
-                )}
-                onUsesQB2={() => (
-                  <ScopeConfig
-                    form={form}
-                    updateForm={updateForm}
-                    QueryBuilderComponent={QueryBuilderComponent}
-                    editMode={editMode}
-                    timeConfig={timeConfig}
-                  />
-                )}
-                shouldFallbackToQB2={isQB2Config => isQB2Config(form.get('convertedTagFilterExpression').value)}
+              <ScopeConfig
+                form={form}
+                updateForm={updateForm}
+                QueryBuilderComponent={QueryBuilderComponent}
+                editMode={editMode}
+                timeConfig={timeConfig}
               />
             </>
           ),
@@ -239,6 +224,7 @@ export default function AdvancedModeContainer(props) {
               form={form}
               onChange={onChange}
               label={applicationLabel}
+              entityIconType="lib_application"
               getDescriptionPlaceholder={getDescriptionPlaceholder}
               getTitlePlaceholder={getTitlePlaceholder}
               trackAlertLevelChanged={applicationsAlertingAdditionalPropsAlertLevelChanged}

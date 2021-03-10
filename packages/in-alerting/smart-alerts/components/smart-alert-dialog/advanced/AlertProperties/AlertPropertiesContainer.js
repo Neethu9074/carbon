@@ -14,14 +14,11 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesContainer.mless';
 
 export default function AlertPropertiesContainer(props) {
-  const { form } = props;
-  const severity = Number(form.get('severity').value);
-
   return (
     <TwoColumnContainer
       mainContentHeadline={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesAlertProperties')}
       mainContent={<AlertProperties {...props} />}
-      secondaryContent={<AlertPreview {...props} tagFilters={form.get('tagFilters').value} severity={severity} />}
+      secondaryContent={<AlertPreview {...props} />}
     />
   );
 }
@@ -30,11 +27,10 @@ AlertPropertiesContainer.propTypes = {
   form: PropTypes.object.isRequired
 };
 
-function AlertPreview({ form, label, severity, getTitlePlaceholder, getDescriptionPlaceholder }) {
-  const tagFilters = form.get('tagFilters').value;
-  const pages = tagFilters.filter(filter => filter.name === 'beacon.page.name');
+function AlertPreview({ form, label, entityIconType, getTitlePlaceholder, getDescriptionPlaceholder }) {
   const name = form.get('name').value;
   const description = form.get('description').value;
+  const severity = Number(form.get('severity').value);
 
   return (
     <div
@@ -58,22 +54,14 @@ function AlertPreview({ form, label, severity, getTitlePlaceholder, getDescripti
           {label && (
             <span
               className={classNames({
-                [locals.centred]: true,
-                [locals.space]: pages.length === 0,
-                [locals.divider]: pages.length > 0
+                [locals.centered]: true,
+                [locals.space]: true
               })}
             >
-              <SvgIcon className={locals.filterIcon} size="s" type="lib_website" />
+              <SvgIcon className={locals.filterIcon} size="s" type={entityIconType} />
               {label}
             </span>
           )}
-          {pages &&
-            pages.map((page, i) => (
-              <span key={i} className={locals.centred}>
-                <SvgIcon className={locals.filterIcon} size="s" type="lib_website_page_load" />
-                {page.stringValue}
-              </span>
-            ))}
         </p>
         <p>{description || getDescriptionPlaceholder(form)}</p>
       </div>

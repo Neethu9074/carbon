@@ -27,20 +27,12 @@ export const blueprintConfigPropType = PropTypes.shape({
   isRuleComplete: PropTypes.func.isRequired,
 
   /**
-   * Smart Alert rule specific filters in QB1 format.
-   */
-  getRuleTagFilters: PropTypes.func.isRequired,
-  /**
-   * Smart Alert rule specific filters in QB2 FormModel format.
+   * Smart Alert rule specific filters in FormModel format.
    */
   getRuleTagFilterFormModel: PropTypes.func.isRequired,
 
   /**
-   * Smart Alert entity related filter in QB1 format.
-   */
-  getEntityTagFilters: PropTypes.func.isRequired,
-  /**
-   * Smart Alert entity related filters in QB2 FormModel format.
+   * Smart Alert entity related filters in FormModel format.
    */
   getEntityTagFilterFormModel: PropTypes.func.isRequired,
 

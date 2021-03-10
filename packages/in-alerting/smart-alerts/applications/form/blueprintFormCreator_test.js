@@ -16,29 +16,6 @@ import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blue
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 
 describe('in-applications/alerting/form/blueprintFormCreator', () => {
-  const someTagFilters = [
-    'call.latency',
-    'call.erroneous',
-    'call.error.count',
-    'call.error.message',
-    'log.message',
-    'log.level'
-  ];
-
-  function createDummyTagFilter(name) {
-    return {
-      name,
-      operator: 'operator',
-      stringValue: 'stringValue'
-    };
-  }
-
-  function createTagFiltersForm() {
-    return createField({
-      value: someTagFilters.map(createDummyTagFilter)
-    });
-  }
-
   function createTagFilterExpressionForm() {
     return createField({
       value: []
@@ -49,8 +26,7 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
     context('when thresholdType is staticThreshold', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
-          .put('tagFilters', createTagFiltersForm()) // QB1
-          .put('tagFilterExpression', createTagFilterExpressionForm()) // QB2
+          .put('tagFilterExpression', createTagFilterExpressionForm())
           .put('threshold', thresholdCreateSlownessForm({ type: 'staticThreshold', value: 5 }))
           .put('rule', createRuleForm({ alertType: 'slowness' }))
           .put('timeThreshold', createViolationsInSequenceForm({})),
@@ -67,8 +43,7 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
     context('when thresholdType is historicBaseline', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
-          .put('tagFilters', createTagFiltersForm()) // QB1
-          .put('tagFilterExpression', createTagFilterExpressionForm()) // QB2
+          .put('tagFilterExpression', createTagFilterExpressionForm())
           .put(
             'threshold',
             thresholdCreateSlownessForm({
@@ -106,8 +81,7 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
     it('should have metricName "latency"', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
-          .put('tagFilters', createTagFiltersForm()) // QB1
-          .put('tagFilterExpression', createTagFilterExpressionForm()) // QB2
+          .put('tagFilterExpression', createTagFilterExpressionForm())
           .put('threshold', thresholdCreateSlownessForm({ type: 'staticThreshold' }))
           .put('rule', createRuleForm({ alertType: 'slowness', metricName: 'latency' }))
           .put('timeThreshold', createViolationsInSequenceForm({})),
@@ -121,8 +95,7 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
   context('when alertType is errorRate', () => {
     const blueprintForm = createBlueprintForm(
       createMapForm()
-        .put('tagFilters', createTagFiltersForm()) // QB1
-        .put('tagFilterExpression', createTagFilterExpressionForm()) // QB2
+        .put('tagFilterExpression', createTagFilterExpressionForm())
         .put('threshold', thresholdCreateErrorRateForm())
         .put('rule', createRuleForm({ alertType: 'errorRate' }))
         .put('timeThreshold', createViolationsInSequenceForm({})),
@@ -148,8 +121,7 @@ describe('in-applications/alerting/form/blueprintFormCreator', () => {
   context('when alertType is logs', () => {
     const blueprintForm = createBlueprintForm(
       createMapForm()
-        .put('tagFilters', createTagFiltersForm()) // QB1
-        .put('tagFilterExpression', createTagFilterExpressionForm()) // QB2
+        .put('tagFilterExpression', createTagFilterExpressionForm())
         .put('threshold', thresholdCreateLogsForm())
         .put('rule', createRuleForm({ alertType: 'logs' }))
         .put('timeThreshold', createViolationsInSequenceForm({})),

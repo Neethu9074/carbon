@@ -21,14 +21,12 @@ import alertEvaluationTypes, {
   PER_AP
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
-import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-applications/navigation/paths';
 import { alertCreated as alertCreatedMatrixParam } from 'in-applications/navigation/matrix';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { alertId as alertIdMatrixParam } from 'in-applications/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import WithQB1orQB2 from 'in-alerting/components/WithQB1orQB2';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import Footer from 'in-new-components/Footer/Footer';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -175,6 +173,12 @@ function getSubtitle(alertConfig) {
 }
 
 function getFiltersContent(config, applicationName) {
+  const tagFilterExpression = fromBackendModel(config.tagFilterExpression ?? []);
+  const filterCount = getFiltersCount(tagFilterExpression);
+
+  const maxFilterToDisplay = 3;
+  const filtersToDisplay = getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay);
+
   return (
     <div className={locals.filters}>
       {applicationName && (
@@ -189,62 +193,32 @@ function getFiltersContent(config, applicationName) {
         </span>
       )}
 
-      <WithQB1orQB2
-        onUsesQB1={() =>
-          config.tagFilters?.length >= 1 ? (
-            <Tooltip
-              themeStyle="light"
-              content={<TagFilterListPresenter tagFilters={config.tagFilters} readonly />}
-              align="topMiddle"
-              delay={500}
-            >
-              <span className={locals.centered}>
-                <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
-                {t('in-applications:alert.tooltipFilter', {
-                  count: config.tagFilters.length
-                })}
-              </span>
-            </Tooltip>
-          ) : null
-        }
-        onUsesQB2={() => {
-          const tagFilterExpression = fromBackendModel(config.tagFilterExpression ?? []);
-          const filterCount = getFiltersCount(tagFilterExpression);
-
-          const maxFilterToDisplay = 3;
-          const filtersToDisplay = getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay);
-
-          return (
-            tagFilterExpression.length > 0 && (
-              <Tooltip
-                themeStyle="light"
-                content={
-                  <div>
-                    <AlertQueryBuilder value={filtersToDisplay} readOnly />
-                    <span className={locals.moreFilters}>
-                      {filterCount > maxFilterToDisplay &&
-                        t('in-applications:alert.tooltipMoreFilter', {
-                          count: filterCount,
-                          moreFilterCount: filterCount - maxFilterToDisplay
-                        })}
-                    </span>
-                  </div>
-                }
-                align="topMiddle"
-                delay={500}
-              >
-                <span className={locals.centered}>
-                  <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
-                  {t('in-applications:alert.filter', {
-                    count: filterCount
+      {tagFilterExpression.length > 0 && (
+        <Tooltip
+          themeStyle="light"
+          content={
+            <div>
+              <AlertQueryBuilder value={filtersToDisplay} readOnly />
+              <span className={locals.moreFilters}>
+                {filterCount > maxFilterToDisplay &&
+                  t('in-applications:alert.tooltipMoreFilter', {
+                    count: filterCount,
+                    moreFilterCount: filterCount - maxFilterToDisplay
                   })}
-                </span>
-              </Tooltip>
-            )
-          );
-        }}
-        shouldFallbackToQB2={isQB2Config => isQB2Config(config.convertedTagFilterExpression)}
-      />
+              </span>
+            </div>
+          }
+          align="topMiddle"
+          delay={500}
+        >
+          <span className={locals.centered}>
+            <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
+            {t('in-applications:alert.filter', {
+              count: filterCount
+            })}
+          </span>
+        </Tooltip>
+      )}
     </div>
   );
 }

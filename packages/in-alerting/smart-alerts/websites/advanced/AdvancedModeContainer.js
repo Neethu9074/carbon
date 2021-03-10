@@ -213,6 +213,7 @@ export default function AdvancedModeContainer(props) {
               form={form}
               onChange={onChange}
               label={websiteLabel}
+              entityIconType="lib_website"
               getDescriptionPlaceholder={getDescriptionPlaceholder}
               getTitlePlaceholder={getTitlePlaceholder}
               trackAlertLevelChanged={websitesAlertingAdditionalPropsAlertLevelChanged}
