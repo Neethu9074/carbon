@@ -28,6 +28,12 @@ import { t } from 'in-i18n';
 
 import locals from './EventTable.mless';
 
+/**
+ * The maximum number of events the backend will return for any query,
+ * due to internal limits configured for ElasticSearch.
+ */
+const eventResponseLimit = 10000;
+
 export default class extends React.Component {
   static displayName = 'EventTableWithMouseEvent';
 
@@ -78,9 +84,9 @@ export default class extends React.Component {
 }
 
 function EventTable(props) {
-  const { selectedEventId, items: rawEventList, items, onChange, progress } = props;
+  const { selectedEventId, items, onChange, progress } = props;
 
-  if (!rawEventList) {
+  if (!items) {
     return null;
   }
 
@@ -95,13 +101,12 @@ function EventTable(props) {
   return (
     <NavigatorSplitScreen
       {...props}
-      items={rawEventList}
+      items={items}
       navigator={<EventsList {...props} onItemClicked={onItemClicked} />}
       typeLabel="event"
       openItemIndex={findIndex(items, event => event.id === selectedEventId)}
       openItem={e => onChange({ eventId: e.id })}
-      totalRepresentedItemCount={rawEventList.filter(rawEvent => rawEvent.type !== 'release').length}
-      hideResultCount
+      resultCountLimit={eventResponseLimit}
     >
       <TabView
         HeaderComponent={Header}

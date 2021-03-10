@@ -26,7 +26,7 @@ export default connectTo(
     itemType,
     nbRows,
     nbItems,
-    hideResultCount = false,
+    resultCountLimit,
     historicOrLargeDataResult,
     withoutMargin = false,
     withMaxWidth,
@@ -35,15 +35,13 @@ export default connectTo(
     let counter = '';
     const { containsHistoricData, retention, samplingLevel } = historicOrLargeDataResult ?? emptyObject;
 
-    if (!hideResultCount) {
-      if (itemType === 'Group') {
-        counter = formatCounter(nbRows, 'Group');
+    if (itemType === 'Group') {
+      counter = formatCounter(nbRows, 'Group', resultCountLimit);
+    } else {
+      if (containsHistoricData || (samplingIndicatorEnabled && samplingLevel && samplingLevel.samplingRatio < 1)) {
+        counter = formatCounter(nbRows, 'Row', resultCountLimit);
       } else {
-        if (containsHistoricData || (samplingIndicatorEnabled && samplingLevel && samplingLevel.samplingRatio < 1)) {
-          counter = formatCounter(nbRows, 'Row');
-        } else {
-          counter = formatCounter(nbItems, itemType);
-        }
+        counter = formatCounter(nbItems, itemType, resultCountLimit);
       }
     }
 
@@ -76,9 +74,9 @@ export default connectTo(
   }
 );
 
-function formatCounter(nb, unit) {
+function formatCounter(nb, unit, limit = Number.MAX_SAFE_INTEGER) {
   if (nb != null) {
-    return `${number.compact(nb)} ${unit}${nb === 1 ? '' : 's'}`;
+    return `${number.compact(nb)}${nb < limit ? '' : '+'} ${unit}${nb === 1 ? '' : 's'}`;
   }
   return 'Loading…';
 }
