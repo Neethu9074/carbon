@@ -424,7 +424,8 @@
       "filler": {
         "customer": "Customer",
         "dropKafkaMetricWrite": "Dropped Kafka Metric Writes",
-        "numMetrics": "#Metrics"
+        "numMetrics": "#Metrics",
+        "fillersRowLen": "Fillers ({{rowslength}})"
       }
     },
     "serverless": {
