@@ -5,8 +5,8 @@
 import { t } from 'in-i18n';
 import React from 'react';
 
+import DBmarlinNotificationMessage from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotificationMessage';
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
-import DBmarlinNotification from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotification';
 import { number, percentage, bytes, millis } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -190,7 +190,7 @@ export default function AwsRdsDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       )}
-      <DBmarlinNotification />
+      <DBmarlinNotificationMessage />
     </div>
   );
 }
