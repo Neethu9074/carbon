@@ -8115,40 +8115,74 @@
       "consumeFromSubject": "Consume to {{subjectVar}}",
       "publishToSubject": "Publish to {{subjectVar}}",
       "sort": "Sort",
-      "subject": "Subject"
+      "subject": "Subject",
+      "indexName": "NATS message",
+      "indexName_plural": "NATS messages"
     },
     "natsStreaming": {
       "sort": "Sort",
-      "subject": "Subject"
+      "subject": "Subject",
+      "indexName": "NATS streaming message",
+      "indexName_plural": "NATS streaming messages"
     },
     "neo4j": {
       "connection": "Connection",
-      "statement": "Statement"
+      "statement": "Statement",
+      "indexName": "Neo4j statement",
+      "indexName_plural": "Neo4j statements"
+    },
+    "netHttp": {
+      "indexName": "Net::HTTP Request",
+      "indexName_plural": "Net::HTTP Requests"
+    },
+    "ning": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "nodeHttpClient": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
+    },
+    "nodeHttpServer": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
     },
     "oci8": {
       "unknownOci8Call": "Unknown OCI8 call",
       "connection": "Connection",
       "query": "Query",
-      "errorCode": "Error Code"
+      "errorCode": "Error Code",
+      "indexName": "OCI8 Call",
+      "indexName_plural": "OCI8 Calls"
     },
     "oncrpcClient": {
       "host": "Host",
       "port": "Port",
       "program": "Program",
       "procedure": "Procedure",
-      "version": "Version"
+      "version": "Version",
+      "indexName": "RPC Client",
+      "indexName_plural": "RPC Client Calls"
     },
     "oncrpcServer": {
       "program": "Program",
       "procedure": "Procedure",
-      "version": "Version"
+      "version": "Version",
+      "indexName": "RPC Server",
+      "indexName_plural": "RPC Server Calls"
+    },
+    "okHttp": {
+      "indexName": "HTTP Call",
+      "indexName_plural": "HTTP Calls"
     },
     "otel": {
       "service": "Service",
       "operation": "Operation",
       "traceState": "Trace State",
       "error": "Error",
-      "tags": "Tags"
+      "tags": "Tags",
+      "indexName": "Call",
+      "indexName_plural": "Calls"
     },
     "pdo": {
       "driver": "Driver",

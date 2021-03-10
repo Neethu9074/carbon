@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { getLabel } from 'in-forge/tracing/http/spanDefinition';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
@@ -10,8 +11,8 @@ registerSpanDefinition({
   category: 'http',
 
   typeName: {
-    singular: 'HTTP Call',
-    plural: 'HTTP Calls'
+    singular: t('in-forge:tracing.nodeHttpServer.indexName', { count: 1 }),
+    plural: t('in-forge:tracing.nodeHttpServer.indexName', { count: 2 })
   },
 
   detailView: 'NodejsHttpServerSpanDetailView',

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
 import { registerSpanDefinition } from 'in-sdk/tracing';
 
 registerSpanDefinition({
@@ -9,8 +10,8 @@ registerSpanDefinition({
   category: 'generic',
 
   typeName: {
-    singular: 'Call',
-    plural: 'Calls'
+    singular: t('in-forge:tracing.otel.indexName', { count: 1 }),
+    plural: t('in-forge:tracing.otel.indexName', { count: 2 })
   },
 
   detailView: 'OTelSpanDetailView',

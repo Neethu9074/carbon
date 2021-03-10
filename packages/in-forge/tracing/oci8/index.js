@@ -2,18 +2,17 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
-
-import { registerSpanDefinition } from 'in-sdk/tracing';
 import { shortenSqlStatement } from 'in-forge/tracing/jdbc/sql';
+import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'oci8',
   category: 'database',
 
   typeName: {
-    singular: 'OCI8 Call',
-    plural: 'OCI8 Calls'
+    singular: t('in-forge:tracing.oci8.indexName', { count: 1 }),
+    plural: t('in-forge:tracing.oci8.indexName', { count: 2 })
   },
 
   detailView: 'OCI8SpanDetailView',

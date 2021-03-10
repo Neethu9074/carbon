@@ -15,6 +15,7 @@ registerSpanDefinition({
     plural: t('in-forge:tracing.micronautHttp.indexName_plural')
   },
 
+
   detailView: 'MicronautHttpSpanDetailView',
 
   getLabel
