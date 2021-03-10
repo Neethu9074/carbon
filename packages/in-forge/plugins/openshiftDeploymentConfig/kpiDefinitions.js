@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'CPU Req.',
+    label: t('in-forge:plugins.openshiftDeploymentConfig.cpuReq'),
     metric: 'pods.required_cpu',
     formatter: resourceQuotaNumber
   },
   {
-    label: 'Memory Req.',
+    label: t('in-forge:plugins.openshiftDeploymentConfig.memoryReq'),
     metric: 'pods.required_mem',
     formatter: resourceQuotaBytes
   }

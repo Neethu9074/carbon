@@ -6,19 +6,20 @@ import React from 'react';
 
 import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessStartedAtDescriptionItem';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function OracleDBInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
-      <DescriptionItem title="Oracle SID">{data.get('databaseSID')}</DescriptionItem>
-      <DescriptionItem title="Port">{data.get('port')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oracleDB.version')}>{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oracleDB.oracleSid')}>{data.get('databaseSID')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oracleDB.port')}>{data.get('port')}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="CPU Count">{data.get('cpuCount')}</DescriptionItem>
-      <DescriptionItem title="Max Sessions">{data.get('maxSessions')}</DescriptionItem>
-      <DescriptionItem title="DB Block Size">{data.get('dbBlockSize')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oracleDB.cpuCount')}>{data.get('cpuCount')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oracleDB.maxSessions')}>{data.get('maxSessions')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.oracleDB.dbBlockSize')}>{data.get('dbBlockSize')}</DescriptionItem>
     </DescriptionList>
   );
 }

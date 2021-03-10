@@ -6,6 +6,7 @@ import kpiDefinitions from 'in-forge/plugins/oracleDB/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import metricDefinitions from './metricDefinitions';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.oracleDB,
@@ -13,6 +14,6 @@ registerSnapshotDefinition({
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {
-    label: 'OracleDB'
+    label: t('in-forge:plugins.oracleDB.oracleDb')
   }
 });

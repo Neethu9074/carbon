@@ -17,6 +17,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import TablespaceUsagesTable from './TablespaceUsagesTable.js';
+import { t } from 'in-i18n';
 
 export default function OracleDBDashboard({ snapshot, timeConfig }) {
   const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
@@ -26,20 +27,25 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title="DB Time per Second">
+      <DashboardSection title={t('in-forge:plugins.oracleDB.dbTimePerSecond')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: micros.detailed,
             metrics: ['stats.dbTime', 'stats.cpuTime', 'stats.sqlExecuteTime', 'stats.parseTime'],
-            labels: ['DB', 'DB CPU', 'SQL Execute', 'Parse'],
+            labels: [
+              t('in-forge:plugins.oracleDB.db'),
+              t('in-forge:plugins.oracleDB.dbCpu'),
+              t('in-forge:plugins.oracleDB.sqlExecute'),
+              t('in-forge:plugins.oracleDB.parse')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="DB / CPU Time">
+      <DashboardSection title={t('in-forge:plugins.oracleDB.dbSlashCpuTime')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -48,13 +54,13 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             max: 1,
             formatter: hitRateTwoDecimalPlaces,
             metrics: ['stats.cpuTimeDbTimeRatio'],
-            labels: ['Ratio'],
+            labels: [t('in-forge:plugins.oracleDB.ratio')],
             type: 'area'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Time Waited per Second">
+      <DashboardSection title={t('in-forge:plugins.oracleDB.timeWaitedPerSecond')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -75,56 +81,56 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
               'stats.timeWaited.queue'
             ],
             labels: [
-              'User I/O',
-              'Other',
-              'System I/O',
-              'Concurrency',
-              'Scheduler',
-              'Application',
-              'Commit',
-              'Configuration',
-              'Administrative',
-              'Network',
-              'Queueing'
+              t('in-forge:plugins.oracleDB.userIO'),
+              t('in-forge:plugins.oracleDB.other'),
+              t('in-forge:plugins.oracleDB.systemIO'),
+              t('in-forge:plugins.oracleDB.concurrency'),
+              t('in-forge:plugins.oracleDB.scheduler'),
+              t('in-forge:plugins.oracleDB.application'),
+              t('in-forge:plugins.oracleDB.commit'),
+              t('in-forge:plugins.oracleDB.configuration'),
+              t('in-forge:plugins.oracleDB.administrative'),
+              t('in-forge:plugins.oracleDB.network'),
+              t('in-forge:plugins.oracleDB.queueing')
             ],
             type: 'stackedArea'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="SQL Execution">
+      <DashboardSection title={t('in-forge:plugins.oracleDB.sqlExecution')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: number.compact,
             metrics: ['stats.sqlExecuteCount'],
-            labels: ['Count'],
+            labels: [t('in-forge:plugins.oracleDB.count')],
             type: 'line'
           }}
           y2={{
             formatter: micros.detailed,
             metrics: ['stats.averageSqlExecuteTime'],
-            labels: ['Average Time'],
+            labels: [t('in-forge:plugins.oracleDB.averageTime')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="SQL Parse Count">
+      <DashboardSection title={t('in-forge:plugins.oracleDB.sqlParseCount')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: number.compact,
             metrics: ['stats.hardParseCount', 'stats.totalParseCount'],
-            labels: ['Hard Parse', 'Total Parse'],
+            labels: [t('in-forge:plugins.oracleDB.hardParse'), t('in-forge:plugins.oracleDB.totalParse')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="SQL Parse Ratios">
+      <DashboardSection title={t('in-forge:plugins.oracleDB.sqlParseRatios')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -133,13 +139,13 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             max: 1,
             formatter: hitRateTwoDecimalPlaces,
             metrics: ['stats.softTotalParsesRatio', 'stats.executesWithoutParsesRatio'],
-            labels: ['Soft / Total', 'Without Parses'],
+            labels: [t('in-forge:plugins.oracleDB.softTotal'), t('in-forge:plugins.oracleDB.withoutParses')],
             type: 'area'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="User Calls Commits Rollbacks">
+      <DashboardSection title={t('in-forge:plugins.oracleDB.userCallsCommitsRollbacks')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -152,26 +158,32 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
               'stats.userRollbacks',
               'stats.userLogOns'
             ],
-            labels: ['User Calls', 'Recursive Calls', 'User Commits', 'User Rollbacks', 'User Log Ons'],
+            labels: [
+              t('in-forge:plugins.oracleDB.userCalls'),
+              t('in-forge:plugins.oracleDB.recursiveCalls'),
+              t('in-forge:plugins.oracleDB.userCommits'),
+              t('in-forge:plugins.oracleDB.userRollbacks'),
+              t('in-forge:plugins.oracleDB.userLogOns')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Physical and Session Logical Reads">
+      <DashboardSection title={t('in-forge:plugins.oracleDB.physicalAndSessionLogicalReads')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: number.compact,
             metrics: ['stats.physicalReads', 'stats.sessionLogicalReads'],
-            labels: ['Physical', 'Logical'],
+            labels: [t('in-forge:plugins.oracleDB.physical'), t('in-forge:plugins.oracleDB.logical')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Buffer Cache Hit">
+      <DashboardSection title={t('in-forge:plugins.oracleDB.bufferCacheHit')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -180,26 +192,30 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             max: 1,
             formatter: hitRateTwoDecimalPlaces,
             metrics: ['stats.bufferCacheHitRatio'],
-            labels: ['Ratio'],
+            labels: [t('in-forge:plugins.oracleDB.ratio')],
             type: 'area'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Sessions">
+      <DashboardSection title={t('in-forge:plugins.oracleDB.sessions')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
             formatter: number.compact,
             metrics: ['stats.activeUserSessions', 'stats.inactiveUserSessions', 'stats.backgroundSessions'],
-            labels: ['Active User', 'Inactive User', 'Background'],
+            labels: [
+              t('in-forge:plugins.oracleDB.activeUser'),
+              t('in-forge:plugins.oracleDB.inactiveUser'),
+              t('in-forge:plugins.oracleDB.background')
+            ],
             type: 'stackedArea'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title="Used Sessions Ratio">
+      <DashboardSection title={t('in-forge:plugins.oracleDB.usedSessionsRatio')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -208,7 +224,7 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
             max: 1,
             formatter: percentageTwoDecimalPlaces,
             metrics: ['stats.usedSessionsRatio'],
-            labels: ['Sessions / Session Limit'],
+            labels: [t('in-forge:plugins.oracleDB.sessionsSessionLimit')],
             type: 'area'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

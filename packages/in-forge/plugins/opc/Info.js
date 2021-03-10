@@ -5,6 +5,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
@@ -12,17 +13,19 @@ export default function Info({ snapshot }) {
   return (
     <div>
       <DescriptionList>
-        <DescriptionItem title="Name">{data.get('instance-name')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.opc.name')}>{data.get('instance-name')}</DescriptionItem>
 
-        <DescriptionItem title="Instance ID">{data.get('instance-id')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.opc.instanceId')}>{data.get('instance-id')}</DescriptionItem>
 
-        <DescriptionItem title="Type">{data.get('instance-type')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.opc.type')}>{data.get('instance-type')}</DescriptionItem>
 
-        <DescriptionItem title="Availability Zone">{data.get('availability-zone')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.opc.availabilityZone')}>
+          {data.get('availability-zone')}
+        </DescriptionItem>
 
-        <DescriptionItem title="Image">{data.get('image-id')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.opc.image')}>{data.get('image-id')}</DescriptionItem>
 
-        <DescriptionItem title="Compartment">{data.get('compartment-id')}</DescriptionItem>
+        <DescriptionItem title={t('in-forge:plugins.opc.compartment')}>{data.get('compartment-id')}</DescriptionItem>
       </DescriptionList>
     </div>
   );

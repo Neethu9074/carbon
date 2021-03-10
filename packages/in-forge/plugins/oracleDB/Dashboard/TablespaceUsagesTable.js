@@ -9,10 +9,11 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytes, percentage } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.oracleDB.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Used Space',
+    title: t('in-forge:plugins.oracleDB.usedSpace'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -37,7 +38,7 @@ const cols = [
     }
   },
   {
-    title: 'Max Size',
+    title: t('in-forge:plugins.oracleDB.maxSize'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -47,7 +48,7 @@ const cols = [
     }
   },
   {
-    title: 'Used Percent',
+    title: t('in-forge:plugins.oracleDB.usedPercent'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -63,7 +64,7 @@ const cols = [
     }
   },
   {
-    title: 'Autoextensible',
+    title: t('in-forge:plugins.oracleDB.autoextensible'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -95,7 +96,9 @@ export default function DatasourcesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Tablespaces (${rows.length})`}
+      cardTitle={t('in-forge:plugins.oracleDB.tablespacesWithCount', {
+        len: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -112,7 +115,7 @@ function getRowDetails(row) {
         y1={{
           formatter: bytes.detailed,
           metrics: ['stats.tablespaceStats.' + row.key + '.usedSpace'],
-          labels: ['Used Space'],
+          labels: [t('in-forge:plugins.oracleDB.usedSpace')],
           type: 'area'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -125,7 +128,7 @@ function getRowDetails(row) {
           max: 1,
           formatter: percentage.detailed,
           metrics: ['stats.tablespaceStats.' + row.key + '.usedPercent'],
-          labels: ['Used Percent'],
+          labels: [t('in-forge:plugins.oracleDB.usedPercent')],
           type: 'area'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}

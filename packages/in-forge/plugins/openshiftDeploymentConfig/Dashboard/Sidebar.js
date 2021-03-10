@@ -7,6 +7,7 @@ import React from 'react';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import ConditionsList from '../Sidebar/ConditionsList';
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function OpenshiftDeploymentConfigSidebar({ snapshot }) {
@@ -15,7 +16,9 @@ export default function OpenshiftDeploymentConfigSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Openshift DeploymentConfig</Collapsible.Header>
+        <Collapsible.Header>
+          {t('in-forge:plugins.openshiftDeploymentConfig.openshiftDeploymentConfig')}
+        </Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
@@ -24,10 +27,10 @@ export default function OpenshiftDeploymentConfigSidebar({ snapshot }) {
       <ConditionsList snapshot={snapshot} />
 
       <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>oc</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.openshiftDeploymentConfig.oc')}</Collapsible.Header>
         <Collapsible.Content>
           <DescriptionList>
-            <DescriptionItem title="describe">
+            <DescriptionItem title={t('in-forge:plugins.openshiftDeploymentConfig.describe')}>
               <code>
                 oc describe deploymentconfig -n {data.get('namespace')} {data.get('name')}
               </code>

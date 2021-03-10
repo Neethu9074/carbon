@@ -4,11 +4,17 @@
  */
 import { number, micros, millis, hitRate, percentage, bytes } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['stats.dbTime', 'stats.cpuTime', 'stats.sqlExecuteTime', 'stats.parseTime'],
-    labels: ['DB Time', 'DB CPU Time', 'SQL Execute Time', 'Parse Time'],
+    labels: [
+      t('in-forge:plugins.oracleDB.dbTime'),
+      t('in-forge:plugins.oracleDB.dbCpuTime'),
+      t('in-forge:plugins.oracleDB.sqlExecuteTime'),
+      t('in-forge:plugins.oracleDB.parseTime')
+    ],
     formatter: micros,
     min: 0
   },
@@ -16,7 +22,7 @@ export default [
     max: 1,
     formatter: hitRate,
     metrics: ['stats.cpuTimeDbTimeRatio'],
-    labels: ['DB CPU Time/DB Time Ratio'],
+    labels: [t('in-forge:plugins.oracleDB.dbCpuTimeDbTimeRatio')],
     min: 0
   },
   {
@@ -35,43 +41,46 @@ export default [
       'stats.timeWaited.queue'
     ],
     labels: [
-      'User I/O',
-      'Other',
-      'System I/O',
-      'Concurrency',
-      'Scheduler',
-      'Application',
-      'Commit',
-      'Configuration',
-      'Administrative',
-      'Network',
-      'Queueing'
+      t('in-forge:plugins.oracleDB.userIO'),
+      t('in-forge:plugins.oracleDB.other'),
+      t('in-forge:plugins.oracleDB.systemIO'),
+      t('in-forge:plugins.oracleDB.concurrency'),
+      t('in-forge:plugins.oracleDB.scheduler'),
+      t('in-forge:plugins.oracleDB.application'),
+      t('in-forge:plugins.oracleDB.commit'),
+      t('in-forge:plugins.oracleDB.configuration'),
+      t('in-forge:plugins.oracleDB.administrative'),
+      t('in-forge:plugins.oracleDB.network'),
+      t('in-forge:plugins.oracleDB.queueing')
     ],
     min: 0
   },
   {
     formatter: number,
     metrics: ['stats.sqlExecuteCount'],
-    labels: ['Sql Execute Count'],
+    labels: [t('in-forge:plugins.oracleDB.sqlExecuteCount')],
     min: 0
   },
   {
     formatter: micros,
     metrics: ['stats.averageSqlExecuteTime'],
-    labels: ['Average Sql Execution Time'],
+    labels: [t('in-forge:plugins.oracleDB.averageSqlExecutionTime')],
     min: 0
   },
   {
     formatter: number,
     metrics: ['stats.hardParseCount', 'stats.totalParseCount'],
-    labels: ['Hard Parse Count', 'Total Parse Count'],
+    labels: [t('in-forge:plugins.oracleDB.hardParseCount'), t('in-forge:plugins.oracleDB.totalParseCount')],
     min: 0
   },
   {
     max: 1,
     formatter: hitRate,
     metrics: ['stats.softTotalParsesRatio', 'stats.executesWithoutParsesRatio'],
-    labels: ['Soft/Total Parse Ratio', 'Executes Without Parses Ratio'],
+    labels: [
+      t('in-forge:plugins.oracleDB.softTotalParseRatio'),
+      t('in-forge:plugins.oracleDB.executesWithoutParsesRatio')
+    ],
     min: 0
   },
   {
@@ -83,47 +92,57 @@ export default [
       'stats.userRollbacks',
       'stats.userLogOns'
     ],
-    labels: ['User Calls', 'Recursive Calls', 'User Commits', 'User Rollbacks', 'User Log Ons'],
+    labels: [
+      t('in-forge:plugins.oracleDB.userCalls'),
+      t('in-forge:plugins.oracleDB.recursiveCalls'),
+      t('in-forge:plugins.oracleDB.userCommits'),
+      t('in-forge:plugins.oracleDB.userRollbacks'),
+      t('in-forge:plugins.oracleDB.userLogOns')
+    ],
     min: 0
   },
   {
     formatter: number,
     metrics: ['stats.physicalReads', 'stats.sessionLogicalReads'],
-    labels: ['Physical Reads', 'Session Logical Reads'],
+    labels: [t('in-forge:plugins.oracleDB.physicalReads'), t('in-forge:plugins.oracleDB.sessionLogicalReads')],
     min: 0
   },
   {
     max: 1,
     formatter: hitRate,
     metrics: ['stats.bufferCacheHitRatio'],
-    labels: ['Buffer Cache Hit Ratio'],
+    labels: [t('in-forge:plugins.oracleDB.bufferCacheHitRatio')],
     min: 0
   },
   {
     formatter: number,
     metrics: ['stats.activeUserSessions', 'stats.inactiveUserSessions', 'stats.backgroundSessions'],
-    labels: ['Active User Sessions', 'Inactive User Sessions', 'Background Sessions'],
+    labels: [
+      t('in-forge:plugins.oracleDB.activeUserSessions'),
+      t('in-forge:plugins.oracleDB.inactiveUserSessions'),
+      t('in-forge:plugins.oracleDB.backgroundSessions')
+    ],
     min: 0
   },
   {
     max: 1,
     formatter: percentage,
     metrics: ['stats.usedSessionsRatio'],
-    labels: ['Sessions/Session Limit'],
+    labels: [t('in-forge:plugins.oracleDB.sessionsSessionLimit')],
     min: 0
   },
   {
     formatter: bytes,
     metric: getDynamicMetricMatch('stats.tablespaceStats', 'usedSpace', 'Tablespace'),
-    label: 'Used Space',
-    category: ['Tablespaces'],
+    label: t('in-forge:plugins.oracleDB.usedSpace'),
+    category: [t('in-forge:plugins.oracleDB.tablespaces')],
     min: 0
   },
   {
     formatter: percentage,
     metric: getDynamicMetricMatch('stats.tablespaceStats', 'usedPercent', 'Tablespace'),
-    label: 'Used Percent',
-    category: ['Tablespaces'],
+    label: t('in-forge:plugins.oracleDB.usedPercent'),
+    category: [t('in-forge:plugins.oracleDB.tablespaces')],
     min: 0,
     max: 1
   }

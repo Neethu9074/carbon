@@ -5,19 +5,30 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function ConfigInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="DN">{data.get('config.dn')}</DescriptionItem>
-      <DescriptionItem title="CN">{data.get('config.cn')}</DescriptionItem>
-      <DescriptionItem title="Object Class">{data.get('config.objectClass')}</DescriptionItem>
-      <DescriptionItem title="Olc Args File">{data.get('config.olcArgsFile')}</DescriptionItem>
-      <DescriptionItem title="Olc Log Level">{data.get('config.olcLogLevel')}</DescriptionItem>
-      <DescriptionItem title="Olc Pid File">{data.get('config.olcPidFile')}</DescriptionItem>
-      <DescriptionItem title="Olc Tool Threads">{data.get('config.olcToolThreads')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.openLDAP.dn')}>{data.get('config.dn')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.openLDAP.cn')}>{data.get('config.cn')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.openLDAP.objectClass')}>
+        {data.get('config.objectClass')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.openLDAP.olcArgsFile')}>
+        {data.get('config.olcArgsFile')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.openLDAP.olcLogLevel')}>
+        {data.get('config.olcLogLevel')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.openLDAP.olcPidFile')}>
+        {data.get('config.olcPidFile')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.openLDAP.olcToolThreads')}>
+        {data.get('config.olcToolThreads')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

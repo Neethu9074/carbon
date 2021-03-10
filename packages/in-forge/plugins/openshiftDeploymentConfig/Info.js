@@ -6,13 +6,14 @@ import React from 'react';
 
 import createNamespaceForDeploymentConfigSubscription from 'in-subscription/namespaceForDeploymentConfig';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => {
@@ -28,21 +29,25 @@ export default connectTo(
       <div>
         <DescriptionList>
           {cluster ? (
-            <DescriptionItem title="Cluster">
+            <DescriptionItem title={t('in-forge:plugins.openshiftDeploymentConfig.cluster')}>
               <SnapshotLink snapshotId={cluster.get('id')}>{getLabel(cluster)}</SnapshotLink>
             </DescriptionItem>
           ) : null}
 
           {namespace ? (
-            <DescriptionItem title="Namespace">
+            <DescriptionItem title={t('in-forge:plugins.openshiftDeploymentConfig.namespace')}>
               <SnapshotLink snapshotId={namespace.get('id')}>{getLabel(namespace)}</SnapshotLink>
             </DescriptionItem>
           ) : (
-            <DescriptionItem title="Namespace">{data.get('namespace')}</DescriptionItem>
+            <DescriptionItem title={t('in-forge:plugins.openshiftDeploymentConfig.namespace')}>
+              {data.get('namespace')}
+            </DescriptionItem>
           )}
 
-          <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-          <KeyValueOverlay header="Labels" data={data.get('labels')} />
+          <DescriptionItem title={t('in-forge:plugins.openshiftDeploymentConfig.name')}>
+            {data.get('name')}
+          </DescriptionItem>
+          <KeyValueOverlay header={t('in-forge:plugins.openshiftDeploymentConfig.labels')} data={data.get('labels')} />
         </DescriptionList>
       </div>
     );
