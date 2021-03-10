@@ -69,7 +69,9 @@ export default connectTo({
 
   return (
     <Table
-      cardTitle={t('in-internal:monitoringUnit.infrastructureMetrics.filler.fillersRowLen', { rowslength: rows.length })}
+      cardTitle={t('in-internal:monitoringUnit.infrastructureMetrics.filler.fillersRowLen', {
+        rowslength: rows.length
+      })}
       cols={cols}
       rows={rows}
       maxItemsPerPage={200}
