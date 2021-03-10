@@ -11,7 +11,7 @@ import {
   bytesZeroDecimalPlaces,
   seconds
 } from 'in-services/formatters/number';
-import DBmarlinNotification from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotification';
+import DBmarlinNotificationMessage from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotificationMessage';
 import DatabasesTable from 'in-forge/plugins/postgreSqlDatabase/Dashboard/DatabasesTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -98,7 +98,7 @@ export default function PostgreSqlDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
       <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
-      <DBmarlinNotification />
+      <DBmarlinNotificationMessage />
     </div>
   );
 }

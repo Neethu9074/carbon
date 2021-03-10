@@ -1621,7 +1621,8 @@
         "readReplicaDb": "Read Replica DB",
         "replicaLag": "Replica lag",
         "volumeBytesUsed": "Volume Bytes Used",
-        "lookingForEvenDeeperDatabaseInsightsCheckOutOurIntegrationWithDBmarlin": "Looking for even deeper database insights? Check out our integration with <button><DBmarlin</button>",
+        "dbMarlinDatabaseInsights": "Looking for even deeper database insights?",
+        "dbMarlinCheckOutIntegration": "Check out our integration with DBmarlin!",
         "rdsInfo": "RDS Info"
       },
       "awsRds": "AWS RDS",
