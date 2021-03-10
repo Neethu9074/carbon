@@ -9,12 +9,13 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const missingValue = '/';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'Status',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.status'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -32,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: 'In Doubt',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.inDoubt'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -41,7 +42,7 @@ const cols = [
     }
   },
   {
-    title: 'Substate',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.substate'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -50,7 +51,7 @@ const cols = [
     }
   },
   {
-    title: 'Connection Name',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.connectionName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -59,7 +60,7 @@ const cols = [
     }
   },
   {
-    title: 'Remote Queue Manager',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.remoteQueueManager'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -68,7 +69,7 @@ const cols = [
     }
   },
   {
-    title: 'Last Message Date/Time',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.lastMessageDateTime'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -77,7 +78,7 @@ const cols = [
     }
   },
   {
-    title: 'Start Date/Time',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.startDateTime'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -108,6 +109,13 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Channels (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.ibmMqQueueManager.dashboard.channelsWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

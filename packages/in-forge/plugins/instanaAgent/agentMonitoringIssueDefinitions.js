@@ -4,6 +4,8 @@
  */
 import React from 'react';
 
+import { Trans, t } from 'in-i18n';
+
 // These configured Events might be related to the Agent itself, or generic Sensor issues that cannot be related to
 // a specific process on the host.
 export default {
@@ -12,13 +14,14 @@ export default {
       Component: function clrInstanaPcpNotRunning() {
         return (
           <span>
-            The InstanaPCP process seems not to be running on this host, which prevents the host agent from tracing .NET
-            applications.
+            {t(
+              'in-forge:plugins.instanaAgent.theInstanaPcpProcessSeemsNotToBeRunningOnThisHostWhichPreventsTheHostAgentFromTracingNetApplications'
+            )}
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/dot-net/#clr_instana_pcp_not_running`
   },
   clr_instana_pcp_not_connected: {
@@ -26,13 +29,14 @@ export default {
       Component: function clrInstanaPcpNotConnected() {
         return (
           <span>
-            The host agent cannot connect to the running InstanaPCP process, which prevents the host agent from tracing
-            .NET applications.
+            {t(
+              'in-forge:plugins.instanaAgent.theHostAgentCannotConnectToTheRunningInstanaPcpProcessWhichPreventsTheHostAgentFromTracingNetApplications'
+            )}
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/dot-net/#clr_instana_pcp_not_connected`
   },
   python_autotrace_prerequisites_failed: {
@@ -40,13 +44,14 @@ export default {
       Component: function pythonAutoTracePrerequisitesFailed() {
         return (
           <span>
-            The host agent is missing one or more prerequisites for enabling the Instana AutoTrace functionality. This
-            results in Python processes not being instrumented automatically.
+            {t(
+              'in-forge:plugins.instanaAgent.theHostAgentIsMissingOneOrMorePrerequisitesForEnablingTheInstanaAutoTraceFunctionality'
+            )}
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/python/troubleshooting/#python_autotrace_prerequisites_failed`
   },
   agent_process_lookup_prerequisites_failed: {
@@ -55,17 +60,15 @@ export default {
         const missing = Array.isArray(missingUtils) ? missingUtils.join(', ') : missingUtils;
         return (
           <span>
-            The lookup of which process is sending traces to this agent using trace endpoints like OpenTelemetry,
-            Jaeger, Zipkin or Web Trace SDK cannot be performed because the following utilities are missing:{' '}
-            <strong>
-              <code>{missing}</code>
-            </strong>
-            . Please refer to your Linux distribution docs on how to install these utilities.
+            <Trans
+              i18nKey="in-forge:plugins.instanaAgent.theLookupOfWhichProcessIsSendingTracesToThisAgentUsingTraceEndpoints"
+              values={{ missing: missing }}
+            />
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://www.instana.com/docs/setup_and_manage/host_agent`
   }
 };

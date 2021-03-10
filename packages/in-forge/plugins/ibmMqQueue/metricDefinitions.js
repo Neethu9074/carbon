@@ -3,48 +3,53 @@
  * (c) Copyright Instana Inc.
  */
 import { number, seconds, micros } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['maxQueueDepth', 'queueDepth'],
-    labels: ['Max Queue Depth', 'Current Queue Depth'],
+    labels: [t('in-forge:plugins.ibmMqQueue.maxQueueDepth'), t('in-forge:plugins.ibmMqQueue.currentQueueDepth')],
     min: 0,
-    category: ['Depth'],
+    category: [t('in-forge:plugins.ibmMqQueue.depth')],
     formatter: number
   },
   {
     metrics: ['messagesIn', 'messagesOut', 'uncommittedMessages'],
-    labels: ['Messages In', 'Messages Out', 'Uncommitted Messages'],
+    labels: [
+      t('in-forge:plugins.ibmMqQueue.messagesIn'),
+      t('in-forge:plugins.ibmMqQueue.messagesOut'),
+      t('in-forge:plugins.ibmMqQueue.uncommittedMessages')
+    ],
     min: 0,
-    category: ['Messages'],
+    category: [t('in-forge:plugins.ibmMqQueue.messages')],
     formatter: number
   },
   {
     metrics: ['oldestMessage'],
-    labels: ['Oldest Message'],
+    labels: [t('in-forge:plugins.ibmMqQueue.oldestMessage')],
     min: 0,
-    category: ['Message Time'],
+    category: [t('in-forge:plugins.ibmMqQueue.messageTime')],
     formatter: seconds
   },
   {
     metrics: ['onQueueMessageTime'],
-    labels: ['On Queue Message Time'],
+    labels: [t('in-forge:plugins.ibmMqQueue.onQueueMessageTime')],
     min: 0,
-    category: ['Message Time'],
+    category: [t('in-forge:plugins.ibmMqQueue.messageTime')],
     formatter: micros
   },
   {
     metrics: ['lastResetTime'],
-    labels: ['Last Reset Time'],
+    labels: [t('in-forge:plugins.ibmMqQueue.lastResetTime')],
     min: 0,
-    category: ['Reset'],
+    category: [t('in-forge:plugins.ibmMqQueue.reset')],
     formatter: seconds
   },
   {
     metrics: ['openInputCount', 'openOutputCount'],
-    labels: ['Open Input Count', 'Open Output Count'],
+    labels: [t('in-forge:plugins.ibmMqQueue.openInputCount'), t('in-forge:plugins.ibmMqQueue.openOutputCount')],
     min: 0,
-    category: ['Calls'],
+    category: [t('in-forge:plugins.ibmMqQueue.calls')],
     formatter: number
   }
 ];

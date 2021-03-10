@@ -17,12 +17,13 @@ import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './IssueList.mless';
 
 const cols = [
   {
-    title: 'On',
+    title: t('in-forge:plugins.instanaAgent.dashboard.on'),
     type: 'custom',
     typeArgs: {
       comparator: compareIgnoreCase,
@@ -45,7 +46,7 @@ const cols = [
     }
   },
   {
-    title: 'Code',
+    title: t('in-forge:plugins.instanaAgent.dashboard.code'),
     type: 'custom', // 'custom' because 'string' sets css 'break-word' which we don't want for the code
     typeArgs: {
       comparator: compareIgnoreCase,
@@ -58,7 +59,7 @@ const cols = [
     }
   },
   {
-    title: 'Description',
+    title: t('in-forge:plugins.instanaAgent.dashboard.description'),
     type: 'custom',
     typeArgs: {
       comparator: compareIgnoreCase,
@@ -78,7 +79,7 @@ const cols = [
     }
   },
   {
-    title: 'More info',
+    title: t('in-forge:plugins.instanaAgent.dashboard.moreInfo'),
     type: 'custom',
     width: 150,
     typeArgs: {
@@ -127,13 +128,13 @@ export default connectTo(
 
     return (
       <Table
-        cardTitle="Monitoring Issues"
+        cardTitle={t('in-forge:plugins.instanaAgent.dashboard.monitoringIssues')}
         withoutPadding
         cols={cols}
         rows={rows}
         initialSortColumn={0}
         initialSortDirection="desc"
-        noDataText="No issues found."
+        noDataText={t('in-forge:plugins.instanaAgent.dashboard.noIssuesFound')}
       />
     );
   }

@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'CPU Load',
+    label: t('in-forge:plugins.instanaAgent.cpuLoad'),
     metric: 'cpu.load',
     formatter: number.detailed
   },
   {
-    label: 'Memory Used',
+    label: t('in-forge:plugins.instanaAgent.memoryUsed'),
     metric: 'memory.used',
     formatter: bytesZeroDecimalPlaces
   }

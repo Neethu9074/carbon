@@ -10,10 +10,11 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Status',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.status'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Version',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.version'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Platform',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.platform'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -49,7 +50,7 @@ const cols = [
     }
   },
   {
-    title: 'Started At',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.startedAt'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -58,7 +59,7 @@ const cols = [
     }
   },
   {
-    title: 'Alternated At',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.alternatedAt'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -67,7 +68,7 @@ const cols = [
     }
   },
   {
-    title: 'Max Handles',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.maxHandles'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -77,7 +78,7 @@ const cols = [
     }
   },
   {
-    title: 'Connections',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.connections'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -114,6 +115,13 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Queue Managers (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.ibmMqCluster.dashboard.queueManagersWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

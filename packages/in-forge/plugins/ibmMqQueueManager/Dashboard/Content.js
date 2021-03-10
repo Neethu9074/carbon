@@ -13,6 +13,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function IbmMqQueueManagerDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -25,26 +26,26 @@ export default function IbmMqQueueManagerDashboard({ snapshot, timeConfig }) {
     <div>
       {getSensorConnectionStatus(snapshot)}
       <KpiSection>
-        <KpiKeyValue label="Connections">
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqQueueManager.dashboard.connections')}>
           <MetricValue snapshotId={snapshotId} metric="connectionCount" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Messages In">
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqQueueManager.dashboard.messagesIn')}>
           <MetricValue snapshotId={snapshotId} metric="messagesIn" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Connections">
+      <DashboardSection title={t('in-forge:plugins.ibmMqQueueManager.dashboard.connections')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             metrics: ['connectionCount'],
-            labels: ['Count'],
+            labels: [t('in-forge:plugins.ibmMqQueueManager.dashboard.count')],
             type: 'line',
             formatter: number.compact
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Messages">
+      <DashboardSection title={t('in-forge:plugins.ibmMqQueueManager.dashboard.messages')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -52,7 +53,11 @@ export default function IbmMqQueueManagerDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`messagesIn`, `messagesOut`, `uncommittedMessages`],
-            labels: ['In', 'Out', 'Uncommitted'],
+            labels: [
+              t('in-forge:plugins.ibmMqQueueManager.dashboard.in'),
+              t('in-forge:plugins.ibmMqQueueManager.dashboard.out'),
+              t('in-forge:plugins.ibmMqQueueManager.dashboard.uncommitted')
+            ],
             type: 'line'
           }}
         />

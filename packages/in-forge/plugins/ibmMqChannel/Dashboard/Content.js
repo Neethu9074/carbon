@@ -9,20 +9,21 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function IbmMqChannelDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Messages Sent">
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqChannel.dashboard.messagesSent')}>
           <MetricValue snapshotId={snapshotId} metric="messagesSent" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Messages Available">
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqChannel.dashboard.messagesAvailable')}>
           <MetricValue snapshotId={snapshotId} metric="messagesAvailable" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Messages">
+      <DashboardSection title={t('in-forge:plugins.ibmMqChannel.dashboard.messages')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -30,12 +31,15 @@ export default function IbmMqChannelDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`messagesSent`, `messagesAvailable`],
-            labels: ['Sent/Received', 'Available'],
+            labels: [
+              t('in-forge:plugins.ibmMqChannel.dashboard.sentReceived'),
+              t('in-forge:plugins.ibmMqChannel.dashboard.available')
+            ],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Sequence Number">
+      <DashboardSection title={t('in-forge:plugins.ibmMqChannel.dashboard.sequenceNumber')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -43,12 +47,15 @@ export default function IbmMqChannelDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`sequenceNumberCurrent`, `sequenceNumberLast`],
-            labels: ['Current', 'Last'],
+            labels: [
+              t('in-forge:plugins.ibmMqChannel.dashboard.current'),
+              t('in-forge:plugins.ibmMqChannel.dashboard.last')
+            ],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Buffers">
+      <DashboardSection title={t('in-forge:plugins.ibmMqChannel.dashboard.buffers')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -56,7 +63,10 @@ export default function IbmMqChannelDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`buffersSent`, `buffersReceived`],
-            labels: ['Sent', 'Received'],
+            labels: [
+              t('in-forge:plugins.ibmMqChannel.dashboard.sent'),
+              t('in-forge:plugins.ibmMqChannel.dashboard.received')
+            ],
             type: 'line'
           }}
         />

@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'Messages Sent/Received',
+    label: t('in-forge:plugins.ibmMqChannel.messagesSentReceived'),
     metric: 'messagesSent',
     formatter: number.compact
   },
   {
-    label: 'Messages Available',
+    label: t('in-forge:plugins.ibmMqChannel.messagesAvailable'),
     metric: 'messagesAvailable',
     formatters: number.compact
   }

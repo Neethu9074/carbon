@@ -9,12 +9,13 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const missingValue = '/';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -23,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: 'Application',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.application'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -32,7 +33,7 @@ const cols = [
     }
   },
   {
-    title: 'Channel',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.channel'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -41,7 +42,7 @@ const cols = [
     }
   },
   {
-    title: 'Connection',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.connection'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -50,7 +51,7 @@ const cols = [
     }
   },
   {
-    title: 'Handle State',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.handleState'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -59,7 +60,7 @@ const cols = [
     }
   },
   {
-    title: 'User',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.user'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -90,6 +91,13 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Queues Usage (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.ibmMqQueueManager.dashboard.queuesUsageWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

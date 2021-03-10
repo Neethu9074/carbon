@@ -5,13 +5,14 @@
 import React from 'react';
 
 import { loadRawAgentConfiguration } from 'in-forge/plugins/instanaAgent/selfMonitoring';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
+import { t } from 'in-i18n';
 
 import locals from './AgentConfiguration.mless';
 
@@ -24,14 +25,16 @@ export default connectTo(
     return (
       <Dialog
         className={locals.dialog}
-        title="Agent Configuration"
+        title={t('in-forge:plugins.instanaAgent.dashboard.agentConfiguration')}
         renderCustomCloseBehaviour={() => header}
         onClose={close}
       >
         {!response && <LoadingIndicator />}
 
         {response && response.error && (
-          <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>
+          <DashboardNotification type="danger">
+            {t('in-forge:plugins.instanaAgent.dashboard.error', { error: response.error })}
+          </DashboardNotification>
         )}
 
         {response && <Code code={response.data} showLineNumbers={false} id={codeTargetId} lang="yaml" />}

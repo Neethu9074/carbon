@@ -10,10 +10,11 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Queue Manager',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.queueManager'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -31,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: 'Type',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.type'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -40,7 +41,7 @@ const cols = [
     }
   },
   {
-    title: 'Alternated At',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.alternatedAt'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -49,7 +50,7 @@ const cols = [
     }
   },
   {
-    title: 'Messages',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.messages'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -65,7 +66,7 @@ const cols = [
     }
   },
   {
-    title: 'Publishers',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.publishers'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -81,7 +82,7 @@ const cols = [
     }
   },
   {
-    title: 'Subscriptions',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.subscriptions'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -118,6 +119,13 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Topics (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.ibmMqCluster.dashboard.topicsWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

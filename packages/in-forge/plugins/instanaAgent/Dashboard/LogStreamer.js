@@ -11,6 +11,7 @@ import { sanitize, ansiToHtml, replaceHtmlChars } from 'in-services/formatters/h
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import Toggle from 'in-components/form/Toggle';
+import { t } from 'in-i18n';
 
 import locals from './LogStreamer.mless';
 
@@ -129,13 +130,15 @@ export default class extends React.PureComponent {
     return (
       <Fragment>
         {this.state.error != null ? (
-          <DashboardNotification type="danger">Error: {this.state.error}</DashboardNotification>
+          <DashboardNotification type="danger">
+            {t('in-forge:plugins.instanaAgent.dashboard.error', { error: this.state.error })}
+          </DashboardNotification>
         ) : null}
 
         <CopyToClipboardButton kind="secondary" size="compact" targetId={logStreamTargetId} />
 
         <label htmlFor="set-auto-scroll" className={locals.autoScroll}>
-          Automatically scroll to bottom on log change:
+          {t('in-forge:plugins.instanaAgent.dashboard.automaticallyScrollToBottomOnLogChange')}
           <Toggle
             onChange={e => this.setState({ scrollToBottomOnChange: e.target.checked })}
             checked={this.state.scrollToBottomOnChange}

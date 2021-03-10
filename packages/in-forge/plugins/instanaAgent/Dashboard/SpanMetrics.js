@@ -9,11 +9,12 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
     id: 'pid',
-    title: 'PID',
+    title: t('in-forge:plugins.instanaAgent.dashboard.pid'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +24,7 @@ const cols = [
   },
   {
     id: 'so',
-    title: 'Spans Opened',
+    title: t('in-forge:plugins.instanaAgent.dashboard.spansOpened'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -41,7 +42,7 @@ const cols = [
   },
   {
     id: 'sc',
-    title: 'Spans Closed',
+    title: t('in-forge:plugins.instanaAgent.dashboard.spansClosed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -59,7 +60,7 @@ const cols = [
   },
   {
     id: 'sf',
-    title: 'Spans Filtered',
+    title: t('in-forge:plugins.instanaAgent.dashboard.spansFiltered'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -77,7 +78,7 @@ const cols = [
   },
   {
     id: 'sd',
-    title: 'Spans Dropped',
+    title: t('in-forge:plugins.instanaAgent.dashboard.spansDropped'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -109,7 +110,7 @@ export default function SpanMetrics({ snapshot, timeConfig }) {
 
   return (
     <Table
-      cardTitle="Span Metrics"
+      cardTitle={t('in-forge:plugins.instanaAgent.dashboard.spanMetrics')}
       withoutPadding
       cols={cols}
       rows={rows}
@@ -133,7 +134,12 @@ function getRowDetails(row) {
           'pid.' + row.key + '.sf',
           'pid.' + row.key + '.sd'
         ],
-        labels: ['Opened', 'Closed', 'Filtered', 'Dropped'],
+        labels: [
+          t('in-forge:plugins.instanaAgent.dashboard.opened'),
+          t('in-forge:plugins.instanaAgent.dashboard.closed'),
+          t('in-forge:plugins.instanaAgent.dashboard.filtered'),
+          t('in-forge:plugins.instanaAgent.dashboard.dropped')
+        ],
         type: 'line'
       }}
       y2={{
@@ -141,7 +147,7 @@ function getRowDetails(row) {
         max: 1,
         formatter: number.detailed,
         metrics: ['pid.' + row.key + '.fr'],
-        labels: ['Filter Rate'],
+        labels: [t('in-forge:plugins.instanaAgent.dashboard.filterRate')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

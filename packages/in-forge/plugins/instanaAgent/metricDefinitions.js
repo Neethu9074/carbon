@@ -3,47 +3,53 @@
  * (c) Copyright Instana Inc.
  */
 import { number, bytes } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['cpu.load'],
-    labels: ['Load'],
+    labels: [t('in-forge:plugins.instanaAgent.load')],
     min: 0,
-    category: ['CPU'],
+    category: [t('in-forge:plugins.instanaAgent.cpu')],
     formatter: number
   },
   {
     metrics: ['memory.used'],
-    labels: ['Used'],
+    labels: [t('in-forge:plugins.instanaAgent.used')],
     min: 0,
     getMax(snapshot) {
       return snapshot.getIn(['data', 'memory.total']);
     },
-    category: ['Memory'],
+    category: [t('in-forge:plugins.instanaAgent.memory')],
     formatter: bytes
   },
   {
     metrics: ['memory.nativeUsed'],
-    labels: ['Native Used'],
+    labels: [t('in-forge:plugins.instanaAgent.nativeUsed')],
     min: 0,
     getMax(snapshot) {
       return snapshot.getIn(['data', 'memory.nativeTotal']);
     },
-    category: ['Memory'],
+    category: [t('in-forge:plugins.instanaAgent.memory')],
     formatter: bytes
   },
   {
     metrics: ['net.rx', 'net.tx'],
-    labels: ['Received', 'Sent'],
+    labels: [t('in-forge:plugins.instanaAgent.received'), t('in-forge:plugins.instanaAgent.sent')],
     min: 0,
-    category: ['Network'],
+    category: [t('in-forge:plugins.instanaAgent.network')],
     formatter: bytes
   },
   {
     metrics: ['sensors.time', 'discovery.time', 'sensors.count', 'discovery.count'],
-    labels: ['Sensor time', 'Discovery time', 'Sensor Count', 'Discovery Count'],
+    labels: [
+      t('in-forge:plugins.instanaAgent.sensorTime'),
+      t('in-forge:plugins.instanaAgent.discoveryTime'),
+      t('in-forge:plugins.instanaAgent.sensorCount'),
+      t('in-forge:plugins.instanaAgent.discoveryCount')
+    ],
     min: 0,
-    category: ['Sensors'],
+    category: [t('in-forge:plugins.instanaAgent.sensors')],
     formatter: number
   }
 ];

@@ -9,10 +9,11 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Status',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.status'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Port',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.port'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -39,7 +40,7 @@ const cols = [
     }
   },
   {
-    title: 'IP Address',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.ipAddress'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -48,7 +49,7 @@ const cols = [
     }
   },
   {
-    title: 'Started At',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.startedAt'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -57,7 +58,7 @@ const cols = [
     }
   },
   {
-    title: 'QM Name',
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.qmName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -87,6 +88,13 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Listeners (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.ibmMqCluster.dashboard.listenersWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

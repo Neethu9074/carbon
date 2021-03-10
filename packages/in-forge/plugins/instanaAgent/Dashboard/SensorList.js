@@ -4,15 +4,16 @@
  */
 import React from 'react';
 
-import connectTo from 'in-hoc/connectTo';
+import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
+import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.instanaAgent.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Usage Count',
+    title: t('in-forge:plugins.instanaAgent.dashboard.usageCount'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -60,7 +61,12 @@ export default connectTo(
 
     return (
       <Table
-        cardTitle={<TimeOfLastUpdateCardTitle title="Sensor List" timestamp={data.get('timestamp')} />}
+        cardTitle={
+          <TimeOfLastUpdateCardTitle
+            title={t('in-forge:plugins.instanaAgent.dashboard.sensorList')}
+            timestamp={data.get('timestamp')}
+          />
+        }
         withoutPadding
         cols={cols}
         rows={rows}

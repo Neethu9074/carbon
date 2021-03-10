@@ -9,20 +9,21 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { seconds, micros, number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Queue Depth">
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqQueue.dashboard.queueDepth')}>
           <MetricValue snapshotId={snapshotId} metric="queueDepth" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Oldest Message">
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqQueue.dashboard.oldestMessage')}>
           <MetricValue snapshotId={snapshotId} metric="oldestMessage" formatter={seconds.fixedCompact} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Depth">
+      <DashboardSection title={t('in-forge:plugins.ibmMqQueue.dashboard.depth')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -30,12 +31,15 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`maxQueueDepth`, `queueDepth`],
-            labels: ['Max', 'Current'],
+            labels: [
+              t('in-forge:plugins.ibmMqQueue.dashboard.max'),
+              t('in-forge:plugins.ibmMqQueue.dashboard.current')
+            ],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Messages">
+      <DashboardSection title={t('in-forge:plugins.ibmMqQueue.dashboard.messages')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -43,12 +47,16 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`messagesIn`, `messagesOut`, `uncommittedMessages`],
-            labels: ['In', 'Out', 'Uncommitted'],
+            labels: [
+              t('in-forge:plugins.ibmMqQueue.dashboard.in'),
+              t('in-forge:plugins.ibmMqQueue.dashboard.out'),
+              t('in-forge:plugins.ibmMqQueue.dashboard.uncommitted')
+            ],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Message Time">
+      <DashboardSection title={t('in-forge:plugins.ibmMqQueue.dashboard.messageTime')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -56,19 +64,19 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
             formatter: seconds.fixedCompact,
             tooltipFormatter: seconds.fixedCompacts,
             metrics: [`oldestMessage`],
-            labels: ['Oldest'],
+            labels: [t('in-forge:plugins.ibmMqQueue.dashboard.oldest')],
             type: 'line'
           }}
           y2={{
             formatter: micros.compact,
             tooltipFormatter: micros.compact,
             metrics: [`onQueueMessageTime`],
-            labels: ['On Queue'],
+            labels: [t('in-forge:plugins.ibmMqQueue.dashboard.onQueue')],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Reset">
+      <DashboardSection title={t('in-forge:plugins.ibmMqQueue.dashboard.reset')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -76,12 +84,12 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
             formatter: seconds.fixedCompact,
             tooltipFormatter: seconds.fixedCompact,
             metrics: [`lastResetTime`],
-            labels: ['Last'],
+            labels: [t('in-forge:plugins.ibmMqQueue.dashboard.last')],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title="Calls">
+      <DashboardSection title={t('in-forge:plugins.ibmMqQueue.dashboard.calls')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -89,7 +97,10 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`openInputCount`, `openOutputCount`],
-            labels: ['Open Inputs', 'Open Outputs'],
+            labels: [
+              t('in-forge:plugins.ibmMqQueue.dashboard.openInputs'),
+              t('in-forge:plugins.ibmMqQueue.dashboard.openOutputs')
+            ],
             type: 'line'
           }}
         />

@@ -4,15 +4,16 @@
  */
 import React from 'react';
 
-import connectTo from 'in-hoc/connectTo';
+import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { nanos, number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
+import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Operation',
+    title: t('in-forge:plugins.instanaAgent.dashboard.operation'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +25,7 @@ const cols = [
     }
   },
   {
-    title: 'Count',
+    title: t('in-forge:plugins.instanaAgent.dashboard.count'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -34,7 +35,7 @@ const cols = [
     }
   },
   {
-    title: 'Slow',
+    title: t('in-forge:plugins.instanaAgent.dashboard.slow'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -44,7 +45,7 @@ const cols = [
     }
   },
   {
-    title: 'Min',
+    title: t('in-forge:plugins.instanaAgent.dashboard.min'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Avg',
+    title: t('in-forge:plugins.instanaAgent.dashboard.avg'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -64,7 +65,7 @@ const cols = [
     }
   },
   {
-    title: 'Max',
+    title: t('in-forge:plugins.instanaAgent.dashboard.max'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -119,7 +120,12 @@ export default connectTo(
 
     return (
       <Table
-        cardTitle={<TimeOfLastUpdateCardTitle title="Sensor timings (30s window)" timestamp={data.get('timestamp')} />}
+        cardTitle={
+          <TimeOfLastUpdateCardTitle
+            title={t('in-forge:plugins.instanaAgent.dashboard.sensorTimings30SWindow')}
+            timestamp={data.get('timestamp')}
+          />
+        }
         withoutPadding
         cols={cols}
         rows={rows}

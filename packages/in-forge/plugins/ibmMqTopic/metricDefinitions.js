@@ -3,34 +3,35 @@
  * (c) Copyright Instana Inc.
  */
 import { number, seconds } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['messagesCount'],
-    labels: ['Count'],
+    labels: [t('in-forge:plugins.ibmMqTopic.count')],
     min: 0,
-    category: ['Messages'],
+    category: [t('in-forge:plugins.ibmMqTopic.messages')],
     formatter: number
   },
   {
     metrics: ['publishCount'],
-    labels: ['Count'],
+    labels: [t('in-forge:plugins.ibmMqTopic.count')],
     min: 0,
-    category: ['Publishers'],
+    category: [t('in-forge:plugins.ibmMqTopic.publishers')],
     formatter: number
   },
   {
     metrics: ['lastResetTime'],
-    labels: ['Last Reset Time'],
+    labels: [t('in-forge:plugins.ibmMqTopic.lastResetTime')],
     min: 0,
-    category: ['Reset'],
+    category: [t('in-forge:plugins.ibmMqTopic.reset')],
     formatter: seconds
   },
   {
     metrics: ['subscriptionCount'],
-    labels: ['Count'],
+    labels: [t('in-forge:plugins.ibmMqTopic.count')],
     min: 0,
-    category: ['Subscriptions'],
+    category: [t('in-forge:plugins.ibmMqTopic.subscriptions')],
     formatter: number
   }
 ];

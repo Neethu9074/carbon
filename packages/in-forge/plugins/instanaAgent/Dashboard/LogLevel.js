@@ -10,13 +10,14 @@ import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
 import { isInstanaEngineer } from 'in-stores/user';
 import Select from 'in-components/form/Select';
-import Label from 'in-components/form/Label';
 import Button from 'in-new-components/Button';
+import Label from 'in-components/form/Label';
+import { Trans, t } from 'in-i18n';
 
 import locals from './LogLevel.mless';
 
 export default class extends React.Component {
-  static displayName = 'Log Level';
+  static displayName = t('in-forge:plugins.instanaAgent.dashboard.logLevel');
 
   state = {
     level: null
@@ -33,14 +34,20 @@ export default class extends React.Component {
     const currentLevel = this.props.snapshot.getIn(['data', 'loglevel']);
 
     return (
-      <Dialog title="Change Agent Log Level" onClose={close} className={locals.dialog}>
+      <Dialog
+        title={t('in-forge:plugins.instanaAgent.dashboard.changeAgentLogLevel')}
+        onClose={close}
+        className={locals.dialog}
+      >
         <p>
-          Change the logging level of this agent. Currently, this agent is running the log level{' '}
-          <strong>{currentLevel}</strong>. Log level changes become active within a few seconds.
+          <Trans
+            i18nKey="in-forge:plugins.instanaAgent.dashboard.changeTheLoggingLevelOfThisAgent"
+            values={{ currentLevel: currentLevel }}
+          />
         </p>
 
         <FormGroup>
-          <Label htmlFor="agent-loglevel">Log Level</Label>
+          <Label htmlFor="agent-loglevel">{t('in-forge:plugins.instanaAgent.dashboard.logLevel')}</Label>
 
           <Select
             id="agent-loglevel"
@@ -48,15 +55,18 @@ export default class extends React.Component {
             onChange={e => this.setState({ level: e.target.value })}
             autoFocus
           >
-            <option value="INFO">INFO</option>
-            <option value="DEBUG">DEBUG</option>
-            {isInstanaEngineer ? <option value="TRACE">TRACE</option> : null};
+            <option value="INFO">{t('in-forge:plugins.instanaAgent.dashboard.info2')}</option>
+            <option value="DEBUG">{t('in-forge:plugins.instanaAgent.dashboard.debug')}</option>
+            {isInstanaEngineer ? (
+              <option value="TRACE">{t('in-forge:plugins.instanaAgent.dashboard.trace')}</option>
+            ) : null}
+            ;
           </Select>
         </FormGroup>
 
         <div>
           <Button kind="create" onClick={this.switchLogLevel}>
-            Change Log Level
+            {t('in-forge:plugins.instanaAgent.dashboard.changeLogLevel')}
           </Button>
         </div>
       </Dialog>

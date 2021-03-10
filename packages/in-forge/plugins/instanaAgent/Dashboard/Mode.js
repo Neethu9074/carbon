@@ -10,8 +10,9 @@ import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
-import Label from 'in-components/form/Label';
 import Button from 'in-new-components/Button';
+import Label from 'in-components/form/Label';
+import { Trans, t } from 'in-i18n';
 
 import locals from './Mode.mless';
 
@@ -33,14 +34,20 @@ export default class extends React.Component {
     const currentMode = this.props.snapshot.getIn(['data', 'mode']);
 
     return (
-      <Dialog title="Change Agent Mode" onClose={close} className={locals.dialog}>
+      <Dialog
+        title={t('in-forge:plugins.instanaAgent.dashboard.changeAgentMode')}
+        onClose={close}
+        className={locals.dialog}
+      >
         <p>
-          Change the monitoring detail level of this agent. Currently, this agent is running in the{' '}
-          <strong>{modes[currentMode]}</strong> mode. Mode changes become active within a few seconds.
+          <Trans
+            i18nKey="in-forge:plugins.instanaAgent.dashboard.changeTheMonitoringDetailLevelOfThisAgent"
+            values={{ currentMode: modes[currentMode] }}
+          />
         </p>
 
         <FormGroup>
-          <Label htmlFor="agent-mode">Mode</Label>
+          <Label htmlFor="agent-mode">{t('in-forge:plugins.instanaAgent.dashboard.mode')}</Label>
 
           <Select
             id="agent-mode"
@@ -56,7 +63,7 @@ export default class extends React.Component {
 
         <div>
           <Button kind="create" onClick={this.switchMode}>
-            Change Mode
+            {t('in-forge:plugins.instanaAgent.dashboard.changeMode')}
           </Button>
         </div>
       </Dialog>

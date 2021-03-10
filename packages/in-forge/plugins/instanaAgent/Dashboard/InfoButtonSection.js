@@ -13,6 +13,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 import locals from './InfoButtonSection.mless';
 
@@ -23,7 +24,7 @@ function DownloadButton({ supportsLogsDownload, snapshot }) {
       disabled={!supportsLogsDownload}
       onClick={() => addActiveDialog(<LogsDownloadList snapshot={snapshot} />)}
     >
-      Download Logs
+      {t('in-forge:plugins.instanaAgent.dashboard.downloadLogs')}
     </ImageButton>
   );
 
@@ -33,7 +34,7 @@ function DownloadButton({ supportsLogsDownload, snapshot }) {
     return (
       <Tooltip
         align="topMiddle"
-        content="This agent does not support log download. Upgrade to the latest Agent (bundle version 1.1.573) to be able to remotely download log files."
+        content={t('in-forge:plugins.instanaAgent.dashboard.thisAgentDoesNotSupportLogDownload')}
       >
         {downloadButton}
       </Tooltip>
@@ -50,14 +51,14 @@ export default connectTo({
   return (
     <div className={locals.wrapper}>
       <ImageButton iconType="lib_actions_copy" onClick={() => addActiveDialog(<SensorsInfo snapshot={snapshot} />)}>
-        Sensors Info
+        {t('in-forge:plugins.instanaAgent.dashboard.sensorsInfo')}
       </ImageButton>
       {isInternalVisible && (
         <ImageButton
           iconType="lib_kubernetes_spec"
           onClick={() => addActiveDialog(<AgentConfiguration snapshot={snapshot} />)}
         >
-          Agent Configuration
+          {t('in-forge:plugins.instanaAgent.dashboard.agentConfiguration')}
         </ImageButton>
       )}
       {role.canConfigureAgents && <DownloadButton supportsLogsDownload={supportsLogsDownload} snapshot={snapshot} />}

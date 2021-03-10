@@ -8,6 +8,7 @@ import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/Desc
 import { formatDateTime, fromNowAccurately } from 'in-services/formatters/date';
 import { modes, logLevels } from 'in-forge/plugins/instanaAgent/modes';
 import { emptyMap } from 'in-services/fixedImmutables';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
@@ -19,21 +20,27 @@ export default function Info({ snapshot }) {
 
   return (
     <DescriptionList>
-      {agentVersion && <DescriptionItem title="Agent Version">{agentVersion}</DescriptionItem>}
-      <DescriptionItem title="Boot Version">{data.get('boot')}</DescriptionItem>
-      {origin && <DescriptionItem title="Origin">{origin}</DescriptionItem>}
-      {updateMode && <DescriptionItem title="Update Mode">{updateMode}</DescriptionItem>}
-      <DescriptionItem title="Log Level">{logLevels[data.get('loglevel')]}</DescriptionItem>
-      <DescriptionItem title="Mode">{modes[data.get('mode')]}</DescriptionItem>
-      <DescriptionItem title="Java Runtime">
+      {agentVersion && (
+        <DescriptionItem title={t('in-forge:plugins.instanaAgent.agentVersion')}>{agentVersion}</DescriptionItem>
+      )}
+      <DescriptionItem title={t('in-forge:plugins.instanaAgent.bootVersion')}>{data.get('boot')}</DescriptionItem>
+      {origin && <DescriptionItem title={t('in-forge:plugins.instanaAgent.origin')}>{origin}</DescriptionItem>}
+      {updateMode && (
+        <DescriptionItem title={t('in-forge:plugins.instanaAgent.updateMode')}>{updateMode}</DescriptionItem>
+      )}
+      <DescriptionItem title={t('in-forge:plugins.instanaAgent.logLevel')}>
+        {logLevels[data.get('loglevel')]}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.instanaAgent.mode')}>{modes[data.get('mode')]}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.instanaAgent.javaRuntime')}>
         {java.get('vmvendor')} {java.get('vmname') && `(${java.get('vmname')})`}
       </DescriptionItem>
-      <DescriptionItem title="Java Version">
+      <DescriptionItem title={t('in-forge:plugins.instanaAgent.javaVersion')}>
         {java.get('version')} {java.get('vmversion')}
       </DescriptionItem>
-      <DescriptionItem title="User">{data.get('user')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.instanaAgent.user')}>{data.get('user')}</DescriptionItem>
       {startedAt != null && (
-        <DescriptionItem title="Started At">
+        <DescriptionItem title={t('in-forge:plugins.instanaAgent.startedAt')}>
           {formatDateTime(startedAt)} ({fromNowAccurately(startedAt)})
         </DescriptionItem>
       )}

@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['openInputs', 'openOutputs'],
-    labels: ['Open Inputs', 'Open Outputs'],
+    labels: [t('in-forge:plugins.ibmMqQueueUsage.openInputs'), t('in-forge:plugins.ibmMqQueueUsage.openOutputs')],
     min: 0,
-    category: ['Open Inputs/Outputs'],
+    category: [t('in-forge:plugins.ibmMqQueueUsage.openInputsOutputs')],
     formatter: number
   }
 ];

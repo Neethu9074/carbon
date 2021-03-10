@@ -3,27 +3,28 @@
  * (c) Copyright Instana Inc.
  */
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['messagesSent', 'messagesAvailable'],
-    labels: ['Sent/Received', 'Available'],
+    labels: [t('in-forge:plugins.ibmMqChannel.sentReceived'), t('in-forge:plugins.ibmMqChannel.available')],
     min: 0,
-    category: ['Messages'],
+    category: [t('in-forge:plugins.ibmMqChannel.messages')],
     formatter: number
   },
   {
     metrics: ['sequenceNumberCurrent', 'sequenceNumberLast'],
-    labels: ['Current', 'Last'],
+    labels: [t('in-forge:plugins.ibmMqChannel.current'), t('in-forge:plugins.ibmMqChannel.last')],
     min: 0,
-    category: ['Sequence Number'],
+    category: [t('in-forge:plugins.ibmMqChannel.sequenceNumber')],
     formatter: number
   },
   {
     metrics: ['buffersSent', 'buffersReceived'],
-    labels: ['Sent', 'Received'],
+    labels: [t('in-forge:plugins.ibmMqChannel.sent'), t('in-forge:plugins.ibmMqChannel.received')],
     min: 0,
-    category: ['Buffers'],
+    category: [t('in-forge:plugins.ibmMqChannel.buffers')],
     formatter: number
   }
 ];

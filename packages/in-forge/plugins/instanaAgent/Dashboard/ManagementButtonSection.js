@@ -12,6 +12,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Mode from 'in-forge/plugins/instanaAgent/Dashboard/Mode';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 import locals from './ManagementButtonSection.mless';
 
@@ -24,7 +25,7 @@ export default connectTo(
       <div className={locals.wrapper}>
         {role.canConfigureAgentRunMode ? (
           <ImageButton iconType="lib_actions_settings" onClick={() => addActiveDialog(<Mode snapshot={snapshot} />)}>
-            Change Agent Mode
+            {t('in-forge:plugins.instanaAgent.dashboard.changeAgentMode')}
           </ImageButton>
         ) : null}
 
@@ -33,32 +34,32 @@ export default connectTo(
             iconType="lib_actions_settings"
             onClick={() => addActiveDialog(<LogLevel snapshot={snapshot} />)}
           >
-            Change Log Level
+            {t('in-forge:plugins.instanaAgent.dashboard.changeLogLevel')}
           </ImageButton>
         ) : null}
 
         {role.canConfigureAgents ? (
           <ImageButton iconType="lib_actions_refresh" onClick={() => updateAgent(snapshot)}>
-            Update Agent
+            {t('in-forge:plugins.instanaAgent.dashboard.updateAgent')}
           </ImageButton>
         ) : null}
 
         {isInternalVisible && role.canConfigureAgents ? (
           // Resetting the sensors is a feature that we almost never use, restrict it to instana engineer
           <ImageButton iconType="lib_actions_refresh" onClick={() => resetSensors(snapshot)}>
-            Reset Sensors
+            {t('in-forge:plugins.instanaAgent.dashboard.resetSensors')}
           </ImageButton>
         ) : null}
 
         {role.canConfigureAgents ? (
           <ImageButton iconType="lib_actions_refresh" onClick={() => resetAgent(snapshot)}>
-            Reset Agent
+            {t('in-forge:plugins.instanaAgent.dashboard.resetAgent')}
           </ImageButton>
         ) : null}
 
         {role.canConfigureAgents ? (
           <ImageButton iconType="lib_actions_refresh" onClick={() => rebootAgent(snapshot)}>
-            Reboot Agent
+            {t('in-forge:plugins.instanaAgent.dashboard.rebootAgent')}
           </ImageButton>
         ) : null}
       </div>

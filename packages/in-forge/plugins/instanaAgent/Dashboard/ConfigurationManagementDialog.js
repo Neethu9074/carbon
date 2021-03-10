@@ -10,9 +10,10 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
+import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 export default function ConfigurationManagentDialog(props) {
   const [form, setForm] = useState(
@@ -47,18 +48,35 @@ export default function ConfigurationManagentDialog(props) {
   );
 
   return (
-    <Dialog title="Configuration Management" onClose={close}>
+    <Dialog title={t('in-forge:plugins.instanaAgent.dashboard.configurationManagement')} onClose={close}>
       <form
         onSubmit={() => {
           updateConfiguration(form.toJS());
           close();
         }}
       >
-        <FormField fieldName="remoteName" label="Remote Name" form={form} setForm={setForm} />
-        <FormField fieldName="remoteBranch" label="Remote Branch" form={form} setForm={setForm} />
-        <FormField fieldName="remoteUri" label="Remote URI" form={form} setForm={setForm} />
+        <FormField
+          fieldName="remoteName"
+          label={t('in-forge:plugins.instanaAgent.dashboard.remoteName')}
+          form={form}
+          setForm={setForm}
+        />
+        <FormField
+          fieldName="remoteBranch"
+          label={t('in-forge:plugins.instanaAgent.dashboard.remoteBranch')}
+          form={form}
+          setForm={setForm}
+        />
+        <FormField
+          fieldName="remoteUri"
+          label={t('in-forge:plugins.instanaAgent.dashboard.remoteUri')}
+          form={form}
+          setForm={setForm}
+        />
         <Button kind="create" type="submit" disabled={!form.hierarchyValid}>
-          {props.snapshot.getIn(['data', 'git', 'initialized']) ? 'Update' : 'Initialize'} &amp; Restart
+          {props.snapshot.getIn(['data', 'git', 'initialized'])
+            ? t('in-forge:plugins.instanaAgent.dashboard.updateRestart')
+            : t('in-forge:plugins.instanaAgent.dashboard.initializeRestart')}
         </Button>
       </form>
     </Dialog>

@@ -10,16 +10,17 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import TopicsTable from 'in-forge/plugins/ibmMqCluster/Dashboard/TopicsTable';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function IbmMqClusterDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Messages In">
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqCluster.dashboard.messagesIn')}>
           <MetricValue snapshotId={snapshotId} metric="messagesIn" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Messages Out">
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqCluster.dashboard.messagesOut')}>
           <MetricValue snapshotId={snapshotId} metric="messagesOut" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>

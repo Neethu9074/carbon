@@ -9,21 +9,22 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function IbmMqQueueUsageDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Open Inputs">
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqQueueUsage.dashboard.openInputs')}>
           <MetricValue snapshotId={snapshotId} metric="openInputs" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Open Outputs">
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqQueueUsage.dashboard.openOutputs')}>
           <MetricValue snapshotId={snapshotId} metric="openOutputs" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Open Inputs/Outputs">
+      <DashboardSection title={t('in-forge:plugins.ibmMqQueueUsage.dashboard.openInputsOutputs')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -31,7 +32,10 @@ export default function IbmMqQueueUsageDashboard({ snapshot, timeConfig }) {
             formatter: number.compact,
             tooltipFormatter: number.compact,
             metrics: [`openInputs`, `openOutputs`],
-            labels: ['Inputs', 'Outputs'],
+            labels: [
+              t('in-forge:plugins.ibmMqQueueUsage.dashboard.inputs'),
+              t('in-forge:plugins.ibmMqQueueUsage.dashboard.outputs')
+            ],
             type: 'line'
           }}
         />

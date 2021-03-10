@@ -5,14 +5,19 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title="Name">{data.get('clusterName')}</DescriptionItem>
-      <DescriptionItem title="Started At">{data.get('clusterDateTime')}</DescriptionItem>
-      <DescriptionItem title="Alternated At">{data.get('clusterAlternated')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqCluster.name')}>{data.get('clusterName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqCluster.startedAt')}>
+        {data.get('clusterDateTime')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqCluster.alternatedAt')}>
+        {data.get('clusterAlternated')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

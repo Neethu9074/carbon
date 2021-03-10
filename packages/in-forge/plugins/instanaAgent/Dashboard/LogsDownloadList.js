@@ -17,6 +17,7 @@ import { bytes } from 'in-services/formatters/number';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import useObservable from 'in-hooks/useObservable';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './LogsDownloadList.mless';
 
@@ -81,7 +82,11 @@ export default function LogsDownloadList({ snapshot }) {
   const isAllowedDownloadSelection = selectedItems.length === 1 || downloadSize <= MAX_DOWNLOAD_SIZE;
 
   return (
-    <Dialog title={`Downloadable Logs (${rows.length})`} onClose={close} className={locals.dialog}>
+    <Dialog
+      title={(t('in-forge:plugins.instanaAgent.dashboard.downloadableLogsWithCouunt'), { len: rows.length })}
+      onClose={close}
+      className={locals.dialog}
+    >
       {!logsResponse && <LoadingIndicator />}
       {logsResponse && (
         <>
@@ -113,18 +118,19 @@ export default function LogsDownloadList({ snapshot }) {
                     close();
                   }}
                 >
-                  Download
+                  {t('in-forge:plugins.instanaAgent.dashboard.download')}
                 </Button>
                 {!isAllowedDownloadSelection && (
                   <span className={locals.failedTestResult}>
-                    {`The selected files collectively have a size of ${bytes.compact(
-                      downloadSize
-                    )}, which is above the maximum allowed ${bytes.compact(MAX_DOWNLOAD_SIZE)} size for download.`}
+                    {t('in-forge:plugins.instanaAgent.dashboard.theSelectedFilesCollectively', {
+                      downloadSize: bytes.compact(downloadSize),
+                      maxDownloadSize: bytes.compact(MAX_DOWNLOAD_SIZE)
+                    })}
                   </span>
                 )}
               </div>
             </>
-          )) || <NoDataAvailable text={'No logs found'} height={100} />}
+          )) || <NoDataAvailable text={t('in-forge:plugins.instanaAgent.dashboard.noLogsFound')} height={100} />}
         </>
       )}
     </Dialog>

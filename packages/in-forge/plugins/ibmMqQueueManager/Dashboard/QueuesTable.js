@@ -9,10 +9,11 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.name'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -21,7 +22,7 @@ const cols = [
     }
   },
   {
-    title: 'Type',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.type'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'Usage',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.usage'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -39,7 +40,7 @@ const cols = [
     }
   },
   {
-    title: 'Monitoring',
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.monitoring'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -70,6 +71,13 @@ export default connectTo(
       };
     });
 
-    return <Table withoutPadding cardTitle={`Queues (${rows.length})`} cols={cols} rows={rows} />;
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.ibmMqQueueManager.dashboard.queuesWithCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
   }
 );

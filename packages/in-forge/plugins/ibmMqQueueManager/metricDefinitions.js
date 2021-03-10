@@ -3,29 +3,30 @@
  * (c) Copyright Instana Inc.
  */
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['connectionCount'],
-    labels: ['Connections'],
+    labels: [t('in-forge:plugins.ibmMqQueueManager.connections')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['messagesIn'],
-    labels: ['Messages In'],
+    labels: [t('in-forge:plugins.ibmMqQueueManager.messagesIn')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['messagesOut'],
-    labels: ['Messages Out'],
+    labels: [t('in-forge:plugins.ibmMqQueueManager.messagesOut')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['uncommittedMessages'],
-    labels: ['Uncommitted Messages'],
+    labels: [t('in-forge:plugins.ibmMqQueueManager.uncommittedMessages')],
     min: 0,
     formatter: number
   }

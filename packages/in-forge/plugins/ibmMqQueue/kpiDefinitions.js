@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { number, seconds } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'Queue Depth',
+    label: t('in-forge:plugins.ibmMqQueue.queueDepth'),
     metric: 'queueDepth',
     formatter: number.compact
   },
   {
-    label: 'Oldest Message',
+    label: t('in-forge:plugins.ibmMqQueue.oldestMessage'),
     metric: 'oldestMessage',
     formatters: seconds.fixedCompact
   }

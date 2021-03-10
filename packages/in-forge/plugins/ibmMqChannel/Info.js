@@ -5,19 +5,30 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title="Name">{data.get('channelName')}</DescriptionItem>
-      <DescriptionItem title="Status">{data.get('channelStatus')}</DescriptionItem>
-      <DescriptionItem title="In Doubt">{data.get('channelInDoubt')}</DescriptionItem>
-      <DescriptionItem title="Substate">{data.get('channelSubStatus')}</DescriptionItem>
-      <DescriptionItem title="Connection Name">{data.get('connectionName')}</DescriptionItem>
-      <DescriptionItem title="Remote Queue Manager">{data.get('remoteQM')}</DescriptionItem>
-      <DescriptionItem title="Last Message Date/Time">{data.get('lastMessage')}</DescriptionItem>
-      <DescriptionItem title="Start Date/Time">{data.get('startDateTime')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqChannel.name')}>{data.get('channelName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqChannel.status')}>{data.get('channelStatus')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqChannel.inDoubt')}>{data.get('channelInDoubt')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqChannel.substate')}>
+        {data.get('channelSubStatus')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqChannel.connectionName')}>
+        {data.get('connectionName')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqChannel.remoteQueueManager')}>
+        {data.get('remoteQM')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqChannel.lastMessageDateTime')}>
+        {data.get('lastMessage')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqChannel.startDateTime')}>
+        {data.get('startDateTime')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

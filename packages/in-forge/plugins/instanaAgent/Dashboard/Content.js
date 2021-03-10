@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
-import theme from 'in-themes';
 
 import {
   bytesZeroDecimalPlaces,
@@ -38,6 +37,8 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default connectTo(
   {
@@ -47,15 +48,15 @@ export default connectTo(
     const snapshotId = snapshot.get('id');
     return (
       <Fragment>
-        <DashboardSection title="Management">
+        <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.management')}>
           <ManagementButtonSection snapshot={snapshot} />
         </DashboardSection>
         <Columize>
-          <DashboardSection title="Info">
+          <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.info')}>
             <InfoButtonSection snapshot={snapshot} />
           </DashboardSection>
           <DashboardSection
-            title="Configuration Management"
+            title={t('in-forge:plugins.instanaAgent.dashboard.configurationManagement')}
             button={
               role.canConfigureAgents && snapshot.getIn(['data', 'git', 'present']) ? (
                 <ImageButton
@@ -75,14 +76,14 @@ export default connectTo(
         )}
         <Columize>
           {snapshot.getIn(['data', 'hasCpuLoad']) ? (
-            <DashboardSection title="CPU Load">
+            <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.cpuLoad')}>
               <Chart
                 snapshotId={snapshot.get('id')}
                 timeConfig={timeConfig}
                 y1={{
                   min: 0,
                   metrics: ['cpu.load'],
-                  labels: ['Load'],
+                  labels: [t('in-forge:plugins.instanaAgent.dashboard.load')],
                   type: 'stackedArea',
                   formatter: number.detailed
                 }}
@@ -90,7 +91,7 @@ export default connectTo(
               />
             </DashboardSection>
           ) : null}
-          <DashboardSection title="Memory">
+          <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.memory')}>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -100,7 +101,7 @@ export default connectTo(
                 formatter: bytesZeroDecimalPlaces,
                 tooltipFormatter: bytesTwoDecimalPlaces,
                 metrics: ['memory.used'],
-                labels: ['Heap'],
+                labels: [t('in-forge:plugins.instanaAgent.dashboard.heap')],
                 type: 'line'
               }}
               y2={{
@@ -109,33 +110,42 @@ export default connectTo(
                 formatter: bytesZeroDecimalPlaces,
                 tooltipFormatter: bytesTwoDecimalPlaces,
                 metrics: ['memory.nativeUsed', 'memory.nonHeapUsed'],
-                labels: ['Direct Buffers', 'Off Heap'],
+                labels: [
+                  t('in-forge:plugins.instanaAgent.dashboard.directBuffers'),
+                  t('in-forge:plugins.instanaAgent.dashboard.offHeap')
+                ],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
         </Columize>
-        <DashboardSection title="Garbage Collection">
+        <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.garbageCollection')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               formatter: time,
               metrics: ['gc.Copy.time', 'gc.MarkSweepCompact.time'],
-              labels: ['Copy Time', 'MarkSweepCompact Time'],
+              labels: [
+                t('in-forge:plugins.instanaAgent.dashboard.copyTime'),
+                t('in-forge:plugins.instanaAgent.dashboard.markSweepCompactTime')
+              ],
               type: 'line'
             }}
             y2={{
               formatter: twoDecimalPlaces,
               metrics: ['gc.Copy.count', 'gc.MarkSweepCompact.count'],
-              labels: ['Copy Invocation', 'MarkSweepCompact Invocation'],
+              labels: [
+                t('in-forge:plugins.instanaAgent.dashboard.copyInvocation'),
+                t('in-forge:plugins.instanaAgent.dashboard.markSweepCompactInvocation')
+              ],
               type: 'point'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Network">
+        <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.network')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -144,48 +154,51 @@ export default connectTo(
               formatter: bytesPerSecondZeroDecimalPlaces,
               tooltipFormatter: bytesPerSecondTwoDecimalPlaces,
               metrics: ['net.rx', 'net.tx'],
-              labels: ['Received', 'Sent'],
+              labels: [
+                t('in-forge:plugins.instanaAgent.dashboard.received'),
+                t('in-forge:plugins.instanaAgent.dashboard.sent')
+              ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Discovery">
+        <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.discovery')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['discovery.time'],
-              labels: ['Discovery time'],
+              labels: [t('in-forge:plugins.instanaAgent.dashboard.discoveryTime')],
               type: 'line',
               formatter: millis.compact
             }}
             y2={{
               min: 0,
               metrics: ['discovery.count'],
-              labels: ['Discovery Count'],
+              labels: [t('in-forge:plugins.instanaAgent.dashboard.discoveryCount')],
               type: 'line',
               formatter: number.compact
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title="Sensors">
+        <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.sensors')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['sensors.time'],
-              labels: ['Sense time'],
+              labels: [t('in-forge:plugins.instanaAgent.dashboard.senseTime')],
               type: 'line',
               formatter: millis.compact
             }}
             y2={{
               min: 0,
               metrics: ['sensors.count'],
-              labels: ['Sensor Count'],
+              labels: [t('in-forge:plugins.instanaAgent.dashboard.sensorCount')],
               type: 'line',
               formatter: number.compact
             }}
@@ -195,10 +208,11 @@ export default connectTo(
         {isInternalVisible && (
           <Fragment>
             <SensorList snapshot={snapshot} />
-            <DashboardSection title="Sensor Scheduler Workload">
+            <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.sensorSchedulerWorkload')}>
               <ChartExplanation>
-                The percentage of available time consumed by all operations run by the sensors scheduler during the
-                given time period.
+                {t(
+                  'in-forge:plugins.instanaAgent.dashboard.thePercentageOfAvailableTimeConsumedByAllOperationsRunByTheSensorsSchedulerDuringTheGivenTimePeriod'
+                )}
               </ChartExplanation>
               <Chart
                 snapshotId={snapshotId}
@@ -206,17 +220,18 @@ export default connectTo(
                 y1={{
                   min: 0,
                   metrics: ['sensors.scheduler.consumed'],
-                  labels: ['Time Consumed'],
+                  labels: [t('in-forge:plugins.instanaAgent.dashboard.timeConsumed')],
                   type: 'line',
                   formatter: percentage
                 }}
                 renderPostChartContent={PluginDashboardsMarkerLanes}
               />
             </DashboardSection>
-            <DashboardSection title="Slow Sensors">
+            <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.slowSensors2')}>
               <ChartExplanation>
-                The sensor count taking longer for an operation than expected. See the sensor timings list for detailed
-                information.
+                {t(
+                  'in-forge:plugins.instanaAgent.dashboard.theSensorCountTakingLongerForAnOperationThanExpectedSeeTheSensorTimingsListForDetailedInformation'
+                )}
               </ChartExplanation>
               <Chart
                 snapshotId={snapshotId}
@@ -224,7 +239,7 @@ export default connectTo(
                 y1={{
                   min: 0,
                   metrics: ['sensors.scheduler.slow'],
-                  labels: ['Slow sensors'],
+                  labels: [t('in-forge:plugins.instanaAgent.dashboard.slowSensors')],
                   type: 'bar',
                   aggregation: 'sum',
                   minPixelsPerBlock: 5,
@@ -238,12 +253,11 @@ export default connectTo(
             <LogMetrics snapshot={snapshot} timeConfig={timeConfig} />
             <BundleList snapshot={snapshot} />
 
-            <DashboardSection title="Tracer StringBuilder Pools">
+            <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.tracerStringBuilderPools')}>
               <ChartExplanation>
-                The Java and PHP Tracer use pooled StringBuilder instances to process incoming spans. If the created and
-                released metrics are not zero the pools are full. StringBuilder instances are created (and released) on
-                demand then. Also StringBuilder instances which grew over 8 MB are not pooled, but immediately released.
-                Both scenarios might lead to increased heap usage and GC pressure.
+                {t(
+                  'in-forge:plugins.instanaAgent.dashboard.theJavaAndPhpTracerUsePooledStringBuilderInstancesToProcessIncomingSpans'
+                )}
               </ChartExplanation>
               <Columize>
                 <Chart
@@ -252,7 +266,12 @@ export default connectTo(
                   y1={{
                     min: 0,
                     metrics: ['java.sbc', 'java.sbr', 'php.sbc', 'php.sbr'],
-                    labels: ['Created (Java)', 'Released (Java)', 'Created (PHP)', 'Released (PHP)'],
+                    labels: [
+                      t('in-forge:plugins.instanaAgent.dashboard.createdJava'),
+                      t('in-forge:plugins.instanaAgent.dashboard.releasedJava'),
+                      t('in-forge:plugins.instanaAgent.dashboard.createdPhp'),
+                      t('in-forge:plugins.instanaAgent.dashboard.releasedPhp')
+                    ],
                     type: 'line',
                     formatter: number.compact
                   }}
@@ -265,12 +284,12 @@ export default connectTo(
                     min: 0,
                     metrics: ['java.sbmuc', 'java.sbmc', 'java.sbtc', 'php.sbmuc', 'php.sbmc', 'php.sbtc'],
                     labels: [
-                      'Max Used Capacity (Java)',
-                      'Max Capacity (Java)',
-                      'Total Capacity (Java)',
-                      'Max Used Capacity (PHP)',
-                      'Max Capacity (PHP)',
-                      'Total Capacity (PHP)'
+                      t('in-forge:plugins.instanaAgent.dashboard.maxUsedCapacityJava'),
+                      t('in-forge:plugins.instanaAgent.dashboard.maxCapacityJava'),
+                      t('in-forge:plugins.instanaAgent.dashboard.totalCapacityJava'),
+                      t('in-forge:plugins.instanaAgent.dashboard.maxUsedCapacityPhp'),
+                      t('in-forge:plugins.instanaAgent.dashboard.maxCapacityPhp'),
+                      t('in-forge:plugins.instanaAgent.dashboard.totalCapacityPhp')
                     ],
                     type: 'line',
                     formatter: bytesZeroDecimalPlaces
@@ -280,14 +299,19 @@ export default connectTo(
               </Columize>
             </DashboardSection>
 
-            <DashboardSection title="Spans">
+            <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.spans')}>
               <Chart
                 snapshotId={snapshotId}
                 timeConfig={timeConfig}
                 y1={{
                   min: 0,
                   metrics: ['spans.opened', 'spans.closed', 'spans.filtered', 'spans.dropped'],
-                  labels: ['Opened', 'Closed', 'Filtered', 'Dropped'],
+                  labels: [
+                    t('in-forge:plugins.instanaAgent.dashboard.opened'),
+                    t('in-forge:plugins.instanaAgent.dashboard.closed'),
+                    t('in-forge:plugins.instanaAgent.dashboard.filtered'),
+                    t('in-forge:plugins.instanaAgent.dashboard.dropped')
+                  ],
                   type: 'line',
                   formatter: number.compact
                 }}
@@ -299,7 +323,7 @@ export default connectTo(
         )}
 
         {role.canConfigureAgents ? (
-          <DashboardSection title="Log Output">
+          <DashboardSection title={t('in-forge:plugins.instanaAgent.dashboard.logOutput')}>
             <LogStreamer snapshot={snapshot} />
           </DashboardSection>
         ) : null}

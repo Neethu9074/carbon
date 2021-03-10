@@ -5,23 +5,32 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title="Name">{data.get('queueName')}</DescriptionItem>
-      <DescriptionItem title="Application">{data.get('application')}</DescriptionItem>
-      <DescriptionItem title="Channel">{data.get('channel')}</DescriptionItem>
-      <DescriptionItem title="Connection">{data.get('connection')}</DescriptionItem>
-      <DescriptionItem title="Input Type">{data.get('inputType')}</DescriptionItem>
-      <DescriptionItem title="Output">{data.get('output')}</DescriptionItem>
-      <DescriptionItem title="Inquire">{data.get('inquire')}</DescriptionItem>
-      <DescriptionItem title="Set">{data.get('set')}</DescriptionItem>
-      <DescriptionItem title="Browse">{data.get('browse')}</DescriptionItem>
-      <DescriptionItem title="Last Message At">{data.get('lastMessageAt')}</DescriptionItem>
-      <DescriptionItem title="Handle State">{data.get('handleState')}</DescriptionItem>
-      <DescriptionItem title="User">{data.get('user')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueUsage.name')}>{data.get('queueName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueUsage.application')}>
+        {data.get('application')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueUsage.channel')}>{data.get('channel')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueUsage.connection')}>
+        {data.get('connection')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueUsage.inputType')}>{data.get('inputType')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueUsage.output')}>{data.get('output')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueUsage.inquire')}>{data.get('inquire')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueUsage.set')}>{data.get('set')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueUsage.browse')}>{data.get('browse')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueUsage.lastMessageAt')}>
+        {data.get('lastMessageAt')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueUsage.handleState')}>
+        {data.get('handleState')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueueUsage.user')}>{data.get('user')}</DescriptionItem>
     </DescriptionList>
   );
 }

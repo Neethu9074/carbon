@@ -4,6 +4,7 @@
  */
 import { modes } from 'in-forge/plugins/instanaAgent/modes';
 import { emptyMap } from 'in-services/fixedImmutables';
+import { t } from 'in-i18n';
 
 export default {
   initialSortColumn: 0,
@@ -11,7 +12,7 @@ export default {
 
   cols: [
     {
-      title: 'Hostname',
+      title: t('in-forge:plugins.instanaAgent.hostname'),
       type: 'snapshotLink',
       typeArgs: {
         getSnapshotId(row) {
@@ -20,7 +21,7 @@ export default {
       }
     },
     {
-      title: 'Boot Version',
+      title: t('in-forge:plugins.instanaAgent.bootVersion'),
       type: 'string',
       typeArgs: {
         getValue(row) {
@@ -29,7 +30,7 @@ export default {
       }
     },
     {
-      title: 'Mode',
+      title: t('in-forge:plugins.instanaAgent.mode'),
       type: 'string',
       typeArgs: {
         getValue(row) {
@@ -38,7 +39,7 @@ export default {
       }
     },
     {
-      title: 'Java Runtime',
+      title: t('in-forge:plugins.instanaAgent.javaRuntime'),
       type: 'string',
       typeArgs: {
         getValue(row) {

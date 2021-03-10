@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'Messages',
+    label: t('in-forge:plugins.ibmMqTopic.messages'),
     metric: 'messagesCount',
     formatter: number.compact
   },
   {
-    label: 'Publishers',
+    label: t('in-forge:plugins.ibmMqTopic.publishers'),
     metric: 'publishCount',
     formatters: number.compact
   }

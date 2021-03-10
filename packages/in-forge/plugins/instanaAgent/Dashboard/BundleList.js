@@ -4,14 +4,15 @@
  */
 import React from 'react';
 
-import connectTo from 'in-hoc/connectTo';
-import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
+import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.instanaAgent.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -20,7 +21,7 @@ const cols = [
     }
   },
   {
-    title: 'Version',
+    title: t('in-forge:plugins.instanaAgent.dashboard.version'),
     type: 'string',
     width: 100,
     typeArgs: {
@@ -30,7 +31,7 @@ const cols = [
     }
   },
   {
-    title: 'State',
+    title: t('in-forge:plugins.instanaAgent.dashboard.state'),
     type: 'string',
     width: 100,
     typeArgs: {
@@ -67,7 +68,12 @@ export default connectTo(
 
     return (
       <Table
-        cardTitle={<TimeOfLastUpdateCardTitle title="OSGi Bundle List" timestamp={data.get('timestamp')} />}
+        cardTitle={
+          <TimeOfLastUpdateCardTitle
+            title={t('in-forge:plugins.instanaAgent.dashboard.osGiBundleList')}
+            timestamp={data.get('timestamp')}
+          />
+        }
         withoutPadding
         cols={cols}
         rows={rows}

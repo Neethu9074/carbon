@@ -11,12 +11,13 @@ import { close } from 'in-components/DialogPresenter/store';
 import Table from 'in-sdk/components/dashboard/Table';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './SensorsInfo.mless';
 
 const cols = [
   {
-    title: 'Name',
+    title: t('in-forge:plugins.instanaAgent.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -25,7 +26,7 @@ const cols = [
     }
   },
   {
-    title: 'Version',
+    title: t('in-forge:plugins.instanaAgent.dashboard.version'),
     type: 'string',
     width: 100,
     typeArgs: {
@@ -35,7 +36,7 @@ const cols = [
     }
   },
   {
-    title: 'State',
+    title: t('in-forge:plugins.instanaAgent.dashboard.state'),
     type: 'string',
     width: 100,
     typeArgs: {
@@ -59,12 +60,21 @@ export default connectTo(
   function SensorsInfo({ sensors }) {
     let rows = getRows(sensors);
     return (
-      <Dialog title="Sensors Info" onClose={close} className={locals.dialog}>
+      <Dialog
+        title={t('in-forge:plugins.instanaAgent.dashboard.sensorsInfo')}
+        onClose={close}
+        className={locals.dialog}
+      >
         {!sensors && <LoadingIndicator />}
 
         {sensors && (
           <Fragment>
-            <Table withoutPadding cardTitle={`Sensors (${rows.length})`} cols={cols} rows={rows} />
+            <Table
+              withoutPadding
+              cardTitle={t('in-forge:plugins.instanaAgent.dashboard.sensorsWithCount', { len: rows.length })}
+              cols={cols}
+              rows={rows}
+            />
             <DownloadView data={sensors} fileName={`sensors`} getJsonData={() => getJsonData(sensors)} />
           </Fragment>
         )}

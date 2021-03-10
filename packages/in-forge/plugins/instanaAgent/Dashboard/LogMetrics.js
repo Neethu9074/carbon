@@ -9,11 +9,12 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
     id: 'name',
-    title: 'Name',
+    title: t('in-forge:plugins.instanaAgent.dashboard.name'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -23,7 +24,7 @@ const cols = [
   },
   {
     id: 'value',
-    title: 'Count',
+    title: t('in-forge:plugins.instanaAgent.dashboard.count'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +57,7 @@ export default function LogMetrics({ snapshot, timeConfig }) {
 
   return (
     <Table
-      cardTitle="Log Counts"
+      cardTitle={t('in-forge:plugins.instanaAgent.dashboard.logCounts')}
       withoutPadding
       cols={cols}
       rows={rows}
@@ -75,7 +76,7 @@ function getRowDetails(row) {
         min: 0,
         formatter: number.compact,
         metrics: ['log.counts.byMessage.' + row.value],
-        labels: ['Count'],
+        labels: [t('in-forge:plugins.instanaAgent.dashboard.count')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}
