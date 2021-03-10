@@ -44,5 +44,5 @@
   "numbersOfProfilesCollected_1": "{{count}} profile collected",
   "numbersOfProfilesCollected_2": "{{count}} profiles collected",
   "profilesOfProcessDeepestTechSnapshot": "Profiles of Process {{deepestTechSnapshot}}",
-  "noEntityFound": "No {{entityName}) found"
+  "noEntityFound": "No {{entityName}} found"
 }
