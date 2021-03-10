@@ -4,8 +4,6 @@
  */
 import { createLogger } from '@instana/logger';
 import { List } from 'immutable';
-import { Trans } from 'in-i18n';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -14,6 +12,7 @@ import { DFQ_FILTER_REMOVED } from 'in-services/tracking/eventNames';
 import { getAllFilters, removeFilter } from 'in-api/filters';
 import { track } from 'in-services/tracking/tracking';
 import { createStore } from 'in-stores/store';
+import { Trans, t } from 'in-i18n';
 
 const logger = createLogger('SearchBar/stores/filters');
 

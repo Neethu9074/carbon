@@ -11,6 +11,7 @@ import './aceIntegrationNode';
 import './activeMQ';
 import './activeMQArtemis';
 import './aerospike';
+import './apmProxy';
 import './application';
 import './availabilityZone';
 import './awsBeanstalk';

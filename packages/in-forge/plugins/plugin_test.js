@@ -33,7 +33,10 @@ describe('in-forge/plugins', () => {
   dirNames.forEach(dirName => {
     describe(`plugin directory ${dirName}`, () => {
       it('must be registered as a plugin', () => {
-        expect(getOptionalSnapshotDefinition(dirName)).not.to.equal(undefined);
+        expect(getOptionalSnapshotDefinition(dirName)).not.to.equal(
+          undefined,
+          `Expecting ${dirName} to be registered via the "in-forge/plugins/index" file.`
+        );
       });
 
       it('must register a singular/plural variant of the plugin name in the en-US.json file', () => {

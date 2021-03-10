@@ -13,6 +13,8 @@
   "pluginName_activeMQArtemis": "ActiveMQ Artemis",
   "pluginName_aerospike_plural": "Aerospike",
   "pluginName_aerospike": "Aerospike",
+  "pluginName_apmProxy_plural": "APM Proxy",
+  "pluginName_apmProxy": "APM Proxy",
   "pluginName_application_plural": "Applications",
   "pluginName_application": "Application",
   "pluginName_availabilityZone_plural": "Availability Zones",
@@ -772,6 +774,15 @@
     },
     "aerospike": {
       "aerospike": "Aerospike"
+    },
+    "apmProxy": {
+      "apmProxy": "APM Proxy",
+      "troubleShootingDocs": "Troubleshooting docs",
+      "monitoringIssue": {
+        "apmProxyMissingConfig": "The sensor is not correctly configured for Instana to be able to monitor it. The following properties must be set in the configuration.yaml: <code>{{missing}}</code>. Refer to the documentation for the right values to be set.",
+        "apmProxyConnectionError": "The sensor is not able to connect to the APMProxy service. Check your sensor's configuration e.g. host/port.",
+        "apmProxyExceptionError": "The Sensor produced the following exception: <code>{{e}}</code>."
+      }
     },
     "application": {
       "inboundCallsPerSecond": "Inbound Calls per Second",
