@@ -100,6 +100,13 @@ export const nonServicePlugins = {
   hBase: 'hBase',
   host: 'host',
   httpd: 'httpd',
+  ibmDataPowerCluster: 'ibmDataPowerCluster',
+  ibmDataPowerAppliance: 'ibmDataPowerAppliance',
+  ibmDataPowerDomain: 'ibmDataPowerDomain',
+  ibmDataPowerService: 'ibmDataPowerService',
+  ibmDataPowerSqlDatasource: 'ibmDataPowerSqlDatasource',
+  ibmDataPowerQueueManager: 'ibmDataPowerQueueManager',
+  ibmDataPowerEthernetInterface: 'ibmDataPowerEthernetInterface',
   ibmMqCluster: 'ibmMqCluster',
   ibmMqQueueManager: 'ibmMqQueueManager',
   ibmMqChannel: 'ibmMqChannel',
@@ -313,6 +320,18 @@ export const fullyQualifiedPlugins = {
   hBase: 'com.instana.forge.infrastructure.database.hbase.HBase',
   host: 'com.instana.forge.infrastructure.os.host.Host',
   httpd: 'com.instana.forge.infrastructure.webserver.httpd.Httpd',
+  ibmDataPowerCluster: 'com.instana.forge.infrastructure.messaging.ibmdatapower.IbmDataPowerCluster',
+  ibmDataPowerAppliance:
+    'com.instana.forge.infrastructure.messaging.ibmdatapower.derivedentity.appliance.IbmDataPowerAppliance',
+  ibmDataPowerDomain: 'com.instana.forge.infrastructure.messaging.ibmdatapower.derivedentity.domain.IbmDataPowerDomain',
+  ibmDataPowerService:
+    'com.instana.forge.infrastructure.messaging.ibmdatapower.derivedentity.service.IbmDataPowerService',
+  ibmDataPowerSqlDatasource:
+    'com.instana.forge.infrastructure.messaging.ibmdatapower.derivedentity.sqldatasource.IbmDataPowerSqlDatasource',
+  ibmDataPowerQueueManager:
+    'com.instana.forge.infrastructure.messaging.ibmdatapower.derivedentity.queueManager.IbmDataPowerQueueManager',
+  ibmDataPowerEthernetInterface:
+    'com.instana.forge.infrastructure.messaging.ibmdatapower.derivedentity.ethernetinterface.IbmDataPowerEthernetInterface',
   ibmMqCluster: 'com.instana.forge.infrastructure.messaging.ibmmq.IbmMqCluster',
   ibmMqQueueManager: 'com.instana.forge.infrastructure.messaging.ibmmq.derivedentity.queuemanager.IbmMqQueueManager',
   ibmMqChannel: 'com.instana.forge.infrastructure.messaging.ibmmq.derivedentity.channel.IbmMqChannel',
