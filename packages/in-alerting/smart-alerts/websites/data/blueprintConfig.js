@@ -42,13 +42,10 @@ const baseBlueprint = Object.freeze({
     isCustomRateMetric(metricName) ? getWebsiteRateMetricAlertsPreview : getWebsiteMetricAlertsPreview,
   getThresholdSuggestionRequest: metricName =>
     isCustomRateMetric(metricName) ? getWebsiteRateMetricThresholdSuggestion : getWebsiteMetricsThresholdSuggestion,
-  // QB1
-  getEntityTagFilters: alertConfig => [getWebsiteIdTagFilter(alertConfig)],
   thresholdDefaults: {
     operator: '>='
   },
-  // QB2
-  getEntityTagFilterFormModel: alertConfig => getWebsiteIdTagFilter(alertConfig),
+  getEntityTagFilterFormModel: alertConfig => tagFilter('beacon.website.id', 'EQUALS', alertConfig.websiteId),
   getBeaconType: () => 'pageLoad',
   getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: () => []
@@ -93,8 +90,7 @@ const slownessBlueprintConfig = Object.freeze({
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: alertRule => alertRule.aggregation,
   isRuleComplete: () => true,
-  getRuleTagFilters: () => [], // QB1
-  getRuleTagFilterFormModel: () => [], // QB2
+  getRuleTagFilterFormModel: () => [],
   getBeaconType: () => 'pageLoad',
   getExtraAnalyzeLinkTagFilterFormModel: getExtraSlownessAnalyzeLinkTagFilterFormModel
 });
@@ -115,8 +111,7 @@ const jsErrorsBlueprintConfig = Object.freeze({
   getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
   isRuleComplete: alertRule => isNotBlank(alertRule.value),
   incompleteRuleMessage: t('in-websites:alerting.data.jsErrorsBlueprintConfigIncompleteRuleMessage'),
-  getRuleTagFilters: alertRule => [getJsErrorsTagFilter(alertRule)], // QB1
-  getRuleTagFilterFormModel: alertRule => [tagFilter('beacon.error.message', alertRule.operator, alertRule.value)], // QB2
+  getRuleTagFilterFormModel: alertRule => [tagFilter('beacon.error.message', alertRule.operator, alertRule.value)],
   getBeaconType: () => 'error',
   getExtraAnalyzeLinkTagFilterFormModel: () => [] // TODO in AP error blueprint, we add a call.erroneous filter, to only show erroneous calls, in WebsiteSmartAlerts we never did that. Ask PM whether we want to add such filter for Websites as well.
 });
@@ -137,8 +132,7 @@ const statusCodeBlueprintConfig = Object.freeze({
   getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
   isRuleComplete: alertRule => isNotBlank(alertRule.value),
   incompleteRuleMessage: t('in-websites:alerting.data.statusCodeBlueprintConfigIncompleteRuleMessage'),
-  getRuleTagFilters: alertRule => [getStatusCodeTagFilter(alertRule)], // QB1
-  getRuleTagFilterFormModel: alertRule => [tagFilter('beacon.http.status', alertRule.operator, alertRule.value)], // QB2
+  getRuleTagFilterFormModel: alertRule => [tagFilter('beacon.http.status', alertRule.operator, alertRule.value)],
   getBeaconType: () => 'httpRequest'
 });
 
@@ -158,8 +152,7 @@ const throughputBlueprintConfig = Object.freeze({
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
   isRuleComplete: () => true,
-  getRuleTagFilters: () => [], // QB1
-  getRuleTagFilterFormModel: () => [], // QB2
+  getRuleTagFilterFormModel: () => [],
   getBeaconType: metricName => (metricName === 'pageLoads' ? 'pageLoad' : 'pageChange'),
   impactTimeThresholdDisabled: true
 });
@@ -214,27 +207,6 @@ export function getSimpleModeBlueprintConfig(alertType, alertThreshold) {
 
 function isCustomRateMetric(metricName) {
   return metricName === 'specificJsErrorRate' || metricName === 'specificStatusCodeRate';
-}
-
-function getWebsiteIdTagFilter(alertConfig) {
-  return {
-    ...tagFilter('beacon.website.id', 'EQUALS', alertConfig.websiteId),
-    stringValue: alertConfig.websiteId // TODO only kept for QB1 backward compatibility. Can actually be removed.
-  };
-}
-
-function getJsErrorsTagFilter(alertRule) {
-  return {
-    ...tagFilter('beacon.error.message', alertRule.operator, alertRule.value),
-    stringValue: alertRule.value // TODO only kept for QB1 backward compatibility. Can actually be removed.
-  };
-}
-
-function getStatusCodeTagFilter(alertRule) {
-  return {
-    ...tagFilter('beacon.http.status', alertRule.operator, alertRule.value),
-    stringValue: alertRule.value // TODO only kept for QB1 backward compatibility. Can actually be removed.
-  };
 }
 
 function getExtraSlownessAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig) {

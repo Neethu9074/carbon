@@ -38,7 +38,7 @@ import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 import Label from 'in-components/form/Label';
 
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles//InteractiveChart.mless';
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/InteractiveChart.mless';
 
 export default function SlownessInteractiveChart({
   blueprintConfig,

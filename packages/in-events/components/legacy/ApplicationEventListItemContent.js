@@ -70,7 +70,6 @@ export default function ApplicationEventListItemContent({ event }) {
               <ScopeConfigPresenter
                 tagFilterFormModel={tagFilterFormModel}
                 queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
-                convertedTagFilterExpression={alertConfig.convertedTagFilterExpression}
                 scopePath={<ApplicationScopePath boundaryScope={alertConfig.boundaryScope} {...eventEntity} />}
               />
             </div>

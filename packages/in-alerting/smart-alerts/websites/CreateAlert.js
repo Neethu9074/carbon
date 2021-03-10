@@ -110,7 +110,6 @@ function generateFormData(websiteId, tagFilters, error, tagCatalog) {
   const metricName = error?.message ? 'errors' : 'onLoadTime';
 
   return {
-    tagFilters: tagFiltersWithoutImplicitFilters,
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel),
     rule: {
       alertType,

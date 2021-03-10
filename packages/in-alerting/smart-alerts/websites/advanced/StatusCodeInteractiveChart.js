@@ -24,7 +24,7 @@ import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ru
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles//InteractiveChart.mless';
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/InteractiveChart.mless';
 
 export default function StatusCodeInteractiveChart({
   blueprintConfig,

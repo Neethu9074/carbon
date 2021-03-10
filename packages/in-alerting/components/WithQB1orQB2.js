@@ -32,6 +32,6 @@ export function switchQB1orQB2Helper(onUsesQB1, onUsesQB2, shouldFallbackToQB2 =
   return onUsesQB1();
 }
 
-export function isQB2Config(convertedTagFilterExpression) {
+function isQB2Config(convertedTagFilterExpression) {
   return convertedTagFilterExpression === false;
 }

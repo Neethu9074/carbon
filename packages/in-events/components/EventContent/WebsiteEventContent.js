@@ -34,7 +34,7 @@ export default function WebsiteEventContent({ event }) {
     return null;
   }
 
-  const { tagFilterExpression, rule, convertedTagFilterExpression } = alertConfig;
+  const { tagFilterExpression, rule } = alertConfig;
   const alertType = rule.alertType;
 
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -89,7 +89,6 @@ export default function WebsiteEventContent({ event }) {
               <ScopeConfigPresenter
                 tagFilterFormModel={tagFilterFormModel}
                 queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
-                convertedTagFilterExpression={convertedTagFilterExpression}
                 scopePath={<WebsiteScopePath {...eventEntity} />}
               />
             </div>

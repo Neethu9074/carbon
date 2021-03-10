@@ -31,7 +31,6 @@ export default function SimpleModeContainer({
   onChange,
   onClose,
   setSliderState,
-  timeConfig,
   websiteLabel,
   onCreate,
   setSimpleModeStep,
@@ -71,7 +70,6 @@ export default function SimpleModeContainer({
               <SimpleAlertConfigDialogStep2
                 form={form}
                 QueryBuilderComponent={QueryBuilderComponent}
-                timeConfig={timeConfig}
                 updateForm={updateForm}
                 websiteLabel={websiteLabel}
                 onChartViewConfigChange={onChartViewConfigChange}

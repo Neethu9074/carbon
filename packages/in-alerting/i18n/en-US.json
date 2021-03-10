@@ -13,6 +13,7 @@
     "alertHeaderDisableTooltip": " Disable",
     "alertHeaderEnableTooltip": " Enable",
     "alertHeaderRestoreDeleteTooltip": "Delete",
+    "alertHeaderEditTooltip": "Edit",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Please Confirm",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Are you sure you want to remove the <strong>\"alert {{alertConfigName}}\"</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remove",

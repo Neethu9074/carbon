@@ -13,7 +13,6 @@ import AlertingChartWrapper from 'in-alerting/components/Chart/AlertingChartWrap
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { smoothMetrics } from 'in-alerting/smart-alerts/components/utils/chartUtil';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
-import { switchQB1orQB2Helper } from 'in-alerting/components/WithQB1orQB2';
 import Renderer from 'in-alerting/components/Chart/renderer/Renderer';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -32,20 +31,10 @@ export default function AlertingChart({
   blueprintConfig,
   alertsPreviewEnabled,
   numeratorFilter,
-  enrichedTagFilters,
   enrichedTagFilterExpression,
-  isQB1only,
   canReload
 }) {
-  const {
-    granularity,
-    rule,
-    threshold,
-    timeThreshold,
-    convertedTagFilterExpression,
-    includeInternal,
-    includeSynthetic
-  } = alertConfigWithFormModel;
+  const { granularity, rule, threshold, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
 
   const metricName = blueprintConfig.getMetricName(rule);
   const metricChartGranularity = Math.max(granularity, viewConfig.minChartMetricGranularity);
@@ -54,16 +43,6 @@ export default function AlertingChart({
   const aggregation = blueprintConfig.getAggregation(rule);
   const metricLabel = blueprintConfig.getMetricLabel(metricName);
   const isStaticThreshold = threshold.type === 'staticThreshold';
-
-  const filterQuery = isQB1only
-    ? { tagFilters: enrichedTagFilters }
-    : switchQB1orQB2Helper(
-        () => ({ tagFilters: enrichedTagFilters }),
-        () => ({
-          tagFilterExpression: enrichedTagFilterExpression
-        }),
-        isQB2Config => isQB2Config(Boolean(convertedTagFilterExpression))
-      );
 
   return (
     <AlertingChartWrapper
@@ -75,7 +54,7 @@ export default function AlertingChart({
             {...props}
             getAlertsPreview={blueprintConfig.getAlertsPreviewRequest(metricName)}
             alertsPreviewConfiguration={getAlertsPreviewQuery({
-              filterQuery,
+              enrichedTagFilterExpression,
               includeInternal,
               includeSynthetic,
               timeConfig: viewConfig.timeConfig,
@@ -101,7 +80,7 @@ export default function AlertingChart({
       granularity={metricChartGranularity}
       getMetric={blueprintConfig.getMetricsRequest(metricName)}
       metricsConfiguration={{
-        ...filterQuery,
+        tagFilterExpression: enrichedTagFilterExpression,
         includeInternal,
         includeSynthetic,
         timeConfig: viewConfig.timeConfig,
@@ -150,17 +129,15 @@ export default function AlertingChart({
           });
         }
       }}
-      convertedTagFilterExpression={convertedTagFilterExpression}
       canReload={canReload}
       nonInteractive
-      isQB1only={isQB1only}
     />
   );
 }
 
 function getAlertsPreviewQuery({
   timeConfig,
-  filterQuery,
+  enrichedTagFilterExpression,
   includeInternal,
   includeSynthetic,
   metricName,
@@ -172,7 +149,7 @@ function getAlertsPreviewQuery({
 }) {
   if (threshold.baseline || typeof threshold.value === 'number') {
     return {
-      ...filterQuery,
+      tagFilterExpression: enrichedTagFilterExpression,
       includeInternal,
       includeSynthetic,
       timeConfig,

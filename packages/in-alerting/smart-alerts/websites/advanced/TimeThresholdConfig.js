@@ -4,6 +4,8 @@
  */
 import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import connectTo from 'in-hoc/connectTo';
 
@@ -14,13 +16,7 @@ export default connectTo(props => ({
     props.form.get('timeThreshold').get('type').value === timeThresholdTypes.userImpactOfViolationsInSequence &&
     getWebsiteMetrics({
       timeConfig: { windowSize: twentyFourHours },
-      tagFilters: [
-        {
-          name: 'beacon.website.id',
-          operator: 'EQUALS',
-          stringValue: props.form.get('websiteId').value
-        }
-      ],
+      tagFilterExpression: tagFilter('beacon.website.id', EQUALS, props.form.get('websiteId').value),
       metrics: {
         count: {
           metric: 'uniqueUsersOrSessions',

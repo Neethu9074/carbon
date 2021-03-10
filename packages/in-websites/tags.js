@@ -14,19 +14,6 @@ export const tagDefinitions = get(window, ['instana', 'tags'], [])
 
 export const tagKeys = tagDefinitions.map(t => t.name);
 
-export function translateDemocratisationTagFiltersToAnalyzeTagFilters({ websiteLabel, tagFilters }) {
-  let tagFiltersForAnalyze = tagFilters;
-  if (!websiteLabel) {
-    return tagFiltersForAnalyze;
-  }
-  // replace website ID filter with something more understandable by users.
-  if (tagFiltersForAnalyze.some(f => f.name === 'beacon.website.id')) {
-    return tagFiltersForAnalyze.map(f => (f.name !== 'beacon.website.id' ? f : getWebsiteLabelTagFilter(websiteLabel)));
-  }
-  // or add the website label tag filter to the end if website ID is filter is not present
-  return tagFiltersForAnalyze.concat(getWebsiteLabelTagFilter(websiteLabel));
-}
-
 export function translateDemocratisationTagFiltersToFormModel({ websiteLabel, tagFilters, tagCatalog }) {
   let updatedTagFilters = tagFilters;
   if (websiteLabel) {

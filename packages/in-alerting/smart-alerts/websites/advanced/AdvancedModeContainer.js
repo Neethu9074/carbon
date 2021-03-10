@@ -28,7 +28,6 @@ import { blueprintConfigs, getBlueprintConfig } from 'in-alerting/smart-alerts/w
 import SlownessInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/SlownessInteractiveChart';
 import JsErrorsInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/JsErrorsInteractiveChart';
 import SelectAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/SelectAlertChannel';
-import AlertLocationFilters from 'in-alerting/smart-alerts/websites/components/AlertLocationFilters';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/advanced/TimeThresholdConfig';
 import ProvideStatusCode from 'in-alerting/smart-alerts/websites/components/ProvideStatusCode';
 import { fieldNames } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
@@ -37,7 +36,6 @@ import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertT
 import ProvideJsError from 'in-alerting/smart-alerts/websites/components/ProvideJsError';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import { modeAdvanced } from 'in-alerting/smart-alerts/websites/constants';
-import WithQB1orQB2 from 'in-alerting/components/WithQB1orQB2';
 import LightCard from 'in-new-components/Card/LightCard';
 import { t } from 'in-i18n';
 
@@ -68,24 +66,11 @@ export default function AdvancedModeContainer(props) {
           title: t('in-websites:alerting.advanced.scopeTitle'),
           content: (
             <>
-              <WithQB1orQB2
-                onUsesQB1={() => (
-                  <AlertLocationFilters
-                    form={form}
-                    websiteLabel={websiteLabel}
-                    timeConfig={timeConfig}
-                    updateForm={updateForm}
-                  />
-                )}
-                onUsesQB2={() => (
-                  <AlertTagFilterExpressionConfig
-                    form={form}
-                    updateForm={updateForm}
-                    websiteLabel={websiteLabel}
-                    QueryBuilderComponent={QueryBuilderComponent}
-                  />
-                )}
-                shouldFallbackToQB2={isQB2Config => isQB2Config(form.get('convertedTagFilterExpression').value)}
+              <AlertTagFilterExpressionConfig
+                form={form}
+                updateForm={updateForm}
+                websiteLabel={websiteLabel}
+                QueryBuilderComponent={QueryBuilderComponent}
               />
             </>
           ),

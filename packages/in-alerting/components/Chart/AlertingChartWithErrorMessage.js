@@ -6,14 +6,10 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  getEnhancedTagFilterFormModel,
-  getEnhancedTagFilters
-} from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { isAlertQueryValid as isApplicationAlertQueryValid } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
-import { switchQB1orQB2Helper } from 'in-alerting/components/WithQB1orQB2';
 import AlertingChart from 'in-alerting/components/Chart/AlertingChart';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
@@ -28,10 +24,10 @@ export default function AlertingChartWithErrorMessage({
 }) {
   const { alertConfigWithFormModel, blueprintConfig, viewConfig, subEntityId } = remainingProps;
 
-  const { numeratorFilter, enrichedTagFilters, enrichedTagFilterFormModel } = switchQB1orQB2Helper(
-    () => getEnhancedTagFilters(alertConfigWithFormModel, blueprintConfig, subEntityId),
-    () => getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig, subEntityId),
-    isQB2Config => isQB2Config(alertConfigWithFormModel.convertedTagFilterExpression)
+  const { numeratorFilter, enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(
+    alertConfigWithFormModel,
+    blueprintConfig,
+    subEntityId
   );
 
   const queryValidationResult =
@@ -41,14 +37,10 @@ export default function AlertingChartWithErrorMessage({
     ]) ?? pendingResult;
   const isValid = Boolean(queryValidationResult?.data);
 
-  const isValidDependingOnMode = switchQB1orQB2Helper(
-    () => true,
-    // isAlertQueryValid returns undefined -> null -> true || false.
-    // Because of that we need this extra handling to ensure that we show the error message only if the backend
-    // explicitly returns false
-    () => queryValidationResult?.data !== false,
-    isQB2Config => isQB2Config(Boolean(alertConfigWithFormModel.convertedTagFilterExpression))
-  );
+  // isAlertQueryValid returns undefined -> null -> true || false.
+  // Because of that we need this extra handling to ensure that we show the error message only if the backend
+  // explicitly returns false
+  const isValidDependingOnMode = queryValidationResult?.data !== false;
 
   const enrichedTagFilterExpression = useMemo(
     () => (isValid ? toBackendQueryModel(enrichedTagFilterFormModel) : null),
@@ -65,7 +57,6 @@ export default function AlertingChartWithErrorMessage({
     <AlertingChart
       {...remainingProps}
       numeratorFilter={numeratorFilter}
-      enrichedTagFilters={enrichedTagFilters}
       enrichedTagFilterExpression={enrichedTagFilterExpression}
     />
   ) : (

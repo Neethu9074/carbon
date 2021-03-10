@@ -12,7 +12,6 @@ import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 const severityWarning = 5;
 
 export const fieldNames = Object.freeze({
-  tagFilters: 'tagFilters',
   tagFilterExpression: 'tagFilterExpression',
   alertChannelIds: 'alertChannelIds',
   enabled: 'enabled',
@@ -27,9 +26,7 @@ export const fieldNames = Object.freeze({
 
 export default function alertFormDefinition(alertConfig) {
   const {
-    tagFilters = [],
     tagFilterExpression,
-    convertedTagFilterExpression,
     alertChannelIds = [],
     enabled = true,
     triggering = false,
@@ -41,28 +38,13 @@ export default function alertFormDefinition(alertConfig) {
     granularity = 600000
   } = alertConfig;
 
-  let form = createMapForm()
-    // QB1
-    .put(
-      fieldNames.tagFilters,
-      createField({
-        value: tagFilters
-      })
-    )
-    // QB2
+  return createMapForm()
     .put(
       fieldNames.tagFilterExpression,
       createField({
         value: fromBackendModel(tagFilterExpression)
       })
     )
-    .put(
-      'convertedTagFilterExpression',
-      createField({
-        value: convertedTagFilterExpression ?? false
-      })
-    )
-
     .put(
       fieldNames.alertChannelIds,
       createField({
@@ -121,8 +103,6 @@ export default function alertFormDefinition(alertConfig) {
     .put('threshold', createThresholdForm(alertConfig.threshold ?? {}, alertConfig.rule?.alertType))
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
     .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend));
-
-  return form;
 }
 
 function createHiddenFieldsForm(calculateThresholdOnBackend = false) {

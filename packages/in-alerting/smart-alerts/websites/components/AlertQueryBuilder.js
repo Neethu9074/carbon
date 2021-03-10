@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { getWebsiteIdTagFilter } from 'in-alerting/smart-alerts/websites/alertConfigDialogWithThreshold/thresholdSuggestionQueryUtils';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import { getSuggestions } from 'in-websites/queryBuilder';
@@ -83,6 +84,6 @@ function withWebsiteIdFilter(args, websiteId) {
   const { tagFilterExpression } = args;
   return {
     ...args,
-    tagFilterExpression: addTagFilters(tagFilterExpression, [getWebsiteIdTagFilter(websiteId)])
+    tagFilterExpression: addTagFilters(tagFilterExpression, [tagFilter('beacon.website.id', EQUALS, websiteId)])
   };
 }

@@ -8,7 +8,6 @@ import React from 'react';
 import { finishedProgress, emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
 import { getBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
-import { switchQB1orQB2Helper } from 'in-alerting/components/WithQB1orQB2';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import connectTo from 'in-hoc/connectTo';
 
@@ -18,13 +17,7 @@ export default connectTo(
   props => {
     const { tagFilterExpression } = props.metricsConfiguration;
 
-    const metrics$ = props.isQB1only
-      ? props.getMetric(props.metricsConfiguration)
-      : switchQB1orQB2Helper(
-          () => props.getMetric(props.metricsConfiguration),
-          () => (tagFilterExpression ? props.getMetric(props.metricsConfiguration) : just(pendingResult)),
-          isQB2Config => isQB2Config(props.convertedTagFilterExpression)
-        );
+    const metrics$ = tagFilterExpression ? props.getMetric(props.metricsConfiguration) : just(pendingResult);
 
     const combined$ = combineLatest([metrics$, thresholdOrBaselineLoadingSignal$]);
 

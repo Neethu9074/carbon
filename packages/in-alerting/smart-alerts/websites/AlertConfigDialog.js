@@ -12,7 +12,6 @@ import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/websit
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
-import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 
 const logger = createLogger('in-websites/alerting/AlertDialog');
 const initialChartConfigIndex = 0;
@@ -30,7 +29,7 @@ export default function AlertConfigDialog({ onClose, formData, websiteLabel, edi
       onChartViewConfigChange={setSelectedChartViewConfigIndex}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       onClose={onClose}
-      onCreate={() => createAlert(form, setForm, onClose, editMode, setIsSaving, isQB2ModeInSmartAlertsEnabled)}
+      onCreate={() => createAlert(form, setForm, onClose, editMode, setIsSaving)}
       timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
       websiteLabel={websiteLabel}
       editMode={editMode}
@@ -68,7 +67,7 @@ function createOnChange(setForm, externalForm) {
   };
 }
 
-function createAlert(form, setForm, onClose, editMode, setIsSaving, qb2Enabled) {
+function createAlert(form, setForm, onClose, editMode, setIsSaving) {
   setIsSaving(true);
 
   if (!form.hierarchyValid) {
@@ -77,7 +76,7 @@ function createAlert(form, setForm, onClose, editMode, setIsSaving, qb2Enabled) 
     return;
   }
 
-  const websiteAlertConfig = toAlertConfig(form, qb2Enabled);
+  const websiteAlertConfig = toAlertConfig(form);
 
   if (editMode) {
     updateAlertConfig(websiteAlertConfig, form.get('id').value).once(
@@ -98,9 +97,11 @@ function createAlert(form, setForm, onClose, editMode, setIsSaving, qb2Enabled) 
   }
 }
 
-function toAlertConfig(form, qb2Enabled) {
-  const common = {
+function toAlertConfig(form) {
+  const tagFilterFormModel = form.get(fieldNames.tagFilterExpression).value;
+  return Object.freeze({
     rule: form.get('rule').toJS(),
+    tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
     alertChannelIds: form.get(fieldNames.alertChannelIds).value,
     enabled: form.get(fieldNames.enabled).value,
     triggering: form.get(fieldNames.triggering).value,
@@ -111,17 +112,5 @@ function toAlertConfig(form, qb2Enabled) {
     threshold: form.get('threshold').toJS(),
     timeThreshold: form.get('timeThreshold').toJS(),
     granularity: form.get(fieldNames.granularity).value
-  };
-  const tagFilterFormModel = form.get(fieldNames.tagFilterExpression).value;
-  const tagFilterExpression = toBackendQueryModel(tagFilterFormModel, false);
-  const alertConfig = !qb2Enabled
-    ? {
-        ...common,
-        tagFilters: form.get(fieldNames.tagFilters).value
-      }
-    : {
-        ...common,
-        tagFilterExpression
-      };
-  return Object.freeze(alertConfig);
+  });
 }

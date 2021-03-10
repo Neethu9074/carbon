@@ -7,10 +7,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import RevisionDropdown, { toAlertRevision } from 'in-alerting/components/RevisionDropdown';
-import { isQB2Config, switchQB1orQB2Helper } from 'in-alerting/components/WithQB1orQB2';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
-import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import { warning } from 'in-new-components/Message/types';
@@ -103,10 +101,6 @@ export default function AlertHeader({
   };
 
   const doRestore = () => {
-    switchQB1orQB2Helper(
-      () => delete alertConfig['tagFilterExpression'],
-      () => delete alertConfig['tagFilters']
-    );
     doRestoreConfig$(alertConfig, alertConfig.id).once(
       () => setRevision(null),
       error => {
@@ -220,10 +214,9 @@ export default function AlertHeader({
                   }}
                 />
               </Tooltip>
-              <EditButton
-                openDialog={openDialog}
-                convertedTagFilterExpression={alertConfig.convertedTagFilterExpression}
-              />
+              <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip')}>
+                <SvgIcon className={locals.actionIcon} type="lib_actions_edit" onClick={openDialog} />
+              </Tooltip>
               <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')}>
                 <SvgIcon
                   className={locals.actionIcon}
@@ -296,33 +289,6 @@ AlertHeader.propTypes = {
   onConfigDeleted: PropTypes.func,
   onConfigRevisionChanged: PropTypes.func
 };
-
-function EditButton({ openDialog, convertedTagFilterExpression }) {
-  const isQB1Mode = !isQB2ModeInSmartAlertsEnabled;
-  const isDisabled = isQB2Config(convertedTagFilterExpression) && isQB1Mode;
-  return (
-    <Tooltip
-      content={
-        isDisabled && (
-          <div>
-            {t('in-alerting:components.alertHeaderThisConfigIsStoredWithQueryBuilder2Expressions')}
-            <br />
-            {t('in-alerting:components.alertHeaderYouCanOnlyStartOrPause')}
-          </div>
-        )
-      }
-    >
-      <SvgIcon
-        className={classNames({
-          [locals.actionIcon]: true,
-          [locals.actionIconDisabled]: isDisabled
-        })}
-        type="lib_actions_edit"
-        onClick={isDisabled ? undefined : openDialog}
-      />
-    </Tooltip>
-  );
-}
 
 function getLinkToAlerts(fullyQualifiedAlertsList) {
   return getModifiedUrlStream(params => {

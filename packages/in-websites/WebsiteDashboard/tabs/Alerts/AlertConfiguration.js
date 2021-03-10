@@ -9,12 +9,10 @@ import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/webs
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
-import TagFilterListPresenter from 'in-analyze/components/TagFilterList/TagFilterListPresenter';
 import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { translateDemocratisationTagFiltersToAnalyzeTagFilters } from 'in-websites/tags';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
@@ -27,7 +25,7 @@ import ListTitle from 'in-new-components/lists/Title';
 import { light } from 'in-themes/themes';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles//AlertConfiguration.mless';
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/AlertConfiguration.mless';
 
 const initialChartConfigIndex = 0;
 
@@ -38,9 +36,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
     rule: { operator, value, alertType },
     timeThreshold,
     alertChannelIds,
-    tagFilters, // QB1
-    tagFilterExpression, // QB2
-    convertedTagFilterExpression // QB2
+    tagFilterExpression
   } = alertConfig;
 
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -101,18 +97,8 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
         >
           <div className={locals.paddingBodyWrapper}>
             <ScopeConfigPresenter
-              tagFilterList={
-                <TagFilterListPresenter
-                  tagFilters={translateDemocratisationTagFiltersToAnalyzeTagFilters({
-                    tagFilters: [...blueprintConfig.getEntityTagFilters(alertConfig), ...tagFilters],
-                    websiteLabel
-                  })}
-                  disabled
-                />
-              }
               tagFilterFormModel={tagFilterFormModel}
               queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
-              convertedTagFilterExpression={convertedTagFilterExpression}
               scopePath={<WebsiteScopePath websiteName={websiteLabel} />}
             />
           </div>

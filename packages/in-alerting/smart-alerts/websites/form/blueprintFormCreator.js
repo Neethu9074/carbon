@@ -6,12 +6,10 @@ import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/compone
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
-import { switchQB1orQB2Helper } from 'in-alerting/components/WithQB1orQB2';
 
 export default function createBlueprintForm(form, alertType, alertThreshold = {}) {
   const threshold = form.get('threshold').toJS();
-  const tagFilters = form.get('tagFilters').value; // QB1
-  const tagFilterExpression = form.get('tagFilterExpression').value; // QB2
+  const tagFilterExpression = form.get('tagFilterExpression').value;
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const newThresholdForm = createThresholdForm(
@@ -36,20 +34,16 @@ export default function createBlueprintForm(form, alertType, alertThreshold = {}
     metricName
   });
 
+  // TODO when switching the blueprint, we currently do a cleanup based on the UI catalog. However, we should rely on
+  //      the backend catalog instead. And then blueprintConfig.getAvailableTags(metricName) can be removed.
   const availableTagFilters = blueprintConfig.getAvailableTags(metricName);
   const isAllowedFilter = filter => availableTagFilters.includes(filter.name);
-  let updatedForm = switchQB1orQB2Helper(
-    () => form.updateIn(['tagFilters'], f => f.setValue(tagFilters.filter(isAllowedFilter))),
-    () => {
-      const filteredTagFilterExpression = (tagFilterExpression ?? []).filter(isAllowedFilter);
-      const firstTagFilterItemIndex = filteredTagFilterExpression.findIndex(({ type }) => type === 'TAG_FILTER');
 
-      return form.updateIn(['tagFilterExpression'], f =>
-        f.setValue(filteredTagFilterExpression.slice(firstTagFilterItemIndex))
-      );
-    },
-    isQB2Config => isQB2Config(form.get('convertedTagFilterExpression')?.value)
-  )
+  const filteredTagFilterExpression = (tagFilterExpression ?? []).filter(isAllowedFilter);
+  const firstTagFilterItemIndex = filteredTagFilterExpression.findIndex(({ type }) => type === 'TAG_FILTER');
+
+  let updatedForm = form
+    .updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression.slice(firstTagFilterItemIndex)))
     .put('rule', newRuleForm)
     .put('threshold', newThresholdForm);
 

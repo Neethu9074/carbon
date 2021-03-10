@@ -26,7 +26,6 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/bluep
 import { modeAdvanced, modeSimple } from 'in-alerting/smart-alerts/websites/constants';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
-import { switchQB1orQB2Helper } from 'in-alerting/components/WithQB1orQB2';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -62,11 +61,8 @@ export default function AlertConfigDialogWithThreshold(props) {
     isAlertQueryValid
   );
 
-  const isValid = switchQB1orQB2Helper(
-    () => blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule),
-    () => isTagFilterFormModelValid,
-    isQB2Config => isQB2Config(Boolean(alertConfigWithFormModel.convertedTagFilterExpression))
-  );
+  const isValid = blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule) && isTagFilterFormModelValid;
+
   const thresholdResult = useObservable(
     ([form, simpleMode, isValid]) =>
       resolveThresholdRequest(
@@ -140,7 +136,6 @@ function resolveThresholdRequest(
   const {
     rule: { metricName },
     threshold: { operator, seasonality = null },
-    tagFilters,
     granularity
   } = alertConfigWithFormModel;
 
@@ -158,19 +153,7 @@ function resolveThresholdRequest(
 
   const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
   return thresholdSuggestionRequest({
-    ...switchQB1orQB2Helper(
-      () => ({
-        tagFilters: [
-          ...blueprintConfig.getEntityTagFilters(alertConfigWithFormModel),
-          ...tagFilters,
-          ...blueprintConfig.getRuleTagFilters(alertConfigWithFormModel.rule)
-        ]
-      }),
-      () => ({
-        tagFilterExpression: toBackendQueryModel(enrichedTagFilterFormModel)
-      }),
-      isQB2Config => isQB2Config(alertConfigWithFormModel.convertedTagFilterExpression) || true
-    ),
+    tagFilterExpression: toBackendQueryModel(enrichedTagFilterFormModel),
     metric: {
       metric: blueprintConfig.getMetricName(alertConfigWithFormModel.rule),
       granularity,

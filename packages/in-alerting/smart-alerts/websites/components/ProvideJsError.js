@@ -55,7 +55,7 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
                     component: (
                       <JsErrorsList
                         websiteId={form.get('websiteId').value}
-                        tagFilters={form.get('tagFilters').value}
+                        tagFilters={[]} // FIXME we need to use tagFilterExpression here, ATM we show all errors of that website
                         timeConfig={timeConfig}
                         onJsErrorSelect={message => {
                           websitesAlertingJsErrorsErrorSelected({ message, mode });

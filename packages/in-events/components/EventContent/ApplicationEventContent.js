@@ -37,7 +37,7 @@ export default function ApplicationEventContent({ event }) {
     return null;
   }
 
-  const { tagFilterExpression, rule, convertedTagFilterExpression, boundaryScope } = alertConfig;
+  const { tagFilterExpression, rule, boundaryScope } = alertConfig;
   const alertType = rule.alertType;
 
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -98,7 +98,6 @@ export default function ApplicationEventContent({ event }) {
               <ScopeConfigPresenter
                 tagFilterFormModel={tagFilterFormModel}
                 queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
-                convertedTagFilterExpression={convertedTagFilterExpression}
                 scopePath={<ApplicationScopePath boundaryScope={alertConfig.boundaryScope} {...eventEntity} />}
               />
             </div>

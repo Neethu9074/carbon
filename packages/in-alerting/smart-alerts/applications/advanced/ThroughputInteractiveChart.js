@@ -32,7 +32,7 @@ import Dropdown from 'in-alerting/components/Dropdown';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles//InteractiveChart.mless';
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/InteractiveChart.mless';
 
 export default function ThroughputInteractiveChart({
   blueprintConfig,

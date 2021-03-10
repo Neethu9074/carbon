@@ -9,7 +9,6 @@ import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { switchQB1orQB2Helper } from 'in-alerting/components/WithQB1orQB2';
 import getServices from 'in-subscription/application/getServices';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -24,18 +23,13 @@ export default function ChartSubEntitySelection({
   alertConfigWithFormModel,
   queryWindowSize
 }) {
-  const { isQueryValid, enrichedTagFilters, enrichedTagFilterFormModel } = getEnrichedFilters(
-    alertConfigWithFormModel,
-    applicationId
-  );
+  const { isQueryValid, enrichedTagFilterFormModel } = getEnrichedFilters(alertConfigWithFormModel, applicationId);
   const result =
     useServiceList(
       queryWindowSize,
       isQueryValid,
       alertConfigWithFormModel.tagFilterExpression,
-      enrichedTagFilterFormModel,
-      alertConfigWithFormModel.tagFilters,
-      enrichedTagFilters
+      enrichedTagFilterFormModel
     ) ?? pendingResult;
 
   const options = result.data?.items?.map(({ service }) => ({ label: service.label, value: service.id }));
@@ -71,44 +65,23 @@ export default function ChartSubEntitySelection({
 function getEnrichedFilters(alertConfigWithFormModel, applicationId) {
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
-  return switchQB1orQB2Helper(
-    () => {
-      return {
-        enrichedTagFilters: [
-          ...blueprintConfig.getEntityTagFilters(alertConfigWithFormModel, null),
-          ...(alertConfigWithFormModel.tagFilters ?? [])
-        ],
-        isQueryValid: true
-      };
-    },
-    () => {
-      return {
-        enrichedTagFilterFormModel: joinExpressions({
-          expressions: [
-            // don't define the subEntityId to get the results of all services in scope
-            blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, applicationId, null, null),
-            // only use the user-defined filters, but not the rule-specific filters, to not exclude services that might not
-            // match any call at the moment, but could do so in the future. Thus the user should be able to select them.
-            alertConfigWithFormModel.tagFilterExpression
-          ]
-        }),
-        // only pass the user-defined part of the query, because the generated part is valid anyways, and the validation
-        // would reject the entity-filter anyways, because the user is not allowed to use them
-        isQueryValid: useIsTagFilterFormModelValid(alertConfigWithFormModel.tagFilterExpression)
-      };
-    },
-    isQB2Config => isQB2Config(alertConfigWithFormModel.convertedTagFilterExpression)
-  );
+  return {
+    enrichedTagFilterFormModel: joinExpressions({
+      expressions: [
+        // don't define the subEntityId to get the results of all services in scope
+        blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, applicationId, null, null),
+        // only use the user-defined filters, but not the rule-specific filters, to not exclude services that might not
+        // match any call at the moment, but could do so in the future. Thus the user should be able to select them.
+        alertConfigWithFormModel.tagFilterExpression
+      ]
+    }),
+    // only pass the user-defined part of the query, because the generated part is valid anyways, and the validation
+    // would reject the entity-filter anyways, because the user is not allowed to use them
+    isQueryValid: useIsTagFilterFormModelValid(alertConfigWithFormModel.tagFilterExpression)
+  };
 }
 
-function useServiceList(
-  queryWindowSize,
-  isQueryValid,
-  tagFilterFormModel,
-  enrichedTagFilterFormModel,
-  tagFilters,
-  enrichedTagFilters
-) {
+function useServiceList(queryWindowSize, isQueryValid, tagFilterFormModel, enrichedTagFilterFormModel) {
   return useObservable(
     ([queryWindowSize, isQueryValid]) => {
       if (!isQueryValid) {
@@ -130,11 +103,10 @@ function useServiceList(
             windowSize: queryWindowSize
           }
         },
-        tagFilters: enrichedTagFilters,
         tagFilterExpression: enrichedTagFilterFormModel && toBackendQueryModel(enrichedTagFilterFormModel),
         contextScope: 'NONE'
       });
     },
-    [queryWindowSize, isQueryValid, tagFilterFormModel, tagFilters]
+    [queryWindowSize, isQueryValid, tagFilterFormModel]
   );
 }

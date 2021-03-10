@@ -5,15 +5,15 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
+import theme from 'in-themes';
 
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import SvgIcon from 'in-components/SvgIcon';
-import { lib } from 'in-themes/theme';
 
 import locals from 'in-alerting/components/IconLabel.mless';
 
 const IconLabel = forwardRef(
-  ({ text = '', type, noBottomMargin, color = lib.colors.N900Primary, width, ellipsis }, ref) => {
+  ({ text = '', type, noBottomMargin, color = theme.lib.colors.N900Primary, width, ellipsis }, ref) => {
     return (
       <HorizontalFlexWrapper
         ref={ref}

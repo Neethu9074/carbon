@@ -39,10 +39,6 @@
     fill: @lib__colors__primary2;
   }
 
-  .actionIconDisabled {
-    fill: @lib__colors__N300;
-  }
-
   .name {
     font-size: 1.25rem;
     font-weight: 600;

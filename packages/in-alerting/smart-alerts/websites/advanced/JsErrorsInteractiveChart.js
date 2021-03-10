@@ -25,7 +25,7 @@ import { isPercentageMetric } from 'in-alerting/smart-alerts/websites/form/formU
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles//InteractiveChart.mless';
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/InteractiveChart.mless';
 
 export default function JsErrorsInteractiveChart({
   blueprintConfig,
