@@ -2,26 +2,34 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans } from 'in-i18n';
 import React from 'react';
 
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
-import Button from 'in-new-components/Button';
+import classNames from 'classnames';
 
-export default function DBmarlinNotification() {
+import locals from './DBmarlinNotification.mless';
+
+export default function DBmarlinNotification({ children, className, bold, small }) {
   return (
-    <DashboardNotification>
-      <Trans
-        i18nKey="in-forge:plugins.awsRds.dashboard.lookingForEvenDeeperDatabaseInsightsCheckOutOurIntegrationWithDBmarlin"
-        components={{
-          button: (
-            <Button
-              href="https://www.dbmarlin.com/instana-offer?utm_campaign=Instana&utm_source=Instana&utm_medium=Instana"
-              target="_blank"
-            />
-          )
-        }}
-      />
-    </DashboardNotification>
+    <div
+      className={classNames(
+        classNames({
+          [locals.message]: true,
+          [locals.small]: small,
+          [locals.bold]: bold
+        }),
+        className
+      )}
+    >
+      <div className={locals.firstLine}>
+        <span
+          className={classNames({
+            [locals.content]: true,
+            [locals.smallSize]: small
+          })}
+        >
+          {children}
+        </span>
+      </div>
+    </div>
   );
 }

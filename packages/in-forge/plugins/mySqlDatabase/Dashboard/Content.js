@@ -4,7 +4,7 @@
  */
 import React from 'react';
 
-import DBmarlinNotification from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotification';
+import DBmarlinNotificationMessage from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotificationMessage';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -186,7 +186,7 @@ export default function MySqlDashboard({ snapshot, timeConfig }) {
         <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />
       ) : null}
 
-      <DBmarlinNotification />
+      <DBmarlinNotificationMessage />
     </div>
   );
 }
