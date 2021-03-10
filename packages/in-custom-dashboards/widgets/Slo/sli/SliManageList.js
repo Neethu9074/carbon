@@ -10,7 +10,7 @@ import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/sli/CreateSLIForm
 import SliList from 'in-custom-dashboards/widgets/Slo/sli/SliList';
 import { getSliConfigurations } from 'in-custom-dashboards/api';
 import { isLoading, hasError } from 'in-services/util/result';
-import { compareIgnoreCase } from 'in-services/util/string';
+import { compareIgnoreCase, containsIgnoreCase } from 'in-services/util/string';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
@@ -103,7 +103,7 @@ export const onlyWithAPidAndNameMatchingQuery = (applicationId, nameQuery = '') 
         items:
           sliConfigs?.data
             ?.filter(sli => sli?.sliEntity?.applicationId === applicationId)
-            .filter(sli => sli?.sliName.includes(nameQuery))
+            .filter(sli => containsIgnoreCase(sli?.sliName, nameQuery))
             .sort((a, b) => compareIgnoreCase(a.sliName, b.sliName)) ?? []
       }
     };
