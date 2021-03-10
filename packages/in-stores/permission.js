@@ -117,6 +117,13 @@ function getProductPermissions() {
       description: t('in-stores:permissionCanConfigureGlobalAlertPayloadDescription'),
       category: t('in-stores:permissionCanConfigureGlobalAlertPayloadCategory')
     },
+    {
+      keyForGroupApi: 'CAN_CONFIGURE_GLOBAL_ALERT_CONFIGS',
+      keyForApiTokenApi: 'canConfigureGlobalAlertConfigs',
+      label: t('in-stores:permissionCanConfigureGlobalAlertConfigsLabel'),
+      description: t('in-stores:permissionCanConfigureGlobalAlertConfigsDescription'),
+      category: t('in-stores:permissionCanConfigureGlobalAlertConfigsCategory')
+    },
     /* Custom Dashboards */
     {
       keyForGroupApi: 'CAN_CREATE_PUBLIC_CUSTOM_DASHBOARDS',
