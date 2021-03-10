@@ -2414,6 +2414,7 @@
       "infoName": "Name",
       "dashboard": {
         "titleName": "Name",
+        "titleVersion": "Version",
         "titleShard": "Shard",
         "titleReplica": "Replica",
         "titleRows": "Rows",

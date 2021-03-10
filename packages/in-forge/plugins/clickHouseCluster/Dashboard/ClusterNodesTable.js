@@ -23,6 +23,15 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.clickhouseCluster.dashboard.titleVersion'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'version']);
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.clickhouseCluster.dashboard.titleShard'),
     type: 'string',
     typeArgs: {
