@@ -37,7 +37,6 @@ export const newApCreationEnabled = isFeatureFlagEnabled('newApCreationEnabled')
 export const entityCountWidgetEnabled = isFeatureFlagEnabled('entityCountWidgetEnabled');
 export const infraMetricsWidgetEnabled = isFeatureFlagEnabled('infraMetricsWidgetEnabled');
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled');
-export const smartAlertsQB2Enabled = isFeatureFlagEnabled('smartAlertsQB2Enabled');
 export const qb2InCustomDashboardsEnabled = isFeatureFlagEnabled('qb2InCustomDashboardsEnabled');
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled');
 export const newAnalyticsEnabled = isFeatureFlagEnabled('newAnalyticsEnabled');
@@ -79,6 +78,3 @@ export const allowedMultiplesOfRollupSizeMissingInCharts = isInstanaEngineer ? 2
 
 //Flag which exposes the download button - enables the download of metrics from event view
 export const allowDownloadMetricsFromCharts = isInstanaEmail;
-
-// QB2 in SmartAlerts is only effectively enabled when UA2 is also enabled
-export const isQB2ModeInSmartAlertsEnabled = newAnalyticsEnabled && smartAlertsQB2Enabled;

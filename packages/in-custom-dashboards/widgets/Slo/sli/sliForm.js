@@ -8,7 +8,6 @@ import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { numericValidator } from 'in-services/validators/number';
@@ -108,31 +107,17 @@ function createSliEntityForm(sliEntity, apDefaultBoundaryScope) {
 function addGoodBadEventsForm(form, sliEntity) {
   return form
     .put(
-      'goodEventFilters',
-      createField({
-        validator: isQB2ModeInSmartAlertsEnabled ? undefined : noEmptyFilterListValidator,
-        value: sliEntity?.goodEventFilters ?? []
-      })
-    )
-    .put(
       sliFieldNames.goodEventFilterExpression,
       createField({
-        validator: isQB2ModeInSmartAlertsEnabled ? noEmptyFilterExpressionValidator : undefined,
+        validator: noEmptyFilterExpressionValidator,
         value: fromBackendModel(sliEntity?.goodEventFilterExpression)
       })
     )
     .put(
       sliFieldNames.badEventFilterExpression,
       createField({
-        validator: isQB2ModeInSmartAlertsEnabled ? noEmptyFilterExpressionValidator : undefined,
+        validator: noEmptyFilterExpressionValidator,
         value: fromBackendModel(sliEntity?.badEventFilterExpression)
-      })
-    )
-    .put(
-      'badEventFilters',
-      createField({
-        validator: isQB2ModeInSmartAlertsEnabled ? undefined : noEmptyFilterListValidator,
-        value: sliEntity?.badEventFilters ?? []
       })
     );
 }
@@ -143,8 +128,6 @@ export function resetFormForSliType(sliType, setForm, form) {
     setForm(
       newForm
         .put('metricConfiguration', createMetricsForm({}))
-        .updateIn(['sliEntity'], f => f.remove('goodEventFilters'))
-        .updateIn(['sliEntity'], f => f.remove('badEventFilters'))
         .updateIn(['sliEntity'], f => f.remove('goodEventFilterExpression'))
         .updateIn(['sliEntity'], f => f.remove('badEventFilterExpression'))
     );
@@ -194,16 +177,6 @@ const notNullValidator = v => {
     ];
   }
   return null;
-};
-
-const noEmptyFilterListValidator = filterArray => {
-  if (filterArray?.length > 0) return null;
-  return [
-    {
-      severity: 'error',
-      message: 'At least one filter condition must be configured.'
-    }
-  ];
 };
 
 const noEmptyFilterExpressionValidator = model => {

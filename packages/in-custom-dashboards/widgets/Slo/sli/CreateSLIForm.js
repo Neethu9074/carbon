@@ -12,9 +12,7 @@ import { isSliEventsQueryValid } from 'in-custom-dashboards/widgets/Slo/sli/SliE
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { SliForm } from 'in-custom-dashboards/widgets/Slo/sli/SliFormPresenter';
-import { switchQB1orQB2Helper } from 'in-alerting/components/WithQB1orQB2';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -136,24 +134,12 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
 }
 
 function toBackendFormat(form) {
-  return switchQB1orQB2Helper(
-    () => {
-      const formData = form.toJS();
-      delete formData.sliEntity[sliFieldNames.goodEventFilterExpression];
-      delete formData.sliEntity[sliFieldNames.badEventFilterExpression];
-      return formData;
-    },
-    () => {
-      const formData = form.toJS();
-      const goodEvents = formData.sliEntity[sliFieldNames.goodEventFilterExpression];
-      const badEvents = formData.sliEntity[sliFieldNames.badEventFilterExpression];
-      delete formData.sliEntity.goodEventFilters;
-      delete formData.sliEntity.badEventFilters;
-      formData.sliEntity[sliFieldNames.goodEventFilterExpression] = toBackendQueryModel(goodEvents);
-      formData.sliEntity[sliFieldNames.badEventFilterExpression] = toBackendQueryModel(badEvents);
-      return formData;
-    }
-  );
+  const formData = form.toJS();
+  const goodEvents = formData.sliEntity[sliFieldNames.goodEventFilterExpression];
+  const badEvents = formData.sliEntity[sliFieldNames.badEventFilterExpression];
+  formData.sliEntity[sliFieldNames.goodEventFilterExpression] = toBackendQueryModel(goodEvents);
+  formData.sliEntity[sliFieldNames.badEventFilterExpression] = toBackendQueryModel(badEvents);
+  return formData;
 }
 
 function useValidateExpressions(form, timeConfig) {
@@ -161,8 +147,9 @@ function useValidateExpressions(form, timeConfig) {
   const sliType = sliEntityForm?.get('sliType')?.value;
   const goodEventFilterExpression = sliEntityForm?.get(sliFieldNames.goodEventFilterExpression)?.value;
   const badEventFilterExpression = sliEntityForm?.get(sliFieldNames.badEventFilterExpression)?.value;
-  const isSliTypeUsingQB2 = sliType === 'availability';
-  const requiresQueryValidation = isQB2ModeInSmartAlertsEnabled && isSliTypeUsingQB2;
+
+  // Only availability SLIs use query builder, and therefore only these need to be validated
+  const requiresQueryValidation = sliType === 'availability';
 
   const goodEventsValidationResult = useValidateExpression(goodEventFilterExpression);
   const badEventsValidationResult = useValidateExpression(badEventFilterExpression);

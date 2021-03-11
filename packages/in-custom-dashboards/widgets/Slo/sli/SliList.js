@@ -15,7 +15,6 @@ import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
 import { trackSliDeleted } from 'in-custom-dashboards/widgets/Slo/tracker';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
-import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import getApplication from 'in-subscription/application/getApplication';
 import { deleteSliConfiguration } from 'in-custom-dashboards/api';
@@ -133,12 +132,7 @@ const columnDefinitions = [
     sortable: false,
     width: '1',
     getContent(item, { selectSli }) {
-      if (
-        !role.canConfigureServiceLevelIndicators ||
-        (!isQB2ModeInSmartAlertsEnabled &&
-          item.sliEntity.sliType === 'availability' &&
-          !item.convertedTagFilterExpression)
-      ) {
+      if (!role.canConfigureServiceLevelIndicators) {
         return null;
       }
       return (

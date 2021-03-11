@@ -36,7 +36,6 @@ module.exports = {
   ampCompanyInfoEnabled: true,
   newAnalyticsEnabled: true,
   persistentVolumeSupportEnabled: true,
-  smartAlertsQB2Enabled: true,
   qb2InCustomDashboardsEnabled: true,
   webMobileQb2AnalyzeEnabled: true,
   loggingEnabled: true,

@@ -12,14 +12,10 @@ import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/
 import getJumpDirectlyToUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToUA2Href';
 import { toNewTagFilterFormat } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import { EQUALS, GREATER_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
-import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { convertToAnalyzeFilters } from 'in-applications/tags';
 import { entityTypes } from 'in-analyze/applicationFilter';
 
 const emptyTagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
@@ -108,95 +104,63 @@ function getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming, tagCat
 function getLinkToUnboundAnalytics(sliConfig, tagCatalog, highlightedTime) {
   const sliEntity = sliConfig.sliEntity;
   const boundaryScope = sliEntity.boundaryScope;
-  if (isQB2ModeInSmartAlertsEnabled) {
-    let tagFilterExpression;
-    let filters;
-    if (sliEntity.sliType === availabilityType) {
-      tagFilterExpression = sliEntity.badEventFilterExpression;
-      filters = [];
-    } else {
-      tagFilterExpression = emptyTagFilterExpression;
-      filters = getAnalyzeFilters(sliConfig);
-    }
-    return getJumpDirectlyToUA2Href$(
-      {
-        applicationId: sliEntity.applicationId,
-        serviceId: sliEntity.serviceId,
-        endpointId: sliEntity.endpointId
-      },
-      tagFilterExpression,
-      filters.map(f => toNewTagFilterFormat(f, tagCatalog)),
-      boundaryScope,
-      {
-        timeConfig: highlightedTime,
-        groupBy: getGroupByParam(sliEntity),
-        hiddenCalls: {
-          includeInternal: sliEntity.includeInternal,
-          includeSynthetic: sliEntity.includeSynthetic
-        },
-        charts: getChartsParam(sliConfig)
-      }
-    );
+
+  let tagFilterExpression;
+  let filters;
+  if (sliEntity.sliType === availabilityType) {
+    tagFilterExpression = sliEntity.badEventFilterExpression;
+    filters = [];
+  } else {
+    // application
+    tagFilterExpression = emptyTagFilterExpression;
+    filters = getAdditionalFiltersForApplicationSli(sliConfig);
   }
-  const filters = getAnalyzeFilters(sliConfig);
-  return (
-    tagCatalog &&
-    getJumpToAnalyzeHref$(
-      {
-        applicationId: sliEntity.applicationId,
-        serviceId: sliEntity.serviceId,
-        endpointId: sliEntity.endpointId
+
+  return getJumpDirectlyToUA2Href$(
+    {
+      applicationId: sliEntity.applicationId,
+      serviceId: sliEntity.serviceId,
+      endpointId: sliEntity.endpointId
+    },
+    tagFilterExpression,
+    filters.map(f => toNewTagFilterFormat(f, tagCatalog)),
+    boundaryScope,
+    {
+      timeConfig: highlightedTime,
+      groupBy: getGroupByParam(sliEntity),
+      hiddenCalls: {
+        includeInternal: sliEntity.includeInternal,
+        includeSynthetic: sliEntity.includeSynthetic
       },
-      {
-        timeConfig: highlightedTime,
-        boundaryScope: sliEntity.boundaryScope,
-        groupByTag: getGroupByOldFormat(sliEntity),
-        focusedMetric: getFocusedMetricParam(sliConfig),
-        filters,
-        tagCatalog: tagCatalog
-      }
-    )
+      charts: getChartsParam(sliConfig)
+    }
   );
 }
 
-function getAnalyzeFilters(sliConfig) {
-  const filters = [];
-  const sliEntity = sliConfig.sliEntity;
-  if (sliEntity.sliType === availabilityType) {
-    const badAnalyzeFilters = convertToAnalyzeFilters(sliEntity.badEventFilters ?? []);
-    filters.push(...badAnalyzeFilters);
-  } else if (sliEntity.sliType === applicationType) {
-    switch (sliConfig.metricConfiguration.metricName) {
-      case 'latency': {
-        const thresholdValue = sliConfig.metricConfiguration.threshold;
-        filters.push(createAnalyzeFilter('call.latency', GREATER_THAN, thresholdValue));
-        break;
-      }
-      case 'errors':
-      case 'erroneousCalls':
-        filters.push(createAnalyzeFilter('call.erroneous', EQUALS, true));
-        break;
-      case 'calls':
-      default:
-        // no filter to add
-        break;
-    }
+function getAdditionalFiltersForApplicationSli(sliConfig) {
+  const { sliEntity, metricConfiguration } = sliConfig;
+
+  if (sliEntity.sliType !== applicationType) {
+    return [];
   }
-  return filters;
+
+  switch (metricConfiguration.metricName) {
+    case 'latency': {
+      const thresholdValue = metricConfiguration.threshold;
+      return [createAnalyzeFilter('call.latency', GREATER_THAN, thresholdValue)];
+    }
+    case 'errors':
+    case 'erroneousCalls':
+      return [createAnalyzeFilter('call.erroneous', EQUALS, true)];
+    case 'calls':
+    default:
+      // no filter to add
+      return [];
+  }
 }
 
 function createAnalyzeFilter(name, operator, value) {
   return { name, operator, value };
-}
-
-function getFocusedMetricParam(sliConfig) {
-  if (sliConfig.sliEntity.sliType === 'application') {
-    const metricName = sliConfig.metricConfiguration.metricName;
-    if (metricName === 'latency') {
-      return 'latency_DISTRIBUTION';
-    }
-  }
-  return 'calls_SUM';
 }
 
 function getChartsParam(sliConfig) {
@@ -217,10 +181,6 @@ function getChartsParam(sliConfig) {
       aggregation: 'SUM'
     }
   ];
-}
-
-function getGroupByOldFormat(sliEntity) {
-  return sliEntity.serviceId == null && sliEntity.endpointId == null ? groupByServiceName : groupByEndpointName;
 }
 
 function getGroupByParam(sliEntity) {

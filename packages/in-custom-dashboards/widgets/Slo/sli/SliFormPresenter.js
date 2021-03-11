@@ -12,7 +12,6 @@ import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServicesSele
 import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSelectBox';
 import GoodBadEvents from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
-import { isQB2ModeInSmartAlertsEnabled } from 'in-services/featureFlags';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import HelpAction from 'in-new-components/workspace/HelpAction';
@@ -108,17 +107,6 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
         <Header>{t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliEntity')}</Header>
 
         <Stack space="xsmall">
-          {!isQB2ModeInSmartAlertsEnabled && (
-            <Sections>
-              <InputInSection
-                id="sli-form-ap"
-                label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.appPerspective')}
-                disabled
-                value={apName}
-              />
-            </Sections>
-          )}
-
           <Sections>
             <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.boundary')}>
               <Row>
@@ -199,7 +187,7 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
 
       <MetricsForm form={form} onChange={onChange} />
 
-      <GoodBadEvents applicationName={apName} form={form} onChange={onChange} />
+      <GoodBadEvents applicationName={apName} form={form} />
     </Stack>
   );
 }

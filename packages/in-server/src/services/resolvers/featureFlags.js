@@ -155,11 +155,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'smartAlertsQB2Enabled',
-    instanaCtlKey: 'feature.smart.alerts.qb2.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'qb2InCustomDashboardsEnabled',
     instanaCtlKey: 'feature.qb2.custom.dashboards.enabled',
     defaultValue: true
