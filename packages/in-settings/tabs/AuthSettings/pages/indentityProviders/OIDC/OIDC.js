@@ -21,6 +21,7 @@ import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 import indentityProvidersLocals from '../indentityProviders.mless';
 import locals from './OIDC.mless';
@@ -80,20 +81,20 @@ export default function OIDC() {
 
 function Content({ file, form, setForm, input, setCanSaveItem, result }) {
   useEffect(
-    // allow only saving when either idP metadata has been uploaded or discovery and secret field are defined
-    () => setCanSaveItem(!!file || (form.get('discoveryUri').value && form.get('secret').value)),
+    // allow only saving when secret field is set and either idP metadata has been uploaded or discovery url has been set
+    () => setCanSaveItem(form.get('secret').value && (!!file || form.get('discoveryUri').value)),
     [file, form, setCanSaveItem]
   );
 
   return (
     <>
-      <Title title="Configure OpenID Connect" />
-      <SubViewHeader>OIDC Configuration</SubViewHeader>
+      <Title title={t('in-settings:tabs.configureOpenIDConnect')} />
+      <SubViewHeader>{t('in-settings:tabs.oidcConfiguration')}</SubViewHeader>
       {isAnotherIdpActivated([result.ldapConfig?.base, result.samlConfig?.activated]) ? (
-        <h2>OIDC is not configurable as long as you have another active identity provider configuration.</h2>
+        <h2>{t('in-settings:tabs.cannotConfigureOidcIfAnotherOneIsAlreadyActive')}</h2>
       ) : (
         <>
-          <h2>Activating OIDC enables Instana to authenticate a user against your Identity Provider (IdP).</h2>
+          <h2>{t('in-settings:tabs.activatingOidcEnablesInstanaToAuthenticateAUserAgainstYourIdentityProviderIdP')}</h2>
           <form method="post" encType="multipart/form-data">
             <Section restrictWidth="50rem">
               <Row>
@@ -101,7 +102,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                   {form.get('spEntityId').map(field => (
                     <FormGroup>
                       <Label htmlFor="spEntityId" hasError={!field.valid && field.touched}>
-                        ClientID
+                        {t('in-settings:tabs.clientID')}
                       </Label>
 
                       <Input
@@ -124,8 +125,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                   {form.get('ownerEmail').map(field => (
                     <FormGroup>
                       <Label htmlFor="ownerEmail" hasError={!field.valid && field.touched}>
-                        This account is automatically assigned an admin role. Please enter the account&apos;s e-mail
-                        address.
+                        {t('in-settings:tabs.thisAccountIsAutomaticallyAssignedAnAdminRole')}
                       </Label>
 
                       <Input
@@ -145,11 +145,8 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
             </Section>
 
             <Section restrictWidth="50rem">
-              <h2>Upload IdP Metadata</h2>
-              <p>
-                You can either upload your IdP Metadata via a file upload or use a discovery URL and secret of your OIDC
-                configuration and Instana will fetch it automatically.
-              </p>
+              <h2>{t('in-settings:tabs.uploadIdPMetadata')}</h2>
+              <p>{t('in-settings:tabs.youCanEitherUploadYourIdPMetadataViaFileOrUseADiscoveryUrlAndSecret')}</p>
               <div>
                 <Button
                   kind="secondary"
@@ -160,15 +157,15 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                     input.click();
                   }}
                 >
-                  {file ? shorten(file.name, 32) : 'Choose file…'}
+                  {file ? shorten(file.name, 32) : t('in-settings:tabs.chooseFile')}
                 </Button>
 
-                <p>Alternatively, define a discovery URL and secret here:</p>
+                <p>{t('in-settings:tabs.alternativelyDefineADiscoveryUrlAndSecretHere')}</p>
 
                 {form.get('discoveryUri').map(field => (
                   <FormGroup>
                     <Label htmlFor="url" hasError={!field.valid && field.touched}>
-                      Discovery URL
+                      {t('in-settings:tabs.discoveryURL')}
                     </Label>
                     <Input
                       className={locals.input}
@@ -187,7 +184,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                 {form.get('secret').map(field => (
                   <FormGroup>
                     <Label htmlFor="secret" hasError={!field.valid && field.touched}>
-                      Secret
+                      {t('in-settings:tabs.secret')}
                     </Label>
                     <Input
                       className={locals.input}
@@ -206,28 +203,33 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
             </Section>
 
             <Section restrictWidth="50rem">
-              <h2>Client setup</h2>
-              <p className={locals.descriptionText}>
-                {`This option covers the case where your IdP doesn't allow the upload of our metadata. Your IdP will
-                require the creation of an OIDC client and manually entering the required values. The values required
-                to connect to Instana are as follows:`}
-              </p>
+              <h2>{t('in-settings:tabs.clientSetup')}</h2>
+              <p className={locals.descriptionText}>{t('in-settings:tabs.clientSetupDescription')}</p>
 
               <Row className={indentityProvidersLocals.row}>
                 <Col xs={12}>
-                  <CopyableText title="Redirect URL" form={form} fieldName="oidcSignInCallbackUrl" />
+                  <CopyableText
+                    title={t('in-settings:tabs.redirectUrl')}
+                    form={form}
+                    fieldName="oidcSignInCallbackUrl"
+                  />
                 </Col>
                 <Col xs={12}>
-                  <CopyableText title="End Session URL" form={form} fieldName="oidcSignOutCallbackUrl" />
+                  <CopyableText
+                    title={t('in-settings:tabs.endSessionUrl')}
+                    form={form}
+                    fieldName="oidcSignOutCallbackUrl"
+                  />
                 </Col>
               </Row>
 
               <ul className={locals.list}>
                 <li>
-                  There will be an option to download the IdP-metadata. Store that file in a known location on your
-                  local machine.
+                  {t(
+                    'in-settings:tabs.thereWillBeAnOptionToDownloadTheIdPMetadataStoreThatFileInAKnownLocationOnYourLocalMachine'
+                  )}
                 </li>
-                <li>{`Use 'Upload IdP Metadata' below to deliver the file to Instana`}</li>
+                <li>{t('in-settings:tabs.useUploadIdpMetaDataBelow')}</li>
               </ul>
             </Section>
           </form>
@@ -253,27 +255,23 @@ function CopyableText({ title, form, fieldName }) {
 }
 
 function deleteItem({ setMessage }) {
-  setMessage({ message: 'Deleting config', type: neutral, isSaving: true });
+  setMessage({ message: {}, type: neutral, isSaving: true });
   const setConfigResult$ = deleteConfig();
   setConfigResult$.once(
     () => {
-      setMessage({ text: 'Config successfully deleted.', type: success });
+      setMessage({ text: t('in-settings:tabs.configSuccessfullyDeleted'), type: success });
     },
-    error => setMessage({ text: `Failed to delete config: ${error.message}`, type: errorType })
+    error => setMessage({ text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }), type: errorType })
   );
 }
 
-function saveItem({ result, setMessage, idpMetadata, spEntityId, ownerEmail, discoveryUri, secret }) {
-  if (result.samlConfig?.activated) {
-    setMessage({ text: 'SAML configuration is already active. Please deactivate SAML first.', type: errorType });
-  } else {
-    setMessage({ message: 'Saving config', type: neutral, isSaving: true });
-    const setConfigResult$ = setConfig({ idpMetadata, spEntityId, ownerEmail, discoveryUri, secret });
-    setConfigResult$.once(
-      () => setMessage({ text: 'Config successfully saved.', type: success }),
-      error => setMessage({ text: `Failed to save config: ${error.message}`, type: errorType })
-    );
-  }
+function saveItem({ setMessage, idpMetadata, spEntityId, ownerEmail, discoveryUri, secret }) {
+  setMessage({ message: t('in-settings:tabs.savingConfig'), type: neutral, isSaving: true });
+  const setConfigResult$ = setConfig({ idpMetadata, spEntityId, ownerEmail, discoveryUri, secret });
+  setConfigResult$.once(
+    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: success }),
+    error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: errorType })
+  );
 }
 
 function enrichForm(form, { setCanDeleteItem, result: { config } }) {

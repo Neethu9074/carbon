@@ -243,17 +243,13 @@ function deleteItem({ setMessage }) {
   );
 }
 
-function saveItem({ result, setMessage, idpMetadata, spEntityId }) {
-  if (isAnotherIdpActivated(result.ldapConfig, result.oidcConfig)) {
-    setMessage({ text: 'OIDC configuration is already active. Please deactivate OIDC first.', type: errorType });
-  } else {
-    setMessage({ message: t('in-settings:tabs.savingConfig'), type: neutral, isSaving: true });
-    const setConfigResult$ = setConfig({ idpMetadata, spEntityId });
-    setConfigResult$.once(
-      () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: success }),
-      error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: errorType })
-    );
-  }
+function saveItem({ setMessage, idpMetadata, spEntityId }) {
+  setMessage({ message: t('in-settings:tabs.savingConfig'), type: neutral, isSaving: true });
+  const setConfigResult$ = setConfig({ idpMetadata, spEntityId });
+  setConfigResult$.once(
+    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: success }),
+    error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: errorType })
+  );
 }
 
 function enrichForm(form, { setCanDeleteItem, result: { config } }) {
