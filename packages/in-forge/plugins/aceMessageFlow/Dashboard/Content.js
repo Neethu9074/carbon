@@ -8,7 +8,7 @@ import React from 'react';
 import FlowNodeTable from 'in-forge/plugins/aceMessageFlow/Dashboard/FlowNodeTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { micros, number } from 'in-services/formatters/number';
+import { micros, number, bytes } from 'in-services/formatters/number';
 
 export default function AceMessageFlowDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -49,14 +49,21 @@ export default function AceMessageFlowDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.fixedCompact,
-            tooltipFormatter: number.fixedCompact,
+            formatter: bytes.compact,
+            tooltipFormatter: bytes.compact,
             metrics: [`totalSizeOfInputMsgs`, `maxSizeOfInputMsgs`, `minSizeOfInputMsgs`],
             labels: [
               t('in-forge:plugins.aceMessageFlow.totalSizeOfInputMsgs'),
               t('in-forge:plugins.aceMessageFlow.maxSizeOfInputMsgs'),
               t('in-forge:plugins.aceMessageFlow.minSizeOfInputMsgs')
             ],
+            type: 'line'
+          }}
+          y2={{
+            formatter: number.compact,
+            tooltipFormatter: number.compact,
+            metrics: [`totalInputMessages`],
+            labels: [t('in-forge:plugins.aceMessageFlow.totalInputMessages')],
             type: 'line'
           }}
         />

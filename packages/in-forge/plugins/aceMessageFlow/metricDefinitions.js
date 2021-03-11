@@ -4,7 +4,7 @@
  */
 import { t } from 'in-i18n';
 
-import { number, micros } from 'in-services/formatters/number';
+import { number, micros, bytes } from 'in-services/formatters/number';
 
 export default [
   {
@@ -32,6 +32,13 @@ export default [
       t('in-forge:plugins.aceMessageFlow.maxSizeOfInputMsgs'),
       t('in-forge:plugins.aceMessageFlow.minSizeOfInputMsgs')
     ],
+    min: 0,
+    category: [t('in-forge:plugins.aceMessageFlow.sizeOfInputMsgs')],
+    formatter: bytes
+  },
+  {
+    metrics: ['totalInputMessages'],
+    labels: [t('in-forge:plugins.aceMessageFlow.totalInputMessages')],
     min: 0,
     category: [t('in-forge:plugins.aceMessageFlow.sizeOfInputMsgs')],
     formatter: number
