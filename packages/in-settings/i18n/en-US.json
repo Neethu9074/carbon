@@ -218,7 +218,7 @@
     "eachKeyValuePairWillBeIncludedAsAdditionalPayload": "Each key/value pair will be included as additional payload to each Issue or Incident alert notification. Please refer to the <docLink>Custom Payload documentation</docLink> for more details.",
     "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "The number of rows is restricted to {{maximumNumberOfRows}}.",
     "anErrorOccurredPleaseTryAgain": "An error occurred, please try again.",
-    "custom": "custom:",
+    "custom": "Custom",
     "unknownTypeTypeItCanNotBeEdited": "Unknown type: {{type}} - it can not be edited.",
     "theValueMustNotBeBlank": "The value must not be blank.",
     "onlyOrAnyAlphaNumericalAreAllowed": "Only '.', '-', '_' or any alpha-numerical are allowed.",
