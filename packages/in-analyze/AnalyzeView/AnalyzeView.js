@@ -186,7 +186,7 @@ export default function AnalyzeViewPropsEnrichment(props) {
         const prefix = isRawView ? 'rawItems' : 'groups';
         const orderBy = locationInfo[`${prefix}.orderBy`];
         const orderDirection = locationInfo[`${prefix}.orderDirection`];
-        setOrderByMatrixParam(location, orderBy, orderDirection, group);
+        setOrderByMatrixParam(location, orderBy, orderDirection, group, dataSource);
 
         // Reset all UA1 matrix parameters except of 'callList.dataSource' which will
         // be needed and eventually reset in the reset callback in the 'Analyze' component.

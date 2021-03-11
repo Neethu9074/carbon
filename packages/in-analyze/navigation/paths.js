@@ -113,7 +113,7 @@ function getLinkToUA2({
 
     setDataSourceMatrixParam(location, dataSource);
     setGroupByMatrixParam(location, groupByTag);
-    setOrderByMatrixParam(location, orderBy, orderDirection, groupByTag);
+    setOrderByMatrixParam(location, orderBy, orderDirection, groupByTag, dataSource);
     setMetricsMatrixParam(location, dataSource, metrics);
     setChartsMatrixParam(location, dataSource, focusedMetric);
     setPreviewEnabledMatrixParam(location, previewEnabled);
@@ -244,9 +244,13 @@ export function setMetricsMatrixParam(location, dataSource, metrics) {
   }
 }
 
-export function setOrderByMatrixParam(location, orderBy, orderDirection, groupByTag) {
+export function setOrderByMatrixParam(location, orderBy, orderDirection, groupByTag, dataSource) {
   if (orderBy != null) {
-    const orderMatrixParameter = isNotBlank(groupByTag?.name) ? orderByGroupsMatrixParameter : orderByMatrixParameter;
+    const isGrouped = isNotBlank(groupByTag?.name);
+    const orderMatrixParameter = isGrouped ? orderByGroupsMatrixParameter : orderByMatrixParameter;
+    if (isGrouped && orderBy === 'count') {
+      orderBy = dataSourceConstants[dataSource].metricKey;
+    }
     setOrDeleteMatrixParameter(location, orderMatrixParameter, toNewOrderBy(orderBy, orderDirection));
   }
 }
