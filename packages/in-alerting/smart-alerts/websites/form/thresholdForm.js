@@ -72,7 +72,7 @@ function createThresholdFormStaticThreshold(baseForm, threshold) {
           return [
             {
               severity: 'error',
-              message: t('in-websites:alerting.form.errorPleaseProvideANumberGreaterEqualsToZero')
+              message: t('in-alerting:smartAlerts.websites.form.errorPleaseProvideANumberGreaterEqualsToZero')
             }
           ];
         }
@@ -97,7 +97,7 @@ function createThresholdFormHistoricBaseline(baseForm, threshold) {
             return [
               {
                 severity: 'error',
-                message: t('in-websites:alerting.form.errorBaselineIsEmpty')
+                message: t('in-alerting:smartAlerts.websites.form.errorBaselineIsEmpty')
               }
             ];
           }

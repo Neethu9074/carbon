@@ -15,7 +15,7 @@ import locals from 'in-alerting/smart-alerts/websites/components/JsErrorsList.ml
 const columnDefinitions = [
   {
     id: 'message',
-    label: t('in-websites:alerting.components.errorMessage'),
+    label: t('in-alerting:smartAlerts.websites.components.errorMessage'),
     getContent: error => ErrorRow(error)
   }
 ];
@@ -45,7 +45,7 @@ export default function JsErrorsList({ websiteId, tagFilters, timeConfig, onJsEr
             .map(tableData => tableData.data.items.map(item => item.error))
         }
         pageSize={10}
-        noDataMessage={t('in-websites:alerting.components.noDataMessage')}
+        noDataMessage={t('in-alerting:smartAlerts.websites.components.noDataMessage')}
         onRowClick={error => {
           onJsErrorSelect(error.message);
           slideOut();

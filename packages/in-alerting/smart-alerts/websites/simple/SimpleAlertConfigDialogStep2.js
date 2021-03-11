@@ -21,7 +21,9 @@ export default function SimpleAlertConfigDialogStep2({
   QueryBuilderComponent
 }) {
   return (
-    <SimpleModeStepContentWrapper headline={t('in-websites:alerting.simple.simpleAlertConfigDialogStep2Headline')}>
+    <SimpleModeStepContentWrapper
+      headline={t('in-alerting:smartAlerts.websites.simple.simpleAlertConfigDialogStep2Headline')}
+    >
       <div className={locals.alertLocationFiltersWrapper}>
         <AlertTagFilterExpressionConfig
           form={form}

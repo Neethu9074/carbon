@@ -158,7 +158,10 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
         />
       </ThresholdConditionFormGroup>
       {thresholdType === 'staticThreshold' && (
-        <ThresholdConditionFormGroup iconType="lib_threshold" label={t('in-websites:alerting.advanced.thresholdValue')}>
+        <ThresholdConditionFormGroup
+          iconType="lib_threshold"
+          label={t('in-alerting:smartAlerts.websites.advanced.thresholdValue')}
+        >
           <ThresholdValueInput
             max={maxValue}
             form={form}

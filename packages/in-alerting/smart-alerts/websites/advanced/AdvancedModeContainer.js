@@ -62,8 +62,8 @@ export default function AdvancedModeContainer(props) {
       navItems={[
         {
           scrollId: '1',
-          label: t('in-websites:alerting.advanced.scopeLabel'),
-          title: t('in-websites:alerting.advanced.scopeTitle'),
+          label: t('in-alerting:smartAlerts.websites.advanced.scopeLabel'),
+          title: t('in-alerting:smartAlerts.websites.advanced.scopeTitle'),
           content: (
             <>
               <AlertTagFilterExpressionConfig
@@ -78,8 +78,8 @@ export default function AdvancedModeContainer(props) {
         },
         {
           scrollId: '2',
-          label: t('in-websites:alerting.advanced.triggerLabel'),
-          title: t('in-websites:alerting.advanced.triggerTitle'),
+          label: t('in-alerting:smartAlerts.websites.advanced.triggerLabel'),
+          title: t('in-alerting:smartAlerts.websites.advanced.triggerTitle'),
           checked: validateTrigger(form),
           content: (
             <>
@@ -96,7 +96,11 @@ export default function AdvancedModeContainer(props) {
                 alertType={alertType}
                 renderJsErrors={() => (
                   <>
-                    <LightCard title={t('in-websites:alerting.advanced.JSErrorMessage')} withoutPadding darkFrame>
+                    <LightCard
+                      title={t('in-alerting:smartAlerts.websites.advanced.JSErrorMessage')}
+                      withoutPadding
+                      darkFrame
+                    >
                       <ProvideJsError
                         form={form}
                         timeConfig={{
@@ -134,7 +138,11 @@ export default function AdvancedModeContainer(props) {
                 )}
                 renderStatusCode={() => (
                   <>
-                    <LightCard title={t('in-websites:alerting.advanced.HTTPStatusCode')} withoutPadding darkFrame>
+                    <LightCard
+                      title={t('in-alerting:smartAlerts.websites.advanced.HTTPStatusCode')}
+                      withoutPadding
+                      darkFrame
+                    >
                       <ProvideStatusCode form={form} updateForm={updateForm} mode={modeAdvanced} />
                     </LightCard>
                     <StatusCodeInteractiveChart
@@ -168,8 +176,8 @@ export default function AdvancedModeContainer(props) {
         },
         {
           scrollId: '3',
-          label: t('in-websites:alerting.advanced.timeThresholdLabel'),
-          title: t('in-websites:alerting.advanced.timeThresholdTitle'),
+          label: t('in-alerting:smartAlerts.websites.advanced.timeThresholdLabel'),
+          title: t('in-alerting:smartAlerts.websites.advanced.timeThresholdTitle'),
           checked: true,
           content: (
             <TimeThresholdConfig
@@ -183,15 +191,15 @@ export default function AdvancedModeContainer(props) {
         },
         {
           scrollId: '4',
-          label: t('in-websites:alerting.advanced.alertChannelsLabel'),
-          title: t('in-websites:alerting.advanced.alertChannelsTitle'),
+          label: t('in-alerting:smartAlerts.websites.advanced.alertChannelsLabel'),
+          title: t('in-alerting:smartAlerts.websites.advanced.alertChannelsTitle'),
           checked: form.get(fieldNames.alertChannelIds).value.length > 0,
           content: <SelectAlertChannel form={form} onChange={onChange} setAlertChannelsVisible={setSliderState} />
         },
         {
           scrollId: '5',
-          label: t('in-websites:alerting.advanced.propertiesLabel'),
-          title: t('in-websites:alerting.advanced.propertiesTitle'),
+          label: t('in-alerting:smartAlerts.websites.advanced.propertiesLabel'),
+          title: t('in-alerting:smartAlerts.websites.advanced.propertiesTitle'),
           checked: !!(form.get(fieldNames.name).value || form.get(fieldNames.description).value),
           content: (
             <AlertPropertiesContainer

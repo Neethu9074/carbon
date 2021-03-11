@@ -71,7 +71,7 @@ function extendForSpecificJsError(baseForm, rule) {
             return [
               {
                 severity: 'error',
-                message: t('in-websites:alerting.form.errorPleaseProvideAnErrorMessage')
+                message: t('in-alerting:smartAlerts.websites.form.errorPleaseProvideAnErrorMessage')
               }
             ];
           } else {

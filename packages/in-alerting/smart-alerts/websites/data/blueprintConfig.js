@@ -21,18 +21,18 @@ import { availableFilterTags } from 'in-websites/tags';
 import { isNotBlank } from 'in-services/util/string';
 
 const jsErrorMetricLabelsByName = Object.freeze({
-  errors: t('in-websites:alerting.data.errorCount'),
-  specificJsErrorRate: t('in-websites:alerting.data.specificJsErrorRate')
+  errors: t('in-alerting:smartAlerts.websites.data.errorCount'),
+  specificJsErrorRate: t('in-alerting:smartAlerts.websites.data.specificJsErrorRate')
 });
 
 const statusCodeMetricLabelsByName = Object.freeze({
-  httpxxx: t('in-websites:alerting.data.statusCodeCount'),
-  specificStatusCodeRate: t('in-websites:alerting.data.specificStatusCodeRate')
+  httpxxx: t('in-alerting:smartAlerts.websites.data.statusCodeCount'),
+  specificStatusCodeRate: t('in-alerting:smartAlerts.websites.data.specificStatusCodeRate')
 });
 
 const throughputMetricLabelsByName = Object.freeze({
-  pageLoads: t('in-websites:alerting.data.pageLoads'),
-  pageTransitions: t('in-websites:alerting.data.pageTransitions')
+  pageLoads: t('in-alerting:smartAlerts.websites.data.pageLoads'),
+  pageTransitions: t('in-alerting:smartAlerts.websites.data.pageTransitions')
 });
 
 const baseBlueprint = Object.freeze({
@@ -54,30 +54,30 @@ const baseBlueprint = Object.freeze({
 const slownessBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'slowness',
-  name: t('in-websites:alerting.data.slownessBlueprintConfigName'),
-  headline: t('in-websites:alerting.data.slownessBlueprintConfigHeadline'),
+  name: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigName'),
+  headline: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigHeadline'),
   text:
     `
       <p>
       ` +
-    t('in-websites:alerting.data.slownessBlueprintConfigTextP') +
+    t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextP') +
     `
       </p>
       <ul>
         <li>` +
-    t('in-websites:alerting.data.slownessBlueprintConfigTextli1') +
+    t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli1') +
     `</li>
         <li>` +
-    t('in-websites:alerting.data.slownessBlueprintConfigTextli2') +
+    t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli2') +
     `</li>
         <li>` +
-    t('in-websites:alerting.data.slownessBlueprintConfigTextli3') +
+    t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli3') +
     `</li>
         <li>` +
-    t('in-websites:alerting.data.slownessBlueprintConfigTextli4') +
+    t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli4') +
     `</li>
         <li>` +
-    t('in-websites:alerting.data.slownessBlueprintConfigTextli5') +
+    t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli5') +
     `</li>
       <ul>
     `,
@@ -85,7 +85,7 @@ const slownessBlueprintConfig = Object.freeze({
   baselineEnabled: true,
   defaultMetric: 'onLoadTime',
   getMetricName: () => 'onLoadTime',
-  getMetricLabel: () => t('in-websites:alerting.data.slownessBlueprintConfigMetricLabel'),
+  getMetricLabel: () => t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel'),
   getMetricFormat: () => millis.forcedFixedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: alertRule => alertRule.aggregation,
@@ -98,9 +98,9 @@ const slownessBlueprintConfig = Object.freeze({
 const jsErrorsBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'specificJsError',
-  name: t('in-websites:alerting.data.jsErrorsBlueprintConfigName'),
-  headline: t('in-websites:alerting.data.jsErrorsBlueprintConfigHeadline'),
-  text: t('in-websites:alerting.data.jsErrorsBlueprintConfigText'),
+  name: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigName'),
+  headline: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigHeadline'),
+  text: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigText'),
   getAvailableTags: () => getIncludedTags(availableFilterTags.error),
   baselineEnabled: false,
   defaultMetric: 'errors',
@@ -110,7 +110,7 @@ const jsErrorsBlueprintConfig = Object.freeze({
   getMaxMetricValue: metricName => (isCustomRateMetric(metricName) ? 100 : Number.MAX_SAFE_INTEGER),
   getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
   isRuleComplete: alertRule => isNotBlank(alertRule.value),
-  incompleteRuleMessage: t('in-websites:alerting.data.jsErrorsBlueprintConfigIncompleteRuleMessage'),
+  incompleteRuleMessage: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigIncompleteRuleMessage'),
   getRuleTagFilterFormModel: alertRule => [tagFilter('beacon.error.message', alertRule.operator, alertRule.value)],
   getBeaconType: () => 'error',
   getExtraAnalyzeLinkTagFilterFormModel: () => [] // TODO in AP error blueprint, we add a call.erroneous filter, to only show erroneous calls, in WebsiteSmartAlerts we never did that. Ask PM whether we want to add such filter for Websites as well.
@@ -119,9 +119,9 @@ const jsErrorsBlueprintConfig = Object.freeze({
 const statusCodeBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'statusCode',
-  name: t('in-websites:alerting.data.statusCodeBlueprintConfigName'),
-  headline: t('in-websites:alerting.data.statusCodeBlueprintConfigHeadline'),
-  text: t('in-websites:alerting.data.statusCodeBlueprintConfigText'),
+  name: t('in-alerting:smartAlerts.websites.data.statusCodeBlueprintConfigName'),
+  headline: t('in-alerting:smartAlerts.websites.data.statusCodeBlueprintConfigHeadline'),
+  text: t('in-alerting:smartAlerts.websites.data.statusCodeBlueprintConfigText'),
   getAvailableTags: () => getIncludedTags(availableFilterTags.httpRequest),
   baselineEnabled: false,
   defaultMetric: 'httpxxx',
@@ -131,7 +131,7 @@ const statusCodeBlueprintConfig = Object.freeze({
   getMaxMetricValue: metricName => (isCustomRateMetric(metricName) ? 100 : Number.MAX_SAFE_INTEGER),
   getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
   isRuleComplete: alertRule => isNotBlank(alertRule.value),
-  incompleteRuleMessage: t('in-websites:alerting.data.statusCodeBlueprintConfigIncompleteRuleMessage'),
+  incompleteRuleMessage: t('in-alerting:smartAlerts.websites.data.statusCodeBlueprintConfigIncompleteRuleMessage'),
   getRuleTagFilterFormModel: alertRule => [tagFilter('beacon.http.status', alertRule.operator, alertRule.value)],
   getBeaconType: () => 'httpRequest'
 });
@@ -139,9 +139,9 @@ const statusCodeBlueprintConfig = Object.freeze({
 const throughputBlueprintConfig = Object.freeze({
   ...baseBlueprint,
   type: 'throughput',
-  name: t('in-websites:alerting.data.throughputBlueprintConfigName'),
-  headline: t('in-websites:alerting.data.throughputBlueprintConfigHeadline'),
-  text: t('in-websites:alerting.data.throughputBlueprintConfigText'),
+  name: t('in-alerting:smartAlerts.websites.data.throughputBlueprintConfigName'),
+  headline: t('in-alerting:smartAlerts.websites.data.throughputBlueprintConfigHeadline'),
+  text: t('in-alerting:smartAlerts.websites.data.throughputBlueprintConfigText'),
   getAvailableTags: metricName =>
     getIncludedTags(metricName === 'pageLoads' ? availableFilterTags.pageLoad : availableFilterTags.pageChange),
   baselineEnabled: true,
@@ -171,9 +171,9 @@ export const simpleModeBlueprintConfigs = Object.freeze([
   {
     ...throughputBlueprintConfig,
     subType: 'unexpectedDrop',
-    name: t('in-websites:alerting.data.simpleModeBlueprintConfigsUnexpectedDropName'),
-    headline: t('in-websites:alerting.data.simpleModeBlueprintConfigsUnexpectedDropHeadline'),
-    text: t('in-websites:alerting.data.simpleModeBlueprintConfigsUnexpectedDropText'),
+    name: t('in-alerting:smartAlerts.websites.data.simpleModeBlueprintConfigsUnexpectedDropName'),
+    headline: t('in-alerting:smartAlerts.websites.data.simpleModeBlueprintConfigsUnexpectedDropHeadline'),
+    text: t('in-alerting:smartAlerts.websites.data.simpleModeBlueprintConfigsUnexpectedDropText'),
     thresholdDefaults: {
       operator: '<='
     },
@@ -182,9 +182,9 @@ export const simpleModeBlueprintConfigs = Object.freeze([
   {
     ...throughputBlueprintConfig,
     subType: 'unexpectedlyHighNumber',
-    name: t('in-websites:alerting.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberName'),
-    headline: t('in-websites:alerting.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline'),
-    text: t('in-websites:alerting.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberText'),
+    name: t('in-alerting:smartAlerts.websites.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberName'),
+    headline: t('in-alerting:smartAlerts.websites.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline'),
+    text: t('in-alerting:smartAlerts.websites.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberText'),
     isSelected: alertThreshold => alertThreshold.operator === '>=' || alertThreshold.operator === '>'
   }
 ]);

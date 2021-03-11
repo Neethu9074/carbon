@@ -42,7 +42,7 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
             })}
           >
             <HelpText className={locals.helpText}>
-              {t('in-websites:alerting.components.selectJSErrorHelpText')}
+              {t('in-alerting:smartAlerts.websites.components.selectJSErrorHelpText')}
             </HelpText>
             <Button
               className={classNames({
@@ -71,17 +71,17 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
                         slideOut={() => onSelectJsError({ isVisible: false })}
                       />
                     ),
-                    title: t('in-websites:alerting.components.selectJSErrorTitle')
+                    title: t('in-alerting:smartAlerts.websites.components.selectJSErrorTitle')
                   },
                   isVisible: true
                 });
               }}
             >
-              {t('in-websites:alerting.components.selectJSErrorTitle')}
+              {t('in-alerting:smartAlerts.websites.components.selectJSErrorTitle')}
             </Button>
           </div>
           <Label htmlFor={'ruleOperator'} hasError={!field.valid && field.touched}>
-            {t('in-websites:alerting.components.errorMessage')}
+            {t('in-alerting:smartAlerts.websites.components.errorMessage')}
           </Label>
           <ComboBox
             name={'ruleOperator'}

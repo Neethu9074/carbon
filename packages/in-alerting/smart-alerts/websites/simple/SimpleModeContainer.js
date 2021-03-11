@@ -13,14 +13,14 @@ import { t } from 'in-i18n';
 
 const stepConfigs = [
   {
-    title: t('in-websites:alerting.simple.stepConfigsStep1Title'),
+    title: t('in-alerting:smartAlerts.websites.simple.stepConfigsStep1Title'),
     validateIntermediately: [['rule', 'value']]
   },
   {
-    title: t('in-websites:alerting.simple.stepConfigsStep2Title')
+    title: t('in-alerting:smartAlerts.websites.simple.stepConfigsStep2Title')
   },
   {
-    title: t('in-websites:alerting.simple.stepConfigsStep3Title'),
+    title: t('in-alerting:smartAlerts.websites.simple.stepConfigsStep3Title'),
     validateIntermediately: [['alertChannelIds']]
   }
 ];

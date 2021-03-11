@@ -16,14 +16,16 @@ export function getTitlePlaceholder(form) {
   switch (alertType) {
     case 'specificJsError': {
       if (rule.operator === operators.NOT_EMPTY) {
-        return t('in-websites:alerting.form.anyJSErrors');
+        return t('in-alerting:smartAlerts.websites.form.anyJSErrors');
       }
       const errorMessage = rule.value;
-      return t('in-websites:alerting.form.JSErrors', { errorMessage: errorMessage });
+      return t('in-alerting:smartAlerts.websites.form.JSErrors', { errorMessage: errorMessage });
     }
     case 'statusCode': {
       const statusCodeString = rule.value;
-      return t('in-websites:alerting.form.HTTPStatusCodes', { statusCode: fillStatusCodeValue(statusCodeString) });
+      return t('in-alerting:smartAlerts.websites.form.HTTPStatusCodes', {
+        statusCode: fillStatusCodeValue(statusCodeString)
+      });
     }
     case 'slowness': {
       const thresholdOperator = form.get('threshold').get('operator').value;
@@ -36,7 +38,7 @@ export function getTitlePlaceholder(form) {
       return getThroughputSimpleHighOrLowOperatorText(blueprintConfig.getMetricLabel(metricName), thresholdOperator);
     }
     default:
-      throw Error(t('in-websites:alerting.form.unsupportedAlertType', { alertType: alertType }));
+      throw Error(t('in-alerting:smartAlerts.websites.form.unsupportedAlertType', { alertType: alertType }));
   }
 }
 
@@ -49,7 +51,7 @@ export function getDescriptionPlaceholder(form) {
   switch (alertType) {
     case 'specificJsError': {
       if (rule.operator === operators.NOT_EMPTY) {
-        return t('in-websites:alerting.form.JSErrorsHaveBeenDetected');
+        return t('in-alerting:smartAlerts.websites.form.JSErrorsHaveBeenDetected');
       }
       return getJSErrorText(rule.operator, rule.value);
     }
@@ -79,7 +81,7 @@ export function getDescriptionPlaceholder(form) {
       return getThresholdHigherOrLowerOperatorText(metricLabel, thresholdOperator);
     }
     default:
-      throw Error(t('in-websites:alerting.form.unsupportedAlertType', { alertType: alertType }));
+      throw Error(t('in-alerting:smartAlerts.websites.form.unsupportedAlertType', { alertType: alertType }));
   }
 }
 
@@ -115,107 +117,109 @@ function fillStatusCodeValue(statusCode) {
 function getJSErrorText(operator, ruleValue) {
   switch (operator) {
     case operators.EQUALS:
-      return t('in-websites:alerting.form.JSErrorTextEquals', { ruleValue: ruleValue });
+      return t('in-alerting:smartAlerts.websites.form.JSErrorTextEquals', { ruleValue: ruleValue });
     case operators.CONTAINS:
-      return t('in-websites:alerting.form.JSErrorTextContains', { ruleValue: ruleValue });
+      return t('in-alerting:smartAlerts.websites.form.JSErrorTextContains', { ruleValue: ruleValue });
     case operators.STARTS_WITH:
-      return t('in-websites:alerting.form.JSErrorTextStartsWith', { ruleValue: ruleValue });
+      return t('in-alerting:smartAlerts.websites.form.JSErrorTextStartsWith', { ruleValue: ruleValue });
     case operators.ENDS_WITH:
-      return t('in-websites:alerting.form.JSErrorTextEndsWith', { ruleValue: ruleValue });
+      return t('in-alerting:smartAlerts.websites.form.JSErrorTextEndsWith', { ruleValue: ruleValue });
     default:
-      throw Error(t('in-websites:alerting.form.unsupportedOperator', { operator: operator }));
+      throw Error(t('in-alerting:smartAlerts.websites.form.unsupportedOperator', { operator: operator }));
   }
 }
 
 function getSlownessSimpleHighOrLowOperatorText(aggregationText, operator) {
   return isGreaterOperator(operator)
-    ? t('in-websites:alerting.form.slownessSimpleHighOperatorText', { aggregationText: aggregationText })
-    : t('in-websites:alerting.form.slownessSimpleLowOperatorText', { aggregationText: aggregationText });
+    ? t('in-alerting:smartAlerts.websites.form.slownessSimpleHighOperatorText', { aggregationText: aggregationText })
+    : t('in-alerting:smartAlerts.websites.form.slownessSimpleLowOperatorText', { aggregationText: aggregationText });
 }
 
 function getThroughputSimpleHighOrLowOperatorText(metricLabel, operator) {
   return isGreaterOperator(operator)
-    ? t('in-websites:alerting.form.throughputSimpleHighOperatorText', { metricLabel: metricLabel })
-    : t('in-websites:alerting.form.throughputSimpleLowOperatorText', { metricLabel: metricLabel });
+    ? t('in-alerting:smartAlerts.websites.form.throughputSimpleHighOperatorText', { metricLabel: metricLabel })
+    : t('in-alerting:smartAlerts.websites.form.throughputSimpleLowOperatorText', { metricLabel: metricLabel });
 }
 
 function getStatusCodeSimpleAboveOrBelowOperatorText(statusCodeLabel, operator) {
   return isGreaterOperator(operator)
-    ? t('in-websites:alerting.form.statusCodeSimpleAboveOperatorText', { statusCodeLabel: statusCodeLabel })
-    : t('in-websites:alerting.form.statusCodeSimpleBelowOperatorText', { statusCodeLabel: statusCodeLabel });
+    ? t('in-alerting:smartAlerts.websites.form.statusCodeSimpleAboveOperatorText', { statusCodeLabel: statusCodeLabel })
+    : t('in-alerting:smartAlerts.websites.form.statusCodeSimpleBelowOperatorText', {
+        statusCodeLabel: statusCodeLabel
+      });
 }
 
 function getSlownessSimpleAboveOrBelowOperatorText(aggregationText, operator) {
   return isGreaterOperator(operator)
-    ? t('in-websites:alerting.form.slownessSimpleAboveOperatorText', { aggregationText: aggregationText })
-    : t('in-websites:alerting.form.slownessSimpleBelowOperatorText', { aggregationText: aggregationText });
+    ? t('in-alerting:smartAlerts.websites.form.slownessSimpleAboveOperatorText', { aggregationText: aggregationText })
+    : t('in-alerting:smartAlerts.websites.form.slownessSimpleBelowOperatorText', { aggregationText: aggregationText });
 }
 
 function getSlownessGreaterOrLessOperatorText(aggregationText, operator, thresholdValue) {
   switch (operator) {
     case '>':
-      return t('in-websites:alerting.form.slownessGreaterOperatorText', {
+      return t('in-alerting:smartAlerts.websites.form.slownessGreaterOperatorText', {
         aggregationText: aggregationText,
         thresholdValue: thresholdValue
       });
     case '>=':
-      return t('in-websites:alerting.form.slownessGreaterEqualsOperatorText', {
+      return t('in-alerting:smartAlerts.websites.form.slownessGreaterEqualsOperatorText', {
         aggregationText: aggregationText,
         thresholdValue: thresholdValue
       });
     case '<':
-      return t('in-websites:alerting.form.slownessLessOperatorText', {
+      return t('in-alerting:smartAlerts.websites.form.slownessLessOperatorText', {
         aggregationText: aggregationText,
         thresholdValue: thresholdValue
       });
     case '<=':
-      return t('in-websites:alerting.form.slownessLessEqualsOperatorText', {
+      return t('in-alerting:smartAlerts.websites.form.slownessLessEqualsOperatorText', {
         aggregationText: aggregationText,
         thresholdValue: thresholdValue
       });
     default:
-      throw Error(t('in-websites:alerting.form.unsupportedOperator', { operator: operator }));
+      throw Error(t('in-alerting:smartAlerts.websites.form.unsupportedOperator', { operator: operator }));
   }
 }
 
 function getStaticThresholdHigherOrLowerOperatorText(metricLabel, operator, thresholdValue) {
   switch (operator) {
     case '>':
-      return t('in-websites:alerting.form.staticThresholdHigherOperatorText', {
+      return t('in-alerting:smartAlerts.websites.form.staticThresholdHigherOperatorText', {
         metricLabel: metricLabel,
         thresholdValue: thresholdValue
       });
     case '>=':
-      return t('in-websites:alerting.form.staticThresholdHigherEqualsOperatorText', {
+      return t('in-alerting:smartAlerts.websites.form.staticThresholdHigherEqualsOperatorText', {
         metricLabel: metricLabel,
         thresholdValue: thresholdValue
       });
     case '<':
-      return t('in-websites:alerting.form.staticThresholdLowerOperatorText', {
+      return t('in-alerting:smartAlerts.websites.form.staticThresholdLowerOperatorText', {
         metricLabel: metricLabel,
         thresholdValue: thresholdValue
       });
     case '<=':
-      return t('in-websites:alerting.form.staticThresholdLowerEqualsOperatorText', {
+      return t('in-alerting:smartAlerts.websites.form.staticThresholdLowerEqualsOperatorText', {
         metricLabel: metricLabel,
         thresholdValue: thresholdValue
       });
     default:
-      throw Error(t('in-websites:alerting.form.unsupportedOperator', { operator: operator }));
+      throw Error(t('in-alerting:smartAlerts.websites.form.unsupportedOperator', { operator: operator }));
   }
 }
 
 function getThresholdHigherOrLowerOperatorText(metricLabel, operator) {
   switch (operator) {
     case '>':
-      return t('in-websites:alerting.form.thresholdHigherOperatorText', { metricLabel: metricLabel });
+      return t('in-alerting:smartAlerts.websites.form.thresholdHigherOperatorText', { metricLabel: metricLabel });
     case '>=':
-      return t('in-websites:alerting.form.thresholdHigherEqualsOperatorText', { metricLabel: metricLabel });
+      return t('in-alerting:smartAlerts.websites.form.thresholdHigherEqualsOperatorText', { metricLabel: metricLabel });
     case '<':
-      return t('in-websites:alerting.form.thresholdLowerOperatorText', { metricLabel: metricLabel });
+      return t('in-alerting:smartAlerts.websites.form.thresholdLowerOperatorText', { metricLabel: metricLabel });
     case '<=':
-      return t('in-websites:alerting.form.thresholdLowerEqualsOperatorText', { metricLabel: metricLabel });
+      return t('in-alerting:smartAlerts.websites.form.thresholdLowerEqualsOperatorText', { metricLabel: metricLabel });
     default:
-      throw Error(t('in-websites:alerting.form.unsupportedOperator', { operator: operator }));
+      throw Error(t('in-alerting:smartAlerts.websites.form.unsupportedOperator', { operator: operator }));
   }
 }

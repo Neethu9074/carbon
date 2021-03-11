@@ -94,8 +94,8 @@ export default function AlertConfigDialogWithThreshold(props) {
       featureFeedbackElement={
         <FeatureFeedback
           href={`https://docs.google.com/forms/d/e/1FAIpQLSdJfdTTcWhC_X2LaVK503OuyMuZe2ruSFmMEBqb5rjYuWd_VA/viewform`}
-          text={t('in-websites:alerting.alertConfigDialogWithThreshold.alertText')}
-          labelText={t('in-websites:alerting.alertConfigDialogWithThreshold.alertLabelText')}
+          text={t('in-alerting:smartAlerts.websites.alertConfigDialogWithThreshold.alertText')}
+          labelText={t('in-alerting:smartAlerts.websites.alertConfigDialogWithThreshold.alertLabelText')}
           styles={{
             marginRight: '2rem'
           }}
