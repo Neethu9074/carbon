@@ -10,7 +10,7 @@ export default [
   {
     metrics: ['metrics.Capacity'],
     labels: [t('in-forge:plugins.azureApiManagement.labelCapacity')],
-    category: ['Capacity'],
+    category: [t('in-forge:plugins.azureApiManagement.capacity')],
     min: 0,
     formatter: percentagePlain.detailed
   },
@@ -29,14 +29,14 @@ export default [
       t('in-forge:plugins.azureApiManagement.labelFailedGatewayRequests'),
       t('in-forge:plugins.azureApiManagement.labelOtherGatewayRequests')
     ],
-    category: ['Gateway Requests'],
+    category: [t('in-forge:plugins.azureApiManagement.gatewayRequests')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['metrics.Duration'],
     labels: [t('in-forge:plugins.azureApiManagement.labelCapacityDuration')],
-    category: ['Latency'],
+    category: [t('in-forge:plugins.azureApiManagement.latency')],
     min: 0,
     formatter: millis
   },
@@ -59,14 +59,14 @@ export default [
       t('in-forge:plugins.azureApiManagement.labelTimedOutEventHubEvents'),
       t('in-forge:plugins.azureApiManagement.labelDroppedEventHubEvents')
     ],
-    category: ['Event Hub Events'],
+    category: [t('in-forge:plugins.azureApiManagement.eventHubEvents')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['EventHubTotalBytesSent'],
     labels: [t('in-forge:plugins.azureApiManagement.labelSizeOfEventHubEvents')],
-    category: ['Size of Event Hub Events'],
+    category: [t('in-forge:plugins.azureApiManagement.sizeOfEventHubEvents')],
     min: 0,
     formatter: bytesZeroDecimalPlaces
   }

@@ -120,7 +120,7 @@ export default function TopicsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.activeMQ.topicsNumber', { count: rows.length })}
+      cardTitle={t('in-forge:plugins.activeMQ.topicsNumber', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}

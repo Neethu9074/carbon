@@ -105,7 +105,7 @@ export default function InstancesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.awsBeanstalk.titleInstances', { count: rows.length })}
+      cardTitle={t('in-forge:plugins.awsBeanstalk.titleInstances', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}

@@ -10,77 +10,77 @@ export default [
   {
     metric: 'connectedclients',
     label: t('in-forge:plugins.azureRedisCache.labelConnectedClients'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureRedisCache.performance')],
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'totalcommandsprocessed',
     label: t('in-forge:plugins.azureRedisCache.labelTotalOperations'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureRedisCache.performance')],
     min: 0,
     formatter: number
   },
   {
     metric: 'cachehits',
     label: t('in-forge:plugins.azureRedisCache.labelCacheHits'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureRedisCache.performance')],
     min: 0,
     formatter: number
   },
   {
     metric: 'cachemisses',
     label: t('in-forge:plugins.azureRedisCache.labelCacheMisses'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureRedisCache.performance')],
     min: 0,
     formatter: number
   },
   {
     metric: 'getcommands',
     label: t('in-forge:plugins.azureRedisCache.labelGets'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureRedisCache.performance')],
     min: 0,
     formatter: number
   },
   {
     metric: 'setcommands',
     label: t('in-forge:plugins.azureRedisCache.labelSets'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureRedisCache.performance')],
     min: 0,
     formatter: number
   },
   {
     metric: 'operationsPerSecond',
     label: t('in-forge:plugins.azureRedisCache.labelOperationsPerSecond'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureRedisCache.performance')],
     min: 0,
     formatter: number
   },
   {
     metric: 'evictedkeys',
     label: t('in-forge:plugins.azureRedisCache.labelEvictedKeys'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureRedisCache.performance')],
     min: 0,
     formatter: number
   },
   {
     metric: 'totalkeys',
     label: t('in-forge:plugins.azureRedisCache.labelTotalKeys'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureRedisCache.performance')],
     min: 0,
     formatter: number
   },
   {
     metric: 'expiredkeys',
     label: t('in-forge:plugins.azureRedisCache.labelExpiredKeys'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureRedisCache.performance')],
     min: 0,
     formatter: number
   },
   {
     metric: 'usedmemory',
     label: t('in-forge:plugins.azureRedisCache.labelUsedMemory'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureRedisCache.performance')],
     min: 0,
     formatter: bytesZeroDecimalPlaces
   },
@@ -93,35 +93,35 @@ export default [
   {
     metric: 'usedmemoryRss',
     label: t('in-forge:plugins.azureRedisCache.labelUsedMemoryRSS'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureRedisCache.performance')],
     min: 0,
     formatter: bytesZeroDecimalPlaces
   },
   {
     metric: 'serverLoad',
     label: t('in-forge:plugins.azureRedisCache.labelServerLoad'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureRedisCache.performance')],
     min: 0,
     formatter: percentage
   },
   {
     metric: 'cacheWrite',
     label: t('in-forge:plugins.azureRedisCache.labelCacheWrite'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureRedisCache.traffic')],
     min: 0,
     formatter: number
   },
   {
     metric: 'cacheRead',
     label: t('in-forge:plugins.azureRedisCache.labelCacheRead'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureRedisCache.traffic')],
     min: 0,
     formatter: bytesZeroDecimalPlaces
   },
   {
     metric: 'percentProcessorTime',
     label: t('in-forge:plugins.azureRedisCache.labelCPU'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureRedisCache.performance')],
     min: 0,
     formatter: percentage
   }

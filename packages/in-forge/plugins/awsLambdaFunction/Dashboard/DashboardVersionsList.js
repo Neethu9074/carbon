@@ -43,7 +43,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.awsLambdaFunction.titleVersionsCount', { count: rows.length })}
+        cardTitle={t('in-forge:plugins.awsLambdaFunction.titleVersionsCount', { len: rows.length })}
         cols={cols}
         rows={rows}
       />

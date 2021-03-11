@@ -120,7 +120,7 @@ function getDetails(row) {
         y1={{
           min: 0,
           metrics: [row.metricPrefix + '.producer_count', row.metricPrefix + '.consumer_count'],
-          labels: ['Producer Count', t('in-forge:plugins.awsMq.dashboard.consumerCount')],
+          labels: [t('in-forge:plugins.awsMq.producerCCount'), t('in-forge:plugins.awsMq.dashboard.consumerCount')],
           type: 'line',
           formatter: number.compact
         }}
@@ -137,7 +137,11 @@ function getDetails(row) {
               row.metricPrefix + '.dispatch_count',
               row.metricPrefix + '.dequeue_count'
             ],
-            labels: ['Enqueue Count', 'Dispatch Count', t('in-forge:plugins.awsMq.dashboard.dequeueCount')],
+            labels: [
+              t('in-forge:plugins.awsMq.dashboard.enqueueCount'),
+              t('in-forge:plugins.awsMq.dashboard.dispatchCount'),
+              t('in-forge:plugins.awsMq.dashboard.dequeueCount')
+            ],
             type: 'line',
             formatter: number.compact
           }}

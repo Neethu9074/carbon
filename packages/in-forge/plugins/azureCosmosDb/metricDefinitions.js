@@ -14,21 +14,21 @@ export default [
       t('in-forge:plugins.azureCosmosDB.labelMr'),
       t('in-forge:plugins.azureCosmosDB.labelDc')
     ],
-    category: ['Instance KPI'],
+    category: [t('in-forge:plugins.azureCosmosDb.instanceKpi')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['metrics.instance.sa'],
     labels: [t('in-forge:plugins.azureCosmosDB.labelSa')],
-    category: ['Instance KPI'],
+    category: [t('in-forge:plugins.azureCosmosDb.instanceKpi')],
     min: 0,
     formatter: percentage
   },
   {
     metrics: ['metrics.instance.rl', 'metrics.instance.wl'],
     labels: [t('in-forge:plugins.azureCosmosDB.labelRl'), t('in-forge:plugins.azureCosmosDB.labelWl')],
-    category: ['Instance KPI'],
+    category: [t('in-forge:plugins.azureCosmosDb.instanceKpi')],
     min: 0,
     formatter: bytesZeroDecimalPlaces
   }

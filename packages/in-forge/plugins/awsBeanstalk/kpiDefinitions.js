@@ -13,7 +13,7 @@ export default [
     formatter: number.compact
   },
   {
-    label: 'in-forge:plugins.awsBeanstalk.labelDegradedInstances',
+    label: t('in-forge:plugins.awsBeanstalk.labelDegradedInstances'),
     metric: 'environment_instances_degraded',
     formatter: number.compact
   }

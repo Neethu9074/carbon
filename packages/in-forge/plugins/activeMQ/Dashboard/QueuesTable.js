@@ -104,7 +104,7 @@ export default function QueuesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.activeMQ.queuesNumber', { count: rows.length })}
+      cardTitle={t('in-forge:plugins.activeMQ.queuesNumber', { len: rows.length })}
       rows={rows}
       cols={cols}
       getRowDetails={getRowDetails}

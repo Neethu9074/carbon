@@ -568,7 +568,7 @@
       "interfaceName": "Interface Name",
       "status": "Status",
       "receivedThroughput": "Receive Throughput",
-      "transmitThroughput":"Transmit Throughput",
+      "transmitThroughput": "Transmit Throughput",
       "receivedPerSecond": "Packets Received On Network Interface",
       "transmitPerSecond": "Packets Received On Transmitted Interface",
       "throughput": "Throughput",
@@ -743,15 +743,15 @@
       "dlQueuesCount": "DL Queues Count",
       "producerCount": "Producer Count",
       "consumerCount": "Consumer Count",
-      "deadLetterQueuesNumber": "Dead-Letter Queues {{count}}",
-      "queuesNumber": "Queues {{count}}",
-      "topicsNumber": "Topics {{count}}"
+      "deadLetterQueuesNumber": "Dead-Letter Queues {{len}}",
+      "queuesNumber": "Queues {{len}}",
+      "topicsNumber": "Topics {{len}}"
     },
     "activeMQArtemis": {
       "jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue": "Jmx is not enabled. You can enable it in activemq config by setting the broker property useJmx to true.",
       "addresses": "Addresses",
       "queues": "Queues",
-      "queuesNumber": "Queues {{count}}",
+      "queuesNumber": "Queues {{len}}",
       "allQueuesMessagesCount": "All Queues Messages Count",
       "addressMemoryUsage": "Address Memory Usage",
       "brokerWideMessages": "Broker wide messages",
@@ -833,7 +833,7 @@
       "titleDateCreated": "Date Created",
       "titleEnvironmentURL": "Environment URL",
       "titleEnvironmentID": "Environment ID",
-      "titleInstances": "Instances ({{count}})",
+      "titleInstances": "Instances ({{len}})",
       "titleApplicationLatency": "Application Latency",
       "titleApplicationRequests": "Application Requests",
       "labelOKInstances": "OK Instances",
@@ -899,7 +899,8 @@
       "labelTotalWriteTime": "Total Write Time",
       "labelQueueLength": "Queue Length",
       "labelIdleTime": "Idle Time",
-      "headerAWSEBSInfo": "AWS EBS Info"
+      "headerAWSEBSInfo": "AWS EBS Info",
+      "burstBalance": "Burst Balance"
     },
     "awsEc": {
       "titleCPUUsage": "CPU Usage",
@@ -976,7 +977,11 @@
       "labelSortedSet": "Sorted Set",
       "labelStrings": "Strings",
       "labelHyperLog": "Hyper Log",
-      "labelAWSEC": "AWS EC"
+      "labelAWSEC": "AWS EC",
+      "cpu": "CPU",
+      "memory": "Memory",
+      "network": "Network",
+      "disk": "Disk"
     },
     "awsEcs": {
       "labelAWSECS": "AWS ECS"
@@ -1180,7 +1185,7 @@
     "awsEcsTask": {
       "titleContainer": "Container",
       "titleAWSECSTaskInfo": "AWS ECS Task Info",
-      "titleContainersCounts": "Containers ({{count}})",
+      "titleContainersCounts": "Containers ({{len}})",
       "titleCluster": "Cluster",
       "titleTaskDefinitionARN": "Task Definition ARN",
       "titleTaskDefinitionName": "Task Definition Name",
@@ -1191,7 +1196,8 @@
       "titlePullStarted": "Pull Started",
       "titlePullStopped": "Pull Stopped",
       "titleCPULimit": "CPU Limit",
-      "titleMemoryLimit": "Memory Limit"
+      "titleMemoryLimit": "Memory Limit",
+      "containers": "Containers"
     },
     "awsElb": {
       "titleProcessedBytes": "Processed Bytes",
@@ -1201,7 +1207,7 @@
       "titleNewFlowCount": "New Flow Count",
       "titleTCPResetsRST": "TCP Resets (RST)",
       "titleAvailabilityZone": "Availability Zone",
-      "titleAvailabilityZonesCount": "Availability Zones ({{count}})",
+      "titleAvailabilityZonesCount": "Availability Zones ({{len}})",
       "titleRequestCount": "Request count",
       "titleResponseTime": "Response Time",
       "titleDNSName": "DNS name",
@@ -1364,7 +1370,9 @@
       "labelPutRecordsTraffic": "Put Records traffic",
       "labelReadProvisionedThroughputExceeded": "Read Provisioned Throughput Exceeded",
       "labelWriteProvisionedThroughputExceeded": "Write Provisioned Throughput Exceeded",
-      "labelAWSKinesis": "AWS Kinesis"
+      "labelAWSKinesis": "AWS Kinesis",
+      "records": "Records",
+      "network": "Network"
     },
     "awsLambda": {
       "titleInvocations": "Invocations",
@@ -1376,7 +1384,7 @@
       "titleConcurrentExecutions": "Concurrent Executions",
       "titleUnreservedConcurrentExecutions": "Unreserved Concurrent Executions",
       "headerLambdaInfo": "Lambda Info",
-      "headerTriggersCount": "Triggers ({{count}})",
+      "headerTriggersCount": "Triggers ({{len}})",
       "labelDurationAverage": "Duration Average",
       "labelDurationMaximum": "Duration Maximum",
       "labelDurationMinimum": "Duration Minimum",
@@ -1392,7 +1400,7 @@
     },
     "awsLambdaFunction": {
       "titleVersion": "Version",
-      "titleVersionsCount": "Versions ({{count}})",
+      "titleVersionsCount": "Versions ({{len}})",
       "headerLambdaFunctionInfo": "Lambda Function Info",
       "headerServicesLATEST": "Services for $LATEST",
       "labelVersions": "Versions",
@@ -1504,7 +1512,8 @@
       "memoryUsage": "MemoryUsage",
       "memoryUsage2ndBroker": "MemoryUsage (2nd Broker)",
       "enqueueTime": "EnqueueTime",
-      "enqueueTime2ndBroker": "EnqueueTime (2nd Broker)"
+      "enqueueTime2ndBroker": "EnqueueTime (2nd Broker)",
+      "producerCCount": "Producer Count"
     },
     "awsMskBroker": {
       "dashboard": {
@@ -1567,7 +1576,37 @@
       "request": "Request",
       "networkProcessorIdle": "Network processor idle",
       "idleTime": "Idle time",
-      "requestHandlerIdle": "Request handler idle "
+      "requestHandlerIdle": "Request handler idle ",
+      "memory": "Memory",
+      "free": "Free",
+      "used": "Used",
+      "cached": "Cached",
+      "buffered": "Buffered",
+      "swapFree": "Swap Free",
+      "swapUsed": "Swap Used",
+      "networkReceive": "Network Receive",
+      "received": "Received",
+      "dropped": "Dropped",
+      "errors": "Errors",
+      "networkTransmit": "Network Transmit",
+      "transmitted": "Transmitted",
+      "throttleByteRate": "Throttle Byte Rate",
+      "produceThrottleByteRate": "Produce throttle byte rate",
+      "throttleBbyteRate": "Throttle byte rate",
+      "fetchThrottleByteRate": "Fetch throttle byte rate",
+      "memoryFree": "Memory free",
+      "memoryUsed": "Memory used",
+      "memoryCached": "Memory cached",
+      "memoryBuffered": "Memory buffered",
+      "swapFfree": "Swap free",
+      "swapUused": "Swap used",
+      "networkReceivedPackages": "Network received packages",
+      "network": "Network",
+      "networkDroppedReceivePackages": "Network dropped receive packages",
+      "networkReceiveErrors": "Network receive errors",
+      "networkTransmittedPackages": "Network transmitted packages",
+      "networkDroppedTransmitPackages": "Network dropped transmit packages",
+      "networkTransmitErrors": "Network transmit errors"
     },
     "awsMskCluster": {
       "dashboard": {
@@ -1829,7 +1868,12 @@
         "labelSizeOfEventHubEvents": "Size of EventHub Events",
         "labelOtherBandwidth": "Bandwidth",
         "titleApiResponseTime": "API response time"
-      }
+      },
+      "capacity": "Capacity",
+      "gatewayRequests": "Gateway Requests",
+      "latency": "Latency",
+      "eventHubEvents": "Event Hub Events",
+      "sizeOfEventHubEvents": "Size of Event Hub Events"
     },
     "azureAppService": {
       "infoName": "Name",
@@ -1865,7 +1909,10 @@
         "labelG0c": "Generation 0",
         "labelG1c": "Generation 1",
         "labelG2c": "Generation 2"
-      }
+      },
+      "performance": "Performance",
+      "traffic": "Traffic",
+      "runtime": "Runtime"
     },
     "azureCosmosDB": {
       "infoName": "Name",
@@ -1979,7 +2026,10 @@
         "titleUsedMemoryRSS": "Used Memory RSS",
         "labelCacheHits": "Cache Hits",
         "labelCacheMisses": "Cache Misses"
-      }
+      },
+      "shardsWithCount": "Shards ({{len}})",
+      "performance": "Performance",
+      "traffic": "Traffic"
     },
     "azureSqlDb": {
       "infoName": "Name",
@@ -2155,7 +2205,10 @@
         "titleServerLatency": "Server Latency",
         "titleE2ELatency": "E2E Latency",
         "titleAvailability": "Availability"
-      }
+      },
+      "traffic": "Traffic",
+      "latency": "Latency",
+      "availability": "Availability"
     },
     "beeInstana": {
       "labelBeeInstana": "BeeInstana",
@@ -5582,7 +5635,6 @@
       "titleUsedPercent": "Used Percent",
       "titleMemory": "Memory",
       "titleTotal": "Total",
-      "titleUsedPercent": "Used Percent",
       "titleIOPercent": "Percent IO Utilization(5m)",
       "titleIOPSTotal": "IOPS R/W Total",
       "labelDiskIOPercent": "Disk Average IO Percent Utilization(5m)",
@@ -5641,7 +5693,7 @@
       "lableBytesOut": "Bytes out",
       "titleVolumeAccessSize": "Volume Access Size",
       "labelReadBytes": "Read Bytes",
-      "labelWriteBytes" : "Write Bytes",
+      "labelWriteBytes": "Write Bytes",
       "titleVolumeAccessRequest": "Volume Access Request",
       "titleCPU": "CPU",
       "titleCPUTime": "CPU Time",
@@ -5653,7 +5705,6 @@
       "labelTotalCPUCount": "CPU count",
       "labelMemoryFree": "Memory Free(KB)",
       "labelMemoryTotal": "Memory Total(KB)",
-      "labelMemoryUsedPercent": "Memory Used Percent",
       "labelMemoryUsed": "Memory Used(KB)",
       "labelNetworkIn": "Network In(Bytes)",
       "labelNetworkInPackets": "Network In(Packets)",
@@ -8019,6 +8070,11 @@
       "backgroundSessions": "Background Sessions",
       "tablespaces": "Tablespaces",
       "dbCpuTime": "DB CPU Time"
+    },
+    "azureCosmosDb": {
+      "totalRequests": "Total Requests",
+      "serviceAvailability": "Service Availability",
+      "instanceKpi": "Instance KPI"
     }
   },
   "tracing": {

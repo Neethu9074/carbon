@@ -25,7 +25,7 @@ export default function AwsBeanstalkSidebar({ snapshot }) {
       </Collapsible>
       <Collapsible initiallyOpen={false}>
         <Collapsible.Header>
-          {t('in-forge:plugins.awsBeanstalk.titleInstances', { count: instanceIds.size })}
+          {t('in-forge:plugins.awsBeanstalk.titleInstances', { len: instanceIds.size })}
         </Collapsible.Header>
         <Collapsible.Content>
           <List>

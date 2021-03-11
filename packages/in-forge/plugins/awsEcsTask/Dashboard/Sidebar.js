@@ -27,7 +27,7 @@ export default function AwsEcsTaskSidebar({ snapshot }) {
       <SidebarSnapshotItemList
         snapshotId={snapshot.get('id')}
         subscription={getEcsContainersForEcsTask}
-        label="Containers"
+        label={t('in-forge:plugins.awsEcsTask.containers')}
       />
 
       <ServiceInstancesList snapshot={snapshot} />

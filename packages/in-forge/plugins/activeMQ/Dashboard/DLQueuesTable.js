@@ -104,7 +104,7 @@ export default function DLQueuesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.activeMQ.deadLetterQueuesNumber', { count: rows.length })}
+      cardTitle={t('in-forge:plugins.activeMQ.deadLetterQueuesNumber', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}

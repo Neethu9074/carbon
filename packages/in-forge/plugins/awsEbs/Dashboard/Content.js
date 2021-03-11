@@ -97,7 +97,7 @@ export default function AwsEbsDashboard({ snapshot, timeConfig }) {
             y1={{
               min: 0,
               metrics: ['burst_balance'],
-              labels: ['Burst Balance'],
+              labels: [t('in-forge:plugins.awsEbs.burstBalance')],
               type: 'line',
               formatter: percentage.compact
             }}

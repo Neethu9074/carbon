@@ -128,14 +128,21 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.awsMskBroker.memory')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['memory_free', 'memory_used', 'memory_cached', 'memory_buffered', 'swap_free', 'swap_used'],
-            labels: ['Free', 'Used', 'Cached', 'Buffered', 'Swap Free', 'Swap Used'],
+            labels: [
+              t('in-forge:plugins.awsMskBroker.free'),
+              t('in-forge:plugins.awsMskBroker.used'),
+              t('in-forge:plugins.awsMskBroker.cached'),
+              t('in-forge:plugins.awsMskBroker.buffered'),
+              t('in-forge:plugins.awsMskBroker.swapFree'),
+              t('in-forge:plugins.awsMskBroker.swapUsed')
+            ],
             formatter: bytes.compact,
             type: 'line'
           }}
@@ -143,41 +150,41 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
 
       <Columize>
-        <DashboardSection title="Network Receive">
+        <DashboardSection title={t('in-forge:plugins.awsMskBroker.networkReceive')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['network_rx_packets', 'network_rx_dropped'],
-              labels: ['Received', 'Dropped'],
+              labels: [t('in-forge:plugins.awsMskBroker.received'), t('in-forge:plugins.awsMskBroker.dropped')],
               formatter: number.compact,
               type: 'line'
             }}
             y2={{
               min: 0,
               metrics: ['network_rx_errors'],
-              labels: ['Errors'],
+              labels: [t('in-forge:plugins.awsMskBroker.errors')],
               formatter: number.compact,
               type: 'line'
             }}
           />
         </DashboardSection>
-        <DashboardSection title="Network Transmit">
+        <DashboardSection title={t('in-forge:plugins.awsMskBroker.networkTransmit')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['network_tx_packets', 'network_tx_dropped'],
-              labels: ['Transmitted', 'Dropped'],
+              labels: [t('in-forge:plugins.awsMskBroker.transmitted'), t('in-forge:plugins.awsMskBroker.dropped')],
               formatter: number.compact,
               type: 'line'
             }}
             y2={{
               min: 0,
               metrics: ['network_tx_errors'],
-              labels: ['Errors'],
+              labels: [t('in-forge:plugins.awsMskBroker.errors')],
               formatter: number.compact,
               type: 'line'
             }}
@@ -220,7 +227,7 @@ export default function AwsMskBrokerDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       )}
       {clusterEnhancedMonitoring !== 'DEFAULT' && (
-        <DashboardSection title="Throttle Byte Rate">
+        <DashboardSection title={t('in-forge:plugins.awsMskBroker.throttleByteRate')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}

@@ -10,7 +10,7 @@ export default [
   {
     metric: 'tr_to',
     label: t('in-forge:plugins.azureStorage.labelTrTo'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureStorage.traffic')],
     min: 0,
     formatter: number
   },
@@ -18,28 +18,28 @@ export default [
   {
     metric: 'in_to',
     label: t('in-forge:plugins.azureStorage.labelInTo'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureStorage.traffic')],
     min: 0,
     formatter: number
   },
   {
     metric: 'in_av',
     label: t('in-forge:plugins.azureStorage.labelInAv'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureStorage.traffic')],
     min: 0,
     formatter: number
   },
   {
     metric: 'in_mi',
     label: t('in-forge:plugins.azureStorage.labelInMi'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureStorage.traffic')],
     min: 0,
     formatter: number
   },
   {
     metric: 'in_mx',
     label: t('in-forge:plugins.azureStorage.labelInMx'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureStorage.traffic')],
     min: 0,
     formatter: number
   },
@@ -47,28 +47,28 @@ export default [
   {
     metric: 'eg_to',
     label: t('in-forge:plugins.azureStorage.labelEgTo'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureStorage.traffic')],
     min: 0,
     formatter: number
   },
   {
     metric: 'eg_av',
     label: t('in-forge:plugins.azureStorage.labelEgAv'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureStorage.traffic')],
     min: 0,
     formatter: number
   },
   {
     metric: 'eg_mi',
     label: t('in-forge:plugins.azureStorage.labelEgMi'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureStorage.traffic')],
     min: 0,
     formatter: number
   },
   {
     metric: 'eg_mx',
     label: t('in-forge:plugins.azureStorage.labelEgMx'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureStorage.traffic')],
     min: 0,
     formatter: number
   },
@@ -76,28 +76,28 @@ export default [
   {
     metric: 'sl_to',
     label: t('in-forge:plugins.azureStorage.labelSlTo'),
-    category: ['Latency'],
+    category: [t('in-forge:plugins.azureStorage.latency')],
     min: 0,
     formatter: number
   },
   {
     metric: 'sl_av',
     label: t('in-forge:plugins.azureStorage.labelSlAv'),
-    category: ['Latency'],
+    category: [t('in-forge:plugins.azureStorage.latency')],
     min: 0,
     formatter: number
   },
   {
     metric: 'sl_mi',
     label: t('in-forge:plugins.azureStorage.labelSlMi'),
-    category: ['Latency'],
+    category: [t('in-forge:plugins.azureStorage.latency')],
     min: 0,
     formatter: number
   },
   {
     metric: 'sl_mx',
     label: t('in-forge:plugins.azureStorage.labelSlMx'),
-    category: ['Latency'],
+    category: [t('in-forge:plugins.azureStorage.latency')],
     min: 0,
     formatter: number
   },
@@ -105,28 +105,28 @@ export default [
   {
     metric: 'el_to',
     label: t('in-forge:plugins.azureStorage.labelElTo'),
-    category: ['Latency'],
+    category: [t('in-forge:plugins.azureStorage.latency')],
     min: 0,
     formatter: number
   },
   {
     metric: 'el_av',
     label: t('in-forge:plugins.azureStorage.labelElAv'),
-    category: ['Latency'],
+    category: [t('in-forge:plugins.azureStorage.latency')],
     min: 0,
     formatter: number
   },
   {
     metric: 'el_mi',
     label: t('in-forge:plugins.azureStorage.labelElMi'),
-    category: ['Latency'],
+    category: [t('in-forge:plugins.azureStorage.latency')],
     min: 0,
     formatter: number
   },
   {
     metric: 'el_mx',
     label: t('in-forge:plugins.azureStorage.labelElMx'),
-    category: ['Latency'],
+    category: [t('in-forge:plugins.azureStorage.latency')],
     min: 0,
     formatter: number
   },
@@ -134,28 +134,28 @@ export default [
   {
     metric: 'av_to',
     label: t('in-forge:plugins.azureStorage.labelAvTo'),
-    category: ['Availability'],
+    category: [t('in-forge:plugins.azureStorage.availability')],
     min: 0,
     formatter: number
   },
   {
     metric: 'av_av',
     label: t('in-forge:plugins.azureStorage.labelAvAv'),
-    category: ['Latency'],
+    category: [t('in-forge:plugins.azureStorage.latency')],
     min: 0,
     formatter: number
   },
   {
     metric: 'av_mi',
     label: t('in-forge:plugins.azureStorage.labelAvMi'),
-    category: ['Latency'],
+    category: [t('in-forge:plugins.azureStorage.latency')],
     min: 0,
     formatter: number
   },
   {
     metric: 'av_mx',
     label: t('in-forge:plugins.azureStorage.labelAvMx'),
-    category: ['Latency'],
+    category: [t('in-forge:plugins.azureStorage.latency')],
     min: 0,
     formatter: number
   }

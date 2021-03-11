@@ -161,7 +161,7 @@ export default [
       'target_4XX_count',
       t('in-forge:plugins.awsElb.placeholderAvailabilityZone')
     ),
-    label: 'in-forge:plugins.awsElb.labelTargetStatus4xxCount',
+    label: t('in-forge:plugins.awsElb.labelTargetStatus4xxCount'),
     category: [t('in-forge:plugins.awsElb.categoryNetwork')],
     min: 0,
     formatter: number.compact
@@ -172,14 +172,14 @@ export default [
       'target_5XX_count',
       t('in-forge:plugins.awsElb.placeholderAvailabilityZone')
     ),
-    label: 'in-forge:plugins.awsElb.labelTargetStatus5xxCount',
+    label: t('in-forge:plugins.awsElb.labelTargetStatus5xxCount'),
     category: [t('in-forge:plugins.awsElb.categoryNetwork')],
     min: 0,
     formatter: number.compact
   },
   {
     metric: getDynamicMetricMatch('azMetrics', 'latency', t('in-forge:plugins.awsElb.placeholderAvailabilityZone')),
-    label: 'in-forge:plugins.titleLatency',
+    label: t('in-forge:plugins.titleLatency'),
     category: [t('in-forge:plugins.awsElb.categoryNetwork')],
     min: 0,
     formatter: millis.detailed
@@ -190,7 +190,7 @@ export default [
       'backend_connection_errors',
       t('in-forge:plugins.awsElb.placeholderAvailabilityZone')
     ),
-    label: 'in-forge:plugins.awsElb.labelBackendConnectionErrors',
+    label: t('in-forge:plugins.awsElb.labelBackendConnectionErrors'),
     category: [t('in-forge:plugins.awsElb.categoryNetwork')],
     min: 0,
     formatter: number.compact

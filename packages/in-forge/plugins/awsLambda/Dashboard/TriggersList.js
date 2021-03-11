@@ -30,7 +30,7 @@ export default connectTo(
     return (
       <Collapsible initiallyOpen>
         <Collapsible.Header>
-          {t('in-forge:plugins.awsLambda.headerTriggersCount', { count: triggers.length })}
+          {t('in-forge:plugins.awsLambda.headerTriggersCount', { len: triggers.length })}
         </Collapsible.Header>
         <Collapsible.Content>
           <ClickableList>

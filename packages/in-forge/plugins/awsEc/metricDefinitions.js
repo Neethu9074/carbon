@@ -10,47 +10,47 @@ export default [
   {
     metric: 'cpu_utilization',
     label: t('in-forge:plugins.awsEc.labelCPUUtilization'),
-    category: ['CPU'],
+    category: [t('in-forge:plugins.awsEc.cpu')],
     formatter: percentage
   },
   {
     metric: 'freeable_memory',
     label: t('in-forge:plugins.awsEc.labelFreeableMemory'),
-    category: ['Memory'],
+    category: [t('in-forge:plugins.awsEc.memory')],
     formatter: bytes
   },
   {
     metric: 'net_bytes_in',
     label: t('in-forge:plugins.awsEc.labelBytesIn'),
-    category: ['Network'],
+    category: [t('in-forge:plugins.awsEc.network')],
     min: 0,
     formatter: bytes.compact
   },
   {
     metric: 'net_bytes_out',
     label: t('in-forge:plugins.awsEc.labelBytesOutUp'),
-    category: ['Network'],
+    category: [t('in-forge:plugins.awsEc.network')],
     min: 0,
     formatter: bytes.compact
   },
   {
     metric: 'swap_usage',
     label: t('in-forge:plugins.awsEc.labelSwapUsage'),
-    category: ['Disk'],
+    category: [t('in-forge:plugins.awsEc.disk')],
     min: 0,
     formatter: bytes.compact
   },
   {
     metric: 'curr_connections',
     label: t('in-forge:plugins.awsEc.labelCurrentConnections'),
-    category: ['Network'],
+    category: [t('in-forge:plugins.awsEc.network')],
     min: 0,
     formatter: number.compact
   },
   {
     metric: 'new_connections',
     label: t('in-forge:plugins.awsEc.labelNewConnections'),
-    category: ['Network'],
+    category: [t('in-forge:plugins.awsEc.network')],
     min: 0,
     formatter: number.compact
   },

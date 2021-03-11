@@ -174,7 +174,13 @@ export default function ShardTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <Table withoutPadding cardTitle={`Shards (${rows.length})`} cols={cols} rows={rows} getRowDetails={getRowDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.azureRedisCache.shardsWithCount', { len: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

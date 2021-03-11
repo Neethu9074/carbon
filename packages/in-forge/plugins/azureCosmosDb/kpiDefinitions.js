@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 import { number, percentage } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'Total Requests',
+    label: t('in-forge:plugins.azureCosmosDb.totalRequests'),
     metric: 'metrics.instance.tr',
     formatter: number.compact
   },
   {
-    label: 'Service Availability',
+    label: t('in-forge:plugins.azureCosmosDb.serviceAvailability'),
     metric: 'metrics.instance.sa',
     formatter: percentage.compact
   }

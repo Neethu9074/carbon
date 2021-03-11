@@ -57,8 +57,8 @@ export default [
   },
   {
     metric: 'produce_throttle_byte_rate',
-    label: 'Produce throttle byte rate',
-    category: ['Throttle byte rate'],
+    label: t('in-forge:plugins.awsMskBroker.produceThrottleByteRate'),
+    category: [t('in-forge:plugins.awsMskBroker.throttleBbyteRate')],
     formatter: number.perSecond
   },
   {
@@ -69,8 +69,8 @@ export default [
   },
   {
     metric: 'fetch_throttle_byte_rate',
-    label: 'Fetch throttle byte rate',
-    category: ['Throttle byte rate'],
+    label: t('in-forge:plugins.awsMskBroker.fetchThrottleByteRate'),
+    category: [t('in-forge:plugins.awsMskBroker.throttleBbyteRate')],
     formatter: number.perSecond
   },
   {
@@ -93,74 +93,74 @@ export default [
   },
   {
     metric: 'memory_free',
-    label: 'Memory free',
-    category: ['Memory'],
+    label: t('in-forge:plugins.awsMskBroker.memoryFree'),
+    category: [t('in-forge:plugins.awsMskBroker.memory')],
     formatter: bytes
   },
   {
     metric: 'memory_used',
-    label: 'Memory used',
-    category: ['Memory'],
+    label: t('in-forge:plugins.awsMskBroker.memoryUsed'),
+    category: [t('in-forge:plugins.awsMskBroker.memory')],
     formatter: bytes
   },
   {
     metric: 'memory_cached',
-    label: 'Memory cached',
-    category: ['Memory'],
+    label: t('in-forge:plugins.awsMskBroker.memoryCached'),
+    category: [t('in-forge:plugins.awsMskBroker.memory')],
     formatter: bytes
   },
   {
     metric: 'memory_buffered',
-    label: 'Memory buffered',
-    category: ['Memory'],
+    label: t('in-forge:plugins.awsMskBroker.memoryBuffered'),
+    category: [t('in-forge:plugins.awsMskBroker.memory')],
     formatter: bytes
   },
   {
     metric: 'swap_free',
-    label: 'Swap free',
-    category: ['Memory'],
+    label: t('in-forge:plugins.awsMskBroker.swapFfree'),
+    category: [t('in-forge:plugins.awsMskBroker.memory')],
     formatter: bytes
   },
   {
     metric: 'swap_used',
-    label: 'Swap used',
-    category: ['Memory'],
+    label: t('in-forge:plugins.awsMskBroker.swapUused'),
+    category: [t('in-forge:plugins.awsMskBroker.memory')],
     formatter: bytes
   },
   {
     metric: 'network_rx_packets',
-    label: 'Network received packages',
-    category: ['Network'],
+    label: t('in-forge:plugins.awsMskBroker.networkReceivedPackages'),
+    category: [t('in-forge:plugins.awsMskBroker.network')],
     formatter: number
   },
   {
     metric: 'network_rx_dropped',
-    label: 'Network dropped receive packages',
-    category: ['Network'],
+    label: t('in-forge:plugins.awsMskBroker.networkDroppedReceivePackages'),
+    category: [t('in-forge:plugins.awsMskBroker.network')],
     formatter: number
   },
   {
     metric: 'network_rx_errors',
-    label: 'Network receive errors',
-    category: ['Network'],
+    label: t('in-forge:plugins.awsMskBroker.networkReceiveErrors'),
+    category: [t('in-forge:plugins.awsMskBroker.network')],
     formatter: number
   },
   {
     metric: 'network_tx_packets',
-    label: 'Network transmitted packages',
-    category: ['Network'],
+    label: t('in-forge:plugins.awsMskBroker.networkTransmittedPackages'),
+    category: [t('in-forge:plugins.awsMskBroker.network')],
     formatter: number
   },
   {
     metric: 'network_tx_dropped',
-    label: 'Network dropped transmit packages',
-    category: ['Network'],
+    label: t('in-forge:plugins.awsMskBroker.networkDroppedTransmitPackages'),
+    category: [t('in-forge:plugins.awsMskBroker.network')],
     formatter: number
   },
   {
     metric: 'network_tx_errors',
-    label: 'Network transmit errors',
-    category: ['Network'],
+    label: t('in-forge:plugins.awsMskBroker.networkTransmitErrors'),
+    category: [t('in-forge:plugins.awsMskBroker.network')],
     formatter: number
   },
   {

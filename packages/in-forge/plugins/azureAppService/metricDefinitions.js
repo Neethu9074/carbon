@@ -9,76 +9,76 @@ export default [
   {
     metric: 'art',
     label: t('in-forge:plugins.azureAppService.labelArt'),
-    category: ['Performance'],
+    category: [t('in-forge:plugins.azureAppService.performance')],
     min: 0,
     formatter: number
   },
   {
     metric: 'h2x',
     label: t('in-forge:plugins.azureAppService.labelH2x'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureAppService.traffic')],
     min: 0,
     formatter: number
   },
   {
     metric: 'h4x',
     label: t('in-forge:plugins.azureAppService.labelH4x'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureAppService.traffic')],
     min: 0,
     formatter: number
   },
   {
     metric: 'h5x',
     label: t('in-forge:plugins.azureAppService.labelH5x'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureAppService.traffic')],
     min: 0,
     formatter: number
   },
   {
     metric: 'trs',
     label: t('in-forge:plugins.azureAppService.labelTrs'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureAppService.traffic')],
     formatter: number
   },
   {
     metric: 'qrs',
     label: t('in-forge:plugins.azureAppService.labelQrs'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureAppService.traffic')],
     min: 0,
     formatter: number
   },
   {
     metric: 'bts',
     label: t('in-forge:plugins.azureAppService.labelBts'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureAppService.traffic')],
     min: 0,
     formatter: number
   },
   {
     metric: 'btr',
     label: t('in-forge:plugins.azureAppService.labelBtr'),
-    category: ['Traffic'],
+    category: [t('in-forge:plugins.azureAppService.traffic')],
     min: 0,
     formatter: number
   },
   {
     metric: 'g0c',
     label: t('in-forge:plugins.azureAppService.labelG0c'),
-    category: ['Runtime'],
+    category: [t('in-forge:plugins.azureAppService.runtime')],
     min: 0,
     formatter: number
   },
   {
     metric: 'g1c',
     label: t('in-forge:plugins.azureAppService.labelG1c'),
-    category: ['Runtime'],
+    category: [t('in-forge:plugins.azureAppService.runtime')],
     min: 0,
     formatter: number
   },
   {
     metric: 'g2c',
     label: t('in-forge:plugins.azureAppService.labelG2c'),
-    category: ['Runtime'],
+    category: [t('in-forge:plugins.azureAppService.runtime')],
     min: 0,
     formatter: number
   }
