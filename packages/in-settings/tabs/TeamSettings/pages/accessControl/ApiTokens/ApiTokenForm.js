@@ -104,7 +104,7 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
   );
 }
 
-const ConfirmationDialog = function ConfirmationDialog({ onChange }) {
+function ConfirmationDialog({ onChange }) {
   return (
     <Dialog
       className={locals.confirmationDialog}
@@ -126,4 +126,4 @@ const ConfirmationDialog = function ConfirmationDialog({ onChange }) {
       </Button>
     </Dialog>
   );
-};
+}

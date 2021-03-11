@@ -242,7 +242,7 @@ function renderGroup(props) {
   );
 }
 
-const ConfirmationDialog = function ConfirmationDialog({ togglePermission }) {
+function ConfirmationDialog({ togglePermission }) {
   return (
     <Dialog
       className={locals.confirmationDialog}
@@ -264,7 +264,7 @@ const ConfirmationDialog = function ConfirmationDialog({ togglePermission }) {
       </Button>
     </Dialog>
   );
-};
+}
 
 function togglePermission(form, setForm, value) {
   const modifiedPermissionSet = copyPermissionSet(form);
