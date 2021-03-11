@@ -37,8 +37,8 @@ export default [
     formatter: bytes
   },
   {
-    metrics: ['totalInputMessages'],
-    labels: [t('in-forge:plugins.aceMessageFlow.totalInputMessages')],
+    metrics: ['totalInputMsgs'],
+    labels: [t('in-forge:plugins.aceMessageFlow.totalInputMsgs')],
     min: 0,
     category: [t('in-forge:plugins.aceMessageFlow.sizeOfInputMsgs')],
     formatter: number

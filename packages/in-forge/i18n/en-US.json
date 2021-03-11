@@ -661,7 +661,7 @@
       "totalSizeOfInputMsgs": "Total Size Of Input Messages",
       "maxSizeOfInputMsgs": "Maximum Size Of Input Messages",
       "minSizeOfInputMsgs": "Minimum Size Of Input Messages",
-      "totalInputMessages": "Total Number Of Messages Processed",
+      "totalInputMsgs": "Total Number Of Messages Processed",
       "cpuTime": "CPU Time",
       "totalCpuTime": "Total CPU Time",
       "maxCpuTime": "Max CPU Time",

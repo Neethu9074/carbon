@@ -62,8 +62,8 @@ export default function AceMessageFlowDashboard({ snapshot, timeConfig }) {
           y2={{
             formatter: number.compact,
             tooltipFormatter: number.compact,
-            metrics: [`totalInputMessages`],
-            labels: [t('in-forge:plugins.aceMessageFlow.totalInputMessages')],
+            metrics: [`totalInputMsgs`],
+            labels: [t('in-forge:plugins.aceMessageFlow.totalInputMsgs')],
             type: 'line'
           }}
         />
