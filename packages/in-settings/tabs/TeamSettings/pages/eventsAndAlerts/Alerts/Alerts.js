@@ -212,8 +212,8 @@ function renderTypes(eventTypes) {
   }
 }
 
-function renderType(t) {
-  switch (t) {
+function renderType(type) {
+  switch (type) {
     case 'incident':
       return t('in-settings:tabs.incidents');
     case 'critical':
