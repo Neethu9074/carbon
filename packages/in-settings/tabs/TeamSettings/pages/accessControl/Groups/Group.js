@@ -7,15 +7,21 @@ import { just } from '@instana/observables';
 import { t } from 'in-i18n';
 import React from 'react';
 
+import {
+  productAreaPermissions,
+  productPermissions,
+  productRestrictions,
+  productOwnerPermissions
+} from 'in-stores/permission';
 import { getGroupAsResultObservable, saveGroup, createNewGroup } from 'in-settings/tabs/TeamSettings/api/groups';
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
-import { productAreaPermissions, productPermissions, productRestrictions } from 'in-stores/permission';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/Areas';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Users';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
+import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { success as successResult } from 'in-services/util/result';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -23,13 +29,17 @@ import ApiItemView from 'in-settings/components/ApiItemView';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import Dialog from 'in-new-components/Dialog/Dialog';
 import Toggle from 'in-components/form/Toggle';
 import Title from 'in-components/Title/Title';
+import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Group.mless';
+
+const permissionsForList = productPermissions.filter(permission => !permission.isOwnerPermission);
 
 export default function Group({ match }) {
   const groupId = match.params.id;
@@ -172,8 +182,40 @@ function renderGroup(props) {
       <Row>
         <Col lg>
           {form.get('permissionSet').map(field => (
+            <FormGroup>
+              <Label>{t('in-settings:tabs.ownerPermissions')}</Label>
+              {productOwnerPermissions.map(({ value, label, description, keyForGroupApi }) => (
+                <HorizontalFormGroup key={label} helpText={description}>
+                  <Label htmlFor={`permission-${value}`}>{label}</Label>
+                  <Toggle
+                    id={`permission-${keyForGroupApi}`}
+                    checked={field.value.permissions.includes(keyForGroupApi)}
+                    onChange={() => {
+                      // check if value is currently false -> user sets permission to true
+                      if (!field.value.permissions.includes(keyForGroupApi)) {
+                        addActiveDialog(
+                          <ConfirmationDialog
+                            togglePermission={() => togglePermission(form, setForm, keyForGroupApi)}
+                          />
+                        );
+                      } else {
+                        togglePermission(form, setForm, keyForGroupApi);
+                      }
+                    }}
+                    disabled={isOwnerGroup}
+                  />
+                </HorizontalFormGroup>
+              ))}
+            </FormGroup>
+          ))}
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg>
+          {form.get('permissionSet').map(field => (
             <PermissionsList
-              permissions={productPermissions}
+              permissions={permissionsForList}
               listActions={[
                 {
                   id: 'toggleEnabledAction',
@@ -197,6 +239,30 @@ function renderGroup(props) {
         </Col>
       </Row>
     </>
+  );
+}
+
+function ConfirmationDialog({ togglePermission }) {
+  return (
+    <Dialog
+      className={locals.confirmationDialog}
+      title={t('in-settings:tabs.ownerPermissions')}
+      doNotCloseOnOutsideClick
+      onClose={close}
+    >
+      <p>{t('in-settings:tabs.youAreAssigningThisGroupOwnerPermissions')}</p>
+
+      <Button
+        kind="primary"
+        className={locals.confirmationDialogButton}
+        onClick={() => {
+          togglePermission();
+          close();
+        }}
+      >
+        Yes, I understand
+      </Button>
+    </Dialog>
   );
 }
 
