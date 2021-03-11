@@ -15,8 +15,9 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import UsageCharts from 'in-amp/components/UsageCharts';
 import Card from 'in-new-components/Card';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
-const aggregatedState = { label: 'All paid units (aggregated)' };
+const aggregatedState = { label: t('in-amp:components.usages.allPaidUnitsAggregated') };
 
 export default function UsageWithAccountInfo() {
   return (
@@ -40,7 +41,7 @@ function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedM
 
   return (
     <>
-      <Title title="Account Usage" />
+      <Title title={t('in-amp:components.usages.accountUsage')} />
 
       <AmpInformationModifier
         unitSelectorOptions={unitSelectorOptions}
@@ -54,21 +55,21 @@ function Usage({ unitSelectorOptions, getCurrentTenantOption, canShowAggregatedM
 
       <Row>
         <Col xs={12}>
-          <Card title="Active Licenses">
+          <Card title={t('in-amp:components.usages.activeLicenses')}>
             <ActiveLicenses />
           </Card>
         </Col>
       </Row>
       <Row>
         <Col xs={12}>
-          <Card title="Expired Licenses">
+          <Card title={t('in-amp:components.usages.expiredLicenses')}>
             <ExpiredLicenses />
           </Card>
         </Col>
       </Row>
       <Row>
         <Col xs={12}>
-          <Card title="Queued Licenses">
+          <Card title={t('in-amp:components.usages.queuedLicenses')}>
             <QueuedLicenses />
           </Card>
         </Col>

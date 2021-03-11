@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import { withProps } from 'recompose';
 import React from 'react';
 
@@ -14,9 +13,10 @@ import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFi
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import { t } from 'in-i18n';
 
 const latencyDistributionChartDefinition = {
-  label: 'Latency (distribution)',
+  label: t('in-analyze:components.metricsChart.latencyDistribution'),
   key: 'latency_DISTRIBUTION',
   formatter: millis.forcedCompactOnMs
 };

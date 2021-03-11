@@ -9,6 +9,7 @@ import useAmpUrlInformation from 'in-amp/hooks/useAmpUrlInformation';
 import UsageCharts from 'in-amp/components/UsageCharts';
 import config from 'in-services/config';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 export default function RestrictedUsage() {
   const { windowSize, setWindowSize, tenantUnit } = useAmpUrlInformation({
@@ -18,7 +19,7 @@ export default function RestrictedUsage() {
 
   return (
     <>
-      <Title title="Account Usage" />
+      <Title title={t('in-amp:components.restrictedUsage.accountUsage')} />
 
       <AmpInformationModifier windowSize={windowSize} setWindowSize={setWindowSize} tenantUnit={tenantUnit} />
 

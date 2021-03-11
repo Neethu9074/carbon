@@ -12,6 +12,7 @@ import SpanForgeDetails from 'in-components/SpanForgeDetails/SpanForgeDetails';
 import { Di, Dl } from 'in-new-components/HorizontalDescriptionList';
 import { getSpanDefinition } from 'in-sdk/tracing';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   {
@@ -45,9 +46,9 @@ export default connectTo(
           </Dl>
         )}
         <Dl>
-          {hasCxfType && <Di title="CXF type">{cxfType}</Di>}
-          <Di title="Type">{spanDefinition.typeName.singular}</Di>
-          <Di title="Category">{spanDefinition.category}</Di>
+          {hasCxfType && <Di title={t('in-analyze:traceDetail.components.callDetails.cxfType')}>{cxfType}</Di>}
+          <Di title={t('in-analyze:traceDetail.components.callDetails.type')}>{spanDefinition.typeName.singular}</Di>
+          <Di title={t('in-analyze:traceDetail.components.callDetails.category')}>{spanDefinition.category}</Di>
         </Dl>
         <SpanForgeDetails key={call.id} span={convertedSpan} />
         <CustomDataDescriptionItem span={convertedSpan} />

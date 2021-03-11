@@ -20,13 +20,14 @@ import { number } from 'in-services/formatters/number';
 import { getTagType } from 'in-applications/tags';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './Group.mless';
 
 export const NO_VALUE = 'no_value';
-export const NO_VALUE_LABEL = 'Tag present with no value';
+export const NO_VALUE_LABEL = t('in-analyze:components.groupedTraces.tagPresentWithNoValue');
 export const UNSPECIFIED = 'Unspecified';
-export const UNSPECIFIED_LABEL = 'Tag not present';
+export const UNSPECIFIED_LABEL = t('in-analyze:components.groupedTraces.tagNotPresent');
 
 export default connectTo(
   {

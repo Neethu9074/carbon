@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -15,6 +14,7 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
@@ -247,7 +247,11 @@ function getRowDetails(row) {
               'metrics.timers.clickHouse.clustered.timer.50th',
               'metrics.timers.clickHouse.clustered.timer.99th'
             ],
-            labels: ['mean', '50th', '99th'],
+            labels: [
+              t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.mean'),
+              t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.50th'),
+              t('in-internal:monitoringUnit.appdata.appdataReaderStatistics.99th')
+            ],
             type: 'line'
           }}
         />

@@ -10,6 +10,7 @@ import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/fo
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
+import { t } from 'in-i18n';
 
 const defaultSeverity = 5;
 const defaultGranularity = 600000;
@@ -127,7 +128,7 @@ export function createSmartAlertForm(alertConfig) {
             return [
               {
                 severity: 'error',
-                message: 'No entities selected'
+                message: t('in-alerting:smartAlerts.applications.form.smartAlertFormNoEntitiesSelected')
               }
             ];
           } else {

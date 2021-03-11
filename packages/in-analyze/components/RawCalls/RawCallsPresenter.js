@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -30,6 +29,7 @@ import TimestampCell from 'in-analyze/components/TimestampCell';
 import { latencyFixed } from 'in-services/formatters/number';
 import { callClickedTracker } from 'in-analyze/tracker';
 import SetBodyColor from 'in-components/SetBodyColor';
+import { t } from 'in-i18n';
 
 export default function RawCallsPresenter(props) {
   const {
@@ -63,9 +63,9 @@ export default function RawCallsPresenter(props) {
           <Tr size="compact">
             <ErroneousRowTh />
 
-            <Th>Call</Th>
+            <Th>{t('in-analyze:components.rawCalls.call')}</Th>
 
-            <Th>Service</Th>
+            <Th>{t('in-analyze:components.rawCalls.service')}</Th>
 
             <SortableColumn
               orderBy={orderBy}

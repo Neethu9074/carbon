@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React, { Fragment } from 'react';
 
 import EntityIndicator from 'in-analyze/components/EntityIndicator';
@@ -10,6 +9,7 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 import { isNotBlank } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './GroupingInfo.mless';
 
@@ -40,7 +40,7 @@ export default function GroupingInfo({ group, disableGrouping }) {
 
   return (
     <div className={locals.wrapper}>
-      <span className={locals.label}>Grouped by</span>
+      <span className={locals.label}>{t('in-analyze:components.groupingInfo.groupedBy')}</span>
 
       {(groupedByEntity === entityTypes.SOURCE || groupedByEntity === entityTypes.DESTINATION) && (
         <EntityIndicator groupedByEntity={groupedByEntity} />
@@ -49,7 +49,7 @@ export default function GroupingInfo({ group, disableGrouping }) {
         <Fragment>
           <span className={locals.grouping}>{groupedBy}</span>
 
-          <Tooltip content="Remove grouping" align="bottomMiddle">
+          <Tooltip content={t('in-analyze:components.groupingInfo.removeGrouping')} align="bottomMiddle">
             <SvgIcon
               className={locals.removeGrouping}
               aria-label={t('in-analyze:groupingInfo.removeGrouping')}

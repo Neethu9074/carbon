@@ -12,6 +12,7 @@ import { warning } from 'in-new-components/Message/types';
 import PieChart from 'in-new-components/PieChart';
 import Message from 'in-new-components/Message';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 export default function ResultAwareChart({ result, config, renderLegend = true }) {
   let { timeConfig, y1, frontBufferWidth, customHeight, cardTitle, showNoDataInfoWhenEmpty = true } = config;
@@ -20,7 +21,14 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
 
   const height = customHeight || 160;
   if (result.errors.length > 0) {
-    content = <Message type={warning} withIcon title="Something went wrong…" description="Please try again later." />;
+    content = (
+      <Message
+        type={warning}
+        withIcon
+        title={t('in-components:chart.resultAwareChartSomethingWentWrong')}
+        description={t('in-components:chart.resultAwareChartPleaseTryAgainLater')}
+      />
+    );
   } else if (result.progress.loading) {
     // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
     content = <LoadingIndicator height={height} width={frontBufferWidth} />;

@@ -10,6 +10,7 @@ import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import Hierarchy from 'in-components/Link/Hierarchy';
 import useObservable from 'in-hooks/useObservable';
+import { t } from 'in-i18n';
 
 import locals from './InfrastructureHierarchy.mless';
 
@@ -40,7 +41,9 @@ export default function InfrastructureHierarchy({
           snapshotId={snapshotId}
           physicalContext={physicalContext}
         />
-        <div className={locals.noRelation}>No other relations found.</div>
+        <div className={locals.noRelation}>
+          {t('in-analyze:traceDetail.components.callDetails.noOtherRelationsFound')}
+        </div>
       </div>
     );
   }

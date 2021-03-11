@@ -9,6 +9,7 @@ import { clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimefra
 import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './HighlightedTimeframeCloseButton.mless';
 
@@ -40,7 +41,7 @@ export default connectTo(
 
       return (
         <Button className={locals.button} kind="secondary" size="compact" onClick={clearHighlightedTimeframe}>
-          Clear highlight
+          {t('in-components:chart.highlightedTimeframeCloseButtonClearHighlight')}
         </Button>
       );
     }

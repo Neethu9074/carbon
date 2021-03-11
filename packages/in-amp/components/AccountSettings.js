@@ -15,6 +15,7 @@ import Message from 'in-new-components/Message';
 import Title from 'in-components/Title/Title';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './AccountSettings.mless';
 
@@ -35,7 +36,7 @@ export default function AccountSettings() {
 function render({ form }) {
   return (
     <>
-      <Title title="Account Settings" />
+      <Title title={t('in-amp:components.accountSettings.accountSettings')} />
 
       <div className={locals.subViewHeading}>
         <SvgIcon className={locals.icon} type="lib_home" size="l" />
@@ -50,32 +51,52 @@ function render({ form }) {
       <form>
         <Row className={locals.row}>
           <Col xs={4}>
-            <span className={locals.heading}>Billing Address</span>
+            <span className={locals.heading}>{t('in-amp:components.accountSettings.billingAddress')}</span>
           </Col>
           <Col xs={4}>
-            <span className={locals.heading}>Shipping Address</span>
+            <span className={locals.heading}>{t('in-amp:components.accountSettings.shippingAddress')}</span>
           </Col>
         </Row>
 
         <Row className={locals.row}>
           <Col xs={4}>
             <Dl>
-              <FormValue title="Country" form={form} fieldName="billingCountry" />
-              <FormValue title="State" form={form} fieldName="billingState" />
-              <FormValue title="Zip" form={form} fieldName="billingZip" />
-              <FormValue title="City" form={form} fieldName="billingCity" />
-              <FormValue title="Address" form={form} fieldName="billingStreet" />
-              <FormValue title="Additional Address" form={form} fieldName="billingStreet2" />
+              <FormValue
+                title={t('in-amp:components.accountSettings.country')}
+                form={form}
+                fieldName="billingCountry"
+              />
+              <FormValue title={t('in-amp:components.accountSettings.state')} form={form} fieldName="billingState" />
+              <FormValue title={t('in-amp:components.accountSettings.zip')} form={form} fieldName="billingZip" />
+              <FormValue title={t('in-amp:components.accountSettings.city')} form={form} fieldName="billingCity" />
+              <FormValue title={t('in-amp:components.accountSettings.address')} form={form} fieldName="billingStreet" />
+              <FormValue
+                title={t('in-amp:components.accountSettings.additionalAddress')}
+                form={form}
+                fieldName="billingStreet2"
+              />
             </Dl>
           </Col>
           <Col xs={4}>
             <Dl>
-              <FormValue title="Country" form={form} fieldName="shippingCountry" />
-              <FormValue title="State" form={form} fieldName="shippingState" />
-              <FormValue title="Zip" form={form} fieldName="shippingZip" />
-              <FormValue title="City" form={form} fieldName="shippingCity" />
-              <FormValue title="Address" form={form} fieldName="shippingStreet" />
-              <FormValue title="Additional Address" form={form} fieldName="shippingStreet2" />
+              <FormValue
+                title={t('in-amp:components.accountSettings.country')}
+                form={form}
+                fieldName="shippingCountry"
+              />
+              <FormValue title={t('in-amp:components.accountSettings.state')} form={form} fieldName="shippingState" />
+              <FormValue title={t('in-amp:components.accountSettings.zip')} form={form} fieldName="shippingZip" />
+              <FormValue title={t('in-amp:components.accountSettings.city')} form={form} fieldName="shippingCity" />
+              <FormValue
+                title={t('in-amp:components.accountSettings.address')}
+                form={form}
+                fieldName="shippingStreet"
+              />
+              <FormValue
+                title={t('in-amp:components.accountSettings.additionalAddress')}
+                form={form}
+                fieldName="shippingStreet2"
+              />
             </Dl>
           </Col>
         </Row>

@@ -8,34 +8,35 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { ampTechnologies } from 'in-settings/navigation/paths';
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 import locals from './TechnologiesReportingTable.mless';
 
 const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
+    label: t('in-amp:components.technologiesReportingTable.name'),
     getContent(item) {
       return <span className={locals.label}>{item.name}</span>;
     }
   },
   {
     id: 'min',
-    label: 'Min',
+    label: t('in-amp:components.technologiesReportingTable.min'),
     getContent(item) {
       return <span>{item.min}</span>;
     }
   },
   {
     id: 'max',
-    label: 'Max',
+    label: t('in-amp:components.technologiesReportingTable.max'),
     getContent(item) {
       return <span>{item.max}</span>;
     }
   },
   {
     id: 'avg',
-    label: 'Average',
+    label: t('in-amp:components.technologiesReportingTable.average'),
     getContent(item) {
       return <span>{number.compact(item.average)}</span>;
     }

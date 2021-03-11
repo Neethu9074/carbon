@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
 import React from 'react';
 
 import { Row, Col } from 'in-new-components/layout/Grid';
 import UsageChart from 'in-amp/components/UsageChart';
 import Card from 'in-new-components/Card';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function UsageCharts({
   windowSize,
@@ -19,17 +20,17 @@ export default function UsageCharts({
     <>
       <Row>
         <Col xs={6}>
-          <Card title="APM Usage">
+          <Card title={t('in-amp:components.usageCharts.apmUsage')}>
             <UsageChart
               windowSize={windowSize}
               showAggregatedMetrics={showAggregatedMetrics}
-              y1={{ ...tenantUnit, metrics: ['apmhost'], labels: ['APM Hosts'] }}
+              y1={{ ...tenantUnit, metrics: ['apmhost'], labels: [t('in-amp:components.usageCharts.apmHosts')] }}
               y2={
                 showPurchasedMetric
                   ? {
                       ...tenantUnit,
                       metrics: ['licensed_apm_hosts'],
-                      labels: ['Purchased'],
+                      labels: [t('in-amp:components.usageCharts.purchased')],
                       colors: [theme.lib.colors.failure]
                     }
                   : getEmptyMetricConfig()
@@ -38,21 +39,21 @@ export default function UsageCharts({
           </Card>
         </Col>
         <Col xs={6}>
-          <Card title="Infrastructure Usage">
+          <Card title={t('in-amp:components.usageCharts.infrastructureUsage')}>
             <UsageChart
               windowSize={windowSize}
               showAggregatedMetrics={showAggregatedMetrics}
               y1={{
                 ...tenantUnit,
                 metrics: ['infrahost'],
-                labels: ['IQM Hosts']
+                labels: [t('in-amp:components.usageCharts.iqmHosts')]
               }}
               y2={
                 showPurchasedMetric
                   ? {
                       ...tenantUnit,
                       metrics: ['licensed_infra_hosts'],
-                      labels: ['Purchased'],
+                      labels: [t('in-amp:components.usageCharts.purchased')],
                       colors: [theme.lib.colors.failure]
                     }
                   : getEmptyMetricConfig()
@@ -63,14 +64,20 @@ export default function UsageCharts({
       </Row>
       <Row>
         <Col xs={6}>
-          <Card title="Container Usage">
+          <Card title={t('in-amp:components.usageCharts.containerUsage')}>
             <UsageChart
               windowSize={windowSize}
               showAggregatedMetrics={showAggregatedMetrics}
               y1={{
                 ...tenantUnit,
                 metrics: ['docker', 'containerd', 'crio', 'garden', 'lxc'],
-                labels: ['Docker', 'ContainerD', 'Crio', 'Garden', 'LXC'],
+                labels: [
+                  t('in-amp:components.usageCharts.docker'),
+                  t('in-amp:components.usageCharts.containerD'),
+                  t('in-amp:components.usageCharts.crio'),
+                  t('in-amp:components.usageCharts.garden'),
+                  t('in-amp:components.usageCharts.lxc')
+                ],
                 renderer: 'stackedArea'
               }}
               y2={
@@ -78,7 +85,7 @@ export default function UsageCharts({
                   ? {
                       ...tenantUnit,
                       metrics: ['licensed_container'],
-                      labels: ['Purchased'],
+                      labels: [t('in-amp:components.usageCharts.purchased')],
                       colors: [theme.lib.colors.failure]
                     }
                   : getEmptyMetricConfig()
@@ -87,21 +94,21 @@ export default function UsageCharts({
           </Card>
         </Col>
         <Col xs={6}>
-          <Card title="Serverless Usage">
+          <Card title={t('in-amp:components.usageCharts.serverlessUsage')}>
             <UsageChart
               windowSize={windowSize}
               showAggregatedMetrics={showAggregatedMetrics}
               y1={{
                 ...tenantUnit,
                 metrics: ['tracingserverless'],
-                labels: ['Serverless']
+                labels: [t('in-amp:components.usageCharts.serverless')]
               }}
               y2={
                 showPurchasedMetric
                   ? {
                       ...tenantUnit,
                       metrics: ['licensed_tracingserverless'],
-                      labels: ['Purchased'],
+                      labels: [t('in-amp:components.usageCharts.purchased')],
                       colors: [theme.lib.colors.failure]
                     }
                   : getEmptyMetricConfig()

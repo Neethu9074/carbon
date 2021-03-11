@@ -15,11 +15,11 @@ import locals from 'in-alerting/components/AlertPropertyInfos.mless';
 const propertiesBySeverity = Object.freeze({
   5: {
     icon: 'lib_events_warning',
-    label: 'Warning'
+    label: t('in-alerting:components.alertPropertyInfosWarning')
   },
   10: {
     icon: 'lib_events_critical',
-    label: 'Critical'
+    label: t('in-alerting:components.alertPropertyInfosCritical')
   }
 });
 

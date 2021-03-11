@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import CreatableSelect from 'react-select/lib/Creatable';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
@@ -17,6 +16,7 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './AnalyzeFilterFormComponents.mless';
 
@@ -145,8 +145,8 @@ function ValueInputByType({ tagKey, value, onChange, tagSuggestionResult }) {
         value={value}
         onChange={e => onChange(e.value)}
         options={[
-          { label: 'false', value: 'false' },
-          { label: 'true', value: 'true' }
+          { label: t('in-analyze:dialogs.components.analyzeFilterForm.false'), value: 'false' },
+          { label: t('in-analyze:dialogs.components.analyzeFilterForm.true'), value: 'true' }
         ]}
       />
     );

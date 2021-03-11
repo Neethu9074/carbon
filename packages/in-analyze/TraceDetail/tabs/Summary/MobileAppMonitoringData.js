@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import { compose, withState, withProps } from 'recompose';
 import React, { Fragment } from 'react';
 
@@ -22,6 +21,7 @@ import { minutes } from 'in-services/time';
 import Card from 'in-new-components/Card';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { Trans, t } from 'in-i18n';
 
 import locals from './MobileAppMonitoringData.mless';
 
@@ -74,19 +74,24 @@ export default compose(
             title={
               <span className={locals.title}>
                 <SvgIcon type="lib_mobile_app" />
-                Corresponding Mobile App Activity
+                {t('in-analyze:traceDetail.tabs.summary.correspondingMobileAppActivity')}
               </span>
             }
           >
             <span className={locals.leftSide}>
-              This trace is caused by activity on the&nbsp;
-              <Link href$={getLinkToMobileApp(beacon.mobileAppId)}>{beacon.mobileAppLabel}</Link>
-              &nbsp;mobile app.
+              <Trans
+                i18nKey="in-analyze:tabs.summary.thisTraceIsCausedByActivityOnTheMobileApp"
+                values={{ mobileAppLabel: beacon.mobileAppLabel }}
+                components={{
+                  linkToMobileApp: <Link href$={getLinkToMobileApp(beacon.mobileAppId)} />
+                }}
+              />
             </span>
             <span>
               <Button onClick={() => setShowDetails(!showDetails)} kind="secondary" size="compact">
-                {showDetails ? t('in-analyze:tabs.summary.hide') : t('in-analyze:tabs.summary.show')} Mobile App
-                Information
+                {showDetails
+                  ? t('in-analyze:traceDetail.tabs.summary.hideMobileAppInformation')
+                  : t('in-analyze:traceDetail.tabs.summary.showMobileAppInformation')}
               </Button>
               <Button
                 onClick={() => navigateToSessionFromBackendTrace()}
@@ -97,7 +102,7 @@ export default compose(
                 kind="primary"
                 size="compact"
               >
-                View Mobile App Activity
+                {t('in-analyze:traceDetail.tabs.summary.viewMobileAppActivity')}
               </Button>
             </span>
           </Card>

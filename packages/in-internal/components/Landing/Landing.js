@@ -174,7 +174,7 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                         description={t('in-internal:components.landing.acceptorDesc')}
                       />
                       <LinkListItem
-                        label="ServerlessAcceptor"
+                        label={t('in-internal:components.landing.serverlessAcceptor')}
                         href$={getModifiedUrlStream(
                           params => (params.pathname = '/internal/monitoringUnit/serverless/serverlessacceptors')
                         )}
@@ -188,7 +188,7 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                         description={t('in-internal:components.landing.cashiersDesc')}
                       />
                       <LinkListItem
-                        label="Hubforce"
+                        label={t('in-internal:components.landing.hubforce')}
                         href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/hubforce'))}
                         description={t('in-internal:components.landing.hubforceDesc')}
                       />
@@ -347,7 +347,7 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                           params => (params.pathname = '/internal/monitoringUnit/sre/statecassandra')
                         )}
                       />
-                      <LinkListItem label="Clickhouse">
+                      <LinkListItem label={t('in-internal:components.landing.clickhouse')}>
                         <LinkList>
                           <LinkListItem
                             label={t('in-internal:components.landing.overview')}
@@ -364,19 +364,19 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                         </LinkList>
                       </LinkListItem>
                       <LinkListItem
-                        label="Elasticsearch"
+                        label={t('in-internal:components.landing.elasticsearch')}
                         href$={getModifiedUrlStream(
                           params => (params.pathname = '/internal/monitoringUnit/sre/elastic')
                         )}
                       />
                       <LinkListItem
-                        label="ElasticsearchNG"
+                        label={t('in-internal:components.landing.elasticsearchNg')}
                         href$={getModifiedUrlStream(
                           params => (params.pathname = '/internal/monitoringUnit/sre/elasticng')
                         )}
                       />
                       <LinkListItem
-                        label="Kafka"
+                        label={t('in-internal:components.landing.kafka')}
                         href$={getModifiedUrlStream(params => (params.pathname = '/internal/monitoringUnit/sre/kafka'))}
                       />
                       <LinkListItem
@@ -536,13 +536,13 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                     >
                       <LinkList>
                         <LinkListItem
-                          label="demous"
+                          label={t('in-internal:components.landing.demous')}
                           href="https://demous-demo.instana.io"
                           external
                           description={t('in-internal:components.landing.demousDescUs')}
                         />
                         <LinkListItem
-                          label="demous"
+                          label={t('in-internal:components.landing.demous')}
                           href="https://demoeu-demo.instana.io"
                           external
                           description={t('in-internal:components.landing.demousDescEu')}

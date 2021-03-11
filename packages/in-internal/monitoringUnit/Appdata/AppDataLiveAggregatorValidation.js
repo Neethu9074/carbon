@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -15,6 +14,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo({
   timeConfig: timeConfig$,
@@ -31,7 +31,7 @@ export default connectTo({
     <Row>
       <Col xs={12}>
         <div>
-          <h1>Validation</h1>
+          <h1>{t('in-internal:monitoringUnit.appdata.appDataLiveAggreValid.validation')}</h1>
           <Columize>
             <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataLiveAggreValid.validMetrics')}>
               <Chart

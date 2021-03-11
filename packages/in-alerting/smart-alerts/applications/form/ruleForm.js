@@ -5,6 +5,7 @@
 import { createField, createMapForm } from 'formalistic';
 
 import { operators } from 'in-analyze/applicationFilter';
+import { t } from 'in-i18n';
 
 export default function createRuleForm(rule) {
   const { alertType } = rule;
@@ -69,7 +70,7 @@ function extendForLogs(baseForm, rule) {
             return [
               {
                 severity: 'error',
-                message: 'Please provide a log message'
+                message: t('in-alerting:smartAlerts.applications.form.ruleFormPleaseProvideALogMessage')
               }
             ];
           } else {

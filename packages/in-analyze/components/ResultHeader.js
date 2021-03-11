@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -14,6 +13,7 @@ import { emptyObject } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './ResultHeader.mless';
 
@@ -52,7 +52,7 @@ export default connectTo(
           [locals.withMargin]: !withoutMargin
         })}
       >
-        <span className={locals.result}>Result</span>
+        <span className={locals.result}>{t('in-analyze:analyzeView.components.resultHeader.result')}</span>
         <span
           className={classNames({
             [locals.number]: true,

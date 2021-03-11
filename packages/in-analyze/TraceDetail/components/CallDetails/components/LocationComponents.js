@@ -4,7 +4,6 @@
  */
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
@@ -14,6 +13,7 @@ import { shorten } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './LocationComponents.mless';
 
@@ -60,7 +60,7 @@ export const DestinationLocation = ({ location, endpoint, service, snapshotId, e
           <SvgIcon className={locals.entityIcon} type="lib_application_endpoint" />
           {shortenedLabel(endpoint.label)}
         </Link>
-        <span className={locals.text}>of</span>
+        <span className={locals.text}>{t('in-analyze:traceDetail.components.callDetails.of')}</span>
         <Link className={locals.link} href$={getServiceDashboard(service.id)}>
           <SvgIcon className={locals.entityIcon} type="lib_application_service" />
           {shortenedLabel(service.label)}
@@ -86,7 +86,7 @@ export const WebsiteSourceLocation = ({ location, beacon }) => {
               <SvgIcon type="lib_document" size="s" className={locals.icon} />
               {shortenedLabel(beacon.page)}
             </Link>
-            <span className={locals.text}>on</span>
+            <span className={locals.text}>{t('in-analyze:traceDetail.components.callDetails.on')}</span>
           </Fragment>
         ) : (
           ''
@@ -115,7 +115,7 @@ export const MobileAppSourceLocation = ({ location, beacon }) => {
               <SvgIcon type="lib_mobile_app_view" size="s" className={locals.icon} />
               {shortenedLabel(beacon.view)}
             </Link>
-            <span className={locals.text}>on</span>
+            <span className={locals.text}>{t('in-analyze:traceDetail.components.callDetails.on')}</span>
           </Fragment>
         ) : (
           ''
@@ -138,7 +138,11 @@ function correctTooltip(location, entity, snapshotId) {
     );
   } else if (!entity && snapshotId) {
     return (
-      <Tooltip content="Instana could not correlate this span with the infrastructure that generated it.">
+      <Tooltip
+        content={t(
+          'in-analyze:traceDetail.components.callDetails.instanaCouldNotCorrelateThisSpanWithTheInfrastructureThatGeneratedIt'
+        )}
+      >
         <SvgIcon className={locals.infoIcon} type="lib_help_error_info_circle" />
       </Tooltip>
     );

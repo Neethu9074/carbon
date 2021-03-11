@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 import { compose } from 'recompose';
 
 import { analysisTypes } from 'in-internal/monitoringUnit/units/UnitList/analysisModes';
@@ -18,6 +17,7 @@ import Select from 'in-components/form/Select';
 import withUrlState from 'in-hoc/withUrlState';
 import search from 'in-subscription/search';
 import connect from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './UnitList.mless';
 
@@ -107,9 +107,9 @@ export default compose(
                 onChange={e => setState({ metricAggregation: e.target.value })}
                 className={locals.aggregationSwitch}
               >
-                <option value="mean">mean</option>
-                <option value="max">max</option>
-                <option value="sum">sum</option>
+                <option value="mean">{t('in-internal:monitoringUnit.units.unitList.mean')}</option>
+                <option value="max">{t('in-internal:monitoringUnit.units.unitList.max')}</option>
+                <option value="sum">{t('in-internal:monitoringUnit.units.unitList.sum')}</option>
               </Select>
             </Fragment>
           }

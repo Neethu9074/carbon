@@ -2,8 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
-import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -27,6 +25,8 @@ import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';
 import Link from 'in-components/Link';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './TraceDetail.mless';
 
@@ -77,8 +77,8 @@ function TraceDetail({ location, colorCode: getColor, navigator, filters, setCol
     <>
       <ViewTrackingMeta
         data={{
-          productArea: 'Applications',
-          pageRootName: 'Analytics'
+          productArea: t('in-analyze:traceDetail.applications'),
+          pageRootName: t('in-analyze:traceDetail.analytics')
         }}
       />
 
@@ -141,7 +141,7 @@ function renderButtonLine({ traceId }) {
         target="_blank"
         href={`/api/application-monitoring/analyze/traces;id=${encodeURIComponent(traceId)}?pretty`}
       >
-        Download
+        {t('in-analyze:traceDetail.download')}
       </Button>
     </>
   );
@@ -150,7 +150,7 @@ function renderButtonLine({ traceId }) {
 function renderMetaInformation({ traceId, result }) {
   return (
     <div>
-      <span className={locals.traceIdLabel}>Trace ID: </span>
+      <span className={locals.traceIdLabel}>{t('in-analyze:traceDetail.traceId')}</span>
       <code className={locals.traceId}>{traceId}</code>
       {// When jumping from very recent beacons to the backend traces, calls might not be
       // available in ClickHouse yet, even though some trace information from Cassandra
@@ -167,7 +167,7 @@ function renderMetaInformation({ traceId, result }) {
 function renderContext({ filters }) {
   return (
     <Link className={locals.analyticsLink} href$={getLinkToAnalyze({ dataSource: filters.dataSource })}>
-      Analytics
+      {t('in-analyze:traceDetail.analytics')}
     </Link>
   );
 }
@@ -176,7 +176,11 @@ function renderTimeSelection({ filters }) {
   return (
     <Link href$={getLinkToAnalyze({ dataSource: filters.dataSource })}>
       <Tooltip content={t('in-analyze:traceDetails.tooltipClose')}>
-        <SvgIcon className={locals.closeIcon} aria-label="Close trace detail" type="lib_openclose_cancel" />
+        <SvgIcon
+          className={locals.closeIcon}
+          aria-label={t('in-analyze:traceDetail.closeTraceDetail')}
+          type="lib_openclose_cancel"
+        />
       </Tooltip>
     </Link>
   );

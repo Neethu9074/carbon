@@ -9,11 +9,12 @@ import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlacehold
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getActiveLicensesAsResultObservable } from 'in-amp/api/account';
 import { formatDate } from 'in-services/formatters/date';
+import { t } from 'in-i18n';
 
 export const columnDefinitions = [
   {
     id: 'name',
-    label: 'Name',
+    label: t('in-amp:components.activeLicenses.name'),
     sortable: false,
     getContent(item) {
       return <span>{item.unit}</span>;
@@ -21,7 +22,7 @@ export const columnDefinitions = [
   },
   {
     id: 'tenant',
-    label: 'Tenant',
+    label: t('in-amp:components.activeLicenses.tenant'),
     sortable: false,
     getContent(item) {
       return <span>{item.tenant}</span>;
@@ -29,7 +30,7 @@ export const columnDefinitions = [
   },
   {
     id: 'type',
-    label: 'Type',
+    label: t('in-amp:components.activeLicenses.type'),
     sortable: false,
     getContent(item) {
       return <span>{item.license.name}</span>;
@@ -37,7 +38,7 @@ export const columnDefinitions = [
   },
   {
     id: 'start',
-    label: 'License Start Data',
+    label: t('in-amp:components.activeLicenses.licenseStartData'),
     sortable: false,
     getContent(item) {
       return <span>{formatDate(item.license.start)}</span>;
@@ -45,7 +46,7 @@ export const columnDefinitions = [
   },
   {
     id: 'expire',
-    label: 'License End Data',
+    label: t('in-amp:components.activeLicenses.licenseEndData'),
     sortable: false,
     getContent(item) {
       return <span>{formatDate(item.license.expire)}</span>;
@@ -53,7 +54,7 @@ export const columnDefinitions = [
   },
   {
     id: 'amp',
-    label: 'Licensed APM Hosts',
+    label: t('in-amp:components.activeLicenses.licensedApmHosts'),
     sortable: false,
     getContent(item) {
       return <span>{item.license.licenseSpecs?.apmHosts ?? valueMissingPlaceholder}</span>;
@@ -61,7 +62,7 @@ export const columnDefinitions = [
   },
   {
     id: 'infra',
-    label: 'Licensed IM Hosts',
+    label: t('in-amp:components.activeLicenses.licensedImHosts'),
     sortable: false,
     getContent(item) {
       return <span>{item.license.licenseSpecs?.infraHosts ?? valueMissingPlaceholder}</span>;

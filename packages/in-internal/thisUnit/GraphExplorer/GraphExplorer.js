@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { combineLatest } from '@instana/observables';
+import { compose } from 'recompose';
 import React from 'react';
 
 import GraphExplorerMap from 'in-internal/thisUnit/GraphExplorer/GraphExplorerMap';
@@ -12,7 +13,7 @@ import withUrlState from 'in-hoc/withUrlState';
 import getGraph from 'in-subscription/graph';
 import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
-import { compose } from 'recompose';
+import { t } from 'in-i18n';
 
 import locals from './GraphExplorer.mless';
 
@@ -49,7 +50,7 @@ function GraphExplorer({ snapshotId, setSnapshotId, connected }) {
         className={locals.input}
         type="text"
         id="snapshotId-value"
-        placeholder="snapshotId..."
+        placeholder={t('in-internal:thisUnit.graphExplorer.snapshotId')}
         value={snapshotId}
         onChange={e => setSnapshotId({ snapshotId: e.target.value })}
         autoFocus

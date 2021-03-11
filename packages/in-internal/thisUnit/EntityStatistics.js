@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
@@ -14,6 +13,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getPluginName } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {
@@ -52,7 +52,7 @@ export default connectTo(
 
     return (
       <InternalViewWrapper>
-        <h1>Cockpit</h1>
+        <h1>{t('in-internal:thisUnit.entityStatistics.cockpit')}</h1>
 
         <DashboardSection title={t('in-internal:monitoringUnit.thisUnit.entityStatistics.entityCount')}>
           <Chart

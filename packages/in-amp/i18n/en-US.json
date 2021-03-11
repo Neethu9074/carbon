@@ -1,0 +1,67 @@
+{
+  "components": {
+    "accountSettings": {
+      "accountSettings": "Account Settings",
+      "billingAddress": "Billing Address",
+      "shippingAddress": "Shipping Address",
+      "country": "Country",
+      "state": "State",
+      "zip": "Zip",
+      "city": "City",
+      "address": "Address",
+      "additionalAddress": "Additional Address"
+    },
+    "activeLicenses": {
+      "name": "Name",
+      "tenant": "Tenant",
+      "type": "Type",
+      "licenseStartData": "License Start Data",
+      "licenseEndData": "License End Data",
+      "licensedApmHosts": "Licensed APM Hosts",
+      "licensedImHosts": "Licensed IM Hosts"
+    },
+    "ampInformationModifier": {
+      "allPaidUnitsAggregated": "All paid units (aggregated)",
+      "customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense": "Customer usage is reported across all units of your Account with a paid license."
+    },
+    "noLicenseAvailableMessage": {
+      "thereHasBeenNoActivePaidLicenseInThePast30Days": "There has been no active paid license in the past 30 days."
+    },
+    "restrictedUsage": {
+      "accountUsage": "Account Usage"
+    },
+    "technologiesReportingTable": {
+      "name": "Name",
+      "min": "Min",
+      "max": "Max",
+      "average": "Average"
+    },
+    "timePresets": {
+      "last7Days": "Last 7 days",
+      "last30Days": "Last 30 days",
+      "last365Days": "Last 365 days"
+    },
+    "usages": {
+      "allPaidUnitsAggregated": "All paid units (aggregated)",
+      "accountUsage": "Account Usage",
+      "activeLicenses": "Active Licenses",
+      "expiredLicenses": "Expired Licenses",
+      "queuedLicenses": "Queued Licenses"
+    },
+    "usageCharts": {
+      "apmUsage": "APM Usage",
+      "apmHosts": "APM Hosts",
+      "purchased": "Purchased",
+      "infrastructureUsage": "Infrastructure Usage",
+      "iqmHosts": "IQM Hosts",
+      "containerUsage": "Container Usage",
+      "docker": "Docker",
+      "containerD": "ContainerD",
+      "crio": "Crio",
+      "garden": "Garden",
+      "lxc": "LXC",
+      "serverlessUsage": "Serverless Usage",
+      "serverless": "Serverless"
+    }
+  }
+}

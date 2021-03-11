@@ -2,10 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
 import React from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -17,6 +15,8 @@ import EntityIndicator from '../EntityIndicator';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './TagFilterListPresenter.mless';
 
@@ -106,7 +106,7 @@ function TagFilterPresenter({
 
       <div className={locals.conjunction}>
         <Pill className={locals.conjunctionPill} color={theme.lib.colors.N400}>
-          and
+          {t('in-analyze:components.tagFilterList.and')}
         </Pill>
       </div>
 

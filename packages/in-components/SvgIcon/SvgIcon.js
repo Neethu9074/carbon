@@ -13,6 +13,7 @@ import icons from 'in-components/SvgIcon/registry.json';
 import { emptyObject } from 'in-services/fixedObjects';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getFactor } from 'in-services/util/dom';
+import { t } from 'in-i18n';
 
 import locals from './SvgIcon.mless';
 
@@ -80,7 +81,7 @@ const SvgIcon = forwardRef(function SvgIcon(
     const plugin = type.substring(infrastructurePluginPrefix.length);
     type = getIconType(plugin);
     if (!ariaLabel) {
-      ariaLabel = `${getPluginName(plugin, 1)} icon`;
+      ariaLabel = t('in-components:svgIcon.pluginIcon', { pluginName: getPluginName(plugin, 1) });
     }
   }
   if (type) {

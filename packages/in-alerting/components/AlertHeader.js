@@ -255,7 +255,9 @@ export default function AlertHeader({
           type={warning}
           withIcon
           className={locals.bottomSpace}
-          title="You are looking at a deleted alert configuration. Modifications are not possible."
+          title={t(
+            'in-alerting:components.alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible'
+          )}
         />
       )}
       {isNotLatestRevision && (

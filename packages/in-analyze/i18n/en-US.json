@@ -27,7 +27,65 @@
     "quickGroupBarLabelType": "Type",
     "quickGroupBarLabelTechnology": "Technology",
     "quickGroupBarLabelAllGroups": "All groups",
-    "tagGroupEmptyMessage": "No group defined."
+    "tagGroupEmptyMessage": "No group defined.",
+    "components": {
+      "loadingStates": {
+        "preparing": "Preparing…",
+        "instanaIsProcessingALargeAmountOfTracingData": "Instana is processing a large amount of tracing data.",
+        "pleaseDontReloadThisPageWillUpdateAutomatically": "Please don't reload - this page will update automatically.",
+        "runningQuery": "Running query…",
+        "thisQueryHasTimedOut": "This query has timed out.",
+        "theQueryTookTooLongToRunAndHasBeenCancelled": "The query took too long to run and has been cancelled.",
+        "selectAShorterTimeframeOrIssueAMoreSpecificQueryByApplyingMoreFilters": "Select a shorter timeframe or issue a more specific query by applying more filters.",
+        "thereWasAnInputError": "There was an input error.",
+        "tooManyRequests": "Too many requests",
+        "ourSystemIsCurrentlyBusyPleaseTryAgainLater": "Our system is currently busy. Please try again later.",
+        "serverError": "Server Error",
+        "anUnexpectedErrorOccurredPleaseTryAgainLaterOrContactSupportToReportTheError": "An unexpected error occurred. Please try again later or contact support to report the error."
+      },
+      "tagFilterConfiguration": {
+        "noFiltersDefined": "No filters defined."
+      },
+      "tagGroupConfiguration": {
+        "select": "Select",
+        "top5": "Top 5",
+        "bottom5": "Bottom 5",
+        "showRemainingGroupsAggregatedAsOther": "Show remaining groups aggregated as “Other“."
+      },
+      "resultHeader": {
+        "result": "Result"
+      }
+    },
+    "dataSources": {
+      "traceAnalytics": "Trace Analytics",
+      "trace": "Trace",
+      "callAnalytics": "Call Analytics",
+      "call": "Call",
+      "applications": "Applications",
+      "websites": "Websites",
+      "mobileApps": "Mobile Apps",
+      "profiles": "Profiles",
+      "logs": "Logs",
+      "eumWebsites": "EUM: Websites",
+      "eumMobileApps": "EUM: Mobile Apps",
+      "pageLoads": "Page loads",
+      "pageTransitions": "Page transitions",
+      "pageTransitions2": "Page Transitions",
+      "resources": "Resources",
+      "httpRequests": "HTTP requests",
+      "httpRequests2": "HTTP Requests",
+      "javaScriptErrors": "JavaScript errors",
+      "customEvents": "Custom events",
+      "customEvents2": "Custom Events",
+      "sessionStarts": "Session Starts",
+      "viewTransitions": "View transitions",
+      "pageLoads2": "Page Loads",
+      "jsErrors": "JS Errors",
+      "viewTransitions2": "View Transitions",
+      "calls": "Calls",
+      "traces": "Traces",
+      "console": "Console"
+    }
   },
   "services": {
     "noData": "No service calls are available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
@@ -59,11 +117,80 @@
         "serviceEndpointList": "Service Endpoint List",
         "largeTrace": "Large Trace",
         "largeTraceLink": "This trace is large and rendering of this trace can result in performance problems within your browser. You can either <linkToDocs>download the trace</linkToDocs> for manual inspection or attempt trace rendering within your browser. We will only render a subset of the components in order to increase performance of this attempt.",
-        "calls": "Calls"
+        "calls": "Calls",
+        "correspondingMobileAppActivity": "Corresponding Mobile App Activity",
+        "hideMobileAppInformation": "Hide Mobile App Information",
+        "showMobileAppInformation": "Show Mobile App Information",
+        "viewMobileAppActivity": "View Mobile App Activity",
+        "erroneousTrace": "Erroneous Trace",
+        "attemptToRenderTrace": "Attempt to render trace",
+        "hideWebsiteInformation": "Hide Website Information",
+        "showWebsiteInformation": "Show Website Information",
+        "viewWebsiteActivity": "View Website Activity"
       }
-    }
+    },
+    "components": {
+      "callDetails": {
+        "error": "Error",
+        "warning": "Warning",
+        "showStackTrace": "Show Stack Trace",
+        "expandButtonForContent": "Expand button for content",
+        "logParameters": "Log Parameters",
+        "logStackTrace": "Log Stack Trace",
+        "thisCallIsBatchedAndRepresentsIndividualCalls": "This call is batched and represents {{batchSize}} individual calls.",
+        "correlationMissing": "Correlation missing",
+        "noOtherRelationsFound": "No other relations found.",
+        "synthetic": "Synthetic",
+        "thisCallDoesNotContributeToServiceOrApplicationKpIs": "This call does not contribute to service or application KPIs.",
+        "configureSyntheticEndpoints": "Configure Synthetic Endpoints",
+        "of": "of",
+        "on": "on",
+        "instanaCouldNotCorrelateThisSpanWithTheInfrastructureThatGeneratedIt": "Instana could not correlate this span with the infrastructure that generated it.",
+        "httpCallUri": "HTTP Call URI",
+        "beaconType": "Beacon Type",
+        "networkInsights": "Network Insights",
+        "transferSize": "Transfer Size",
+        "encodedBodySize": "Encoded Body Size",
+        "decodedBodySize": "Decoded Body Size",
+        "goToBeacon": "Go to Beacon",
+        "profiling": "Profiling",
+        "loadingProfile": "Loading profile",
+        "noCpuProfileAvailable": "No CPU Profile available",
+        "cpuUser": "CPU User",
+        "cpuHotspots": "CPU Hotspots",
+        "analyzeProfiles": "Analyze profiles",
+        "infrastructure": "Infrastructure",
+        "cxfType": "CXF type",
+        "type": "Type",
+        "category": "Category",
+        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "Please note: Source code can only be retrieved for processes that are still under monitoring by Instana.",
+        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "Please note: Source code can only be retrieved for processes where Instana could successfully link the corresponding infrastructure.",
+        "stackTrace": "StackTrace",
+        "in": "in",
+        "windowLocation": "Window Location",
+        "resourceUri": "Resource URI",
+        "cacheInteraction": "Cache Interaction"
+      },
+      "callTree": {
+        "expandButtonForRow": "Expand button for row",
+        "of": "of",
+        "inheritedFrom": "Inherited from"
+      },
+      "colorCodingToggleButtons": {
+        "colorizeBy": "Colorize by",
+        "endpoint": "Endpoint"
+      },
+      "logTooltipContent": {
+        "errorLog": "Error Log",
+        "warningLog": "Warning Log"
+      }
+    },
+    "applications": "Applications",
+    "analytics": "Analytics",
+    "download": "Download",
+    "traceId": "Trace ID:",
+    "closeTraceDetail": "Close trace detail"
   },
-
   "applicationFilter": {
     "labelApplication": "Application",
     "labelApplicationInbound": "Application Inbound",
@@ -185,17 +312,20 @@
   "tagFilterList": {
     "tooltipRemoveFilter": "Remove filter"
   },
-
   "dialogs": {
-    "tooltip": "Suggestions currently not available, please type in the value"
+    "tooltip": "Suggestions currently not available, please type in the value",
+    "components": {
+      "analyzeFilterForm": {
+        "false": "false",
+        "true": "true"
+      }
+    }
   },
-
   "traceDetails": {
     "titleAnalytics": "Analytics",
     "titleTrace": "Trace",
     "tooltipData": "Some data related to this trace is delayed so please reload the page in a little later. An example where this may happen is viewing a very recent trace with some of its data is still being processed.",
     "tooltipClose": "Close trace detail",
-
     "labelTotal": "Total",
     "labelNetwork": "Network",
     "labelSelf": "Self",
@@ -205,7 +335,6 @@
     "labelAggregatedTime": "Aggregated Time",
     "labelErroneousCalls": "Erroneous Calls",
     "buttonTechnology": "Technology",
-
     "appNavigatorSplitScreen": {
       "tooltipViewPrevious": "View previous {{viewType}} (shortcut: left arrow key)",
       "tooltipViewNext": "View next {{viewType}} (shortcut: left arrow key)",
@@ -228,16 +357,101 @@
   "tabs": {
     "labelDetail": "Detail",
     "summary": {
-      "hide": "Hide",
-      "show": "Show",
       "websiteMonitoringDataTitle": "Corresponding Website Activity",
       "messageMultiple_root_spans": "The trace is malformed and contains multiple root calls",
       "messageMissing_root_span": "The root call of the trace is missing or has not yet arrived in the processing pipeline.",
       "messageDuplicated_spans": "The trace contains duplicated calls with the same id.",
       "messageToo_many_spans": "The trace contains too many calls, it can only be partially displayed and downloaded.",
       "messageMissing_parent_span": "Parent span is missing for some of the entry spans in this trace during the processing.",
-      "messageExit_spans_followed_by_intermediate_spans": "Some exit spans are followed by intermediate spans."
+      "messageExit_spans_followed_by_intermediate_spans": "Some exit spans are followed by intermediate spans.",
+      "thisTraceIsCausedByActivityOnTheMobileApp": "This trace is caused by activity on the <linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp> mobile app.",
+      "thisTraceIsCausedByActivityOnThewebsite": "This trace is caused by activity on the <linkToWebsite>{{websiteLabel}}</linkToWebsite> website."
     }
   },
-  "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly."
+  "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
+  "components": {
+    "analyzeHeader": {
+      "application": "application",
+      "website": "website",
+      "mobileApp": "mobileApp",
+      "profiles": "profiles",
+      "beta": "BETA",
+      "analytics": "Analytics"
+    },
+    "editGroupDialog": {
+      "group": "Group",
+      "tag": "Tag",
+      "loadingSuggestions": "Loading suggestions…",
+      "save": "Save"
+    },
+    "editTagFilterDialog": {
+      "tag": "Tag",
+      "loadingSuggestions": "Loading suggestions…",
+      "operator": "Operator",
+      "true": "true",
+      "false": "false",
+      "removeFilter": "Remove Filter"
+    },
+    "filterBar": {
+      "group": "Group",
+      "filters": "Filters",
+      "clearFilters": "Clear filters",
+      "loadingSuggestions": "Loading suggestions…",
+      "operator": "Operator",
+      "value": "Value",
+      "addFilter": "Add Filter",
+      "equalTo": "equal to",
+      "notEqualTo": "not equal to",
+      "greaterThan": "greater than",
+      "greaterThanOrEquals": "greater than or equals",
+      "lessThan": "less than",
+      "lessThanOrEquals": "less than or equals",
+      "clear": "Clear",
+      "save": "Save"
+    },
+    "groupedTraces": {
+      "tagPresentWithNoValue": "Tag present with no value",
+      "tagNotPresent": "Tag not present"
+    },
+    "groupingInfo": {
+      "groupedBy": "Grouped by",
+      "removeGrouping": "Remove grouping"
+    },
+    "groupingTableHeader": {
+      "preview": "Preview",
+      "groupBy": "Group by",
+      "selectMetrics": "Select Metrics",
+      "hideGraph": "Hide Graph",
+      "showGraph": "Show Graph"
+    },
+    "metricsChart": {
+      "latencyDistribution": "Latency (distribution)",
+      "noDataToDisplay": "No data to display"
+    },
+    "metricsSelector": {
+      "pleaseSelectAtMostNumberOfmetrics": "Please select at most {{maximumNumberOfMetrics}} metrics.",
+      "addMetric": "Add Metric",
+      "metric": "Metric",
+      "pleaseSelect": "Please select",
+      "aggregation": "Aggregation",
+      "selectedMetrics": "Selected Metrics",
+      "save": "Save"
+    },
+    "radioButtons": {
+      "source": "Source",
+      "destination": "Destination"
+    },
+    "rawCalls": {
+      "call": "Call",
+      "service": "Service"
+    },
+    "rawTraces": {
+      "trace": "Trace",
+      "traceAnalytics": "Trace Analytics",
+      "service": "Service"
+    },
+    "tagFilterList": {
+      "and": "and"
+    }
+  }
 }

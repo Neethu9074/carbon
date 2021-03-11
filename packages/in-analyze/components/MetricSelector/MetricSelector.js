@@ -10,6 +10,7 @@ import MetricSelectorPresenter from 'in-analyze/components/MetricSelector/Metric
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import { close } from 'in-components/DialogPresenter/store';
+import { t } from 'in-i18n';
 
 export default compose(
   withPropDependingState({
@@ -93,7 +94,9 @@ function getInitialState({ selectedMetrics, maximumNumberOfMetrics }) {
         return [
           {
             severity: 'error',
-            message: `Please select at most ${maximumNumberOfMetrics} metrics.`
+            message: t('in-analyze:components.metricsSelector.pleaseSelectAtMostNumberOfmetrics', {
+              maximumNumberOfMetrics: maximumNumberOfMetrics
+            })
           }
         ];
       }

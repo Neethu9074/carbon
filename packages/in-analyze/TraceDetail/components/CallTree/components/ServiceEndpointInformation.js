@@ -9,6 +9,7 @@ import { isUnknownTypeSpan, isInternalCall } from 'in-analyze/TraceDetail/shared
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './ServiceEndpointInformation.mless';
 
@@ -42,7 +43,7 @@ export default function ServiceEndpointInformation({ call, nonInternalParentCall
         </Link>
       </Tooltip>
 
-      <span className={locals.text}>of</span>
+      <span className={locals.text}>{t('in-analyze:traceDetail.components.callTree.of')}</span>
 
       <SvgIcon className={locals.serviceIcon} type="lib_application_service" size="xs" />
       <Tooltip themeStyle="light" content={call.service.label}>
@@ -53,7 +54,7 @@ export default function ServiceEndpointInformation({ call, nonInternalParentCall
 
       {isInternalCall(call) && nonInternalParentCall && (
         <Fragment>
-          <span className={locals.text}>Inherited from</span>
+          <span className={locals.text}>{t('in-analyze:traceDetail.components.callTree.inheritedFrom')}</span>
           <Tooltip themeStyle="light" content={nonInternalParentCall.label}>
             <a className={locals.link} href="" onClick={handleCallLinkClick}>
               {nonInternalParentCall.label || 'Undefined'}

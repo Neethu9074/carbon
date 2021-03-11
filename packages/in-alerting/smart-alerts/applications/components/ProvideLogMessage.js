@@ -81,14 +81,14 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
               });
             }}
           >
-            Select Log Message
+            {t('in-alerting:smartAlerts.applications.components.provideLogMessageSelectLogMessage')}
           </Button>
         </div>
       </FormGroup>
       {levelField.map(field => (
         <FormGroup>
           <Label htmlFor={'ruleLevel'} hasError={!field.valid && field.touched}>
-            Log Level
+            {t('in-alerting:smartAlerts.applications.components.provideLogMessageLogLevel')}
           </Label>
           <ComboBox
             name={'ruleLevel'}
@@ -114,7 +114,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
       {operatorField.map(field => (
         <FormGroup>
           <Label htmlFor={'ruleOperator'} hasError={!field.valid && field.touched}>
-            Error Message
+            {t('in-alerting:smartAlerts.applications.components.provideLogMessageErrorMessage')}
           </Label>
           <ComboBox
             name={'ruleOperator'}

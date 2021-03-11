@@ -2,16 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
-import { number, seconds, millis } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { number, seconds, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   {
@@ -133,7 +133,7 @@ export default connectTo(
           </DashboardSection>
         </Columize>
 
-        <h2>Salesforce</h2>
+        <h2>{t('in-internal:monitoringUnit.hubforce.salesforce')}</h2>
         <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.hubforce.salesforceApiCallDurationMean')}>
             <Chart

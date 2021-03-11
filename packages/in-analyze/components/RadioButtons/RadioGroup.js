@@ -2,13 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Message from 'in-new-components/Message';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './RadioGroup.mless';
 
@@ -41,7 +41,7 @@ const RadioGroup = ({ disabled, onChange, value, sourceEntityAvailability }) => 
             onChange={onChange}
           />
           <SvgIcon className={locals.icon} type="lib_application_call_source" />
-          <span className={locals.label}>Source</span>
+          <span className={locals.label}>{t('in-analyze:components.radioButtons.source')}</span>
         </label>
 
         <label
@@ -59,7 +59,7 @@ const RadioGroup = ({ disabled, onChange, value, sourceEntityAvailability }) => 
             onChange={onChange}
           />
           <SvgIcon className={locals.icon} type="lib_application_call_destination" />
-          <span className={locals.label}>Destination</span>
+          <span className={locals.label}>{t('in-analyze:components.radioButtons.destination')}</span>
         </label>
       </div>
     </Fragment>

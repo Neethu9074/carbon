@@ -4,10 +4,7 @@
  */
 import { just, create } from '@instana/observables';
 import { compose, withProps } from 'recompose';
-import { connection } from 'in-connection';
-import theme from 'in-themes';
 import React from 'react';
-import { Trans, t } from 'in-i18n';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ColorCodingToggleButtons from 'in-analyze/TraceDetail/components/ColorCodingToggleButtons';
@@ -38,9 +35,12 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { scrollIntoView } from 'in-services/util/dom';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
+import { connection } from 'in-connection';
 import Card from 'in-new-components/Card';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { Trans, t } from 'in-i18n';
+import theme from 'in-themes';
 
 import locals from './Summary.mless';
 
@@ -169,7 +169,7 @@ class Summary extends React.Component {
           {rootCall && rootCall.errorCount ? (
             <Row withoutSideMargin>
               <Col lg={12}>
-                <Message type={trace.totalErrorCount} title="Erroneous Trace" />
+                <Message type={trace.totalErrorCount} title={t('in-analyze:traceDetail.tabs.summary.erroneousTrace')} />
               </Col>
             </Row>
           ) : null}
@@ -278,7 +278,7 @@ class Summary extends React.Component {
                     }}
                   />
                   <Button onClick={() => setShowLargeTrace(true)} className={locals.attemptRendering}>
-                    Attempt to render trace
+                    {t('in-analyze:traceDetail.tabs.summary.attemptToRenderTrace')}
                   </Button>
                 </Card>
               </Col>

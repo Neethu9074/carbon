@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -20,12 +19,13 @@ import {
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
-import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import ListItemPresenter from 'in-analyze/components/RawTraces/ListItemPresenter';
+import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import { getLinkToTraceDetail, traceDetail } from 'in-analyze/navigation/paths';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { traceClickedTracker } from 'in-analyze/tracker';
+import { t } from 'in-i18n';
 
 export default function RawTracesNavigator({
   items,
@@ -47,7 +47,7 @@ export default function RawTracesNavigator({
           <Thead>
             <Tr size="compact">
               <ErroneousRowTh />
-              <Th>Trace</Th>
+              <Th>{t('in-analyze:components.rawTraces.trace')}</Th>
               <SortableColumn
                 orderBy={orderBy}
                 orderDirection={orderDirection}

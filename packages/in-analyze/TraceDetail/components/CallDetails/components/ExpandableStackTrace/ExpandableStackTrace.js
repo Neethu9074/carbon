@@ -11,6 +11,7 @@ import { shorten } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Code from 'in-components/Code/Code';
+import { t } from 'in-i18n';
 
 import locals from './ExpandableStackTrace.mless';
 
@@ -30,7 +31,9 @@ export default withState(
           <LogIndicator log={log} />
           <div className={isExpanded ? locals.headerLabelsExpanded : locals.headerLabels}>
             <div className={log.errorCount > 0 ? locals.severityLabelFailure : locals.severityLabelWarning}>
-              {log.errorCount > 0 ? 'Error' : 'Warning'}
+              {log.errorCount > 0
+                ? t('in-analyze:traceDetail.components.callDetails.error')
+                : t('in-analyze:traceDetail.components.callDetails.warning')}
             </div>
             {msg ? (
               isExpanded ? (
@@ -44,11 +47,11 @@ export default withState(
           </div>
         </div>
         <div className={locals.headerActions}>
-          <Tooltip content="Show Stack Trace">
+          <Tooltip content={t('in-analyze:traceDetail.components.callDetails.showStackTrace')}>
             <SvgIcon
               className={locals.expandIcon}
               type={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-              aria-label="Expand button for content"
+              aria-label={t('in-analyze:traceDetail.components.callDetails.expandButtonForContent')}
               tabIndex={0}
               onClick={() => setIsExpanded(!isExpanded)}
             />
@@ -59,14 +62,18 @@ export default withState(
         <Fragment>
           {logData && logData.parameters && (
             <div className={locals.stackTraceWrapper}>
-              <div className={locals.stackTraceWrapperHeader}>Log Parameters</div>
+              <div className={locals.stackTraceWrapperHeader}>
+                {t('in-analyze:traceDetail.components.callDetails.logParameters')}
+              </div>
               <div className={locals.logParameters}>{logData.parameters}</div>
             </div>
           )}
 
           {log.stackTrace.length > 0 && (
             <div className={locals.stackTraceWrapper}>
-              <div className={locals.stackTraceWrapperHeader}>Log Stack Trace</div>
+              <div className={locals.stackTraceWrapperHeader}>
+                {t('in-analyze:traceDetail.components.callDetails.logStackTrace')}
+              </div>
               <StackTraceBehavior stackTrace={log.stackTrace} relation={call.destination} noPadding />
             </div>
           )}

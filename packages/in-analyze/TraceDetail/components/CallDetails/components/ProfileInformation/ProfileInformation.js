@@ -23,6 +23,7 @@ import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
 import { minutes } from 'in-services/time';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './ProfileInformation.mless';
 
@@ -74,7 +75,7 @@ function ProfileInformation({ processSnapshotId, time, start, end, timeConfig })
   }
 
   return (
-    <ExpandableGroup title="Profiling">
+    <ExpandableGroup title={t('in-analyze:traceDetail.components.callDetails.profiling')}>
       <Content
         processSnapshotId={processSnapshotId}
         start={start}
@@ -103,7 +104,7 @@ function Content({ processSnapshotId, to, windowSize, time }) {
   );
 
   if (!result || isLoading(result)) {
-    return <LoadingIndicator text="Loading profile" />;
+    return <LoadingIndicator text={t('in-analyze:traceDetail.components.callDetails.loadingProfile')} />;
   }
   if (hasError(result)) {
     return (
@@ -116,7 +117,7 @@ function Content({ processSnapshotId, to, windowSize, time }) {
   if (!cpuProfile) {
     return (
       <Message type={warning} small>
-        No CPU Profile available
+        {t('in-analyze:traceDetail.components.callDetails.noCpuProfileAvailable')}
       </Message>
     );
   }
@@ -129,7 +130,7 @@ function Content({ processSnapshotId, to, windowSize, time }) {
         timeConfig={getChartTimeConfig(windowSize, to)}
         y1={{
           metrics: ['cpu.user'],
-          labels: ['CPU User'],
+          labels: [t('in-analyze:traceDetail.components.callDetails.cpuUser')],
           formatter: percentage,
           type: 'area'
         }}
@@ -164,7 +165,7 @@ function ProfileStackTrace({ processSnapshotId, cpuProfile, to, windowSize, time
   const { enrichedProfilesWithSelfTimes } = getTopSelfTimeList(cpuProfile);
   return (
     <>
-      <h3 className={locals.hotspotHeading}>CPU Hotspots</h3>
+      <h3 className={locals.hotspotHeading}>{t('in-analyze:traceDetail.components.callDetails.cpuHotspots')}</h3>
       <HotspotList
         size="compact"
         profile={cpuProfile}
@@ -186,7 +187,7 @@ function ProfileStackTrace({ processSnapshotId, cpuProfile, to, windowSize, time
 function ViewAll({ viewAllHref$ }, className) {
   return (
     <Link className={className} href$={viewAllHref$}>
-      Analyze profiles
+      {t('in-analyze:traceDetail.components.callDetails.analyzeProfiles')}
     </Link>
   );
 }

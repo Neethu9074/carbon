@@ -10,9 +10,10 @@ import { getLatencySelectionFromFilters } from 'in-applications/analyze/utils/la
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import RawMetricsChart from 'in-analyze/components/MetricsChart/RawMetricsChart';
 import { millis } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 const latencyDistributionChartDefinition = {
-  label: 'Latency (distribution)',
+  label: t('in-analyze:components.metricsChart.latencyDistribution'),
   key: 'latency_DISTRIBUTION',
   formatter: millis.forcedCompactOnMs
 };

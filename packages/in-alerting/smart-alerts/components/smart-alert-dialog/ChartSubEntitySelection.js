@@ -14,6 +14,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 import ComboBox from 'in-components/ComboBox';
+import { t } from 'in-i18n';
 
 export default function ChartSubEntitySelection({
   className,
@@ -45,7 +46,7 @@ export default function ChartSubEntitySelection({
     }
   }, [options, serviceId]);
 
-  const loadingOptions = [{ label: 'Loading…' }];
+  const loadingOptions = [{ label: t('in-alerting:smartAlerts.components.smartAlertDialog.Loading') }];
   return (
     <ComboBox
       disabled={hasError(result) || isLoading(result)}
@@ -54,7 +55,11 @@ export default function ChartSubEntitySelection({
       options={isLoading(result) ? loadingOptions : options}
       optionRenderer={option => option.label}
       onChange={selection => setServiceId(selection?.value)}
-      placeholder={isLoading(result) ? 'Loading services…' : 'No service in scope'}
+      placeholder={
+        isLoading(result)
+          ? t('in-alerting:smartAlerts.components.smartAlertDialog.LoadingServices')
+          : t('in-alerting:smartAlerts.components.smartAlertDialog.NoServiceInScope')
+      }
       clearable={false}
       autoComplete
       searchable

@@ -4,6 +4,8 @@
  */
 import { createField, createMapForm } from 'formalistic';
 
+import { t } from 'in-i18n';
+
 export const defaultDeviationFactor = 3;
 
 export default function createThresholdForm(threshold, alertType) {
@@ -72,7 +74,7 @@ function createStaticThresholdForm(threshold) {
           return [
             {
               severity: 'error',
-              message: 'Please provide a number >= 0'
+              message: t('in-alerting:smartAlerts.applications.form.thresholdFormPleaseProvideANumber0')
             }
           ];
         }
@@ -97,7 +99,7 @@ function createHistoricBaselineForm(threshold) {
             return [
               {
                 severity: 'error',
-                message: 'baseline is empty'
+                message: t('in-alerting:smartAlerts.applications.form.thresholdFormBaselineIsEmpty')
               }
             ];
           }

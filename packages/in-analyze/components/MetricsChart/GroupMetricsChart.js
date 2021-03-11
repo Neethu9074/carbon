@@ -15,6 +15,7 @@ import { aggregationLabels } from 'in-stores/metric/metric';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import { number } from 'in-services/formatters/number';
 import { identity } from 'in-services/util/function';
+import { t } from 'in-i18n';
 
 import locals from './MetricsChart.mless';
 
@@ -100,7 +101,7 @@ function ChartElement({
 
   const groups = items.slice(0, 5);
   if (groups.length === 0 || !groups[0]?.metrics || !groups[0]?.metrics[focusedMetric]) {
-    return <NoDataAvailable height={189} text={'No data to display'} />;
+    return <NoDataAvailable height={189} text={t('in-analyze:components.metricsChart.noDataToDisplay')} />;
   }
 
   const chartDefinition = find(chartDefinitions, d => d.key === focusedMetric);

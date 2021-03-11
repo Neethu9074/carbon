@@ -15,6 +15,7 @@ import StackItem from 'in-new-components/layout/Stack/StackItem';
 import LightCard from 'in-new-components/Card/LightCard';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import Stack from 'in-new-components/layout/Stack';
+import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator.mless';
 
@@ -65,7 +66,9 @@ export default function ChartViewConfigurator({
           {showEntitySelection && (
             <StackItem>
               <HorizontalFlexWrapper>
-                <span className={locals.labelWithGap}>Preview for Service:</span>
+                <span className={locals.labelWithGap}>
+                  {t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewForService')}
+                </span>
                 <div className={locals.expanding}>
                   <ChartSubEntitySelection
                     applicationId={applicationId}

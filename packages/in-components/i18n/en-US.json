@@ -25,7 +25,10 @@
     },
     "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
     "chartReleasesLanePresenterReleasesLabel": "Releases",
-    "chartReleasesLanePresenterTooltip": "+{{len}} more Releases"
+    "chartReleasesLanePresenterTooltip": "+{{len}} more Releases",
+    "highlightedTimeframeCloseButtonClearHighlight": "Clear highlight",
+    "resultAwareChartSomethingWentWrong": "Something went wrong…",
+    "resultAwareChartPleaseTryAgainLater": "Please try again later."
   },
   "downloadBtn": {
     "downloadViewDownloadAsJsonLabel": "Download as JSON",
@@ -47,6 +50,9 @@
   "gravatar": {
     "avatarUrlAlt": "Avatar for {{email}} from gravatar.com.",
     "avatarNullAlt": "Fallback avatar for {{email}}."
+  },
+  "loadMoreRow": {
+    "loadMore": "Load More"
   },
   "messageFlyout": {
     "infrastructurePageName": "Infrastructure",
@@ -88,7 +94,11 @@
     "dialogRequireFilterMsg": "Please specify a filter to save.",
     "filterConfirmRemovalHeader": "Confirm Removal",
     "filterConfirmButtonLabel": "Remove filter",
-    "filterConfirmRemoveMsg": "Are you sure you want to remove the filter <strong>{{filterName}}</strong>?"
+    "filterConfirmRemoveMsg": "Are you sure you want to remove the filter <strong>{{filterName}}</strong>?",
+    "helpDialogTitleUsingTheSearchBar": "Using the Search Bar"
+  },
+  "svgIcon": {
+    "pluginIcon": "{{pluginName}} icon"
   },
   "tables": {
     "serverTable": {

@@ -17,6 +17,7 @@ import Button from 'in-new-components/Button';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './EditGroupDialogPresenter.mless';
 
@@ -37,13 +38,13 @@ export default function EditGroupDialogPresenter({
   forAnalyzeCalls
 }) {
   return (
-    <Dialog title="Group" onClose={onClose} showOverflow>
+    <Dialog title={t('in-analyze:components.editGroupDialog.group')} onClose={onClose} showOverflow>
       <form onSubmit={onSubmit} autoComplete="off">
         <Message small className={locals.help} title={help} />
         {form.get('tag').map(field => (
           <FormGroup>
             <Label htmlFor="filter-tag" hasError={!field.valid && field.touched}>
-              Tag
+              {t('in-analyze:components.editGroupDialog.tag')}
             </Label>
             <ComboBox
               id="filter-tag"
@@ -67,7 +68,9 @@ export default function EditGroupDialogPresenter({
             <FormGroup>
               <Label htmlFor="filter-key" hasError={!field.valid && field.touched} className={locals.labelWithLoader}>
                 Key
-                {keySuggestionsLoading && <Loading>Loading suggestions…</Loading>}
+                {keySuggestionsLoading && (
+                  <Loading>{t('in-analyze:components.editGroupDialog.loadingSuggestions')} </Loading>
+                )}
               </Label>
               <CreatableSelect
                 id="filter-key"
@@ -108,7 +111,7 @@ export default function EditGroupDialogPresenter({
 
         <div className={locals.actions}>
           <Button type="submit" kind="primaryv2" disabled={form.touched && !form.hierarchyValid}>
-            Save
+            {t('in-analyze:components.editGroupDialog.save')}
           </Button>
         </div>
       </form>

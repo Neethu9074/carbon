@@ -11,6 +11,7 @@ import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { formatDateTime } from 'in-services/formatters/date';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import PluginIcon from 'in-components/PluginIcon';
+import { t } from 'in-i18n';
 
 import locals from './InfrastructureEntityLink.mless';
 
@@ -28,7 +29,8 @@ export default function InfrastructureEntityLink({ entity, snapshot, plugin, phy
   if (!entity || !snapshot) {
     return (
       <div className={locals.noLink}>
-        <PluginIcon className={locals.simplePluginIcon} /> Correlation missing
+        <PluginIcon className={locals.simplePluginIcon} />{' '}
+        {t('in-analyze:traceDetail.components.callDetails.correlationMissing')}
       </div>
     );
   }

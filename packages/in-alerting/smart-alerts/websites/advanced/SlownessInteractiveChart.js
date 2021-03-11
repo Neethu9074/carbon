@@ -28,8 +28,8 @@ import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/UseSuggestedValueButton';
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
 import ThresholdValueInput from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueInput';
-import createThresholdForm, { defaultDeviationFactor } from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { findEntryByValue, alertConfigWithDefaultValues } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import createThresholdForm, { defaultDeviationFactor } from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
@@ -37,6 +37,7 @@ import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 import Label from 'in-components/form/Label';
+import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/InteractiveChart.mless';
 
@@ -151,7 +152,10 @@ export function ThresholdCondition({ form, updateForm, onChange, blueprintConfig
       </ThresholdConditionFormGroup>
 
       {thresholdType === 'staticThreshold' && (
-        <ThresholdConditionFormGroup iconType="lib_threshold" label="Threshold Value">
+        <ThresholdConditionFormGroup
+          iconType="lib_threshold"
+          label={t('in-alerting:smartAlerts.websites.advanced.slownessInteractiveChartThresholdValue')}
+        >
           <ThresholdValueInput
             max={maxValue}
             form={form}

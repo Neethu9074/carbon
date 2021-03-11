@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import ShowCodeButton from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/ShowCodeButton';
+import { t } from 'in-i18n';
 
 import locals from './StackTracePresentation.mless';
 
@@ -18,16 +19,18 @@ export default function StackTracePresentation({ stackTrace, isOnline, snapshot,
 
   let noCodeLinkMessage;
   if (isOnline === false) {
-    noCodeLinkMessage =
-      'Please note: Source code can only be retrieved for processes that are still under monitoring by Instana.';
+    noCodeLinkMessage = t(
+      'in-analyze:traceDetail.components.callDetails.pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana'
+    );
   } else if (!snapshot) {
-    noCodeLinkMessage =
-      'Please note: Source code can only be retrieved for processes where Instana could successfully link the corresponding infrastructure.';
+    noCodeLinkMessage = t(
+      'in-analyze:traceDetail.components.callDetails.pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure'
+    );
   }
 
   return (
     <div className={locals.stackTrace}>
-      <p className={locals.title}>StackTrace</p>
+      <p className={locals.title}>{t('in-analyze:traceDetail.components.callDetails.stackTrace')}</p>
       <ol
         className={classNames({
           [locals.list]: true,
@@ -39,7 +42,7 @@ export default function StackTracePresentation({ stackTrace, isOnline, snapshot,
           return (
             <li key={i}>
               {st.method && <span className={locals.method}>{stripQuotes(st.method)} </span>}
-              <span className={locals.in}>in </span>
+              <span className={locals.in}>{t('in-analyze:traceDetail.components.callDetails.in')}</span>
               <span>
                 {isOnline && snapshot ? (
                   <ShowCodeButton snapshot={snapshot} file={st.file} line={st.line}>

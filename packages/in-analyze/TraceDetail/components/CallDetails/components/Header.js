@@ -12,6 +12,7 @@ import Skeleton from 'in-new-components/Loading/Skeleton';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
+import { t } from 'in-i18n';
 
 import locals from './Header.mless';
 
@@ -31,7 +32,10 @@ export default function Header({ call }) {
             {call.batchSize > 1 && (
               <Tooltip
                 themeStyle="light"
-                content={`This call is batched and represents ${call.batchSize} individual calls.`}
+                content={t(
+                  'in-analyze:traceDetail.components.callDetails.thisCallIsBatchedAndRepresentsIndividualCalls',
+                  { batchSize: call.batchSize }
+                )}
               >
                 <Pill className={locals.batchSizeIndicator} kind="lighter">
                   {call.batchSize}

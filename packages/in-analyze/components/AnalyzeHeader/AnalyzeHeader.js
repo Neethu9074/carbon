@@ -95,7 +95,7 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped, formMod
       <ViewTrackingMeta
         data={{
           productArea: productAreaTrackingNames[activeConfiguration.productArea],
-          pageRootName: 'Analytics'
+          pageRootName: t('in-analyze:components.analyzeHeader.analytics')
         }}
       />
       {renderQuickFilterBar && (
@@ -134,40 +134,40 @@ const dataSourceSources = [
     ? {
         matrixPath: dataSourceMatrixParameter.path,
         matrixParam: dataSourceMatrixParameter.name,
-        productArea: 'application'
+        productArea: t('in-analyze:components.analyzeHeader.application')
       }
     : {
         matrixPath: appAnalyzePath,
         matrixParam: `callList.${dataSourceMatrixParameterUA1}`,
-        productArea: 'application'
+        productArea: t('in-analyze:components.analyzeHeader.application')
       },
   {
     matrixPath: logsAnalyzePath,
     matrixParam: logsDataSourceTypeMatrixParameter,
-    productArea: 'application'
+    productArea: t('in-analyze:components.analyzeHeader.application')
   },
   {
     matrixPath: rawLogsPathAnalyzePath,
     matrixParam: logsDataSourceTypeMatrixParameter,
-    productArea: 'application'
+    productArea: t('in-analyze:components.analyzeHeader.application')
   },
 
   {
     pathPrefix: websiteMonitoringPath,
     matrixPath: websiteAnalyzePath,
     matrixParam: websiteBeaconTypeMatrixParameter,
-    productArea: 'website'
+    productArea: t('in-analyze:components.analyzeHeader.website')
   },
   {
     pathPrefix: mobileAppMonitoringPath,
     matrixPath: mobileAppAnalyzePath,
     matrixParam: mobileAppBeaconTypeMatrixParameter,
-    productArea: 'mobileApp'
+    productArea: t('in-analyze:components.analyzeHeader.mobileApp')
   },
   {
     matrixPath: profilingAnalyzePath,
     matrixParam: dataSourceTypeMatrixParameter,
-    productArea: 'profiles'
+    productArea: t('in-analyze:components.analyzeHeader.profiles')
   }
 ];
 
@@ -196,7 +196,7 @@ function getActiveConfiguration(location) {
   }
 
   return {
-    productArea: 'application',
+    productArea: t('in-analyze:components.analyzeHeader.application'),
     dataSource: 'calls',
     ua2: newAnalyticsEnabled
   };

@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import { compose, withState, withProps } from 'recompose';
 import React, { Fragment } from 'react';
 
@@ -20,6 +19,7 @@ import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { Trans, t } from 'in-i18n';
 
 import locals from './WebsiteMonitoringData.mless';
 
@@ -56,14 +56,19 @@ export default compose(
         <Col lg={12}>
           <Card title={t('in-analyze:tabs.summary.websiteMonitoringDataTitle')} icon="lib_website">
             <span className={locals.leftSide}>
-              This trace is caused by activity on the&nbsp;
-              <Link href$={getLinkToWebsite(beacon.websiteId)}>{beacon.websiteLabel}</Link>
-              &nbsp;website.
+              <Trans
+                i18nKey="in-analyze:tabs.summary.thisTraceIsCausedByActivityOnThewebsite"
+                values={{ websiteLabel: beacon.websiteLabel }}
+                components={{
+                  linkToWebsite: <Link href$={getLinkToWebsite(beacon.websiteId)} />
+                }}
+              />
             </span>
             <span>
               <Button onClick={() => setShowDetails(!showDetails)} kind="secondary" size="compact">
-                {showDetails ? t('in-analyze:tabs.summary.hide') : t('in-analyze:tabs.summary.show')} Website
-                Information
+                {showDetails
+                  ? t('in-analyze:traceDetail.tabs.summary.hideWebsiteInformation')
+                  : t('in-analyze:traceDetail.tabs.summary.showWebsiteInformation')}
               </Button>
               <Button
                 onClick={() => navigateToPageLoadFromBackendTrace()}
@@ -74,7 +79,7 @@ export default compose(
                 kind="primary"
                 size="compact"
               >
-                View Website Activity
+                {t('in-analyze:traceDetail.tabs.summary.viewWebsiteActivity')}
               </Button>
             </span>
           </Card>

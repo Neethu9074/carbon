@@ -10,10 +10,11 @@ import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
 import Message from 'in-new-components/Message';
+import { t } from 'in-i18n';
 
 import locals from './AmpInformationModifier.mless';
 
-const aggregatedState = { label: 'All paid units (aggregated)' };
+const aggregatedState = { label: t('in-amp:components.ampInformationModifier.allPaidUnitsAggregated') };
 
 export default function AmpInformationModifier({
   unitSelectorOptions,
@@ -50,7 +51,9 @@ export default function AmpInformationModifier({
             <Message
               className={locals.message}
               withIcon
-              title="Customer usage is reported across all units of your Account with a paid license."
+              title={t(
+                'in-amp:components.ampInformationModifier.customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense'
+              )}
             />
           )}
         </HorizontalFlexWrapper>

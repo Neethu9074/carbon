@@ -14,6 +14,7 @@ import { explanations } from 'in-websites/cacheInteractionTypes';
 import { getLinkToPageLoad } from 'in-websites/navigation/paths';
 import { bytes } from 'in-services/formatters/number';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 export default function WebsiteBeaconDetails({ beacon }) {
   const type = getType(beacon);
@@ -28,38 +29,52 @@ export default function WebsiteBeaconDetails({ beacon }) {
   return (
     <Fragment>
       <Dl>
-        <Di title="Window Location">
+        <Di title={t('in-analyze:traceDetail.components.callDetails.windowLocation')}>
           <a href={beacon.locationUrl} rel="noopener noreferrer" target="_blank">
             {beacon.locationUrl}
           </a>
         </Di>
         {beacon.type === 'resourceLoad' && (
-          <Di title="Resource URI">
+          <Di title={t('in-analyze:traceDetail.components.callDetails.resourceUri')}>
             <a href={beacon.httpCallUrl} rel="noopener noreferrer" target="_blank">
               {beacon.httpCallUrl}
             </a>
           </Di>
         )}
         {beacon.type === 'httpRequest' && (
-          <Di title="HTTP Call URI">
+          <Di title={t('in-analyze:traceDetail.components.callDetails.httpCallUri')}>
             <a href={beacon.httpCallUrl} rel="noopener noreferrer" target="_blank">
               {beacon.httpCallUrl}
             </a>
           </Di>
         )}
-        <Di title="Beacon Type">
+        <Di title={t('in-analyze:traceDetail.components.callDetails.beaconType')}>
           {typeDefinition.long} <TypeHeader beacon={beacon} />
         </Di>
       </Dl>
 
       {hasNetworkInsights && (
         <Fragment>
-          <BodyHeader>Network Insights</BodyHeader>
+          <BodyHeader>{t('in-analyze:traceDetail.components.callDetails.networkInsights')}</BodyHeader>
           <Dl>
-            <Di title="Cache Interaction">{explanations[beacon.cacheInteraction]}</Di>
-            {hasTransferSize && <Di title="Transfer Size">{bytes.detailed(beacon.transferSize)}</Di>}
-            {hasEncodedBodySize && <Di title="Encoded Body Size">{bytes.detailed(beacon.encodedBodySize)}</Di>}
-            {hasDencodedBodySize && <Di title="Decoded Body Size">{bytes.detailed(beacon.decodedBodySize)}</Di>}
+            <Di title={t('in-analyze:traceDetail.components.callDetails.cacheInteraction')}>
+              {explanations[beacon.cacheInteraction]}
+            </Di>
+            {hasTransferSize && (
+              <Di title={t('in-analyze:traceDetail.components.callDetails.transferSize')}>
+                {bytes.detailed(beacon.transferSize)}
+              </Di>
+            )}
+            {hasEncodedBodySize && (
+              <Di title={t('in-analyze:traceDetail.components.callDetails.encodedBodySize')}>
+                {bytes.detailed(beacon.encodedBodySize)}
+              </Di>
+            )}
+            {hasDencodedBodySize && (
+              <Di title={t('in-analyze:traceDetail.components.callDetails.decodedBodySize')}>
+                {bytes.detailed(beacon.decodedBodySize)}
+              </Di>
+            )}
           </Dl>
         </Fragment>
       )}
@@ -72,7 +87,7 @@ export default function WebsiteBeaconDetails({ beacon }) {
         kind="primary"
         size="compact"
       >
-        Go to Beacon
+        {t('in-analyze:traceDetail.components.callDetails.goToBeacon')}
       </Button>
     </Fragment>
   );

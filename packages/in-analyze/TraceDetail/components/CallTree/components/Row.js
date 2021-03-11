@@ -15,6 +15,7 @@ import { shorten } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
+import { t } from 'in-i18n';
 
 import locals from './Row.mless';
 
@@ -145,7 +146,7 @@ function CallInformation(props) {
           <SvgIcon
             className={locals.expandIcon}
             type={isExpanded ? 'lib_openclose_remove_box' : 'lib_openclose_add_box'}
-            aria-label="Expand button for row"
+            aria-label={t('in-analyze:traceDetail.components.callTree.expandButtonForRow')}
             tabIndex={0}
             onClick={() => setIsExpanded(!isExpanded)}
           />

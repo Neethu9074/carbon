@@ -15,6 +15,7 @@ import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
+import { t } from 'in-i18n';
 
 import locals from './SnapshotVersions.mless';
 
@@ -56,7 +57,7 @@ function SnapshotVersions({
           className={locals.input}
           type="text"
           id="snapshotId-value"
-          placeholder="snapshotId..."
+          placeholder={t('in-internal:thisUnit.snapshotVersions.snapshotId')}
           value={snapshotId}
           onChange={e => {
             setSignal(false);
@@ -64,7 +65,7 @@ function SnapshotVersions({
           }}
           autoFocus
         />
-        <Button onClick={() => setSignal(true)}>Refresh</Button>
+        <Button onClick={() => setSignal(true)}>{t('in-internal:thisUnit.snapshotVersions.refresh')}</Button>
       </div>
 
       <div className={locals.content}>

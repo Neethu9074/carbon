@@ -29,12 +29,13 @@ import { Li, Ul } from 'in-new-components/lists/List';
 import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
+import { t } from 'in-i18n';
 
 import locals from './AnalyzeDataSourceSelector.mless';
 
 const productAreas = [
   {
-    productArea: 'application',
+    productArea: t('in-analyze:components.analyzeHeader.application'),
     hasAccess: hasApplicationsAccess || loggingEnabled,
     dataSources: [
       {
@@ -70,7 +71,7 @@ const productAreas = [
     ]
   },
   {
-    productArea: 'website',
+    productArea: t('in-analyze:components.analyzeHeader.website'),
     hasAccess: hasWebsitesAccess,
     dataSources: [
       {
@@ -142,7 +143,7 @@ const productAreas = [
     ]
   },
   {
-    productArea: 'mobileApp',
+    productArea: t('in-analyze:components.analyzeHeader.mobileApp'),
     hasAccess: hasMobileAppsAccess,
     dataSources: [
       {
@@ -192,7 +193,7 @@ const productAreas = [
     ]
   },
   {
-    productArea: 'profiles',
+    productArea: t('in-analyze:components.analyzeHeader.profiles'),
     hasAccess: true,
     dataSources: [
       {
@@ -300,7 +301,7 @@ function ProductAreaEntry({
 
         {beta && (
           <Pill kind="primary" className={locals.betaPill}>
-            BETA
+            {t('in-analyze:components.analyzeHeader.beta')}
           </Pill>
         )}
       </div>

@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { find, groupBy, findIndex, every } from 'lodash';
 import React, { Fragment } from 'react';
@@ -17,6 +16,7 @@ import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './MetricSelectorPresenter.mless';
 
@@ -57,13 +57,13 @@ export default function MetricSelectorPresenter({
     <Dialog title={title} onClose={onClose}>
       <p className={locals.help}>{help}</p>
 
-      <h2 className={locals.header}>Add Metric</h2>
+      <h2 className={locals.header}>{t('in-analyze:components.metricsSelector.addMetric')}</h2>
 
       <form onSubmit={onAddMetric} autoComplete="off" className={locals.form}>
         {newMetricForm.get('metric').map(field => (
           <FormGroup withoutBottomMargin className={locals.metricGroup}>
             <Label htmlFor="metric-select-metric" hasError={!field.valid && field.touched}>
-              Metric
+              {t('in-analyze:components.metricsSelector.metric')}
             </Label>
             <Select
               id="metric-select-metric"
@@ -75,7 +75,7 @@ export default function MetricSelectorPresenter({
               hasError={!field.valid && field.touched}
             >
               <option value="" disabled>
-                Please select
+                {t('in-analyze:components.metricsSelector.pleaseSelect')}
               </option>
 
               {Object.keys(groupedAvailableMetrics)
@@ -136,7 +136,7 @@ export default function MetricSelectorPresenter({
           newMetricForm.get('aggregation').map(field => (
             <FormGroup withoutBottomMargin className={locals.aggregationGroup}>
               <Label htmlFor="metric-select-aggregation" hasError={!field.valid && field.touched}>
-                Aggregation
+                {t('in-analyze:components.metricsSelector.aggregation')}
               </Label>
               <Select
                 id="metric-select-aggregation"
@@ -146,7 +146,7 @@ export default function MetricSelectorPresenter({
                 disabled={!selectedMetricDefinition}
               >
                 <option value="" disabled>
-                  Please select
+                  {t('in-analyze:components.metricsSelector.pleaseSelect')}
                 </option>
 
                 {selectedMetricDefinition &&
@@ -176,13 +176,15 @@ export default function MetricSelectorPresenter({
           className={locals.addButton}
           disabled={newMetricForm.touched && !newMetricForm.hierarchyValid}
         >
-          Add Metric
+          {t('in-analyze:components.metricsSelector.addMetric')}
         </Button>
       </form>
 
       {selectedMetricsForm.value.length > 0 && (
         <Fragment>
-          <h2 className={`${locals.header} ${locals.selectedMetricHeader}`}>Selected Metrics</h2>
+          <h2 className={`${locals.header} ${locals.selectedMetricHeader}`}>
+            {t('in-analyze:components.metricsSelector.selectedMetrics')}
+          </h2>
 
           <TouchedMessages field={selectedMetricsForm} />
 
@@ -249,7 +251,7 @@ export default function MetricSelectorPresenter({
           disabled={selectedMetricsForm.touched && !selectedMetricsForm.hierarchyValid}
           onClick={onSave}
         >
-          Save
+          {t('in-analyze:components.metricsSelector.save')}
         </Button>
       </div>
     </Dialog>

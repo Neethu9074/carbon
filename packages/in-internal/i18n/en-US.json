@@ -1,6 +1,6 @@
 {
   "components": {
-    "landing":{
+    "landing": {
       "sharedCompSLOViolate": "Shared Component SLO Violations",
       "tUSLOViolate": "TU SLO Violations",
       "instanaInstallMonitor": "Instana Installation Monitoring",
@@ -104,12 +104,19 @@
       "demoUnits": "Demo Units",
       "demoUnitsDesc": "These units are frequently used by the whole company for demo / presentation purposes.",
       "demousDescUs": "A SaaS demo unit running within the US.",
-      "demousDescEu": "A SaaS demo unit running within the EU."
+      "demousDescEu": "A SaaS demo unit running within the EU.",
+      "serverlessAcceptor": "ServerlessAcceptor",
+      "hubforce": "Hubforce",
+      "clickhouse": "Clickhouse",
+      "elasticsearch": "Elasticsearch",
+      "elasticsearchNg": "ElasticsearchNG",
+      "kafka": "Kafka",
+      "demous": "demous"
     },
     "internalViewWrapper": {
       "internal": "Internal"
     },
-    "sloViolationsChart":{
+    "sloViolationsChart": {
       "sLOViolations": "SLO Violations",
       "devTUSLOs": "Development TU SLOs",
       "expTUSLOs": "Experimental TU SLOs"
@@ -120,14 +127,14 @@
       "newYorkCity": "New York City",
       "uTC": "UTC",
       "solingen": "Solingen",
-      "noviSad" :"Novi Sad",
-      "tokyo" :"Tokyo",
+      "noviSad": "Novi Sad",
+      "tokyo": "Tokyo",
       "sydney": "Sydney"
     }
   },
   "monitoringUnit": {
-    "appdata":{
-      "appdataHealthProcessor":{
+    "appdata": {
+      "appdataHealthProcessor": {
         "host": "Host",
         "hostCpuLoad": "Host CPU load",
         "processedIntervals": "Processed Intervals",
@@ -169,7 +176,8 @@
       },
       "appDataLiveAggreValid": {
         "validMetrics": "Validated metrics",
-        "criticalDeviations": "Critical deviations"
+        "criticalDeviations": "Critical deviations",
+        "validation": "Validation"
       },
       "appDataProcStatistic": {
         "customer": "Customer",
@@ -190,7 +198,7 @@
         "latencySum": "Latency (sum)",
         "calls": "Calls",
         "mostCommonQueries": "Most Common Queries",
-        "analyze":"Analyze"
+        "analyze": "Analyze"
       },
       "appdataReaderStatistics": {
         "host": "Host",
@@ -206,7 +214,10 @@
         "clickHouseQueryQueueing": "ClickHouse Query Queueing",
         "clickHouseQueryLatency": "ClickHouse Query Latency",
         "garbageCollection": "Garbage Collection",
-        "calls": "Calls"
+        "calls": "Calls",
+        "mean": "mean",
+        "50th": "50th",
+        "99th": "99th"
       },
       "appdataWriterStatistics": {
         "host": "Host",
@@ -224,7 +235,10 @@
         "queuedClickHouseCalls": "Queued ClickHouse Calls",
         "clickHouseQueryLatency": "ClickHouse Query Latency",
         "garbageCollection": "Garbage Collection",
-        "calls": "Calls"
+        "calls": "Calls",
+        "mean": "mean",
+        "50th": "50th",
+        "99th": "99th"
       },
       "batchingInsights": {
         "calls": "Calls",
@@ -278,7 +292,7 @@
       "cashierAcceptors": "Cashier Acceptors",
       "writes": "Writes",
       "outgoingCalls": "Outgoing calls",
-      "cashierUsageTransfer":"Cashier Usage Transfers",
+      "cashierUsageTransfer": "Cashier Usage Transfers",
       "verifyMinDataReadFromKafka": "Verify that every minute data is read from Kafka",
       "timeUpReqPotentialScaleoutCashierAcceptor": "Time going up requires potentially scaleout of cashier-acceptor",
       "consumedCashierReports": "Consumed cashier reports",
@@ -309,7 +323,8 @@
         "shortTermBeaconBatchWrite": "Short term Beacon Batch Writes",
         "shortBeaconBatchWriteFail": "Short term Beacon Batch Write Failures",
         "longBeaconBatchWrite": "Long Term Beacon Batch Writes",
-        "longBeaconBatchWriteFail": "Long Term Beacon Batch Write Failures"
+        "longBeaconBatchWriteFail": "Long Term Beacon Batch Write Failures",
+        "eumForAppdataWriter": "EUM for appdata-writer"
       },
       "errorSimulator": {
         "triggerErrOutsideReact": "Trigger error outside of Reac",
@@ -324,7 +339,7 @@
         "dropDueLoadBackpressure": "Dropped Due To Load / Backpressure",
         "dropDueRateLimit": "Dropped Due To Rate Limit",
         "deliberDropBeaconsDueInvalidData": "Deliberately Dropped Beacons Due To Invalid Data",
-        "beaconTypeBreakdown":"Beacon Type Breakdown",
+        "beaconTypeBreakdown": "Beacon Type Breakdown",
         "pageLoad": "Page Load",
         "pageResource": "Page Resource",
         "xhrFetch": "XHR / Fetch",
@@ -332,7 +347,8 @@
         "customEvent": "Custom Event",
         "pageChange": "Page Change",
         "websiteBeaconWrites": "Website Beacon Writes",
-        "mobileAppBeaconWrites": "Mobile App Beacon Writes"
+        "mobileAppBeaconWrites": "Mobile App Beacon Writes",
+        "kafka": "Kafka"
       },
       "eumHealthProcessor": {
         "incomingBeacons": "Incoming Beacons",
@@ -392,7 +408,8 @@
         "spanMsgDrop": "Span Message Dropped",
         "spanProc": "Span Processed",
         "spanStored": "Span Stored"
-      }
+      },
+      "selectARegionToLoadTheFillerStats": "Select a region to load the filler stats"
     },
     "hubforce": {
       "hubforceInternal": "Hubforce internal",
@@ -418,7 +435,8 @@
       "numOfRestApiErrors": "# REST API errors",
       "numOfSoqlApiErrors": "# SOQL API errors",
       "numOf4xx": "# 4xx",
-      "numOf5xx": "# 5xx"
+      "numOf5xx": "# 5xx",
+      "salesforce": "Salesforce"
     },
     "infrastructureMetrics": {
       "filler": {
@@ -447,7 +465,7 @@
         "networkDataTransmit": "Network - data transmitted",
         "cpuLoad": "CPU load",
         "cpuUsage": "CPU Usage",
-        "hostsLength":"Hosts ({{length}})"
+        "hostsLength": "Hosts ({{length}})"
       }
     },
     "sloViolations": {
@@ -455,10 +473,10 @@
       "issueOpenNotAutoUpdate": "How long the issue is open (doesn't auto update, sorry mate!)"
     },
     "sre": {
-      "host":"Host",
-      "user":"User",
-      "nice":"Nice",
-      "steal":"Steal",
+      "host": "Host",
+      "user": "User",
+      "nice": "Nice",
+      "steal": "Steal",
       "system": "System",
       "wait": "Wait",
       "free": "Free",
@@ -468,60 +486,60 @@
       "bytesReadPerSec": "Bytes Read/s",
       "bytesWritePerSec": "Bytes Write/s",
       "acceptors": {
-        "messages":"Messages",
-        "ipFilterMsg0":"IP filtered messages (should be 0)",
-        "kafkaSpanMsgErrRate":"Kafka - span messages error rate",
-        "kafkaSpanMsgErr":"Kafka - # span message errors",
-        "networkDataReceived":"Network - data received",
-        "networkDataTransmit":"Network - data transmitted",
-        "cpuLoad":"CPU load",
+        "messages": "Messages",
+        "ipFilterMsg0": "IP filtered messages (should be 0)",
+        "kafkaSpanMsgErrRate": "Kafka - span messages error rate",
+        "kafkaSpanMsgErr": "Kafka - # span message errors",
+        "networkDataReceived": "Network - data received",
+        "networkDataTransmit": "Network - data transmitted",
+        "cpuLoad": "CPU load",
         "hostsAcceptorsLen": "Hosts ({{acceptorLen}})",
         "cpuUsage": "CPU Usage",
-        "droppedDeniedMsg":"Dropped/denied messages"
+        "droppedDeniedMsg": "Dropped/denied messages"
       },
       "beeInstanaAggregator": {
         "hostsAggregatorLen": "Hosts ({{aggregatorLen}})",
-        "dataMounts":"Data mounts",
-        "cpuUsage":"CPU Usage",
+        "dataMounts": "Data mounts",
+        "cpuUsage": "CPU Usage",
         "beeInstanaAggreg": "BeeInstana Aggregators ({{aggregatorLen}})",
-        "metrics":"Metrics",
-        "metricPruningDurations10S":"Metric pruning durations - 10s period",
-        "metricPrunDurations5M":"Metric pruning durations - 5m period",
-        "metricPrunDurations1H":"Metric pruning durations - 1h period",
-        "metricPrunDurations60S":"Metric pruning durations - 60s period"
+        "metrics": "Metrics",
+        "metricPruningDurations10S": "Metric pruning durations - 10s period",
+        "metricPrunDurations5M": "Metric pruning durations - 5m period",
+        "metricPrunDurations1H": "Metric pruning durations - 1h period",
+        "metricPrunDurations60S": "Metric pruning durations - 60s period"
       },
       "beeInstanaIngestor": {
         "beeInstanaIngest": "BeeInstana Ingestors ({{ingestorsLen}})",
-        "metrics":"Metrics",
-        "messages":"Messages",
-        "kafkaConsumerErrors":"Kafka Consumer Errors",
-        "messageDelay":"Message Delay",
-        "queueWorkerMaxQueueSize":"Queue and worker - MaxQueueSize",
-        "queueWorkerTaskQueueSize":"Queue and worker - TaskQueueSize",
+        "metrics": "Metrics",
+        "messages": "Messages",
+        "kafkaConsumerErrors": "Kafka Consumer Errors",
+        "messageDelay": "Message Delay",
+        "queueWorkerMaxQueueSize": "Queue and worker - MaxQueueSize",
+        "queueWorkerTaskQueueSize": "Queue and worker - TaskQueueSize",
         "hostsIngestorsLen": "Hosts ({{ingestorsLen}})",
-        "cpuUsage":"CPU Usage"
+        "cpuUsage": "CPU Usage"
       },
       "clickhouse": {
-        "cpuLoad":"CPU load",
-        "numQueryThreads":"# Query threads",
-        "networkDataReceive":"Network - data received",
-        "networkDataTransmit":"Network - data transmitted",
-        "cpuUsage":"CPU Usage",
-        "dataMount":"Data mounts"
+        "cpuLoad": "CPU load",
+        "numQueryThreads": "# Query threads",
+        "networkDataReceive": "Network - data received",
+        "networkDataTransmit": "Network - data transmitted",
+        "cpuUsage": "CPU Usage",
+        "dataMount": "Data mounts"
       },
       "clickhouseTotalTblSize": {
-        "table":"Table",
-        "totalByteDiskClusterWide":"Total Bytes On Disk (cluster wide)",
-        "maxByteDiskSingleNode":"Max Bytes On Disk (single node)",
-        "minByteDiskSingleNode":"Min Bytes On Disk (single node)",
-        "nodesReportingSizeForTbl":"Nodes Reporting Size for Table",
-        "clickHouseTblSizeAnalysis":"ClickHouse Table Size Analysis"
+        "table": "Table",
+        "totalByteDiskClusterWide": "Total Bytes On Disk (cluster wide)",
+        "maxByteDiskSingleNode": "Max Bytes On Disk (single node)",
+        "minByteDiskSingleNode": "Min Bytes On Disk (single node)",
+        "nodesReportingSizeForTbl": "Nodes Reporting Size for Table",
+        "clickHouseTblSizeAnalysis": "ClickHouse Table Size Analysis"
       },
       "datastores": {
-        "device":"Device",
-        "capacity":"Capacity",
-        "cpuUsage":"CPU Usage",
-        "used":"Used"
+        "device": "Device",
+        "capacity": "Capacity",
+        "cpuUsage": "CPU Usage",
+        "used": "Used"
       },
       "kafka": {
         "kafkaNodes": "Kafka ({{count}} node)",
@@ -529,20 +547,20 @@
         "kafkaNodes_0": "Kafka ({{count}} nodes)",
         "kafkaNodes_1": "Kafka ({{count}} node)",
         "kafkaNodes_2": "Kafka ({{count}} nodes)",
-        "brokerTrafficBytesIn":"Broker Traffic Bytes In",
-        "brokerTrafficBytesOut":"Broker Traffic Bytes Out",
-        "brokerTrafficByteReject":"Broker Traffic Bytes Rejected",
-        "messagesIn":"Messages In",
-        "produceReq":"Produce Requests",
-        "networkProcessorIdle":"Network Processor Idle",
-        "reqHandlerIdle":"Request Handler Idle",
-        "g1YoungGeneration":"G1 Young Generation",
-        "suspension":"Suspension",
+        "brokerTrafficBytesIn": "Broker Traffic Bytes In",
+        "brokerTrafficBytesOut": "Broker Traffic Bytes Out",
+        "brokerTrafficByteReject": "Broker Traffic Bytes Rejected",
+        "messagesIn": "Messages In",
+        "produceReq": "Produce Requests",
+        "networkProcessorIdle": "Network Processor Idle",
+        "reqHandlerIdle": "Request Handler Idle",
+        "g1YoungGeneration": "G1 Young Generation",
+        "suspension": "Suspension",
         "suspensionChartExplanation": "Suspension is an indication of how much application execution might have been delayed by the JVM, OS or CPU during the last second. This is predominantly caused by GC activations.",
         "networkDataReceive": "Network - data received",
-        "networkDataTransmit":"Network - data transmitted",
-        "cpuUsage":"CPU Usage",
-        "dataMount":"Data mounts",
+        "networkDataTransmit": "Network - data transmitted",
+        "cpuUsage": "CPU Usage",
+        "dataMount": "Data mounts",
         "statisticsProviderNotFound": "Statistics provider not found."
       },
       "metaElastic": {
@@ -552,15 +570,15 @@
         "metaElasticNode_0": "Meta Elastic ({{count}} nodes)",
         "metaElasticNode_1": "Meta Elastic ({{count}} node)",
         "metaElasticNode_2": "Meta Elastic ({{count}} nodes)",
-        "numQueries":"# of queries",
-        "addDoc":"Added documents",
-        "networkDataReceived":"Network - data received",
-        "networkDataTransmit":"Network - data transmitted",
-        "cpuLoad":"CPU load",
-        "suspension":"Suspension",
-        "suspensionChartExplanation":"Suspension is an indication of how much application execution might have been delayed by the JVM, OS or CPU during the last second. This is predominantly caused by GC activations.",
-        "dataMount":"Data mounts",
-        "cpuUsage":"CPU Usage"
+        "numQueries": "# of queries",
+        "addDoc": "Added documents",
+        "networkDataReceived": "Network - data received",
+        "networkDataTransmit": "Network - data transmitted",
+        "cpuLoad": "CPU load",
+        "suspension": "Suspension",
+        "suspensionChartExplanation": "Suspension is an indication of how much application execution might have been delayed by the JVM, OS or CPU during the last second. This is predominantly caused by GC activations.",
+        "dataMount": "Data mounts",
+        "cpuUsage": "CPU Usage"
       },
       "commonCassandra": {
         "metricsCassandraNode": "Metrics Cassandra ({{count}} node)",
@@ -573,250 +591,268 @@
         "profilesCassandraNode_0": "Profiles Cassandra ({{count}} nodes)",
         "profilesCassandraNode_1": "Profiles Cassandra ({{count}} node)",
         "profilesCassandraNode_2": "Profiles Cassandra ({{count}} nodes)",
-        "spansCassandraNode":"Spans Cassandra ({{count}} node)",
-        "spansCassandraNode_plural":"Spans Cassandra ({{count}} nodes)",
-        "spansCassandraNode_0":"Spans Cassandra ({{count}} nodes)",
-        "spansCassandraNode_1":"Spans Cassandra ({{count}} node)",
-        "spansCassandraNode_2":"Spans Cassandra ({{count}} nodes)",
-        "writes":"Writes",
-        "reads":"Reads",
-        "pendingCompactions":"Pending Compactions",
-        "networkDataRecv":"Network - data received",
-        "networkDataTransmit":"Network - data transmitted",
-        "cpuLoad":"CPU load",
-        "cpuUsage":"CPU Usage",
-        "dataMount":"Data mounts"
+        "spansCassandraNode": "Spans Cassandra ({{count}} node)",
+        "spansCassandraNode_plural": "Spans Cassandra ({{count}} nodes)",
+        "spansCassandraNode_0": "Spans Cassandra ({{count}} nodes)",
+        "spansCassandraNode_1": "Spans Cassandra ({{count}} node)",
+        "spansCassandraNode_2": "Spans Cassandra ({{count}} nodes)",
+        "writes": "Writes",
+        "reads": "Reads",
+        "pendingCompactions": "Pending Compactions",
+        "networkDataRecv": "Network - data received",
+        "networkDataTransmit": "Network - data transmitted",
+        "cpuLoad": "CPU load",
+        "cpuUsage": "CPU Usage",
+        "dataMount": "Data mounts"
       }
     },
     "unit": {
       "appDataStatistic": {
-        "appDataProcessorInstance":"AppData-Processor Instances",
-        "backendSpanDropSumAInstance":"Backend Span Dropping (sum across instances)",
-        "spanDropSumChartExplanation_1":"Shows whether spans are being dropped and why:",
-        "spanDropSumChartExplanation_2":"<strong>Processed:</strong> how many spans got successfully processed.",
-        "spanDropSumChartExplanation_3":"<strong>Dropped due to global throttler:</strong> dropped due a global rate limiter (<i>config.hard.spans.rate.drop.threshold</i>)",
-        "spanDropSumChartExplanation_4":"<strong>Dropped due to consistent dropping:</strong> dropped because other spans of the same trace got dropped in the past , e.g. due to backpressure (ensure we drop all spans of a trace or none).",
-        "spanDropSumChartExplanation_5":"<strong>Dropped due to backpressure:</strong> dropped because of resource exhaustion (e.g. high CPU usage or one step of the pipeline is a bottleneck).",
-        "spanDropSumChartExplanation_6":"<strong>Dropped hard due to backpressure (random dropping):</strong> dropped because Kafka record is older than 5 seconds.",
-        "spanDropSumChartExplanation_7":"<strong>Dropped due to trace throttler:</strong> dropped due to a rate limiter per trace (<i>config.hard.spans.per.trace.rate.drop.threshold</i>)",
-        "droppingRate":"Dropping rate",
-        "processed":"Processed",
-        "dropGlobalThrottler":"Dropped due to global throttler",
-        "dropConsistent":"Dropped due to consistent dropping",
-        "dropBackpressure":"Dropped due to backpressure",
-        "dropHardBackpressureRandom":"Dropped hard due to backpressure (random dropping)",
-        "dropTraceThrottler":"Dropped due to trace throttler",
-        "backendSpanDropPerInstance":"Backend Span Dropping (per instance)",
-        "backendSpanDropInstChartExplanation_1":"When spans are dropped, it is important to look at individual instances.",
-        "backendSpanDropInstChartExplanation_2":"All of the instances are dropping: scale out.",
-        "backendSpanDropInstChartExplanation_3":"One or several instances are dropping (but not all): scaling out will not help.",
-        "backendSpanDropInstChartExplanation_4":"Traces with a high throughput are being processed (sharding key is the trace id): adjust <i>config.hard.spans.per.trace.rate.drop.threshold</i>.",
-        "backendSpanDropInstChartExplanation_5":"CPU load is too high on the underlying host(s): assign instance to a less overloaded host.",
-        "srvlessAcceptorRateLimitSpanMsg":"Serverless Acceptor Rate-Limited Span Messages",
-        "spanLatencyMeanInstance":"Span latency (mean across instances)",
-        "spanLatencyMeanInstChartExplanation":"Delay in the agent: delay between the time a span was ended and the time it was sent from the agent to acceptor.",
-        "acceptorRateLimitSpanMsg":"Acceptor Rate-Limited Span Messages",
-        "acceptorRateLimitSpanhartExplan":"Number of span messages (a message contains multiple spans) dropped due to a rate per-tenant-unit limiter.See <i>config.span.publish.rate.limit</i> (default: 25,000).",
-        "acceptorDropSpanMsg":"Acceptor Dropped Span Messages",
-        "srvlessAcceptorDropSpanMsg":"Serverless Acceptor Dropped Span Messages",
-        "appDataProcessorInst": "AppData-Processor Processor Instances"
+        "appDataProcessorInstance": "AppData-Processor Instances",
+        "backendSpanDropSumAInstance": "Backend Span Dropping (sum across instances)",
+        "spanDropSumChartExplanation_1": "Shows whether spans are being dropped and why:",
+        "spanDropSumChartExplanation_2": "<strong>Processed:</strong> how many spans got successfully processed.",
+        "spanDropSumChartExplanation_3": "<strong>Dropped due to global throttler:</strong> dropped due a global rate limiter (<i>config.hard.spans.rate.drop.threshold</i>)",
+        "spanDropSumChartExplanation_4": "<strong>Dropped due to consistent dropping:</strong> dropped because other spans of the same trace got dropped in the past , e.g. due to backpressure (ensure we drop all spans of a trace or none).",
+        "spanDropSumChartExplanation_5": "<strong>Dropped due to backpressure:</strong> dropped because of resource exhaustion (e.g. high CPU usage or one step of the pipeline is a bottleneck).",
+        "spanDropSumChartExplanation_6": "<strong>Dropped hard due to backpressure (random dropping):</strong> dropped because Kafka record is older than 5 seconds.",
+        "spanDropSumChartExplanation_7": "<strong>Dropped due to trace throttler:</strong> dropped due to a rate limiter per trace (<i>config.hard.spans.per.trace.rate.drop.threshold</i>)",
+        "droppingRate": "Dropping rate",
+        "processed": "Processed",
+        "dropGlobalThrottler": "Dropped due to global throttler",
+        "dropConsistent": "Dropped due to consistent dropping",
+        "dropBackpressure": "Dropped due to backpressure",
+        "dropHardBackpressureRandom": "Dropped hard due to backpressure (random dropping)",
+        "dropTraceThrottler": "Dropped due to trace throttler",
+        "backendSpanDropPerInstance": "Backend Span Dropping (per instance)",
+        "backendSpanDropInstChartExplanation_1": "When spans are dropped, it is important to look at individual instances.",
+        "backendSpanDropInstChartExplanation_2": "All of the instances are dropping: scale out.",
+        "backendSpanDropInstChartExplanation_3": "One or several instances are dropping (but not all): scaling out will not help.",
+        "backendSpanDropInstChartExplanation_4": "Traces with a high throughput are being processed (sharding key is the trace id): adjust <i>config.hard.spans.per.trace.rate.drop.threshold</i>.",
+        "backendSpanDropInstChartExplanation_5": "CPU load is too high on the underlying host(s): assign instance to a less overloaded host.",
+        "srvlessAcceptorRateLimitSpanMsg": "Serverless Acceptor Rate-Limited Span Messages",
+        "spanLatencyMeanInstance": "Span latency (mean across instances)",
+        "spanLatencyMeanInstChartExplanation": "Delay in the agent: delay between the time a span was ended and the time it was sent from the agent to acceptor.",
+        "acceptorRateLimitSpanMsg": "Acceptor Rate-Limited Span Messages",
+        "acceptorRateLimitSpanhartExplan": "Number of span messages (a message contains multiple spans) dropped due to a rate per-tenant-unit limiter.See <i>config.span.publish.rate.limit</i> (default: 25,000).",
+        "acceptorDropSpanMsg": "Acceptor Dropped Span Messages",
+        "srvlessAcceptorDropSpanMsg": "Serverless Acceptor Dropped Span Messages",
+        "appDataProcessorInst": "AppData-Processor Processor Instances",
+        "mean": "mean",
+        "50th": "50th",
+        "99th": "99th"
       },
       "entityStatistics": {
-        "plugin":"Plugin",
-        "count":"Count",
-        "entityCount":"Entity Count",
-        "countOverTime":"Count over time",
-        "perPluginEntityCount":"Per Plugin Entity Counts"
+        "plugin": "Plugin",
+        "count": "Count",
+        "entityCount": "Entity Count",
+        "countOverTime": "Count over time",
+        "perPluginEntityCount": "Per Plugin Entity Counts"
       },
       "eum": {
-        "websiteBeacons":"Website Beacons",
-        "mobileAppBeacons":"Mobile App Beacons"
+        "websiteBeacons": "Website Beacons",
+        "mobileAppBeacons": "Mobile App Beacons"
       },
       "infraDataStatistics": {
-        "numEntities":"Number of Entities",
-        "entityUsage":"Entity Usage",
-        "rawMsgDropRateGroupOfEntityMsg":"Raw Message Drop Rate (group of entity messages)",
-        "rawMsgDropRate":"Raw Message Drop Rate",
-        "entityMsgDropRate":"Entity Message Drop Rate"
+        "numEntities": "Number of Entities",
+        "entityUsage": "Entity Usage",
+        "rawMsgDropRateGroupOfEntityMsg": "Raw Message Drop Rate (group of entity messages)",
+        "rawMsgDropRate": "Raw Message Drop Rate",
+        "entityMsgDropRate": "Entity Message Drop Rate"
       },
       "landing": {
-        "sloViolations":"SLO Violations for {{sloTenant}}-{{sloUnit}}"
+        "sloViolations": "SLO Violations for {{sloTenant}}-{{sloUnit}}"
       },
       "processComp": {
-        "processingComp":"Processing Components"
+        "processingComp": "Processing Components"
       },
       "profileDataStatistic": {
-        "acceptorAcceptProfile":"Acceptor Accepted Profiles"
+        "acceptorAcceptProfile": "Acceptor Accepted Profiles"
       },
       "stan": {
-        "processorInstance":"Processor Instances",
-        "metricDropRateMax":"Metric Drop Rate (max)",
-        "metricDropRateMean":"Metric Drop Rate (mean)",
-        "appEntityCallDropRate":"Application Entity (Call) Drop Rate"
+        "processorInstance": "Processor Instances",
+        "metricDropRateMax": "Metric Drop Rate (max)",
+        "metricDropRateMean": "Metric Drop Rate (mean)",
+        "appEntityCallDropRate": "Application Entity (Call) Drop Rate"
       },
       "tenantUnit": {
-        "tenantUnitLabel":"Tenant Unit",
-        "home":"Home",
-        "agents":"Agents",
-        "application":"Application",
-        "endUserMonitor":"End-User Monitoring",
-        "entityStatistic":"Entity Statistics",
-        "infrastructure":"Infrastructure",
-        "profile":"Profile",
-        "sloViolations":"SLO Violations",
-        "stan":"Stan"
+        "tenantUnitLabel": "Tenant Unit",
+        "home": "Home",
+        "agents": "Agents",
+        "application": "Application",
+        "endUserMonitor": "End-User Monitoring",
+        "entityStatistic": "Entity Statistics",
+        "infrastructure": "Infrastructure",
+        "profile": "Profile",
+        "sloViolations": "SLO Violations",
+        "stan": "Stan"
       }
     },
     "units": {
       "api": {
-        "apiCallBlockRateLimitRate":"API Call Block (Rate Limiting) Rate",
-        "apiChartExplanation_1":"API calls are blocked when they reached the rate limit as defined in the <i>rateLimit</i> config section of <i>ui-backend</i>.",
-        "apiChartExplanation_2":"The HTTP status code 429 is given in the response, along the following headers (see <linkToDocs>reference</linkToDocs>):",
-        "apiChartExplanation_3":"There is a <i>default</i> limit but also more specific ones per <i>zone</i>: <i>search</i>, <i>settings</i>, <i>appdata</i>, and <i>snapshots</i>.",
-        "apiChartExplanation_4":"The below chart only tell you that calls are being blocked but we do not know which of the limits got reached. For that you can look at the <i>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distinct-client-key-ZONE</i> metrics in <i>ui-backend</i> which give you the call rate per zone, or look closer at traces and more specifically status codes and headers.",
-        "apiChartExplanation_5":"<strong>Important:</strong> Calls with HTTP status code 429 are not necessarily blocked by the API rate limiters, but can also be blocked by one of the limiters used to protect <i>appdata-reader</i> (see corresponding metrics in <i>ui-backend</i> with the format <i>appDataReaderXXXLimiter</i>). You can distinguish the 2 cases by looking at the presence of the <i>X-RateLimit-XXX</i> headers in the traces."
+        "apiCallBlockRateLimitRate": "API Call Block (Rate Limiting) Rate",
+        "apiChartExplanation_1": "API calls are blocked when they reached the rate limit as defined in the <i>rateLimit</i> config section of <i>ui-backend</i>.",
+        "apiChartExplanation_2": "The HTTP status code 429 is given in the response, along the following headers (see <linkToDocs>reference</linkToDocs>):",
+        "apiChartExplanation_3": "There is a <i>default</i> limit but also more specific ones per <i>zone</i>: <i>search</i>, <i>settings</i>, <i>appdata</i>, and <i>snapshots</i>.",
+        "apiChartExplanation_4": "The below chart only tell you that calls are being blocked but we do not know which of the limits got reached. For that you can look at the <i>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distinct-client-key-ZONE</i> metrics in <i>ui-backend</i> which give you the call rate per zone, or look closer at traces and more specifically status codes and headers.",
+        "apiChartExplanation_5": "<strong>Important:</strong> Calls with HTTP status code 429 are not necessarily blocked by the API rate limiters, but can also be blocked by one of the limiters used to protect <i>appdata-reader</i> (see corresponding metrics in <i>ui-backend</i> with the format <i>appDataReaderXXXLimiter</i>). You can distinguish the 2 cases by looking at the presence of the <i>X-RateLimit-XXX</i> headers in the traces."
       },
       "application": {
-        "appdataProcessorInstance":"Appdata-processor Instances",
-        "backendDropSpans":"Backend Dropped Spans",
-        "processSpan":"Processed Spans",
-        "dropSpansConfig":"Dropped Spans Due To Configuration",
-        "dropSpansDConsistentDrop":"Dropped Spans Due To Consistent Dropping",
-        "spanLatencyMean":"Span Latency (Mean)",
-        "spanLatency99":"Span Latency (99th)",
-        "acceptorDropSpanMsgRateLimit":"Acceptor Dropped Span Messages (Rate Limit)",
-        "srvlessAcceptorDropSpanMsgRateLimit":"Serverless-Acceptor Dropped Span Messages (Rate Limit)",
-        "spanLatency50t":"Span Latency (50th)",
-        "dropSpansBackpressure":"Dropped Spans Due To Backpressure",
-        "dropSpansBackpressureLagHardDrop":"Dropped Spans Due To Backpressure (lag hard drop)",
-        "processed":"Processed",
-        "dropGlobalThrottler":"Dropped due to global throttler",
-        "dropConsistentDrop":"Dropped due to consistent dropping",
-        "dropBackpressure":"Dropped due to backpressure",
-        "droppedHardBackpressureRandomDrop":"Dropped hard due to backpressure (random dropping)",
-        "dropTraceThrottler":"Dropped due to trace throttler",
-        "acceptorDropSpanMsgsRateLimit":"Acceptor Dropped Span Messages (Rate Limit)",
-        "serverlessAcceptorDropSpanMsgRateLimit":"Serverless-Acceptor Dropped Span Messages (Rate Limit)",
+        "appdataProcessorInstance": "Appdata-processor Instances",
+        "backendDropSpans": "Backend Dropped Spans",
+        "processSpan": "Processed Spans",
+        "dropSpansConfig": "Dropped Spans Due To Configuration",
+        "dropSpansDConsistentDrop": "Dropped Spans Due To Consistent Dropping",
+        "spanLatencyMean": "Span Latency (Mean)",
+        "spanLatency99": "Span Latency (99th)",
+        "acceptorDropSpanMsgRateLimit": "Acceptor Dropped Span Messages (Rate Limit)",
+        "srvlessAcceptorDropSpanMsgRateLimit": "Serverless-Acceptor Dropped Span Messages (Rate Limit)",
+        "spanLatency50t": "Span Latency (50th)",
+        "dropSpansBackpressure": "Dropped Spans Due To Backpressure",
+        "dropSpansBackpressureLagHardDrop": "Dropped Spans Due To Backpressure (lag hard drop)",
+        "processed": "Processed",
+        "dropGlobalThrottler": "Dropped due to global throttler",
+        "dropConsistentDrop": "Dropped due to consistent dropping",
+        "dropBackpressure": "Dropped due to backpressure",
+        "droppedHardBackpressureRandomDrop": "Dropped hard due to backpressure (random dropping)",
+        "dropTraceThrottler": "Dropped due to trace throttler",
+        "acceptorDropSpanMsgsRateLimit": "Acceptor Dropped Span Messages (Rate Limit)",
+        "serverlessAcceptorDropSpanMsgRateLimit": "Serverless-Acceptor Dropped Span Messages (Rate Limit)",
         "dropRate": "Dropping rate"
       },
       "common": {
-        "unit":"Unit"
+        "unit": "Unit"
       },
       "eum": {
-        "websiteBeacons":"Website Beacons",
-        "mobileAppBeacons":"Mobile App Beacons"
+        "websiteBeacons": "Website Beacons",
+        "mobileAppBeacons": "Mobile App Beacons"
       },
       "infrastructure": {
-        "numEntities":"Number of Entities",
-        "entityUsage":"Entity Usage",
-        "rawMzgDropRate":"Raw Message Drop Rate",
-        "entityMsgDropRate":"Entity Message Drop Rate",
-        "rawMsgDropRateGroupEntityMsg":"Raw Message Drop Rate (group of entity messages)"
+        "numEntities": "Number of Entities",
+        "entityUsage": "Entity Usage",
+        "rawMzgDropRate": "Raw Message Drop Rate",
+        "entityMsgDropRate": "Entity Message Drop Rate",
+        "rawMsgDropRateGroupEntityMsg": "Raw Message Drop Rate (group of entity messages)"
       },
       "profile": {
-        "acceptorAcceptedProfiles":"Acceptor Accepted Profiles"
+        "acceptorAcceptedProfiles": "Acceptor Accepted Profiles"
       },
       "stan": {
-        "processorInstance":"Processor Instances",
-        "metricDropRateMax":"Metric Drop Rate (max)",
-        "metricDropRateMean":"Metric Drop Rate (mean)",
-        "appEntityCallDropRate":"Application Entity (Call) Drop Rate",
+        "processorInstance": "Processor Instances",
+        "metricDropRateMax": "Metric Drop Rate (max)",
+        "metricDropRateMean": "Metric Drop Rate (mean)",
+        "appEntityCallDropRate": "Application Entity (Call) Drop Rate",
         "processorInstances": "Processor Instances"
       },
       "unitList": {
-        "units":"Units",
+        "units": "Units",
         "analyze": "Analyze",
-        "metricAggreg": "Metric aggregation"
+        "metricAggreg": "Metric aggregation",
+        "mean": "mean",
+        "max": "max",
+        "sum": "sum"
       },
       "unitsBreadcrumb": {
-        "units":"Units"
+        "units": "Units"
       }
     },
     "agents": {
-      "unit":"Unit",
-      "maxSensorTimeConsume":"Max Sensor Time Consumed",
-      "maxSlowSensorsCount":"Max Slow Sensors Count",
-      "maxCpuLoad":"Max CPU Load",
-      "errorCount":"Error Count",
-      "spansOpened":"Spans Opened",
-      "spansClosed":"Spans Closed",
-      "spansFiltered":"Spans Filtered",
-      "spansDropped":"Spans Dropped",
-      "agents":"Agents",
-      "cpuLoad":"CPU Load",
-      "warningCount":"Warning Count"
+      "unit": "Unit",
+      "maxSensorTimeConsume": "Max Sensor Time Consumed",
+      "maxSlowSensorsCount": "Max Slow Sensors Count",
+      "maxCpuLoad": "Max CPU Load",
+      "errorCount": "Error Count",
+      "spansOpened": "Spans Opened",
+      "spansClosed": "Spans Closed",
+      "spansFiltered": "Spans Filtered",
+      "spansDropped": "Spans Dropped",
+      "agents": "Agents",
+      "cpuLoad": "CPU Load",
+      "warningCount": "Warning Count"
     },
     "dropwizardDashboardExt": {
-      "commonCommands":"Common Commands",
-      "cacheDataSelectOne":"Cache data (select one)",
-      "snapshotsDepend":"Snapshots with Dependencies",
-      "searchSnapshots":"Search Snapshots",
-      "appdataEntityExplosions":"Appdata Entity Explosions",
-      "tagDataSelectOne":"Tag data (select one)",
-      "allTags":"All Tags",
-      "clusterTags":"Cluster Tags",
-      "hostPortRef":"Host/port references",
-      "appMapping":"Application Mapping",
-      "serviceMapping":"Service Mapping",
-      "endpointMapPathTemplateCache":"Endpoint Mapping (Path template cache)",
-      "endpointMapInvalidPathTemplates":"Endpoint Mapping (Invalid path templates)",
-      "resilientMapSelectOne":"Resilient mapping (select one)",
-      "metricExplosions":"Metric Explosions",
-      "admin":"Admin",
-      "config":"Config",
-      "version":"Version",
-      "injectorBindings":"Injector Bindings",
-      "hystrix":"Hystrix",
-      "agentClockSkew":"Agent Clock Skew"
+      "commonCommands": "Common Commands",
+      "cacheDataSelectOne": "Cache data (select one)",
+      "snapshotsDepend": "Snapshots with Dependencies",
+      "searchSnapshots": "Search Snapshots",
+      "appdataEntityExplosions": "Appdata Entity Explosions",
+      "tagDataSelectOne": "Tag data (select one)",
+      "allTags": "All Tags",
+      "clusterTags": "Cluster Tags",
+      "hostPortRef": "Host/port references",
+      "appMapping": "Application Mapping",
+      "serviceMapping": "Service Mapping",
+      "endpointMapPathTemplateCache": "Endpoint Mapping (Path template cache)",
+      "endpointMapInvalidPathTemplates": "Endpoint Mapping (Invalid path templates)",
+      "resilientMapSelectOne": "Resilient mapping (select one)",
+      "metricExplosions": "Metric Explosions",
+      "admin": "Admin",
+      "config": "Config",
+      "version": "Version",
+      "injectorBindings": "Injector Bindings",
+      "hystrix": "Hystrix",
+      "agentClockSkew": "Agent Clock Skew"
     },
     "region": {
-      "units":"Units",
-      "infraEntityMonitor":"Infrastructure Entity Monitoring",
-      "entities":"Entities",
-      "hosts":"Hosts",
-      "processes":"Processes",
-      "containers":"Containers",
-      "infraMetricMonitoring":"Infrastructure Metric Monitoring",
-      "metrics":"Metrics",
-      "appMonitoring":"Application Monitoring",
-      "acceptedSpans":"Accepted Spans",
-      "processedSpans":"Processed Spans",
-      "websiteMonitoring":"Website Monitoring",
-      "acceptedBeacons":"Accepted Beacons",
-      "processedBeacons":"Processed Beacons",
-      "mobileAppMonitoring":"Mobile App Monitoring",
-      "profileMonitoring":"Profile Monitoring",
-      "acceptedProfiles":"Accepted Profiles"
+      "units": "Units",
+      "infraEntityMonitor": "Infrastructure Entity Monitoring",
+      "entities": "Entities",
+      "hosts": "Hosts",
+      "processes": "Processes",
+      "containers": "Containers",
+      "infraMetricMonitoring": "Infrastructure Metric Monitoring",
+      "metrics": "Metrics",
+      "appMonitoring": "Application Monitoring",
+      "acceptedSpans": "Accepted Spans",
+      "processedSpans": "Processed Spans",
+      "websiteMonitoring": "Website Monitoring",
+      "acceptedBeacons": "Accepted Beacons",
+      "processedBeacons": "Processed Beacons",
+      "mobileAppMonitoring": "Mobile App Monitoring",
+      "profileMonitoring": "Profile Monitoring",
+      "acceptedProfiles": "Accepted Profiles"
     },
     "thisUnit": {
-      "internalEvents":{
+      "internalEvents": {
         "internalEvent": "Internal Events",
-        "triggerTimeIssue":"Triggering time of issue",
+        "triggerTimeIssue": "Triggering time of issue",
         "loadMore": "Load More",
         "issueLink": "Issue link:",
         "category": "Category:",
         "code": "Code:"
       },
       "agent": {
-        "agentTitle":"Agent",
-        "slowSensorsCount":"Slow Sensors Count",
-        "cpuLoad":"CPU Load",
-        "spansOpened":"Spans Opened",
-        "spansClosed":"Spans Closed",
-        "spansFilter":"Spans Filtered",
-        "spansDropped":"Spans Dropped",
-        "agents":"Agents",
-        "sensorTimeConsumed":"Sensor Time Consumed",
-        "errCount":"Error Count",
-        "warningCount":"Warning Count"
+        "agentTitle": "Agent",
+        "slowSensorsCount": "Slow Sensors Count",
+        "cpuLoad": "CPU Load",
+        "spansOpened": "Spans Opened",
+        "spansClosed": "Spans Closed",
+        "spansFilter": "Spans Filtered",
+        "spansDropped": "Spans Dropped",
+        "agents": "Agents",
+        "sensorTimeConsumed": "Sensor Time Consumed",
+        "errCount": "Error Count",
+        "warningCount": "Warning Count"
       },
       "entityStatistics": {
-        "plugin":"Plugin",
-        "count":"Count",
-        "entityCount":"Entity Count",
-        "countOverTime":"Count over time",
-        "perPluginEntityCount":"Per Plugin Entity Counts"
+        "plugin": "Plugin",
+        "count": "Count",
+        "entityCount": "Entity Count",
+        "countOverTime": "Count over time",
+        "perPluginEntityCount": "Per Plugin Entity Counts"
       }
+    }
+  },
+  "thisUnit": {
+    "entityStatistics": {
+      "cockpit": "Cockpit"
+    },
+    "graphExplorer": {
+      "snapshotId": "snapshotId..."
+    },
+    "snapshotVersions": {
+      "snapshotId": "snapshotId...",
+      "refresh": "Refresh"
     }
   }
 }

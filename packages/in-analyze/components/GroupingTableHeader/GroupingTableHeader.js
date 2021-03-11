@@ -12,6 +12,7 @@ import ResultHeader from 'in-analyze/components/ResultHeader';
 import Toggle from 'in-components/form/Toggle';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './GroupingTableHeader.mless';
 
@@ -42,7 +43,7 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Gro
       <div className={locals.labelWrapper}>
         {props.isInternalVisible && props.onPreviewEnabledChange && (
           <>
-            <span className={locals.label}>Preview</span>
+            <span className={locals.label}>{t('in-analyze:components.groupingTableHeader.preview')}</span>
             <Toggle
               checked={props.previewEnabled}
               onChange={e => {
@@ -59,11 +60,11 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Gro
             props.openEditGroupDialog();
           }}
         >
-          Group by
+          {t('in-analyze:components.groupingTableHeader.groupBy')}
         </Button>
         {props.openMetricSelector && (
           <Button kind="secondary" onClick={props.openMetricSelector} icon="lib_actions_settings">
-            Select Metrics
+            {t('in-analyze:components.groupingTableHeader.selectMetrics')}
           </Button>
         )}
         {props.onChange && (
@@ -72,7 +73,9 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Gro
             onClick={() => props.onChange({ showGraph: !props.showGraph })}
             icon="lib_views_stats"
           >
-            {props.showGraph ? 'Hide' : 'Show'} Graph
+            {props.showGraph
+              ? t('in-analyze:components.groupingTableHeader.hideGraph')
+              : t('in-analyze:components.groupingTableHeader.showGraph')}
           </Button>
         )}
       </div>

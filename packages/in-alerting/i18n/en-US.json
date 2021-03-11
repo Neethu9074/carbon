@@ -39,14 +39,16 @@
       "alertingChartMessageEntitySelectionInvalid": "No entities selected.",
       "chartViewConfigsLast24Hours": "Last 24 hours",
       "chartViewConfigsLast7Days": "Last 7 days"
-    }
+    },
+    "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "You are looking at a deleted alert configuration. Modifications are not possible.",
+    "alertPropertyInfosWarning": "Warning",
+    "alertPropertyInfosCritical": "Critical"
   },
   "potentialProblems": {
     "titleErrorRate": "Erroneous call rate is higher than normal",
     "titleSlowness": "Calls (Latency {{aggregation}}) are slower than usual",
     "titlethroughputHigh": "Number of calls is anomalously high",
     "titlethroughputLow": "Number of calls is anomalously low",
-
     "buttonInvestigate": "Investigate",
     "buttonAddSmartAlert": "Add Smart Alert",
     "titlePotentialProblem": "Potential Problem",
@@ -412,7 +414,11 @@
         "ruleAggregationOptionP99": "99th",
         "ruleAggregationOptionMAX": "max",
         "ruleAggregationForWeeklySeasonalityOptionMEAN": "mean",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50th"
+        "ruleAggregationForWeeklySeasonalityOptionP50": "50th",
+        "ruleFormPleaseProvideALogMessage": "Please provide a log message",
+        "smartAlertFormNoEntitiesSelected": "No entities selected",
+        "thresholdFormPleaseProvideANumber0": "Please provide a number >= 0",
+        "thresholdFormBaselineIsEmpty": "baseline is empty"
       },
       "simple": {
         "simpleAlertStep1Headline": "What do you want to be alerted on?",
@@ -420,6 +426,12 @@
         "step1Title": "Step 1: Select Alert",
         "step2Title": "Step 2: Select Scope",
         "step3Title": "Step 3: Select Alerting Channels"
+      },
+      "components": {
+        "provideLogMessageSelectLogMessage": "Select Log Message",
+        "provideLogMessageLogLevel": "Log Level",
+        "provideLogMessageErrorMessage": "Error Message",
+        "provideStatusCodeStatusCode": "Status Code"
       }
     },
     "components": {
@@ -502,7 +514,11 @@
         "alertConfigDialogPresenterTitleCreateNewAlert": "Create New Alert",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Switch to Advanced Mode",
         "alertConfigDialogPresenterButtonSwitchToSimpleMode": "Switch to Simple Mode",
-        "simpleAlertConfigDialogStep3Headline": "Who should get the alerts?"
+        "simpleAlertConfigDialogStep3Headline": "Who should get the alerts?",
+        "Loading": "Loading…",
+        "LoadingServices": "Loading services…",
+        "NoServiceInScope": "No service in scope",
+        "PreviewForService": "Preview for Service:"
       },
       "utils": {
         "aggregationTextP25": "25th",
@@ -512,6 +528,14 @@
         "aggregationTextP95": "95th",
         "aggregationTextP98": "98th",
         "aggregationTextP99": "99th"
+      }
+    },
+    "websites": {
+      "advanced": {
+        "slownessInteractiveChartThresholdValue": "Threshold Value"
+      },
+      "components": {
+        "provideStatusCodeStatusCode": "Status Code"
       }
     }
   }

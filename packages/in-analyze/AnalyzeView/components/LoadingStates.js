@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
 import React from 'react';
 
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import { describeArc } from 'in-new-components/Loading/InfiniteCircle';
 import SvgIcon from 'in-components/SvgIcon';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './LoadingStates.mless';
 
@@ -28,11 +29,15 @@ function QueryPreparing() {
       <div className={locals.spinnerContainer}>
         <LoadingCircle />
       </div>
-      <div className={locals.progressText}>Preparing…</div>
-      <span className={locals.description}>Instana is processing a large amount of tracing data.</span>
+      <div className={locals.progressText}>{t('in-analyze:analyzeView.components.loadingStates.preparing')}</div>
+      <span className={locals.description}>
+        {t('in-analyze:analyzeView.components.loadingStates.instanaIsProcessingALargeAmountOfTracingData')}
+      </span>
       <div className={locals.infoBlock}>
         <SvgIcon className={locals.icon} type="lib_help_error_info_outline" />
-        <span className={locals.textBold}>Please don&#39;t reload - this page will update automatically.</span>
+        <span className={locals.textBold}>
+          {t('in-analyze:analyzeView.components.loadingStates.pleaseDontReloadThisPageWillUpdateAutomatically')}
+        </span>
       </div>
     </div>
   );
@@ -44,8 +49,10 @@ function QueryRunning({ progress }) {
       <div className={locals.bigIconContainer}>
         <SvgIcon size="xl" className={locals.traceIcon} type="lib_application_trace" />
       </div>
-      <div className={locals.progressText}>Running query…</div>
-      <span className={locals.description}>Instana is processing a large amount of tracing data.</span>
+      <div className={locals.progressText}>{t('in-analyze:analyzeView.components.loadingStates.runningQuery')}</div>
+      <span className={locals.description}>
+        {t('in-analyze:analyzeView.components.loadingStates.instanaIsProcessingALargeAmountOfTracingData')}
+      </span>
       <div className={locals.loadingBarContainer}>
         <HorizontalIndicator className={locals.horizontalIndicator} progress={progress} rounded />
       </div>
@@ -67,11 +74,19 @@ function QueryFailed({ errors }) {
           <div className={locals.bigIconContainer}>
             <SvgIcon size="xl" className={locals.warnIcon} type="lib_help_error_error_circle" />
           </div>
-          <div className={locals.progressText}>This query has timed out.</div>
-          <span className={locals.description}>The query took too long to run and has been cancelled.</span>
+          <div className={locals.progressText}>
+            {t('in-analyze:analyzeView.components.loadingStates.thisQueryHasTimedOut')}
+          </div>
+          <span className={locals.description}>
+            {t('in-analyze:analyzeView.components.loadingStates.theQueryTookTooLongToRunAndHasBeenCancelled')}
+          </span>
           <div className={locals.infoBlock}>
             <SvgIcon className={locals.icon} type="lib_help_error_help_outline" />
-            <span>Select a shorter timeframe or issue a more specific query by applying more filters.</span>
+            <span>
+              {t(
+                'in-analyze:analyzeView.components.loadingStates.selectAShorterTimeframeOrIssueAMoreSpecificQueryByApplyingMoreFilters'
+              )}
+            </span>
           </div>
         </div>
       );
@@ -82,7 +97,9 @@ function QueryFailed({ errors }) {
           <div className={locals.bigIconContainer}>
             <SvgIcon size="xl" className={locals.warnIcon} type="lib_help_error_error_circle" />
           </div>
-          <div className={locals.progressText}>There was an input error.</div>
+          <div className={locals.progressText}>
+            {t('in-analyze:analyzeView.components.loadingStates.thereWasAnInputError')}
+          </div>
           <span className={locals.description}>{error.description}</span>
         </div>
       );
@@ -92,8 +109,12 @@ function QueryFailed({ errors }) {
           <div className={locals.bigIconContainer}>
             <SvgIcon size="xl" className={locals.warnIcon} type="lib_help_error_error_circle" />
           </div>
-          <div className={locals.progressText}>Too many requests</div>
-          <span className={locals.description}>Our system is currently busy. Please try again later.</span>
+          <div className={locals.progressText}>
+            {t('in-analyze:analyzeView.components.loadingStates.tooManyRequests')}
+          </div>
+          <span className={locals.description}>
+            {t('in-analyze:analyzeView.components.loadingStates.ourSystemIsCurrentlyBusyPleaseTryAgainLater')}
+          </span>
         </div>
       );
     case 'SERVER':
@@ -108,9 +129,11 @@ function QueryFailed({ errors }) {
               style={{ fill: theme.lib.colors.failure }}
             />
           </div>
-          <div className={locals.progressText}>Server Error</div>
+          <div className={locals.progressText}>{t('in-analyze:analyzeView.components.loadingStates.serverError')}</div>
           <span className={locals.description}>
-            An unexpected error occurred. Please try again later or contact support to report the error.
+            {t(
+              'in-analyze:analyzeView.components.loadingStates.anUnexpectedErrorOccurredPleaseTryAgainLaterOrContactSupportToReportTheError'
+            )}
           </span>
         </div>
       );

@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import CreatableSelect from 'react-select/lib/Creatable';
 import classNames from 'classnames';
 import React from 'react';
@@ -22,6 +21,7 @@ import ComboBox from 'in-components/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './EditTagFilterDialogPresenter.mless';
 
@@ -66,7 +66,7 @@ export default function EditTagFilterDialogPresenter({
         {form.get('tag').map(field => (
           <FormGroup>
             <Label htmlFor="filter-tag" hasError={!field.valid && field.touched}>
-              Tag
+              {t('in-analyze:components.editTagFilterDialog.tag')}
             </Label>
             <ComboBox
               id="filter-tag"
@@ -90,7 +90,9 @@ export default function EditTagFilterDialogPresenter({
             <FormGroup>
               <Label htmlFor="filter-key" hasError={!field.valid && field.touched} className={locals.labelWithLoader}>
                 Key
-                {keySuggestionsLoading && <Loading>Loading suggestions…</Loading>}
+                {keySuggestionsLoading && (
+                  <Loading>{t('in-analyze:components.editTagFilterDialog.loadingSuggestions')}</Loading>
+                )}
               </Label>
               <CreatableSelect
                 id="filter-key"
@@ -114,7 +116,7 @@ export default function EditTagFilterDialogPresenter({
         {form.get('operator').map(field => (
           <FormGroup>
             <Label htmlFor="filter-operator" hasError={!field.valid && field.touched}>
-              Operator
+              {t('in-analyze:components.editTagFilterDialog.operator')}
             </Label>
             <Select
               id="filter-operator"
@@ -137,7 +139,9 @@ export default function EditTagFilterDialogPresenter({
             <FormGroup>
               <Label htmlFor="filter-value" hasError={!field.valid && field.touched} className={locals.labelWithLoader}>
                 Value
-                {valueSuggestionsLoading && <Loading>Loading suggestions…</Loading>}
+                {valueSuggestionsLoading && (
+                  <Loading>{t('in-analyze:components.editTagFilterDialog.loadingSuggestions')}</Loading>
+                )}
               </Label>
               {(selectedTagType === 'STRING' || selectedTagType === 'KEY_VALUE_PAIR') && (
                 <Typeahead
@@ -155,8 +159,8 @@ export default function EditTagFilterDialogPresenter({
                   onChange={e => onValueChange(e.target.value)}
                   hasError={!field.valid && field.touched}
                 >
-                  <option value="true">true</option>
-                  <option value="false">false</option>
+                  <option value="true">{t('in-analyze:components.editTagFilterDialog.true')}</option>
+                  <option value="false">{t('in-analyze:components.editTagFilterDialog.false')}</option>
                 </Select>
               )}
               {selectedTagType === 'NUMBER' && (
@@ -195,7 +199,7 @@ export default function EditTagFilterDialogPresenter({
         >
           {editMode && (
             <Button type="button" kind="danger" onClick={onRemoveTagFilter}>
-              Remove Filter
+              {t('in-analyze:components.editTagFilterDialog.removeFilter')}
             </Button>
           )}
 

@@ -13,6 +13,7 @@ import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getLinkToSession } from 'in-mobile-apps/navigation/paths';
 import { bytes } from 'in-services/formatters/number';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 export default function MobileAppBeaconDetails({ beacon }) {
   const type = getType(beacon);
@@ -27,24 +28,36 @@ export default function MobileAppBeaconDetails({ beacon }) {
     <Fragment>
       <Dl>
         {beacon.type === 'httpRequest' && (
-          <Di title="HTTP Call URI">
+          <Di title={t('in-analyze:traceDetail.components.callDetails.httpCallUri')}>
             <a href={beacon.httpCallUrl} rel="noopener noreferrer" target="_blank">
               {beacon.httpCallUrl}
             </a>
           </Di>
         )}
-        <Di title="Beacon Type">
+        <Di title={t('in-analyze:traceDetail.components.callDetails.beaconType')}>
           {typeDefinition.long} <TypeHeader beacon={beacon} />
         </Di>
       </Dl>
 
       {hasNetworkInsights && (
         <Fragment>
-          <BodyHeader>Network Insights</BodyHeader>
+          <BodyHeader>{t('in-analyze:traceDetail.components.callDetails.networkInsights')}</BodyHeader>
           <Dl>
-            {hasTransferSize && <Di title="Transfer Size">{bytes.detailed(beacon.transferSize)}</Di>}
-            {hasEncodedBodySize && <Di title="Encoded Body Size">{bytes.detailed(beacon.encodedBodySize)}</Di>}
-            {hasDencodedBodySize && <Di title="Decoded Body Size">{bytes.detailed(beacon.decodedBodySize)}</Di>}
+            {hasTransferSize && (
+              <Di title={t('in-analyze:traceDetail.components.callDetails.transferSize')}>
+                {bytes.detailed(beacon.transferSize)}
+              </Di>
+            )}
+            {hasEncodedBodySize && (
+              <Di title={t('in-analyze:traceDetail.components.callDetails.encodedBodySize')}>
+                {bytes.detailed(beacon.encodedBodySize)}
+              </Di>
+            )}
+            {hasDencodedBodySize && (
+              <Di title={t('in-analyze:traceDetail.components.callDetails.decodedBodySize')}>
+                {bytes.detailed(beacon.decodedBodySize)}
+              </Di>
+            )}
           </Dl>
         </Fragment>
       )}
@@ -57,7 +70,7 @@ export default function MobileAppBeaconDetails({ beacon }) {
         kind="primary"
         size="compact"
       >
-        Go to Beacon
+        {t('in-analyze:traceDetail.components.callDetails.goToBeacon')}
       </Button>
     </Fragment>
   );

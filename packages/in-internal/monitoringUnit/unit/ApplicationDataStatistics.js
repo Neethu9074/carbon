@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
-import { Trans, t } from 'in-i18n';
-import theme from 'in-themes';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -12,6 +10,8 @@ import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import { percentage, number, millis } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import connectTo from 'in-hoc/connectTo';
+import { Trans, t } from 'in-i18n';
+import theme from 'in-themes';
 
 export default connectTo(
   ({ tenant, unit }) => ({
@@ -179,7 +179,11 @@ export default connectTo(
                 `appdata-processor.spanLatency.50th`,
                 `appdata-processor.spanLatency.99th`
               ],
-              labels: ['Mean', '50th', '99th'],
+              labels: [
+                t('in-internal:monitoringUnit.unit.appDataStatistic.mean'),
+                t('in-internal:monitoringUnit.unit.appDataStatistic.50th'),
+                t('in-internal:monitoringUnit.unit.appDataStatistic.99th')
+              ],
               type: 'line'
             }}
           />

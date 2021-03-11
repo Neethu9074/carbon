@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -31,6 +30,7 @@ import { Th } from 'in-components/tables/sharedComponents';
 import { traceClickedTracker } from 'in-analyze/tracker';
 import SetBodyColor from 'in-components/SetBodyColor';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo({ isInternalVisible: isInternalVisible$ }, function RawTracesPresenter(props) {
   const {
@@ -48,7 +48,7 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Raw
     showGraph
   } = props;
   return (
-    <AnalyzeWorkspace {...props} title="Trace Analytics">
+    <AnalyzeWorkspace {...props} title={t('in-analyze:components.rawTraces.traceAnalytics')}>
       <GroupingTableHeader
         itemType="Trace"
         nbRows={totalHits}
@@ -62,8 +62,8 @@ export default connectTo({ isInternalVisible: isInternalVisible$ }, function Raw
         <Thead>
           <Tr size="compact">
             <ErroneousRowTh />
-            <Th>Trace</Th>
-            <Th>Service</Th>
+            <Th>{t('in-analyze:components.rawTraces.trace')}</Th>
+            <Th>{t('in-analyze:components.rawTraces.service')}</Th>
 
             <SortableColumn
               orderBy={orderBy}

@@ -12,6 +12,7 @@ import FormGroup from 'in-components/form/FormGroup';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { t } from 'in-i18n';
 
 import locals from './NumberBarOverlayPresenter.mless';
 
@@ -32,7 +33,7 @@ export default function NumberBarOverlayPresenter({
           <Row>
             <Col xs={6}>
               <InputGroup
-                label="equal to"
+                label={t('in-analyze:components.filterBar.equalTo')}
                 form={form}
                 fieldId="eq"
                 getOnChangeHandler={getOnChangeHandler}
@@ -43,7 +44,7 @@ export default function NumberBarOverlayPresenter({
             </Col>
             <Col xs={6}>
               <InputGroup
-                label="not equal to"
+                label={t('in-analyze:components.filterBar.notEqualTo')}
                 form={form}
                 fieldId="neq"
                 getOnChangeHandler={getOnChangeHandler}
@@ -59,7 +60,7 @@ export default function NumberBarOverlayPresenter({
             <Col xs={6}>
               {(showGt(form.items.gt?.value, form.items.gte?.value) && (
                 <InputGroup
-                  label="greater than"
+                  label={t('in-analyze:components.filterBar.greaterThan')}
                   form={form}
                   fieldId="gt"
                   getOnChangeHandler={getOnChangeHandler}
@@ -69,7 +70,7 @@ export default function NumberBarOverlayPresenter({
                 />
               )) || (
                 <InputGroup
-                  label="greater than or equals"
+                  label={t('in-analyze:components.filterBar.greaterThanOrEquals')}
                   form={form}
                   fieldId="gte"
                   getOnChangeHandler={getOnChangeHandler}
@@ -82,7 +83,7 @@ export default function NumberBarOverlayPresenter({
             <Col xs={6}>
               {(showLt(form.items.lt?.value, form.items.lte?.value) && (
                 <InputGroup
-                  label="less than"
+                  label={t('in-analyze:components.filterBar.lessThan')}
                   form={form}
                   fieldId="lt"
                   getOnChangeHandler={getOnChangeHandler}
@@ -91,7 +92,7 @@ export default function NumberBarOverlayPresenter({
                 />
               )) || (
                 <InputGroup
-                  label="less than or equals"
+                  label={t('in-analyze:components.filterBar.lessThanOrEquals')}
                   form={form}
                   fieldId="lte"
                   getOnChangeHandler={getOnChangeHandler}
@@ -105,11 +106,11 @@ export default function NumberBarOverlayPresenter({
 
         <div className={locals.actions}>
           <Button type="button" kind="subtle" onClick={onClear}>
-            Clear
+            {t('in-analyze:components.filterBar.clear')}
           </Button>
 
           <Button type="submit" kind="primaryv2" disabled={form.touched && !form.hierarchyValid}>
-            Save
+            {t('in-analyze:components.filterBar.save')}
           </Button>
         </div>
       </form>

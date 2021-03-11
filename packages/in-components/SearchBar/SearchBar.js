@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
@@ -18,6 +17,7 @@ import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import Input from 'in-components/SearchBar/Input';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './SearchBar.mless';
 
@@ -112,9 +112,7 @@ export default connectTo(
 
 function onShowKeywordHelp(e) {
   e.preventDefault();
-  addActiveDialog(
-    <HelpDialog title="Using the Search Bar" markdownContent={t('in-components:searchBar.usingTheSearchBar')} />
-  );
+  addActiveDialog(<HelpDialog title={t('in-components:searchBar.helpDialogTitleUsingTheSearchBar')} />);
 }
 
 function save(query) {

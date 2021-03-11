@@ -5,14 +5,15 @@
 import { combineLatest } from '@instana/observables';
 import React from 'react';
 
-import { getSnapshotFromPhysicalHierarchyByPlugin } from 'in-stores/snapshot';
 import FillerStatsRow, { DROPWIZARD_STATS } from 'in-internal/monitoringUnit/FillerStats/FillerStatsRow';
+import { getSnapshotFromPhysicalHierarchyByPlugin } from 'in-stores/snapshot';
 import { emptyArray } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
+import Button from 'in-new-components/Button';
 import search from 'in-subscription/search';
 import connectTo from 'in-hoc/connectTo';
-import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 export default connectTo(
   {
@@ -57,7 +58,7 @@ export default connectTo(
 
       return (
         <div>
-          <h2>Select a region to load the filler stats</h2>
+          <h2>{t('in-internal:monitoringUnit.fillerStats.selectARegionToLoadTheFillerStats')}</h2>
           <Button onClick={() => this.handleButtonClick('EU')}>EU</Button>
           <Button onClick={() => this.handleButtonClick('US')}>US</Button>
 

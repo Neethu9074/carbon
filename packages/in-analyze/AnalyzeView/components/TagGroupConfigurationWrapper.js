@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -10,6 +9,7 @@ import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
+import { t } from 'in-i18n';
 
 import locals from './TagGroupConfigurationWrapper.mless';
 
@@ -45,7 +45,9 @@ export default function TagGroupConfigurationWrapper({
             <div className={locals.barBottomLeft}>
               <div className={locals.barBottomDrop}>
                 <FormGroup>
-                  <Label htmlFor="select-top-groups">Select</Label>
+                  <Label htmlFor="select-top-groups">
+                    {t('in-analyze:analyzeView.components.tagGroupConfiguration.select')}
+                  </Label>
                   <Select
                     className={locals.select}
                     id="select-top-groups"
@@ -54,8 +56,8 @@ export default function TagGroupConfigurationWrapper({
                       onDirectionChange(e.target.value);
                     }}
                   >
-                    <option value="DESC">Top 5</option>
-                    <option value="ASC">Bottom 5</option>
+                    <option value="DESC">{t('in-analyze:analyzeView.components.tagGroupConfiguration.top5')}</option>
+                    <option value="ASC">{t('in-analyze:analyzeView.components.tagGroupConfiguration.bottom5')}</option>
                   </Select>
                 </FormGroup>
               </div>
@@ -66,7 +68,9 @@ export default function TagGroupConfigurationWrapper({
                   onChange={() => onIncludeOthersChange(!grouping.includeOthers)}
                 />
               </div>
-              <div className={locals.barBottomLabel}>Show remaining groups aggregated as &ldquo;Other&ldquo;.</div>
+              <div className={locals.barBottomLabel}>
+                {t('in-analyze:analyzeView.components.tagGroupConfiguration.showRemainingGroupsAggregatedAsOther')}
+              </div>
             </div>
           </div>
         </div>

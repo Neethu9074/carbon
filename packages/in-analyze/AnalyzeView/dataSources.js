@@ -5,8 +5,6 @@
 import { get } from 'lodash';
 
 import { getAnalyzeFilterTagKeys, getCallGroupTagKeys, getTraceGroupTagKeys } from 'in-applications/tags';
-import { dataSourceTitles as mobileAppDataSourceTitles } from 'in-mobile-apps/tags';
-import { dataSourceTitles as websiteDataSourceTitles } from 'in-websites/tags';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';
@@ -26,9 +24,9 @@ export default function getByDataSource(dataSource) {
         countMetricKey: 'traces',
         defaultGrouping: { name: 'trace.endpoint.name', value: '', entity: entityTypes.NOT_APPLICABLE },
         defaultFilters: [],
-        breadcrumbLabel: 'Trace Analytics',
+        breadcrumbLabel: t('in-analyze:analyzeView.dataSources.traceAnalytics'),
         getMatcher: traceId => item => item.trace.id === traceId,
-        typeLabel: 'Trace',
+        typeLabel: t('in-analyze:analyzeView.dataSources.trace'),
         getTraceIdByItem: item => item.trace.id,
         getCallIdByItem: () => undefined
       },
@@ -42,9 +40,9 @@ export default function getByDataSource(dataSource) {
         countMetricKey: 'calls',
         defaultGrouping: groupByEndpointName,
         defaultFilters: [],
-        breadcrumbLabel: 'Call Analytics',
+        breadcrumbLabel: t('in-analyze:analyzeView.dataSources.callAnalytics'),
         getMatcher: (traceId, callId) => item => item.call.id === callId && item.call.traceId === traceId,
-        typeLabel: 'Call',
+        typeLabel: t('in-analyze:analyzeView.dataSources.call'),
         getTraceIdByItem: item => item.call.traceId,
         getCallIdByItem: item => item.call.id
       },
@@ -69,19 +67,19 @@ export const groupByServiceName = {
 };
 
 export const productAreaLabels = Object.freeze({
-  application: 'Applications',
-  website: 'Websites',
-  mobileApp: 'Mobile Apps',
-  profiles: 'Profiles',
-  logs: 'Logs'
+  application: t('in-analyze:analyzeView.dataSources.applications'),
+  website: t('in-analyze:analyzeView.dataSources.websites'),
+  mobileApp: t('in-analyze:analyzeView.dataSources.mobileApps'),
+  profiles: t('in-analyze:analyzeView.dataSources.profiles'),
+  logs: t('in-analyze:analyzeView.dataSources.logs')
 });
 
 export const productAreaTrackingNames = Object.freeze({
-  application: 'Applications',
-  website: 'EUM: Websites',
-  mobileApp: 'EUM: Mobile Apps',
-  profiles: 'Profiles',
-  logs: 'Logs'
+  application: t('in-analyze:analyzeView.dataSources.applications'),
+  website: t('in-analyze:analyzeView.dataSources.eumWebsites'),
+  mobileApp: t('in-analyze:analyzeView.dataSources.eumMobileApps'),
+  profiles: t('in-analyze:analyzeView.dataSources.profiles'),
+  logs: t('in-analyze:analyzeView.dataSources.logs')
 });
 
 export const productAreaIcons = Object.freeze({
@@ -126,25 +124,25 @@ export function getIconByType(type, productArea) {
 
 export function getEntityNameByType(type) {
   if (type === 'pageLoad') {
-    return 'Page loads';
+    return t('in-analyze:analyzeView.dataSources.pageLoads');
   } else if (type === 'pageChange') {
-    return 'Page transitions';
+    return t('in-analyze:analyzeView.dataSources.pageTransitions');
   } else if (type === 'resourceLoad') {
-    return 'Resources';
+    return t('in-analyze:analyzeView.dataSources.resources');
   } else if (type === 'httpRequest') {
-    return 'HTTP requests';
+    return t('in-analyze:analyzeView.dataSources.httpRequests');
   } else if (type === 'error') {
-    return 'JavaScript errors';
+    return t('in-analyze:analyzeView.dataSources.javaScriptErrors');
   } else if (type === 'custom') {
-    return 'Custom events';
+    return t('in-analyze:analyzeView.dataSources.customEvents');
   } else if (type === 'profiles') {
-    return 'Profiles';
+    return t('in-analyze:analyzeView.dataSources.profiles');
   } else if (type === 'logs' || type === 'rawlogs') {
-    return 'Logs';
+    return t('in-analyze:analyzeView.dataSources.logs');
   } else if (type === 'sessionStart') {
-    return 'Session Starts';
+    return t('in-analyze:analyzeView.dataSources.sessionStarts');
   } else if (type === 'viewChange') {
-    return 'View transitions';
+    return t('in-analyze:analyzeView.dataSources.viewTransitions');
   }
 
   return type;
@@ -152,31 +150,31 @@ export function getEntityNameByType(type) {
 
 export function getLabelByType(type) {
   if (type === 'pageLoad') {
-    return `${websiteDataSourceTitles.pageLoad}s`;
+    return t('in-analyze:analyzeView.dataSources.pageLoads2');
   } else if (type === 'pageChange') {
-    return `${websiteDataSourceTitles.pageChange}s`;
+    return t('in-analyze:analyzeView.dataSources.pageTransitions2');
   } else if (type === 'resourceLoad') {
-    return `${websiteDataSourceTitles.resourceLoad}s`;
+    return t('in-analyze:analyzeView.dataSources.resources');
   } else if (type === 'httpRequest') {
-    return `${websiteDataSourceTitles.httpRequest}s`;
+    return t('in-analyze:analyzeView.dataSources.httpRequests2');
   } else if (type === 'error') {
-    return `${websiteDataSourceTitles.error}s`;
+    return t('in-analyze:analyzeView.dataSources.jsErrors');
   } else if (type === 'custom') {
-    return `${websiteDataSourceTitles.custom}s`;
+    return t('in-analyze:analyzeView.dataSources.customEvents2');
   } else if (type === 'sessionStart') {
-    return `${mobileAppDataSourceTitles.sessionStart}s`;
+    return t('in-analyze:analyzeView.dataSources.sessionStarts');
   } else if (type === 'viewChange') {
-    return `${mobileAppDataSourceTitles.viewChange}s`;
+    return t('in-analyze:analyzeView.dataSources.viewTransitions2');
   } else if (type === 'profiles') {
-    return 'Profiles';
+    return t('in-analyze:analyzeView.dataSources.profiles');
   } else if (type === 'calls') {
-    return 'Calls';
+    return t('in-analyze:analyzeView.dataSources.calls');
   } else if (type === 'traces') {
-    return 'Traces';
+    return t('in-analyze:analyzeView.dataSources.traces');
   } else if (type === 'logs') {
-    return 'Logs';
+    return t('in-analyze:analyzeView.dataSources.logs');
   } else if (type === 'rawlogs') {
-    return 'Console';
+    return t('in-analyze:analyzeView.dataSources.console');
   }
 
   return type;

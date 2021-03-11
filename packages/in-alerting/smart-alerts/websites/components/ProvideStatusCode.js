@@ -12,6 +12,7 @@ import { operators } from 'in-analyze/applicationFilter';
 import FormGroup from 'in-components/form/FormGroup';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
+import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/websites/components/ProvideJsError.mless';
 
@@ -24,7 +25,7 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
         .map(field => (
           <FormGroup>
             <Label htmlFor={'ruleValue'} hasError={!field.valid && field.touched}>
-              Status Code
+              {t('in-alerting:smartAlerts.websites.components.provideStatusCodeStatusCode')}
             </Label>
             <ComboBox
               name={'ruleValue'}

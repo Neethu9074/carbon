@@ -4,7 +4,6 @@
  */
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 
 import {
   SourceLocation,
@@ -29,6 +28,7 @@ import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 import locals from './ServiceComponent.mless';
 
@@ -110,7 +110,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
           <ExpandableGroup
             title={
               <div className={locals.infraTitle}>
-                <span>Infrastructure</span>
+                <span>{t('in-analyze:traceDetail.components.callDetails.infrastructure')}</span>
                 <InfrastructureEntityLink
                   entity={destinationEntity}
                   plugin={destinationEntity && destinationEntity.plugin}
@@ -225,10 +225,10 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
 
               {sourceSnapshotId && (
                 <ExpandableGroup
-                  expandedTitle="Infrastructure"
+                  expandedTitle={t('in-analyze:traceDetail.components.callDetails.infrastructure')}
                   title={
                     <div className={locals.infraTitle}>
-                      <span>Infrastructure</span>
+                      <span>{t('in-analyze:traceDetail.components.callDetails.infrastructure')}</span>
                       {sourceEntity && (
                         <InfrastructureEntityLink
                           entity={sourceEntity}

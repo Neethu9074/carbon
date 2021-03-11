@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 import CreatableSelect from 'react-select/lib/Creatable';
 import React from 'react';
 
@@ -18,6 +17,7 @@ import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './KeyValueBarOverlayPresenter.mless';
 
@@ -84,7 +84,9 @@ export default function KeyValueBarOverlayPresenter({
               <FormGroup withoutBottomMargin>
                 <Label htmlFor="filter-key" hasError={!field.valid && field.touched} className={locals.labelWithLoader}>
                   Key
-                  {keySuggestionsLoading && <Loading>Loading suggestions…</Loading>}
+                  {keySuggestionsLoading && (
+                    <Loading>{t('in-analyze:components.filterBar.loadingSuggestions')}</Loading>
+                  )}
                 </Label>
                 <CreatableSelect
                   id="filter-key"
@@ -115,7 +117,9 @@ export default function KeyValueBarOverlayPresenter({
                     className={locals.labelWithLoader}
                   >
                     Key
-                    {secondLevelKeySuggestionsLoading && <Loading>Loading suggestions…</Loading>}
+                    {secondLevelKeySuggestionsLoading && (
+                      <Loading>{t('in-analyze:components.filterBar.loadingSuggestions')}</Loading>
+                    )}
                   </Label>
                   <CreatableSelect
                     id="filter-second-level-key"
@@ -141,7 +145,7 @@ export default function KeyValueBarOverlayPresenter({
             {form.get('operator').map(field => (
               <FormGroup withoutBottomMargin>
                 <Label htmlFor="filter-operator" hasError={!field.valid && field.touched}>
-                  Operator
+                  {t('in-analyze:components.filterBar.operator')}
                 </Label>
                 <Select
                   id="filter-operator"
@@ -170,8 +174,10 @@ export default function KeyValueBarOverlayPresenter({
                     hasError={!field.valid && field.touched}
                     className={locals.labelWithLoader}
                   >
-                    Value
-                    {valueSuggestionsLoading && <Loading>Loading suggestions…</Loading>}
+                    {t('in-analyze:components.filterBar.value')}
+                    {valueSuggestionsLoading && (
+                      <Loading>{t('in-analyze:components.filterBar.loadingSuggestions')}</Loading>
+                    )}
                   </Label>
                   <CreatableSelect
                     id="filter-value"
@@ -195,7 +201,7 @@ export default function KeyValueBarOverlayPresenter({
           )}
           <Col xs={columnWidth} xsOffset={applyButtonOffset} className={locals.create}>
             <Button type="submit" kind="create" disabled={form.touched && !form.hierarchyValid}>
-              Add Filter
+              {t('in-analyze:components.filterBar.addFilter')}
             </Button>
           </Col>
         </Row>
