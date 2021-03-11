@@ -8,8 +8,8 @@ import React from 'react';
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { maintenanceNotesEnabled } from 'in-services/featureFlags';
+import { tryGet, trySet } from 'in-services/localStorage';
 import { toHtml } from 'in-services/formatters/markdown';
-import { get, trySet } from 'in-services/localStorage';
 import { getSetting$ } from 'in-services/settings';
 import { instanaRegion } from 'in-services/config';
 import { hours, minutes } from 'in-services/time';
@@ -28,7 +28,7 @@ const message$ = messageStore.observable.distinct();
 
 const messageReadStore = createStore({
   name: 'maintenance/messageRead',
-  initialValue: Date.now() - Number(get(localStorageKey)) < maxTimeToStoreInLocalStorage
+  initialValue: Date.now() - Number(tryGet(localStorageKey)) < maxTimeToStoreInLocalStorage
 });
 
 const messageRead$ = messageReadStore.observable;

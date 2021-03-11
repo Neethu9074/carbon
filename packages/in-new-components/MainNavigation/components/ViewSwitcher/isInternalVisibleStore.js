@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 import { internalMonitoringUnit } from 'in-services/featureFlags';
-import { trySet, get } from 'in-services/localStorage';
+import { trySet, tryGet } from 'in-services/localStorage';
 import { isInstanaEmail } from 'in-stores/user';
 import { createStore } from 'in-stores/store';
 import { minutes } from 'in-services/time';
@@ -55,7 +55,7 @@ export function click() {
 }
 
 function hasInternalFeatureEnabledPerLocalStorage() {
-  const value = get(localStorageKey);
+  const value = tryGet(localStorageKey);
   if (!value) {
     return false;
   }

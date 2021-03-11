@@ -13,8 +13,8 @@ import {
 import BeaconUserSummary from 'in-mobile-apps/analyze/BeaconUserSummary/BeaconUserSummary';
 import { getLinkToMobileApp, getLinkToSession } from 'in-mobile-apps/navigation/paths';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
+import { tryGet, trySet } from 'in-services/localStorage';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { get, trySet } from 'in-services/localStorage';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import { minutes } from 'in-services/time';
@@ -47,7 +47,7 @@ export default compose(
       })
     };
   }),
-  withState('showDetails', 'setShowDetails', get(localStorageKey) !== 'false'),
+  withState('showDetails', 'setShowDetails', tryGet(localStorageKey) !== 'false'),
   withProps(({ setShowDetails }) => ({
     setShowDetails: show => {
       trySet(localStorageKey, show);

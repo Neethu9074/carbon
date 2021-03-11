@@ -13,8 +13,8 @@ import {
 import { getCorrelatedWebsiteBeacons } from 'in-analyze/TraceDetail/tabs/Summary/websiteCorrelation';
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import { getLinkToWebsite, getLinkToPageLoad } from 'in-websites/navigation/paths';
+import { tryGet, trySet } from 'in-services/localStorage';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import { get, trySet } from 'in-services/localStorage';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import connect from 'in-hoc/connectTo';
@@ -31,7 +31,7 @@ export default compose(
       result: getCorrelatedWebsiteBeacons({ correlationId, traceId, startTime })
     };
   }),
-  withState('showDetails', 'setShowDetails', get(localStorageKey) !== 'false'),
+  withState('showDetails', 'setShowDetails', tryGet(localStorageKey) !== 'false'),
   withProps(({ setShowDetails }) => ({
     setShowDetails: show => {
       trySet(localStorageKey, show);

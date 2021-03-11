@@ -7,7 +7,7 @@ import semver from 'semver';
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
 import { releaseNotesEnabled } from 'in-services/featureFlags';
 import { build as uiClientBuildInfo } from 'in-services/config';
-import { get, trySet } from 'in-services/localStorage';
+import { tryGet, trySet } from 'in-services/localStorage';
 import { combineLatest } from '@instana/observables';
 import { createStore } from 'in-stores/store';
 import { createLogger } from '@instana/logger';
@@ -34,7 +34,7 @@ const uiClientVersionMajorMinor =
 // "mark-as-read" functionality.
 const releaseNotesVersionReadByUserStore = createStore({
   name: 'releaseNotesVersionReadByUser',
-  initialValue: get(localStorageKeyVersion) || 'none'
+  initialValue: tryGet(localStorageKeyVersion) || 'none'
 });
 
 // ensure that the read state is persisted in localStorage

@@ -24,6 +24,9 @@ export function trySet(key, value) {
   }
 }
 
-export function get(key) {
-  return localStorage.getItem(key);
+export function tryGet(key) {
+  if (isLocalStorageNameSupported) {
+    return localStorage.getItem(key);
+  }
+  return null;
 }

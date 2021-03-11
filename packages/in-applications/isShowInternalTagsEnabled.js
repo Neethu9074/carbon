@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { trySet, get } from 'in-services/localStorage';
+import { trySet, tryGet } from 'in-services/localStorage';
 import { createStore } from 'in-stores/store';
 import { minutes } from 'in-services/time';
 
@@ -33,7 +33,7 @@ export function enableShowInternalTags(enabled) {
 }
 
 function hasShowInternalTagsEnabledPerLocalStorage() {
-  const value = get(localStorageKey);
+  const value = tryGet(localStorageKey);
 
   if (!value) {
     return false;
