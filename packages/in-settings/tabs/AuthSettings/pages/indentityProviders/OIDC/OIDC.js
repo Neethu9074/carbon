@@ -255,7 +255,7 @@ function CopyableText({ title, form, fieldName }) {
 }
 
 function deleteItem({ setMessage }) {
-  setMessage({ message: {}, type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.deletingConfig'), type: neutral, isSaving: true });
   const setConfigResult$ = deleteConfig();
   setConfigResult$.once(
     () => {
