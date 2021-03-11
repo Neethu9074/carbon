@@ -11,7 +11,7 @@ import {
   msZeroDecimalPlaces,
   msTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import DBmarlinNotification from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotification';
+import DBmarlinNotificationMessage from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotificationMessage';
 import TopQueriesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/TopQueriesTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import DatabasesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/DatabasesTable';
@@ -135,7 +135,7 @@ export default function MsSqlDashboard({ snapshot, timeConfig }) {
 
       <TopQueriesTable snapshotId={snapshotId} />
 
-      <DBmarlinNotification />
+      <DBmarlinNotificationMessage />
     </div>
   );
 }
