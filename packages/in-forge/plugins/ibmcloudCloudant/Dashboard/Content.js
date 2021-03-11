@@ -1,17 +1,18 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
-import MetricValue from 'in-components/MetricValue';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { time } from 'in-services/formatters/number';
-import { identity, number } from 'in-services/formatters/string';
+import { time, number } from 'in-services/formatters/number';
+import { identity } from 'in-services/formatters/string';
+import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function ibmcloudCloudantDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
