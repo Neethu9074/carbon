@@ -9,7 +9,7 @@ import React from 'react';
 import { CpuProfileChart, MemoryProfileChart } from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileChart';
 import { analyzeProfilePathFullyQualified } from 'in-new-components/Profiling/navigation/paths';
 import getProfiles from 'in-new-components/Profiling/subscriptions/getProfiles';
-import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
+import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import View from 'in-profiling/analyze/AnalyzeView/ProfilesView/Hotspot/View';
 import Profile from 'in-profiling/analyze/AnalyzeView/ProfilesView/Profile';
 import { success, hasError, isLoading } from 'in-services/util/result';

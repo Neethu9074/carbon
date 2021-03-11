@@ -2,12 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { on } from '@instana/observables';
+import { create, on } from '@instana/observables';
 import classNames from 'classnames';
 import React from 'react';
 
 import HighlightedTimeframeCloseButton from 'in-components/Chart/components/HighlightedTimeframeCloseButton';
-import { highlightedMoment$, setHighlightedMoment, clearHighlightedMoment } from 'in-stores/timeline';
 import { getNearestDataPointDomainForTimestamp } from 'in-components/Chart/data/dataSearchUtils';
 import TooltipLineAndContent from 'in-components/Chart/components/TooltipLineAndContent';
 import { ANIMATION_DURATION } from 'in-components/Chart/Configuration';
@@ -18,6 +17,8 @@ import connectTo from 'in-hoc/connectTo';
 import locals from './ChartOverlay.mless';
 
 const userInteractionThrottlingMillis = 50;
+
+const highlightedMoment$ = create();
 
 export default connectTo(
   ({ chart }) => {
@@ -302,3 +303,15 @@ export default connectTo(
     }
   }
 );
+
+function setHighlightedMoment(t) {
+  // discard all decimal places
+  let moment = parseInt(t, 10);
+  // floor to second
+  moment = moment - (moment % 1000);
+  highlightedMoment$.emit(moment);
+}
+
+function clearHighlightedMoment() {
+  highlightedMoment$.emit(null);
+}

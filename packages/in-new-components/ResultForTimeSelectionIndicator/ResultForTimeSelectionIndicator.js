@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { t } from 'in-i18n';
 import React from 'react';
 
-import { clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
+import { clearHighlightedTimeframe } from 'in-stores/highlightedTimeframe';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 

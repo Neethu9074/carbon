@@ -10,7 +10,7 @@ import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } fro
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
+import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { timeConfig$, getTimeConfig } from 'in-stores/time/config';

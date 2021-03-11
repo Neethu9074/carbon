@@ -4,16 +4,16 @@
  */
 import { just } from '@instana/observables';
 import React, { useState } from 'react';
-import { t } from 'in-i18n';
 
-import { getTimeframeNonLiveUrl, getTimeframeLiveUrl, setTimeframe, timeConfig$ } from 'in-stores/timeline';
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
 import { track, TIME_WINDOW_SIZE_VIA_PICKER } from 'in-services/tracking/tracking';
+import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import getSamplingLevel from 'in-subscription/application/getSamplingLevel';
 import { isApplicationsView } from 'in-applications/navigation/paths';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
 import getRetention from 'in-subscription/application/getRetention';
+import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
 import TimePresenter from 'in-new-components/time/TimePresenter';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import { isView } from 'in-stores/navigation/navigation';
@@ -21,6 +21,7 @@ import Overlay from 'in-new-components/overlays/Overlay';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { emptyObject } from 'in-services/fixedObjects';
 import connect from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './TimeSelection.mless';
 
@@ -142,4 +143,29 @@ function TimeSelectionDialogPresenterWrapper({ timeConfig, close, historicOrLarg
       setTimeframe(timeConfig.windowSize, timeConfig.to);
     }
   }
+}
+
+function setTimeframe(windowSize, to = null) {
+  mutateUrl(navParams => {
+    navParams.query[urlQueryKeys.to] = to;
+    navParams.query[urlQueryKeys.focusedMoment] = to;
+    navParams.query[urlQueryKeys.windowSize] = windowSize;
+    return navParams;
+  });
+}
+
+function getTimeframeNonLiveUrl() {
+  return getModifiedUrlStream(navParams => {
+    delete navParams.query.fm;
+    navParams.query[urlQueryKeys.autoRefresh] = 'false';
+  });
+}
+
+function getTimeframeLiveUrl() {
+  return getModifiedUrlStream(navParams => {
+    delete navParams.query.fm;
+    navParams.query[urlQueryKeys.to] = '';
+    navParams.query[urlQueryKeys.focusedMoment] = '';
+    navParams.query[urlQueryKeys.autoRefresh] = 'true';
+  });
 }

@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import { formatDateTime } from 'in-services/formatters/date';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import { Ul, Li } from 'in-new-components/lists/List/List';
-import { getFixedTimeframeUrl } from 'in-stores/timeline';
+import { setTimeConfig } from 'in-stores/time/config';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './EntityVersionListing.mless';
 
@@ -83,11 +84,13 @@ function VersionLink({ from, to }) {
   return (
     <Link
       className={locals.link}
-      href$={getFixedTimeframeUrl({
-        windowSize,
-        to,
-        focusedMoment: to ? to - windowSize / 2 : ''
-      })}
+      href$={getModifiedUrlStream(location =>
+        setTimeConfig(location, {
+          windowSize,
+          to,
+          focusedMoment: to
+        })
+      )}
     >
       <span className={locals.fromTimestamp}>{formatDateTime(from)}</span>
       <span className={locals.toSpan}>to</span>

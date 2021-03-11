@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
 import { closeProfilesViewLink } from 'in-new-components/Profiling/navigation/paths';
 import getProfiles from 'in-new-components/Profiling/subscriptions/getProfiles';
-import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
+import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import tabs from 'in-profiling/analyze/AnalyzeView/ProfilesView/tabs';

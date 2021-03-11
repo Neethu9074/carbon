@@ -5,7 +5,7 @@
 import React from 'react';
 
 import { formatDurationAccurately } from 'in-services/formatters/date';
-import { timeConfig$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(

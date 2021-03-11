@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
-import { getFixedTimeframeUrl } from 'in-stores/timeline';
+import { queryKey as highlightedTimeframeQueryKey } from 'in-stores/highlightedTimeframe';
+import { setTimeConfig, timeConfig$ } from 'in-stores/time/config';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import { alwaysNull } from 'in-services/fixedStreams';
-import { timeConfig$ } from 'in-stores/time/config';
 import { minutes } from 'in-services/time';
+import { t } from 'in-i18n';
 
 const MAX_ZOOM_LEVEL = minutes.toMillis(1);
 const config = {
@@ -40,11 +41,14 @@ function getHighlightedTimeframeUrl$(highlightedTimeframe) {
       timeConfig.focusedMoment = to;
     }
 
-    return getFixedTimeframeUrl({
-      windowSize,
-      to,
-      focusedMoment: timeConfig.focusedMoment,
-      clearHighlightedTimeframe: true
+    return getModifiedUrlStream(location => {
+      setTimeConfig(location, {
+        windowSize,
+        to,
+        focusedMoment: to,
+        autoRefresh: false
+      });
+      delete location.query[highlightedTimeframeQueryKey];
     });
   });
 }

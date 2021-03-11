@@ -7,7 +7,7 @@ import React from 'react';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import EntityHealthIndicatorComponent from 'in-new-components/EntityHealthIndicator';
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
-import { timeConfig$ } from 'in-stores/timeline';
+import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(

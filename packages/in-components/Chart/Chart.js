@@ -8,7 +8,7 @@ import renderLocalHighlightedTimeframe from 'in-components/Chart/renderer/localH
 import renderHighlightedTimeframe from 'in-components/Chart/renderer/highlightedTimeframe';
 import DoubleBufferRenderScheduler from 'in-components/Chart/DoubleBufferRenderScheduler';
 import { getAxisTickPositions } from 'in-new-components/Axis/HorizontalTimeAxis';
-import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
+import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import { getAxisConfig } from 'in-new-components/Axis/timeFormatting';
 import renderTickLines from 'in-components/Chart/renderer/tickLines';
 import renderTimeLine from 'in-components/Chart/renderer/timeLine';

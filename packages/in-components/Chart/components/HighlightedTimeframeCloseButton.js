@@ -5,8 +5,8 @@
 import { on } from '@instana/observables';
 import React from 'react';
 
-import { clearHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
-import { highlightedTimeframe$ } from 'in-stores/timeline/highlightedTimeframe';
+import { clearHighlightedTimeframe } from 'in-stores/highlightedTimeframe';
+import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

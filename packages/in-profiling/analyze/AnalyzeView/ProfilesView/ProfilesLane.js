@@ -6,10 +6,7 @@ import React, { useMemo } from 'react';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-import {
-  highlightedTimeframe$,
-  addOrDeleteHighlightedTimeframeToParams
-} from 'in-stores/timeline/highlightedTimeframe';
+import { highlightedTimeframe$, addOrDeleteHighlightedTimeframeToParams } from 'in-stores/highlightedTimeframe';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
 import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';

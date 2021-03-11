@@ -5,7 +5,7 @@
 import { navigationParameters$, mutateUrl } from 'in-stores/navigation';
 import { createStore } from 'in-stores/store';
 
-const queryKey = 'tl.tf';
+export const queryKey = 'tl.tf';
 
 const store = createStore({
   name: 'timeline/highlightedTimeframe',

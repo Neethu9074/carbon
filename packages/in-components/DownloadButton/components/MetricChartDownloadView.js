@@ -7,8 +7,8 @@ import React from 'react';
 
 import DownloadView from 'in-components/DownloadButton/components/DownloadView';
 import { getMetricsForTimeframe } from 'in-stores/metric';
+import { timeConfig$ } from 'in-stores/time/config';
 import { serverTime$ } from 'in-stores/serverTime';
-import { timeConfig$ } from 'in-stores/timeline';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 

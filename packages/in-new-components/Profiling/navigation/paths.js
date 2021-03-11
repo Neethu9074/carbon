@@ -8,7 +8,7 @@ import {
   time as timeMatrixParameter,
   hotspotAutoExpandRowId as hotspotAutoExpandRowIdMatrixParameter
 } from 'in-new-components/Profiling/navigation/matrix';
-import { addOrDeleteHighlightedTimeframeToParams } from 'in-stores/timeline/highlightedTimeframe';
+import { addOrDeleteHighlightedTimeframeToParams } from 'in-stores/highlightedTimeframe';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 

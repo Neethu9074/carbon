@@ -18,8 +18,9 @@ import EventListItemContent from 'in-events/components/legacy/EventListItemConte
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
-import { getCurrentViewWithTimelineFocusedAt } from 'in-stores/timeline';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
 import { isAppDataEntityType } from 'in-services/entityUtils';
 import { formatTime } from 'in-services/formatters/date';
 import Marker from 'in-events/components/legacy/Marker';
@@ -115,7 +116,7 @@ function TimeIndicator({ event, isTriggeringEvent }) {
   }
   return (
     <div className={`${block}__time-indicator`}>
-      <Link href$={getCurrentViewWithTimelineFocusedAt(event.get('start'))}>
+      <Link href$={getCurrentViewWithTimeFocusedAt(event.get('start'))}>
         <span className={timeClass}>{formatTime(event.get('start'))}</span>
       </Link>
       <div className={`${block}__line`} />
@@ -224,4 +225,14 @@ function isWebsiteSmartAlertEvent(event) {
 
 function isApplicationSmartAlertEvent(event) {
   return event.hasIn(['metadata', 'applicationId']);
+}
+
+function getCurrentViewWithTimeFocusedAt(moment) {
+  return timeConfig$.flatMap(({ windowSize }) => {
+    return getModifiedUrlStream(params => {
+      params.query[urlQueryKeys.to] = moment;
+      params.query[urlQueryKeys.focusedMoment] = moment;
+      params.query[urlQueryKeys.windowSize] = windowSize;
+    });
+  });
 }

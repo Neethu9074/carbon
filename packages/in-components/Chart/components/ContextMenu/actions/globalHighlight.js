@@ -4,7 +4,7 @@
  */
 import { t } from 'in-i18n';
 
-import { setHighlightedTimeframe } from 'in-stores/timeline/highlightedTimeframe';
+import { setHighlightedTimeframe } from 'in-stores/highlightedTimeframe';
 
 const config = {
   name: 'globalHighlight',
