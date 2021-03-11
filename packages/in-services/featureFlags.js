@@ -52,6 +52,7 @@ export const languageSelectorEnabled = isFeatureFlagEnabled('languageSelectorEna
 export const authenticationOidcEnabled = isFeatureFlagEnabled('authenticationOidcEnabled');
 export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');
 export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled');
+export const globalSmartAlertsEnabled = isFeatureFlagEnabled('globalSmartAlertsEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords

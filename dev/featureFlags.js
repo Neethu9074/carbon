@@ -5,6 +5,7 @@
 // the keys (not the values) need to be kept in sync with
 // in-services/featureFlags
 module.exports = {
+  globalSmartAlertsEnabled: true,
   agentMonitoringIssuesEnabled: true,
   applicationSmartAlertsEnabled: true,
   containerInfoEnabled: true,
