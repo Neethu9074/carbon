@@ -1,5 +1,11 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
 /* eslint-env node */
 
+const { translate: pseudoTranslate, locale: pseudoLocale } = require('@instana/pseudo-translation');
 const fs = require('fs/promises');
 const path = require('path');
 
@@ -9,6 +15,7 @@ const localeFileRegex = /^[a-z0-9]+-[a-z0-9]+\.json$/i;
 
 exports.createI18nFiles = async function createI18nFiles() {
   const combined = await combineAllI18nFiles();
+  addPseudoLocale(combined);
   await fs.mkdir(paths.i18nDir, {
     recursive: true
   });
@@ -79,4 +86,24 @@ async function addLocaleFileContent(combined, namespace, localeFilePath) {
   const localeName = path.basename(localeFilePath).replace(/\.json$/, '');
   combined[localeName] = combined[localeName] || {};
   combined[localeName][namespace] = localization;
+}
+
+function addPseudoLocale(combined) {
+  const pseudo = combined[pseudoLocale] = {};
+  const enUs = combined['en-US'];
+  for (const namespace of Object.keys(enUs)) {
+    const namespaceTranslations = pseudo[namespace] = {};
+    addPseudoLocaleRecursive(enUs[namespace], namespaceTranslations);
+  }
+}
+
+function addPseudoLocaleRecursive(enUs, pseudo) {
+  for (const [k, v] of Object.entries(enUs)) {
+    if (typeof v === 'string') {
+      pseudo[k] = pseudoTranslate(v);
+    } else {
+      pseudo[k] = {};
+      addPseudoLocaleRecursive(v, pseudo[k]);
+    }
+  }
 }
