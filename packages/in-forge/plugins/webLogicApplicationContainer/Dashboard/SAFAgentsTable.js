@@ -121,7 +121,7 @@ export default function SafAgentsTable({ snapshot, timeConfig }) {
     <Table
       withoutPadding
       cardTitle={t('in-forge:plugins.webLogicAppContainer.titleSAFAgentsCount', {
-        count: rows.length
+        len: rows.length
       })}
       cols={cols}
       rows={rows}

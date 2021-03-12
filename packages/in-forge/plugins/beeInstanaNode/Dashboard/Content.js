@@ -333,7 +333,7 @@ export default function BeeInstanaDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
 
-        <DashboardSection title="Files opened for Read">
+        <DashboardSection title={t('in-forge:plugins.beeInstanaNode.filesOpenedForRead')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}

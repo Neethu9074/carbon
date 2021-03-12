@@ -89,7 +89,7 @@ export default function JMSDestinationsTable({ snapshot, timeConfig }) {
     <Table
       withoutPadding
       cardTitle={t('in-forge:plugins.webLogicAppContainer.titleJMSDestinationsCount', {
-        count: rows.length
+        len: rows.length
       })}
       cols={cols}
       rows={rows}

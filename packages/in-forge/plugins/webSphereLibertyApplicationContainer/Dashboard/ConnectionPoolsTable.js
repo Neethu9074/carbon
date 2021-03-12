@@ -121,7 +121,7 @@ export default function ConnectionPoolsTable({ snapshot, timeConfig }) {
     <Table
       withoutPadding
       cardTitle={t('in-forge:plugins.webSphereLibertyAppContainer.titleDatabaseConnectionPoolsCount', {
-        count: rows.length
+        len: rows.length
       })}
       cols={cols}
       rows={rows}

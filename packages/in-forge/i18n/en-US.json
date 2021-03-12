@@ -2284,7 +2284,11 @@
         "labelResubmitted": "Resubmitted",
         "labelReceived": "Received",
         "labelSuspended": "Suspended"
-      }
+      },
+      "documents": "Documents",
+      "locations": "Locations",
+      "threads": "Threads",
+      "throttlingDelay": "Throttling & Delay"
     },
     "cassandraCluster": {
       "indexLabel": "Cassandra",
@@ -7110,11 +7114,11 @@
       "titleSessionTimeout": "Session Timeout",
       "titleActiveSessions": "Active Sessions",
       "titleServerLogMessagesSeverity": "Server Log Messages by Severity",
-      "titleDatabaseConnectionPoolsCount": "Database Connection Pools ({{count}})",
-      "titleJMSDestinationsCount": "JMS Destinations ({{count}})",
-      "titleSAFAgentsCount": "SAF Agents ({{count}})",
-      "titleServletsCount": "Servlets ({{count}})",
-      "titleWebDeploymentsCount": "Web Deployments ({{count}})",
+      "titleDatabaseConnectionPoolsCount": "Database Connection Pools ({{len}})",
+      "titleJMSDestinationsCount": "JMS Destinations ({{len}})",
+      "titleSAFAgentsCount": "SAF Agents ({{len}})",
+      "titleServletsCount": "Servlets ({{len}})",
+      "titleWebDeploymentsCount": "Web Deployments ({{len}})",
       "headerWebLogicServerInfo": "WebLogic Server Info",
       "categoryThreadPools": "Thread Pools",
       "categoryWebApps": "Web Apps",
@@ -7163,8 +7167,8 @@
       "titleWebContainerThreadPool": "Web Container Thread Pool",
       "titleThreadsWaitingForConnection": "Threads Waiting for Connection",
       "titleAverageWaitingTime": "Average Waiting Time",
-      "titleDatasourcesCount": "Datasources ({{count}})",
-      "titleWebModulesCount": "Web Modules ({{count}})",
+      "titleDatasourcesCount": "Datasources ({{len}})",
+      "titleWebModulesCount": "Web Modules ({{len}})",
       "titleMaxConnections": "Max Connections",
       "titleMinConnections": "Min Connections",
       "titleConnectionTimeout": "Connection Timeout",
@@ -7206,9 +7210,9 @@
       "titleConnectionObjectsInUse": "Connection Objects in Use",
       "titleAvgWaitingTimeForConnection": "Average Waiting Time for Connection",
       "titleManagedConnectionObjectsInUse": "ManagedConnection Objects in Use",
-      "titleDatabaseConnectionPoolsCount": "Database Connection Pools ({{count}})",
-      "titleServletsCount": "Servlets ({{count}})",
-      "titleSessionsCount": "Sessions ({{count}})",
+      "titleDatabaseConnectionPoolsCount": "Database Connection Pools ({{len}})",
+      "titleServletsCount": "Servlets ({{len}})",
+      "titleSessionsCount": "Sessions ({{len}})",
       "headerWebSphereLibertyServerInfo": "WebSphere Liberty Server Info",
       "headerApplicationStates": "Application States",
       "headerPorts": "Ports",
@@ -8075,6 +8079,17 @@
       "totalRequests": "Total Requests",
       "serviceAvailability": "Service Availability",
       "instanceKpi": "Instance KPI"
+    },
+    "beeInstanaNode": {
+      "filesOpenedForRead": "Files opened for Read",
+      "beeInstana": "BeeInstana"
+    },
+    "webSphereApplicationContainer": {
+      "sessions": "Sessions"
+    },
+    "webSphereLibertyApplicationContainer": {
+      "requests": "Requests",
+      "averageResponseTime": "Average Response Time"
     }
   },
   "tracing": {
