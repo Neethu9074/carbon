@@ -74,7 +74,7 @@ export default function ServletsInWebAppTable({ contextRootPath, snapshot, timeC
     <Table
       withoutPadding
       cardTitle={t('in-forge:plugins.webLogicAppContainer.titleServletsCount', {
-        count: rows.length
+        len: rows.length
       })}
       cols={cols}
       rows={rows}

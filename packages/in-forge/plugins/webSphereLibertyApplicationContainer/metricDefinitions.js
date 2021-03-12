@@ -97,7 +97,7 @@ export default [
       'requests',
       t('in-forge:plugins.webSphereLibertyAppContainer.labelServlet')
     ),
-    label: 'Requests',
+    label: t('in-forge:plugins.webSphereLibertyApplicationContainer.requests'),
     category: [t('in-forge:plugins.webSphereLibertyAppContainer.labelServlets')],
     min: 0,
     formatter: number
@@ -108,7 +108,7 @@ export default [
       'avgResponseTime',
       t('in-forge:plugins.webSphereLibertyAppContainer.labelServlet')
     ),
-    label: 'Average Response Time',
+    label: t('in-forge:plugins.webSphereLibertyApplicationContainer.averageResponseTime'),
     category: [t('in-forge:plugins.webSphereLibertyAppContainer.labelServlets')],
     min: 0,
     formatter: muSecondsToMillis

@@ -24,7 +24,7 @@ export default [
       'activeCount',
       t('in-forge:plugins.webSphereAppContainer.labelWebModule')
     ),
-    label: 'Sessions',
+    label: t('in-forge:plugins.webSphereApplicationContainer.sessions'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelWebModule')],
     min: 0,
     formatter: number

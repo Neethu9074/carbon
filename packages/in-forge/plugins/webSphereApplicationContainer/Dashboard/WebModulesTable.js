@@ -105,7 +105,7 @@ export default function WebModulesTable({ snapshot, timeConfig }) {
     <Table
       withoutPadding
       cardTitle={t('in-forge:plugins.webSphereAppContainer.titleWebModulesCount', {
-        count: rows.length
+        len: rows.length
       })}
       cols={cols}
       rows={rows}
