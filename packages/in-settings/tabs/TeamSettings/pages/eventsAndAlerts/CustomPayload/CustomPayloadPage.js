@@ -6,7 +6,6 @@ import { createLogger } from '@instana/logger';
 import { createField } from 'formalistic';
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { t, Trans } from 'in-i18n';
 import { uniqBy } from 'lodash';
 
 import {
@@ -63,6 +62,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
 import Link from 'in-components/Link';
+import { t, Trans } from 'in-i18n';
 
 import locals from './CustomPayloadForm.mless';
 
@@ -247,7 +247,7 @@ const tableColumnDefinitions = [
       return (
         <FormGroup withoutBottomMargin>
           <HorizontalFlexWrapper className={locals.colName}>
-            <span className={locals.prefix}>{t('in-settings:tabs.custom')}</span>
+            <span className={locals.prefix}>{t('in-settings:tabs.customWithColon')}</span>
             <Input
               disabled={!enabled}
               className={locals.key}
