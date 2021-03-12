@@ -2054,6 +2054,11 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/observables/-/@instana/observables-1.0.0.tgz#cb318aee2265ba3936c2727e6df84281ef0ec20c"
   integrity sha1-yzGK7iJlujk2wnJ+bfhCge8Owgw=
 
+"@instana/pseudo-translation@1.1.1":
+  version "1.1.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/pseudo-translation/-/@instana/pseudo-translation-1.1.1.tgz#4332140211e71d9d991d216884133c1e535fef9f"
+  integrity sha1-QzIUAhHnHZ2ZHSFohBM8HlNf758=
+
 "@instana/roemitter@^1.0.0":
   version "1.0.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/roemitter/-/@instana/roemitter-1.0.0.tgz#7f1644c3195a433484e9cfd2488dff0e3b94422d"

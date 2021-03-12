@@ -1,6 +1,0 @@
-{
-  "entityFormSaving": "[ps'Saving...ฏูİı｜]",
-  "entityFormLoading": "[ps'Loading...ฏูİı｜]",
-  "entityFormFailedToLoadData": "[ps'Ｆａｉｌｅｄ to load data.ฏูİı｜]",
-  "entityFormFailedToSave": "[ps'Ｆａｉｌed to save: [{{SaveFailureMessage}}]ฏูİı｜]"
-}

@@ -112,7 +112,12 @@ export default connectTo(
 
 function onShowKeywordHelp(e) {
   e.preventDefault();
-  addActiveDialog(<HelpDialog title={t('in-components:searchBar.helpDialogTitleUsingTheSearchBar')} />);
+  addActiveDialog(
+    <HelpDialog
+      title={t('in-components:searchBar.helpDialogTitleUsingTheSearchBar')}
+      markdownContent={t('in-components:searchBar.usingTheSearchBar')}
+    />
+  );
 }
 
 function save(query) {
