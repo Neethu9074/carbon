@@ -139,34 +139,31 @@ export const Body = ({ beacon }) => {
         )}
       </Row>
 
-      {webVitals.length > 0 ||
-        (hasNavigationTimings && (
-          <Row>
-            {hasNavigationTimings && (
-              <Col lg={6}>
-                <BodyHeader>
-                  {t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconHeaderNavigationTiming')}
-                </BodyHeader>
-                <Timings
-                  timings={navigationTimings}
-                  totalDuration={beacon.duration}
-                  totalDurationName={t(
-                    'in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTotalDurationNameRetrievalTime'
-                  )}
-                />
-              </Col>
-            )}
+      {(webVitals.length > 0 || hasNavigationTimings) && (
+        <Row>
+          {hasNavigationTimings && (
+            <Col lg={6}>
+              <BodyHeader>
+                {t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconHeaderNavigationTiming')}
+              </BodyHeader>
+              <Timings
+                timings={navigationTimings}
+                totalDuration={beacon.duration}
+                totalDurationName={t(
+                  'in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconTotalDurationNameRetrievalTime'
+                )}
+              />
+            </Col>
+          )}
 
-            {webVitals.length > 0 && (
-              <Col lg={6}>
-                <BodyHeader>
-                  {t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconHeaderWebVitals')}
-                </BodyHeader>
-                {webVitals}
-              </Col>
-            )}
-          </Row>
-        ))}
+          {webVitals.length > 0 && (
+            <Col lg={6}>
+              <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconHeaderWebVitals')}</BodyHeader>
+              {webVitals}
+            </Col>
+          )}
+        </Row>
+      )}
     </Fragment>
   );
 };
