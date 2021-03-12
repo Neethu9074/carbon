@@ -25,7 +25,8 @@ export default function NewChannelButton(props) {
     <AlertChannelButton type="googleChat" {...props} />,
     <AlertChannelButton type="victorOps" {...props} />,
     <AlertChannelButton type="prometheusWebhook" {...props} />,
-    <AlertChannelButton type="webexTeamsWebhook" {...props} />
+    <AlertChannelButton type="webexTeamsWebhook" {...props} />,
+    <AlertChannelButton type="watsonAIOpsWebhook" {...props} />
   ];
 
   return (
