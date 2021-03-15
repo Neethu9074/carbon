@@ -34,13 +34,13 @@ export default class extends React.Component {
     form: null
   };
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     this.loadApiToken(this.props.match.params.id);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.match.params.id !== nextProps.match.params.id) {
-      this.loadApiToken(nextProps.match.params.id);
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.loadApiToken(this.props.match.params.id);
     }
   }
 
@@ -113,7 +113,6 @@ export default class extends React.Component {
 
         <form onSubmit={this.onSubmit}>
           {form ? <ApiTokenForm form={form} onChange={this.onChange} /> : null}
-
           {form ? (
             <SaveCancel
               form={form}
