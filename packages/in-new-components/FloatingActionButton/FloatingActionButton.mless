@@ -7,7 +7,6 @@
 
 :local {
   .button {
-    background-color: @lib__colors__light-blue800;
     border-radius: 1.5rem;
     border: none;
     color: @lib__colors__white;
@@ -16,8 +15,21 @@
 
     &:hover {
       cursor: pointer;
-      background-color: #148cc8;
       text-decoration: none;
+    }
+  }
+
+  .primaryv2 {
+    background-color: @lib__colors__light-blue800;
+    &:hover {
+      background-color: #148cc8;
+    }
+  }
+
+  .action {
+    background-color: @lib__colors__N800Dark;
+    &:hover {
+      background-color: @lib__colors__N800Dark;
     }
   }
 
@@ -37,6 +49,8 @@
 
   .icon {
     fill: @lib__colors__white;
+  }
+  .iconHasMargin {
     margin-right: 0.5rem;
   }
 

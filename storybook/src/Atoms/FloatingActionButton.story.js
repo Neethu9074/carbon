@@ -3,28 +3,43 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
-import markdownNotes from './FloatingActionButton.md';
 
 export default {
   title: 'Atoms|Buttons/Floating Action Button',
-  component: FloatingActionButton,
-  decorators: [withKnobs],
-  parameters: { notes: markdownNotes }
+  component: FloatingActionButton
 };
 
 const onClick = action('click');
 
 export const Standard = () => {
-  return <FloatingActionButton onClick={onClick}>Button Rounded</FloatingActionButton>;
+  return <FloatingActionButton onClick={onClick}>Button</FloatingActionButton>;
 };
 
-export const WithIcon = () => (
+export const WithShadow = () => {
+  return (
+    <FloatingActionButton onClick={onClick} withBoxShadow>
+      Button
+    </FloatingActionButton>
+  );
+};
+
+export const WithIconAndText = () => (
   <FloatingActionButton iconType="lib_alerts_create" onClick={onClick}>
     Button Rounded with icon
   </FloatingActionButton>
+);
+
+export const AllKinds = () => (
+  <>
+    <FloatingActionButton iconType="lib_alerts_create" onClick={onClick} kind={'primaryv2'}>
+      Primaryv2
+    </FloatingActionButton>
+    <FloatingActionButton iconType="lib_alerts_create" onClick={onClick} kind={'action'}>
+      Action
+    </FloatingActionButton>
+  </>
 );

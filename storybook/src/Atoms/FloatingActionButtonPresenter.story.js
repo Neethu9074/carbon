@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
@@ -12,8 +11,7 @@ import FloatingActionButton from 'in-new-components/FloatingActionButton/Floatin
 
 export default {
   title: 'Atoms|Buttons/Floating Action Button Presenter',
-  component: FloatingActionButtonPresenter,
-  decorators: [withKnobs]
+  component: FloatingActionButtonPresenter
 };
 
 const onClick = action('click');

@@ -1,0 +1,54 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+@spacing: 1rem;
+
+:local {
+  .container {
+    bottom: 1.5rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      list-style: none;
+    }
+
+    li:not(:last-child) {
+      margin-bottom: @spacing;
+    }
+  }
+
+  .buttonLabelContainer {
+    .flexbox();
+
+    label {
+      opacity: 1;
+      width: 2.5rem;
+      overflow: hidden;
+      transition: all linear 0.2s;
+
+      &.labelHidden {
+        width: 0;
+        opacity: 0;
+      }
+    }
+  }
+
+  .withShadow {
+    box-shadow: @lib__shadows__pronounced;
+  }
+
+  .rotate {
+    transform: rotate(45deg);
+    transition: all linear 0.25s;
+  }
+}
