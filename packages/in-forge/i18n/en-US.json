@@ -790,12 +790,7 @@
     },
     "apmProxy": {
       "apmProxy": "APM Proxy",
-      "troubleShootingDocs": "Troubleshooting docs",
-      "monitoringIssue": {
-        "apmProxyMissingConfig": "The sensor is not correctly configured for Instana to be able to monitor it. The following properties must be set in the configuration.yaml: <code>{{missing}}</code>. Refer to the documentation for the right values to be set.",
-        "apmProxyConnectionError": "The sensor is not able to connect to the APMProxy service. Check your sensor's configuration e.g. host/port.",
-        "apmProxyExceptionError": "The Sensor produced the following exception: <code>{{e}}</code>."
-      }
+      "troubleShootingDocs": "Troubleshooting docs"
     },
     "application": {
       "inboundCallsPerSecond": "Inbound Calls per Second",
