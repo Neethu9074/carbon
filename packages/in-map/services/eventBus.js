@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import RoEmitter from '@instana/roemitter';
 
 import { setShowSticky as showGroupLabelSticky } from 'in-map/stores/physical/groupsStore';

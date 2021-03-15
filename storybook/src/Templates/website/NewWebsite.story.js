@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { createField, notBlankValidator } from 'formalistic';
+
 import { withKnobs, boolean } from '@storybook/addon-knobs/react';
+import { createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
 import InputStepComponent from 'in-websites/NewWebsiteFlow/InputStep';

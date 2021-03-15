@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export function addTransparency(hex, opacity) {
   const rgb = hexToRGB(hex);
   rgb.r = 255 * (1 - opacity) + rgb.r * opacity;

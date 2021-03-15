@@ -2,11 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState, useEffect } from 'react';
 import classNames from 'classnames';
 import { isEqual } from 'lodash';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import ChartContextMenu from 'in-new-components/LatencyDistributionBase10Chart/components/ChartContextMenu';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
@@ -15,6 +14,8 @@ import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { mutateUrl } from 'in-stores/navigation';
 import cursors from 'in-components/cursors';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './LatencyChartOverlay.mless';
 

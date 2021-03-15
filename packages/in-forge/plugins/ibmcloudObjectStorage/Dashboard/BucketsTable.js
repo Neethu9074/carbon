@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import { bytesZeroDecimalPlaces, bytesTwoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
@@ -93,9 +94,7 @@ function getDetails(row) {
         min: 0,
         formatter: bytesZeroDecimalPlaces,
         tooltipFormatter: bytesTwoDecimalPlaces,
-        metrics: [
-          'buckets.' + row.name + '.used_bytes',
-        ],
+        metrics: ['buckets.' + row.name + '.used_bytes'],
         labels: ['Used'],
         type: 'line'
       }}

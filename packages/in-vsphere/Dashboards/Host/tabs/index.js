@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import TabLabelWithCounter from 'in-vsphere/Dashboards/commonComponents/TabLabelWithCounter';
@@ -10,6 +10,7 @@ import { hostDashboardFullyQualified } from 'in-vsphere/navigation/paths';
 import VirtualMachines from 'in-vsphere/commonComponents/VirtualMachines';
 import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
 import Summary from 'in-vsphere/Dashboards/Host/tabs/Summary';
+import { t } from 'in-i18n';
 
 export default [
   {

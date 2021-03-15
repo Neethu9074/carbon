@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
@@ -11,6 +11,7 @@ import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 import { isBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 export default function AnalyzeMultiSelectBarItem(props) {
   const { precondition, pluralLabel, preconditionFailedTooltip = t('in-analyze:analyzeView.notAvailable') } = props;

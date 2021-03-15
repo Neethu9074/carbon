@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
 import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
+import { t } from 'in-i18n';
 
 export default function TopNodesList(props) {
   return (

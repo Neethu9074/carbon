@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { on } from '@instana/observables';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';

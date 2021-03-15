@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
-
 import AwsElbClassicDashboard from './AwsElbClassicDashboard';
 import AwsElbAppDashboard from './AwsElbAppDashboard';
 import AwsElbNetDashboard from './AwsElbNetDashboard';

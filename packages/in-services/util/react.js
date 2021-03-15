@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export function compositeRef(...refs) {
   return value => {
     refs.forEach(ref => {

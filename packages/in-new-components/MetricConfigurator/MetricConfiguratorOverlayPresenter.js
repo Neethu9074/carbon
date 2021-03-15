@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import PaginatedMetricList from 'in-new-components/MetricConfigurator/PaginatedMetricList';
@@ -11,6 +11,7 @@ import { Col } from 'in-new-components/layout/Grid';
 import { shorten } from 'in-services/util/string';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
+import { t } from 'in-i18n';
 
 import locals from './MetricConfiguratorOverlayPresenter.mless';
 

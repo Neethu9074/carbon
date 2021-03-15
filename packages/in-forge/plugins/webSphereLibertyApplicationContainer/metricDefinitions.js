@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import { millis, muSecondsToMillis, number } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { t } from 'in-i18n';
 
 const LABEL_SESSION = t('in-forge:plugins.webSphereLibertyAppContainer.labelSession');
 const LABEL_POOL = t('in-forge:plugins.webSphereLibertyAppContainer.labelPool');

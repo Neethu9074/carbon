@@ -2,9 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
@@ -28,6 +27,8 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { nodeTabChange } from 'in-kubernetes/tracker';
 import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function NodeDashboard({ location }) {
   const props = {

@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose } from 'recompose';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
@@ -21,6 +21,7 @@ import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import { timeConfig$ } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
 import connect from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './ApplicationMap.mless';
 

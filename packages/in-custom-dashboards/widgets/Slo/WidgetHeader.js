@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
-import theme from 'in-themes';
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
@@ -11,6 +10,8 @@ import SloTimeTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile';
 import { findResultMetric } from 'in-custom-dashboards/widgets/Slo/Widget';
 import SloTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile';
 import { percentage } from 'in-services/formatters/number';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/WidgetHeader.mless';
 

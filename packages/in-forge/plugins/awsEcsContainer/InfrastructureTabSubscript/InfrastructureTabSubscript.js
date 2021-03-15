@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans } from 'in-i18n';
+
 import React from 'react';
 
 import getEcsTaskForEcsContainer from 'in-subscription/getEcsTaskForEcsContainer';
@@ -13,6 +13,7 @@ import useObservable from 'in-hooks/useObservable';
 import { shorten } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
+import { Trans } from 'in-i18n';
 
 import locals from './InfrastructureTabSubscript.mless';
 

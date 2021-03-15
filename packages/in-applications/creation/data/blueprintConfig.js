@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { t } from 'in-i18n';
 
 const whenToUse = t('in-applications:creation.simple.blueprints.whenToUse');

@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
@@ -11,6 +11,7 @@ import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { Ul } from 'in-new-components/lists/List/List';
 import { compositeRef } from 'in-services/util/react';
+import { t } from 'in-i18n';
 
 import locals from './BooleanSelector.mless';
 

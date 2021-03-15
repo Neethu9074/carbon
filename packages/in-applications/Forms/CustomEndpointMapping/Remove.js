@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import { deleteEndpointConfig } from 'in-api/endpointConfiguration';
@@ -14,6 +14,7 @@ import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './Remove.mless';
 

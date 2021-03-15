@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { fromBackendModel, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -25,6 +24,8 @@ import useObservable from 'in-hooks/useObservable';
 import { getTagType } from 'in-applications/tags';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './Widget.mless';
 

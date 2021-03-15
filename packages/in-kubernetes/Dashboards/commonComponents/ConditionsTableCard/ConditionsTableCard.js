@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { withState } from 'recompose';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import ToggleStatusButtonGroup from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/ToggleStatusButtonGroup';
@@ -13,6 +13,7 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './ConditionsTableCard.mless';
 

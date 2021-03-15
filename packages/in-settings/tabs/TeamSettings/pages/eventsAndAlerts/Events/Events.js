@@ -2,11 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { withState, compose } from 'recompose';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import {
   getEntityHref,
@@ -37,6 +36,8 @@ import { getPluginName } from 'in-sdk/pluginName';
 import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './Events.mless';
 

@@ -2,9 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { setFocused, isFocused$ } from 'in-components/SearchBar/stores/focus';
-import { setSelectedSnapshotId } from 'in-stores/snapshot';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
+import { setSelectedSnapshotId } from 'in-stores/snapshot';
 import { createStore } from 'in-stores/store';
 
 const highligtedSuggestionStore = createStore({

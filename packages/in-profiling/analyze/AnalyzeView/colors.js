@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
 
 import { hexToRGB, rgbToHex } from 'in-services/formatters/color';
+import theme from 'in-themes';
 
 function buildMapper(fromHex, toHex) {
   const fromRgb = hexToRGB(fromHex);

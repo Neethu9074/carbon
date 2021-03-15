@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+
 import PropTypes from 'prop-types';
 
 export const applicationsItemTreePropType = PropTypes.shape({

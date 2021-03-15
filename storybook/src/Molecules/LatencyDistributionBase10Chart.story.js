@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import { withKnobs, number } from '@storybook/addon-knobs';
 import { just } from '@instana/observables';
 import React from 'react';
 
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import { previousHourTimeShift } from 'in-stores/time/shifting';
-import { withKnobs, number } from '@storybook/addon-knobs';
 import { millis } from 'in-services/formatters/number';
 
 export default {

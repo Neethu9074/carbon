@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
@@ -15,6 +15,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import QueuesTable from './QueuesTable';
+import { t } from 'in-i18n';
 
 export default function ActiveMQDashboard({ snapshot, timeConfig }) {
   const version = snapshot.getIn(['data', 'version']);

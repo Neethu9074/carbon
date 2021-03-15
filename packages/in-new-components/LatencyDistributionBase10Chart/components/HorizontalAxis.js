@@ -2,9 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import { millis } from 'in-services/formatters/number';
+
 import locals from './HorizontalAxis.mless';
 
 export default function HorizontalAxis({ buckets, bucketWidth, bucketCenter }) {

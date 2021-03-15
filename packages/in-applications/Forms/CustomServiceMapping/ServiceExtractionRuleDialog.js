@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, notBlankValidator } from 'formalistic';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
@@ -20,6 +20,7 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './ServiceExtractionRuleDialog.mless';
 

@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
@@ -21,6 +21,7 @@ import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
+import { t } from 'in-i18n';
 
 export default function WorkloadControllerDashboard({
   location,

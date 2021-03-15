@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, withState, setPropTypes } from 'recompose';
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
@@ -16,6 +16,7 @@ import SearchInput from 'in-new-components/SearchInput';
 import { starredItems$ } from 'in-stores/starredItems';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './TopListWidget.mless';
 

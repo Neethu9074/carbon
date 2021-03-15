@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useLayoutEffect, useRef } from 'react';
 
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';

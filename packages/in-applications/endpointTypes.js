@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import invariant from 'invariant';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import { addTransparency } from 'in-themes/utils';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export const endpointNameTranslations = {
   BATCH: t('in-applications:endpointTypes.batch'),

@@ -2,10 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm } from 'formalistic';
 import { fromJS } from 'immutable';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -39,6 +38,8 @@ import entityForm from 'in-hoc/entityForm';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './AlertChannel.mless';
 

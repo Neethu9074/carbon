@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import shallowEquals from 'fbjs/lib/shallowEqual';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import SortIndicator from 'in-infrastructure/tableView/components/Table/components/SortIndicator';
@@ -11,6 +11,7 @@ import { createStore } from 'in-infrastructure/tableView/components/Table/stores
 import Row from 'in-infrastructure/tableView/components/Table/components/Row';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import Pagination from 'in-new-components/Pagination';
+import { t } from 'in-i18n';
 
 import locals from './Table.mless';
 

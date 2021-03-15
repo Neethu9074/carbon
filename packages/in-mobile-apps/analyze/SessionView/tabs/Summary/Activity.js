@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
-import { t } from 'in-i18n';
 
 import renderers from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers';
 import BeaconViewGroup from 'in-mobile-apps/analyze/SessionView/tabs/Summary/BeaconViewGroup';
@@ -13,6 +13,7 @@ import Filter from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Filter';
 import { generateStableHash } from 'in-services/util/id';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 import locals from './Activity.mless';
 

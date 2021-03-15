@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
-import theme from 'in-themes';
 
 import LogTooltipContent from 'in-analyze/TraceDetail/components/LogTooltipContent';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
@@ -12,6 +12,7 @@ import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
+import theme from 'in-themes';
 
 import locals from './CallFrame.mless';
 

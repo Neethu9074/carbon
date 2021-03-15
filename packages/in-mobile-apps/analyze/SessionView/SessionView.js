@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get, findIndex } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -34,6 +34,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './SessionView.mless';
 

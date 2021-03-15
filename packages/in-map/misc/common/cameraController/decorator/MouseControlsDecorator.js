@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
 
 import { ZOOM_SPEED, INIT_ZOOM_LEVEL, MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL } from 'in-map/misc/CameraConfig';

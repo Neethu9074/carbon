@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { Raycaster, Object3D, Vector3 } from 'in-map/3DLibProvider';
 
 export const OCTREE = {};

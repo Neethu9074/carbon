@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -24,6 +24,7 @@ import { NamespaceTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Summary from 'in-kubernetes/Dashboards/Namespace/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/Namespace/tabs/Details';
 import Pods from 'in-kubernetes/Dashboards/Namespace/tabs/Pods';
+import { t } from 'in-i18n';
 
 export default [
   {

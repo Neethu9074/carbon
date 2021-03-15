@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { isOverlappedWith } from 'in-analyze/TraceDetail/components/IcicleChart/TimeRangeHelper';
 import { getStart, getEnd } from 'in-analyze/TraceDetail/components/callStartAndEndTime';
 import { isFakeRootCall } from 'in-analyze/TraceDetail/shared/CallHelper';

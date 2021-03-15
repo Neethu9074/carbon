@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import metricDefinitions from 'in-forge/plugins/azure/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/azure/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';

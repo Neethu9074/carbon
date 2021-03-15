@@ -2,13 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
+import { t } from 'in-i18n';
 
 export default {
   initialSortColumn: 0,

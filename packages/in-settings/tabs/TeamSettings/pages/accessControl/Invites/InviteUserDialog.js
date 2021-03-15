@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, notBlankValidator, createMapForm, createListForm } from 'formalistic';
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
@@ -22,6 +22,7 @@ import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 import { config } from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './InviteUserDialog.mless';
 

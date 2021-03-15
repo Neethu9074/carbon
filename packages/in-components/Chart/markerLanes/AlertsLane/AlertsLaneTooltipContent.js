@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { alertsLaneAlertsPropType } from 'in-components/Chart/markerLanes/AlertsLane/constants';
 import { formatDateTime } from 'in-services/formatters/date';
+import { t } from 'in-i18n';
 
 import locals from './AlertsLaneTooltipContent.mless';
 

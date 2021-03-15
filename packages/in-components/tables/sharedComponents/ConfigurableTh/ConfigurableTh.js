@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
-import { t } from 'in-i18n';
 
 import { Th, SortableTh } from 'in-components/tables/sharedComponents';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
@@ -15,6 +15,7 @@ import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './ConfigurableTh.mless';
 

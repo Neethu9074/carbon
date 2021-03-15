@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /**
  * takes three parameters for red green and blue and transformates them into
  * a string e.g. 0f3ec1

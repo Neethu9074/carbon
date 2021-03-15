@@ -2,14 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
-import { emptyMap } from 'in-services/fixedImmutables';
-import { getMaxValue } from 'in-sdk/metrics';
+import React, { Fragment } from 'react';
+
 import {
   percentage,
   percentageZeroDecimalPlaces,
@@ -20,6 +15,12 @@ import {
   withSiMultiplyPrefixZeroDecimalPlaces,
   withSiMultiplyPrefixThreeDecimalPlaces
 } from 'in-services/formatters/number';
+import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { emptyMap } from 'in-services/fixedImmutables';
+import { getMaxValue } from 'in-sdk/metrics';
+import { t } from 'in-i18n';
 
 export const hostTableCols = [
   {

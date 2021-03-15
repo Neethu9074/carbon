@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -17,6 +17,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 const pathSegment = '/conditions';
 const matrixPrefix = 'condition.';

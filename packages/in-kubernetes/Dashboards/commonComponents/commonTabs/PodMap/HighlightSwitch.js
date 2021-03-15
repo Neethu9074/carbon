@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import Toggle from 'in-components/form/Toggle';
+import { t } from 'in-i18n';
 
 import locals from './HighlightSwitch.mless';
 

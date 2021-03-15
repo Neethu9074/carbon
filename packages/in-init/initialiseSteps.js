@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* global require:false */
 
 export default function initialiseSteps(initializationSteps) {

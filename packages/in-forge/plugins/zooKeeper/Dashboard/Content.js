@@ -2,12 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
 
-import { emptyList } from 'in-services/fixedImmutables';
+import React from 'react';
 
 import ZKStandaloneDashboard from './ZKStandaloneDashboard';
 import ZKReplicatedDashboard from './ZKReplicatedDashboard';
+import { emptyList } from 'in-services/fixedImmutables';
 
 export default function ZooKeeperDashboard({ snapshot, timeConfig }) {
   const peerNames = snapshot.getIn(['data', 'peer_names'], emptyList);

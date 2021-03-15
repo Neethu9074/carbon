@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 const { getReportingEndpointsFromButler } = require('../reportingEndpoints.js');
 const serverConfig = require('../../serverConfig.js');
 

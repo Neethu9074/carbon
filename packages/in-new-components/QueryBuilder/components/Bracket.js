@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -13,6 +13,7 @@ import {
 import ConjunctionOrBracketBehavior from 'in-new-components/QueryBuilder/components/ConjunctionOrBracketBehavior';
 import { OPEN_BRACKET } from 'in-new-components/QueryBuilder/transformation/renderModel';
 import useThemedLocals from 'in-hooks/useThemedLocals';
+import { t } from 'in-i18n';
 
 import styleDefs from './Bracket.mless';
 

@@ -2,11 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
-
 import JbossDataGridClusters from '../JbossDataGridClusters.js';
 import JbossDataGridCaches from '../JbossDataGridCaches.js';
 import JbossDataGridPorts from '../JbossDataGridPorts.js';

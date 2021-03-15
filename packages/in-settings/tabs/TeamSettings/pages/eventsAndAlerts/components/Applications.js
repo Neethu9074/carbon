@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { filter } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { getApplicationConfigs } from 'in-api/applicationConfigs';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
+import { t } from 'in-i18n';
 
 import locals from './Applications.mless';
 

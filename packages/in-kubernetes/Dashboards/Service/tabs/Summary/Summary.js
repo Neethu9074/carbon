@@ -2,9 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -18,6 +17,8 @@ import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: service }) {
   const snapshotId = service.id;

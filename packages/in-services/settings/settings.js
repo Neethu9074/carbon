@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { create } from '@instana/observables';
+
 import { createLogger } from '@instana/logger';
+import { create } from '@instana/observables';
 import { get } from 'lodash';
 
 import { saveSettings, saveSetting } from 'in-api/settings';

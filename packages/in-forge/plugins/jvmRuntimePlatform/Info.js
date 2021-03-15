@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
-import ClasspathLayouter from 'in-sdk/components/sidebar/ClassPathLayouter';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import ClasspathLayouter from 'in-sdk/components/sidebar/ClassPathLayouter';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default function JVMInfo({ snapshot }) {
   const data = snapshot.get('data');

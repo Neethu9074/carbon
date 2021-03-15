@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import connectTo from 'in-hoc/connectTo';
 
 import { getSnapshotFromPhysicalHierarchyByPlugin } from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
 
 export default function getSnapshotFromHierarchyByPluginHoc(plugin, WrappedComponent) {
   return connectTo(props => {

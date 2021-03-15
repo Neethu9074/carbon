@@ -2,18 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import {
-  TAG as TAG_TYPE,
-  OPEN_BRACKET as OPEN_BRACKET_TYPE,
-  CLOSE_BRACKET as CLOSE_BRACKET_TYPE,
-  CONJUNCTION as CONJUNCTION_TYPE
-} from 'in-new-components/QueryBuilder/transformation/formModel';
-import { isAndOr, isNot } from 'in-new-components/QueryBuilder/validation/elementIdentificationHelpers';
-import {
-  createTagForm,
-  isPreviousTagSiblingValid,
-  isNextTagSiblingValid
-} from 'in-new-components/QueryBuilder/validation/tagForm';
+
 import {
   isPreviousOpenBracketSiblingValid,
   isNextOpenBracketSiblingValid,
@@ -21,11 +10,23 @@ import {
   isNextCloseBracketSiblingValid
 } from 'in-new-components/QueryBuilder/validation/bracket';
 import {
+  TAG as TAG_TYPE,
+  OPEN_BRACKET as OPEN_BRACKET_TYPE,
+  CLOSE_BRACKET as CLOSE_BRACKET_TYPE,
+  CONJUNCTION as CONJUNCTION_TYPE
+} from 'in-new-components/QueryBuilder/transformation/formModel';
+import {
   isPreviousAndOrSiblingValid,
   isNextAndOrSiblingValid,
   isPreviousNotSiblingValid,
   isNextNotSiblingValid
 } from 'in-new-components/QueryBuilder/validation/conjunction';
+import {
+  createTagForm,
+  isPreviousTagSiblingValid,
+  isNextTagSiblingValid
+} from 'in-new-components/QueryBuilder/validation/tagForm';
+import { isAndOr, isNot } from 'in-new-components/QueryBuilder/validation/elementIdentificationHelpers';
 
 export function isFormModelValid({ tagCatalog, formModel }) {
   if (!(formModel instanceof Array)) {

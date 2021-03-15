@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import fragmentShader from 'in-applications/ApplicationMap/serviceLocator/ConnectionsServiceLocator/shader/fragmentShader.glsl';
 import vertexShader from 'in-applications/ApplicationMap/serviceLocator/ConnectionsServiceLocator/shader/vertexShader.glsl';
-
 import ParticleEmitter from 'in-applications/ApplicationMap/misc/ParticleEmitter';
 import SceneObject from 'in-applications/ApplicationMap/sceneObjects/SceneObject';
 import { Line, BufferGeometry, RawShaderMaterial } from 'in-map/3DLibProvider';

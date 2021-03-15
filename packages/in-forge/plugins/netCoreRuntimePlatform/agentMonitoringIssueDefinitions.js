@@ -2,8 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t, Trans } from 'in-i18n';
+
 import React from 'react';
+
+import { t, Trans } from 'in-i18n';
 
 export default {
   // This event happens when we have already checked all env vars, including the

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { omitBy } from 'lodash';
 
 export function NoopComponent() {

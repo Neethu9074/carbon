@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, notBlankValidator } from 'formalistic';
 import { interval } from '@instana/observables';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { addMobileApp as addMobileAppTracker } from 'in-mobile-apps/tracker';
@@ -21,6 +21,7 @@ import { combineDataAndError } from 'in-services/util/ro';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 export default class NewMobileAppFlow extends React.PureComponent {
   constructor(props) {

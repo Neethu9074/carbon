@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
-import { t } from 'in-i18n';
 import moment from 'moment';
 import React from 'react';
 
 import createLatestMetricsSubscription from 'in-subscription/latestMetrics';
 import createMetricsSubscription from 'in-subscription/metrics';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export const DROPWIZARD_STATS = [
   {

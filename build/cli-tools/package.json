@@ -1,0 +1,11 @@
+{
+  "name": "cli-tools",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "import-sort-cli": "^6.0.0"
+  }
+}

@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
-import ConnectorsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ConnectorsTable';
-import DatasourcesTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/DatasourcesTable';
+import UndertowStatsEnabledNotification from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/UndertowStatsEnabledNotification';
 import ConnectionPoolsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ConnectionPoolsTable';
-import ThreadPoolsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ThreadPoolsTable';
 import EjbDeploymentsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/EjbDeploymentsTable';
 import WebDeploymentsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/WebDeploymentsTable';
-import UndertowStatsEnabledNotification from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/UndertowStatsEnabledNotification';
+import DatasourcesTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/DatasourcesTable';
+import ThreadPoolsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ThreadPoolsTable';
+import ConnectorsTable from 'in-forge/plugins/jBossAsApplicationContainer/Dashboard/ConnectorsTable';
 
 export default function JBossAsDashboard({ snapshot, timeConfig }) {
   return (

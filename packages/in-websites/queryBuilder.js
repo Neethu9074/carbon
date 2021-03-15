@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';

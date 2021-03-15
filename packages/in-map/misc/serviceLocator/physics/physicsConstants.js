@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { BoxGeometry } from 'in-map/3DLibProvider';
 
 export const OCTREE_LAYER = {

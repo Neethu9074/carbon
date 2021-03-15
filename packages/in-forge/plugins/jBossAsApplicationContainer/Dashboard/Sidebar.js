@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
@@ -10,7 +10,7 @@ import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsLi
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { emptyMap } from 'in-services/fixedImmutables';
-
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function JBossAsSidebar({ snapshot }) {

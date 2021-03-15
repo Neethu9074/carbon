@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans, t } from 'in-i18n';
+
 import React from 'react';
 
 import * as serviceLevelIndicators from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/serviceLevelIndicators';
@@ -16,6 +16,7 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { percentage } from 'in-services/formatters/number';
 import Stack from 'in-new-components/layout/Stack';
 import useObservable from 'in-hooks/useObservable';
+import { Trans, t } from 'in-i18n';
 
 export default function FormComponent({
   form,

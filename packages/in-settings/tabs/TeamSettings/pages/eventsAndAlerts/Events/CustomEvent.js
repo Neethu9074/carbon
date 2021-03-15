@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -34,6 +33,8 @@ import { submitEventTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;

@@ -2,9 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import Summary from 'in-events/components/tabs/Summary/Summary';
 import { eventsPath } from 'in-events/navigation/paths';
+import { t } from 'in-i18n';
 
 export default [
   {

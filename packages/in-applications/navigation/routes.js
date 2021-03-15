@@ -2,11 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Route } from 'react-router-dom';
-import React, { Fragment } from 'react';
-
-import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import { role } from 'in-stores/user';
 
 // the following components are all part of the same bundle (application)
 import CustomEndpointMapping from 'promise-loader?global,applications!in-applications/Forms/CustomEndpointMapping/CustomEndpointMappingDialog';
@@ -19,6 +14,8 @@ import ServiceDashboard from 'promise-loader?global,applications!in-applications
 import NewApplication from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplication';
 import ApplicationsList from 'promise-loader?global,applications!in-applications/lists/ApplicationsList';
 import ServicesList from 'promise-loader?global,applications!in-applications/lists/ServicesList';
+import { Route } from 'react-router-dom';
+import React, { Fragment } from 'react';
 
 import {
   applicationsList,
@@ -32,6 +29,8 @@ import {
   configureSyntheticEndpointsView,
   configureEndpointsView
 } from 'in-applications/navigation/paths';
+import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { role } from 'in-stores/user';
 
 export default (
   <Fragment>

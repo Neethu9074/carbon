@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { getLandingPage, getLandingPage$ } from 'in-client/js/LandingPage/persistence';
 import supportedLandingPages from 'in-client/js/LandingPage/supportedLandingPages';
 

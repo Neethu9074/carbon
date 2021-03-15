@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
@@ -12,6 +12,7 @@ import MarketingMessageBox from 'in-settings/terms/MarketingMessageBox';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import Stack from 'in-new-components/layout/Stack/Stack';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './TermsPages.mless';
 

@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
@@ -21,6 +21,7 @@ import { DatacenterBreadcrumbs } from 'in-vsphere/breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 export default function DatacenterDashboard({ location }) {
   const props = {

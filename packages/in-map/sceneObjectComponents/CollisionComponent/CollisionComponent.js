@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import { MeshBasicMaterial, Mesh } from 'in-map/3DLibProvider';

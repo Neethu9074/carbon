@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { MeshBasicMaterial, Mesh, PlaneBufferGeometry } from 'in-map/3DLibProvider';
 import { removeSceneObject } from 'in-map/stores/sceneStore';
 

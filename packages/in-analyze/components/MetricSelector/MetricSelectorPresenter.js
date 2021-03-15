@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { find, groupBy, findIndex, every } from 'lodash';
 import React, { Fragment } from 'react';

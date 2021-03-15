@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans, t } from 'in-i18n';
+
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { millis, number } from 'in-services/formatters/number';
+import { Trans, t } from 'in-i18n';
 
 export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

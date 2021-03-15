@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { format as defaultLocaleFormat, formatLocale as createCustomLocaleFormat } from 'd3-format';
-import { t } from 'in-i18n';
 
 import { getSingle } from 'in-services/settings';
+import { t } from 'in-i18n';
 
 const isLocaleAware = !getSingle('formatNumbersAccordingToEnUs') && window.instana.numberLocale;
 const format = isLocaleAware ? createCustomLocaleFormat(window.instana.numberLocale).format : defaultLocaleFormat;

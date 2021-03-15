@@ -2,14 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState, useEffect } from 'react';
 import ReactGridLayout from 'react-grid-layout';
 import TrackVisibility from 'react-on-screen';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import classNames from 'classnames';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import {
   rowHeightPixels,
@@ -23,6 +22,8 @@ import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
 import SvgIcon from 'in-components/SvgIcon';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './Grid.mless';
 import './Grid.less';

@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
@@ -16,6 +16,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
 import { compare } from 'in-services/util/number';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './BatchingInsights.mless';
 

@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { collectAllDataPointsAtTime } from 'in-components/Chart/data/dataSearchUtils';
@@ -10,6 +10,7 @@ import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlacehold
 import { getTimeShiftLabel, defaultTimeShift } from 'in-stores/time/shifting';
 import { formatDateTime } from 'in-services/formatters/date';
 import { aggregationLabels } from 'in-stores/metric/metric';
+import { t } from 'in-i18n';
 
 import locals from './TooltipContent.mless';
 

@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { just } from '@instana/observables';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -17,6 +17,7 @@ import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { getSnapshots } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   ({ snapshot, snapshotId, timeConfig }) => {

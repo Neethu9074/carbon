@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { action as storybookAction } from '@storybook/addon-actions';
 import React, { useState } from 'react';

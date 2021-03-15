@@ -2,11 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, createMapForm, createListForm, notBlankValidator } from 'formalistic';
 import { just } from '@instana/observables';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
-import { Trans, t } from 'in-i18n';
 import { get } from 'lodash';
 
 import {
@@ -44,6 +44,7 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Pill from 'in-new-components/Pill';
 import Card from 'in-new-components/Card';
+import { Trans, t } from 'in-i18n';
 
 import locals from './CreateApplicationDialog.mless';
 

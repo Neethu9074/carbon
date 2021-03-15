@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
@@ -11,6 +10,8 @@ import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function EventsChart({ timeConfig, applicationId, serviceId, endpointId, renderPostChartContent }) {
   const entityFilter = createEntityFilter(applicationId, serviceId, endpointId);

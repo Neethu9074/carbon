@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -12,6 +12,7 @@ import HelpAction from 'in-new-components/workspace/HelpAction';
 import Sections from 'in-new-components/workspace/Sections';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import Stack from 'in-new-components/layout/Stack';
+import { t } from 'in-i18n';
 
 export default function FormComponent({
   form,

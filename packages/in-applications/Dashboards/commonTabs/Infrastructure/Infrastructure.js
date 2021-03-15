@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { fromPromise } from '@instana/observables';
 import React, { Fragment } from 'react';
-import { Trans, t } from 'in-i18n';
 
 import {
   getClusterDashboard,
@@ -39,6 +39,7 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { Trans, t } from 'in-i18n';
 
 import locals from './Infrastructure.mless';
 

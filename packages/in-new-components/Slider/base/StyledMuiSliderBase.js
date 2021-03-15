@@ -2,11 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import MuiSlider from '@material-ui/core/Slider';
 import { withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
 import React from 'react';
+
+import theme from 'in-themes';
 
 const common = {
   root: {

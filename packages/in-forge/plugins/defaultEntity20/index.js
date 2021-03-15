@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
 
 import metricDefinitions from 'in-forge/plugins/defaultEntity20/metricDefinitions';

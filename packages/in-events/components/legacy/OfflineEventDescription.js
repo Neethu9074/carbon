@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import CustomProblemDescription from 'in-events/components/legacy/CustomProblemDescription';
@@ -12,6 +12,7 @@ import { getSnapshotVersions } from 'in-stores/snapshot/snapshot';
 import { setTimeConfig } from 'in-stores/time/config';
 import useObservable from 'in-hooks/useObservable';
 import Link from 'in-components/Link/Link';
+import { t } from 'in-i18n';
 
 export default function OfflineEventDescription({ event }) {
   const snapshotId = event.getIn(['metadata', 'entityVerificationSnapshotId'], '');

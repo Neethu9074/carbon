@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
 import React from 'react';
 
 import { getMostImportantEventAtFocusedMoment } from 'in-stores/events';
-import createTooltip from 'in-map/components/tooltips/Tooltip';
 import EventDescription from 'in-events/components/EventDescription';
+import createTooltip from 'in-map/components/tooltips/Tooltip';
 import Content from 'in-components/Tooltips/Content';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';

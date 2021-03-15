@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-disable */
 
 // This is the source version which we are using to generate the minified snippet. It is a partially

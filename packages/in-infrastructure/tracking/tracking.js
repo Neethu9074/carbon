@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import {
   track,
   INFRASTRUCTURE_CONTEXT_GUIDE_STACK_LOADED,

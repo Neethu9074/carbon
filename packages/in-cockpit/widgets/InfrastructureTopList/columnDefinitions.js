@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
@@ -18,6 +18,7 @@ import { getMetric } from 'in-stores/metric';
 import { getLabel } from 'in-sdk/snapshot';
 import { getZone } from 'in-stores/zone';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const healthColumn = {
   width: '2rem',

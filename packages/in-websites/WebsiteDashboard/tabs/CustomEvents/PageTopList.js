@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import PageTopList from 'in-websites/WebsiteDashboard/components/PageTopList';
 import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 const metrics = ['beaconCount', 'uniqueUsersOrSessions'];
 const labels = [

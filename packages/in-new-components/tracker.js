@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import {
   track,
   ANALYZE_UA2_FACETED_SEARCH_FILTER_ADDED,

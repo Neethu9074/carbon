@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+/* import-sort-ignore */
 import { fromPromise, just, empty } from '@instana/observables';
 
 import 'ammap3/ammap/ammap.js';

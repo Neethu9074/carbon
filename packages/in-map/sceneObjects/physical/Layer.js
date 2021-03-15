@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
 import CHCP from 'in-map/singleMeshFactories/ContentProvider/CubeHighlightingContentProvider';
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
@@ -10,8 +12,6 @@ import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
-
-import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import LayerTooltip from 'in-map/components/tooltips/physical/Layer';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { getColorBySeverity } from 'in-stores/events';

@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm, createField, notBlankValidator, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { List } from 'immutable';
-import { t } from 'in-i18n';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -21,6 +21,7 @@ import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './webhookChannelConfig.mless';
 import './Forms.less';

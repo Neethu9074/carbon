@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -13,6 +13,7 @@ import SaveButton from 'in-components/form/SaveButton';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
 import Code from 'in-components/form/Code';
+import { t } from 'in-i18n';
 
 export default function EditAsJsonDialogPresenter({ onSubmit, field, setField, readOnly }) {
   let content = (

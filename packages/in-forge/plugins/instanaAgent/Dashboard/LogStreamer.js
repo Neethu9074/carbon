@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-disable react/no-danger */
 import irpt from 'react-immutable-proptypes';
 import React, { Fragment } from 'react';

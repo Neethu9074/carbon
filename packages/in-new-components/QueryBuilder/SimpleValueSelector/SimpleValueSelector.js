@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import AutosizeInput from 'react-input-autosize';
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
@@ -16,6 +16,7 @@ import { isLoading } from 'in-services/util/result';
 import Typeahead from 'in-new-components/Typeahead';
 import useObservable from 'in-hooks/useObservable';
 import { shorten } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 import styleDefs from './SimpleValueSelector.mless';
 

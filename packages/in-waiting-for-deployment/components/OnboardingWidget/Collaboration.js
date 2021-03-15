@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -18,6 +18,7 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import { light } from 'in-themes/themes';
+import { t } from 'in-i18n';
 
 import locals from './Collaboration.mless';
 

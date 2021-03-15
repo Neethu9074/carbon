@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
-import { t } from 'in-i18n';
 
 import { isDeprecatedUserDefinedRole } from 'in-settings/terms/userSelfDefinedRole';
+import { t } from 'in-i18n';
 
 export default function termsFormDefinition(userSettings, withAcceptanceFields = true) {
   let form = createMapForm()

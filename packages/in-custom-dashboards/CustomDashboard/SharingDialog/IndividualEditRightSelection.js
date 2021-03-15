@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -17,6 +17,7 @@ import Label from 'in-components/form/Label';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { user } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 import locals from './IndividualEditRightSelection.mless';
 

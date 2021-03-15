@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import createNullService from 'in-map/misc/serviceLocator/cameraController/CameraControllerNullService';
 import SceneObject from 'in-map/sceneObjects/SceneObject';

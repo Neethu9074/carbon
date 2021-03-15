@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import ApplicationSwitcher from 'in-applications/components/ApplicationSwitcherContext/ApplicationSwitcher';
@@ -14,6 +14,7 @@ import Overlay from 'in-new-components/overlays/Overlay';
 import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './ApplicationSwitcherContext.mless';
 

@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createLogger } from '@instana/logger';
-import { t } from 'in-i18n';
 
 import { saveUserSettings } from 'in-settings/api/userSettings';
+import { t } from 'in-i18n';
 
 const logger = createLogger('in-settings/terms/termsAndPrivacySettingsStore.js');
 

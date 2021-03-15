@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { range, rangeRight } from 'lodash';
 import classNames from 'classnames';
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { defaultTimeShift, getTimeShiftLabel } from 'in-stores/time/shifting';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './Legend.mless';
 

@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import { just } from '@instana/observables';
 import React from 'react';
 
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
 import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
-import { just } from '@instana/observables';
 
 import locals from './ReleaseScope.mless';
 

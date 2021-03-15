@@ -2,16 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-env mocha */
 
 import { expect } from 'chai';
 
-import {
-  TAG as FM_TAG,
-  CONJUNCTION as FM_CONJUNCTION,
-  OPEN_BRACKET as FM_OPEN_BRACKET,
-  CLOSE_BRACKET as FM_CLOSE_BRACKET
-} from 'in-new-components/QueryBuilder/transformation/formModel';
 import {
   toBackendQueryModel,
   addTagFilters,
@@ -21,6 +16,12 @@ import {
   OPERATOR_OR,
   OPERATOR_NOT
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import {
+  TAG as FM_TAG,
+  CONJUNCTION as FM_CONJUNCTION,
+  OPEN_BRACKET as FM_OPEN_BRACKET,
+  CLOSE_BRACKET as FM_CLOSE_BRACKET
+} from 'in-new-components/QueryBuilder/transformation/formModel';
 import { type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 
 describe('in-new-components/QueryBuilder/transformation/backendQueryModel', () => {

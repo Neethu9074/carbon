@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { toggleSnapshotId, selectedSnapshotIds$ } from 'in-infrastructure/tableView/stores/selectedSnapshots';
@@ -16,6 +16,7 @@ import { data$ } from 'in-infrastructure/tableView/stores/snapshotIds';
 import Table from 'in-infrastructure/tableView/components/Table';
 import { getPluginName } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './Table.less';
 

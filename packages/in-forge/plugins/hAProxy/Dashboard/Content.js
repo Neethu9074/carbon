@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import FrontendsTable from 'in-forge/plugins/hAProxy/Dashboard/FrontendsTable';
 import BackendsTable from 'in-forge/plugins/hAProxy/Dashboard/BackendsTable';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { Trans, t, markAsSecureString } from 'in-i18n';
 
 export default function HAProxyDashboard({ snapshot, timeConfig }) {

@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { fromJS } from 'immutable';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
@@ -11,6 +11,7 @@ import Notification from 'in-components/form/Notification';
 import { alertChannelTest } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 export default class extends React.Component {
   static displayName = 'AlertChannelTestButton';

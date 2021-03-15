@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
-import { t } from 'in-i18n';
 
 import WidgetTypeSelector from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetTypeSelector/WidgetTypeSelector';
 import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
@@ -12,6 +12,7 @@ import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFoo
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
 import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
 import widgets from 'in-custom-dashboards/widgets';
+import { t } from 'in-i18n';
 
 import locals from './WidgetEditorDialogPresenter.mless';
 

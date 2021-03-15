@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React from 'react';
 
 import ServiceExtractionRuleDialog from 'in-applications/Forms/CustomServiceMapping/ServiceExtractionRuleDialog';
 import ServiceExtractionRule from 'in-applications/Forms/CustomServiceMapping/ServiceExtractionRule';
+import { getPreview } from 'in-applications/Forms/CustomServiceMapping/ServiceExtractionRuleDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 
 import locals from './DragAndDropRuleList.mless';
-import { getPreview } from 'in-applications/Forms/CustomServiceMapping/ServiceExtractionRuleDialog';
 
 export default class DragAndDropRuleList extends React.Component {
   displayName = 'DragAndDropRuleList';

@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { withProps } from 'recompose';
-import { t } from 'in-i18n';
 
 import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
 import EditGroupDialog from 'in-analyze/components/EditGroupDialog/EditGroupDialog';
+import { t } from 'in-i18n';
 
 export default withProps({
   help: t('in-mobile-apps:analyzeView.editGroupDialog.help'),

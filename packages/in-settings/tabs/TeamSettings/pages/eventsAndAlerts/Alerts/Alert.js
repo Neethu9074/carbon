@@ -2,11 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { compose, withState, withHandlers } from 'recompose';
 import { fromJS, List } from 'immutable';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -34,6 +33,8 @@ import { submitAlertTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export const limitForConnectedEvents = 1000;
 export const limitForConnectedAlertChannels = 100;

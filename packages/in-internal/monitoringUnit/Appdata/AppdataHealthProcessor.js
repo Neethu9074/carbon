@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -17,6 +17,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const hostViewCols = [
   {

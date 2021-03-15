@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 jest.mock('../../src/services/fetch', () => require('fetch-mock-jest').sandbox());
 jest.mock('../../src/services/config');
 jest.mock('../../src/services/loadingCache');

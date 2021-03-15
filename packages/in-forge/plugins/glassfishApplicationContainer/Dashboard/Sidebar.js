@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import ConnectionPool from 'in-forge/plugins/glassfishApplicationContainer/ConnectionPool';
@@ -10,7 +11,6 @@ import JdbcPool from 'in-forge/plugins/glassfishApplicationContainer/JdbcPool';
 import AppList from 'in-forge/plugins/glassfishApplicationContainer/AppList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { t } from 'in-i18n';
-
 import Info from '../Info';
 
 export default function GlassfishSidebar({ snapshot }) {

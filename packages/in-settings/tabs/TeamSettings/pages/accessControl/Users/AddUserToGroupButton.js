@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import AddUserToGroupDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/AddUserToGroupDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { saveGroups } from 'in-settings/tabs/TeamSettings/api/groups';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 export default function AddUserToGroupButton({ userId, refresh, setErrorMessage }) {
   return (

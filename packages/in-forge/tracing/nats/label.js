@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { t } from 'in-i18n';
 
 export default function getLabel(span) {

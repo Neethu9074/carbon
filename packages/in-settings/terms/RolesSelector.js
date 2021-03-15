@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -10,6 +10,7 @@ import ComboBox from 'in-components/ComboBox/ComboBox';
 import { roles } from 'in-settings/terms/rolesConfig';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { t } from 'in-i18n';
 
 import locals from './RolesSelector.mless';
 

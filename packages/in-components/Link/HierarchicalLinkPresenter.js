@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';

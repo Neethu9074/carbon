@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, withProps } from 'recompose';
 import { find, isEqual } from 'lodash';
-import { Trans, t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -34,6 +34,7 @@ import { deepCopy } from 'in-services/util/object';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
+import { Trans, t } from 'in-i18n';
 
 export default compose(
   withUrlState({

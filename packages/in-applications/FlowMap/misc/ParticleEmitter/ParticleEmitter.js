@@ -2,10 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { remove } from 'lodash';
 
-import fragmentShader from 'in-applications/FlowMap/misc/ParticleEmitter/shader/fragmentShader.glsl';
-import vertexShader from 'in-applications/FlowMap/misc/ParticleEmitter/shader/vertexShader.glsl';
+import { remove } from 'lodash';
 
 import {
   RawShaderMaterial,
@@ -15,6 +13,8 @@ import {
   DoubleSide,
   Points
 } from 'in-map/3DLibProvider';
+import fragmentShader from 'in-applications/FlowMap/misc/ParticleEmitter/shader/fragmentShader.glsl';
+import vertexShader from 'in-applications/FlowMap/misc/ParticleEmitter/shader/vertexShader.glsl';
 import calculate from 'in-applications/FlowMap/misc/ParticleEmitter/callsToParticlesCalculator';
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import pointShape from 'in-applications/FlowMap/misc/ParticleEmitter/pointShape.png';

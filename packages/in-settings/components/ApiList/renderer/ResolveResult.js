@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { containsIgnoreCase, compareIgnoreCase } from 'in-services/util/string';
 import { hasError, isLoading } from 'in-services/util/result';
 

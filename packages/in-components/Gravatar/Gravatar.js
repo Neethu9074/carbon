@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import unknown from 'in-components/Gravatar/unknown.png';
 import getGravatarUrl from 'in-subscription/gravatar';
 import { onImageLoad } from 'in-services/image';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './Gravatar.mless';
 

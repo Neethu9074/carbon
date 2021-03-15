@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import Select from 'in-components/form/Select';
 import Card from 'in-new-components/Card';
 import { light } from 'in-themes/themes';
+import { t } from 'in-i18n';
 
 import locals from './EntryContent.mless';
 

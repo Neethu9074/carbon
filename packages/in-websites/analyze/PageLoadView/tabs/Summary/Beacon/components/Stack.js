@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import StackTrace from 'in-websites/WebsiteDashboard/tabs/Errors/StackTrace';
+import { t } from 'in-i18n';
 
 import locals from './Stack.mless';
 

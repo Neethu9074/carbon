@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
@@ -13,6 +13,7 @@ import { toHtml } from 'in-services/formatters/markdown';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './Issue.mless';
 

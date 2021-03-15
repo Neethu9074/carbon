@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
@@ -14,6 +14,7 @@ import Alerts from 'in-applications/Dashboards/application/tabs/Alerts';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import Map from 'in-applications/Dashboards/application/tabs/Map';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 export default [
   {

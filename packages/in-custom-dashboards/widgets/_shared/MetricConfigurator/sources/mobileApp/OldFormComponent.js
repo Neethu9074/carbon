@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { find, groupBy } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import TagFilterConfiguration from 'in-mobile-apps/analyze/AnalyzeView/TagFilterConfiguration';
@@ -15,6 +15,7 @@ import Sections from 'in-new-components/workspace/Sections';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { dataSourceTitles } from 'in-mobile-apps/tags';
 import Stack from 'in-new-components/layout/Stack';
+import { t } from 'in-i18n';
 
 export default function FormComponent({
   form,

@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
-import { t } from 'in-i18n';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import EventTypesSwitcher from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventTypesSwitcher';
@@ -19,6 +19,7 @@ import { Row, Col } from 'in-new-components/layout/Grid/Grid';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import FormGroup from 'in-settings/components/FormGroup';
 import ComboBox from 'in-components/ComboBox';
+import { t } from 'in-i18n';
 
 import locals from './Step2.mless';
 

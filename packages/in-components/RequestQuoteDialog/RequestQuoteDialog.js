@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { compose } from 'recompose';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -20,6 +20,7 @@ import Section from 'in-settings/components/Section';
 import getAccount from 'in-subscription/getAccount';
 import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './RequestQuoteDialog.mless';
 

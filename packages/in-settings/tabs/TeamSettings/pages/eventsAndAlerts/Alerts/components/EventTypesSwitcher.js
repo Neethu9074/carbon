@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
@@ -14,6 +14,7 @@ import FormGroup from 'in-settings/components/FormGroup';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const EventTypesSwitcher = connectTo(
   {

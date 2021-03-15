@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 
 import * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
 import { reportingStatus as ReportingStatus } from './ReportingStatus';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getPluginName } from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import './ReportingIndicator.less';
 

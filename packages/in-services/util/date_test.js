@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-env mocha */
 
-import moment from 'moment';
 import { expect } from 'chai';
+import moment from 'moment';
 
 import { isOnSameDay } from 'in-services/util/date';
 

@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import groupedColorChoice from 'in-custom-dashboards/widgets/Chart/FormComponent/groupedColorChoice.png';
@@ -11,6 +11,7 @@ import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors'
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './ColorConfigurator.mless';
 

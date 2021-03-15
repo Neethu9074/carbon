@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans } from 'in-i18n';
+
 import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import { Trans } from 'in-i18n';
 
 import locals from './TouchedMessages.mless';
 

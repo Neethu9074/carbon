@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { isInStickyBody, withDisabledStickyBodyTopPadding } from 'in-components/Sticky/scrolling';
 
 const supportsTransformWithOutPrefix = 'transform' in document.body.style;

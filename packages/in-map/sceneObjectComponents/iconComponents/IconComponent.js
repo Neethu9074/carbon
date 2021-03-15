@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import PCP from 'in-map/singleMeshFactories/ContentProvider/PointContentProvider';
-import createFragment from 'in-map/singleMeshFactories/Fragment';
 
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
+import PCP from 'in-map/singleMeshFactories/ContentProvider/PointContentProvider';
+import createFragment from 'in-map/singleMeshFactories/Fragment';
 import { getFactory } from 'in-map/stores/factoriesStore';
 import { ZERO } from 'in-map/misc/fixedVectors';
 

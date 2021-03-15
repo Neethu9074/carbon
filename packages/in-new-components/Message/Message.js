@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import theme from 'in-themes';
 
 import { neutral, success, warning, error } from 'in-new-components/Message/types';
 import SvgIcon from 'in-components/SvgIcon';
+import theme from 'in-themes';
 
 import locals from './Message.mless';
 

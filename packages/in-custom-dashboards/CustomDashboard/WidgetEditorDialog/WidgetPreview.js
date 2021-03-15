@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
@@ -12,6 +12,7 @@ import Stack from 'in-new-components/layout/Stack';
 import widgets from 'in-custom-dashboards/widgets';
 import Button from 'in-new-components/Button';
 import { lightV2 } from 'in-themes/themes';
+import { t } from 'in-i18n';
 
 import locals from './WidgetPreview.mless';
 

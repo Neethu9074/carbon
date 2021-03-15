@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import ConnectionsServiceLocator from 'in-applications/FlowMap/serviceLocator/ConnectionsServiceLocator/ConnectionsServiceLocator';
 import EventBusServiceLocator from 'in-applications/FlowMap/serviceLocator/EventBusServiceLocator/EventBusServiceLocator';
 import SceneServiceLocator from 'in-applications/FlowMap/serviceLocator/SceneServiceLocator/SceneServiceLocator';

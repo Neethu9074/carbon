@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose } from 'recompose';
-import theme from 'in-themes';
 import React from 'react';
 
 import {
@@ -24,6 +24,7 @@ import SetBodyColor from 'in-components/SetBodyColor';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import withUrlState from 'in-hoc/withUrlState';
 import Sticky from 'in-components/Sticky';
+import theme from 'in-themes';
 
 const defaultCountMetric = {
   metric: 'beaconCount',

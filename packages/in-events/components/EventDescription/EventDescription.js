@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -16,11 +16,11 @@ import {
 import { focusEvent } from 'in-stores/navigation/paths/eventPaths';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import SvgIcon from 'in-components/SvgIcon';
-import connectTo from 'in-hoc/connectTo';
-
 import IncidentContent from './IncidentContent';
+import SvgIcon from 'in-components/SvgIcon';
 import EventContent from './EventContent';
+import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './EventDescription.less';
 

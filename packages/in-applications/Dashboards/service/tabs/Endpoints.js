@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -36,6 +36,7 @@ import useUrlState from 'in-hooks/useUrlState';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 import locals from './Endpoints.mless';
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export const FAKE_ROOT_ID = 'fake_root';
 
 export function isFakeRootCall(call) {

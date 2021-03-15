@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { BufferGeometry, RawShaderMaterial } from 'in-map/3DLibProvider';
 import { updateAttribute } from 'in-map/services/geometryAttributes';
 

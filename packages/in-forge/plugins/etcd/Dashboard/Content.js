@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import OperationsTable from 'in-forge/plugins/etcd/Dashboard/OperationsTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { t } from 'in-i18n';
 

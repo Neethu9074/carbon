@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { number } from '@storybook/addon-knobs/react';
 import React from 'react';
 

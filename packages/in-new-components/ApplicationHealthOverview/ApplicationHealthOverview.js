@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 

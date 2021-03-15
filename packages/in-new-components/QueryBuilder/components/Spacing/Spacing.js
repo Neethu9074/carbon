@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useRef } from 'react';
 import classNames from 'classnames';
 
@@ -12,11 +13,11 @@ import {
   CLOSE_BRACKET,
   CONJUNCTION
 } from 'in-new-components/QueryBuilder/transformation/renderModel';
-import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
-import { isPrimaryInteractiveElement, isDefaultInteractionTrigger } from 'in-new-components/interactiveCustomElement';
 import Suggestions, {
   translateSuggestionToNewFormModelElement
 } from 'in-new-components/QueryBuilder/components/Spacing/Suggestions';
+import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
+import { isPrimaryInteractiveElement, isDefaultInteractionTrigger } from 'in-new-components/interactiveCustomElement';
 import { and, or, not } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';

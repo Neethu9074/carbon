@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import getCloudfoundryApplicationForInstanaApplication from 'in-subscription/cloudfoundry/getCloudfoundryApplicationForInstanaApplication';
@@ -16,6 +16,7 @@ import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './InstanaServiceToCloudfoundryApplicationButton.mless';
 

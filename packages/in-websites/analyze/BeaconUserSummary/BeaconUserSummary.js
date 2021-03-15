@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
@@ -16,6 +16,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
 import Code from 'in-components/Code';
+import { t } from 'in-i18n';
 
 import locals from './BeaconUserSummary.mless';
 

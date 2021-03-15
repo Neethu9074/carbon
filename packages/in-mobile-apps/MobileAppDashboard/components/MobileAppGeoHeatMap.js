@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import getMobileAppCountryBreakdown from 'in-mobile-apps/subscriptions/getMobileAppCountryBreakdown';
 import getMobileAppSubdivisions from 'in-mobile-apps/subscriptions/getMobileAppSubdivisions';
 import { number } from 'in-services/formatters/number';
 import GeoHeatMap from 'in-new-components/GeoHeatMap';
+import { t } from 'in-i18n';
 
 const valueFormatter = v => t('in-mobile-apps:dashboard.numSessionStarts', { num: number.compact(v) });
 

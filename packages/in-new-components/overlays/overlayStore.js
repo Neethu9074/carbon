@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { emptyArray } from 'in-services/fixedObjects';
 import { createStore } from 'in-stores/store';
 

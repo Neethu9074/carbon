@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, withState } from 'recompose';
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import FileDownloadConfigurationDialog from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialog';
 import { getSourceMapConfigurations, removeSourceMapConfiguration } from 'in-websites/api/websites';
@@ -14,6 +14,7 @@ import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './StackTraceTranslation.mless';
 

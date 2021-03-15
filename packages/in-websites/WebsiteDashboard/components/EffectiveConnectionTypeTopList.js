@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
@@ -12,6 +12,7 @@ import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags'
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 export default function EffectiveConnectionTypeTopList({
   websiteId,

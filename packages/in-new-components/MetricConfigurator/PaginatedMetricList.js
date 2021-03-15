@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 
 import { nodeArray as nodeArrayPropType } from 'in-new-components/SelectorOverlay/props';
 import { search } from 'in-new-components/SelectorOverlay/search';
@@ -13,6 +13,7 @@ import { getInteractiveElements } from 'in-services/util/dom';
 import SearchInput from 'in-new-components/SearchInput';
 import { Ul, Li } from 'in-new-components/lists/List';
 import { isNotBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 import locals from './PaginatedMetricList.mless';
 

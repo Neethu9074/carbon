@@ -2,18 +2,19 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import {
   updateLatencySelection,
   getLatencySelectionFromTagFilterExpression
 } from 'in-applications/analyze/utils/latencyUtils';
-import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import {
   EMPTY_EXPRESSION,
   EXPRESSION,
   OPERATOR_AND
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';

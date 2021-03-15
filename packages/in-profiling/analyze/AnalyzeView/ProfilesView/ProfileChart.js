@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
@@ -10,6 +10,7 @@ import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPre
 import { percentage, bytesTwoDecimalPlaces, time } from 'in-services/formatters/number';
 import ProfilesLane from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesLane';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { t } from 'in-i18n';
 
 import locals from './ProfileChart.mless';
 

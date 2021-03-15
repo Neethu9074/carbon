@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans, markAsSecureString, t } from 'in-i18n';
+
 import React, { Fragment } from 'react';
 
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -13,6 +13,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-new-components/layout/Grid';
+import { Trans, markAsSecureString, t } from 'in-i18n';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';

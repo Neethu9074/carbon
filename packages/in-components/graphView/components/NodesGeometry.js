@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import fragmentShader from 'in-components/graphView/components/nodeFragmentShader.glsl';
-import vertexShader from 'in-components/graphView/components/nodeVertexShader.glsl';
 
 import { init as initGlyphTexture, glyphTexture, config } from 'in-map/singleMeshFactories/pluginIconsGlyphTexture';
+import fragmentShader from 'in-components/graphView/components/nodeFragmentShader.glsl';
+import vertexShader from 'in-components/graphView/components/nodeVertexShader.glsl';
 import BaseGeometry from 'in-components/graphView/components/BaseGeometry';
 import { Points } from 'in-map/3DLibProvider';
 

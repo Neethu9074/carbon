@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { addMaxValueLocator, addMinValueLocator } from 'in-sdk/metrics';
 
 const zero = () => 0;

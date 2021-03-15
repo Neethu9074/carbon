@@ -2,10 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import invariant from 'invariant';
 
-export { registry, registerSpanDefinition, getSpanDefinition } from 'in-sdk/tracing/registry';
 import { getSpanDefinition } from 'in-sdk/tracing';
+
+export { registry, registerSpanDefinition, getSpanDefinition } from 'in-sdk/tracing/registry';
 
 export const SPAN_KINDS = {
   INTERMEDIATE: 'intermediate',

@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { iconColumn, labelColumn } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
@@ -13,6 +13,7 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import { find } from 'in-services/arrayUtils';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './AddUserButton.mless';
 

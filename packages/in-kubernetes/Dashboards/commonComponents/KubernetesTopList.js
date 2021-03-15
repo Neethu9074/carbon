@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 const metrics = ['pods'];
 const labels = [t('in-kubernetes:dashboards.pods')];

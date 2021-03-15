@@ -2,12 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest, create } from '@instana/observables';
 import RoEmitter from '@instana/roemitter';
 
 import fragmentShader from 'in-applications/ApplicationMap/serviceLocator/ConnectionsServiceLocator/shader/fragmentShader.glsl';
 import vertexShader from 'in-applications/ApplicationMap/serviceLocator/ConnectionsServiceLocator/shader/vertexShader.glsl';
-
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
 import { createConnectionId } from 'in-applications/ApplicationMap/sceneObjects/Connection';

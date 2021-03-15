@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { withState } from 'recompose';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import HeaderToggleIcon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/HeaderToggleIcon';
@@ -11,6 +11,7 @@ import { toInteractiveElement } from 'in-new-components/interactiveCustomElement
 import Beacon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './BeaconViewGroup.mless';
 

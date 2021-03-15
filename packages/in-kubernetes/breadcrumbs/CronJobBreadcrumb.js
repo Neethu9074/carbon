@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
+import { t } from 'in-i18n';
 
 export default function CronJobBreadcrumb({ cronJobId, cronJob, href$ }) {
   return (

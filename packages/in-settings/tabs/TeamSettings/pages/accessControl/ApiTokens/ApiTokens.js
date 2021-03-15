@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createLogger } from '@instana/logger';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -20,6 +20,7 @@ import IconButton from 'in-new-components/IconButton';
 import { goToPath } from 'in-stores/navigation';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './ApiTokens.mless';
 

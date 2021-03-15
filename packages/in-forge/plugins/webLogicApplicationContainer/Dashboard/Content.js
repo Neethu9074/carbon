@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -13,6 +13,7 @@ import JMSDestinationsTable from './JMSDestinationsTable';
 import DatasourcesTable from './DatasourcesTable';
 import SAFAgentsTable from './SAFAgentsTable';
 import WebAppsTable from './WebAppsTable';
+import { t } from 'in-i18n';
 
 export default function Dashboard({ snapshot, timeConfig }) {
   const threadPoolStuckThreadsMetricAvailable = snapshot.getIn(['data', 'threadPool.stuckThreadsAvailable'], false);

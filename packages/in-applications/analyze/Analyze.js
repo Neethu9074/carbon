@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router';
 import { range } from 'lodash';
-import theme from 'in-themes';
 
 import {
   tagFilterExpressionMatrixParameter,
@@ -18,16 +18,6 @@ import {
   dataSourceMatrixParameter,
   previewEnabledMatrixParameter
 } from 'in-applications/navigation/matrix';
-import TraceGroupingConfigurator, {
-  isTraceGroupingConfigurationValid
-} from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
-import CallGroupingConfigurator, {
-  isCallGroupingConfigurationValid
-} from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
-import {
-  ungroupedChartingOptions,
-  groupedChartingOptions
-} from 'in-applications/analyze/components/ChartingPresenter/chartingOptions';
 import {
   ua2QueryBuilderFilterAddedTracker,
   ua2GroupChangedTracker,
@@ -42,6 +32,16 @@ import {
   toBackendQueryModel,
   getMaximumExpressionDepth
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import TraceGroupingConfigurator, {
+  isTraceGroupingConfigurationValid
+} from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
+import CallGroupingConfigurator, {
+  isCallGroupingConfigurationValid
+} from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
+import {
+  ungroupedChartingOptions,
+  groupedChartingOptions
+} from 'in-applications/analyze/components/ChartingPresenter/chartingOptions';
 import TraceQueryBuilder, { isTraceQueryValid } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import CallQueryBuilder, { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -72,6 +72,7 @@ import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function ApplicationAnalyzeView() {

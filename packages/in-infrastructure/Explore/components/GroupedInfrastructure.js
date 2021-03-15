@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useCallback } from 'react';
-import { t } from 'in-i18n';
 
 import { average, getGranularity, getMetricKey, defaultFormatter } from 'in-infrastructure/Explore/services/metrics';
 import { ColumnizedContent, Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
@@ -34,6 +34,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
 import SparkChart from 'in-components/SparkChart';
 import Message from 'in-new-components/Message';
+import { t } from 'in-i18n';
 
 import locals from './GroupedInfrastructure.mless';
 

@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
+
 import React from 'react';
 
 import { colorTranslation, getColor } from 'in-applications/endpointTypes';
+import theme from 'in-themes';
 
 export default {
   title: 'DesignTokens|Colors',

@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans } from 'in-i18n';
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { physicalPath } from 'in-stores/navigation/paths/mainPaths';
@@ -11,6 +10,8 @@ import { goToPath } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
 import Button from 'in-new-components/Button';
 import Link from 'in-components/Link';
+import { Trans } from 'in-i18n';
+import { t } from 'in-i18n';
 
 import locals from './Explanation.mless';
 

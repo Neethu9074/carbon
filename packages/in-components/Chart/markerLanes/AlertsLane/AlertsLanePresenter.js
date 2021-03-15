@@ -2,9 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { alertsLaneAlertsPropType } from 'in-components/Chart/markerLanes/AlertsLane/constants';
@@ -19,6 +18,8 @@ import EventDurationIndicator from './EventDurationIndicator';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Li, Ul } from 'in-new-components/lists/List';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './AlertsLanePresenter.mless';
 

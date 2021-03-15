@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { forwardRef } from 'react';
-import { Trans, t } from 'in-i18n';
 
 import Rule from 'in-applications/Forms/components/Rule';
 import { build } from 'in-services/validators/urlPath';
 import SvgIcon from 'in-components/SvgIcon';
+import { Trans, t } from 'in-i18n';
 
 import locals from './ExtractionRule.mless';
 

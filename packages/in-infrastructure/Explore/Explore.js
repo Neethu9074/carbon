@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useCallback, useMemo } from 'react';
-import { t } from 'in-i18n';
 
 import {
   filterAddedTracker,
@@ -59,6 +59,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 import locals from './Explore.mless';
 

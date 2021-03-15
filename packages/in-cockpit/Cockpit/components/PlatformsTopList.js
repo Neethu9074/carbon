@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -38,6 +38,7 @@ import { success } from 'in-services/util/result';
 import { getMetric } from 'in-stores/metric';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default function PlatformsTopList({ config }) {
   const pinnedTypes = [

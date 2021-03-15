@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import Hammer from 'hammerjs';
 
 import { onWheel } from 'in-services/util/reactiveMouseEvents';

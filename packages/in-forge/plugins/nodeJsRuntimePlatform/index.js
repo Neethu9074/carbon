@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import agentMonitoringIssueDefinitions from 'in-forge/plugins/nodeJsRuntimePlatform/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/nodeJsRuntimePlatform/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/nodeJsRuntimePlatform/tableDefinition';

@@ -2,19 +2,20 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import shallowEquals from 'fbjs/lib/shallowEqual';
 import React from 'react';
 
 import SortIndicator from 'in-sdk/components/dashboard/Table/components/SortIndicator';
 import { createStore } from 'in-sdk/components/dashboard/Table/stores/content';
 import Row from 'in-sdk/components/dashboard/Table/components/Row';
-import Pagination from 'in-new-components/Pagination';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import SearchInput from 'in-new-components/SearchInput';
-import shallowEquals from 'fbjs/lib/shallowEqual';
+import Pagination from 'in-new-components/Pagination';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 import locals from './Table.mless';
-import { t } from 'in-i18n';
 
 const tableElement = locals.table;
 const cellElement = locals.cell;

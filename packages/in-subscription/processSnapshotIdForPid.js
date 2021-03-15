@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import createSubscription from 'in-subscription/subscription';
 
+import createSubscription from 'in-subscription/subscription';
 import { generateStableHash } from 'in-services/util/id';
 
 export default createSubscription({

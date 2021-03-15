@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { useLayoutEffect, useState } from 'react';
 
 // A modern hook-based variant of react-side-effect

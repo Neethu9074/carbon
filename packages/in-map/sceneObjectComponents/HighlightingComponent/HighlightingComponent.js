@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
 
 import { selectedSnapshotIdForHighlightingInMap$ } from 'in-map/stores/selectedMapSceneObjectStore';
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
-import { highlightedEntityId$ } from 'in-map/stores/highlightedEntityId';
 import { highlightedEntityIds$ } from 'in-map/stores/highlightedEntityIds';
+import { highlightedEntityId$ } from 'in-map/stores/highlightedEntityId';
 
 export default class HighlightingComponent extends SceneObjectComponent {
   constructor(sceneObject) {

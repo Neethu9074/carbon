@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { viewDeprecationDetails } from 'in-websites/tracker';
 import Pill from 'in-new-components/Pill';
+import { t } from 'in-i18n';
 
 import locals from './Deprecation.mless';
 

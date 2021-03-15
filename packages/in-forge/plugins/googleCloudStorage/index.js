@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import metricDefinitions from 'in-forge/plugins/googleCloudStorage/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/googleCloudStorage/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';

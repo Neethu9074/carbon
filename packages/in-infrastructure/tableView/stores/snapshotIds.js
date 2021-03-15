@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { assign } from 'lodash';
 
-import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { clearSelectedSnapshots } from 'in-infrastructure/tableView/stores/selectedSnapshots';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { track, TABLE_TYPE_CHANGED } from 'in-services/tracking/tracking';
+import { clearMetrics } from 'in-infrastructure/tableView/stores/metrics';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
 import { fullyQualifiedPlugins, plugins } from 'in-forge/constants';
-import { clearMetrics } from 'in-infrastructure/tableView/stores/metrics';
 import { tablePath } from 'in-stores/navigation/paths/mainPaths';
 import { createTrackingStore } from 'in-stores/store';
 import { search } from 'in-stores/snapshot/snapshot';

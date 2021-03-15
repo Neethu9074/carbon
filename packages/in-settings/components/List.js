@@ -2,14 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { find, get, isEqual, reverse, sortBy } from 'lodash';
 import { compose, lifecycle, withState } from 'recompose';
 import React, { Fragment, forwardRef } from 'react';
 import { createLogger } from '@instana/logger';
 import { create } from '@instana/observables';
 import invariant from 'invariant';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -25,6 +24,8 @@ import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './List.mless';
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { updateAttribute } from 'in-map/services/geometryAttributes';
 import { hexToRGBNormalized } from 'in-services/formatters/color';
 import { BufferGeometry } from 'in-map/3DLibProvider';

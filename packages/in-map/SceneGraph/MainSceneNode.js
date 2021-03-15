@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import ContainerMapNode from 'in-map/SceneGraph/container/MapNode';
 import PhysicalMapNode from 'in-map/SceneGraph/physical/MapNode';
 import { view$, types as views } from 'in-stores/view';

@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import { getLabel } from 'in-forge/tracing/log/spanDefinition';
+import { t } from 'in-i18n';
 
 export default logSpanDefinition('log');
 

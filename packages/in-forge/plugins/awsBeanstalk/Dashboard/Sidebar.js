@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
@@ -11,6 +11,7 @@ import TagList from 'in-sdk/components/sidebar/TagList';
 import { emptyList } from 'in-services/fixedImmutables';
 import Info from 'in-forge/plugins/awsBeanstalk/Info';
 import List from 'in-sdk/components/sidebar/List';
+import { t } from 'in-i18n';
 
 export default function AwsBeanstalkSidebar({ snapshot }) {
   const data = snapshot.get('data');

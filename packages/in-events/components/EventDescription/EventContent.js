@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import SnapshotDescription from 'in-components/SnapshotDescription';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { toHtml } from 'in-services/formatters/markdown';
+import { t } from 'in-i18n';
 
 const MAX_PROBLEM_TEXT_LENGTH = 1000;
 const block = 'in-event-description';

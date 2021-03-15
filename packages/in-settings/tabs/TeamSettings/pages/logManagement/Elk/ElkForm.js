@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t, Trans } from 'in-i18n';
+
 import React from 'react';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -11,6 +11,7 @@ import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { t, Trans } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/ElkForm.mless';
 

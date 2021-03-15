@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { physicalTablePath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
@@ -14,6 +14,7 @@ import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import SearchBar from 'in-components/SearchBar';
 import { any } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './ViewSwitcher.mless';
 

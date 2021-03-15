@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React, { Fragment } from 'react';
 
 import NumberBarItem from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
@@ -19,6 +19,7 @@ import { getTagFromList } from 'in-applications/tags';
 import { toTitleCase } from 'in-services/util/string';
 import { getTechnologyLabel } from 'in-sdk/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './QuickFilterBar.mless';
 

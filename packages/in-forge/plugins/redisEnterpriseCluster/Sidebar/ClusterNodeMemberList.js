@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
-import RelatedSnapshotList from 'in-sdk/components/sidebar/RelatedSnapshotList';
 import { getClusterMembers } from 'in-forge/plugins/redisEnterpriseCluster/Sidebar/in-stores/clusterMembers.js';
+import RelatedSnapshotList from 'in-sdk/components/sidebar/RelatedSnapshotList';
 import { emptySet } from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';
 

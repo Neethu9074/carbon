@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import memoize from 'in-services/util/memoizingObservableGenerator';
 
 export default function createMemoizedObservableForReferencedEntities(createObservable, tti = 60000) {

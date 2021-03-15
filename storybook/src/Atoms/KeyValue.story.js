@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { withKnobs, select } from '@storybook/addon-knobs';
 import React from 'react';
 

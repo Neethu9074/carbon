@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import { healthFormatter } from 'in-forge/plugins/ceph/formatters';
 import { bytes } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {

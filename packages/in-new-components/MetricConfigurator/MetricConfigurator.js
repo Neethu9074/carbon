@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 
 import MetricConfiguratorOverlay from 'in-new-components/MetricConfigurator/MetricConfiguratorOverlay';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { compositeRef } from 'in-services/util/react';
+import { t } from 'in-i18n';
 
 export default function MetricConfigurator({ values, options, onChange, tracking, MetricConfiguratorHint }) {
   const ref = useRef();

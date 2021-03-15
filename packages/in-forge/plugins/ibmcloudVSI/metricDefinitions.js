@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { number, bytes, percentage } from 'in-services/formatters/number';
 
 export default [
-
   {
     metrics: ['average_cpu_usage_percentage'],
     labels: ['Total Object Count'],

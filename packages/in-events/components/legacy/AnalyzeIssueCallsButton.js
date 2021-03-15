@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -22,6 +22,7 @@ import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   ({ event }) => {

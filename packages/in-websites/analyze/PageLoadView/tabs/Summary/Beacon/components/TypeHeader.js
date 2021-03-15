@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import { getType, types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';

@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -15,6 +15,7 @@ import { serviceIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import EntityLink from 'in-new-components/EntityLink';
 import WithIcon from 'in-new-components/WithIcon';
+import { t } from 'in-i18n';
 
 const pathSegment = '/endpoints';
 const matrixPrefix = 'endpoints.';

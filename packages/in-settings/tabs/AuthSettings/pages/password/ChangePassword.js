@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, notBlankValidator } from 'formalistic';
 import React, { useMemo } from 'react';
-import { t } from 'in-i18n';
 import zxcvbn from 'zxcvbn';
 
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
@@ -20,6 +20,7 @@ import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { t } from 'in-i18n';
 
 import locals from './ChangePassword.mless';
 

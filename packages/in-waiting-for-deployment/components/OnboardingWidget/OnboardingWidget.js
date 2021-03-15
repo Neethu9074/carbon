@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { compose } from 'recompose';
+
 import React, { useEffect } from 'react';
+import { compose } from 'recompose';
 
 import OnboardingWidgetPresenter from 'in-waiting-for-deployment/components/OnboardingWidget/OnboardingWidgetPresenter';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';

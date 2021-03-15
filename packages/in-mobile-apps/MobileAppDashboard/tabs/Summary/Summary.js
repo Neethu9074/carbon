@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import HttpRequestOriginTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/HttpRequestOriginTopList';
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';
@@ -18,6 +18,7 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileAppLabel, viewId }) {
   const granularity = getChartGranularity(timeConfig);

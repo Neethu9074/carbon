@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import FormComponent from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/FormComponent';
+import { t } from 'in-i18n';
 
 export { createForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/form';
 export const Form = FormComponent;

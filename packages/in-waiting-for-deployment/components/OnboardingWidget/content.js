@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment, useState } from 'react';
-import { t } from 'in-i18n';
 
 import {
   Bash,
@@ -32,6 +32,7 @@ import createObservable from 'in-services/http/observableHttpResult';
 import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
 import useObservable from 'in-hooks/useObservable';
 import http from 'in-services/http';
+import { t } from 'in-i18n';
 
 const maxClusterNameRegex = new RegExp(/^[\w-_]{1,64}$/);
 

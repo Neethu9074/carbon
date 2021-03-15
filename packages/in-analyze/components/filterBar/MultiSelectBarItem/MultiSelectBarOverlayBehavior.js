@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import { timeout } from '@instana/observables';
 import { compose, withState } from 'recompose';
 import React from 'react';
@@ -13,6 +13,7 @@ import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { identity } from 'in-services/util/function';
 import connect from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default compose(
   withState('query', 'setQuery', ''),

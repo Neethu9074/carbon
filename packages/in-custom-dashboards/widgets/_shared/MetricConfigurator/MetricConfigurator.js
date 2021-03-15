@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import SectionLabelWithSubtext from 'in-new-components/workspace/SectionLabelWithSubtext';
@@ -14,6 +14,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Sections from 'in-new-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
+import { t } from 'in-i18n';
 
 export default function MetricConfigurator({
   form,

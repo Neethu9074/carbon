@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm, createField, createListForm } from 'formalistic';
 
 import { stringValidator, arrayValidator } from 'in-services/validators/jsonType';

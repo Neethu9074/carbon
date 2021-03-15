@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
-import { getAxisConfig } from 'in-new-components/Axis/timeFormatting';
 import { getTickPositionsAbsolute } from 'in-services/ticks/horizontal';
+import { getAxisConfig } from 'in-new-components/Axis/timeFormatting';
 import { formatDateTime } from 'in-services/formatters/date';
 
 import './TimeAxis.less';

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 import { compareIgnoreCase } from 'in-services/util/string';
 

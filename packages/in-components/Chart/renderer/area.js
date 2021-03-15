@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export default {
   render: ({ dataSeries, colors, colors100, index, scale, config }) => {
     const blocks = config.calculateBlocks(dataSeries);

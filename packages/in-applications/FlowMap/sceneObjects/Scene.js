@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
 
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
@@ -10,8 +11,8 @@ import CameraController from 'in-applications/FlowMap/misc/CameraController';
 import Camera from 'in-applications/FlowMap/sceneObjects/OrthographicCamera';
 import Renderer from 'in-applications/FlowMap/sceneObjects/Renderer';
 import TimeTracker from 'in-applications/FlowMap/misc/TimeTracker';
-import { Scene } from 'in-map/3DLibProvider';
 import Subscriber from 'in-map/misc/Subscriber';
+import { Scene } from 'in-map/3DLibProvider';
 
 export default class MainScene {
   constructor(serviceLocatorUid, canvas, overlayDomElement) {

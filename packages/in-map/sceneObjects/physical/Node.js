@@ -2,23 +2,23 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
 
+import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
 import CHCP from 'in-map/singleMeshFactories/ContentProvider/CubeHighlightingContentProvider';
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import CCP from 'in-map/singleMeshFactories/ContentProvider/CubeContentProvider';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import IconComponent from 'in-map/sceneObjectComponents/iconComponents/Physical';
+import createObjectCollectionStream from 'in-map/stores/ObjectCollectionStream';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
 import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
 import PowerComponent from 'in-map/sceneObjectComponents/PowerComponent';
-import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
-
-import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceLocator/physics/physicsConstants';
-import createObjectCollectionStream from 'in-map/stores/ObjectCollectionStream';
 import NodeStickyNote from 'in-map/components/stickyNotes/physical/Node';
+import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
 import stickyNotes from 'in-map/stores/stickyNotes/stickyNotesStore';
 import createLayerLayouter from 'in-map/misc/physical/LayerLayouter';
 import NodeTooltip from 'in-map/components/tooltips/physical/Node';

@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { composeValidators, createField, createListForm, createMapForm, notBlankValidator } from 'formalistic';
 import React, { Fragment } from 'react';
 import { assign, get } from 'lodash';
-import { Trans, t } from 'in-i18n';
 
 import { createNewServiceConfigs, getServiceConfigs, replaceAllServiceConfigs } from 'in-api/serviceConfiguration';
 import DragAndDropRuleList from 'in-applications/Forms/CustomServiceMapping/DragAndDropRuleList';
@@ -18,6 +18,7 @@ import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';
 import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
+import { Trans, t } from 'in-i18n';
 
 import locals from './CustomServiceMappingDialog.mless';
 

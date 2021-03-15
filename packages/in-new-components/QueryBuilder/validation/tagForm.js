@@ -2,20 +2,21 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm, createField } from 'formalistic';
 
-import {
-  stringValidator,
-  jsonPrimitiveValidator,
-  booleanValidator,
-  numberValidator
-} from 'in-services/validators/jsonType';
 import {
   isOpenBracket,
   isCloseBracket,
   isAndOr,
   isNot
 } from 'in-new-components/QueryBuilder/validation/elementIdentificationHelpers';
+import {
+  stringValidator,
+  jsonPrimitiveValidator,
+  booleanValidator,
+  numberValidator
+} from 'in-services/validators/jsonType';
 import * as operatorValueRequirement from 'in-new-components/QueryBuilder/tagFilter/operatorValueRequirement';
 import * as operatorKeyRequirement from 'in-new-components/QueryBuilder/tagFilter/operatorKeyRequirement';
 import * as typeToOperatorsMapping from 'in-new-components/QueryBuilder/tagFilter/typeToOperatorsMapping';

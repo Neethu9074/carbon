@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import { userSettings, teamSettings } from 'in-settings/navigation/paths';
 import { getView } from 'in-stores/navigation';
 import Title from 'in-components/Title';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 export default function NotFoundPage() {
   return (

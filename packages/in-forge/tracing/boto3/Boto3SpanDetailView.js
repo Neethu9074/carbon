@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { expandNestedSerializedJson } from 'in-services/util/json';
 import Code from 'in-sdk/components/traceDetails/Code';
+import { t } from 'in-i18n';
 
 export default function Boto3SpanDetailView({ span }) {
   const payload = span.getIn(['data', 'boto3', 'payload']);

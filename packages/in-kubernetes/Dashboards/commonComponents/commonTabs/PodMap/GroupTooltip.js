@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { fromJS } from 'immutable';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
@@ -14,6 +14,7 @@ import { getSnapshot } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './PodTooltip.mless';
 

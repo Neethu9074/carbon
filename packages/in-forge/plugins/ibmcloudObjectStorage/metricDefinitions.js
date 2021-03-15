@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { number, bytes } from 'in-services/formatters/number';
 
 export default [
-
   {
     metrics: ['object_count_total'],
     labels: ['Total Object Count'],

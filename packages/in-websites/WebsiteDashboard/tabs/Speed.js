@@ -2,9 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import AggregationSelectorWithUrlState from 'in-new-components/AggregationSelectorWithUrlState';
@@ -16,6 +15,8 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { speedTab } from 'in-websites/navigation/paths';
 import Footer from 'in-new-components/Footer';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId }) {
   const granularity = getChartGranularity(timeConfig);

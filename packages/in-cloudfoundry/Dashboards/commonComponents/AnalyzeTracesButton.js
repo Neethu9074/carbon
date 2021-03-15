@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
@@ -12,6 +12,7 @@ import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connect(({ applicationId, timeConfig }) => ({
   application: getCloudfoundryApplication({

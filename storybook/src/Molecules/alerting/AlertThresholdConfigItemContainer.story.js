@@ -2,12 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+
 import React from 'react';
 
-/*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
- */
 import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 
 export default {

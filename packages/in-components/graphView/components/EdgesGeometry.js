@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import fragmentShader from 'in-components/graphView/components/edgeFragmentShader.glsl';
 import vertexShader from 'in-components/graphView/components/edgeVertexShader.glsl';
-
 import BaseGeometry from 'in-components/graphView/components/BaseGeometry';
 import { LineSegments } from 'in-map/3DLibProvider';
 

@@ -2,11 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
-import theme from 'in-themes';
 import React from 'react';
+
+import theme from 'in-themes';
 
 import locals from './StepProgressBar.mless';
 

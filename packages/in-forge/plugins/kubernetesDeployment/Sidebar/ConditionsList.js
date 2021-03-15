@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { emptyList } from 'in-services/fixedImmutables';
+import { t } from 'in-i18n';
 
 export default function ConditionsList({ snapshot }) {
   const conditions = snapshot.getIn(['data', 'conditions'], emptyList);

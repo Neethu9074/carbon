@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
+
 import React from 'react';
 
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
@@ -11,6 +11,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 import { getPermissions } from 'in-api/users';
 import SvgIcon from 'in-components/SvgIcon';
+import theme from 'in-themes';
 
 export default function UserPermissions({ userId }) {
   const permissions = useObservable(getPermissions(userId), [userId]) ?? pendingResult;

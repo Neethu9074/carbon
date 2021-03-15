@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { t } from 'in-i18n';
 
 import locals from './CheckboxBarOverlay.mless';
 

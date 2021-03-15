@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /**
  * This file is created for the consistancy for the usage of renderer object
  * Unlie the data series chart, pie doesn't need more condifurations in renderer

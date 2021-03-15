@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PropTypes from 'prop-types';
 
 import Renderer from 'in-components/Chart/renderer/Renderer';

@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { t } from 'in-i18n';
 
 export default function NodeConditionsPresenter({ conditions }) {
   return (

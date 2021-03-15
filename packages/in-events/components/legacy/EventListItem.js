@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
 import React from 'react';

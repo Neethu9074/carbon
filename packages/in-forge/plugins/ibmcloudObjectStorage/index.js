@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import metricDefinitions from 'in-forge/plugins/ibmcloudObjectStorage/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/ibmcloudObjectStorage/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -14,6 +15,5 @@ registerSnapshotDefinition({
     label: 'IBM Cloud Object Storage'
   },
   kpiDefinitions,
-  metricDefinitions,
-
+  metricDefinitions
 });

@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 
 import {
   bytesTwoDecimalPlaces,
@@ -28,6 +28,7 @@ import { getContainerIconByPlugin } from 'in-kubernetes/icons';
 import Capitalize from 'in-new-components/Capitalize';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './ContainerStates.mless';
 

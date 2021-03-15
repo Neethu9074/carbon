@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import ParticleEmitter from 'in-applications/FlowMap/misc/ParticleEmitter';
 import SceneObject from 'in-applications/FlowMap/sceneObjects/SceneObject';
 import Subscriber from 'in-map/misc/Subscriber';

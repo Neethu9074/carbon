@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import semver from 'semver';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -12,6 +12,7 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import AwsEcNewMemcachedDashboard from './AwsEcNewMemcachedDashboard';
 import { number, bytes } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { t } from 'in-i18n';
 
 export default function AwsEcMemcachedDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

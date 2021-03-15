@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { millis } from 'in-services/formatters/number';
 import { t } from 'in-i18n';

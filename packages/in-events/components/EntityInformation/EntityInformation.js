@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { just } from '@instana/observables';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -22,6 +22,7 @@ import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './EntityInformation.mless';
 

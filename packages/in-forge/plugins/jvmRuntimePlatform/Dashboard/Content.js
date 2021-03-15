@@ -2,11 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t, Trans } from 'in-i18n';
+
 import React from 'react';
 
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { bytes, timeByMicroTwoDecimalPlaces, time, twoDecimalPlaces, percentage } from 'in-services/formatters/number';
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import PackageRetrievalDialog from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/PackageRetrievalDialog';
 import MicrometerMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MicrometerMetrics';
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
@@ -25,6 +25,7 @@ import MetricValue from 'in-components/MetricValue';
 import Button from 'in-new-components/Button';
 import { getCodeView } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t, Trans } from 'in-i18n';
 
 export default connectTo({
   isInternalVisible: isInternalVisible$

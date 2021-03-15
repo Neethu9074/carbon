@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import SelectListDialog from 'in-settings/tabs/TeamSettings/components/SelectListDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './SelectListDialogButton.mless';
 

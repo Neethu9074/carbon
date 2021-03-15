@@ -2,11 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { withKnobs, text } from '@storybook/addon-knobs';
 import { createMapForm, createField } from 'formalistic';
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
-import theme from 'in-themes';
 
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
 import SlideInView, { NoHeader } from 'in-new-components/SlideInView/SlideInView';
@@ -17,6 +17,7 @@ import Stack from 'in-new-components/layout/Stack';
 import Form from 'in-components/form/binding/Form';
 import FormInput from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import theme from 'in-themes';
 
 const WithPadding = ({ children }) => <div style={{ padding: '0 1.5rem 1.5rem' }}>{children}</div>;
 

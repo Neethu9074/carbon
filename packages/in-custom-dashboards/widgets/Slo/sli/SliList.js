@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans, t } from 'in-i18n';
+
 import { get } from 'lodash';
 import rpt from 'prop-types';
 import React from 'react';
@@ -25,6 +25,7 @@ import WithIcon from 'in-new-components/WithIcon';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
+import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/SliManageList.mless';

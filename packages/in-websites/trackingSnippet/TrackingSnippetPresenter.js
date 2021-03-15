@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { getTrackingSnippet } from 'in-websites/trackingSnippet';
@@ -12,6 +12,7 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 import Code from 'in-components/Code';
+import { t } from 'in-i18n';
 
 import locals from './TrackingSnippetPresenter.mless';
 

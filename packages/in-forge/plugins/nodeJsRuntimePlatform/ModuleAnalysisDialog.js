@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';

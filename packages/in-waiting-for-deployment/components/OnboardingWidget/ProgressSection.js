@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import ProgressInformation from 'in-waiting-for-deployment/components/OnboardingWidget/ProgressInformation';
 import StanImage from 'in-new-components/StanImage/StanImage';
+import { t } from 'in-i18n';
 
 import locals from './ProgressSection.mless';
 

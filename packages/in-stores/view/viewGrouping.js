@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { containerPath } from 'in-stores/navigation/paths/mainPaths';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { createTrackingStore } from 'in-stores/store';

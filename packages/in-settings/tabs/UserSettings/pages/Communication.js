@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { create } from '@instana/observables';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/termsFormDefinition';
@@ -19,6 +19,7 @@ import ApiItemView from 'in-settings/components/ApiItemView';
 import RolesSelector from 'in-settings/terms/RolesSelector';
 import Stack from 'in-new-components/layout/Stack/Stack';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 import locals from './termsAndPrivacyPages.mless';
 

@@ -2,9 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
@@ -12,6 +11,8 @@ import MarkerLane from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import HoverLine from 'in-components/Chart/markerLanes/MarkerLane/HoverLine';
 import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './AlertsPreviewLanePresenter.mless';
 

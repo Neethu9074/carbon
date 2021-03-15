@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import NumberBarItem from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
@@ -11,6 +11,7 @@ import SelectBarItem from 'in-websites/analyze/AnalyzeView/WebsiteSelectBarItem'
 import MoreBarItem from 'in-analyze/components/filterBar/MoreBarItem';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 import { emptyArray } from 'in-services/fixedObjects';
+import { t } from 'in-i18n';
 
 export default function QuickFilterBar(props) {
   const {

@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export const TOTAL_TIME_COLOR = theme.lib.colors.navy800;
 export const NETWORK_TIME_COLOR = theme.lib.colors.cyan800;

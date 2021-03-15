@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
@@ -13,6 +13,7 @@ import Delayed from 'in-new-components/Delayed/Delayed';
 import MetricValue from 'in-components/MetricValue';
 import WithIcon from 'in-new-components/WithIcon';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './PodTooltip.mless';
 

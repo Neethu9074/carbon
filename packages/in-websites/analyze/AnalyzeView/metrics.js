@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import {
   newTimeMetric,
   newNumberMetric,
@@ -13,6 +13,7 @@ import {
 import { percentage, number, fourDecimalPlaces } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { affectedUsers } from 'in-websites/formatters';
+import { t } from 'in-i18n';
 
 export const clsFormatter = {
   compact: fourDecimalPlaces,

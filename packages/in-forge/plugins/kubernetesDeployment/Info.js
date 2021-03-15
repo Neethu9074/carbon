@@ -2,18 +2,19 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import createNamespaceForDeploymentSubscription from 'in-subscription/namespaceForDeployment';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
-import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import createClusterForPodSubscription from 'in-subscription/clusterForPod';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import SnapshotLink from 'in-components/Link/SnapshotLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => {

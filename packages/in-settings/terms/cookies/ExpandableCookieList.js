@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
@@ -11,6 +11,7 @@ import { cookieDefinitions } from 'in-settings/terms/cookies/cookieDefinitions';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import KeyValue from 'in-new-components/lists/KeyValue';
+import { t } from 'in-i18n';
 
 export default function ExpandableCookieList({ form, onChange }) {
   return (

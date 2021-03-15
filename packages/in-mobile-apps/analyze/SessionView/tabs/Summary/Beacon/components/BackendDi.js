@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import getMobileAppBackendTraces from 'in-mobile-apps/subscriptions/getMobileAppBackendTraces';
@@ -15,6 +15,7 @@ import { Di } from 'in-new-components/HorizontalDescriptionList';
 import Tooltip from 'in-components/Tooltip';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 export default connect(({ beacon }) => ({
   traceSummaries:

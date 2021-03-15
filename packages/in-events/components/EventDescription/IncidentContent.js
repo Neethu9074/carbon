@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
 import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { getEvent, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
@@ -17,6 +17,7 @@ import { emptyList } from 'in-services/fixedImmutables';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const block = 'in-event-description';
 

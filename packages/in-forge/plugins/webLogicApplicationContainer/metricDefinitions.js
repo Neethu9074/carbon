@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { millis, number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 const LABEL_DATASOURCE = t('in-forge:plugins.webLogicAppContainer.labelDataSource');
 const LABEL_JMSDESTINATION = t('in-forge:plugins.webLogicAppContainer.labelJMSDestination');

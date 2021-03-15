@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { Switch, Route } from 'react-router-dom';
 import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
+import ViewSwitcher from 'in-infrastructure/tableView/components/ViewSwitcher';
 import TypeSelector from 'in-infrastructure/Explore/components/TypeSelector';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
-import ViewSwitcher from 'in-infrastructure/tableView/components/ViewSwitcher';
 import Dashboard from 'in-infrastructure/Dashboard';
 import useObservable from 'in-hooks/useObservable';
 import { noop } from 'in-services/util/function';

@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React, { Fragment } from 'react';
 
 import { timeByMillisTwoDecimalPlaces, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
@@ -15,6 +15,7 @@ import withUrlState from 'in-hoc/withUrlState';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
+import { t } from 'in-i18n';
 
 import locals from './CustomMetricsV2.mless';
 

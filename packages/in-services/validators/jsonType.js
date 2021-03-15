@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import { notANumberValidator } from 'in-services/validators/number';
+import { t } from 'in-i18n';
 
 // These validators can be used for features such as "Edit as JSON"
 // to validate that specific types be used.

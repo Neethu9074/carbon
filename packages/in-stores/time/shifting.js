@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { formatDuration } from 'in-services/formatters/date';
 import { days, hours } from 'in-services/time';
 import { t } from 'in-i18n';

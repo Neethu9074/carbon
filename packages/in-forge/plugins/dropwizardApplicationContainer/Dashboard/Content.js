@@ -2,9 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
 
 import DropwizardDashboardExtensions from 'promise-loader?global,internal!in-internal/monitoringUnit/DropwizardDashboardExtensions';
+import React from 'react';
+
 import { createAsyncComponentWithLoadingIndicatorPlaceholder } from 'in-components/routing/createAsyncComponent';
 import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
 import { internalMonitoringUnit } from 'in-services/featureFlags';

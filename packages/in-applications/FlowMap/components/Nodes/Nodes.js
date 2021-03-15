@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import RemainingEndpointsNodePlaceholderNode from 'in-applications/FlowMap/components/Node/RemainingEndpointsNodePlaceholderNode';

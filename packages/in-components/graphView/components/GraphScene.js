@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import NodesGeometry from 'in-components/graphView/components/NodesGeometry';
 import EdgesGeometry from 'in-components/graphView/components/EdgesGeometry';
 import createControls from 'in-components/graphView/components/Controls';

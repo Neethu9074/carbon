@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
 import { PodConditionsTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
@@ -11,6 +10,7 @@ import Infrastructure from 'in-kubernetes/Dashboards/Pod/tabs/Infrastructure';
 import { podDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Summary from 'in-kubernetes/Dashboards/Pod/tabs/Summary/Summary';
 import Details from 'in-kubernetes/Dashboards/Pod/tabs/Details/Details';
+import { t } from 'in-i18n';
 
 export default [
   {

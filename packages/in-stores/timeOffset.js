@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { interval, range } from '@instana/observables';
-import { connection } from 'in-connection';
 
 import synchronizeTime from 'in-subscription/timestamp';
 import { createStore } from 'in-stores/store';
+import { connection } from 'in-connection';
 import { seconds } from 'in-services/time';
 
 // This is an attempt to "synchronize" the time between client (browser) and

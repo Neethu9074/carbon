@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, withProps } from 'recompose';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 
 import { mobileAppPath, mobileAppPathFullyQualified, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { mobileAppId as matrixMobileAppId, viewId as matrixViewId } from 'in-mobile-apps/navigation/matrix';
@@ -29,6 +29,7 @@ import { tabChange } from 'in-mobile-apps/tracker';
 import withUrlState from 'in-hoc/withUrlState';
 import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 export default compose(
   withUrlState({

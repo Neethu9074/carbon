@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 

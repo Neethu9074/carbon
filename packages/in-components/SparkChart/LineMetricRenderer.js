@@ -2,13 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
 
 import {
   allowedMultiplesOfRollupSizeMissingInCharts,
   allowedMillisGapsInOneSecondResolution
 } from 'in-services/featureFlags';
 import createScale from 'in-services/scale';
+import theme from 'in-themes';
 
 export default class LineMetricRenderer {
   constructor(canvas, props = {}) {

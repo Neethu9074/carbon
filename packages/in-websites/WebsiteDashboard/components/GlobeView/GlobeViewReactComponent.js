@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import GlobeView from 'in-websites/WebsiteDashboard/components/GlobeView/components/GlobeView';
 import { isWebGLSupported } from 'in-map/services/webGL';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 import locals from './GlobeView.mless';
 

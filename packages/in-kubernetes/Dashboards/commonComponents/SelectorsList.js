@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { Table, Thead, Tbody, Th, Tr, Td } from 'in-components/tables/sharedComponents';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 export default function SelectorsList({ resource, defaultOperator = '=' }) {
   const selectors = resource.selectors;

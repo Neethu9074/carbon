@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 import _ from 'lodash';
 
@@ -10,6 +10,7 @@ import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
+import { t } from 'in-i18n';
 
 import locals from './Annotations.mless';
 

@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { uniq, find } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
@@ -12,6 +12,7 @@ import Gravatar from 'in-components/Gravatar';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './User.mless';
 

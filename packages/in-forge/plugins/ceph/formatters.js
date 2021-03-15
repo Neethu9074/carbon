@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export function healthFormatter(value) {
   if (value === 0) {
     return 'HEALTH_OK';

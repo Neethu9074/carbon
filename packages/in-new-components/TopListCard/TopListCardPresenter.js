@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -11,6 +11,7 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import List from 'in-new-components/TopListCard/List';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 export default function TopListCard(props) {
   const {

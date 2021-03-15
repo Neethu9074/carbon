@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export default function createDataHolder({ numberOfSeries }) {
   // A data column has the form Array<DataPoint>
   let dataColumns = [];

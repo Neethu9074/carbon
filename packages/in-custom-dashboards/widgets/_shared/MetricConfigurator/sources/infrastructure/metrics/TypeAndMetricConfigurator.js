@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
@@ -11,8 +11,10 @@ import DropdownButton from 'in-new-components/Button/DropdownButton';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Message from 'in-new-components/Message';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './TypeAndMetricConfigurator.mless';
+
 export default function TypeAndMetricConfigurator({
   metric,
   type,

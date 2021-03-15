@@ -2,10 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm } from 'formalistic';
 import { fromJS } from 'immutable';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import AlertChannelTestButton from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelTestButton';
@@ -24,6 +23,8 @@ import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function AlertChannelModification(props) {
   const kind = getMatrixParameter(props.location, '/channels', 'kind');

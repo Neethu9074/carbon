@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+
 :local {
   .container {
     padding-bottom: 4rem;

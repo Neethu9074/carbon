@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { fromJS } from 'immutable';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { LoadingSkeletonRows, Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
@@ -19,6 +19,7 @@ import EntityLink from 'in-new-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   ({ nodeId, timeConfig }) => ({

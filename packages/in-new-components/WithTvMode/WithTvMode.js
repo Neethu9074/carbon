@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import useUrlState from 'in-hooks/useUrlState';
+import { t } from 'in-i18n';
 
 import locals from './WithTvMode.mless';
 

@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React, { Fragment } from 'react';
 import { fromJS, Map } from 'immutable';
 
@@ -11,6 +11,7 @@ import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptio
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { Di, Dl } from 'in-new-components/HorizontalDescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
+import { t } from 'in-i18n';
 
 export default function GraphQLSpanDetailView({ span }) {
   return (

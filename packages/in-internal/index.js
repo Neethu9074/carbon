@@ -2,28 +2,20 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { Route, Redirect } from 'react-router-dom';
 import React from 'react';
 
-// General imports
-import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
-import { internalMonitoringUnit } from 'in-services/featureFlags';
-import Switch from 'in-components/FragmentSupportingSwitch';
-import Landing from 'in-internal/components/Landing';
-
-// features available on customer units
-import SnapshotVersions from 'in-internal/thisUnit/SnapshotVersions/SnapshotVersions';
-import InternalEvents from 'in-internal/thisUnit/InternalEvents/InternalEvents';
-import GraphExplorer from 'in-internal/thisUnit/GraphExplorer/GraphExplorer';
-import EntityStatistics from 'in-internal/thisUnit/EntityStatistics';
-import Agents from 'in-internal/thisUnit/Agents';
-
 // features for monitoring units
 import AppDataLiveAggregatorOverview from 'in-internal/monitoringUnit/Appdata/AppDataLiveAggregatorOverview';
+// features available on customer units
+import SnapshotVersions from 'in-internal/thisUnit/SnapshotVersions/SnapshotVersions';
 import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDataProcessorStatistics';
 import FillerInfrastructureMetrics from 'in-internal/monitoringUnit/infrastructureMetrics/Filler';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
 import ClickhouseTotalTableSizes from 'in-internal/monitoringUnit/sre/ClickhouseTotalTableSizes';
+// General imports
+import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import AppdataHealthProcessor from 'in-internal/monitoringUnit/Appdata/AppdataHealthProcessor';
 import ServerlessAcceptors from 'in-internal/monitoringUnit/serverless/ServerlessAcceptors';
 import JsStackTraceTranslator from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
@@ -34,28 +26,35 @@ import SloViolations from 'in-internal/monitoringUnit/SloViolations/SloViolation
 import ResilientMapping from 'in-internal/monitoringUnit/Appdata/ResilientMapping';
 import BatchingInsights from 'in-internal/monitoringUnit/Appdata/BatchingInsights';
 import ProfilesCassandra from 'in-internal/monitoringUnit/sre/ProfilesCassandra';
+import InternalEvents from 'in-internal/thisUnit/InternalEvents/InternalEvents';
 import MetricsCassandra from 'in-internal/monitoringUnit/sre/MetricsCassandra';
 import CallExtraction from 'in-internal/monitoringUnit/Appdata/CallExtraction';
 import AppDataWriterForEum from 'in-internal/monitoringUnit/eum/AppDataWriter';
+import GraphExplorer from 'in-internal/thisUnit/GraphExplorer/GraphExplorer';
 import ErrorSimulator from 'in-internal/monitoringUnit/eum/ErrorSimulator';
 import SpansCassandra from 'in-internal/monitoringUnit/sre/SpansCassandra';
 import StateCassandra from 'in-internal/monitoringUnit/sre/StateCassandra';
-import EumProcessor from 'in-internal/monitoringUnit/eum/EumProcessor';
-import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
 import MetaElasticNG from 'in-internal/monitoringUnit/sre/MetaElasticNG';
+import EumProcessor from 'in-internal/monitoringUnit/eum/EumProcessor';
+import EntityStatistics from 'in-internal/thisUnit/EntityStatistics';
+import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
 import EumAcceptor from 'in-internal/monitoringUnit/eum/EumAcceptor';
 import Hubforce from 'in-internal/monitoringUnit/hubforce/Hubforce';
 import Clickhouse from 'in-internal/monitoringUnit/sre/Clickhouse';
 import Cashiers from 'in-internal/monitoringUnit/cashier/Cashiers';
+import { internalMonitoringUnit } from 'in-services/featureFlags';
 import EumOverview from 'in-internal/monitoringUnit/eum/Overview';
 import AgentsAcrossUnits from 'in-internal/monitoringUnit/Agents';
 import UnitList from 'in-internal/monitoringUnit/units/UnitList';
 import FillerStats from 'in-internal/monitoringUnit/FillerStats';
 import Appdata from 'in-internal/monitoringUnit/Appdata/Appdata';
 import Acceptors from 'in-internal/monitoringUnit/sre/Acceptors';
+import Switch from 'in-components/FragmentSupportingSwitch';
 import Kafka from 'in-internal/monitoringUnit/sre/Kafka';
 import Unit from 'in-internal/monitoringUnit/unit/Unit';
 import Region from 'in-internal/monitoringUnit/Region';
+import Landing from 'in-internal/components/Landing';
+import Agents from 'in-internal/thisUnit/Agents';
 
 export default function Internal() {
   return (

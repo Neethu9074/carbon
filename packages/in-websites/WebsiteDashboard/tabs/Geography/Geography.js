@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Route, Switch } from 'react-router-dom';
+
 import GlobeViewLoader from 'promise-loader?global,globe-view!in-websites/WebsiteDashboard/components/GlobeView';
-import { t } from 'in-i18n';
+import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
 import getWebsiteCountryBreakdown from 'in-websites/subscriptions/getWebsiteCountryBreakdown';
@@ -19,6 +19,7 @@ import Button from 'in-new-components/MapControls/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './Geography.mless';
 

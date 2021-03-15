@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { timeout, combineLatest } from '@instana/observables';
 
 import createSnapshotsInTimeframeObservable from 'in-subscription/snapshotsInTimeframe';

@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { just, combineLatest } from '@instana/observables';
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import MetricChartDownloadView from 'in-components/DownloadButton/components/MetricChartDownloadView';
 import { selectedSnapshots$ } from 'in-infrastructure/tableView/stores/selectedSnapshots';
@@ -20,6 +20,7 @@ import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './ChartsForSelectedEntities.less';
 

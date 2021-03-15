@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { create, combineLatest } from '@instana/observables';
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import invariant from 'invariant';

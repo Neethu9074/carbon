@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { fromPromise } from '@instana/observables';
+
 import geodata from 'promise-loader?global,geonames!in-services/geonames/geodata';
-import { t } from 'in-i18n';
+import { fromPromise } from '@instana/observables';
 import React from 'react';
 
 import { getCountries, getStatesByCountryName } from 'in-services/geonames/geonames';
@@ -16,6 +16,7 @@ import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import connect from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './RequestQuoteForm.mless';
 

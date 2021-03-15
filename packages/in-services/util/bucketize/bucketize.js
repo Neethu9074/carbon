@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export default function bucketize({ sortedTimestamps, bucketSizeInMillis }) {
   if (sortedTimestamps.length === 0) {
     return [];

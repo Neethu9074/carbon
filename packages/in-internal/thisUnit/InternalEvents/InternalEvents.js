@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 import { compose } from 'recompose';
 
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
@@ -20,6 +20,7 @@ import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './InternalEvents.mless';
 

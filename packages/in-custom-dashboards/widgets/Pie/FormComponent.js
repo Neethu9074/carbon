@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { Reorderer, MetricsForAxis } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
@@ -15,6 +15,7 @@ import Divider from 'in-new-components/workspace/Divider';
 import { formatters } from 'in-stores/metric/formatters';
 import Header from 'in-new-components/workspace/Header';
 import Stack from 'in-new-components/layout/Stack';
+import { t } from 'in-i18n';
 
 export default function PieChartWidgetFormComponent({ form, onChange }) {
   return (

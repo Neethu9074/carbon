@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -23,6 +23,7 @@ import { isNotBlank } from 'in-services/util/string';
 import Footer from 'in-new-components/Footer';
 import Card from 'in-new-components/Card';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 const columnDefinitions = [
   {

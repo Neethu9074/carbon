@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createLogger } from '@instana/logger';
 
 import createAgentResponseObservable from 'in-subscription/agentResponse';

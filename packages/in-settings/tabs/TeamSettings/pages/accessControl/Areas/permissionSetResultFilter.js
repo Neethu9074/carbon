@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export const types = {
   APPLICATION: 'Application',
   K8S_CLUSTER: 'Kubernetes Cluster',

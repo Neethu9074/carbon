@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -33,6 +33,7 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './MatchedSyntheticEndpoints.mless';
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { useRef, Children, cloneElement, useCallback } from 'react';
 import { createLogger } from '@instana/logger';
 import invariant from 'invariant';

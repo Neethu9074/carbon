@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';

@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -19,6 +19,7 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { healthFormatter } from 'in-forge/plugins/ceph/formatters';
 import PoolTable from 'in-forge/plugins/ceph/Dashboard/PoolTable';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function CephDashboard({ snapshot, timeConfig }) {
   const sensorStatusCode = snapshot.getIn(['data', 'sensorStatusCode'], 1);

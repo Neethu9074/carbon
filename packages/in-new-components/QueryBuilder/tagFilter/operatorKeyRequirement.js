@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 // The following ${type}_${operator} combinations require a key to be configure for a tag filter
 //
 // Missing combinations of ${type}_${operator} fall back to 'false'

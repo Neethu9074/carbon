@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React, { useMemo } from 'react';
-import { t } from 'in-i18n';
 
 import { createTimeZoneSubForm } from 'in-custom-dashboards/widgets/TimeZones/form';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
@@ -21,6 +21,7 @@ import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './FormComponent.mless';
 

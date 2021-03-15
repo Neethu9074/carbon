@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   // we do not define a category since Lambda entries can belong to different categories depending on the trigger - they

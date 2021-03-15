@@ -28,6 +28,7 @@
   },
   "lint-staged": {
     "*.js": [
+      "./build/cli-tools/node_modules/.bin/import-sort --write",
       "eslint --fix",
       "prettier --write",
       "git add"

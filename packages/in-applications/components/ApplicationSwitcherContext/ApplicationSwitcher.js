@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t, Trans } from 'in-i18n';
+
 import React from 'react';
 
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
@@ -13,6 +13,7 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
+import { t, Trans } from 'in-i18n';
 
 import locals from './ApplicationSwitcher.mless';
 

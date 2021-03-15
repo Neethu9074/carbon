@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import 'react-select/dist/react-select.css';
 import Select from 'react-select';
 import React from 'react';

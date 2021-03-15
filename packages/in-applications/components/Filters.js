@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
@@ -13,6 +13,7 @@ import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Button from 'in-new-components/Button';
 import ComboBox from 'in-components/ComboBox';
+import { t } from 'in-i18n';
 
 import locals from './Filters.mless';
 

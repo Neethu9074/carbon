@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import CancelButtonComponent from 'in-components/form/CancelButton';
 import DeleteButtonComponent from 'in-components/form/DeleteButton';
 import SaveButtonComponent from 'in-components/form/SaveButton';
+import { t } from 'in-i18n';
 
 import locals from './FormFooter.mless';
 

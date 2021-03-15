@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 
 import { nodeArray as nodeArrayPropType } from 'in-new-components/SelectorOverlay/props';
 import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
@@ -16,6 +16,7 @@ import Node from 'in-new-components/SelectorOverlay/Node';
 import SearchInput from 'in-new-components/SearchInput';
 import { isNotBlank } from 'in-services/util/string';
 import keyCodes from 'in-components/keyCodes';
+import { t } from 'in-i18n';
 
 import locals from './SelectorOverlay.mless';
 

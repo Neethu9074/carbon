@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, notBlankValidator } from 'formalistic';
 import { get, find } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
@@ -20,6 +20,7 @@ import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
 import Card from 'in-new-components/Card';
 import Trans from 'in-i18n/Trans';
+import { t } from 'in-i18n';
 
 import locals from './Rename.mless';
 

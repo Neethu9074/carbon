@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm, createField } from 'formalistic';
 import { createLogger } from '@instana/logger';
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import HumioForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm';
 import { teamSettingsLogManagementHumio } from 'in-settings/navigation/paths';
@@ -22,6 +22,7 @@ import { goToPath } from 'in-stores/navigation';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 const block = 'in-ui-config';
 

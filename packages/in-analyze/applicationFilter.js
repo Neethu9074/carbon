@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
 
 import { applicationId, serviceId, endpointId } from 'in-analyze/navigation/matrix';

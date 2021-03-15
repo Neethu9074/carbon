@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
@@ -13,6 +13,7 @@ import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPrese
 import getServices from 'in-subscription/application/getServices';
 import Link from 'in-components/Link';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './ServiceTopList.mless';
 

@@ -2,9 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
 
 import { withKnobs, text, select } from '@storybook/addon-knobs';
+import React from 'react';
+
 import Pill, { kinds } from 'in-new-components/Pill';
 
 const options = {

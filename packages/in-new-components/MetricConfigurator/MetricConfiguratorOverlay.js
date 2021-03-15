@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, notBlankValidator, createMapForm, createListForm } from 'formalistic';
 import React, { useEffect, useState, useMemo } from 'react';
-import { t } from 'in-i18n';
 
 import MetricConfiguratorOverlayPresenter from 'in-new-components/MetricConfigurator/MetricConfiguratorOverlayPresenter';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { stringValidator } from 'in-services/validators/jsonType';
 import { buildEnumValidator } from 'in-services/validators/enum';
+import { t } from 'in-i18n';
 
 export default function MetricConfiguratorOverlay({
   onChange: onChangeExternal,

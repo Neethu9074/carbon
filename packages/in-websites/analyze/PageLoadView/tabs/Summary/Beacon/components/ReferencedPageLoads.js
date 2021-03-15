@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
 import { find } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
@@ -15,6 +15,7 @@ import { latencyFixed } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './ReferencedPageLoads.mless';
 

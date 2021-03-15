@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import HostNode from 'in-map/SceneGraph/physical/HostNode';
 import Group from 'in-map/sceneObjects/physical/Group';
 import Node from 'in-map/SceneGraph/Node';

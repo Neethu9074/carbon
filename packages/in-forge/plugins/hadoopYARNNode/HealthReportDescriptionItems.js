@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import { DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { formatDateTime } from 'in-services/formatters/date';
 import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import { formatDateTime } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
 
 export default connectTo(

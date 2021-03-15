@@ -2,13 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { withStyles } from '@material-ui/core';
 import React from 'react';
 
 import { StyledMuiSliderBase } from 'in-new-components/Slider/base/StyledMuiSliderBase';
 import { restrictedSliderPropTypes } from 'in-new-components/Slider/proptypes';
 import { identity } from 'in-services/util/function';
-
 import theme from 'in-themes';
 
 const StyledMuiSlider = withStyles({

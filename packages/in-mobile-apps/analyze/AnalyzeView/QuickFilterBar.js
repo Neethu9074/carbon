@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
-import { t } from 'in-i18n';
 
 import KeyValueBarItem from 'in-mobile-apps/analyze/AnalyzeView/MobileAppKeyValueBarItem';
 import SelectBarItem from 'in-mobile-apps/analyze/AnalyzeView/MobileAppSelectBarItem';
 import MoreBarItem from 'in-analyze/components/filterBar/MoreBarItem';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 import { emptyArray } from 'in-services/fixedObjects';
+import { t } from 'in-i18n';
 
 export default function QuickFilterBar(props) {
   const {

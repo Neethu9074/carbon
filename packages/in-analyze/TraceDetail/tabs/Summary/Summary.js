@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { just, create } from '@instana/observables';
 import { compose, withProps } from 'recompose';
 import React from 'react';

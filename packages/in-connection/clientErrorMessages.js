@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createLogger } from '@instana/logger';
-import { t } from 'in-i18n';
 
 import { getInitializationCallStack, getSubscriptionPayload } from 'in-connection';
 import createSubscription from 'in-subscription/subscription';
+import { t } from 'in-i18n';
 
 const logger = createLogger('in-connection/clientErrorMessages');
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-disable no-console */
 import { build } from 'in-services/config';
 

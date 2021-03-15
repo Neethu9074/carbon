@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import BooleanBarGroupItem from 'in-analyze/components/filterBar/BooleanBarItem/BooleanBarGroupItem';
 import MoreBarItem from 'in-analyze/components/filterBar/MoreBarItem';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
+import { t } from 'in-i18n';
 
 /**
  * A bar displaying toggles to switch between tag groups.

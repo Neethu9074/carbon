@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { registerTracker } from 'in-services/tracking/trackers';
 
 export function init() {

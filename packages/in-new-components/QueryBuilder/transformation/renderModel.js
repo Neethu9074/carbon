@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export {
   CLOSE_BRACKET,
   OPEN_BRACKET,
@@ -10,6 +11,7 @@ export {
   EXPRESSION,
   SPACING
 } from 'in-new-components/QueryBuilder/transformation/renderModelElementTypes';
+
 import {
   CLOSE_BRACKET,
   OPEN_BRACKET,
@@ -21,9 +23,9 @@ import {
   CLOSE_BRACKET as CLOSE_BRACKET_TYPE,
   OPEN_BRACKET as OPEN_BRACKET_TYPE
 } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { validateCloseBracket, validateOpenBracket } from 'in-new-components/QueryBuilder/validation/bracket';
 import validateConjunction from 'in-new-components/QueryBuilder/validation/conjunction';
 import validateExpression from 'in-new-components/QueryBuilder/validation/expression';
-import { validateCloseBracket, validateOpenBracket } from 'in-new-components/QueryBuilder/validation/bracket';
 import validateSpacing from 'in-new-components/QueryBuilder/validation/spacing';
 
 export const LETTER = {

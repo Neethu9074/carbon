@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -25,6 +25,7 @@ import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
 import EntityLink from 'in-new-components/EntityLink';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 const pathSegment = '/services';
 const matrixPrefix = 'service.';

@@ -2,12 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
 
 import { cpuColorMapper } from 'in-profiling/analyze/AnalyzeView/colors';
 import { serializeLine } from 'in-new-components/StackTrace/serializer';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { percentage } from 'in-services/formatters/number';
+import theme from 'in-themes';
 
 export default function mapData(profile, width, query, selfTimeHighlighted) {
   const nodeHeight = 16;

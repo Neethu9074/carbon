@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import { interval } from '@instana/observables';
 import React, { Fragment } from 'react';
 
 import { fromNowAccurately } from 'in-services/formatters/date';
-import { interval } from '@instana/observables';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(({ start }) => ({

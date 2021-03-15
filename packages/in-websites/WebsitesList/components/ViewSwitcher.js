@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
@@ -13,6 +13,7 @@ import { mobileAppMonitoringPath } from 'in-mobile-apps/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { websiteMonitoringPath } from 'in-websites/navigation/paths';
 import DashboardHeader from 'in-new-components/DashboardHeader';
+import { t } from 'in-i18n';
 
 export default function WebsitesAndMobileAppsViewSwitcher({ isWebsites }) {
   const hasAccessToBothAreas = hasWebsitesAccess && hasMobileAppsAccess;

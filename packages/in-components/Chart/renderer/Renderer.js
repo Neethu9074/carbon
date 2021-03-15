@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import barOverlapping from 'in-components/Chart/renderer/barOverlapping';
 import stackedArea from 'in-components/Chart/renderer/stackedArea';
 import stackedBar from 'in-components/Chart/renderer/stackedBar';

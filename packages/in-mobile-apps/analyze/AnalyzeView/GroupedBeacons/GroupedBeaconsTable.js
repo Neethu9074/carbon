@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import {
   timestampMetricName,
@@ -15,6 +15,7 @@ import MetricColumnHeaders from 'in-analyze/components/MetricColumn/MetricColumn
 import Group from 'in-mobile-apps/analyze/AnalyzeView/GroupedBeacons/Group';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import Groups from 'in-mobile-apps/analyze/AnalyzeView/Groups';
+import { t } from 'in-i18n';
 
 export default function GroupedBeaconsTable(props) {
   const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore, metrics } = props;

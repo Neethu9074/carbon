@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import TreeHeader from 'in-analyze/TraceDetail/components/CallTree/components/TreeHeader';

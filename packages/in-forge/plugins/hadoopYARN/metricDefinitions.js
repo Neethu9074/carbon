@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { bytes, number } from 'in-services/formatters/number';
+
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { bytes, number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [

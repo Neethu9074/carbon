@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
-import { yesOrNo } from 'in-services/formatters/boolean';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { yesOrNo } from 'in-services/formatters/boolean';
 import { t } from 'in-i18n';
 
 export default function NodeSummary({ snapshot }) {

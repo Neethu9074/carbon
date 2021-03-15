@@ -2,11 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { create } from '@instana/observables';
 
 import fragmentShader from 'in-applications/FlowMap/serviceLocator/ConnectionsServiceLocator/shader/fragmentShader.glsl';
 import vertexShader from 'in-applications/FlowMap/serviceLocator/ConnectionsServiceLocator/shader/vertexShader.glsl';
-
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import { LineSegments, BufferGeometry, RawShaderMaterial } from 'in-map/3DLibProvider';
 import { createConnectionId } from 'in-applications/FlowMap/sceneObjects/Connection';

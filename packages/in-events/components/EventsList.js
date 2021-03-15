@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -16,13 +16,14 @@ import {
   Th,
   LoadMoreRow
 } from 'in-components/tables/sharedComponents';
-import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
+import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
 import useTimeConfigUpdatingScale from 'in-services/hooks/useTimeConfigUpdatingScale';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import EmptyEventList from 'in-events/components/EmptyEventsList';
 import EventListRow from 'in-events/components/EventsListRow';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 import locals from './EventsList.mless';
 

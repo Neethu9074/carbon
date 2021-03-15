@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
-import { t } from 'in-i18n';
 
 import {
   applicationsList,
@@ -22,6 +22,7 @@ import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
 import { isView } from 'in-stores/navigation/navigation';
 import { analyze } from 'in-analyze/navigation/paths';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './TimeSelectionDialogPresenter.mless';
 

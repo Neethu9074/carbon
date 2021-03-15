@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { fromPromise, timeout, combineLatest } from '@instana/observables';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import AgentMonitoringIssueNotifications from 'in-infrastructure/Dashboard/components/AgentMonitoringIssueNotifications';
@@ -24,6 +24,7 @@ import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import Jail from 'in-components/Jail';
+import { t } from 'in-i18n';
 
 import locals from './DashboardContent.mless';
 

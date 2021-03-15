@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
@@ -13,6 +12,8 @@ import { getNextValidRollup } from 'in-events/components/eventChartRollups';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default getElementDimensions(function EventsChartWidthWrapper(props) {
   return <div>{props.width && <EventsChart {...props} />}</div>;

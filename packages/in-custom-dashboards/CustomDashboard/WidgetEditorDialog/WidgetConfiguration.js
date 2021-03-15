@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import WidgetPreview from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetPreview';
@@ -15,6 +15,7 @@ import Divider from 'in-new-components/workspace/Divider';
 import Header from 'in-new-components/workspace/Header';
 import Stack from 'in-new-components/layout/Stack';
 import widgets from 'in-custom-dashboards/widgets';
+import { t } from 'in-i18n';
 
 export default function WidgetConfiguration({ form, onChange, setSlideInView }) {
   const selectedType = form.get('type').value;

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { Route, Switch } from 'react-router-dom';
 import { compose, withProps } from 'recompose';
 import { find } from 'lodash';
@@ -9,8 +10,8 @@ import React from 'react';
 
 import perBeaconTypeConfigs from 'in-mobile-apps/analyze/AnalyzeView/Beacons/perBeaconTypeConfigs';
 import BeaconsPresenter from 'in-mobile-apps/analyze/AnalyzeView/Beacons/BeaconsPresenter';
-import { timestampMetricName } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
+import { timestampMetricName } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
 import { sessionViewPathFullyQualified } from 'in-mobile-apps/navigation/paths';
 import SessionView from 'in-mobile-apps/analyze/SessionView/SessionView';
 import cursorPaginated from 'in-hoc/cursorPaginated';

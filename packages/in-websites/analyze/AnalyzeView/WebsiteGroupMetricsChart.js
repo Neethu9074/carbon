@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { withProps } from 'recompose';
-import { t } from 'in-i18n';
 
 import GroupMetricsChart, { metricsChartDefinitions } from 'in-analyze/components/MetricsChart/GroupMetricsChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 const countChartDefinition = {
   label: t('in-websites:analyze.analyzeView.WebsiteGroupMetricsChartLabelCount'),

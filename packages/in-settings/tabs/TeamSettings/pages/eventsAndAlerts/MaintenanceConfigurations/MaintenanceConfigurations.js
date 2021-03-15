@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -19,6 +18,8 @@ import { toTitleCase } from 'in-services/util/string';
 import WithIcon from 'in-new-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function MaintenanceWindows() {
   const getStartAsString = getFormattedDateTimeFromFirstWindow.bind(null, 'start');

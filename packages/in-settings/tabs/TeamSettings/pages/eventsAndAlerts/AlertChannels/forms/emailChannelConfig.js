@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { List } from 'immutable';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
@@ -12,9 +12,10 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { generateUniqueShortId } from 'in-services/util/id';
 import FormGroup from 'in-settings/components/FormGroup';
+import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import './Forms.less';
 

@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useEffect, useState } from 'react';
-import { t } from 'in-i18n';
 
 import { contextGuideStackLoadedDurationTracker } from 'in-infrastructure/tracking/tracking';
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
@@ -15,6 +15,7 @@ import StackPane from 'in-new-components/Stack/components/StackPane';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import SEVERITY_MAP from 'in-new-components/Stack/severity.json';
 import tabList from 'in-new-components/Stack/tabs';
+import { t } from 'in-i18n';
 
 import locals from './StackPresenter.mless';
 

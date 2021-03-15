@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import ViewDashboardButton from 'in-map/components/MapSidebar/components/ViewDashboardButton';
 import SidebarHeader from 'in-map/components/MapSidebar/components/SidebarHeader';
+import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 
 import locals from './MapSidebarHeader.mless';
 

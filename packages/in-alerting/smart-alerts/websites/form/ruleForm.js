@@ -2,11 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, notBlankValidator, createMapForm } from 'formalistic';
 
-import { t } from 'in-i18n';
-
 import { operators } from 'in-analyze/applicationFilter';
+import { t } from 'in-i18n';
 
 export default function createRuleForm(rule) {
   const { alertType } = rule;

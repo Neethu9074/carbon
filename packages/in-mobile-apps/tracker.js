@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import {
   track,
   MOBILE_APPS_OPEN_ADD_FORM,

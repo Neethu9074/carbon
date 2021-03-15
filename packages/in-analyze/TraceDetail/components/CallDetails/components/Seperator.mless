@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 :local {
   .seperator {
     width: ~'calc(100% + 3rem)';

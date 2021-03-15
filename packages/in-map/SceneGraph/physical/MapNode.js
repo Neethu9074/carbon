@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { getViewStructure } from 'in-map/stores/physical/viewStructureStore';
 import GroupNode from 'in-map/SceneGraph/physical/GroupNode';
 import Map from 'in-map/sceneObjects/physical/Map';

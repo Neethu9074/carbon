@@ -2,14 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { hitRate, number } from 'in-services/formatters/number';
+import isAtLeastMinorVersion from './Neo4jVersion.js';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
-
-import isAtLeastMinorVersion from './Neo4jVersion.js';
 
 export default function NodeSummary({ snapshot }) {
   const snapshotId = snapshot.get('id');

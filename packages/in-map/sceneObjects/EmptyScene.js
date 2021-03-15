@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { setScene, clear as clearSceneStore } from 'in-map/stores/sceneStore';
 import SceneObject from 'in-map/sceneObjects/SceneObject';
 import { createEventBus } from 'in-map/services/eventBus';

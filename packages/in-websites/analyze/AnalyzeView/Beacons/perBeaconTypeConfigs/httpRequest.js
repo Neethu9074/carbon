@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import { Th, Td, ErroneousRowTh, ErroneousRowTd } from 'in-components/tables/sharedComponents';
 import ListItemPresenter from 'in-websites/analyze/AnalyzeView/Beacons/ListItemPresenter';
@@ -16,6 +16,7 @@ import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import TimestampCell from 'in-analyze/components/TimestampCell';
 import EllipsisCell from 'in-analyze/components/EllipsisCell';
+import { t } from 'in-i18n';
 
 export const perTypeColumnCount = 4;
 

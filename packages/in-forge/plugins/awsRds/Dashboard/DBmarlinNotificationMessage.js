@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+
 import React from 'react';
 
 import DBmarlinNotification from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotification';

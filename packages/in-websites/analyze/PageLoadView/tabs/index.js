@@ -2,11 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import { pageLoadViewPathFullyQualified } from 'in-websites/navigation/paths';
 import Summary from 'in-websites/analyze/PageLoadView/tabs/Summary/Summary';
 import { webMobileQb2AnalyzeEnabled } from 'in-services/featureFlags';
+import { t } from 'in-i18n';
 
 export default function getTabs({ path }) {
   return [

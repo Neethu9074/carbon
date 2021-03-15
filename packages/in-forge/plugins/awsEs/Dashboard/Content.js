@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -20,6 +19,8 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import ESClusterSummary from 'in-forge/plugins/awsEs/ESClusterSummary';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function AwsElasticSearchDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

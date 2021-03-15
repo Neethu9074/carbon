@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { just } from '@instana/observables';
 import { range } from 'lodash';
 import React from 'react';

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
 import FCP from 'in-map/singleMeshFactories/ContentProvider/FrameContentProvider';
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';

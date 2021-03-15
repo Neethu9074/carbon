@@ -5,7 +5,6 @@
 
 import { useLocation } from 'react-router';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { isAnalyticsOneLocation } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
@@ -24,6 +23,7 @@ import { getMetricCatalog } from 'in-mobile-apps/api/metricCatalog';
 import { analyzePath } from 'in-mobile-apps/navigation/paths';
 import { beaconType } from 'in-mobile-apps/navigation/matrix';
 import { getTagCatalog } from 'in-mobile-apps/api/tagCatalog';
+import { t } from 'in-i18n';
 
 const facetedSearchItems = [
   {

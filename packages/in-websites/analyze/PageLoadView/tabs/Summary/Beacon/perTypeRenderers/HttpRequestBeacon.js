@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import { learnMoreLabel, learnMoreHref, explanation } from 'in-websites/definitions/missingResourceTimings';
 import BatchIndicator from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BatchIndicator';
@@ -20,6 +20,7 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { isNotBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 export const getLabel = beacon => {
   let label = beacon.httpCallMethod;

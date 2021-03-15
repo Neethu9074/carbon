@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
@@ -15,6 +15,7 @@ import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Stack from 'in-new-components/layout/Stack';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { t } from 'in-i18n';
 
 import locals from './TermsPages.mless';
 

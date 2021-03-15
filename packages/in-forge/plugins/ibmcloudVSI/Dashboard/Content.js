@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import { bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -23,7 +24,11 @@ export default function ibmcloudVSIDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="average_cpu_usage_percentage" formatter={percentage.detailed} />
         </KpiKeyValue>
         <KpiKeyValue label="Memory Used Percentage">
-          <MetricValue snapshotId={snapshotId} metric="memory.memory_usage_percentage" formatter={percentage.detailed} />
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="memory.memory_usage_percentage"
+            formatter={percentage.detailed}
+          />
         </KpiKeyValue>
         <KpiKeyValue label="Network Traffic(bytes)">
           <MetricValue snapshotId={snapshotId} metric="network.network_in_bytes" formatter={bytes.detailed} />
@@ -97,7 +102,6 @@ export default function ibmcloudVSIDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-
     </div>
   );
 }

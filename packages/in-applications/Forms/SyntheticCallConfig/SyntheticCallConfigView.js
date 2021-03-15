@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, createMapForm, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 
 import CustomSyntheticRuleDialog, {
   getInitialForm as getConfigRuleForm
@@ -20,6 +20,7 @@ import Steps from 'in-applications/Forms/components/Steps';
 import Rule from 'in-applications/Forms/components/Rule';
 import BasicForm from 'in-applications/Forms/BasicForm';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './SyntheticCallConfigView.mless';
 

@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
@@ -23,6 +23,7 @@ import getLogs from 'in-logging/subscriptions/getLogs';
 import { number } from 'in-services/formatters/number';
 import getLog from 'in-logging/subscriptions/getLog';
 import useObservable from 'in-hooks/useObservable';
+import { t } from 'in-i18n';
 
 import locals from './Logs.mless';
 

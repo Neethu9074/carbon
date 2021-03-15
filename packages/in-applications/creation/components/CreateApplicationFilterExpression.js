@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import TagFilterExpressionConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterExpressionConfigurationWrapper';
@@ -15,6 +15,7 @@ import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { Li } from 'in-new-components/lists/List';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './CreateApplicationFilterExpression.mless';
 

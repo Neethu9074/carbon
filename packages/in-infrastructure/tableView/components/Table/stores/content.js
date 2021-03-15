@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { create, combineLatest } from '@instana/observables';
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import invariant from 'invariant';
 
-import { compare, isBlank, containsIgnoreCase } from 'in-services/util/string';
 import { renderers } from 'in-infrastructure/tableView/components/Table/renderers';
+import { compare, isBlank, containsIgnoreCase } from 'in-services/util/string';
 import { getSetting$ } from 'in-services/settings';
 
 let updateFrequencyMillis = 3000;

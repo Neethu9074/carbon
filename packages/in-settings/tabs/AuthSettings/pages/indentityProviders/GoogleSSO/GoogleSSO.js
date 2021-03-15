@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField } from 'formalistic';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/googleSSO';
@@ -17,6 +17,7 @@ import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 export default function GoogleSSO() {
   return (

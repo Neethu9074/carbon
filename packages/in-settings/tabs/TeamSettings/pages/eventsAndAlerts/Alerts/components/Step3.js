@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t, Trans } from 'in-i18n';
 
 import Applications, {
   getSelectedApplicationConfigsByName,
@@ -32,6 +32,7 @@ import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { t, Trans } from 'in-i18n';
 
 import locals from './Step3.mless';
 

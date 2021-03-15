@@ -2,9 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
+import { get } from 'lodash';
 
 import * as typeToLabelMapping from 'in-new-components/QueryBuilder/tagFilter/typeToLabelMapping';
 import SelectorOverlay from 'in-new-components/SelectorOverlay/SelectorOverlay';
@@ -14,7 +15,7 @@ import useObservable from 'in-hooks/useObservable';
 import { settings$ } from 'in-services/settings';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
-import { get } from 'lodash';
+import theme from 'in-themes';
 
 import locals from './TagSelectorOverlay.mless';
 

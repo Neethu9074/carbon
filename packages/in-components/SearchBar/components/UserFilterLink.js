@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
-import { DFQ_FILTER_SELECTED } from 'in-services/tracking/eventNames';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { DFQ_FILTER_SELECTED } from 'in-services/tracking/eventNames';
 import { track } from 'in-services/tracking/tracking';
 import Link from 'in-components/Link';
 

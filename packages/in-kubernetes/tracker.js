@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { track, KUBERNETES_DASHBOARD_TAB_CHANGE } from 'in-services/tracking/tracking';
 
 export const clusterTabChange = e => {

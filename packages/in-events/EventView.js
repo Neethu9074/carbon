@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { create, just, interval } from '@instana/observables';
 import React, { useState, useMemo } from 'react';
 import { get } from 'lodash';
@@ -10,8 +11,8 @@ import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } fro
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
+import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { timeConfig$, getTimeConfig } from 'in-stores/time/config';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';

@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
@@ -12,6 +12,7 @@ import Sections from 'in-new-components/workspace/Sections';
 import Section from 'in-new-components/workspace/Section';
 import Select from 'in-components/form/Select';
 import Toggle from 'in-components/form/Toggle';
+import { t } from 'in-i18n';
 
 import locals from './GroupingConfiguration.mless';
 

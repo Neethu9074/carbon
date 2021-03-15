@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { getNearestDomElement } from 'in-new-components/QueryBuilder/keyboardInteraction';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 

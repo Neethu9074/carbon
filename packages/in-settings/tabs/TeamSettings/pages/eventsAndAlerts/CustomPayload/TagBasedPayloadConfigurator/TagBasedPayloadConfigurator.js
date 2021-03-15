@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useRef } from 'react';
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 
 import TagBasedPayload from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayload';
 import TagSelectorOverlay from 'in-new-components/TagSelectorOverlay/TagSelectorOverlay';
@@ -15,6 +15,7 @@ import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './TagBasedPayloadConfigurator.mless';
 

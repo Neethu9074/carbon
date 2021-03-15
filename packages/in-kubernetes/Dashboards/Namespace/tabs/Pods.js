@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import { namespaceGroupings } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/ControlFrame';

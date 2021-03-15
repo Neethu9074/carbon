@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { enableShowInternalTags, isShowInternalTagsEnabled$ } from 'in-applications/isShowInternalTagsEnabled';
@@ -19,6 +19,7 @@ import useObservable from 'in-hooks/useObservable';
 import Toggle from 'in-components/form/Toggle';
 import Footer from 'in-new-components/Footer';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 import locals from './UiConfig.mless';
 

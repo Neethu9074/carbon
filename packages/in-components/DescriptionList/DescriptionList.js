@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-disable react/no-multi-comp */
 import React, { Fragment } from 'react';
 import classNames from 'classnames';

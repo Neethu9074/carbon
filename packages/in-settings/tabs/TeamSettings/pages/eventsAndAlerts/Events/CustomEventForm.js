@@ -2,11 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, lifecycle, withState } from 'recompose';
 import { create, just } from '@instana/observables';
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
-import { t, Trans } from 'in-i18n';
 import { isEqual } from 'lodash';
 
 import {
@@ -74,8 +74,8 @@ import FormGroup from 'in-settings/components/FormGroup';
 import { millis } from 'in-services/formatters/number';
 import { isMetricPercentile } from 'in-sdk/metrics';
 import TextArea from 'in-components/form/TextArea';
-import Helpify from 'in-components/form/Helpify';
 import { getPluginName } from 'in-sdk/pluginName';
+import Helpify from 'in-components/form/Helpify';
 import Toggle from 'in-components/form/Toggle';
 import { find } from 'in-services/arrayUtils';
 import ComboBox from 'in-components/ComboBox';
@@ -84,6 +84,7 @@ import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
 import { validate } from 'in-api/search';
 import Link from 'in-components/Link';
+import { t, Trans } from 'in-i18n';
 
 import locals from './CustomEventForm.mless';
 

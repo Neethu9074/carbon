@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
@@ -14,6 +13,8 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { millis, number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

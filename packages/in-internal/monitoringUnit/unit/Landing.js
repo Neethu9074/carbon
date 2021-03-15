@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import ProcessingComponents from 'in-internal/monitoringUnit/unit/ProcessingComponents';
 import SloViolationsChart from 'in-internal/components/SloViolationsChart';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { isInstanaEmail } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 export default function Landing({ timeConfig, tenant, unit }) {
   return (

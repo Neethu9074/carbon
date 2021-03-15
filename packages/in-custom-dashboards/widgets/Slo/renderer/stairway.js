@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { drawPoint } from 'in-components/Chart/renderer/point';
 
 export const hourlyBudgetMetricId = 'hourlyBudget';

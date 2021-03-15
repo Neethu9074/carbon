@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
-import { t } from 'in-i18n';
 
 import {
   mapApplications,
@@ -21,6 +21,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { success } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   ({ userEmail }) => ({

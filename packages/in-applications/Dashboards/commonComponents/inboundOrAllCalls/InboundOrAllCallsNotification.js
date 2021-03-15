@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans } from 'in-i18n';
+
 import { get } from 'lodash';
 import React from 'react';
 
@@ -11,6 +11,7 @@ import { boundaryScopes } from 'in-applications/constants';
 import Message from 'in-new-components/Message';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { Trans } from 'in-i18n';
 
 export default connectTo(
   props => ({

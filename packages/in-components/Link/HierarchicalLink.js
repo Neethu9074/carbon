@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
 import { compose, withState } from 'recompose';
 
 import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import { getLinkToSnapshotInCurrentView } from 'in-stores/navigation/paths/dashboardPaths';
+import HierarchicalLinkPresenter from 'in-components/Link/HierarchicalLinkPresenter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
-import HierarchicalLinkPresenter from 'in-components/Link/HierarchicalLinkPresenter';
 import { alwaysNull } from 'in-services/fixedStreams';
 import connect from 'in-hoc/connectTo';
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { find, sortBy } from 'lodash';
 
 const valueAsc = t => parseInt(t.value);

@@ -2,6 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import DatacenterDashboard from 'promise-loader?global,vsphere!in-vsphere/Dashboards/Datacenter/DatacenterDashboard';
+import HostDashboard from 'promise-loader?global,vsphere!in-vsphere/Dashboards/Host/HostDashboard';
+import VmDashboard from 'promise-loader?global,vsphere!in-vsphere/Dashboards/Vm/VmDashboard';
+import VSphereMainView from 'promise-loader?global,vsphere!in-vsphere/VSphereMainView';
 import { Route } from 'react-router-dom';
 import React, { Fragment } from 'react';
 
@@ -10,10 +15,6 @@ import {
   hostDashboardFullyQualified,
   vmDashboardFullyQualified
 } from 'in-vsphere/navigation/paths';
-import DatacenterDashboard from 'promise-loader?global,vsphere!in-vsphere/Dashboards/Datacenter/DatacenterDashboard';
-import HostDashboard from 'promise-loader?global,vsphere!in-vsphere/Dashboards/Host/HostDashboard';
-import VmDashboard from 'promise-loader?global,vsphere!in-vsphere/Dashboards/Vm/VmDashboard';
-import VSphereMainView from 'promise-loader?global,vsphere!in-vsphere/VSphereMainView';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { vsphere } from 'in-vsphere/navigation/paths';
 

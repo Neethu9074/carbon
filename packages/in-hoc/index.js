@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 // this file is necessary for a successful installation of the in-stores
 // module. Also, we can provide module usage information through this
 // module.

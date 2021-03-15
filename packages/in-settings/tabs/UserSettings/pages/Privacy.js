@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { create } from '@instana/observables';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
@@ -15,6 +15,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 export default function Communication() {
   return (

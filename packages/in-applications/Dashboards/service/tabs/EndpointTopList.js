@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
@@ -13,6 +12,8 @@ import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navig
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import Link from 'in-components/Link';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './EndpointTopList.mless';
 

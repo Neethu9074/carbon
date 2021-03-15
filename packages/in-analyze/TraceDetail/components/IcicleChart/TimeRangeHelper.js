@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compare } from 'in-services/util/number';
 
 export function isOverlappedWith(timeRange, occupiedTimeRanges) {

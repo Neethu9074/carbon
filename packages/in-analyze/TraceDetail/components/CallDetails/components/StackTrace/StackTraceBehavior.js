@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
 
 import StackTracePresentation from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTracePresentation';

@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { withState } from 'recompose';
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
+import { withState } from 'recompose';
 
 import RawStack from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/RawStack';
 import ParsedStackTrace from 'in-websites/WebsiteDashboard/tabs/Errors/ParsedStackTrace';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import { serializeLines } from 'in-new-components/StackTrace';
 import ButtonGroup from 'in-new-components/ButtonGroup';
+import { t } from 'in-i18n';
 
 import locals from './StackTrace.mless';
 
