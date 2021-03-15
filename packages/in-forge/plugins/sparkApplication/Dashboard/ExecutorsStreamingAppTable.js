@@ -203,7 +203,7 @@ export default function ExecutorsTable({ snapshot, timeConfig }) {
     <Table
       withoutPadding
       cardTitle={t('in-forge:plugins.sparkApplication.dashboard.executorsWithCount', {
-        count: rows.length
+        len: rows.length
       })}
       cols={cols}
       rows={rows}

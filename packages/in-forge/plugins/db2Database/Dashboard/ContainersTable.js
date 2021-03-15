@@ -140,7 +140,7 @@ export default function ContainersTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.db2Database.dashboard.containersWithCount', { count: rows.length })}
+      cardTitle={t('in-forge:plugins.db2Database.dashboard.containersWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}

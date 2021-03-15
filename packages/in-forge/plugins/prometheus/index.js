@@ -8,6 +8,7 @@ import kpiDefinitions from 'in-forge/plugins/prometheus/kpiDefinitions';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.prometheus,
@@ -17,7 +18,7 @@ registerSnapshotDefinition({
   getCodeView,
   supportsCodeView,
   technologyDescriptor: {
-    label: 'Prometheus'
+    label: t('in-forge:plugins.prometheus.prometheus')
   },
   customMetricsSpecs: SPECS
 });

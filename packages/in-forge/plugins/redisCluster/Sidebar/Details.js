@@ -18,7 +18,7 @@ export default function RedisClusterSidebar({ snapshot }) {
   return (
     <Fragment>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Redis Cluster</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.redisCluster.redisCluster')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

@@ -71,7 +71,7 @@ export default function LdapConnectorsTable({ snapshot, timeConfig }) {
     <Table
       withoutPadding
       cardTitle={t('in-forge:plugins.pingDirectory.dashboard.ldapConnectorsWithCount', {
-        count: rows.length
+        len: rows.length
       })}
       cols={cols}
       rows={rows}

@@ -3087,8 +3087,7 @@
         "pagesWritten": "Pages Written",
         "poolReadTime": "Pool Read Time",
         "poolWriteTime": "Pool Write Time",
-        "containersWithCount": "Containers ({{count}})",
-        "containersWithCount_plural": "Containers ({{count}})",
+        "containersWithCount": "Containers ({{len}})",
         "queries": "Queries",
         "status": "Status",
         "clientConnections": "Client Connections",
@@ -3130,8 +3129,7 @@
         "writeTime": "Write Time",
         "rowsRead": "Rows Read",
         "rowsReturned": "Rows Returned",
-        "databasesWithCount": "Databases ({{count}})",
-        "databasesWithCount_plural": "Databases ({{count}})",
+        "databasesWithCount": "Databases ({{len}})",
         "updates": "UPDATES",
         "inserts": "INSERTS",
         "deletes": "DELETES",
@@ -3326,7 +3324,7 @@
       "dashboard": {
         "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity."
       },
-      "ebsVolumesWithCount": "EBS Volumes ({{count}})",
+      "ebsVolumesWithCount": "EBS Volumes ({{len}})",
       "publicHostname": "Public Hostname",
       "instanceId": "Instance ID",
       "type": "Type",
@@ -3355,8 +3353,7 @@
         "documents": "Documents",
         "storeSize": "Store Size",
         "health": "Health",
-        "clusterNodesWithCount": "Cluster Nodes ({{count}})",
-        "clusterNodesWithCount_plural": "Cluster Nodes ({{count}})",
+        "clusterNodesWithCount": "Cluster Nodes ({{len}})",
         "latencyVsNumberOfQueries": "Latency vs. Number of Queries",
         "latency": "Latency",
         "numberOfQueries": "Number Of Queries",
@@ -3377,8 +3374,7 @@
         "totalQueries": "Total queries",
         "size": "Size",
         "metadataSize": "Metadata Size",
-        "indexDetailsWithCount": "Index Details ({{count}})",
-        "indexDetailsWithCount_plural": "Index Details ({{count}})",
+        "indexDetailsWithCount": "Index Details ({{len}})",
         "deletions": "Deletions",
         "queries": "Queries",
         "elasticsearchCluster": "Elasticsearch Cluster",
@@ -3452,8 +3448,7 @@
         "sent": "Sent",
         "received": "Received",
         "deleted": "Deleted",
-        "indicesWithCount": "Indices ({{count}})",
-        "indicesWithCount_plural": "Indices ({{count}})",
+        "indicesWithCount": "Indices ({{len}})",
         "deletions": "Deletions",
         "queriesCurrent": "Queries Current",
         "queriesTotal": "Queries Total",
@@ -3551,8 +3546,7 @@
         "operation": "Operation",
         "success": "Success",
         "fail": "Fail",
-        "operationsWithCount": "Operations ({{count}})",
-        "operationsWithCount_plural": "Operations ({{count}})",
+        "operationsWithCount": "Operations ({{len}})",
         "etcd": "Etcd"
       },
       "processId": "Process ID",
@@ -3639,9 +3633,9 @@
         "maxChildren": "Max Children",
         "memory": "Memory",
         "workerPoolMetricsDashboardNotification": "In order to monitor the worker pool {{pool}}, you need to enable <code>pm.status_path</code> in your PHP-FPM config.",
-        "connectionsWithCount": "Connections ({{count}})",
-        "processesWithCount": "Processes ({{count}})",
-        "resourcesWithCount": "Resources ({{count}})"
+        "connectionsWithCount": "Connections ({{len}})",
+        "processesWithCount": "Processes ({{len}})",
+        "resourcesWithCount": "Resources ({{len}})"
       },
       "masterProcessId": "Master Process ID",
       "acceptedConnections": "Accepted Connections",
@@ -3657,7 +3651,8 @@
       "maxActive": "Max Active",
       "maxChildren": "Max Children",
       "memory": "Memory",
-      "resources": "Resources"
+      "resources": "Resources",
+      "phpFpm": "PHP-FPM"
     },
     "phpRuntimePlatform": {
       "version": "Version",
@@ -3667,7 +3662,8 @@
       "iniFilesDirectory": "Ini Files Directory",
       "additionalIniFilesParsed": "Additional Ini Files Parsed",
       "extensionsDirectory": "Extensions Directory",
-      "instanaTracingExtensionVersion": "Instana Tracing Extension Version"
+      "instanaTracingExtensionVersion": "Instana Tracing Extension Version",
+      "php": "PHP"
     },
     "ping": {
       "dashboard": {
@@ -3708,7 +3704,7 @@
         "totalOperations": "Total Operations",
         "name": "Name",
         "protocol": "Protocol",
-        "ldapConnectorsWithCount": "Ldap Connectors ({{count}})",
+        "ldapConnectorsWithCount": "Ldap Connectors ({{len}})",
         "activeConnections": "Active Connections",
         "connectionStatistics": "Connection Statistics",
         "addRequests": "Add requests",
@@ -3725,7 +3721,7 @@
         "deleteEntry": "Delete entry",
         "renameEntry": "Rename entry",
         "changedEntry": "Changed entry",
-        "recentChangesPerDatabaseWithCount": "Recent changes per database ({{count}})",
+        "recentChangesPerDatabaseWithCount": "Recent changes per database ({{len}})",
         "pingIdentityDirectoryServer": "PingIdentity Directory Server"
       },
       "databases": "Databases",
@@ -3831,7 +3827,8 @@
       "databaseSize": "Database size",
       "connection": "Connection",
       "replicationDelayInBytes": "Replication delay in bytes",
-      "replicationDelayInSeconds": "Replication delay in seconds"
+      "replicationDelayInSeconds": "Replication delay in seconds",
+      "postgreSql": "PostgreSQL"
     },
     "process": {
       "jvmAttachGenericIssueDescription": "The host agent cannot attach correctly to this Java Virtual Machine. Therefore, this process will not be traced. Refer to the host agent logs for more information as to why the attachment failed. The host agent will try to connect again to this virtual machine every ten minutes. However, until it succeeds, neither traces nor metrics will be collected for this JVM.",
@@ -3890,7 +3887,7 @@
       "used": "Used",
       "parentProcess": "Parent process",
       "name": "Name",
-      "childProcessesWithCount": "Child processes ({{count}})",
+      "childProcessesWithCount": "Child processes ({{len}})",
       "host": "Host",
       "cpuUser": "CPU User",
       "cpuSystem": "CPU System",
@@ -3907,7 +3904,8 @@
       "gauges": "Gauges",
       "histograms": "Histograms",
       "summaries": "Summaries",
-      "untyped": "Untyped"
+      "untyped": "Untyped",
+      "prometheus": "Prometheus"
     },
     "pythonRuntimePlatform": {
       "dashboard": {
@@ -3974,7 +3972,8 @@
       "involuntaryContextSwitches": "Involuntary Context Switches",
       "aliveThreads": "Alive Threads",
       "dummyThreads": "Dummy Threads",
-      "daemonThreads": "Daemon Threads"
+      "daemonThreads": "Daemon Threads",
+      "python": "Python"
     },
     "rabbitMq": {
       "dashboard": {
@@ -4004,14 +4003,14 @@
         "erlangProcesses": "Erlang processes",
         "diskFree": "Disk free",
         "diskAlarmThreshold": "Disk alarm threshold",
-        "nodesWithCount": "Nodes ({{count}})",
+        "nodesWithCount": "Nodes ({{len}})",
         "totalFileDescriptors": "Total file descriptors",
         "memoryLimit": "Memory limit",
         "erlangProcessesUsed": "Erlang processes used",
         "maxErlangProcesses": "Max Erlang processes",
         "diskFreeSpace": "Disk free space",
         "totalSockets": "Total sockets",
-        "queuesWithCount": "Queues ({{count}})",
+        "queuesWithCount": "Queues ({{len}})",
         "queue": "Queue",
         "messagesUnacknowledged": "Messages unacknowledged",
         "messagesTotal": "Messages total"
@@ -4043,7 +4042,8 @@
       "messagesUnacknowledged": "Messages unacknowledged",
       "messagesTotal": "Messages total",
       "totalNumberOfNetworkPartitions": "Total number of Network partitions",
-      "messagesAcknowledged": "Messages acknowledged"
+      "messagesAcknowledged": "Messages acknowledged",
+      "rabbitMq": "RabbitMQ"
     },
     "redis": {
       "dashboard": {
@@ -4077,13 +4077,13 @@
         "bytesLeftBeforeSyncingIsComplete": "Bytes left before syncing is complete",
         "name": "Name",
         "value": "Value",
-        "customMonitorsWithCount": "Custom Monitors ({{count}})",
+        "customMonitorsWithCount": "Custom Monitors ({{len}})",
         "keys": "Keys",
         "expires": "Expires",
-        "databasesWithCount": "Databases ({{count}})",
+        "databasesWithCount": "Databases ({{len}})",
         "channel": "Channel",
         "subscriberCount": "Subscriber Count",
-        "pubSubChannelsWithCount": "Pub / Sub Channels ({{count}})",
+        "pubSubChannelsWithCount": "Pub / Sub Channels ({{len}})",
         "time": "Time",
         "duration": "Duration",
         "args": "Args",
@@ -4121,7 +4121,8 @@
       "redisExpiredKeys": "Redis Expired keys",
       "numberOfConnectedSlaves": "Number of Connected slaves",
       "latency": "Latency",
-      "bytesLeftBeforeSyncingIsComplete": "Bytes left before syncing is complete"
+      "bytesLeftBeforeSyncingIsComplete": "Bytes left before syncing is complete",
+      "redis": "Redis"
     },
     "redisCluster": {
       "throughput": "Throughput",
@@ -4136,7 +4137,7 @@
         "connectedClients": "Connected clients",
         "role": "Role",
         "health": "Health",
-        "availableNodesWithCount": "Available Nodes ({{count}})",
+        "availableNodesWithCount": "Available Nodes ({{len}})",
         "throughput": "Throughput",
         "throughputMetricChartExplanation": "Throughput metric represents the sum for all nodes in the cluster.",
         "throughputOpsSec": "Throughput (ops/sec)",
@@ -4181,7 +4182,9 @@
       "clusterMessagesReceived": "Cluster messages received",
       "clusterSize": "Cluster size",
       "nodes": "Nodes",
-      "masterNodes": "Master nodes"
+      "masterNodes": "Master nodes",
+      "redis": "Redis",
+      "redisCluster": "Redis Cluster"
     },
     "redisEnterpriseCluster": {
       "keyHits": "Key Hits",
@@ -4194,7 +4197,7 @@
         "shardCount": "Shard Count",
         "connectedClients": "Connected Clients",
         "status": "Status",
-        "nodesWithCount": "Nodes ({{count}})",
+        "nodesWithCount": "Nodes ({{len}})",
         "keys": "Keys",
         "hits": "Hits",
         "misses": "Misses",
@@ -4211,12 +4214,12 @@
         "keyHits": "Key Hits",
         "memoryUsed": "Memory Used",
         "latency": "Latency",
-        "databasesWithCount": "Databases ({{count}})",
+        "databasesWithCount": "Databases ({{len}})",
         "rate": "Rate",
         "dbUid": "DB UID",
         "nodeUid": "Node UID",
         "role": "Role",
-        "shardsWithCount": "Shards ({{count}})",
+        "shardsWithCount": "Shards ({{len}})",
         "redisEnterpriseCluster": "Redis Enterprise Cluster"
       },
       "redisEnterprise": "Redis Enterprise",
@@ -4309,14 +4312,15 @@
       "gc": "GC",
       "gcRunDuration": "#GC Run Duration",
       "threadCount": "#Thread Count",
-      "threads": "Threads"
+      "threads": "Threads",
+      "ruby": "Ruby"
     },
     "sapHana": {
       "dashboard": {
         "name": "Name",
         "timestamp": "Timestamp",
         "priority": "Priority",
-        "alertsWithCount": "Alerts {{count}}",
+        "alertsWithCount": "Alerts {{len}}",
         "userAction": "User Action",
         "ratingInformation": "Information",
         "ratingMedium": "Medium",
@@ -4402,7 +4406,7 @@
         "cacheHitRate": "Cache Hit Rate",
         "evictions": "Evictions",
         "errors": "Errors",
-        "coresWithCount": "Cores ({{count}})",
+        "coresWithCount": "Cores ({{len}})",
         "averageRequestTime": "Average Request Time",
         "cacheLookups": "Cache Lookups",
         "lookups": "Lookups",
@@ -4431,7 +4435,8 @@
       "documentsAdded": "Documents added",
       "documentsPending": "Documents pending",
       "solrEvictions": "Solr evictions",
-      "startedAt": "Started At"
+      "startedAt": "Started At",
+      "solr": "Solr"
     },
     "solrCloudCluster": {
       "nodes": "Nodes",
@@ -4493,7 +4498,7 @@
         "totalInputBytes": "Total Input Bytes",
         "totalShuffleRead": "Total Shuffle Read",
         "totalShuffleWrite": "Total Shuffle Write",
-        "executorsWithCount": "Executors ({{count}})",
+        "executorsWithCount": "Executors ({{len}})",
         "maxMemory": "Max Memory",
         "failedTasksPerSecond": "Failed Tasks per Second",
         "completedTasksPerSecond": "Completed Tasks per Second",
@@ -5188,8 +5193,7 @@
         "connectionRetries": "Connection Retries",
         "deniedResponses": "Denied Responses",
         "reDispatchedRequests": "Re-Dispatched Requests",
-        "backendsWithCount": "Backends ({{count}})",
-        "backendsWithCount_plural": "Backends ({{count}})",
+        "backendsWithCount": "Backends ({{len}})",
         "haProxyIsDetectedToBeInMultiProcessMode": "HAProxy is detected to be in multi-process mode, but no process attribute is detected in 'stats socket' configuration.",
         "toBeAbleToProperlyMonitorHaProxyInMultiProcessMode": "To be able to properly monitor HAProxy in multi-process mode, stats socket binding should be defined per socket using the 'process' attribute.",
         "requests": "Requests",
@@ -5201,8 +5205,7 @@
         "serverErrors": "Server Errors",
         "bytesSent": "Bytes Sent",
         "bytesReceived": "Bytes Received",
-        "frontendsWithCount": "Frontends ({{count}})",
-        "frontendsWithCount_plural": "Frontends ({{count}})",
+        "frontendsWithCount": "Frontends ({{len}})",
         "haProxy": "HAProxy"
       },
       "version": "Version",
@@ -6832,7 +6835,7 @@
       "titleConnections": "Connections",
       "titleBytesReceivedSent": "Bytes Received & Sent",
       "titleThreadDeadLocksAvoidedReported": "Thread Dead Locks Avoided & Reported",
-      "titleDatabasesCount": "Databases ({{count}})",
+      "titleDatabasesCount": "Databases ({{len}})",
       "headerDatabases": "Databases",
       "headerSybase": "Sybase",
       "categoryDatabaseDiskReadsWrites": "Database Disk Reads & Writes",
@@ -6868,8 +6871,8 @@
       "titleSubscribers": "Subscribers",
       "titleInMessages": "In Messages",
       "titleOutMessages": "Out Messages",
-      "titleQueuesCount": "Queues ({{count}})",
-      "titleTopicsCount": "Topics ({{count}})",
+      "titleQueuesCount": "Queues ({{len}})",
+      "titleTopicsCount": "Topics ({{len}})",
       "headerTibcoEMS": "Tibco EMS",
       "labelConnections": "Connections",
       "labelSessions": "Sessions",
@@ -6927,11 +6930,11 @@
       "titleKeepaliveTimeout": "Keepalive Timeout",
       "titleMaxConnections": "Max Connections",
       "titleAvgResponseTime": "Avg. Response Time",
-      "titleConnectorsCount": "Connectors ({{count}})",
-      "titleDataSourcesCount": "Data Sources ({{count}})",
-      "titleExecutorsCount": "Executors ({{count}})",
-      "titleWebAppsCount": "Web Apps ({{count}})",
-      "titleServletsOfWebAppCount": "Servlets of {{webAppContext}} ({{count}})",
+      "titleConnectorsCount": "Connectors ({{len}})",
+      "titleDataSourcesCount": "Data Sources ({{len}})",
+      "titleExecutorsCount": "Executors ({{len}})",
+      "titleWebAppsCount": "Web Apps ({{len}})",
+      "titleServletsOfWebAppCount": "Servlets of {{webAppContext}} ({{len}})",
       "titleTotalSessionCount": "Total session count",
       "headerTomcat": "Tomcat",
       "headerWebapps": "Webapps",
@@ -6940,10 +6943,15 @@
       "labelDatasource": "Datasource",
       "labelSessions": "Sessions",
       "labelCountThreads": "{{count}} Threads",
+      "labelCountThreads_plural": "{{count}} Threads",
       "labelCountBusyThreads": "{{count}} Busy Threads",
+      "labelCountBusyThreads_plural": "{{count}} Busy Threads",
       "labelCountConnections": "{{count}} Connections",
+      "labelCountConnections_plural": "{{count}} Connections",
       "labelCountActiveThreads": "{{count}} Active Threads",
+      "labelCountActiveThreads_plural": "{{count}} Active Threads",
       "labelCountQueueSize": "{{count}} Queue Size",
+      "labelCountQueueSize_plural": "{{count}} Queue Size",
       "labelNumberOfSessions": "Number of Sessions",
       "labelActiveConnections": "Active connections",
       "labelAverageResponseTime": "Average Response Time",

@@ -148,7 +148,7 @@ export default connectTo(
       <Table
         withoutPadding
         cardTitle={t('in-forge:plugins.redisEnterpriseCluster.dashboard.databasesWithCount', {
-          count: rows.length
+          len: rows.length
         })}
         cols={cols}
         rows={rows}

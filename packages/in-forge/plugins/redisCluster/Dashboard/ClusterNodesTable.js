@@ -121,7 +121,7 @@ export default connectTo(
       <Table
         withoutPadding
         cardTitle={t('in-forge:plugins.redisCluster.dashboard.availableNodesWithCount', {
-          count: rows.length
+          len: rows.length
         })}
         cols={cols}
         rows={rows}

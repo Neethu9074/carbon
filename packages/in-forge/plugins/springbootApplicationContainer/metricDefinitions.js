@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+import { t } from 'in-i18n';
+
 import { number } from 'in-services/formatters/number';
 
 export default [
@@ -15,28 +17,38 @@ export default [
       'metrics.statusCode.5xx'
     ],
     labels: [
-      'All Requests',
-      'Requests with Status Code 1xx',
-      'Requests with Status Code 2xx',
-      'Requests with Status Code 3xx',
-      'Requests with Status Code 4xx',
-      'Requests with Status Code 5xx'
+      t('in-forge:plugins.springbootAppContainer.labelAllRequests'),
+      t('in-forge:plugins.springbootAppContainer.requestsWithStatusCode', {
+        statusCode: t('in-forge:plugins.labelRequests.1xx')
+      }),
+      t('in-forge:plugins.springbootAppContainer.requestsWithStatusCode', {
+        statusCode: t('in-forge:plugins.labelRequests.2xx')
+      }),
+      t('in-forge:plugins.springbootAppContainer.requestsWithStatusCode', {
+        statusCode: t('in-forge:plugins.labelRequests.3xx')
+      }),
+      t('in-forge:plugins.springbootAppContainer.requestsWithStatusCode', {
+        statusCode: t('in-forge:plugins.labelRequests.4xx')
+      }),
+      t('in-forge:plugins.springbootAppContainer.requestsWithStatusCode', {
+        statusCode: t('in-forge:plugins.labelRequests.5xx')
+      })
     ],
     min: 0,
-    category: ['Requests'],
+    category: [t('in-forge:plugins.springbootAppContainer.categoryRequests')],
     formatter: number
   },
   {
     metric: 'metrics.status',
-    label: 'Status of SpringBoot Application',
+    label: t('in-forge:plugins.springbootAppContainer.labelStatusOfSpringBootApplication'),
     min: 0,
     formatter: number
   },
   {
     metric: 'metrics.httpsessions.active',
-    label: 'Active Sessions',
+    label: t('in-forge:plugins.springbootAppContainer.labelActiveSessions'),
     min: 0,
-    category: ['Sessions'],
+    category: [t('in-forge:plugins.springbootAppContainer.categorySessions')],
     formatter: number
   }
 ];

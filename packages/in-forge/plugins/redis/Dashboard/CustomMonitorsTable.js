@@ -58,7 +58,7 @@ export default function CustomMonitorsTable({ snapshot, timeConfig }) {
     <Table
       withoutPadding
       cardTitle={t('in-forge:plugins.redis.dashboard.customMonitorsWithCount', {
-        count: monitors.size
+        len: monitors.size
       })}
       cols={cols}
       rows={rows}

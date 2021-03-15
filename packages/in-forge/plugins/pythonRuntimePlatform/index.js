@@ -7,6 +7,7 @@ import kpiDefinitions from 'in-forge/plugins/pythonRuntimePlatform/kpiDefinition
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/python';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.pythonRuntimePlatform,
@@ -16,6 +17,6 @@ registerSnapshotDefinition({
   getCodeView,
   supportsCodeView,
   technologyDescriptor: {
-    label: 'Python'
+    label: t('in-forge:plugins.pythonRuntimePlatform.python')
   }
 });

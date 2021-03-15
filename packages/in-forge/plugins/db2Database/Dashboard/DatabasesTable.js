@@ -140,7 +140,7 @@ export default function DatabasesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.db2Database.dashboard.databasesWithCount', { count: rows.length })}
+      cardTitle={t('in-forge:plugins.db2Database.dashboard.databasesWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}

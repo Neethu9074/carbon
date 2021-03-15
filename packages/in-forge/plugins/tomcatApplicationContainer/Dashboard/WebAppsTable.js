@@ -82,7 +82,7 @@ export default function WebAppsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.tomcatAppContainer.titleWebAppsCount', { count: rows.length })}
+      cardTitle={t('in-forge:plugins.tomcatAppContainer.titleWebAppsCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}

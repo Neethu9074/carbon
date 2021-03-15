@@ -7,6 +7,7 @@ import kpiDefinitions from 'in-forge/plugins/phpFpmRuntimePlatform/kpiDefinition
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/php';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.phpFpmRuntimePlatform,
@@ -16,6 +17,6 @@ registerSnapshotDefinition({
   supportsCodeView,
   getCodeView,
   technologyDescriptor: {
-    label: 'PHP-FPM'
+    label: t('in-forge:plugins.phpFpmRuntimePlatform.phpFpm')
   }
 });

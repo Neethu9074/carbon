@@ -141,7 +141,7 @@ export default function NodesTable({ snapshot, timeConfig }) {
     <Table
       withoutPadding
       cardTitle={t('in-forge:plugins.rabbitMq.dashboard.nodesWithCount', {
-        count: rows.length
+        len: rows.length
       })}
       cols={cols}
       rows={rows}

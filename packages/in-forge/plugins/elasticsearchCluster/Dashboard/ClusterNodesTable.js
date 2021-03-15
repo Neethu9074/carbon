@@ -165,7 +165,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.elasticsearchCluster.dashboard.clusterNodesWithCount', { count: rows.length })}
+        cardTitle={t('in-forge:plugins.elasticsearchCluster.dashboard.clusterNodesWithCount', { len: rows.length })}
         cols={cols}
         rows={rows}
         initialSortColumn={2}

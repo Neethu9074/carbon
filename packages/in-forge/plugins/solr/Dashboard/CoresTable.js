@@ -126,7 +126,7 @@ export default function CoresTable({ snapshot, timeConfig }) {
     <Table
       withoutPadding
       cardTitle={t('in-forge:plugins.solr.dashboard.coresWithCount', {
-        count: rows.length
+        len: rows.length
       })}
       cols={cols}
       rows={rows}

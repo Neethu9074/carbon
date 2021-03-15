@@ -47,7 +47,7 @@ export default function DatabasesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.sybase.titleDatabasesCount', { count: rows.length })}
+      cardTitle={t('in-forge:plugins.sybase.titleDatabasesCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}

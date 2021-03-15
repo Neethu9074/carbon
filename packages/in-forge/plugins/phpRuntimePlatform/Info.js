@@ -11,7 +11,7 @@ import { t } from 'in-i18n';
 export default function PhpRuntimePlatformInfo({ snapshot, initiallyOpen = true }) {
   return (
     <Collapsible initiallyOpen={initiallyOpen}>
-      <Collapsible.Header>PHP</Collapsible.Header>
+      <Collapsible.Header>{t('in-forge:plugins.phpRuntimePlatform.php')}</Collapsible.Header>
       <Collapsible.Content>
         <DescriptionList>
           <DescriptionItem title={t('in-forge:plugins.phpRuntimePlatform.version')}>

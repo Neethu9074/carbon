@@ -91,7 +91,7 @@ export default function DataSourcesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.tomcatAppContainer.titleDataSourcesCount', { count: rows.length })}
+      cardTitle={t('in-forge:plugins.tomcatAppContainer.titleDataSourcesCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}

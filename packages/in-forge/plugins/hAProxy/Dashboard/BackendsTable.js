@@ -167,7 +167,7 @@ export default function BackendsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.hAProxy.dashboard.backendsWithCount', { count: rows.length })}
+      cardTitle={t('in-forge:plugins.hAProxy.dashboard.backendsWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
