@@ -71,6 +71,9 @@ export default function FormComponent({
                 form
                   .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
                   .updateIn(['type'], field => field.setValue(type).setTouched(true))
+                  .updateIn(['aggregation'], field =>
+                    field.setValue(Object.keys(aggregationLabels)[0]).setTouched(true)
+                  )
               )
             }
             label={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.selectMetric')}
@@ -84,17 +87,11 @@ export default function FormComponent({
           onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
           additionalContent={<TouchedMessages field={aggregationField} />}
           useAlternateBg
+          disabled={!metricField.valid}
         >
-          {!metricField.valid && (
-            <option value="">
-              {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.pleaseSelectMetric')}
-            </option>
-          )}
+          {!metricField.valid && <option value="">{aggregationLabels[Object.keys(aggregationLabels)[0]]}</option>}
           {metricField.valid && (
             <>
-              <option value="">
-                {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.pleaseSelect')}
-              </option>
               {Object.keys(aggregationLabels).map(aggregation => (
                 <option key={aggregation} value={aggregation}>
                   {aggregationLabels[aggregation]}
