@@ -1,0 +1,28 @@
+:local {
+  .container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    max-height: calc(100% - 3rem);
+  }
+
+  .content {
+    flex: 1;
+    overflow: auto;
+  }
+
+  .pagination {
+    > div {
+      padding-bottom: 0em;
+    }
+  }
+
+  .disabledHealthIndicator {
+    pointer-events: none;
+    line-height: 0;
+  }
+
+  .healthIndicator {
+    line-height: 0;
+  }
+}

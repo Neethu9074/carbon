@@ -44,5 +44,6 @@ module.exports = {
   languageSelectorEnabled: true,
   pseudoLanguageEnabled: true,
   authenticationOidcEnabled: true,
-  syntheticCallsEnabled: true
+  syntheticCallsEnabled: true,
+  applicationHealthOverviewEnabled: true
 };
