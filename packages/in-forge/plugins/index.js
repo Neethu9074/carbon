@@ -169,6 +169,7 @@ import './packet';
 import './pCFApplication';
 import './pCFOrganization';
 import './pCFSpace';
+import './perfCounters';
 import './phpFpmRuntimePlatform';
 import './phpRuntimePlatform';
 import './ping';
