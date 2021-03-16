@@ -11,6 +11,11 @@ export function addTransparency(hex, opacity) {
   return rgbToHex(rgb.r, rgb.g, rgb.b);
 }
 
+export function hexToRGBA(hex, opacity) {
+  const rgb = hexToRGB(hex);
+  return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`;
+}
+
 function rgbToHex(r, g, b) {
   const hex = (r << 16) ^ (g << 8) ^ (b << 0);
   return '#' + ('000000' + hex.toString(16)).slice(-6);

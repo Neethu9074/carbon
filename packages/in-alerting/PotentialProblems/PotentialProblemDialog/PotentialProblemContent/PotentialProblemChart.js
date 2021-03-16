@@ -17,7 +17,11 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
+import Renderer from 'in-alerting/components/Chart/renderer/Renderer';
+import { hexToRGBA } from 'in-themes/utils';
 import { hours } from 'in-services/time';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function PotentialProblemChart({
   applicationId,
@@ -41,6 +45,7 @@ export default function PotentialProblemChart({
     tagFilterExpression: fromBackendModel(tagFilterExpression),
     includeSynthetic
   };
+  const highlightColor = theme.lib.colors.chart.strokeColors100[3];
 
   return (
     <AlertingChartWithErrorMessage
@@ -50,6 +55,12 @@ export default function PotentialProblemChart({
         smoothMetric: false
       }}
       blueprintConfig={blueprintConfig}
+      rendererOverride={Renderer.lineWithBaselineAndPotentialProblem}
+      highlight={{
+        area: alert,
+        color: [hexToRGBA(highlightColor, 0.25), highlightColor],
+        label: t('in-alerting:potentialProblems.titlePotentialProblem')
+      }}
     />
   );
 
