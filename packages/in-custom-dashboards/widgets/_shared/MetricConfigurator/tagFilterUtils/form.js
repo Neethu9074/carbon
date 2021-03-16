@@ -10,6 +10,7 @@ import { isEqual } from 'lodash';
 import { toBackendQueryModel, EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
 import { objectValidator } from 'in-services/validators/jsonType';
@@ -55,6 +56,12 @@ export function migrate({ savedState, getTagCatalog, modifyTagFilterArrayBeforeC
         return tagCatalogResult;
       }
 
+      const includeInternal = savedState.tagFilters.some(isIncludeInternalFilter);
+      const includeSynthetic = savedState.tagFilters.some(isIncludeSyntheticFilter);
+      const tagFiltersWithoutHiddenCalls = savedState.tagFilters
+        .filter(tagFilter => !isIncludeInternalFilter(tagFilter))
+        .filter(tagFilter => !isIncludeSyntheticFilter(tagFilter));
+
       return {
         progress: finishedProgress,
         errors: emptyArray,
@@ -62,9 +69,22 @@ export function migrate({ savedState, getTagCatalog, modifyTagFilterArrayBeforeC
           ...savedState,
           tagFilters: undefined,
           tagFilterExpression: toBackendQueryModel(
-            fromTagFiltersArray(modifyTagFilterArrayBeforeConversion(savedState.tagFilters), tagCatalogResult.data)
-          )
+            fromTagFiltersArray(
+              modifyTagFilterArrayBeforeConversion(tagFiltersWithoutHiddenCalls),
+              tagCatalogResult.data
+            )
+          ),
+          includeInternal,
+          includeSynthetic
         }
       };
     });
+}
+
+function isIncludeInternalFilter(tagFilter) {
+  return tagFilter.name === 'include_internal' && tagFilter.operator === EQUALS && tagFilter.booleanValue === 'true';
+}
+
+function isIncludeSyntheticFilter(tagFilter) {
+  return tagFilter.name === 'include_synthetic' && tagFilter.operator === EQUALS && tagFilter.booleanValue === 'true';
 }

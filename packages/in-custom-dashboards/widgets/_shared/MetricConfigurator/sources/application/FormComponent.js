@@ -3,18 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useEffect, useState } from 'react';
 import { find, groupBy } from 'lodash';
-import React from 'react';
 
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import {
   isRequiringGroupingConfiguration,
   onChangeGrouping
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import HiddenCallsConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/HiddenCallsConfiguration';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import QueryBuilder, { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { availableMetrics } from 'in-applications/analyze/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -40,14 +42,50 @@ export default function FormComponent({
   const aggregationField = form.get('aggregation');
   const tagFilterExpressionField = form.get('tagFilterExpression');
   const groupingField = form.get('grouping');
+  const includeInternalField = form.get('includeInternal');
+  const includeSyntheticField = form.get('includeSynthetic');
   const timeConfig = useTimeConfig();
   const tagCatalogResult = useObservable(getGetTagCatalogObservable, [timeConfig]) ?? pendingResult;
+  const [enableIncludeInternalOnce, setEnableIncludeInternalOnce] = useState(false);
+  const [enableIncludeSyntheticOnce, setEnableIncludeSyntheticOnce] = useState(false);
 
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
     tagCatalogResult,
     form,
     onChange
   });
+
+  // If certain tags regarding internal or synthetic calls are set in the Query, the toggles to include them should be checked.
+  useEffect(() => {
+    const hasIsInternal =
+      tagFilterExpression.find(
+        ({ name, operator, value }) => name === 'call.type' && operator === EQUALS && value === 'INTERNAL'
+      ) != null;
+    const hasIsSynthetic =
+      tagFilterExpression.find(
+        ({ name, operator, value }) => name === 'call.is_synthetic' && operator === EQUALS && value === true
+      ) != null;
+    if (hasIsInternal && !includeInternalField.value) {
+      setEnableIncludeInternalOnce(true);
+    }
+    if (hasIsSynthetic && !includeSyntheticField.value) {
+      setEnableIncludeSyntheticOnce(true);
+    }
+  }, [tagFilterExpression, includeInternalField, includeSyntheticField, onChange]);
+
+  useEffect(() => {
+    if (enableIncludeInternalOnce) {
+      onChange([], form => form.updateIn(['includeInternal'], field => field.setValue(true).setTouched(true)));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enableIncludeInternalOnce]);
+
+  useEffect(() => {
+    if (enableIncludeSyntheticOnce) {
+      onChange([], form => form.updateIn(['includeSynthetic'], field => field.setValue(true).setTouched(true)));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [enableIncludeSyntheticOnce]);
 
   const grouping = groupingField?.get(0)?.toJS();
 
@@ -140,6 +178,24 @@ export default function FormComponent({
             onChange={setTagFilterExpression}
             QueryBuilder={QueryBuilder}
             withoutIcon
+            getSuggestionsProps={{
+              includeInternal: includeInternalField.value,
+              includeSynthetic: includeSyntheticField.value
+            }}
+          />
+          <HiddenCallsConfiguration
+            includeInternal={includeInternalField.value}
+            includeSynthetic={includeSyntheticField.value}
+            onIncludeInternalChange={includeInternal =>
+              onChange([], form =>
+                form.updateIn(['includeInternal'], field => field.setValue(includeInternal).setTouched(true))
+              )
+            }
+            onIncludeSyntheticChange={includeSynthetic =>
+              onChange([], form =>
+                form.updateIn(['includeSynthetic'], field => field.setValue(includeSynthetic).setTouched(true))
+              )
+            }
           />
         </Sections>
       )}

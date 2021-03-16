@@ -57,6 +57,7 @@ function QueryBuilder({
   value: formModel,
   getTagCatalog,
   getSuggestions,
+  getSuggestionsProps,
   onChange: onValidChange,
   onError,
   tracking,
@@ -150,6 +151,7 @@ function QueryBuilder({
               createTagForm={resolvedCreateTagForm}
               onChange={onChangeFormModelElement}
               getSuggestions={getSuggestions}
+              getSuggestionsProps={getSuggestionsProps}
               onAdd={onAddFormModelElement}
               tagCatalog={tagCatalog.data}
               elements={renderModel}
@@ -293,6 +295,7 @@ function Elements({
   switchFormModelIndices,
   draggedFormModelIndex$,
   getSuggestions,
+  getSuggestionsProps,
   createTagForm,
   tagCatalog,
   onRemove,
@@ -325,6 +328,7 @@ function Elements({
                 element={element}
                 tagCatalog={tagCatalog}
                 getSuggestions={getSuggestions}
+                getSuggestionsProps={getSuggestionsProps}
                 onRemove={onRemove}
                 createTagForm={createTagForm}
                 onChange={(newFormModel, changeFocus = true) =>
@@ -389,6 +393,7 @@ QueryBuilder.propTypes = {
   value: rpt.array.isRequired,
   getTagCatalog: rpt.func.isRequired,
   getSuggestions: rpt.func.isRequired,
+  getSuggestionsProps: rpt.object,
   onChange: rpt.func.isRequired,
   onError: rpt.func,
   tracking: rpt.shape(trackingProps),
