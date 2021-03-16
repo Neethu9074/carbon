@@ -55,28 +55,24 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
           timeConfig,
           applicationBoundaryScope: boundaryScope,
           application: parentIds.applicationId,
+          service: parentIds.serviceId,
           // FIXME at the moment, we don't support includeSyntheticCalls filter when a searchQuery is used
           includeSyntheticCalls: includeSynthetic
         },
         metrics: {},
         tagFilterExpression: isNotBlank(searchQuery)
           ? toBackendQueryModel(
-              searchQuery
-                ? joinExpressions({
-                    logicalOperator: and,
-                    expressions: [
-                      applicationIdTagFilter,
-                      serviceIdTagFilter,
-                      joinExpressions({
-                        logicalOperator: or,
-                        expressions: [createEndpointNameTagFilter(searchQuery)]
-                      })
-                    ]
+              joinExpressions({
+                logicalOperator: and,
+                expressions: [
+                  applicationIdTagFilter,
+                  serviceIdTagFilter,
+                  joinExpressions({
+                    logicalOperator: or,
+                    expressions: [createEndpointNameTagFilter(searchQuery)]
                   })
-                : joinExpressions({
-                    logicalOperator: and,
-                    expressions: [applicationIdTagFilter, serviceIdTagFilter]
-                  })
+                ]
+              })
             )
           : undefined
       }),
