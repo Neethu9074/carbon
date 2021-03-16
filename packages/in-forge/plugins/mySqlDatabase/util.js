@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 const version5Patt = /([5]+\.[6-9]+\.([0-9]+)).*/;
+
 const version8Patt = /([8]+\.[0-9]+\.([0-9]+)).*/;
 
 export function isPerformanceDataAvailable(snapshot) {
@@ -12,11 +13,7 @@ export function isPerformanceDataAvailable(snapshot) {
     return false;
   }
   if (version[0] === '5') {
-    return validateVersion(version5Patt, version);
+    return version5Patt.test(version) && parseInt(version5Patt.exec(version)[2], 10) > 9;
   }
-  return validateVersion(version8Patt, version);
-}
-
-function validateVersion(versionPattern, version) {
-  return versionPattern.test(version) && parseInt(versionPattern.exec(version)[2], 10) > 9;
+  return version8Patt.test(version);
 }

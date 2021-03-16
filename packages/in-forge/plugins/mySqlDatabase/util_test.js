@@ -21,17 +21,6 @@ describe('isPerformanceDataAvailable', () => {
     expect(isPerformanceDataAvailable(snapshot)).to.equal(true);
   });
 
-  it('for valid mysql verson 8.0.9 should return false', () => {
-    const snapshot = fromJS({
-      data: {
-        sensorPerformanceSchemaStatus: 'OK',
-        'variables.VERSION': '8.0.9'
-      }
-    });
-
-    expect(isPerformanceDataAvailable(snapshot)).to.equal(false);
-  });
-
   it('for valid mysql verson 5.6.10 should return true', () => {
     const snapshot = fromJS({
       data: {
