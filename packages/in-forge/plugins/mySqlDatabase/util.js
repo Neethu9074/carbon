@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-const verPatt = /([?:5|8]+\.[?:5-9|0]+\.([0-9]+)).*/;
+const verPatt = /([?:5|8]+\.[?:6-9|0]+\.([0-9]+)).*/;
 
 export function isPerformanceDataAvailable(snapshot) {
   const sensorPerformanceSchemaStatus = snapshot.getIn(['data', 'sensorPerformanceSchemaStatus']);

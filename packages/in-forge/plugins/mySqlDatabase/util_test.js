@@ -25,7 +25,7 @@ describe('isPerformanceDataAvailable', () => {
     const snapshot = fromJS({
       data: {
         sensorPerformanceSchemaStatus: 'OK',
-        'variables.VERSION': '5.7.10'
+        'variables.VERSION': '5.6.10'
       }
     });
 
@@ -36,7 +36,7 @@ describe('isPerformanceDataAvailable', () => {
     const snapshot = fromJS({
       data: {
         sensorPerformanceSchemaStatus: 'OK',
-        'variables.VERSION': '4.0.5'
+        'variables.VERSION': '5.5.10'
       }
     });
 
