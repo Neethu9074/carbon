@@ -226,6 +226,7 @@
     "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "The number of rows is restricted to {{maximumNumberOfRows}}.",
     "anErrorOccurredPleaseTryAgain": "An error occurred, please try again.",
     "custom": "Custom",
+    "customWithColon": "custom:",
     "unknownTypeTypeItCanNotBeEdited": "Unknown type: {{type}} - it can not be edited.",
     "theValueMustNotBeBlank": "The value must not be blank.",
     "onlyOrAnyAlphaNumericalAreAllowed": "Only '.', '-', '_' or any alpha-numerical are allowed.",
