@@ -27,7 +27,7 @@
     "precommit": "yarn run check:yarn-lock-exists && lint-staged && yarn run test:unit && git add README.md "
   },
   "lint-staged": {
-    "!(packages)/**/*.js|*.js": [
+    "{(!(packages)/**/*.js),*.js}": [
       "eslint --fix",
       "prettier --write"
     ],
@@ -36,7 +36,7 @@
       "eslint --fix",
       "prettier --write"
     ],
-    "*.(css|mless|less)": [
+    "*.{css,mless,less}": [
       "prettier --write"
     ]
   },
