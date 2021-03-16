@@ -287,6 +287,8 @@
   "pluginName_pCFOrganization": "Cloud Foundry Organization",
   "pluginName_pCFSpace_plural": "Cloud Foundry Spaces",
   "pluginName_pCFSpace": "Cloud Foundry Space",
+  "pluginName_perfCounters_plural": "PerfCounters",
+  "pluginName_perfCounters": "PerfCounters",
   "pluginName_phpFpmRuntimePlatform_plural": "PHP-FPM Runtimes",
   "pluginName_phpFpmRuntimePlatform": "PHP-FPM Runtime",
   "pluginName_phpRuntimePlatform_plural": "PHP Runtimes",
