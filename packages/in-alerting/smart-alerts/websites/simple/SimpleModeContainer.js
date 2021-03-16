@@ -12,6 +12,8 @@ import SimpleModePageNavigation from 'in-new-components/BlueprintFormMultistep/S
 import { websitesAlertingStepSwitch } from 'in-alerting/smart-alerts/websites/tracker';
 import { t } from 'in-i18n';
 
+import locals from 'in-alerting/smart-alerts/websites/simple/SimpleModeContainer.mless';
+
 const stepConfigs = [
   {
     title: t('in-alerting:smartAlerts.websites.simple.stepConfigsStep1Title'),
@@ -43,49 +45,55 @@ export default function SimpleModeContainer({
   isTagFilterFormModelValid
 }) {
   return (
-    <SimpleModePageNavigation
-      form={form}
-      editMode={editMode}
-      onClose={onClose}
-      onCreate={onCreate}
-      isSaving={isSaving}
-      setSimpleModeStep={setSimpleModeStep}
-      updateForm={updateForm}
-      stepConfigs={stepConfigs}
-      onStepChanged={(oldStep, nextStep) => websitesAlertingStepSwitch({ oldStep, nextStep })}
-      renderStep={step => {
-        switch (step) {
-          case 0:
-            return (
-              <SimpleAlertConfigDialogStep1
-                form={form}
-                updateForm={updateForm}
-                onChange={onChange}
-                setJsErrorsListVisible={setSliderState}
-                onChartViewConfigChange={onChartViewConfigChange}
-                selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-              />
-            );
-          case 1:
-            return (
-              <SimpleAlertConfigDialogStep2
-                form={form}
-                QueryBuilderComponent={QueryBuilderComponent}
-                updateForm={updateForm}
-                websiteLabel={websiteLabel}
-                onChartViewConfigChange={onChartViewConfigChange}
-                selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-              />
-            );
-          case 2:
-            return (
-              <SimpleAlertConfigDialogStep3 form={form} onChange={onChange} setAlertChannelsVisible={setSliderState} />
-            );
-        }
-      }}
-      additionalStepCheck={step => {
-        return step !== 1 ? isTagFilterFormModelValid : true;
-      }}
-    />
+    <div className={locals.container}>
+      <SimpleModePageNavigation
+        form={form}
+        editMode={editMode}
+        onClose={onClose}
+        onCreate={onCreate}
+        isSaving={isSaving}
+        setSimpleModeStep={setSimpleModeStep}
+        updateForm={updateForm}
+        stepConfigs={stepConfigs}
+        onStepChanged={(oldStep, nextStep) => websitesAlertingStepSwitch({ oldStep, nextStep })}
+        renderStep={step => {
+          switch (step) {
+            case 0:
+              return (
+                <SimpleAlertConfigDialogStep1
+                  form={form}
+                  updateForm={updateForm}
+                  onChange={onChange}
+                  setJsErrorsListVisible={setSliderState}
+                  onChartViewConfigChange={onChartViewConfigChange}
+                  selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                />
+              );
+            case 1:
+              return (
+                <SimpleAlertConfigDialogStep2
+                  form={form}
+                  QueryBuilderComponent={QueryBuilderComponent}
+                  updateForm={updateForm}
+                  websiteLabel={websiteLabel}
+                  onChartViewConfigChange={onChartViewConfigChange}
+                  selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                />
+              );
+            case 2:
+              return (
+                <SimpleAlertConfigDialogStep3
+                  form={form}
+                  onChange={onChange}
+                  setAlertChannelsVisible={setSliderState}
+                />
+              );
+          }
+        }}
+        additionalStepCheck={step => {
+          return step !== 1 ? isTagFilterFormModelValid : true;
+        }}
+      />
+    </div>
   );
 }

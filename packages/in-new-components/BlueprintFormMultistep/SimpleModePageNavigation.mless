@@ -17,4 +17,8 @@
   .button {
     width: 6.25rem;
   }
+
+  .form {
+    flex-grow: 1;
+  }
 }

@@ -13,8 +13,7 @@
     grid-column-gap: 0.5rem;
     grid-row-gap: 0.5rem;
 
-    height: max-content;
-    min-height: 26.25rem;
+    height: 100%;
     margin-top: 2rem;
     width: 100%;
   }

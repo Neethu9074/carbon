@@ -8,7 +8,6 @@
 
 :local {
   .placeholder {
-    min-width: 25rem;
     min-height: 13.75rem;
   }
 

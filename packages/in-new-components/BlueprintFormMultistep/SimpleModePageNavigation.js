@@ -79,7 +79,7 @@ export default function SimpleModePageNavigation({
     <>
       <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />
 
-      <form onSubmit={e => handleSubmit(e, step)}>
+      <form onSubmit={e => handleSubmit(e, step)} className={locals.form}>
         {renderStep(step)}
 
         <FormFooter className={locals.controls}>
