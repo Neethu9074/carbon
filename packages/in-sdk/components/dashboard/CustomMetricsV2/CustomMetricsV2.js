@@ -160,7 +160,7 @@ function CustomMetricsV2(props) {
       <Table
         cardTitle={t('in-sdk:dashboard.customMetricsV2.customMetricsTitleCustom', {
           customPrefix: titlePrefix,
-          customLength: pinnedRows.length
+          customLength: rows.length
         }).trim()}
         withoutPadding
         cols={cols}
