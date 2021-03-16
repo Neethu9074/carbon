@@ -41,6 +41,7 @@ export default function Tag(props) {
     tagCatalog,
     element,
     getSuggestions,
+    getSuggestionsProps,
     formModel,
     autoFocusInput = false
   } = props;
@@ -114,6 +115,7 @@ export default function Tag(props) {
           onChange={onChange}
           tagType={tagType}
           getSuggestions={getSuggestions}
+          getSuggestionsProps={getSuggestionsProps}
           formModel={formModel}
           formModelIndex={formModelIndex}
           autoFocus={autoFocusInput}
@@ -143,6 +145,7 @@ export default function Tag(props) {
           booleanSelectorRef={autoFocusTargets.booleanSelector}
           renderModelIndex={renderModelIndex}
           getSuggestions={getSuggestions}
+          getSuggestionsProps={getSuggestionsProps}
           formModel={formModel}
           formModelIndex={formModelIndex}
           minNumValue={0}
@@ -236,7 +239,16 @@ function RemoveIcon({ form, element, tagType, onRemove }) {
   return <Remove element={element} onRemove={onRemove} nextToBooleanSelector />;
 }
 
-function KeyInput({ form, onChange, tagType, getSuggestions, formModel, formModelIndex, autoFocus }) {
+function KeyInput({
+  form,
+  onChange,
+  tagType,
+  getSuggestions,
+  getSuggestionsProps,
+  formModel,
+  formModelIndex,
+  autoFocus
+}) {
   const timeConfig = useTimeConfig();
   const field = form.get('key');
   if (!field) {
@@ -261,7 +273,8 @@ function KeyInput({ form, onChange, tagType, getSuggestions, formModel, formMode
           entity,
           key: field.value,
           timeConfig,
-          propose: 'KEYS'
+          propose: 'KEYS',
+          ...getSuggestionsProps
         })
       }
       autoFocus={autoFocus}
@@ -274,6 +287,7 @@ function ValueInput({
   form,
   onValueChange,
   getSuggestions,
+  getSuggestionsProps,
   focusField,
   booleanSelectorRef,
   formModel,
@@ -330,7 +344,8 @@ function ValueInput({
         name: form.get('name').value,
         tagName: form.get('name').value,
         timeConfig,
-        propose: 'VALUES'
+        propose: 'VALUES',
+        ...getSuggestionsProps
       })
   };
 
