@@ -19,6 +19,7 @@ import {
   containerPadding
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
@@ -122,7 +123,7 @@ function Grid({
             title={widget.title || '–'}
             actions={actions}
             dragHandle={isDraggable && dragHandle}
-            config={widget.config}
+            config={modifyConfigForHiddenCalls(widget.config)}
             setApDialogOpen={widget.setApDialogOpen}
           />
         );
@@ -178,4 +179,55 @@ function Grid({
 
 export function getWidgetId(id) {
   return `widget-${id}`;
+}
+
+function modifyConfigForHiddenCalls(config) {
+  const effectiveConfig = config;
+  if (config.metricConfiguration) {
+    // If the hidden calls flags already exist, no modification is needed.
+    if (config.metricConfiguration.includeInternal != null || config.metricConfiguration.includeSynthetic != null) {
+      return config;
+    }
+    if (config.metricConfiguration.tagFilters) {
+      effectiveConfig.metricConfiguration.includeInternal = isTrueBooleanTagFilterPresent({
+        tagFilters: config.metricConfiguration.tagFilters,
+        tagName: 'include_internal'
+      });
+      effectiveConfig.metricConfiguration.includeSynthetic = isTrueBooleanTagFilterPresent({
+        tagFilters: config.metricConfiguration.tagFilters,
+        tagName: 'include_synthetic'
+      });
+    }
+    return effectiveConfig;
+  }
+  Object.keys(config).forEach(key => {
+    if (key.startsWith('y')) {
+      effectiveConfig[key].metrics = effectiveConfig[key].metrics.map(metric => {
+        // If the hidden calls flags already exist, no modification is needed.
+        if (metric.includeInternal != null || metric.includeSynthetic != null) {
+          return metric;
+        }
+        const effectiveMetric = metric;
+        if (metric.tagFilters) {
+          effectiveMetric.includeInternal = isTrueBooleanTagFilterPresent({
+            tagFilters: metric.tagFilters,
+            tagName: 'include_internal'
+          });
+          effectiveMetric.includeSynthetic = isTrueBooleanTagFilterPresent({
+            tagFilters: metric.tagFilters,
+            tagName: 'include_synthetic'
+          });
+          return effectiveMetric;
+        }
+        return metric;
+      });
+    }
+  });
+  return effectiveConfig;
+}
+
+function isTrueBooleanTagFilterPresent({ tagFilters, tagName }) {
+  return tagFilters.some(
+    tagFilter => tagFilter.name === tagName && tagFilter.operator === EQUALS && tagFilter.booleanValue === 'true'
+  );
 }
