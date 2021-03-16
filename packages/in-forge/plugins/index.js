@@ -131,6 +131,7 @@ import './ibmMqChannel';
 import './ibmMqCluster';
 import './instanaAgent';
 import './kafkaCluster';
+import './perfCounters';
 import './redisCluster';
 import './aceFlowNode';
 import './application';
