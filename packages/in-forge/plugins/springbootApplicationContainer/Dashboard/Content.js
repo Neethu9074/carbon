@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import theme from 'in-themes';
 import React from 'react';
 
 import getMonitoringIssuesForSnapshot from 'in-subscription/getMonitoringIssuesForSnapshot';
