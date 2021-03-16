@@ -74,7 +74,7 @@ export default function DatabasesTable({ snapshot, timeConfig }) {
     <Table
       withoutPadding
       cardTitle={t('in-forge:plugins.redis.dashboard.databasesWithCount', {
-        count: dbNames.size
+        len: dbNames.size
       })}
       cols={cols}
       rows={rows}

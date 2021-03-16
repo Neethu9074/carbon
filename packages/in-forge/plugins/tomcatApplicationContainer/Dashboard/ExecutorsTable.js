@@ -88,7 +88,7 @@ export default function ExecutorsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.tomcatAppContainer.titleExecutorsCount', { count: rows.length })}
+      cardTitle={t('in-forge:plugins.tomcatAppContainer.titleExecutorsCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}

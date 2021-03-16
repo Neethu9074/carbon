@@ -16,7 +16,7 @@ export default function RubyDashboardSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Ruby</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.rubyRuntimePlatform.ruby')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

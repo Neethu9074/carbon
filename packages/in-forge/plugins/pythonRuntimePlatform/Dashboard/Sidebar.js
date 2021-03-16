@@ -15,7 +15,7 @@ export default function PythonDashboardSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Python</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.pythonRuntimePlatform.python')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

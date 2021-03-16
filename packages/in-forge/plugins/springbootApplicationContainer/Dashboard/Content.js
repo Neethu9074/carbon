@@ -16,6 +16,7 @@ import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
 
 export default connectTo(({ snapshot, timeConfig }) => {
@@ -33,12 +34,12 @@ export default connectTo(({ snapshot, timeConfig }) => {
   if (snapshot.getIn(['data', 'tooManyMetrics'], false)) {
     return (
       <DashboardNotification type="warning">
-        Metric collections was stopped because there are too many registered metrics in this Spring Boot application.{' '}
-        This can be due to a bug in{' '}
-        <Link href="https://github.com/spring-projects/spring-boot/issues/5875" external>
-          Spring Boot
-        </Link>
-        .
+        <Trans
+          i18nKey="in-forge:plugins.springbootAppContainer.warningTooManyMetrics"
+          components={{
+            linkToSpring: <Link href="https://github.com/spring-projects/spring-boot/issues/5875" external />
+          }}
+        />
       </DashboardNotification>
     );
   }
@@ -47,12 +48,12 @@ export default connectTo(({ snapshot, timeConfig }) => {
     <div>
       {getActuatorConfiguredHint(snapshot, monitoringIssues)}
       <KpiSection>
-        <KpiKeyValue label="Active Sessions">
+        <KpiKeyValue label={t('in-forge:plugins.springbootAppContainer.labelActiveSessions')}>
           <MetricValue snapshotId={snapshotId} metric="metrics.httpsessions.active" />
         </KpiKeyValue>
       </KpiSection>
 
-      <DashboardSection title="Requests">
+      <DashboardSection title={t('in-forge:plugins.springbootAppContainer.titleRequests')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -64,7 +65,13 @@ export default connectTo(({ snapshot, timeConfig }) => {
               'metrics.statusCode.4xx',
               'metrics.statusCode.5xx'
             ],
-            labels: ['1xx', '2xx', '3xx', '4xx', '5xx'],
+            labels: [
+              t('in-forge:plugins.labelRequests.1xx'),
+              t('in-forge:plugins.labelRequests.2xx'),
+              t('in-forge:plugins.labelRequests.3xx'),
+              t('in-forge:plugins.labelRequests.4xx'),
+              t('in-forge:plugins.labelRequests.5xx')
+            ],
             colors: [
               theme.lib.colors.lightBlue800,
               theme.lib.colors.green800,
@@ -80,13 +87,13 @@ export default connectTo(({ snapshot, timeConfig }) => {
         />
       </DashboardSection>
       {httpSessionsMax ? (
-        <DashboardSection title="HTTP Sessions">
+        <DashboardSection title={t('in-forge:plugins.springbootAppContainer.titleHTTPSessions')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               metrics: ['metrics.httpsessions.active'],
-              labels: ['Active Sessions'],
+              labels: [t('in-forge:plugins.springbootAppContainer.labelActiveSessions')],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -114,14 +121,13 @@ function getActuatorConfiguredHint(snapshot, monitoringIssues) {
   if (status == null) {
     return (
       <DashboardNotification type="warning">
-        <p>
-          Spring Boot monitoring requires that Spring Boot Actuator is configured. For Spring Boot 2.2.x and later it is
-          necessary to enable JMX.
-        </p>
-        More info can be found on the{' '}
-        <Link href="https://instana.com/docs/ecosystem/spring-boot/#configuration" external>
-          Spring Boot configuration page
-        </Link>
+        <p>{t('in-forge:plugins.springbootAppContainer.warningActuatorConfigured')}</p>
+        <Trans
+          i18nKey="in-forge:plugins.springbootAppContainer.warningSpringbootConfig"
+          components={{
+            linkToSpringboot: <Link href="https://instana.com/docs/ecosystem/spring-boot/#configuration" external />
+          }}
+        />
       </DashboardNotification>
     );
   }

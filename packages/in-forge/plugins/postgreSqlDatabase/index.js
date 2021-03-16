@@ -8,6 +8,7 @@ import metricDefinitions from 'in-forge/plugins/postgreSqlDatabase/metricDefinit
 import kpiDefinitions from 'in-forge/plugins/postgreSqlDatabase/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.postgreSqlDatabase,
@@ -16,6 +17,6 @@ registerSnapshotDefinition({
   metricDefinitions,
   agentMonitoringIssueDefinitions,
   technologyDescriptor: {
-    label: 'PostgreSQL'
+    label: t('in-forge:plugins.postgreSqlDatabase.postgreSql')
   }
 });

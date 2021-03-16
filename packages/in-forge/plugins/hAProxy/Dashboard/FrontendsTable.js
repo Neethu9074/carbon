@@ -184,7 +184,7 @@ export default function FrontendsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.hAProxy.dashboard.frontendsWithCount', { count: rows.length })}
+      cardTitle={t('in-forge:plugins.hAProxy.dashboard.frontendsWithCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}

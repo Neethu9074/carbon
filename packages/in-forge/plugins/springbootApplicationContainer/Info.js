@@ -9,6 +9,7 @@ import ProcessStartedAtDescriptionItem from 'in-sdk/components/sidebar/ProcessSt
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { positiveNumber } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
+import { t } from 'in-i18n';
 
 export default function SpringbootInfo({ snapshot }) {
   const data = snapshot.get('data');
@@ -16,13 +17,19 @@ export default function SpringbootInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Name">{data.get('name')}</DescriptionItem>
-      <DescriptionItem title="Version">{data.get('version')}</DescriptionItem>
-      <DescriptionItem title="Spring Boot Version">{data.get('springBootVersion')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.name')}>{data.get('name')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.version')}>{data.get('version')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.springBootVersion')}>
+        {data.get('springBootVersion')}
+      </DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
-      <DescriptionItem title="Status">{data.get('status')}</DescriptionItem>
-      <DescriptionItem title="Port">{ports ? ports.valueSeq().join(', ') : null}</DescriptionItem>
-      <DescriptionItem title="HTTP Sessions Limit">{positiveNumber(data.get('httpsessionsMax'))}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.status')}>{data.get('status')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.port')}>
+        {ports ? ports.valueSeq().join(', ') : null}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.httpSessionsLimit')}>
+        {positiveNumber(data.get('httpsessionsMax'))}
+      </DescriptionItem>
     </DescriptionList>
   );
 }

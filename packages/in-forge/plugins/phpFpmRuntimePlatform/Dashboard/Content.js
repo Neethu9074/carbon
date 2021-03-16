@@ -52,7 +52,7 @@ function WorkerPoolMetrics({ snapshot, pool, timeConfig }) {
     <div key={pool}>
       <DashboardSection
         title={t('in-forge:plugins.phpFpmRuntimePlatform.dashboard.connectionsWithCount', {
-          count: data.get('worker_pool.' + pool + '.pool')
+          len: data.get('worker_pool.' + pool + '.pool')
         })}
       >
         <Chart
@@ -93,7 +93,7 @@ function WorkerPoolMetrics({ snapshot, pool, timeConfig }) {
       </DashboardSection>
       <DashboardSection
         title={t('in-forge:plugins.phpFpmRuntimePlatform.dashboard.processesWithCount', {
-          count: data.get('worker_pool.' + pool + '.pool')
+          len: data.get('worker_pool.' + pool + '.pool')
         })}
       >
         <Chart
@@ -129,7 +129,7 @@ function WorkerPoolMetrics({ snapshot, pool, timeConfig }) {
       </DashboardSection>
       <DashboardSection
         title={t('in-forge:plugins.phpFpmRuntimePlatform.dashboard.resourcesWithCount', {
-          count: data.get('worker_pool.' + pool + '.pool')
+          len: data.get('worker_pool.' + pool + '.pool')
         })}
       >
         <Chart

@@ -6,12 +6,13 @@
 import kpiDefinitions from 'in-forge/plugins/phpRuntimePlatform/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.phpRuntimePlatform,
 
   kpiDefinitions,
   technologyDescriptor: {
-    label: 'PHP'
+    label: t('in-forge:plugins.phpRuntimePlatform.php')
   }
 });

@@ -96,7 +96,7 @@ export default function ServletsTable({ webAppContext, snapshot, timeConfig }) {
       withoutPadding
       cardTitle={t('in-forge:plugins.tomcatAppContainer.titleServletsOfWebAppCount', {
         webAppContext: webAppContext,
-        count: rows.length
+        len: rows.length
       })}
       cols={cols}
       rows={rows}

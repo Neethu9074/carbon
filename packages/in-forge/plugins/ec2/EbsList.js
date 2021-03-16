@@ -32,7 +32,7 @@ export default connectTo(
       <Fragment>
         <Collapsible initiallyOpen>
           <Collapsible.Header>
-            {t('in-forge:plugins.ec2.ebsVolumesWithCount', { count: ebses.length })}
+            {t('in-forge:plugins.ec2.ebsVolumesWithCount', { len: ebses.length })}
           </Collapsible.Header>
           <Collapsible.Content>
             <ClickableList>

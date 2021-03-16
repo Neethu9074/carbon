@@ -27,7 +27,7 @@ export default connectTo(
     return (
       <KeyValueOverlay
         header={t('in-forge:plugins.rabbitMq.dashboard.queuesWithCount', {
-          count: queues.size
+          len: queues.size
         })}
         data={queues}
       />

@@ -8,6 +8,7 @@ import kpiDefinitions from 'in-forge/plugins/rubyRuntimePlatform/kpiDefinitions'
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/ruby';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.rubyRuntimePlatform,
@@ -17,6 +18,6 @@ registerSnapshotDefinition({
   getCodeView,
   supportsCodeView,
   technologyDescriptor: {
-    label: 'Ruby'
+    label: t('in-forge:plugins.rubyRuntimePlatform.ruby')
   }
 });

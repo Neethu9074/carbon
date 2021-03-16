@@ -127,7 +127,7 @@ export default function ConnectorsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.tomcatAppContainer.titleConnectorsCount', { count: rows.length })}
+      cardTitle={t('in-forge:plugins.tomcatAppContainer.titleConnectorsCount', { len: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}

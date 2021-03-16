@@ -6,6 +6,7 @@
 import React from 'react';
 
 import Code from 'in-components/Code';
+import { Trans, t } from 'in-i18n';
 
 const ActuatorDependencyCode = `<dependency>
   <groupId>org.springframework.boot</groupId>
@@ -19,13 +20,13 @@ export default {
       Component: function springbootActuatorNotConfigured() {
         return (
           <span>
-            <p>Spring Boot monitoring requires that Spring Boot Actuator is configured:</p>
+            <p>{t('in-forge:plugins.springbootAppContainer.descriptionActuatorConfigured')}</p>
             <Code code={ActuatorDependencyCode} lang="html" showLineNumbers={false} />
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.springbootAppContainer.labelTroubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/spring-boot/#springboot_actuator_not_configured`
   },
   springboot_jmx_not_enabled: {
@@ -33,20 +34,18 @@ export default {
       Component: function springbootJmxNotEnabled() {
         return (
           <span>
-            For Spring Boot 2.2.x and later it is necessary to enable JMX. Set{' '}
-            <code>
-              <b>spring.jmx.enabled=true</b>
-            </code>{' '}
-            in the{' '}
-            <code>
-              <b>application.properties</b>
-            </code>{' '}
-            file.
+            <Trans
+              i18nKey="in-forge:plugins.springbootAppContainer.descriptionEnableJMX"
+              components={{
+                codeTag: <code />,
+                bold: <b />
+              }}
+            />
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.springbootAppContainer.labelTroubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/spring-boot/#springboot_jmx_not_enabled`
   }
 };

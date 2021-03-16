@@ -152,7 +152,7 @@ export default function RecentChangesTable({ snapshot, timeConfig }) {
     <Table
       withoutPadding
       cardTitle={t('in-forge:plugins.pingDirectory.dashboard.recentChangesPerDatabaseWithCount', {
-        count: rows.length
+        len: rows.length
       })}
       cols={cols}
       rows={rows}
