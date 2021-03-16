@@ -5,6 +5,10 @@
 import { format as defaultLocaleFormat, formatLocale as createCustomLocaleFormat } from 'd3-format';
 import { t } from 'in-i18n';
 
+import {
+  resourceQuotaBytes,
+  resourceQuotaPercentage
+} from 'in-forge/plugins/kubernetesCluster/formatters/resourceQuota';
 import { getSingle } from 'in-services/settings';
 
 const isLocaleAware = !getSingle('formatNumbersAccordingToEnUs') && window.instana.numberLocale;
@@ -484,7 +488,8 @@ export function isPercentageFormatter(numberFormatter) {
       percentage.compact,
       percentage.detailed,
       percentagePlain.compact,
-      percentagePlain.detailed
+      percentagePlain.detailed,
+      resourceQuotaPercentage
     ])
   );
 }
@@ -509,7 +514,12 @@ function isNumberFormatter(numberFormatter) {
 function isBytesFormatter(numberFormatter) {
   return (
     numberFormatter === bytes ||
-    isOfAnyFormatterFunction(numberFormatter, [bytes.detailed, bytes.compact, bytes.detailedWithRaw])
+    isOfAnyFormatterFunction(numberFormatter, [
+      bytes.detailed,
+      bytes.compact,
+      bytes.detailedWithRaw,
+      resourceQuotaBytes
+    ])
   );
 }
 
