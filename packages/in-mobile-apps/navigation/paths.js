@@ -89,7 +89,7 @@ export function getLinkToMobileApp(
 }
 
 // tagCatalog - if specified, the formModel will be reset if any of its tags is not available in the tag catalog
-export function getLinkToAnalyze({ beaconType, groupBy, formModel, chartedMetrics, fields, tagCatalog }) {
+export function getLinkToAnalyze({ beaconType, groupBy, formModel, chartedMetrics, fields, tagCatalog, detailId }) {
   return getModifiedUrlStream(params => {
     params.pathname = analyzePathFullyQualified;
     if (__DEV__) {
@@ -101,6 +101,7 @@ export function getLinkToAnalyze({ beaconType, groupBy, formModel, chartedMetric
     setOrDeleteMatrixParameter(params, analyzeTwoParameters.groupBy, groupBy);
     setOrDeleteMatrixParameter(params, analyzeTwoParameters.fields, fields);
     setOrDeleteMatrixParameter(params, analyzeTwoParameters.chartedMetrics, chartedMetrics);
+    setOrDeleteMatrixParameter(params, analyzeTwoParameters.detailId, detailId);
 
     let updatedFormModel = formModel;
     if (tagCatalog && updatedFormModel?.length > 0) {
