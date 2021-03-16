@@ -61,18 +61,16 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
         },
         tagFilterExpression: isNotBlank(searchQuery)
           ? toBackendQueryModel(
-              searchQuery
-                ? joinExpressions({
-                    logicalOperator: and,
-                    expressions: [
-                      applicationIdTagFilter,
-                      joinExpressions({
-                        logicalOperator: or,
-                        expressions: [createServiceNameTagFilter(searchQuery), createEndpointNameTagFilter(searchQuery)]
-                      })
-                    ]
+              joinExpressions({
+                logicalOperator: and,
+                expressions: [
+                  applicationIdTagFilter,
+                  joinExpressions({
+                    logicalOperator: or,
+                    expressions: [createServiceNameTagFilter(searchQuery), createEndpointNameTagFilter(searchQuery)]
                   })
-                : [applicationIdTagFilter]
+                ]
+              })
             )
           : undefined
       }),
