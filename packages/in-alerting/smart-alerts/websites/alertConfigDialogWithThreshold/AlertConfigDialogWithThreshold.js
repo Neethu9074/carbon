@@ -43,7 +43,7 @@ export default function AlertConfigDialogWithThreshold(props) {
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
   const { enrichedTagFilterFormModel, numeratorFilter } = getEnhancedTagFilterFormModel(
-    { ...alertConfigWithFormModel },
+    alertConfigWithFormModel,
     blueprintConfig,
     null
   );

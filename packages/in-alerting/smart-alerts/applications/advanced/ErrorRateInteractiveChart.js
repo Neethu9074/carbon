@@ -11,11 +11,11 @@ import {
   applicationsAlertingThresholdValueChanged
 } from 'in-alerting/smart-alerts/applications/tracker';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
+import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdOperatorDropDown';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/UseSuggestedValueButton';
 import ThresholdValueInput from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueInput';
-import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
 import { alertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
@@ -36,7 +36,7 @@ export default function ErrorRateInteractiveChart({
     <div className={locals.container}>
       <ThresholdCondition form={form} onChange={onChange} updateForm={updateForm} blueprintConfig={blueprintConfig} />
 
-      <ChartViewConfigurator
+      <ChartViewConfiguratorWithEntitySelection
         alertConfigWithFormModel={alertConfigWithFormModel}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
@@ -52,7 +52,7 @@ export default function ErrorRateInteractiveChart({
             canReload
           />
         )}
-      </ChartViewConfigurator>
+      </ChartViewConfiguratorWithEntitySelection>
     </div>
   );
 }
