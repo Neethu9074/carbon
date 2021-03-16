@@ -10,7 +10,7 @@ import { expect } from 'chai';
 import { isPerformanceDataAvailable } from './util';
 
 describe('isPerformanceDataAvailable', () => {
-  it('for valid mysql verson 8 should return true', () => {
+  it('for valid mysql verson 8.0.21 should return true', () => {
     const snapshot = fromJS({
       data: {
         sensorPerformanceSchemaStatus: 'OK',
@@ -21,7 +21,18 @@ describe('isPerformanceDataAvailable', () => {
     expect(isPerformanceDataAvailable(snapshot)).to.equal(true);
   });
 
-  it('for valid mysql verson 5 should return true', () => {
+  it('for valid mysql verson 8.0.9 should return false', () => {
+    const snapshot = fromJS({
+      data: {
+        sensorPerformanceSchemaStatus: 'OK',
+        'variables.VERSION': '8.0.9'
+      }
+    });
+
+    expect(isPerformanceDataAvailable(snapshot)).to.equal(false);
+  });
+
+  it('for valid mysql verson 5.6.10 should return true', () => {
     const snapshot = fromJS({
       data: {
         sensorPerformanceSchemaStatus: 'OK',
@@ -32,11 +43,22 @@ describe('isPerformanceDataAvailable', () => {
     expect(isPerformanceDataAvailable(snapshot)).to.equal(true);
   });
 
-  it('for invalid mysql verson should return false', () => {
+  it('for invalid mysql verson 5.5.10 should return false', () => {
     const snapshot = fromJS({
       data: {
         sensorPerformanceSchemaStatus: 'OK',
         'variables.VERSION': '5.5.10'
+      }
+    });
+
+    expect(isPerformanceDataAvailable(snapshot)).to.equal(false);
+  });
+
+  it('for invalid mysql verson 5.0.11 should return false', () => {
+    const snapshot = fromJS({
+      data: {
+        sensorPerformanceSchemaStatus: 'OK',
+        'variables.VERSION': '5.0.11'
       }
     });
 

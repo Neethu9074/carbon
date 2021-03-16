@@ -2,7 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-const verPatt = /([?:5|8]+\.[?:6-9|0]+\.([0-9]+)).*/;
+const version5Patt = /([5]+\.[6-9]+\.([0-9]+)).*/;
+const version8Patt = /([8]+\.[0-9]+\.([0-9]+)).*/;
 
 export function isPerformanceDataAvailable(snapshot) {
   const sensorPerformanceSchemaStatus = snapshot.getIn(['data', 'sensorPerformanceSchemaStatus']);
@@ -10,5 +11,12 @@ export function isPerformanceDataAvailable(snapshot) {
   if (sensorPerformanceSchemaStatus !== 'OK') {
     return false;
   }
-  return verPatt.test(version) && parseInt(verPatt.exec(version)[2], 10) > 9;
+  if (version[0] === '5') {
+    return validateVersion(version5Patt, version);
+  }
+  return validateVersion(version8Patt, version);
+}
+
+function validateVersion(versionPattern, version) {
+  return versionPattern.test(version) && parseInt(versionPattern.exec(version)[2], 10) > 9;
 }
