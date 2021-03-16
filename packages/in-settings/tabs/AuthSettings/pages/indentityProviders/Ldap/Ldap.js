@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField } from 'formalistic';
 import React, { useState } from 'react';
-import { t, Trans } from 'in-i18n';
 
 import {
   getConfigAsResultObservable,
@@ -32,6 +32,7 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
 import Link from 'in-components/Link';
+import { t, Trans } from 'in-i18n';
 
 import indentityProvidersLocals from '../indentityProviders.mless';
 import locals from './Ldap.mless';

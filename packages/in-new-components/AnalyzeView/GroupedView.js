@@ -2,12 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { empty } from '@instana/observables';
+
 import React, { useEffect, useMemo } from 'react';
+import { empty } from '@instana/observables';
 import { range } from 'lodash';
-import theme from 'in-themes';
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 
 import {
   getAvailableMetrics,
@@ -40,6 +39,8 @@ import { aggregationLabels } from 'in-stores/metric';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import SvgIcon from 'in-components/SvgIcon';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './GroupedView.mless';
 

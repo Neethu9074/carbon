@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import Section from 'in-new-components/workspace/Section';
 import TextArea from 'in-components/form/TextArea/TextArea';
+import Section from 'in-new-components/workspace/Section';
 
 import locals from './TextAreaInSection.mless';
 

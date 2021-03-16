@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import { width, height } from 'in-map/stores/indexStore';

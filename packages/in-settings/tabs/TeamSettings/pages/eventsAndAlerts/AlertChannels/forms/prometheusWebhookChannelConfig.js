@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
@@ -12,6 +12,7 @@ import { generateUniqueShortId } from 'in-services/util/id';
 import FormGroup from 'in-settings/components/FormGroup';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import { t } from 'in-i18n';
 
 import './Forms.less';
 

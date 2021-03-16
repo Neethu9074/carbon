@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useMemo, useEffect } from 'react';
 import { compose, withState } from 'recompose';
 import { find, debounce } from 'lodash';
-import { t } from 'in-i18n';
 
 import { fixClockSkewProblems } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/fixClockSkewProblems';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
@@ -20,6 +20,7 @@ import { openSession } from 'in-mobile-apps/tracker';
 import Message from 'in-new-components/Message';
 import KpiCard from 'in-new-components/KpiCard';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
 

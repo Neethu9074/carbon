@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Route, Switch } from 'react-router-dom';
+
 import { combineLatest } from '@instana/observables';
+import { Route, Switch } from 'react-router-dom';
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, isView, isViewWithRouteParam } from 'in-stores/navigation';
@@ -14,6 +14,7 @@ import RedirectWithHash from 'in-components/RedirectWithHash';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 /**
  * Takes a single array of pages and converts it into a navigation tree.

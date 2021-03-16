@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { create } from '@instana/observables';
+
 import { createLogger } from '@instana/logger';
+import { create } from '@instana/observables';
 
 import HttpResponseStatusCodeError from 'in-services/http/HttpResponseStatusCodeError';
 import HttpRequestTimeoutError from 'in-services/http/HttpRequestTimeoutError';

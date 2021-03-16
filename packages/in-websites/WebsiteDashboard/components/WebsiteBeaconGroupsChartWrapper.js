@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import { useState } from 'react';
 import { find } from 'lodash';
 import React from 'react';
 
@@ -17,7 +19,6 @@ import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import useObservable from 'in-hooks/useObservable';
-import { useState } from 'react';
 
 // Sample Usage
 /*

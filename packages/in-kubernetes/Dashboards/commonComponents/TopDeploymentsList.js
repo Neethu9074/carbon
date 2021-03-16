@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { getDeploymentDashboard, getDeploymentConfigDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
@@ -12,6 +12,7 @@ import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/Kuberne
 import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import useUrlState from 'in-hooks/useUrlState';
+import { t } from 'in-i18n';
 
 const tabDeployments = 'deployments';
 const tabDeploymentConfigs = 'deploymentConfigs';

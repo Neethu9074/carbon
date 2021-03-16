@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { Matrix4, OrthographicCamera } from 'in-map/3DLibProvider';
 import { width, height } from 'in-map/stores/indexStore';
 import { dimensions$ } from 'in-map/stores/indexStore';

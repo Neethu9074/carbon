@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { pathPropType } from 'in-components/form/binding/paths';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { pathPropType } from 'in-components/form/binding/paths';
 import FormBound from 'in-components/form/binding/FormBound';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';

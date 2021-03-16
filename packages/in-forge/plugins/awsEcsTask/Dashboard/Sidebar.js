@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import getEcsContainersForEcsTask from 'in-subscription/getEcsContainersForEcsTask';
@@ -11,6 +11,7 @@ import SidebarSnapshotItemList from 'in-components/SidebarSnapshotItemList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import TagList from 'in-sdk/components/sidebar/TagList';
 import Info from 'in-forge/plugins/awsEcsTask/Info';
+import { t } from 'in-i18n';
 
 export default function AwsEcsTaskSidebar({ snapshot }) {
   return (

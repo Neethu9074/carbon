@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
+
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { List, Set, Map } from 'immutable';
 
 // We should create empty Lists, Maps, Sets only once and cache them. This

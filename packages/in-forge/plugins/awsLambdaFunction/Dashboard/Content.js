@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans } from 'in-i18n';
+
 import React from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import DashboardVersionsList from './DashboardVersionsList';
+import { Trans } from 'in-i18n';
 
 export default function AwsLambdaFunctionDashboard({ snapshot }) {
   const snapshotId = snapshot.get('id');

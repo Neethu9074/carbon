@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-env mocha */
 
 import { create } from '@instana/observables';
-import sinon from 'sinon';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import memoize from 'in-services/util/memoizingObservableGenerator';
 

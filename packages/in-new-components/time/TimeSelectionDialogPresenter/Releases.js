@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
-import { t } from 'in-i18n';
 
 import convertToScopes from 'in-new-components/time/TimeSelectionDialogPresenter/convertToScopes';
 import ReleaseScope from 'in-new-components/time/TimeSelectionDialogPresenter/ReleaseScope';
@@ -16,6 +16,7 @@ import Pagination from 'in-new-components/Pagination';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import { days } from 'in-services/time';
+import { t } from 'in-i18n';
 
 import locals from './Releases.mless';
 

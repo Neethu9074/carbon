@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-new-components/MetricConfigurator/MetricConfigurator';
@@ -18,6 +18,7 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/util/function';
 import Pill from 'in-new-components/Pill';
+import { t } from 'in-i18n';
 
 import locals from './InfrastructureList.mless';
 

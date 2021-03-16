@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { historicOrLargeDataResult$ } from 'in-new-components/time/TimeSelection/TimeSelection';
@@ -13,6 +13,7 @@ import { emptyObject } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './ResultHeader.mless';
 

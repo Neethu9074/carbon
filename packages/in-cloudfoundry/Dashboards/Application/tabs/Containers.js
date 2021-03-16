@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -17,6 +17,7 @@ import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlacehold
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { bytes, percentage } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 const pathSegment = '/summary';
 const matrixPrefix = 'container.';

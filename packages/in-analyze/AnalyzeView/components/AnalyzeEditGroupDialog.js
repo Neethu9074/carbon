@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
@@ -10,6 +10,7 @@ import EditGroupDialog from 'in-analyze/components/EditGroupDialog/EditGroupDial
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { mapDataHO, noResultObservable } from 'in-services/util/result';
 import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
+import { t } from 'in-i18n';
 
 const mapResultData = mapDataHO(data => data.suggestions);
 

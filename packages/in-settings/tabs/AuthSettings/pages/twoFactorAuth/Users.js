@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import TwoFactorMarker from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/TwoFactorMarker';

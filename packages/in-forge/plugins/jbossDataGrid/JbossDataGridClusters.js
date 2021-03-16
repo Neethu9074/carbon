@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import { msZeroDecimalPlaces } from 'in-services/formatters/number';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { emptyMap } from 'in-services/fixedImmutables';
+import { t } from 'in-i18n';
 
 const formatBoolean = value => (value ? 'Yes' : 'No');
 const nullOrFormatBoolean = value => (value == null ? null : formatBoolean(value));

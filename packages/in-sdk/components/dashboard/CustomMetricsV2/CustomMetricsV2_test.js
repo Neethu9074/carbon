@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-env mocha, node */
 
 import { fromJS } from 'immutable';
 import { expect } from 'chai';
 
-import { SPECS as PROMETHEUS_SPECS } from 'in-forge/plugins/prometheus/Dashboard/PrometheusCustomMetrics';
 import { SPECS as MICROMETER_SPECS } from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MicrometerMetrics';
+import { SPECS as PROMETHEUS_SPECS } from 'in-forge/plugins/prometheus/Dashboard/PrometheusCustomMetrics';
 import { getDefaultRows } from './CustomMetricsV2';
 
 describe('CustomMetricsV2', () => {

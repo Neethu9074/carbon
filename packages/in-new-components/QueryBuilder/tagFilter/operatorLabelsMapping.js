@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 // each exported const is named the following way:
 // ${type}_${operator}
 

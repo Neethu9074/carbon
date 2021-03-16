@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { emptyList } from 'in-services/fixedImmutables';
 import TwoValueBar from 'in-new-components/TwoValueBar';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import { t } from 'in-i18n';
 
 import locals from './AgentViewKpis.mless';
 

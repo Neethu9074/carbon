@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { getEventType, EVENT_TYPES, fireCallbacksForEventAtFocusedMomentAsStream } from 'in-stores/events';
@@ -16,6 +16,7 @@ import { alwaysNull } from 'in-services/fixedStreams';
 import { serverTime$ } from 'in-stores/serverTime';
 import KpiCard from 'in-new-components/KpiCard';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default function EventDetailsKPIs({ event, isIncident }) {
   if (isIncident) {

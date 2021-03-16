@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import TextAreaInSection from 'in-components/form/TextArea/TextAreaInSection';
@@ -11,6 +11,7 @@ import HelpAction from 'in-new-components/workspace/HelpAction';
 import Sections from 'in-new-components/workspace/Sections';
 import Header from 'in-new-components/workspace/Header';
 import Stack from 'in-new-components/layout/Stack';
+import { t } from 'in-i18n';
 
 export default function MarkdownWidgetFormComponent({ form: field, onChange }) {
   return (

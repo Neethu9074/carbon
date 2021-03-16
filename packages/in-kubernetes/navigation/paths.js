@@ -2,11 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { emptyObject } from 'in-services/fixedObjects';
-import { setTimeConfig } from 'in-stores/time/config';
-import { plugins } from 'in-forge/constants';
+
 import {
   serviceId as matrixServiceId,
   clusterId as matrixClusterId,
@@ -19,6 +15,11 @@ import {
   daemonSetId as matrixDaemonSetId,
   statefulSetId as matrixStatefulSetId
 } from 'in-kubernetes/navigation/matrix';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { emptyObject } from 'in-services/fixedObjects';
+import { setTimeConfig } from 'in-stores/time/config';
+import { plugins } from 'in-forge/constants';
 
 export const kubernetes = '/kubernetes';
 

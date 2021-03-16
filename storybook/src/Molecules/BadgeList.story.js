@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { withKnobs } from '@storybook/addon-knobs';
-import theme from 'in-themes';
 import React from 'react';
 
 import BadgeList from 'in-new-components/BadgeList/BadgeList';
+import theme from 'in-themes';
 
 export default {
   title: 'Molecules|BadgeList',

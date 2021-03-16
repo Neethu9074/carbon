@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest, just } from '@instana/observables';
 import React, { useState } from 'react';
-import { t } from 'in-i18n';
 
 import { host as hostType, container as containerType, process as processType } from 'in-stores/starredItems/types';
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
@@ -21,6 +21,7 @@ import { getSnapshot } from 'in-stores/snapshot';
 import { getMetric } from 'in-stores/metric';
 import search from 'in-subscription/search';
 import { getLabel } from 'in-sdk/snapshot';
+import { t } from 'in-i18n';
 
 export default function InfrastructureTopList({ config }) {
   const [selectedType, setSelectedType] = useState('host');

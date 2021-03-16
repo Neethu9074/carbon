@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
@@ -16,6 +16,7 @@ import Section from 'in-new-components/workspace/Section';
 import Header from 'in-new-components/workspace/Header';
 import Input from 'in-components/form/Input/Input';
 import Stack from 'in-new-components/layout/Stack';
+import { t } from 'in-i18n';
 
 export const MetricsForm = ({ form, onChange }) => {
   const metricConfiguration = form.get('metricConfiguration');

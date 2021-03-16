@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { timeConfig$ } from 'in-stores/time/config';
 import { ineum } from 'in-services/tracking/ineum';
 

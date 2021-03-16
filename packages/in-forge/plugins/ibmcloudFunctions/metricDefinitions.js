@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { number, millis } from 'in-services/formatters/number';
+
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { number, millis } from 'in-services/formatters/number';
 
 export default [
   {

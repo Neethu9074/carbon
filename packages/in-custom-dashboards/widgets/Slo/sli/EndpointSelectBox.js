@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -11,6 +11,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
+import { t } from 'in-i18n';
 
 export default function EndpointSelectBox({ applicationId, field, serviceId, boundaryScope, value, onChange }) {
   const timeConfig = useTimeConfig();

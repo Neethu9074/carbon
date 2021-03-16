@@ -2,8 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t, Trans } from 'in-i18n';
+
 import React from 'react';
+
+import { t, Trans } from 'in-i18n';
 
 export default {
   nodejs_collector_initialized_too_late: {

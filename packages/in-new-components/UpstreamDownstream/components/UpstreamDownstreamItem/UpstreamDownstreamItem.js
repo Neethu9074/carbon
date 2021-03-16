@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
@@ -19,6 +19,7 @@ import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import EntityWithIcon from 'in-new-components/EntityWithIcon';
 import { Li } from 'in-new-components/lists/List';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './UpstreamDownstreamItem.mless';
 

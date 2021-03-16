@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t, Trans } from 'in-i18n';
+
 import React from 'react';
 
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -10,6 +10,7 @@ import FormGroup from 'in-settings/components/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { t, Trans } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/SplunkForm.mless';
 

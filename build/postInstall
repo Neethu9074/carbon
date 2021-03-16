@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 linkModule() {
   name="$1"
   echo "linking $name"
@@ -21,4 +23,10 @@ finished
 echo "💣 installing commit hook"
 rm -f .git/hooks/pre-commit
 node ./node_modules/husky/bin/install.js 2>&1 | sed 's/^/   /'
+finished
+
+echo "🧑‍🏭 installing auxiliary CLI tools"
+cd build/cli-tools
+yarn
+cd ../..
 finished

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 import { number } from 'in-services/formatters/number';
 import { emptyArray } from 'in-services/fixedObjects';

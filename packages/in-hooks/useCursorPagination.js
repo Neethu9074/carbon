@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import shallowEqual from 'fbjs/lib/shallowEqual';
 

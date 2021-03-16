@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import getKubernetesWorkloadControllerItemCounters from 'in-subscription/kubernetes/getKubernetesWorkloadControllerItemCounters';
@@ -17,6 +17,7 @@ import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
+import { t } from 'in-i18n';
 
 function observe(fn, obj) {
   return useObservable(fn(obj), Object.values(obj));

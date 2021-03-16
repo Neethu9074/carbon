@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React, { Fragment } from 'react';
 
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
@@ -11,6 +11,7 @@ import { formatDuration } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Jobs from '../JobList';
+import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: cronJob }) {
   const snapshotId = cronJob.id;

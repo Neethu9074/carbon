@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
-import { t } from 'in-i18n';
 
 import TagFilter from 'in-components/Tags/TagList/components/TagFilter';
 import getFilterableTags from 'in-subscription/getFilterableTags';
@@ -14,6 +14,7 @@ import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Tag from 'in-components/Tags/Tag';
+import { t } from 'in-i18n';
 
 import locals from './TagList.mless';
 

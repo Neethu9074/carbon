@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { markAsRead, unreadReleaseNotesContentAndVersion$ } from 'in-stores/releaseNotes';
@@ -10,6 +10,7 @@ import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { toHtml } from 'in-services/formatters/markdown';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './ReleaseNotesDialog.less';
 

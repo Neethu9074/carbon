@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField } from 'formalistic';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import UserPermissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserPermissions';
@@ -19,6 +19,7 @@ import { getUsersAsResultObservable } from 'in-api/users';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Title from 'in-components/Title/Title';
 import Gravatar from 'in-components/Gravatar';
+import { t } from 'in-i18n';
 
 import locals from './User.mless';
 

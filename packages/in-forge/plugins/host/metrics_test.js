@@ -2,12 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-env mocha */
 import { fromJS } from 'immutable';
 import { expect } from 'chai';
 
 import { getFormattedValue } from 'in-sdk/metrics';
-
 import './index';
 
 describe('metrics', () => {

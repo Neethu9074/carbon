@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -17,6 +17,7 @@ import { formatExact } from 'in-new-components/time/timeframeFormatter';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
+import { t } from 'in-i18n';
 
 import locals from './TimeShiftDropdown.mless';
 

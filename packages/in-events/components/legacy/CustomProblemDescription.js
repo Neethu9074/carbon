@@ -2,9 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import PropTypes from 'prop-types';
+
 /* eslint-disable react/no-danger */
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';

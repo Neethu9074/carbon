@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useRef } from 'react';
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 
 import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './FilterButton.mless';
 

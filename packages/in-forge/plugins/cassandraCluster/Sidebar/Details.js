@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
@@ -11,6 +11,7 @@ import SparkChartsSection from 'in-sdk/components/sidebar/SparkChartsSection';
 import ClusterMemberList from 'in-sdk/components/sidebar/ClusterMemberList';
 import { bytes, number, siPrefix } from 'in-services/formatters/number';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function CassandraClusterSidebar({ snapshot }) {

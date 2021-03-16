@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { isWebGLSupported, getWebGLCanvasContext } from 'in-map/services/webGL';
@@ -10,6 +10,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import FlowMap from 'in-applications/FlowMap/FlowMap';
+import { t } from 'in-i18n';
 
 import locals from './FlowMap.mless';
 

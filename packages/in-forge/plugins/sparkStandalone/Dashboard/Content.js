@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -13,6 +13,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import WorkersTable from './WorkersTable';
 import DriversTable from './DriversTable';
 import AppsTable from './AppsTable';
+import { t } from 'in-i18n';
 
 export default function Dashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

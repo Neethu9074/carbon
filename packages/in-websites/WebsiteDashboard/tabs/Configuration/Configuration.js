@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { Route, Switch } from 'react-router-dom';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -13,11 +13,12 @@ import {
 import StackTraceTranslation from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/StackTraceTranslation';
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
-import RedirectWithHash from 'in-components/RedirectWithHash';
 import Options from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Options';
 import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
+import RedirectWithHash from 'in-components/RedirectWithHash';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const NavigationItem = connectTo(({ path }) => ({
   href: getModifiedUrlStream(params => (params.pathname = path)),

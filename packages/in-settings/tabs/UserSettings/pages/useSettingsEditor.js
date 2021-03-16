@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { useState } from 'react';
+
 import { debounce } from 'lodash';
+import { useState } from 'react';
 
 import { settings$, set as persist } from 'in-services/settings/settings';
 import useObservable from 'in-hooks/useObservable';

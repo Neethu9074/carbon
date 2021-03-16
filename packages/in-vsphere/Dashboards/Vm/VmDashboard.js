@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 
 import { vmId as matrixVmId, hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
@@ -22,6 +22,7 @@ import tabs from 'in-vsphere/Dashboards/Vm/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 export default function VMDashboard({ location }) {
   const props = {

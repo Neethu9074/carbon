@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createLogger } from '@instana/logger';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
@@ -12,6 +12,7 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { track, USER_INVITE } from 'in-services/tracking/tracking';
 import { sendInvitation } from 'in-api/users';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 const logger = createLogger('InviteUserButton');
 

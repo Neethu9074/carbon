@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import getApplicationServicesForCloudfoundryApplicationService from 'in-subscription/cloudfoundry/getApplicationServicesForCloudfoundryApplicationService';
@@ -28,6 +28,7 @@ import WithIcon from 'in-new-components/WithIcon';
 import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './ApplicationDashboard.mless';
 

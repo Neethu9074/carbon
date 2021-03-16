@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 const fetch = require('node-fetch');
 const { get } = require('lodash');
 const https = require('https');

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { string, arrayOf, any, shape, func, bool } from 'prop-types';
 import classNames from 'classnames';
 import React from 'react';

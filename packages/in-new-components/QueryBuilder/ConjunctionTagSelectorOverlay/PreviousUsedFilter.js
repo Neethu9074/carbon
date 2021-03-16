@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { Li, ColumnizedContent } from 'in-new-components/lists/List/List';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './PreviousUsedFilter.mless';
 

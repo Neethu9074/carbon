@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
-import theme from 'in-themes';
 
 import AlertingRenderer from 'in-alerting/components/Chart/renderer/Renderer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
@@ -16,6 +16,7 @@ import { compare } from 'in-services/util/number';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { minutes } from 'in-services/time';
+import theme from 'in-themes';
 
 const oneSecond = 1000;
 const oneMinute = oneSecond * 60;

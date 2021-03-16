@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import TrackVisibility from 'react-on-screen';
 import { empty } from '@instana/observables';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import getMobileAppBackendTraces from 'in-mobile-apps/subscriptions/getMobileAppBackendTraces';
@@ -13,6 +13,7 @@ import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './BackendTraceButton.mless';
 

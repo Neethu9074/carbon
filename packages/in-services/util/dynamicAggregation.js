@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { sortedIndexBy } from 'lodash';
 
 import { sensibleGranularities } from 'in-stores/metric/metric';

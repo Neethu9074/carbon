@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import HighlightingHandler from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph/HighlightingHandler';
@@ -12,6 +12,7 @@ import mapData from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedPr
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import Button from 'in-new-components/Button';
 import createScale from 'in-services/scale';
+import { t } from 'in-i18n';
 
 import locals from './CanvasBasedProfileFlameGraph.mless';
 

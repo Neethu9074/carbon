@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { onLoadTime, errorRate, statusCodeRate } from 'in-alerting/smart-alerts/websites/constants';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { getStatusCodeLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';

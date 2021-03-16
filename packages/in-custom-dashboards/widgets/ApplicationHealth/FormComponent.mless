@@ -1,0 +1,31 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .formSection {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .selectsection {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    > div {
+      width: 100%;
+    }
+
+    > label {
+      margin-bottom: 0rem;
+    }
+  }
+
+  .secondaryHeading {
+    .flexbox();
+    font-size: 12px;
+    color: @lib__colors__N600Light;
+    gap: 0.25rem;
+  }
+}

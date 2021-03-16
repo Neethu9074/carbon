@@ -2,9 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import { number, bytesZeroDecimalPlaces, percentage, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -16,6 +15,8 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
 import DatastoreTable from './DatastoreTable';
 import Card from 'in-new-components/Card';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: host }) {
   const snapshotId = host.id;

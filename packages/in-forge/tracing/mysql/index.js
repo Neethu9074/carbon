@@ -2,9 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
-import { registerSpanDefinition } from 'in-sdk/tracing';
+
 import { shortenSqlStatement } from 'in-forge/tracing/jdbc/sql';
+import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'mysql',

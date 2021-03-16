@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, pure } from 'recompose';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { amCharts, loadMap, getMapName } from 'in-new-components/AmMap/libraryWrapper';
@@ -16,6 +16,7 @@ import Button from 'in-new-components/MapControls/Button';
 import AmMap from 'in-new-components/AmMap/ReactWrapper';
 import Tooltip from 'in-components/Tooltip';
 import connect from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './GeoHeatMapPresenter.mless';
 

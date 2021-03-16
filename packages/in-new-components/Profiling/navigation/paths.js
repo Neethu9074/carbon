@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import {
   dataSource as dataSourceMatrixParameter,
   processId as processIdMatrixParameter,
   time as timeMatrixParameter,
   hotspotAutoExpandRowId as hotspotAutoExpandRowIdMatrixParameter
 } from 'in-new-components/Profiling/navigation/matrix';
-import { addOrDeleteHighlightedTimeframeToParams } from 'in-stores/highlightedTimeframe';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
+import { addOrDeleteHighlightedTimeframeToParams } from 'in-stores/highlightedTimeframe';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 
 export const profilingPath = '/profiles';

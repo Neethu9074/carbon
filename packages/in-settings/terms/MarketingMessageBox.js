@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PropTypes from 'prop-types';
-import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 import { DataProtectionMailButton, PrivacyButton } from 'in-settings/terms/dialog/DocumentLinkButtons';
 import Message from 'in-new-components/Message';
+import { t, Trans } from 'in-i18n';
 
 import locals from './MarketingMessageBox.mless';
 

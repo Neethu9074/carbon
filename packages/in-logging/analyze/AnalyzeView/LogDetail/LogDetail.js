@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import SplitScreenLogItemContent from 'in-logging/analyze/AnalyzeView/components/SplitScreenLogItemContent';
@@ -18,6 +18,7 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './LogDetail.mless';
 

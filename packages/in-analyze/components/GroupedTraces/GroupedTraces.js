@@ -2,9 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import { compose, withProps } from 'recompose';
-import theme from 'in-themes';
 import React from 'react';
 
 import { serializeMetrics, deserializeMetrics, metrics as metricsMatrixParameter } from 'in-websites/navigation/matrix';
@@ -26,6 +25,8 @@ import { analyze } from 'in-analyze/navigation/paths';
 import SetBodyColor from 'in-components/SetBodyColor';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import { identity } from 'in-services/util/function';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 const defaultCountMetric = dataSource => {
   return {

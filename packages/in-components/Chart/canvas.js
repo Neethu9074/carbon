@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export function updateCanvasDimensions(canvas, ctx, width, height, devicePixelRatio = window.devicePixelRatio) {
   const backingStoreRatio =
     ctx.webkitBackingStorePixelRatio ||

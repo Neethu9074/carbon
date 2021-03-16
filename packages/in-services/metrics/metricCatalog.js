@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { generateStableHash } from 'in-services/util/id';
 import { roundDownToWeek } from 'in-services/util/date';

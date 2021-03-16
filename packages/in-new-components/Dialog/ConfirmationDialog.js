@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
@@ -11,6 +11,7 @@ import CancelButton from 'in-components/form/CancelButton';
 import Actions from 'in-new-components/Dialog/Actions';
 import SaveButton from 'in-components/form/SaveButton';
 import Dialog from 'in-new-components/Dialog/Dialog';
+import { t } from 'in-i18n';
 
 import locals from './commonDialog.mless';
 

@@ -2,13 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
-import ConditionsList from 'in-forge/plugins/kubernetesCluster/Sidebar/ConditionsList';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import ConditionsList from 'in-forge/plugins/kubernetesCluster/Sidebar/ConditionsList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function KubernetesPodSidebar({ snapshot }) {

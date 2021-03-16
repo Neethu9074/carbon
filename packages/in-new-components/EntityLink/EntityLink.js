@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { forwardRef } from 'react';
-import theme from 'in-themes';
 
 import WithIcon from 'in-new-components/WithIcon';
 import { noop } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+import theme from 'in-themes';
 
 import locals from './EntityLink.mless';
 

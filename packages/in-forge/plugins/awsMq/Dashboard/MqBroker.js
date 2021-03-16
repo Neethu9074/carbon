@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
@@ -14,6 +14,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import { getLabel } from 'in-sdk/snapshot';
 import QueuesTable from './QueuesTable';
 import TopicsTable from './TopicsTable';
+import { t } from 'in-i18n';
 
 export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
   const snapshotId = snapshot.get('id');

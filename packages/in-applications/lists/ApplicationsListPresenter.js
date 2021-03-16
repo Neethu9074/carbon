@@ -2,9 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -41,6 +40,8 @@ import Card from 'in-new-components/Card';
 import Title from 'in-components/Title';
 import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './ApplicationsList.mless';
 

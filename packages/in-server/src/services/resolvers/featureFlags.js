@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 module.exports = exports = [
   {
     uiClientKey: 'isSelfService',
@@ -202,6 +203,11 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticCallsEnabled',
     instanaCtlKey: 'feature.synthetic.calls.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'applicationHealthOverviewEnabled',
+    instanaCtlKey: 'feature.application.health.overview.enabled',
     defaultValue: false
   }
 ];

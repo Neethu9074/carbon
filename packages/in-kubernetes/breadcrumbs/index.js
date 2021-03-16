@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -23,6 +23,7 @@ import CronJobBreadcrumb from 'in-kubernetes/breadcrumbs/CronJobBreadcrumb';
 import NodeBreadcrumb from 'in-kubernetes/breadcrumbs/NodeBreadcrumb';
 import PodBreadcrumb from 'in-kubernetes/breadcrumbs/PodBreadcrumb';
 import { fullyQualifiedPlugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 export function ClusterBreadcrumbs(props) {
   const { clusterId } = props;

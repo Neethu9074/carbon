@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
+import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/smart-alert-dialog/IncompleteChartPlaceholder';
-import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 
 import locals from 'in-alerting/smart-alerts/applications/simple/SimpleAlertConfigDialogChart.mless';
@@ -18,7 +19,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
   const blueprintConfig = getBlueprintConfig(alertType);
   const isRuleComplete = blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule);
   return (
-    <ChartViewConfigurator
+    <ChartViewConfiguratorWithEntitySelection
       alertConfigWithFormModel={alertConfigWithFormModel}
       onChartViewConfigChange={onChartViewConfigChange}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
@@ -43,7 +44,7 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
           )}
         </>
       )}
-    </ChartViewConfigurator>
+    </ChartViewConfiguratorWithEntitySelection>
   );
 }
 

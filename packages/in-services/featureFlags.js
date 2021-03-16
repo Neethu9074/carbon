@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { isInstanaEmail, isInstanaEngineer } from 'in-stores/user';
 import { isFeatureFlagEnabled } from 'in-services/config';
 
@@ -51,6 +52,7 @@ export const qb2InAPCreationEnabled = isFeatureFlagEnabled('qb2InAPCreationEnabl
 export const languageSelectorEnabled = isFeatureFlagEnabled('languageSelectorEnabled');
 export const authenticationOidcEnabled = isFeatureFlagEnabled('authenticationOidcEnabled');
 export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');
+export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
 export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled');
 export const globalSmartAlertsEnabled = isFeatureFlagEnabled('globalSmartAlertsEnabled');
 

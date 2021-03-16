@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, withProps } from 'recompose';
 import React, { Fragment } from 'react';
 import { uniqBy } from 'lodash';
-import { t } from 'in-i18n';
 
 import {
   analyzeMetricsUrlParameter,
@@ -42,6 +42,7 @@ import { getTag } from 'in-analyze/metricDefinitionHelpers';
 import { getTimeConfig } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
 import Footer from 'in-new-components/Footer';
+import { t } from 'in-i18n';
 
 export default compose(
   withUrlState({

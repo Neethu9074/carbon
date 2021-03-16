@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-disable no-console */
 import React, { Fragment } from 'react';
 import { withState } from 'recompose';
-import { t } from 'in-i18n';
 
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 export default withState(
   'throwError',

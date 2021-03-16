@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -16,6 +16,7 @@ import { getSnapshots } from 'in-stores/snapshot';
 import search from 'in-subscription/search';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 const cols = [
   {

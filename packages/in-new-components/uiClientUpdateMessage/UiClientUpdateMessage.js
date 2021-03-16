@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import Button from 'in-new-components/Button/Button';
+import { t } from 'in-i18n';
 
 import locals from './UiClientUpdateMessage.mless';
 

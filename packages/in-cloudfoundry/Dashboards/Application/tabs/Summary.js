@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import ApplicationState from 'in-cloudfoundry/commonComponents/ApplicationState';
@@ -15,6 +15,7 @@ import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 export default function Summary({ data: application, timeConfig }) {
   const joinedRoutes = application.routes.join(', ');

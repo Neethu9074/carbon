@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-disable react/no-find-dom-node */
 import { combineLatest } from '@instana/observables';
 import ReactDOM from 'react-dom';

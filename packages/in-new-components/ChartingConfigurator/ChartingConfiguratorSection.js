@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import DefaultChartingConfigurator from 'in-new-components/ChartingConfigurator/ChartingConfigurator';
 import Section from 'in-new-components/workspace/Section';
+import { t } from 'in-i18n';
 
 const noAdditionalActions = <></>;
 

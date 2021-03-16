@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
@@ -9,9 +10,8 @@ import CloudfoundryInfo from 'in-forge/plugins/garden/CloudfoundryInfo';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { pcfEnabled } from 'in-services/featureFlags';
 import List from 'in-sdk/components/sidebar/List';
-import { t } from 'in-i18n';
-
 import Info from 'in-forge/plugins/garden/Info';
+import { t } from 'in-i18n';
 
 export default function GardenSidebar({ snapshot }) {
   const data = snapshot.get('data');

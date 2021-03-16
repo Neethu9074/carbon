@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, withState, setPropTypes, withHandlers, withProps } from 'recompose';
 import PropTypes from 'prop-types';
 import React from 'react';

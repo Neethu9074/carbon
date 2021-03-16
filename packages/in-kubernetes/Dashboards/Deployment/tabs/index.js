@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { DeploymentConditionsTab, WorkloadTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
@@ -13,6 +13,7 @@ import { deploymentDashboardFullyQualified } from 'in-kubernetes/navigation/path
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/Deployment/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/Deployment/tabs/Details';
+import { t } from 'in-i18n';
 
 export default [
   {

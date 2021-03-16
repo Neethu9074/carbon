@@ -53,6 +53,7 @@ stage('Build') {
           projectName:
           'ui-client',
           region: 'us-west-2',
+          imageOverride: 'aws/codebuild/standard:5.0',
           sourceControlType: 'project',
           sourceVersion: gitCommitId,
           envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaVersion + '}, {BRANCH_NAME, ' + env.BRANCH_NAME + '}, {GIT_BRANCH, ' + env.BRANCH_NAME + '} ]'
@@ -119,6 +120,7 @@ stage('Storybook') {
             projectName:
             'ui-client-storybook',
             region: 'us-west-2',
+            imageOverride: 'aws/codebuild/standard:5.0',
             sourceControlType: 'project',
             envVariables: '[ {RUN_UI_TEST_ON_DELIVERY, ' + RUN_UI_TEST_ON_DELIVERY + '} ]',
             sourceVersion: gitCommitId,

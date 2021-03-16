@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { trackJumpToUnboundedAnalyticsFromSloWidget } from 'in-custom-dashboards/widgets/Slo/tracker';
@@ -17,6 +16,8 @@ import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { entityTypes } from 'in-analyze/applicationFilter';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 const emptyTagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
 

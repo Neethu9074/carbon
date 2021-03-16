@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { empty } from '@instana/observables';
 import React, { useEffect } from 'react';
 import classNames from 'classnames';

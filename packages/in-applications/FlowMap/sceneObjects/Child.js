@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import FlowMapBaseEntity from 'in-applications/FlowMap/sceneObjects/FlowMapBaseEntity';
 
 export default class Child extends FlowMapBaseEntity {

@@ -2,7 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { forwardRef } from 'react';
+
 import theme from 'in-themes';
 
 import locals from './LogIndicator.mless';

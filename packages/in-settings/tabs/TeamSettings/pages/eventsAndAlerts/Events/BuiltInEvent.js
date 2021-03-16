@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -25,6 +24,8 @@ import { find } from 'in-services/arrayUtils';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './BuiltInEvent.mless';
 

@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import FormGroup from 'in-settings/components/FormGroup';
 import Input from 'in-components/form/Input';
+import { t } from 'in-i18n';
 
 import locals from './InfraDFQ.mless';
 

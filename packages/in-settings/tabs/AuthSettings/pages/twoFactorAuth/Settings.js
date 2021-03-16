@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField } from 'formalistic';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -18,6 +18,7 @@ import Section from 'in-settings/components/Section';
 import Message from 'in-new-components/Message';
 import Title from 'in-components/Title/Title';
 import Input from 'in-components/form/Input';
+import { t } from 'in-i18n';
 
 import locals from './Settings.mless';
 

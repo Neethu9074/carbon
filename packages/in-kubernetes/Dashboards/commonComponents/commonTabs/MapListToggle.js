@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import ButtonGroup from 'in-new-components/ButtonGroup';
+import { t } from 'in-i18n';
 
 export default function MapListToggle({ setView, view }) {
   return (

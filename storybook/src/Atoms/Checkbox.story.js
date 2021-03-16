@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment, useState } from 'react';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy';

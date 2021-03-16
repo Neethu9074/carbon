@@ -2,7 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-/* eslint-disable instana-import-order/instana-import-order */
+
+/* import-sort-ignore */
 /* eslint-env mocha, node */
 
 // load all the plugins

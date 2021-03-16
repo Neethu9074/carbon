@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -15,6 +15,7 @@ import { getPluginName } from 'in-sdk/pluginName';
 import { plugins } from 'in-forge/constants';
 import search from 'in-subscription/search';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const cols = [
   {

@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
-import { Trans, t } from 'in-i18n';
 import React from 'react';
 
 import ScreenPositionWrapper from 'in-applications/FlowMap/components/Node/ScreenPositionWrapper';
@@ -13,10 +13,10 @@ import { alwaysNull } from 'in-services/fixedStreams';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
+import connectTo from 'in-hoc/connectTo';
+import { Trans, t } from 'in-i18n';
 
 import locals from './RemainingNodesPlaceholderNode.mless';
-
-import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   props => {

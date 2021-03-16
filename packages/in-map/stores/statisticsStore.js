@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-disable no-console */
 import createCollection from 'in-map/stores/ObjectCollectionStream';
 import { groups } from 'in-map/stores/physical/groupsStore';

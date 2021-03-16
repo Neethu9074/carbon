@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { interval, just } from '@instana/observables';
 import { Redirect } from 'react-router-dom';
-import { Trans, t } from 'in-i18n';
 import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
@@ -13,6 +13,7 @@ import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
 import getApplication from 'in-subscription/application/getApplication';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
+import { Trans, t } from 'in-i18n';
 
 import locals from './NewApplicationWaiter.mless';
 

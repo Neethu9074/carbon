@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useMemo } from 'react';
 import { sortedUniqBy } from 'lodash';
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 
 import { types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -14,6 +14,7 @@ import SearchInput from 'in-new-components/SearchInput';
 import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './Filter.mless';
 

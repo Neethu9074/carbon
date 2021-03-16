@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsList';
@@ -11,7 +11,7 @@ import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { positiveNumber } from 'in-services/formatters/number';
 import { minutes } from 'in-services/formatters/number';
-
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function TomcatSidebar({ snapshot }) {

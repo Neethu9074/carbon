@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { create, just, timeout } from '@instana/observables';
 import PropTypes from 'prop-types';
 import { throttle } from 'lodash';

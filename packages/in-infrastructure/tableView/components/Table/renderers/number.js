@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import invariant from 'invariant';
 import React from 'react';
 
 import PercentageCell from 'in-infrastructure/tableView/components/Table/components/PercentageCell';
-import { compare } from 'in-services/util/number';
 import { percentage } from 'in-services/formatters/number';
+import { compare } from 'in-services/util/number';
 import { noop } from 'in-services/fixedObjects';
 
 export const type = 'number';

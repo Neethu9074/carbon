@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import IndividualEditRightSelection from 'in-custom-dashboards/CustomDashboard/SharingDialog/IndividualEditRightSelection';
@@ -13,6 +13,7 @@ import Actions from 'in-new-components/Dialog/Actions';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './SharingDialogPresenter.mless';
 

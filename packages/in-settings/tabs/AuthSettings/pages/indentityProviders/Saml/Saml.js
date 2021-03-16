@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState, useEffect } from 'react';
 import { createField } from 'formalistic';
-import { t, Trans } from 'in-i18n';
 
 import { getConfigAsResultObservable as getOidcConfigAsResultObservable } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
@@ -23,6 +23,7 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
 import Link from 'in-components/Link';
+import { t, Trans } from 'in-i18n';
 
 import indentityProvidersLocals from '../indentityProviders.mless';
 import locals from './Saml.mless';

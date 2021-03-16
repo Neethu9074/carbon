@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import { seconds } from 'in-services/formatters/number';
@@ -71,7 +72,13 @@ const cols = [
 function getTableRows(pkg, snapshot, timeConfig) {
   const pkgName = pkg.name;
   const snapshotId = snapshot.get('Id');
-  return pkg.actions.map(act => ({key: act.name, pkgName: pkgName, name: act.name, snapshotId: snapshotId, timeConfig: timeConfig}));
+  return pkg.actions.map(act => ({
+    key: act.name,
+    pkgName: pkgName,
+    name: act.name,
+    snapshotId: snapshotId,
+    timeConfig: timeConfig
+  }));
 }
 
 function getTable(pkg, snapshot, timeConfig) {
@@ -87,11 +94,10 @@ function getTable(pkg, snapshot, timeConfig) {
 }
 
 export default function PackagesTable({ snapshot, timeConfig }) {
-  
   const pkgs = snapshot.getIn(['data', 'packages'], emptyList);
-  if (pkgs.length == 0) { 
+  if (pkgs.length == 0) {
     return null;
   }
 
-  return (pkgs.map(obj => getTable(obj, snapshot, timeConfig)));
+  return pkgs.map(obj => getTable(obj, snapshot, timeConfig));
 }

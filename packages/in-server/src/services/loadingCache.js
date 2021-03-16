@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 exports.createLoadingCache = ({ ttl = 10000 }) => {
   // cache key => promise
   let cache = {};

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+
 import React, { useEffect, useState } from 'react';
 
 import UngroupedView, { retrievalSize } from 'in-new-components/AnalyzeView/UngroupedView';

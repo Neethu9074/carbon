@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import theme from 'in-themes';
 
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import SvgIcon from 'in-components/SvgIcon';
+import theme from 'in-themes';
 
 import locals from 'in-alerting/components/IconLabel.mless';
 

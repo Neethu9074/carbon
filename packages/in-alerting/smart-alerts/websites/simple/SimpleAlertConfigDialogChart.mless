@@ -2,12 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 @import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
   .placeholder {
-    min-width: 25rem;
     min-height: 13.75rem;
   }
 

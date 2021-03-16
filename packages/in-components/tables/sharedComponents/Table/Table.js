@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { assign, omit } from 'lodash';
 import classNames from 'classnames';
-import theme from 'in-themes';
 import React from 'react';
 
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
+import theme from 'in-themes';
 
 import locals from './Table.mless';
 

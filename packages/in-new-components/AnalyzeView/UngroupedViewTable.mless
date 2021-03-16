@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+
 :local {
   .noData {
     background-color: transparent;

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { track, TABLE_METRIC_ADDED, TABLE_METRIC_CLEARED, TABLE_METRIC_REMOVED } from 'in-services/tracking/tracking';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';

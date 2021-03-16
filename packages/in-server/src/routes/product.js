@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 const { v4: uuidv4 } = require('uuid');
 const Handlebars = require('handlebars');
 const express = require('express');

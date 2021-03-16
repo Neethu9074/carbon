@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import DashboardSwitcherOverlayPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherOverlayPresenter';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Lettering from 'in-components/Lettering';
+import { t } from 'in-i18n';
 
 import locals from './DashboardSwitcherPresenter.mless';
 

@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import MobileAppsNoDataNotification from 'in-mobile-apps/MobileAppsList/components/MobileAppsNoDataNotification';
@@ -28,6 +28,7 @@ import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 import locals from './MobileAppsList.mless';
 

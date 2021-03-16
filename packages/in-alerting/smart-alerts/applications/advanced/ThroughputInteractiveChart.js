@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -13,6 +14,7 @@ import {
 } from 'in-alerting/smart-alerts/applications/tracker';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdDeviationSliderForm';
+import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdOperatorDropDown';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton';
@@ -22,7 +24,6 @@ import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-
 import { createThroughputForm, defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import ThresholdValueInput from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueInput';
 import { findEntryByValue, alertConfigWithDefaultValues } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
 import { PER_AP } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/applications/form/formUtils';
@@ -55,7 +56,7 @@ export default function ThroughputInteractiveChart({
         editMode={editMode}
       />
 
-      <ChartViewConfigurator
+      <ChartViewConfiguratorWithEntitySelection
         alertConfigWithFormModel={alertConfigWithFormModel}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
@@ -71,7 +72,7 @@ export default function ThroughputInteractiveChart({
             canReload
           />
         )}
-      </ChartViewConfigurator>
+      </ChartViewConfiguratorWithEntitySelection>
     </div>
   );
 }

@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 
 import UpstreamDownstreamItem from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamItem/UpstreamDownstreamItem';
 import UpstreamDownstreamMetric from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamMetric';
@@ -13,6 +13,7 @@ import { relationships } from 'in-new-components/UpstreamDownstream/constants';
 import { capitalize } from 'in-services/formatters/string';
 import { Ul } from 'in-new-components/lists/List';
 import Link from 'in-components/Link/Link';
+import { t } from 'in-i18n';
 
 import locals from './UpstreamDownstreamGroup.mless';
 

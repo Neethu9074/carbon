@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
@@ -18,6 +18,7 @@ import FormTextArea from 'in-components/form/TextArea';
 import FormGroup from 'in-components/form/FormGroup';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
+import { t } from 'in-i18n';
 
 import locals from './CustomSyntheticRuleDialog.mless';
 

@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import Sticky from 'in-components/Sticky';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './InternalViewWrapper.mless';
 

@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import Info from 'in-forge/plugins/awsEcsService/Info';
 import TagList from 'in-sdk/components/sidebar/TagList';
+import Info from 'in-forge/plugins/awsEcsService/Info';
+import { t } from 'in-i18n';
 
 export default function AwsEcsServiceSidebar({ snapshot }) {
   return (

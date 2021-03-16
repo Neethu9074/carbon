@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import { combineLatest } from '@instana/observables';
+import { createLogger } from '@instana/logger';
 import semver from 'semver';
 
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
-import { releaseNotesEnabled } from 'in-services/featureFlags';
 import { build as uiClientBuildInfo } from 'in-services/config';
+import { releaseNotesEnabled } from 'in-services/featureFlags';
 import { tryGet, trySet } from 'in-services/localStorage';
-import { combineLatest } from '@instana/observables';
 import { createStore } from 'in-stores/store';
-import { createLogger } from '@instana/logger';
 import http from 'in-services/http';
 
 const logger = createLogger('in-stores.releaseNotes');

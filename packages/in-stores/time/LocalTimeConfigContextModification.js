@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { isEqual } from 'lodash';
 
-import { generateStableHash } from 'in-services/util/id';
 import { TimeConfigContext } from 'in-stores/time/TimeConfigContext';
+import { generateStableHash } from 'in-services/util/id';
 import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 

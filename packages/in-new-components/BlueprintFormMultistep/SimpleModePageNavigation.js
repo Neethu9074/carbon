@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import StepProgressBar from 'in-new-components/StepProgressBar/StepProgressBar';
@@ -13,6 +13,7 @@ import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SaveButton from 'in-components/form/SaveButton';
 import Button from 'in-new-components/Button/Button';
 import useObservable from 'in-hooks/useObservable';
+import { t } from 'in-i18n';
 
 import locals from './SimpleModePageNavigation.mless';
 
@@ -78,7 +79,7 @@ export default function SimpleModePageNavigation({
     <>
       <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />
 
-      <form onSubmit={e => handleSubmit(e, step)}>
+      <form onSubmit={e => handleSubmit(e, step)} className={locals.form}>
         {renderStep(step)}
 
         <FormFooter className={locals.controls}>

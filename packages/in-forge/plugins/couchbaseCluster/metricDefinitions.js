@@ -2,11 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import { getBucketMetricDefinitions } from 'in-forge/plugins/couchbaseNode/metricDefinitions.js';
 import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseCluster/constants.js';
 import { bytes, number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 const clusterMetricDefinitions = [
   {

@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-/* eslint-env mocha, node */
-import { deepFreeze } from 'in-services/util/object';
+
 import { expect } from 'chai';
 
 import { isOverlappedWith } from 'in-analyze/TraceDetail/components/IcicleChart/TimeRangeHelper';
 import { applyLayout } from 'in-analyze/TraceDetail/components/IcicleChart/IcicleLayout';
+/* eslint-env mocha, node */
+import { deepFreeze } from 'in-services/util/object';
 
 describe('in-analyze/TraceDetail/components/IcicleChart', () => {
   describe('Time Range Helper', () => {

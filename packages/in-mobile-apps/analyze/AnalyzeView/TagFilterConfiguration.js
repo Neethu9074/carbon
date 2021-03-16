@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, withProps } from 'recompose';
 import React from 'react';
 
 import TagFilterConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterConfigurationWrapper';
 import { tagFilterManipulators, noopTagFilterTrackers } from 'in-mobile-apps/tagFiltersHoc';
-import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
+import TagFilterList from 'in-analyze/components/TagFilterList/TagFilterList';
 import { availableFilterTags } from 'in-mobile-apps/tags';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';

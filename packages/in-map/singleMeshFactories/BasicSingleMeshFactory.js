@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import fragmentShader from 'in-map/singleMeshFactories/basicFragmentShader.glsl';
-import vertexShader from 'in-map/singleMeshFactories/basicVertexShader.glsl';
 
+import fragmentShader from 'in-map/singleMeshFactories/basicFragmentShader.glsl';
 import ASingleMeshFactory from 'in-map/singleMeshFactories/ASingleMeshFactory';
+import vertexShader from 'in-map/singleMeshFactories/basicVertexShader.glsl';
 import { Mesh, RawShaderMaterial, DoubleSide } from 'in-map/3DLibProvider';
 
 export default class BasicSingleMeshFactory extends ASingleMeshFactory {

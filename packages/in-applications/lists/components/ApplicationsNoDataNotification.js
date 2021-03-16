@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
@@ -15,6 +15,7 @@ import ArticleContent from 'in-new-components/ArticleContent';
 import { applicationPlugins } from 'in-forge/constants';
 import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 import locals from './ApplicationsNoDataNotification.mless';
 

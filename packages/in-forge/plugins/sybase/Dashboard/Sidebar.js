@@ -2,13 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
 import DatabasesPopup from './DatabasesPopup';
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function SybaseSidebar({ snapshot }) {

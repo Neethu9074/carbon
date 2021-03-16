@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* global require:false */
 
 import { just, create } from '@instana/observables';
@@ -11,10 +12,10 @@ import React from 'react';
 
 import FullViewWrapper from 'in-waiting-for-deployment/components/FullViewWrapper';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import ErrorBoundary from 'in-components/ErrorBoundary';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import TermsDialog from 'in-settings/terms/dialog/TermsDialog';
 import DialogPresenter from 'in-components/DialogPresenter';
+import ErrorBoundary from 'in-components/ErrorBoundary';
 import http from 'in-services/http/http';
 
 require('in-services/security/csrf').init();

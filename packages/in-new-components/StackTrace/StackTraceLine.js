@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 
 import { serializeLine } from 'in-new-components/StackTrace/serializer';
 import { isNotBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './StackTraceLine.mless';
 

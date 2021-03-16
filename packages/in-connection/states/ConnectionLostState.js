@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createLogger } from '@instana/logger';
 import SockJS from 'sockjs-client';
-import { t } from 'in-i18n';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import AbstractState from 'in-connection/states/AbstractState';
@@ -12,6 +12,7 @@ import { combineDataAndError } from 'in-services/util/ro';
 import { ineum } from 'in-services/tracking/ineum';
 import { minutes } from 'in-services/time/time';
 import { isSignedIn } from 'in-api/account';
+import { t } from 'in-i18n';
 
 const logger = createLogger('connection/states/ConnectionLostState');
 

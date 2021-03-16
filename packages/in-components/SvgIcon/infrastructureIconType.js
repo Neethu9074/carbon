@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+
 import icons from 'in-components/SvgIcon/registry.json';
 import { getIconTypeCallback } from 'in-sdk/iconType';
 

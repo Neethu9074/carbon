@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState, useEffect } from 'react';
-import { t } from 'in-i18n';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -16,6 +16,7 @@ import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 import locals from './BasicForm.mless';
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export function getNearestDataPointDomainForTimestamp(config, timestamp, floor = false) {
   if (timeIsNotDefined(timestamp)) {
     return null;

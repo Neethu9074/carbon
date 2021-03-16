@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import CollectionsTable from 'in-forge/plugins/azureCosmosDb/Dashboard/DatabaseTable';
@@ -10,6 +10,7 @@ import DatabaseTable from 'in-forge/plugins/azureCosmosDb/Dashboard/DatabaseTabl
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default function Region({ snapshot, timeConfig, region, databases, collections, statusCodes, resourceTypes }) {
   const snapshotId = snapshot.get('id');

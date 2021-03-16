@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import ComparisonColorSelect from 'in-custom-dashboards/widgets/BigNumber/ComparisonColorSelect';
@@ -12,6 +12,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import Sections from 'in-new-components/workspace/Sections';
 import Section from 'in-new-components/workspace/Section';
 import Toggle from 'in-components/form/Toggle';
+import { t } from 'in-i18n';
 
 import locals from './TimeShiftingForm.mless';
 

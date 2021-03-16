@@ -1,0 +1,31 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .healthBar {
+    height: 1rem;
+    display: flex;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+
+  .critical {
+    background-color: @lib__colors__failure;
+  }
+
+  .warning {
+    background-color: @lib__colors__warning;
+  }
+
+  .healthy {
+    background-color: @lib__colors__success;
+  }
+
+  .label {
+    font-size: 0.75rem;
+  }
+}

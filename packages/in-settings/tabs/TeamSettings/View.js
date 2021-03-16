@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import {
   teamSettings,
@@ -67,6 +67,7 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 function navigationTreeForRole(role) {
   const navigationTree = [];

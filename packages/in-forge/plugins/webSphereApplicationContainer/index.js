@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import metricDefinitions from 'in-forge/plugins/webSphereApplicationContainer/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/webSphereApplicationContainer/kpiDefinitions';
 import { supportsCodeView, getCodeView } from 'in-forge/codeView/java';

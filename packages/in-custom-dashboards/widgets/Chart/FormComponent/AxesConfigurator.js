@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 
 import { MetricsForAxis, Reorderer } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
 import { userSelectableRenderer as availableRenderers } from 'in-custom-dashboards/widgets/Chart/renderer';
@@ -19,6 +19,7 @@ import Toggle from 'in-components/form/Toggle';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import { t } from 'in-i18n';
 
 import locals from './AxesConfigurator.mless';
 

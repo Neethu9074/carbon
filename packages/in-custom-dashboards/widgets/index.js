@@ -2,12 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import * as pie from 'in-custom-dashboards/widgets/Pie';
+
+import * as applicationHealth from 'in-custom-dashboards/widgets/ApplicationHealth';
 import * as timeZones from 'in-custom-dashboards/widgets/TimeZones';
 import * as bigNumber from 'in-custom-dashboards/widgets/BigNumber';
-import * as list from 'in-custom-dashboards/widgets/TopList';
 import * as markdown from 'in-custom-dashboards/widgets/Markdown';
+import * as list from 'in-custom-dashboards/widgets/TopList';
 import * as chart from 'in-custom-dashboards/widgets/Chart';
+import * as pie from 'in-custom-dashboards/widgets/Pie';
 import * as slo from 'in-custom-dashboards/widgets/Slo';
 
 const all = {
@@ -17,7 +19,8 @@ const all = {
   [bigNumber.type]: bigNumber,
   [chart.type]: chart,
   [list.type]: list,
-  [pie.type]: pie
+  [pie.type]: pie,
+  [applicationHealth.type]: applicationHealth
 };
 export default all;
 

@@ -2,12 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import metricDefinitions from 'in-forge/plugins/awsLambda/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/awsLambda/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 // The legacy AWS Lambda plug-in, replaced by awsLambdaVersion. This plug-in was removed in release 166. We need to keep
 // it until the last entity with plugin ID com.instana.forge.hardware.virtual.aws.lambda.AwsLambda has been removed due

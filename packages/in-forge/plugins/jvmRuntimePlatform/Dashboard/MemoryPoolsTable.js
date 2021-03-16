@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t, Trans } from 'in-i18n';
+
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -13,6 +13,7 @@ import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { bytes } from 'in-services/formatters/number';
 import { getMaxValue } from 'in-sdk/metrics';
+import { t, Trans } from 'in-i18n';
 
 const cols = [
   {

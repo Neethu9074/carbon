@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm, createField, createListForm } from 'formalistic';
-import { t } from 'in-i18n';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { emptyArray } from 'in-services/fixedObjects';
 import { hasError } from 'in-services/util/result';
+import { t } from 'in-i18n';
 
 export const staticBooleanType = 'staticBoolean';
 export const staticNumberType = 'staticNumber';

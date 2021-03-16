@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
-import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
 import SvgIcon from 'in-components/SvgIcon';
+import { t, Trans } from 'in-i18n';
 
 import locals from './Delete.mless';
 

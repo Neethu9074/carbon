@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import metricDefinitions from 'in-forge/plugins/varnish/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/varnish/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';

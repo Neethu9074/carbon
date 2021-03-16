@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import internetExplorer from '@browser-logos/internet-explorer-tile_10-11/internet-explorer-tile_10-11.svg';
 import samsungInternet from '@browser-logos/samsung-internet/samsung-internet.svg';
 import chromium from '@browser-logos/chromium/chromium_128x128.png';

@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { interval } from '@instana/observables';
 import { groupBy, chunk } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -29,6 +29,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import { minutes } from 'in-services/time';
 import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './SloViolations.mless';
 

@@ -2,13 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
-import { CronJobConditionsTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
+import { CronJobConditionsTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import { cronJobDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Details from 'in-kubernetes/Dashboards/CronJob/tabs/Details';
 import Summary from 'in-kubernetes/Dashboards/CronJob/tabs/Summary';
+import { t } from 'in-i18n';
 
 export default [
   {

@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import FlowNodeTable from 'in-forge/plugins/aceMessageFlow/Dashboard/FlowNodeTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { micros, number, bytes } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default function AceMessageFlowDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

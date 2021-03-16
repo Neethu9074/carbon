@@ -2,16 +2,32 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import {
+  type as snapshotLinkType,
+  validate as validateSnapshotLinkColumn,
+  initialize as initializeSnapshotLinkColumn
+} from 'in-infrastructure/tableView/components/Table/renderers/snapshotLink';
+import {
+  type as sparkChartType,
+  validate as validateSparkChartColumn,
+  initialize as initializeSparkChartColumn
+} from 'in-infrastructure/tableView/components/Table/renderers/sparkChart';
+import {
+  type as dateTimeType,
+  validate as validateDateTimeColumn,
+  initialize as initializeDateTimeColumn
+} from 'in-infrastructure/tableView/components/Table/renderers/dateTime';
 import {
   type as healthColumnType,
   validate as validateHealthColumn,
   initialize as initializeHealthColumn
 } from 'in-infrastructure/tableView/components/Table/renderers/health';
 import {
-  type as sparkChartType,
-  validate as validateSparkChartColumn,
-  initialize as initializeSparkChartColumn
-} from 'in-infrastructure/tableView/components/Table/renderers/sparkChart';
+  type as booleanType,
+  validate as validateBooleanColumn,
+  initialize as initializeBooleanColumn
+} from 'in-infrastructure/tableView/components/Table/renderers/boolean';
 import {
   type as metricType,
   validate as validateMetricColumn,
@@ -23,30 +39,15 @@ import {
   initialize as initializeStringColumn
 } from 'in-infrastructure/tableView/components/Table/renderers/string';
 import {
-  type as dateTimeType,
-  validate as validateDateTimeColumn,
-  initialize as initializeDateTimeColumn
-} from 'in-infrastructure/tableView/components/Table/renderers/dateTime';
-import {
   type as numberType,
   validate as validateNumberColumn,
   initialize as initializeNumberColumn
 } from 'in-infrastructure/tableView/components/Table/renderers/number';
 import {
-  type as snapshotLinkType,
-  validate as validateSnapshotLinkColumn,
-  initialize as initializeSnapshotLinkColumn
-} from 'in-infrastructure/tableView/components/Table/renderers/snapshotLink';
-import {
   type as customType,
   validate as validateCustomColumn,
   initialize as initializeCustomColumn
 } from 'in-infrastructure/tableView/components/Table/renderers/custom';
-import {
-  type as booleanType,
-  validate as validateBooleanColumn,
-  initialize as initializeBooleanColumn
-} from 'in-infrastructure/tableView/components/Table/renderers/boolean';
 import {
   type as linkType,
   validate as validateLinkColumn,

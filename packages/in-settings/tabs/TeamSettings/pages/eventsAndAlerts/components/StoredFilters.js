@@ -2,10 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
+
+import { t } from 'in-i18n';
 
 import locals from './StoredFilters.mless';
 

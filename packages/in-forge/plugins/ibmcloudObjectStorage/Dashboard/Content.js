@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
@@ -21,7 +22,6 @@ export default function ibmcloudObjectStorageDashboard({ snapshot }) {
           <MetricValue snapshotId={snapshotId} metric="used_bytes_total" formatter={bytes.detailed} />
         </KpiKeyValue>
       </KpiSection>
-
     </div>
   );
 }

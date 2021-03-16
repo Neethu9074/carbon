@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, renameProp } from 'recompose';
 
 import withFlowMapResultState from 'in-applications/ServerFlowMap/withFlowMapResultState';

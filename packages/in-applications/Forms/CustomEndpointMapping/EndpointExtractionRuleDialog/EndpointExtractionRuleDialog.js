@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, createMapForm, createListForm } from 'formalistic';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import RuleTester from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/RuleTester';
@@ -15,6 +15,7 @@ import FormGroup from 'in-components/form/FormGroup';
 import { isBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
+import { t } from 'in-i18n';
 
 import locals from './EndpointExtractionRuleDialog.mless';
 

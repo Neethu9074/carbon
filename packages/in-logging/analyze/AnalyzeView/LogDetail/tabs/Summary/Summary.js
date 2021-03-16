@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
@@ -15,6 +15,7 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
 

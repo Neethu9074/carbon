@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { useInstanaSaasEumTrackingUrlEnabled } from 'in-services/featureFlags';
 import config, { region } from 'in-services/config';
 

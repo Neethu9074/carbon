@@ -2,12 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
-import { number, bytes, millis, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import ConsumerGroupsLagPerTopicTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumerGroupsLagPerTopicTable';
 import PartitionsPerNodeTable from 'in-forge/plugins/kafkaCluster/Dashboard/PartitionsPerNodeTable';
+import { number, bytes, millis, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import createClusterClientsSubscription from 'in-subscription/kafkaCluster/getClientsForCluster';
 import ProducersTable from 'in-forge/plugins/kafkaCluster/Dashboard/ProducersTable';
 import ConsumersTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumersTable';
@@ -20,6 +20,7 @@ import ClusterSummary from 'in-forge/plugins/kafkaCluster/ClusterSummary';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => ({

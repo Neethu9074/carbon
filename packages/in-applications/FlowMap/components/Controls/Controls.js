@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import HorizontalControlsPresenter from 'in-new-components/MapControls/HorizontalControlsPresenter';
 import VerticalControlsPresenter from 'in-new-components/MapControls/VerticalControlsPresenter';
@@ -12,6 +12,7 @@ import MapButtonGroup from 'in-new-components/MapControls/ButtonGroup';
 import Button from 'in-new-components/MapControls/Button';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export const SIGNALS = {
   PARTICLES: 'particles',

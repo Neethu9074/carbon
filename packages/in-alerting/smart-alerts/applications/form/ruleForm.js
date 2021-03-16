@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, createMapForm } from 'formalistic';
 
 import { operators } from 'in-analyze/applicationFilter';

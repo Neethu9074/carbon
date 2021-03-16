@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 const selfTimeThreshold = 0.05;
 
 import { buildJsonSerializer } from 'in-stores/navigation/matrix';

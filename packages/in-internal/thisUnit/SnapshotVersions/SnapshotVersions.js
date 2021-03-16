@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, withState } from 'recompose';
 import diff from 'deep-diff';
 import React from 'react';

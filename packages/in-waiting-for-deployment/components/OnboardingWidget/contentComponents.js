@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import React, { useState } from 'react';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -19,6 +19,7 @@ import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import { region } from 'in-services/config';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './content.mless';
 

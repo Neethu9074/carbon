@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 // the keys (not the values) need to be kept in sync with
 // in-services/featureFlags
 module.exports = {
@@ -44,5 +45,6 @@ module.exports = {
   languageSelectorEnabled: true,
   pseudoLanguageEnabled: true,
   authenticationOidcEnabled: true,
-  syntheticCallsEnabled: true
+  syntheticCallsEnabled: true,
+  applicationHealthOverviewEnabled: true
 };

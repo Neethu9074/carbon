@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { serverTime$ } from 'in-stores/serverTime';
 import connecTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './TimeZones.mless';
 

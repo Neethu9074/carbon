@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import DebouncedDistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
@@ -12,6 +12,7 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Toggle from 'in-components/form/Toggle';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './SettingsButton.mless';
 

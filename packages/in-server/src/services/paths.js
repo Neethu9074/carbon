@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 const path = require('path');
 
 exports.assetDir = path.join(__dirname, '..', '..', 'assets');

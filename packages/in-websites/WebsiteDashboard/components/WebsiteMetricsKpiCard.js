@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
-import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import ResultAwareKpiCard from 'in-new-components/KpiCard/ResultAwareKpiCard';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import connectTo from 'in-hoc/connectTo';
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import * as paths from 'in-settings/navigation/paths';
 

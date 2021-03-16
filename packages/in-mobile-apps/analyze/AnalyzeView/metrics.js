@@ -3,12 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { t } from 'in-i18n';
-
 import { newTimeMetric, newNumberMetric, newSizeMetric, withRawDataField } from 'in-analyze/metricDefinitionHelpers';
 import { percentage, number } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { affectedUsers } from 'in-websites/formatters';
+import { t } from 'in-i18n';
 
 export const timestampMetricName = t('in-mobile-apps:analyzeView.metrics.timestampMetricName');
 export const groupNameMetricName = t('in-mobile-apps:analyzeView.metrics.groupNameMetricName');

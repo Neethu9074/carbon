@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t, Trans } from 'in-i18n';
+
 import React from 'react';
 
 import Applications, {
@@ -33,6 +33,7 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { t, Trans } from 'in-i18n';
 
 import locals from './MaintenanceConfigurationForm.mless';
 

@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import {
   userSettings,
@@ -20,6 +20,7 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import Privacy from 'in-settings/tabs/UserSettings/pages/Privacy';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import SetBodyColor from 'in-components/SetBodyColor';
+import { t } from 'in-i18n';
 
 const navigationTree = [
   {

@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
@@ -19,6 +19,7 @@ import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import Pill from 'in-new-components/Pill';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './MessagesTable.mless';
 

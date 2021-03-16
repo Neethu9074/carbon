@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
 import Annotations from 'in-kubernetes/Dashboards/commonComponents/Annotations';
 import Spec from 'in-kubernetes/Dashboards/commonComponents/Spec';
+import { t } from 'in-i18n';
 
 export default function DetailsNavigation({ navigationTree, resource, ...props }) {
   return <SideNavigationAndContent navigationTree={navigationTree} sidebarWidth={3} resource={resource} {...props} />;

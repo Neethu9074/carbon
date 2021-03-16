@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-env mocha,node */
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';

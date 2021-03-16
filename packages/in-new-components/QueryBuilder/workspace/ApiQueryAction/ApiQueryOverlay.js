@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -10,6 +10,7 @@ import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import CodeComponent from 'in-components/Code';
+import { t } from 'in-i18n';
 
 import locals from './ApiQueryOverlay.mless';
 

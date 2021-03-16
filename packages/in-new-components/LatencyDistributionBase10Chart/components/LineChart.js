@@ -2,9 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import React, { useEffect, useRef } from 'react';
+
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 import line from 'in-components/Chart/renderer/line';
-import React, { useEffect, useRef } from 'react';
 
 import locals from './LineChart.mless';
 

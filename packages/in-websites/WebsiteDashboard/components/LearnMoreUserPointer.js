@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, pure } from 'recompose';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
 import { minutes } from 'in-services/time';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './LearnMoreUserPointer.mless';
 

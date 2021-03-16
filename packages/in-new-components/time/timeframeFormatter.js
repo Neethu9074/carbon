@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import { formatDurationAccurately, formatTime, formatDateShort } from 'in-services/formatters/date';
 import { isOnSameDay } from 'in-services/util/date';
+import { t } from 'in-i18n';
 
 export function timeDisplayTopFormat(timeConfig) {
   const currentTime = Date.now();

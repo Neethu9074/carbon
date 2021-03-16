@@ -2,6 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+/* import-sort-ignore */
 /* eslint-disable max-len */
 import rpt from 'prop-types';
 import React from 'react';

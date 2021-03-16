@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { on } from '@instana/observables';
+
 import RoEmitter from '@instana/roemitter';
+import { on } from '@instana/observables';
 import { get } from 'lodash';
 
 import {

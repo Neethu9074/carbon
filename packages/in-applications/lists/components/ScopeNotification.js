@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans, t } from 'in-i18n';
+
 import { get } from 'lodash';
 import React from 'react';
 
@@ -21,6 +21,7 @@ import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { Trans, t } from 'in-i18n';
 
 import locals from './ScopeNotification.mless';
 

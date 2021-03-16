@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { pick, curryRight, defaults, isEqual } from 'lodash';
 import React, { Component } from 'react';
 

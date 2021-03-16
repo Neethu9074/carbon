@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { siPrefixPerSecond, siPrefix } from 'in-services/formatters/number';
 import { getCustomMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 

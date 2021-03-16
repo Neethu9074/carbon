@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { trackingProps as groupingConfiguratorTrackingProps } from 'in-new-components/GroupingConfigurator/GroupingConfigurator';
 import SectionLabelWithSubtext from 'in-new-components/workspace/SectionLabelWithSubtext';
 import Section from 'in-new-components/workspace/Section';
+import { t } from 'in-i18n';
 
 export default function GroupBySection({
   value: group,

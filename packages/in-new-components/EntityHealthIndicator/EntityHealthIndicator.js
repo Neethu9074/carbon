@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import EntityOpenIssuesList from 'in-new-components/EntityHealthIndicator/EntityOpenIssuesList';
 import Overlay from 'in-new-components/overlays/Overlay';
+import { t } from 'in-i18n';
 
 import locals from './EntityHealthIndicator.mless';
 

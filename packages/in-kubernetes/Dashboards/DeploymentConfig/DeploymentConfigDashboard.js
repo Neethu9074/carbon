@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import WorkloadControllerDashboard from 'in-kubernetes/Dashboards/commonComponents/WorkloadController/WorkloadControllerDashboard';
@@ -13,6 +13,7 @@ import { WorkloadControllerBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/DeploymentConfig/tabs/index';
 import { deploymentConfigTabChange } from 'in-kubernetes/tracker';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 export default function DeploymentConfigDashboard({ location }) {
   return (

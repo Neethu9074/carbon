@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import createStickyNote from 'in-map/components/stickyNotes/StickyNote';
-import { getSnapshot } from 'in-stores/snapshot';
 import { getSetting$ } from 'in-services/settings';
+import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { isSafari } from 'in-services/browser';
 
 // We have seen cases where socket.io XHR polling requests run into

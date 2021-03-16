@@ -2,16 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+
 import getWebsiteRateMetricThresholdSuggestion from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricThresholdSuggestion';
 import getWebsiteMetricsThresholdSuggestion from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricsThresholdSuggestion';
 import getWebsiteRateMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricAlertsPreview';
 import getWebsiteMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricAlertsPreview';
 import getWebsiteRateMetric from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetric';
-/*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
- */
-import { t } from 'in-i18n';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { getBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
@@ -19,6 +15,7 @@ import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { availableFilterTags } from 'in-websites/tags';
 import { isNotBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 const jsErrorMetricLabelsByName = Object.freeze({
   errors: t('in-alerting:smartAlerts.websites.data.errorCount'),

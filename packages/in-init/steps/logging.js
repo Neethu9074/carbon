@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { ConsoleAppender, addAppender } from '@instana/logger';
 
 import WeaselLogAppender from 'in-client/js/WeaselLogAppender';

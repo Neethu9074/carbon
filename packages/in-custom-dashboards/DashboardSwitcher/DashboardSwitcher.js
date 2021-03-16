@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { withProps, compose } from 'recompose';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import DashboardSwitcherPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherPresenter';
@@ -14,6 +14,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getCustomDashboards } from 'in-custom-dashboards/api';
 import { navigationParameters$ } from 'in-stores/navigation';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const systemOverviewTitle = 'Instana';
 const loadingTitle = t('in-custom-dashboards:dashboardSwitcher.dashboardSwitcher.loading');

@@ -2,10 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
+
 import locals from './KeyValueHeader.mless';
 
 export default function KeyValueHeader({ label, value, onClick, tooltipContent }) {

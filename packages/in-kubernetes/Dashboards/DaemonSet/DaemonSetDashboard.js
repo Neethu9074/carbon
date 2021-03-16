@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import WorkloadControllerDashboard from 'in-kubernetes/Dashboards/commonComponents/WorkloadController/WorkloadControllerDashboard';
@@ -13,6 +13,7 @@ import { daemonSetDashboard } from 'in-kubernetes/navigation/paths';
 import tabs from 'in-kubernetes/Dashboards/DaemonSet/tabs/index';
 import { daemonSetTabChange } from 'in-kubernetes/tracker';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 export default function DaemonSetDashboard({ location }) {
   return (

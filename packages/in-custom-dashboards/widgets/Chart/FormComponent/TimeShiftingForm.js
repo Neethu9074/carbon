@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans, t } from 'in-i18n';
+
 import React from 'react';
 
 import { timeShifts, defaultTimeShift, previousHourTimeShift } from 'in-stores/time/shifting';
@@ -13,6 +13,7 @@ import Sections from 'in-new-components/workspace/Sections';
 import Section from 'in-new-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
 import Toggle from 'in-components/form/Toggle';
+import { Trans, t } from 'in-i18n';
 
 import locals from './TimeShiftingForm.mless';
 

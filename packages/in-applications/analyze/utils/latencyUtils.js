@@ -2,17 +2,18 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
+import {
+  getRangeFromBackendQueryModel,
+  getRangeFromFilters,
+  updateRange
+} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import {
   GREATER_OR_EQUAL_THAN,
   LESS_OR_EQUAL_THAN,
   LESS_THAN,
   GREATER_THAN
 } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import {
-  getRangeFromBackendQueryModel,
-  getRangeFromFilters,
-  updateRange
-} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 

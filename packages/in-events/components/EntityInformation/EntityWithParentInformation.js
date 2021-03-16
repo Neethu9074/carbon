@@ -2,14 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { fromJS } from 'immutable';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
-
 import { isEndpointEntity } from 'in-services/entityUtils';
 import EntityInformation from './EntityInformation';
+import { t } from 'in-i18n';
 
 export default function EntityWithParentInformation(props) {
   const { entityType, entityId, metadata, timeConfig, linkTimeConfig } = props;

@@ -2,10 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import PropTypes from 'prop-types';
+
 import classNames from 'classnames';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
@@ -13,6 +12,8 @@ import WithHealthDot from 'in-new-components/health/WithHealthDot/WithHealthDot'
 import { emptyObject } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './Tab.mless';
 

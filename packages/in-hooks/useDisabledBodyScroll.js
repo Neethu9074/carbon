@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import createSideEffectHook from 'in-hooks/createSideEffectHook';
 
 // Disables body scrolling as long as the component is mounted.

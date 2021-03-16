@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, withState } from 'recompose';
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import BackendTraceButton from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendTraceButton';
@@ -14,6 +14,7 @@ import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perT
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { HighlightedEffect } from 'in-new-components/SelectedElementHighlighter';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './Beacon.mless';
 

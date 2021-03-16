@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-env mocha,node */
 /* eslint-disable no-var, vars-on-top, strict */
 

@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-disable react/display-name */
 import React, { useRef, useLayoutEffect, useState } from 'react';
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 
 import {
   changeOperator,
@@ -30,6 +30,7 @@ import Name from 'in-new-components/QueryBuilder/components/Tag/Name';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { t } from 'in-i18n';
 
 import styleDefs from './Tag.mless';
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 import createFragment from 'in-map/singleMeshFactories/Fragment';
 import { getFactory } from 'in-map/stores/factoriesStore';

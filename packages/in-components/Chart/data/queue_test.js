@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-env mocha */
 
 /* eslint-disable comma-style, no-sparse-arrays */
 
 import { expect } from 'chai';
 
-import createQueue from './queue';
 import { column } from './testUtil';
+import createQueue from './queue';
 
 describe('queue', () => {
   let queue;

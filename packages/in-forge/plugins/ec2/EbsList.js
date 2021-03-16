@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
 
 import { ClickableList, ClickableSnapshotListItem } from 'in-sdk/components/sidebar/ClickableList';

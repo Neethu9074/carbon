@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { MIN_BAR_HEIGHT_IN_PX, MAX_BAR_MARGIN_IN_PX, MIN_BAR_TO_MARGIN_RATION } from 'in-components/Chart/renderer/bar';
 
 export default {

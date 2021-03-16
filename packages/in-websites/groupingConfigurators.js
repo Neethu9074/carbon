@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createGroupingConfigurator } from 'in-new-components/GroupingConfigurator';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import { getSuggestions } from 'in-websites/queryBuilder';

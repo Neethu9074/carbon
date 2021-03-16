@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose } from 'recompose';
-import { t, Trans } from 'in-i18n';
 import { find } from 'lodash';
 import React from 'react';
 
@@ -19,6 +19,7 @@ import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { compareIgnoreCase } from 'in-services/util/string';
 import ComboBox from 'in-components/ComboBox';
+import { t, Trans } from 'in-i18n';
 
 import locals from './ControlFrame.mless';
 

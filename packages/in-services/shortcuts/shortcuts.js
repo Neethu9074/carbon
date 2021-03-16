@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { on } from '@instana/observables';
 
 import { onLeftArrow, onRightArrow } from 'in-services/shortcuts/shortcuts/navigationViaArrows';

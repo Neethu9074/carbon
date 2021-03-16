@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import createNullService from 'in-applications/ApplicationMap/serviceLocator/SceneServiceLocator/NullService';
 import BaseServiceLocator from 'in-applications/ApplicationMap/serviceLocator/BaseServiceLocator';
 

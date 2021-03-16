@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { Route } from 'react-router-dom';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import InfrastructureDataStatistics from 'in-internal/monitoringUnit/unit/InfrastructureDataStatistics';
@@ -27,6 +27,7 @@ import { timeConfig$ } from 'in-stores/time/config';
 import { isInstanaEmail } from 'in-stores/user';
 import search from 'in-subscription/search';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './Unit.mless';
 

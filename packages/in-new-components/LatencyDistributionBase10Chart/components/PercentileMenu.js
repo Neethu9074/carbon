@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
 import { List } from 'immutable';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { latencyPercentileMenuClickedTracker } from 'in-analyze/tracker';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './PercentileMenu.mless';
 

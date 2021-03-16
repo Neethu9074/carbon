@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
@@ -11,6 +11,7 @@ import Explanation from 'in-components/graphView/components/Explanation';
 import Universe from 'in-components/graphView/components/Universe';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 import './GraphView.less';
 

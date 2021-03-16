@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useMemo, useState } from 'react';
 import rpt from 'prop-types';
 

@@ -2,11 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { withState, compose } from 'recompose';
 import { create } from '@instana/observables';
 import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
-import { t } from 'in-i18n';
 
 import countryMap from 'in-websites/WebsiteDashboard/components/GlobeView/components/countryConfig.json';
 import CountryList from 'in-websites/WebsiteDashboard/components/GlobeView/components/CountryList';
@@ -16,6 +16,7 @@ import Button from 'in-new-components/MapControls/Button';
 import { applyTransform } from 'in-services/util/dom';
 import { Vector3 } from 'in-map/3DLibProvider';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './Overlays.mless';
 

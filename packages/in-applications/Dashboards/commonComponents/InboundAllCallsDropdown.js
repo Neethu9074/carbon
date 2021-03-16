@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
@@ -10,6 +10,7 @@ import DropdownButton from 'in-new-components/Button/DropdownButton';
 import { boundaryScopes } from 'in-applications/constants';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './InboundAllCallsDropdown.mless';
 

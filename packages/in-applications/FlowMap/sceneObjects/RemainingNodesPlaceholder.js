@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import Node from 'in-applications/FlowMap/sceneObjects/Node';
 
 export default class RemainingNodesPlaceholder extends Node {

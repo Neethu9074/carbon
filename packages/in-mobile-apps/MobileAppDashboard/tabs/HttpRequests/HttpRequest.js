@@ -2,10 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { just } from '@instana/observables';
 import React, { Fragment } from 'react';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import {
   getLinkToMobileApp,
@@ -31,6 +30,8 @@ import BackButton from 'in-new-components/BackButton';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './HttpRequest.mless';
 

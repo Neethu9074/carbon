@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
 import { uniq } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { error as errorType } from 'in-new-components/Message/types';
 import { isTechnicalError } from 'in-services/util/error';
 import { emptyArray } from 'in-services/fixedObjects';
 import Message from 'in-new-components/Message';
+import { t } from 'in-i18n';
 
 import locals from './ErroneousResultPresenter.mless';
 

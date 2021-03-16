@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { assign } from 'lodash';
 
 /* eslint-disable max-len */
@@ -173,6 +174,7 @@ export const nonServicePlugins = {
   pCFApplication: 'pCFApplication',
   pCFOrganization: 'pCFOrganization',
   pCFSpace: 'pCFSpace',
+  perfCounters: 'perfCounters',
   phpFpmRuntimePlatform: 'phpFpmRuntimePlatform',
   phpRuntimePlatform: 'phpRuntimePlatform',
   ping: 'ping',
@@ -413,6 +415,7 @@ export const fullyQualifiedPlugins = {
   pCFApplication: 'com.instana.forge.infrastructure.paas.cloudfoundry.PCFApplication',
   pCFOrganization: 'com.instana.forge.infrastructure.paas.cloudfoundry.PCFOrganization',
   pCFSpace: 'com.instana.forge.infrastructure.paas.cloudfoundry.PCFSpace',
+  perfCounters: 'com.instana.forge.common.PerfCounters',
   phpFpmRuntimePlatform: 'com.instana.forge.infrastructure.runtime.phpfpm.PhpFpmRuntimePlatform',
   phpRuntimePlatform: 'com.instana.forge.infrastructure.runtime.php.PhpRuntimePlatform',
   ping: 'com.instana.forge.infrastructure.synthetic.ping.Ping',

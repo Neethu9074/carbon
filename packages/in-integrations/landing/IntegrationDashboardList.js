@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
@@ -10,9 +11,9 @@ import SnapshotLink from 'in-components/tables/ServerTable/components/SnapshotLi
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { Ul, Li } from 'in-new-components/lists/List';
 import PluginIcon from 'in-components/PluginIcon';
+import { t } from 'in-i18n';
 
 import locals from './IntegrationDashboardList.mless';
-import { t } from 'in-i18n';
 
 export default function IntegrationDashboardList({ entities, query }) {
   if (!entities) {

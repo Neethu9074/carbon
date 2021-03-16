@@ -2,15 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import withSideEffect from 'react-side-effect';
 import { create } from '@instana/observables';
 import invariant from 'invariant';
-import theme from 'in-themes';
 import React from 'react';
 
 import { stickyWrapperClassName } from 'in-components/Sticky/scrolling';
 import { debouncedResize$ } from 'in-services/browser';
 import { getCoords } from 'in-services/util/dom';
+import theme from 'in-themes';
 
 export default class extends React.Component {
   static displayName = 'Sticky';

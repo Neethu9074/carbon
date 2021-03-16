@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { number, millis, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -13,6 +13,7 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   {

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+
 import React from 'react';
 
 import { handleChangeTagFilterExpressionChange } from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertFilterConfigurator';

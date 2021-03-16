@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-env mocha, node */
 import { create } from '@instana/observables';
+import RoEmitter from '@instana/roemitter';
 import proxyquire from 'proxyquire';
 import { fromJS } from 'immutable';
-import RoEmitter from '@instana/roemitter';
 import { expect } from 'chai';
 import sinon from 'sinon';
 

@@ -20,9 +20,10 @@ export default function AlertingChartWithErrorMessage({
   getErrorMessage,
   customValidators,
   isAlertQueryValid = isApplicationAlertQueryValid,
+  subEntityId,
   ...remainingProps
 }) {
-  const { alertConfigWithFormModel, blueprintConfig, viewConfig, subEntityId } = remainingProps;
+  const { alertConfigWithFormModel, blueprintConfig, viewConfig } = remainingProps;
 
   const { numeratorFilter, enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(
     alertConfigWithFormModel,

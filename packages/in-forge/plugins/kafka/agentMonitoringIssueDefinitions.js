@@ -2,8 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t, Trans } from 'in-i18n';
+
 import React from 'react';
+
+import { t, Trans } from 'in-i18n';
 
 export default {
   kafka_ssl_not_configured: {

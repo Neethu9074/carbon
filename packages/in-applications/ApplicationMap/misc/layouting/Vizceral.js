@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import LTRTreeLayouter from 'in-applications/ApplicationMap/misc/layouting/vizceralResources/FlowLayouter';
+
 import {
   translateNodesY,
   transformNodes,
@@ -12,6 +12,7 @@ import {
   applyRanks,
   calcRanks
 } from 'in-applications/ApplicationMap/misc/layouting/nodeHelper';
+import LTRTreeLayouter from 'in-applications/ApplicationMap/misc/layouting/vizceralResources/FlowLayouter';
 
 export default {
   applyLayout,

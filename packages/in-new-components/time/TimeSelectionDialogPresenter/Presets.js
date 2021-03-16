@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import Secion from 'in-new-components/time/TimeSelectionDialogPresenter/Section';
@@ -11,6 +11,7 @@ import { getTimePresets } from 'in-new-components/time/timePresets';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { setTimeConfig } from 'in-stores/time/config';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './Presets.mless';
 

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+
 import { createLogger } from '@instana/logger';
 
 import { saveUserSettings as saveUserSettingsInternal } from 'in-settings/api/userSettings';

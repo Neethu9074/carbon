@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import { userSettings, teamSettings, authSettings, ampSettings } from 'in-settings/navigation/paths';
 import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
@@ -11,6 +10,7 @@ import TeamSettings from 'in-settings/tabs/TeamSettings/View';
 import AuthSettings from 'in-settings/tabs/AuthSettings/View';
 import AmpSettings from 'in-settings/tabs/AMP/View';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 const teamTab = {
   label: t('in-settings:tabs.teamSettings'),

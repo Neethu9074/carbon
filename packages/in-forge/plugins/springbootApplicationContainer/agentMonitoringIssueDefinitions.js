@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans, t } from 'in-i18n';
+
 import React from 'react';
 
 import Code from 'in-components/Code';
+import { Trans, t } from 'in-i18n';
 
 const ActuatorDependencyCode = `<dependency>
   <groupId>org.springframework.boot</groupId>

@@ -2,14 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+
 import { getValueRoundedToDecimals } from 'in-alerting/smart-alerts/components/utils/formatUtils';
-/*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
- */
-import { t } from 'in-i18n';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { t } from 'in-i18n';
 
 export function getTitle({ rule, threshold }) {
   const { operator } = threshold;

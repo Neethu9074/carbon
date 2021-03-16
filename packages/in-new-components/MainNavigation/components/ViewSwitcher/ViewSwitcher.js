@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -57,6 +57,7 @@ import { all, any } from 'in-services/fixedStreams';
 import { user, role } from 'in-stores/user';
 import { config } from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './ViewSwitcher.mless';
 

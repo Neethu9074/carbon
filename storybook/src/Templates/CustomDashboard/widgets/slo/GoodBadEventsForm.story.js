@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
 
 import GoodBadEventsForm from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';

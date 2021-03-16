@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React, { Fragment } from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
@@ -10,6 +10,7 @@ import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { emptyList, emptyMap } from 'in-services/fixedImmutables';
 import { isBlank } from 'in-services/util/string';
 import Code from 'in-components/Code';
+import { t } from 'in-i18n';
 
 import locals from './HttpSpanDetailView.mless';
 

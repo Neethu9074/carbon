@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import {
   CLOSE_BRACKET as CLOSE_BRACKET_TYPE,
   OPEN_BRACKET as OPEN_BRACKET_TYPE,

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { useMemo } from 'react';
 
 import { urlParameter, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';

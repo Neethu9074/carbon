@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
-import { t } from 'in-i18n';
 
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
@@ -14,8 +14,8 @@ import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHr
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-
 import { fixateTimeConfig } from 'in-stores/time/config';
+import { t } from 'in-i18n';
 
 export default function LatencyDistributionHistogram({
   timeConfig,

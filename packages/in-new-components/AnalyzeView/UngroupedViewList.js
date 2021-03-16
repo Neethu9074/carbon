@@ -2,16 +2,18 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+
 import rpt from 'prop-types';
 import React from 'react';
 
-export { detailViewProps, retrievalSize } from 'in-new-components/AnalyzeView/UngroupedView';
 import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import UngroupedView from 'in-new-components/AnalyzeView/UngroupedView';
 import { generateStableHash } from 'in-services/util/id';
+
+export { detailViewProps, retrievalSize } from 'in-new-components/AnalyzeView/UngroupedView';
 
 export default function UngroupedAnalyzeViewList(props) {
   return <UngroupedView {...props} Presenter={List} />;

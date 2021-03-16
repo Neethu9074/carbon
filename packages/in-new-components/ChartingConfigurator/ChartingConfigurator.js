@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import ChartingConfiguratorForm from 'in-new-components/ChartingConfigurator/ChartingConfiguratorForm';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { rendererShape } from 'in-stores/metric/renderer';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './ChartingConfigurator.mless';
 

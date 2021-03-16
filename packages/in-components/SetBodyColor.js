@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { useEffect } from 'react';
 
 const originalbackgroundColor = document.documentElement.style.background;

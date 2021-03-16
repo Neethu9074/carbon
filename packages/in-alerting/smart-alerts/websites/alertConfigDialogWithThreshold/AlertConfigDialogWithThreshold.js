@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState, useEffect, useMemo } from 'react';
 import { empty } from '@instana/observables';
 
@@ -42,7 +43,7 @@ export default function AlertConfigDialogWithThreshold(props) {
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
   const { enrichedTagFilterFormModel, numeratorFilter } = getEnhancedTagFilterFormModel(
-    { ...alertConfigWithFormModel },
+    alertConfigWithFormModel,
     blueprintConfig,
     null
   );

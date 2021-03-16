@@ -2,15 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
-import { yesOrNo } from 'in-services/formatters/boolean';
 import { formatDateTime } from 'in-services/formatters/date';
-
+import { yesOrNo } from 'in-services/formatters/boolean';
 import HostLink from './Dashboard/HostLink';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');

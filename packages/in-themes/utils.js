@@ -2,12 +2,18 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export function addTransparency(hex, opacity) {
   const rgb = hexToRGB(hex);
   rgb.r = 255 * (1 - opacity) + rgb.r * opacity;
   rgb.g = 255 * (1 - opacity) + rgb.g * opacity;
   rgb.b = 255 * (1 - opacity) + rgb.b * opacity;
   return rgbToHex(rgb.r, rgb.g, rgb.b);
+}
+
+export function hexToRGBA(hex, opacity) {
+  const rgb = hexToRGB(hex);
+  return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`;
 }
 
 function rgbToHex(r, g, b) {

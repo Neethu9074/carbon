@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/components/LogsDistributionChartSection';
@@ -22,6 +22,7 @@ import Stack from 'in-new-components/layout/Stack';
 import Message from 'in-new-components/Message';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
+import { t } from 'in-i18n';
 
 export default function LoggingQueryBuilderWorkspace({
   onFormModelChange,

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import SceneObjectComponent from 'in-map/sceneObjectComponents/SceneObjectComponent';
 
 export default class TooltipComponent extends SceneObjectComponent {

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import agentMonitoringIssueDefinitions from 'in-forge/plugins/nginx/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/nginx/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/nginx/kpiDefinitions';

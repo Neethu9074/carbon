@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { find } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { translateOffsetToTimeShiftConfig, getTimeShiftLabel } from 'in-stores/time/shifting';
@@ -17,6 +17,7 @@ import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 const metricKey = 'bigNumber';
 const companionMetricKey = 'companion';

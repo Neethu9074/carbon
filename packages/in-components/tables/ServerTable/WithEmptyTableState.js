@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, withProps } from 'recompose';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -13,6 +13,7 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { emptyListResult } from 'in-services/util/result';
 import { getPluginName } from 'in-sdk/pluginName';
+import { t } from 'in-i18n';
 
 export default function withEmptyTableState(props) {
   return compose(withProps(props))(ServerTableWithEmptyState);

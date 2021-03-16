@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { find, groupBy } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { onChangeGrouping } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
@@ -16,6 +16,7 @@ import Sections from 'in-new-components/workspace/Sections';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import Stack from 'in-new-components/layout/Stack';
+import { t } from 'in-i18n';
 
 export default function FormComponent({
   form,

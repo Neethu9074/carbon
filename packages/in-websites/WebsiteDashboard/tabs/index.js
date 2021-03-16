@@ -2,7 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import Configuration from 'in-websites/WebsiteDashboard/tabs/Configuration/Configuration';
 import Geography from 'in-websites/WebsiteDashboard/tabs/Geography/Geography';
@@ -18,6 +17,7 @@ import Speed from 'in-websites/WebsiteDashboard/tabs/Speed';
 import Pages from 'in-websites/WebsiteDashboard/tabs/Pages';
 import Ajax from 'in-websites/WebsiteDashboard/tabs/Ajax';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 export const websiteTabs = [
   {

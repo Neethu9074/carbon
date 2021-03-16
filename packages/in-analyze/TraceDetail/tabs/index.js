@@ -2,9 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import { traceDetailFullyQualified } from 'in-analyze/navigation/paths';
 import Summary from 'in-analyze/TraceDetail/tabs/Summary/Summary';
+import { t } from 'in-i18n';
 
 export default [
   {

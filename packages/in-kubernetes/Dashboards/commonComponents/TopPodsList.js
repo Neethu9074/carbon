@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
+import { t } from 'in-i18n';
 
 export default function TopPodsList(props) {
   return (

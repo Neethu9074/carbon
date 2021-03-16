@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { compose, withState, withProps } from 'recompose';
 import { timeout, empty } from '@instana/observables';

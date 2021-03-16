@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import ClusterNodesTable from 'in-forge/plugins/clickHouseCluster/Dashboard/ClusterNodesTable';
@@ -12,6 +12,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { bytes } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default function ClickHouseClusterDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

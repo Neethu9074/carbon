@@ -2,18 +2,19 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
-import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
-import { hasOnlyExitSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import {
   TOTAL_TIME_LABEL,
   NETWORK_TIME_LABEL,
   SELF_TIME_LABEL,
   WAITING_TIME_LABEL
 } from 'in-analyze/TraceDetail/components/TimingConstants';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
+import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
+import { hasOnlyExitSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { latencyFixed } from 'in-services/formatters/number';
 import { shorten } from 'in-services/util/string';
 import Pill from 'in-new-components/Pill';

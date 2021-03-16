@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import AuditLogDownloadView from 'in-components/DownloadButton/components/AuditLogDownloadView';
@@ -14,6 +14,7 @@ import { toHtml } from 'in-services/formatters/markdown';
 import { getAuditLog } from 'in-api/auditLog';
 import Gravatar from 'in-components/Gravatar';
 import Title from 'in-components/Title/Title';
+import { t } from 'in-i18n';
 
 import locals from './AuditLog.mless';
 

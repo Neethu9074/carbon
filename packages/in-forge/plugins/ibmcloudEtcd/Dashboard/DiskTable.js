@@ -2,9 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
-import { bytesZeroDecimalPlaces, percentagePlainZeroDecimalPlaces, zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
+import {
+  bytesZeroDecimalPlaces,
+  percentagePlainZeroDecimalPlaces,
+  zeroDecimalPlaces,
+  percentage
+} from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -121,14 +127,7 @@ export default function DiskTable({ snapshot, timeConfig }) {
   }
 
   return (
-    <Table
-      withoutPadding
-      cardTitle={`Disk`}
-      cols={cols}
-      rows={rows}
-      getRowDetails={getDetails}
-      maxItemsPerPage={10}
-    />
+    <Table withoutPadding cardTitle={`Disk`} cols={cols} rows={rows} getRowDetails={getDetails} maxItemsPerPage={10} />
   );
 }
 
@@ -142,9 +141,9 @@ function getDetails(row) {
         formatter: percentage.compact,
         metrics: [
           'members.' + row.name + '.disk_used_percent',
-          'members.' + row.name + '.disk_io_utilization_percent_average_5m',
+          'members.' + row.name + '.disk_io_utilization_percent_average_5m'
         ],
-        labels: ['Used Percentage', 'Percent Avg. IO Utilization(5 mins)' ],
+        labels: ['Used Percentage', 'Percent Avg. IO Utilization(5 mins)'],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

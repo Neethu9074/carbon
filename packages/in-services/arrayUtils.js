@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { flatMap } from 'lodash';
 
 export function find(array, predicate) {

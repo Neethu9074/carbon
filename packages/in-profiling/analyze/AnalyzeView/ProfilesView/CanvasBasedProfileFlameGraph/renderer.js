@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
 
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
+import theme from 'in-themes';
 
 const axisFont = `10px ${theme.fontFamilySansSerif}`;
 

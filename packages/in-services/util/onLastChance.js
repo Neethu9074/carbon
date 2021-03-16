@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 let isUnloading = false;
 
 export function onLastChance(fn) {

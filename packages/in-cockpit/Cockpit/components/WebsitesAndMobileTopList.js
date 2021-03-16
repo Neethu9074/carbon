@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
@@ -39,6 +39,7 @@ import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 export default function WebsitesAndMobileTopList({ config }) {
   const header = (

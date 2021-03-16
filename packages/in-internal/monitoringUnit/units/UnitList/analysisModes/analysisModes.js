@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import infrastructure from 'in-internal/monitoringUnit/units/UnitList/analysisModes/infrastructure';
 import application from 'in-internal/monitoringUnit/units/UnitList/analysisModes/application';
 import { unitColumn } from 'in-internal/monitoringUnit/units/UnitList/analysisModes/common';

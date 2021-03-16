@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
-import { emptyMap } from 'in-services/fixedImmutables';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { emptyMap } from 'in-services/fixedImmutables';
+import { t } from 'in-i18n';
 
 export default function JBossAsInfo({ snapshot }) {
   const serverInfo = snapshot.getIn(['data', 'serverInfo'], emptyMap);

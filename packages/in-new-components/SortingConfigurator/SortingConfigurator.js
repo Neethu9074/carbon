@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { t } from 'in-i18n';
 
 import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
@@ -13,6 +13,7 @@ import Overlay from 'in-new-components/overlays/Overlay';
 import { Ul } from 'in-new-components/lists/List/List';
 import { compositeRef } from 'in-services/util/react';
 import Button from 'in-new-components/Button/Button';
+import { t } from 'in-i18n';
 
 import locals from './SortingConfigurator.mless';
 

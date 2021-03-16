@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export function round(value, decimals) {
   return parseFloat(Number.parseFloat(value).toPrecision(decimals));
 }

@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
@@ -14,6 +14,7 @@ import Sections from 'in-new-components/workspace/Sections';
 import { formatters } from 'in-stores/metric/formatters';
 import Header from 'in-new-components/workspace/Header';
 import Stack from 'in-new-components/layout/Stack';
+import { t } from 'in-i18n';
 
 export default function BigNumberWidgetFormComponent({ form, onChange }) {
   return (

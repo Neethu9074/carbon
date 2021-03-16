@@ -2,12 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
-import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import TagList from 'in-sdk/components/sidebar/TagList';
+import { t } from 'in-i18n';
+
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
 

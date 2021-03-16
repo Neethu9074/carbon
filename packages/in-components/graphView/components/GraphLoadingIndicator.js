@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { isLoading$ } from 'in-components/graphView/graphViewStore';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './GraphLoadingIndicator.less';
 

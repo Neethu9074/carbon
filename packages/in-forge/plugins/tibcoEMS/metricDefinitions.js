@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 const TOPICS_ROOT = 'topics';
 const QUEUES_ROOT = 'queues';

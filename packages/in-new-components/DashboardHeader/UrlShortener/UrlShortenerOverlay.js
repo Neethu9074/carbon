@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, withState } from 'recompose';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { timeDisplayTopFormat, timeDisplayBottomFormat } from 'in-new-components/time/timeframeFormatter';
@@ -16,6 +16,7 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Stack from 'in-new-components/layout/Stack';
 import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './UrlShortenerOverlay.mless';
 

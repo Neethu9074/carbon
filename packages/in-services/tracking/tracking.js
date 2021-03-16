@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export * from 'in-services/tracking/eventNames';
 
-import { sortedUniq, isEqual } from 'lodash';
 import { createLogger } from '@instana/logger';
+import { sortedUniq, isEqual } from 'lodash';
 import invariant from 'invariant';
 
 import { track as trackInternal } from 'in-services/tracking/trackers';

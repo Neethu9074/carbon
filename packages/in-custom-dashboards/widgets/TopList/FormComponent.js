@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { entityCount as infrastructureEntityCount } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure';
@@ -17,6 +17,7 @@ import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { formatters } from 'in-stores/metric/formatters';
 import Header from 'in-new-components/workspace/Header';
+import { t } from 'in-i18n';
 
 export default function ListWidgetFormComponent({ form, onChange }) {
   return (

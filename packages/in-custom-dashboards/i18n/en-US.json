@@ -6,8 +6,8 @@
     "editJsonDialog": {
       "editJsonDialogPresenter": {
         "confirmBt": "Confirm",
-        "dashboardAJson":"Dashboard as JSON",
-        "editDashboard":"Edit Dashboard"
+        "dashboardAJson": "Dashboard as JSON",
+        "editDashboard": "Edit Dashboard"
       }
     },
     "grid": {
@@ -22,7 +22,7 @@
       "individualEditRightSelect": {
         "removeEditRightUserName": "Remove editing rights for {{fullName}}.",
         "add": "Add",
-        "addEditors":"Add editors",
+        "addEditors": "Add editors",
         "pleaseSelect": "Please Select"
       },
       "sharingDialogPresenter": {
@@ -70,10 +70,10 @@
       "failSaveDashboard": "Failed to save the dashboard."
     },
     "customDashboardPresenter": {
-      "dashboardNotFound":"Dashboard not found",
-      "failure":"Failure",
-      "dashboardNotFoundExplain":"This dashboard does not exist or you do not have access to it.",
-      "customDashboard":"Custom Dashboard",
+      "dashboardNotFound": "Dashboard not found",
+      "failure": "Failure",
+      "dashboardNotFoundExplain": "This dashboard does not exist or you do not have access to it.",
+      "customDashboard": "Custom Dashboard",
       "saveChange": "Save changes",
       "discardChange": "Discard Changes",
       "addWidget": "Add Widget",
@@ -84,12 +84,12 @@
       "duplicate": "Duplicate",
       "delete": "Delete",
       "share": "Share",
-      "shareButtonTooltip":"Your user account does not have permissions to share dashboards."
+      "shareButtonTooltip": "Your user account does not have permissions to share dashboards."
     }
   },
-  "dashboardSwitcher":{
+  "dashboardSwitcher": {
     "dashboardSwitcher": {
-      "loading":"Loading…"
+      "loading": "Loading…"
     },
     "dashboardSwitcherOverlayPresenter": {
       "createDashboard": "Create Dashboard",
@@ -119,7 +119,7 @@
         "applicationsTracesAndCalls": "Applications (Traces and Calls)"
       },
       "oldFormComponent": {
-        "metric":"Metric",
+        "metric": "Metric",
         "pleaseSelect": "Please select",
         "aggregation": "Aggregation",
         "pleaseSelectMetric": "Please select a metric"
@@ -130,7 +130,7 @@
         "events": "Events"
       },
       "formComponent": {
-        "metric":"Metric",
+        "metric": "Metric",
         "eventCount": "Event Count",
         "aggregation": "Aggregation",
         "pleaseSelectMetric": "Please select a metric",
@@ -141,10 +141,10 @@
     },
     "srcInfrastructure": {
       "entityCount": {
-        "infrastructureEntityCount":"Infrastructure & Platforms Entity Count"
+        "infrastructureEntityCount": "Infrastructure & Platforms Entity Count"
       },
       "entityCountFormComponent": {
-        "query":"Query",
+        "query": "Query",
         "helpAction": "A Dynamic Focus Query (DFQ) as you would use it within the infrastructure map.",
         "metric": "Metric",
         "count": "Count",
@@ -167,23 +167,23 @@
         "comingSoon": "(coming soon)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric":"Please select a metric"
+        "pleaseSelectMetric": "Please select a metric"
       }
     },
     "srcMobileApp": {
       "formComp": {
-        "beaconType":"Beacon Type",
+        "beaconType": "Beacon Type",
         "pleaseSelect": "Please select",
         "pleaseSelectDs": "Please select a data source",
         "metric": "Metric",
         "aggregation": "Aggregation",
-        "pleaseSelectMetric":"Please select a metric"
+        "pleaseSelectMetric": "Please select a metric"
       },
       "index": {
-        "mobileAppsBeacon":"Mobile Apps (Beacons)"
+        "mobileAppsBeacon": "Mobile Apps (Beacons)"
       },
       "oldFormComp": {
-        "beaconType":"Beacon Type",
+        "beaconType": "Beacon Type",
         "pleaseSelect": "Please select",
         "pleaseSelectDs": "Please select a data source",
         "aggregation": "Aggregation",
@@ -200,84 +200,84 @@
         "valType": "Value Type"
       },
       "index": {
-        "srvLevelIndicator":"Service-Level Indicators"
+        "srvLevelIndicator": "Service-Level Indicators"
       },
       "serviceLevelIndicators": {
-        "remainErrBudget":"Remaining Error Budget"
+        "remainErrBudget": "Remaining Error Budget"
       }
     },
     "srcWebSite": {
       "formComp": {
-        "beaconType":"Beacon Type",
+        "beaconType": "Beacon Type",
         "pleaseSelect": "Please select",
-        "metric":"Metric",
+        "metric": "Metric",
         "selectDs": "Please select a data source",
         "selectMetric": "Please select a metric",
         "aggregation": "Aggregation"
       },
       "index": {
-        "websitesBeacons":"Websites (Beacons)"
+        "websitesBeacons": "Websites (Beacons)"
       },
       "oldFormComp": {
-        "beaconType":"Beacon Type",
+        "beaconType": "Beacon Type",
         "pleaseSelect": "Please select",
         "selectDs": "Please select a data source",
-        "metric":"Metric",
+        "metric": "Metric",
         "aggregation": "Aggregation",
         "selectMetric": "Please select a metric"
       }
     },
     "metricConfigurator": {
-      "ds":"Data Source",
+      "ds": "Data Source",
       "pleaseSelect": "Please select",
       "name": "Name"
     },
     "bigNumber": {
       "comparisonColors": {
-        "green":"Green",
-        "red":"Red",
-        "yellow":"Yellow",
-        "orange":"Orange",
-        "blue":"Blue"
+        "green": "Green",
+        "red": "Red",
+        "yellow": "Yellow",
+        "orange": "Orange",
+        "blue": "Blue"
       },
       "formComponent": {
-        "whatULikeShow":"What would you like to show?",
-        "formatter":"Formatter"
+        "whatULikeShow": "What would you like to show?",
+        "formatter": "Formatter"
       },
       "timeShiftingForm": {
         "addTimeShiftComparBadge": "Add a time shifted comparison badge",
-        "increaseColor":"Increase Color",
-        "decreaseColor":"Decrease Color",
-        "timeShift":"Time Shift"
+        "increaseColor": "Increase Color",
+        "decreaseColor": "Decrease Color",
+        "timeShift": "Time Shift"
       }
     },
     "chart": {
       "axesConfigurator": {
-          "primaryYAxis":"Primary Y-Axis",
-          "secondaryYAxis":"Secondary Y-Axis",
-          "chart":"Chart",
-          "formatter":"Formatter",
-          "addSecondary": "Add secondary Y-axis",
-          "removeSecondary": "Remove",
-          "min": "Min",
-          "max": "Max",
-          "sharemaxValue": "Share the max values between the axes"
+        "primaryYAxis": "Primary Y-Axis",
+        "secondaryYAxis": "Secondary Y-Axis",
+        "chart": "Chart",
+        "formatter": "Formatter",
+        "addSecondary": "Add secondary Y-axis",
+        "removeSecondary": "Remove",
+        "min": "Min",
+        "max": "Max",
+        "sharemaxValue": "Share the max values between the axes"
       }
     },
-    "formCompChart" : {
+    "formCompChart": {
       "colorConfiguratorChart": {
-        "colorDsGrpNotConfig":"Colors for datasets leveraging groupings cannot be configured.",
-        "iconDepicAutoColorSelect":"Icon depicting automatic color selection.",
-        "colorAutoChose":"Color is automatically chosen"
+        "colorDsGrpNotConfig": "Colors for datasets leveraging groupings cannot be configured.",
+        "iconDepicAutoColorSelect": "Icon depicting automatic color selection.",
+        "colorAutoChose": "Color is automatically chosen"
       },
       "color": {
         "lightBlue": "Light Blue",
-        "green":"Green",
-        "red":"Red",
-        "yellow":"Yellow",
-        "orange":"Orange",
-        "blue":"Blue",
-        "deepPurple":"Deep Purple",
+        "green": "Green",
+        "red": "Red",
+        "yellow": "Yellow",
+        "orange": "Orange",
+        "blue": "Blue",
+        "deepPurple": "Deep Purple",
         "cyan": "Cyan",
         "lime": "Lime",
         "pink": "Pink",
@@ -293,92 +293,92 @@
         "axisConfig": "Axis Configuration"
       },
       "metricConfigChart": {
-        "datasetTimeShift":"Dataset is time shifted",
-        "removeDataset":"Remove dataset",
-        "duplicate":"Duplicate"
+        "datasetTimeShift": "Dataset is time shifted",
+        "removeDataset": "Remove dataset",
+        "duplicate": "Duplicate"
       },
       "metricReorderingChart": {
-        "jumpConfigDataset":"Jump to configuration of this dataset",
-        "datasetTimeShift":"Dataset is time shifted",
-        "dragDropDataset2Axes":"Drag and drop datasets between the two axes.",
-        "datasets":"Datasets"
+        "jumpConfigDataset": "Jump to configuration of this dataset",
+        "datasetTimeShift": "Dataset is time shifted",
+        "dragDropDataset2Axes": "Drag and drop datasets between the two axes.",
+        "datasets": "Datasets"
       },
       "timeShiftingFormChart": {
-        "timeShift":"Time Shift",
+        "timeShift": "Time Shift",
         "applyTimeShiftDs": "Apply a time shift to this data series",
         "timeShiftHelpAction": "Selecting <strong>Display current values</strong> will automatically duplicate this data series onto the same axis. The first data series will have time shifting disabled, the second one will have time shifting enabled.",
         "displayCurrentValues": "Display current values"
       }
     },
     "demo": {
-      "pageLoads":"Page Loads",
-      "onLoadTime":"OnLoad Time"
+      "pageLoads": "Page Loads",
+      "onLoadTime": "OnLoad Time"
     },
     "index": {
-      "chartTimeSeries":"Chart: Time Series"
+      "chartTimeSeries": "Chart: Time Series"
     },
     "util": {
-      "unnamMetric":"Unnamed metric"
+      "unnamMetric": "Unnamed metric"
     },
     "markdown": {
       "formComp": {
         "whatULikeShow": "What would you like to show?",
-        "markdown":"Markdown",
+        "markdown": "Markdown",
         "markdownHelpAction": "You can use the standard Markdown syntax to define arbitrary text content for your dashboard."
       }
     },
     "pie": {
       "formComponent": {
         "datasets": "Datasets",
-        "dragDropDatasetsReorder":"Drag and drop datasets to reorder them.",
+        "dragDropDatasetsReorder": "Drag and drop datasets to reorder them.",
         "dataPresentation": "Data Presentation",
-        "formatter":"Formatter"
+        "formatter": "Formatter"
       },
       "index": {
-        "chartPie":"Chart: Pie"
+        "chartPie": "Chart: Pie"
       }
     },
     "slo": {
       "apConfigFormComp": {
         "userJourneyOffering": "User Journey / Offering",
         "appnPerspective": "Application Perspective",
-        "selectAppPerspect":"Please select an Application Perspective.",
-        "appPerspectHelpAction":"Set up user journeys / offerings by modeling them as an Application Perspective in the Applications area of the product.",
+        "selectAppPerspect": "Please select an Application Perspective.",
+        "appPerspectHelpAction": "Set up user journeys / offerings by modeling them as an Application Perspective in the Applications area of the product.",
         "noAppPerspect": "No Application Perspectives!",
         "pleaseSelect": "Please select"
       },
       "sliSelectionFormComp": {
-        "srvLevelIndicator":"Service Level Indicator",
-        "selectASli":"Please select a SLI.",
+        "srvLevelIndicator": "Service Level Indicator",
+        "selectASli": "Please select a SLI.",
         "noneAvailCreateOne": "None available, please create one.",
         "pleaseSelect": "Please select"
       },
       "createSliForm": {
-        "sliCreateSuccess":"SLI created successfully",
-        "failCreateSli":"Failed to create the SLI.",
+        "sliCreateSuccess": "SLI created successfully",
+        "failCreateSli": "Failed to create the SLI.",
         "problemCreateSli": "There was a problem creating this SLI: \"{{sliName}}\"",
-        "cloning":"Cloning…",
-        "creating":"Creating…",
-        "clone":"Clone",
-        "create":"Create",
+        "cloning": "Cloning…",
+        "creating": "Creating…",
+        "clone": "Clone",
+        "create": "Create",
         "sliConfigMsg": "The parameters of the SLI cannot be modified to prevent invalidation of the calculated spent budgets. This is why the SLI needs to be cloned when you change any parameter.",
         "sliCreated": "SLI \"{{sliName}}\" has been created."
       },
-      "endpointSelectBox" : {
-        "endpoint":"Endpoint",
-        "allServices":"All Services",
-        "loading":"<loading>"
+      "endpointSelectBox": {
+        "endpoint": "Endpoint",
+        "allServices": "All Services",
+        "loading": "<loading>"
       },
       "goodBadEventsForm": {
         "goodEvents": "Good Events",
         "badEvents": "Bad Events"
       },
       "metricFormData": {
-        "latency":"Latency",
-        "callCount":"Call count",
-        "errorRate":"Error rate",
-        "erroneousCalls":"Erroneous calls",
-        "mean":"mean",
+        "latency": "Latency",
+        "callCount": "Call count",
+        "errorRate": "Error rate",
+        "erroneousCalls": "Erroneous calls",
+        "mean": "mean",
         "min": "min",
         "max": "max",
         "sum": "sum",
@@ -392,48 +392,48 @@
       },
       "metricsForm": {
         "metricThreshold": "Metric & Threshold",
-        "metric":"Metric",
-        "aggregation":"Aggregation",
-        "valThresholdNotInvalidEmpty":"The value of threshold must not be invalid or empty.",
-        "thresholdMs":"Threshold (ms)",
-        "thresholdPercent":"Threshold (%)",
-        "thresholdCount":"Threshold (count)"
+        "metric": "Metric",
+        "aggregation": "Aggregation",
+        "valThresholdNotInvalidEmpty": "The value of threshold must not be invalid or empty.",
+        "thresholdMs": "Threshold (ms)",
+        "thresholdPercent": "Threshold (%)",
+        "thresholdCount": "Threshold (count)"
       },
       "servicesSelectBox": {
-        "service":"Service",
-        "loading":"<loading>",
+        "service": "Service",
+        "loading": "<loading>",
         "allServices": "All Services"
       },
       "sliFormPresenter": {
         "sliCustomization": "SLI Customization",
-        "name":"Name",
-        "sliNameNotEmpty":"The SLI name cannot be empty.",
+        "name": "Name",
+        "sliNameNotEmpty": "The SLI name cannot be empty.",
         "sliCustomHelpAction": "Information about SLI customization and SLI types are located within our docs.",
         "sliTimeBasedOrAnEventBasedSli": "The SLI type must be either a time-based or an event-based SLI.",
         "pleaseSelect": "Please select",
-        "appPerspective":"Application Perspective",
-        "boundary":"Boundary",
+        "appPerspective": "Application Perspective",
+        "boundary": "Boundary",
         "hiddenCalls": "Hidden Calls",
         "includeInternalCalls": "Include Internal Calls",
         "includeSyntheticCalls": "Include Synthetic Calls",
-        "type":"Type",
+        "type": "Type",
         "sliEntity": "SLI Entity"
       },
       "sliList": {
-        "serviceLevelIndicators":"Service Level Indicators",
-        "sliConfigDeleted":"SLI configuration was successfully deleted.",
-        "failedDelSli":"Failed to delete the sli.",
-        "sliType":"SLI Type",
-        "viewCloneSliConfig":"View/Clone SLI Configuration",
-        "delSliConfig":"Delete SLI Configuration",
-        "pleaseConfirm":"Please Confirm",
-        "pleaseConfirmMsg":"Are you sure you want to delete <strong>{{sliName}}</strong>?",
-        "delete":"Delete"
+        "serviceLevelIndicators": "Service Level Indicators",
+        "sliConfigDeleted": "SLI configuration was successfully deleted.",
+        "failedDelSli": "Failed to delete the sli.",
+        "sliType": "SLI Type",
+        "viewCloneSliConfig": "View/Clone SLI Configuration",
+        "delSliConfig": "Delete SLI Configuration",
+        "pleaseConfirm": "Please Confirm",
+        "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{sliName}}</strong>?",
+        "delete": "Delete"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg":"You are not having the required <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> permission to create or edit SLIs.",
-        "sliList":"SLI List",
-        "createSli":"Create SLI"
+        "configSrvLevelIndicatorsMsg": "You are not having the required <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> permission to create or edit SLIs.",
+        "sliList": "SLI List",
+        "createSli": "Create SLI"
       },
       "tagFilterExpressConfig": {
         "clear": "Clear"
@@ -442,59 +442,59 @@
         "sloTime": "from <datetime-from /><br />to <datetime-to />"
       },
       "chart": {
-        "spent":"Spent",
-        "budget":"Budget",
-        "viewInAnalyze":"View in Analyze"
+        "spent": "Spent",
+        "budget": "Budget",
+        "viewInAnalyze": "View in Analyze"
       },
       "formComponent": {
-        "sliManagement":"SLI Management",
-        "editSli":"Edit SLI",
-        "createSli":"Create SLI",
-        "sloConfig":"SLO Configuration",
+        "sliManagement": "SLI Management",
+        "editSli": "Edit SLI",
+        "createSli": "Create SLI",
+        "sloConfig": "SLO Configuration",
         "manageSlIs": "Manage SLIs",
-        "sloTarget":"SLO Target",
-        "enterVal0to100":"Please enter a value between 0 and 100.",
-        "timeWindow":"Time Window",
-        "helpActionMsg1":"<strong>Fixed time interval:</strong> A time window with a defined start and duration. Eg. monthly starting 2020-01-01. The last partial time interval for the time selection from the global time picker will be displayed.",
-        "helpActionMsg2":"<strong>Rolling time window:</strong> A time window with a defined duration, where the end is defined by the global time picker’s right hand date/time selection, e.g. last 2 weeks.",
-        "helpActionMsg3":"<strong>Dynamic time window:</strong> The SLO is calculated for the time window selected in the global time picker.",
-        "fixTimeInterval":"Fixed time interval",
-        "rollingTimeWindow":"Rolling time window",
-        "dynamicTimeWindow":"Dynamic time window",
-        "length":"Length",
-        "days":"days",
-        "weeks":"weeks",
-        "months":"months",
+        "sloTarget": "SLO Target",
+        "enterVal0to100": "Please enter a value between 0 and 100.",
+        "timeWindow": "Time Window",
+        "helpActionMsg1": "<strong>Fixed time interval:</strong> A time window with a defined start and duration. Eg. monthly starting 2020-01-01. The last partial time interval for the time selection from the global time picker will be displayed.",
+        "helpActionMsg2": "<strong>Rolling time window:</strong> A time window with a defined duration, where the end is defined by the global time picker’s right hand date/time selection, e.g. last 2 weeks.",
+        "helpActionMsg3": "<strong>Dynamic time window:</strong> The SLO is calculated for the time window selected in the global time picker.",
+        "fixTimeInterval": "Fixed time interval",
+        "rollingTimeWindow": "Rolling time window",
+        "dynamicTimeWindow": "Dynamic time window",
+        "length": "Length",
+        "days": "days",
+        "weeks": "weeks",
+        "months": "months",
         "pleaseSpecifyTheNumber": "Please specify the number of {{timeValue}}.",
-        "start":"Start",
-        "enterDateFormatYyyyMmDd":"Please enter a date in the format YYYY-MM-DD.",
-        "enterTimeInFormatHhMmSs":"Please enter a time in the format HH:mm:ss."
+        "start": "Start",
+        "enterDateFormatYyyyMmDd": "Please enter a date in the format YYYY-MM-DD.",
+        "enterTimeInFormatHhMmSs": "Please enter a time in the format HH:mm:ss."
       },
       "widgetHeader": {
-        "status":"Status",
-        "target":"Target:",
-        "errorBudgetSpent":"Error Budget Spent",
-        "errorBudget":"Error Budget:",
-        "timeWindow":"Time Window",
-        "dynamicTimeWindow":"Dynamic time window",
-        "rollingTimeWindow":"Rolling time window",
-        "fixedTimeWindow":"Fixed time window"
+        "status": "Status",
+        "target": "Target:",
+        "errorBudgetSpent": "Error Budget Spent",
+        "errorBudget": "Error Budget:",
+        "timeWindow": "Time Window",
+        "dynamicTimeWindow": "Dynamic time window",
+        "rollingTimeWindow": "Rolling time window",
+        "fixedTimeWindow": "Fixed time window"
       }
     },
     "timezone": {
       "demo": {
-        "sanFrancisco":"San Francisco",
-        "austin":"Austin",
-        "newYorkCity":"New York City",
-        "berlin":"Berlin",
-        "tokyo":"Tokyo",
-        "sydney":"Sydney"
+        "sanFrancisco": "San Francisco",
+        "austin": "Austin",
+        "newYorkCity": "New York City",
+        "berlin": "Berlin",
+        "tokyo": "Tokyo",
+        "sydney": "Sydney"
       },
       "formComp": {
         "whatULikeShow": "What would you like to show?",
-        "reorderTimeZones":"Reorder time zones",
+        "reorderTimeZones": "Reorder time zones",
         "timeZone": "Time Zone",
-        "removeTimeZone":"Remove time zone",
+        "removeTimeZone": "Remove time zone",
         "addTimeZone": "Add Time Zone"
       },
       "index": {
@@ -504,28 +504,41 @@
     "topList": {
       "formComp": {
         "whatULikeShow": "What would you like to show?",
-        "formatter":"Formatter"
+        "formatter": "Formatter"
       },
       "index": {
-        "topListLb":"Top List"
+        "topListLb": "Top List"
       },
       "widget": {
-        "aggregOtherGroup":"Aggregation of other groups",
+        "aggregOtherGroup": "Aggregation of other groups",
         "other": "Other",
         "tagNoValue": "Tag '{{labelname}}' present with no value"
+      }
+    },
+    "applicationHealth": {
+      "index": {
+        "applicationHealth": "Health Overview"
+      },
+      "form": {
+        "validationError": "Please select an application.",
+        "header": "Select the Applications you want to monitor",
+        "addApplication": "Add application",
+        "selectApplication": "Select application",
+        "secondaryHeadingText": "Selected applications will be ordered based on the highest severity",
+        "applicationLabel": "Application"
       }
     }
   },
   "duplicateDashboardDialog": {
-    "duplicateDashboard":"Duplicate Dashboard",
-    "dashboardName":"Dashboard Name",
-    "duplicate":"Duplicate",
+    "duplicateDashboard": "Duplicate Dashboard",
+    "dashboardName": "Dashboard Name",
+    "duplicate": "Duplicate",
     "copyShareConfig": "Copy Sharing Configuration"
   },
   "newDashboardDialog": {
-    "createNewDashboard":"Create New Dashboard",
-    "dashboardName":"Dashboard Name",
-    "additionalFields":"This dashboard will only be visible to you. You can choose to share it with colleagues after creation",
-    "create":"Create"
+    "createNewDashboard": "Create New Dashboard",
+    "dashboardName": "Dashboard Name",
+    "additionalFields": "This dashboard will only be visible to you. You can choose to share it with colleagues after creation",
+    "create": "Create"
   }
 }

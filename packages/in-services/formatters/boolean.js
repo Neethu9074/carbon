@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /**
  * takes a value and return 'Yes', if the value is not falsy, 'No' otherwhise
  *

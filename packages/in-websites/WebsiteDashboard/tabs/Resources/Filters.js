@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { getResourceTypesComboBoxItems } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import ComboBox from 'in-components/ComboBox';
+import { t } from 'in-i18n';
 
 import locals from './Filters.mless';
 

@@ -2,8 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -24,6 +23,8 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import connectTo from 'in-hoc/connectTo';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default connectTo(
   ({ applicationId, serviceId, endpointId, boundaryScope, timeConfig, syntheticCalls }) => ({

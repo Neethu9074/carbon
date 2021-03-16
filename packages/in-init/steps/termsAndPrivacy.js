@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { just, create } from '@instana/observables';
 import { createLogger } from '@instana/logger';
 import ReactDOM from 'react-dom';

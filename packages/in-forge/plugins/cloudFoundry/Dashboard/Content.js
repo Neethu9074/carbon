@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
-import ApplicationsTable from 'in-forge/plugins/cloudFoundry/Dashboard/ApplicationsTable';
-import DiegoTable from 'in-forge/plugins/cloudFoundry/Dashboard/DiegoTable';
-import DopplerTable from 'in-forge/plugins/cloudFoundry/Dashboard/DopplerTable';
-import DEATable from 'in-forge/plugins/cloudFoundry/Dashboard/DEATable';
 import CloudControllerTable from 'in-forge/plugins/cloudFoundry/Dashboard/CloudControllerTable';
 import HealthManagerTable from 'in-forge/plugins/cloudFoundry/Dashboard/HealthManagerTable';
+import ApplicationsTable from 'in-forge/plugins/cloudFoundry/Dashboard/ApplicationsTable';
+import DopplerTable from 'in-forge/plugins/cloudFoundry/Dashboard/DopplerTable';
+import DiegoTable from 'in-forge/plugins/cloudFoundry/Dashboard/DiegoTable';
+import DEATable from 'in-forge/plugins/cloudFoundry/Dashboard/DEATable';
 
 export default function CloudFoundryDashboard({ snapshot, timeConfig }) {
   return (

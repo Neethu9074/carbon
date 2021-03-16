@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
-import { t } from 'in-i18n';
 
 import TypeHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/TypeHeader';
 import renderers from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers';
 import { millisToTwoDecimalSeconds } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 import locals from './OverviewChartTooltip.mless';
 

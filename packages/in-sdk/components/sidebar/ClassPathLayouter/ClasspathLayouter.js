@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import rpt from 'prop-types';
 import React from 'react';
 
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import './ClasspathLayouter.less';
-import { t } from 'in-i18n';
 
 const block = 'in-classpath-layouter';
 

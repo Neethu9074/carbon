@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { createLogger } from '@instana/logger';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { addPermissionFields } from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/permissionsForm';
@@ -20,6 +20,7 @@ import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 const logger = createLogger('apiTokenConfig');
 
@@ -34,13 +35,13 @@ export default class extends React.Component {
     form: null
   };
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     this.loadApiToken(this.props.match.params.id);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.match.params.id !== nextProps.match.params.id) {
-      this.loadApiToken(nextProps.match.params.id);
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.loadApiToken(this.props.match.params.id);
     }
   }
 
@@ -113,7 +114,6 @@ export default class extends React.Component {
 
         <form onSubmit={this.onSubmit}>
           {form ? <ApiTokenForm form={form} onChange={this.onChange} /> : null}
-
           {form ? (
             <SaveCancel
               form={form}

@@ -19,7 +19,7 @@ env:
 phases:
   install:
     runtime-versions:
-      docker: 18
+      nodejs: 14
     commands:
       # git configuration to check out git submodules
       - echo "https://$GITHUB_READ_USER:$GITHUB_READ_PASSWORD@github.com" > $HOME/.git-credentials

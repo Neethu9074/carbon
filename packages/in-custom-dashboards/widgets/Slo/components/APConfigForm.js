@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
@@ -11,6 +11,7 @@ import SelectInSection from 'in-components/form/Select/SelectInSection';
 import HelpAction from 'in-new-components/workspace/HelpAction';
 import Sections from 'in-new-components/workspace/Sections';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 export default function APConfigForm({ apConfigIdField: field, apConfigs, onUpdateApConfigId }) {
   return (

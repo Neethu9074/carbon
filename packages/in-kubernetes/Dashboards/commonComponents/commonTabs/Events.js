@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Table/components/ViewWidthRestrictedColumn';
@@ -19,6 +19,7 @@ import DateTime from 'in-components/tables/sharedComponents/DateTime';
 import EntityLink from 'in-new-components/EntityLink';
 import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 const allColumns = [
   {

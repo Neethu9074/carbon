@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { escapeRegExp } from 'lodash';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';

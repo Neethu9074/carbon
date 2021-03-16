@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import getTickPositionsDefault from 'in-services/ticks/default';
 
 export default function getTickPositions({ scale, formatter }) {

@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { generatePath, matchPath } from 'react-router';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { settingsBasePath, teamSettings, userSettingsGeneral, ampSettings } from 'in-settings/navigation/paths';
@@ -17,6 +17,7 @@ import DashboardHeader from 'in-new-components/DashboardHeader';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import getTabs from 'in-settings/tabs/index';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   {

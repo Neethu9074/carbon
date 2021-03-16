@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
-import { t } from 'in-i18n';
 
 import {
   mapApplications,
@@ -31,6 +31,7 @@ import Dialog from 'in-new-components/Dialog/Dialog';
 import { success } from 'in-services/util/result';
 import Button from 'in-new-components/Button';
 import { light } from 'in-themes/themes';
+import { t } from 'in-i18n';
 
 import locals from './Areas.mless';
 

@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
 
 import { formatTime, formatDateShort } from 'in-services/formatters/date';
+import theme from 'in-themes';
 
 const axisFontColor = theme.lib.colors.N800Dark;
 const dayAxisFontColor = theme.lib.colors.N900Primary;

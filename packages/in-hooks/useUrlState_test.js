@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+
 /* eslint-env mocha */
 
 import { useLocation, Router } from 'react-router-dom';

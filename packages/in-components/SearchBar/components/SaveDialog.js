@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { form$, setValue, save, error$ } from 'in-components/SearchBar/stores/dialog';
@@ -14,6 +14,7 @@ import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './SaveDialog.less';
 

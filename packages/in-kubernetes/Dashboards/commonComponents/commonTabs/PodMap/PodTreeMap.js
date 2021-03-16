@@ -2,11 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { just, combineLatest } from '@instana/observables';
 import { compose, withProps } from 'recompose';
-import theme from 'in-themes';
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -27,6 +26,8 @@ import { siPrefix } from 'in-services/formatters/number';
 import { lighten } from 'in-services/formatters/color';
 import TreeMap from 'in-new-components/TreeMap';
 import connect from 'in-hoc/connectTo';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default compose(
   withProps(() => ({

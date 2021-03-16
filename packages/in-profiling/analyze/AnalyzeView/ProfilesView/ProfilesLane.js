@@ -2,9 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useMemo } from 'react';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import { highlightedTimeframe$, addOrDeleteHighlightedTimeframeToParams } from 'in-stores/highlightedTimeframe';
 import SingleMarkerLaneItem from 'in-components/Chart/markerLanes/MarkerLane/SingleMarkerLaneItem';
@@ -15,6 +14,8 @@ import { formatDateTime } from 'in-services/formatters/date';
 import bucketize from 'in-services/util/bucketize';
 import useObservable from 'in-hooks/useObservable';
 import ProfileMarker from './ProfileMarker';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './ProfilesLane.mless';
 

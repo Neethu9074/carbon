@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 
 import { isLandingPage as isCustomDashboardLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import { isLandingPage as isCockpitLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
@@ -20,6 +20,7 @@ import Button from 'in-new-components/Button';
 import Pill from 'in-new-components/Pill';
 import connectTo from 'in-hoc/connectTo';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './DashboardSwitcherOverlayPresenter.mless';
 

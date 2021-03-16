@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import DetailsNavigation, {
   labelsNavigationItem,
@@ -15,6 +15,7 @@ import { podDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/path
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import IPs from 'in-kubernetes/Dashboards/Pod/tabs/Details/IPs';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   ({ data: pod }) => ({ annotations: getAnnotations(pod.id) }),

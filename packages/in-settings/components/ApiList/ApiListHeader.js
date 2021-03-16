@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import SearchInput from 'in-new-components/SearchInput';
+import { t } from 'in-i18n';
 
 import locals from './ApiListHeader.mless';
 

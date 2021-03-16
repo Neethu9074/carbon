@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import getTagCatalogSubscription from 'in-infrastructure/subscriptions/getTagCatalog';
+
 import getTagValueSearchSuggestions from 'in-infrastructure/subscriptions/getTagValueSuggestions';
+import getTagCatalogSubscription from 'in-infrastructure/subscriptions/getTagCatalog';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 
 const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagCatalogInternal } = createQueryBuilder({

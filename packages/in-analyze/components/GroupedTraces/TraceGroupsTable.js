@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React, { Fragment } from 'react';
 
 import { LoadMoreRow, Table, Thead, Tbody, Tr } from 'in-components/tables/sharedComponents';
@@ -11,6 +11,7 @@ import LoadingStates from 'in-analyze/AnalyzeView/components/LoadingStates';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import Groups from 'in-analyze/components/GroupedTraces/Groups';
 import Group from 'in-analyze/components/GroupedTraces/Group';
+import { t } from 'in-i18n';
 
 export default function TraceGroupsTable(props) {
   const { orderBy, orderDirection, onChangeOrder, loadMore, canLoadMore, metrics, progress, errors } = props;

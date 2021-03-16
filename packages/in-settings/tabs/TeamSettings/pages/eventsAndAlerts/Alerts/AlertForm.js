@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import FormDataEnrichment from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/FormDataEnrichment';

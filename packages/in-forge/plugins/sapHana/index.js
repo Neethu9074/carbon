@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import metricDefinitions from 'in-forge/plugins/sapHana/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/sapHana/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';

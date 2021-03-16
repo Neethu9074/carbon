@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { forwardRef } from 'react';
-import { t } from 'in-i18n';
 
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { compositeRef } from 'in-services/util/react';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 export default forwardRef(function CopyToClipboardButton(props, ref) {
   if (props.disabled) {

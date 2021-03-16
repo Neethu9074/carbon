@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { parse } from 'lucene';
 
 import { track, DYNAMIC_FOCUS_QUERY } from 'in-services/tracking/tracking';

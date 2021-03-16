@@ -2,11 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-env mocha */
+
+import { expect } from 'chai';
 
 import tagCatalog from 'in-new-components/GroupingConfigurator/exampleTagCatalog';
 import { isValid } from 'in-new-components/GroupingConfigurator/validation';
-import { expect } from 'chai';
 
 describe('in-new-components/GroupingConfigurator/validation#isValid', () => {
   it('empty group must be valid', () => {

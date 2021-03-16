@@ -2,17 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-env mocha */
 
 import { expect } from 'chai';
 
-import {
-  toNewTagFilterFormat,
-  type,
-  toTagFilter,
-  sanitizeTagFilter
-} from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { KEY_VALUE_PAIR, STRING, BOOLEAN, NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
 import {
   CONTAINS,
   EQUALS,
@@ -21,6 +15,13 @@ import {
   NOT_STARTS_WITH,
   STARTS_WITH
 } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import {
+  toNewTagFilterFormat,
+  type,
+  toTagFilter,
+  sanitizeTagFilter
+} from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { KEY_VALUE_PAIR, STRING, BOOLEAN, NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { STRING_MAX_LENGTH } from '../tagFilter/constraints';
 
 describe('in-new-components/QueryBuilder/transformation/tagFilter#toNewTagFilterFormat', () => {

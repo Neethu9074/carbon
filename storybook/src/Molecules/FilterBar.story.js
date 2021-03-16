@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { text, boolean } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';

@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { emptyObject } from 'in-services/fixedObjects';

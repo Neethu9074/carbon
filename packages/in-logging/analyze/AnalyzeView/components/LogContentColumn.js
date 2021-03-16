@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';

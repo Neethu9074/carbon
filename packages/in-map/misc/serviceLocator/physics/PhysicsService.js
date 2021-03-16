@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { create } from '@instana/observables';
 
 import { OCTREE_LAYER } from 'in-map/misc/serviceLocator/physics/physicsConstants';

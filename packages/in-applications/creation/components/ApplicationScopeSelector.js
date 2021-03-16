@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React from 'react';
+
 import classNames from 'classnames';
-import { t } from 'in-i18n';
+import React from 'react';
 
 import { applicationCreationScopeSelect } from 'in-applications/creation/tracker';
 import OptionBox from 'in-applications/components/OptionBox';
 import FormGroup from 'in-components/form/FormGroup';
+import { t } from 'in-i18n';
 
 import locals from './ApplicationScopeSelector.mless';
 

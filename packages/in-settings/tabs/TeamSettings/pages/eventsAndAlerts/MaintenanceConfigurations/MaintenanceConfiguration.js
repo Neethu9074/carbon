@@ -2,10 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { fromJS, List } from 'immutable';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import {
@@ -31,6 +30,8 @@ import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
 import entityForm from 'in-hoc/entityForm';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './MaintenanceConfiguration.mless';
 

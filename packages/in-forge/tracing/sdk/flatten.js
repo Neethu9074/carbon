@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export const flatten = (obj, path = '') => {
   if (!(obj instanceof Object)) return { [path.replace(/\.$/g, '')]: obj };
 

@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import ColorConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/ColorConfigurator';
@@ -18,6 +18,7 @@ import Stack from 'in-new-components/layout/Stack';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
+import { t } from 'in-i18n';
 
 import locals from './AxesConfigurator.mless';
 

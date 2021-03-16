@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import configs from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { goToAlertChannelView } from 'in-settings/navigation/paths';
 import MultiButton from 'in-new-components/MultiButton';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './NewChannelButton.mless';
 

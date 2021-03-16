@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
@@ -10,6 +10,7 @@ import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   ({ tenant, unit, timeConfig }) => ({

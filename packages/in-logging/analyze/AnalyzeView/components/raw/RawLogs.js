@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 
 // import getLogsForConsole from 'in-logging/subscriptions/getLogsForConsole';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/raw/QueryBuilderWorkspace';
@@ -23,6 +23,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './RawLogs.mless';
 

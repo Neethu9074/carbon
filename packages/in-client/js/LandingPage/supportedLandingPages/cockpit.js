@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { setLandingPage as setLandingPageInPersistence } from 'in-client/js/LandingPage/persistence';
 import { cockpit } from 'in-cockpit/navigation/paths';
 

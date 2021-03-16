@@ -2,13 +2,6 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import fragmentShader from 'in-map/singleMeshFactories/nodeMetricFragmentShader.glsl';
-import vertexShader from 'in-map/singleMeshFactories/nodeMetricVertexShader.glsl';
-
-import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
-import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
-import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
-import { Mesh, RawShaderMaterial, DoubleSide } from 'in-map/3DLibProvider';
 
 import {
   NUM_POINTS_PER_SLICE,
@@ -16,8 +9,14 @@ import {
   INDEX_MASK
 } from 'in-map/singleMeshFactories/ContentProvider/PredefinedSlicedCubes';
 import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceLocator/physics/physicsConstants';
+import ScreenPositionComponent from 'in-map/sceneObjectComponents/ScreenPositionComponent';
+import fragmentShader from 'in-map/singleMeshFactories/nodeMetricFragmentShader.glsl';
+import vertexShader from 'in-map/singleMeshFactories/nodeMetricVertexShader.glsl';
+import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
 import NodeMetricTooltip from 'in-map/components/tooltips/physical/NodeMetric';
+import TooltipComponent from 'in-map/sceneObjectComponents/TooltipComponent';
 import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
+import { Mesh, RawShaderMaterial, DoubleSide } from 'in-map/3DLibProvider';
 import createMetricHandler from 'in-map/misc/physical/MetricHandler';
 import { updateAttribute } from 'in-map/services/geometryAttributes';
 import AnimationController from 'in-map/misc/AnimationController';

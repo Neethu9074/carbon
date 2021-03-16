@@ -2,26 +2,21 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import classNames from 'classnames';
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
-import { PER_AP_SERVICE } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
-import ChartSubEntitySelection from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartSubEntitySelection';
-import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewConfig';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
+
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import LightCard from 'in-new-components/Card/LightCard';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import Stack from 'in-new-components/layout/Stack';
-import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator.mless';
 
 export default function ChartViewConfigurator({
   selectedChartViewConfigIndex = 0,
-  alertConfigWithFormModel,
   children,
   className,
   doNotSetDefaultHeight,
@@ -31,21 +26,13 @@ export default function ChartViewConfigurator({
   onChartViewConfigChange
 }) {
   const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
-  const [serviceId, setServiceId] = useState();
-  const showEntitySelection = alertConfigWithFormModel?.evaluationType === PER_AP_SERVICE;
-
-  // TODO AP ID must be provided via selection as well for Global SmartAlerts.
-  // Furthermore, this field is deprecated
-  // For websites we do not have the selection anyway
-  const applicationId = alertConfigWithFormModel?.applicationId;
 
   return (
     <>
       <LightCard
         className={classNames(locals.container, {
           [className]: className, // className overrides everything
-          [locals.defaultSize]: !showEntitySelection && !className && !doNotSetDefaultHeight,
-          [locals.withSelection]: showEntitySelection && !className
+          [locals.defaultSize]: !className && !doNotSetDefaultHeight
         })}
         title={title}
         headerClassName={headerTransparent ? locals.headerTransparent : null}
@@ -63,26 +50,7 @@ export default function ChartViewConfigurator({
         darkFrame
       >
         <Stack>
-          {showEntitySelection && (
-            <StackItem>
-              <HorizontalFlexWrapper>
-                <span className={locals.labelWithGap}>
-                  {t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewForService')}
-                </span>
-                <div className={locals.expanding}>
-                  <ChartSubEntitySelection
-                    applicationId={applicationId}
-                    serviceId={serviceId}
-                    setServiceId={setServiceId}
-                    alertConfigWithFormModel={alertConfigWithFormModel}
-                    // use maximum possible timeframe, to have a stable list when switching between options
-                    queryWindowSize={maxChartViewTimeframe}
-                  />
-                </div>
-              </HorizontalFlexWrapper>
-            </StackItem>
-          )}
-          <StackItem>{children(selectedChartViewConfig, serviceId)}</StackItem>
+          <StackItem>{children(selectedChartViewConfig)}</StackItem>
         </Stack>
       </LightCard>
     </>
@@ -97,10 +65,5 @@ ChartViewConfigurator.propTypes = {
   title: PropTypes.string,
   headerTransparent: PropTypes.bool,
   framed: PropTypes.bool,
-  alertConfigWithFormModel: PropTypes.shape({
-    applicationId: PropTypes.string,
-    websiteId: PropTypes.string,
-    evaluationType: PropTypes.string
-  }),
   onChartViewConfigChange: PropTypes.func.isRequired
 };

@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { get } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import ErroneousServiceInformation from 'in-applications/ApplicationMap/components/Tooltips/ServiceInformation/ErroneousServiceInformation';
@@ -12,6 +12,7 @@ import Header from 'in-applications/ApplicationMap/components/Tooltips/ServiceIn
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { number, percentage, meanLatency } from 'in-services/formatters/number';
 import SparkChart from 'in-components/SparkChart';
+import { t } from 'in-i18n';
 
 import locals from './ServiceInformation.mless';
 

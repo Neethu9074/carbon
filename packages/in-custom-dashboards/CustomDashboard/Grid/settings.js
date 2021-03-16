@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import theme from 'in-themes/active.json';
 
 // Unfortunately a limitation in the grid library and an inconsistency

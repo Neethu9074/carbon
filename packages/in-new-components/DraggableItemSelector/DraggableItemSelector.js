@@ -2,16 +2,17 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
-import { t } from 'in-i18n';
 
 import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './DraggableItemSelector.mless';
 

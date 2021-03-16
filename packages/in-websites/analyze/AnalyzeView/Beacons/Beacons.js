@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { Route, Switch } from 'react-router-dom';
 import { compose, withProps } from 'recompose';
 import { find } from 'lodash';

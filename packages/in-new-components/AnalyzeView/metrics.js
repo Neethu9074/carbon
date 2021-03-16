@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+
 import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { emptyArray } from 'in-services/fixedObjects';
 

@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createMapForm, createField, createListForm, notBlankValidator, composeValidators } from 'formalistic';
 import { compose, withProps, withState } from 'recompose';
-import { t } from 'in-i18n';
 
 import FileDownloadConfigurationDialogPresenter from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogPresenter';
 import { addSourceMapConfiguration, updateSourceMapConfiguration } from 'in-websites/api/websites';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { close } from 'in-components/DialogPresenter/store';
+import { t } from 'in-i18n';
 
 export default compose(
   withState('form', 'setForm', ({ config }) => createForm(config)),

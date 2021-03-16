@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField } from 'formalistic';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { refresh, deleteSessionSettings, setSessionSettings } from 'in-settings/tabs/AuthSettings/api/sessionSettings';
@@ -17,6 +17,7 @@ import { days, minutes, hours } from 'in-services/time';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 import locals from './SessionSettings.mless';
 

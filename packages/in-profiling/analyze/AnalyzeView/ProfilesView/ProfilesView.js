@@ -2,15 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState, useEffect } from 'react';
 import { just } from '@instana/observables';
-import { t } from 'in-i18n';
 
 import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
 import { closeProfilesViewLink } from 'in-new-components/Profiling/navigation/paths';
 import getProfiles from 'in-new-components/Profiling/subscriptions/getProfiles';
-import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
+import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import tabs from 'in-profiling/analyze/AnalyzeView/ProfilesView/tabs';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
@@ -25,6 +25,7 @@ import useUrlState from 'in-hooks/useUrlState';
 import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './ProfilesView.mless';
 

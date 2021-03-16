@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
@@ -13,6 +13,7 @@ import Filter from 'in-websites/analyze/PageLoadView/tabs/Summary/Filter';
 import { generateStableHash } from 'in-services/util/id';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 import locals from './Activity.mless';
 

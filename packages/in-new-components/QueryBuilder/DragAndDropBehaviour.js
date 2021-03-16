@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 
 export default function DragAndDropBehaviour({

@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-disable react/display-name */
 import { uniqBy } from 'lodash';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import EntityPageMainNotificationLightCardV2 from 'in-new-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
@@ -29,6 +29,7 @@ import Tooltip from 'in-components/Tooltip';
 import { lightV2 } from 'in-themes/themes';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
+import { t } from 'in-i18n';
 
 import locals from './CustomDashboardPresenter.mless';
 

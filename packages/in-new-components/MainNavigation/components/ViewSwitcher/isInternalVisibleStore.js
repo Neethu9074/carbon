@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { internalMonitoringUnit } from 'in-services/featureFlags';
 import { trySet, tryGet } from 'in-services/localStorage';
 import { isInstanaEmail } from 'in-stores/user';

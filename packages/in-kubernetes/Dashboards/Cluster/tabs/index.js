@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -29,6 +29,7 @@ import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import Details from 'in-kubernetes/Dashboards/Cluster/tabs/Details';
 import Summary from 'in-kubernetes/Dashboards/Cluster/tabs/Summary';
 import Pods from 'in-kubernetes/Dashboards/Cluster/tabs/Pods';
+import { t } from 'in-i18n';
 
 export default [
   {

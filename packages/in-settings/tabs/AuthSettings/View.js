@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import {
   authSettings,
@@ -38,6 +38,7 @@ import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { isOwner, role } from 'in-stores/user';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 function getNavigationTree(props) {
   const isAtLeastOneAuthMethogAvailable =

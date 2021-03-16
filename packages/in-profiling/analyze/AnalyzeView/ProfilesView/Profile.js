@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState, useEffect } from 'react';
-import { t } from 'in-i18n';
 
 import {
   cpuTreeViewOpened,
@@ -31,6 +31,7 @@ import SetBodyColor from 'in-components/SetBodyColor';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Message from 'in-new-components/Message';
 import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './Profile.mless';
 

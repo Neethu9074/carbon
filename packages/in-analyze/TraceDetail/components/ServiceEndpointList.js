@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
@@ -11,6 +11,7 @@ import { latencyFixed } from 'in-services/formatters/number';
 import ServerTable from 'in-components/tables/ServerTable';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './ServiceEndpointList.mless';
 

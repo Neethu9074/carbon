@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
-import theme from 'in-themes';
+
 import React from 'react';
 
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable/NoDataAvailable';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import SvgIcon from 'in-components/SvgIcon';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './QueryProgressIndicator.mless';

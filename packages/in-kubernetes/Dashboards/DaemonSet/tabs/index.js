@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
@@ -13,6 +13,7 @@ import { WorkloadTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/DaemonSet/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/DaemonSet/tabs/Details';
+import { t } from 'in-i18n';
 
 export default [
   {

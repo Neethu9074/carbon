@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import { bytesZeroDecimalPlaces, percentage, percentagePlainZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -108,9 +109,7 @@ function getDetails(row) {
       y1={{
         min: 0,
         formatter: percentage.compact,
-        metrics: [
-          'members.' + row.name + '.memory_used_percent'
-        ],
+        metrics: ['members.' + row.name + '.memory_used_percent'],
         labels: ['Used Percentage'],
         type: 'line'
       }}

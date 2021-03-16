@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
@@ -10,6 +10,7 @@ import LambdaFunctionLink from 'in-forge/plugins/awsLambdaVersion/LambdaFunction
 import { megaBytesZeroDecimalPlaces, seconds } from 'in-services/formatters/number';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getRuntimeByKey } from 'in-sdk/snapshot/runtimes';
+import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');

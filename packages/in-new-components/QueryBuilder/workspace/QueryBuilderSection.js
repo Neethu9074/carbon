@@ -2,7 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import rpt from 'prop-types';
 
 import { trackingProps as queryBuilderTrackingProps } from 'in-new-components/QueryBuilder/QueryBuilder';
@@ -11,7 +13,6 @@ import Section from 'in-new-components/workspace/Section';
 import Stack from 'in-new-components/layout/Stack';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
-import { useEffect } from 'react';
 import { t } from 'in-i18n';
 
 export default function QueryBuilderSection({

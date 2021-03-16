@@ -2,14 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { addSceneObject, removeSceneObject } from 'in-map/stores/sceneStore';
 import { RepeatWrapping, MeshBasicMaterial } from 'in-map/3DLibProvider';
 import { hexToRGBNormalized } from 'in-services/formatters/color';
 import { requestRendering } from 'in-map/stores/renderingStore';
+import groundTexturePath from 'in-map/misc/physical/ground.png';
 import BaseGroundPlane from 'in-map/misc/common/GroundPlane';
 import { loadImage } from 'in-map/services/imageLoader';
-
-import groundTexturePath from 'in-map/misc/physical/ground.png';
 
 export default class GroundPlane extends BaseGroundPlane {
   constructor() {

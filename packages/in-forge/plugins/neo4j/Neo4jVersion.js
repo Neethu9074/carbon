@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 export default function isAtLeastMinorVersion(version, majorVersion, minorVersion) {
   if (!version || version.startsWith('pre-')) {
     return false;

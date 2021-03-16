@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
-import { getCustomMetricMatch, getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
 import { siPrefix, micros, millis, number, bytes, percentage } from 'in-services/formatters/number';
+import { getCustomMetricMatch, getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
+import { t } from 'in-i18n';
 
 function getLabel(postfix) {
   return (snapshot, match) => (match?.length > 1 ? `${match[1]} ${postfix}` : postfix);

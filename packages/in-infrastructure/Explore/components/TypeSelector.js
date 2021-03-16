@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useCallback, useMemo, useState, useRef } from 'react';
 import { isEmpty, isEqual } from 'lodash';
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 
 import { groupMatrixParameter, typeMatrixParameter, getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import { allInfrastructureType, defaultAllInfraGroup, allTypes } from 'in-infrastructure/Explore/constants';
@@ -26,6 +26,7 @@ import { Li } from 'in-new-components/lists/List';
 import { getPluginName } from 'in-sdk/pluginName';
 import useUrlState from 'in-hooks/useUrlState';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './TypeSelector.mless';
 

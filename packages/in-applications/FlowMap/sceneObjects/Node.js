@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
 
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';

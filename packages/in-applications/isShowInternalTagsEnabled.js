@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { trySet, tryGet } from 'in-services/localStorage';
 import { createStore } from 'in-stores/store';
 import { minutes } from 'in-services/time';

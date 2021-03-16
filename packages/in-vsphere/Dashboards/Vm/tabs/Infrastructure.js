@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { fromJS } from 'immutable';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -13,6 +13,7 @@ import getVsphereGuestHost from 'in-vsphere/subscriptions/getVsphereGuestHost';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink from 'in-new-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
+import { t } from 'in-i18n';
 
 const pathSegment = '/hosts';
 const matrixPrefix = 'host.';

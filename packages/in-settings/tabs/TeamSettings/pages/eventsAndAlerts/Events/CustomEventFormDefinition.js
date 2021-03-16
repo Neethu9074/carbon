@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
-import { t } from 'in-i18n';
 
 import {
   getAllBuiltInMetrics,
@@ -21,6 +21,7 @@ import { queryValidationResultValidator, valid } from 'in-settings/validation';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 export const ruleTypeEntityVerification = 'entity_verification';
 export const dataSourceCustom = 'custom';

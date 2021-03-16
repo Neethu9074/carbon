@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
-import { t } from 'in-i18n';
 
 import {
   SideNavigation,
@@ -17,6 +17,7 @@ import Collaboration from 'in-waiting-for-deployment/components/OnboardingWidget
 import EntryContent from 'in-waiting-for-deployment/components/OnboardingWidget/EntryContent';
 import getEntries from 'in-waiting-for-deployment/components/OnboardingWidget/content';
 import SearchInput from 'in-new-components/SearchInput';
+import { t } from 'in-i18n';
 
 import locals from './InstallDocumentation.mless';
 

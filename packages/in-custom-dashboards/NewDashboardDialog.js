@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, notBlankValidator } from 'formalistic';
 import { compose, withProps, withState } from 'recompose';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
@@ -13,6 +13,7 @@ import { createDashboard } from 'in-custom-dashboards/tracker';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
 import { close } from 'in-components/DialogPresenter/store';
 import { user } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 export default compose(
   withState('state', 'setState', {

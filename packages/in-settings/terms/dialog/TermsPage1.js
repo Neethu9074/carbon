@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import { t, Trans } from 'in-i18n';
 
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
@@ -14,6 +14,7 @@ import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Stack from 'in-new-components/layout/Stack';
 import Button from 'in-new-components/Button';
+import { t, Trans } from 'in-i18n';
 
 import locals from './TermsPages.mless';
 

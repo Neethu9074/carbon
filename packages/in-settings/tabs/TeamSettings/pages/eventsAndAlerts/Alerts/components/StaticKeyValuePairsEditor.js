@@ -2,14 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { UnControlled as CodeMirror } from 'react-codemirror2';
-import { compose, mapProps } from 'recompose';
-import PropTypes from 'prop-types';
-import React from 'react';
 
+import { UnControlled as CodeMirror } from 'react-codemirror2';
 import 'codemirror/addon/selection/mark-selection';
 import 'codemirror/mode/javascript/javascript';
+import { compose, mapProps } from 'recompose';
 import 'codemirror/lib/codemirror.css';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 export default compose(
   mapProps(props => ({

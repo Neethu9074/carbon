@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { hexToRGBNormalized } from 'in-services/formatters/color';
 
 export const neutralColorRgb = {

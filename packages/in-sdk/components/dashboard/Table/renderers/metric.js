@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { just } from '@instana/observables';
 import invariant from 'invariant';
 import React from 'react';
 
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import PercentageCell from 'in-infrastructure/tableView/components/Table/components/PercentageCell';
+import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { percentage } from 'in-services/formatters/number';
 import { compare } from 'in-services/util/number';
 import { getMetric } from 'in-stores/metric';

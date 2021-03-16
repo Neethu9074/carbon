@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { ampSettings, ampAccountSettings, ampUsage, ampTechnologies } from 'in-settings/navigation/paths';
@@ -14,6 +14,7 @@ import AccountSettings from 'in-amp/components/AccountSettings';
 import RestrictedUsage from 'in-amp/components/RestrictedUsage';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import Usage from 'in-amp/components/Usage';
+import { t } from 'in-i18n';
 
 export default function View(props) {
   return (

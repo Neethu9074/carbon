@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import MetricSelector from 'in-infrastructure/tableView/components/MetricSelector';
@@ -11,6 +11,7 @@ import TypeSelector from 'in-infrastructure/tableView/components/TypeSelector';
 import { plugin$ } from 'in-infrastructure/tableView/stores/snapshotIds';
 import { getPluginName } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './LeftHeader.less';
 

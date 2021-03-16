@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -14,6 +14,7 @@ import { isFormModelValid } from 'in-new-components/QueryBuilder/validation/form
 import QueryBuilder from 'in-new-components/QueryBuilder/QueryBuilder';
 import { success, errorWithData } from 'in-services/util/result';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
+import { t } from 'in-i18n';
 
 export function createQueryBuilder({
   getTagCatalog: originalGetTagCatalog,

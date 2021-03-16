@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -11,6 +11,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import { t } from 'in-i18n';
 
 export default function Step1({ form, onChange }) {
   return form.get('name').map(field => (

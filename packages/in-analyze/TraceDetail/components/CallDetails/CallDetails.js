@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
@@ -21,6 +21,7 @@ import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
 import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './CallDetails.mless';
 

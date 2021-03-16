@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -32,7 +33,9 @@ export default function AlertingChart({
   alertsPreviewEnabled,
   numeratorFilter,
   enrichedTagFilterExpression,
-  canReload
+  canReload,
+  rendererOverride,
+  highlight
 }) {
   const { granularity, rule, threshold, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
 
@@ -43,6 +46,7 @@ export default function AlertingChart({
   const aggregation = blueprintConfig.getAggregation(rule);
   const metricLabel = blueprintConfig.getMetricLabel(metricName);
   const isStaticThreshold = threshold.type === 'staticThreshold';
+  const renderer = rendererOverride || (isStaticThreshold ? Renderer.lineWithThreshold : Renderer.lineWithBaseline);
 
   return (
     <AlertingChartWrapper
@@ -96,17 +100,18 @@ export default function AlertingChart({
       y1={{
         colors: chartColors,
         metricIds: [metricName, 'threshold'],
-        excludedLabelsFromTooltip: ['Violations'],
+        excludedLabelsFromTooltip: ['Violations', highlight?.label].filter(Boolean),
         nonToggleableSeries: enhanceNonToggleableSeries(
           metricName,
-          getSmoothedMetricTooltipContent(viewConfig.smoothMetric)
+          getSmoothedMetricTooltipContent(viewConfig.smoothMetric),
+          highlight
         ),
-        labels: enhanceLabels(metricLabel, viewConfig.smoothMetric),
+        labels: enhanceLabels(metricLabel, viewConfig.smoothMetric, highlight),
         tooltipFormatter: value => (value < 0 ? valueMissingPlaceholder : formatter.detailed(value)),
-        renderer: isStaticThreshold ? Renderer.lineWithThreshold : Renderer.lineWithBaseline,
+        renderer,
         icons: {
-          types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop'],
-          colors: legendColors
+          types: ['lib_line_chart', 'lib_threshold', 'lib_actions_stop', 'lib_actions_stop'],
+          colors: [...legendColors, highlight?.color[0]].filter(Boolean)
         },
         thresholdGranularity: granularity,
         lineWidth: 1.75,
@@ -115,6 +120,7 @@ export default function AlertingChart({
         operator: threshold.operator,
         sensitivity: threshold.deviationFactor,
         baseline: threshold.baseline,
+        highlight,
         getMax: metricsMaxValue => {
           if (isStaticThreshold) {
             return threshold.value >= metricsMaxValue
@@ -169,20 +175,32 @@ function getAlertsPreviewQuery({
   return null;
 }
 
-function enhanceLabels(label, smoothMetric) {
-  return [
+function enhanceLabels(label, smoothMetric, highlight) {
+  const labels = [
     `${label}${smoothMetric ? '*' : ''}`,
     t('in-alerting:components.chart.alertingChartLabelThreshold'),
     t('in-alerting:components.chart.alertingChartLabelViolations')
   ];
+
+  if (highlight) {
+    labels.push(highlight.label);
+  }
+
+  return labels;
 }
 
-function enhanceNonToggleableSeries(metricName, tooltipContent) {
-  return new Map([
+function enhanceNonToggleableSeries(metricName, tooltipContent, highlight) {
+  const labels = new Map([
     ['threshold', null],
     ['alerts', null],
     ['Violations', null]
   ]).set(metricName, tooltipContent);
+
+  if (highlight) {
+    labels.set(highlight.label, null);
+  }
+
+  return labels;
 }
 
 function getSmoothedMetricTooltipContent(isSmoothedMetric) {
@@ -206,5 +224,25 @@ AlertingChart.propTypes = {
   numeratorFilter: PropTypes.object,
   isQB1only: PropTypes.bool,
   enrichedTagFilters: PropTypes.array,
-  enrichedTagFilterExpression: PropTypes.object
+  enrichedTagFilterExpression: PropTypes.object,
+  rendererOverride: PropTypes.object,
+
+  /**
+   * Allows to place a highlight area on the alert chart.
+   * Needs to be supported by the selected chart renderer.
+   * See: in-alerting/components/Chart/renderer/lineWithBaselineAndPotentialProblem
+   *
+   * area.start is the start x coordinate (in the metrics x range)
+   * area.end is the end x coordinate (in the metrics x range)
+   * color is an array of color strings. Index 0 being the highlights fill color
+   * and index 1 being its border color.
+   */
+  highlight: PropTypes.shape({
+    area: PropTypes.shape({
+      start: PropTypes.number.isRequired,
+      end: PropTypes.number.isRequired
+    }),
+    color: PropTypes.arrayOf(PropTypes.string).isRequired,
+    label: PropTypes.string.isRequired
+  })
 };

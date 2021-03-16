@@ -2,11 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { selectedType$, setSelectedType, matchedSnapshotCount$ } from 'in-infrastructure/tableView/stores/snapshotIds';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './TypeSelector.less';
 

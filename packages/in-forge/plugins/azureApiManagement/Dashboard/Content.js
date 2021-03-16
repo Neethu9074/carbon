@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import {
@@ -19,6 +19,7 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import OperationsTable from './OperationsTable.js';
 import ApisTable from './ApisTable.js';
+import { t } from 'in-i18n';
 
 export default function AzureApiManagementDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');

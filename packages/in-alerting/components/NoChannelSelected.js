@@ -2,15 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc. 2021
  */
+
 import React from 'react';
 
-/*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
- */
-import { t } from 'in-i18n';
 import BasicWrapper from 'in-new-components/Errors/BasicWrapper';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from 'in-alerting/components/NoChannelSelected.mless';
 

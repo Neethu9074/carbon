@@ -2,12 +2,13 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import StackItem from 'in-new-components/Stack/components/StackItem';
 import { ListGroup } from 'in-new-components/lists/List';
 import { getPluginName } from 'in-sdk/pluginName';
+import { t } from 'in-i18n';
 
 export default function StackGroup({
   applicationId,

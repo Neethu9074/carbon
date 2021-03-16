@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 // There is no infrastructure entity AWS ECS. But there is a technology AWS ECS. Currently, providing a dummy plug-in
 // (with a technologyDescriptor attribute) in the ui-client' in-forge/plugins folder is the only way to tell the UI to

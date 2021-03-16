@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t, Trans } from 'in-i18n';
+
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -12,6 +12,7 @@ import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import TermsProgressIndicator from './TermsProgressIndicator';
 import Button from 'in-new-components/Button/Button';
 import Stack from 'in-new-components/layout/Stack';
+import { t, Trans } from 'in-i18n';
 
 import locals from './TermsPages.mless';
 

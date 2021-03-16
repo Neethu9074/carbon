@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { empty } from '@instana/observables';
-import theme from 'in-themes';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -31,6 +31,7 @@ import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './TraceDetails.mless';

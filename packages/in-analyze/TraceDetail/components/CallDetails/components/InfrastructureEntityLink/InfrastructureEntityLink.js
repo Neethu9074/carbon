@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import InfrastructureEntityLinkPresenter from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureEntityLink/InfrastructureEntityLinkPresenter';
+import { getSnapshotOrDefaultOnTimeout } from 'in-stores/snapshot';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { pendingResult } from 'in-services/fixedObjects';
-import { getSnapshotOrDefaultOnTimeout } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 const InfrastructureEntityLink = connectTo(({ entity }) => ({

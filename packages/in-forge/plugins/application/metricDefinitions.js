@@ -2,10 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
 
 import metricDefinitions from 'in-forge/plugins/defaultEntity20/metricDefinitions';
 import { ms, number, percentage } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default metricDefinitions
   .filter(definition => definition.metric !== 'instances')

@@ -2,11 +2,10 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { assign } from 'lodash';
-import theme from 'in-themes';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { formatDate, parseDate } from 'in-services/formatters/date';
@@ -16,6 +15,8 @@ import { identity } from 'in-services/util/function';
 import { isBlank } from 'in-services/util/string';
 import keyCodes from 'in-components/keyCodes';
 import Input from 'in-components/form/Input';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './DateInput.mless';
 

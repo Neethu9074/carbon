@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { filters$, refresh, remove } from 'in-components/SearchBar/stores/filters';
@@ -14,6 +14,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import { setValues } from 'in-components/SearchBar/stores/dialog';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './FilterPresets.less';
 

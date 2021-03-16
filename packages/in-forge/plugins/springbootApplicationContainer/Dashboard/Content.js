@@ -2,21 +2,23 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { Trans, t } from 'in-i18n';
+
 import theme from 'in-themes';
 import React from 'react';
 
 import getMonitoringIssuesForSnapshot from 'in-subscription/getMonitoringIssuesForSnapshot';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import connectTo from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
+import { Trans, t } from 'in-i18n';
+import theme from 'in-themes';
 
 export default connectTo(({ snapshot, timeConfig }) => {
   const snapshotId = snapshot.get('id');

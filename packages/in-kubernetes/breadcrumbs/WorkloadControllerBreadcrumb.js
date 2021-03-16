@@ -2,11 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(

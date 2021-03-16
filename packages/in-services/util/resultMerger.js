@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { indeterminateProgress, emptyArray, finishedProgress } from 'in-services/fixedObjects';
 
 export function merge(results, mergeResultData) {

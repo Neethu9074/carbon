@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React, { Fragment } from 'react';
 
 import {
@@ -27,6 +27,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { callClickedTracker } from 'in-analyze/tracker';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
+import { t } from 'in-i18n';
 
 export default function RawCallsNavigator({
   items,

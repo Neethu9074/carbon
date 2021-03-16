@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -13,9 +13,10 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import * as eventTypeLabels from 'in-events/eventTypeLabels';
 import { eventsPath } from 'in-events/navigation/paths';
 import SearchBar from 'in-components/SearchBar';
+import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './ViewSwitcher.mless';
-import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
   {

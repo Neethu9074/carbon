@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-env node */
 /* eslint-disable strict */
 
@@ -66,7 +67,9 @@ function getTargetSelectedViaEnvironmentVariables() {
   if (/^test$/i.test(process.env.TARGET)) {
     return environments['K8s Test (pink)'];
   } else if (/^local$/i.test(process.env.TARGET)) {
-    return environments['Locally Running Backend'];
+    return {
+      local: true
+    };
   }
 
   return undefined;

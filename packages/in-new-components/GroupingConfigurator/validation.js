@@ -2,9 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { isBlank, isNotBlank } from 'in-services/util/string';
-import { DESTINATION, SOURCE } from '../QueryBuilder/tagFilter/entities';
+
 import { isEmpty } from 'lodash';
+
+import { DESTINATION, SOURCE } from '../QueryBuilder/tagFilter/entities';
+import { isBlank, isNotBlank } from 'in-services/util/string';
 
 export function isValid(groupingConfiguration, tagCatalog) {
   if (isEmpty(groupingConfiguration)) {

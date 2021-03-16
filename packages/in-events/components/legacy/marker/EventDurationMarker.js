@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { getEventType, EVENT_TYPES, fireCallbacksForEventAtFocusedMomentAsStream } from 'in-stores/events';
@@ -11,6 +11,7 @@ import { formatDurationAccurately } from 'in-services/formatters/date';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { serverTime$ } from 'in-stores/serverTime';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import './Marker.less';
 

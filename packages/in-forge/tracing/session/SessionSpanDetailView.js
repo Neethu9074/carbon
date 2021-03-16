@@ -2,10 +2,11 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { t } from 'in-i18n';
 
 export default function SessionSpanDetailView({ span }) {
   return (

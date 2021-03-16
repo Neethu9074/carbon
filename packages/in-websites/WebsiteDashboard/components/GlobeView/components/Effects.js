@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* global require:false */
 import { PlaneBufferGeometry, Mesh, DoubleSide, MeshBasicMaterial } from 'in-map/3DLibProvider';
 import { loadImage } from 'in-map/services/imageLoader';

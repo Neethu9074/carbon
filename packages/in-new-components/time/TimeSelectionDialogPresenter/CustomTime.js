@@ -2,13 +2,12 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { createField, createMapForm, notBlankValidator, composeValidators } from 'formalistic';
 import React, { useMemo, useState, useEffect } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
-import theme from 'in-themes';
 import moment from 'moment';
-import { t } from 'in-i18n';
 
 import {
   formatTime,
@@ -28,6 +27,8 @@ import { days, hours, minutes } from 'in-services/time';
 import { emptyObject } from 'in-services/fixedObjects';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './CustomTime.mless';
 

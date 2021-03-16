@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 /* eslint-disable no-console */
 import { markAsFinished } from 'in-components/graphView/graphViewStore';
 import Springy from 'in-components/graphView/layout/springy3d';

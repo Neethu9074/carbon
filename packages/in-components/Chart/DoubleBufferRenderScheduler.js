@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { ANIMATION_DURATION } from 'in-components/Chart/Configuration';
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 import RenderScheduler from 'in-components/Chart/RenderScheduler';

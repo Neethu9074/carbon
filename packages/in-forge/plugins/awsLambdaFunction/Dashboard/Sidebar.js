@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import getVersionsForLambdaFunction from 'in-subscription/getVersionsForLambdaFunction';
@@ -12,6 +12,7 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/awsLambdaFunction/Info';
 import { fullyQualifiedPlugins } from 'in-forge/constants';
 import TagList from 'in-sdk/components/sidebar/TagList';
+import { t } from 'in-i18n';
 
 export default function AwsLambdaFunctionSidebar({ snapshot }) {
   const latestVersionForFunction = snapshot.update('entityId', entityId =>

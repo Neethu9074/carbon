@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import EffectiveConnectionTypeTopList from 'in-websites/WebsiteDashboard/tabs/User/EffectiveConnectionTypeTopList';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
@@ -17,6 +17,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import { usersTab } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import Footer from 'in-new-components/Footer';
+import { t } from 'in-i18n';
 
 export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }) {
   const granularity = getChartGranularity(timeConfig);

@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React, { Fragment } from 'react';
-import { t } from 'in-i18n';
 
 import { ActionColumn, ErrorRows, Table, Tbody, Thead } from 'in-components/tables/sharedComponents';
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
@@ -12,6 +12,7 @@ import LoadingRows from 'in-components/tables/ServerTable/internalComponents/Loa
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { Tr } from 'in-components/tables/sharedComponents/Table';
+import { t } from 'in-i18n';
 
 export default function CursorPaginatedTable(props) {
   const {

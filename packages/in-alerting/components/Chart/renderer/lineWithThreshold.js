@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import invariant from 'invariant';
 
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';

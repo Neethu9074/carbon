@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest, just } from '@instana/observables';
 
 import getServiceLabel from 'in-subscription/application/getServiceLabel';

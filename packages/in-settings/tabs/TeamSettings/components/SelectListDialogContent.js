@@ -2,14 +2,15 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { compose, withState } from 'recompose';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
 import Button from 'in-new-components/Button';
+import { t } from 'in-i18n';
 
 import locals from './SelectListDialog.mless';
 

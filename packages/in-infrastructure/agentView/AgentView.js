@@ -2,9 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { combineLatest } from '@instana/observables';
 import { Switch, Route } from 'react-router-dom';
-import { t, Trans } from 'in-i18n';
 import React from 'react';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer/MaxWidthFullscreenContainer';
@@ -34,6 +34,7 @@ import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';
+import { t, Trans } from 'in-i18n';
 
 export default connectTo(
   props => {

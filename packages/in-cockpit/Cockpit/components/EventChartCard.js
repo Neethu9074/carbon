@@ -2,13 +2,14 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import theme from 'in-themes';
-import { t } from 'in-i18n';
+
 import React from 'react';
 
 import DraggableLightCard from 'in-cockpit/widgets/TopListWidget/DraggableLightCard';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import ChartWidget from 'in-custom-dashboards/widgets/Chart/Widget';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function EventChartCardWidget({ config }) {
   return (

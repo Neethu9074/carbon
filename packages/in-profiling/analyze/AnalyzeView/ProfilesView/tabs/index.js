@@ -2,18 +2,19 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { just } from '@instana/observables';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { CpuProfileChart, MemoryProfileChart } from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileChart';
 import { analyzeProfilePathFullyQualified } from 'in-new-components/Profiling/navigation/paths';
 import getProfiles from 'in-new-components/Profiling/subscriptions/getProfiles';
-import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import View from 'in-profiling/analyze/AnalyzeView/ProfilesView/Hotspot/View';
 import Profile from 'in-profiling/analyze/AnalyzeView/ProfilesView/Profile';
+import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import { success, hasError, isLoading } from 'in-services/util/result';
 import useObservable from 'in-hooks/useObservable';
+import { t } from 'in-i18n';
 
 export default [
   {

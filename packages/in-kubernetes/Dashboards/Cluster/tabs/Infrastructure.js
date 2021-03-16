@@ -2,8 +2,8 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import { fromJS } from 'immutable';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -18,6 +18,7 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink from 'in-new-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
 import Card from 'in-new-components/Card';
+import { t } from 'in-i18n';
 
 const pathSegment = '/hosts';
 const matrixPrefix = 'host.';
