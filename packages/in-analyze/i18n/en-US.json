@@ -110,8 +110,7 @@
     "labelKeyPairENDS_WITH": "ends with"
   },
   "analyzeHeader": {
-    "title": "Analytics",
-    "learnNewUI": "Learn about the new UI."
+    "title": "Analytics"
   },
   "editTagFilterDialog": {
     "dialogTitleEdit": "Edit Filter",
