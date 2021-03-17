@@ -32,6 +32,8 @@ export const applicationDashboard = '/application';
 export const newApplicationView = '/application/new';
 export const newApplicationWaiterView = '/application/waiter';
 
+export const globalAlertsList = '/applicationAlerts';
+
 export const servicesList = '/services';
 export const newServiceView = '/services/configure/new';
 export const configureSyntheticEndpointsView = '/services/configure/syntheticEndpoints';
@@ -52,7 +54,8 @@ export const isApplicationsView = getRootPathPredicate(
   applicationDashboard,
   servicesList,
   serviceDashboard,
-  endpointDashboard
+  endpointDashboard,
+  globalAlertsList
 );
 
 export function getApplicationList({

@@ -10,20 +10,6 @@
     width: 100%;
   }
 
-  .centered {
-    display: inline-flex;
-    align-items: center;
-  }
-
-  .filters {
-    display: flex;
-    color: @lib__colors__N700Medium;
-  }
-
-  .space {
-    margin-right: 1rem;
-  }
-
   .alertIcon {
     margin-right: 1.5rem;
 
@@ -34,10 +20,6 @@
     &SeverityHigh {
       fill: @lib__colors__failure;
     }
-  }
-
-  .filterIcon {
-    fill: @lib__colors__N700Medium;
   }
 
   .column {
@@ -52,12 +34,21 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     line-height: 1.25rem;
+    flex-grow: 1;
   }
 
   .nameSubtext {
     color: @lib__colors__N600Light;
     font-size: @lib__typography__body-small__font-size;
     line-height: 1rem;
+  }
+
+  .filters {
+    display: flex;
+  }
+
+  .space {
+    margin-right: 1rem;
   }
 
   .moreFilters {

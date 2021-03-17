@@ -14,7 +14,7 @@ import theme from 'in-themes';
 import locals from 'in-alerting/components/IconLabel.mless';
 
 const IconLabel = forwardRef(
-  ({ text = '', type, noBottomMargin, color = theme.lib.colors.N900Primary, width, ellipsis }, ref) => {
+  ({ text = '', type, noBottomMargin, color = theme.lib.colors.N900Primary, iconColor, width, ellipsis }, ref) => {
     return (
       <HorizontalFlexWrapper
         ref={ref}
@@ -24,7 +24,7 @@ const IconLabel = forwardRef(
         })}
         style={{ color, width }}
       >
-        <SvgIcon className={locals.icon} color={color} type={type} />
+        <SvgIcon className={locals.icon} color={iconColor ?? color} type={type} />
         <div
           className={classNames({
             [locals.text]: true,
@@ -46,7 +46,12 @@ IconLabel.propTypes = {
   color: PropTypes.string,
   noBottomMargin: PropTypes.bool,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  ellipsis: PropTypes.bool
+  ellipsis: PropTypes.bool,
+  /**
+   * By default the icon has the same color as set in color prop.
+   * USe this prop only if he icon should have a different color
+   */
+  iconColor: PropTypes.string
 };
 
 export default IconLabel;

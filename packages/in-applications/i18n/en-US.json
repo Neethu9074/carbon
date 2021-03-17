@@ -20,6 +20,7 @@
   "labelSummary": "Summary",
   "labelDependencies": "Dependencies",
   "labelServices": "Services",
+  "labelSmartAlerts": "Smart Alerts",
   "labelErrorMessages": "Error Messages",
   "labelErrorMessage": "Error Message",
   "labelLogMessages": "Log Messages",
@@ -178,7 +179,6 @@
     "getEntityName": "alert \"{{entityName}}\"",
 
     "descriptionMessage": "{{description}}: \"{{message}}\"",
-    "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
     "tooltipFilter": "{{count}} filter",
     "tooltipFilter_plural": "{{count}} filters",
     "tooltipFilter_0": "{{count}} filters",

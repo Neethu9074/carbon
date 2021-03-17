@@ -8,6 +8,7 @@ import { compose, lifecycle, withState } from 'recompose';
 import React, { Fragment, forwardRef } from 'react';
 import { createLogger } from '@instana/logger';
 import { create } from '@instana/observables';
+import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -89,6 +90,7 @@ export default compose(
 function List({
   title,
   getHeader,
+  getCustomHeader,
   getEntityName,
   getDetailsHref,
   onRowClick,
@@ -122,7 +124,8 @@ function List({
   errorMessage,
   setErrorMessage,
   perCellLoadingIndicator,
-  trackEvent
+  trackEvent,
+  customSortEntities
 }) {
   if (hideWhenEmpty && (!entities || entities.length === 0)) {
     return null;
@@ -144,17 +147,27 @@ function List({
         searchAttributes.reduce(filterReducer.bind(null, queryState, entity), false)
       );
     }
-    entities = sortEntities(entities, columnDefinitions, orderByState, orderDirectionState);
+    entities =
+      customSortEntities?.({ entities, columnDefinitions, orderByState, orderDirectionState }) ??
+      sortEntities(entities, columnDefinitions, orderByState, orderDirectionState);
     totalHitsAfterFilter = entities.length;
     entitiesBeforePagination = entities;
     const offset = (pageState - 1) * pageSize;
     const until = offset + pageSize;
     entities = entities.slice(offset, until);
   }
-  const header = getHeader(totalHitsBeforeFilter, totalHitsAfterFilter, entitiesBeforePagination);
   const result = arrayToResult(entities, totalHitsAfterFilter, pageSize);
 
-  const leftHeader = cardTitle == null ? <ListTitle>{header}</ListTitle> : null;
+  // const leftHeader = cardTitle == null ? <ListTitle>{header}</ListTitle> : null;
+
+  const leftHeader = selectLeftHeader(
+    cardTitle,
+    getCustomHeader,
+    totalHitsBeforeFilter,
+    totalHitsAfterFilter,
+    entitiesBeforePagination,
+    getHeader
+  );
 
   if (__DEV__) {
     invariant(!(onRowClick && getDetailsHref), 'You cannot specify both, onRowClick and getDetailsHref.');
@@ -218,6 +231,21 @@ function List({
       />
     </div>
   );
+}
+
+function selectLeftHeader(
+  cardTitle,
+  getCustomHeader,
+  totalHitsBeforeFilter,
+  totalHitsAfterFilter,
+  entitiesBeforePagination,
+  getHeader
+) {
+  return cardTitle == null
+    ? getCustomHeader(totalHitsBeforeFilter, totalHitsAfterFilter, entitiesBeforePagination) ?? (
+        <ListTitle>{getHeader(totalHitsBeforeFilter, totalHitsAfterFilter, entitiesBeforePagination)}</ListTitle>
+      )
+    : null;
 }
 
 function filterReducer(query, entity, foundMatch, searchAttribute) {
@@ -571,6 +599,65 @@ function isCellLoading(perCellLoadingIndicator, entity, columnName) {
 function TableActionLoadingIndicator() {
   return <SvgIcon type={'lib_actions_loading'} color={theme.lib.colors.N600Light} spinning />;
 }
+
+List.propTypes = {
+  cardTitle: PropTypes.string,
+  columnDefinitions: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+      getContent: PropTypes.func.isRequired
+    })
+  ).isRequired,
+  customSortEntities: PropTypes.func,
+  entities: PropTypes.array,
+  errorMessage: PropTypes.node,
+  extraFilters: PropTypes.array,
+  /**
+   * The 'getHeader' function renders content inside of an H1 tag.
+   * For custom content like buttos etc. this leads to invalid HTML
+   * (yes it still works in th ebrowser but we shouldn't do that).
+   * This function doesnt wrap content in a H1 tag and therefore should
+   * be used to inject non string contents to the left side of the header.
+   */
+  getCustomHeader: PropTypes.func,
+  getDetailsHref: PropTypes.func,
+  getEntityName: PropTypes.func,
+  /**
+   * Wraps injected content in an H1 tag at the left side of a header.
+   * There it should only be used for allowed content for H-tags like strings etc.
+   * For reference, see here: https://html.spec.whatwg.org/multipage/dom.html#phrasing-content-2
+   * and here:  https://html.spec.whatwg.org/multipage/sections.html#the-h1,-h2,-h3,-h4,-h5,-and-h6-elements
+   */
+  getHeader: PropTypes.func,
+  hideWhenEmpty: PropTypes.bool,
+  isSearchable: PropTypes.bool,
+  labelNew: PropTypes.string,
+  newButtonDisabledTooltipMessage: PropTypes.func,
+  noDataMessage: PropTypes.string,
+  onCreateNew: PropTypes.func,
+  onRowClick: PropTypes.func,
+  orderByState: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  orderDirectionState: PropTypes.oneOf(['ASC', 'DSC']),
+  pageSize: PropTypes.number,
+  pageState: PropTypes.number,
+  pathNew: PropTypes.string,
+  perCellLoadingIndicator: PropTypes.any,
+  queryState: PropTypes.any,
+  renderNoDataAvailable: PropTypes.func,
+  rightHeader: PropTypes.node,
+  searchAttributes: PropTypes.array,
+  searchMaxWidth: PropTypes.string,
+  searchPlaceholder: PropTypes.string,
+  setErrorMessage: PropTypes.func,
+  setOrderBy: PropTypes.func,
+  setOrderDirection: PropTypes.func,
+  setPage: PropTypes.func,
+  setQuery: PropTypes.func,
+  tableActions: PropTypes.object,
+  tableInCard: PropTypes.bool,
+  title: PropTypes.node,
+  trackEvent: PropTypes.func
+};
 
 export function reload() {
   reloadEntitiesSignal$.emit(true);

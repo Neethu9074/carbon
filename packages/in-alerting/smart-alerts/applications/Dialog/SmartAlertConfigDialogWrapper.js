@@ -12,13 +12,13 @@ import {
   applicationsAlertingCloseDialog,
   applicationsAlertingSwitchMode
 } from 'in-alerting/smart-alerts/applications/tracker';
+import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { SmartAlertConfigDialog } from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialog';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/applications/advanced/AdvancedModeContainer';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import SimpleModeContainer from 'in-alerting/smart-alerts/applications/simple/SimpleModeContainer';
-import { createAlertConfig, updateAlertConfig } from 'in-applications/api/applicationAlertConfig';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 

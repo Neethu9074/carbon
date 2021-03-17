@@ -6,13 +6,6 @@
 import React, { useState } from 'react';
 
 import {
-  applicationsAlertingAlertRevisionChanged,
-  applicationsAlertingAlertEdit,
-  applicationsAlertingAlertPaused,
-  applicationsAlertingAlertResumed,
-  applicationsAlertingAlertDeleted
-} from 'in-alerting/smart-alerts/applications/tracker';
-import {
   getAlertConfigByIdAndTimestamp,
   getAllVersionsOfAlertConfig,
   getLatestAlertConfig,
@@ -20,7 +13,14 @@ import {
   enableAlertConfig,
   deleteAlertConfig,
   updateAlertConfig
-} from 'in-applications/api/applicationAlertConfig';
+} from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
+import {
+  applicationsAlertingAlertRevisionChanged,
+  applicationsAlertingAlertEdit,
+  applicationsAlertingAlertPaused,
+  applicationsAlertingAlertResumed,
+  applicationsAlertingAlertDeleted
+} from 'in-alerting/smart-alerts/applications/tracker';
 import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam

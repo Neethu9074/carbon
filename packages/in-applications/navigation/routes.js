@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-// the following components are all part of the same bundle (application)
 import CustomEndpointMapping from 'promise-loader?global,applications!in-applications/Forms/CustomEndpointMapping/CustomEndpointMappingDialog';
+import GlobalSmartAlertsList from 'promise-loader?global,applications!in-alerting/smart-alerts/applications/inventory/GlobalSmartAlertsList';
 import CustomServiceMapping from 'promise-loader?global,applications!in-applications/Forms/CustomServiceMapping/CustomServiceMapping';
 import SyntheticCallConfig from 'promise-loader?global,applications!in-applications/Forms/SyntheticCallConfig/SyntheticCallConfig';
 import ApplicationDashboard from 'promise-loader?global,applications!in-applications/Dashboards/application/ApplicationDashboard';
@@ -17,19 +17,22 @@ import ServicesList from 'promise-loader?global,applications!in-applications/lis
 import { Route } from 'react-router-dom';
 import React, { Fragment } from 'react';
 
+// the following components are all part of the same bundle (application)
 import {
-  applicationsList,
   applicationDashboard,
-  servicesList,
-  serviceDashboard,
+  applicationsList,
+  configureEndpointsView,
+  configureSyntheticEndpointsView,
   endpointDashboard,
+  globalAlertsList,
   newApplicationView,
   newApplicationWaiterView,
   newServiceView,
-  configureSyntheticEndpointsView,
-  configureEndpointsView
+  serviceDashboard,
+  servicesList
 } from 'in-applications/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
+import { globalSmartAlertsEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export default (
@@ -55,5 +58,8 @@ export default (
     <Route path={servicesList} component={createAsyncViewComponent(ServicesList)} />
     <Route path={serviceDashboard} component={createAsyncViewComponent(ServiceDashboard)} />
     <Route path={endpointDashboard} component={createAsyncViewComponent(EndpointDashboard)} />
+    {globalSmartAlertsEnabled && (
+      <Route path={globalAlertsList} component={createAsyncViewComponent(GlobalSmartAlertsList)} />
+    )}
   </Fragment>
 );

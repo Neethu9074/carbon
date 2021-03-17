@@ -1,9 +1,9 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
 
-import { getAlertConfigByIdAndTimestamp } from 'in-applications/api/applicationAlertConfig';
+import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import useObservable from 'in-hooks/useObservable';
 
 export default function useApplicationEventAlertConfig(event) {
