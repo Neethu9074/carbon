@@ -242,7 +242,7 @@ function selectLeftHeader(
   getHeader
 ) {
   return cardTitle == null
-    ? getCustomHeader(totalHitsBeforeFilter, totalHitsAfterFilter, entitiesBeforePagination) ?? (
+    ? getCustomHeader?.(totalHitsBeforeFilter, totalHitsAfterFilter, entitiesBeforePagination) ?? (
         <ListTitle>{getHeader(totalHitsBeforeFilter, totalHitsAfterFilter, entitiesBeforePagination)}</ListTitle>
       )
     : null;
