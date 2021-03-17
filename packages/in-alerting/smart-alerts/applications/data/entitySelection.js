@@ -81,7 +81,7 @@ export function getEntitySelectionAsTagFilterFormModel(
   applicationName,
   serviceId
 ) {
-  const application = applications[applicationId];
+  const application = applications[applicationId] ?? {};
   if (serviceId) {
     if (serviceId in application.services) {
       const service = application.services[serviceId];

@@ -25,7 +25,8 @@ export function getApplicationsCursorPaginatedWithDefaults({
 }) {
   return getApplicationsCursorPaginated({
     pagination: {
-      retrievalSize: 20
+      page: 1,
+      pageSize: 20
     },
     order: {
       by: orderBy,

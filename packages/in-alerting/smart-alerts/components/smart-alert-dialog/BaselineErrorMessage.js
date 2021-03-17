@@ -26,7 +26,7 @@ export default function BaselineErrorMessage({ thresholdResult }) {
 }
 
 function hasBaselineError(thresholdResult) {
-  return thresholdResult && thresholdResult.errors.length > 0;
+  return thresholdResult && thresholdResult.errors?.length > 0;
 }
 
 function getErrorReason(thresholdResult) {

@@ -25,7 +25,14 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ScopeConfig.mless';
 
-export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, timeConfig, editMode }) {
+export default function ScopeConfig({
+  form,
+  updateForm,
+  QueryBuilderComponent,
+  timeConfig,
+  isGlobalSmartAlert,
+  editMode
+}) {
   const applications = form.get('applications').value;
   const boundaryScope = form.get('boundaryScope').value;
   const alertApplicationId = form.get('applicationId').value;
@@ -80,7 +87,7 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, t
               searchQuery={searchQuery}
               editMode={editMode}
               showInteractedItemsOnly={filterBySelectionState}
-              isGlobalSmartAlert={false}
+              isGlobalSmartAlert={isGlobalSmartAlert}
             />
           </div>
           <div
@@ -108,6 +115,7 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, t
 
 ScopeConfig.propTypes = {
   QueryBuilderComponent: PropTypes.func.isRequired,
+  isGlobalSmartAlert: PropTypes.bool,
   editMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
   timeConfig: propTypeTimeConfig.isRequired,

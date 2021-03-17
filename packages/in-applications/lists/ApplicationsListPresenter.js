@@ -6,10 +6,18 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import {
+  getTimeConfigAlignedToResultTime,
+  timeConfig$,
+  urlParameters as timeConfigUrlParameters
+} from 'in-stores/time/config';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-import { getApplicationDashboard, newApplicationView, applicationsList } from 'in-applications/navigation/paths';
+import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateGlobalSmartAlertButton';
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
+import FloatingActionButtonMenu from 'in-new-components/FloatingActionButton/FloatingActionButtonMenu';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
+import { getApplicationDashboard, applicationsList } from 'in-applications/navigation/paths';
 import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { applicationListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -17,22 +25,16 @@ import { getApplicationsWithDefaults } from 'in-subscription/application/getAppl
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
-import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import CreateApplication from 'in-applications/creation/CreateApplication';
-import { applicationOpenSubmitFormTracker } from 'in-applications/tracker';
-import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import { newApCreationEnabled } from 'in-services/featureFlags';
 import { boundaryScopes } from 'in-applications/constants';
-import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
@@ -42,8 +44,6 @@ import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
-
-import locals from './ApplicationsList.mless';
 
 const pathSegment = applicationsList;
 
@@ -168,25 +168,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   matrixPrefix
 });
 
-const rightHeader = role.canConfigureApplications && (
-  <>
-    {newApCreationEnabled ? (
-      <CreateApplication className={locals.button} />
-    ) : (
-      <Button
-        className={locals.button}
-        kind="action"
-        href$={getModifiedUrlStream(p => (p.pathname = newApplicationView))}
-        onClick={() => applicationOpenSubmitFormTracker()}
-        icon="lib_openclose_add_circle_outline"
-      >
-        {t('in-applications:titleCreateApplicationPerspective')}
-      </Button>
-    )}
-  </>
-);
-
-export default function ApplicationsLisPresenter({
+export default function ApplicationsListPresenter({
   timeConfig,
   setFilter,
   applicationId,
@@ -199,7 +181,7 @@ export default function ApplicationsLisPresenter({
 }) {
   const scopeNotification = (applicationId || serviceId || endpointId || tagFilters) && contextScope && (
     <ScopeNotification
-      icon={contextScope == 'UPSTREAM' ? 'lib_context_guide_upstream' : 'lib_context_guide_downstream'}
+      icon={contextScope === 'UPSTREAM' ? 'lib_context_guide_upstream' : 'lib_context_guide_downstream'}
       productArea="application"
       applicationId={applicationId}
       serviceId={serviceId}
@@ -246,7 +228,6 @@ export default function ApplicationsLisPresenter({
               endpointId={endpointId}
               contextScope={contextScope}
               scopeNotification={scopeNotification}
-              rightHeader={rightHeader}
               tagFilters={tagFilters}
             />
           </Card>
@@ -254,6 +235,18 @@ export default function ApplicationsLisPresenter({
       </LeftRightPadding>
 
       <Footer />
+      <FloatingActionButtons>
+        <FloatingActionButtonMenu>
+          {role.canConfigureApplications && <CreateApplication icon="lib_openclose_add_box" kind="primaryv2" />}
+
+          {role.canConfigureGlobalAlertConfigs && applicationSmartAlertsEnabled && (
+            <CreateGlobalSmartAlertButton
+              applicationId={applicationId}
+              applicationLabel=" - no specific application - "
+            />
+          )}
+        </FloatingActionButtonMenu>
+      </FloatingActionButtons>
     </Sticky>
   );
 }

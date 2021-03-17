@@ -49,6 +49,7 @@ export default function AdvancedModeContainer(props) {
     selectedChartViewConfigIndex,
     thresholdResult,
     editMode,
+    isGlobalSmartAlert,
     QueryBuilderComponent,
     isTagFilterFormModelValid
   } = props;
@@ -72,6 +73,7 @@ export default function AdvancedModeContainer(props) {
                 form={form}
                 updateForm={updateForm}
                 QueryBuilderComponent={QueryBuilderComponent}
+                isGlobalSmartAlert={isGlobalSmartAlert}
                 editMode={editMode}
                 timeConfig={timeConfig}
               />

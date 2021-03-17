@@ -18,18 +18,24 @@ export default function SimpleAlertConfigDialogStep2({
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
+  isGlobalSmartAlert,
   QueryBuilderComponent
 }) {
   return (
     <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.applications.simple.simpleAlertStep2Headline')}>
       <div className={locals.alertLocationFiltersWrapper}>
-        <ScopeConfig
-          form={form}
-          updateForm={updateForm}
-          QueryBuilderComponent={QueryBuilderComponent}
-          timeConfig={timeConfig}
-          headerTransparent
-        />
+        {isGlobalSmartAlert ? ( // TODO: enable global smart alerts
+          'Scope Config for Global SA needs adaption'
+        ) : (
+          <ScopeConfig
+            form={form}
+            updateForm={updateForm}
+            isGlobalSmartAlert={isGlobalSmartAlert}
+            QueryBuilderComponent={QueryBuilderComponent}
+            timeConfig={timeConfig}
+            headerTransparent
+          />
+        )}
       </div>
 
       <div className={locals.stickyChart}>

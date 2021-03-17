@@ -44,6 +44,7 @@ export default function SimpleModeContainer({
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
   QueryBuilderComponent,
+  isGlobalSmartAlert,
   isTagFilterFormModelValid
 }) {
   return (
@@ -72,6 +73,7 @@ export default function SimpleModeContainer({
               return (
                 <SimpleAlertConfigDialogStep2
                   form={form}
+                  isGlobalSmartAlert={isGlobalSmartAlert}
                   timeConfig={timeConfig}
                   updateForm={updateForm}
                   onChartViewConfigChange={onChartViewConfigChange}
@@ -90,7 +92,7 @@ export default function SimpleModeContainer({
           }
         }}
         additionalStepCheck={step => {
-          return step !== 1 ? isTagFilterFormModelValid : true;
+          return step === 1 ? true : isTagFilterFormModelValid;
         }}
       />
     </div>

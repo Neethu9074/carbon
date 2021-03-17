@@ -16,13 +16,19 @@ import useObservable from 'in-hooks/useObservable';
 import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
-export default function CreateApplication({ applicationId, timeConfig, className }) {
+export default function CreateApplication({
+  applicationId,
+  timeConfig,
+  className,
+  kind = 'action',
+  icon = 'lib_openclose_add_circle_outline'
+}) {
   const entityResult = useObservable(getConfig, [applicationId]);
 
   return (
     <Button
-      kind="action"
-      icon="lib_openclose_add_circle_outline"
+      kind={kind}
+      icon={icon}
       onClick={() => {
         applicationCreationOpenDialogClick({ status: 'Open Creation Dialog' });
         addActiveDialog(

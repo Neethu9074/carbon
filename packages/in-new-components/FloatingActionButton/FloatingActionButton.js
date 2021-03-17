@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
@@ -15,24 +15,17 @@ import locals from './FloatingActionButton.mless';
 /* same scheme as used for IconButtons */
 export const kinds = ['primaryv2', 'action'];
 
-export default function FloatingActionButton({
-  children,
-  iconType,
-  onClick,
-  onBlur,
-  withBoxShadow,
-  kind = 'primaryv2'
-}) {
+function FloatingActionButton({ children, iconType, onClick, withBoxShadow, kind = 'primaryv2' }, ref) {
   return (
     <button
+      ref={ref}
       className={classNames({
         [locals.button]: true,
         [locals.withShadow]: withBoxShadow,
         [locals[kind]]: true,
         [locals.hasIcon]: !!iconType
       })}
-      onBlur={onBlur}
-      onClick={e => (onClick ? onClick() : stopPropagationAndPreventDefault(e))}
+      onClick={e => (onClick ? onClick(e) : stopPropagationAndPreventDefault(e))}
     >
       <div className={locals.inner}>
         {iconType && (
@@ -50,11 +43,12 @@ export default function FloatingActionButton({
   );
 }
 
+export default forwardRef(FloatingActionButton);
+
 FloatingActionButton.propTypes = {
   children: PropTypes.node.isRequired,
   iconType: PropTypes.string,
   onClick: PropTypes.func,
-  onBlur: PropTypes.func,
   kind: PropTypes.oneOf(kinds),
   withBoxShadow: PropTypes.bool
 };

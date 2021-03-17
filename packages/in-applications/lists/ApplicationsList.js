@@ -15,7 +15,7 @@ import {
   plugin as pluginMatrixParam
 } from 'in-applications/navigation/matrix';
 import { serializeTagFilters, deserializeTagFilters } from 'in-mobile-apps/navigation/matrix';
-import ApplicationsLisPresenter from 'in-applications/lists/ApplicationsListPresenter';
+import ApplicationsListPresenter from 'in-applications/lists/ApplicationsListPresenter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 
@@ -76,5 +76,5 @@ export default function ApplicationsList(props) {
   const timeConfig = useTimeConfig();
   const [urlState, setFilter] = useUrlState(urlStateDefinition);
 
-  return <ApplicationsLisPresenter {...props} timeConfig={timeConfig} {...urlState} setFilter={setFilter} />;
+  return <ApplicationsListPresenter {...props} timeConfig={timeConfig} {...urlState} setFilter={setFilter} />;
 }

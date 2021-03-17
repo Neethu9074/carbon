@@ -13,6 +13,7 @@ import { t } from 'in-i18n';
 
 export default function ApplicationAlertingChartWithErrorMessage(props) {
   const { alertConfigWithFormModel, serviceId } = props;
+  if (props.applicationId == null) return null; // TODO: enable global smart alerts
 
   if (PER_AP_SERVICE === alertConfigWithFormModel.evaluationType && !serviceId) {
     return <NoDataAvailable text={t('in-alerting:smartAlerts.applications.chart.noDataAvailable')} height={230} />;

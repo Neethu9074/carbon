@@ -26,7 +26,13 @@ const logger = createLogger('in-applications/alerting/Dialog/SmartAlertConfigDia
 
 const initialChartConfigIndex = 0;
 
-export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClose, editMode, formData }) {
+export default function SmartAlertConfigDialogWrapper({
+  applicationLabel,
+  onClose,
+  editMode,
+  isGlobalSmartAlert,
+  formData
+}) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const [form, setForm] = useState(() => createSmartAlertForm(formData));
   const [isSaving, setIsSaving] = useState(false);
@@ -34,6 +40,7 @@ export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClos
   return (
     <SmartAlertConfigDialog
       applicationLabel={applicationLabel}
+      isGlobalSmartAlert={isGlobalSmartAlert}
       editMode={editMode}
       form={form}
       updateForm={setForm}
@@ -85,8 +92,9 @@ export default function SmartAlertConfigDialogWrapper({ applicationLabel, onClos
 }
 
 SmartAlertConfigDialogWrapper.propTypes = {
-  applicationLabel: PropTypes.string.isRequired,
+  applicationLabel: PropTypes.string,
   editMode: PropTypes.bool,
+  isGlobalSmartAlert: PropTypes.bool,
   formData: PropTypes.shape({
     applicationId: PropTypes.string.isRequired,
     boundaryScope: PropTypes.string,

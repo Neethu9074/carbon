@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { empty } from '@instana/observables';
+import { empty, just } from '@instana/observables';
 
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
@@ -24,7 +24,9 @@ export function SmartAlertConfigDialog(props) {
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
   // for the threshold, we don't include the sub-entity filters, because we perform a grouping on the entire scope
-  const { enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig, null);
+  const { enrichedTagFilterFormModel } = props.isGlobalSmartAlert
+    ? {}
+    : getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig, null);
 
   return (
     <SmartAlertConfigDialogWithQueryValidation
@@ -59,18 +61,20 @@ function SmartAlertConfigDialogWithQueryValidation({
 
   const thresholdResult = useObservable(
     ([form, simpleMode, isValid]) =>
-      resolveThresholdRequest(
-        alertConfigWithFormModel,
-        blueprintConfig,
-        enrichedTagFilterFormModel,
-        simpleMode,
-        isValid
-      )
-        .filter(resp => resp && !resp.progress.loading)
-        .tap(
-          ({ data, errors, time }) =>
-            isValid && updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode)
-        ),
+      props.isGlobalSmartAlert
+        ? just({})
+        : resolveThresholdRequest(
+            alertConfigWithFormModel,
+            blueprintConfig,
+            enrichedTagFilterFormModel,
+            simpleMode,
+            isValid
+          )
+            .filter(resp => resp && !resp.progress.loading)
+            .tap(
+              ({ data, errors, time }) =>
+                isValid && updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode)
+            ),
     [form, simpleMode, isValid]
   );
 
