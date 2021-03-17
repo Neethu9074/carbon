@@ -4,6 +4,7 @@
  */
 
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .legend {
@@ -11,15 +12,31 @@
     justify-content: space-between;
 
     width: 100%;
-    min-height: 2rem;
-    height: auto;
+    height: 1rem;
     font-size: 0.875rem;
+    overflow: hidden;
+  }
+
+  .expandedLegend {
+    // position above .overlay
+    z-index: 2;
+    background: white;
+    position: absolute;
+    width: 100%;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding: 0rem 1rem;
+    width: calc(100% + 2rem);
+    padding-bottom: 1rem;
+    height: auto;
+    transition: padding-bottom linear 0.2s;
   }
 
   .metricList {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
+    overflow: hidden;
 
     margin: 0;
     padding: 0;
@@ -44,6 +61,8 @@
 
   .toggleable {
     cursor: pointer;
+    line-height: 1rem;
+    max-width: 100%;
   }
 
   .dot {
@@ -67,5 +86,38 @@
   .timeShift {
     fill: @lib__colors__N700Medium;
     margin: 0 0 0 0.2rem;
+  }
+
+  .overlay {
+    position: absolute;
+    bottom: -1rem;
+    background: @lib__colors__N900Primary;
+    opacity: 0.4;
+    top: 0;
+    left: -1rem;
+    right: -1rem;
+    // position below .expandedLegend
+    z-index: 1;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  .arrowIcon {
+    cursor: pointer;
+    transition: all linear 0.2s;
+    outline: none;
+    margin-top: -0.25rem;
+  }
+
+  .iconUp {
+    transform: rotate(180deg);
+  }
+
+  .legendContainer {
+    height: 1rem;
+  }
+
+  .legendLabel {
+    .ellipsis();
   }
 }

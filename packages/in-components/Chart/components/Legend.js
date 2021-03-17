@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState, useEffect } from 'react';
 import { range, rangeRight } from 'lodash';
 import classNames from 'classnames';
 import rpt from 'prop-types';
-import React from 'react';
 
 import { defaultTimeShift, getTimeShiftLabel } from 'in-stores/time/shifting';
+import useResizeObserver from 'in-hooks/useResizeObserver';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -18,11 +19,46 @@ import locals from './Legend.mless';
 export const HEIGHT = 32;
 
 export default function Legend(props) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpandable, setIsExpandalbe] = useState(false);
+
+  const toggleLegendOverlay = () => {
+    setIsExpanded(!isExpanded);
+  };
   return (
-    <div className={locals.legend}>
-      <MetricSeries axis={props.y1} axisName="y1" labels={props.y1Lables} {...props} />
-      <MetricSeries axis={props.y2} axisName="y2" labels={props.y2Lables} {...props} />
-    </div>
+    <>
+      <div className={classNames({ [locals.legendContainer]: isExpanded })}>
+        <div
+          className={classNames({
+            [locals.legend]: true,
+            [locals.expandedLegend]: isExpanded
+          })}
+        >
+          <MetricSeries
+            axis={props.y1}
+            axisName="y1"
+            labels={props.y1Lables}
+            {...props}
+            showExpandableTrigger={setIsExpandalbe}
+          />
+          <MetricSeries
+            axis={props.y2}
+            axisName="y2"
+            labels={props.y2Lables}
+            {...props}
+            showExpandableTrigger={setIsExpandalbe}
+          />
+          {isExpandable && (
+            <SvgIcon
+              type="lib_arrow_expand_down"
+              className={classNames({ [locals.arrowIcon]: true, [locals.iconUp]: isExpanded })}
+              onClick={toggleLegendOverlay}
+            />
+          )}
+        </div>
+      </div>
+      <div className={isExpanded ? locals.overlay : ''} onClick={toggleLegendOverlay} />
+    </>
   );
 }
 
@@ -33,14 +69,22 @@ Legend.propTypes = {
   y2: rpt.object
 };
 
-function MetricSeries({ axis, reverseLegendOrder, labels }) {
+function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger }) {
   if (!axis || !labels) {
     return null;
   }
   const icons = axis.icons;
 
+  const { ref, height } = useResizeObserver();
+
+  useEffect(() => {
+    if (height < ref.current?.scrollHeight) {
+      showExpandableTrigger(true);
+    }
+  }, [height, ref]);
+
   return (
-    <ul className={locals.metricList}>
+    <ul className={locals.metricList} ref={ref}>
       {(reverseLegendOrder ? rangeRight(labels.length) : range(labels.length)).map(i => {
         const timeShift = labels[i].timeShift || defaultTimeShift;
         const { isDisabled, isToggleable, onToggle, dataSeriesName, name, metricId } = labels[i];
@@ -76,7 +120,7 @@ function MetricSeries({ axis, reverseLegendOrder, labels }) {
               />
             )}
 
-            {name}
+            <span className={locals.legendLabel}>{name}</span>
 
             {timeShift && timeShift.offset !== 0 && (
               <Tooltip
