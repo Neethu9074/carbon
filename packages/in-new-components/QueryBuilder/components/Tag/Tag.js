@@ -44,7 +44,8 @@ export default function Tag(props) {
     getSuggestions,
     getSuggestionsProps,
     formModel,
-    autoFocusInput = false
+    autoFocusInput = false,
+    getSuggestionLabel
   } = props;
   const { renderModelIndex, formModelIndex } = element;
   const form = createTagForm(tagCatalog, element);
@@ -120,6 +121,7 @@ export default function Tag(props) {
           formModel={formModel}
           formModelIndex={formModelIndex}
           autoFocus={autoFocusInput}
+          getSuggestionLabel={getSuggestionLabel}
         />
       </SuspendDraggable>
 
@@ -151,6 +153,7 @@ export default function Tag(props) {
           formModelIndex={formModelIndex}
           minNumValue={0}
           autoFocus={autoFocusInput && !form.get('key')}
+          getSuggestionLabel={getSuggestionLabel}
         />
       </SuspendDraggable>
 
@@ -248,7 +251,8 @@ function KeyInput({
   getSuggestionsProps,
   formModel,
   formModelIndex,
-  autoFocus
+  autoFocus,
+  getSuggestionLabel
 }) {
   const timeConfig = useTimeConfig();
   const field = form.get('key');
@@ -279,6 +283,7 @@ function KeyInput({
         })
       }
       autoFocus={autoFocus}
+      getSuggestionLabel={getSuggestionLabel}
     />
   );
 }
@@ -294,7 +299,8 @@ function ValueInput({
   formModel,
   formModelIndex,
   minNumValue,
-  autoFocus
+  autoFocus,
+  getSuggestionLabel
 }) {
   const timeConfig = useTimeConfig();
   const field = form.get('value');
@@ -336,6 +342,7 @@ function ValueInput({
     onChange: onValueChange,
     valid: field.valid,
     fieldsToWatch: [entity, timeConfig, field.value, key],
+    tagName: form.get('name').value,
     getSuggestions: () =>
       getSuggestions({
         tagFilterExpression: getSuggestionsTagFilterExpression(formModel, formModelIndex),
@@ -350,10 +357,28 @@ function ValueInput({
       })
   };
 
-  return <Input type="text" value={field.value || ''} {...inputProps} autoFocus={autoFocus} />;
+  return (
+    <Input
+      type="text"
+      value={field.value || ''}
+      {...inputProps}
+      autoFocus={autoFocus}
+      getSuggestionLabel={getSuggestionLabel}
+    />
+  );
 }
 
-function Input({ value, fieldsToWatch, placeholder, onChange, getSuggestions, valid, autoFocus }) {
+function Input({
+  value,
+  fieldsToWatch,
+  placeholder,
+  onChange,
+  getSuggestions,
+  valid,
+  autoFocus,
+  tagName,
+  getSuggestionLabel
+}) {
   const result = useDebouncedValue(value, onChange, 500);
 
   return (
@@ -370,6 +395,8 @@ function Input({ value, fieldsToWatch, placeholder, onChange, getSuggestions, va
         hideValidityInformationOnFocus: true
       }}
       autoFocus={autoFocus}
+      tagName={tagName}
+      getSuggestionLabel={getSuggestionLabel}
     />
   );
 }

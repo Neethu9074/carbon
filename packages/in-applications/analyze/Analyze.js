@@ -68,6 +68,7 @@ import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Stack from 'in-new-components/layout/Stack';
+import { getPluginName } from 'in-sdk/pluginName';
 import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
@@ -297,6 +298,9 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
                     nestingDepth: getMaximumExpressionDepth(toBackendQueryModel(formModel))
                   })
               }}
+              getSuggestionLabel={({ item, tagName }) =>
+                tagName === 'technology' ? `${getPluginName(item)} (${item})` : item
+              }
             />
 
             <GroupingConfiguratorSection

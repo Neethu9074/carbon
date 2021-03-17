@@ -12,6 +12,7 @@ import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { Ul, Li } from 'in-new-components/lists/List/List';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import { number } from 'in-services/formatters/number';
+import { identity } from 'in-services/util/function';
 import { isLoading } from 'in-services/util/result';
 import Typeahead from 'in-new-components/Typeahead';
 import useObservable from 'in-hooks/useObservable';
@@ -27,7 +28,9 @@ export default function SimpleValueSelector({
   getSuggestions,
   fieldsToWatch,
   inputProps = {},
-  autoFocus = false
+  autoFocus = false,
+  tagName,
+  getSuggestionLabel
 }) {
   const locals = useThemedLocals(styleDefs);
 
@@ -42,6 +45,8 @@ export default function SimpleValueSelector({
       getSuggestions={getSuggestions}
       fieldsToWatch={fieldsToWatch}
       locals={locals}
+      tagName={tagName}
+      getSuggestionLabel={getSuggestionLabel}
     />
   );
 }
@@ -75,7 +80,9 @@ function SuggestionsList({
   highlightedIndex,
   close,
   fieldsToWatch,
-  locals
+  locals,
+  tagName,
+  getSuggestionLabel = identity
 }) {
   const suggestionsResult = useObservable(getSuggestions, fieldsToWatch);
 
@@ -86,7 +93,14 @@ function SuggestionsList({
   const suggestions = suggestionsResult?.data?.suggestions ?? [];
   const totalHits = suggestionsResult?.data?.totalHits ?? 0;
 
-  const filteredOptions = suggestions.filter(item => !inputValue || item.toLowerCase().includes(lowerCaseInputValue));
+  const filteredOptions = suggestions.filter(
+    item =>
+      !inputValue ||
+      item.toLowerCase().includes(lowerCaseInputValue) ||
+      getSuggestionLabel({ item, tagName })
+        .toLowerCase()
+        .includes(lowerCaseInputValue)
+  );
   if (filteredOptions.length === 0) {
     return null;
   }
@@ -119,7 +133,7 @@ function SuggestionsList({
             close={close}
             value={item}
           >
-            {shorten(item, 190)}
+            {shorten(getSuggestionLabel({ item, tagName }), 190)}
           </OverlayOption>
         );
       })}

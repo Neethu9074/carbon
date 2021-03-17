@@ -25,7 +25,8 @@ export default function QueryBuilderSection({
   useLastValidStateWhenErroneous = false,
   hasError,
   errors,
-  getSuggestionsProps = {}
+  getSuggestionsProps = {},
+  getSuggestionLabel
 }) {
   const [queryHasErrors, setQueryHasErrors] = useState(false);
   const [clearRequested, setClearRequested] = useState(false);
@@ -69,6 +70,7 @@ export default function QueryBuilderSection({
             tracking={tracking}
             useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
             getSuggestionsProps={getSuggestionsProps}
+            getSuggestionLabel={getSuggestionLabel}
           />
         </div>
         {hasError && errors?.map(error => <Message key={error} type="error" withIcon small title={error} />)}
@@ -97,5 +99,6 @@ QueryBuilderSection.propTypes = {
   useLastValidStateWhenErroneous: rpt.bool,
   hasError: rpt.bool,
   errors: rpt.array,
-  getSuggestionsProps: rpt.object
+  getSuggestionsProps: rpt.object,
+  getSuggestionLabel: rpt.func
 };

@@ -64,7 +64,8 @@ function QueryBuilder({
   withoutOrConjunction = false,
   withoutBrackets = false,
   useLastValidStateWhenErroneous = false,
-  autoFocusInput = false
+  autoFocusInput = false,
+  getSuggestionLabel
 }) {
   const timeConfig = useTimeConfig();
   const [draggedFormModelIndex$] = useState(create());
@@ -161,6 +162,7 @@ function QueryBuilder({
               withoutOrConjunction={withoutOrConjunction}
               withoutBrackets={withoutBrackets}
               autoFocusInput={autoFocusInput}
+              getSuggestionLabel={getSuggestionLabel}
             />
           </div>
         )}
@@ -306,7 +308,8 @@ function Elements({
   formModel,
   withoutOrConjunction,
   withoutBrackets,
-  autoFocusInput
+  autoFocusInput,
+  getSuggestionLabel
 }) {
   return (
     <>
@@ -354,6 +357,7 @@ function Elements({
                 withoutOrConjunction={withoutOrConjunction}
                 withoutBrackets={withoutBrackets}
                 autoFocusInput={autoFocusInput}
+                getSuggestionLabel={getSuggestionLabel}
               >
                 {element.elements && (
                   <Elements
@@ -372,6 +376,7 @@ function Elements({
                     withoutOrConjunction={withoutOrConjunction}
                     withoutBrackets={withoutBrackets}
                     autoFocusInput={autoFocusInput}
+                    getSuggestionLabel={getSuggestionLabel}
                   />
                 )}
               </Component>
@@ -400,7 +405,8 @@ QueryBuilder.propTypes = {
   withoutOrConjunction: rpt.bool,
   withoutBrackets: rpt.bool,
   useLastValidStateWhenErroneous: rpt.bool,
-  autoFocusInput: rpt.bool
+  autoFocusInput: rpt.bool,
+  getSuggestionLabel: rpt.func
 };
 
 function getTagCatalogObservable([getTagCatalog, timeConfig]) {
