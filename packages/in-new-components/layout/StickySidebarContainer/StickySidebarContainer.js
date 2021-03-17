@@ -152,7 +152,7 @@ export default class extends React.Component {
     const { mode, yOffset, sidebarTallerThanAvailableSpace, width, flexWrapIsActive } = this.state;
     return (
       <Row>
-        <Col lg={sidebarWidth}>
+        <Col lg={sidebarWidth} md={sidebarWidth + 1} xs={sidebarWidth + 1}>
           <div
             ref={this.sidebarInnerRef}
             className={classNames({
@@ -169,6 +169,8 @@ export default class extends React.Component {
         </Col>
         <Col
           lg={12 - sidebarWidth}
+          md={11 - sidebarWidth}
+          xs={11 - sidebarWidth}
           className={classNames({ [locals.rightColum]: true, [locals.minHeight]: stickySidebar })}
         >
           {children}
