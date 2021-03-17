@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'batch-synthetic',
-  category: 'batch',
-
-  typeName: {
-    singular: t('in-forge:tracing.batchSynthetic.indexName'),
-    plural: t('in-forge:tracing.batchSynthetic.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.batch', 'batch'),
 
   detailView: 'SyntheticBatchSpanDetailView',
 

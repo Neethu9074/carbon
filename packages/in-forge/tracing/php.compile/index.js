@@ -8,13 +8,8 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'php.compile',
-  category: 'generic',
+  category: t('in-forge:tracingCategory.generic', 'generic'),
   direction: 'local',
-
-  typeName: {
-    singular: 'PHP Compile Time',
-    plural: 'PHP Compile Time'
-  },
 
   detailView: 'PhpCompileSpanDetailView',
 

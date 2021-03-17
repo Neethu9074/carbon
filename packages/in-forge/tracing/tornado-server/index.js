@@ -5,15 +5,11 @@
 
 import { getLabel } from 'in-forge/tracing/http/spanDefinition';
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'tornado-server',
-  category: 'http',
-
-  typeName: {
-    singular: 'Tornado Server Call',
-    plural: 'Tornado Server Calls'
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'TornadoServerSpanDetailView',
 

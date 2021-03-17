@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'django',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.django.indexName'),
-    plural: t('in-forge:tracing.django.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'DjangoSpanDetailView',
 

@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'ejb-schedule',
-  category: 'batch',
-
-  typeName: {
-    singular: t('in-forge:tracing.ejbSchedule.indexName'),
-    plural: t('in-forge:tracing.ejbSchedule.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.batch', 'batch'),
 
   detailView: 'EJBScheduleSpanDetailView',
 

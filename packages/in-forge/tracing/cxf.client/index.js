@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'cxf.client',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.cxfClient.indexName'),
-    plural: t('in-forge:tracing.cxfClient.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'CxfClientSpanDetailView',
 

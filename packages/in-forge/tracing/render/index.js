@@ -4,16 +4,12 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'render',
-  category: 'generic',
+  category: t('in-forge:tracingCategory.generic', 'generic'),
   direction: 'local',
-
-  typeName: {
-    singular: 'Render',
-    plural: 'Render Calls'
-  },
 
   detailView: 'RenderSpanDetailView',
 

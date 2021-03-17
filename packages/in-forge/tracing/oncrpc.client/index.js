@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'oncrpc.client',
-  category: 'rpc',
-
-  typeName: {
-    singular: t('in-forge:tracing.oncrpcClient.indexName', { count: 1 }),
-    plural: t('in-forge:tracing.oncrpcClient.indexName', { count: 2 })
-  },
+  category: t('in-forge:tracingCategory.rpc', 'rpc'),
 
   detailView: 'OncRpcClientDetailView',
 

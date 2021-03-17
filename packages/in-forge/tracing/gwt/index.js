@@ -5,15 +5,11 @@
 
 import { getLabel } from 'in-forge/tracing/http/spanDefinition';
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'gwt',
-  category: 'rpc',
-
-  typeName: {
-    singular: 'RPC Call',
-    plural: 'RPC Calls'
-  },
+  category: t('in-forge:tracingCategory.rpc', 'rpc'),
 
   detailView: 'GwtSpanDetailView',
 

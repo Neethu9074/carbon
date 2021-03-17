@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'jms',
-  category: 'messaging',
-
-  typeName: {
-    singular: t('in-forge:tracing.jms.indexName'),
-    plural: t('in-forge:tracing.jms.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'JmsSpanDetailView',
 

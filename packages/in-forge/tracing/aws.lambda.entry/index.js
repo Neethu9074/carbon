@@ -4,18 +4,12 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
-import { t } from 'in-i18n';
 
 registerSpanDefinition({
   // we do not define a category since Lambda entries can belong to different categories depending on the trigger - they
   // can be HTTP entries, or messaging entries, or event entries or batch entries.
 
   type: 'aws.lambda.entry',
-
-  typeName: {
-    singular: t('in-forge:tracing.aspLambdaEntry.indexName'),
-    plural: t('in-forge:tracing.aspLambdaEntry.indexName_plural')
-  },
 
   detailView: 'AwsLambdaEntryDetailView',
 

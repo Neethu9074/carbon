@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'distributeme',
-  category: 'remote',
-
-  typeName: {
-    singular: t('in-forge:tracing.distributeme.indexName'),
-    plural: t('in-forge:tracing.distributeme.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.remote', 'remote'),
 
   detailView: 'DistributeMeSpanDetailView',
 

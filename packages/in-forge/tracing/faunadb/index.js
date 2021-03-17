@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'faunadb',
-  category: 'database',
-
-  typeName: {
-    singular: t('in-forge:tracing.faunadb.indexName'),
-    plural: t('in-forge:tracing.faunadb.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'FaunaDBSpanDetailView',
 

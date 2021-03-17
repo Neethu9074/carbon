@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'asp.net',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.aspNet.indexName'),
-    plural: t('in-forge:tracing.aspNet.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'AspNetSpanDetailView',
 

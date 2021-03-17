@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'elasticsearch',
-  category: 'database',
-
-  typeName: {
-    singular: t('in-forge:tracing.elasticsearch.indexName'),
-    plural: t('in-forge:tracing.elasticsearch.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'ElasticsearchSpanDetailView',
 

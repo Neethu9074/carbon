@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'hbase',
-  category: 'database',
-
-  typeName: {
-    singular: t('in-forge:tracing.hbase.indexName'),
-    plural: t('in-forge:tracing.hbase.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'HbaseSpanDetailView'
 });

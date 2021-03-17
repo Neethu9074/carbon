@@ -4,16 +4,12 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'symfony',
-  category: 'generic',
+  category: t('in-forge:tracingCategory.generic', 'generic'),
   direction: 'local',
-
-  typeName: {
-    singular: 'Symfony',
-    plural: 'Symfonies'
-  },
 
   detailView: 'SymfonySpanDetailView',
 

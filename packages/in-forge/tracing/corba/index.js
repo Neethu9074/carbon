@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'corba',
-  category: 'remote',
-
-  typeName: {
-    singular: t('in-forge:tracing.corba.indexName'),
-    plural: t('in-forge:tracing.corba.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.remote', 'remote'),
 
   detailView: 'CorbaSpanDetailView',
 

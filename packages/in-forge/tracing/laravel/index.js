@@ -8,13 +8,8 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'laravel',
-  category: 'generic',
+  category: t('in-forge:tracingCategory.generic', 'generic'),
   direction: 'local',
-
-  typeName: {
-    singular: t('in-forge:tracing.laravel.indexName'),
-    plural: t('in-forge:tracing.laravel.indexName_plural')
-  },
 
   detailView: 'LaravelSpanDetailView',
 

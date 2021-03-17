@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'sdk.graphql',
-  category: 'graphql',
-
-  typeName: {
-    singular: 'GraphQL',
-    plural: 'GraphQL'
-  },
+  category: t('in-forge:tracingCategory.graphql', 'graphql'),
 
   detailView: 'GraphQlSpanDetailView',
 

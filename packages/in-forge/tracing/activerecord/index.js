@@ -5,15 +5,11 @@
 
 import { shortenSqlStatement } from 'in-forge/tracing/jdbc/sql';
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'activerecord',
-  category: 'database',
-
-  typeName: {
-    singular: 'ActiveRecord',
-    plural: 'ActiveRecord Calls'
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'ActiveRecordSpanDetailView',
 

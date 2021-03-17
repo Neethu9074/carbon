@@ -4,14 +4,12 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'redis',
-  category: 'database',
-  typeName: {
-    singular: 'Redis call',
-    plural: 'Redis calls'
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
+
   detailView: 'RedisSpanDetailView',
   getLabel(span) {
     return span.getIn(['data', 'redis', 'command']);

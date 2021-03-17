@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'vertx.cluster',
-  category: 'rpc',
-
-  typeName: {
-    singular: 'Vert.x cluster message',
-    plural: 'Vert.x cluster messages'
-  },
+  category: t('in-forge:tracingCategory.rpc', 'rpc'),
 
   detailView: 'VertxClusterSpanDetailView',
 

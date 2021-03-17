@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'node.http.client',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.nodeHttpClient.indexName', { count: 1 }),
-    plural: t('in-forge:tracing.nodeHttpClient.indexName', { count: 2 })
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'NodejsHttpClientSpanDetailView',
 

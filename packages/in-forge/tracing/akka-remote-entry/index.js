@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'akka-remote-entry',
-  category: 'rpc',
-
-  typeName: {
-    singular: 'Akka Message',
-    plural: 'Akka Messages'
-  },
+  category: t('in-forge:tracingCategory.rpc', 'rpc'),
 
   detailView: 'AkkaRemoteSpanDetailView',
 

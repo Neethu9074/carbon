@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'postgres',
-  category: 'database',
-
-  typeName: {
-    singular: 'PostgreSQL Call',
-    plural: 'PostgreSQL Calls'
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'PostgresSpanDetailView',
 

@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'mail.javamail',
-  category: 'messaging',
-
-  typeName: {
-    singular: t('in-forge:tracing.mail.indexName'),
-    plural: t('in-forge:tracing.mail.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'JavamailSpanDetailView',
 

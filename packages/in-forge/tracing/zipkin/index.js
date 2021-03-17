@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'zipkin',
-  category: 'generic',
-
-  typeName: {
-    singular: 'Call',
-    plural: 'Calls'
-  },
+  category: t('in-forge:tracingCategory.generic', 'generic'),
 
   detailView: 'ZipkinSpanDetailView',
 

@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'ftp',
-  category: 'io',
-
-  typeName: {
-    singular: t('in-forge:tracing.ftp.indexName'),
-    plural: t('in-forge:tracing.ftp.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.io', 'io'),
 
   detailView: 'FTPSpanDetailView',
 

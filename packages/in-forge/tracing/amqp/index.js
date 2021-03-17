@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'amqp',
-  category: 'messaging',
-
-  typeName: {
-    singular: 'AMQP Message',
-    plural: 'AMQP Messages'
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'AmqpSpanDetailView',
 

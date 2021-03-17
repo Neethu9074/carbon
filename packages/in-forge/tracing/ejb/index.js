@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'ejb',
-  category: 'remote',
-
-  typeName: {
-    singular: t('in-forge:tracing.ejb.indexName'),
-    plural: t('in-forge:tracing.ejb.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.remote', 'remote'),
 
   detailView: 'EJBSpanDetailView',
 

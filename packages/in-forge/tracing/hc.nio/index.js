@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'hc.nio',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.hcNio.indexName'),
-    plural: t('in-forge:tracing.hcNio.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'HttpComponentsNioSpanDetailView',
 

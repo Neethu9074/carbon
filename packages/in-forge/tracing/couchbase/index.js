@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'couchbase',
-  category: 'database',
-
-  typeName: {
-    singular: t('in-forge:tracing.couchbase.indexName'),
-    plural: t('in-forge:tracing.couchbase.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'CouchbaseSpanDetailView',
 

@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'jaeger',
-  category: 'generic',
-
-  typeName: {
-    singular: t('in-forge:tracing.jaeger.indexName'),
-    plural: t('in-forge:tracing.jaeger.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.generic', 'generic'),
 
   detailView: 'JaegerSpanDetailView',
 

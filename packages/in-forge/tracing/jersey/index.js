@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'jersey',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.jersey.indexName'),
-    plural: t('in-forge:tracing.jersey.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'JerseySpanDetailView',
 

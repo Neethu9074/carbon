@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'aspnetmvccontroller',
-  category: 'generic',
-
-  typeName: {
-    singular: t('in-forge:tracing.aspNetMvcController.indexName'),
-    plural: t('in-forge:tracing.aspNetMvcController.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.generic', 'generic'),
 
   detailView: 'AspNetMvcControllerSpanDetailView',
 

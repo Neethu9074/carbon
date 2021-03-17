@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'php.error',
-  category: 'logger',
-
-  typeName: {
-    singular: 'PHP Error',
-    plural: 'PHP Errors'
-  },
+  category: t('in-forge:tracingCategory.logger', 'logger'),
 
   detailView: 'PhpErrorSpanDetailView',
 

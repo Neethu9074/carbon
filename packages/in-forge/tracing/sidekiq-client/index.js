@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'sidekiq-client',
-  category: 'messaging',
-
-  typeName: {
-    singular: 'Sidekiq Client',
-    plural: 'Sidekiq Client Calls'
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'SidekiqClientSpanDetailView',
 

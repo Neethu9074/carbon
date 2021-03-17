@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'hz',
-  category: 'database',
-
-  typeName: {
-    singular: t('in-forge:tracing.hz.indexName'),
-    plural: t('in-forge:tracing.hz.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'HzSpanDetailView'
 });

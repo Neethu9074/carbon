@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'haskell.wai.server',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.haskellWei.indexName'),
-    plural: t('in-forge:tracing.haskellWei.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'HaskellWaiHttpServerSpanDetailView',
 

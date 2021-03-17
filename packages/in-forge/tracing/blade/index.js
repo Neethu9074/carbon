@@ -8,13 +8,8 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'blade',
-  category: 'generic',
+  category: t('in-forge:tracingCategory.generic', 'generic'),
   direction: 'local',
-
-  typeName: {
-    singular: t('in-forge:tracing.blade.indexName'),
-    plural: t('in-forge:tracing.blade.indexName_plural')
-  },
 
   detailView: 'BladeSpanDetailView',
 

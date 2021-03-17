@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'feign',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.feign.indexName'),
-    plural: t('in-forge:tracing.feign.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'FeignSpanDetailView',
 

@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'net-http',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.netHttp.indexName', { count: 1 }),
-    plural: t('in-forge:tracing.netHttp.indexName', { count: 2 })
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'NetHttpSpanDetailView',
 

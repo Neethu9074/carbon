@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'resque-client',
-  category: 'messaging',
-
-  typeName: {
-    singular: 'Resque Client',
-    plural: 'Resque Client Calls'
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'ResqueClientSpanDetailView',
 

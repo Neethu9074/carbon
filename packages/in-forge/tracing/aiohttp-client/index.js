@@ -5,15 +5,11 @@
 
 import { getLabel } from 'in-forge/tracing/http/spanDefinition';
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'aiohttp-client',
-  category: 'http',
-
-  typeName: {
-    singular: 'AIOHTTP Client Request',
-    plural: 'AIOHTTP Client Requests'
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'AioHttpSpanDetailView',
 

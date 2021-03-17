@@ -4,14 +4,12 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'vertx.redis',
-  category: 'database',
-  typeName: {
-    singular: 'Vert.x Redis call',
-    plural: 'Vert.x Redis calls'
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
+
   detailView: 'VertxRedisSpanDetailView',
   getLabel(span) {
     return span.getIn(['data', 'vertx', 'redis', 'cmd']);

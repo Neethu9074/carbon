@@ -8,10 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'neo4j',
-  category: 'database',
-  typeName: {
-    singular: t('in-forge:tracing.neo4j.indexName', { count: 1 }),
-    plural: t('in-forge:tracing.neo4j.indexName', { count: 2 })
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
+
   detailView: 'Neo4jSpanDetailView'
 });

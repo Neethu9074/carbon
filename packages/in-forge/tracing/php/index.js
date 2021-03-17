@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'php',
-  category: 'http',
-
-  typeName: {
-    singular: 'PHP request',
-    plural: 'PHP requests'
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'PhpSpanDetailView',
 

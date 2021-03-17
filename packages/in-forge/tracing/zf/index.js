@@ -8,13 +8,8 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'zf',
-  category: 'generic',
+  category: t('in-forge:tracingCategory.generic', 'generic'),
   direction: 'local',
-
-  typeName: {
-    singular: 'Zend Framework',
-    plural: 'Zend Frameworks'
-  },
 
   detailView: 'ZendFrameworkSpanDetailView',
 

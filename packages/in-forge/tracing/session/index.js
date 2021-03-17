@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'session',
-  category: 'database',
-
-  typeName: {
-    singular: 'Session Call',
-    plural: 'Session Calls'
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'SessionSpanDetailView',
 

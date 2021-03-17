@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'gcd',
-  category: 'database',
-
-  typeName: {
-    singular: t('in-forge:tracing.gcd.indexName'),
-    plural: t('in-forge:tracing.gcd.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'GCDSpanDetailView',
 

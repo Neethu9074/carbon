@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'celery-client',
-  category: 'messaging',
-
-  typeName: {
-    singular: t('in-forge:tracing.celeryClient.indexName'),
-    plural: t('in-forge:tracing.celeryClient.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'CeleryClientSpanDetailView',
 

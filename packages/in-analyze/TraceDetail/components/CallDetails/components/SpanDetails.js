@@ -10,8 +10,8 @@ import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/
 import CustomDataDescriptionItem from 'in-forge/tracing/sdk/CustomDataDescriptionItem';
 import convert from 'in-analyze/TraceDetail/components/CallDetails/fakedSpanConverter';
 import SpanForgeDetails from 'in-components/SpanForgeDetails/SpanForgeDetails';
+import { getSpanDefinition, getTypeLabelSingular } from 'in-sdk/tracing';
 import { Di, Dl } from 'in-new-components/HorizontalDescriptionList';
-import { getSpanDefinition } from 'in-sdk/tracing';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -48,7 +48,7 @@ export default connectTo(
         )}
         <Dl>
           {hasCxfType && <Di title={t('in-analyze:traceDetail.components.callDetails.cxfType')}>{cxfType}</Di>}
-          <Di title={t('in-analyze:traceDetail.components.callDetails.type')}>{spanDefinition.typeName.singular}</Di>
+          <Di title={t('in-analyze:traceDetail.components.callDetails.type')}>{getTypeLabelSingular(span)}</Di>
           <Di title={t('in-analyze:traceDetail.components.callDetails.category')}>{spanDefinition.category}</Di>
         </Dl>
         <SpanForgeDetails key={call.id} span={convertedSpan} />

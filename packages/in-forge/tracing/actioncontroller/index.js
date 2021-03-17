@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'actioncontroller',
-  category: 'generic',
-
-  typeName: {
-    singular: 'ActionController',
-    plural: 'ActionController Calls'
-  },
+  category: t('in-forge:tracingCategory.generic', 'generic'),
 
   detailView: 'ActionControllerSpanDetailView',
 

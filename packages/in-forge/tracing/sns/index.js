@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'sns',
-  category: 'messaging',
-
-  typeName: {
-    singular: 'SNS message',
-    plural: 'SNS messages'
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'SnsSpanDetailView',
 

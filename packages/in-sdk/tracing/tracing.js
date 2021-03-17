@@ -6,6 +6,7 @@
 import invariant from 'invariant';
 
 import { getSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 export { registry, registerSpanDefinition, getSpanDefinition } from 'in-sdk/tracing/registry';
 
@@ -17,6 +18,12 @@ export const SPAN_KINDS = {
 
 export function getType(span) {
   return getSpanDefinition(span.get('name'), span).type || 'unknown';
+}
+
+export function getTypeNameKeyContext(span) {
+  return getType(span)
+    .replace('.', '')
+    .replace('-', '');
 }
 
 export function getLabel(span) {
@@ -50,16 +57,20 @@ export function getServiceSideForOverview(span) {
   return 'source';
 }
 
+export function getTypeLabel(span, count) {
+  return span && t('in-forge:tracingTypeName', { count, context: getTypeNameKeyContext(span) });
+}
+
 export function getTypeLabelSingular(span) {
-  return getSpanDefinition(span.get('name'), span).typeName.singular;
+  return getTypeLabel(span, 1);
 }
 
 export function getTypeLabelPlural(span) {
-  return getSpanDefinition(span.get('name'), span).typeName.plural;
+  return getTypeLabel(span, 2);
 }
 
 export function getTypeLabelPluralByType(spanType) {
-  return getSpanDefinition(spanType).typeName.plural;
+  return spanType && t('in-forge:tracingTypeName', { count: 2, context: spanType.replace('.', '').replace('-', '') });
 }
 
 export function getSpanDetailView(span) {

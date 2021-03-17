@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'camel',
-  category: 'messaging',
-
-  typeName: {
-    singular: t('in-forge:tracing.camel.indexName'),
-    plural: t('in-forge:tracing.camel.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'CamelSpanDetailView',
 

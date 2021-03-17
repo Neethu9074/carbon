@@ -5,15 +5,11 @@
 
 import { getLabel } from 'in-forge/tracing/http/spanDefinition';
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'soap',
-  category: 'http',
-
-  typeName: {
-    singular: 'SOAP Request',
-    plural: 'SOAP Requests'
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'SoapSpanDetailView',
 

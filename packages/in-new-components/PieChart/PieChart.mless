@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-
 :local {
   .chartContainer {
     position: relative;

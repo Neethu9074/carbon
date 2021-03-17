@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'aerospike',
-  category: 'cache',
-
-  typeName: {
-    singular: 'Aerospike Call',
-    plural: 'Aerospike Calls'
-  },
+  category: t('in-forge:tracingCategory.cache', 'cache'),
 
   detailView: 'AerospikeSpanDetailView',
 

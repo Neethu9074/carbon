@@ -8,13 +8,8 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'laminasview',
-  category: 'generic',
+  category: t('in-forge:tracingCategory.generic', 'generic'),
   direction: 'local',
-
-  typeName: {
-    singular: t('in-forge:tracing.laminasView.indexName'),
-    plural: t('in-forge:tracing.laminasView.indexName_plural')
-  },
 
   detailView: 'LaminasViewSpanDetailView',
 

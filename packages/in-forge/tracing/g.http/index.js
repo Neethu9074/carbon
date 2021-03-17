@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'g.http',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.ghttp.indexName'),
-    plural: t('in-forge:tracing.ghttp.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'GolangHttpServerSpanDetailView',
 

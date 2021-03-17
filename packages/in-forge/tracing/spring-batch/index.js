@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'spring-batch',
-  category: 'batch',
-
-  typeName: {
-    singular: 'Spring Batch Job',
-    plural: 'Spring Batch Jobs'
-  },
+  category: t('in-forge:tracingCategory.batch', 'batch'),
 
   detailView: 'SpringBatchSpanDetailView',
 

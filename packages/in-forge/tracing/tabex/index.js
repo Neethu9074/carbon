@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'tabex',
-  category: 'database',
-
-  typeName: {
-    singular: 'Tabex call',
-    plural: 'Tabex calls'
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'TabexSpanDetailView',
 

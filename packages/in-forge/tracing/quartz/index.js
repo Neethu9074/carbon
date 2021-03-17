@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'quartz',
-  category: 'batch',
-
-  typeName: {
-    singular: 'Quartz Job',
-    plural: 'Quartz Jobs'
-  },
+  category: t('in-forge:tracingCategory.batch', 'batch'),
 
   detailView: 'QuartzSpanDetailView',
 

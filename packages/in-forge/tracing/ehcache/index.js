@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'ehcache',
-  category: 'cache',
-
-  typeName: {
-    singular: t('in-forge:tracing.ehcache.indexName'),
-    plural: t('in-forge:tracing.ehcache.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.cache', 'cache'),
 
   detailView: 'EhcacheSpanDetailView',
 

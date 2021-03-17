@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'missing',
-  category: 'missing',
-
-  typeName: {
-    singular: t('in-forge:tracing.missing.indexName'),
-    plural: t('in-forge:tracing.missing.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.missing', 'missing'),
 
   detailView: 'MissingSpanDetailView',
 

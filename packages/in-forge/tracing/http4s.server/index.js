@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'http4s.server',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.http4sServer.indexName'),
-    plural: t('in-forge:tracing.http4sServer.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'Http4sServerSpanDetailView',
 

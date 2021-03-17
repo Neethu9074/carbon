@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'gcps',
-  category: 'messaging',
-
-  typeName: {
-    singular: t('in-forge:tracing.gcps.indexName'),
-    plural: t('in-forge:tracing.gcps.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'GCPSSpanDetailView',
 

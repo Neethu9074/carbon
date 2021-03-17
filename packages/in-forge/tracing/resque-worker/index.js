@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'resque-worker',
-  category: 'messaging',
-
-  typeName: {
-    singular: 'Resque Worker',
-    plural: 'Resque Workers'
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'ResqueWorkerSpanDetailView',
 

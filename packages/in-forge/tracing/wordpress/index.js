@@ -8,13 +8,8 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'wordpress',
-  category: 'generic',
+  category: t('in-forge:tracingCategory.generic', 'generic'),
   direction: 'local',
-
-  typeName: {
-    singular: 'Wordpress',
-    plural: 'Wordpresses'
-  },
 
   detailView: 'WordpressSpanDetailView',
 

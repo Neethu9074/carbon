@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'grizzly',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.grizzly.indexName'),
-    plural: t('in-forge:tracing.grizzly.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'GrizzlySpanDetailView',
 

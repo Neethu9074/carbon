@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'sqs',
-  category: 'messaging',
-
-  typeName: {
-    singular: 'SQS message',
-    plural: 'SQS messages'
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'SqsSpanDetailView',
 

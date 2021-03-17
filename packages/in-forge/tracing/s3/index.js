@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 's3',
-  category: 'database',
-
-  typeName: {
-    singular: 'S3 call',
-    plural: 'S3 calls'
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'S3SpanDetailView',
 

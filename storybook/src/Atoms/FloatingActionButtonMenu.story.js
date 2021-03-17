@@ -1,7 +1,8 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
+
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 

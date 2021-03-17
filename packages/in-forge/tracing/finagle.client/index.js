@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'finagle.client',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.finagleClient.indexName'),
-    plural: t('in-forge:tracing.finagleClient.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'FinagleHttpSpanDetailView',
 

@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'shell',
-  category: 'http',
-
-  typeName: {
-    singular: 'Shell Call',
-    plural: 'Shell Calls'
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'ShellSpanDetailView',
 

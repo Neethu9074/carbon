@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'nanohttpd',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.nanohttpd.indexName'),
-    plural: t('in-forge:tracing.nanohttpd.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'NanohttpdSpanDetailView',
 

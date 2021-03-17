@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'micronaut.http.client',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.micronautHttpClient.indexName'),
-    plural: t('in-forge:tracing.micronautHttpClient.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'MicronautHttpSpanDetailView',
 

@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'wcfclient',
-  category: 'remote',
-
-  typeName: {
-    singular: 'WCF-Call',
-    plural: 'WCF-Calls'
-  },
+  category: t('in-forge:tracingCategory.remote', 'remote'),
 
   detailView: 'WcfClientSpanDetailView',
 

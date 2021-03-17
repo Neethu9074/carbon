@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'jdbc',
-  category: 'database',
-
-  typeName: {
-    singular: t('in-forge:tracing.jdbc.indexName'),
-    plural: t('in-forge:tracing.jdbc.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'JdbcSpanDetailView',
 

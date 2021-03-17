@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'nats',
-  category: 'messaging',
-
-  typeName: {
-    singular: t('in-forge:tracing.nats.indexName', { count: 1 }),
-    plural: t('in-forge:tracing.nats.indexName', { count: 2 })
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'NatsSpanDetailView',
 

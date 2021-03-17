@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'cosmos',
-  category: 'database',
-
-  typeName: {
-    singular: t('in-forge:tracing.cosmos.indexName'),
-    plural: t('in-forge:tracing.cosmos.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'CosmosSpanDetailView',
 

@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'excon',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.excon.indexName'),
-    plural: t('in-forge:tracing.excon.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'ExconSpanDetailView',
 

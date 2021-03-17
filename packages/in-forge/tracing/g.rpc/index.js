@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'g.rpc',
-  category: 'rpc',
-
-  typeName: {
-    singular: t('in-forge:tracing.grpc.indexName'),
-    plural: t('in-forge:tracing.grpc.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.rpc', 'rpc'),
 
   detailView: 'GolangRpcServerSpanDetailView',
 

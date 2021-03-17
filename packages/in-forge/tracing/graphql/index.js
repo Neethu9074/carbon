@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'graphql',
-  category: 'graphql',
-
-  typeName: {
-    singular: t('in-forge:tracing.graphql.indexName'),
-    plural: t('in-forge:tracing.graphql.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.graphql', 'graphql'),
 
   detailView: 'GraphQLSpanDetailView',
 

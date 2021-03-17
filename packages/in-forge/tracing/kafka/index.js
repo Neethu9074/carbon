@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'kafka',
-  category: 'messaging',
-
-  typeName: {
-    singular: t('in-forge:tracing.kafka.indexName'),
-    plural: t('in-forge:tracing.kafka.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'KafkaSpanDetailView',
 

@@ -5,15 +5,11 @@
 
 import { getLabel } from 'in-forge/tracing/http/spanDefinition';
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'spring-rest',
-  category: 'http',
-
-  typeName: {
-    singular: 'HTTP Call',
-    plural: 'HTTP Calls'
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'SpringRestSpanDetailView',
 

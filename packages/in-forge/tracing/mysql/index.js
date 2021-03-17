@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'mysql',
-  category: 'database',
-
-  typeName: {
-    singular: t('in-forge:tracing.mysql.indexName'),
-    plural: t('in-forge:tracing.mysql.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'MySqlSpanDetailView',
 

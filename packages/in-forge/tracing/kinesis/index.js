@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'kinesis',
-  category: 'messaging',
-
-  typeName: {
-    singular: t('in-forge:tracing.kinesis.indexName'),
-    plural: t('in-forge:tracing.kinesis.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'KinesisSpanDetailView',
 

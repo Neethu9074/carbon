@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'dynamodb',
-  category: 'database',
-
-  typeName: {
-    singular: t('in-forge:tracing.dynamoDB.indexName'),
-    plural: t('in-forge:tracing.dynamoDB.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'DynamoDBSpanDetailView',
 

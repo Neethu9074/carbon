@@ -5,15 +5,11 @@
 
 import { getLabel } from 'in-forge/tracing/rpc/spanDefinition';
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'sdk.rpc.exit',
-  category: 'rpc',
-
-  typeName: {
-    singular: 'RPC Client',
-    plural: 'RPC Client Calls'
-  },
+  category: t('in-forge:tracingCategory.rpc', 'rpc'),
 
   detailView: 'RpcClientDetailView',
 

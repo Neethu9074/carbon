@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'mongo',
-  category: 'database',
-
-  typeName: {
-    singular: t('in-forge:tracing.mongo.indexName'),
-    plural: t('in-forge:tracing.mongo.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'MongoSpanDetailView',
 

@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'sdk.messaging',
-  category: 'messaging',
-
-  typeName: {
-    singular: 'Messaging Call',
-    plural: 'Messaging Calls'
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'MessagingSpanDetailView',
 

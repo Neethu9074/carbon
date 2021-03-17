@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'java.rmi.entry',
-  category: 'rpc',
-
-  typeName: {
-    singular: t('in-forge:tracing.javaRmiEntry.indexName'),
-    plural: t('in-forge:tracing.javaRmiEntry.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.rpc', 'rpc'),
 
   detailView: 'RmiEntrySpanDetailView'
 });

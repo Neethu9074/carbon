@@ -5,15 +5,11 @@
 
 import { shortenSqlStatement } from 'in-forge/tracing/jdbc/sql';
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'ado.net',
-  category: 'database',
-
-  typeName: {
-    singular: 'ADO Call',
-    plural: 'ADO Calls'
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'AdoNetSpanDetailView',
 

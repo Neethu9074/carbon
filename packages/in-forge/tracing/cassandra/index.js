@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'cassandra',
-  category: 'database',
-
-  typeName: {
-    singular: t('in-forge:tracing.cassandra.indexName'),
-    plural: t('in-forge:tracing.cassandra.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'CassandraSpanDetailView',
 

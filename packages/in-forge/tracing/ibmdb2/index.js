@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'ibmdb2',
-  category: 'database',
-
-  typeName: {
-    singular: t('in-forge:tracing.ibmdb2.indexName'),
-    plural: t('in-forge:tracing.ibmdb2.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'IbmDb2SpanDetailView',
 

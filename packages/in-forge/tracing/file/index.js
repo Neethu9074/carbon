@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'file',
-  category: 'io',
-
-  typeName: {
-    singular: t('in-forge:tracing.file.indexName'),
-    plural: t('in-forge:tracing.file.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.io', 'io'),
 
   detailView: 'FileSpanDetailView',
 

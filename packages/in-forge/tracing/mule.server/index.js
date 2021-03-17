@@ -8,12 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'mule.server',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.muleServer.indexName'),
-    plural: t('in-forge:tracing.muleServer.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'MuleServerSpanDetailView',
 

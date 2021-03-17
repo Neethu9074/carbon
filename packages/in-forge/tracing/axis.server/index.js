@@ -9,12 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'axis.server',
-  category: 'http',
-
-  typeName: {
-    singular: t('in-forge:tracing.axisServer.indexName'),
-    plural: t('in-forge:tracing.axisServer.indexName_plural')
-  },
+  category: t('in-forge:tracingCategory.http', 'http'),
 
   detailView: 'AxisServerSpanDetailView',
 

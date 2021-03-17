@@ -4,15 +4,11 @@
  */
 
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'rabbitmq',
-  category: 'messaging',
-
-  typeName: {
-    singular: 'RabbitMQ message',
-    plural: 'RabbitMQ messages'
-  },
+  category: t('in-forge:tracingCategory.messaging', 'messaging'),
 
   detailView: 'RabbitMqSpanDetailView',
 

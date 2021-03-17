@@ -5,15 +5,11 @@
 
 import { shortenSqlStatement } from 'in-forge/tracing/jdbc/sql';
 import { registerSpanDefinition } from 'in-sdk/tracing';
+import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'sdk.database',
-  category: 'database',
-
-  typeName: {
-    singular: 'Database Call',
-    plural: 'Database Calls'
-  },
+  category: t('in-forge:tracingCategory.database', 'database'),
 
   detailView: 'DatabaseSpanDetailView',
 
