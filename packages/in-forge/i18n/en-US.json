@@ -6015,7 +6015,7 @@
         "changeLogLevel": "Change Log Level",
         "count": "Count",
         "logCounts": "Log Counts",
-        "downloadableLogsWithCouunt": "`Downloadable Logs ({{len}})",
+        "downloadableLogsWithCount": "Downloadable Logs ({{len}})",
         "download": "Download",
         "theSelectedFilesCollectively": "The selected files collectively have a size of {{downloadSize}}, which is above the maximum allowed {{maxDownloadSize}} size for download.",
         "noLogsFound": "No logs found",
