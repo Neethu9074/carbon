@@ -4,10 +4,11 @@
  */
 
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'Concurrent Invocations',
+    label: t('in-forge:plugins.ibmcloudFunctions.concurrentInvocations'),
     metric: 'ibm_functions_concurrent-invocations',
     formatter: zeroDecimalPlaces
   }

@@ -5,17 +5,18 @@
 
 import { identity } from 'in-services/formatters/string';
 import { number } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
     metrics: ['http_requests_total'],
-    labels: ['HTTP Requests Total'],
+    labels: [t('in-forge:plugins.ibmcloudCloudant.httpRequestsTotal')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['name'],
-    labels: ['Name'],
+    labels: [t('in-forge:plugins.ibmcloudCloudant.name')],
     min: 0,
     formatter: identity
   }

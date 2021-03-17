@@ -13,6 +13,7 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, percentage, bytes } from 'in-services/formatters/number';
 import CpuTable from 'in-forge/plugins/ibmcloudVSI/Dashboard/CpuTable';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function ibmcloudVSIDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -20,27 +21,27 @@ export default function ibmcloudVSIDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Average CPU Used Percentage">
+        <KpiKeyValue label={t('in-forge:plugins.ibmcloudVSI.averageCpuUsedPercentage')}>
           <MetricValue snapshotId={snapshotId} metric="average_cpu_usage_percentage" formatter={percentage.detailed} />
         </KpiKeyValue>
-        <KpiKeyValue label="Memory Used Percentage">
+        <KpiKeyValue label={t('in-forge:plugins.ibmcloudVSI.memoryUsedPercentage')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="memory.memory_usage_percentage"
             formatter={percentage.detailed}
           />
         </KpiKeyValue>
-        <KpiKeyValue label="Network Traffic(bytes)">
+        <KpiKeyValue label={t('in-forge:plugins.ibmcloudVSI.networkTrafficBytes')}>
           <MetricValue snapshotId={snapshotId} metric="network.network_in_bytes" formatter={bytes.detailed} />
         </KpiKeyValue>
-        <KpiKeyValue label="Volume Usage(bytes)">
+        <KpiKeyValue label={t('in-forge:plugins.ibmcloudVSI.volumeUsageBytes')}>
           <MetricValue snapshotId={snapshotId} metric="volume.volume_read_bytes" formatter={bytes.detailed} />
         </KpiKeyValue>
       </KpiSection>
 
       <CpuTable snapshot={snapshot} timeConfig={timeConfig} />
 
-      <DashboardSection title="Memory">
+      <DashboardSection title={t('in-forge:plugins.ibmcloudVSI.memory')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -49,14 +50,18 @@ export default function ibmcloudVSIDashboard({ snapshot, timeConfig }) {
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
             metrics: ['memory.memory_free_kib', 'memory.memory_used_kib', 'memory.memory_total_kib'],
-            labels: ['Free', 'Used', 'Total'],
+            labels: [
+              t('in-forge:plugins.ibmcloudVSI.free'),
+              t('in-forge:plugins.ibmcloudVSI.used'),
+              t('in-forge:plugins.ibmcloudVSI.total')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Network">
+      <DashboardSection title={t('in-forge:plugins.ibmcloudVSI.network')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -65,14 +70,14 @@ export default function ibmcloudVSIDashboard({ snapshot, timeConfig }) {
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
             metrics: ['network.network_in_bytes', 'network.network_out_bytes'],
-            labels: ['Bytes In', 'Bytes out'],
+            labels: [t('in-forge:plugins.ibmcloudVSI.bytesIn'), t('in-forge:plugins.ibmcloudVSI.bytesOut')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Volume Access Size">
+      <DashboardSection title={t('in-forge:plugins.ibmcloudVSI.volumeAccessSize')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -81,14 +86,14 @@ export default function ibmcloudVSIDashboard({ snapshot, timeConfig }) {
             formatter: bytesZeroDecimalPlaces,
             tooltipFormatter: bytesTwoDecimalPlaces,
             metrics: ['volume.volume_read_bytes', 'volume.volume_write_bytes'],
-            labels: ['Bytes Read', 'Write Bytes'],
+            labels: [t('in-forge:plugins.ibmcloudVSI.bytesRead'), t('in-forge:plugins.ibmcloudVSI.writeBytes')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
 
-      <DashboardSection title="Volume Access Request">
+      <DashboardSection title={t('in-forge:plugins.ibmcloudVSI.volumeAccessRequest')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
@@ -96,7 +101,7 @@ export default function ibmcloudVSIDashboard({ snapshot, timeConfig }) {
             min: 0,
             formatter: number.compact,
             metrics: ['volume.volume_read_requests', 'volume.volume_write_requests'],
-            labels: ['Bytes Read', 'Write Bytes'],
+            labels: [t('in-forge:plugins.ibmcloudVSI.bytesRead'), t('in-forge:plugins.ibmcloudVSI.writeBytes')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

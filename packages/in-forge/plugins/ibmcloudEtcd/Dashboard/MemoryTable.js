@@ -10,10 +10,11 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Member',
+    title: t('in-forge:plugins.ibmcloudEtcd.member'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Limit',
+    title: t('in-forge:plugins.ibmcloudEtcd.limit'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Used',
+    title: t('in-forge:plugins.ibmcloudEtcd.used'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -54,7 +55,7 @@ const cols = [
     }
   },
   {
-    title: 'Used Percent',
+    title: t('in-forge:plugins.ibmcloudEtcd.usedPercent'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -110,7 +111,7 @@ function getDetails(row) {
         min: 0,
         formatter: percentage.compact,
         metrics: ['members.' + row.name + '.memory_used_percent'],
-        labels: ['Used Percentage'],
+        labels: [t('in-forge:plugins.ibmcloudEtcd.usedPercentage')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

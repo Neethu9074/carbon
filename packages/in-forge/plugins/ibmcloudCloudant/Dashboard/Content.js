@@ -27,7 +27,7 @@ export default function ibmcloudCloudantDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="http_requests_total" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
-      <DashboardSection title="Request Activity">
+      <DashboardSection title={t('in-forge:plugins.ibmcloudCloudant.requestActivity')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}

@@ -10,11 +10,12 @@ import { percentage, timeByNanoTwoDecimalPlaces } from 'in-services/formatters/n
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
     id: 'CPU',
-    title: 'CPU',
+    title: t('in-forge:plugins.ibmcloudVSI.cpu'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -27,7 +28,7 @@ const cols = [
   },
   {
     id: 'cpuUsageTime',
-    title: 'CPU Time',
+    title: t('in-forge:plugins.ibmcloudVSI.cpuTime'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -44,7 +45,7 @@ const cols = [
   },
   {
     id: 'cpuUsagePercent',
-    title: 'CPU Percent',
+    title: t('in-forge:plugins.ibmcloudVSI.cpuPercent'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -82,7 +83,7 @@ export default function CpuTable({ snapshot, timeConfig }) {
   // to have evenly filled pages, we use 8 as maxItems instead of default 10
   return (
     <Table
-      cardTitle="Individual CPU Usage"
+      cardTitle={t('in-forge:plugins.ibmcloudVSI.individualCpuUsage')}
       withoutPadding
       cols={cols}
       rows={rows}
@@ -101,7 +102,7 @@ function getRowDetails(row) {
         min: 0,
         formatter: percentage.compact,
         metrics: ['cpus.' + row.cpuNumber + '.cpu_usage_percentage'],
-        labels: ['Percentage Usage'],
+        labels: [t('in-forge:plugins.ibmcloudVSI.percentageUsage')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

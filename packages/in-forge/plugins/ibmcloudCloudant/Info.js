@@ -6,13 +6,14 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function IBMCloudantInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Kind">{data.get('kind')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmcloudCloudant.kind')}>{data.get('kind')}</DescriptionItem>
     </DescriptionList>
   );
 }

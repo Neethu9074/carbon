@@ -10,10 +10,11 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Bucket Name',
+    title: t('in-forge:plugins.ibmcloudObjectStorage.bucketName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: 'Object Count',
+    title: t('in-forge:plugins.ibmcloudObjectStorage.objectCount'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -38,7 +39,7 @@ const cols = [
     }
   },
   {
-    title: 'Used Bytes',
+    title: t('in-forge:plugins.ibmcloudObjectStorage.usedBytes'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -76,7 +77,9 @@ export default function BucketsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={`Buckets (${rows.length})`}
+      cardTitle={t('in-forge:plugins.ibmcloudObjectStorage.bucketsWithCount', {
+        len: rows.length
+      })}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}
@@ -95,7 +98,7 @@ function getDetails(row) {
         formatter: bytesZeroDecimalPlaces,
         tooltipFormatter: bytesTwoDecimalPlaces,
         metrics: ['buckets.' + row.name + '.used_bytes'],
-        labels: ['Used'],
+        labels: [t('in-forge:plugins.ibmcloudObjectStorage.used')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

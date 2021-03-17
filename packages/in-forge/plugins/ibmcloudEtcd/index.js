@@ -7,12 +7,13 @@ import metricDefinitions from 'in-forge/plugins/ibmcloudEtcd/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/ibmcloudEtcd/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.ibmcloudEtcd,
 
   technologyDescriptor: {
-    label: 'IBM Cloud Etcd'
+    label: t('in-forge:plugins.ibmcloudEtcd.ibmCloudEtcd')
   },
   kpiDefinitions,
   metricDefinitions

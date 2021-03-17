@@ -9,6 +9,7 @@ import PackagesTable from 'in-forge/plugins/ibmcloudFunctions/Dashboard/Packages
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function ibmcloudFunctionsDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
@@ -16,7 +17,7 @@ export default function ibmcloudFunctionsDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Concurrent Invocations">
+        <KpiKeyValue label={t('in-forge:plugins.ibmcloudFunctions.concurrentInvocations')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="ibm_functions_concurrent-invocations"

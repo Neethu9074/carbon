@@ -8,10 +8,11 @@ import React from 'react';
 import { seconds } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Action',
+    title: t('in-forge:plugins.ibmcloudFunctions.action'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -20,7 +21,7 @@ const cols = [
     }
   },
   {
-    title: 'Activation',
+    title: t('in-forge:plugins.ibmcloudFunctions.activation'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -36,7 +37,7 @@ const cols = [
     }
   },
   {
-    title: 'Duration',
+    title: t('in-forge:plugins.ibmcloudFunctions.duration'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -52,7 +53,7 @@ const cols = [
     }
   },
   {
-    title: 'Status Success',
+    title: t('in-forge:plugins.ibmcloudFunctions.statusSuccess'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {

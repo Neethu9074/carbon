@@ -15,10 +15,11 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: 'Member ID',
+    title: t('in-forge:plugins.ibmcloudEtcd.memberId'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -27,7 +28,7 @@ const cols = [
     }
   },
   {
-    title: 'Used',
+    title: t('in-forge:plugins.ibmcloudEtcd.used'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -43,7 +44,7 @@ const cols = [
     }
   },
   {
-    title: 'Total',
+    title: t('in-forge:plugins.ibmcloudEtcd.total'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -59,7 +60,7 @@ const cols = [
     }
   },
   {
-    title: 'Used Percent',
+    title: t('in-forge:plugins.ibmcloudEtcd.usedPercent'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -75,7 +76,7 @@ const cols = [
     }
   },
   {
-    title: 'Percent IO Utilization(5m)',
+    title: t('in-forge:plugins.ibmcloudEtcd.percentIoUtilization5M'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -91,7 +92,7 @@ const cols = [
     }
   },
   {
-    title: 'IOPS R/W Total',
+    title: t('in-forge:plugins.ibmcloudEtcd.iopsRWTotal'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -143,7 +144,7 @@ function getDetails(row) {
           'members.' + row.name + '.disk_used_percent',
           'members.' + row.name + '.disk_io_utilization_percent_average_5m'
         ],
-        labels: ['Used Percentage', 'Percent Avg. IO Utilization(5 mins)'],
+        labels: [t('in-forge:plugins.ibmcloudEtcd.usedPercentage'), 'Percent Avg. IO Utilization(5 mins)'],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

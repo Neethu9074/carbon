@@ -6,16 +6,21 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { t } from 'in-i18n';
 
 export default function IBMVSIInfo({ snapshot }) {
   const data = snapshot.get('data');
 
   return (
     <DescriptionList>
-      <DescriptionItem title="Kind">{data.get('kind')}</DescriptionItem>
-      <DescriptionItem title="Instance Name">{data.get('instance_name')}</DescriptionItem>
-      <DescriptionItem title="Generation ID">{data.get('generation_id')}</DescriptionItem>
-      <DescriptionItem title="CPU count">{data.get('count')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmcloudVSI.kind')}>{data.get('kind')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmcloudVSI.instanceName')}>
+        {data.get('instance_name')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmcloudVSI.generationId')}>
+        {data.get('generation_id')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmcloudVSI.cpuCount')}>{data.get('count')}</DescriptionItem>
     </DescriptionList>
   );
 }

@@ -7,12 +7,13 @@ import metricDefinitions from 'in-forge/plugins/ibmcloudVSI/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/ibmcloudVSI/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.ibmcloudVSI,
 
   technologyDescriptor: {
-    label: 'IBM Cloud Virtual Server Infrastructure'
+    label: t('in-forge:plugins.ibmcloudVSI.ibmCloudVirtualServerInfrastructure')
   },
   kpiDefinitions,
   metricDefinitions

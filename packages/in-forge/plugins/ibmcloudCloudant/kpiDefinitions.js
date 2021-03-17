@@ -4,10 +4,11 @@
  */
 
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
-    label: 'HTTP Requests Total',
+    label: t('in-forge:plugins.ibmcloudCloudant.httpRequestsTotal'),
     metric: 'http_requests_total',
     formatter: zeroDecimalPlaces
   }

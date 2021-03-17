@@ -8,6 +8,7 @@ import React from 'react';
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import { number, hitRate } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
+import { t } from 'in-i18n';
 
 export default function ibmcloudLoadBalancerDashboard({ snapshot }) {
   const snapshotId = snapshot.get('id');
@@ -15,13 +16,13 @@ export default function ibmcloudLoadBalancerDashboard({ snapshot }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label="Active Connections">
+        <KpiKeyValue label={t('in-forge:plugins.ibmcloudLoadBalancer.activeConnections')}>
           <MetricValue snapshotId={snapshotId} metric="active_connection" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Connection Rate">
+        <KpiKeyValue label={t('in-forge:plugins.ibmcloudLoadBalancer.connectionRate')}>
           <MetricValue snapshotId={snapshotId} metric="connection_rate" formatter={hitRate.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label="Throughput">
+        <KpiKeyValue label={t('in-forge:plugins.ibmcloudLoadBalancer.throughput')}>
           <MetricValue snapshotId={snapshotId} metric="throughput" formatter={hitRate.compact} />
         </KpiKeyValue>
       </KpiSection>
