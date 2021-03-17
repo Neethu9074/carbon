@@ -6,12 +6,13 @@
 import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function CouchbaseClusterSidebar({ snapshot }) {
   return (
     <Collapsible initiallyOpen>
-      <Collapsible.Header>Couchbase Cluster</Collapsible.Header>
+      <Collapsible.Header>{t('in-forge:plugins.couchbaseCluster.couchbaseCluster')}</Collapsible.Header>
       <Collapsible.Content>
         <Info snapshot={snapshot} />
       </Collapsible.Content>

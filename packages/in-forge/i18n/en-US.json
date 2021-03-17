@@ -3915,7 +3915,11 @@
         "titleDiskSize": "Disk Size",
         "labelDiskSize": "Disk Size",
         "titleKeyspaceDetails": "Keyspace Details {{keyspaceDetails}}"
-      }
+      },
+      "cassandraCluster": "Cassandra Cluster",
+      "nodes": "Nodes",
+      "latency": "Latency",
+      "keyspaces": "Keyspaces"
     },
     "cassandraNode": {
       "infoVersion": "Version",
@@ -4000,7 +4004,13 @@
         "titleKeyspacesCount": "Keyspaces {{keyspacesCount}}",
         "labelAverageReadLatency": "Average Read Latency",
         "labelAverageWriteLatency": "Average Write Latency"
-      }
+      },
+      "info": "Info",
+      "topology": "Topology",
+      "communication": "Communication",
+      "tokens": "Tokens",
+      "latency": "Latency",
+      "keyspaces": "Keyspaces"
     },
     "ceph": {
       "infoProcessID": "Process ID",
@@ -4062,7 +4072,10 @@
         "titleWriteOPS": "Write OPS",
         "titleRead": "Read",
         "titleWrite": "Write"
-      }
+      },
+      "poolsWithCount": "Pools ({{len}})",
+      "cephCluster": "Ceph Cluster",
+      "pools": "Pools"
     },
     "clickhouseCluster": {
       "indexLabel": "ClickHouse Cluster",
@@ -4231,7 +4244,10 @@
         "titleCPU": "CPU",
         "labelDisk": "Disk",
         "labelMemory": "Memory"
-      }
+      },
+      "diegoWithCount": "Diego ({{len}})",
+      "cloudFoundry": "CloudFoundry",
+      "info": "Info"
     },
     "clrRuntimePlatform": {
       "indexLabel": ".NET",
@@ -4247,6 +4263,9 @@
       "labelContentionRate": "Contention-Rate",
       "labelLargeObject": "Large Objects",
       "labelGCTime": "GC time",
+      "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "The process environment for this .NET Full Framework application is not correctly configured for Instana to be able to monitor it. The following environment variables must be set on the .NET Core process: <code>{{missing}}</code>. Refer to the documentation for the right values to be set.",
+      "detectedThisBasedOnTheValueOfTheInvalidEnvKeyEnvironmentVariable": "It seems that another tool is monitoring this .NET Full Framework process, likely {{competitor}}. The Instana host agent has detected this based on the value of the <code>{{invalidEnvKey}}</code> environment variable. For Instana to be able to trace this .NET Core process, you need to disable the other monitoring tool.",
+      "theEnvironmentVariableInvalidEnvKeyHasTheWrongValue": "The process environment for this .NET Full Framework application is not correctly configured for Instana to be able to monitor it. The environment variable <code>{{invalidEnvKey}}</code> has the wrong value <code>{{invalidEnvValue}}</code>. Refer to the documentation for guidance on which value to set to the <code>{{invalidEnvKey}}</code> environment variable.",
       "dashboard": {
         "labelAllHeaps": "All Heaps",
         "labelTime": "% Time in GC",
@@ -4260,7 +4279,10 @@
         "labelLargeObject": "Large Objects",
         "titleSizesOfHeaps": "Sizes of Heaps",
         "titleThreadLocks": "Thread-Locks and Contention"
-      }
+      },
+      "troubleshootingDocs": "Troubleshooting docs",
+      "netClr": ".NET CLR",
+      "gc": "GC"
     },
     "cockroachDBCluster": {
       "indexLabel": "CockroachDB",
@@ -4307,7 +4329,8 @@
         "titleNetwork": "Network",
         "labelReceivedBytes": "Received bytes",
         "labelSentBytes": "Sent bytes"
-      }
+      },
+      "cockroachDbCluster": "CockroachDB Cluster"
     },
     "cockroachDBNode": {
       "infoNodeID": "Node ID",
@@ -4384,7 +4407,8 @@
         "labelAvailable": "Available",
         "labelUsed": "Used",
         "labelWrites": "Writes"
-      }
+      },
+      "cockroachDb": "CockroachDB"
     },
     "consul": {
       "infoProcessID": "Process ID",
@@ -4424,6 +4448,8 @@
       "labelRaftLastSnapshotTerm": "Raft: last snapshot term",
       "labelRaftNumPeers": "Raft: number of peers",
       "labelRaftTerm": "Raft: term - new leader elections",
+      "consulVersionTooOld": "Consul version too old",
+      "currentConsulVersion": "Current Consul Version: ",
       "dashboard": {
         "labelState": "State",
         "labelDomain": "Domain",
@@ -4436,7 +4462,10 @@
         "titleAutopilot": "Autopilot",
         "titleName": "Name",
         "titleValue": "Value"
-      }
+      },
+      "theConsulVersionYouAreUsingIsTooOld": "The Consul version you are using is too old and does not provide metrics. Please upgrade to version 0.9.1 or higher to receive metrics in this dashboard.",
+      "consulNode": "Consul Node",
+      "consul": "Consul"
     },
     "consulCluster": {
       "indexLabel": "Consul",
@@ -4448,7 +4477,8 @@
         "titleVersion": "Version",
         "titleHealth": "Health",
         "titleLiveNodesCount": "Live Nodes {{nodeCount}}"
-      }
+      },
+      "consulCluster": "Consul Cluster"
     },
     "containerd": {
       "infoId": "Id",
@@ -4495,7 +4525,15 @@
         "labelActiveCache": "Active cache",
         "labelInactiveAnonymous": "Inactive anonymous",
         "labelInactiveCache": "Inactive cache"
-      }
+      },
+      "containerdContainer": "Containerd Container",
+      "totalTime": "Total time",
+      "kernelTime": "Kernel time",
+      "userTime": "User time",
+      "cpu": "CPU",
+      "throttlingCount": "Throttling count",
+      "throttlingTime": "Throttling time",
+      "memory": "Memory"
     },
     "couchbaseCluster": {
       "infoName": "Name",
@@ -4521,7 +4559,8 @@
         "labelOperationsPerSec": "Operations per sec.",
         "labelGetsPerSec": "Gets per sec.",
         "labelSetsPerSec": "Sets per sec."
-      }
+      },
+      "couchbaseCluster": "Couchbase Cluster"
     },
     "couchbaseNode": {
       "infoHostname": "Hostname",
@@ -4568,7 +4607,8 @@
         "labelItemsInDiskQueue": "Items in disk write queue",
         "labelItemsPutToDiskQueue": "Items put to disk queue per sec.",
         "labelItemsWrittenToDisk": "Items written to disk per sec."
-      }
+      },
+      "couchbaseNode": "Couchbase Node"
     },
     "crio": {
       "getContainerInfo": "Get Container Info",
@@ -9671,6 +9711,13 @@
     "webSphereLibertyApplicationContainer": {
       "requests": "Requests",
       "averageResponseTime": "Average Response Time"
+    },
+    "clickHouseCluster": {
+      "clickHouseCluster": "ClickHouse Cluster"
+    },
+    "clickHouseDatabase": {
+      "clickHouseServer": "ClickHouse Server",
+      "settings": "Settings"
     }
   },
   "tracing": {

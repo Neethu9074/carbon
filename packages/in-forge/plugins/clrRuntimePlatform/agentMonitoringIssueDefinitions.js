@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { t, Trans } from 'in-i18n';
+
 export default {
   clr_env_var_not_defined: {
     issueDescription: {
@@ -12,14 +14,15 @@ export default {
         const missing = Array.isArray(missingEnvKeys) ? missingEnvKeys.join(', ') : missingEnvKeys;
         return (
           <span>
-            The process environment for this .NET Full Framework application is not correctly configured for Instana to
-            be able to monitor it. The following environment variables must be set on the .NET Core process:{' '}
-            <code>{missing}</code>. Refer to the documentation for the right values to be set.
+            <Trans
+              i18nKey="in-forge:plugins.clrRuntimePlatform.theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess"
+              values={{ missing }}
+            />
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.clrRuntimePlatform.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/dot-net/#clr_env_var_not_defined`
   },
   clr_env_var_invalid_value: {
@@ -28,25 +31,25 @@ export default {
         if (competitor) {
           return (
             <span>
-              It seems that another tool is monitoring this .NET Full Framework process, likely {competitor}. The
-              Instana host agent has detected this based on the value of the <code>{invalidEnvKey}</code> environment
-              variable. For Instana to be able to trace this .NET Core process, you need to disable the other monitoring
-              tool.
+              <Trans
+                i18nKey="in-forge:plugins.clrRuntimePlatform.detectedThisBasedOnTheValueOfTheInvalidEnvKeyEnvironmentVariable"
+                values={{ competitor, invalidEnvKey }}
+              />
             </span>
           );
         }
 
         return (
           <span>
-            The process environment for this .NET Full Framework application is not correctly configured for Instana to
-            be able to monitor it. The environment variable <code>{invalidEnvKey}</code> has the wrong value{' '}
-            <code>{invalidEnvValue}</code>. Refer to the documentation for guidance on which value to set to the{' '}
-            <code>{invalidEnvKey}</code> environment variable.
+            <Trans
+              i18nKey="in-forge:plugins.clrRuntimePlatform.theEnvironmentVariableInvalidEnvKeyHasTheWrongValue"
+              values={{ invalidEnvKey, invalidEnvValue }}
+            />
           </span>
         );
       }
     },
-    explanationLinkLabel: `Troubleshooting docs`,
+    explanationLinkLabel: t('in-forge:plugins.clrRuntimePlatform.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/dot-net/#clr_env_var_invalid_value`
   }
 };

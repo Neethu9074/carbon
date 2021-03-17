@@ -53,7 +53,7 @@ export default [
       t('in-forge:plugins.consul.labelRaftTerm')
     ],
     min: 0,
-    category: ['Consul'],
+    category: [t('in-forge:plugins.consul.consul')],
     formatter: number
   }
 ];

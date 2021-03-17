@@ -37,7 +37,13 @@ export default function DiegoTable({ snapshot, timeConfig }) {
   });
 
   return (
-    <Table withoutPadding cardTitle={`Diego (${rows.length})`} cols={cols} rows={rows} getRowDetails={getRowDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.cloudFoundry.diegoWithCount', { len: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getRowDetails}
+    />
   );
 }
 

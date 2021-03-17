@@ -105,13 +105,11 @@ export default function ConsulDashboard({ snapshot, timeConfig }) {
         )}
       {errorCodeMetrics === 'METRICS_NOT_ACCESSIBLE' && (
         <DashboardNotification type="warning">
-          <strong>Consul version too old</strong>
+          <strong>{t('in-forge:plugins.consul.consulVersionTooOld')}</strong>
+          <p>{t('in-forge:plugins.consul.theConsulVersionYouAreUsingIsTooOld')}</p>
           <p>
-            The Consul version you are using is too old and does not provide metrics. Please upgrade to version 0.9.1 or
-            higher to receive metrics in this dashboard.
-          </p>
-          <p>
-            Current Consul Version: <code>{consulVersion}</code>
+            {t('in-forge:plugins.consul.currentConsulVersion')}
+            <code>{consulVersion}</code>
           </p>
         </DashboardNotification>
       )}

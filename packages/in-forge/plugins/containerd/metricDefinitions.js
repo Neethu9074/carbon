@@ -9,22 +9,26 @@ import { t } from 'in-i18n';
 export default [
   {
     metrics: ['cpu.total_usage', 'cpu.system_usage', 'cpu.user_usage'],
-    labels: ['Total time', 'Kernel time', 'User time'],
+    labels: [
+      t('in-forge:plugins.containerd.totalTime'),
+      t('in-forge:plugins.containerd.kernelTime'),
+      t('in-forge:plugins.containerd.userTime')
+    ],
     min: 0,
-    category: ['CPU'],
+    category: [t('in-forge:plugins.containerd.cpu')],
     formatter: percentage
   },
   {
     metrics: ['cpu.throttling_count'],
-    labels: ['Throttling count'],
-    category: ['CPU'],
+    labels: [t('in-forge:plugins.containerd.throttlingCount')],
+    category: [t('in-forge:plugins.containerd.cpu')],
     min: 0,
     formatter: number
   },
   {
     metrics: ['cpu.throttling_time'],
-    labels: ['Throttling time'],
-    category: ['CPU'],
+    labels: [t('in-forge:plugins.containerd.throttlingTime')],
+    category: [t('in-forge:plugins.containerd.cpu')],
     min: 0,
     formatter: nanos
   },
@@ -50,7 +54,7 @@ export default [
       t('in-forge:plugins.containerd.labelInactiveCache')
     ],
     min: 0,
-    category: ['Memory'],
+    category: [t('in-forge:plugins.containerd.memory')],
     formatter: bytes
   }
 ];

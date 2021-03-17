@@ -36,7 +36,7 @@ export default [
       t('in-forge:plugins.cassandraCluster.label99P')
     ],
     min: 0,
-    category: ['Latency'],
+    category: [t('in-forge:plugins.cassandraCluster.latency')],
     formatter: muSecondsToMillis
   },
   {
@@ -48,7 +48,7 @@ export default [
   {
     metrics: ['keyspaceCount'],
     labels: [t('in-forge:plugins.cassandraCluster.labelKeyspaceCount')],
-    category: ['Keyspaces'],
+    category: [t('in-forge:plugins.cassandraCluster.keyspaces')],
     min: 0,
     formatter: number
   },
@@ -61,7 +61,7 @@ export default [
   {
     metric: getDynamicMetricMatch('keyspace', 'diskSize', 'Keyspace'),
     label: t('in-forge:plugins.cassandraCluster.labelDiskSize'),
-    category: ['Keyspaces'],
+    category: [t('in-forge:plugins.cassandraCluster.keyspaces')],
     min: 0,
     formatter: bytes
   },

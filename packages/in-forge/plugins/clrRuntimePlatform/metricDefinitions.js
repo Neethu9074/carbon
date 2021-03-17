@@ -15,7 +15,7 @@ export default [
       t('in-forge:plugins.clrRuntimePlatform.labelGeneration2')
     ],
     min: 0,
-    category: ['GC'],
+    category: [t('in-forge:plugins.clrRuntimePlatform.gc')],
     formatter: number
   },
   {

@@ -18,7 +18,7 @@ export default function ContainerdSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Containerd Container</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.containerd.containerdContainer')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

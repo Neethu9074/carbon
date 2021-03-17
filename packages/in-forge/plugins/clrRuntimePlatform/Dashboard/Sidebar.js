@@ -9,6 +9,7 @@ import RunningComponentsList from 'in-sdk/components/sidebar/RunningComponentsLi
 import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import Info from 'in-forge/plugins/clrRuntimePlatform/Info';
+import { t } from 'in-i18n';
 
 export default function ClrRuntimeSidebar({ snapshot }) {
   const snapshotId = snapshot.get('id');
@@ -16,7 +17,7 @@ export default function ClrRuntimeSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>.NET CLR</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.clrRuntimePlatform.netClr')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

@@ -125,56 +125,56 @@ export default [
   {
     metric: getDynamicMetricMatch('pools', 'pct_used_pool', 'Pool'),
     label: t('in-forge:plugins.ceph.labelOverallCapacityUsage'),
-    category: ['Pools'],
+    category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: percentageTwoDecimalPlaces
   },
   {
     metric: getDynamicMetricMatch('pools', 'num_objects_pool', 'Pool'),
     label: t('in-forge:plugins.ceph.labelNumberObjects'),
-    category: ['Pools'],
+    category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: number.compact
   },
   {
     metric: getDynamicMetricMatch('pools', 'read_bytes_pool', 'Pool'),
     label: t('in-forge:plugins.ceph.labelTotalRead'),
-    category: ['Pools'],
+    category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: bytes.compact
   },
   {
     metric: getDynamicMetricMatch('pools', 'write_bytes_pool', 'Pool'),
     label: t('in-forge:plugins.ceph.labelTotalWrite'),
-    category: ['Pools'],
+    category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: bytes.compact
   },
   {
     metric: getDynamicMetricMatch('pools', 'read_bytes_sec_pool', 'Pool'),
     label: t('in-forge:plugins.ceph.labelReadBPS'),
-    category: ['Pools'],
+    category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: bytesPerSecondZeroDecimalPlaces
   },
   {
     metric: getDynamicMetricMatch('pools', 'write_bytes_sec_pool', 'Pool'),
     label: t('in-forge:plugins.ceph.labelWriteBPS'),
-    category: ['Pools'],
+    category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: bytesPerSecondZeroDecimalPlaces
   },
   {
     metric: getDynamicMetricMatch('pools', 'read_op_per_sec', 'Pool'),
     label: t('in-forge:plugins.ceph.labelReadOps'),
-    category: ['Pools'],
+    category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: number.compact
   },
   {
     metric: getDynamicMetricMatch('pools', 'write_op_per_sec', 'Pool'),
     label: t('in-forge:plugins.ceph.labelWriteOps'),
-    category: ['Pools'],
+    category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: number.compact
   },

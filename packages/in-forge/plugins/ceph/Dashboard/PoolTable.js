@@ -142,7 +142,13 @@ export default function PoolTable({ snapshot, timeConfig }) {
     .toArray();
 
   return (
-    <Table withoutPadding cardTitle={`Pools (${rows.length})`} cols={cols} rows={rows} getRowDetails={getDetails} />
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.ceph.poolsWithCount', { len: rows.length })}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+    />
   );
 }
 

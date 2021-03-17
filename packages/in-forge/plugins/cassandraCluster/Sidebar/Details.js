@@ -19,7 +19,7 @@ export default function CassandraClusterSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>Cassandra Cluster</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.cassandraCluster.cassandraCluster')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
