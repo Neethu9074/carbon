@@ -174,6 +174,7 @@ import './soap';
 import './twig';
 import './wsgi';
 import './x.hc';
+import './bull';
 import './ejb';
 import './ftp';
 import './gcb';

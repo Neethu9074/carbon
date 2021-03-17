@@ -9807,6 +9807,11 @@
       "titleStatus": "Status",
       "titlePayload": "Payload"
     },
+    "bull": {
+      "queue": "Queue",
+      "batchSize": "Batch Size",
+      "type": "Type"
+    },
     "camel": {
       "titleType": "Type",
       "titleQuartz": "Quartz",
