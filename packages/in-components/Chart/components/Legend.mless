@@ -19,7 +19,7 @@
 
   .expandedLegend {
     // position above .overlay
-    z-index: 2;
+    z-index: 3;
     background: white;
     position: absolute;
     width: 100%;
@@ -96,8 +96,8 @@
     top: 0;
     left: -1rem;
     right: -1rem;
-    // position below .expandedLegend
-    z-index: 1;
+    // position below .expandedLegend and above the ChartOverlay component
+    z-index: 2;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
   }
