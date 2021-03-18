@@ -19,6 +19,7 @@ import locals from './FacetedSearch.mless';
 
 export default function FacetedSearch({
   tagFilterExpression = toBackendQueryModel([]),
+  formModel = [],
   updateFilter,
   updateGroup,
   hiddenCalls,
@@ -112,6 +113,7 @@ export default function FacetedSearch({
       />
       <FacetedFilterHiddenCalls
         title={t('in-applications:analyze.hiddenCalls')}
+        formModel={formModel}
         includeSynthetic={hiddenCalls?.includeSynthetic}
         includeInternal={hiddenCalls?.includeInternal}
         setIncludeSynthetic={includeSynthetic =>

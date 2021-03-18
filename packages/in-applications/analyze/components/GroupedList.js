@@ -46,6 +46,7 @@ import locals from './List.mless';
 
 export default function GroupedList({
   tagFilterExpression,
+  formModel,
   groupBy,
   orderBy,
   subOrderBy,
@@ -129,6 +130,7 @@ export default function GroupedList({
       onChangePreviewEnabled={onChangePreviewEnabled}
       previewEnabled={previewEnabled}
       tagFilterExpression={tagFilterExpression}
+      formModel={formModel}
       updateFilter={updateFilter}
       updateGroup={updateGroup}
       showChartGroupMarkers={showChartGroupMarkers}
@@ -165,6 +167,7 @@ function Presenter({
   onChangePreviewEnabled,
   previewEnabled,
   tagFilterExpression,
+  formModel,
   updateFilter,
   updateGroup,
   hiddenCalls,
@@ -194,6 +197,7 @@ function Presenter({
         </div>
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
+          formModel={formModel}
           updateFilter={updateFilter}
           updateGroup={updateGroup}
           hiddenCalls={hiddenCalls}

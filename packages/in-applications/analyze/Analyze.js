@@ -360,6 +360,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
 
           {isGrouped ? (
             <GroupedList
+              formModel={tagFilterExpression}
               tagFilterExpression={backendQueryModel}
               groupBy={groupBy}
               orderBy={orderByGroups}
@@ -385,6 +386,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
             />
           ) : (
             <List
+              formModel={tagFilterExpression}
               tagFilterExpression={backendQueryModel}
               orderBy={orderBy}
               onChangeOrderBy={onChangeOrderBy}

@@ -51,6 +51,12 @@
     }
   }
 
+  .suggestionDisabled {
+    &:hover {
+      color: unset;
+    }
+  }
+
   .noResult {
     margin-top: 0.75rem;
   }

@@ -248,7 +248,9 @@
     "erroneous": "Erroneous",
     "facetedSearch": {
       "showSyntheticCalls": "Show Synthetic calls",
-      "showInternalCalls": "Show Internal calls"
+      "showInternalCalls": "Show Internal calls",
+      "defaultTurnedOnSynthetic": "This option is selected since you query synthetic calls.",
+      "defaultTurnedOnInternal": "This option is selected since you query internal calls."
     },
     "applications": "Applications",
     "services": "Services",

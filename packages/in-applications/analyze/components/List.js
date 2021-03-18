@@ -37,6 +37,7 @@ const defaultDirection = 'DESC';
 
 export default function List({
   retrievalSize = 20,
+  formModel,
   tagFilterExpression,
   filterBy,
   orderBy,
@@ -129,6 +130,7 @@ export default function List({
       totalHits={totalHits}
       adjustedWindowSize={adjustedWindowSize}
       tagFilterExpression={tagFilterExpression}
+      formModel={formModel}
       updateFilter={updateFilter}
       updateGroup={updateGroup}
       columnDefinitions={columnDefinitions}
@@ -158,6 +160,7 @@ function Presenter({
   totalHits,
   adjustedWindowSize,
   tagFilterExpression,
+  formModel,
   updateFilter,
   updateGroup,
   columnDefinitions,
@@ -188,6 +191,7 @@ function Presenter({
         </div>
         <FacetedSearch
           tagFilterExpression={tagFilterExpression}
+          formModel={formModel}
           updateFilter={updateFilter}
           updateGroup={updateGroup}
           hiddenCalls={hiddenCalls}
