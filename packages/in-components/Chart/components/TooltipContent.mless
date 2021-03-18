@@ -19,7 +19,8 @@
     border: 1px solid @lib__colors__N300;
   }
 
-  .header, .footer {
+  .header,
+  .footer {
     display: flex;
     align-items: center;
     white-space: nowrap;
@@ -60,7 +61,7 @@
 
   .dataSeries {
     overflow: hidden;
-    padding: .2rem 0.5rem;
+    padding: 0.2rem 0.5rem;
 
     // the scrollbar requires relative positioning
     position: relative;
@@ -70,7 +71,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: .3rem;
+    width: 0.3rem;
     background: @lib__colors__N500;
     border-radius: @lib__shapes__radius_medium;
     display: none;
@@ -96,7 +97,12 @@
   .entry {
     display: flex;
     align-items: baseline;
-    line-height: 1.75;
+    line-height: 1.5;
+    padding-bottom: 0.25rem;
+
+    &:last-child {
+      padding-bottom: 0;
+    }
   }
 
   .dot,
@@ -108,7 +114,7 @@
 
     // Manually tweaking the alignment because we cannot rely on baseline alignment
     position: relative;
-    top: 0.125rem;
+    top: 0.0938rem;
   }
 
   .dot {
@@ -117,7 +123,7 @@
 
   .label {
     width: 100%;
-    min-width: 6.25rem;
+    min-width: 3.25rem;
     overflow: hidden;
     overflow-wrap: break-word;
   }
@@ -138,7 +144,7 @@
   .aggregation {
     flex-shrink: 0;
     min-width: 1.25rem;
-    margin-left: .5rem;
+    margin-left: 0.5rem;
     text-align: right;
   }
 
