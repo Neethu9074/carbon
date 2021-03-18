@@ -3,26 +3,36 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+@import '~in-themes/active.less';
 @import '~in-themes/mixins.less';
 
 :local {
-  .tooltip {
-    display: grid;
-    grid-template-columns: auto 1rem auto;
+  .wrapper {
+    .flexbox();
     white-space: nowrap;
   }
 
-  .secText {
-    color: @lib__colors__N600Light;
-    text-transform: lowercase;
-    margin-left: 0.25rem;
-  }
-
-  .toltipDot {
+  .dot {
     display: inline-block;
     width: 0.65rem;
     height: 0.65rem;
     margin-right: 0.375rem;
     border-radius: 50%;
+  }
+
+  .label {
+    max-width: 12.5rem;
+    .ellipsis();
+  }
+
+  .timeShift {
+    color: @lib__colors__N600Light;
+    text-transform: lowercase;
+    margin-left: 0.25rem;
+  }
+
+  .percentage {
+    color: @lib__colors__N600Light;
+    margin-left: 0.25rem;
   }
 }

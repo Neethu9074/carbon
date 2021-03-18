@@ -250,6 +250,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                     cardTitle={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleResourceTiming')}
                     cardHeader={aggregationSelector}
                     timeConfig={timeConfig}
+                    customHeight={300}
                     shareMaxAxisDomain
                     viewInAnalytics={viewInAnalytics}
                     y1={{

@@ -1,0 +1,16 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .percentile, .other {
+    color: @lib__colors__N600Light;
+  }
+
+  .icon {
+    fill: @lib__colors__N600Light;
+  }
+}

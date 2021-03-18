@@ -16,13 +16,16 @@
     pointer-events: none;
   }
 
-  .right {
+  .left, .right {
     position: absolute;
+    top: -1rem;
+  }
+
+  .right {
     left: 1rem;
   }
 
   .left {
-    position: absolute;
     right: ~'calc(100% + 1rem)';
   }
 }

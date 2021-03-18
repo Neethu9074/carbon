@@ -11,12 +11,15 @@ import locals from './TooltipLineAndContent.mless';
 
 export default function TooltipLineAndContent({
   cursorXPosition,
+  width,
+  chartHeight,
   align,
   timestamp,
   chart,
   reverseTooltipOrder,
   metrics,
-  customEventSection
+  customEventSection,
+  highlightedMoment
 }) {
   const { excludedLabelsFromTooltip } = metrics.y1;
   return (
@@ -33,6 +36,9 @@ export default function TooltipLineAndContent({
           chart={chart}
           reverseTooltipOrder={reverseTooltipOrder}
           excludedLabelsFromTooltip={excludedLabelsFromTooltip}
+          width={width}
+          chartHeight={chartHeight}
+          highlightedMoment={highlightedMoment}
         />
       </div>
     </div>

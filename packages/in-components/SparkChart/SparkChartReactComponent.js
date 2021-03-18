@@ -11,11 +11,11 @@ import MetricValue from 'in-components/tables/ServerTable/components/MetricValue
 import { number, isPercentageFormatter } from 'in-services/formatters/number';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import SparkTooltip from 'in-components/SparkChart/components/Tooltip';
+import AggregationSymbol from 'in-components/AggregationSymbol';
 import SparkChart from 'in-components/SparkChart/SparkChart';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { isBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './SparkChart.mless';
@@ -68,6 +68,7 @@ function SparkChartReactComponent(props) {
       const value = aggregation ? (
         <div className={locals.iconValueWrapper}>
           <AggregationSymbol aggregation={aggregation} />
+          &nbsp;
           {isBlank(horizontalMetricValue.toString())
             ? t('in-components:sparkChart.notAvailable')
             : horizontalMetricValue}
@@ -102,46 +103,6 @@ function SparkChartReactComponent(props) {
   }
 
   return sparkChart;
-}
-
-const aggregationMapping = {
-  MEAN: {
-    label: t('in-components:sparkChart.mean'),
-    icon: 'lib_mean'
-  },
-  SUM: {
-    label: t('in-components:sparkChart.sum'),
-    icon: 'lib_sum'
-  },
-  DISTINCT_COUNT: {
-    label: t('in-components:sparkChart.distinctCount'),
-    icon: 'lib_sum'
-  }
-};
-
-function AggregationSymbol({ aggregation }) {
-  if (aggregation.startsWith('P')) {
-    return (
-      <Tooltip content={aggregation} align="mousePosition">
-        <small className={locals.percentile}>
-          {aggregation.substring(1)}
-          <sup>th</sup>
-        </small>
-      </Tooltip>
-    );
-  }
-  if (aggregation === 'MEAN' || aggregation === 'SUM' || aggregation === 'DISTINCT_COUNT') {
-    return (
-      <Tooltip content={aggregationMapping[aggregation].label} align="mousePosition">
-        <SvgIcon className={locals.aggregationIcon} type={aggregationMapping[aggregation].icon} size="xxs" />
-      </Tooltip>
-    );
-  }
-  return (
-    <Tooltip content={aggregation} align="mousePosition">
-      <small className={locals.percentile}>{aggregation.toLowerCase()}</small>
-    </Tooltip>
-  );
 }
 
 class SparkChartReactWrapper extends React.Component {

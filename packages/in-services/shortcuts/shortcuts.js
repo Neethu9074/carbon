@@ -5,7 +5,7 @@
 
 import { on } from '@instana/observables';
 
-import { onLeftArrow, onRightArrow } from 'in-services/shortcuts/shortcuts/navigationViaArrows';
+import { onLeftArrow, onRightArrow, onUpArrow, onDownArrow } from 'in-services/shortcuts/shortcuts/navigationViaArrows';
 import onQuestionMarkPressed from 'in-services/shortcuts/shortcuts/QuestionMark';
 import onEscapePressed from 'in-services/shortcuts/shortcuts/Esc';
 import onFPressed from 'in-services/shortcuts/shortcuts/F';
@@ -23,6 +23,8 @@ export function init() {
   registeredShortcuts[keyCodes.questionMark] = onQuestionMarkPressed;
   registeredShortcuts[keyCodes.arrows.left] = onLeftArrow;
   registeredShortcuts[keyCodes.arrows.right] = onRightArrow;
+  registeredShortcuts[keyCodes.arrows.up] = onUpArrow;
+  registeredShortcuts[keyCodes.arrows.down] = onDownArrow;
 
   on(window, 'keydown').subscribe(keyEvent => {
     const targetType = keyEvent.target.tagName.toLowerCase();

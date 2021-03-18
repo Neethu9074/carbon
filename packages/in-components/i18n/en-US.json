@@ -4,7 +4,6 @@
     "chartWrapperSameAxisSameValue": "All aggregation types for one axis must have the same value.",
     "viewInAnalyticsBtnLabel": "View in Analyze",
     "chartLendMetricTimeShifted": "Metric is time shifted to: {{timeShiftedLabel}}",
-    "chartTooltipContentMore": "{{number}} more",
     "chartDownloadLabel": "Download JSON",
     "chartGlobalHighlightLabel": "Highlight on all charts",
     "chartZoomInLabel": "Zoom to time range",
@@ -28,7 +27,12 @@
     "chartReleasesLanePresenterTooltip": "+{{len}} more Releases",
     "highlightedTimeframeCloseButtonClearHighlight": "Clear highlight",
     "resultAwareChartSomethingWentWrong": "Something went wrong…",
-    "resultAwareChartPleaseTryAgainLater": "Please try again later."
+    "resultAwareChartPleaseTryAgainLater": "Please try again later.",
+    "tooltip": {
+      "scrollHint": "Scroll using <upArrow /><downArrow /> keys",
+      "rollup": "over {{rollup}}",
+      "more": "{{number}} more"
+    }
   },
   "downloadBtn": {
     "downloadViewDownloadAsJsonLabel": "Download as JSON",
@@ -125,9 +129,6 @@
   "reloadUiDialogP2": "Please reload the browser window to get the latest version and continue.",
   "reloadUiDialogReloadBtn": "Reload",
   "sparkChart": {
-    "mean": "Mean",
-    "sum": "Sum",
-    "distinctCount": "Distinct Count",
     "notAvailable": "N/A"
   },
   "errorBoundary": {

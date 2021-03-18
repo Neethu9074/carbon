@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { millis, number, latency } from 'in-services/formatters/number';
+import AggregationSymbol from 'in-components/AggregationSymbol';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 
 import locals from './Tooltip.mless';
@@ -14,16 +15,12 @@ import locals from './Tooltip.mless';
 export default function Tooltip({ metricBuckets, percentileBuckets, config, style }) {
   const metrics = metricBuckets
     .map((buckets, i) => {
-      const notes = ['sum'];
-      if (config.y1.timeShifts[i].offset) {
-        notes.unshift(getTimeShiftLabel(config.y1.timeShifts[i]).toLowerCase());
-      }
-
       return config.isFiltered('y1', i)
         ? null
         : {
             label: config.y1.labels[i],
-            notes: notes,
+            aggregation: 'SUM',
+            timeShift: config.y1.timeShifts[i],
             color: config.y1.colors100[i],
             sum: buckets.map(b => b.calls).reduce(sumReducer, 0)
           };
@@ -32,25 +29,36 @@ export default function Tooltip({ metricBuckets, percentileBuckets, config, styl
 
   return (
     <div className={locals.tooltipContent} style={style}>
-      <div className={locals.heading}>{latencyRangeLabel(metricBuckets[0])}</div>
-      {metrics.map((metric, i) => (
-        <li key={i} className={locals.metricValue}>
-          <div className={locals.entry}>
+      <div className={locals.header}>{latencyRangeLabel(metricBuckets[0])}</div>
+
+      <ul className={locals.entries}>
+        {metrics.map((metric, i) => (
+          <li key={i} className={locals.entry}>
             <div className={locals.dot} style={{ background: metric.color }} />
-            <span className={locals.label}>{metric.label}</span>
-            <span className={locals.aggregation}>({metric.notes.join(', ')})</span>
-          </div>
-          <span className={locals.value}>{number.forcedCompact.detailed(metric.sum)}</span>
-        </li>
-      ))}
-      {// show the percentiles only if the main metric is enabled
-      !config.isFiltered('y1', 0) &&
-        percentileBuckets.reduce(arrayConcatReducer, []).map(p => (
-          <div key={p.percentile} className={locals.labelWrapper}>
-            <span>p{p.percentile}</span>
-            <span className={locals.value}>{latency.detailed(p.latency)}</span>
-          </div>
+            <span className={locals.label}>
+              {metric.label}
+              {metric.timeShift.offset !== 0 && (
+                <span className={locals.timeShift}>{` (${getTimeShiftLabel(metric.timeShift)})`}</span>
+              )}
+            </span>
+            {metric.aggregation && (
+              <span className={locals.aggregation}>
+                <AggregationSymbol aggregation={metric.aggregation} />
+              </span>
+            )}
+            <span className={locals.value}>{number.forcedCompact.detailed(metric.sum)}</span>
+          </li>
         ))}
+
+        {// show the percentiles only if the main metric is enabled
+        !config.isFiltered('y1', 0) &&
+          percentileBuckets.reduce(arrayConcatReducer, []).map(p => (
+            <li key={p.percentile} className={locals.entry}>
+              <span className={locals.label}>p{p.percentile}</span>
+              <span className={locals.value}>{latency.detailed(p.latency)}</span>
+            </li>
+          ))}
+      </ul>
     </div>
   );
 }

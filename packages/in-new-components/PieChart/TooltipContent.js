@@ -6,32 +6,26 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import AggregationSymbol from 'in-components/AggregationSymbol';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
-import { aggregationLabels } from 'in-stores/metric/metric';
 import { percentage } from 'in-services/formatters/number';
+import Spacer from 'in-new-components/layout/Spacer';
 
 import locals from './TooltipContent.mless';
 
 export default function TooltipContent({ slice, formatter }) {
-  const notes = [];
-  if (slice.timeShift.offset !== 0) {
-    notes.push(getTimeShiftLabel(slice.timeShift).toLowerCase());
-  }
-  if (slice.aggregation) {
-    notes.push(aggregationLabels[slice.aggregation]);
-  }
   return (
-    <div className={locals.tooltip}>
-      <div>
-        <span className={locals.toltipDot} style={{ background: slice.color }} />
-        <span>{slice.label}</span>
-        {notes.length > 0 && <span className={locals.secText}>({notes.join(', ')})</span>}
-      </div>
-      <div />
-      <div>
-        <strong>{formatter(slice.value)}</strong>
-        <span className={locals.secText}>{`(${percentage.detailed(slice.percentage)})`}</span>
-      </div>
+    <div className={locals.wrapper}>
+      <span className={locals.dot} style={{ background: slice.color }} />
+      <span className={locals.label}>{slice.label}</span>
+      {slice.timeShift.offset !== 0 && (
+        <span className={locals.timeShift}>{`(${getTimeShiftLabel(slice.timeShift)})`}</span>
+      )}
+      <Spacer horizontal="small" />
+      {slice.aggregation && <AggregationSymbol aggregation={slice.aggregation} />}
+      <Spacer horizontal="tiny" />
+      <strong>{formatter(slice.value)}</strong>
+      <span className={locals.percentage}> {`(${percentage.detailed(slice.percentage)})`}</span>
     </div>
   );
 }

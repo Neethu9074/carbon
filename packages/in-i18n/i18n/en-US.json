@@ -15,5 +15,18 @@
   },
   "language_en-US": "English",
   "language_de-DE": "German",
-  "language_zz-ZZ": "Pseudo language for QA purposes"
+  "language_zz-ZZ": "Pseudo language for QA purposes",
+  "aggregation_P25": "25th",
+  "aggregation_P50": "50th",
+  "aggregation_P75": "75th",
+  "aggregation_P90": "90th",
+  "aggregation_P95": "95th",
+  "aggregation_P98": "98th",
+  "aggregation_P99": "99th",
+  "aggregation_MEAN": "mean",
+  "aggregation_MIN": "min",
+  "aggregation_MAX": "max",
+  "aggregation_DISTINCT_COUNT": "distinct count",
+  "aggregation_SUM": "sum",
+  "aggregation_DISTRIBUTION": "distribution"
 }

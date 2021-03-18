@@ -123,6 +123,7 @@ function ChartReactWrapper(props) {
           {chart && width && (
             <ChartOverlay
               width={width}
+              chartHeight={chartHeight}
               timeConfig={timeConfig}
               chart={chart}
               chartWrapper={chartWrapperRef.current}

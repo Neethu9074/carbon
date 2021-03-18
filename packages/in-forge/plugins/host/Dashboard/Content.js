@@ -205,7 +205,7 @@ export default function HostDashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
-          height={200}
+          customHeight={300}
           y1={{
             type: 'line',
             metrics: ['tcp.established', 'tcp.opens', 'tcp.inSegs', 'tcp.outSegs'],

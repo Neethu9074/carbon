@@ -18,19 +18,25 @@ import { createStore } from 'in-stores/store';
 import { t } from 'in-i18n';
 
 export const aggregationLabels = {
-  MEAN: t('in-stores:metric.metric.MEAN'),
-  MIN: t('in-stores:metric.metric.MIN'),
-  P25: t('in-stores:metric.metric.P25'),
-  P50: t('in-stores:metric.metric.P50'),
-  P75: t('in-stores:metric.metric.P75'),
-  P90: t('in-stores:metric.metric.P90'),
-  P95: t('in-stores:metric.metric.P95'),
-  P98: t('in-stores:metric.metric.P98'),
-  P99: t('in-stores:metric.metric.P99'),
-  MAX: t('in-stores:metric.metric.MAX'),
-  DISTINCT_COUNT: t('in-stores:metric.metric.DISTINCT_COUNT'),
-  SUM: t('in-stores:metric.metric.SUM'),
-  DISTRIBUTION: t('in-stores:metric.metric.DISTRIBUTION')
+  MEAN: t('aggregation', { context: 'MEAN' }),
+  MIN: t('aggregation', { context: 'MIN' }),
+  P25: t('aggregation', { context: 'P25' }),
+  P50: t('aggregation', { context: 'P50' }),
+  P75: t('aggregation', { context: 'P75' }),
+  P90: t('aggregation', { context: 'P90' }),
+  P95: t('aggregation', { context: 'P95' }),
+  P98: t('aggregation', { context: 'P98' }),
+  P99: t('aggregation', { context: 'P99' }),
+  MAX: t('aggregation', { context: 'MAX' }),
+  DISTINCT_COUNT: t('aggregation', { context: 'DISTINCT_COUNT' }),
+  SUM: t('aggregation', { context: 'SUM' }),
+  DISTRIBUTION: t('aggregation', { context: 'DISTRIBUTION' })
+};
+
+export const aggregationIcons = {
+  MEAN: 'lib_mean',
+  DISTINCT_COUNT: 'lib_sum',
+  SUM: 'lib_sum'
 };
 
 // Ensure that this is kept in sync with the backend:

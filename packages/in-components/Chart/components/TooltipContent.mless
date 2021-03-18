@@ -8,24 +8,72 @@
 
 :local {
   .tooltipContent {
-    max-width: 18rem;
-    padding: 1rem 1rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+
     background: @lib__colors__white;
     color: @lib__colors__N800Dark;
     border-radius: @lib__shapes__radius_large;
-
+    font-size: 0.75rem;
     box-shadow: @lib__shadows__subtle;
-    border: 1px solid rgba(0, 0, 0, 0.16);
+    border: 1px solid @lib__colors__N300;
   }
 
-  .heading {
+  .header, .footer {
     display: flex;
-
+    align-items: center;
+    white-space: nowrap;
+    flex-shrink: 0;
     width: 100%;
-    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+    line-height: 2;
+    background: @lib__colors__N200;
+  }
 
-    font-size: 0.75rem;
-    .ellipsis();
+  .header {
+    border-bottom: 1px solid @lib__colors__N300;
+    border-top-left-radius: @lib__shapes__radius_large;
+    border-top-right-radius: @lib__shapes__radius_large;
+  }
+
+  .footer {
+    border-top: 1px solid @lib__colors__N300;
+    border-bottom-left-radius: @lib__shapes__radius_large;
+    border-bottom-right-radius: @lib__shapes__radius_large;
+  }
+
+  .footer {
+    color: @lib__colors__N600Light;
+  }
+
+  .key {
+    fill: @lib__colors__N600Light;
+    background: @lib__colors__white;
+    border: 1px solid @lib__colors__N300;
+    border-radius: @lib__shapes__radius_small;
+    margin: 0 0.25rem;
+
+    & + .key {
+      margin-left: 0;
+    }
+  }
+
+  .dataSeries {
+    overflow: hidden;
+    padding: .2rem 0.5rem;
+
+    // the scrollbar requires relative positioning
+    position: relative;
+  }
+
+  .scrollBar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: .3rem;
+    background: @lib__colors__N500;
+    border-radius: @lib__shapes__radius_medium;
+    display: none;
   }
 
   .rollupLabel {
@@ -33,73 +81,70 @@
     margin-left: 0.25rem;
   }
 
-  .tooltipMetricList {
+  .entries {
     list-style: none;
     margin: 0;
     padding: 0;
 
-    & + .tooltipMetricList {
-      border-top: 1px dashed @lib__colors__N600Light;
+    & + .entries {
+      border-top: 1px dashed @lib__colors__N300;
       margin-top: 0.5rem;
-      padding-top: 0.8rem;
+      padding-top: 0.5rem;
     }
-  }
-
-  .metricValue {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 0.5rem;
-
-    .ellipsis();
   }
 
   .entry {
     display: flex;
-    align-items: center;
-
-    .ellipsis();
-  }
-
-  .label {
-    .ellipsis();
+    align-items: baseline;
+    line-height: 1.75;
   }
 
   .dot,
   .rect {
     min-width: 0.75rem;
     min-height: 0.75rem;
-    margin-right: 0.375rem;
+    flex-shrink: 0;
+    margin-right: 0.25rem;
+
+    // Manually tweaking the alignment because we cannot rely on baseline alignment
+    position: relative;
+    top: 0.125rem;
   }
 
   .dot {
     border-radius: 50%;
   }
 
-  .aggregation {
+  .label {
+    width: 100%;
+    min-width: 6.25rem;
+    overflow: hidden;
+    overflow-wrap: break-word;
+  }
+
+  .timeShift {
     color: @lib__colors__N600Light;
     text-transform: lowercase;
-    margin-left: 0.25rem;
+    white-space: nowrap;
   }
 
   .value {
-    margin-left: 1rem;
+    flex-shrink: 0;
+    margin-left: 0.25rem;
     font-weight: bold;
     color: @lib__colors__N900Primary;
   }
 
-  .infoSection {
-    .flexbox();
-    white-space: nowrap;
-    color: @lib__colors__N600Light;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border-top: 1px solid @lib__colors__N300;
-    padding-top: 0.25rem;
+  .aggregation {
+    flex-shrink: 0;
+    min-width: 1.25rem;
+    margin-left: .5rem;
+    text-align: right;
   }
 
-  .infoIcon {
-    margin-right: 0.25rem;
-    margin-left: -0.125rem;
-    fill: @lib__colors__N600Light;
+  .aggregationIcon {
+    // Manually tweaking the alignment because we cannot rely on baseline alignment
+    position: relative;
+    top: 1px;
   }
 }

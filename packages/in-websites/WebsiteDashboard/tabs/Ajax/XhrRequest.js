@@ -264,6 +264,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                   <WebsiteChartWrapper
                     cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleResourceTiming')}
                     cardHeader={aggregationSelector}
+                    customHeight={300}
                     timeConfig={timeConfig}
                     shareMaxAxisDomain
                     viewInAnalytics={viewInAnalytics}

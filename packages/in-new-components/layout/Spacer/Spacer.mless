@@ -1,0 +1,76 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .spacer {
+    display: block;
+    width: 1px;
+    height: 1px;
+  }
+
+  .horizontal-tiny {
+    width: 0.125rem;
+  }
+  .horizontal-xxsmall {
+    width: 0.25rem;
+  }
+  .horizontal-xsmall {
+    width: 0.5rem;
+  }
+  .horizontal-small {
+    width: 0.75rem;
+  }
+  .horizontal-normal {
+    width: 1rem;
+  }
+  .horizontal-medium {
+    width: 1.25rem;
+  }
+  .horizontal-large {
+    width: 2rem;
+  }
+  .horizontal-xlarge {
+    width: 3rem;
+  }
+  .horizontal-xxlarge {
+    width: 6rem;
+  }
+  .horizontal-gutter {
+    width: @grid__gutter * 1px;
+  }
+
+  .vertical-tiny {
+    height: 0.125rem;
+  }
+  .vertical-xxsmall {
+    height: 0.25rem;
+  }
+  .vertical-xsmall {
+    height: 0.5rem;
+  }
+  .vertical-small {
+    height: 0.75rem;
+  }
+  .vertical-normal {
+    height: 1rem;
+  }
+  .vertical-medium {
+    height: 1.25rem;
+  }
+  .vertical-large {
+    height: 2rem;
+  }
+  .vertical-xlarge {
+    height: 3rem;
+  }
+  .vertical-xxlarge {
+    height: 6rem;
+  }
+  .vertical-gutter {
+    height: @grid__gutter * 1px;
+  }
+}

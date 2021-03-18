@@ -4,6 +4,7 @@
  */
 
 import { leftArrowId, rightArrowId } from 'in-new-components/AnalyzeView/SplitScreenList/elementIds';
+import { onScrollUp, onScrollDown } from 'in-components/Chart/components/TooltipContent';
 
 export function onLeftArrow(e) {
   tryClick(e, leftArrowId);
@@ -24,4 +25,16 @@ function tryClick(keyboardEvent, id) {
   ele.dispatchEvent(clickEvent);
   keyboardEvent.preventDefault();
   keyboardEvent.stopPropagation();
+}
+
+export function onUpArrow(e) {
+  if (onScrollUp()) {
+    e.preventDefault();
+  }
+}
+
+export function onDownArrow(e) {
+  if (onScrollDown()) {
+    e.preventDefault();
+  }
 }

@@ -163,6 +163,7 @@ export default function Speed({ timeConfig, tagFilters, websiteLabel, websiteId 
                 cardTitle={t('in-websites:websiteDashboard.tabs.speedCardTitleNavigationTiming')}
                 cardHeader={aggregationSelector}
                 timeConfig={timeConfig}
+                customHeight={300}
                 shareMaxAxisDomain
                 viewInAnalytics={{
                   websiteLabel
