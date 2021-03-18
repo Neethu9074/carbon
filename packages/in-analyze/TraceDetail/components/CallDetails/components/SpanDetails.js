@@ -48,7 +48,7 @@ export default connectTo(
         )}
         <Dl>
           {hasCxfType && <Di title={t('in-analyze:traceDetail.components.callDetails.cxfType')}>{cxfType}</Di>}
-          <Di title={t('in-analyze:traceDetail.components.callDetails.type')}>{getTypeLabelSingular(span)}</Di>
+          <Di title={t('in-analyze:traceDetail.components.callDetails.type')}>{getTypeLabelSingular(convertedSpan)}</Di>
           <Di title={t('in-analyze:traceDetail.components.callDetails.category')}>{spanDefinition.category}</Di>
         </Dl>
         <SpanForgeDetails key={call.id} span={convertedSpan} />
