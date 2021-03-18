@@ -12,7 +12,6 @@ import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { Ul, Li } from 'in-new-components/lists/List/List';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import { number } from 'in-services/formatters/number';
-import { identity } from 'in-services/util/function';
 import { isLoading } from 'in-services/util/result';
 import Typeahead from 'in-new-components/Typeahead';
 import useObservable from 'in-hooks/useObservable';
@@ -82,7 +81,7 @@ function SuggestionsList({
   fieldsToWatch,
   locals,
   tagName,
-  getSuggestionLabel = identity
+  getSuggestionLabel = ({ item }) => item
 }) {
   const suggestionsResult = useObservable(getSuggestions, fieldsToWatch);
 
