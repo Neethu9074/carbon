@@ -17,6 +17,7 @@ import { propTypeLocation } from 'in-stores/navigation';
 import { reload } from 'in-settings/components/List';
 import { isBlank } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(({ applicationLabel, applicationId }) => {
   const observables = {};
@@ -69,7 +70,7 @@ function CreateSmartAlert({
       }}
       withBoxShadow
     >
-      Add Alert
+      {t('in-alerting:smartAlerts.applications.components.createSmartAlert')}
     </FloatingActionButton>
   );
 }

@@ -10,6 +10,7 @@ import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import FloatingActionButton from 'in-new-components/FloatingActionButton';
 import { propTypeLocation } from 'in-stores/navigation';
 import { reload } from 'in-settings/components/List';
 import Button from 'in-new-components/Button';
@@ -19,6 +20,7 @@ export default function CreateGlobalSmartAlertButton({
   boundaryScope: urlBoundaryScope,
   defaultBoundaryScope,
   includeSynthetic,
+  renderAsSimpleButton,
   location
 }) {
   if (location?.pathname.includes('/application/configuration')) {
@@ -26,9 +28,12 @@ export default function CreateGlobalSmartAlertButton({
     return null;
   }
 
+  const Component = renderAsSimpleButton ? Button : FloatingActionButton;
+
   return (
-    <Button
+    <Component
       icon="lib_alerts_create"
+      iconType="lib_alerts_create"
       kind="primaryv2"
       onClick={() => {
         addActiveDialog(
@@ -51,8 +56,8 @@ export default function CreateGlobalSmartAlertButton({
       }}
       withBoxShadow
     >
-      {t('in-alerting:smartAlerts.applications.newGlobalAlert')}
-    </Button>
+      {t('in-alerting:smartAlerts.applications.components.createSmartAlert')}
+    </Component>
   );
 }
 
@@ -60,6 +65,7 @@ CreateGlobalSmartAlertButton.propTypes = {
   location: propTypeLocation,
   boundaryScope: PropTypes.string,
   defaultBoundaryScope: PropTypes.string,
+  renderAsSimpleButton: PropTypes.bool,
   includeSynthetic: PropTypes.bool
 };
 

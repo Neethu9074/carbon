@@ -240,10 +240,7 @@ export default function ApplicationsListPresenter({
           {role.canConfigureApplications && <CreateApplication icon="lib_openclose_add_box" kind="primaryv2" />}
 
           {role.canConfigureGlobalAlertConfigs && applicationSmartAlertsEnabled && (
-            <CreateGlobalSmartAlertButton
-              applicationId={applicationId}
-              applicationLabel=" - no specific application - "
-            />
+            <CreateGlobalSmartAlertButton renderAsSimpleButton />
           )}
         </FloatingActionButtonMenu>
       </FloatingActionButtons>

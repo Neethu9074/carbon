@@ -429,6 +429,7 @@
         "step3Title": "Step 3: Select Alerting Channels"
       },
       "components": {
+        "createSmartAlert": "Add Smart Alert",
         "provideLogMessageSelectLogMessage": "Select Log Message",
         "provideLogMessageLogLevel": "Log Level",
         "provideLogMessageErrorMessage": "Error Message",
