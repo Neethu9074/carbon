@@ -8,9 +8,11 @@ import PropTypes from 'prop-types';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Pagination from 'in-new-components/Pagination';
+import Link from 'in-components/Link';
 
 import locals from './ApplicationHealthOverview.mless';
 
@@ -52,10 +54,11 @@ const ApplicationHealthOverview = ({ applications, isPreview, timeConfig }) => {
 };
 
 const ApplicationRow = ({ application, timeConfig, isPreview }) => {
-  const { openIssues, maxSeverity, id } = application;
+  const { openIssues, maxSeverity, id, label } = application;
   return (
     <Li>
-      {application?.label}
+      {isPreview && label}
+      {!isPreview && <Link href$={getApplicationDashboard(id)}>{label}</Link>}
       <div className={isPreview ? locals.disabledHealthIndicator : locals.healthIndicator}>
         <ApplicationEntityHealthIndicatorBehavior
           applicationId={id}

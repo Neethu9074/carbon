@@ -409,11 +409,8 @@
     "indicatorBar": {
       "label": "Health Status",
       "criticalTooltip": "{{count}} critical",
-      "criticalTooltip_plural": "{{count}} criticals",
       "warningTooltip": "{{count}} warning",
-      "warningTooltip_plural": "{{count}} warnings",
-      "healthyTooltip": "{{count}} healthy",
-      "healthyTooltip_plural": "{{count}} healthys"
+      "healthyTooltip": "{{count}} healthy"
     }
   }
 }
