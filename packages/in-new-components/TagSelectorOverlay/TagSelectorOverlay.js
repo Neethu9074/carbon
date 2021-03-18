@@ -73,7 +73,6 @@ function toOptions(tagCatalog, tagTreeNodes, parentLabels = [], showTypeBadge, q
                 hasChildren={tagTreeNode.children?.length > 0}
               />
             ),
-            searchable: true,
             description: tagTreeNode.description,
             keywords: [joinedParentLabels, tagTreeNode.label, tagTreeNode.description, tagTreeNode.tagName]
               .filter(Boolean)

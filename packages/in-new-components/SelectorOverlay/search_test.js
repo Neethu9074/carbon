@@ -74,13 +74,4 @@ describe('in-new-components/SelectorOverlay/search', () => {
       }
     ]);
   });
-
-  it('should filter by searchable', () => {
-    expect(search(nodes, 'foobar')).to.deep.equal([
-      {
-        label: 'Second Level Leaf',
-        keywords: 'foobar'
-      }
-    ]);
-  });
 });

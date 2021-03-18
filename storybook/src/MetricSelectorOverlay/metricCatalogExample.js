@@ -9,13 +9,11 @@ export default {
       label: 'Infrastructure',
       description: null,
       icon: null,
-      searchable: true,
       children: [
         {
           label: '.NET App',
           description: null,
           icon: 'plugin:clrRuntimePlatform',
-          searchable: true,
           children: [
             {
               label: 'Contention-Rate',
@@ -73,7 +71,6 @@ export default {
           label: '.NET Core App',
           description: null,
           icon: 'plugin:netCoreRuntimePlatform',
-          searchable: true,
           children: [
             {
               label: 'Contention Count',
@@ -131,7 +128,6 @@ export default {
           label: 'AWS DynamoDB Table',
           description: null,
           icon: 'plugin:awsDynamoDb',
-          searchable: true,
           children: [
             {
               label: 'BatchGetItem successful request latency',
@@ -684,7 +680,6 @@ export default {
           label: 'AWS EBS Volume',
           description: null,
           icon: 'plugin:awsEbs',
-          searchable: true,
           children: [
             {
               label: 'Burst balance',
@@ -761,7 +756,6 @@ export default {
           label: 'AWS ELB',
           description: null,
           icon: 'plugin:awsElb',
-          searchable: true,
           children: [
             {
               label: 'Client HTTP ELB 4XX',
@@ -982,7 +976,6 @@ export default {
           label: 'AWS Lambda Version',
           description: null,
           icon: 'plugin:awsLambdaVersion',
-          searchable: true,
           children: [
             {
               label: 'Concurrent executions (Sum)',
@@ -1094,7 +1087,6 @@ export default {
           label: 'AWS RDS',
           description: null,
           icon: 'plugin:awsRds',
-          searchable: true,
           children: [
             {
               label: 'Available storage space',
@@ -1230,7 +1222,6 @@ export default {
           label: 'AWS S3 Bucket',
           description: null,
           icon: 'plugin:awsS3',
-          searchable: true,
           children: [
             {
               label: 'All requests',
@@ -1335,7 +1326,6 @@ export default {
           label: 'AWS SQS',
           description: null,
           icon: 'plugin:awsSqs',
-          searchable: true,
           children: [
             {
               label: 'Age of oldest message',
@@ -1408,7 +1398,6 @@ export default {
           label: 'Apache HTTPd',
           description: null,
           icon: 'plugin:httpd',
-          searchable: true,
           children: [
             {
               label: 'Busy workers',
@@ -1515,7 +1504,6 @@ export default {
           label: 'BeeInstana Server',
           description: null,
           icon: 'plugin:beeInstanaNode',
-          searchable: true,
           children: [
             {
               label: 'Aggregator metric AggregateBinary.DataSize.count',
@@ -2784,7 +2772,6 @@ export default {
           label: 'Companion',
           description: null,
           icon: 'plugin:statsd',
-          searchable: true,
           children: [
             {
               label: 'StatsD counter helloCounter',
@@ -2800,7 +2787,6 @@ export default {
           label: 'Containerd Container',
           description: null,
           icon: 'plugin:containerd',
-          searchable: true,
           children: [
             {
               label: 'Active anonymous',
@@ -2900,7 +2886,6 @@ export default {
           label: 'Docker Container',
           description: null,
           icon: 'plugin:docker',
-          searchable: true,
           children: [
             {
               label: 'Active anonymous',
@@ -3070,7 +3055,6 @@ export default {
           label: 'Dropwizard App',
           description: null,
           icon: 'plugin:dropwizardApplicationContainer',
-          searchable: true,
           children: [
             {
               label: 'Dropwizard counter ElasticSearchSnapshotGateway.snapshot-queries-concurrent-limiter.running',
@@ -10574,7 +10558,6 @@ export default {
           label: 'Elasticsearch Cluster',
           description: null,
           icon: 'plugin:elasticsearchCluster',
-          searchable: true,
           children: [
             {
               label: 'Active',
@@ -10674,7 +10657,6 @@ export default {
           label: 'Elasticsearch Node',
           description: null,
           icon: 'plugin:elasticsearchNode',
-          searchable: true,
           children: [
             {
               label: 'Active',
@@ -10844,7 +10826,6 @@ export default {
           label: 'Garden Container',
           description: null,
           icon: 'plugin:garden',
-          searchable: true,
           children: [
             {
               label: 'Active Anonymous',
@@ -10951,7 +10932,6 @@ export default {
           label: 'Go App',
           description: null,
           icon: 'plugin:golangRuntimePlatform',
-          searchable: true,
           children: [
             {
               label: 'Allocated Memory',
@@ -11009,7 +10989,6 @@ export default {
           label: 'Google Cloud Datastore',
           description: null,
           icon: 'plugin:googleCloudDatastore',
-          searchable: true,
           children: [
             {
               label: 'Average read sizes',
@@ -11046,7 +11025,6 @@ export default {
           label: 'Google Cloud PubSub',
           description: null,
           icon: 'plugin:googleCloudPubSub',
-          searchable: true,
           children: [
             {
               label: 'Backlog bytes',
@@ -11076,7 +11054,6 @@ export default {
           label: 'Google Cloud PubSub Subscription',
           description: null,
           icon: 'plugin:googleCloudPubSubSubscription',
-          searchable: true,
           children: [
             {
               label: 'Ack message count',
@@ -11192,7 +11169,6 @@ export default {
           label: 'Google Cloud PubSub Topic',
           description: null,
           icon: 'plugin:googleCloudPubSubTopic',
-          searchable: true,
           children: [
             {
               label: 'Backlog cost',
@@ -11243,7 +11219,6 @@ export default {
           label: 'Google Cloud Run Service Revision',
           description: null,
           icon: 'plugin:googleCloudRunServiceRevision',
-          searchable: true,
           children: [
             {
               label: "Container Billable Instance Time'",
@@ -11308,7 +11283,6 @@ export default {
           label: 'Google Cloud Storage',
           description: null,
           icon: 'plugin:googleCloudStorage',
-          searchable: true,
           children: [
             {
               label: 'Object writes',
@@ -11366,7 +11340,6 @@ export default {
           label: 'Host',
           description: null,
           icon: 'plugin:host',
-          searchable: true,
           children: [
             {
               label: 'CPU nice usage',
@@ -11536,7 +11509,6 @@ export default {
           label: 'IBM MQ Channel',
           description: null,
           icon: 'plugin:ibmMqChannel',
-          searchable: true,
           children: [
             {
               label: 'Buffers received',
@@ -11587,7 +11559,6 @@ export default {
           label: 'IBM MQ Queue',
           description: null,
           icon: 'plugin:ibmMqQueue',
-          searchable: true,
           children: [
             {
               label: 'Last reset time',
@@ -11652,7 +11623,6 @@ export default {
           label: 'IBM MQ Queue Manager',
           description: null,
           icon: 'plugin:ibmMqQueueManager',
-          searchable: true,
           children: [
             {
               label: 'Connection count',
@@ -11668,7 +11638,6 @@ export default {
           label: 'IBM MQ Queue Usage',
           description: null,
           icon: 'plugin:ibmMqQueueUsage',
-          searchable: true,
           children: [
             {
               label: 'Open inputs',
@@ -11691,7 +11660,6 @@ export default {
           label: 'IBM MQ Topic',
           description: null,
           icon: 'plugin:ibmMqTopic',
-          searchable: true,
           children: [
             {
               label: 'Messages count',
@@ -11721,7 +11689,6 @@ export default {
           label: 'Internet Information Server',
           description: null,
           icon: 'plugin:msiis',
-          searchable: true,
           children: [
             {
               label: 'default Web Site Bytes received',
@@ -11877,7 +11844,6 @@ export default {
           label: 'JVM',
           description: null,
           icon: 'plugin:jvmRuntimePlatform',
-          searchable: true,
           children: [
             {
               label: 'Blocked Threads',
@@ -12427,7 +12393,6 @@ export default {
           label: 'Kubernetes Cluster',
           description: null,
           icon: 'plugin:kubernetesCluster',
-          searchable: true,
           children: [
             {
               label: 'Allocated Pods',
@@ -12555,7 +12520,6 @@ export default {
           label: 'Kubernetes DaemonSet',
           description: null,
           icon: 'plugin:kubernetesDaemonSet',
-          searchable: true,
           children: [
             {
               label: 'Available',
@@ -12592,7 +12556,6 @@ export default {
           label: 'Kubernetes Deployment',
           description: null,
           icon: 'plugin:kubernetesDeployment',
-          searchable: true,
           children: [
             {
               label: 'Available',
@@ -12678,7 +12641,6 @@ export default {
           label: 'Kubernetes Job',
           description: null,
           icon: 'plugin:kubernetesJob',
-          searchable: true,
           children: [
             {
               label: 'Active',
@@ -12715,7 +12677,6 @@ export default {
           label: 'Kubernetes Namespace',
           description: null,
           icon: 'plugin:kubernetesNamespace',
-          searchable: true,
           children: [
             {
               label: 'Capacity Limits',
@@ -12773,7 +12734,6 @@ export default {
           label: 'Kubernetes Node',
           description: null,
           icon: 'plugin:kubernetesNode',
-          searchable: true,
           children: [
             {
               label: 'Allocated Pods',
@@ -12838,7 +12798,6 @@ export default {
           label: 'Kubernetes PersistentVolume',
           description: null,
           icon: 'plugin:kubernetesPersistentVolume',
-          searchable: true,
           children: [
             {
               label: 'Capacity',
@@ -12854,7 +12813,6 @@ export default {
           label: 'Kubernetes PersistentVolumeClaim',
           description: null,
           icon: 'plugin:kubernetesPersistentVolumeClaim',
-          searchable: true,
           children: [
             {
               label: 'Capacity',
@@ -12877,7 +12835,6 @@ export default {
           label: 'Kubernetes Pod',
           description: null,
           icon: 'plugin:kubernetesPod',
-          searchable: true,
           children: [
             {
               label: 'CPU Limits',
@@ -12928,7 +12885,6 @@ export default {
           label: 'Kubernetes StatefulSet',
           description: null,
           icon: 'plugin:kubernetesStatefulSet',
-          searchable: true,
           children: [
             {
               label: 'Available',
@@ -12951,7 +12907,6 @@ export default {
           label: 'MS SQL Instance',
           description: null,
           icon: 'plugin:msSqlDatabase',
-          searchable: true,
           children: [
             {
               label: 'Async Network IO',
@@ -13058,7 +13013,6 @@ export default {
           label: 'MongoDB Node',
           description: null,
           icon: 'plugin:mongoDb',
-          searchable: true,
           children: [
             {
               label: 'Connections',
@@ -13207,7 +13161,6 @@ export default {
           label: 'MySQL DB',
           description: null,
           icon: 'plugin:mySqlDatabase',
-          searchable: true,
           children: [
             {
               label: 'APP_USAGE_SERVICE Average query latency',
@@ -14150,7 +14103,6 @@ export default {
           label: 'Nginx Server',
           description: null,
           icon: 'plugin:nginx',
-          searchable: true,
           children: [
             {
               label: 'Accepted connections',
@@ -14215,7 +14167,6 @@ export default {
           label: 'Node.js App',
           description: null,
           icon: 'plugin:nodeJsRuntimePlatform',
-          searchable: true,
           children: [
             {
               label: '#Handles',
@@ -14308,7 +14259,6 @@ export default {
           label: 'Process',
           description: null,
           icon: 'plugin:process',
-          searchable: true,
           children: [
             {
               label: 'Current',
@@ -14373,7 +14323,6 @@ export default {
           label: 'Prometheus App',
           description: null,
           icon: 'plugin:prometheus',
-          searchable: true,
           children: [
             {
               label: 'Prometheus counter jvm_threads_started_total',
@@ -14914,7 +14863,6 @@ export default {
           label: 'Python App',
           description: null,
           icon: 'plugin:pythonRuntimePlatform',
-          searchable: true,
           children: [
             {
               label: 'Alive Threads',
@@ -15056,7 +15004,6 @@ export default {
           label: 'RabbitMQ',
           description: null,
           icon: 'plugin:rabbitMq',
-          searchable: true,
           children: [
             {
               label: 'Channels',
@@ -15226,7 +15173,6 @@ export default {
           label: 'Redis Node',
           description: null,
           icon: 'plugin:redis',
-          searchable: true,
           children: [
             {
               label: 'Cache Hit rate',
@@ -15340,7 +15286,6 @@ export default {
           label: 'Spring Boot App',
           description: null,
           icon: 'plugin:springbootApplicationContainer',
-          searchable: true,
           children: [
             {
               label: 'Active Sessions',
@@ -15398,7 +15343,6 @@ export default {
           label: 'ZooKeeper',
           description: null,
           icon: 'plugin:zooKeeper',
-          searchable: true,
           children: [
             {
               label: 'Alive Connections',

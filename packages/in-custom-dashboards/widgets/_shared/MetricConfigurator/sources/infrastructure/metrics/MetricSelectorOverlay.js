@@ -47,7 +47,6 @@ function toOptions(metricTreeNodes, parentLabels = []) {
       metric: metricTreeNode.name,
       type: metricTreeNode.type,
       icon: metricTreeNode.icon,
-      searchable: true,
       keywords: [
         joinedParentLabels,
         metricTreeNode.label,

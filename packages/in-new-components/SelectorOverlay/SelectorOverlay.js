@@ -34,10 +34,7 @@ export default function SelectorOverlay({ options, loading = false, onChange, wi
   const [{ query, focussedNode, showFocussedNode }, setState] = useState(initialState);
   options = useMemo(() => {
     if (isNotBlank(query)) {
-      return search(
-        options.filter(level => level.searchable),
-        query
-      );
+      return search(options, query);
     }
     return options;
   }, [options, query]);
