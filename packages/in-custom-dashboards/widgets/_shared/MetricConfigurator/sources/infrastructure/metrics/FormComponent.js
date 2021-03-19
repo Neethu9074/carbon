@@ -123,6 +123,7 @@ export default function FormComponent({
         hasError={groupingField ? groupingField.touched && !groupingField.valid : false}
         additionalContent={<TouchedMessages field={groupingField} />}
         withOptionalMarker={!isRequiringGroupingConfiguration(form)}
+        hideIncludeOthersToggle
       />
 
       {timeShiftConfiguration}

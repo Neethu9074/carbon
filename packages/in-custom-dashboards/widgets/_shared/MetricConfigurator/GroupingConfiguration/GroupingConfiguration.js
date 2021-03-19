@@ -26,7 +26,8 @@ export default function GroupingConfiguration({
   GroupingConfigurator,
   hasError,
   additionalContent,
-  withOptionalMarker
+  withOptionalMarker,
+  hideIncludeOthersToggle
 }) {
   return (
     <>
@@ -56,13 +57,17 @@ export default function GroupingConfiguration({
                   <option value="DESC">{t('in-custom-dashboards:widgets.metricConfig.groupingConfig.top5')}</option>
                   <option value="ASC">{t('in-custom-dashboards:widgets.metricConfig.groupingConfig.bottom5')}</option>
                 </Select>
-                <Toggle
-                  className={locals.toggle}
-                  id="select-top-groups-display-sum-others"
-                  checked={grouping.includeOthers}
-                  onChange={e => onIncludeOthersChange(e.target.checked)}
-                />
-                {t('in-custom-dashboards:widgets.metricConfig.groupingConfig.showRemainingGroupsAggregOther')}
+                {!hideIncludeOthersToggle && (
+                  <>
+                    <Toggle
+                      className={locals.toggle}
+                      id="select-top-groups-display-sum-others"
+                      checked={grouping.includeOthers}
+                      onChange={e => onIncludeOthersChange(e.target.checked)}
+                    />
+                    {t('in-custom-dashboards:widgets.metricConfig.groupingConfig.showRemainingGroupsAggregOther')}
+                  </>
+                )}
               </div>
             </Section>
           )}
@@ -89,5 +94,6 @@ GroupingConfiguration.propTypes = {
   withGrouping: PropTypes.bool,
   withOptionalMarker: PropTypes.bool,
   hasError: PropTypes.bool,
-  additionalContent: PropTypes.node
+  additionalContent: PropTypes.node,
+  hideIncludeOthersToggle: PropTypes.bool
 };
