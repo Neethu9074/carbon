@@ -84,7 +84,7 @@ export default function LogsDownloadList({ snapshot }) {
 
   return (
     <Dialog
-      title={(t('in-forge:plugins.instanaAgent.dashboard.downloadableLogsWithCouunt'), { len: rows.length })}
+      title={t('in-forge:plugins.instanaAgent.dashboard.downloadableLogsWithCount', { len: rows.length })}
       onClose={close}
       className={locals.dialog}
     >

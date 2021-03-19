@@ -37,16 +37,25 @@ const PieChartWrapper = props => {
   const [hiddenMetrics, setHiddenMetrics] = useState([]);
   const sliceGap = donutRadius && metrics.length > 1 ? 0.002 : 0;
 
+  // Dependending on the chosen aggregation and data source, the backend may respond
+  // with an empty result array indicating that no source data was available. This is
+  // a valid behavior and we need to cope with this accordingly.
+  const metricsWithDataPoints = metrics.filter(eachMetric => eachMetric.length > 0);
+
   const sum =
-    useMemo(() => metrics.filter((_, i) => !hiddenMetrics.includes(i)).reduce((acc, m2) => acc + m2[0][1], 0), [
-      metrics,
-      hiddenMetrics
-    ]) +
-    metrics.length * sliceGap;
+    useMemo(
+      () =>
+        metricsWithDataPoints
+          .filter((_, i) => !hiddenMetrics.includes(i))
+          .reduce((acc, m2) => acc + (m2[0]?.[1] || 0), 0),
+      [metricsWithDataPoints, hiddenMetrics]
+    );
+
+  const sumForSliceCalculation = sum + metricsWithDataPoints.length * sliceGap;
 
   const slices = useMemo(
     () =>
-      metrics.map((eachMetric, i) => {
+      metricsWithDataPoints.map((eachMetric, i) => {
         if (!hiddenMetrics.includes(i)) {
           return {
             percentage: eachMetric[0][1] / sum,
@@ -59,7 +68,7 @@ const PieChartWrapper = props => {
           };
         }
       }),
-    [metrics, props.y1.colors100, props.y1.colors50, hiddenMetrics, sum]
+    [metricsWithDataPoints, props.y1.colors100, props.y1.colors50, hiddenMetrics, sum]
   );
 
   let renderedPercentage = 0;
@@ -81,7 +90,7 @@ const PieChartWrapper = props => {
             const [startX, startY] = getCoordinatesForSlice(renderedPercentage + sliceGap);
 
             // each slice starts where the last slice ended, so keep a cumulative percent
-            renderedPercentage += slice.percentage;
+            renderedPercentage += slice.value / sumForSliceCalculation;
 
             const [endX, endY] = getCoordinatesForSlice(renderedPercentage);
 
