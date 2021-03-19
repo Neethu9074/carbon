@@ -34,7 +34,6 @@ import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
-import FeatureNew from 'in-new-components/FeatureNew/FeatureNew';
 import { emptyArray } from 'in-services/fixedObjects';
 import { isNotBlank } from 'in-services/util/string';
 import Title from 'in-components/Title/Title';
@@ -58,14 +57,6 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped, formMod
                 href={`https://docs.google.com/forms/d/e/1FAIpQLSejuUF8Gc-wQQN58ffivTnGjYe6OWdqVgLuBo59za3LTTMfIg/viewform?usp=pp_url&entry.558784134=${encodeURIComponent(
                   window.location.href
                 )}`}
-              />
-            );
-          }
-          if (activeConfiguration?.ua2) {
-            return (
-              <FeatureNew
-                text={t('in-analyze:analyzeHeader.learnNewUI')}
-                href="https://www.youtube.com/watch?v=0vDC1qI4Eew"
               />
             );
           }
