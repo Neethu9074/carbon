@@ -44,6 +44,12 @@ export default function FacetedSearch({
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
       />
+      <FacetedFilterHttpStatusCodes
+        title={t('in-applications:analyze.httpStatusCode')}
+        tagFilterExpression={tagFilterExpression}
+        updateFilter={updateFilter}
+        dataSource={dataSource}
+      />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.applications')}
         tag="application.name"
@@ -56,7 +62,6 @@ export default function FacetedSearch({
         enableUseAsGroup={dataSource !== 'traces'}
         groupbyTag={groupbyTag}
       />
-
       <FacetedFilterGeneric
         title={t('in-applications:analyze.services')}
         tag="service.name"
@@ -104,12 +109,6 @@ export default function FacetedSearch({
         customLabelMapper={label => getPluginName(label)}
         enableUseAsGroup={dataSource !== 'traces'}
         groupbyTag={groupbyTag}
-      />
-      <FacetedFilterHttpStatusCodes
-        title={t('in-applications:analyze.httpStatusCode')}
-        tagFilterExpression={tagFilterExpression}
-        updateFilter={updateFilter}
-        dataSource={dataSource}
       />
       <FacetedFilterHiddenCalls
         title={t('in-applications:analyze.hiddenCalls')}

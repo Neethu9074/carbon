@@ -99,6 +99,7 @@ function HiddenCallCheck({ label, checked, onChange, disabled, disabledTooltipCo
       >
         <CheckboxFancy
           labelClassName={locals.label}
+          wrapperClassName={locals.checkboxWrapper}
           label={label}
           checked={checked}
           onChange={onChange}
