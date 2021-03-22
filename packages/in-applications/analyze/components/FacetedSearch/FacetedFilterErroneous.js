@@ -15,7 +15,7 @@ import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { pendingResult } from 'in-services/fixedObjects';
-import { number } from 'in-services/formatters/number';
+import { siPrefix } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
@@ -137,7 +137,7 @@ function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource
         >
           <span className={locals.label}>Erroneous</span>
           <span className={locals.count}>
-            {number.compact(
+            {siPrefix.detailed(
               suggestions.data?.results.filter(result => result.label === 'true')[0]?.metrics[
                 dataSourceConstants[dataSource].metricKey
               ][0][1] || 0

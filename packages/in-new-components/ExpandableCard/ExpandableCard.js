@@ -26,7 +26,8 @@ export default function ExpandableCard({
   label,
   darkFrame,
   useMaxAvailableHeight,
-  size
+  size,
+  tooltipDisabled = false
 }) {
   const [expanded, setExpanded] = useState(openByDefault);
 
@@ -36,9 +37,10 @@ export default function ExpandableCard({
 
       <Tooltip
         content={
-          expanded
+          !tooltipDisabled &&
+          (expanded
             ? t('in-new-components:expandableCard.tooltipShowLess')
-            : t('in-new-components:expandableCard.tooltipShowMore')
+            : t('in-new-components:expandableCard.tooltipShowMore'))
         }
       >
         <SvgIcon

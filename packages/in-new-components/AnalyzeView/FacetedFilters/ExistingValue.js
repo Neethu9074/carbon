@@ -21,14 +21,14 @@ import locals from './ExistingValue.mless';
 
 export default function ExistingValue({ value, removeLink }) {
   return (
-    <div className={locals.suggestion}>
-      <Tooltip content={value}>
+    <Tooltip content={value} align="rightMiddle" delay={1000}>
+      <div className={locals.suggestion}>
         <span className={locals.label}>{value}</span>
-      </Tooltip>
-      <Link href={removeLink}>
-        <SvgIcon className={locals.icon} type="lib_openclose_cancel" size="s" />
-      </Link>
-    </div>
+        <Link href={removeLink}>
+          <SvgIcon className={locals.icon} type="lib_openclose_cancel" size="s" />
+        </Link>
+      </div>
+    </Tooltip>
   );
 }
 

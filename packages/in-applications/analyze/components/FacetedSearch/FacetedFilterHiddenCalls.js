@@ -48,7 +48,13 @@ export default function FacetedFilterHiddenCalls({
 function HiddenCallCheck({ label, checked, onChange }) {
   return (
     <div className={locals.suggestion}>
-      <CheckboxFancy labelClassName={locals.label} label={label} checked={checked} onChange={onChange} />
+      <CheckboxFancy
+        labelClassName={locals.label}
+        wrapperClassName={locals.checkboxWrapper}
+        label={label}
+        checked={checked}
+        onChange={onChange}
+      />
     </div>
   );
 }

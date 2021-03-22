@@ -258,7 +258,7 @@
     "httpStatusCode": "HTTP Status Code",
     "hiddenCalls": "Hidden Calls",
     "noResults": "No results",
-    "showBatchMore": "show {{nextBatch}} more",
+    "loadMore": "Load more",
     "callBatchCountTooltip": "This call is batched and represents {{callBatchCount}} individual call.",
     "callBatchCountTooltip_plural": "This call is batched and represents {{callBatchCount}} individual calls.",
     "callBatchCountTooltip_0": "This call is batched and represents {{callBatchCount}} individual calls.",

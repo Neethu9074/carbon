@@ -16,6 +16,7 @@ export default function FacetedExpandableCard(props) {
       className={locals.facetedCard}
       headerClassName={locals.facetedCardHeader}
       size="s"
+      tooltipDisabled
       {...props}
     >
       <div className={locals.facetedCardBody}>{props.children}</div>
