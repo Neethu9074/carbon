@@ -7,11 +7,11 @@ import React, { useEffect, useState } from 'react';
 import { find, groupBy } from 'lodash';
 
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
+import HiddenCallsConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/HiddenCallsConfiguration';
 import {
   isRequiringGroupingConfiguration,
   onChangeGrouping
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
-import HiddenCallsConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/HiddenCallsConfiguration';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import QueryBuilder, { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
@@ -27,6 +27,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useObservable from 'in-hooks/useObservable';
 import Stack from 'in-new-components/layout/Stack';
+import { getPluginName } from 'in-sdk/pluginName';
 import { t } from 'in-i18n';
 
 export default function FormComponent({
@@ -182,6 +183,9 @@ export default function FormComponent({
               includeInternal: includeInternalField.value,
               includeSynthetic: includeSyntheticField.value
             }}
+            getSuggestionLabel={({ item, tagName }) =>
+              tagName === 'technology' ? `${getPluginName(item)} (${item})` : item
+            }
           />
           <HiddenCallsConfiguration
             includeInternal={includeInternalField.value}
