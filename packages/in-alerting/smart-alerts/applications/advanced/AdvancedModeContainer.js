@@ -75,7 +75,6 @@ export default function AdvancedModeContainer(props) {
                 QueryBuilderComponent={QueryBuilderComponent}
                 isGlobalSmartAlert={isGlobalSmartAlert}
                 editMode={editMode}
-                timeConfig={timeConfig}
               />
             </>
           ),

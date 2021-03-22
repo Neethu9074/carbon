@@ -16,23 +16,17 @@ import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/smart-a
 import getApplicationsCursorPaginated from 'in-subscription/application/getApplicationsCursorPaginated';
 import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
 import getServicesCursorPaginated from 'in-subscription/application/getServicesCursorPaginated';
+import { maxChartViewTimeframe } from '../../../../components/Chart/chartViewConfig';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import getApplication from 'in-subscription/application/getApplication';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 import LightCard from 'in-new-components/Card/LightCard';
 import Stack from 'in-new-components/layout/Stack';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ScopeConfig.mless';
 
-export default function ScopeConfig({
-  form,
-  updateForm,
-  QueryBuilderComponent,
-  timeConfig,
-  isGlobalSmartAlert,
-  editMode
-}) {
+export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, isGlobalSmartAlert, editMode }) {
   const applications = form.get('applications').value;
   const boundaryScope = form.get('boundaryScope').value;
   const alertApplicationId = form.get('applicationId').value;
@@ -45,9 +39,11 @@ export default function ScopeConfig({
   return (
     <LightCard
       title={
-        <div className={locals.lightCardTitle}>
-          {t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitle')}
-        </div>
+        <Tooltip content={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleTooltip')}>
+          <div className={locals.lightCardTitle}>
+            {t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitle')}
+          </div>
+        </Tooltip>
       }
       headerClassName={locals.lightCardHeader}
       header={
@@ -81,7 +77,9 @@ export default function ScopeConfig({
                 )
               }
               alertApplicationId={alertApplicationId}
-              timeConfig={timeConfig}
+              timeConfig={{
+                windowSize: maxChartViewTimeframe
+              }}
               boundaryScope={boundaryScope}
               includeSynthetic={includeSynthetic}
               searchQuery={searchQuery}
@@ -118,7 +116,6 @@ ScopeConfig.propTypes = {
   isGlobalSmartAlert: PropTypes.bool,
   editMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
-  timeConfig: propTypeTimeConfig.isRequired,
   updateForm: PropTypes.func.isRequired
 };
 

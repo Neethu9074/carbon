@@ -14,7 +14,6 @@ import locals from 'in-alerting/smart-alerts/applications/simple/SimpleAlertConf
 
 export default function SimpleAlertConfigDialogStep2({
   form,
-  timeConfig,
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
@@ -32,7 +31,6 @@ export default function SimpleAlertConfigDialogStep2({
             updateForm={updateForm}
             isGlobalSmartAlert={isGlobalSmartAlert}
             QueryBuilderComponent={QueryBuilderComponent}
-            timeConfig={timeConfig}
             headerTransparent
           />
         )}

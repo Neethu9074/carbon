@@ -93,7 +93,7 @@
         "evaluationSwitch": {
           "individual": "Individual Alerts",
           "evaluationTypePERAP": {
-            "selectionText": "on the aggregation of all selected Services and Endpoints",
+            "selectionText": "On the aggregation of all selected Services and Endpoints",
             "columnText": "aggregated",
             "description": "Alert on the aggregation of all selected Services and Endpoints"
           },
@@ -464,6 +464,7 @@
         "selectAlertChannelButtonTitle": "Select alert channels",
         "selectAlertChannelButton": "Select Alert Channels",
         "scopeConfigTitle": "Select Services/Endpoints",
+        "scopeConfigTitleTooltip": "Showing avaliable entities for the last 7 days",
         "sortByUserSelectionLabel": "Sort by user selection",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "At least {{count}} user and {{userPercentage}} of users impacted within {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "At least {{count}} users and {{userPercentage}} of users impacted within {{formattedTimeWindow}}",
