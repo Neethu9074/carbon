@@ -367,9 +367,9 @@
     "setEnabledMessagePressESCToDisableTVMode": "Press ESC to disable TV mode."
   },
   "analyze": {
-    "loadMore": "Load {{count}} more",
-    "showMore": "Show {{count}} more",
-    "useAsGroup": "Use as Group",
+    "loadMoreWithCount": "Load {{count}} more",
+    "loadMore": "Load more",
+    "addAsGroup": "Add as Group",
     "noResults": "No results",
     "from": "From",
     "fromUnit": "From ({{unit}})",

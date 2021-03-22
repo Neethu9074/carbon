@@ -16,12 +16,12 @@ import locals from './Suggestion.mless';
 
 export default function ExistingValue({ value, remove }) {
   return (
-    <div className={locals.suggestion}>
-      <Tooltip content={value}>
+    <Tooltip content={value} align="rightMiddle" delay={1000}>
+      <div className={locals.suggestion}>
         <span className={locals.existingLabel}>{value}</span>
-      </Tooltip>
-      <SvgIcon className={locals.existingIcon} type="lib_openclose_cancel" size="s" onClick={remove} />
-    </div>
+        <SvgIcon className={locals.existingIcon} type="lib_openclose_cancel" size="s" onClick={remove} />
+      </div>
+    </Tooltip>
   );
 }
 

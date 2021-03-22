@@ -10,7 +10,7 @@ import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { number } from 'in-services/formatters/number';
+import { siPrefix } from 'in-services/formatters/number';
 import { identity } from 'in-services/util/function';
 import Stack from 'in-new-components/layout/Stack';
 import Message from 'in-new-components/Message';
@@ -124,26 +124,26 @@ function Results({
               style={{ textDecoration: 'none' }}
             >
               <span className={locals.label}>{customLabelMapper(suggestion.name)}</span>
-              <span className={locals.count}>{number.compact(suggestion.metrics.facetedSearchMetric[0][1])}</span>
+              <span className={locals.count}>{siPrefix.detailed(suggestion.metrics.facetedSearchMetric[0][1])}</span>
             </Link>
           </Tooltip>
         </div>
       ))}
       <div className={locals.buttonRow}>
         {nextBatch > 0 && (
-          <Button className={locals.showMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>
-            {t('in-new-components:analyze.showMore', { count: nextBatch })}
+          <Button className={locals.loadMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>
+            {t('in-new-components:analyze.loadMore')}
           </Button>
         )}
         <div />
         {enableUseAsGroup && (
           <Button
-            className={locals.useAsGroup}
+            className={locals.addAsGroup}
             kind="action"
             href={getHrefToGroupedView(tag)}
             onClick={() => ua2FacetedSearchGroupChangedTracker({ dataSource, tagName: tag })}
           >
-            {t('in-new-components:analyze.useAsGroup')}
+            {t('in-new-components:analyze.addAsGroup')}
           </Button>
         )}
       </div>

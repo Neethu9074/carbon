@@ -12,7 +12,7 @@ import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { number } from 'in-services/formatters/number';
+import { siPrefix } from 'in-services/formatters/number';
 import { identity } from 'in-services/util/function';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
@@ -133,7 +133,7 @@ function Results({
             >
               <span className={locals.label}>{customLabelMapper(suggestion.label)}</span>
               <span className={locals.count}>
-                {number.compact(suggestion.metrics[dataSourceConstants[dataSource].metricKey][0][1])}
+                {siPrefix.detailed(suggestion.metrics[dataSourceConstants[dataSource].metricKey][0][1])}
               </span>
             </Link>
           </Tooltip>
@@ -141,14 +141,14 @@ function Results({
       ))}
       <div className={locals.buttonRow}>
         {nextBatch > 0 && (
-          <Button className={locals.showMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>
-            {t('in-applications:analyze.showBatchMore', { nextBatch: nextBatch })}
+          <Button className={locals.loadMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>
+            {t('in-applications:analyze.loadMore')}
           </Button>
         )}
         <div />
         {enableUseAsGroup && (
           <Button
-            className={locals.useAsGroup}
+            className={locals.addAsGroup}
             kind="action"
             onClick={() => {
               ua2FacetedSearchGroupChangedTracker({ dataSource, tagName: tag });
@@ -158,7 +158,7 @@ function Results({
               });
             }}
           >
-            {t('in-new-components:analyze.useAsGroup')}
+            {t('in-new-components:analyze.addAsGroup')}
           </Button>
         )}
       </div>

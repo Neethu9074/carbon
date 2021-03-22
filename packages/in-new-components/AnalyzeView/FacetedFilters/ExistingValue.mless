@@ -17,10 +17,10 @@
 
   .label {
     .ellipsis();
-    color: @lib__colors__primary1;
+    color: @lib__colors__light-blue800;
   }
 
   .icon {
-    fill: @lib__colors__primary1;
+    fill: @lib__colors__light-blue800;
   }
 }
