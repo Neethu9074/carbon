@@ -724,7 +724,9 @@
     "advanced": "Advanced",
     "preferences": "Preferences",
     "privacy": "Privacy",
-    "communication": "Communication"
+    "communication": "Communication",
+    "default": "Default",
+    "identityProviderType": "Identity Provider Type"
   },
   "languageSelection": {
     "language": "Language"
