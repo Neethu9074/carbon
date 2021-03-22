@@ -58,7 +58,10 @@
 
   "tracing": {
     "registryCall": "Call",
-    "registryCall_plural": "Calls"
+    "registryCall_plural": "Calls",
+    "registryCall_0": "Calls",
+    "registryCall_1": "Calls",
+    "registryCall_2": "Calls"
   }
 
 }

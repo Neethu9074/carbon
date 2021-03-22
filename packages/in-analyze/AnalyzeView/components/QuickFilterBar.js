@@ -48,7 +48,7 @@ export default function QuickFilterBar(props) {
           tagFilters={tagFilters}
           tag="application.name"
           singularLabel={t('in-analyze:analyzeView.quickFilterBarLabel.application')}
-          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.application_plural')}
+          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.application', { count: 2 })}
           itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application')}
           withoutTextTransform
         />
@@ -60,7 +60,7 @@ export default function QuickFilterBar(props) {
           tagFilters={tagFilters}
           tag="service.name"
           singularLabel={t('in-analyze:analyzeView.quickFilterBarLabel.service')}
-          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.service_plural')}
+          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.service', { count: 2 })}
           itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_service')}
           withoutTextTransform
         />
@@ -72,7 +72,7 @@ export default function QuickFilterBar(props) {
           tagFilters={tagFilters}
           tag="endpoint.name"
           singularLabel={t('in-analyze:analyzeView.quickFilterBarLabel.endpoint')}
-          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.endpoint_plural')}
+          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.endpoint', { count: 2 })}
           itemLabelRenderer={renderApplicationServiceEndpointItem('lib_application_endpoint')}
           precondition={() => !!getTagFromList(tagFilters, { name: 'service.name' })}
           preconditionFailedTooltip="Please select a service before selecting an endpoint."
@@ -86,7 +86,7 @@ export default function QuickFilterBar(props) {
           tagFilters={tagFilters}
           tag="call.type"
           singularLabel={t('in-analyze:analyzeView.quickFilterBarLabel.type')}
-          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.type_plural')}
+          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.type', { count: 2 })}
           selectedItemRenderer={renderType}
           itemLabelRenderer={renderType}
         />
@@ -98,7 +98,7 @@ export default function QuickFilterBar(props) {
           tagFilters={tagFilters}
           tag="technology"
           singularLabel={t('in-analyze:analyzeView.quickFilterBarLabel.technology')}
-          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.technology_plural')}
+          pluralLabel={t('in-analyze:analyzeView.quickFilterBarLabel.technology', { count: 2 })}
           selectedItemRenderer={getTechnologyLabel}
           itemLabelRenderer={itemLabel => (
             <EntityWithTypeAndIcon plugin={itemLabel} label={getTechnologyLabel(itemLabel)} />
