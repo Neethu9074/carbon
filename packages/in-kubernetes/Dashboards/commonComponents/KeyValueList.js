@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
+import { sortBy } from 'lodash';
 import React from 'react';
 
-import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import KeyValue from 'in-new-components/lists/KeyValue/KeyValue';
 import { Li, Ul } from 'in-new-components/lists/List';
 import Card from 'in-new-components/Card';
 
-export default function KeyValueList({ title, items, icon, onEmptyText }) {
+export default function KeyValueList({ title, items, onEmptyText }) {
   if (!items || items.length === 0) {
     if (!onEmptyText) {
       return null;
@@ -23,16 +24,12 @@ export default function KeyValueList({ title, items, icon, onEmptyText }) {
     );
   }
 
-  const itemsWithIcon = items
-    .map(({ key, value }) => ({ key, value, icon }))
-    .sort((a, b) => a.key.localeCompare(b.key));
-
   return (
     <Card title={title}>
       <Ul>
-        {itemsWithIcon.map((item, key) => (
+        {sortBy(items, item => item.key).map((item, key) => (
           <Li key={key}>
-            <EntityWithTypeAndIcon label={item.value} type={item.key} iconType={item.icon} />
+            <KeyValue value={item.value} label={item.key} />
           </Li>
         ))}
       </Ul>
