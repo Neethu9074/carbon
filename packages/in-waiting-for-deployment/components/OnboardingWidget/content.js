@@ -30,6 +30,7 @@ import instanaAgentOpenShiftYaml from 'in-waiting-for-deployment/components/Onbo
 import instanaAgentYaml from 'in-waiting-for-deployment/components/OnboardingWidget/instana-agent.yaml';
 import createObservable from 'in-services/http/observableHttpResult';
 import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import useObservable from 'in-hooks/useObservable';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
@@ -1350,12 +1351,65 @@ function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpoint
 }
 
 function ElasticComputingLinuxContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+  const agentModeOptions = ['dynamic', 'static'];
+  const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
+
+  const jvmVendorOptions = ['azul', 'eclipse'];
+  const [jvmVendor, setJVMVendor] = useState(jvmVendorOptions[0]);
+
   return (
     <>
+      <Row>
+        <Fragment>
+          <h4>{t('in-waiting-for-deployment:content.agentModeLabel')}</h4>
+          <p>
+            <CheckboxFancy
+              label={t('in-waiting-for-deployment:content.agentModeDynamic')}
+              checked={agentMode === agentModeOptions[0]}
+              onChange={() => setAgentMode(agentModeOptions[0])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+          <p>
+            <CheckboxFancy
+              label={t('in-waiting-for-deployment:content.agentModeStatic')}
+              checked={agentMode === agentModeOptions[1]}
+              onChange={() => setAgentMode(agentModeOptions[1])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+        </Fragment>
+
+        <Fragment>
+          <h4>{t('in-waiting-for-deployment:content.agentRuntimeLabel')}</h4>
+          <p>
+            <CheckboxFancy
+              label="Azul Zulu 1.8"
+              checked={jvmVendor === jvmVendorOptions[0]}
+              onChange={() => setJVMVendor(jvmVendorOptions[0])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+          <p>
+            <CheckboxFancy
+              label="Eclipse OpenJ9 11"
+              checked={jvmVendor === jvmVendorOptions[1]}
+              onChange={() => setJVMVendor(jvmVendorOptions[1])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+        </Fragment>
+      </Row>
       <Description lines={[t('in-waiting-for-deployment:content.useTheFollowingScriptAsUserDataForTheEc2Instance')]} />
       <Bash
         lines={[
-          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s -y`
+          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t ${
+            agentMode === 'dynamic' ? 'dynamic' : 'static'
+          } -e ${agentEndpoint}:${agentEndpointPort} -s -y ${jvmVendor === jvmVendorOptions[0] ? '' : '-j'}`
         ]}
       />
       <Spacer />
@@ -1410,10 +1464,13 @@ function DockerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 }
 
 function OneLinerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
-  const jvmModeOptions = ['Dynamic agent with Zulu JVM', 'Static agent with Zulu JVM'];
-  const [jvmMode, setMode] = useState(jvmModeOptions[0]);
+  const agentModeOptions = ['dynamic', 'static'];
+  const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
 
-  const installModeOptions = ['Interactive installation', 'Silent installation'];
+  const jvmVendorOptions = ['azul', 'eclipse'];
+  const [jvmVendor, setJVMVendor] = useState(jvmVendorOptions[0]);
+
+  const installModeOptions = ['interactive', 'silent'];
   const [installMode, setInstallMode] = useState(installModeOptions[0]);
 
   const [isService, setIsService] = useState(false);
@@ -1421,8 +1478,71 @@ function OneLinerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
       <Row>
-        <DropDown value={jvmMode} options={jvmModeOptions} onChange={setMode} />
-        <DropDown value={installMode} options={installModeOptions} onChange={setInstallMode} />
+        <Fragment>
+          <h4>{t('in-waiting-for-deployment:content.agentModeLabel')}</h4>
+          <p>
+            <CheckboxFancy
+              label={t('in-waiting-for-deployment:content.agentModeDynamic')}
+              checked={agentMode === agentModeOptions[0]}
+              onChange={() => setAgentMode(agentModeOptions[0])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+          <p>
+            <CheckboxFancy
+              label={t('in-waiting-for-deployment:content.agentModeStatic')}
+              checked={agentMode === agentModeOptions[1]}
+              onChange={() => setAgentMode(agentModeOptions[1])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+        </Fragment>
+
+        <Fragment>
+          <h4>{t('in-waiting-for-deployment:content.agentRuntimeLabel')}</h4>
+          <p>
+            <CheckboxFancy
+              label="Azul Zulu 1.8"
+              checked={jvmVendor === jvmVendorOptions[0]}
+              onChange={() => setJVMVendor(jvmVendorOptions[0])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+          <p>
+            <CheckboxFancy
+              label="Eclipse OpenJ9 11"
+              checked={jvmVendor === jvmVendorOptions[1]}
+              onChange={() => setJVMVendor(jvmVendorOptions[1])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+        </Fragment>
+
+        <Fragment>
+          <h4>{t('in-waiting-for-deployment:content.agentInstallationModeLabel')}</h4>
+          <p>
+            <CheckboxFancy
+              label={t('in-waiting-for-deployment:content.agentInstallationModeInteractive')}
+              checked={installMode === installModeOptions[0]}
+              onChange={() => setInstallMode(installModeOptions[0])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+          <p>
+            <CheckboxFancy
+              label={t('in-waiting-for-deployment:content.agentInstallationModeSilent')}
+              checked={installMode === installModeOptions[1]}
+              onChange={() => setInstallMode(installModeOptions[1])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+        </Fragment>
       </Row>
       <CheckBox
         label={t('in-waiting-for-deployment:content.installAndStartAsServiceOnlySupportedForSystemDBasedSystems')}
@@ -1432,10 +1552,11 @@ function OneLinerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       <Bash
         lines={[
           `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t ${
-            jvmMode === jvmModeOptions[0] ? 'dynamic' : 'static'
-          } -e ${agentEndpoint}:${agentEndpointPort} ${installMode === installModeOptions[0] ? '' : '-y'} ${
-            isService ? '-s' : ''
-          }`
+            agentMode === 'dynamic' ? 'dynamic' : 'static'
+          } -e ${agentEndpoint}:${agentEndpointPort} ${jvmVendor === jvmVendorOptions[0] ? '' : '-j'} ${
+            installMode === installModeOptions[0] ? '' : '-y'
+          } ${isService ? '-s' : ''}
+          `
         ]}
       />
       <Spacer />
@@ -1456,14 +1577,67 @@ function OneLinerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 }
 
 function GoogleComputeEngineContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+  const agentModeOptions = ['dynamic', 'static'];
+  const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
+
+  const jvmVendorOptions = ['azul', 'eclipse'];
+  const [jvmVendor, setJVMVendor] = useState(jvmVendorOptions[0]);
+
   return (
     <>
+      <Row>
+        <Fragment>
+          <h4>Agent mode</h4>
+          <p>
+            <CheckboxFancy
+              label="Dynamic"
+              checked={agentMode === agentModeOptions[0]}
+              onChange={() => setAgentMode(agentModeOptions[0])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+          <p>
+            <CheckboxFancy
+              label="Static"
+              checked={agentMode === agentModeOptions[1]}
+              onChange={() => setAgentMode(agentModeOptions[1])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+        </Fragment>
+
+        <Fragment>
+          <h4>Agent JDK</h4>
+          <p>
+            <CheckboxFancy
+              label="Azul Zulu 1.8"
+              checked={jvmVendor === jvmVendorOptions[0]}
+              onChange={() => setJVMVendor(jvmVendorOptions[0])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+          <p>
+            <CheckboxFancy
+              label="Eclipse OpenJ9 11"
+              checked={jvmVendor === jvmVendorOptions[1]}
+              onChange={() => setJVMVendor(jvmVendorOptions[1])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+        </Fragment>
+      </Row>
       <Description
         lines={[t('in-waiting-for-deployment:content.useTheFollowingScriptAsStartupScriptForTheGceInstance')]}
       />
       <Bash
         lines={[
-          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s -y`
+          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t ${
+            agentMode === 'dynamic' ? 'dynamic' : 'static'
+          } -e ${agentEndpoint}:${agentEndpointPort} -s -y ${jvmVendor === jvmVendorOptions[0] ? '' : '-j'}`
         ]}
       />
       <Spacer />

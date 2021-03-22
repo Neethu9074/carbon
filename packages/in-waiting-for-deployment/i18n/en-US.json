@@ -251,7 +251,14 @@
     "windowsZip64Bit": "Windows Zip (64bit)",
     "windowsZip32Bit": "Windows Zip (32bit)",
     "windowsZip64BitStatic": "Windows Zip (64bit, static)",
-    "windowsZip32BitStatic": "Windows Zip (32bit, static)"
+    "windowsZip32BitStatic": "Windows Zip (32bit, static)",
+    "agentModeDynamic": "Dynamic",
+    "agentModeStatic": "Static",
+    "agentModeLabel": "Agent mode",
+    "agentRuntimeLabel": "Agent runtime",
+    "agentInstallationModeLabel": "Installation mode",
+    "agentInstallationModeInteractive": "Interactive",
+    "agentInstallationModeSilent": "Silent"
   },
   "download": "Download",
   "technology": "Technology",

@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { createField, notBlankValidator } from 'formalistic';
 import React, { useState, useEffect } from 'react';
-import { createField } from 'formalistic';
 
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
+import { defaultIdpType, idpTypes } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/idpTypes';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
@@ -18,6 +19,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import { shorten } from 'in-services/util/string';
+import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
@@ -60,7 +62,8 @@ export default function OIDC() {
               spEntityId: form.get('spEntityId').value,
               ownerEmail: form.get('ownerEmail').value,
               discoveryUri: form.get('discoveryUri').value,
-              secret: form.get('secret').value
+              secret: form.get('secret').value,
+              idpType: form.get('idpType').value
             });
           };
         } else {
@@ -71,7 +74,8 @@ export default function OIDC() {
             spEntityId: form.get('spEntityId').value,
             ownerEmail: form.get('ownerEmail').value,
             discoveryUri: form.get('discoveryUri').value,
-            secret: form.get('secret').value
+            secret: form.get('secret').value,
+            idpType: form.get('idpType').value
           });
         }
       }}
@@ -98,6 +102,32 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
           <h2>{t('in-settings:tabs.activatingOidcEnablesInstanaToAuthenticateAUserAgainstYourIdentityProviderIdP')}</h2>
           <form method="post" encType="multipart/form-data">
             <Section restrictWidth="50rem">
+              <Row>
+                <Col xs={12}>
+                  {form.get('idpType').map(field => (
+                    <FormGroup>
+                      <Label htmlFor="spEntityId" hasError={!field.valid && field.touched}>
+                        {t('in-settings:tabs.identityProviderType')}
+                      </Label>
+
+                      <Select
+                        value={field.value.key}
+                        id="idpType"
+                        onChange={e => {
+                          setForm(form.updateIn(['idpType'], f => f.setValue(e.target.value).setTouched(true)));
+                        }}
+                      >
+                        {idpTypes.map(({ key, label }) => (
+                          <option key={key} value={key}>
+                            {label}
+                          </option>
+                        ))}
+                      </Select>
+                    </FormGroup>
+                  ))}
+                </Col>
+              </Row>
+
               <Row>
                 <Col xs={12}>
                   {form.get('spEntityId').map(field => (
@@ -266,9 +296,9 @@ function deleteItem({ setMessage }) {
   );
 }
 
-function saveItem({ setMessage, idpMetadata, spEntityId, ownerEmail, discoveryUri, secret }) {
+function saveItem({ setMessage, idpMetadata, spEntityId, ownerEmail, discoveryUri, secret, idpType }) {
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: neutral, isSaving: true });
-  const setConfigResult$ = setConfig({ idpMetadata, spEntityId, ownerEmail, discoveryUri, secret });
+  const setConfigResult$ = setConfig({ idpMetadata, spEntityId, ownerEmail, discoveryUri, secret, idpType });
   setConfigResult$.once(
     () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: success }),
     error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: errorType })
@@ -281,7 +311,8 @@ function enrichForm(form, { setCanDeleteItem, result: { config } }) {
     .put('oidcSignInCallbackUrl', createField({ value: config.oidcSignInCallbackUrl || '' }))
     .put('oidcSignOutCallbackUrl', createField({ value: config.oidcSignOutCallbackUrl || '' }))
     .put('spEntityId', createField({ value: config.spEntityId || '' }))
-    .put('ownerEmail', createField({ value: '' }))
+    .put('ownerEmail', createField({ value: '', validator: notBlankValidator }))
     .put('discoveryUri', createField({ value: config.discoveryUri || '' }))
-    .put('secret', createField({ value: config.secret || '' }));
+    .put('secret', createField({ value: config.secret || '', validator: notBlankValidator }))
+    .put('idpType', createField({ value: config.idpType ? config.idpType.key : defaultIdpType.key }));
 }
