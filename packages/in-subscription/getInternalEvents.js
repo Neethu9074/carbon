@@ -15,7 +15,7 @@ export default createSubscription({
       order.direction +
       Math.round(Date.now() / 2000) +
       query +
-      pagination.cursor +
+      generateStableHash(pagination.cursor) +
       pagination.retrievalSize
     );
   },
