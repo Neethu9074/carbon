@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 export default [
   {
     label: t('in-forge:plugins.hazelcastNode.operationCount'),
-    metric: 'nodeMetrics.migrationQueueSize',
+    metric: 'nodeMetrics.operationCount',
     formatter: number.compact
   },
   {

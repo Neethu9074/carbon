@@ -12,12 +12,12 @@ export default [
       'nodeMetrics.clientEndpointCount',
       'nodeMetrics.eventQueueSize',
       'nodeMetrics.migrationQueueSize',
-      'nodeMetrics.migrationQueueSize'
+      'nodeMetrics.operationCount'
     ],
     labels: [
       t('in-forge:plugins.hazelcastNode.clientEndpointCount'),
-      t('in-forge:plugins.hazelcastNode.migrationQueueSize'),
       t('in-forge:plugins.hazelcastNode.eventQueueSize'),
+      t('in-forge:plugins.hazelcastNode.migrationQueueSize'),
       t('in-forge:plugins.hazelcastNode.operationCount')
     ],
     min: 0,
