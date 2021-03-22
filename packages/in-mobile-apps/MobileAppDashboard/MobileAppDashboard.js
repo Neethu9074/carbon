@@ -4,8 +4,8 @@
  */
 
 import { compose, withProps } from 'recompose';
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
 import { mobileAppPath, mobileAppPathFullyQualified, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { mobileAppId as matrixMobileAppId, viewId as matrixViewId } from 'in-mobile-apps/navigation/matrix';
@@ -176,27 +176,50 @@ function renderMobileAppContext(props) {
   return <MobileAppContext {...props} />;
 }
 
-function renderButtonLine({ tagFilters, mobileAppLabel, tagCatalogSessionStart }) {
+function renderButtonLine({ tagFilters, mobileAppLabel, viewId, tagCatalogSessionStart }) {
   return (
-    <Fragment>
-      <Button
-        kind="primary"
-        icon="lib_mobile_app_session"
-        href$={
-          tagCatalogSessionStart &&
-          getLinkToAnalyze({
-            beaconType: 'sessionStart',
-            formModel: translateDemocratisationTagFiltersToFormModel({
-              mobileAppLabel,
-              tagFilters,
-              tagCatalog: tagCatalogSessionStart
-            }),
-            groupBy: defaultGroupings.sessionStart
-          })
-        }
-      >
-        {t('in-mobile-apps:dashboard.analyzeSessions')}
-      </Button>
-    </Fragment>
+    <>
+      {viewId && (
+        <Button
+          kind="primary"
+          icon="lib_mobile_app"
+          href$={
+            tagCatalogSessionStart &&
+            getLinkToAnalyze({
+              beaconType: 'viewChange',
+              formModel: translateDemocratisationTagFiltersToFormModel({
+                mobileAppLabel,
+                tagFilters,
+                tagCatalog: tagCatalogSessionStart
+              }),
+              groupBy: defaultGroupings.viewChange
+            })
+          }
+        >
+          {t('in-mobile-apps:dashboard.analyzeViewTransitions')}
+        </Button>
+      )}
+
+      {!viewId && (
+        <Button
+          kind="primary"
+          icon="lib_mobile_app_session"
+          href$={
+            tagCatalogSessionStart &&
+            getLinkToAnalyze({
+              beaconType: 'sessionStart',
+              formModel: translateDemocratisationTagFiltersToFormModel({
+                mobileAppLabel,
+                tagFilters,
+                tagCatalog: tagCatalogSessionStart
+              }),
+              groupBy: defaultGroupings.sessionStart
+            })
+          }
+        >
+          {t('in-mobile-apps:dashboard.analyzeSessions')}
+        </Button>
+      )}
+    </>
   );
 }

@@ -187,7 +187,7 @@ function Header(props) {
   );
 }
 
-function renderButtonLine({ tagFilters, websiteLabel, websiteId, timeConfig, tagCatalogPageLoad }) {
+function renderButtonLine({ tagFilters, websiteLabel, websiteId, pageId, timeConfig, tagCatalogPageLoad }) {
   return (
     <>
       <WebsiteHealthIndicatorBehavior
@@ -195,24 +195,46 @@ function renderButtonLine({ tagFilters, websiteLabel, websiteId, timeConfig, tag
         websiteId={websiteId}
         timeConfig={timeConfig}
       />
-      <Button
-        kind="primary"
-        icon="lib_website_page_load"
-        href$={
-          tagCatalogPageLoad &&
-          getLinkToAnalyze({
-            beaconType: 'pageLoad',
-            formModel: translateDemocratisationTagFiltersToFormModel({
-              websiteLabel,
-              tagFilters,
-              tagCatalog: tagCatalogPageLoad
-            }),
-            groupBy: defaultGroupings.pageLoad
-          })
-        }
-      >
-        {t('in-websites:websiteDashboard.websiteDashboardButtonAnalyzePageLoads')}
-      </Button>
+      {pageId && (
+        <Button
+          kind="primary"
+          icon="lib_website_page_load"
+          href$={
+            tagCatalogPageLoad &&
+            getLinkToAnalyze({
+              beaconType: 'pageChange',
+              formModel: translateDemocratisationTagFiltersToFormModel({
+                websiteLabel,
+                tagFilters,
+                tagCatalog: tagCatalogPageLoad
+              }),
+              groupBy: defaultGroupings.pageLoad
+            })
+          }
+        >
+          {t('in-websites:websiteDashboard.websiteDashboardButtonAnalyzePageTransitions')}
+        </Button>
+      )}
+      {!pageId && (
+        <Button
+          kind="primary"
+          icon="lib_website_page_load"
+          href$={
+            tagCatalogPageLoad &&
+            getLinkToAnalyze({
+              beaconType: 'pageLoad',
+              formModel: translateDemocratisationTagFiltersToFormModel({
+                websiteLabel,
+                tagFilters,
+                tagCatalog: tagCatalogPageLoad
+              }),
+              groupBy: defaultGroupings.pageLoad
+            })
+          }
+        >
+          {t('in-websites:websiteDashboard.websiteDashboardButtonAnalyzePageLoads')}
+        </Button>
+      )}
     </>
   );
 }

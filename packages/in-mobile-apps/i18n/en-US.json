@@ -239,6 +239,7 @@
     "mobileAppViewTitle": "Mobile App",
     "mobileAppTitle": "View",
     "analyzeSessions": "Analyze Sessions",
+    "analyzeViewTransitions": "Analyze View Transitions",
     "numSessionStarts": "{{num}} session starts",
     "tabs": {
       "summaryLabel": "Summary",

@@ -744,7 +744,8 @@
     },
     "websiteDashboardTitleWebsitePage": "Website Page",
     "websiteDashboardTitleWebsite": "Website",
-    "websiteDashboardButtonAnalyzePageLoads": "Analyze Page Loads"
+    "websiteDashboardButtonAnalyzePageLoads": "Analyze Page Loads",
+    "websiteDashboardButtonAnalyzePageTransitions": "Analyze Page Transitions"
   },
   "rename": {
     "help": "Renaming a website is an eventually consistent action within the Instana system. For this reason, a change to a website name may take <strong>up to a few minutes</strong> until it has populated throughout the whole system."
