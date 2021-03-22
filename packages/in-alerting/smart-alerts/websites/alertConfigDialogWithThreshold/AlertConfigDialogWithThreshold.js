@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { empty } from '@instana/observables';
 
 import {
+  websitesAlertingAlertCreated,
   websitesAlertingCloseDialog,
-  websitesAlertingSwitchMode,
-  websitesAlertingAlertCreated
+  websitesAlertingSwitchMode
 } from 'in-alerting/smart-alerts/websites/tracker';
 import {
   createBoundedAlertQueryBuilder,
@@ -19,18 +19,16 @@ import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smar
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-alerting/smart-alerts/websites/simple/SimpleModeContainer';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { modeAdvanced, modeSimple } from 'in-alerting/smart-alerts/websites/constants';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
-import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
 import { pendingResult } from 'in-services/fixedObjects';
 import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { t } from 'in-i18n';
 
 export default function AlertConfigDialogWithThreshold(props) {
   const { form, updateForm, onClose, onCreate } = props;
@@ -92,16 +90,6 @@ export default function AlertConfigDialogWithThreshold(props) {
       setSimpleMode={setSimpleMode}
       SimpleModeElement={SimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
-      featureFeedbackElement={
-        <FeatureFeedback
-          href={`https://docs.google.com/forms/d/e/1FAIpQLSdJfdTTcWhC_X2LaVK503OuyMuZe2ruSFmMEBqb5rjYuWd_VA/viewform`}
-          text={t('in-alerting:smartAlerts.websites.alertConfigDialogWithThreshold.alertText')}
-          labelText={t('in-alerting:smartAlerts.websites.alertConfigDialogWithThreshold.alertLabelText')}
-          styles={{
-            marginRight: '2rem'
-          }}
-        />
-      }
       withTrackClose={trackingConfig => {
         if (trackingConfig) {
           websitesAlertingCloseDialog(getTrackingObject(form, { step: trackingConfig }));
