@@ -60,7 +60,7 @@ export default function MetricConfigurator({
       <Sections>
         <InputInSection
           label={
-            <SectionLabelWithSubtext subtext="Optional">
+            <SectionLabelWithSubtext subtext={t('in-custom-dashboards:widgets.metricConfigurator.optional')}>
               {t('in-custom-dashboards:widgets.metricConfigurator.name')}
             </SectionLabelWithSubtext>
           }

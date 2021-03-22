@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { t } from 'in-i18n';
+
 export const applicationType = 'application';
 export const availabilityType = 'availability';
 
 export const sliTypeOptions = Object.freeze([
-  { value: applicationType, label: 'Time-based' },
-  { value: availabilityType, label: 'Event-based' }
+  { value: applicationType, label: t('in-custom-dashboards:widgets.slo.timeBased') },
+  { value: availabilityType, label: t('in-custom-dashboards:widgets.slo.eventBased') }
 ]);

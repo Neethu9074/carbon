@@ -10,6 +10,7 @@ import { newAnalyticsEnabled, qb2InAPCreationEnabled } from 'in-services/feature
 import { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { isBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 export function removeMatchSpecification(i, form, updateForm) {
   updateForm(form.updateIn(['matchSpecification'], list => list.remove(i).setTouched(true)));
@@ -114,7 +115,7 @@ function applicationLabelValidator(name) {
     return [
       {
         severity: 'error',
-        message: 'The application perspective name must not be blank.'
+        message: t('in-applications:creation.form.theApplicationPerspectiveNameMustNotBeBlank')
       }
     ];
   }
@@ -123,7 +124,7 @@ function applicationLabelValidator(name) {
     return [
       {
         severity: 'error',
-        message: 'The application perspective name must not be larger than 128 characters.'
+        message: t('in-applications:creation.form.theApplicationPerspectiveNameMustNotBeLargerThan128Characters')
       }
     ];
   }
@@ -136,7 +137,7 @@ function tagFilterExpressionValidator(tagFilterExpression) {
     return [
       {
         severity: 'error',
-        message: 'The query is not valid.'
+        message: t('in-applications:creation.form.theQueryIsNotValid')
       }
     ];
   }

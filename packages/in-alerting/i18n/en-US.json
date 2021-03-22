@@ -3,7 +3,7 @@
     "alertHeaderToggleDisableErrorMessage": "Failed to disable alert config with ID {{alertConfigID}}: {{errorMessage}}",
     "alertHeaderToggleEnableErrorMessage": "Failed to enable alert config with ID {{alertConfigID}}: {{errorMessage}}",
     "alertHeaderDeleteErrorMessage": "Failed to remove alert config with ID {{alertConfigID}}: {{errorMessage}}",
-    "alertHeaderRestoreErrorMessage": "Failed to restore alert config revision with ID ${alertConfigID} and version {{alertConfigCreated}}: {{errorMessage}}",
+    "alertHeaderRestoreErrorMessage": "Failed to restore alert config revision with ID {{alertConfigID}} and version {{alertConfigCreated}}: {{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "Back to list of alerts",
     "alertHeaderAlert": "Alert",
     "alertHeaderRestoreRevisionTooltip": "Restore Revision {{alertRevision}}",

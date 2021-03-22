@@ -45,7 +45,7 @@ export default connectTo(
 
 function getLabel(metric, powerFunctions) {
   if (!metric) {
-    return <span className={locals.sizeMetricLabel}>None</span>;
+    return <span className={locals.sizeMetricLabel}>{t('in-applications:analyze.none')}</span>;
   }
   const min = powerFunctions ? powerFunctions.getMinMetricValueByName(metric) : null;
   const max = powerFunctions ? powerFunctions.getMaxMetricValueByName(metric) : null;

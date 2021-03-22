@@ -101,17 +101,17 @@ function Header({ selectedType, setSelectedType }) {
     <ButtonGroup
       buttonPropsList={[
         {
-          text: 'Hosts',
+          text: t('in-cockpit:component.infrastructureTopList.hosts'),
           key: 'host',
           onClick: () => setSelectedType('host')
         },
         {
-          text: 'Containers',
+          text: t('in-cockpit:component.infrastructureTopList.containers'),
           key: 'docker',
           onClick: () => setSelectedType('docker')
         },
         {
-          text: 'Processes',
+          text: t('in-cockpit:component.infrastructureTopList.processes'),
           key: 'process',
           onClick: () => setSelectedType('process')
         }

@@ -9,6 +9,7 @@ import { stringValidator, numberValidator } from 'in-services/validators/jsonTyp
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { buildEnumValidator } from 'in-services/validators/enum';
+import { t } from 'in-i18n';
 
 export function createForm(form, savedState) {
   return form
@@ -52,7 +53,9 @@ export function createForm(form, savedState) {
 const sloValidatorFailureMessage = [
   {
     severity: 'error',
-    message: `The provided number is invalid. The value should be between 0 and 99.99.`
+    message: t(
+      'in-custom-dashboards:widgets.metricConfigurator.theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999'
+    )
   }
 ];
 

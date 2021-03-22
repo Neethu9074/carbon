@@ -38,16 +38,16 @@ export const syntheticCallsOptions = {
 
   info: {
     EXCLUDE: {
-      label: 'Exclude',
-      description: 'Synthetic calls are excluded from the metrics.'
+      label: t('in-applications:constants.exclude'),
+      description: t('in-applications:constants.syntheticCallsAreExcludedFromTheMetrics')
     },
     INCLUDE: {
-      label: 'Include',
-      description: 'Synthetic calls are included in the metrics.'
+      label: t('in-applications:constants.include'),
+      description: t('in-applications:constants.syntheticCallsAreIncludedInTheMetrics')
     },
     ONLY: {
-      label: 'Only',
-      description: 'Only synthetic calls are shown and included in the metrics'
+      label: t('in-applications:constants.only'),
+      description: t('in-applications:constants.onlySyntheticCallsAreShownAndIncludedInTheMetrics')
     }
   }
 };

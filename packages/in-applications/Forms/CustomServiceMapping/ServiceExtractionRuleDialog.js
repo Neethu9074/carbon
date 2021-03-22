@@ -80,7 +80,7 @@ class BasicDialog extends React.Component {
                   {matchSpecificationIndex > 0 && (
                     <div>
                       <Pill className={locals.operatorPill} color={theme.lib.colors.N400}>
-                        AND
+                        {t('in-applications:forms.and')}
                       </Pill>
                     </div>
                   )}

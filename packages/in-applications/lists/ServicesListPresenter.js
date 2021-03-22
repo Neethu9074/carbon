@@ -215,7 +215,7 @@ export default function ServicesList({
         technologies={technologies}
         setFilter={setFilter}
         query={query}
-        buttonLabel="Services"
+        buttonLabel={t('in-applications:lists.services')}
         groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
       />
     </>

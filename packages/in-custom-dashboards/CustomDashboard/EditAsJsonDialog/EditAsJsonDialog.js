@@ -14,6 +14,7 @@ import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { close } from 'in-components/DialogPresenter/store';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { user, role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 export default function EditAsJsonDialog(props) {
   const [field, setField] = useState(
@@ -63,7 +64,7 @@ function validator(json) {
     return [
       {
         severity: 'error',
-        message: 'Failed to parse input as JSON.'
+        message: t('in-custom-dashboards:customDashboard.editAsJsonDialog.failedToParseInputAsJson')
       }
     ];
   }
@@ -72,7 +73,7 @@ function validator(json) {
     return [
       {
         severity: 'error',
-        message: 'JSON root must be an object.'
+        message: t('in-custom-dashboards:customDashboard.editAsJsonDialog.jsonRootMustBeAnObject')
       }
     ];
   }

@@ -42,7 +42,7 @@ export default function ColorConfigurator({ metricForm, index, indexInAxis, onCh
       options={[
         {
           value: '',
-          label: 'Automatic'
+          label: t('in-custom-dashboards:widgets.formCompChart.colorConfiguratorChart.automatic')
         }
       ].concat(
         colors.map(({ id }) => ({

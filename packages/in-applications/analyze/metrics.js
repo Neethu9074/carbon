@@ -23,7 +23,7 @@ export const defaultMetrics = [
   { metric: 'errors', aggregation: 'MEAN' }
 ];
 
-const calls = newNumberMetric({ metric: 'calls', label: 'Calls' });
+const calls = newNumberMetric({ metric: 'calls', label: t('in-applications:analyze.calls') });
 
 const errorRate = {
   metric: 'errors',

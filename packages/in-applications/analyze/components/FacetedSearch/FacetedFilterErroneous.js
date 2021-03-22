@@ -136,7 +136,7 @@ function Suggestion({ updateFilter, tagFilterExpression, hiddenCalls, dataSource
           }}
           className={locals.addSuggestion}
         >
-          <span className={locals.label}>Erroneous</span>
+          <span className={locals.label}>{t('in-applications:analyze.erroneous')}</span>
           <span className={locals.count}>
             {number.compact(
               suggestions.data?.results.filter(result => result.label === 'true')[0]?.metrics[

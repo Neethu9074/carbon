@@ -44,7 +44,7 @@ export default function TracesNavigator({
           <Thead>
             <Tr size="compact">
               <ErroneousRowTh />
-              <Th>Trace</Th>
+              <Th>{t('in-applications:analyze.trace')}</Th>
               <SortableColumn
                 orderBy={orderBy}
                 orderDirection={orderDirection}

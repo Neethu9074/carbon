@@ -18,6 +18,7 @@ import FormGroup from 'in-components/form/FormGroup';
 import keyCodes from 'in-components/keyCodes';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import { t } from 'in-i18n';
 
 import locals from './Suggestion.mless';
 
@@ -73,7 +74,7 @@ function Body({ dataSource, tagFilterExpression, updateFilter, isValid }) {
       <Col md={6}>
         <FormGroup className={locals.latencyForm}>
           <Label htmlFor="latency-min" hasError={isError}>
-            From (ms)
+            {t('in-applications:analyze.fromMs')}
           </Label>
           <Input
             id="latency-min"
@@ -98,7 +99,7 @@ function Body({ dataSource, tagFilterExpression, updateFilter, isValid }) {
       <Col md={6}>
         <FormGroup className={locals.latencyForm}>
           <Label htmlFor="latency-max" hasError={isError}>
-            To (ms)
+            {t('in-applications:analyze.toMs')}
           </Label>
           <Input
             id="latency-max"
@@ -121,7 +122,7 @@ function Body({ dataSource, tagFilterExpression, updateFilter, isValid }) {
       </Col>
       {isError && (
         <ValidationBlock className={locals.errorMessage}>
-          The latency range has to be in ascending order.
+          {t('in-applications:analyze.theLatencyRangeHasToBeInAscendingOrder')}
         </ValidationBlock>
       )}
     </Row>

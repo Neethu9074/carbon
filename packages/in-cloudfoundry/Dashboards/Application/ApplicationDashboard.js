@@ -45,7 +45,7 @@ export default function ApplicationDashboard({ location }) {
       <ViewTrackingMeta
         data={{
           productArea: 'Cloud Foundry',
-          pageRootName: t('in-cloudfoundry:dashboards.cfApplication')
+          pageRootName: 'CF Application'
         }}
       />
 

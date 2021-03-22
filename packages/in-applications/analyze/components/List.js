@@ -359,7 +359,7 @@ const getColumnDefinitions = (dataSource, linkFormModel) => {
     },
     {
       id: 'service',
-      label: 'Service',
+      label: t('in-applications:analyze.service'),
       sortable: false,
       getContent(item) {
         return (

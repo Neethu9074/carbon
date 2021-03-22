@@ -180,7 +180,7 @@ function AxisConfigurator({
                     id={`${axisName}-chart-configurator-min`}
                     value={field.value || ''}
                     type="number"
-                    placeholder="Auto"
+                    placeholder={t('in-custom-dashboards:widgets.chart.axesConfigurator.auto')}
                     onChange={e =>
                       onChange([axisName, 'min'], field =>
                         field
@@ -203,7 +203,7 @@ function AxisConfigurator({
                     id={`${axisName}-chart-configurator-max`}
                     value={field.value || ''}
                     type="number"
-                    placeholder="Auto"
+                    placeholder={t('in-custom-dashboards:widgets.chart.axesConfigurator.auto')}
                     onChange={e => onMaxChange(e)}
                     hasError={!field.valid && field.touched}
                   />

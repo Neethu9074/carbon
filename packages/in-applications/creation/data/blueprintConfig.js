@@ -104,11 +104,11 @@ export const blueprintConfig = Object.freeze([
     ],
     curatedTagFilters: [
       {
-        category: 'Zone',
+        category: t('in-applications:creation.simple.blueprints.zone'),
         tags: ['agent.zone', 'aws.ec2.zone', 'azure.zone', 'gce.zone', 'cloudfoundry.space.name']
       },
       {
-        category: 'Cloud',
+        category: t('in-applications:creation.simple.blueprints.cloud'),
         tags: [
           'aws.arn',
           'aws.ec2.ipv4',
@@ -123,7 +123,7 @@ export const blueprintConfig = Object.freeze([
         ]
       },
       {
-        category: 'Host',
+        category: t('in-applications:creation.simple.blueprints.host'),
         tags: [
           'call.http.host',
           'host.fqdn',
@@ -172,11 +172,11 @@ export const blueprintConfig = Object.freeze([
     ],
     curatedTagFilters: [
       {
-        category: 'HTTP',
+        category: t('in-applications:creation.simple.blueprints.http'),
         tags: ['call.http.params']
       },
       {
-        category: 'Custom Tag',
+        category: t('in-applications:creation.simple.blueprints.customTag'),
         tags: ['call.tag']
       }
     ]
@@ -218,11 +218,11 @@ export const blueprintConfig = Object.freeze([
     ],
     curatedTagFilters: [
       {
-        category: 'Container',
+        category: t('in-applications:creation.simple.blueprints.container.container'),
         tags: ['container.name', 'container.image.name', 'docker.compose.service', 'docker.image.name', 'docker.label']
       },
       {
-        category: 'Kubernetes',
+        category: t('in-applications:creation.simple.blueprints.kubernetes'),
         tags: [
           'kubernetes.label',
           'kubernetes.container.name',
@@ -241,7 +241,7 @@ export const blueprintConfig = Object.freeze([
         ]
       },
       {
-        category: 'Orchestration',
+        category: t('in-applications:creation.simple.blueprints.orchestration'),
         tags: [
           'cloudfoundry.application.name',
           'cloudfoundry.organization.name',
@@ -292,19 +292,19 @@ export const blueprintConfig = Object.freeze([
     ],
     curatedTagFilters: [
       {
-        category: 'HTTP Header',
+        category: t('in-applications:creation.simple.blueprints.httpHeader'),
         tags: ['call.http.header']
       },
       {
-        category: 'HTTP URL',
+        category: t('in-applications:creation.simple.blueprints.httpUrl'),
         tags: ['call.http.path', 'call.http.pathTemplate', 'call.http.method', 'call.http.params', 'call.http.url']
       },
       {
-        category: 'HTTP Misc',
+        category: t('in-applications:creation.simple.blueprints.httpMisc'),
         tags: ['call.http.host', 'call.http.protocol', 'call.http.status']
       },
       {
-        category: 'RPC',
+        category: t('in-applications:creation.simple.blueprints.rpc'),
         tags: ['call.rpc.method', 'call.rpc.object']
       }
     ]
@@ -342,12 +342,18 @@ export const blueprintConfig = Object.freeze([
     ],
     curatedTagFilters: [
       {
-        category: 'Database',
+        category: t('in-applications:creation.simple.blueprints.database'),
         tags: ['call.database.connection', 'call.database.scheme', 'call.database.type']
       },
-      { category: 'Technology', tags: ['call.type', 'technology'] },
-      { category: 'Java', tags: ['call.deployment.name', 'jboss.server.name', 'jvm.app.name', 'springboot.name'] },
-      { category: 'Scripting', tags: ['nodejs.app.name', 'nodejs.app.version', 'nodejs.version', 'ruby.app.name'] }
+      { category: t('in-applications:creation.simple.blueprints.technology'), tags: ['call.type', 'technology'] },
+      {
+        category: t('in-applications:creation.simple.blueprints.java'),
+        tags: ['call.deployment.name', 'jboss.server.name', 'jvm.app.name', 'springboot.name']
+      },
+      {
+        category: t('in-applications:creation.simple.blueprints.scripting'),
+        tags: ['nodejs.app.name', 'nodejs.app.version', 'nodejs.version', 'ruby.app.name']
+      }
     ]
   },
   {
@@ -387,12 +393,15 @@ export const blueprintConfig = Object.freeze([
     ],
     curatedTagFilters: [
       {
-        category: 'HTTP',
+        category: t('in-applications:creation.simple.blueprints.http'),
         tags: ['call.http.header', 'call.http.params', 'call.http.pathTemplate']
       },
-      { category: 'Miscellaneous', tags: ['agent.tag', 'aws.ec2.tag', 'call.inbound_of_application', 'call.tag'] },
       {
-        category: 'Platform',
+        category: t('in-applications:creation.simple.blueprints.miscellaneous'),
+        tags: ['agent.tag', 'aws.ec2.tag', 'call.inbound_of_application', 'call.tag']
+      },
+      {
+        category: t('in-applications:creation.simple.blueprints.platform'),
         tags: [
           'docker.label',
           'kubernetes.label',

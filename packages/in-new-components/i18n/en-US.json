@@ -370,7 +370,7 @@
     "splitScreen": {
       "sidebarActions": {
         "prev": "View previous {{ itemName }} (shortcut: left arrow key)",
-        "next": "View next {{ itemName }} (shortcut: left right key)"
+        "next": "View next {{ itemName }} (shortcut: right arrow key)"
       }
     },
     "groupName": "Group Name",

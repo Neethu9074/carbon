@@ -19,6 +19,7 @@ import { emptyArray, finishedProgress } from 'in-services/fixedObjects';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { merge } from 'in-services/util/resultMerger';
 import { identity } from 'in-services/util/function';
+import { t } from 'in-i18n';
 
 export function createForm(savedState) {
   return createMapForm()
@@ -119,7 +120,7 @@ function atLeastOneMetricValidator(items) {
     return [
       {
         severity: 'error',
-        message: 'At least one dataset is required.'
+        message: t('in-custom-dashboards:widgets.chart.atLeastOneDatasetIsRequired')
       }
     ];
   }

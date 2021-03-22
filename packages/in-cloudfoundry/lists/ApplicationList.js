@@ -139,7 +139,7 @@ export default connectTo(
         <ViewTrackingMeta
           data={{
             productArea: 'Cloud Foundry',
-            pageRootName: t('in-cloudfoundry:cfApplications')
+            pageRootName: 'CF Applications'
           }}
         />
 

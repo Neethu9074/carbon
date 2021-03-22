@@ -9,6 +9,7 @@ import { stringValidator, arrayValidator } from 'in-services/validators/jsonType
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { isBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 export function createForm(savedState) {
   let listForm = createListForm({
@@ -53,7 +54,7 @@ function atLeastOneTimeZoneRequiredValidator(items) {
   return [
     {
       severity: 'error',
-      message: 'At least one time zone must be configured.'
+      message: t('in-custom-dashboards:widgets.timezones.atLeastOneTimeZoneMustBeConfigured')
     }
   ];
 }
@@ -63,7 +64,7 @@ function timeZoneRequired(value) {
     return [
       {
         severity: 'error',
-        message: 'Please select a time zone.'
+        message: t('in-custom-dashboards:widgets.timezones.pleaseSelectATimeZone')
       }
     ];
   }

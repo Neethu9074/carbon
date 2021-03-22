@@ -177,7 +177,6 @@
     "headerConfiguredAlertsNum": "{{headerConfigAlerts}} ({{alertsSize}})",
     "noAlertConfigured": "No alert configured.",
     "getEntityName": "alert \"{{entityName}}\"",
-
     "descriptionMessage": "{{description}}: \"{{message}}\"",
     "tooltipFilter": "{{count}} filter",
     "tooltipFilter_plural": "{{count}} filters",
@@ -241,7 +240,6 @@
       "labelErroneous": "Erroneous",
       "preconditionFailedTooltip": "Please select a service before selecting an endpoint."
     },
-
     "chartingPresenter": {
       "noData": "No data to display"
     },
@@ -311,9 +309,15 @@
     "typeTrace_1": "trace",
     "typeTrace_2": "traces",
     "containsErrors": "Contains Errors",
-    "noErrors": "No Errors"
+    "noErrors": "No Errors",
+    "fromMs": "From (ms)",
+    "toMs": "To (ms)",
+    "theLatencyRangeHasToBeInAscendingOrder": "The latency range has to be in ascending order.",
+    "service": "Service",
+    "trace": "Trace",
+    "calls": "Calls",
+    "none": "None"
   },
-
   "creation": {
     "newAP": "New Application Perspective",
     "switchSimpleMode": "Switch to Simple Mode",
@@ -376,6 +380,7 @@
           "whoShouldUse": "DevOps, Operations, SRE, QA, Business owner"
         },
         "container": {
+          "container": "Container",
           "name": "Kubernetes or Container",
           "headline": "An application modeled by Kubernetes or container labels",
           "whenToUse": {
@@ -441,7 +446,24 @@
           "preselected": "The \"Inbound calls\" and  \"All downstream services\" are preselected.",
           "switchMode": "Switch to Advanced Mode to create a query with endpoints from multiple services.",
           "allFilters": "Click on \"All Filters\" to add additional tags."
-        }
+        },
+        "zone": "Zone",
+        "cloud": "Cloud",
+        "host": "Host",
+        "http": "HTTP",
+        "customTag": "Custom Tag",
+        "kubernetes": "Kubernetes",
+        "orchestration": "Orchestration",
+        "httpHeader": "HTTP Header",
+        "httpUrl": "HTTP URL",
+        "httpMisc": "HTTP Misc",
+        "rpc": "RPC",
+        "database": "Database",
+        "technology": "Technology",
+        "java": "Java",
+        "scripting": "Scripting",
+        "miscellaneous": "Miscellaneous",
+        "platform": "Platform"
       },
       "liveList": {
         "matchedServicesLastHour": "Matched services in the last hour",
@@ -462,14 +484,21 @@
       "defaultDashboardView": "4. Select the Default Dashboard View",
       "clear": "Clear",
       "addTag": "Add Tag",
-      "create": "Create"
+      "create": "Create",
+      "database": "DATABASE",
+      "messaging": "MESSAGING"
     },
     "scope": {
       "optionNoDownStreamServices": "No downstream services",
       "optionImmediateDownstreamServices": "Immediate downstream database and messaging services",
       "optionAllDownstreamServices": "All downstream services"
     },
-    "tooltipEndpointBar": "Please select a single service before selecting endpoints."
+    "tooltipEndpointBar": "Please select a single service before selecting endpoints.",
+    "form": {
+      "theApplicationPerspectiveNameMustNotBeBlank": "The application perspective name must not be blank.",
+      "theApplicationPerspectiveNameMustNotBeLargerThan128Characters": "The application perspective name must not be larger than 128 characters.",
+      "theQueryIsNotValid": "The query is not valid."
+    }
   },
   "dashboards": {
     "percentOfCalls": "{{percentage}} of all calls",
@@ -561,7 +590,8 @@
       "descriptionConfigureSyntheticEndpoints": "Calls to synthetic endpoints will continue to be captured, but will not contribute to service and application KPIs. Our built-in rule will auto-detect and ignore your health checks, but additional endpoints can be manually added with new rules",
       "descriptionEndpointsRule": "Calls to the endpoints matching this auto-generated rule do not contribute to your application, or service KPIs within Instana and are disregarded.",
       "errorConditionRequired": "At least one match condition is required."
-    }
+    },
+    "and": "AND"
   },
   "list": {
     "textNewApplicationPerspective": "They will appear here once an account administrator creates them.",
@@ -585,5 +615,17 @@
     "undefined": "Undefined",
     "self": "Self",
     "sdk": "SDK"
+  },
+  "constants": {
+    "exclude": "Exclude",
+    "syntheticCallsAreExcludedFromTheMetrics": "Synthetic calls are excluded from the metrics.",
+    "include": "Include",
+    "syntheticCallsAreIncludedInTheMetrics": "Synthetic calls are included in the metrics.",
+    "only": "Only",
+    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Only synthetic calls are shown and included in the metrics"
+  },
+  "lists": {
+    "noSpecificApplication": " - no specific application - ",
+    "services": "Services"
   }
 }

@@ -52,7 +52,7 @@ function atLeastOneApplicationRequiredValidator(items) {
   return [
     {
       severity: 'error',
-      message: 'At least one application must be selected.'
+      message: t('in-custom-dashboards:widgets.applicationHealth.form.atLeastOneApplicationMustBeSelected')
     }
   ];
 }

@@ -88,7 +88,7 @@ export default compose(
               errors: [
                 {
                   code: 'SERVER',
-                  message: 'Failed to create dashboard.'
+                  message: t('in-custom-dashboards:newDashboardDialog.failedToCreateDashboard')
                 }
               ]
             });

@@ -215,7 +215,7 @@ function renderMetaInformation({ traceId, result }) {
   const displayedTraceId = result?.data?.id ?? traceId;
   return (
     <div>
-      <span className={locals.traceIdLabel}>Trace ID: </span>
+      <span className={locals.traceIdLabel}>{t('in-applications:analyze.traceId')}</span>
       <code className={locals.traceId}>{displayedTraceId}</code>
       {// When jumping from very recent beacons to the backend traces, calls might not be
       // available in ClickHouse yet, even though some trace information from Cassandra

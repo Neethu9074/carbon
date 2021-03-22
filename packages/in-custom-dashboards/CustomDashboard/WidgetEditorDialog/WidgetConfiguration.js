@@ -52,7 +52,9 @@ function WidgetTitleInput({ form, onChange }) {
       id="widget-title"
       hasError={!field.valid && field.touched}
       label={
-        <SectionLabelWithSubtext subtext="Optional">
+        <SectionLabelWithSubtext
+          subtext={t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetConfiguration.optional')}
+        >
           {t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetConfiguration.name')}
         </SectionLabelWithSubtext>
       }

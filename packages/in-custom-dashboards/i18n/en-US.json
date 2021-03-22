@@ -42,7 +42,8 @@
       "widgetConfiguration": {
         "widgetName": "Widget Name",
         "name": "Name",
-        "helpAction": "Choose an optional name for this widget that will be presented above the widget content."
+        "helpAction": "Choose an optional name for this widget that will be presented above the widget content.",
+        "optional": "Optional"
       },
       "widgetEditorDialogPresenter": {
         "editWidget": "Edit Widget",
@@ -85,6 +86,10 @@
       "delete": "Delete",
       "share": "Share",
       "shareButtonTooltip": "Your user account does not have permissions to share dashboards."
+    },
+    "editAsJsonDialog": {
+      "failedToParseInputAsJson": "Failed to parse input as JSON.",
+      "jsonRootMustBeAnObject": "JSON root must be an object."
     }
   },
   "dashboardSwitcher": {
@@ -94,7 +99,8 @@
     "dashboardSwitcherOverlayPresenter": {
       "createDashboard": "Create Dashboard",
       "builtIn": "built-in",
-      "default": "default"
+      "default": "default",
+      "search": "Search"
     },
     "dashboardSwitcherPresenter": {
       "loading": "Loading…"
@@ -234,7 +240,11 @@
     "metricConfigurator": {
       "ds": "Data Source",
       "pleaseSelect": "Please select",
-      "name": "Name"
+      "name": "Name",
+      "pleaseSelectATimeShiftingConfiguration": "Please select a time shifting configuration",
+      "pleaseProvideAGroup": "Please provide a group.",
+      "optional": "Optional",
+      "theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999": "The provided number is invalid. The value should be between 0 and 99.99."
     },
     "bigNumber": {
       "comparisonColors": {
@@ -253,7 +263,8 @@
         "increaseColor": "Increase Color",
         "decreaseColor": "Decrease Color",
         "timeShift": "Time Shift"
-      }
+      },
+      "bigNumber": "Big Number"
     },
     "chart": {
       "axesConfigurator": {
@@ -265,14 +276,17 @@
         "removeSecondary": "Remove",
         "min": "Min",
         "max": "Max",
-        "sharemaxValue": "Share the max values between the axes"
-      }
+        "sharemaxValue": "Share the max values between the axes",
+        "auto": "Auto"
+      },
+      "atLeastOneDatasetIsRequired": "At least one dataset is required."
     },
     "formCompChart": {
       "colorConfiguratorChart": {
         "colorDsGrpNotConfig": "Colors for datasets leveraging groupings cannot be configured.",
         "iconDepicAutoColorSelect": "Icon depicting automatic color selection.",
-        "colorAutoChose": "Color is automatically chosen"
+        "colorAutoChose": "Color is automatically chosen",
+        "automatic": "Automatic"
       },
       "color": {
         "lightBlue": "Light Blue",
@@ -329,7 +343,8 @@
         "whatULikeShow": "What would you like to show?",
         "markdown": "Markdown",
         "markdownHelpAction": "You can use the standard Markdown syntax to define arbitrary text content for your dashboard."
-      }
+      },
+      "markdown": "Markdown"
     },
     "pie": {
       "formComponent": {
@@ -483,7 +498,12 @@
         "dynamicTimeWindow": "Dynamic time window",
         "rollingTimeWindow": "Rolling time window",
         "fixedTimeWindow": "Fixed time window"
-      }
+      },
+      "theTimeWindowSizeHasToBeLessOrEqualTo365Days": "The time window size has to be less or equal to 365 days.",
+      "aValueMustBeSelected": "A value must be selected.",
+      "atLeastOneFilterExpressionMustBeConfigured": "At least one filter expression must be configured.",
+      "timeBased": "Time-based",
+      "eventBased": "Event-based"
     },
     "timezone": {
       "demo": {
@@ -529,20 +549,27 @@
         "addApplication": "Add application",
         "selectApplication": "Select application",
         "secondaryHeadingText": "Selected applications will be ordered based on the highest severity",
-        "applicationLabel": "Application"
+        "applicationLabel": "Application",
+        "atLeastOneApplicationMustBeSelected": "At least one application must be selected."
       }
+    },
+    "timezones": {
+      "atLeastOneTimeZoneMustBeConfigured": "At least one time zone must be configured.",
+      "pleaseSelectATimeZone": "Please select a time zone."
     }
   },
   "duplicateDashboardDialog": {
     "duplicateDashboard": "Duplicate Dashboard",
     "dashboardName": "Dashboard Name",
     "duplicate": "Duplicate",
-    "copyShareConfig": "Copy Sharing Configuration"
+    "copyShareConfig": "Copy Sharing Configuration",
+    "failedToCreateDashboard": "Failed to create dashboard."
   },
   "newDashboardDialog": {
     "createNewDashboard": "Create New Dashboard",
     "dashboardName": "Dashboard Name",
     "additionalFields": "This dashboard will only be visible to you. You can choose to share it with colleagues after creation",
-    "create": "Create"
+    "create": "Create",
+    "failedToCreateDashboard": "Failed to create dashboard."
   }
 }

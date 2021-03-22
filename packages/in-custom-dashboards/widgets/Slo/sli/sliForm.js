@@ -13,6 +13,7 @@ import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { numericValidator } from 'in-services/validators/number';
 import { boundaryScopes } from 'in-applications/constants';
+import { t } from 'in-i18n';
 
 export const sliFieldNames = Object.freeze({
   goodEventFilterExpression: 'goodEventFilterExpression',
@@ -173,7 +174,7 @@ const notNullValidator = v => {
     return [
       {
         severity: 'error',
-        message: `A value must be selected.`
+        message: t('in-custom-dashboards:widgets.slo.aValueMustBeSelected')
       }
     ];
   }
@@ -185,7 +186,7 @@ const noEmptyFilterExpressionValidator = model => {
   return [
     {
       severity: 'error',
-      message: 'At least one filter expression must be configured.'
+      message: t('in-custom-dashboards:widgets.slo.atLeastOneFilterExpressionMustBeConfigured')
     }
   ];
 };

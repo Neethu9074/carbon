@@ -102,12 +102,12 @@ export default function AdvancedModeContainer({
               components={{
                 'pill-database': (
                   <Pill color={getColor('DATABASE')} kind="light">
-                    DATABASE
+                    {t('in-applications:creation.advanced.database')}
                   </Pill>
                 ),
                 'pill-messaging': (
                   <Pill color={getColor('MESSAGING')} kind="light">
-                    MESSAGING
+                    {t('in-applications:creation.advanced.messaging')}
                   </Pill>
                 )
               }}

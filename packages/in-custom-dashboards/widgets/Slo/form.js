@@ -13,6 +13,7 @@ import { numberValidator, stringValidator } from 'in-services/validators/jsonTyp
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { t } from 'in-i18n';
 
 // internal fields just for app-config information used internally
 export const apConfigId = 'apConfigId';
@@ -87,7 +88,7 @@ function validateTimeWindow({ timeWindowDuration, timeWindowDurationUnit }) {
     return [
       {
         severity: 'error',
-        message: 'The time window size has to be less or equal to 365 days.'
+        message: t('in-custom-dashboards:widgets.slo.theTimeWindowSizeHasToBeLessOrEqualTo365Days')
       }
     ];
   }

@@ -14,6 +14,7 @@ import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
 import { buildEnumValidator } from 'in-services/validators/enum';
+import { t } from 'in-i18n';
 
 export function createForm(
   savedState,
@@ -163,7 +164,7 @@ function timeShiftValidator(v) {
 
   return [
     {
-      message: 'Please select a time shifting configuration',
+      message: t('in-custom-dashboards:widgets.metricConfigurator.pleaseSelectATimeShiftingConfiguration'),
       severity: 'error'
     }
   ];
@@ -174,7 +175,7 @@ function validateMandatoryGrouping(form) {
     return [
       {
         severity: 'error',
-        message: 'Please provide a group.'
+        message: t('in-custom-dashboards:widgets.metricConfigurator.pleaseProvideAGroup')
       }
     ];
   }
