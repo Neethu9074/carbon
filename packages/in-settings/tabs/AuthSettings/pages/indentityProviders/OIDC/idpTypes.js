@@ -21,10 +21,6 @@ export const idpTypes = [
   {
     key: 'KEYCLOAK',
     label: 'Keycloack'
-  },
-  {
-    key: 'APPLE',
-    label: 'Apple'
   }
 ];
 
