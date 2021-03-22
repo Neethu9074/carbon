@@ -14,6 +14,7 @@
     border-radius: 0;
     box-shadow: none;
     background: none;
+    margin-bottom: 1rem;
   }
 
   .facetedCardHeader {
@@ -23,6 +24,7 @@
   }
 
   .facetedCardBody {
+    margin-top: 0.5rem;
     margin-bottom: 0.5rem;
   }
 
@@ -36,6 +38,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    color: @lib__colors__N800Dark;
     &:hover {
       color: @lib__colors__light-blue800;
     }
@@ -60,16 +63,26 @@
     justify-content: space-between;
   }
 
-  .showMore {
+  .loadMore {
     margin-top: 0.75rem;
     .typoSettings();
     padding: 0;
+    color: @lib__colors__light-blue800;
+    &:hover {
+      background: transparent;
+      color: @lib__colors__light-blue800;
+    }
   }
 
-  .useAsGroup {
+  .addAsGroup {
     margin-top: 0.75rem;
     .typoSettings();
     padding: 0;
+    color: @lib__colors__light-blue800;
+    &:hover {
+      background: transparent;
+      color: @lib__colors__light-blue800;
+    }
   }
 
   div.search {
@@ -83,16 +96,20 @@
     .typoSettings();
   }
 
+  .checkboxWrapper {
+    cursor: pointer;
+  }
+
   .existingLabel {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     .typoSettings();
-    color: @lib__colors__primary1;
+    color: @lib__colors__light-blue800;
   }
 
   .existingIcon {
-    fill: @lib__colors__primary1;
+    fill: @lib__colors__light-blue800;
   }
 
   .errorMessage {

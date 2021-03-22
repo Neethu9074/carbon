@@ -20,7 +20,7 @@
   .table {
     width: 100%;
     min-width: 0;
-    padding-left: 1rem;
+    padding-left: 0.25rem;
   }
   .tableWithoutPadding {
     padding: 0;

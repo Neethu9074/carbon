@@ -119,7 +119,7 @@ function Table(props) {
           orderBy={orderBy.by}
           orderDirection={orderBy.direction}
           filterByHref={groupLabel ? getHrefToUngroupedView(groupLabel) : null}
-          loadMoreLabel={t('in-new-components:analyze.loadMore', { count: retrievalSize })}
+          loadMoreLabel={t('in-new-components:analyze.loadMoreWithCount', { count: retrievalSize })}
           renderNoDataAvailable={noDataMessage => (
             <NoDataAvailable className={locals.noData} text={noDataMessage} height={80} icon={'lib_bar_chart'} />
           )}
