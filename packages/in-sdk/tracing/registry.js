@@ -20,7 +20,7 @@ function defaultSpanDefinition(span) {
 
     typeName: {
       singular: t('in-sdk:tracing.registryCall'),
-      plural: t('in-sdk:tracing.registryCall_plural')
+      plural: t('in-sdk:tracing.registryCall', { count: 2 })
     },
 
     detailView: 'GenericSpanDetailView',
