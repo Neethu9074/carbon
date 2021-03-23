@@ -102,7 +102,7 @@ export default function SelectorOverlay({ options, loading = false, onChange, wi
             slideInContent={
               focussedNode?.children && (
                 <div onKeyDown={onKeyDown}>
-                  {focussedNode?.children.map((node, i) => (
+                  {focussedNode?.children.slice(0, maxResults).map((node, i) => (
                     <Node
                       key={i}
                       node={node}
