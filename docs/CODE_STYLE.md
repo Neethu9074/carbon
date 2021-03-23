@@ -47,7 +47,7 @@ Install the "Prettier - Code formatter" code extension and the `sort-imports` ex
 
 - Install the Prettier plugin (by JetBrains) and use these defaults:
   - Prettier package: <Project_RootDir>/node_modules/prettier
-  - ✔️ Activate "run on save for files:"  ({**/*,*}.{js,jsx})
+  - ✔️ Activate "run on save for files:" ({\*_/_,\*}.{js,jsx})
 
 ### VIM
 
@@ -58,4 +58,154 @@ Install the "Prettier - Code formatter" code extension and the `sort-imports` ex
 " run prettier on JavaScript/CSS files when saving
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql PrettierAsync
+```
+
+# Useful hints
+
+## Forms
+
+We always need to suppress the default form submission behavior as the default submission behavior is to trigger a navigation event. So whenever you add an onSubmit event handler, please remember to do:
+
+```javascript
+<form onSubmit={e => {
+    e.preventDefault();
+    // stuff you actually want to do
+  }}>
+```
+
+## Process when Implementing Websocket subscriptions
+
+One of the first steps when considering a new WebSocket
+subscription is too establish the contract. A UI or backend engineer
+should start to outline this and then agree upon it. The backend implementation
+could initially even be a dummy one, i.e. always send the same response. (But at least then we have established a contract will validation rules).
+
+The UI engineer needs to take the lead here. This is nothing a UI engineer should ever wait on or list as a blocker/reason for a second PR. This also means that we never merge a UI PR making use of a subscription that is not agreed upon and that at least has a dummy implementation in the backend.
+
+### Event IDs in Webscocket subscriptions should always start with a get like getXXX()
+
+```javascript
+export default createResultSubscriptionFactory({
+  eventId: 'getReleases'
+}
+```
+
+## Always use CSS Modules for new Components
+
+We use Less as CSS preprocessor. Every Less (CSS)-Module has the file extension .mless.
+Example:
+
+```javascript
+/* less module file */
+
+:local {
+  .button {
+    color: black;
+    font-family: @font-family-sans-serif;
+    ...;
+  }
+}
+
+/* React component */
+
+import locals from './Button.mless';
+
+function Button() {
+  ...
+  return(
+    <button className={locals.button} > {children} </button>
+  )
+}
+```
+
+## Use global styles
+
+We have a Less file for global styles. For example colors, borders, typography stuff, etc. Please use this variables instead defining your own values over and over again. To use this variables import active.less at the top of your Less module.
+Example:
+
+```javascript
+/* less module file */
+
+@import '~in-themes/active.less';
+
+:local {
+  .button {
+    font-family: @font-family-sans-serif;
+    ...;
+  }
+}
+```
+
+## Always use CSS class selectors to style child elements
+
+Styling child elements should almost always be done with CSS class name selectors.
+
+Bad:
+
+```javascript
+/* less module file */
+:local {
+  .container {
+    ...;
+    > icon {
+      ...;
+    }
+    > button {
+      ...;
+    }
+  }
+}
+```
+
+Good:
+
+```javascript
+/* less module file */
+:local {
+  .container {
+    ...;
+  }
+  .icon {
+    ...;
+  }
+  .button {
+    ...;
+  }
+}
+```
+
+## Directly export default
+
+Directly export default. We do not assign it to a variable beforehand.
+
+```javascript
+/* Function/Class components */
+export default function Button() {
+  ...
+}
+
+/* Composed components (HOCs) */
+export default compose(withFoo, withBar)(MyComponent);
+```
+
+## Omit curly brackets when passing strings to a component
+
+Bad:
+
+```javascript
+/* React component */
+function MyComponent() {
+  ...
+  return( <SvgIcon type={'lib_actions_star'} /> )
+}
+```
+
+Good:
+
+```javascript
+/* React component */
+function MyComponent() {
+  ...
+  return( <SvgIcon type="lib_actions_star" /> )
+}
 ```
