@@ -55,11 +55,11 @@ import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/
 import { callAnalysisDisabledTags, traceAnalysisDisabledTags } from 'in-applications/tags';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { toNewOrderBy } from 'in-new-components/QueryBuilder/transformation/orderBy';
-import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { newAnalyticsEnabled } from 'in-services/featureFlags';
+import { boundaryScopes } from 'in-applications/constants';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';
@@ -82,7 +82,6 @@ function getLinkToUA2({
   serviceName,
   endpointName,
   boundaryScope = boundaryScopes.inbound,
-  syntheticCalls = syntheticCallsOptions.exclude,
   dataSource = 'calls',
   // when passing filters, make sure to pass also the tagCatalog which is needed
   // in order to properly convert some tagFilters
@@ -125,7 +124,7 @@ function getLinkToUA2({
     let tagFilterExpression = [];
     if (applicationName != null) {
       tagFilterExpression = joinExpressions({
-        expressions: [tagFilterExpression, tagFilterForBoundaryScope(boundaryScope, applicationName, syntheticCalls)]
+        expressions: [tagFilterExpression, tagFilterForBoundaryScope(boundaryScope, applicationName)]
       });
     }
     if (serviceName != null) {
