@@ -5395,7 +5395,7 @@
     "postgreSqlDatabase": {
       "troubleshootingDocs": "Troubleshooting docs",
       "statsNotEnabledIssueDescription": "Statistics collection is not enabled by server configuration. Please make sure <code>track_counts</code>, <code>track_activities</code>, <code>track_io_timing</code> are set to <strong>on</strong> <code>postgresql.conf</code>.",
-      "authFailedsDashboardNotification": "Agent could not connect to PostgreSQL. Password authentication failed for user <code>{user}</code>. Errorcode: <code>{errorcode}</code>",
+      "authFailedsDashboardNotification": "Agent could not connect to PostgreSQL. Password authentication failed for user <code>{{user}}</code>. Errorcode: <code>{{errorcode}}</code>",
       "connectionFailedIssueDescription": "Agent could not connect to PostgreSQL on {{host}}:{{port}} with user: <code>{{user}}</code>. Error code: <code>{{errorcode}}</code>",
       "dashboard": {
         "committedTransactionsKpiLabel": "Committed Transactions",
@@ -8720,7 +8720,7 @@
       "titleFreeSpace": "Free Space",
       "titleSpareNodes": "Spare Nodes",
       "headerVarnish": "Varnish",
-      "headerBackendName": "Backend: {name}",
+      "headerBackendName": "Backend: {{name}}",
       "labelRequests": "Requests",
       "labelCreated": "Created",
       "labelFailed": "Failed",
@@ -8982,7 +8982,7 @@
       "titlePackets": "Packets",
       "titleConnections": "Connections",
       "headerZooKeeperInfo": "ZooKeeper Info",
-      "headerPeerName": "Peer: {peerName}",
+      "headerPeerName": "Peer: {{peerName}}",
       "labelPeerTicks": "{{peer}}: Ticks",
       "labelAverageRequestLatencyUp": "Average Request Latency",
       "labelAverageRequestLatency": "Average request latency",
