@@ -14,8 +14,6 @@ export default function BullSpanDetailView({ span }) {
     <div>
       <Dl>
         <Di title={t('in-forge:tracing.bull.queue')}>{span.getIn(['data', 'bull', 'queue'])}</Di>
-        <Di title={t('in-forge:tracing.bull.batchSize')}>{span.getIn(['data', 'bull', 'size'])}</Di>
-        <Di title={t('in-forge:tracing.bull.type')}>{span.getIn(['data', 'bull', 'type'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'bull', 'error'])} />
       </Dl>
     </div>

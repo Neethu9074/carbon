@@ -9935,9 +9935,7 @@
       "titlePayload": "Payload"
     },
     "bull": {
-      "queue": "Queue",
-      "batchSize": "Batch Size",
-      "type": "Type"
+      "queue": "Queue"
     },
     "camel": {
       "titleType": "Type",
