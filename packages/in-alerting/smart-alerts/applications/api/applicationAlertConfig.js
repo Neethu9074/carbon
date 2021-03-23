@@ -29,8 +29,8 @@ export function updateAlertConfig(data, id) {
   }).map(response => response.body);
 }
 
-export function getAllAlertConfigs(applicationId) {
-  return http({
+export function getAllAlertConfigs(applicationId, config = { asObservable: false }) {
+  const requestConfig = {
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -38,7 +38,10 @@ export function getAllAlertConfigs(applicationId) {
       applicationId
     },
     url: baseUrl
-  }).map(response => response.body);
+  };
+  return config.asObservable
+    ? createObservable(http(requestConfig))
+    : http(requestConfig).map(response => response.body);
 }
 
 export function getAllVersionsOfAlertConfig(id) {
@@ -98,7 +101,7 @@ export function deleteAlertConfig(id) {
   }).map(response => response.body);
 }
 
-export function getAllAlertConfigsForAllApplications(asObservable = false) {
+export function getAllAlertConfigsForAllApplications(config = { asObservable: false }) {
   const requestConfig = {
     method: 'GET',
     maxRetries: 3,
@@ -106,5 +109,7 @@ export function getAllAlertConfigsForAllApplications(asObservable = false) {
     url: baseUrl
   };
 
-  return asObservable ? createObservable(http(requestConfig)) : http(requestConfig).map(response => response.body);
+  return config.asObservable
+    ? createObservable(http(requestConfig))
+    : http(requestConfig).map(response => response.body);
 }

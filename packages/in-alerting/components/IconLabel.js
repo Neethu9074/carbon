@@ -49,7 +49,7 @@ IconLabel.propTypes = {
   ellipsis: PropTypes.bool,
   /**
    * By default the icon has the same color as set in color prop.
-   * USe this prop only if he icon should have a different color
+   * Use this prop only if the icon should have a different color
    */
   iconColor: PropTypes.string
 };

@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/active.less';
-@import '~in-themes/mixins.less';
 
 :local {
   .actions {

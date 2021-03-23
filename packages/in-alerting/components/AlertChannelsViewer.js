@@ -24,7 +24,6 @@ export default function AlertChannelsViewer({ alertChannelIds }) {
         isSearchable={false}
         getHeader={() => null}
         rightHeader={null}
-        tableActions={[]}
       />
     </>
   );

@@ -28,7 +28,6 @@
   }
 
   .name {
-    color: @lib__colors__N900Primary;
     max-width: 90%;
     overflow: hidden;
     text-overflow: ellipsis;

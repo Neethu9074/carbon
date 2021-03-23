@@ -77,11 +77,12 @@ export default compose(
   withState('orderByState', 'setOrderBy', ({ initialOrderBy }) => (initialOrderBy ? initialOrderBy : 'name')),
   withState('orderDirectionState', 'setOrderDirection', 'ASC'),
   withState('queryState', 'setQuery', ''),
-  withState('pageState', 'setPage', 1),
+  withState('pageState', 'setPage', ({ initialPageNumber = 1 }) => initialPageNumber),
   lifecycle({
     componentDidUpdate({ extraFilterValues: nextExtraFilterValues }) {
       if (!isEqual(this.props.extraFilterValues, nextExtraFilterValues)) {
         this.props.setPage(1);
+        this.props.onPageChange?.(1);
       }
     }
   })
@@ -125,7 +126,8 @@ function List({
   setErrorMessage,
   perCellLoadingIndicator,
   trackEvent,
-  customSortEntities
+  customSortEntities,
+  onPageChange
 }) {
   if (hideWhenEmpty && (!entities || entities.length === 0)) {
     return null;
@@ -158,8 +160,6 @@ function List({
   }
   const result = arrayToResult(entities, totalHitsAfterFilter, pageSize);
 
-  // const leftHeader = cardTitle == null ? <ListTitle>{header}</ListTitle> : null;
-
   const leftHeader = selectLeftHeader(
     cardTitle,
     getCustomHeader,
@@ -183,6 +183,7 @@ function List({
       <ServerTablePresenter
         onChange={({ page, query, orderBy, orderDirection }) => {
           setPage(page);
+          onPageChange?.(page);
           setOrderBy(orderBy);
           setOrderDirection(orderDirection);
           setQuery(query);
@@ -656,7 +657,14 @@ List.propTypes = {
   tableActions: PropTypes.object,
   tableInCard: PropTypes.bool,
   title: PropTypes.node,
-  trackEvent: PropTypes.func
+  trackEvent: PropTypes.func,
+  /**
+   * Callback called on every page change
+   */
+  onPageChange: PropTypes.func,
+  // Disabled this line because
+  // eslint-disable-next-line react/no-unused-prop-types
+  initialPageNumber: PropTypes.number
 };
 
 export function reload() {

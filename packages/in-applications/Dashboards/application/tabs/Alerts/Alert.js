@@ -4,6 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 import React, { useState } from 'react';
 
 import {
@@ -23,11 +24,21 @@ import {
   applicationsAlertingAlertDeleted
 } from 'in-alerting/smart-alerts/applications/tracker';
 import {
+  alertsList,
+  alertsTabDetailsFullyQualified,
+  alertsTabListFullyQualified,
+  globalAlertDetails
+} from 'in-applications/navigation/paths';
+import {
+  alertsCategoryMatrixParam,
+  categoryGlobal
+} from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
+import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
 } from 'in-applications/navigation/matrix';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
-import { alertsTabDetailsFullyQualified, alertsTabListFullyQualified } from 'in-applications/navigation/paths';
+import { getLatestGlobalAlertConfig } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import AlertConfiguration from 'in-applications/Dashboards/application/tabs/Alerts/AlertConfiguration';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
@@ -51,12 +62,12 @@ function getAlertConfig(id, created) {
 export default function Alert({ location, timeConfig }) {
   const alertConfigId = getMatrixParameter(location, alertsTab, alertIdMatrixParam);
   const alertConfigCreated = getMatrixParameter(location, alertsTab, alertCreatedMatrixParam);
+  const isGlobalAlertConfig = getMatrixParameter(location, alertsTab, alertsCategoryMatrixParam) === categoryGlobal;
 
-  const alertConfig$ = getAlertConfig(alertConfigId, alertConfigCreated);
+  const alertConfig$ = isGlobalAlertConfig
+    ? getLatestGlobalAlertConfig(alertConfigId)
+    : getAlertConfig(alertConfigId, alertConfigCreated);
   const alertConfigVersions$ = getAllVersionsOfAlertConfig(alertConfigId).startWith(null);
-  const applicationName$ = alertConfig$.flatMap(({ applicationId }) =>
-    getApplication({ id: applicationId }).map(({ data }) => data && data.label)
-  );
 
   const [reload, triggerReload] = useState(undefined);
   const alertConfig = useObservable(alertConfig$.startWith(null), [alertConfigId, alertConfigCreated, reload]);
@@ -64,7 +75,16 @@ export default function Alert({ location, timeConfig }) {
   const alertConfigVersions = useObservable(alertConfigVersions$, [alertConfigId, reload]);
 
   const alertConfigVersionsError = useObservable(alertConfigVersions$.errors(), [alertConfigId]);
-  const applicationName = useObservable(applicationName$, [alertConfigId, alertConfigCreated]);
+
+  const applicationName =
+    useObservable(
+      isGlobalAlertConfig
+        ? just(null)
+        : alertConfig$.flatMap(({ applicationId }) =>
+            getApplication({ id: applicationId }).map(({ data }) => data && data.label)
+          ),
+      [alertConfigId, alertConfigCreated]
+    ) ?? '';
 
   if (alertConfigError || alertConfigVersionsError) {
     return <ErroneousResultPresenter errors={[alertConfigError, alertConfigVersionsError].filter(Boolean)} />;
@@ -81,6 +101,8 @@ export default function Alert({ location, timeConfig }) {
       triggerReload(Math.random());
     }
   }
+
+  const isInDetailsView = location.pathname === globalAlertDetails;
 
   return (
     <>
@@ -105,7 +127,7 @@ export default function Alert({ location, timeConfig }) {
 
             applicationsAlertingAlertEdit({ alertConfigId: alertConfig.id });
           }}
-          fullyQualifiedAlertsList={alertsTabListFullyQualified}
+          fullyQualifiedAlertsList={isInDetailsView && isGlobalAlertConfig ? alertsList : alertsTabListFullyQualified}
           doEnableConfig$={enableAlertConfig}
           doDisableConfig$={disableAlertConfig}
           doDeleteConfig$={deleteAlertConfig}

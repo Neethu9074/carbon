@@ -4,10 +4,13 @@
  */
 
 @import '~in-themes/active.less';
-@import '~in-themes/mixins.less';
 
 :local {
-  .sortWidgetWrapper {
+  .listHeader {
+    justify-content: space-between;
+  }
+
+  .sortingConfiguratorWrapper {
     margin-right: 1rem;
   }
 }

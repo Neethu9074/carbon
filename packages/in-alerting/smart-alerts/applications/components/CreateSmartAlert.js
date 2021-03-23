@@ -10,6 +10,7 @@ import React from 'react';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
+import { refreshSmartAlertConfigsList } from '../inventory/SmartAlertsBaseList';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-new-components/FloatingActionButton';
 import getApplication from 'in-subscription/application/getApplication';
@@ -62,6 +63,7 @@ function CreateSmartAlert({
               close();
               if (location.pathname.includes('/application/alerts')) {
                 reload();
+                refreshSmartAlertConfigsList();
               }
             }}
           />

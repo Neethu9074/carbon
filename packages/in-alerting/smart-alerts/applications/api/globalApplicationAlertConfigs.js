@@ -9,7 +9,7 @@ import http from 'in-services/http';
 
 const baseUrl = '/api/events/settings/global-alert-configs/applications';
 
-export function getAllGlobalAlertConfigs(asObservable = false) {
+export function getAllGlobalAlertConfigs(config = { asObservable: false }) {
   const requestConfig = {
     method: 'GET',
     maxRetries: 3,
@@ -17,5 +17,73 @@ export function getAllGlobalAlertConfigs(asObservable = false) {
     url: baseUrl
   };
 
-  return asObservable ? createObservable(http(requestConfig)) : http(requestConfig).map(response => response.body);
+  return config.asObservable
+    ? createObservable(http(requestConfig))
+    : http(requestConfig).map(response => response.body);
+}
+
+export function getAllGlobalAlertConfigsRelatedToApplicationId(applicationId, config = { asObservable: false }) {
+  const requestConfig = {
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    queryParams: { applicationId },
+    url: baseUrl
+  };
+
+  return config.asObservable
+    ? createObservable(http(requestConfig))
+    : http(requestConfig).map(response => response.body);
+}
+
+export function getLatestGlobalAlertConfig(id, config = { asObservable: false }) {
+  const requestConfig = {
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}`
+  };
+
+  return config.asObservable
+    ? createObservable(http(requestConfig))
+    : http(requestConfig).map(response => response.body);
+}
+
+export function enableAlertConfig(id, config = { asObservable: false }) {
+  const requestConfig = {
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}/enable`
+  };
+
+  return config.asObservable
+    ? createObservable(http(requestConfig))
+    : http(requestConfig).map(response => response.body);
+}
+
+export function disableAlertConfig(id, config = { asObservable: false }) {
+  const requestConfig = {
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}/disable`
+  };
+
+  return config.asObservable
+    ? createObservable(http(requestConfig))
+    : http(requestConfig).map(response => response.body);
+}
+
+export function deleteAlertConfig(id, config = { asObservable: false }) {
+  const requestConfig = {
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}`
+  };
+
+  return config.asObservable
+    ? createObservable(http(requestConfig))
+    : http(requestConfig).map(response => response.body);
 }

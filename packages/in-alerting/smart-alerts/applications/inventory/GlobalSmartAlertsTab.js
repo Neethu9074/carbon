@@ -6,22 +6,36 @@
 import { just } from '@instana/observables';
 import React, { useState } from 'react';
 
+import SmartAlertsBaseList, {
+  alertsCategoryMatrixParam,
+  categoryLocal
+} from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import SmartAlertsNoDataNotification from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsNoDataNotification';
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateGlobalSmartAlertButton';
+import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
+import { getAllGlobalAlertConfigs } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
+import { alertsList, globalAlertDetails } from 'in-applications/navigation/paths';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import Alert from 'in-applications/Dashboards/application/tabs/Alerts/Alert';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import SmartAlertsBaseList from './SmartAlertsBaseList';
+import { applicationId } from 'in-applications/navigation/matrix';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Card from 'in-new-components/Card';
 import { role } from 'in-stores/user';
 
-export default function GlobalSmartAlertsList() {
+export default function GlobalSmartAlertsTab({ location }) {
   const [hasDataToRender, setHasDataToRender] = useState(true);
+  const timeConfig = useTimeConfig();
+
+  const isGlobalAlertConfig = getMatrixParameter(location, alertsList, alertsCategoryMatrixParam);
+  const isGlobalDetailsView = location.pathname === globalAlertDetails;
 
   return (
     <Sticky header={<ViewSwitcher />}>
@@ -37,7 +51,19 @@ export default function GlobalSmartAlertsList() {
           FallbackComponent={SmartAlertsNoDataNotification}
         >
           <Card useMaxAvailableHeight={false} hasMarginBottom>
-            <SmartAlertsBaseList onNoData={() => setHasDataToRender(false)} />
+            {isGlobalAlertConfig && isGlobalDetailsView ? (
+              <Alert location={location} timeConfig={timeConfig} />
+            ) : (
+              <SmartAlertsBaseList
+                onNoData={() => setHasDataToRender(false)}
+                getLocalAlertConfigsFetchFunction={() => getAllAlertConfigsForAllApplications({ asObservable: true })}
+                getGlobalAlertConfigFetchFunction={() => getAllGlobalAlertConfigs({ asObservable: true })}
+                selectLocalSmartAlerts={false}
+                additionalMatrixKeys={({ configsCategory, config }) => {
+                  return configsCategory === categoryLocal ? [{ key: applicationId, value: config.applicationId }] : [];
+                }}
+              />
+            )}
           </Card>
         </WithEmptyStateFallback>
       </LeftRightPadding>
@@ -48,5 +74,3 @@ export default function GlobalSmartAlertsList() {
     </Sticky>
   );
 }
-
-// reloadEntitiesSignal$.emit(true);

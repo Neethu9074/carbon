@@ -12,7 +12,7 @@ import Button from 'in-new-components/Button';
 
 import locals from './MoreMenu.mless';
 
-export default function MoreMenu({ children, kind = 'secondary', size = 'normal', className }) {
+export default function MoreMenu({ children, kind = 'secondary', size = 'normal', className, isSaving }) {
   return (
     <Overlay
       withoutWrapper
@@ -29,9 +29,10 @@ export default function MoreMenu({ children, kind = 'secondary', size = 'normal'
             toggle();
           }}
           refSetter={refSetter}
-          icon="lib_menu_more_horizontal"
+          icon={isSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
           size={size}
           kind={kind}
+          iconSpinning={isSaving}
         />
       )}
     </Overlay>

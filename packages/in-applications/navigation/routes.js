@@ -4,7 +4,7 @@
  */
 
 import CustomEndpointMapping from 'promise-loader?global,applications!in-applications/Forms/CustomEndpointMapping/CustomEndpointMappingDialog';
-import GlobalSmartAlertsList from 'promise-loader?global,applications!in-alerting/smart-alerts/applications/inventory/GlobalSmartAlertsList';
+import GlobalSmartAlertsTab from 'promise-loader?global,applications!in-alerting/smart-alerts/applications/inventory/GlobalSmartAlertsTab';
 import CustomServiceMapping from 'promise-loader?global,applications!in-applications/Forms/CustomServiceMapping/CustomServiceMapping';
 import SyntheticCallConfig from 'promise-loader?global,applications!in-applications/Forms/SyntheticCallConfig/SyntheticCallConfig';
 import ApplicationDashboard from 'promise-loader?global,applications!in-applications/Dashboards/application/ApplicationDashboard';
@@ -24,7 +24,7 @@ import {
   configureEndpointsView,
   configureSyntheticEndpointsView,
   endpointDashboard,
-  globalAlertsList,
+  alertsList,
   newApplicationView,
   newApplicationWaiterView,
   newServiceView,
@@ -58,8 +58,6 @@ export default (
     <Route path={servicesList} component={createAsyncViewComponent(ServicesList)} />
     <Route path={serviceDashboard} component={createAsyncViewComponent(ServiceDashboard)} />
     <Route path={endpointDashboard} component={createAsyncViewComponent(EndpointDashboard)} />
-    {globalSmartAlertsEnabled && (
-      <Route path={globalAlertsList} component={createAsyncViewComponent(GlobalSmartAlertsList)} />
-    )}
+    {globalSmartAlertsEnabled && <Route path={alertsList} component={createAsyncViewComponent(GlobalSmartAlertsTab)} />}
   </Fragment>
 );

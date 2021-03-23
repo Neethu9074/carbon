@@ -173,8 +173,6 @@
     "thresholdLabel": "Threshold Value",
     "titleAlertProperties": "Alert Properties",
     "applicationSmartAlert": "Application Smart Alert",
-    "headerConfiguredAlerts": "Configured Alerts",
-    "headerConfiguredAlertsNum": "{{headerConfigAlerts}} ({{alertsSize}})",
     "noAlertConfigured": "No alert configured.",
     "getEntityName": "alert \"{{entityName}}\"",
     "descriptionMessage": "{{description}}: \"{{message}}\"",

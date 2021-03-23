@@ -3,14 +3,20 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
+import {
+  deleteAlertConfig as deleteGlobalAlertConfig,
+  disableAlertConfig as disableGlobalAlertConfig,
+  enableAlertConfig as enableGlobalAlertConfig
+} from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import {
   applicationsAlertingAlertEdit,
   applicationsAlertingListAlertDeleted,
   applicationsAlertingListAlertPaused,
   applicationsAlertingListAlertResumed
-} from '../tracker';
+} from 'in-alerting/smart-alerts/applications/tracker';
 import {
   deleteAlertConfig,
   disableAlertConfig,
@@ -20,88 +26,104 @@ import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
+import { refreshSmartAlertConfigsList } from './SmartAlertsBaseList';
 import { stopPropagation } from 'in-services/util/function';
-import { reload } from 'in-settings/components/List';
 import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ListActionsColumn.mless';
 
-export default function ListActionsColumn({ config }) {
+export default function ListActionsColumn({ config, isLoading, isGlobalSmartAlertConfig }) {
   const { enabled, id } = config;
-  return (
-    <StopPropagationOfClickEvent>
-      <HorizontalFlexWrapper className={locals.actions}>
-        <Button
-          icon={enabled ? 'lib_actions_pause' : 'lib_actions_play'}
-          kind="secondary"
-          onClick={() => handleToggleEnabled(enabled, id)}
-        />
+  const [isSaving, setIsSaving] = useState(false);
+  const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
 
-        <MoreMenu kind="secondaryDarker">
-          <MoreMenuButton icon="lib_actions_edit" onClick={() => handleEdit(config)}>
-            {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
-          </MoreMenuButton>
-          <MoreMenuButton icon="lib_actions_copy" onClick={() => {}}>
-            {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
-          </MoreMenuButton>
-          <MoreMenuButton icon="lib_actions_delete" onClick={() => handleDelete(id)}>
-            {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
-          </MoreMenuButton>
-        </MoreMenu>
-      </HorizontalFlexWrapper>
-    </StopPropagationOfClickEvent>
+  useEffect(() => {
+    if (!isLoading && (isSaving || isMoreMenuSaving)) {
+      setIsSaving(false);
+      setIsMoreMenuSaving(false);
+    }
+    // We only want to fire the hook when is loading changes to ensure that we
+    // reset the loading spinner when the new entities are loaded from backend
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading]);
+
+  return (
+    <HorizontalFlexWrapper className={locals.actions}>
+      <Button
+        icon={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
+        kind="secondary"
+        iconSpinning={isSaving}
+        onClick={e => {
+          stopPropagation(e);
+          handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig);
+        }}
+      />
+
+      <MoreMenu kind="secondaryDarker" isSaving={isMoreMenuSaving}>
+        <MoreMenuButton
+          icon={isSaving ? 'lib_actions_loading' : 'lib_actions_edit'}
+          iconSpinning={isMoreMenuSaving}
+          onClick={() => handleEdit(config, isGlobalSmartAlertConfig)}
+        >
+          {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
+        </MoreMenuButton>
+        <MoreMenuButton
+          icon="lib_actions_copy"
+          onClick={() => {
+            /* TODO: */
+          }}
+        >
+          {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
+        </MoreMenuButton>
+        <MoreMenuButton
+          icon="lib_actions_delete"
+          onClick={() => handleDelete(id, setIsMoreMenuSaving, isGlobalSmartAlertConfig)}
+        >
+          {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
+        </MoreMenuButton>
+      </MoreMenu>
+    </HorizontalFlexWrapper>
   );
 }
 
-/**
- * Catch click evens and perent trigger action in <List /> compoment.
- * If we use the stopPropagation(e) in the onClick prop in teh <MoreMenuButton/>
- * we prevent the autovlose behaviour of the Menu. Thus the click catcher
- */
-function StopPropagationOfClickEvent({ children }) {
-  return <div onClick={e => stopPropagation(e)}>{children}</div>;
-}
-
-function handleDelete(id) {
+function handleDelete(id, setIsSaving, isGlobalSmartAlertConfig) {
   if (role.canConfigureCustomAlerts) {
-    const delete$ = deleteAlertConfig(id);
+    const deleteConfig = isGlobalSmartAlertConfig ? deleteGlobalAlertConfig : deleteAlertConfig;
+    setIsSaving(true);
 
-    delete$.once(() => {
-      applicationsAlertingListAlertDeleted({
-        alertConfigId: id
-      });
-      reload();
-    });
-
-    // delete$.errors().once(error => {
-    //   const errorMessage = `Failed to remove entity with ID ${id}: ${error.message}`;
-    //   // logger.error(errorMessage, error);
-    //   // reloadEntitiesSignal$.emit(true);
-    //   // setErrorMessage(errorMessage);
-    // });
+    deleteConfig(id).once(
+      () => {
+        applicationsAlertingListAlertDeleted({
+          alertConfigId: id
+        });
+        refreshSmartAlertConfigsList();
+      },
+      () => {
+        setIsSaving(false);
+      }
+    );
   }
 }
 
-function handleToggleEnabled(enabled, id) {
-  if (enabled) {
-    const disable$ = disableAlertConfig(id);
-    disable$.once(() => {
-      applicationsAlertingListAlertPaused({
+function handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig) {
+  const disableConfig = isGlobalSmartAlertConfig ? disableGlobalAlertConfig : disableAlertConfig;
+  const enableConfig = isGlobalSmartAlertConfig ? enableGlobalAlertConfig : enableAlertConfig;
+
+  setIsSaving(true);
+
+  (enabled ? disableConfig(id) : enableConfig(id)).once(
+    () => {
+      (enabled ? applicationsAlertingListAlertPaused : applicationsAlertingListAlertResumed)({
         alertConfigId: id
       });
-      reload();
-    });
-  } else {
-    const enable$ = enableAlertConfig(id);
-    enable$.once(() => {
-      applicationsAlertingListAlertResumed({
-        alertConfigId: id
-      });
-      reload();
-    });
-  }
+      refreshSmartAlertConfigsList();
+    },
+    () => {
+      setIsSaving(false);
+    }
+  );
 }
 
 function handleEdit(config) {
@@ -111,3 +133,12 @@ function handleEdit(config) {
   );
   applicationsAlertingAlertEdit({ alertConfigId: config.id });
 }
+
+ListActionsColumn.propTypes = {
+  config: PropTypes.shape({
+    enabled: PropTypes.bool.isRequired,
+    id: PropTypes.string.isRequired
+  }).isRequired,
+  isGlobalSmartAlertConfig: PropTypes.bool,
+  isLoading: PropTypes.bool
+};

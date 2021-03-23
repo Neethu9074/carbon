@@ -7,15 +7,30 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  alertsTab,
+  alertsTabDetailsFullyQualified,
+  applicationDashboard,
+  globalAlertDetails
+} from 'in-applications/navigation/paths';
+import {
+  alertCreated as alertCreatedMatrixParam,
+  alertId as alertIdMatrixParam
+} from 'in-applications/navigation/matrix';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
+import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './ListColumns.mless';
 
-export function ListNameColumn({ description, enabled, name, severity, rule }) {
+export function ListNameColumn({ config, configsCategory, additionalMatrixKeys = () => [], goToGlobalAlertDetails }) {
+  const { description, enabled, name, severity, rule, id, created } = config;
+
   return (
     <HorizontalFlexWrapper>
       <SvgIcon
@@ -28,7 +43,30 @@ export function ListNameColumn({ description, enabled, name, severity, rule }) {
       />
       <div className={classNames(locals.column, locals.fullWidth)}>
         <Tooltip themeStyle="light" content={description} align="topMiddle" delay={500}>
-          <div className={classNames(locals.name, locals.fullWidth)}>{name}</div>
+          <Link
+            className={classNames(locals.name, locals.fullWidth)}
+            href$={getModifiedUrlStream(_location => {
+              if (goToGlobalAlertDetails) {
+                _location.pathname = globalAlertDetails;
+                for (const { key, value } of additionalMatrixKeys({ configsCategory, config })) {
+                  setOrDeleteMatrixKey(_location, applicationDashboard, key, value);
+                }
+                setOrDeleteMatrixKey(_location, alertsTab, alertIdMatrixParam, id);
+                setOrDeleteMatrixKey(_location, alertsTab, alertCreatedMatrixParam, created);
+                return _location;
+              } else {
+                _location.pathname = alertsTabDetailsFullyQualified;
+                for (const { key, value } of additionalMatrixKeys({ configsCategory, config })) {
+                  setOrDeleteMatrixKey(_location, applicationDashboard, key, value);
+                }
+                setOrDeleteMatrixKey(_location, alertsTab, alertIdMatrixParam, id);
+                setOrDeleteMatrixKey(_location, alertsTab, alertCreatedMatrixParam, created);
+                return _location;
+              }
+            })}
+          >
+            {name}
+          </Link>
         </Tooltip>
         <div className={locals.nameSubtext}>{getSubtitle(rule)}</div>
       </div>
@@ -47,12 +85,19 @@ function getSubtitle(rule) {
 }
 
 ListNameColumn.propTypes = {
-  description: PropTypes.string.isRequired,
-  enabled: PropTypes.bool.isRequired,
-  name: PropTypes.string.isRequired,
-  severity: PropTypes.number.isRequired,
-  rule: PropTypes.shape({
-    alertType: PropTypes.string.isRequired,
-    metricName: PropTypes.string.isRequired
-  }).isRequired
+  config: PropTypes.shape({
+    description: PropTypes.string.isRequired,
+    enabled: PropTypes.bool.isRequired,
+    name: PropTypes.string.isRequired,
+    severity: PropTypes.number.isRequired,
+    rule: PropTypes.shape({
+      alertType: PropTypes.string.isRequired,
+      metricName: PropTypes.string.isRequired
+    }).isRequired,
+    id: PropTypes.string.isRequired,
+    created: PropTypes.number.isRequired
+  }).isRequired,
+  configsCategory: PropTypes.string.isRequired,
+  additionalMatrixKeys: PropTypes.func,
+  goToGlobalAlertDetails: PropTypes.bool
 };
