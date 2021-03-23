@@ -129,7 +129,13 @@ function handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig)
 function handleEdit(config) {
   addActiveDialog(
     // TODO: in global alerts there is no name. We need to handle that when global dialog is implemented
-    <SmartAlertConfigDialogWrapper applicationLabel={config.name} formData={config} onClose={close} editMode />
+    <SmartAlertConfigDialogWrapper
+      applicationLabel={config.name}
+      formData={config}
+      onClose={close}
+      editMode
+      isGlobalSmartAlert={config.applicationId ? false : true}
+    />
   );
   applicationsAlertingAlertEdit({ alertConfigId: config.id });
 }

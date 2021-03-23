@@ -14,6 +14,7 @@ import locals from 'in-alerting/smart-alerts/applications/simple/SimpleAlertConf
 
 export default function SimpleAlertConfigDialogStep2({
   form,
+  timeConfig,
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
@@ -23,17 +24,14 @@ export default function SimpleAlertConfigDialogStep2({
   return (
     <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.applications.simple.simpleAlertStep2Headline')}>
       <div className={locals.alertLocationFiltersWrapper}>
-        {isGlobalSmartAlert ? ( // TODO: enable global smart alerts
-          'Scope Config for Global SA needs adaption'
-        ) : (
-          <ScopeConfig
-            form={form}
-            updateForm={updateForm}
-            isGlobalSmartAlert={isGlobalSmartAlert}
-            QueryBuilderComponent={QueryBuilderComponent}
-            headerTransparent
-          />
-        )}
+        <ScopeConfig
+          form={form}
+          updateForm={updateForm}
+          isGlobalSmartAlert={isGlobalSmartAlert}
+          QueryBuilderComponent={QueryBuilderComponent}
+          timeConfig={timeConfig}
+          headerTransparent
+        />
       </div>
 
       <div className={locals.stickyChart}>

@@ -51,7 +51,7 @@ function CreateSmartAlert({
       onClick={() => {
         addActiveDialog(
           <SmartAlertConfigDialogWrapper
-            applicationLabel={applicationLabel}
+            applicationLabel={applicationLabel /* figure out if this information is still helpful */}
             formData={generateFormData({
               boundaryScope: urlBoundaryScope || defaultBoundaryScope,
               applicationId,
@@ -90,7 +90,6 @@ CreateSmartAlert.propTypes = {
 
 export function generateFormData({ boundaryScope, applicationId, serviceId, endpointId, includeSynthetic }) {
   return {
-    applicationId,
     boundaryScope,
     rule: {
       alertType: 'slowness',

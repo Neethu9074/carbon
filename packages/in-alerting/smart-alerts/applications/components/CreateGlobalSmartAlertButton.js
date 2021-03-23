@@ -7,22 +7,16 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
-import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-new-components/FloatingActionButton';
+import { boundaryScopes } from 'in-applications/constants';
 import { propTypeLocation } from 'in-stores/navigation';
 import { reload } from 'in-settings/components/List';
 import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
-export default function CreateGlobalSmartAlertButton({
-  boundaryScope: urlBoundaryScope,
-  defaultBoundaryScope,
-  includeSynthetic,
-  renderAsSimpleButton,
-  location
-}) {
+export default function CreateGlobalSmartAlertButton({ renderAsSimpleButton, location }) {
   if (location?.pathname.includes('/application/configuration')) {
     // hide button on the config page
     return null;
@@ -39,10 +33,7 @@ export default function CreateGlobalSmartAlertButton({
         addActiveDialog(
           <SmartAlertConfigDialogWrapper
             isGlobalSmartAlert
-            formData={generateFormData({
-              boundaryScope: urlBoundaryScope || defaultBoundaryScope,
-              includeSynthetic
-            })}
+            formData={generateFormData()}
             onClose={() => {
               close();
               if (location?.pathname?.includes('/application/alerts')) {
@@ -63,16 +54,12 @@ export default function CreateGlobalSmartAlertButton({
 
 CreateGlobalSmartAlertButton.propTypes = {
   location: propTypeLocation,
-  boundaryScope: PropTypes.string,
-  defaultBoundaryScope: PropTypes.string,
-  renderAsSimpleButton: PropTypes.bool,
-  includeSynthetic: PropTypes.bool
+  renderAsSimpleButton: PropTypes.bool
 };
 
-export function generateFormData({ boundaryScope, applicationId, serviceId, endpointId, includeSynthetic }) {
+function generateFormData() {
   return {
-    applicationId /* TODO adapt/refine url for global SA */,
-    boundaryScope,
+    boundaryScope: boundaryScopes.inbound,
     rule: {
       alertType: 'slowness',
       operator: 'EQUALS',
@@ -84,7 +71,7 @@ export function generateFormData({ boundaryScope, applicationId, serviceId, endp
       seasonality: 'DAILY'
     },
     calculateThresholdOnBackend: true,
-    includeSynthetic,
-    applications: getEntitySelection(applicationId, serviceId, endpointId)
+    includeSynthetic: false,
+    applications: {}
   };
 }

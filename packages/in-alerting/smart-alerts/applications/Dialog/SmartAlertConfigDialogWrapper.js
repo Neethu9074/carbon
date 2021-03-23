@@ -12,6 +12,10 @@ import {
   applicationsAlertingCloseDialog,
   applicationsAlertingSwitchMode
 } from 'in-alerting/smart-alerts/applications/tracker';
+import {
+  updateGlobalAlertConfig,
+  createGlobalAlertConfig
+} from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { SmartAlertConfigDialog } from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialog';
@@ -84,7 +88,7 @@ export default function SmartAlertConfigDialogWrapper({
       }}
       withTrackCreate={simpleMode => {
         applicationsAlertingAlertCreated({ mode: simpleMode ? 'Simple' : 'Advanced' });
-        createAlert({ form, setForm, onClose, editMode, setIsSaving });
+        createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving });
       }}
       isSaving={isSaving}
     />
@@ -96,7 +100,7 @@ SmartAlertConfigDialogWrapper.propTypes = {
   editMode: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool,
   formData: PropTypes.shape({
-    applicationId: PropTypes.string.isRequired,
+    applications: PropTypes.object,
     boundaryScope: PropTypes.string,
     calculateThresholdOnBackend: PropTypes.bool,
     tagFilterExpression: PropTypes.object // backend model
@@ -104,7 +108,7 @@ SmartAlertConfigDialogWrapper.propTypes = {
   onClose: PropTypes.func.isRequired
 };
 
-function createAlert({ form, setForm, onClose, editMode, setIsSaving }) {
+function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving }) {
   setIsSaving(true);
 
   if (!form.hierarchyValid) {
@@ -116,7 +120,7 @@ function createAlert({ form, setForm, onClose, editMode, setIsSaving }) {
   const alertConfig = toAlertConfig(form);
 
   if (editMode) {
-    updateAlertConfig(alertConfig, form.get('id').value).once(
+    (isGlobalSmartAlert ? updateGlobalAlertConfig : updateAlertConfig)(alertConfig, form.get('id').value).once(
       () => onClose(),
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
@@ -124,7 +128,7 @@ function createAlert({ form, setForm, onClose, editMode, setIsSaving }) {
       }
     );
   } else {
-    createAlertConfig(alertConfig).once(
+    (isGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
       () => onClose(),
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
@@ -142,6 +146,7 @@ function toAlertConfig(form) {
     )
     .toJS();
 
+  alertConfig.applicationId = undefined;
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
   alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);
   return alertConfig;

@@ -103,8 +103,8 @@ export default function ApplicationsList({
         getNoDataCustomText() {
           return searchQuery ? createNoMatchingEntityText('Application') : undefined;
         },
-        shouldAdd() {
-          return true;
+        shouldAdd(itemTreeIds) {
+          return selectApplication(state, itemTreeIds)?.inclusive === undefined;
         },
         getBadgeElement() {
           return null;

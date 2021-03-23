@@ -6,13 +6,6 @@
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 
 export function getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig, subEntityId) {
-  // TODO AP ID must be provided via selection as well for Global SmartAlerts, and also as a separate parameter
-  //      for non-global SmartAlerts, because this field is deprecated.
-  // TODO this function is currently also used for Website SmartAlerts. applicationId will in that case be undefined,
-  //      which works, because the Website-blueprintConfig considers only the first parameter in
-  //      getEntityTagFilterFormModel. But his should be refactored later.
-  const { applicationId } = alertConfigWithFormModel;
-
   const { tagFilterExpression: tagFilterFormModel, rule } = alertConfigWithFormModel;
   const metricName = blueprintConfig.getMetricName(rule);
   const ruleTagFilterFormModel = blueprintConfig.getRuleTagFilterFormModel(rule);
@@ -20,7 +13,7 @@ export function getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprin
   let numeratorFilter;
 
   const expressionsToCombine = [
-    blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, applicationId, null, subEntityId)
+    blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, null, null, subEntityId)
   ];
   if (blueprintConfig.isCustomRateMetric(metricName)) {
     // at the moment, we only support a single numerator filter. All such blueprints have

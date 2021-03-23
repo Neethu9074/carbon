@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 
 import { PER_AP_SERVICE } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import ChartSubEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartSubEntitySelection';
+import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewConfig';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
@@ -36,8 +37,7 @@ export default function ChartViewConfiguratorWithEntitySelection({
   const showEntitySelection = alertConfigWithFormModel.evaluationType === PER_AP_SERVICE;
 
   // TODO AP ID must be provided via selection as well for Global SmartAlerts.
-  // Furthermore, this field is deprecated
-  const applicationId = alertConfigWithFormModel.applicationId;
+  const applicationId = firstApplicationId(alertConfigWithFormModel?.applications);
 
   return (
     <LightCard
@@ -81,7 +81,7 @@ export default function ChartViewConfiguratorWithEntitySelection({
             </HorizontalFlexWrapper>
           </StackItem>
         )}
-        <StackItem>{children(selectedChartViewConfig, serviceId)}</StackItem>
+        <StackItem>{children(selectedChartViewConfig, applicationId, serviceId)}</StackItem>
       </Stack>
     </LightCard>
   );
@@ -96,7 +96,8 @@ ChartViewConfiguratorWithEntitySelection.propTypes = {
   headerTransparent: PropTypes.bool,
   framed: PropTypes.bool,
   alertConfigWithFormModel: PropTypes.shape({
-    applicationId: PropTypes.string,
+    applicationId: PropTypes.string, // deprecated
+    applications: PropTypes.object,
     websiteId: PropTypes.string,
     evaluationType: PropTypes.string
   }),

@@ -9,6 +9,28 @@ import http from 'in-services/http';
 
 const baseUrl = '/api/events/settings/global-alert-configs/applications';
 
+export function createGlobalAlertConfig(data) {
+  // TODO use createObservable
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: baseUrl,
+    data
+  }).map(response => response.body);
+}
+
+export function updateGlobalAlertConfig(data, id) {
+  // TODO use createObservable
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}`,
+    data
+  }).map(response => response.body);
+}
+
 export function getAllGlobalAlertConfigs(config = { asObservable: false }) {
   const requestConfig = {
     method: 'GET',

@@ -81,8 +81,9 @@ export function getEntitySelectionAsTagFilterFormModel(
   applicationName,
   serviceId
 ) {
-  const application = applications[applicationId] ?? {};
-  if (serviceId) {
+  const application = applications[applicationId];
+
+  if (application && serviceId) {
     if (serviceId in application.services) {
       const service = application.services[serviceId];
       return joinExpressions({
@@ -96,13 +97,23 @@ export function getEntitySelectionAsTagFilterFormModel(
     return getExplicitEntityTagFilterFormModel(boundaryScope, applicationId, applicationName, serviceId);
   }
 
-  return getApplicationTagFilterFormModel(
-    boundaryScope,
-    applicationId,
-    applicationName,
-    application.inclusive,
-    application.services
-  );
+  if (application) {
+    return getApplicationTagFilterFormModel(
+      boundaryScope,
+      applicationId,
+      applicationName,
+      application.inclusive,
+      application.services
+    );
+  }
+
+  const applicationArray = Object.values(applications);
+  return joinExpressions({
+    logicalOperator: or,
+    expressions: applicationArray.map(app => {
+      return getApplicationTagFilterFormModel(boundaryScope, app.applicationId, null, app.inclusive, app.services);
+    })
+  });
 }
 
 function getExplicitEntityTagFilterFormModel(boundaryScope, applicationId, applicationName, serviceId) {
@@ -234,4 +245,8 @@ function getApplicationTagFilter(boundaryScope, applicationId, applicationName) 
   return applicationName
     ? getApplicationNameTagFilter(boundaryScope, applicationName)
     : getApplicationIdTagFilter(boundaryScope, applicationId);
+}
+
+export function firstApplicationId(applications) {
+  return Object.values(applications)[0]?.applicationId;
 }

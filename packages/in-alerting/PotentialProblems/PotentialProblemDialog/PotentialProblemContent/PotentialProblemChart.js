@@ -38,7 +38,7 @@ export default function PotentialProblemChart({
   const alertConfig = {
     threshold,
     rule,
-    applicationId,
+    applicationId, // TODO: remove it, it should already be part of applications...
     boundaryScope,
     applications,
     granularity: defaultGranularity,
@@ -84,7 +84,7 @@ export default function PotentialProblemChart({
 PotentialProblemChart.propTypes = {
   alert: alertPropType.isRequired,
   alertType: PropTypes.string.isRequired,
-  applicationId: PropTypes.string.isRequired,
+  applicationId: PropTypes.string,
   boundaryScope: PropTypes.string.isRequired,
   rule: rulePropType.isRequired,
   tagFilterExpression: PropTypes.object.isRequired,

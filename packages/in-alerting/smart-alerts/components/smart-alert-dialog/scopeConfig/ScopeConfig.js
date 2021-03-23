@@ -29,7 +29,6 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/scope
 export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, isGlobalSmartAlert, editMode }) {
   const applications = form.get('applications').value;
   const boundaryScope = form.get('boundaryScope').value;
-  const alertApplicationId = form.get('applicationId').value;
   const tagFilterExpression = form.get('tagFilterExpression').value;
   const includeSynthetic = form.get('includeSynthetic').value;
 
@@ -41,7 +40,9 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, i
       title={
         <Tooltip content={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleTooltip')}>
           <div className={locals.lightCardTitle}>
-            {t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitle')}
+            {isGlobalSmartAlert
+            ? t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleWithApplications')
+            : t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitle')}
           </div>
         </Tooltip>
       }
@@ -76,7 +77,6 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, i
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                 )
               }
-              alertApplicationId={alertApplicationId}
               timeConfig={{
                 windowSize: maxChartViewTimeframe
               }}

@@ -6,31 +6,26 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  cloneNewStateWithApplication,
-  listReducer
-} from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
+import { listReducer } from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
 import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import ApplicationsList from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/ApplicationsList';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import SearchInput from 'in-new-components/SearchInput';
+import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 
 export default function ServicesAndEndpointsListPresenter({
   apiSubscriptions,
   applicationsSelection,
   onChange,
-  alertApplicationId,
   timeConfig,
   isGlobalSmartAlert,
   ...props
 }) {
   const [state, dispatch] = useReducer(listReducer, {}, () => {
-    if (!applicationsSelection && alertApplicationId && !isGlobalSmartAlert) {
-      return cloneNewStateWithApplication({}, alertApplicationId, { inclusive: true, services: {} });
-    }
     return applicationsSelection;
   });
+  const alertApplicationId = firstApplicationId(applicationsSelection);
 
   useEffect(() => {
     onChange?.(state);

@@ -59,7 +59,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
                 slideInConfig: {
                   component: (
                     <LogMessagesList
-                      applicationId={form.get('applicationId').value}
+                      applicationId={form.get('applicationId')?.value}
                       applicationBoundaryScope={form.get('boundaryScope').value}
                       timeConfig={timeConfig}
                       onLogMessageSelect={(message, level) => {

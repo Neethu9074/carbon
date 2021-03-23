@@ -4,8 +4,11 @@
  */
 
 import getApplicationMetricsThresholdSuggestion from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsThresholdSuggestion';
+import {
+  firstApplicationId,
+  getEntitySelectionAsTagFilterFormModel
+} from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsAlertsPreview';
-import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { getBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
@@ -28,7 +31,7 @@ const baseBlueprint = Object.freeze({
     getEntitySelectionAsTagFilterFormModel(
       alertConfig.applications,
       alertConfig.boundaryScope,
-      applicationId,
+      applicationId ?? firstApplicationId(alertConfig.applications),
       applicationName,
       serviceId
     ),

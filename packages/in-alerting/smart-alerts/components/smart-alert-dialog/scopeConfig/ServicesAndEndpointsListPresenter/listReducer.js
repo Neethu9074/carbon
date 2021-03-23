@@ -59,6 +59,13 @@ export function listReducer(state, action) {
       const servicesItemTreeCopy = { ...application?.services };
       delete servicesItemTreeCopy[serviceId];
 
+      if (!applicationInclusive && isEmpty(servicesItemTreeCopy)) {
+        const applicationsCopy = { ...state };
+        delete applicationsCopy[applicationId];
+
+        return applicationsCopy;
+      }
+
       return {
         ...state,
         [applicationId]: {
@@ -77,6 +84,26 @@ export function listReducer(state, action) {
       if (applicationInclusive && serviceInclusive && isEmpty(endpointsItemTreeCopy)) {
         const servicesCopy = { ...application.services };
         delete servicesCopy[serviceId];
+
+        return {
+          ...state,
+          [applicationId]: {
+            ...application,
+            services: {
+              ...servicesCopy
+            }
+          }
+        };
+      }
+
+      if (!applicationInclusive && !serviceInclusive && isEmpty(endpointsItemTreeCopy)) {
+        const applicationsCopy = { ...state };
+        const servicesCopy = { ...application.services };
+        delete servicesCopy[serviceId];
+        if (isEmpty(servicesCopy)) {
+          delete applicationsCopy[applicationId];
+          return applicationsCopy;
+        }
 
         return {
           ...state,

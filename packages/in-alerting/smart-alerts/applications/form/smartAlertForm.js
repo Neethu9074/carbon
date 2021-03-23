@@ -37,12 +37,6 @@ export function createSmartAlertForm(alertConfig) {
       })
     )
     .put(
-      'applications',
-      createField({
-        value: alertConfig.applications ?? {}
-      })
-    )
-    .put(
       'boundaryScope',
       createField({
         value: alertConfig.boundaryScope ?? 'INBOUND'
@@ -123,7 +117,7 @@ export function createSmartAlertForm(alertConfig) {
     .put(
       'applications',
       createField({
-        value: alertConfig.applications,
+        value: alertConfig.applications ?? {},
         validator: entitySelection => {
           if (!isEntitySelectionValid(entitySelection)) {
             return [

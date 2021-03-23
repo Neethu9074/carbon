@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { empty, just } from '@instana/observables';
+import { empty } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
@@ -15,6 +15,7 @@ import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
 
@@ -47,7 +48,9 @@ function SmartAlertConfigDialogWithQueryValidation({
   const { form, updateForm, editMode } = props;
   const [simpleMode, setSimpleMode] = useState(!editMode);
 
-  const applicationId = form.get('applicationId').value; // TODO replace use of deprecated field with 'applications' field
+  const applications = form.get('applications').value;
+  const applicationId = firstApplicationId(applications);
+
   const boundaryScope = form.get('boundaryScope').value;
   const AlertQueryBuilder = useMemo(() => createBoundedAlertQueryBuilder(applicationId, boundaryScope), [
     applicationId,
@@ -61,20 +64,18 @@ function SmartAlertConfigDialogWithQueryValidation({
 
   const thresholdResult = useObservable(
     ([form, simpleMode, isValid]) =>
-      props.isGlobalSmartAlert
-        ? just({})
-        : resolveThresholdRequest(
-            alertConfigWithFormModel,
-            blueprintConfig,
-            enrichedTagFilterFormModel,
-            simpleMode,
-            isValid
-          )
-            .filter(resp => resp && !resp.progress.loading)
-            .tap(
-              ({ data, errors, time }) =>
-                isValid && updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode)
-            ),
+      resolveThresholdRequest(
+        alertConfigWithFormModel,
+        blueprintConfig,
+        enrichedTagFilterFormModel,
+        simpleMode,
+        isValid
+      )
+        .filter(resp => resp && !resp.progress.loading)
+        .tap(
+          ({ data, errors, time }) =>
+            isValid && updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode)
+        ),
     [form, simpleMode, isValid]
   );
 

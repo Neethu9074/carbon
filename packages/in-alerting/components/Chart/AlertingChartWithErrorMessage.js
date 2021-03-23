@@ -50,10 +50,6 @@ export default function AlertingChartWithErrorMessage({
 
   const customValidationValid = customValidators?.(isValidDependingOnMode) ?? true;
 
-  const errorMessage =
-    getErrorMessage?.(isValidDependingOnMode) ??
-    t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery');
-
   return isValidDependingOnMode && customValidationValid ? (
     <AlertingChart
       {...remainingProps}
@@ -61,7 +57,10 @@ export default function AlertingChartWithErrorMessage({
       enrichedTagFilterExpression={enrichedTagFilterExpression}
     />
   ) : (
-    <Message withIcon>{errorMessage}</Message>
+    <Message withIcon>
+      {getErrorMessage?.(isValidDependingOnMode) ??
+        t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery')}
+    </Message>
   );
 }
 
