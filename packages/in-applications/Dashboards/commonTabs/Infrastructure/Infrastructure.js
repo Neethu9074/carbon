@@ -4,6 +4,7 @@
  */
 
 import { fromPromise } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import React, { Fragment } from 'react';
 
 import {
@@ -31,7 +32,6 @@ import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import Footer from 'in-new-components/Footer/Footer';
-import useObservable from 'in-hooks/useObservable';
 import PluginIcon from 'in-components/PluginIcon';
 import useUrlState from 'in-hooks/useUrlState';
 import { plugins } from 'in-forge/constants';

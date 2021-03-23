@@ -4,6 +4,7 @@
  */
 
 import { fromPromise, timeout, combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import AgentMonitoringIssueNotifications from 'in-infrastructure/Dashboard/components/AgentMonitoringIssueNotifications';
@@ -17,7 +18,6 @@ import { timeConfig$, getTimeConfigAtMoment } from 'in-stores/time/config';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getForgeComponent } from 'in-services/getForgeComponent';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
-import useObservable from 'in-hooks/useObservable';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';
 import Sticky from 'in-components/Sticky';

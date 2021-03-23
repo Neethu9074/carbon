@@ -4,6 +4,7 @@
  */
 
 import React, { useRef, useLayoutEffect, useState, useEffect } from 'react';
+import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 import rpt from 'prop-types';
 
@@ -31,7 +32,6 @@ import Expression from 'in-new-components/QueryBuilder/components/Expression';
 import Bracket from 'in-new-components/QueryBuilder/components/Bracket';
 import Tag from 'in-new-components/QueryBuilder/components/Tag/Tag';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from './QueryBuilder.mless';

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -11,7 +12,6 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
-import useObservable from 'in-hooks/useObservable';
 
 export default function Row({ item }) {
   const { processSnapshotId, time, entityLabel, entityPlugin, hostSnapshotPreview } = item;

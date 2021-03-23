@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
+import { useObservable } from '@instana/hooks';
 
 import {
   renderer as availableRenderers,
@@ -20,7 +21,6 @@ import { getChartGranularity } from 'in-stores/metric/metric';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 // The unified metrics chart supports advanced data retrieval use cases, e.g., grouped metrics, charting

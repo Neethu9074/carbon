@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import useObservable from 'in-hooks/useObservable';
+import { useObservable } from '@instana/hooks';
+
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export default function useTagCatalog(getTagCatalog) {

@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
+
 import { getAlertConfigByIdAndTimestamp } from 'in-websites/api/websiteAlertConfig';
-import useObservable from 'in-hooks/useObservable';
 
 export default function useWebsiteEventAlertConfig(event) {
   return useObservable(

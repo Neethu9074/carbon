@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import getRuntimesForGoogleCloudRunServiceRevision from 'in-subscription/getRuntimesForGoogleCloudRunServiceRevision';
@@ -13,7 +14,6 @@ import Info from 'in-forge/plugins/googleCloudRunServiceRevision/Info';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import TagList from 'in-sdk/components/sidebar/TagList';
 import { timeConfig$ } from 'in-stores/time/config';
-import useObservable from 'in-hooks/useObservable';
 import { getSnapshot } from 'in-stores/snapshot';
 import { t } from 'in-i18n';
 

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -12,7 +13,6 @@ import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import useObservable from 'in-hooks/useObservable';
 
 import locals from './MarkerLane.mless';
 

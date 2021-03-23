@@ -5,6 +5,7 @@
 
 import { create, just, interval } from '@instana/observables';
 import React, { useState, useMemo } from 'react';
+import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 
 import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
@@ -25,7 +26,6 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import EventTable from 'in-events/components/EventTable';
 import { eventsPath } from 'in-events/navigation/paths';
 import getRawEvents from 'in-subscription/getRawEvents';
-import useObservable from 'in-hooks/useObservable';
 import { query$ } from 'in-stores/search/query';
 import useUrlState from 'in-hooks/useUrlState';
 import { seconds } from 'in-services/time';

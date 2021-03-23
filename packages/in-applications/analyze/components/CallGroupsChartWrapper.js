@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 import { find } from 'lodash';
 
@@ -12,7 +13,6 @@ import GroupMetricsChartPresenter, {
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { pendingResult } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 
 // Sample Usage
 /*

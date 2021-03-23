@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useRef } from 'react';
 import classNames from 'classnames';
 
@@ -22,7 +23,6 @@ import { and, or, not } from 'in-new-components/QueryBuilder/ConjunctionSelector
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import Overlay from 'in-new-components/overlays/Overlay';
-import useObservable from 'in-hooks/useObservable';
 import keyCodes from 'in-components/keyCodes';
 
 import locals from './Spacing.mless';

@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
 import { productPermissions } from 'in-stores/permission';
 import { pendingResult } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 import { getPermissions } from 'in-api/users';
 import SvgIcon from 'in-components/SvgIcon';
 import theme from 'in-themes';

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import getProfilesAvailable from 'in-new-components/Profiling/subscriptions/getProfilesAvailable';
@@ -20,7 +21,6 @@ import ExpandableGroup from 'in-new-components/ExpandableGroup';
 import { hasError, isLoading } from 'in-services/util/result';
 import { percentage } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
 import { minutes } from 'in-services/time';
 import Link from 'in-components/Link';

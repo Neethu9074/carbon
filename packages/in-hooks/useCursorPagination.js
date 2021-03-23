@@ -5,9 +5,9 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import shallowEqual from 'fbjs/lib/shallowEqual';
+import { useObservable } from '@instana/hooks';
 
 import { pendingResult, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 
 export default function useCursorPagination(create, deps = []) {
   // If 'deps' change, the 'state' will be reset to the 'initialState' value. However, this 'state' change

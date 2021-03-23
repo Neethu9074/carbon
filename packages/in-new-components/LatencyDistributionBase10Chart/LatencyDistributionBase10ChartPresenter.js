@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 import React, { useState } from 'react';
 
@@ -21,7 +22,6 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
 import Legend from 'in-components/Chart/components/Legend.js';
 import { defaultTimeShift } from 'in-stores/time/shifting';
-import useObservable from 'in-hooks/useObservable';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

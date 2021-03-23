@@ -4,6 +4,7 @@
  */
 
 import { combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -32,7 +33,6 @@ import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { getTimeConfig } from 'in-stores/time/config';
 import { add, remove } from 'in-stores/starredItems';
-import useObservable from 'in-hooks/useObservable';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';

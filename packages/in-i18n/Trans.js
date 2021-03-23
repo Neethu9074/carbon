@@ -6,11 +6,11 @@
 // eslint-disable-next-line no-restricted-imports
 import { Trans as InternalTrans } from 'react-i18next';
 import { just, combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import { replaceHtmlChars, sanitize } from 'in-services/formatters/html';
 import { generateStableHash } from 'in-services/util/id';
-import useObservable from 'in-hooks/useObservable';
 
 export default function Trans({ values, ...props }) {
   const validatedAndConvertedValues = useObservable(() => validateAndConvertValues(values), [

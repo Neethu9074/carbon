@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -10,7 +11,6 @@ import getServices from 'in-subscription/application/getServices';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import { t } from 'in-i18n';
 
 export default function ServicesSelectBox({ field, applicationId, boundaryScope, value, onChange }) {

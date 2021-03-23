@@ -2056,6 +2056,15 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
+"@instana/hooks@1.1.1":
+  version "1.1.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/hooks/-/@instana/hooks-1.1.1.tgz#f517e8017c3a586b8d006d7a14ff1033bad052b5"
+  integrity sha1-9RfoAXw6WGuNAG16FP8QM7rQUrU=
+  dependencies:
+    "@instana/observables" "^1.2.0"
+    invariant "^2.2.4"
+    shallowequal "^1.1.0"
+
 "@instana/import-sort-style-simon@^1.1.0":
   version "1.1.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/import-sort-style-simon/-/@instana/import-sort-style-simon-1.1.0.tgz#ce806f765897090b0287da2075985beb0e432f1f"
@@ -2063,30 +2072,30 @@
   dependencies:
     import-sort "^6.0.0"
 
-"@instana/logger@^1.0.0":
-  version "1.0.0"
+"@instana/logger@^1.0.0", "@instana/logger@^1.1.0":
+  version "1.1.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/logger/-/@instana/logger-1.0.0.tgz#e44d0c88515da38da8bcb5bc7f4519d768a88457"
   integrity sha1-5E0MiFFdo42ovLW8f0UZ12iohFc=
   dependencies:
     invariant "^2.2.4"
 
-"@instana/observables@^1.0.0":
-  version "1.0.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/observables/-/@instana/observables-1.0.0.tgz#cb318aee2265ba3936c2727e6df84281ef0ec20c"
-  integrity sha1-yzGK7iJlujk2wnJ+bfhCge8Owgw=
+"@instana/observables@^1.2.0":
+  version "1.2.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/observables/-/@instana/observables-1.2.0.tgz#f8f3a21b911715fcd28e416425d3295bfa9fe56b"
+  integrity sha1-+POiG5EXFfzSjkFkJdMpW/qf5Ws=
 
 "@instana/pseudo-translation@1.1.1":
   version "1.1.1"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/pseudo-translation/-/@instana/pseudo-translation-1.1.1.tgz#4332140211e71d9d991d216884133c1e535fef9f"
   integrity sha1-QzIUAhHnHZ2ZHSFohBM8HlNf758=
 
-"@instana/roemitter@^1.0.0":
-  version "1.0.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/roemitter/-/@instana/roemitter-1.0.0.tgz#7f1644c3195a433484e9cfd2488dff0e3b94422d"
-  integrity sha1-fxZEwxlaQzSE6c/SSI3/DjuUQi0=
+"@instana/roemitter@1.1.1":
+  version "1.1.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/roemitter/-/@instana/roemitter-1.1.1.tgz#ac4c511dc6ab69ca1482f4bd289e4a34abf922c2"
+  integrity sha1-rExRHcaracoUgvS9KJ5KNKv5IsI=
   dependencies:
-    "@instana/logger" "^1.0.0"
-    "@instana/observables" "^1.0.0"
+    "@instana/logger" "^1.1.0"
+    "@instana/observables" "^1.2.0"
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"

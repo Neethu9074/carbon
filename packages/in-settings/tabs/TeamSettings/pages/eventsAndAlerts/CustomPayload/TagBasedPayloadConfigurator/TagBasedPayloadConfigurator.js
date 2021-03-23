@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useRef } from 'react';
 import rpt from 'prop-types';
 
@@ -11,7 +12,6 @@ import TagSelectorOverlay from 'in-new-components/TagSelectorOverlay/TagSelector
 import LoadingIndicator from 'in-new-components/GroupingConfigurator/LoadingIndicator';
 import { getTagCatalogOnce, enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import Overlay from 'in-new-components/overlays/Overlay';
-import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import Button from 'in-new-components/Button';

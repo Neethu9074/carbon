@@ -4,6 +4,7 @@
  */
 
 import { createLogger } from '@instana/logger';
+import { useObservable } from '@instana/hooks';
 import { createField } from 'formalistic';
 import React, { useState } from 'react';
 import classNames from 'classnames';
@@ -53,7 +54,6 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import { pendingResult } from 'in-services/fixedObjects';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
-import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
 import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';

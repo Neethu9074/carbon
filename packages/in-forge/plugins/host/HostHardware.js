@@ -4,13 +4,13 @@
  */
 
 import { fromPromise } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import { getForgeComponent } from 'in-services/getForgeComponent';
 import { getSnapshot, getFoundations } from 'in-stores/snapshot';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { alwaysNull } from 'in-services/fixedStreams';
-import useObservable from 'in-hooks/useObservable';
 import { getPluginName } from 'in-sdk/pluginName';
 import connectTo from 'in-hoc/connectTo';
 

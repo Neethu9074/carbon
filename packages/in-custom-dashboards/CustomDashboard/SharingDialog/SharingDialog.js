@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 
 import SharingDialogPresenter from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialogPresenter';
 import { close } from 'in-components/DialogPresenter/store';
 import { getUsers } from 'in-custom-dashboards/api';
 import { deepCopy } from 'in-services/util/object';
-import useObservable from 'in-hooks/useObservable';
 import { user } from 'in-stores/user';
 
 export default function SharingDialog({ config, onSubmit }) {

@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import { activeDialogs$ } from 'in-components/DialogPresenter/store';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import useObservable from 'in-hooks/useObservable';
 
 export default function DialogPresenter() {
   const activeDialogs = useObservable(activeDialogs$, []) ?? [];

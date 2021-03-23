@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -35,7 +36,6 @@ import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 import { role } from 'in-stores/user';

@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { debounce } from 'lodash';
 import { useState } from 'react';
 
 import { settings$, set as persist } from 'in-services/settings/settings';
-import useObservable from 'in-hooks/useObservable';
 
 const debouncedPersist = debounce(persist, 500);
 

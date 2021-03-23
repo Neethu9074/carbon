@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import InfrastructureEntityLink from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureEntityLink';
@@ -10,7 +11,6 @@ import { shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/sn
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import Hierarchy from 'in-components/Link/Hierarchy';
-import useObservable from 'in-hooks/useObservable';
 import { t } from 'in-i18n';
 
 import locals from './InfrastructureHierarchy.mless';

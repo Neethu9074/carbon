@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import * as serviceLevelIndicators from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/serviceLevelIndicators';
@@ -15,7 +16,6 @@ import Sections from 'in-new-components/workspace/Sections';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { percentage } from 'in-services/formatters/number';
 import Stack from 'in-new-components/layout/Stack';
-import useObservable from 'in-hooks/useObservable';
 import { Trans, t } from 'in-i18n';
 
 export default function FormComponent({

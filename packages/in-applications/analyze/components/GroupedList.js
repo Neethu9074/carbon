@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
@@ -37,7 +38,6 @@ import List from 'in-applications/analyze/components/List';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { emptyArray } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';

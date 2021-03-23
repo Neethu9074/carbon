@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import React, { useEffect } from 'react';
 
@@ -13,7 +14,6 @@ import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/f
 import getServices from 'in-subscription/application/getServices';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 

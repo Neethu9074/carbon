@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -12,7 +13,6 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SaveButton from 'in-components/form/SaveButton';
 import Button from 'in-new-components/Button/Button';
-import useObservable from 'in-hooks/useObservable';
 import { t } from 'in-i18n';
 
 import locals from './SimpleModePageNavigation.mless';

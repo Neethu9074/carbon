@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -31,7 +32,6 @@ import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
-import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 import Button from 'in-new-components/Button';
 import Card from 'in-new-components/Card';

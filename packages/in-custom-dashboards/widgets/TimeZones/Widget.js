@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useMemo } from 'react';
 import rpt from 'prop-types';
 
-import useObservable from 'in-hooks/useObservable';
 import { serverTime$ } from 'in-stores/serverTime';
 import Card from 'in-new-components/Card';
 

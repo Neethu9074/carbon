@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 import moment from 'moment';
 import React from 'react';
@@ -29,7 +30,6 @@ import LightCardV2 from 'in-new-components/Card/LightCardV2';
 import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
 import { pendingResult } from 'in-services/fixedObjects';
 import { alwaysNull } from 'in-services/fixedStreams';
-import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import connectTo from 'in-hoc/connectTo';
 

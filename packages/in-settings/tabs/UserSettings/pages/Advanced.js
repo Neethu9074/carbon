@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -15,7 +16,6 @@ import SectionHeading from 'in-settings/components/SectionHeading';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
-import useObservable from 'in-hooks/useObservable';
 import Toggle from 'in-components/form/Toggle';
 import Footer from 'in-new-components/Footer';
 import Title from 'in-components/Title';

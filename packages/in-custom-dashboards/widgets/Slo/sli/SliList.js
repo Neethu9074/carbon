@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 import rpt from 'prop-types';
 import React from 'react';
@@ -20,7 +21,6 @@ import getApplication from 'in-subscription/application/getApplication';
 import { deleteSliConfiguration } from 'in-custom-dashboards/api';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { isLoading } from 'in-services/util/result';
-import useObservable from 'in-hooks/useObservable';
 import WithIcon from 'in-new-components/WithIcon';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';

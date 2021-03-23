@@ -4,6 +4,7 @@
  */
 
 import AutosizeInput from 'react-input-autosize';
+import { useObservable } from '@instana/hooks';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -14,7 +15,6 @@ import useThemedLocals from 'in-hooks/useThemedLocals';
 import { number } from 'in-services/formatters/number';
 import { isLoading } from 'in-services/util/result';
 import Typeahead from 'in-new-components/Typeahead';
-import useObservable from 'in-hooks/useObservable';
 import { shorten } from 'in-services/util/string';
 import { t } from 'in-i18n';
 

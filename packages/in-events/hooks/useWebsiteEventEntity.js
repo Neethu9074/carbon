@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
-
-import useObservable from 'in-hooks/useObservable';
 
 export default function useWebsiteEventEntity(event) {
   return useObservable(

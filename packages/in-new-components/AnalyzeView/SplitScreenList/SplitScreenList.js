@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useLayoutEffect } from 'react';
+import { useObservable } from '@instana/hooks';
 import { findIndex, isEqual } from 'lodash';
 import classNames from 'classnames';
 import rpt from 'prop-types';
@@ -21,7 +22,6 @@ import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
 import { prefetch } from 'in-subscription/util/prefetch';
 import { generateStableHash } from 'in-services/util/id';
 import { Ul, Li } from 'in-new-components/lists/List';
-import useObservable from 'in-hooks/useObservable';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';

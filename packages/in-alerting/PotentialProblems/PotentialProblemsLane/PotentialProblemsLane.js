@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
@@ -21,7 +22,6 @@ import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
-import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { days } from 'in-services/time';
 

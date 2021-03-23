@@ -4,11 +4,11 @@
  */
 
 import { combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import { getProcessCompanions } from 'in-stores/snapshot/graph';
 import Info from 'in-forge/plugins/phpRuntimePlatform/Info';
-import useObservable from 'in-hooks/useObservable';
 import { getSnapshot } from 'in-stores/snapshot';
 
 export default function PhpSnapshot({ snapshotId, initiallyOpen }) {

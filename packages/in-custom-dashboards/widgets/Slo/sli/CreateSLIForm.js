@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import React, { useState } from 'react';
 
@@ -19,7 +20,6 @@ import { generateUniqueShortId } from 'in-services/util/id';
 import { pendingResult } from 'in-services/fixedObjects';
 import Stack from 'in-new-components/layout/Stack';
 import Form from 'in-components/form/binding/Form';
-import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import Message from 'in-new-components/Message';

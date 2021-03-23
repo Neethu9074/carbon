@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -16,7 +17,6 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { close } from 'in-components/DialogPresenter/store';
 import { bytes } from 'in-services/formatters/number';
 import Dialog from 'in-new-components/Dialog/Dialog';
-import useObservable from 'in-hooks/useObservable';
 import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 

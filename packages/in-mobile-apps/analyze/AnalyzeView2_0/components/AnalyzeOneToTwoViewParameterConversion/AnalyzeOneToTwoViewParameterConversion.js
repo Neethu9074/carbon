@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { useObservable } from '@instana/hooks';
 import { useLocation } from 'react-router';
 import React from 'react';
 
@@ -17,7 +18,6 @@ import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { analyzePath } from 'in-mobile-apps/navigation/paths';
-import useObservable from 'in-hooks/useObservable';
 import Sticky from 'in-components/Sticky';
 
 export const analyzeTwoParameters = createParameters(analyzePath);

@@ -5,6 +5,7 @@
 
 import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import React, { useState, useEffect } from 'react';
+import { useObservable } from '@instana/hooks';
 
 import WidgetEditorDialogPresenter from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialogPresenter';
 import { stringValidator, numberValidator } from 'in-services/validators/jsonType';
@@ -17,7 +18,6 @@ import { cancelEditWidget } from 'in-custom-dashboards/tracker';
 import { close } from 'in-components/DialogPresenter/store';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { pendingResult } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 
 export default function WidgetEditorDialog({ widget, onSubmit }) {
   const [state, setState] = useState(() => getInitialState(widget));

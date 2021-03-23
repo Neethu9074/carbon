@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import FacetedExpandableCard from 'in-applications/analyze/components/FacetedSearch/FacetedExpandableCard';
@@ -18,7 +19,6 @@ import Skeleton from 'in-new-components/Loading/Skeleton';
 import { pendingResult } from 'in-services/fixedObjects';
 import { siPrefix } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
 import Link from 'in-components/Link';
 import { t } from 'in-i18n';

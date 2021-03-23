@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 
 import FacetedExpandableCard from 'in-applications/analyze/components/FacetedSearch/FacetedExpandableCard';
@@ -16,7 +17,6 @@ import SuggestionsPresenter from './SuggestionsPresenter';
 import { identity } from 'in-services/util/function';
 import { mapDataHO } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import { isBlank } from 'in-services/util/string';
 
 import locals from './Suggestion.mless';

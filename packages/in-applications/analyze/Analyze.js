@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { useObservable } from '@instana/hooks';
 import { useRouteMatch } from 'react-router';
 import { range } from 'lodash';
 
@@ -66,7 +67,6 @@ import { error } from 'in-new-components/Message/types';
 import { emptyArray } from 'in-services/fixedObjects';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import Stack from 'in-new-components/layout/Stack';
 import { getPluginName } from 'in-sdk/pluginName';
 import Message from 'in-new-components/Message';

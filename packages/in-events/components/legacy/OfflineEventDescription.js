@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import CustomProblemDescription from 'in-events/components/legacy/CustomProblemDescription';
@@ -10,7 +11,6 @@ import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getSnapshotVersions } from 'in-stores/snapshot/snapshot';
 import { setTimeConfig } from 'in-stores/time/config';
-import useObservable from 'in-hooks/useObservable';
 import Link from 'in-components/Link/Link';
 import { t } from 'in-i18n';
 

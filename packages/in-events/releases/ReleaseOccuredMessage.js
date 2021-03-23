@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -12,7 +13,6 @@ import { setTimeConfig, urlQueryKeys } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import TimeCount from 'in-new-components/time/TimeCount';
 import Button from 'in-new-components/Button/Button';
-import useObservable from 'in-hooks/useObservable';
 import { t, Trans } from 'in-i18n';
 
 import locals from './ReleaseOccuredMessage.mless';

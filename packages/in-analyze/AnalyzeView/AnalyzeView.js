@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useEffect } from 'react';
 
 import {
@@ -55,7 +56,6 @@ import RawTraces from 'in-analyze/components/RawTraces';
 import Analyze from 'in-applications/analyze/Analyze';
 import RawCalls from 'in-analyze/components/RawCalls';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
 

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import { createApplicationHealthForm } from 'in-custom-dashboards/widgets/ApplicationHealth/form';
@@ -13,7 +14,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import Header from 'in-new-components/workspace/Header';
 import { Li, Ul } from 'in-new-components/lists/List';
 import Stack from 'in-new-components/layout/Stack';
-import useObservable from 'in-hooks/useObservable';
 import Label from 'in-components/form/Label/Label';
 import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';

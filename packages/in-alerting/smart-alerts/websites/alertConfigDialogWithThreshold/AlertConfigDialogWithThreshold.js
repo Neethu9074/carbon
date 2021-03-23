@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
+import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
 import {
@@ -27,7 +28,6 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/bluep
 import { modeAdvanced, modeSimple } from 'in-alerting/smart-alerts/websites/constants';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { pendingResult } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export default function AlertConfigDialogWithThreshold(props) {

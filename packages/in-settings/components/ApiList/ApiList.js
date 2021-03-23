@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 
 import { DefaultListRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { pendingResult } from 'in-services/fixedObjects';
 import { error } from 'in-new-components/Message/types';
-import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 

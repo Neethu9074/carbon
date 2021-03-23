@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
@@ -11,7 +12,6 @@ import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTr
 import { isFakeRootCall, isUnknownTypeSpan, isInternalCall, isLog } from 'in-analyze/TraceDetail/shared/CallHelper';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
-import useObservable from 'in-hooks/useObservable';
 import { shorten } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';

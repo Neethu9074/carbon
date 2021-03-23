@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import { getAccountAsResultObservable } from 'in-amp/api/account';
 import { hasError, isLoading } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { pendingResult } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 import config from 'in-services/config';
 import { days } from 'in-services/time';
 

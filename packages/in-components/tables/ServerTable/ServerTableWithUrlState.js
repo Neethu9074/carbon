@@ -5,6 +5,7 @@
 
 import shallowEquals from 'fbjs/lib/shallowEqual';
 import { timeout } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import React, { useMemo } from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -12,7 +13,6 @@ import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matri
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { getSingle, setSingle } from 'in-services/settings/settings';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
-import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 
 export default function createServerTableWithUrlState({

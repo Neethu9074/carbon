@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
@@ -13,7 +14,6 @@ import getMetrics from 'in-subscription/application/getMetrics';
 import getService from 'in-subscription/application/getService';
 import { boundaryScopes } from 'in-applications/constants';
 import ServerFlowMap from 'in-applications/ServerFlowMap';
-import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 
 const urlStateDefinition = {

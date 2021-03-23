@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import { fromBackendModel, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -20,7 +21,6 @@ import { getFormatter } from 'in-stores/metric/formatters';
 import { operators } from 'in-analyze/applicationFilter';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import { getTagType } from 'in-applications/tags';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';

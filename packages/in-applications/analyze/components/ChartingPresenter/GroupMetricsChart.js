@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import { chartMetricKey, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
@@ -15,7 +16,6 @@ import { getResolvedTimeConfig } from 'in-applications/metrics';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import { t } from 'in-i18n';
 
 export default function GroupMetricsChart({

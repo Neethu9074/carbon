@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
@@ -19,7 +20,6 @@ import { getSnapshot, getSnapshots } from 'in-stores/snapshot';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isEntityOnline } from 'in-stores/snapshot';
-import useObservable from 'in-hooks/useObservable';
 import { mutateUrl } from 'in-stores/navigation';
 import useUrlState from 'in-hooks/useUrlState';
 import { plugins } from 'in-forge/constants';

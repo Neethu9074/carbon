@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { useState } from 'react';
 import { find } from 'lodash';
 import React from 'react';
@@ -18,7 +19,6 @@ import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
-import useObservable from 'in-hooks/useObservable';
 
 // Sample Usage
 /*

@@ -4,6 +4,7 @@
  */
 
 import { createLogger } from '@instana/logger';
+import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 
 import {
@@ -18,7 +19,6 @@ import AdvancedModeContainer from 'in-applications/creation/advanced/AdvancedMod
 import SimpleModeContainer from 'in-applications/creation/simple/SimpleModeContainer';
 import { addApplicationConfig } from 'in-api/applicationConfigs';
 import { pendingResult } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 import { goToPath } from 'in-stores/navigation';
 
 const logger = createLogger('in-applications/creation/Dialog/CreateApplicationDialog');

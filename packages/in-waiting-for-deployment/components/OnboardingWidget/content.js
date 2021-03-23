@@ -4,6 +4,7 @@
  */
 
 import React, { Fragment, useState } from 'react';
+import { useObservable } from '@instana/hooks';
 
 import {
   Bash,
@@ -31,7 +32,6 @@ import instanaAgentYaml from 'in-waiting-for-deployment/components/OnboardingWid
 import createObservable from 'in-services/http/observableHttpResult';
 import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import useObservable from 'in-hooks/useObservable';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 

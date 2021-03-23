@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 
 import ExistingValue, { getExistingValuesForTag } from 'in-new-components/AnalyzeView/FacetedFilters/ExistingValue';
@@ -16,7 +17,6 @@ import { identity } from 'in-services/util/function';
 import { mapDataHO } from 'in-services/util/result';
 import Stack from 'in-new-components/layout/Stack';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import { isBlank } from 'in-services/util/string';
 
 import locals from './FacetedFilterGeneric.mless';

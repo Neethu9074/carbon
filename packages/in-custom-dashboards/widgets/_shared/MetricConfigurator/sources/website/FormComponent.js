@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { find, groupBy } from 'lodash';
 import React from 'react';
 
@@ -18,7 +19,6 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { dataSourceTitles } from 'in-websites/tags';
 import Stack from 'in-new-components/layout/Stack';
-import useObservable from 'in-hooks/useObservable';
 import { t } from 'in-i18n';
 
 export default function FormComponent({

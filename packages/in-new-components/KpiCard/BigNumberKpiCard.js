@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { find } from 'lodash';
 import React from 'react';
 
@@ -15,7 +16,6 @@ import { percentage } from 'in-services/formatters/number';
 import { pendingResult } from 'in-services/fixedObjects';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

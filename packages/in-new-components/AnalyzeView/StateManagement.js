@@ -4,6 +4,7 @@
  */
 
 import React, { useMemo, useState } from 'react';
+import { useObservable } from '@instana/hooks';
 import rpt from 'prop-types';
 
 import { TAG, CONJUNCTION, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -27,7 +28,6 @@ import { noResultObservable } from 'in-services/util/result';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import useUrlState from 'in-hooks/useUrlState';
 
 export default function TimeFixatingAnalyzeStateManagement(props) {

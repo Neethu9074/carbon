@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { useObservable } from '@instana/hooks';
+
 import { getAlertConfigByIdAndTimestamp } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
-import useObservable from 'in-hooks/useObservable';
 
 export default function useApplicationEventAlertConfig(event) {
   return useObservable(

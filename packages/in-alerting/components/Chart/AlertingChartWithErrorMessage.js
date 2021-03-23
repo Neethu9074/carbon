@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
@@ -12,7 +13,6 @@ import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformati
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
 import AlertingChart from 'in-alerting/components/Chart/AlertingChart';
 import { pendingResult } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 import Message from 'in-new-components/Message';
 import { t } from 'in-i18n';
 

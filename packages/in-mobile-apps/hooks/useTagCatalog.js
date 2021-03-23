@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { useObservable } from '@instana/hooks';
+
 import { getTagCatalog } from 'in-mobile-apps/api/tagCatalog';
-import useObservable from 'in-hooks/useObservable';
 
 export default function useTagCatalog(beaconType, useCase = 'FILTERING') {
   const tagCatalogResult = useObservable(() => getTagCatalog({ beaconType, useCase }), [beaconType, useCase]);

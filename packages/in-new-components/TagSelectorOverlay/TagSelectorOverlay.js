@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
@@ -11,7 +12,6 @@ import * as typeToLabelMapping from 'in-new-components/QueryBuilder/tagFilter/ty
 import SelectorOverlay from 'in-new-components/SelectorOverlay/SelectorOverlay';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { emptyArray } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 import { settings$ } from 'in-services/settings';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';

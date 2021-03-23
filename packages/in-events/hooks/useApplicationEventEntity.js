@@ -4,10 +4,10 @@
  */
 
 import { combineLatest, just } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
-import useObservable from 'in-hooks/useObservable';
 
 export default function useApplicationEventEntity(event) {
   return useObservable(

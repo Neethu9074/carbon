@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -10,7 +11,6 @@ import ReleasesLanePresenter from 'in-components/Chart/markerLanes/ReleasesLane/
 import getReleaseClusters from 'in-events/subscriptions/getReleaseClusters';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import { propTypeTimeConfig } from 'in-stores/time/config';
-import useObservable from 'in-hooks/useObservable';
 
 export default function ReleasesLanePropsChecker(props) {
   if (!props.clusterSizeMillis || !props.timeConfig) {

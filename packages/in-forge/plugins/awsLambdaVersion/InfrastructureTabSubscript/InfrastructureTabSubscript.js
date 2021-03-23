@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import getRegionForAwsLambdaVersion from 'in-subscription/getRegionForAwsLambdaVersion';
 import getLambdaFunctionForVersion from 'in-subscription/getLambdaFunctionForVersion';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
-import useObservable from 'in-hooks/useObservable';
 import Link from 'in-components/Link';
 import { Trans, t } from 'in-i18n';
 

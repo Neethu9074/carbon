@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLanePresenter';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 
 export default function AlertsPreviewLanePropsChecker(props) {
   const { alertsPreviewConfiguration, getAlertsPreview } = props;

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import React from 'react';
 
@@ -13,7 +14,6 @@ import View from 'in-profiling/analyze/AnalyzeView/ProfilesView/Hotspot/View';
 import Profile from 'in-profiling/analyze/AnalyzeView/ProfilesView/Profile';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import { success, hasError, isLoading } from 'in-services/util/result';
-import useObservable from 'in-hooks/useObservable';
 import { t } from 'in-i18n';
 
 export default [

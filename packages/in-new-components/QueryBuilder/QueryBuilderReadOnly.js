@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import {
@@ -22,7 +23,6 @@ import TagReadOnly from 'in-new-components/QueryBuilder/components/Tag/TagReadOn
 import { createTagForm } from 'in-new-components/QueryBuilder/validation/tagForm';
 import Expression from 'in-new-components/QueryBuilder/components/Expression';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from './QueryBuilder.mless';

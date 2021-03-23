@@ -4,6 +4,7 @@
  */
 
 import { Switch, Route } from 'react-router-dom';
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -13,7 +14,6 @@ import TypeSelector from 'in-infrastructure/Explore/components/TypeSelector';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import Dashboard from 'in-infrastructure/Dashboard';
-import useObservable from 'in-hooks/useObservable';
 import { noop } from 'in-services/util/function';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';

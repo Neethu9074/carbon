@@ -4,6 +4,7 @@
  */
 
 import { combineLatest } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import ApplicationsHealthIndicatorBar from 'in-new-components/ApplicationHealthOverview/ApplicationsHealthIndicatorBar';
@@ -12,7 +13,6 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import ApplicationHealthOverview from 'in-new-components/ApplicationHealthOverview';
 import { compareIgnoreCase } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import { compare } from 'in-services/util/number';
 import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
@@ -12,7 +13,6 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { newApplicationWaiterView } from 'in-applications/navigation/paths';
 import { successObservable } from 'in-services/util/result';
 import { getTimeConfig } from 'in-stores/time/config';
-import useObservable from 'in-hooks/useObservable';
 import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 

@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import invariant from 'invariant';
 
 import { track, TOPLIST_ROW_NAVIGATION } from 'in-services/tracking/tracking';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isNotBlank } from 'in-services/util/string';
-import useObservable from 'in-hooks/useObservable';
 import { noop } from 'in-services/fixedObjects';
 import useUrlState from 'in-hooks/useUrlState';
 

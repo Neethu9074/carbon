@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import rpt from 'prop-types';
 import React from 'react';
 
 import Legend from 'in-components/Chart/components/Legend';
-import useObservable from 'in-hooks/useObservable';
 
 export default function ChartLegend({ chart }) {
   const filteredDataSeries = useObservable(chart.config.filteredDataSeries$, [chart.config.filteredDataSeries$], {

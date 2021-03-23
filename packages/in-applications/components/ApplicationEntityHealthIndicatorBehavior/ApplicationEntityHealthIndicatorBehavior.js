@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import ApplicationEntityOpenIssuesList from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior/ApplicationEntityOpenIssuesList';
 import getApplicationEntityHealthInfo from 'in-subscription/application/getApplicationEntityHealthInfo';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import Overlay from 'in-new-components/overlays/Overlay';
-import useObservable from 'in-hooks/useObservable';
 import { t } from 'in-i18n';
 
 export default function ApplicationEntityHealthIndicatorBehavior(props) {

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import getKubernetesWorkloadControllerItemCounters from 'in-subscription/kubernetes/getKubernetesWorkloadControllerItemCounters';
@@ -16,7 +17,6 @@ import getKubernetesCronJob from 'in-subscription/kubernetes/getKubernetesCronJo
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import { pendingResult } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 import { t } from 'in-i18n';
 
 function observe(fn, obj) {

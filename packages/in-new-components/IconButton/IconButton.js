@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -10,7 +11,6 @@ import PropTypes from 'prop-types';
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import SvgIcon, { sizes as iconSizes } from 'in-components/SvgIcon/SvgIcon';
 import { useObservableConfig } from 'in-components/Link/Link';
-import useObservable from 'in-hooks/useObservable';
 
 import locals from './IconButton.mless';
 

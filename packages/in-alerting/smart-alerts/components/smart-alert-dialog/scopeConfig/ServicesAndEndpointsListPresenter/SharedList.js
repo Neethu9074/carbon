@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -16,7 +17,6 @@ import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import IconLabel from 'in-alerting/components/IconLabel';
-import useObservable from 'in-hooks/useObservable';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 
 import SimpleModePageNavigation from 'in-new-components/BlueprintFormMultistep/SimpleModePageNavigation';
@@ -19,7 +20,6 @@ import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { CALLS } from 'in-applications/analyze/metrics';
-import useObservable from 'in-hooks/useObservable';
 import { t } from 'in-i18n';
 
 import locals from './SimpleModeContainer.mless';

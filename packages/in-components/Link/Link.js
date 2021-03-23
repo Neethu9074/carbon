@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
-
-import useObservable from 'in-hooks/useObservable';
 
 import locals from './Link.mless';
 

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import DetailsNavigation, {
@@ -13,7 +14,6 @@ import DetailsNavigation, {
 import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { cronJobDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
-import useObservable from 'in-hooks/useObservable';
 
 export default function Details({ data: cronJob, timeConfig }) {
   const annotations = useObservable(getAnnotations(cronJob.id), [cronJob.id]);

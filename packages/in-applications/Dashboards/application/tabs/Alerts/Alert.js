@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 
 import {
@@ -40,7 +41,6 @@ import { mutateUrl } from 'in-stores/navigation/navigation';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import SetBodyColor from 'in-components/SetBodyColor';
 import Footer from 'in-new-components/Footer/Footer';
-import useObservable from 'in-hooks/useObservable';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 

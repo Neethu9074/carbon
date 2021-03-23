@@ -4,6 +4,7 @@
  */
 
 import { fromPromise } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import SidebarBreadcrumb from 'in-map/components/MapSidebar/components/SidebarBreadcrumb';
@@ -13,7 +14,6 @@ import { getForgeComponent } from 'in-services/getForgeComponent';
 import { debouncedResize$ } from 'in-services/browser';
 import { selectedSnapshot$ } from 'in-stores/snapshot';
 import { timeConfig$ } from 'in-stores/time/config';
-import useObservable from 'in-hooks/useObservable';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 

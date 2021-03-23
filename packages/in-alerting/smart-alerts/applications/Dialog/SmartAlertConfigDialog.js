@@ -5,6 +5,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { empty, just } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
@@ -16,7 +17,6 @@ import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
-import useObservable from 'in-hooks/useObservable';
 
 export function SmartAlertConfigDialog(props) {
   useCalculateThresholdOnBackendSignalEmitter(props.form);

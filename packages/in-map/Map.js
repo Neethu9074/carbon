@@ -4,6 +4,7 @@
  */
 
 import React, { useLayoutEffect, useRef } from 'react';
+import { useObservable } from '@instana/hooks';
 
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import MapNoContentMessage from 'in-map/components/MapNoContentMessage';
@@ -17,7 +18,6 @@ import { setCanvas, clear } from 'in-map/stores/indexStore';
 import { isWebGLSupported } from 'in-map/services/webGL';
 import { view$, types as views } from 'in-stores/view';
 import { getSetting$ } from 'in-services/settings';
-import useObservable from 'in-hooks/useObservable';
 import SceneGraph from 'in-map/SceneGraph';
 import Title from 'in-components/Title';
 import 'in-map/stores/statisticsStore';

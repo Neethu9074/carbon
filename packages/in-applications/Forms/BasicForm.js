@@ -4,13 +4,13 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { useObservable } from '@instana/hooks';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import { pendingResult } from 'in-services/fixedObjects';
-import useObservable from 'in-hooks/useObservable';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';

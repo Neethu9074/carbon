@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { useObservable } from '@instana/hooks';
 import { find, groupBy } from 'lodash';
 
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
@@ -25,7 +26,6 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useObservable from 'in-hooks/useObservable';
 import Stack from 'in-new-components/layout/Stack';
 import { getPluginName } from 'in-sdk/pluginName';
 import { t } from 'in-i18n';

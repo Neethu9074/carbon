@@ -50,9 +50,10 @@
     "url": "https://github.com/instana/ui-client.git"
   },
   "dependencies": {
+    "@instana/hooks": "1.1.1",
     "@instana/logger": "^1.0.0",
-    "@instana/observables": "^1.0.0",
-    "@instana/roemitter": "^1.0.0",
+    "@instana/observables": "^1.2.0",
+    "@instana/roemitter": "1.1.1",
     "@material-ui/core": "4.9.14",
     "ammap3": "^3.21.14",
     "ansi-to-html": "^0.6.2",

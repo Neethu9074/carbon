@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import { messages$ } from 'in-components/MessageFlyout/stores/messages';
 import UsageMessage from 'in-components/MessageFlyout/UsageMessage';
 import Message from 'in-components/MessageFlyout/Message';
-import useObservable from 'in-hooks/useObservable';
 
 import locals from './MessageFlyout.mless';
 

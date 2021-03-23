@@ -10,7 +10,7 @@ import APConfigForm from 'in-custom-dashboards/widgets/Slo/components/APConfigFo
 import { getApplicationConfigsAsResultObservable } from './apiMock';
 import { apConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import { createForm } from 'in-custom-dashboards/widgets/Slo';
-import useObservable from 'in-hooks/useObservable';
+import { useObservable } from '@instana/hooks';
 
 export default {
   title: 'Templates|CustomDashboard/widgets/SLO/config/APForm',

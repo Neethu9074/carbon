@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -26,7 +27,6 @@ import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { loggingEnabled } from 'in-services/featureFlags';
 import { Li, Ul } from 'in-new-components/lists/List';
-import useObservable from 'in-hooks/useObservable';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import { t } from 'in-i18n';

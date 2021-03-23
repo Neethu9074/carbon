@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 import classNames from 'classnames';
 import Toggle from 'react-toggle';
@@ -24,7 +25,6 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { Link } from 'in-components/tables/sharedComponents';
 import { latencyFixed } from 'in-services/formatters/number';
 import HealthDot from 'in-new-components/health/HealthDot';
-import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';

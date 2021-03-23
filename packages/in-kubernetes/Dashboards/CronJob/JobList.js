@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React from 'react';
 
 import { clusterIdUrlParameter, namespaceIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
@@ -18,7 +19,6 @@ import { getInfraGranularity } from 'in-stores/metric/metric';
 import { getMetricForFocusedMoment } from 'in-stores/metric';
 import { formatDuration } from 'in-services/formatters/date';
 import TwoValueBar from 'in-new-components/TwoValueBar';
-import useObservable from 'in-hooks/useObservable';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

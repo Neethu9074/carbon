@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
 import React, { useMemo } from 'react';
 
 import { highlightedTimeframe$, addOrDeleteHighlightedTimeframeToParams } from 'in-stores/highlightedTimeframe';
@@ -12,7 +13,6 @@ import HoverArea from 'in-components/Chart/markerLanes/MarkerLane/HoverArea';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { formatDateTime } from 'in-services/formatters/date';
 import bucketize from 'in-services/util/bucketize';
-import useObservable from 'in-hooks/useObservable';
 import ProfileMarker from './ProfileMarker';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

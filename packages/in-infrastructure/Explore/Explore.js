@@ -4,6 +4,7 @@
  */
 
 import React, { useCallback, useMemo } from 'react';
+import { useObservable } from '@instana/hooks';
 
 import {
   filterAddedTracker,
@@ -54,7 +55,6 @@ import { warning, error } from 'in-new-components/Message/types';
 import Sections from 'in-new-components/workspace/Sections';
 import { pendingResult } from 'in-services/fixedObjects';
 import Stack from 'in-new-components/layout/Stack';
-import useObservable from 'in-hooks/useObservable';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
 import useUrlState from 'in-hooks/useUrlState';
