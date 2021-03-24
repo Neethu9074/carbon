@@ -23,10 +23,10 @@ import {
   enableAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
-import { refreshSmartAlertConfigsList } from './SmartAlertsBaseList';
 import { stopPropagation } from 'in-services/util/function';
 import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
@@ -126,15 +126,17 @@ function handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig)
   );
 }
 
-function handleEdit(config) {
+function handleEdit(config, isGlobalSmartAlertConfig) {
   addActiveDialog(
-    // TODO: in global alerts there is no name. We need to handle that when global dialog is implemented
     <SmartAlertConfigDialogWrapper
       applicationLabel={config.name}
       formData={config}
-      onClose={close}
+      onClose={() => {
+        close();
+        refreshSmartAlertConfigsList();
+      }}
       editMode
-      isGlobalSmartAlert={config.applicationId ? false : true}
+      isGlobalSmartAlert={isGlobalSmartAlertConfig}
     />
   );
   applicationsAlertingAlertEdit({ alertConfigId: config.id });

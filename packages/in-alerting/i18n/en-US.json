@@ -87,6 +87,8 @@
     "descriptionUnsupportedOperator": "Unsupported operator: {{operator}}"
   },
   "smartAlerts": {
+    "titleNoSmartAlertsConfigured": "No Smart Alerts configured",
+    "titleNoSmartAlertsCreated": "No Smart Alerts created",
     "applications": {
       "newGlobalAlert": "Global Smart Alert",
       "advanced": {
@@ -437,7 +439,6 @@
       },
       "inventory": {
         "titleSmartAlerts": "Smart Alerts",
-        "titleNoSmartAlertsConfigured": "No Smart Alerts configured",
         "createGlobalSmartAlert": "Add Global Smart Alert",
         "noData": "No Smart Alerts configured. Click the button below to configure you first smart alert.",
         "noPersmissionToCreateGlobalSmartAlert": "You don't have the permission to configure smart alerts. Please comtact your administrator.",

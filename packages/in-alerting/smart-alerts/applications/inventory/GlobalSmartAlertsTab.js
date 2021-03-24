@@ -68,7 +68,9 @@ export default function GlobalSmartAlertsTab({ location }) {
         </WithEmptyStateFallback>
       </LeftRightPadding>
       <FloatingActionButtons>
-        {role.canConfigureGlobalAlertConfigs && applicationSmartAlertsEnabled && <CreateGlobalSmartAlertButton />}
+        {role.canConfigureGlobalAlertConfigs && applicationSmartAlertsEnabled && (
+          <CreateGlobalSmartAlertButton location={location} />
+        )}
       </FloatingActionButtons>
       <Footer />
     </Sticky>

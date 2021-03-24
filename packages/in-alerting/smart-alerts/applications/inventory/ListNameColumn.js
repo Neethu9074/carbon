@@ -46,23 +46,16 @@ export function ListNameColumn({ config, configsCategory, additionalMatrixKeys =
           <Link
             className={classNames(locals.name, locals.fullWidth)}
             href$={getModifiedUrlStream(_location => {
-              if (goToGlobalAlertDetails) {
-                _location.pathname = globalAlertDetails;
-                for (const { key, value } of additionalMatrixKeys({ configsCategory, config })) {
-                  setOrDeleteMatrixKey(_location, applicationDashboard, key, value);
-                }
-                setOrDeleteMatrixKey(_location, alertsTab, alertIdMatrixParam, id);
-                setOrDeleteMatrixKey(_location, alertsTab, alertCreatedMatrixParam, created);
-                return _location;
-              } else {
-                _location.pathname = alertsTabDetailsFullyQualified;
-                for (const { key, value } of additionalMatrixKeys({ configsCategory, config })) {
-                  setOrDeleteMatrixKey(_location, applicationDashboard, key, value);
-                }
-                setOrDeleteMatrixKey(_location, alertsTab, alertIdMatrixParam, id);
-                setOrDeleteMatrixKey(_location, alertsTab, alertCreatedMatrixParam, created);
-                return _location;
+              _location.pathname = goToGlobalAlertDetails ? globalAlertDetails : alertsTabDetailsFullyQualified;
+
+              for (const { key, value } of additionalMatrixKeys({ configsCategory, config })) {
+                setOrDeleteMatrixKey(_location, applicationDashboard, key, value);
               }
+
+              setOrDeleteMatrixKey(_location, alertsTab, alertIdMatrixParam, id);
+              setOrDeleteMatrixKey(_location, alertsTab, alertCreatedMatrixParam, created);
+
+              return _location;
             })}
           >
             {name}

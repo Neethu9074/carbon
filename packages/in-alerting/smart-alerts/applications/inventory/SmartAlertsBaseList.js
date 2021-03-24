@@ -6,8 +6,10 @@
 import { create, just } from '@instana/observables';
 import React, { useEffect, useState } from 'react';
 import { useObservable } from '@instana/hooks';
+import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 
+import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
 import EvaluationTypeColumn from 'in-alerting/smart-alerts/applications/inventory/EvaluationTypeColumn';
 import ListActionsColumn from 'in-alerting/smart-alerts/applications/inventory/ListActionsColumn';
 import ListFiltersColumn from 'in-alerting/smart-alerts/applications/inventory/ListFiltersColumn';
@@ -15,16 +17,16 @@ import { ListNameColumn } from 'in-alerting/smart-alerts/applications/inventory/
 import SortingConfigurator from 'in-new-components/SortingConfigurator/SortingConfigurator';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import { ColumnizedContent, Li, Ul } from 'in-new-components/lists/List';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
+import { hasError, isLoading } from 'in-services/util/result';
 import { alertsTab } from 'in-applications/navigation/paths';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { pendingResult } from 'in-services/fixedObjects';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
-import { isLoading } from 'in-services/util/result';
 import Stack from 'in-new-components/layout/Stack';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
@@ -38,13 +40,13 @@ const columnDefinitions = [
     width: '35%',
     widthInAbsoluteUnit: true,
     sortable: false,
-    getContent({ config, configsCategory, additionalMatrixKeys, isGlobalSmartAlertConfig }) {
+    getContent({ config, configsCategory, additionalMatrixKeys, isGlobalSmartAlertConfig, location }) {
       return (
         <ListNameColumn
           config={config}
           configsCategory={configsCategory}
           additionalMatrixKeys={additionalMatrixKeys}
-          goToGlobalAlertDetails={isGlobalSmartAlertConfig}
+          goToGlobalAlertDetails={isGlobalSmartAlertConfig && location?.pathname === '/alerts'}
         />
       );
     }
@@ -86,7 +88,7 @@ const sortOptions = [
   { label: 'Date created', value: 'created' }
 ];
 
-export const alertsCategoryMatrixParam = 'alerts.configsCategory';
+export const alertsCategoryMatrixParam = 'configsCategory';
 export const categoryLocal = 'local';
 export const categoryGlobal = 'global';
 const pageSize = 15;
@@ -95,13 +97,13 @@ const urlStateDefinition = {
   bind: [
     {
       path: alertsTab,
-      name: 'alerts.orderBy',
+      name: 'orderBy',
       as: 'orderBy',
       initialState: 'name'
     },
     {
       path: alertsTab,
-      name: 'alerts.orderDirection',
+      name: 'orderDirection',
       as: 'orderDirection',
       initialState: 'ASC'
     },
@@ -113,7 +115,7 @@ const urlStateDefinition = {
     },
     {
       path: alertsTab,
-      name: 'alerts.page',
+      name: 'page',
       as: 'page',
       initialState: 1,
       parser: intParser
@@ -159,7 +161,7 @@ export default function SmartAlertsBaseList({
 
   useOnNoData(numberGlobalSmartAlertConfigs, numberLocalSmartAlertConfigs, onNoData);
 
-  const { configs, loading, globalConfigsSelected: isGlobalSmartAlertConfig } = useConfigsByCategory(
+  const { configs, globalConfigsSelected: isGlobalSmartAlertConfig, loading, errors } = useConfigsByCategory(
     getGlobalAlertConfigFetchFunction,
     getLocalAlertConfigsFetchFunction,
     configsCategory
@@ -167,6 +169,8 @@ export default function SmartAlertsBaseList({
 
   const offset = (page - 1) * pageSize;
   const until = offset + pageSize;
+
+  const location = useLocation();
 
   return (
     <Stack>
@@ -228,11 +232,15 @@ export default function SmartAlertsBaseList({
                 loading={loading}
                 localSmartAlertsListProps={localSmartAlertsListProps}
                 isGlobalSmartAlertConfig={isGlobalSmartAlertConfig}
+                location={location}
               />
             </Li>
           ))}
         {loading && configs.length === 0 && <LoadingList numSkeletonRows="3" />}
-        {!loading && !configs?.length && <NoDataAvailable text={'NO DATA FOO'} height={86} />}
+        {!loading && !configs?.length && (
+          <SmartAlertsNoDataAvailable text={t('in-alerting:smartAlerts.titleNoSmartAlertsConfigured')} />
+        )}
+        {hasError({ errors }) && <ErrorList className={locals.list} errors={errors} />}
       </Ul>
       <Pagination
         currentPage={page}
@@ -275,7 +283,7 @@ function useConfigsByCategory(getGlobalAlertConfigFetchFunction, getLocalAlertCo
     }
   }, [smartAlertConfigsResult?.data]);
 
-  return { configs, loading, globalConfigsSelected };
+  return { configs, globalConfigsSelected, loading, errors: smartAlertConfigsResult?.errors };
 }
 
 function useNumberOfGlobalAlertConfigs(getGlobalAlertConfigFetchFunction) {

@@ -6,18 +6,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import { getDesignLibraryColorBySeverity, getIcon } from 'in-stores/events';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
+import { getDesignLibraryColorBySeverity, getIcon } from 'in-stores/events';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import getRawEvents from 'in-subscription/getRawEvents';
-import ListTitle from 'in-new-components/lists/Title';
 import { Li, Ul } from 'in-new-components/lists/List';
+import ListTitle from 'in-new-components/lists/Title';
 import { isLoading } from 'in-services/util/result';
 import WithIcon from 'in-new-components/WithIcon';
 import Link from 'in-components/Link';
@@ -62,7 +62,12 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }) => {
         })}
         {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
         {loading && <LoadingList numSkeletonRows={items?.length ? 1 : 3} />}
-        {!loading && !items?.length && <NoDataAvailable />}
+        {!loading && !items?.length && (
+          <SmartAlertsNoDataAvailable
+            text={t('in-alerting:smartAlerts.titleNoSmartAlertsCreated')}
+            type="lib_alerts_alert"
+          />
+        )}
       </Ul>
     </>
   );

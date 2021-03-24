@@ -94,7 +94,7 @@ export default function Alert({ location, timeConfig }) {
 
   function setRevision(created) {
     mutateUrl(location => {
-      location.pathname = alertsTabDetailsFullyQualified;
+      location.pathname = isGlobalAlertConfig ? alertsTab : alertsTabDetailsFullyQualified;
       setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, created);
     });
     if (!created) {

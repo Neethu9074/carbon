@@ -15,7 +15,7 @@ export default function SmartAlertsNoDataNotification() {
   return (
     <EntityPageMainNotification
       icon="lib_events_warning"
-      title={t('in-alerting:smartAlerts.applications.inventory.titleNoSmartAlertsConfigured')}
+      title={t('in-alerting:smartAlerts.titleNoSmartAlertsConfigured')}
       explanation={() => (
         <>
           <ArticleContent markdownContent={t('in-alerting:smartAlerts.applications.inventory.noData')} />
