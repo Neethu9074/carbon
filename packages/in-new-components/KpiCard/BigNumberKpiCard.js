@@ -115,7 +115,7 @@ function renderKpiCard(
 ) {
   let value = null;
   const dataPoint = find(result.data, ({ id }) => id === metricKey);
-  if (dataPoint && dataPoint.values.length === 1) {
+  if (dataPoint?.values?.length === 1) {
     value = dataPoint.values[0][1];
   }
 
