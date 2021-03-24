@@ -122,7 +122,6 @@ export default connectTo(
             timestamp={data.get('timestamp')}
           />
         }
-        withoutPadding
         cols={cols}
         rows={rows}
         initialSortColumn={2}
