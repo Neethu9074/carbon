@@ -90,6 +90,7 @@ import './azureRedisCache';
 import './cockroachDBNode';
 import './defaultEntity20';
 import './genericHardware';
+import './ibmiDB2Database';
 import './ibmMqQueueUsage';
 import './jiraApplication';
 import './mariaDbDatabase';
