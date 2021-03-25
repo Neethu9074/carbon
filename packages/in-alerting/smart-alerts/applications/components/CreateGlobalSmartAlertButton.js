@@ -65,7 +65,7 @@ function generateFormData() {
       metricName: 'latency'
     },
     threshold: {
-      type: 'historicBaseline',
+      type: 'staticThreshold',
       value: 0.0,
       seasonality: 'DAILY'
     },
