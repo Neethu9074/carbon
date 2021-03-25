@@ -660,8 +660,8 @@
       "nonHeapMemMax": "JVM Non-Heap Memory Max",
       "nonHeapMemCommitted": "JVM Non-Heap Memory Committed",
       "nonHeapMemUsed": "JVM Non-Heap Memory Used",
-      "cumulativeNumberOfGcCollections": "Gabage Collection Count",
-      "cumulativeGCTimeInSeconds": "Gabage Collection Duration",
+      "cumulativeNumberOfGcCollections": "Garbage Collection Count",
+      "cumulativeGCTimeInSeconds": "Garbage Collection Duration",
       "messageFlowName": "Message Flow Name",
       "status": "Status",
       "messageFlowNumber": "Message Flow ({{number}})"
