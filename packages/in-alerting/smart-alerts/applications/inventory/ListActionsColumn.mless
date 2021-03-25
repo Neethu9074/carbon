@@ -8,5 +8,9 @@
 :local {
   .actions {
     justify-content: flex-end;
+
+    & svg {
+      fill: @lib__colors__primary2;
+    }
   }
 }

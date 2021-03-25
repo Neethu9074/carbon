@@ -35,17 +35,19 @@ export default function SmartAlertConfigDialogWrapper({
   onClose,
   editMode,
   isGlobalSmartAlert,
-  formData
+  formData,
+  isCopy
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => createSmartAlertForm(formData));
+
+  const [form, setForm] = useState(() => createSmartAlertForm(changeFormDataByCopyState(isCopy, formData)));
   const [isSaving, setIsSaving] = useState(false);
 
   return (
     <SmartAlertConfigDialog
       applicationLabel={applicationLabel}
       isGlobalSmartAlert={isGlobalSmartAlert}
-      editMode={editMode}
+      editMode={editMode && !isCopy}
       form={form}
       updateForm={setForm}
       granularity={form.get('granularity').value}
@@ -103,10 +105,27 @@ SmartAlertConfigDialogWrapper.propTypes = {
     applications: PropTypes.object,
     boundaryScope: PropTypes.string,
     calculateThresholdOnBackend: PropTypes.bool,
-    tagFilterExpression: PropTypes.object // backend model
+    /**
+     * The backed model of tagFilterExpression
+     */
+    tagFilterExpression: PropTypes.object,
+    name: PropTypes.string
   }).isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  /**
+   * Whether the new Smart Alert is a copy of a given Smart Alert
+   */
+  isCopy: PropTypes.bool
 };
+
+function changeFormDataByCopyState(isCopy, formData) {
+  if (isCopy) {
+    const changedFormData = { ...formData, name: `(Copy of) ${formData.name}` };
+    delete changedFormData.id;
+    return changedFormData;
+  }
+  return formData;
+}
 
 function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving }) {
   setIsSaving(true);

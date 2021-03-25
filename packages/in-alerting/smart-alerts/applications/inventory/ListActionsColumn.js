@@ -7,16 +7,16 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  deleteAlertConfig as deleteGlobalAlertConfig,
-  disableAlertConfig as disableGlobalAlertConfig,
-  enableAlertConfig as enableGlobalAlertConfig
-} from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
-import {
   applicationsAlertingAlertEdit,
   applicationsAlertingListAlertDeleted,
   applicationsAlertingListAlertPaused,
   applicationsAlertingListAlertResumed
 } from 'in-alerting/smart-alerts/applications/tracker';
+import {
+  deleteGlobalAlertConfig,
+  disableGlobalAlertConfig,
+  enableGlobalAlertConfig
+} from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import {
   deleteAlertConfig,
   disableAlertConfig,
@@ -53,7 +53,7 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
     <HorizontalFlexWrapper className={locals.actions}>
       <Button
         icon={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
-        kind="secondary"
+        kind="subtle"
         iconSpinning={isSaving}
         onClick={e => {
           stopPropagation(e);
@@ -61,7 +61,7 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
         }}
       />
 
-      <MoreMenu kind="secondaryDarker" isSaving={isMoreMenuSaving}>
+      <MoreMenu kind="subtle" isSaving={isMoreMenuSaving}>
         <MoreMenuButton
           icon={isSaving ? 'lib_actions_loading' : 'lib_actions_edit'}
           iconSpinning={isMoreMenuSaving}
@@ -69,12 +69,7 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
         >
           {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonEdit')}
         </MoreMenuButton>
-        <MoreMenuButton
-          icon="lib_actions_copy"
-          onClick={() => {
-            /* TODO: */
-          }}
-        >
+        <MoreMenuButton icon="lib_actions_copy" onClick={() => handleClone(config, isGlobalSmartAlertConfig)}>
           {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
         </MoreMenuButton>
         <MoreMenuButton
@@ -126,7 +121,17 @@ function handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig)
   );
 }
 
+function handleClone(config, isGlobalSmartAlertConfig) {
+  openSmartAlertDialog(config, isGlobalSmartAlertConfig, true);
+  applicationsAlertingAlertEdit({ alertConfigId: config.id });
+}
+
 function handleEdit(config, isGlobalSmartAlertConfig) {
+  openSmartAlertDialog(config, isGlobalSmartAlertConfig);
+  applicationsAlertingAlertEdit({ alertConfigId: config.id });
+}
+
+function openSmartAlertDialog(config, isGlobalSmartAlertConfig, isCopy = false) {
   addActiveDialog(
     <SmartAlertConfigDialogWrapper
       applicationLabel={config.name}
@@ -135,11 +140,11 @@ function handleEdit(config, isGlobalSmartAlertConfig) {
         close();
         refreshSmartAlertConfigsList();
       }}
-      editMode
       isGlobalSmartAlert={isGlobalSmartAlertConfig}
+      isCopy={isCopy}
+      editMode
     />
   );
-  applicationsAlertingAlertEdit({ alertConfigId: config.id });
 }
 
 ListActionsColumn.propTypes = {

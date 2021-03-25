@@ -71,7 +71,7 @@ export function getLatestGlobalAlertConfig(id, config = { asObservable: false })
     : http(requestConfig).map(response => response.body);
 }
 
-export function enableAlertConfig(id, config = { asObservable: false }) {
+export function enableGlobalAlertConfig(id, config = { asObservable: false }) {
   const requestConfig = {
     method: 'PUT',
     maxRetries: 3,
@@ -84,7 +84,7 @@ export function enableAlertConfig(id, config = { asObservable: false }) {
     : http(requestConfig).map(response => response.body);
 }
 
-export function disableAlertConfig(id, config = { asObservable: false }) {
+export function disableGlobalAlertConfig(id, config = { asObservable: false }) {
   const requestConfig = {
     method: 'PUT',
     maxRetries: 3,
@@ -97,7 +97,7 @@ export function disableAlertConfig(id, config = { asObservable: false }) {
     : http(requestConfig).map(response => response.body);
 }
 
-export function deleteAlertConfig(id, config = { asObservable: false }) {
+export function deleteGlobalAlertConfig(id, config = { asObservable: false }) {
   const requestConfig = {
     method: 'DELETE',
     maxRetries: 3,

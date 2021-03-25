@@ -24,6 +24,12 @@ import {
   applicationsAlertingAlertDeleted
 } from 'in-alerting/smart-alerts/applications/tracker';
 import {
+  deleteGlobalAlertConfig,
+  disableGlobalAlertConfig,
+  enableGlobalAlertConfig,
+  updateGlobalAlertConfig
+} from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
+import {
   alertsList,
   alertsTabDetailsFullyQualified,
   alertsTabListFullyQualified,
@@ -64,6 +70,8 @@ export default function Alert({ location, timeConfig }) {
   const alertConfigCreated = getMatrixParameter(location, alertsTab, alertCreatedMatrixParam);
   const isGlobalAlertConfig = getMatrixParameter(location, alertsTab, alertsCategoryMatrixParam) === categoryGlobal;
 
+  const isInGlobalDetailsView = location.pathname === globalAlertDetails;
+
   const alertConfig$ = isGlobalAlertConfig
     ? getLatestGlobalAlertConfig(alertConfigId)
     : getAlertConfig(alertConfigId, alertConfigCreated);
@@ -94,15 +102,13 @@ export default function Alert({ location, timeConfig }) {
 
   function setRevision(created) {
     mutateUrl(location => {
-      location.pathname = isGlobalAlertConfig ? alertsTab : alertsTabDetailsFullyQualified;
+      location.pathname = isInGlobalDetailsView ? globalAlertDetails : alertsTabDetailsFullyQualified;
       setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, created);
     });
     if (!created) {
       triggerReload(Math.random());
     }
   }
-
-  const isInDetailsView = location.pathname === globalAlertDetails;
 
   return (
     <>
@@ -121,17 +127,18 @@ export default function Alert({ location, timeConfig }) {
                   close();
                   setRevision(null);
                 }}
+                isGlobalSmartAlert={isGlobalAlertConfig}
                 editMode
               />
             );
 
             applicationsAlertingAlertEdit({ alertConfigId: alertConfig.id });
           }}
-          fullyQualifiedAlertsList={isInDetailsView && isGlobalAlertConfig ? alertsList : alertsTabListFullyQualified}
-          doEnableConfig$={enableAlertConfig}
-          doDisableConfig$={disableAlertConfig}
-          doDeleteConfig$={deleteAlertConfig}
-          doRestoreConfig$={updateAlertConfig}
+          fullyQualifiedAlertsList={isInGlobalDetailsView ? alertsList : alertsTabListFullyQualified}
+          doEnableConfig$={isInGlobalDetailsView ? enableGlobalAlertConfig : enableAlertConfig}
+          doDisableConfig$={isInGlobalDetailsView ? deleteGlobalAlertConfig : disableAlertConfig}
+          doDeleteConfig$={isInGlobalDetailsView ? disableGlobalAlertConfig : deleteAlertConfig}
+          doRestoreConfig$={isInGlobalDetailsView ? updateGlobalAlertConfig : updateAlertConfig}
           onConfigStateChanged={(alertConfigId, enabled) => {
             if (enabled) {
               applicationsAlertingAlertPaused({ alertConfigId });
