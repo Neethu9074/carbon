@@ -4,8 +4,8 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { empty } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { empty } from '@instana/observables';
 
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
@@ -46,7 +46,7 @@ function SmartAlertConfigDialogWithQueryValidation({
   ...props
 }) {
   const { form, updateForm, editMode } = props;
-  const [simpleMode, setSimpleMode] = useState(!editMode);
+  const [simpleMode, setSimpleMode] = useState(!editMode && !props.isGlobalSmartAlert);
 
   const applications = form.get('applications').value;
   const applicationId = firstApplicationId(applications);

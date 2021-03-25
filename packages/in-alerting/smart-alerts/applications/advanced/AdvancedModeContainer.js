@@ -97,34 +97,22 @@ export default function AdvancedModeContainer(props) {
                 }
               />
               <AlertTypeSwitch
+                isGlobalSmartAlert={isGlobalSmartAlert}
                 alertType={alertType}
-                renderErrorRate={() => (
-                  <ErrorRateInteractiveChart
-                    blueprintConfig={blueprintConfig}
-                    form={form}
-                    timeConfig={timeConfig}
-                    onChange={onChange}
-                    updateForm={updateForm}
-                    onChartViewConfigChange={onChartViewConfigChange}
-                    selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-                  />
-                )}
-                renderSlowness={() => (
+                blueprintConfig={blueprintConfig}
+                form={form}
+                onChange={onChange}
+                updateForm={updateForm}
+                onChartViewConfigChange={onChartViewConfigChange}
+                selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                renderErrorRate={props => <ErrorRateInteractiveChart {...props} timeConfig={timeConfig} />}
+                renderSlowness={props => (
                   <>
-                    <SlownessInteractiveChart
-                      blueprintConfig={blueprintConfig}
-                      form={form}
-                      timeConfig={timeConfig}
-                      onChange={onChange}
-                      updateForm={updateForm}
-                      onChartViewConfigChange={onChartViewConfigChange}
-                      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-                      editMode={editMode}
-                    />
+                    <SlownessInteractiveChart {...props} editMode={editMode} timeConfig={timeConfig} />
                     <BaselineErrorMessage thresholdResult={thresholdResult} />
                   </>
                 )}
-                renderLogs={() => (
+                renderLogs={props => (
                   <>
                     <LightCard
                       title={t(
@@ -143,18 +131,10 @@ export default function AdvancedModeContainer(props) {
                         mode="Advanced"
                       />
                     </LightCard>
-                    <LogsInteractiveChart
-                      blueprintConfig={blueprintConfig}
-                      form={form}
-                      timeConfig={timeConfig}
-                      onChange={onChange}
-                      updateForm={updateForm}
-                      onChartViewConfigChange={onChartViewConfigChange}
-                      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-                    />
+                    <LogsInteractiveChart {...props} timeConfig={timeConfig} />
                   </>
                 )}
-                renderStatusCode={() => (
+                renderStatusCode={props => (
                   <>
                     <LightCard
                       title={t(
@@ -165,28 +145,12 @@ export default function AdvancedModeContainer(props) {
                     >
                       <ProvideStatusCode form={form} updateForm={updateForm} mode="Advanced" />
                     </LightCard>
-                    <StatusCodeInteractiveChart
-                      blueprintConfig={blueprintConfig}
-                      form={form}
-                      onChange={onChange}
-                      updateForm={updateForm}
-                      onChartViewConfigChange={onChartViewConfigChange}
-                      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-                    />
+                    <StatusCodeInteractiveChart {...props} />
                   </>
                 )}
-                renderThroughput={() => (
+                renderThroughput={props => (
                   <>
-                    <ThroughputInteractiveChart
-                      blueprintConfig={blueprintConfig}
-                      form={form}
-                      timeConfig={timeConfig}
-                      onChange={onChange}
-                      updateForm={updateForm}
-                      onChartViewConfigChange={onChartViewConfigChange}
-                      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-                      editMode={editMode}
-                    />
+                    <ThroughputInteractiveChart {...props} editMode={editMode} timeConfig={timeConfig} />
                     <BaselineErrorMessage thresholdResult={thresholdResult} />
                   </>
                 )}

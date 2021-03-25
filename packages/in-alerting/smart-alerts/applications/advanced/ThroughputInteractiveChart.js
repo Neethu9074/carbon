@@ -42,6 +42,7 @@ export default function ThroughputInteractiveChart({
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
+  isGlobalSmartAlert,
   editMode
 }) {
   const alertConfigWithFormModel = alertConfigWithDefaultValues(form);
@@ -54,6 +55,7 @@ export default function ThroughputInteractiveChart({
         onChange={onChange}
         blueprintConfig={blueprintConfig}
         editMode={editMode}
+        isGlobalSmartAlert={isGlobalSmartAlert}
       />
 
       <ChartViewConfiguratorWithEntitySelection
@@ -78,12 +80,12 @@ export default function ThroughputInteractiveChart({
   );
 }
 
-function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editMode }) {
+function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editMode, isGlobalSmartAlert }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
-  const canSelectBaseline = form.get('evaluationType').value === PER_AP;
+  const canSelectBaseline = form.get('evaluationType').value === PER_AP && !isGlobalSmartAlert;
 
   return (
     <>
@@ -174,6 +176,7 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
 }
 
 ThroughputInteractiveChart.propTypes = {
+  isGlobalSmartAlert: PropTypes.bool,
   blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,

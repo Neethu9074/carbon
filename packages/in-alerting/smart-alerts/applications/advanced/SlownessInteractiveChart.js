@@ -48,6 +48,7 @@ export default function SlownessInteractiveChart({
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
+  isGlobalSmartAlert,
   editMode
 }) {
   const alertConfigWithFormModel = alertConfigWithDefaultValues(form);
@@ -60,6 +61,7 @@ export default function SlownessInteractiveChart({
         onChange={onChange}
         blueprintConfig={blueprintConfig}
         editMode={editMode}
+        isGlobalSmartAlert={isGlobalSmartAlert}
       />
 
       <ChartViewConfiguratorWithEntitySelection
@@ -84,12 +86,12 @@ export default function SlownessInteractiveChart({
   );
 }
 
-function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editMode }) {
+function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editMode, isGlobalSmartAlert }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
-  const canSelectBaseline = form.get('evaluationType').value === PER_AP;
+  const canSelectBaseline = form.get('evaluationType').value === PER_AP && !isGlobalSmartAlert;
 
   return (
     <>
@@ -211,6 +213,7 @@ function getAggregationOptions(form) {
 }
 
 SlownessInteractiveChart.propTypes = {
+  isGlobalSmartAlert: PropTypes.bool,
   blueprintConfig: blueprintConfigPropType.isRequired,
   form: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,

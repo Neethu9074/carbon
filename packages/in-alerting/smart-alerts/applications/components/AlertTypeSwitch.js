@@ -11,18 +11,19 @@ export default function AlertTypeSwitch({
   renderSlowness,
   renderLogs,
   renderStatusCode,
-  renderThroughput
+  renderThroughput,
+  ...props
 }) {
   if (alertType === 'errorRate') {
-    return renderErrorRate();
+    return renderErrorRate(props);
   } else if (alertType === 'slowness') {
-    return renderSlowness();
+    return renderSlowness(props);
   } else if (alertType === 'logs') {
-    return renderLogs();
+    return renderLogs(props);
   } else if (alertType === 'statusCode') {
-    return renderStatusCode();
+    return renderStatusCode(props);
   } else if (alertType === 'throughput') {
-    return renderThroughput();
+    return renderThroughput(props);
   }
 }
 
