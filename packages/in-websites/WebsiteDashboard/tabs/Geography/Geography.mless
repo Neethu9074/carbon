@@ -33,4 +33,19 @@
       color: @lib__colors__N800Dark;
     }
   }
+
+  .globeWrapper {
+    position: relative;
+    height: 100%;
+  }
+
+  .footerText {
+    position: absolute;
+    color: @lib__colors__white;
+    bottom: 1rem;
+    left: 1rem;
+    margin: 0;
+    font-size: 12px;
+    font-weight: 300;
+  }
 }
