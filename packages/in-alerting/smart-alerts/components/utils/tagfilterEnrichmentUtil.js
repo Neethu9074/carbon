@@ -5,7 +5,7 @@
 
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 
-export function getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig, subEntityId) {
+export function getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig, applicationId, subEntityId) {
   const { tagFilterExpression: tagFilterFormModel, rule } = alertConfigWithFormModel;
   const metricName = blueprintConfig.getMetricName(rule);
   const ruleTagFilterFormModel = blueprintConfig.getRuleTagFilterFormModel(rule);
@@ -13,7 +13,7 @@ export function getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprin
   let numeratorFilter;
 
   const expressionsToCombine = [
-    blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, null, null, subEntityId)
+    blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, applicationId, null, subEntityId)
   ];
   if (blueprintConfig.isCustomRateMetric(metricName)) {
     // at the moment, we only support a single numerator filter. All such blueprints have

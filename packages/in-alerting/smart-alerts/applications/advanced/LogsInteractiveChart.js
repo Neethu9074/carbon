@@ -51,8 +51,9 @@ export default function LogsInteractiveChart({
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         headerTransparent
       >
-        {(chartViewConfig, serviceId) => (
+        {(chartViewConfig, applicationId, serviceId) => (
           <ApplicationAlertingChartWithErrorMessage
+            applicationId={applicationId}
             serviceId={serviceId}
             alertConfigWithFormModel={alertConfigWithFormModel}
             viewConfig={chartViewConfig}

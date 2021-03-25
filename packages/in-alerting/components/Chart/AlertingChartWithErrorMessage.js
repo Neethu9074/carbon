@@ -20,6 +20,7 @@ export default function AlertingChartWithErrorMessage({
   getErrorMessage,
   customValidators,
   isAlertQueryValid = isApplicationAlertQueryValid,
+  applicationId,
   subEntityId,
   ...remainingProps
 }) {
@@ -28,6 +29,7 @@ export default function AlertingChartWithErrorMessage({
   const { numeratorFilter, enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(
     alertConfigWithFormModel,
     blueprintConfig,
+    applicationId,
     subEntityId
   );
 
@@ -69,7 +71,12 @@ AlertingChartWithErrorMessage.propTypes = {
   alertConfigWithFormModel: PropTypes.object.isRequired,
   blueprintConfig: PropTypes.object.isRequired,
   /**
-   * Optional sub-entity ID, such as serviceId or pageId,
+   * Optional applicationId, used
+   * to scope down the metric in the chart to a single application config
+   **/
+  applicationId: PropTypes.string,
+  /**
+   * Optional sub-entity ID
    * to scope down the metric in the chart to a single entity
    **/
   subEntityId: PropTypes.string,

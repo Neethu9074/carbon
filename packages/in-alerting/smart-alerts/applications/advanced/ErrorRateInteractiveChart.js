@@ -42,8 +42,9 @@ export default function ErrorRateInteractiveChart({
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         headerTransparent
       >
-        {(chartViewConfig, serviceId) => (
+        {(chartViewConfig, applicationId, serviceId) => (
           <ApplicationAlertingChartWithErrorMessage
+            applicationId={applicationId}
             serviceId={serviceId}
             alertConfigWithFormModel={alertConfigWithFormModel}
             viewConfig={chartViewConfig}

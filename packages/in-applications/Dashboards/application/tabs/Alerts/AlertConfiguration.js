@@ -63,7 +63,7 @@ export default function AlertConfiguration({ alertConfig, applicationName = '' }
           title={t('in-applications:alert.advancedModeContainer.trigger.label')}
           framed
         >
-          {(chartViewConfig, serviceId) => (
+          {(chartViewConfig, applicationId, serviceId) => (
             <>
               {alertType === 'logs' && (
                 <SelectedAlertTypeInfo
@@ -80,6 +80,7 @@ export default function AlertConfiguration({ alertConfig, applicationName = '' }
                 }}
                 viewConfig={chartViewConfig}
                 blueprintConfig={blueprintConfig}
+                applicationId={applicationId}
                 serviceId={serviceId}
               />
             </>

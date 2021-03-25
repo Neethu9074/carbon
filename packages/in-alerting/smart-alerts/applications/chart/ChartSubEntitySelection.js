@@ -1,6 +1,6 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc. 2021
+ * (c) Copyright Instana Inc.
  */
 
 import { useObservable } from '@instana/hooks';
@@ -17,6 +17,11 @@ import { pendingResult } from 'in-services/fixedObjects';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 
+/*
+ * @param applicationId
+ * @param serviceId
+ * @param setServiceId () -> returns the selected service
+ */
 export default function ChartSubEntitySelection({
   className,
   applicationId,
@@ -68,14 +73,14 @@ export default function ChartSubEntitySelection({
   );
 }
 
-function getEnrichedFilters(alertConfigWithFormModel, applicationId) {
+function getEnrichedFilters(alertConfigWithFormModel, applicationId, serviceId) {
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
   return {
     enrichedTagFilterFormModel: joinExpressions({
       expressions: [
         // don't define the subEntityId to get the results of all services in scope
-        blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, applicationId, null, null),
+        blueprintConfig.getEntityTagFilterFormModel(alertConfigWithFormModel, applicationId, null, serviceId),
         // only use the user-defined filters, but not the rule-specific filters, to not exclude services that might not
         // match any call at the moment, but could do so in the future. Thus the user should be able to select them.
         alertConfigWithFormModel.tagFilterExpression

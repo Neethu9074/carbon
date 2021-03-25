@@ -22,7 +22,7 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
   // If a user deselected all entities from entitySelection we have an empty object
   // If a user has never interacted with entitySelection or is in websites smart alert, the value is undefined
   // For example we don't want to hide the chart when we are in simple mode step 1
-  const isServicesAndEndpointsSelectionValid = entitySelection == null || isEntitySelectionValid(entitySelection);
+  const isServicesAndEndpointsSelectionValid = isEntitySelectionValid(entitySelection);
 
   return (
     <AlertingChartWithErrorMessage

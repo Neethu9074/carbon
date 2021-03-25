@@ -39,7 +39,7 @@ function getColumnDefinitions(applicationName) {
       id: 'name',
       label: t('in-applications:labelName'),
       getContent(config) {
-        return <ListNameColumn {...config} />;
+        return <ListNameColumn config={config} configsCategory="" />;
       }
     },
     {

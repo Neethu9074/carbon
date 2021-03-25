@@ -52,8 +52,9 @@ export default function StatusCodeInteractiveChart({
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         headerTransparent
       >
-        {(chartViewConfig, serviceId) => (
+        {(chartViewConfig, applicationId, serviceId) => (
           <ApplicationAlertingChartWithErrorMessage
+            applicationId={applicationId}
             serviceId={serviceId}
             alertConfigWithFormModel={alertConfigWithFormModel}
             viewConfig={chartViewConfig}
