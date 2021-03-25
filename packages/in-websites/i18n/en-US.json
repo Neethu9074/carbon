@@ -303,7 +303,8 @@
         "labelAnalytics": "Analytics",
         "titlePageLoad": "Page Load",
         "buttonDownload": "Download",
-        "renderTimeSelectionTooltip": "Close page load details"
+        "renderTimeSelectionTooltip": "Close page load details",
+        "referencedPageLoads": "Referenced Page Loads"
       }
     }
   },
@@ -393,7 +394,12 @@
       "osTopListTitle": "Operating Systems",
       "osTopListLinkLabel": "View all operating systems",
       "pageTopListTitle": "Pages",
-      "pageTopListLinkLabelViewAllPages": "View all pages"
+      "pageTopListLinkLabelViewAllPages": "View all pages",
+      "websiteGeoHeatMapPageLoads": "{{number}} page loads",
+      "websiteGeoHeatMapPageLoads_plural": "{{number}} pages loads",
+      "websiteGeoHeatMapPageLoads_0": "{{number}} pages loads",
+      "websiteGeoHeatMapPageLoads_1": "{{number}} pages loads",
+      "websiteGeoHeatMapPageLoads_2": "{{number}} pages loads"
     },
     "tabs": {
       "ajax": {

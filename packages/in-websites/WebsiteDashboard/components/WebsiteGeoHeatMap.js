@@ -10,8 +10,10 @@ import getWebsiteCountryBreakdown from 'in-websites/subscriptions/getWebsiteCoun
 import getWebsiteSubdivisions from 'in-websites/subscriptions/getWebsiteSubdivisions';
 import { number } from 'in-services/formatters/number';
 import GeoHeatMap from 'in-new-components/GeoHeatMap';
+import { t } from 'in-i18n';
 
-const valueFormatter = v => `${number.compact(v)} page loads`;
+const valueFormatter = v =>
+  t('in-websites:websiteDashboard.components.websiteGeoHeatMapPageLoads', { count: v, number: number.compact(v) });
 
 export default function WebsiteGeoHeatMap({ height, tagFilters, timeConfig, canDrillDown, controlWrapperClassName }) {
   return (

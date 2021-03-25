@@ -68,7 +68,7 @@ function ReferencedPageLoads({ pageLoads }) {
   return (
     <Row>
       <Col lg={12}>
-        <BodyHeader>Referenced Page Loads</BodyHeader>
+        <BodyHeader>{t('in-websites:analyze.analyzeView.pageLoadView.referencedPageLoads')}</BodyHeader>
 
         {pageLoads.filter(Boolean).map(beacons => (
           <ReferencedPageLoad key={beacons[0].pageLoadId} beacons={beacons} />
