@@ -19,11 +19,11 @@ import {
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
+import WebsitesSimpleModeContainer from 'in-alerting/smart-alerts/websites/simple/WebsitesSimpleModeContainer';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/advanced/AdvancedModeContainer';
-import SimpleModeContainer from 'in-alerting/smart-alerts/websites/simple/SimpleModeContainer';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { modeAdvanced, modeSimple } from 'in-alerting/smart-alerts/websites/constants';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
@@ -88,7 +88,7 @@ export default function AlertConfigDialogWithThreshold(props) {
       thresholdResult={thresholdResult}
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
-      SimpleModeElement={SimpleModeContainer}
+      SimpleModeElement={WebsitesSimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
       withTrackClose={trackingConfig => {
         if (trackingConfig) {

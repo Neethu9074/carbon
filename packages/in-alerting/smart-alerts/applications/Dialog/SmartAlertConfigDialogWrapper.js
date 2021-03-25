@@ -16,13 +16,13 @@ import {
   updateGlobalAlertConfig,
   createGlobalAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
+import ApplicationsSimpleModeContainer from 'in-alerting/smart-alerts/applications/simple/ApplicationsSimpleModeContainer';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { SmartAlertConfigDialog } from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialog';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/applications/advanced/AdvancedModeContainer';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import SimpleModeContainer from 'in-alerting/smart-alerts/applications/simple/SimpleModeContainer';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 
@@ -53,7 +53,7 @@ export default function SmartAlertConfigDialogWrapper({
       onChartViewConfigChange={setSelectedChartViewConfigIndex}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       AdvancedModeElement={AdvancedModeContainer}
-      SimpleModeElement={SimpleModeContainer}
+      SimpleModeElement={ApplicationsSimpleModeContainer}
       setForm={setForm}
       timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
       trackModeSwitch={(simpleMode, step) => {

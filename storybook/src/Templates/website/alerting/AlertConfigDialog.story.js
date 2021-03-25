@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/advanced/AdvancedModeContainer';
 import alertFormDefinition from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
-import SimpleModeContainer from 'in-alerting/smart-alerts/websites/simple/SimpleModeContainer';
+import WebsitesSimpleModeContainer from 'in-alerting/smart-alerts/websites/simple/WebsitesSimpleModeContainer';
 
 export default {
   title: 'Templates|website/alerting/AlertConfigDialog',
@@ -58,7 +58,7 @@ export const AlertConfigDialog = () => {
       onCreate={action('create')}
       timeConfig={timeConfig}
       websiteLabel={'shop'}
-      SimpleModeElement={SimpleModeContainer}
+      SimpleModeElement={WebsitesSimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
     />
   );
@@ -76,7 +76,7 @@ export const SimpleDialogEditMode = () => {
       onCreate={action('create')}
       timeConfig={timeConfig}
       websiteLabel={'shop'}
-      SimpleModeElement={SimpleModeContainer}
+      SimpleModeElement={WebsitesSimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
       editMode
     />
