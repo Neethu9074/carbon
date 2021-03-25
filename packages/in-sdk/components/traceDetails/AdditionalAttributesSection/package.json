@@ -1,0 +1,6 @@
+{
+  "name": "AdditionalAttributesSection",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./AdditionalAttributesSection.js"
+}

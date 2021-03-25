@@ -56,7 +56,8 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
   // by Instana", show the destination span only in a similar way as we do for intermediate spans.
   const batchCallWithoutSource = sourceService?.id === 'ROOT' && sourceSnapshotId == null && endpoint?.type === 'BATCH';
 
-  const isSyntheticBatchSpan = entrySpan && entrySpan.name === 'batch-synthetic';
+  const isSyntheticBatchSpan = entrySpan?.name === 'batch-synthetic';
+  const emptyDataAllowed = exitSpan?.name === 'ims.db';
   const foreignParentId = entrySpan?.foreignParentId;
 
   const logs = call.logs;
@@ -185,7 +186,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
                   <MobileAppBeaconDetails beacon={mobileAppBeacon} />
                 </ExpandableGroup>
               )}
-              {canSeeCallDetails && hasNonEmptyData(exitSpan) && (
+              {canSeeCallDetails && (hasNonEmptyData(exitSpan) || emptyDataAllowed) && (
                 <ExpandableGroup
                   title={
                     exitSpan.stackTrace.length > 0

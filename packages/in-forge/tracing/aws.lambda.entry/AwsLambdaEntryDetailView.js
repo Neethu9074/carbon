@@ -5,14 +5,13 @@
 
 import React, { Fragment } from 'react';
 
+import AdditionalAttributesSection from 'in-sdk/components/traceDetails/AdditionalAttributesSection';
 import { HttpSpanDetailViewDescriptionList } from 'in-forge/tracing/http/HttpSpanDetailView';
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { emptyList } from 'in-services/fixedImmutables';
 import { identity } from 'in-services/util/function';
 import { t } from 'in-i18n';
-
-import locals from './AwsLambdaEntryDetailView.mless';
 
 const TRIGGER_AWS_API_GATEWAY = 'aws:api.gateway';
 const TRIGGER_AWS_API_GATEWAY_WITHOUT_PROXY = 'aws:api.gateway.noproxy';
@@ -161,8 +160,7 @@ function ListWithMore({ title, span, pathToItems, itemMapper = identity, pathToM
 
 function CommonFaasDescriptionItems({ span }) {
   return (
-    <Fragment>
-      <div className={locals.header}>Lambda Attributes</div>
+    <AdditionalAttributesSection title="Lambda Attributes">
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleARN')}>{span.getIn(['data', 'lambda', 'arn'])}</Di>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleFunctionName')}>
         {span.getIn(['data', 'lambda', 'functionName'])}
@@ -172,6 +170,6 @@ function CommonFaasDescriptionItems({ span }) {
       </Di>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleTrigger')}>{span.getIn(['data', 'lambda', 'trigger'])}</Di>
       <ErrorDescriptionItem error={span.getIn(['data', 'lambda', 'error'])} />
-    </Fragment>
+    </AdditionalAttributesSection>
   );
 }

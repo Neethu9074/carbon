@@ -22,8 +22,8 @@ export function getType(span) {
 
 export function getTypeNameKeyContext(span) {
   return getType(span)
-    .replace('.', '')
-    .replace('-', '');
+    .replace(/\./g, '')
+    .replace(/-/g, '');
 }
 
 export function getLabel(span) {
