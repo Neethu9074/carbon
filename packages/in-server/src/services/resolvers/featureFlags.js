@@ -209,5 +209,10 @@ module.exports = exports = [
     uiClientKey: 'applicationHealthOverviewEnabled',
     instanaCtlKey: 'feature.application.health.overview.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'hideEventsSettings',
+    instanaCtlKey: 'feature.settings.team.events.hide',
+    defaultValue: false
   }
 ];

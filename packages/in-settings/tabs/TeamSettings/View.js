@@ -50,6 +50,7 @@ import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Api
 import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/Coralogix';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
+import { applicationSmartAlertsEnabled, hideEventSettings } from 'in-services/featureFlags';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
 import AlertPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
@@ -65,7 +66,6 @@ import AlertsHub from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub'
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
-import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
@@ -142,28 +142,50 @@ function navigationTreeForRole(role) {
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingHub,
         label: t('in-alerting:smartAlerts.components.alertsHub.title'),
-        component: AlertsHub
+        component: AlertsHub,
+        subPages: hideEventSettings
+          ? [
+              {
+                path: teamSettingsAlertingEvents,
+                component: EventsPage
+              },
+              {
+                path: teamSettingsAlertingEventCustomNew,
+                component: CustomEventPage
+              },
+              {
+                path: teamSettingsAlertingEventCustomEdit,
+                component: CustomEventPage
+              },
+              {
+                path: teamSettingsAlertingEventBuiltInEdit,
+                component: BuiltInEventPage
+              }
+            ]
+          : []
       });
 
-      eventsAndAlertsPages.push({
-        path: teamSettingsAlertingEvents,
-        label: t('in-settings:tabs.events'),
-        component: EventsPage,
-        subPages: [
-          {
-            path: teamSettingsAlertingEventCustomNew,
-            component: CustomEventPage
-          },
-          {
-            path: teamSettingsAlertingEventCustomEdit,
-            component: CustomEventPage
-          },
-          {
-            path: teamSettingsAlertingEventBuiltInEdit,
-            component: BuiltInEventPage
-          }
-        ]
-      });
+      if (!hideEventSettings) {
+        eventsAndAlertsPages.push({
+          path: teamSettingsAlertingEvents,
+          label: t('in-settings:tabs.events'),
+          component: EventsPage,
+          subPages: [
+            {
+              path: teamSettingsAlertingEventCustomNew,
+              component: CustomEventPage
+            },
+            {
+              path: teamSettingsAlertingEventCustomEdit,
+              component: CustomEventPage
+            },
+            {
+              path: teamSettingsAlertingEventBuiltInEdit,
+              component: BuiltInEventPage
+            }
+          ]
+        });
+      }
 
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingAlerts,
