@@ -41,8 +41,8 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, i
         <Tooltip content={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleTooltip')}>
           <div className={locals.lightCardTitle}>
             {isGlobalSmartAlert
-            ? t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleWithApplications')
-            : t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitle')}
+              ? t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleWithApplications')
+              : t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitle')}
           </div>
         </Tooltip>
       }

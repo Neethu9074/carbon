@@ -536,6 +536,11 @@
   "pluginName_ibmDataPowerSqlDatasource_1": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource_2": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource": "IBM DataPower SQL Data Source",
+  "pluginName_ibmiDB2Database_plural": "Db2s on i",
+  "pluginName_ibmiDB2Database_0": "Db2s on i",
+  "pluginName_ibmiDB2Database_1": "Db2s on i",
+  "pluginName_ibmiDB2Database_2": "Db2s on i",
+  "pluginName_ibmiDB2Database": "Db2 on i",
   "pluginName_ibmIms": "IBM IMS",
   "pluginName_ibmIms_plural": "IBM IMS",
   "pluginName_ibmMqChannel_plural": "IBM MQ Channels",
@@ -7460,6 +7465,73 @@
       "totalUsedBytes": "Total Used Bytes",
       "labelVolumeWriteRequests": "Volume Write Requests",
       "labelZone": "Zone"
+    },
+    "ibmiDB2Database": {
+      "sidebar": {
+        "ibmiDb2Info": "Db2 on i Info",
+        "hostName": "Host Name",
+        "partitionId": "Partition ID",
+        "numberOfPartitions": "Number of Partitions",
+        "restrictedState": "Restricted State"
+      },
+      "dashboard": {
+        "charts" : {
+          "cpu": {
+            "name": "CPU",
+            "rate": "Rate"
+          },
+          "cpuUtilization": {
+            "name": "CPU Utilization",
+            "avg": "Avg",
+            "min": "Min",
+            "max": "Max"
+          },
+          "jobs": {
+            "name": "Jobs",
+            "active": "Active",
+            "interactive": "Interactive",
+            "total": "Total",
+            "max": "Max"
+          },
+          "auxiliaryStoragePool": {
+            "name": "Auxiliary Storage Pool",
+            "capacity": "Capacity",
+            "used": "Used"
+          },
+          "temporaryStorage": {
+            "name": "Temporary Storage",
+            "current": "Current",
+            "max": "Max"
+          },
+          "threads": {
+            "name": "Threads",
+            "active": "Active"
+          }
+        },
+        "tables": {
+          "memoryPools": {
+            "name": "Active Memory Pools",
+            "memoryPoolName": "Name",
+            "storage": "Storage",
+            "storageReserved": "Storage Reserved",
+            "activeThreads": "Active Threads",
+            "maxActiveThreads": "Max Active Threads",
+            "charts": {
+              "storage": {
+                "storageUsed": "Storage Used",
+                "storageReserved": "Storage Reserved",
+                "storageDefined": "Storage Defined"
+              },
+              "threads": {
+                "activeThreads": "Active Threads",
+                "ineligibleThreads": "Ineligible Threads",
+                "maxThreads": "Max Threads"
+              }
+            }
+          }
+        }
+      },
+      "ibmiDb2": "Db2 on i"
     },
     "ibmMqChannel": {
       "dashboard": {

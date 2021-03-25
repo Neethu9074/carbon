@@ -6,13 +6,13 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { listReducer } from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
 import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import ApplicationsList from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/ApplicationsList';
+import { listReducer } from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
+import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import SearchInput from 'in-new-components/SearchInput';
-import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 
 export default function ServicesAndEndpointsListPresenter({
   apiSubscriptions,
