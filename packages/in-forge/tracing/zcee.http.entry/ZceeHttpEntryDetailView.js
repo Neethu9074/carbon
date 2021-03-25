@@ -21,7 +21,7 @@ export default function ZceeHttpEntryDetailView({ span }) {
 
 function ZceeDescriptionItems({ span }) {
   return (
-    <AdditionalAttributesSection title="z/OS Connect EE Attributes Attributes">
+    <AdditionalAttributesSection title={t('in-forge:tracing.zcee.titleZceeAttributes')}>
       <Di title={t('in-forge:tracing.zcee.titleServiceName')}>{span.getIn(['data', 'zcee', 'service_name'])}</Di>
       <Di title={t('in-forge:tracing.zcee.titleApiName')}>{span.getIn(['data', 'zcee', 'api_name'])}</Di>
       <Di title={t('in-forge:tracing.zcee.titleRequestId')}>{span.getIn(['data', 'zcee', 'request_id'])}</Di>

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import AdditionalAttributesSection from 'in-sdk/components/traceDetails/AdditionalAttributesSection';
 import { HttpSpanDetailViewDescriptionList } from 'in-forge/tracing/http/HttpSpanDetailView';
@@ -54,7 +54,7 @@ export function TriggerTypeSpecificFields({ span }) {
 
 function CloudWatchEventsDetails({ span }) {
   return (
-    <Fragment>
+    <>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>
         {t('in-forge:tracing.aspLambdaEntry.bodyCloudWatchEvents')}
       </Di>
@@ -65,13 +65,13 @@ function CloudWatchEventsDetails({ span }) {
         pathToMore={['data', 'lambda', 'cw', 'events', 'more']}
         labelMore={t('in-forge:tracing.aspLambdaEntry.labelResources')}
       />
-    </Fragment>
+    </>
   );
 }
 
 function CloudWatchLogsDetails({ span }) {
   return (
-    <Fragment>
+    <>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>
         {t('in-forge:tracing.aspLambdaEntry.bodyCloudWatchEvents')}
       </Di>
@@ -88,13 +88,13 @@ function CloudWatchLogsDetails({ span }) {
         pathToMore={['data', 'lambda', 'cw', 'logs', 'more']}
         labelMore={t('in-forge:tracing.aspLambdaEntry.labelEvents')}
       />
-    </Fragment>
+    </>
   );
 }
 
 function S3EventDetails({ span }) {
   return (
-    <Fragment>
+    <>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>
         {t('in-forge:tracing.aspLambdaEntry.bodyAWSEvents')}
       </Di>
@@ -106,13 +106,13 @@ function S3EventDetails({ span }) {
         pathToMore={['data', 'lambda', 's3', 'more']}
         labelMore={t('in-forge:tracing.aspLambdaEntry.labelS3Events')}
       />
-    </Fragment>
+    </>
   );
 }
 
 function SqsDetails({ span }) {
   return (
-    <Fragment>
+    <>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>
         {t('in-forge:tracing.aspLambdaEntry.bodyAWSMessages')}
       </Di>
@@ -124,20 +124,20 @@ function SqsDetails({ span }) {
         pathToMore={['data', 'lambda', 'sqs', 'more']}
         labelMore={t('in-forge:tracing.aspLambdaEntry.labelMessages')}
       />
-    </Fragment>
+    </>
   );
 }
 
 function UnknownTriggerDetails() {
   return (
-    <Fragment>
+    <>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>
         {t('in-forge:tracing.aspLambdaEntry.bodyAWSEvent')}
       </Di>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleDetails')}>
         {t('in-forge:tracing.aspLambdaEntry.bodyAWSEventDetail')}
       </Di>
-    </Fragment>
+    </>
   );
 }
 
@@ -160,7 +160,7 @@ function ListWithMore({ title, span, pathToItems, itemMapper = identity, pathToM
 
 function CommonFaasDescriptionItems({ span }) {
   return (
-    <AdditionalAttributesSection title="Lambda Attributes">
+    <AdditionalAttributesSection title={t('in-forge:tracing.aspLambdaEntry.titleLambdaAttributes')}>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleARN')}>{span.getIn(['data', 'lambda', 'arn'])}</Di>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleFunctionName')}>
         {span.getIn(['data', 'lambda', 'functionName'])}

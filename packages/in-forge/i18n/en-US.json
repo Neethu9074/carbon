@@ -9929,7 +9929,8 @@
       "bodyAWSEvents": "AWS S3 Event(s)",
       "bodyAWSMessages": "AWS SQS Message(s)",
       "bodyAWSEvent": "AWS Event",
-      "bodyAWSEventDetail": "An API Gateway call that does not use the Lambda Proxy option or an unidentified Lambda trigger."
+      "bodyAWSEventDetail": "An API Gateway call that does not use the Lambda Proxy option or an unidentified Lambda trigger.",
+      "titleLambdaAttributes": "Lambda Attributes"
     },
     "batchSynthetic": {
       "indexReturn": "Internal trigger",
@@ -9976,6 +9977,7 @@
       "titleRetryReason": "Retry Reason"
     },
     "cics": {
+      "titleCicsAttributes": "CICS Attributes",
       "titleUserId": "CICS User ID",
       "titleTaskNumber": "CICS Task Number",
       "titleRegion": "CICS Region"
@@ -10210,6 +10212,7 @@
       "titleQuery": "Query"
     },
     "ims": {
+      "titleImsAttributes": "IMS Attributes",
       "titleEventKey": "IMS Event Key"
     },
     "jaeger": {
@@ -10606,6 +10609,7 @@
       "postTitle": "Post Title"
     },
     "zcee": {
+      "titleZceeAttributes": "z/OS Connect EE Attributes Attributes",
       "titleServiceName": "Service Name",
       "titleApiName": "API Name",
       "titleRequestId": "Request ID",

@@ -21,7 +21,7 @@ export default function ImsRpcEntryDetailView({ span }) {
 
 function ImsDescriptionItems({ span }) {
   return (
-    <AdditionalAttributesSection title="IMS Attributes">
+    <AdditionalAttributesSection title={t('in-forge:tracing.ims.titleImsAttributes')}>
       <Di title={t('in-forge:tracing.ims.titleEventKey')}>{span.getIn(['data', 'ims', 'event_key'])}</Di>
     </AdditionalAttributesSection>
   );
