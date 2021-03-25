@@ -32,7 +32,7 @@ export function updateThresholdInForm(createThresholdForm, form, updateForm, dat
     const shouldAddNewThresholdData =
       simpleMode ||
       currentThreshold.value == null ||
-      data.type === 'historicBaseline' ||
+      data?.type === 'historicBaseline' ||
       !thresholdValueManuallyChanged;
 
     const updatedThresholdForm = createThresholdForm(

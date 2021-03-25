@@ -40,13 +40,13 @@ const columnDefinitions = [
     width: '35%',
     widthInAbsoluteUnit: true,
     sortable: false,
-    getContent({ config, configsCategory, additionalMatrixKeys, isGlobalSmartAlertConfig, location }) {
+    getContent({ config, configsCategory, additionalMatrixKeys, location }) {
       return (
         <ListNameColumn
           config={config}
           configsCategory={configsCategory}
           additionalMatrixKeys={additionalMatrixKeys}
-          goToGlobalAlertDetails={isGlobalSmartAlertConfig && location?.pathname === '/alerts'}
+          goToGlobalAlertDetails={location?.pathname === '/alerts'}
         />
       );
     }
