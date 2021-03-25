@@ -77,6 +77,7 @@ export const teamSettingsAlertingMaintenanceConfigurationEdit = `${alerting}/mai
 export const teamSettingsAlertingMaintenanceConfigurationNew = `${alerting}/maintenanceConfigurations/new`;
 export const teamSettingsAlertingMaintenanceConfigurations = `${alerting}/maintenanceConfigurations`;
 export const teamSettingsAlertingCustomPayloadConfiguration = `${alerting}/customPayload`;
+export const teamSettingsAlertingHub = `${alerting}/hub`;
 
 // legacy knowledge management paths (prior to unification of alerting configuration in 2019-02)
 const knowledgeManagement = `${teamSettings}/knowledgeManagement`;

@@ -1,0 +1,27 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .headline {
+    color: @lib__colors__N900Primary;
+    font-size: @lib__typography__h700__font-size;
+    line-height: 2.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+  }
+  .mainRow {
+    margin-top: 4rem;
+    height: 50%;
+  }
+  .container {
+    height: 100%;
+
+    font-size: @lib__typography__body__font-size;
+    color: @lib__colors__N600Light;
+    padding: 0.5rem 0 0.5rem 0.5rem;
+  }
+}

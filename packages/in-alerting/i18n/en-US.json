@@ -543,6 +543,32 @@
         "NoServiceInScope": "No service in scope",
         "PreviewForService": "Preview for Service:"
       },
+      "alertsHub": {
+        "title": "Alerts Hub",
+        "introText": "Welcome to the Alerting Configuration Hub. This is where you can set up your alerting expectations.",
+        "readMore": "Read more…",
+        "websites": {
+          "title": "Websites",
+          "description0": "To set up an alert navigate to the website you want to set up the alert on and use the \"Add Smart Alert\" button on the bottom right.",
+          "stats": "Currently you have {{alerts}} Website Smart Alerts on {{websites}} Websites.",
+          "button0": "Websites"
+        },
+        "applications": {
+          "title": "Applications",
+          "description0": "You can set up Smart Alerts for a specific Application only, or set up Smart Alerts covering multiple Applications.",
+          "stats": "Currently you have {{globalSmartAlerts}} Global Smart Alerts and {{smartAlerts}} Regular Smart Alerts.",
+          "button0": "Smart Alerts"
+        },
+        "infrastructure": {
+          "title": "Infrastructure & Platforms",
+          "description0": "Alerts for Infrastructure & Platforms utilize our 2-step workflow.",
+          "description1": "1) Events defined for specific conditions. You can either use our Built-in Events or create your own Custom Events.",
+          "description2": "2) Alerts then alert you whenever specific Events occur.",
+          "stats": "Currently you have {{events}} Custom Events and {{alerts}} Alerts.",
+          "button0": "Alerts",
+          "button1": "Events"
+        }
+      },
       "utils": {
         "aggregationTextP25": "25th",
         "aggregationTextP50": "50th",

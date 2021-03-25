@@ -35,7 +35,8 @@ import {
   teamSettingsLogManagementElk,
   teamSettingsLogManagementHumio,
   teamSettingsLogManagementLogDna,
-  teamSettingsLogManagementSplunk
+  teamSettingsLogManagementSplunk,
+  teamSettingsAlertingHub
 } from 'in-settings/navigation/paths';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
@@ -60,9 +61,11 @@ import GroupPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/
 import HumioPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/Humio';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
 import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/User';
+import AlertsHub from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
+import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
@@ -135,7 +138,13 @@ function navigationTreeForRole(role) {
   if (role.canConfigureCustomAlerts || role.canConfigureIntegrations) {
     const eventsAndAlertsPages = [];
 
-    if (role.canConfigureCustomAlerts) {
+    if (applicationSmartAlertsEnabled) {
+      eventsAndAlertsPages.push({
+        path: teamSettingsAlertingHub,
+        label: t('in-alerting:smartAlerts.components.alertsHub.title'),
+        component: AlertsHub
+      });
+
       eventsAndAlertsPages.push({
         path: teamSettingsAlertingEvents,
         label: t('in-settings:tabs.events'),
