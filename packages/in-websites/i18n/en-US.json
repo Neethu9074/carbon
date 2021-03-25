@@ -379,6 +379,7 @@
       "overlaysButton2D": "2D",
       "overlaysCountryDisplayName": "Country/Region",
       "globeViewTitle": "Website World Globe",
+      "globViewFootertext": "Images provided by NASA",
       "websiteHealthIndicatorBehaviorNoIssues": "No Issues",
       "websiteHealthIndicatorBehaviorNumbersOfIssues": "{{count}} Issue",
       "websiteHealthIndicatorBehaviorNumbersOfIssues_plural": "{{count}} Issues",

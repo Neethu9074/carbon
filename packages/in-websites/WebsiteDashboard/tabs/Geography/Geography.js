@@ -48,7 +48,7 @@ export default function Geography(props) {
               <Route
                 path={`${websitePathFullyQualified}/geography/globe`}
                 render={() => (
-                  <div>
+                  <div className={locals.globeWrapper}>
                     <GlobeView
                       customHeight={height}
                       tagFilters={tagFilters}
@@ -64,6 +64,9 @@ export default function Geography(props) {
                     >
                       <SvgIcon className={locals.mapSwitchIconDark} type="lib_website" />
                     </Link>
+                    <p className={locals.footerText}>
+                      {t('in-websites:websiteDashboard.components.globViewFootertext')}
+                    </p>
                   </div>
                 )}
               />
