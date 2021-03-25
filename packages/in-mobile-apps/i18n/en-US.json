@@ -328,7 +328,8 @@
       "sessionStartsLabel": "Session Starts",
       "viewTransitionsLabel": "View Transitions",
       "geographyTitle": "Geography",
-      "topViewsTitle": "Top Views"
+      "topViewsTitle": "Top Views",
+      "globViewFootertext": "Images provided by NASA"
     }
   },
   "appsList": {

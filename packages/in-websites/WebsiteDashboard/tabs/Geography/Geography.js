@@ -4,7 +4,6 @@
  */
 import { Route, Switch } from 'react-router-dom';
 import GlobeViewLoader from 'promise-loader?global,globe-view!in-websites/WebsiteDashboard/components/GlobeView';
-import { t } from 'in-i18n';
 import React from 'react';
 
 import getWebsiteCountryBreakdown from 'in-websites/subscriptions/getWebsiteCountryBreakdown';
@@ -19,6 +18,7 @@ import Button from 'in-new-components/MapControls/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Link from 'in-components/Link';
+import { t } from 'in-i18n';
 
 import locals from './Geography.mless';
 
@@ -47,7 +47,7 @@ export default function Geography(props) {
               <Route
                 path={`${websitePathFullyQualified}/geography/globe`}
                 render={() => (
-                  <div>
+                  <div className={locals.globeWrapper}>
                     <GlobeView
                       customHeight={height}
                       tagFilters={tagFilters}
@@ -63,6 +63,9 @@ export default function Geography(props) {
                     >
                       <SvgIcon className={locals.mapSwitchIconDark} type="lib_website" />
                     </Link>
+                    <p className={locals.footerText}>
+                      {t('in-websites:websiteDashboard.components.globViewFootertext')}
+                    </p>
                   </div>
                 )}
               />
