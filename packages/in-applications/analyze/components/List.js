@@ -230,6 +230,7 @@ function Presenter({
             renderNoDataAvailable={noDataMessage => (
               <NoDataAvailable className={locals.noData} text={noDataMessage} height={80} />
             )}
+            size="compact"
           />
         )}
         {isValid && <QueryProgressIndicator progress={progress} errors={errors} items={items} />}
@@ -280,6 +281,7 @@ function TableOnlyPresenter({
           })}
           renderNoDataAvailable={() => <NoDataAvailable className={locals.noData} />}
           filterBy={filterBy}
+          size="compact"
         />
       )}
     </div>
