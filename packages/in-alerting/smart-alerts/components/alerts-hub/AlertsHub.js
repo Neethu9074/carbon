@@ -12,7 +12,7 @@ import getLegacyAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/ge
 import { teamSettingsAlertingEvents, teamSettingsAlertingAlerts } from 'in-settings/navigation/paths';
 import AlertsHubElement from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHubElement';
 import { websitesPathFullyQualified } from 'in-websites/navigation/paths';
-import { globalAlertsList } from 'in-applications/navigation/paths';
+import { alertsList } from 'in-applications/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -93,7 +93,7 @@ function renderContent({ websites, applications, infrastructure }) {
         {
           text: t('in-alerting:smartAlerts.components.alertsHub.applications.button0'),
           icon: 'lib_alerts_alert',
-          path: globalAlertsList
+          path: alertsList
         }
       ]
     },
