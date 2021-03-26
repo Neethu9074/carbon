@@ -6,6 +6,7 @@
 import moment from 'moment';
 
 import { getSetting$ } from 'in-services/settings';
+import { t } from 'in-i18n';
 
 const monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -127,6 +128,36 @@ export function formatDurationAccurately(millis, ignoreTimesSmallerThan = 60000,
     if (count > 0) {
       // 1day, 2days, 1year, 10 years, ...
       if (useShort) {
+        result = `${result} ${t('in-services:formatters.date.time.' + time.short, { num: count })}`;
+      } else {
+        result = `${result} ${t('in-services:formatters.date.time.' + time.long, { count: count })}`;
+      }
+    }
+  }
+
+  if (result === '') {
+    return t('in-services:formatters.date.time.ms', { millis: millis });
+  }
+
+  return result.trim();
+}
+
+//format 'English' duration is necessary for logical computation in timeframeFormatter.js & timePresets.js
+export function formatEnglishDurationAccurately(millis, ignoreTimesSmallerThan = 60000, useShort = true) {
+  let result = '';
+
+  for (let i = 0; i < times.length; i++) {
+    if (millis < ignoreTimesSmallerThan) {
+      continue;
+    }
+
+    const time = times[i];
+    const count = Math.floor(millis / time.millis);
+    millis = millis - count * time.millis;
+
+    if (count > 0) {
+      // 1day, 2days, 1year, 10 years, ...
+      if (useShort) {
         result = `${result} ${count}${time.short}`;
       } else {
         const append = count === 1 ? '' : 's';
@@ -172,9 +203,8 @@ function formatDateInternalAccordingToLocalTime(date) {
 }
 
 function formatDateShortInternalAccordingToLocalTime(date) {
-  const month = monthsShort[date.getMonth()];
   const day = ensureTwoChars(date.getDate());
-  return `${month} ${day}`;
+  return t('in-services:formatters.date.monthsShort.' + monthsShort[date.getMonth()], { day: day });
 }
 
 function formatTimeInternalAccordingToUTC(date) {
@@ -198,9 +228,8 @@ function formatDateInternalAccordingToUTC(date) {
 }
 
 function formatDateShortInternalAccordingToUtc(date) {
-  const month = monthsShort[date.getUTCMonth()];
   const day = ensureTwoChars(date.getUTCDate());
-  return `${month} ${day}`;
+  return t('in-services:formatters.date.monthsShort.' + monthsShort[date.getUTCMonth()], { day: day });
 }
 
 function ensureTwoChars(s) {

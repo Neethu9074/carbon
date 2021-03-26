@@ -320,7 +320,13 @@
     "timeIconHistoricDataMessage": "You are viewing approximate data due to the data retention settings. Precise data is available within the last {{retention}} days.",
     "timeIconLargeDataMessage": "You are viewing approximate data due to a large data set. Please reduce the time range for precise data.",
     "timePresetsLast": "Last {{duration}}",
-    "timePresetsLast24Hours": "Last 24 hours"
+    "timePresetsLast24Hours": "Last 24 hours",
+    "timeUnit_year" : "year",
+    "timeUnit_month" : "month",
+    "timeUnit_day" : "day",
+    "timeUnit_hour" : "hour",
+    "timeUnit_minute" : "minute",
+    "timeUnit_second" : "second"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Change selected time shift",
