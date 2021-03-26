@@ -2,8 +2,9 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import { empty } from '@instana/observables';
 import React, { useEffect, useMemo } from 'react';
+import { empty } from '@instana/observables';
+import classNames from 'classnames';
 import { range } from 'lodash';
 import theme from 'in-themes';
 import rpt from 'prop-types';
@@ -16,6 +17,7 @@ import {
   groupName
 } from 'in-new-components/AnalyzeView/metrics';
 import { joinExpressions, removeTopLevelFilters, TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { UNSPECIFIED, NO_VALUE, UNSPECIFIED_LABEL, NO_VALUE_LABEL } from 'in-analyze/components/GroupedTraces/Group';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { addGroupingCriteriaToFormModel } from 'in-new-components/AnalyzeView/StateManagement';
@@ -358,8 +360,6 @@ function labelColumns({ itemlabelColumnId, getItemLabel, showChartGroupMarkers, 
         let label = groupbyTag;
         const tagDefinition = groupingTagCatalog.tagsByName[groupbyTag];
         if (tagDefinition) {
-          label = tagDefinition.label;
-
           label = (
             <span className={locals.groupLabel}>
               {tagDefinition.path
@@ -371,10 +371,35 @@ function labelColumns({ itemlabelColumnId, getItemLabel, showChartGroupMarkers, 
             </span>
           );
         }
-        return <KeyValue label={label} customValue={getItemLabel(item)} />;
+        return <KeyValue label={label} customValue={<GroupLabelTooltip groupName={getItemLabel(item)} />} />;
       }
     }
   ];
+}
+
+function GroupLabelTooltip({ groupName }) {
+  const label = groupLabel(groupName);
+  return (
+    <Tooltip content={label} align="bottomLeft" delay={1000}>
+      <div
+        className={classNames({
+          [locals.italic]: groupName === UNSPECIFIED || groupName === NO_VALUE
+        })}
+      >
+        {label}
+      </div>
+    </Tooltip>
+  );
+}
+
+export function groupLabel(groupName) {
+  if (groupName === UNSPECIFIED) {
+    return UNSPECIFIED_LABEL;
+  }
+  if (groupName === NO_VALUE) {
+    return NO_VALUE_LABEL;
+  }
+  return groupName;
 }
 
 function metricColumns({ columnDefinitions, fields, groupedViewConfiguration, metricCatalog }) {

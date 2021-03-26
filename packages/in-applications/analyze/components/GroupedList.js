@@ -621,7 +621,7 @@ const convertMetricListToMetricObject = (metrics, sparkChartGranularity, chartGr
 function GroupLabelTooltip({ groupName }) {
   const label = groupLabel(groupName);
   return (
-    <Tooltip content={label} align="bottomLeft">
+    <Tooltip content={label} align="bottomLeft" delay={1000}>
       <div
         className={classNames({
           [locals.italic]: groupName === UNSPECIFIED || groupName === NO_VALUE

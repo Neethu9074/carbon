@@ -38,7 +38,7 @@ export default function GroupedMobileBeacons(props) {
 }
 
 function getItemLabel(item) {
-  return JSON.parse(item.name);
+  return String(JSON.parse(item.name));
 }
 
 function getTableData({ timeConfig, backendQueryModel, groupBy, cursor, orderByGroups, metrics, dataSource }) {

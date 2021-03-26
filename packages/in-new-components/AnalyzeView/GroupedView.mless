@@ -66,4 +66,8 @@
     flex-direction: row;
     justify-content: flex-end;
   }
+
+  .italic {
+    font-style: italic;
+  }
 }
