@@ -131,9 +131,15 @@
     height: 1.75rem;
   }
 
+  .searchContainer {
+    border-radius: 0.125rem;
+    background-color: @lib__colors__N100;
+  }
+
   .search {
     padding: 0 0.25rem;
     height: 1.5rem;
+    font-size: 0.875rem;
   }
 
   .skeletonContainer {
