@@ -4,7 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
-import React, { useState } from 'react';
+import React from 'react';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
@@ -26,6 +26,7 @@ import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import Section from 'in-new-components/workspace/Section';
 import { pendingResult } from 'in-services/fixedObjects';
 import Stack from 'in-new-components/layout/Stack';
+import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
 export default function FormComponent({
@@ -53,9 +54,8 @@ export default function FormComponent({
     onChange
   });
 
-  const [debouncedQuery, setDebouncedQuery] = useState('');
-  const catalogQuery = useDebouncedValue('', setDebouncedQuery, 800);
-  const metricCatalog = useMetricCatalog({ getMetricCatalog, query: debouncedQuery });
+  const catalogQuery = useDebouncedValue('', noop, 800);
+  const metricCatalog = useMetricCatalog({ getMetricCatalog, query: catalogQuery.debouncedValue });
 
   return (
     <Stack space="xsmall">
@@ -65,7 +65,7 @@ export default function FormComponent({
           <TypeAndMetricConfigurator
             type={typeField.value}
             metric={metricField.value}
-            metricCatalog={metricCatalog}
+            metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
             onChange={({ metric, type }) =>
               onChange([], form =>
                 form
