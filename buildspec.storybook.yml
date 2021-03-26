@@ -13,8 +13,8 @@ env:
     CONTAINERS_INSTANA_IO_PASSWORD: "containers.instana.io.password"
     ARTIFACT_INSTANA_IO_USER: "artifact.instana.io.user"
     ARTIFACT_INSTANA_IO_PASSWORD: "artifact.instana.io.password"
-    S3_AWS_ACCESS_KEY_ID: "s3.access.key.id"
-    S3_AWS_SECRET_ACCESS_KEY: "s3.secret.access.key"
+    AWS_ACCESS_KEY_ID: "s3.devinfra.access.key.id"
+    AWS_SECRET_ACCESS_KEY: "s3.devinfra.secret.access.key"
     CHROMATIC_PROJECT_TOKEN: "ui_client.chromatic.project.token"
     ARTIFACT_RND_INSTANA_IO_USER: 'artifact-rnd.instana.io.user'
     ARTIFACT_RND_INSTANA_IO_PASSWORD: 'artifact-rnd.instana.io.password'
@@ -52,5 +52,5 @@ phases:
   build:
     commands:
       - yarn run storybookBuild
-      - s3cmd sync --no-mime-magic --guess-mime-type --delete-removed ./storybookTarget/ s3://storybook.instana.io/7550eeca-f0eb-4039-b87a-c3fbd0d2eaad/$GIT_BRANCH/
+      - npx s3-deploy@1.4.0 './storybookTarget/**' --cwd './storybookTarget/' --bucket instana-devinfra-ui-client-playground --deleteRemoved --invalidate
       - 'test -n "$RUN_UI_TEST_ON_DELIVERY" -a "$RUN_UI_TEST_ON_DELIVERY" = "true" && yarn run storybookTest || true # ignore failing build'
