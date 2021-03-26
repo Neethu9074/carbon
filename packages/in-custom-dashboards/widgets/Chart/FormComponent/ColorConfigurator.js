@@ -32,7 +32,7 @@ export default function ColorConfigurator({ metricForm, index, indexInAxis, onCh
 
   const field = metricForm.get('color');
   const usesAutomaticColor = !field.value;
-  const activeColorId = usesAutomaticColor ? colors[index].id : field.value;
+  const activeColorId = usesAutomaticColor ? colors[index % colors.length].id : field.value;
 
   return (
     <ComboBoxBehavior
