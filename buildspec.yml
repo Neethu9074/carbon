@@ -68,3 +68,4 @@ phases:
       - 'FAIL_ON_DELIVERY_BRANCH=true ./build/ci-shared-tools/scripts/isDeliveryBranch.js || ./build/ci-shared-tools/scripts/uploadReleaseArtifact.bash "ui-client-$GIT_BRANCH-$INSTANA_CONTAINER_TAG.tar.gz" "target/*" "ui-client" "$GIT_BRANCH" "$INSTANA_CONTAINER_TAG"'
       # Mark as stable in Instana's own versioning system
       - './build/ci-shared-tools/scripts/markStableVersion.bash "ui-client" "$GIT_BRANCH" "$INSTANA_CONTAINER_TAG"'
+      - './build/ci-shared-tools/scripts/markStableVersion.bash "ui-client-saas" "$GIT_BRANCH" "$INSTANA_CONTAINER_TAG"'
