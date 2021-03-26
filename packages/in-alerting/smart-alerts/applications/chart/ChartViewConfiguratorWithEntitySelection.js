@@ -3,21 +3,24 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { PER_AP_SERVICE } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import ChartSubEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartSubEntitySelection';
+import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewConfig';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import getApplication from 'in-subscription/application/getApplication';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import LightCard from 'in-new-components/Card/LightCard';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import Stack from 'in-new-components/layout/Stack';
-import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator.mless';
 
@@ -34,6 +37,7 @@ export default function ChartViewConfiguratorWithEntitySelection({
 }) {
   const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
   const [serviceId, setServiceId] = useState();
+  const applications = Object.values(alertConfigWithFormModel?.applications);
   const showEntitySelection = alertConfigWithFormModel.evaluationType === PER_AP_SERVICE;
 
   // TODO AP ID must be provided via selection as well for Global SmartAlerts.
@@ -64,21 +68,19 @@ export default function ChartViewConfiguratorWithEntitySelection({
       <Stack>
         {showEntitySelection && (
           <StackItem>
-            <HorizontalFlexWrapper>
-              <span className={locals.labelWithGap}>
-                {t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewForService')}
-              </span>
-              <div className={locals.expanding}>
-                <ChartSubEntitySelection
-                  applicationId={applicationId}
-                  serviceId={serviceId}
-                  setServiceId={setServiceId}
-                  alertConfigWithFormModel={alertConfigWithFormModel}
-                  // use maximum possible timeframe, to have a stable list when switching between options
-                  queryWindowSize={maxChartViewTimeframe}
-                />
-              </div>
-            </HorizontalFlexWrapper>
+            <ChartSubEntitySelection
+              applicationId={applicationId}
+              serviceId={serviceId}
+              setServiceId={setServiceId}
+              alertConfigWithFormModel={alertConfigWithFormModel}
+              // use maximum possible timeframe, to have a stable list when switching between options
+              queryWindowSize={maxChartViewTimeframe}
+            />
+          </StackItem>
+        )}
+        {!showEntitySelection && applications.length > 1 && (
+          <StackItem>
+            <ShowApplicationSelection applicationId={applicationId} />
           </StackItem>
         )}
         <StackItem>{children(selectedChartViewConfig, applicationId, serviceId)}</StackItem>
@@ -86,6 +88,18 @@ export default function ChartViewConfiguratorWithEntitySelection({
     </LightCard>
   );
 }
+
+const ShowApplicationSelection = ({ applicationId }) => {
+  const applicationName = useObservable(
+    applicationId ? getApplication({ id: applicationId }).map(({ data }) => data && data.label) : just(null),
+    [applicationId]
+  );
+  return (
+    <HorizontalFlexWrapper>
+      <ApplicationScopePath applicationName={applicationName} applicationId={applicationId} noBottomMargin />
+    </HorizontalFlexWrapper>
+  );
+};
 
 ChartViewConfiguratorWithEntitySelection.propTypes = {
   children: PropTypes.func.isRequired,
