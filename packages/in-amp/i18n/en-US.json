@@ -53,15 +53,7 @@
       "apmHosts": "APM Hosts",
       "purchased": "Purchased",
       "infrastructureUsage": "Infrastructure Usage",
-      "iqmHosts": "IQM Hosts",
-      "containerUsage": "Container Usage",
-      "docker": "Docker",
-      "containerD": "ContainerD",
-      "crio": "Crio",
-      "garden": "Garden",
-      "lxc": "LXC",
-      "serverlessUsage": "Serverless Usage",
-      "serverless": "Serverless"
+      "iqmHosts": "IQM Hosts"
     }
   }
 }
