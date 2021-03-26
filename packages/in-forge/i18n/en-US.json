@@ -2148,7 +2148,7 @@
       "clusterName": "Cluster Name",
       "applianceName": "Appliance Name",
       "status": "Status",
-      "applianceNumber": "Appliance ({{number}})"
+      "applianceNumber": "Appliances ({{number}})"
     },
     "ibmDataPowerDomain": {
       "ibmDataPowerDomainInfo": "IBM DataPower Domain",
@@ -2213,7 +2213,7 @@
       "integrationNodeInfo": "IBM ACE Integration Node",
       "serverName": "Server Name",
       "status": "Status",
-      "integrationServerNumber": "Integration Server ({{number}})",
+      "integrationServerNumber": "Integration Servers ({{number}})",
       "brokerName": "Broker Name",
       "type": "Type",
       "defaultQueueManagerName": "Default Queue Manager Name",
@@ -2246,7 +2246,7 @@
       "cumulativeGCTimeInSeconds": "Garbage Collection Duration",
       "messageFlowName": "Message Flow Name",
       "status": "Status",
-      "messageFlowNumber": "Message Flow ({{number}})"
+      "messageFlowNumber": "Message Flows ({{number}})"
     },
     "aceMessageFlow": {
       "messageFlowInfo": "IBM ACE Message Flow",
@@ -2282,7 +2282,7 @@
       "backouts": "Number of Transaction Backouts",
       "flowNodeName": "Flow Node Name",
       "nodeType": "Node Type",
-      "flowNodeNumber": "Flow Node ({{number}})"
+      "flowNodeNumber": "Flow Nodes ({{number}})"
     },
     "aceFlowNode": {
       "flowNodeInfo": "IBM ACE Flow Node",
