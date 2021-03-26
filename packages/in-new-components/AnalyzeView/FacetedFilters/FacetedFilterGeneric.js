@@ -163,7 +163,13 @@ function SearchAndSuggestions({
   return (
     <Stack space="small">
       {(!isBlank(valueFilter) || suggestions?.data?.items.length > 5) && (
-        <SearchInput onChange={setValueFilter} query={valueFilter} inputClassName={locals.search} withoutIcon />
+        <SearchInput
+          onChange={setValueFilter}
+          query={valueFilter}
+          className={locals.searchContainer}
+          inputClassName={locals.search}
+          withoutIcon
+        />
       )}
       <SuggestionsPresenter
         loading={suggestions?.progress.loading}
