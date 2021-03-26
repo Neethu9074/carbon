@@ -4,7 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
-import React from 'react';
+import React, { useState } from 'react';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
@@ -13,7 +13,6 @@ import {
   isRequiringGroupingConfiguration
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
-import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilder, { getTagCatalog } from 'in-infrastructure/Explore/components/QueryBuilder';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
@@ -23,6 +22,7 @@ import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
 import Sections from 'in-new-components/workspace/Sections';
+import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import Section from 'in-new-components/workspace/Section';
 import { pendingResult } from 'in-services/fixedObjects';
 import Stack from 'in-new-components/layout/Stack';
@@ -53,10 +53,9 @@ export default function FormComponent({
     onChange
   });
 
-  const metricCatalog = useMetricCatalog({
-    getMetricCatalog,
-    tagFilterExpression: tagFilterExpressionField.valid ? tagFilterExpressionField.value : EMPTY_EXPRESSION
-  });
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const catalogQuery = useDebouncedValue('', setDebouncedQuery, 800);
+  const metricCatalog = useMetricCatalog({ getMetricCatalog, query: debouncedQuery });
 
   return (
     <Stack space="xsmall">
@@ -77,6 +76,8 @@ export default function FormComponent({
                   )
               )
             }
+            query={catalogQuery.value}
+            onQueryChange={catalogQuery.onChange}
             label={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.selectMetric')}
           />
           <TouchedMessages field={metricField} />

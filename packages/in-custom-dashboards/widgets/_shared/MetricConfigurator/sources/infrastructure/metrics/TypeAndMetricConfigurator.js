@@ -20,6 +20,8 @@ export default function TypeAndMetricConfigurator({
   type,
   metricCatalog,
   onChange,
+  query,
+  onQueryChange,
   label = t('in-custom-dashboards:widgets.srcInfrastructure.typeAndMetricConfigurator.pleaseSelectMetric')
 }) {
   if (metricCatalog?.errors.length > 0) {
@@ -33,7 +35,9 @@ export default function TypeAndMetricConfigurator({
         props={{
           metricCatalog: metricCatalog.data,
           loading: metricCatalog.progress.loading,
-          onChange
+          onChange,
+          query,
+          onQueryChange
         }}
         align={'bottomLeft'}
         withoutWrapper
@@ -59,6 +63,8 @@ TypeAndMetricConfigurator.propTypes = {
   type: rpt.string,
   metricCatalog: rpt.object.isRequired,
   onChange: rpt.func.isRequired,
+  query: rpt.string.isRequired,
+  onQueryChange: rpt.func.isRequired,
   label: rpt.string
 };
 

@@ -4,7 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
@@ -31,6 +31,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
   ]);
 
   useDisabledBodyScroll();
+  const [query, setQuery] = useState('');
 
   return (
     <SelectorOverlay
@@ -40,6 +41,8 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
         onChange({ name: node.tagName });
         close();
       }}
+      query={query}
+      setQuery={setQuery}
     />
   );
 }

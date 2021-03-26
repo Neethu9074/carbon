@@ -21,17 +21,23 @@ import { t } from 'in-i18n';
 import locals from './SelectorOverlay.mless';
 
 const initialState = {
-  query: '',
-  focussedNode: null,
-  focusOnNode: false
+  focusedNode: null,
+  showFocusedNode: false
 };
 
 const categoryHeight = 40;
 // for performance reasons limit number of results shown as rendering is slow for high number of results
 const maxResults = 100;
 
-export default function SelectorOverlay({ options, loading = false, onChange, withIcons = true }) {
-  const [{ query, focussedNode, showFocussedNode }, setState] = useState(initialState);
+export default function SelectorOverlay({
+  options,
+  loading = false,
+  onChange,
+  withIcons = true,
+  query,
+  onQueryChange
+}) {
+  const [{ focusedNode, showFocusedNode: showFocusedNode }, setState] = useState(initialState);
   options = useMemo(() => {
     if (isNotBlank(query)) {
       return search(options, query);
@@ -59,10 +65,10 @@ export default function SelectorOverlay({ options, loading = false, onChange, wi
         <SearchInput
           placeholder={t('in-new-components:selectorOverlay.placeholderSearch')}
           onChange={_query => {
+            onQueryChange(_query);
             setState({
-              query: _query,
-              focussedNode,
-              showFocussedNode: false
+              focusedNode,
+              showFocusedNode: false
             });
           }}
           query={query}
@@ -85,12 +91,11 @@ export default function SelectorOverlay({ options, loading = false, onChange, wi
         )}
         {loading === false && (
           <SlideInView
-            showSlideInContent={showFocussedNode}
+            showSlideInContent={showFocusedNode}
             onShowSlideInContentChange={() =>
               setState({
-                query,
-                focussedNode,
-                showFocussedNode: false
+                focusedNode,
+                showFocusedNode: false
               })
             }
             onAfterSlideOut={() => {
@@ -98,11 +103,11 @@ export default function SelectorOverlay({ options, loading = false, onChange, wi
             }}
             HeaderComponent={ListHeader}
             slideTransitionDurationMillis={250}
-            slideInContentTitle={focussedNode?.label}
+            slideInContentTitle={focusedNode?.label}
             slideInContent={
-              focussedNode?.children && (
+              focusedNode?.children && (
                 <div onKeyDown={onKeyDown}>
-                  {focussedNode?.children.slice(0, maxResults).map((node, i) => (
+                  {focusedNode?.children.slice(0, maxResults).map((node, i) => (
                     <Node
                       key={i}
                       node={node}
@@ -144,11 +149,10 @@ export default function SelectorOverlay({ options, loading = false, onChange, wi
     </>
   );
 
-  function focusNode(focussedNode) {
+  function focusNode(focusedNode) {
     setState({
-      query: '',
-      focussedNode,
-      showFocussedNode: true
+      focusedNode,
+      showFocusedNode: true
     });
   }
 
@@ -159,13 +163,12 @@ export default function SelectorOverlay({ options, loading = false, onChange, wi
       event.target.click();
     } else if (code === keyCodes.arrows.left) {
       setState({
-        query,
-        focussedNode,
-        showFocussedNode: false
+        focusedNode,
+        showFocusedNode: false
       });
     } else if (
       code === keyCodes.arrows.up &&
-      !showFocussedNode &&
+      !showFocusedNode &&
       getInteractiveElements(event.currentTarget).indexOf(event.target) === 0
     ) {
       //arrow up from first element in root menu
@@ -191,5 +194,7 @@ SelectorOverlay.propTypes = {
   options: nodeArrayPropType.isRequired,
   loading: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
-  withIcons: PropTypes.bool
+  withIcons: PropTypes.bool,
+  query: PropTypes.string.isRequired,
+  onQueryChange: PropTypes.func.isRequired
 };
