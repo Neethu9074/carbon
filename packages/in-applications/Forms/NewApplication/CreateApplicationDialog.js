@@ -134,7 +134,7 @@ export default function CreateApplicationDialog({ timeConfig, applicationId, onC
                       ))
                     },
                     {
-                      stepTitle: t('in-applications:forms.newApplication.stepTitleDefineApplicationName'),
+                      stepTitle: t('in-applications:forms.newApplication.stepTitleDefineTags'),
                       content: (
                         <Fragment>
                           <DescriptionText>
