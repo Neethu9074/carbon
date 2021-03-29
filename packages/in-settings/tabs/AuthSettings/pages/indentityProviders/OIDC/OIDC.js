@@ -219,7 +219,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                     </Label>
                     <Input
                       className={locals.input}
-                      type="text"
+                      type="password"
                       id="secret"
                       value={field.value}
                       onChange={e => {
