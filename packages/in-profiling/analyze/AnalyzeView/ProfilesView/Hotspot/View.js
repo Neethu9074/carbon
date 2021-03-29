@@ -167,7 +167,7 @@ function Hotspot({
               hotspotAutoExpandRowConfig={hotspotAutoExpandRowConfig}
               renderNestedContent={_profile => <StackTrace profile={_profile} />}
             />
-            <ViewAllWrapper renderViewAll={ViewAll} viewAllHref$={viewAllHref$} />
+            <ViewAllWrapper ViewAll={ViewAll} viewAllHref$={viewAllHref$} />
           </div>
         )}
       </Card>
@@ -212,7 +212,7 @@ function renderSelfTimeComponents(profilesWithSelfTimes, getColorFn) {
   );
 }
 
-function ViewAll({ viewAllHref$ }, className) {
+function ViewAll({ viewAllHref$, className }) {
   return (
     <Link className={className} href$={viewAllHref$}>
       {t('in-profiling:viewAll')}

@@ -27,10 +27,10 @@ export default function HttpRequestOriginTopList({ mobileAppId, timeConfig, tagF
       aggregations={aggregations}
       formatters={formatters}
       getList={getList}
-      render={TopListCardPresenter}
-      renderViewAll={ViewAll}
-      renderLabel={Label}
-      renderMetric={Metric}
+      Renderer={TopListCardPresenter}
+      ViewAll={ViewAll}
+      Label={Label}
+      Metric={Metric}
       mobileAppId={mobileAppId}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
@@ -69,7 +69,7 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ mobileAppId, selectedMetric }, className) {
+function ViewAll({ mobileAppId, selectedMetric, className }) {
   return (
     <Link
       className={className}

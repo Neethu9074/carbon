@@ -66,9 +66,9 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
       getList={getList}
       getItemsFromResult={getItemsFromResult}
       getMetricValueFromItem={getMetricValueFromItem}
-      render={TopListCardPresenter}
-      renderLabel={Label}
-      renderMetric={Metric}
+      Renderer={TopListCardPresenter}
+      Label={Label}
+      Metric={Metric}
       timeConfig={timeConfig}
       applicationId={applicationId}
       applicationLabel={applicationLabel}
@@ -115,7 +115,7 @@ function getList({
   });
 }
 
-function Label({ item, applicationLabel, serviceLabel, endpointLabel }, _item, className) {
+function Label({ item, applicationLabel, serviceLabel, endpointLabel, className }) {
   const tagCatalog = useTagCatalog(getTagCatalog);
   return (
     <Fragment>

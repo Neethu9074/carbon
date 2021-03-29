@@ -43,118 +43,10 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
       getMetricValueFromItem={(selectedMetric, item) => item.values?.[0]?.[1]}
       selectedMetricFormatter={metricValue => getFormatter(config.formatter)(metricValue)}
       selectedMetricColor={isErroneous ? theme.lib.colors.failure : null}
-      renderLabel={({ item }) => {
-        let filters = config.metricConfiguration.tagFilters;
-        if (filters) {
-          if (config.metricConfiguration.grouping) {
-            if (item.label !== 'other_group') {
-              filters = filters.concat([
-                {
-                  name: config.metricConfiguration.grouping[0].by.groupbyTag,
-                  value: item.label,
-                  operator: operators.EQUALS,
-                  entity: config.metricConfiguration.grouping[0].by.groupbyTagEntity
-                }
-              ]);
-            } else {
-              filters = filters.concat(
-                result.data
-                  .filter(item => item.label !== 'other_group')
-                  .map(item => {
-                    return {
-                      name: config.metricConfiguration.grouping[0].by.groupbyTag,
-                      value: item.label,
-                      operator: operators.NOT_EQUAL,
-                      entity: config.metricConfiguration.grouping[0].by.groupbyTagEntity
-                    };
-                  })
-              );
-            }
-          }
-        }
-
-        const groupBy = config.metricConfiguration.grouping?.[0].by;
-
-        let tagFilterExpression = fromBackendModel(config.metricConfiguration.tagFilterExpression);
-
-        if (item.label !== 'other_group') {
-          tagFilterExpression = joinExpressions({
-            expressions: [
-              tagFilterExpression,
-              getTagType(groupBy?.groupbyTag) === 'KEY_VALUE_PAIR' && !groupBy?.groupbyTagSecondLevelKey
-                ? {
-                    type: TAG_FILTER,
-                    name: groupBy?.groupbyTag,
-                    key: item.label,
-                    operator: operators.NOT_EMPTY,
-                    entity: groupBy?.groupbyTagEntity
-                  }
-                : {
-                    type: TAG_FILTER,
-                    name: groupBy?.groupbyTag,
-                    key: groupBy?.groupbyTagSecondLevelKey ? groupBy?.groupbyTagSecondLevelKey : undefined,
-                    value: getConvertedValue(item.label),
-                    operator: operators.EQUALS,
-                    entity: groupBy?.groupbyTagEntity
-                  }
-            ]
-          });
-        } else {
-          const filteredTags = result.data
-            .filter(item => item.label !== 'other_group')
-            .map(item => {
-              return getTagType(groupBy?.groupbyTag) === 'KEY_VALUE_PAIR' && !groupBy?.groupbyTagSecondLevelKey
-                ? {
-                    type: TAG_FILTER,
-                    name: groupBy?.groupbyTag,
-                    key: item.label,
-                    operator: operators.IS_EMPTY,
-                    entity: groupBy?.groupbyTagEntity
-                  }
-                : {
-                    type: TAG_FILTER,
-                    name: groupBy?.groupbyTag,
-                    key: groupBy?.groupbyTagSecondLevelKey ? groupBy?.groupbyTagSecondLevelKey : undefined,
-                    value: getConvertedValue(item.label),
-                    operator: operators.NOT_EQUAL,
-                    entity: groupBy?.groupbyTagEntity
-                  };
-            });
-          filteredTags.push(tagFilterExpression);
-          filteredTags.push({
-            type: TAG_FILTER,
-            name: groupBy?.groupbyTag,
-            key: groupBy?.groupbyTagSecondLevelKey,
-            operator: operators.NOT_EMPTY,
-            entity: groupBy?.groupbyTagEntity
-          });
-          tagFilterExpression = joinExpressions({
-            expressions: filteredTags
-          });
-        }
-
-        const link = config.metricConfiguration.tagFilterExpression
-          ? getDirectLinkToUA2({
-              dataSource: 'calls',
-              tagFilterExpression: tagFilterExpression
-            })
-          : tagCatalog &&
-            getLinkToAnalyze({
-              dataSource: 'calls',
-              groupByTag: [],
-              filters,
-              tagCatalog
-            });
-
-        return (
-          config.metricConfiguration.grouping && (
-            <Link href$={link} onClick={close}>
-              <LinkContent item={item} groupBy={groupBy} />
-            </Link>
-          )
-        );
-      }}
-      renderMetric={({ formattedMetricValue }) => formattedMetricValue}
+      Label={Label}
+      Metric={Metric}
+      config={config}
+      tagCatalog={tagCatalog}
       header={
         <>
           {dragHandle}
@@ -163,6 +55,122 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
       }
     />
   );
+}
+
+function Label({ item, config, result, tagCatalog }) {
+  let filters = config.metricConfiguration.tagFilters;
+  if (filters) {
+    if (config.metricConfiguration.grouping) {
+      if (item.label !== 'other_group') {
+        filters = filters.concat([
+          {
+            name: config.metricConfiguration.grouping[0].by.groupbyTag,
+            value: item.label,
+            operator: operators.EQUALS,
+            entity: config.metricConfiguration.grouping[0].by.groupbyTagEntity
+          }
+        ]);
+      } else {
+        filters = filters.concat(
+          result.data
+            .filter(item => item.label !== 'other_group')
+            .map(item => {
+              return {
+                name: config.metricConfiguration.grouping[0].by.groupbyTag,
+                value: item.label,
+                operator: operators.NOT_EQUAL,
+                entity: config.metricConfiguration.grouping[0].by.groupbyTagEntity
+              };
+            })
+        );
+      }
+    }
+  }
+
+  const groupBy = config.metricConfiguration.grouping?.[0].by;
+
+  let tagFilterExpression = fromBackendModel(config.metricConfiguration.tagFilterExpression);
+
+  if (item.label !== 'other_group') {
+    tagFilterExpression = joinExpressions({
+      expressions: [
+        tagFilterExpression,
+        getTagType(groupBy?.groupbyTag) === 'KEY_VALUE_PAIR' && !groupBy?.groupbyTagSecondLevelKey
+          ? {
+              type: TAG_FILTER,
+              name: groupBy?.groupbyTag,
+              key: item.label,
+              operator: operators.NOT_EMPTY,
+              entity: groupBy?.groupbyTagEntity
+            }
+          : {
+              type: TAG_FILTER,
+              name: groupBy?.groupbyTag,
+              key: groupBy?.groupbyTagSecondLevelKey ? groupBy?.groupbyTagSecondLevelKey : undefined,
+              value: getConvertedValue(item.label),
+              operator: operators.EQUALS,
+              entity: groupBy?.groupbyTagEntity
+            }
+      ]
+    });
+  } else {
+    const filteredTags = result.data
+      .filter(item => item.label !== 'other_group')
+      .map(item => {
+        return getTagType(groupBy?.groupbyTag) === 'KEY_VALUE_PAIR' && !groupBy?.groupbyTagSecondLevelKey
+          ? {
+              type: TAG_FILTER,
+              name: groupBy?.groupbyTag,
+              key: item.label,
+              operator: operators.IS_EMPTY,
+              entity: groupBy?.groupbyTagEntity
+            }
+          : {
+              type: TAG_FILTER,
+              name: groupBy?.groupbyTag,
+              key: groupBy?.groupbyTagSecondLevelKey ? groupBy?.groupbyTagSecondLevelKey : undefined,
+              value: getConvertedValue(item.label),
+              operator: operators.NOT_EQUAL,
+              entity: groupBy?.groupbyTagEntity
+            };
+      });
+    filteredTags.push(tagFilterExpression);
+    filteredTags.push({
+      type: TAG_FILTER,
+      name: groupBy?.groupbyTag,
+      key: groupBy?.groupbyTagSecondLevelKey,
+      operator: operators.NOT_EMPTY,
+      entity: groupBy?.groupbyTagEntity
+    });
+    tagFilterExpression = joinExpressions({
+      expressions: filteredTags
+    });
+  }
+
+  const link = config.metricConfiguration.tagFilterExpression
+    ? getDirectLinkToUA2({
+        dataSource: 'calls',
+        tagFilterExpression: tagFilterExpression
+      })
+    : tagCatalog &&
+      getLinkToAnalyze({
+        dataSource: 'calls',
+        groupByTag: [],
+        filters,
+        tagCatalog
+      });
+
+  return (
+    config.metricConfiguration.grouping && (
+      <Link href$={link} onClick={close}>
+        <LinkContent item={item} groupBy={groupBy} />
+      </Link>
+    )
+  );
+}
+
+function Metric({ formattedMetricValue }) {
+  return formattedMetricValue;
 }
 
 function useResultData(config, timeConfig) {

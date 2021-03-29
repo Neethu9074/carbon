@@ -29,10 +29,10 @@ export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagF
       aggregations={aggregations}
       formatters={formatters}
       getList={getList}
-      render={TopListCardPresenter}
-      renderViewAll={ViewAll}
-      renderLabel={Label}
-      renderMetric={Metric}
+      Renderer={TopListCardPresenter}
+      ViewAll={ViewAll}
+      Label={Label}
+      Metric={Metric}
       websiteId={websiteId}
       websiteLabel={websiteLabel}
       timeConfig={timeConfig}
@@ -65,7 +65,7 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ tagFilters, websiteLabel }, className) {
+function ViewAll({ tagFilters, websiteLabel, className }) {
   const tagCatalogResourceLoad = useTagCatalog('resourceLoad');
   return (
     <Link

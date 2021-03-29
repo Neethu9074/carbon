@@ -51,9 +51,9 @@ export default function WindowWidthBreakdown({ result, timeConfig, tagFilters, w
       showMetricSelectorsForSingleMetrics
       getItemsFromResult={r => r.data}
       getList={getList}
-      render={TopListCardPresenter}
-      renderLabel={Label}
-      renderMetric={Metric}
+      Renderer={TopListCardPresenter}
+      Label={Label}
+      Metric={Metric}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
       websiteLabel={websiteLabel}

@@ -20,10 +20,10 @@ export default function TopListPresenter(props) {
     selectedCompanionMetric,
     selectedCompanionMetricFormatter,
     selectedMetricColor,
-    renderViewAll,
-    renderLabel,
-    renderMetric,
-    renderCompanionMetric,
+    ViewAll,
+    Label,
+    Metric,
+    CompanionMetric,
     getItemsFromResult = getItemsFromPaginatedResult,
     getMetricValueFromItem = getMetricValueFromItemWithMetricsHash
   } = props;
@@ -51,31 +51,32 @@ export default function TopListPresenter(props) {
             metricValue,
             formattedMetricValue
           };
-          const renderedMetric = renderMetric ? renderMetric(renderProps) : formattedMetricValue;
+          const MetricRenderer = () => (Metric ? <Metric {...renderProps} /> : <span>{formattedMetricValue}</span>);
 
-          let renderedCompanionMetric;
+          let CompanionMetricRenderer;
           if (selectedCompanionMetric) {
             const companionValue = getMetricValueFromItem(selectedCompanionMetric, item);
             const formattedCompanionMetric = selectedCompanionMetricFormatter(companionValue);
-            renderedCompanionMetric = renderCompanionMetric
-              ? renderCompanionMetric({ formattedCompanionMetric })
-              : formattedCompanionMetric;
+            CompanionMetricRenderer = CompanionMetric
+              ? () => <CompanionMetric formattedCompanionMetric={formattedCompanionMetric} />
+              : () => <span>{formattedCompanionMetric}</span>;
           }
+          const LabelRenderer = () => <Label {...renderProps} className={locals.label} />;
           return (
             <Row
               key={i}
-              renderedMetric={renderedMetric}
+              Metric={MetricRenderer}
               metricValue={metricValue}
-              renderedCompanionMetric={renderedCompanionMetric}
+              CompanionMetric={CompanionMetricRenderer}
               maxValue={maxValue}
-              label={renderLabel(renderProps, item, locals.label)}
+              Label={LabelRenderer}
               color={selectedMetricColor}
             />
           );
         })}
       </ol>
 
-      {renderViewAll && <ViewAllWrapper {...props} items={items} />}
+      {ViewAll && <ViewAllWrapper {...props} items={items} />}
     </div>
   );
 }

@@ -31,10 +31,10 @@ export default function ErrorTopList({ websiteId, pageId, timeConfig, tagFilters
       aggregations={aggregations}
       formatters={formatters}
       getList={getList}
-      render={TopListCardPresenter}
-      renderViewAll={ViewAll}
-      renderLabel={Label}
-      renderMetric={Metric}
+      Renderer={TopListCardPresenter}
+      ViewAll={ViewAll}
+      Label={Label}
+      Metric={Metric}
       websiteId={websiteId}
       pageId={pageId}
       timeConfig={timeConfig}
@@ -65,7 +65,7 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ websiteId, selectedMetric }, className) {
+function ViewAll({ websiteId, selectedMetric, className }) {
   return (
     <Link
       className={className}

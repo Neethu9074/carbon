@@ -161,7 +161,7 @@ export default connectTo(
         </Table>
         <div className={locals.viewAllWrapper}>
           <ViewAllWrapper
-            renderViewAll={ViewAll}
+            ViewAll={ViewAll}
             viewAllHref$={getPodDashboard(pod.id, { tab: '/containers' })}
             presentedStates={presentedStates}
             className={locals.viewAllLink}
@@ -172,7 +172,7 @@ export default connectTo(
   }
 );
 
-function ViewAll({ viewAllHref$, presentedStates }, className) {
+function ViewAll({ viewAllHref$, presentedStates, className }) {
   return (
     <Link className={className} href$={viewAllHref$}>
       {presentedStates.length > 1

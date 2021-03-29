@@ -29,10 +29,10 @@ export default function ErrorTypesTopList({ mobileAppId, mobileAppLabel, timeCon
       aggregations={aggregations}
       formatters={formatters}
       getList={getList}
-      render={TopListCardPresenter}
-      renderViewAll={ViewAll}
-      renderLabel={Label}
-      renderMetric={Metric}
+      Renderer={TopListCardPresenter}
+      ViewAll={ViewAll}
+      Label={Label}
+      Metric={Metric}
       mobileAppId={mobileAppId}
       mobileAppLabel={mobileAppLabel}
       timeConfig={timeConfig}
@@ -65,7 +65,7 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ tagFilters, mobileAppLabel }, className) {
+function ViewAll({ tagFilters, mobileAppLabel, className }) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   return (
     <Link

@@ -31,10 +31,10 @@ export default function PagesTopList({ websiteId, timeConfig, tagFilters, urlMat
       aggregations={aggregations}
       formatters={formatters}
       getList={getList}
-      render={TopListCardPresenter}
-      renderViewAll={ViewAll}
-      renderLabel={Label}
-      renderMetric={Metric}
+      Renderer={TopListCardPresenter}
+      ViewAll={ViewAll}
+      Label={Label}
+      Metric={Metric}
       websiteId={websiteId}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
@@ -67,7 +67,7 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ websiteId, selectedMetric }, className) {
+function ViewAll({ websiteId, selectedMetric, className }) {
   return (
     <Link
       className={className}

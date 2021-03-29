@@ -39,13 +39,13 @@ export default withState(
       <ConditionsPresenter conditions={presentedConditions} />
 
       <div className={locals.viewAllWrapper}>
-        <ViewAllWrapper renderViewAll={ViewAll} viewAllHref$={viewAllHref$} className={locals.viewAllLink} />
+        <ViewAllWrapper ViewAll={ViewAll} viewAllHref$={viewAllHref$} className={locals.viewAllLink} />
       </div>
     </Card>
   );
 });
 
-function ViewAll({ viewAllHref$ }, className) {
+function ViewAll({ viewAllHref$, className }) {
   return (
     <Link className={className} href$={viewAllHref$}>
       {t('in-kubernetes:dashboards.viewAllConditions')}

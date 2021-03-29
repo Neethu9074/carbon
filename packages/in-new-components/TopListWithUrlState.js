@@ -5,6 +5,7 @@
 
 import { useObservable } from '@instana/hooks';
 import invariant from 'invariant';
+import React from 'react';
 
 import { track, TOPLIST_ROW_NAVIGATION } from 'in-services/tracking/tracking';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -70,5 +71,7 @@ export function TopListWithUrlState(props) {
   const result =
     useObservable(props.getList(newProps), [...Object.values(props), newProps.selectedMetric]) ?? pendingResult;
 
-  return props.render({ ...newProps, result: result });
+  const Renderer = props.Renderer;
+
+  return <Renderer {...newProps} result={result} />;
 }

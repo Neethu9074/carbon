@@ -40,10 +40,10 @@ export default function GraphqlOperationsTopList({
       aggregations={aggregations}
       formatters={formatters}
       getList={getList}
-      render={TopListCardPresenter}
-      renderViewAll={ViewAll}
-      renderLabel={Label}
-      renderMetric={Metric}
+      Renderer={TopListCardPresenter}
+      ViewAll={ViewAll}
+      Label={Label}
+      Metric={Metric}
       websiteId={websiteId}
       websiteLabel={websiteLabel}
       timeConfig={timeConfig}
@@ -78,7 +78,7 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ tagFilters, websiteLabel, tagCatalogHttpRequest }, className) {
+function ViewAll({ tagFilters, websiteLabel, tagCatalogHttpRequest, className }) {
   return (
     <Link
       className={className}

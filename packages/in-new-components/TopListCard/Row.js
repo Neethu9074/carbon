@@ -17,8 +17,9 @@ export default function TopListRow(props) {
     wrapContributedItem = wrapContributedItem,
     metricValue,
     maxValue,
-    renderedMetric,
-    renderedCompanionMetric,
+    Label,
+    Metric,
+    CompanionMetric,
     renderedContributedItem,
     color
   } = props;
@@ -29,11 +30,21 @@ export default function TopListRow(props) {
   return (
     <li className={locals.topListRow}>
       <div className={locals.titles}>
-        {wrapLabel(<span className={locals.label}>{props.label}</span>)}
+        {wrapLabel(
+          <span className={locals.label}>
+            <Label />
+          </span>
+        )}
         {wrapMetric(
           <div className={locals.metricWrapper}>
-            <span className={locals.metric}>{renderedMetric}</span>
-            {renderedCompanionMetric && <span className={locals.companion}>{renderedCompanionMetric}</span>}
+            <span className={locals.metric}>
+              <Metric />
+            </span>
+            {CompanionMetric && (
+              <span className={locals.companion}>
+                <CompanionMetric />
+              </span>
+            )}
           </div>
         )}
       </div>

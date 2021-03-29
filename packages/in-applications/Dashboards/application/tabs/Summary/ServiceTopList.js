@@ -48,11 +48,11 @@ export default function ServiceTopList({
       companionAggregations={companionAggregations}
       companionFormatters={companionFormatters}
       getList={getList}
-      render={TopListCardPresenter}
-      renderViewAll={ViewAll}
-      renderLabel={Label}
-      renderMetric={Metric}
-      renderCompanionMetric={RenderCompanionMetric}
+      Renderer={TopListCardPresenter}
+      ViewAll={ViewAll}
+      Label={Label}
+      Metric={Metric}
+      CompanionMetric={CompanionMetric}
       timeConfig={timeConfig}
       applicationId={applicationId}
       boundaryScope={boundaryScope}
@@ -105,7 +105,7 @@ function getList({
   });
 }
 
-function ViewAll({ applicationId, boundaryScope, selectedMetric, syntheticCalls }, className) {
+function ViewAll({ applicationId, boundaryScope, selectedMetric, syntheticCalls, className }) {
   return (
     <Link
       className={className}
@@ -124,7 +124,7 @@ function ViewAll({ applicationId, boundaryScope, selectedMetric, syntheticCalls 
   );
 }
 
-function Label({ item, applicationId, boundaryScope, syntheticCalls }, _item, className) {
+function Label({ item, applicationId, boundaryScope, syntheticCalls, className }) {
   return (
     <Link
       className={className}
@@ -140,6 +140,6 @@ function Metric({ formattedMetricValue }) {
   return formattedMetricValue;
 }
 
-function RenderCompanionMetric({ formattedCompanionMetric }) {
+function CompanionMetric({ formattedCompanionMetric }) {
   return <span className={locals.companion}>({formattedCompanionMetric})</span>;
 }

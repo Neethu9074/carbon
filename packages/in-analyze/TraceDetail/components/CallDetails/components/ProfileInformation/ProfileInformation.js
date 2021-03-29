@@ -146,7 +146,7 @@ function Content({ processSnapshotId, to, windowSize, time }) {
       />
 
       <ViewAllWrapper
-        renderViewAll={ViewAll}
+        ViewAll={ViewAll}
         viewAllHref$={getLinkToProfiles({ processSnapshotId, start: to - windowSize, end: to, time })}
       />
     </div>
@@ -185,7 +185,7 @@ function ProfileStackTrace({ processSnapshotId, cpuProfile, to, windowSize, time
   );
 }
 
-function ViewAll({ viewAllHref$ }, className) {
+function ViewAll({ viewAllHref$, className }) {
   return (
     <Link className={className} href$={viewAllHref$}>
       {t('in-analyze:traceDetail.components.callDetails.analyzeProfiles')}

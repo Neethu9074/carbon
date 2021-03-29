@@ -43,10 +43,10 @@ export default function PageTopList({
       aggregations={aggregations}
       formatters={formatters}
       getList={getList}
-      render={TopListCardPresenter}
-      renderViewAll={ViewAll}
-      renderLabel={Label}
-      renderMetric={Metric}
+      Renderer={TopListCardPresenter}
+      ViewAll={ViewAll}
+      Label={Label}
+      Metric={Metric}
       websiteId={websiteId}
       websiteLabel={websiteLabel}
       timeConfig={timeConfig}
@@ -83,7 +83,7 @@ function getList({ tagFilters, timeConfig, selectedMetric, selectedMetricAggrega
   });
 }
 
-function ViewAll({ tagFilters, websiteLabel, beaconType, tagCatalogs }, className) {
+function ViewAll({ tagFilters, websiteLabel, beaconType, tagCatalogs, className }) {
   return (
     <Link
       className={className}

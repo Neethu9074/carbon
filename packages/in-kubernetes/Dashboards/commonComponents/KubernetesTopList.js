@@ -27,10 +27,10 @@ export default function KubernetesTopList(props) {
       aggregations={props.aggregations || aggregations}
       formatters={props.formatters || formatters}
       getList={getList}
-      render={Renderer}
-      renderViewAll={ViewAll}
-      renderLabel={Label}
-      renderMetric={props.renderMetric || Metric}
+      Renderer={Renderer}
+      ViewAll={ViewAll}
+      Label={Label}
+      Metric={props.renderMetric ? <span>{props.renderMetric}</span> : Metric}
       {...props}
     />
   );
@@ -69,7 +69,7 @@ function getList({
   });
 }
 
-function ViewAll({ entityNameKey, allItemsHref$, items }, className) {
+function ViewAll({ entityNameKey, allItemsHref$, items, className }) {
   const key = entityNameKey || 'unknownEntity';
   return (
     <Link className={className} href$={allItemsHref$}>
@@ -85,7 +85,7 @@ function ViewAll({ entityNameKey, allItemsHref$, items }, className) {
   );
 }
 
-function Label({ item, getItemHref$, getItemLabel }, _item, className) {
+function Label({ item, getItemHref$, getItemLabel, className }) {
   return (
     <Link className={className} href$={getItemHref$(item)} onClick={() => trackTopListNavigation()}>
       {getItemLabel(item)}

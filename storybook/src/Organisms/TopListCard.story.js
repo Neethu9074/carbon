@@ -157,14 +157,14 @@ function TopListItem({ title = 'Top Something', result }) {
       onChangeMetric={onChangeMetric}
       selectedMetric="selfLatency"
       selectedMetricFormatter={millis.compact}
-      renderViewAll={ViewAll}
-      renderLabel={Label}
-      renderMetric={Metric}
+      ViewAll={ViewAll}
+      Label={Label}
+      Metric={Metric}
     />
   );
 }
 
-function ViewAll(props, className) {
+function ViewAll({ className }) {
   return (
     <Link className={className} href="https://instana.com">
       View All
@@ -172,7 +172,7 @@ function ViewAll(props, className) {
   );
 }
 
-function Label({ item }, _item, className) {
+function Label({ item, className }) {
   return (
     <Fragment>
       <SvgIcon type="lib_application_endpoint" size="xs" style={{ marginRight: '0.5rem' }} />
