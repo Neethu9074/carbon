@@ -61,7 +61,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.aceMessageFlow.flowNodeNumber', { number: rows.length })}
+        cardTitle={t('in-forge:plugins.aceMessageFlow.flowNodeNumber', { count: rows.length })}
         cols={cols}
         rows={rows}
       />

@@ -536,11 +536,13 @@
       "connectionAccepted": "Connection Accepted",
       "name": "Name",
       "quiesceState": "Quiesce State",
-      "domainsNumber": "Domains ({{number}})",
+      "domainsNumber": "Domain ({{count}})",
+      "domainsNumber_plural": "Domains ({{count}})",
       "administrativeStatus": "Administrative State",
       "operStatus": "Operational  State",
       "ipAddress": "IP Address",
-      "ethernetInterfacesNumber": "Ethernet Interfaces ({{number}})",
+      "ethernetInterfacesNumber": "Ethernet Interface ({{count}})",
+      "ethernetInterfacesNumber_plural": "Ethernet Interfaces ({{count}})",
       "tcpSummaryId": "ID",
       "tcpSummaryClosed": "TCP Summary Closed",
       "tcpSummaryClosewait": "TCP Summary Close Wait",
@@ -566,7 +568,8 @@
       "clusterName": "Cluster Name",
       "applianceName": "Appliance Name",
       "status": "Status",
-      "applianceNumber": "Appliances ({{number}})"
+      "applianceNumber": "Appliance ({{count}})",
+      "applianceNumber_plural": "Appliances ({{count}})"
     },
     "ibmDataPowerDomain": {
       "ibmDataPowerDomainInfo": "IBM DataPower Domain",
@@ -576,11 +579,14 @@
       "domainName": "Domain Name",
       "remoteHost": "Remote Host",
       "state": "State",
-      "queueManagersNumber": "Queue Managers ({{number}})",
+      "queueManagersNumber": "Queue Manager ({{count}})",
+      "queueManagersNumber_plural": "Queue Managers ({{count}})",
       "serviceClass": "Service Class",
       "localIP": "Local IP",
-      "serviceNumber": "Services ({{number}})",
-      "sqlDatasourceNumber": "SQL Data Sources  ({{number}})"
+      "serviceNumber": "Service ({{count}})",
+      "serviceNumber_plural": "Services ({{count}})",
+      "sqlDatasourceNumber": "SQL Data Source ({{count}})",
+      "sqlDatasourceNumber_plural": "SQL Data Sources ({{count}})"
     },
     "ibmDataPowerEthernetInterface": {
       "ibmDataPowerEthernetInterfaceInfo": "IBM DataPower Ethernet Interface",
@@ -631,7 +637,8 @@
       "integrationNodeInfo": "IBM ACE Integration Node",
       "serverName": "Server Name",
       "status": "Status",
-      "integrationServerNumber": "Integration Servers ({{number}})",
+      "integrationServerNumber": "Integration Server ({{count}})",
+      "integrationServerNumber_plural": "Integration Servers ({{count}})",
       "brokerName": "Broker Name",
       "type": "Type",
       "defaultQueueManagerName": "Default Queue Manager Name",
@@ -664,7 +671,8 @@
       "cumulativeGCTimeInSeconds": "Garbage Collection Duration",
       "messageFlowName": "Message Flow Name",
       "status": "Status",
-      "messageFlowNumber": "Message Flows ({{number}})"
+      "messageFlowNumber": "Message Flow ({{count}})",
+      "messageFlowNumber_plural": "Message Flows ({{count}})"
     },
     "aceMessageFlow": {
       "messageFlowInfo": "IBM ACE Message Flow",
@@ -700,7 +708,8 @@
       "backouts": "Number of Transaction Backouts",
       "flowNodeName": "Flow Node Name",
       "nodeType": "Node Type",
-      "flowNodeNumber": "Flow Nodes ({{number}})"
+      "flowNodeNumber": "Flow Node ({{count}})",
+      "flowNodeNumber_plural": "Flow Nodes ({{count}})"
     },
     "aceFlowNode": {
       "flowNodeInfo": "IBM ACE Flow Node",

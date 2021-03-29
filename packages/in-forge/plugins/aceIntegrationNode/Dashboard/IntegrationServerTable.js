@@ -61,7 +61,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.aceIntegrationNode.integrationServerNumber', { number: rows.length })}
+        cardTitle={t('in-forge:plugins.aceIntegrationNode.integrationServerNumber', { count: rows.length })}
         cols={cols}
         rows={rows}
       />
