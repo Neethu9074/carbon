@@ -32,7 +32,7 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 export default function AlertConfigDialogWithThreshold(props) {
-  const { form, updateForm, onClose, onCreate } = props;
+  const { form, updateForm, onClose, onCreate, editMode } = props;
 
   const [simpleMode, setSimpleMode] = useState(!props.editMode);
 
@@ -76,7 +76,8 @@ export default function AlertConfigDialogWithThreshold(props) {
         .filter(resp => resp && !resp.progress.loading)
         .tap(
           ({ data, errors, time }) =>
-            isValid && updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode)
+            isValid &&
+            updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode, editMode)
         ),
     [form, simpleMode, isValid]
   );

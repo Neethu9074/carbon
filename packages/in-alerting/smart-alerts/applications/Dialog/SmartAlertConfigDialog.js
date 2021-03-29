@@ -68,7 +68,8 @@ function SmartAlertConfigDialogWithQueryValidation({
         .filter(resp => resp && !resp.progress.loading)
         .tap(
           ({ data, errors, time }) =>
-            isValid && updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode)
+            isValid &&
+            updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode, editMode)
         ),
     [form, simpleMode, isValid]
   );
