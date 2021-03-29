@@ -246,7 +246,7 @@ export default function SmartAlertsBaseList({
       </Ul>
       <Pagination
         currentPage={page}
-        numPages={Math.trunc(
+        numPages={Math.ceil(
           (isGlobalSmartAlertConfig ? numberGlobalSmartAlertConfigs : numberLocalSmartAlertConfigs) / pageSize
         )}
         onChange={newPage => setUrlState({ page: newPage })}
