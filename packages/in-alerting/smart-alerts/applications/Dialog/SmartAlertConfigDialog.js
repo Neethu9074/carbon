@@ -15,7 +15,6 @@ import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
 
@@ -48,14 +47,16 @@ function SmartAlertConfigDialogWithQueryValidation({
   const { form, updateForm, editMode, isGlobalSmartAlert } = props;
   const [simpleMode, setSimpleMode] = useState(!editMode && !props.isGlobalSmartAlert);
 
-  const applications = form.get('applications').value;
-  const applicationId = firstApplicationId(applications);
-
+  const applications = Object.values(form.get('applications').value);
   const boundaryScope = form.get('boundaryScope').value;
-  const AlertQueryBuilder = useMemo(() => createBoundedAlertQueryBuilder(applicationId, boundaryScope), [
-    applicationId,
-    boundaryScope
-  ]);
+  const AlertQueryBuilder = useMemo(
+    () =>
+      createBoundedAlertQueryBuilder(
+        applications?.map(a => a.applicationId),
+        boundaryScope
+      ),
+    [applications, boundaryScope]
+  );
 
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
