@@ -20,7 +20,7 @@ export const idpTypes = [
   },
   {
     key: 'KEYCLOAK',
-    label: 'Keycloack'
+    label: 'Keycloak'
   }
 ];
 
