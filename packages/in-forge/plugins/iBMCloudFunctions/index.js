@@ -15,6 +15,5 @@ registerSnapshotDefinition({
     label: 'IBM Cloud Functions'
   },
   kpiDefinitions,
-  metricDefinitions,
-
+  metricDefinitions
 });

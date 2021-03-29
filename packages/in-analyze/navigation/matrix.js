@@ -31,3 +31,4 @@ export const orderDirection = 'orderDirection';
 // trace detail view
 export const traceId = 'traceId';
 export const callId = 'callId';
+export const logId = 'logId';

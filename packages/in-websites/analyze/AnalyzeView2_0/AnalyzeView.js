@@ -240,14 +240,24 @@ export default function WebsiteAnalyzeView() {
           <GroupedBeacons
             {...opts}
             getFacetedSearchSuggestions={getFacetedSearchSuggestions}
+            getLabel={getLabel}
             useLastValidStateWhenErroneous
           />
         ) : (
-          <Beacons {...opts} getFacetedSearchSuggestions={getFacetedSearchSuggestions} useLastValidStateWhenErroneous />
+          <Beacons
+            {...opts}
+            getFacetedSearchSuggestions={getFacetedSearchSuggestions}
+            useLastValidStateWhenErroneous
+            getFacetedGroupLabel={getLabel}
+          />
         )
       }
     </StateManagement>
   );
+}
+
+function getLabel(item) {
+  return JSON.parse(item.name);
 }
 
 function createMetricCatalogFilter(dataSource) {

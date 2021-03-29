@@ -7,11 +7,15 @@ import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import CustomDataDescriptionItem from 'in-forge/tracing/sdk/CustomDataDescriptionItem';
+import SidebarTagList from 'in-analyze/TraceDetail/components/CallDetails/components/SidebarTagList';
 import convert from 'in-analyze/TraceDetail/components/CallDetails/fakedSpanConverter';
+import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import SpanForgeDetails from 'in-components/SpanForgeDetails/SpanForgeDetails';
 import { getSpanDefinition, getTypeLabelSingular } from 'in-sdk/tracing';
 import { Di, Dl } from 'in-new-components/HorizontalDescriptionList';
+import { expandNestedSerializedJson } from 'in-services/util/json';
+import { flatten } from 'in-forge/tracing/sdk/flatten';
+import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -52,8 +56,41 @@ export default connectTo(
           <Di title={t('in-analyze:traceDetail.components.callDetails.category')}>{spanDefinition.category}</Di>
         </Dl>
         <SpanForgeDetails key={call.id} span={convertedSpan} />
-        <CustomDataDescriptionItem span={convertedSpan} />
+        <CustomTags span={convertedSpan} />
       </Fragment>
     );
   }
 );
+
+function CustomTags({ span }) {
+  let custom = span.getIn(['data', 'sdk', 'custom', 'tags']);
+  if (!custom || custom.isEmpty()) {
+    return null;
+  }
+
+  const speciallyRenderedTags = [
+    // span.data.sdk.custom.tags.message is to be rendered using ErrorDescriptionItem
+    'message'
+  ];
+
+  const errorMessage = span.getIn(['data', 'sdk', 'custom', 'tags', 'message']);
+  custom = custom.filter((value, key) => !speciallyRenderedTags.includes(key));
+  let tags = flatten(expandNestedSerializedJson(custom.toJS()));
+  tags = Object.keys(tags).map(key => ({
+    name: key,
+    value: String(tags[key])
+  }));
+
+  return (
+    <>
+      {errorMessage && (
+        <Dl>
+          <ErrorDescriptionItem error={errorMessage} />
+        </Dl>
+      )}
+      <Card title={'Tags'} withoutPadding>
+        <SidebarTagList tags={tags} />
+      </Card>
+    </>
+  );
+}

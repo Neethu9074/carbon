@@ -61,6 +61,7 @@ export default function GroupedAnalyzeView(props) {
     isValid,
     selectableFields,
     fixedFields,
+    getItemLabel,
     onSelectableFieldsChange,
     metricCatalog,
     metricCatalogFilter,
@@ -70,7 +71,6 @@ export default function GroupedAnalyzeView(props) {
     onFormModelChange,
     getHrefWithTagFilterExpression,
     groupedViewConfiguration,
-    getItemLabel,
     itemlabelColumnId,
     onChartableDataSeriesChange,
     withSamplingTooltip,
@@ -90,7 +90,7 @@ export default function GroupedAnalyzeView(props) {
 
   const labelColumnDefinitions = labelColumns({
     itemlabelColumnId,
-    getItemLabel,
+    getLabel,
     showChartGroupMarkers,
     groupColors
   });
@@ -159,13 +159,20 @@ export default function GroupedAnalyzeView(props) {
         }))
       );
     }
+
+    onChartableDataSeriesChange(
+      items.slice(0, 5).map(item => ({
+        label: getLabel(item),
+        formModel: addGroupingCriteriaToFormModel(groupBy, getLabel(item), formModel, groupingTagCatalog)
+      }))
+    );
   }, [
     items,
     isLoading,
     hasErrors,
     onChartableDataSeriesChange,
     formModel,
-    getItemLabel,
+    getLabel,
     groupBy,
     dataSource,
     groupingTagCatalog
@@ -255,6 +262,7 @@ export default function GroupedAnalyzeView(props) {
             getHrefToGroupedView={getHrefToGroupedView}
             dataSource={dataSource}
             isValid={isValid}
+            getFacetedGroupLabel={getLabel}
             getSuggestions={tag =>
               getFacetedSearchSuggestions({
                 timeConfig,
@@ -337,7 +345,7 @@ export default function GroupedAnalyzeView(props) {
   );
 }
 
-function labelColumns({ itemlabelColumnId, getItemLabel, showChartGroupMarkers, groupColors }) {
+function labelColumns({ itemlabelColumnId, getLabel, showChartGroupMarkers, groupColors }) {
   let i = 0;
   return [
     ...(showChartGroupMarkers
@@ -372,7 +380,7 @@ function labelColumns({ itemlabelColumnId, getItemLabel, showChartGroupMarkers, 
             </span>
           );
         }
-        return <KeyValue label={label} customValue={<GroupLabelTooltip groupName={getItemLabel(item)} />} />;
+        return <KeyValue label={label} customValue={<GroupLabelTooltip groupName={getLabel(item)} />} />;
       }
     }
   ];

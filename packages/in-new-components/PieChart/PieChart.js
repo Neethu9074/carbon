@@ -42,14 +42,13 @@ const PieChartWrapper = props => {
   // a valid behavior and we need to cope with this accordingly.
   const metricsWithDataPoints = metrics.filter(eachMetric => eachMetric.length > 0);
 
-  const sum =
-    useMemo(
-      () =>
-        metricsWithDataPoints
-          .filter((_, i) => !hiddenMetrics.includes(i))
-          .reduce((acc, m2) => acc + (m2[0]?.[1] || 0), 0),
-      [metricsWithDataPoints, hiddenMetrics]
-    );
+  const sum = useMemo(
+    () =>
+      metricsWithDataPoints
+        .filter((_, i) => !hiddenMetrics.includes(i))
+        .reduce((acc, m2) => acc + (m2[0]?.[1] || 0), 0),
+    [metricsWithDataPoints, hiddenMetrics]
+  );
 
   const sumForSliceCalculation = sum + metricsWithDataPoints.length * sliceGap;
 

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-export function getLogLevel(log) {
-  const match = log.tags.filter(({ tag }) => tag.label === 'log.level')[0];
-  return match ? match.value : undefined;
+export function getLogLevel(logTags) {
+  const match = logTags.filter(({ name }) => name === 'log.level')[0];
+  return match ? match.stringValue ?? match.booleanValue ?? match.doubleValue ?? match.longValue : undefined;
 }

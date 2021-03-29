@@ -16,7 +16,8 @@
     pointer-events: none;
   }
 
-  .left, .right {
+  .left,
+  .right {
     position: absolute;
     top: -1rem;
   }

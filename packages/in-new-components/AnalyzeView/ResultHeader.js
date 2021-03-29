@@ -41,7 +41,7 @@ export default function ResultHeader({
         </span>
       ) : (
         <>
-          <span className={locals.number}>{getItemName({ count: resultCount })}</span>
+          {getItemName && <span className={locals.number}>{getItemName({ count: resultCount })}</span>}
           {showSamplingTooltip && (
             <TimeIcon
               theme="light"
@@ -64,7 +64,7 @@ export default function ResultHeader({
 
 ResultHeader.propTypes = {
   label: rpt.string,
-  getItemName: rpt.func.isRequired,
+  getItemName: rpt.func,
   totalRepresentedItemCount: rpt.number,
   totalHits: rpt.number,
   adjustedWindowSize: rpt.number,

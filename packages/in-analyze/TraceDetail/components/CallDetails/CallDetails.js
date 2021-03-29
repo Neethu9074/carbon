@@ -102,14 +102,10 @@ function CallDetails(props) {
 }
 
 function CloseButton({ onClick }) {
+  const closeLabel = t('in-analyze:traceDetails.callDetails.tooltipCloseCallDetails');
   return (
-    <Tooltip content={t('in-analyze:traceDetails.callDetails.tooltipCloseCallDetails')}>
-      <SvgIcon
-        className={locals.closeIcon}
-        onClick={onClick}
-        aria-label={t('in-analyze:traceDetails.callDetails.tooltipCloseCallDetails')}
-        type="lib_openclose_cancel"
-      />
+    <Tooltip content={closeLabel}>
+      <SvgIcon onClick={onClick} aria-label={closeLabel} type="lib_openclose_cancel" />
     </Tooltip>
   );
 }

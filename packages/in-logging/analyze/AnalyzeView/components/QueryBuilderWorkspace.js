@@ -16,7 +16,6 @@ import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionS
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-new-components/workspace/Sections';
-import { warning } from 'in-new-components/Message/types';
 import { error } from 'in-new-components/Message/types';
 import Stack from 'in-new-components/layout/Stack';
 import Message from 'in-new-components/Message';
@@ -40,10 +39,6 @@ export default function LoggingQueryBuilderWorkspace({
     <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />}>
       <LeftRightPadding>
         <Stack space="gutter">
-          <Message type={warning} withIcon small>
-            {t('in-logging:thisIsAnAlphaVersionOfANewProductCapabilityWeAdviseYouNotToRelyOnTheDataPresented')}
-          </Message>
-
           <Sections>
             <QueryBuilderSection
               value={formModel}
@@ -51,6 +46,7 @@ export default function LoggingQueryBuilderWorkspace({
               QueryBuilder={LogsQueryBuilder}
               hasError={isInvalid}
               useLastValidStateWhenErroneous
+              getSuggestionLabel={({ item }) => item}
             />
 
             <GroupingConfiguratorSection

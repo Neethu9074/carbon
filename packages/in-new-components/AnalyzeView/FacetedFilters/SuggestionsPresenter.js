@@ -124,7 +124,9 @@ function Results({
               style={{ textDecoration: 'none' }}
             >
               <span className={locals.label}>{customLabelMapper(suggestion.name)}</span>
-              <span className={locals.count}>{siPrefix.detailed(suggestion.metrics.facetedSearchMetric[0][1])}</span>
+              {suggestion.metrics && (
+                <span className={locals.count}>{siPrefix.detailed(suggestion.metrics.facetedSearchMetric[0][1])}</span>
+              )}
             </Link>
           </Tooltip>
         </div>

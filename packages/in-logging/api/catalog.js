@@ -9,7 +9,7 @@ import { emptyObject } from 'in-services/fixedObjects';
 import { minutes } from 'in-services/time/time';
 import http from 'in-services/http';
 
-const basePath = '/api/logging/catalog';
+const basePath = '/api/logging-v2/catalog';
 
 export const getTagCatalog = memoize(
   getTagCatalogInternal,

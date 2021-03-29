@@ -28,20 +28,11 @@ export default function Header(props) {
     withSamplingTooltip,
     withGrouping,
     withResultsInGroups,
+    withCountHeader = true,
     MetricConfiguratorHint
   } = props;
   return (
     <div className={locals.wrapper}>
-      <CountHeader
-        totalRepresentedItemCount={totalRepresentedItemCount}
-        totalHits={totalHits}
-        getItemName={getItemName}
-        getHitName={getHitName}
-        withSamplingTooltip={withSamplingTooltip}
-        withGrouping={withGrouping}
-        withResultsInGroups={withResultsInGroups}
-      />
-
       <HorizontalFlexWrapper>
         {CustomHeaderActions && <CustomHeaderActions {...props} />}
         <MetricAndSortingConfigurator
@@ -55,6 +46,18 @@ export default function Header(props) {
           MetricConfiguratorHint={MetricConfiguratorHint}
         />
       </HorizontalFlexWrapper>
+
+      {withCountHeader && (
+        <CountHeader
+          totalRepresentedItemCount={totalRepresentedItemCount}
+          totalHits={totalHits}
+          getItemName={getItemName}
+          getHitName={getHitName}
+          withSamplingTooltip={withSamplingTooltip}
+          withGrouping={withGrouping}
+          withResultsInGroups={withResultsInGroups}
+        />
+      )}
     </div>
   );
 }

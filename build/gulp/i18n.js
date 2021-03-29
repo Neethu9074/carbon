@@ -89,10 +89,10 @@ async function addLocaleFileContent(combined, namespace, localeFilePath) {
 }
 
 function addPseudoLocale(combined) {
-  const pseudo = combined[pseudoLocale] = {};
+  const pseudo = (combined[pseudoLocale] = {});
   const enUs = combined['en-US'];
   for (const namespace of Object.keys(enUs)) {
-    const namespaceTranslations = pseudo[namespace] = {};
+    const namespaceTranslations = (pseudo[namespace] = {});
     addPseudoLocaleRecursive(enUs[namespace], namespaceTranslations);
   }
 }

@@ -25,7 +25,7 @@
 
   .listItem {
     color: white;
-    line-height: 1rem;
+    line-height: 0.875rem;
   }
 
   .listItem,
@@ -95,46 +95,6 @@
 
     font-size: 0.6875rem;
     font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
-  }
-
-  .timeSkeleton,
-  .logLevelSkeleton,
-  .messageSkeleton1,
-  .messageSkeleton2,
-  .messageSkeleton3 {
-    display: block;
-
-    height: 0.75rem;
-  }
-
-  .timeSkeleton {
-    width: 7.5rem;
-    margin-right: 0.5rem;
-  }
-
-  .logLevelSkeleton {
-    width: 2.75rem;
-    margin-right: 0.25rem;
-  }
-
-  .messageSkeleton1 {
-    width: 42%;
-  }
-
-  .messageSkeleton2 {
-    width: 32%;
-  }
-
-  .messageSkeleton3 {
-    width: 62%;
-  }
-
-  .tag_0 {
-    color: @lib__colors__orange800;
-  }
-
-  .tag_1 {
-    color: @lib__colors__light-blue800;
   }
 
   .message {

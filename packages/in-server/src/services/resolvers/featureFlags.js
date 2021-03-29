@@ -176,6 +176,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'loggingEnabledOnTrace',
+    instanaCtlKey: 'feature.logging.enabled.on.trace',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'showUserSettingInternalTagsInUA',
     instanaCtlKey: 'feature.show.user.setting.internal.tags.in.ua',
     defaultValue: false

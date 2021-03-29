@@ -15,6 +15,5 @@ registerSnapshotDefinition({
     label: 'IBM Cloud Object Storage'
   },
   kpiDefinitions,
-  metricDefinitions,
-
+  metricDefinitions
 });

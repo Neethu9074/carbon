@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { trackJumpToUnboundedAnalyticsFromSloWidget } from 'in-custom-dashboards/widgets/Slo/tracker';
 import stairway, { hourlyBudgetMetricId } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
@@ -18,8 +19,6 @@ import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
-
-const emptyTagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
 
 export default function Chart({
   result,

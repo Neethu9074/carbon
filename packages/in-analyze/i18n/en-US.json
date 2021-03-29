@@ -130,6 +130,8 @@
         "largeTrace": "Large Trace",
         "largeTraceLink": "This trace is large and rendering of this trace can result in performance problems within your browser. You can either <linkToDocs>download the trace</linkToDocs> for manual inspection or attempt trace rendering within your browser. We will only render a subset of the components in order to increase performance of this attempt.",
         "calls": "Calls",
+        "logs": "Logs",
+        "analyzeLogs": "View in analyze",
         "correspondingMobileAppActivity": "Corresponding Mobile App Activity",
         "hideMobileAppInformation": "Hide Mobile App Information",
         "showMobileAppInformation": "Show Mobile App Information",
@@ -332,6 +334,15 @@
       }
     }
   },
+  "logDetails": {
+    "title": "Log",
+    "titleTags": "Tags",
+    "titleParameters": "Parameters",
+    "tooltipCloseLogDetails": "Close log details",
+    "analyzeLogsLabel": "Analyze logs",
+    "similarLogs": "Similar logs",
+    "similarServiceLogs": "In context of the service"
+  },
   "traceDetails": {
     "titleAnalytics": "Analytics",
     "titleTrace": "Trace",
@@ -355,6 +366,7 @@
     "callDetails": {
       "tooltipCloseCallDetails": "Close call details"
     },
+
     "callTimeAxis": {
       "started": "Started: {{startedTime}}"
     },

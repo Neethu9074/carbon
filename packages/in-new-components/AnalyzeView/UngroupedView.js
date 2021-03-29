@@ -30,34 +30,36 @@ export default function UngroupedAnalyzeView(props) {
   const backendQueryModel = useStableObjectInstance(props.backendQueryModel);
 
   const {
-    getData,
-    orderBy,
-    onOrderByChange,
-    withoutHeader,
+    dataSource,
     detailId,
-    SplitScreenListItemContent,
     DetailView,
-    isValid,
-    selectableFields,
+    facetedSearchItems,
     fixedFields,
-    onSelectableFieldsChange,
+    formModel,
+    getData,
+    getFacetedGroupLabel,
+    getFacetedSearchSuggestions,
+    getHrefToGroupedView,
+    getHrefWithTagFilterExpression,
+    isValid,
     metricCatalog,
     metricCatalogFilter,
-    Presenter,
-    formModel,
-    dataSource,
-    facetedSearchItems,
-    getFacetedSearchSuggestions,
     onFormModelChange,
-    getHrefWithTagFilterExpression,
+    onOrderByChange,
+    onSelectableFieldsChange,
+    orderBy,
+    Presenter,
+    selectableFields,
+    SplitScreenListItemContent,
+    useCursorPaginationStrategy,
+    withoutHeader,
     withSamplingTooltip,
-    getHrefToGroupedView,
     ungroupedViewConfiguration
   } = props;
 
   const timeConfig = useTimeConfig();
-  const cursorPaginationState = useCursorPagination(
-    ({ cursor }) => (isValid ? getData({ timeConfig, orderBy, backendQueryModel, cursor }) : empty),
+  const cursorPaginationState = (useCursorPaginationStrategy ?? useCursorPagination)(
+    params => (isValid ? getData({ timeConfig, orderBy, backendQueryModel, ...params }) : empty),
     [isValid, timeConfig, backendQueryModel, orderBy]
   );
   const { items, errors, progress, totalHits, totalRepresentedItemCount } = cursorPaginationState;
@@ -154,6 +156,7 @@ export default function UngroupedAnalyzeView(props) {
             getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
             getHrefToGroupedView={getHrefToGroupedView}
             dataSource={dataSource}
+            getFacetedGroupLabel={getFacetedGroupLabel}
             isValid={isValid}
             getSuggestions={tag =>
               getFacetedSearchSuggestions({
@@ -197,7 +200,7 @@ function GroupedViewOnlyIndicator({ metricId, metricCatalog, getHasRawValue }) {
 UngroupedAnalyzeView.propTypes = {
   ...childrenArgsAsPropTypes,
 
-  getItemName: rpt.func.isRequired,
+  getItemName: rpt.func,
   withoutHeader: rpt.bool,
   getData: rpt.func.isRequired,
   getDetailData: rpt.func.isRequired,
@@ -214,7 +217,7 @@ UngroupedAnalyzeView.propTypes = {
 export const detailViewProps = {
   ...childrenArgsAsPropTypes,
   getId: rpt.func.isRequired,
-  getItemName: rpt.func.isRequired,
+  getItemName: rpt.func,
 
   isLoading: rpt.bool,
   hasErrors: rpt.bool,

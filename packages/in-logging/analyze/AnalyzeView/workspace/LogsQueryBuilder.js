@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import getTagSuggestions from 'in-logging/subscriptions/getTagSuggestions';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 import { getTagCatalog } from 'in-logging/api/catalog';
@@ -12,12 +13,14 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal } = createQueryBuilder(
   getSuggestions: params => {
     const { tagFilterExpression, tagName, timeConfig, propose, key, value } = params;
     return getTagSuggestions({
-      tagFilterExpression,
       timeConfig,
       tagName,
       key,
       value,
-      propose
+      propose,
+      logicalOperator: 'AND',
+      logTagFilterExpression: tagFilterExpression,
+      infraTagFilterExpression: emptyTagFilterExpression
     });
   }
 });

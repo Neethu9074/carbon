@@ -6,7 +6,9 @@
 import React from 'react';
 
 import ChartingConfiguratorSection from 'in-new-components/ChartingConfigurator/ChartingConfiguratorSection';
+import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './LogsDistributionChartSection.mless';
@@ -45,16 +47,18 @@ export default function LogsDistributionChartSection({ chartedMetrics, onCharted
             config={{
               y1: {
                 metrics: [
-                  {
-                    metric: metric.metricId,
-                    aggregation: metric.aggregationId,
-                    label: t('in-logging:logsOverTime'),
-                    source: 'DISTRIBUTED_LOGS',
-                    tagFilterExpression: backendQueryModel
-                  }
+                  getMetricConfig(
+                    backendQueryModel,
+                    metric,
+                    'ERROR',
+                    t('in-logging:logsOverTime', { context: 'ERROR' })
+                  ),
+                  getMetricConfig(backendQueryModel, metric, 'WARN', t('in-logging:logsOverTime', { context: 'WARN' })),
+                  getMetricConfig(backendQueryModel, metric, 'INFO', t('in-logging:logsOverTime', { context: 'INFO' }))
                 ],
+                colors: [theme.lib.colors.failure, theme.lib.colors.warning, theme.lib.colors.lightBlue800],
                 formatter: 'number.compact',
-                renderer: 'bar'
+                renderer: 'stackedBar'
               },
               y2: { metrics: [] },
               type: 'TIME_SERIES'
@@ -64,4 +68,26 @@ export default function LogsDistributionChartSection({ chartedMetrics, onCharted
       )}
     </div>
   );
+}
+
+function getMetricConfig(backendQueryModel, metric, logLevel, label) {
+  return {
+    metric: metric.metricId,
+    aggregation: metric.aggregationId,
+    label,
+    source: 'DISTRIBUTED_LOGS_V2',
+    logicalOperator: 'AND',
+    logTagFilterExpression: addLogLevelFilterTagToQueryModel(logLevel, backendQueryModel),
+    infraTagFilterExpression: emptyTagFilterExpression
+
+    // granularity and timeConfig are send automatically by the chart impl
+  };
+}
+
+function addLogLevelFilterTagToQueryModel(logLevel, backendQueryModel) {
+  return {
+    elements: [{ type: 'TAG_FILTER', name: 'log.level', value: logLevel, operator: 'EQUALS' }, backendQueryModel],
+    logicalOperator: 'AND',
+    type: 'EXPRESSION'
+  };
 }

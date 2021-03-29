@@ -27,6 +27,7 @@ export default function FacetedFilterGeneric({
   formModelExcludingMissingGroupingTag,
   tag,
   entity,
+  getFacetedGroupLabel,
   hiddenCalls,
   getUpdatedTagExpressionHref,
   getHrefToGroupedView,
@@ -47,6 +48,7 @@ export default function FacetedFilterGeneric({
         hiddenCalls={hiddenCalls}
         getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
         getHrefToGroupedView={getHrefToGroupedView}
+        getFacetedGroupLabel={getFacetedGroupLabel}
         dataSource={dataSource}
         getSuggestions={getSuggestions}
         customLabelMapper={customLabelMapper}
@@ -63,6 +65,7 @@ function Body({
   entity,
   title,
   hiddenCalls,
+  getFacetedGroupLabel,
   getUpdatedTagExpressionHref,
   getHrefToGroupedView,
   dataSource,
@@ -92,6 +95,7 @@ function Body({
       tag={tag}
       getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
       getHrefToGroupedView={getHrefToGroupedView}
+      getFacetedGroupLabel={getFacetedGroupLabel}
       valueFilter={valueFilter}
       setValueFilter={setValueFilter}
       dataSource={dataSource}
@@ -133,6 +137,7 @@ function SearchAndSuggestions({
   tag,
   getUpdatedTagExpressionHref,
   getHrefToGroupedView,
+  getFacetedGroupLabel,
   valueFilter,
   setValueFilter,
   dataSource,
@@ -177,7 +182,7 @@ function SearchAndSuggestions({
         errors={suggestions?.errors}
         suggestions={suggestions?.data?.items.map(item => ({
           ...item,
-          name: JSON.parse(item.name)
+          name: getFacetedGroupLabel(item)
         }))}
         getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
         getHrefToGroupedView={getHrefToGroupedView}

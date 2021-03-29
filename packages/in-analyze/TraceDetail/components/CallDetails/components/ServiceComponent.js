@@ -21,6 +21,7 @@ import ProfileInformation from 'in-analyze/TraceDetail/components/CallDetails/co
 import SpanDetails from 'in-analyze/TraceDetail/components/CallDetails/components/SpanDetails';
 import CallLogs from 'in-analyze/TraceDetail/components/CallDetails/components/CallLogs';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
+import { loggingEnabledOnTrace } from 'in-services/featureFlags';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
 import ExpandableGroup from 'in-new-components/ExpandableGroup';
 import Skeleton from 'in-new-components/Loading/Skeleton';
@@ -348,7 +349,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
   );
 
   function Logs() {
-    if (!canViewLogs || !logs || logs.length === 0) {
+    if (!canViewLogs || !logs || logs.length === 0 || loggingEnabledOnTrace) {
       return null;
     }
 
