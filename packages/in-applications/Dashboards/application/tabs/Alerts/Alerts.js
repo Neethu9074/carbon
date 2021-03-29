@@ -9,28 +9,19 @@ import React from 'react';
 import { getAllGlobalAlertConfigsRelatedToApplicationId } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import { getAllAlertConfigs } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
-import OldAlertsList from 'in-applications/Dashboards/application/tabs/Alerts/OldAlertsList';
-import { globalSmartAlertsEnabled } from 'in-services/featureFlags';
 import Footer from 'in-new-components/Footer/Footer';
 import Card from 'in-new-components/Card';
 
-export default function Alerts({ applicationName, applicationId }) {
+export default function Alerts({ applicationId }) {
   return (
     <>
       <Card>
-        {globalSmartAlertsEnabled ? (
-          <SmartAlertsBaseList
-            getLocalAlertConfigsFetchFunction={() => getAllAlertConfigs(applicationId, { asObservable: true })}
-            getGlobalAlertConfigFetchFunction={() =>
-              getAllGlobalAlertConfigsRelatedToApplicationId(applicationId, { asObservable: true })
-            }
-            localSmartAlertsListProps={{
-              applicationName
-            }}
-          />
-        ) : (
-          <OldAlertsList applicationName={applicationName} applicationId={applicationId} />
-        )}
+        <SmartAlertsBaseList
+          getLocalAlertConfigsFetchFunction={() => getAllAlertConfigs(applicationId, { asObservable: true })}
+          getGlobalAlertConfigFetchFunction={() =>
+            getAllGlobalAlertConfigsRelatedToApplicationId(applicationId, { asObservable: true })
+          }
+        />
       </Card>
       <Footer />
     </>
@@ -38,6 +29,5 @@ export default function Alerts({ applicationName, applicationId }) {
 }
 
 Alerts.propTypes = {
-  applicationName: PropTypes.string.isRequired,
   applicationId: PropTypes.string.isRequired
 };

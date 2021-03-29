@@ -5,7 +5,7 @@
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 
-export function updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode) {
+export function updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode, editMode) {
   const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
   const thresholdValueManuallyChanged = form.get('hiddenFields').get('thresholdValueManuallyChanged').value;
 
@@ -30,10 +30,11 @@ export function updateThresholdInForm(createThresholdForm, form, updateForm, dat
     }
 
     const shouldAddNewThresholdData =
-      simpleMode ||
-      currentThreshold.value == null ||
-      data?.type === 'historicBaseline' ||
-      !thresholdValueManuallyChanged;
+      !editMode &&
+      (simpleMode ||
+        currentThreshold.value == null ||
+        data?.type === 'historicBaseline' ||
+        !thresholdValueManuallyChanged);
 
     const updatedThresholdForm = createThresholdForm(
       {

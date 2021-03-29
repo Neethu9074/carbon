@@ -50,7 +50,20 @@
     margin-right: 1rem;
   }
 
-  .moreFilters {
+  .bigSpace {
+    margin-right: 2rem;
+  }
+
+  .moreItems {
     color: @lib__colors__N600Light;
+  }
+
+  .moreEntities {
+    .moreItems();
+    cursor: pointer;
+  }
+
+  .overlayContentWrapper {
+    width: 50rem;
   }
 }

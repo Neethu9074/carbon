@@ -45,7 +45,7 @@ function SmartAlertConfigDialogWithQueryValidation({
   enrichedTagFilterFormModel,
   ...props
 }) {
-  const { form, updateForm, editMode } = props;
+  const { form, updateForm, editMode, isGlobalSmartAlert } = props;
   const [simpleMode, setSimpleMode] = useState(!editMode && !props.isGlobalSmartAlert);
 
   const applications = form.get('applications').value;
@@ -72,10 +72,14 @@ function SmartAlertConfigDialogWithQueryValidation({
         isValid
       )
         .filter(resp => resp && !resp.progress.loading)
-        .tap(
-          ({ data, errors, time }) =>
-            isValid && updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode)
-        ),
+        .tap(({ data, errors, time }) => {
+          if (!isGlobalSmartAlert && isValid) {
+            updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode, editMode);
+          }
+          if (isGlobalSmartAlert) {
+            thresholdOrBaselineLoadingSignal$.emit(false);
+          }
+        }),
     [form, simpleMode, isValid]
   );
 

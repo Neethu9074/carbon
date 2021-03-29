@@ -34,4 +34,8 @@
   .customListItem {
     background: @lib__colors__white;
   }
+
+  .viewOnly {
+    cursor: not-allowed;
+  }
 }

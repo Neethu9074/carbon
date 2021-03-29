@@ -432,27 +432,27 @@
       },
       "components": {
         "createSmartAlert": "Add Smart Alert",
+        "createGlobalSmartAlert": "Add Global Smart Alert",
         "provideLogMessageSelectLogMessage": "Select Log Message",
         "provideLogMessageLogLevel": "Log Level",
         "provideLogMessageErrorMessage": "Error Message",
         "provideStatusCodeStatusCode": "Status Code"
       },
       "inventory": {
-        "titleSmartAlerts": "Smart Alerts",
-        "createGlobalSmartAlert": "Add Global Smart Alert",
+        "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
         "noData": "No Smart Alerts configured. Click the button below to configure you first smart alert.",
         "noPersmissionToCreateGlobalSmartAlert": "You don't have the permission to configure smart alerts. Please comtact your administrator.",
         "labelGlobalSmartAlertsList": "Global Application Smart Alerts ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Application Smart Alerts ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
         "labelName": "Name",
-        "labelFilters": "Filters",
         "labelActionButtonEdit": "Edit",
         "labelActionButtonDuplicate": "Duplicate",
-        "labelActionButtonPause": "Pause",
         "labelActionButtonDelete": "Delete",
         "noAlertConfigured": "No alert configured.",
-        "alertEntityName": "alert \"{{entityName}}\""
+        "alertEntityName": "alert \"{{entityName}}\"",
+        "labelAlertFilters": "Filters",
+        "numberOfApplicationsSelected": "{{numberApplicationsSelected}} applications selected"
       }
     },
     "components": {

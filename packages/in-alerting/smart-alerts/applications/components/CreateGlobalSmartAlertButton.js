@@ -46,7 +46,7 @@ export default function CreateGlobalSmartAlertButton({ renderAsSimpleButton, loc
       }}
       withBoxShadow
     >
-      {t('in-alerting:smartAlerts.applications.components.createSmartAlert')}
+      {t('in-alerting:smartAlerts.applications.components.createGlobalSmartAlert')}
     </Component>
   );
 }
@@ -66,10 +66,9 @@ function generateFormData() {
     },
     threshold: {
       type: 'staticThreshold',
-      value: 0.0,
       seasonality: 'DAILY'
     },
-    calculateThresholdOnBackend: true,
+    calculateThresholdOnBackend: false,
     includeSynthetic: false,
     applications: {}
   };

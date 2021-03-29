@@ -25,6 +25,7 @@ import AdvancedModeContainer from 'in-alerting/smart-alerts/applications/advance
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { t } from 'in-i18n';
 
 const logger = createLogger('in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper');
 
@@ -120,7 +121,10 @@ SmartAlertConfigDialogWrapper.propTypes = {
 
 function changeFormDataByCopyState(isCopy, formData) {
   if (isCopy) {
-    const changedFormData = { ...formData, name: `(Copy of) ${formData.name}` };
+    const changedFormData = {
+      ...formData,
+      name: t('in-alerting:smartAlerts.applications.inventory.titleCopyOf', { smartAlertTitle: formData.name })
+    };
     delete changedFormData.id;
     return changedFormData;
   }

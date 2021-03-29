@@ -17,6 +17,7 @@ import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import IconLabel from 'in-alerting/components/IconLabel';
+import { noop } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -25,14 +26,15 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/scope
 const columnDefinitions = [
   {
     width: '2.5rem',
-    getContent({ checked, indeterminate, onChange, virtuallyChecked }) {
+    getContent({ checked, indeterminate, onChange, virtuallyChecked, viewOnly }) {
       return (
         <CheckboxFancy
-          onChange={onChange}
+          onChange={viewOnly ? noop : onChange}
           checked={checked}
           indeterminate={indeterminate}
           size="large"
           className={classNames({
+            [locals.viewOnly]: viewOnly,
             [locals.greyCheckbox]: virtuallyChecked
           })}
         />
@@ -94,7 +96,8 @@ export default function SharedList({
   },
   initiallyOpen,
   timeConfig,
-  isFramed = true
+  isFramed = true,
+  viewOnly
 }) {
   const { dispatch } = stateManagement;
 
@@ -142,6 +145,7 @@ export default function SharedList({
                     }
                   }}
                   BadgeElement={getBadgeElement(bagdeContent)}
+                  viewOnly={viewOnly}
                 />
               )}
             </StaleItemPropsInjector>
@@ -207,5 +211,6 @@ SharedList.propTypes = {
   }).isRequired,
   initiallyOpen: PropTypes.bool,
   timeConfig: propTypeTimeConfig,
-  isFramed: PropTypes.bool
+  isFramed: PropTypes.bool,
+  viewOnly: PropTypes.bool
 };
