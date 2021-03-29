@@ -5,20 +5,32 @@
 
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { buildJsonSerializer } from 'in-stores/navigation/matrix';
+import { setTimeConfig } from 'in-stores/time/config';
 
 export const logsPath = '/logs';
 export const rawLogsPath = '/rawlogs';
 
-export function getLinkToAnalyze() {
+export function getLinkToAnalyze({ tagFilterExpression = null, timeConfig }) {
   return getModifiedUrlStream(location => {
     location.pathname = logsPath;
 
     setOrDeleteMatrixKey(location, logsPath, 'dataSource', 'logs');
-    setOrDeleteMatrixKey(location, logsPath, 'tagFilterExpression', null);
     setOrDeleteMatrixKey(location, logsPath, 'detailId', null);
     setOrDeleteMatrixKey(location, logsPath, 'groupBy', null);
     setOrDeleteMatrixKey(location, logsPath, 'orderBy', null);
     setOrDeleteMatrixKey(location, logsPath, 'metrics', null);
+
+    setOrDeleteMatrixKey(
+      location,
+      logsPath,
+      'tagFilterExpression',
+      tagFilterExpression ? buildJsonSerializer()(tagFilterExpression) : tagFilterExpression
+    );
+
+    if (timeConfig) {
+      setTimeConfig(location, timeConfig);
+    }
   });
 }
 

@@ -23,6 +23,8 @@ import { getFormatter } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
+const defaultNumberOfSuggestedDatapoints = 80;
+
 // The unified metrics chart supports advanced data retrieval use cases, e.g., grouped metrics, charting
 // data series from different product areas and more.
 //
@@ -71,7 +73,8 @@ export default function UnifiedMetricsChart({
   );
   useEffect(() => setTimeConfigExtendedForLiveMode(extendWindowSizeOnLiveMode(timeConfig)), [timeConfig]);
 
-  const suggestedNumberOfDataPoints = forceLoadingIndicator ? null : getSuggestedNumberOfDataPoints(config);
+  const suggestedNumberOfDataPoints =
+    (forceLoadingIndicator ? null : getSuggestedNumberOfDataPoints(config)) || defaultNumberOfSuggestedDatapoints;
   const configuredGranularity = forceLoadingIndicator
     ? null
     : config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode, suggestedNumberOfDataPoints);
@@ -305,7 +308,7 @@ function toMetricsConfiguration(config, resultDataAsList) {
 
 function getSuggestedNumberOfDataPoints(config) {
   return getAllMetricSources(config)
-    .map(source => source.suggestedNumberOfDataPoints ?? 80)
+    .map(source => source.suggestedNumberOfDataPoints ?? defaultNumberOfSuggestedDatapoints)
     .reduce((a, m) => Math.max(a, m), 0);
 }
 

@@ -15,6 +15,5 @@ registerSnapshotDefinition({
     label: 'IBM Cloud Load Balancer'
   },
   kpiDefinitions,
-  metricDefinitions,
-
+  metricDefinitions
 });

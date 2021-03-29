@@ -5,6 +5,7 @@
 
 import React, { useMemo } from 'react';
 
+import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
@@ -22,10 +23,6 @@ const columnDefinitions = [
   }
 ];
 
-function getItemLabel(item) {
-  return item.group.label;
-}
-
 export default function GroupedLogs(props) {
   const { filteringTagCatalog } = props;
 
@@ -35,34 +32,18 @@ export default function GroupedLogs(props) {
     <QueryBuilderWorkspace {...props}>
       <GroupedView
         {...props}
-        getItemLabel={getItemLabel}
         itemlabelColumnId="label"
         columnDefinitions={columnDefinitions}
-        getData={({ timeConfig, backendQueryModel, orderBy, groupBy, cursor }) =>
-          getTableData({ timeConfig, backendQueryModel, groupbyTag: groupBy.groupbyTag, cursor, orderBy })
-        }
-        getLabel={getItemLabel}
+        getData={getTableData}
         iconMap={iconMap}
         UngroupedView={Logs}
         CustomHeaderActions={TagSelector}
         withoutChartGroupMarkers
         withoutSorting
-        withResultsInGroups
+        getItemLabel={({ label }) => label}
       />
     </QueryBuilderWorkspace>
   );
-}
-
-function getTableData({ timeConfig, backendQueryModel, groupbyTag, cursor }) {
-  return getLogGroups({
-    pagination: {
-      cursor,
-      retrievalSize: 20
-    },
-    timeConfig: timeConfig,
-    tagFilterExpression: backendQueryModel,
-    groupBy: groupbyTag
-  });
 }
 
 function createIconMap(tagCatalog) {
@@ -84,4 +65,18 @@ function addToMap({ tagName, icon, children }, map) {
       addToMap(child, map);
     }
   }
+}
+
+function getTableData({ timeConfig, cursor, backendQueryModel, groupBy }) {
+  return getLogGroups({
+    timeConfig,
+    groupBy: groupBy.groupbyTag,
+    logicalOperator: 'AND',
+    logTagFilterExpression: backendQueryModel,
+    infraTagFilterExpression: emptyTagFilterExpression,
+    pagination: {
+      cursor,
+      retrievalSize: 20
+    }
+  });
 }

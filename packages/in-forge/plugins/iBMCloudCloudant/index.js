@@ -15,6 +15,5 @@ registerSnapshotDefinition({
     label: 'IBM Cloud Cloudant'
   },
   kpiDefinitions,
-  metricDefinitions,
-
+  metricDefinitions
 });

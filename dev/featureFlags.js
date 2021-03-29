@@ -41,6 +41,7 @@ module.exports = {
   qb2InCustomDashboardsEnabled: true,
   webMobileQb2AnalyzeEnabled: true,
   loggingEnabled: true,
+  loggingEnabledOnTrace: true,
   qb2InAPCreationEnabled: true,
   languageSelectorEnabled: true,
   pseudoLanguageEnabled: true,

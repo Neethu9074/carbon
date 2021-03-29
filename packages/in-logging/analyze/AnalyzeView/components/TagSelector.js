@@ -7,7 +7,6 @@ import React from 'react';
 
 import DraggableItemSelector from 'in-new-components/DraggableItemSelector';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
-import { allAvailableTags } from 'in-logging/navigation/tags';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { Ul, Li } from 'in-new-components/lists/List';
 import { compare } from 'in-services/util/string';
@@ -48,6 +47,7 @@ function TagSelectorOverlay({ selectedTags, onSelectedTagsChange, maxSelectableT
   selectedTags = selectedTags.slice();
   selectedTags.sort(compare);
 
+  const allAvailableTags = tagCatalog.map(({ name }) => name);
   const remainingTags = allAvailableTags.filter(tag => selectedTags.indexOf(tag) === -1);
 
   return (

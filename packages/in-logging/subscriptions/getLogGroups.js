@@ -6,5 +6,5 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory({
-  eventId: 'logs.getLogGroups'
+  eventId: 'logsV2.getLogGroups'
 });

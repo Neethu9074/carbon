@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useState, useMemo } from 'react';
+import { useObservable } from '@instana/hooks';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 

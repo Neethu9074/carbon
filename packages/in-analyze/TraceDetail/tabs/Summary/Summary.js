@@ -4,10 +4,11 @@
  */
 
 import { just, create } from '@instana/observables';
-import { compose, withProps } from 'recompose';
-import React from 'react';
+import { useObservable } from '@instana/hooks';
+import React, { useState } from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { callId as callIdMatrixParameter, logId as logIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import ColorCodingToggleButtons from 'in-analyze/TraceDetail/components/ColorCodingToggleButtons';
 import MobileAppMonitoringData from 'in-analyze/TraceDetail/tabs/Summary/MobileAppMonitoringData';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
@@ -19,14 +20,15 @@ import ServiceEndpointList from 'in-analyze/TraceDetail/components/ServiceEndpoi
 import CallDetails from 'in-analyze/TraceDetail/components/CallDetails/CallDetails';
 import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
-import { callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
+import LogDetails from 'in-analyze/TraceDetail/components/LogDetails/LogDetails';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
-import withPropDependingState from 'in-hoc/withPropDependingState';
 import CallTree from 'in-analyze/TraceDetail/components/CallTree';
-import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import { loggingEnabledOnTrace } from 'in-services/featureFlags';
 import { number, latency } from 'in-services/formatters/number';
+import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import { callDetailClickedTracker } from 'in-analyze/tracker';
+import Logs from 'in-analyze/TraceDetail/components/Logs';
 import { traceDetail } from 'in-analyze/navigation/paths';
 import { warning } from 'in-new-components/Message/types';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -35,10 +37,11 @@ import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { scrollIntoView } from 'in-services/util/dom';
 import Message from 'in-new-components/Message';
+import useUrlState from 'in-hooks/useUrlState';
 import Button from 'in-new-components/Button';
+import { minutes } from 'in-services/time';
 import { connection } from 'in-connection';
 import Card from 'in-new-components/Card';
-import connect from 'in-hoc/connectTo';
 import Link from 'in-components/Link';
 import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
@@ -66,6 +69,10 @@ class Summary extends React.Component {
   hoveredServiceEndpoint$ = create();
   selectedCallTimeoutHandle = null;
   traceViewedTimeoutHandle = null;
+
+  state = {
+    selectedLog: null
+  };
 
   constructor(props) {
     super(props);
@@ -114,6 +121,7 @@ class Summary extends React.Component {
       data: trace,
       getColor,
       callId,
+      logId,
       traceId,
       isLargeTrace,
       showLargeTrace,
@@ -127,6 +135,14 @@ class Summary extends React.Component {
     const hasWebsiteCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'web';
     const hasMobileCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'mobile';
     const missingEumCorrelation = !hasWebsiteCorrelationId && !hasMobileCorrelationId;
+
+    const timeWindowExtend = minutes.toMillis(10);
+    const timeConfigForLogs = {
+      to: trace.startTime + timeWindowExtend,
+      windowSize: trace.duration + timeWindowExtend * 2,
+      focusedMoment: trace.startTime + timeWindowExtend,
+      autoRefresh: false
+    };
 
     const traceDetails = (
       <ContentWrapper>
@@ -307,28 +323,74 @@ class Summary extends React.Component {
               </Col>
             </Row>
           )}
+
+          {loggingEnabledOnTrace && (
+            <ErrorBoundary name="log section">
+              <Row singleRowTopMargin withoutSideMargin>
+                <Col lg={12}>
+                  <Card
+                    title={t('in-analyze:traceDetail.tabs.summary.logs')}
+                    header={
+                      <Button
+                        kind="secondary"
+                        icon="lib_analyze"
+                        href$={getLinkToAnalyze({
+                          tagFilterExpression: [
+                            { type: 'TAG_FILTER', operator: 'EQUALS', name: 'log.traceId', value: traceId }
+                          ],
+                          timeConfig: timeConfigForLogs
+                        })}
+                      >
+                        {t('in-analyze:traceDetail.tabs.summary.analyzeLogs')}
+                      </Button>
+                    }
+                  >
+                    <Logs
+                      traceId={traceId}
+                      selectLogId={this.selectLogId}
+                      clearSelectedLogId={this.clearSelectedLogId}
+                      selectedLogId={logId}
+                      timeConfigForLogs={timeConfigForLogs}
+                    />
+                  </Card>
+                </Col>
+              </Row>
+            </ErrorBoundary>
+          )}
         </div>
       </ContentWrapper>
     );
 
-    const callDetails = (
-      <ErrorBoundary name="call tree sidebar">
-        <CallDetails
-          callId={callId}
-          traceId={traceId}
-          correlationId={trace.eumCorrelationId}
-          correlationType={trace.eumCorrelationType}
-          getColor={getColor}
-          onClose={this.clearSelectedCall}
-          startTime={trace.startTime}
-          rootCall={callTreeResult.data}
-        />
-      </ErrorBoundary>
-    );
-
     const leftContent = <HeightRestrictedView render={() => traceDetails} />;
-    const rightContent = (
-      <HeightRestrictedView render={() => callDetails} scrollResetProps={['callId']} callId={callId} />
+    const rightContent = logId ? (
+      <HeightRestrictedView
+        render={() => (
+          <ErrorBoundary name="log tree sidebar">
+            <LogDetails logId={logId} onClose={this.clearSelectedLogId} />
+          </ErrorBoundary>
+        )}
+        scrollResetProps={['callId']}
+        callId={callId}
+      />
+    ) : (
+      <HeightRestrictedView
+        render={() => (
+          <ErrorBoundary name="call tree sidebar">
+            <CallDetails
+              callId={callId}
+              traceId={traceId}
+              correlationId={trace.eumCorrelationId}
+              correlationType={trace.eumCorrelationType}
+              getColor={getColor}
+              onClose={this.clearSelectedCall}
+              startTime={trace.startTime}
+              rootCall={callTreeResult.data}
+            />
+          </ErrorBoundary>
+        )}
+        scrollResetProps={['logId']}
+        logId={logId}
+      />
     );
 
     return (
@@ -336,7 +398,7 @@ class Summary extends React.Component {
         leftContent={leftContent}
         rightContent={rightContent}
         leftWidth="65%"
-        expandedSide$={callId ? just(null) : just('left')}
+        expandedSide$={callId || logId ? just(null) : just('left')}
       />
     );
   }
@@ -353,12 +415,22 @@ class Summary extends React.Component {
   };
 
   onCallClicked = call => {
-    this.props.setCall({ callId: call.id });
+    this.props.setCallId(call.id);
+    this.clearSelectedLogId();
     callDetailClickedTracker();
   };
 
   clearSelectedCall = () => {
-    this.props.setCall({ callId: null });
+    this.props.setCallId(null);
+  };
+
+  selectLogId = id => {
+    this.props.setLogId(id);
+    this.clearSelectedCall();
+  };
+
+  clearSelectedLogId = () => {
+    this.props.setLogId(null);
   };
 
   onListItemMouseEnter = service => {
@@ -370,34 +442,54 @@ class Summary extends React.Component {
   };
 }
 
-export default compose(
-  withUrlDependingState({
-    getPathSegment: () => traceDetail,
-    getMatrixPrefix: () => '',
-    boundKeys: [callIdMatrixParameter],
-    getInitialState: () => ({ callId: null }),
-    reducerName: 'setCall'
-  }),
-  withPropDependingState({
-    getInitialState: getInitialLargeTraceState,
-    resets: [
-      {
-        getResettingProps: () => ['data'],
-        onReset: getInitialLargeTraceState
-      }
-    ],
-    reducerName: 'setShowLargeTrace',
-    reducer: (prevState, showLargeTrace) => ({
-      ...prevState,
-      showLargeTrace
-    })
-  }),
-  connect(props => ({
-    isInternalVisible: isInternalVisible$,
-    callTreeResult: getTraceActivityTree({ id: props.traceId }).startWith(pendingResult)
-  })),
-  withProps(props => ({
-    ...props,
-    callId: props.callId === 'ROOT' && props.callTreeResult.data ? props.callTreeResult.data.id : props.callId
-  }))
-)(Summary);
+const urlSettingsConfig = {
+  bind: [
+    {
+      path: traceDetail,
+      name: callIdMatrixParameter,
+      initialState: null
+    },
+    {
+      path: traceDetail,
+      name: logIdMatrixParameter,
+      initialState: null
+    }
+  ]
+};
+
+export default function SummaryWrapper(props) {
+  const [urlState, onChange] = useUrlState(urlSettingsConfig);
+
+  const isInternalVisible = useObservable(isInternalVisible$, []);
+  const callTreeResult =
+    useObservable(() => getTraceActivityTree({ id: props.traceId }), [props.traceId]) ?? pendingResult;
+
+  const callIdFromUrl = urlState[callIdMatrixParameter];
+  const callId = callIdFromUrl === 'ROOT' && callTreeResult.data ? callTreeResult.data.id : callIdFromUrl;
+
+  const [showLargeTrace, setShowLargeTrace] = useState(getInitialLargeTraceState(callTreeResult), [
+    callTreeResult.data
+  ]);
+
+  return (
+    <Summary
+      {...props}
+      callId={callId}
+      logId={urlState[logIdMatrixParameter]}
+      setCallId={id => {
+        const obj = {};
+        obj[callIdMatrixParameter] = id;
+        onChange(obj);
+      }}
+      setLogId={id => {
+        const obj = {};
+        obj[logIdMatrixParameter] = id;
+        onChange(obj);
+      }}
+      isInternalVisible={isInternalVisible}
+      callTreeResult={callTreeResult}
+      showLargeTrace={showLargeTrace}
+      setShowLargeTrace={setShowLargeTrace}
+    />
+  );
+}

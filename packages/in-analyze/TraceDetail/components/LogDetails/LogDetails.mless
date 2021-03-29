@@ -1,0 +1,14 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .logDetails {
+    min-height: 100%;
+
+    padding: 1.5rem 0.125rem;
+
+    overflow: hidden;
+  }
+}

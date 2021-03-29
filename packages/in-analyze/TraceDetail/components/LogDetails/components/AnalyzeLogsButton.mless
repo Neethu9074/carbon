@@ -1,0 +1,10 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .expandIcon {
+    margin: -0.25rem 0 -0.25rem 0.25rem;
+  }
+}

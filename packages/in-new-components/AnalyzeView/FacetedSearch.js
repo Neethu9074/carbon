@@ -10,6 +10,7 @@ import locals from './FacetedSearch.mless';
 export default function FacetedSearch({
   facetedSearchItems = [],
   formModel,
+  getFacetedGroupLabel,
   formModelExcludingMissingGroupingTag,
   onFacetedSearchChange,
   getUpdatedTagExpressionHref,
@@ -28,6 +29,7 @@ export default function FacetedSearch({
             key={facetedSearchItem.tag}
             title={facetedSearchItem.title}
             tag={facetedSearchItem.tag}
+            getFacetedGroupLabel={getFacetedGroupLabel}
             entity={facetedSearchItem.entity}
             formModel={formModel}
             formModelExcludingMissingGroupingTag={formModelExcludingMissingGroupingTag}

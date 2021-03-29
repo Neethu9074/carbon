@@ -18,11 +18,11 @@ const urlStateDefinition = {
 };
 
 export default function LoggingAnalyzeView() {
-  const [{ tags: selectedTags }, onChange] = useUrlState(urlStateDefinition);
+  const [{ tags }, onChange] = useUrlState(urlStateDefinition);
 
   const furtherProps = {
-    selectedTags,
-    onSelectedTagsChange: tags => onChange({ tags })
+    selectedTags: tags,
+    onSelectedTagsChange: _tags => onChange({ tags: _tags })
   };
 
   return (
@@ -35,12 +35,16 @@ export default function LoggingAnalyzeView() {
         rawlogs: {
           groupedView: {
             defaultOrderBy: 'count',
-            defaultOrderDirection: 'DESC'
+            defaultOrderDirection: 'DESC',
+            customFieldRenderingInstructions: {}
           },
           ungroupedView: {
             defaultOrderBy: 'timestamp',
-            defaultOrderDirection: 'ASC'
-          }
+            defaultOrderDirection: 'DESC',
+            customFieldRenderingInstructions: {}
+          },
+          facetedSearchItems: [],
+          defaultSelectableFields: []
         }
       }}
     >

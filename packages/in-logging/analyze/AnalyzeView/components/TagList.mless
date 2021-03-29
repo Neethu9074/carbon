@@ -14,18 +14,15 @@
     border-radius: @lib__shapes__radius_medium;
     font-size: 0.8125rem;
 
-    & + .tag {
-      margin-left: 0.5rem;
-    }
+    margin-bottom: 0.25rem;
+    margin-right: 0.25rem;
   }
 
   .link {
+    overflow: hidden;
+
     &:hover {
       text-decoration: none;
-    }
-
-    & + .link {
-      margin-left: 0.5rem;
     }
   }
 
@@ -38,6 +35,10 @@
 
   .dot {
     margin-right: 0.5rem;
+  }
+
+  .label {
+    white-space: nowrap;
   }
 
   .label,

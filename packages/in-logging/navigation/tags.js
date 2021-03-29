@@ -3,4 +3,4 @@
  * (c) Copyright Instana Inc.
  */
 
-export const allAvailableTags = ['log.level', 'service.name', 'endpoint.name'];
+export const initSelectedTags = ['log.level', 'log.streamName'];

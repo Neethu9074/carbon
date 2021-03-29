@@ -6,7 +6,8 @@
 @import '~in-themes/active.less';
 
 :local {
-  .percentile, .other {
+  .percentile,
+  .other {
     color: @lib__colors__N600Light;
   }
 

@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Range } from 'immutable';
 import React from 'react';
 
 import { percentage, timeByNanoTwoDecimalPlaces } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
-import { Range } from 'immutable';
 import { t } from 'in-i18n';
 
 const cols = [

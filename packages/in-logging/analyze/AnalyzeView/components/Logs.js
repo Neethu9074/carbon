@@ -3,57 +3,47 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
 
-import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
+import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
+import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
-import LogContentColumn from 'in-logging/analyze/AnalyzeView/components/LogContentColumn';
-import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import DateTimeSeparated from 'in-components/tables/sharedComponents/DateTimeSeparated';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
+import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import UngroupedViewList from 'in-new-components/AnalyzeView/UngroupedViewList';
-import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import LogDetail from 'in-logging/analyze/AnalyzeView/LogDetail/LogDetail';
-import TagList from 'in-logging/analyze/AnalyzeView/components/TagList';
-import { hasError, isLoading } from 'in-services/util/result';
-import { pendingResult } from 'in-services/fixedObjects';
+import { formatDateTime } from 'in-services/formatters/date';
+import HealthDot from 'in-new-components/health/HealthDot';
 import getLogs from 'in-logging/subscriptions/getLogs';
-import { number } from 'in-services/formatters/number';
 import getLog from 'in-logging/subscriptions/getLog';
-import { t } from 'in-i18n';
 
 import locals from './Logs.mless';
 
 const columnDefinitions = [
   {
-    id: 'timestamp',
-    width: '8rem',
-    useMaxHeight: true,
+    id: 'logLevel',
+    width: '2.5rem',
     widthInAbsoluteUnit: true,
-    getContent({ log }) {
+    getContent({ logTags }) {
       return (
-        <div className={locals.dateTime}>
-          <DateTimeSeparated>{log.timestamp}</DateTimeSeparated>
-        </div>
+        <LogHealthColumn logTags={logTags}>
+          {({ severity }) => <HealthDot className={locals.dot} severity={severity} iconSize={10} />}
+        </LogHealthColumn>
       );
     }
   },
   {
-    id: 'log',
-    sortable: false,
-    getContent({ log, groupLabel, getHrefToDetailId, selectedTags, getHrefWithAdditionalTagFilter }) {
-      return (
-        <LogContentColumn
-          content={log.content}
-          href={getHrefToDetailId(log.id, groupLabel)}
-          onSelectTagHref={tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))}
-          tags={log.tags.filter(({ tag }) => selectedTags.indexOf(tag.name) >= 0)}
-        />
-      );
+    id: 'timestamp',
+    width: '10rem',
+    useMaxHeight: true,
+    widthInAbsoluteUnit: true,
+    getContent({ timestamp }) {
+      return <div className={locals.dateTime}>{formatDateTime(timestamp)}</div>;
     }
+  },
+  {
+    id: 'log',
+    getContent: LogMessageColumn
   }
 ];
 
@@ -61,34 +51,17 @@ export default function Logs(props) {
   let content = (
     <UngroupedViewList
       {...props}
+      useCursorPaginationStrategy={useLogsCursorPagination}
       classNames={{ listItem: locals.listItem }}
-      getItemName={({ count }) =>
-        t('in-logging:logCount', {
-          count,
-          formattedCount: number.compact(count)
-        })
-      }
-      sortOptions={[
-        {
-          value: 'timestamp',
-          label: t('in-logging:time')
-        }
-      ]}
+      withoutSorting
       columnDefinitions={columnDefinitions}
-      getData={({ timeConfig, backendQueryModel, orderBy, cursor }) =>
-        getTableData({ timeConfig, backendQueryModel, orderBy, cursor })
-      }
-      getId={item => item.log.id}
+      getData={getTableData}
+      getId={item => item.itemId}
       withoutListItemLinkToDetails
-      DetailView={LogDetail}
+      DetailView={DetailView}
       getDetailData={detailId => getLog({ id: detailId })}
       CustomHeaderActions={TagSelector}
-      renderNestedContent={logId => (
-        <LogDetails
-          logId={logId}
-          onSelectTagHref={tag => props.getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))}
-        />
-      )}
+      withCountHeader={false}
     />
   );
 
@@ -99,42 +72,19 @@ export default function Logs(props) {
   return content;
 }
 
-function getTableData({ timeConfig, backendQueryModel, orderBy, cursor }) {
+function DetailView() {
+  return null;
+}
+
+function getTableData({ timeConfig, afterKey, beforeKey, backendQueryModel, loadAfterCount }) {
   return getLogs({
-    pagination: {
-      cursor,
-      retrievalSize: 20
-    },
-    order: orderBy,
-    timeConfig: timeConfig,
-    tagFilterExpression: backendQueryModel
+    timeConfig,
+    retrievalSize: 20,
+    afterKey,
+    beforeKey,
+    loadAfterCount,
+    logicalOperator: 'AND',
+    logTagFilterExpression: backendQueryModel,
+    infraTagFilterExpression: emptyTagFilterExpression
   });
-}
-
-function LogDetails({ logId, onSelectTagHref }) {
-  const logResult = useObservable(getLog({ id: logId }), [logId]) ?? pendingResult;
-  if (isLoading(logResult)) {
-    return (
-      <div className={locals.loadingWrapper}>
-        <IndeterminateLoadingIndicator />
-      </div>
-    );
-  }
-  if (hasError(logResult)) {
-    return <ErroneousResultPresenter errors={logResult.errors} />;
-  }
-
-  return (
-    <HorizontalFlexWrapper className={locals.tagsWrapper}>
-      <TagList tags={logResult.data.tags} onSelectTagHref={onSelectTagHref} />
-    </HorizontalFlexWrapper>
-  );
-}
-
-function getTagExpressionWithTag(tag) {
-  return {
-    ...tag,
-    type: TAG,
-    operator: EQUALS
-  };
 }

@@ -16,7 +16,7 @@ import { generateStableHash } from 'in-services/util/id';
 export { detailViewProps, retrievalSize } from 'in-new-components/AnalyzeView/UngroupedView';
 
 export default function UngroupedAnalyzeViewList(props) {
-  return <UngroupedView {...props} Presenter={List} />;
+  return <UngroupedView {...props} Presenter={props.Presenter ?? List} />;
 }
 
 UngroupedAnalyzeViewList.propTypes = {
@@ -58,7 +58,7 @@ function List(props) {
                 className={classNames?.listItem}
                 size="compact"
                 href={withoutListItemLinkToDetails ? undefined : getHrefToDetailId(id, groupLabel)}
-                renderNestedContent={renderNestedContent ? () => renderNestedContent(id) : undefined}
+                renderNestedContent={renderNestedContent ? () => renderNestedContent(id, item) : undefined}
               >
                 <ColumnizedContent columnDefinitions={columnDefinitions} {...item} {...props} />
               </Li>

@@ -207,18 +207,24 @@ export default function MobileAnalyzeView() {
           <GroupedMobileBeacons
             {...opts}
             getFacetedSearchSuggestions={getFacetedSearchSuggestions}
+            getLabel={getLabel}
             useLastValidStateWhenErroneous
           />
         ) : (
           <MobileBeacons
             {...opts}
             getFacetedSearchSuggestions={getFacetedSearchSuggestions}
+            getFacetedGroupLabel={getLabel}
             useLastValidStateWhenErroneous
           />
         )
       }
     </StateManagement>
   );
+}
+
+function getLabel(item) {
+  return JSON.parse(item.name);
 }
 
 function createMetricCatalogFilter(dataSource) {

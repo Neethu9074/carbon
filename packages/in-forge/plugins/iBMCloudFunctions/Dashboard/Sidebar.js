@@ -6,7 +6,6 @@
 import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-
 import Info from '../Info';
 
 export default function IBMFunctionsSidebar({ snapshot }) {
