@@ -55,9 +55,9 @@ function ParamTag({ tag, getHrefWithAdditionalTagFilter }) {
         className={locals.parameter}
         href={getHrefWithAdditionalTagFilter(
           getTagExpressionWithTag({
-            name: value.name,
+            name: tag.name,
             value,
-            key: value.key
+            key: tag.key
           })
         )}
       >
