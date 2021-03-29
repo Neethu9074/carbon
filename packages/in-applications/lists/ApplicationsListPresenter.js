@@ -30,9 +30,9 @@ import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import CreateApplication from 'in-applications/creation/CreateApplication';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
+import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import { globalSmartAlertsEnabled } from 'in-services/featureFlags';
 import { boundaryScopes } from 'in-applications/constants';
 import Footer from 'in-new-components/Footer';
 import Tooltip from 'in-components/Tooltip';
@@ -239,7 +239,7 @@ export default function ApplicationsListPresenter({
         <FloatingActionButtonMenu>
           {role.canConfigureApplications && <CreateApplication icon="lib_openclose_add_box" kind="primaryv2" />}
 
-          {role.canConfigureGlobalAlertConfigs && globalSmartAlertsEnabled && (
+          {role.canConfigureGlobalAlertConfigs && applicationSmartAlertsEnabled && (
             <CreateGlobalSmartAlertButton renderAsSimpleButton />
           )}
         </FloatingActionButtonMenu>

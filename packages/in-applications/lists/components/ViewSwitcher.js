@@ -11,7 +11,7 @@ import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/Dashb
 import DashboardHeaderModule, { themes } from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { applicationsList, servicesList, alertsList } from 'in-applications/navigation/paths';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
-import { globalSmartAlertsEnabled } from 'in-services/featureFlags';
+import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { t } from 'in-i18n';
 
@@ -41,7 +41,7 @@ export default function AppViewSwitcher() {
             isActive={isServiceViewActive && !isSmartAlertsViewActive}
           />
 
-          {globalSmartAlertsEnabled && (
+          {applicationSmartAlertsEnabled && (
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = alertsList))}
               icon="lib_events_warning"

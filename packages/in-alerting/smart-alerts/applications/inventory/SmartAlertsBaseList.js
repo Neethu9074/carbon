@@ -36,9 +36,7 @@ import locals from './SmartAlertsBaseList.mless';
 const columnDefinitions = [
   {
     id: 'name',
-    label: t('in-alerting:smartAlerts.applications.inventory.labelName'),
     width: '35%',
-    widthInAbsoluteUnit: true,
     sortable: false,
     getContent({ config, configsCategory, additionalMatrixKeys, location }) {
       return (
@@ -54,22 +52,20 @@ const columnDefinitions = [
   {
     id: 'evaluationInfo',
     sortable: false,
+    width: '20%',
     getContent({ config }) {
       return <EvaluationTypeColumn {...config} />;
     }
   },
   {
     id: 'filters',
-    label: t('in-alerting:smartAlerts.applications.inventory.labelFilters'),
     sortable: false,
-    getContent({ config, localSmartAlertsListProps }) {
-      return <ListFiltersColumn {...config} applicationName={localSmartAlertsListProps?.applicationName} />;
+    getContent({ config, isGlobalSmartAlertConfig }) {
+      return <ListFiltersColumn {...config} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />;
     }
   },
   {
     id: 'actions',
-    width: '15%',
-    widthInAbsoluteUnit: true,
     sortable: false,
     getContent({ config, loading, isGlobalSmartAlertConfig }) {
       return (
@@ -152,25 +148,26 @@ export default function SmartAlertsBaseList({
   onNoData,
   getGlobalAlertConfigFetchFunction,
   getLocalAlertConfigsFetchFunction,
-  localSmartAlertsListProps,
   additionalMatrixKeys
 }) {
   const [{ orderBy, orderDirection, configsCategory, page }, setUrlState] = useUrlState(urlStateDefinition);
-  const numberGlobalSmartAlertConfigs = useNumberOfGlobalAlertConfigs(getGlobalAlertConfigFetchFunction);
-  const numberLocalSmartAlertConfigs = useNumberOfLocalAlertConfigs(getLocalAlertConfigsFetchFunction);
+  const [query, setQuery] = useState('');
+
+  const {
+    configs,
+    globalConfigsSelected: isGlobalSmartAlertConfig,
+    loading,
+    errors,
+    numberGlobalSmartAlertConfigs,
+    numberLocalSmartAlertConfigs
+  } = useConfigsByCategory(getGlobalAlertConfigFetchFunction, getLocalAlertConfigsFetchFunction, configsCategory);
 
   useOnNoData(numberGlobalSmartAlertConfigs, numberLocalSmartAlertConfigs, onNoData);
 
-  const { configs, globalConfigsSelected: isGlobalSmartAlertConfig, loading, errors } = useConfigsByCategory(
-    getGlobalAlertConfigFetchFunction,
-    getLocalAlertConfigsFetchFunction,
-    configsCategory
-  );
+  const location = useLocation();
 
   const offset = (page - 1) * pageSize;
   const until = offset + pageSize;
-
-  const location = useLocation();
 
   return (
     <Stack>
@@ -215,11 +212,17 @@ export default function SmartAlertsBaseList({
               }
             />
           </div>
-          <SearchInput />
+          <SearchInput query={query} onChange={setQuery} />
         </HorizontalFlexWrapper>
       </HorizontalFlexWrapper>
       <Ul framed>
         {configs
+          .filter(config => {
+            if (query.trim()) {
+              return config.name.toLowerCase().includes(query.toLowerCase());
+            }
+            return true;
+          })
           .sort(sortBy(orderBy, orderDirection))
           .slice(offset, until)
           .map(config => (
@@ -230,7 +233,6 @@ export default function SmartAlertsBaseList({
                 config={config}
                 configsCategory={configsCategory}
                 loading={loading}
-                localSmartAlertsListProps={localSmartAlertsListProps}
                 isGlobalSmartAlertConfig={isGlobalSmartAlertConfig}
                 location={location}
               />
@@ -273,8 +275,7 @@ function useConfigsByCategory(getGlobalAlertConfigFetchFunction, getLocalAlertCo
     smartAlertConfigsResult = localSmartAlertsConfigsResult;
   }
 
-  const loading = isLoading(smartAlertConfigsResult);
-
+  // Only render the List when smartAlertConfigsResult?.data changes
   const [configs, setConfigs] = useState([]);
   useEffect(() => {
     const resultData = smartAlertConfigsResult?.data;
@@ -283,15 +284,14 @@ function useConfigsByCategory(getGlobalAlertConfigFetchFunction, getLocalAlertCo
     }
   }, [smartAlertConfigsResult?.data]);
 
-  return { configs, globalConfigsSelected, loading, errors: smartAlertConfigsResult?.errors };
-}
-
-function useNumberOfGlobalAlertConfigs(getGlobalAlertConfigFetchFunction) {
-  return useObservable(() => getGlobalAlertConfigFetchFunction().map(({ data }) => data?.length), []) ?? null;
-}
-
-function useNumberOfLocalAlertConfigs(getLocalAlertConfigsFetchFunction) {
-  return useObservable(() => getLocalAlertConfigsFetchFunction().map(({ data }) => data?.length), []) ?? null;
+  return {
+    configs,
+    globalConfigsSelected,
+    loading: isLoading(smartAlertConfigsResult),
+    errors: smartAlertConfigsResult?.errors,
+    numberGlobalSmartAlertConfigs: globalSmartAlertsConfigsResult?.data?.length ?? null,
+    numberLocalSmartAlertConfigs: localSmartAlertsConfigsResult?.data?.length ?? null
+  };
 }
 
 function useOnNoData(numberGlobalSmartAlertConfigs, numberLocalSmartAlertConfigs, onNoData) {
@@ -342,12 +342,6 @@ SmartAlertsBaseList.propTypes = {
    * aka.injecting params etc.
    */
   getLocalAlertConfigsFetchFunction: PropTypes.func,
-  /**
-   * Additional Proptypes only for local smart alerts list
-   */
-  localSmartAlertsListProps: PropTypes.shape({
-    applicationName: PropTypes.string
-  }),
   /**
    * Optional callback executed when there is no data to display
    */

@@ -198,6 +198,7 @@ export const APPLICATIONS_ALERTING_EVENT_DETAILS_GO_TO_ANALYZE = 'applications.a
 export const APPLICATIONS_ALERTING_EVENT_DETAILS_VIEW_EDIT_CONFIG =
   'applications.alerting.event.details.ViewEditConfig';
 export const APPLICATIONS_ALERTING_STATUS_CODE_CHANGED = 'applications.alerting.statusCodeChanged';
+export const APPLICATIONS_ALERTING_ALERT_DUPLICATE = 'applications.alerting.duplicate';
 
 export const MOBILE_APPS_ADD_MOBILE_APP = 'mobileApps.addMobileApp';
 export const MOBILE_APPS_OPEN_ADD_FORM = 'mobileApps.mobileApp.add';

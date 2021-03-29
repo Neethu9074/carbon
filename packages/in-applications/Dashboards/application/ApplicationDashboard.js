@@ -7,9 +7,20 @@ import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 import React from 'react';
 
+import {
+  applicationDashboard,
+  summaryTab,
+  errorMessagesTab,
+  logMessagesTab,
+  alertsList
+} from 'in-applications/navigation/paths';
+import {
+  alertsCategoryMatrixParam,
+  categoryGlobal
+} from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
+import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateGlobalSmartAlertButton';
 import IncludeSyntheticCallsDropdown from 'in-applications/Dashboards/commonComponents/IncludeSyntheticCallsDropdown';
-import { applicationDashboard, summaryTab, errorMessagesTab, logMessagesTab } from 'in-applications/navigation/paths';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
@@ -27,6 +38,7 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { entityTypes } from 'in-analyze/applicationFilter';
@@ -111,6 +123,20 @@ function Header(props) {
 
 function renderButtonLine(props) {
   const { applicationId, timeConfig, boundaryScope, label, location, syntheticCalls } = props;
+  const isGlobalAlertConfig = getMatrixParameter(location, alertsList, alertsCategoryMatrixParam) === categoryGlobal;
+
+  const AddSmartAlertButton = isGlobalAlertConfig ? (
+    <CreateGlobalSmartAlertButton location={location} />
+  ) : (
+    <CreateSmartAlert
+      applicationLabel={label}
+      applicationId={applicationId}
+      location={location}
+      boundaryScope={boundaryScope}
+      defaultBoundaryScope={props.result.data.boundaryScope}
+      includeSynthetic={isSyntheticOption(props.syntheticCalls)}
+    />
+  );
 
   return (
     <>
@@ -137,16 +163,7 @@ function renderButtonLine(props) {
       />
 
       {role.canConfigureCustomAlerts && applicationSmartAlertsEnabled && (
-        <FloatingActionButtons>
-          <CreateSmartAlert
-            applicationLabel={label}
-            applicationId={applicationId}
-            location={location}
-            boundaryScope={boundaryScope}
-            defaultBoundaryScope={props.result.data.boundaryScope}
-            includeSynthetic={isSyntheticOption(props.syntheticCalls)}
-          />
-        </FloatingActionButtons>
+        <FloatingActionButtons>{AddSmartAlertButton}</FloatingActionButtons>
       )}
     </>
   );

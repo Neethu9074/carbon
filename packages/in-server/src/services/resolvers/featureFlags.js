@@ -91,11 +91,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'globalSmartAlertsEnabled',
-    instanaCtlKey: 'feature.global.smart.alerts.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'agentMonitoringIssuesEnabled',
     instanaCtlKey: 'feature.agent.monitoring.issues.enabled',
     defaultValue: false

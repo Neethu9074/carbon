@@ -64,11 +64,11 @@ export default function GlobalSmartAlertsTab({ location }) {
           </Card>
         </WithEmptyStateFallback>
       </LeftRightPadding>
-      <FloatingActionButtons>
-        {role.canConfigureGlobalAlertConfigs && applicationSmartAlertsEnabled && (
+      {role.canConfigureGlobalAlertConfigs && applicationSmartAlertsEnabled && (
+        <FloatingActionButtons>
           <CreateGlobalSmartAlertButton location={location} />
-        )}
-      </FloatingActionButtons>
+        </FloatingActionButtons>
+      )}
       <Footer />
     </Sticky>
   );

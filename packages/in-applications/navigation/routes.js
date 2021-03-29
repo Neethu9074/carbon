@@ -19,12 +19,12 @@ import React, { Fragment } from 'react';
 
 // the following components are all part of the same bundle (application)
 import {
+  alertsList,
   applicationDashboard,
   applicationsList,
   configureEndpointsView,
   configureSyntheticEndpointsView,
   endpointDashboard,
-  alertsList,
   newApplicationView,
   newApplicationWaiterView,
   newServiceView,
@@ -32,7 +32,7 @@ import {
   servicesList
 } from 'in-applications/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import { globalSmartAlertsEnabled } from 'in-services/featureFlags';
+import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import { role } from 'in-stores/user';
 
 export default (
@@ -58,6 +58,8 @@ export default (
     <Route path={servicesList} component={createAsyncViewComponent(ServicesList)} />
     <Route path={serviceDashboard} component={createAsyncViewComponent(ServiceDashboard)} />
     <Route path={endpointDashboard} component={createAsyncViewComponent(EndpointDashboard)} />
-    {globalSmartAlertsEnabled && <Route path={alertsList} component={createAsyncViewComponent(GlobalSmartAlertsTab)} />}
+    {applicationSmartAlertsEnabled && (
+      <Route path={alertsList} component={createAsyncViewComponent(GlobalSmartAlertsTab)} />
+    )}
   </Fragment>
 );
