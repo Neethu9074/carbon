@@ -5,7 +5,8 @@
 
 import {
   createTagFilterExpression,
-  OPERATOR_AND
+  OPERATOR_AND,
+  OPERATOR_OR
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { getApplicationIdTagFilter } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
@@ -23,22 +24,24 @@ export default AlertQueryBuilder;
 export const isAlertQueryValid = ([tagFilterFormModel, timeConfig]) => isQueryValid(tagFilterFormModel, timeConfig);
 
 /**
- * Creates a QueryBuilder that is bound to a single application. Consequently, the suggestions shown are only part of
- * that limited scope.
+ * Creates a QueryBuilder that is bound to multiple applications.
  * To validate the query, simply use the statically created {@link isAlertQueryValid} method reference,
  * because the additional application scope has no impact on the validity of the user defined query.
- * @param applicationId The application ID this alert is bound to.
+ * @param applicationIds The application IDs this alert is bound to.
  * @param boundaryScope The applications boundary-scope this alert is bound to.
  * @returns A QueryBuilder where the scope is bound to a single application.
  */
-export function createBoundedAlertQueryBuilder(applicationId, boundaryScope) {
+export function createBoundedAlertQueryBuilder(applicationIds, boundaryScope) {
   const { QueryBuilder } = createQueryBuilder({
     getTagCatalog: props => getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SMART_ALERTS' })(props),
     getSuggestions: args =>
       getTagSuggestions({
         ...tagSuggestionArgs(args),
         tagFilterExpression: createTagFilterExpression(OPERATOR_AND, [
-          getApplicationIdTagFilter(boundaryScope, applicationId),
+          createTagFilterExpression(
+            OPERATOR_OR,
+            applicationIds.map(id => getApplicationIdTagFilter(boundaryScope, id)) // The backend handles cases with less than two applicationIds just fine.
+          ),
           args.tagFilterExpression
         ])
       })
