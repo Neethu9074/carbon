@@ -74,7 +74,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.ibmDataPowerDomain.serviceNumber', { number: rows.length })}
+        cardTitle={t('in-forge:plugins.ibmDataPowerDomain.serviceNumber', { count: rows.length })}
         cols={cols}
         rows={rows}
       />

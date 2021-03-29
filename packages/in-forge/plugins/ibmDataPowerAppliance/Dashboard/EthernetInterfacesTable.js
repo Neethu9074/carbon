@@ -133,7 +133,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.ibmDataPowerAppliance.ethernetInterfacesNumber', { number: rows.length })}
+        cardTitle={t('in-forge:plugins.ibmDataPowerAppliance.ethernetInterfacesNumber', { count: rows.length })}
         cols={cols}
         rows={rows}
       />
