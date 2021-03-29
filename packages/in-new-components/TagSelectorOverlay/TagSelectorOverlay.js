@@ -31,7 +31,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
   ]);
 
   useDisabledBodyScroll();
-  const [query, setQuery] = useState('');
+  const [query, onQueryChange] = useState('');
 
   return (
     <SelectorOverlay
@@ -42,7 +42,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
         close();
       }}
       query={query}
-      setQuery={setQuery}
+      onQueryChange={onQueryChange}
     />
   );
 }
