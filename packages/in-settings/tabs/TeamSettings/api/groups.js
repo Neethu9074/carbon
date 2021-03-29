@@ -65,11 +65,13 @@ export const getStrippedGroupsAsResultObservable = memoize(
 );
 function getStrippedGroupsAsResultObservableInternal() {
   return refreshSignalTeams.flatMap(() =>
-    http({
-      method: 'GET',
-      maxRetries: 3,
-      url: `${basePath}/stripped`
-    })
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `${basePath}/stripped`
+      })
+    )
   );
 }
 
