@@ -57,7 +57,7 @@
   },
   "loadMoreRow": {
     "loadMore": "Load More"
-  },
+},
   "messageFlyout": {
     "infrastructurePageName": "Infrastructure",
     "eumPageName": "EUM",
@@ -74,7 +74,7 @@
     "formAccountInfoSecrHeader": "Account Information",
     "formCompanyNameLabel": "Company Name",
     "formNumberofAPMHostsLabel": "Number of APM Hosts",
-    "formNumberofIMHostsLabel": "Number of IM Hosts",
+    "formNumberofIQMHostsLabel": "Number of IQM Hosts",
     "formNumberofYearsLabel": "Number of Years",
     "formBillingInforSecHeader": "Billing Information",
     "formStreetLabel": "Street",

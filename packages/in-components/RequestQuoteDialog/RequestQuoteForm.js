@@ -66,7 +66,7 @@ export default connect(() => ({
           {form.get('numberOfInfrastructureHosts').map(field => (
             <FormGroup className={locals.threeFields}>
               <Label hasError={!field.valid && field.touched} htmlFor="numberOfInfrastructureHosts">
-                {t('in-components:requestQuoteDialog.formNumberofIMHostsLabel')}
+                {t('in-components:requestQuoteDialog.formNumberofIQMHostsLabel')}
               </Label>
               <Input
                 id="numberOfInfrastructureHosts"

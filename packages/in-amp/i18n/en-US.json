@@ -18,7 +18,7 @@
       "licenseStartData": "License Start Data",
       "licenseEndData": "License End Data",
       "licensedApmHosts": "Licensed APM Hosts",
-      "licensedImHosts": "Licensed IM Hosts"
+      "licensedIqmHosts": "Licensed IQM Hosts"
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "All paid units (aggregated)",

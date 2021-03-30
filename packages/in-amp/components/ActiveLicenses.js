@@ -63,7 +63,7 @@ export const columnDefinitions = [
   },
   {
     id: 'infra',
-    label: t('in-amp:components.activeLicenses.licensedImHosts'),
+    label: t('in-amp:components.activeLicenses.licensedIqmHosts'),
     sortable: false,
     getContent(item) {
       return <span>{item.license.licenseSpecs?.infraHosts ?? valueMissingPlaceholder}</span>;
