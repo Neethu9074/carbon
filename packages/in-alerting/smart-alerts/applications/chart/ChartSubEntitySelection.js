@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
+import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -34,9 +35,7 @@ export default function ChartSubEntitySelection({
   alertConfigWithFormModel,
   queryWindowSize
 }) {
-  const [serviceName, setServiceName] = useState(
-    t('in-alerting:smartAlerts.components.smartAlertDialog.NoServiceInScope')
-  );
+  const [serviceName, setServiceName] = useState(null);
 
   // only pass the user-defined part of the query, because the generated part is valid anyways, and the validation
   // would reject the entity-filter anyways, because the user is not allowed to use them
@@ -47,14 +46,32 @@ export default function ChartSubEntitySelection({
     [applicationId]
   );
 
-  const enrichedTagFilterFormModel = getEnrichedFiltersForApplication(alertConfigWithFormModel, applicationId);
+  const scopeDownEnrichedTagFilterFormModel = useMemo(
+    () =>
+      joinExpressions({
+        expressions: [
+          getEnrichedFiltersForApplication(alertConfigWithFormModel, applicationId),
+          getEntitySelectionAsTagFilterFormModel(
+            alertConfigWithFormModel.applications,
+            alertConfigWithFormModel.boundaryScope
+          )
+        ]
+      }),
+    [
+      alertConfigWithFormModel,
+      applicationId,
+      alertConfigWithFormModel.applications,
+      alertConfigWithFormModel.boundaryScope,
+      alertConfigWithFormModel.tagFilterExpression
+    ]
+  );
 
   const result =
     useServiceList(
       queryWindowSize,
       isQueryValid,
       alertConfigWithFormModel.tagFilterExpression,
-      enrichedTagFilterFormModel
+      scopeDownEnrichedTagFilterFormModel
     ) ?? pendingResult;
 
   const options = applicationId
@@ -169,6 +186,6 @@ function useServiceList(queryWindowSize, isQueryValid, tagFilterFormModel, enric
         contextScope: 'NONE'
       });
     },
-    [queryWindowSize, isQueryValid, tagFilterFormModel]
+    [queryWindowSize, isQueryValid, tagFilterFormModel, enrichedTagFilterFormModel]
   );
 }
