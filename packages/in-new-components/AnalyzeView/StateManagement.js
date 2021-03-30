@@ -15,9 +15,9 @@ import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformati
 import { metric as metricType, custom as customType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { ua2OrderByChangedTracker, ua2OrderByGroupChangedTracker } from 'in-new-components/tracker';
+import { NUMBER, KEY_VALUE_PAIR, BOOLEAN } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { isValid as isValidGrouping } from 'in-new-components/GroupingConfigurator/validation';
 import { sanitizeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { NUMBER, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { columnDefinitionShape } from 'in-new-components/lists/List/ColumnizedContent';
 import { UNSPECIFIED, NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { emptyArray, emptyObject, pendingResult } from 'in-services/fixedObjects';
@@ -461,12 +461,20 @@ export function addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, g
       entity: groupBy.groupbyTagEntity
     };
   } else {
+    let value;
+    if (groupByTagType === NUMBER) {
+      value = Number(groupValue);
+    } else if (groupByTagType === BOOLEAN) {
+      value = groupValue === 'true';
+    } else {
+      value = groupValue;
+    }
     newTagFilter = {
       type: TAG,
       operator: EQUALS,
       name: groupBy.groupbyTag,
       key: groupBy.groupbyTagSecondLevelKey,
-      value: groupByTagType === NUMBER ? Number(groupValue) : groupValue,
+      value: value,
       entity: groupBy.groupbyTagEntity
     };
   }

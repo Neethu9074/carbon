@@ -17,12 +17,12 @@ import { UNSPECIFIED, NO_VALUE, UNSPECIFIED_LABEL, NO_VALUE_LABEL } from 'in-ana
 import { sanitizeTagFilter, type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS, IS_EMPTY, NOT_EMPTY, IS_BLANK } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { aggregateMetricKey, sparkChartMetricKey, chartMetricKey } from 'in-applications/analyze/metrics';
+import { NUMBER, KEY_VALUE_PAIR, BOOLEAN } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
 import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-applications/tracker';
-import { NUMBER, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
 import CountHeader from 'in-new-components/QueryBuilder/components/Header/CountHeader';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
@@ -587,12 +587,20 @@ function groupingFilter({ groupBy, group, operator = EQUALS, groupByTagType }, t
       entity: groupBy.groupbyTagEntity
     };
   } else {
+    let value;
+    if (groupByTagType === NUMBER) {
+      value = Number(group);
+    } else if (groupByTagType === BOOLEAN) {
+      value = group === 'true';
+    } else {
+      value = group;
+    }
     groupFilter = {
       type: TAG_FILTER_TYPE,
       operator: operator,
       name: groupBy.groupbyTag,
       key: groupBy.groupbyTagSecondLevelKey,
-      value: operator === EQUALS ? (groupByTagType === NUMBER ? Number(group) : group) : undefined,
+      value: operator === EQUALS ? value : undefined,
       entity: groupBy.groupbyTagEntity
     };
   }
