@@ -29,6 +29,8 @@ import { t } from 'in-i18n';
 import indentityProvidersLocals from '../indentityProviders.mless';
 import locals from './OIDC.mless';
 
+const secretPlaceholder = 'HIDDEN';
+
 export default function OIDC() {
   const inputDOMNode = document.createElement('input');
   const [input] = useState(inputDOMNode);
@@ -212,16 +214,16 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                   </FormGroup>
                 ))}
 
-                {form.get('secret').map(field => (
+                {form.get('secret').map(secretField => (
                   <FormGroup>
-                    <Label htmlFor="secret" hasError={!field.valid && field.touched}>
+                    <Label htmlFor="secret" hasError={!secretField.valid && secretField.touched}>
                       {t('in-settings:tabs.secret')}
                     </Label>
                     <Input
                       className={locals.input}
                       type="password"
                       id="secret"
-                      value={field.value}
+                      value={secretField.value}
                       onChange={e => {
                         setForm(form.updateIn(['secret'], f => f.setValue(e.target.value).setTouched(true)));
                       }}
@@ -306,13 +308,34 @@ function saveItem({ setMessage, idpMetadata, spEntityId, ownerEmail, discoveryUr
 }
 
 function enrichForm(form, { setCanDeleteItem, result: { config } }) {
-  setCanDeleteItem(!!config.activated);
+  const { oidcSignInCallbackUrl, oidcSignOutCallbackUrl, spEntityId, discoveryUri, activated, idpType } = config;
+  const mappedIdpType = idpTypes.filter(({ key }) => key === idpType)[0] ?? defaultIdpType;
+
+  setCanDeleteItem(!!activated);
   return form
-    .put('oidcSignInCallbackUrl', createField({ value: config.oidcSignInCallbackUrl || '' }))
-    .put('oidcSignOutCallbackUrl', createField({ value: config.oidcSignOutCallbackUrl || '' }))
-    .put('spEntityId', createField({ value: config.spEntityId || '' }))
+    .put('oidcSignInCallbackUrl', createField({ value: oidcSignInCallbackUrl ?? '' }))
+    .put('oidcSignOutCallbackUrl', createField({ value: oidcSignOutCallbackUrl ?? '' }))
+    .put('spEntityId', createField({ value: spEntityId ?? '' }))
     .put('ownerEmail', createField({ value: '', validator: notBlankValidator }))
-    .put('discoveryUri', createField({ value: config.discoveryUri || '' }))
-    .put('secret', createField({ value: config.secret || '', validator: notBlankValidator }))
-    .put('idpType', createField({ value: config.idpType ? config.idpType.key : defaultIdpType.key }));
+    .put('discoveryUri', createField({ value: discoveryUri ?? '' }))
+    .put('activated', createField({ value: !!activated }))
+    .put('idpType', createField({ value: mappedIdpType }))
+    .put(
+      'secret',
+      createField({
+        value: activated ? secretPlaceholder : '',
+        validator: str => {
+          if (!str || str.trim().length === 0 || str === secretPlaceholder) {
+            return [
+              {
+                severity: 'error',
+                message: t('in-alerting:smartAlerts.applications.form.smartAlertFormNoEntitiesSelected')
+              }
+            ];
+          }
+
+          return null;
+        }
+      })
+    );
 }
