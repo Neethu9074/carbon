@@ -1062,6 +1062,11 @@
   "tracingTypeName_aiohttpserver_0": "AIOHTTP Server Calls",
   "tracingTypeName_aiohttpserver_1": "AIOHTTP Server Call",
   "tracingTypeName_aiohttpserver_2": "AIOHTTP Server Calls",
+  "tracingTypeName_airflowtask": "Airflow",
+  "tracingTypeName_airflowtask_plural": "Airflow",
+  "tracingTypeName_airflowtask_0": "Airflow",
+  "tracingTypeName_airflowtask_1": "Airflow",
+  "tracingTypeName_airflowtask_2": "Airflow",
   "tracingTypeName_akkaremoteentry": "Akka Message",
   "tracingTypeName_akkaremoteentry_plural": "Akka Messages",
   "tracingTypeName_akkaremoteentry_0": "Akka Messages",
@@ -9979,6 +9984,11 @@
     "akkaremote": {
       "path": "Path",
       "message": "Message"
+    },
+    "airflow": {
+      "titleDagID": "DAG ID",
+      "titleTaskID": "Task ID",
+      "titleExecutionDate": "Execution Date"
     },
     "amqp": {
       "command": "Command",

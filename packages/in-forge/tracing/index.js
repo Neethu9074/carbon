@@ -73,6 +73,7 @@ import './spray.server';
 import './spring-batch';
 import './vertx.client';
 import './vertx.server';
+import './airflow-task';
 import './axis.client';
 import './axis.server';
 import './laminasview';
