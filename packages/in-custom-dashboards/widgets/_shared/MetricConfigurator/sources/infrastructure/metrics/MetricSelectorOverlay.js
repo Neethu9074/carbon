@@ -12,7 +12,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './MetricSelectorOverlay.mless';
 
-export default function MetricSelectorOverlay({ metricCatalog, loading, onChange, close }) {
+export default function MetricSelectorOverlay({ metricCatalog, loading, onChange, close, query, onQueryChange }) {
   const options = useMemo(() => (loading ? emptyArray : toOptions(metricCatalog.tree, [])), [metricCatalog, loading]);
 
   useDisabledBodyScroll();
@@ -26,6 +26,8 @@ export default function MetricSelectorOverlay({ metricCatalog, loading, onChange
         onChange({ metric: node.metric, type: node.type });
         close();
       }}
+      query={query}
+      onQueryChange={onQueryChange}
     />
   );
 }
@@ -85,5 +87,7 @@ MetricSelectorOverlay.propTypes = {
   metricCatalog: PropTypes.any,
   loading: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
+  query: PropTypes.string.isRequired,
+  onQueryChange: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired
 };

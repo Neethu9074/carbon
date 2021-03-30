@@ -12,7 +12,6 @@ import {
   isRequiringGroupingConfiguration
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
-import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilder, { getTagCatalog } from 'in-infrastructure/Explore/components/QueryBuilder';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
@@ -22,10 +21,12 @@ import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
 import Sections from 'in-new-components/workspace/Sections';
+import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import Section from 'in-new-components/workspace/Section';
 import { pendingResult } from 'in-services/fixedObjects';
 import Stack from 'in-new-components/layout/Stack';
 import useObservable from 'in-hooks/useObservable';
+import { noop } from 'in-services/util/function';
 
 export default function FormComponent({
   form,
@@ -52,10 +53,8 @@ export default function FormComponent({
     onChange
   });
 
-  const metricCatalog = useMetricCatalog({
-    getMetricCatalog,
-    tagFilterExpression: tagFilterExpressionField.valid ? tagFilterExpressionField.value : EMPTY_EXPRESSION
-  });
+  const catalogQuery = useDebouncedValue('', noop, 800);
+  const metricCatalog = useMetricCatalog({ getMetricCatalog, query: catalogQuery.debouncedValue });
 
   return (
     <Stack space="xsmall">
@@ -65,7 +64,7 @@ export default function FormComponent({
           <TypeAndMetricConfigurator
             type={typeField.value}
             metric={metricField.value}
-            metricCatalog={metricCatalog}
+            metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
             onChange={({ metric, type }) =>
               onChange([], form =>
                 form
@@ -76,6 +75,8 @@ export default function FormComponent({
                   )
               )
             }
+            query={catalogQuery.value}
+            onQueryChange={catalogQuery.onChange}
             label={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.selectMetric')}
           />
           <TouchedMessages field={metricField} />

@@ -10,6 +10,7 @@ import { create } from '@instana/observables';
 export default function useDebouncedValue(value, onChange, delay = 1000, opts, pure = true) {
   const [value$] = useState(create());
   const [stateValue, setStateValue] = useState(value);
+  const [debouncedStateValue, setDebouncedStateValue] = useState(value);
   const [subscription, setSubscription] = useState(null);
 
   const onChangeRef = useRef();
@@ -22,7 +23,10 @@ export default function useDebouncedValue(value, onChange, delay = 1000, opts, p
         .distinct((a, b) => {
           return !pure || a !== b;
         })
-        .subscribe(v => onChangeRef.current(v))
+        .subscribe(v => {
+          setDebouncedStateValue(v);
+          onChangeRef.current(v);
+        })
     );
   }
 
@@ -47,6 +51,7 @@ export default function useDebouncedValue(value, onChange, delay = 1000, opts, p
 
   return {
     value: stateValue,
+    debouncedValue: debouncedStateValue,
     onChange: v => {
       setStateValue(v);
       value$.emit(v);

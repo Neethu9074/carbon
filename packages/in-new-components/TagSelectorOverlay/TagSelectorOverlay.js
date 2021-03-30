@@ -2,7 +2,7 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import theme from 'in-themes';
 
@@ -30,6 +30,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
   ]);
 
   useDisabledBodyScroll();
+  const [query, onQueryChange] = useState('');
 
   return (
     <SelectorOverlay
@@ -39,6 +40,8 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
         onChange({ name: node.tagName });
         close();
       }}
+      query={query}
+      onQueryChange={onQueryChange}
     />
   );
 }
