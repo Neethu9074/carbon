@@ -22,16 +22,18 @@ import { custom as customType, metric as metricType } from 'in-new-components/An
 import { addGroupingCriteriaToFormModel } from 'in-new-components/AnalyzeView/StateManagement';
 import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-new-components/tracker';
 import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
+import { BOOLEAN, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
+import { EQUALS, NOT_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { or } from '../QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
-import { NOT_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import FacetedSearch from 'in-new-components/AnalyzeView/FacetedSearch';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import Header from 'in-new-components/QueryBuilder/components/Header';
+import { tagFilter } from '../QueryBuilder/transformation/tagFilter';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
@@ -200,14 +202,23 @@ export default function GroupedAnalyzeView(props) {
   const availableMetrics = getAvailableMetrics({ metricCatalog, metricCatalogFilter, fixedFields });
 
   const formModelExcludingMissingGroupingTag = useMemo(() => {
-    const excludeMissingGroupTagFilter = {
-      type: TAG,
-      operator: NOT_EMPTY,
-      name: groupBy.groupbyTag
-    };
     const groupByTagType = groupingTagCatalog?.tags.find(t => t.name === groupBy.groupbyTag)?.type;
-    if (groupByTagType === KEY_VALUE_PAIR) {
-      excludeMissingGroupTagFilter.key = groupBy.groupbyTagSecondLevelKey;
+    let excludeMissingGroupTagFilter;
+    if (groupByTagType === BOOLEAN) {
+      // Boolean tags do not support the NOT_EMPTY operator
+      excludeMissingGroupTagFilter = joinExpressions({
+        logicalOperator: or,
+        expressions: [tagFilter(groupBy.groupbyTag, EQUALS, true), tagFilter(groupBy.groupbyTag, EQUALS, false)]
+      });
+    } else {
+      excludeMissingGroupTagFilter = {
+        type: TAG,
+        operator: NOT_EMPTY,
+        name: groupBy.groupbyTag
+      };
+      if (groupByTagType === KEY_VALUE_PAIR) {
+        excludeMissingGroupTagFilter.key = groupBy.groupbyTagSecondLevelKey;
+      }
     }
     return joinExpressions({ expressions: [formModel, excludeMissingGroupTagFilter] });
   }, [formModel, groupBy, groupingTagCatalog]);
