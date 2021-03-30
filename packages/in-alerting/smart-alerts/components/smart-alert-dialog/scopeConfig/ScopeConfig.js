@@ -13,12 +13,8 @@ import ServicesAndEndpointsListPresenter, {
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
 import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/smart-alert-dialog/ClearTagFilterExpressionButton';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertFilterConfigurator';
-import getApplicationsCursorPaginated from 'in-subscription/application/getApplicationsCursorPaginated';
-import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
-import getServicesCursorPaginated from 'in-subscription/application/getServicesCursorPaginated';
-import { maxChartViewTimeframe } from '../../../../components/Chart/chartViewConfig';
+import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewConfig';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
-import getApplication from 'in-subscription/application/getApplication';
 import LightCard from 'in-new-components/Card/LightCard';
 import Stack from 'in-new-components/layout/Stack';
 import Tooltip from 'in-components/Tooltip';
@@ -63,12 +59,6 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, i
         <Stack>
           <div className={locals.servicesAndEndpointsListPresenterWrapper}>
             <ServicesAndEndpointsListPresenter
-              apiSubscriptions={{
-                getApplication,
-                getApplicationsCursorPaginated,
-                getServicesCursorPaginated,
-                getEndpointsCursorPaginated
-              }}
               applicationsSelection={applications}
               onChange={applicationsSelection =>
                 updateForm(

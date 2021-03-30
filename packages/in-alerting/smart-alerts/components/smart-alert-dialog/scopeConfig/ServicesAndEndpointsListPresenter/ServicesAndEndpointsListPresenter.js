@@ -9,13 +9,24 @@ import PropTypes from 'prop-types';
 import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import ApplicationsList from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/ApplicationsList';
 import { listReducer } from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
+import getApplicationsCursorPaginated from 'in-subscription/application/getApplicationsCursorPaginated';
+import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import getServicesCursorPaginated from 'in-subscription/application/getServicesCursorPaginated';
+import getApplication from 'in-subscription/application/getApplication';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import SearchInput from 'in-new-components/SearchInput';
 
+const backendApiSubscriptions = {
+  getApplication,
+  getApplicationsCursorPaginated,
+  getServicesCursorPaginated,
+  getEndpointsCursorPaginated
+};
+
 export default function ServicesAndEndpointsListPresenter({
-  apiSubscriptions,
+  apiSubscriptions = backendApiSubscriptions,
   applicationsSelection,
   onChange,
   timeConfig,
@@ -61,12 +72,15 @@ export function ServicesAndEndpointsSearchInput({ query = '', onChange }) {
 }
 
 ServicesAndEndpointsListPresenter.propTypes = {
+  /**
+   * Only needed for storybook/testing otherwise yopu may not want to inject custom API subscriptions
+   */
   apiSubscriptions: PropTypes.shape({
     getApplicationsCursorPaginated: PropTypes.func.isRequired,
     getApplication: PropTypes.func.isRequired,
     getServicesCursorPaginated: PropTypes.func.isRequired,
     getEndpointsCursorPaginated: PropTypes.func.isRequired
-  }).isRequired,
+  }),
   onChange: PropTypes.func.isRequired,
   applicationsSelection: applicationsItemTreePropType,
   alertApplicationId: PropTypes.string,

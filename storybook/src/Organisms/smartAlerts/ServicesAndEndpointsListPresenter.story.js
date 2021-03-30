@@ -53,7 +53,7 @@ export function servicesAndEndpointsListIndividualAlerts() {
         getEndpointsCursorPaginated: () => just(getEndpointsResult)
       }}
       alertApplicationId="btg-B701Rx6o9QNXUS4TVw"
-      applicationsSelection={undefined}
+      applicationsSelection={{}}
       boundaryScope="INBOUND"
       timeConfig={oneDayTimeConfig}
       onChange={noop}
