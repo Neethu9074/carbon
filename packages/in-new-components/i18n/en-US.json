@@ -298,6 +298,7 @@
     "previousWeek": "Previous week",
     "dashboardHeaderButtonLive": "Live",
     "customTimeTitleTimeRange": "Time Range",
+    "to": "to",
     "customTimeButtonSetTime": "Set Time",
     "customTimeLabelYesterday": "Yesterday",
     "customTimeLabelToday": "Today",
@@ -321,12 +322,12 @@
     "timeIconLargeDataMessage": "You are viewing approximate data due to a large data set. Please reduce the time range for precise data.",
     "timePresetsLast": "Last {{duration}}",
     "timePresetsLast24Hours": "Last 24 hours",
-    "timeUnit_year" : "year",
-    "timeUnit_month" : "month",
-    "timeUnit_day" : "day",
-    "timeUnit_hour" : "hour",
-    "timeUnit_minute" : "minute",
-    "timeUnit_second" : "second"
+    "timeUnit_year": "year",
+    "timeUnit_month": "month",
+    "timeUnit_day": "day",
+    "timeUnit_hour": "hour",
+    "timeUnit_minute": "minute",
+    "timeUnit_second": "second"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Change selected time shift",

@@ -34,6 +34,9 @@
       "more": "{{number}} more"
     }
   },
+  "comboBox": {
+    "placeholderSelect": "Select…"
+  },
   "downloadBtn": {
     "downloadViewDownloadAsJsonLabel": "Download as JSON",
     "downloadViewDownloadCSVLabel": "Download (*.csv)",

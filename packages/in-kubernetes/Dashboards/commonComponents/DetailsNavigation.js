@@ -19,7 +19,7 @@ export function labelsNavigationItem(path) {
   return {
     path,
     icon: 'lib_kubernetes_label',
-    renderLabel: ({ resource }) => `Labels (${resource.labels.length})`,
+    renderLabel: ({ resource }) => t('in-kubernetes:dashboards.labelsWithNumber', { num: resource.labels.length }),
     component: function LabelsNavigationItem({ resource }) {
       return (
         <KeyValueList
@@ -36,7 +36,8 @@ export function annotationsNavigationItem(path) {
   return {
     path,
     icon: 'lib_kubernetes_annotation',
-    renderLabel: ({ annotations }) => `Annotations (${annotations ? annotations.length : 0})`,
+    renderLabel: ({ annotations }) =>
+      t('in-kubernetes:dashboards.annotationsWithNumber', { num: annotations ? annotations.length : 0 }),
     component: function AnnotationsNavigationItem({ annotations }) {
       return <Annotations annotations={annotations} onEmptyText={t('in-kubernetes:dashboards.noAnnotations')} />;
     }

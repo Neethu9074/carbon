@@ -133,7 +133,7 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
                 {rule.get('path').map(field => (
                   <FormGroup>
                     <Label htmlFor={`config-${i}-path`} hasError={!field.valid && field.touched}>
-                      Path
+                      {t('in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelPath')}
                     </Label>
                     <Input
                       id={`config-${i}-path`}

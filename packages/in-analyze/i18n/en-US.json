@@ -421,6 +421,7 @@
       "clearFilters": "Clear filters",
       "loadingSuggestions": "Loading suggestions…",
       "operator": "Operator",
+      "key": "Key",
       "value": "Value",
       "addFilter": "Add Filter",
       "equalTo": "equal to",

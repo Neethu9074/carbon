@@ -84,7 +84,7 @@ export default function KeyValueBarOverlayPresenter({
             {form.get('key').map(field => (
               <FormGroup withoutBottomMargin>
                 <Label htmlFor="filter-key" hasError={!field.valid && field.touched} className={locals.labelWithLoader}>
-                  Key
+                  {t('in-analyze:components.filterBar.key')}
                   {keySuggestionsLoading && (
                     <Loading>{t('in-analyze:components.filterBar.loadingSuggestions')}</Loading>
                   )}
@@ -117,7 +117,7 @@ export default function KeyValueBarOverlayPresenter({
                     hasError={!field.valid && field.touched}
                     className={locals.labelWithLoader}
                   >
-                    Key
+                    {t('in-analyze:components.filterBar.key')}
                     {secondLevelKeySuggestionsLoading && (
                       <Loading>{t('in-analyze:components.filterBar.loadingSuggestions')}</Loading>
                     )}

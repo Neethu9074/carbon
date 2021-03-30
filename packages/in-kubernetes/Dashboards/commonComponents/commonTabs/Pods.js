@@ -250,7 +250,7 @@ const Pods = compose(
 
   const rightHeader = (
     <ComboBox
-      placeholder="Phase…"
+      placeholder={t('in-kubernetes:dashboards.placeholderPhase')}
       value={phase}
       searchable={false}
       onChange={t => setPhase({ phase: t ? t.value : null })}

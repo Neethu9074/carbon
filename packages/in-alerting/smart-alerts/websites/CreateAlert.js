@@ -22,6 +22,7 @@ import { propTypeLocation } from 'in-stores/navigation';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { reload } from 'in-settings/components/List';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 const implicitTagFilters = ['beacon.website.id'];
 
@@ -88,7 +89,7 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
         }}
         withBoxShadow
       >
-        Add Alert
+        {t('in-alerting:smartAlerts.websites.addAlert')}
       </FloatingActionButton>
     </>
   );

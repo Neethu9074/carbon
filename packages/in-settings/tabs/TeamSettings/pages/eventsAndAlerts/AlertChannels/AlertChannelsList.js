@@ -111,7 +111,7 @@ function columnDefinitions(hasRowNavigation) {
 }
 
 function defaultGetHeader(inSelectListDialog, tableActions) {
-  return leftHeaderWithSelectAll('Alert Channels', inSelectListDialog, tableActions);
+  return leftHeaderWithSelectAll(t('in-settings:tabs.alertChannels'), inSelectListDialog, tableActions);
 }
 
 function getEntityName(entity) {

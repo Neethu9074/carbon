@@ -9,7 +9,8 @@
       "zip": "Zip",
       "city": "City",
       "address": "Address",
-      "additionalAddress": "Additional Address"
+      "additionalAddress": "Additional Address",
+      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "If any of the info on this page needs corrections, please contact <linkToMail>{{salesopsEmail}}</linkToMail>"
     },
     "activeLicenses": {
       "name": "Name",

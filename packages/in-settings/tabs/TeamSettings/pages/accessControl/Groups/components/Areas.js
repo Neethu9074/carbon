@@ -125,7 +125,7 @@ function AddAreaButton({ preSelectedItems, infraDfqFilter, update }) {
       }
       icon="lib_openclose_add_circle_outline"
     >
-      Add Areas
+      {t('in-settings:tabs.addAreasButton')}
     </Button>
   );
 }

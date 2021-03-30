@@ -77,7 +77,11 @@ export default function QuickFilterBar(props) {
           pluralLabel={t('in-websites:analyze.analyzeView.quickFilterBarLabelSubdivision', { count: 2 })}
         />
       )}
-      <KeyValueBarItem {...props} label="Meta" tag="beacon.meta" />
+      <KeyValueBarItem
+        {...props}
+        label={t('in-websites:analyze.analyzeView.quickFilterBarLabelMeta')}
+        tag="beacon.meta"
+      />
       {showWindowWidthSelector && (
         <NumberBarItem
           {...props}

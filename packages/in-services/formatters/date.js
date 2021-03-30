@@ -128,15 +128,15 @@ export function formatDurationAccurately(millis, ignoreTimesSmallerThan = 60000,
     if (count > 0) {
       // 1day, 2days, 1year, 10 years, ...
       if (useShort) {
-        result = `${result} ${t('in-services:formatters.date.time.' + time.short, { num: count })}`;
+        result = `${result} ${t('in-services:formatters.date.time', { context: time.short, num: count })}`;
       } else {
-        result = `${result} ${t('in-services:formatters.date.time.' + time.long, { count: count })}`;
+        result = `${result} ${t('in-services:formatters.date.time', { context: time.long, count: count })}`;
       }
     }
   }
 
   if (result === '') {
-    return t('in-services:formatters.date.time.ms', { millis: millis });
+    return t('in-services:formatters.date.ms', { millis: millis });
   }
 
   return result.trim();
@@ -204,7 +204,7 @@ function formatDateInternalAccordingToLocalTime(date) {
 
 function formatDateShortInternalAccordingToLocalTime(date) {
   const day = ensureTwoChars(date.getDate());
-  return t('in-services:formatters.date.monthsShort.' + monthsShort[date.getMonth()], { day: day });
+  return t('in-services:formatters.date.monthsShort', { context: monthsShort[date.getMonth()], day: day });
 }
 
 function formatTimeInternalAccordingToUTC(date) {
@@ -229,7 +229,7 @@ function formatDateInternalAccordingToUTC(date) {
 
 function formatDateShortInternalAccordingToUtc(date) {
   const day = ensureTwoChars(date.getUTCDate());
-  return t('in-services:formatters.date.monthsShort.' + monthsShort[date.getUTCMonth()], { day: day });
+  return t('in-services:formatters.date.monthsShort', { context: monthsShort[date.getMonth()], day: day });
 }
 
 function ensureTwoChars(s) {

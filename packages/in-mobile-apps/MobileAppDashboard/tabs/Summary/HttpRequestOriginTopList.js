@@ -14,7 +14,7 @@ import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 const metrics = ['beaconCount', 'beaconErrorRate'];
-const labels = ['Calls', 'Errors'];
+const labels = [t('in-mobile-apps:dashboard.tabs.callsLabel'), t('in-mobile-apps:dashboard.tabs.errorsLabel')];
 const aggregations = ['SUM', 'MEAN'];
 const formatters = [number.compact, percentage.detailed];
 

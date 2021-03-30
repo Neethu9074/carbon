@@ -16,7 +16,7 @@ import Message from 'in-new-components/Message';
 import Title from 'in-components/Title/Title';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './AccountSettings.mless';
 
@@ -106,10 +106,11 @@ function render({ form }) {
           withIcon
           title={
             <>
-              If any of the info on this page needs corrections, please contact{' '}
-              <Link external href="mailto:salesops@instana.com">
-                salesops@instana.com
-              </Link>
+              <Trans
+                i18nKey="in-amp:components.accountSettings.ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact"
+                components={{ linkToMail: <Link external href="mailto:salesops@instana.com" /> }}
+                values={{ salesopsEmail: 'salesops@instana.com' }}
+              />
             </>
           }
         />

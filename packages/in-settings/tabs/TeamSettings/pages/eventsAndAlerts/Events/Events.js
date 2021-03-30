@@ -227,7 +227,7 @@ function isEnabled(entity) {
 }
 
 function defaultGetHeader(inSelectListDialog, tableActions) {
-  return leftHeaderWithSelectAll('Events', inSelectListDialog, tableActions);
+  return leftHeaderWithSelectAll(t('in-settings:tabs.events'), inSelectListDialog, tableActions);
 }
 
 function getEntityName(entity) {

@@ -76,7 +76,9 @@ function SelectListDialogContent({ form, onSubmit, reloadKey }) {
       limit={limitForConnectedAlertChannels}
       onSubmit={onSubmit}
       createSubmitLabel={numberOfItems =>
-        numberOfItems > 0 ? `Add ${numberOfItems} Channel${numberOfItems > 1 ? 's' : ''}` : 'Add'
+        numberOfItems > 0
+          ? t('in-alerting:smartAlerts.components.smartAlertDialog.addChannel', { count: numberOfItems })
+          : t('in-alerting:smartAlerts.components.smartAlertDialog.add')
       }
       pageSize={5}
       preventCloseOnSubmit

@@ -14,7 +14,7 @@ import { t } from 'in-i18n';
 
 import locals from './PermissionsList.mless';
 
-const SHOW_ALL = 'Show all';
+const SHOW_ALL = t('in-settings:tabs.showAll');
 
 const defaultColumnDefinitions = [
   {

@@ -61,7 +61,7 @@ export default function CustomTime({ timeConfig, onChange, historicOrLargeDataRe
         <div className={locals.controls}>
           <div className={locals.inputs}>
             <DateTimeInput form={form} path="from" setValue={setValue} />
-            <span className={locals.to}>to</span>
+            <span className={locals.to}>{t('in-new-components:time.to')}</span>
             <DateTimeInput form={form} path="to" setValue={setValue} />
           </div>
           <Button className={locals.button} type="submit">

@@ -464,6 +464,12 @@
         "blueprintDescriptionButtonSelect": "Select",
         "selectAlertChannelButtonTitle": "Select alert channels",
         "selectAlertChannelButton": "Select Alert Channels",
+        "addChannel": "Add {{count}} Channel",
+        "addChannel_plural": "Add {{count}} Channels",
+        "addChannel_0": "Add {{count}} Channels",
+        "addChannel_1": "Add {{count}} Channels",
+        "addChannel_2": "Add {{count}} Channels",
+        "add": "Add",
         "scopeConfigTitleWithApplications": "Select Applications/Services/Endpoints",
         "scopeConfigTitle": "Select Services/Endpoints",
         "scopeConfigTitleTooltip": "Showing available entities for the last 7 days",
@@ -777,7 +783,8 @@
         "stepConfigsStep1Title": "Step 1: Select Alert",
         "stepConfigsStep2Title": "Step 2: Select Scope",
         "stepConfigsStep3Title": "Step 3: Select Alerting Channels"
-      }
+      },
+      "addAlert": "Add Alert"
     }
   }
 }

@@ -113,6 +113,8 @@
     "labels": "Labels",
     "noLabels": "No Labels",
     "noAnnotations": "No Annotations",
+    "labelsWithNumber": "Labels ({{num}})",
+    "annotationsWithNumber": "Annotations ({{num}})",
     "spec": "Spec",
     "viewEntity": "View {{entityName}}",
     "missingPermissionMessage": "The Instana Agent is missing permissions for {{target}}. Please update to the latest version of the Instana Agent YAML, Helm chart or Operator to ensure it has the right permissions. See our <linkK8s>Kubernetes</linkK8s> or <linkOpenShift>OpenShift</linkOpenShift> documentation for more information.",
@@ -196,7 +198,8 @@
     "noCpuLimitQuotaMessage": "There are no CPU limit quotas in this namespace",
     "noMemoryRequestQuotaMessage": "There are no memory request quotas in this namespace",
     "noMemoryLimitQuotaMessage": "There are no memory limit quotas in this namespace",
-    "completion": "Completion"
+    "completion": "Completion",
+    "placeholderPhase": "Phase…"
   },
   "viewEntityName": {
     "all": {
