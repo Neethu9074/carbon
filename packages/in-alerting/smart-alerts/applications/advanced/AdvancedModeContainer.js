@@ -55,7 +55,6 @@ export default function AdvancedModeContainer(props) {
   } = props;
   const alertType = form.get('rule').get('alertType').value;
   const blueprintConfig = getBlueprintConfig(alertType);
-
   return (
     <GlobalAdvancedModeContainer
       {...props}
@@ -78,13 +77,18 @@ export default function AdvancedModeContainer(props) {
               />
             </>
           ),
-          checked: true
+          checked: formFieldsValid(form, ['applications']),
+          valid: true
         },
         {
           scrollId: '2',
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.title'),
-          checked: true,
+          checked:
+            form.get('threshold').get('type').value === 'staticThreshold'
+              ? form.get('threshold').hierarchyTouched
+              : true,
+          valid: formFieldsValid(form, ['rule', 'threshold']),
           content: (
             <>
               <BlueprintSelection
@@ -163,6 +167,7 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.title'),
           checked: true,
+          valid: true,
           content: (
             <TimeThresholdConfigPresenter
               form={form}
@@ -178,6 +183,7 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.title'),
           checked: form.get('alertChannelIds').value.length > 0,
+          valid: true,
           content: <SelectAlertChannel form={form} onChange={onChange} setAlertChannelsVisible={setSliderState} />
         },
         {
@@ -185,6 +191,7 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.propertiesOptional.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.propertiesOptional.title'),
           checked: Boolean(form.get('name').value || form.get('description').value),
+          valid: true,
           content: (
             <AlertPropertiesContainer
               form={form}
@@ -204,4 +211,11 @@ export default function AdvancedModeContainer(props) {
       additionalValidationCheck={() => isTagFilterFormModelValid}
     />
   );
+}
+
+function formFieldsValid(form, fieldsToCheck) {
+  const fieldInvalid = Object.entries(form?.items ?? {})
+    .filter(([field]) => fieldsToCheck?.includes(field))
+    .some(([, { hierarchyValid }]) => !hierarchyValid);
+  return !fieldInvalid;
 }

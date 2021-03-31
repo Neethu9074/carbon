@@ -96,7 +96,7 @@ function createHistoricBaselineForm(threshold) {
       'baseline',
       createField({
         validator: array => {
-          if (!array || array.length === 0) {
+          if (array?.length === 0) {
             return [
               {
                 severity: 'error',

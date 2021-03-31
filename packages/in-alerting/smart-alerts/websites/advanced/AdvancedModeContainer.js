@@ -74,13 +74,15 @@ export default function AdvancedModeContainer(props) {
               />
             </>
           ),
-          checked: true
+          checked: true,
+          valid: true
         },
         {
           scrollId: '2',
           label: t('in-alerting:smartAlerts.websites.advanced.triggerLabel'),
           title: t('in-alerting:smartAlerts.websites.advanced.triggerTitle'),
           checked: validateTrigger(form),
+          valid: formFieldsValid(form, ['rule', 'threshold']),
           content: (
             <>
               <BlueprintSelection
@@ -179,6 +181,7 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.websites.advanced.timeThresholdLabel'),
           title: t('in-alerting:smartAlerts.websites.advanced.timeThresholdTitle'),
           checked: true,
+          valid: true,
           content: (
             <TimeThresholdConfig
               form={form}
@@ -194,6 +197,7 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.websites.advanced.alertChannelsLabel'),
           title: t('in-alerting:smartAlerts.websites.advanced.alertChannelsTitle'),
           checked: form.get(fieldNames.alertChannelIds).value.length > 0,
+          valid: true,
           content: <SelectAlertChannel form={form} onChange={onChange} setAlertChannelsVisible={setSliderState} />
         },
         {
@@ -201,6 +205,7 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.websites.advanced.propertiesLabel'),
           title: t('in-alerting:smartAlerts.websites.advanced.propertiesTitle'),
           checked: !!(form.get(fieldNames.name).value || form.get(fieldNames.description).value),
+          valid: true,
           content: (
             <AlertPropertiesContainer
               form={form}
@@ -231,4 +236,11 @@ function validateTrigger(form) {
   } else {
     return true;
   }
+}
+
+function formFieldsValid(form, fieldsToCheck) {
+  const fieldInvalid = Object.entries(form?.items ?? {})
+    .filter(([field]) => fieldsToCheck?.includes(field))
+    .some(([, { hierarchyValid }]) => !hierarchyValid);
+  return !fieldInvalid;
 }

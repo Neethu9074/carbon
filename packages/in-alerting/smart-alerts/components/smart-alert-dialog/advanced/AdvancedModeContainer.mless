@@ -44,7 +44,10 @@
 
     &.checked {
       background-color: @lib__colors__teal800;
-      color: @lib__colors__teal800;
+    }
+
+    &.invalid {
+      background-color: @lib__colors__failure;
     }
   }
 }

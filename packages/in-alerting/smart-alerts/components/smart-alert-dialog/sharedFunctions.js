@@ -37,13 +37,18 @@ export function updateThresholdInForm(createThresholdForm, form, updateForm, dat
         data?.type === 'historicBaseline' ||
         !thresholdValueManuallyChanged);
 
-    const updatedThresholdForm = createThresholdForm(
+    let updatedThresholdForm = createThresholdForm(
       {
         lastUpdated: time,
         ...(shouldAddNewThresholdData ? thresholdData : currentThreshold)
       },
       alertType
     );
+
+    // preserve touched state on staticThreshold types
+    if (data?.type === 'staticThreshold' && (thresholdValueManuallyChanged || shouldAddNewThresholdData)) {
+      updatedThresholdForm = updatedThresholdForm.updateIn(['value'], f => f.setTouched(true));
+    }
 
     let newForm = form
       .put('threshold', updatedThresholdForm)

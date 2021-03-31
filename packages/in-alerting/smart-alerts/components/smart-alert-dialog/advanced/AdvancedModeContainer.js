@@ -72,7 +72,16 @@ AdvancedModeContainer.propTypes = {
   onClose: PropTypes.func.isRequired,
   onCreate: PropTypes.func.isRequired,
   editMode: PropTypes.bool,
-  navItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+  navItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      scrollId: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      checked: PropTypes.bool,
+      valid: PropTypes.bool,
+      content: PropTypes.element
+    })
+  ).isRequired,
   isSaving: PropTypes.bool,
   /**
    * Defines addtional validation logic to control the disabled state of the Create button.
@@ -81,15 +90,17 @@ AdvancedModeContainer.propTypes = {
   additionalValidationCheck: PropTypes.func
 };
 
-function renderIcon({ checked }) {
+function renderIcon({ checked, valid }) {
+  const invalid = checked && !valid;
   return (
     <SvgIcon
       className={classNames({
         [locals.icon]: true,
-        [locals.checked]: checked
+        [locals.checked]: checked,
+        [locals.invalid]: invalid
       })}
-      type="lib_check"
-      size="xxs"
+      type={invalid ? 'lib_help_error_error_circle' : 'lib_check'}
+      size="xs"
     />
   );
 }
