@@ -19,13 +19,13 @@ import {
 import ApplicationsSimpleModeContainer from 'in-alerting/smart-alerts/applications/simple/ApplicationsSimpleModeContainer';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { changeFormDataByCopyState } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { SmartAlertConfigDialog } from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialog';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/applications/advanced/AdvancedModeContainer';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
-import { t } from 'in-i18n';
 
 const logger = createLogger('in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper');
 
@@ -48,7 +48,7 @@ export default function SmartAlertConfigDialogWrapper({
     <SmartAlertConfigDialog
       applicationLabel={applicationLabel}
       isGlobalSmartAlert={isGlobalSmartAlert}
-      editMode={editMode && !isCopy}
+      editMode={editMode}
       form={form}
       updateForm={setForm}
       granularity={form.get('granularity').value}
@@ -87,7 +87,7 @@ export default function SmartAlertConfigDialogWrapper({
                 }
           )
         );
-        onClose();
+        onClose({});
       }}
       withTrackCreate={simpleMode => {
         applicationsAlertingAlertCreated({ mode: simpleMode ? 'Simple' : 'Advanced' });
@@ -119,18 +119,6 @@ SmartAlertConfigDialogWrapper.propTypes = {
   isCopy: PropTypes.bool
 };
 
-function changeFormDataByCopyState(isCopy, formData) {
-  if (isCopy) {
-    const changedFormData = {
-      ...formData,
-      name: t('in-alerting:smartAlerts.applications.inventory.titleCopyOf', { smartAlertTitle: formData.name })
-    };
-    delete changedFormData.id;
-    return changedFormData;
-  }
-  return formData;
-}
-
 function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving }) {
   setIsSaving(true);
 
@@ -144,7 +132,7 @@ function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, set
 
   if (editMode) {
     (isGlobalSmartAlert ? updateGlobalAlertConfig : updateAlertConfig)(alertConfig, form.get('id').value).once(
-      () => onClose(),
+      alertConfig => onClose(alertConfig),
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
         setIsSaving(false);
@@ -152,7 +140,7 @@ function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, set
     );
   } else {
     (isGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
-      () => onClose(),
+      alertConfig => onClose(alertConfig),
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
         setIsSaving(false);

@@ -29,6 +29,7 @@ import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
 import Stack from 'in-new-components/layout/Stack';
 import useUrlState from 'in-hooks/useUrlState';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './SmartAlertsBaseList.mless';
@@ -69,7 +70,9 @@ const columnDefinitions = [
     sortable: false,
     getContent({ config, loading, isGlobalSmartAlertConfig }) {
       return (
-        <ListActionsColumn config={config} isLoading={loading} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />
+        role.canConfigureCustomAlerts && (
+          <ListActionsColumn config={config} isLoading={loading} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />
+        )
       );
     }
   }

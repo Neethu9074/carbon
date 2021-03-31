@@ -11,15 +11,16 @@ import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/websites/al
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { changeFormDataByCopyState } from '../components/smart-alert-dialog/sharedFunctions';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 
 const logger = createLogger('in-websites/alerting/AlertDialog');
 const initialChartConfigIndex = 0;
 
-export default function AlertConfigDialog({ onClose, formData, websiteLabel, editMode }) {
+export default function AlertConfigDialog({ onClose, formData, websiteLabel, editMode, isCopy }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => alertFormDefinition(formData));
+  const [form, setForm] = useState(() => alertFormDefinition(changeFormDataByCopyState(isCopy, formData)));
   const [isSaving, setIsSaving] = useState(false);
 
   return (
@@ -39,13 +40,6 @@ export default function AlertConfigDialog({ onClose, formData, websiteLabel, edi
     />
   );
 }
-
-AlertConfigDialog.propTypes = {
-  formData: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
-  websiteLabel: PropTypes.string.isRequired,
-  editMode: PropTypes.bool
-};
 
 function createOnChange(setForm, externalForm) {
   return (form, fieldName, fieldValue, ...atomicAddFields) => {
@@ -81,7 +75,7 @@ function createAlert(form, setForm, onClose, editMode, setIsSaving) {
 
   if (editMode) {
     updateAlertConfig(websiteAlertConfig, form.get('id').value).once(
-      () => onClose(),
+      alertConfig => onClose(alertConfig),
       error => {
         logger.error(`failed to update alertConfig: ${websiteAlertConfig} ${error.message}`, error);
         setIsSaving(false);
@@ -89,7 +83,7 @@ function createAlert(form, setForm, onClose, editMode, setIsSaving) {
     );
   } else {
     createAlertConfig(websiteAlertConfig).once(
-      () => onClose(),
+      alertConfig => onClose(alertConfig),
       error => {
         logger.error(`failed to save alertConfig: ${websiteAlertConfig} ${error.message}`, error);
         setIsSaving(false);
@@ -115,3 +109,14 @@ function toAlertConfig(form) {
     granularity: form.get(fieldNames.granularity).value
   });
 }
+
+AlertConfigDialog.propTypes = {
+  formData: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
+  websiteLabel: PropTypes.string.isRequired,
+  editMode: PropTypes.bool,
+  /**
+   * Whether the new Smart Alert is a copy of a given Smart Alert
+   */
+  isCopy: PropTypes.bool
+};

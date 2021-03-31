@@ -118,16 +118,23 @@ export default function Alert({ location, timeConfig }) {
           alertConfig={alertConfig}
           alertConfigVersions={alertConfigVersions}
           setRevision={setRevision}
-          openDialog={() => {
+          openDialog={({ isCopy }) => {
             addActiveDialog(
               <SmartAlertConfigDialogWrapper
                 applicationLabel={applicationName}
                 formData={alertConfig}
-                onClose={() => {
+                onClose={({ id } = {}) => {
                   close();
                   setRevision(null);
+                  if (isCopy) {
+                    mutateUrl(location => {
+                      location.pathname = isGlobalAlertConfig ? globalAlertDetails : alertsTabDetailsFullyQualified;
+                      setOrDeleteMatrixKey(location, alertsTab, 'alertId', id);
+                    });
+                  }
                 }}
                 isGlobalSmartAlert={isGlobalAlertConfig}
+                isCopy={isCopy}
                 editMode
               />
             );

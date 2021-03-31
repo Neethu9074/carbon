@@ -99,15 +99,22 @@ function Alert({
           alertConfig={alertConfig}
           alertConfigVersions={alertConfigVersions}
           setRevision={setRevision}
-          openDialog={() => {
+          openDialog={({ isCopy }) => {
             addActiveDialog(
               <AlertConfigDialog
-                onClose={() => {
+                onClose={({ id } = {}) => {
                   close();
                   setRevision(null);
+                  if (isCopy) {
+                    mutateUrl(location => {
+                      location.pathname = alertsTabDetailsFullyQualified;
+                      setOrDeleteMatrixKey(location, alertsTab, 'alertId', id);
+                    });
+                  }
                 }}
                 formData={alertConfig}
                 websiteLabel={websiteLabel}
+                isCopy={isCopy}
                 editMode
               />
             );

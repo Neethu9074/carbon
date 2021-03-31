@@ -55,7 +55,6 @@ export default function GlobalSmartAlertsTab({ location }) {
                 onNoData={() => setHasDataToRender(false)}
                 getLocalAlertConfigsFetchFunction={() => getAllAlertConfigsForAllApplications({ asObservable: true })}
                 getGlobalAlertConfigFetchFunction={() => getAllGlobalAlertConfigs({ asObservable: true })}
-                selectLocalSmartAlerts={false}
                 additionalMatrixKeys={({ configsCategory, config }) => {
                   return configsCategory === categoryLocal ? [{ key: applicationId, value: config.applicationId }] : [];
                 }}
