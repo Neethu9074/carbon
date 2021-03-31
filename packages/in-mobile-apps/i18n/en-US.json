@@ -10,6 +10,7 @@
     "MetricSelectorTitle": "Select Metrics",
     "MetricSelectorHelp": "Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs.",
     "EntityPageMainNotificationTitle": "No {{entityName}} found",
+    "uniqueUsers": "Unique Users",
     "metrics": {
       "timestampMetricName": "timestamp",
       "groupNameMetricName": "name",

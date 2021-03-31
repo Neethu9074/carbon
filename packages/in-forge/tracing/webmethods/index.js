@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'webmethods',
-  category: t('in-forge:tracingCategory.http', 'http'),
+  category: t('in-forge:tracingCategory.http'),
 
   detailView: 'WebmethodsSpanDetailView',
 

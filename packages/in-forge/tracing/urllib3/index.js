@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'urllib3',
-  category: t('in-forge:tracingCategory.http', 'http'),
+  category: t('in-forge:tracingCategory.http'),
 
   detailView: 'Urllib3SpanDetailView',
 

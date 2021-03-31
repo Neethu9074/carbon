@@ -40,7 +40,7 @@ export default function PaginatedMetricList({ options, onChange, isMetricDisable
     <>
       <div className={locals.searchInputWrapper}>
         <SearchInput
-          placeholder="Search"
+          placeholder={t('in-new-components:metricConfigurator.search')}
           onChange={_query => {
             setState({
               currentPage,

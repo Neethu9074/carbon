@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'cics.http.entry',
-  category: t('in-forge:tracingCategory.http', 'http'),
+  category: t('in-forge:tracingCategory.http'),
 
   detailView: 'CicsHttpEntryDetailView',
 

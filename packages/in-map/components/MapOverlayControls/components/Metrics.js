@@ -89,7 +89,7 @@ const DropDown = connectTo(
     return (
       <div className={`${block}__dropdown`}>
         <div className={`${block}__dropdown-label`} onClick={onClick}>
-          {activeMetric ? activeMetric.get('longLabel') : 'choose metric'}
+          {activeMetric ? activeMetric.get('longLabel') : t('in-map:chooseMetric')}
 
           <SvgIcon
             className={`${block}__icon`}
@@ -116,7 +116,7 @@ const ResetButton = connectTo(
 
     return (
       <div className={`${block}__reset`} onClick={clearActiveMetric}>
-        Reset
+        {t('in-map:reset')}
       </div>
     );
   }
@@ -126,7 +126,7 @@ function Topic({ label, list }) {
   const topic = list[label];
   return (
     <div>
-      <h4 className={`${block}__topic`}>{label}</h4>
+      <h4 className={`${block}__topic`}>{t('in-map:' + label)}</h4>
       <ul className={`${block}__list`}>
         {Object.keys(topic).map(metricKey => (
           <Metric key={metricKey} topic={label} metricKey={metricKey} metric={topic} />
@@ -163,7 +163,7 @@ const Metric = connectTo(
           );
         }}
       >
-        {metricKey}
+        {t('in-map:' + metricKey)}
       </div>
     );
   }

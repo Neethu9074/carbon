@@ -17,6 +17,7 @@ import Dashboard from 'in-infrastructure/Dashboard';
 import { noop } from 'in-services/util/function';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
+import { t } from 'in-i18n';
 
 export default function InfraPageHeaderWithTabs({
   children,
@@ -41,7 +42,10 @@ export default function InfraPageHeaderWithTabs({
                   <DashboardHeader
                     theme={theme}
                     contextConfigurations={[
-                      { renderContext: () => 'Infrastructure', contextIcon: 'lib_infrastructure' }
+                      {
+                        renderContext: () => t('in-infrastructure:dashboard.infrastructure'),
+                        contextIcon: 'lib_infrastructure'
+                      }
                     ]}
                     label={isInfraExploreActive ? <TypeSelector onTypeSelected={onTypeSelected} /> : undefined}
                   />

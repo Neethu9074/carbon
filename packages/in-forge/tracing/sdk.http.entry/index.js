@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'sdk.http.entry',
-  category: t('in-forge:tracingCategory.http', 'http'),
+  category: t('in-forge:tracingCategory.http'),
 
   detailView: 'HttpEntrySpanDetailView',
 

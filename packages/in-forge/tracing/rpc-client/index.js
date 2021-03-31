@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'rpc-client',
-  category: t('in-forge:tracingCategory.rpc', 'rpc'),
+  category: t('in-forge:tracingCategory.rpc'),
 
   detailView: 'RpcClientDetailView',
 

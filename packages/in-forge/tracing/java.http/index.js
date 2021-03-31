@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'java.http',
-  category: t('in-forge:tracingCategory.http', 'http'),
+  category: t('in-forge:tracingCategory.http'),
 
   detailView: 'JavaHttpClientSpanDetailView',
 

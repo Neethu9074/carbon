@@ -503,7 +503,8 @@
       "aValueMustBeSelected": "A value must be selected.",
       "atLeastOneFilterExpressionMustBeConfigured": "At least one filter expression must be configured.",
       "timeBased": "Time-based",
-      "eventBased": "Event-based"
+      "eventBased": "Event-based",
+      "slo": "SLO"
     },
     "timezone": {
       "demo": {

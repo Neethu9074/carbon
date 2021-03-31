@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'otel',
-  category: t('in-forge:tracingCategory.generic', 'generic'),
+  category: t('in-forge:tracingCategory.generic'),
 
   detailView: 'OTelSpanDetailView',
 

@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'sdk.graphql',
-  category: t('in-forge:tracingCategory.graphql', 'graphql'),
+  category: t('in-forge:tracingCategory.graphql'),
 
   detailView: 'GraphQlSpanDetailView',
 

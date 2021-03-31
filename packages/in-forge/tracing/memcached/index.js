@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'memcached',
-  category: t('in-forge:tracingCategory.cache', 'cache'),
+  category: t('in-forge:tracingCategory.cache'),
 
   detailView: 'MemcachedSpanDetailView',
 

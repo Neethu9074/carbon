@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'x.http',
-  category: t('in-forge:tracingCategory.xray', 'xray'),
+  category: t('in-forge:tracingCategory.xray'),
 
   detailView: 'XrayHttpServerSpanDetailView',
 

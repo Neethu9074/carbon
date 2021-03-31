@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'msmq',
-  category: t('in-forge:tracingCategory.messaging', 'messaging'),
+  category: t('in-forge:tracingCategory.messaging'),
 
   detailView: 'MSMQSpanDetailView',
 

@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'nats',
-  category: t('in-forge:tracingCategory.messaging', 'messaging'),
+  category: t('in-forge:tracingCategory.messaging'),
 
   detailView: 'NatsSpanDetailView',
 

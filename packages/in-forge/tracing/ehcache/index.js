@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'ehcache',
-  category: t('in-forge:tracingCategory.cache', 'cache'),
+  category: t('in-forge:tracingCategory.cache'),
 
   detailView: 'EhcacheSpanDetailView',
 

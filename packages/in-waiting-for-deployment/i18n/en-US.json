@@ -19,6 +19,14 @@
   "invite": "Invite",
   "sendYourAgentKeyGuideToAColleague": "Send your agent key & guide to a colleague",
   "content": {
+    "ec2": "Elastic Compute Cloud (EC2)",
+    "ecs": "Elastic Container Service (ECS)",
+    "agentMode": "Agent mode",
+    "dynamic": "Dynamic",
+    "static": "Static",
+    "agentJdk": "Agent JDK",
+    "azulZulu18": "Azul Zulu 1.8",
+    "eclipseOpenJ911": "Eclipse OpenJ9 11",
     "theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "The cluster name must be a combination of letters, dashes and underscores, up to 64 characters long",
     "aws": "AWS",
     "amazonWebServices": "Amazon Web Services",
@@ -259,6 +267,24 @@
     "agentInstallationModeLabel": "Installation mode",
     "agentInstallationModeInteractive": "Interactive",
     "agentInstallationModeSilent": "Silent"
+  },
+  "runtime": {
+    "go": "Go",
+    "java": "Java",
+    "dotnet": ".NET Core",
+    "nodejs": "Node.js",
+    "nodejs8": "Node.js 8.x",
+    "nodejs10Plus": "Node.js 10.x or newer",
+    "python": "Python",
+    "python2and3": "Python 2.7 and 3.x"
+  },
+  "baseImg": {
+    "glibcLinux": "Linux (glibc-based)",
+    "alpineLinux": "Alpine Linux (musl-based)"
+  },
+  "installationMethods": {
+    "docker": "Docker build'",
+    "buildpack": "Cloud Native Buildpack"
   },
   "download": "Download",
   "technology": "Technology",

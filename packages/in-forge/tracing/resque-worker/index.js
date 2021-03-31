@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'resque-worker',
-  category: t('in-forge:tracingCategory.messaging', 'messaging'),
+  category: t('in-forge:tracingCategory.messaging'),
 
   detailView: 'ResqueWorkerSpanDetailView',
 

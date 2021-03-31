@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'java.rmi.exit',
-  category: t('in-forge:tracingCategory.rpc', 'rpc'),
+  category: t('in-forge:tracingCategory.rpc'),
 
   detailView: 'RmiExitSpanDetailView'
 });

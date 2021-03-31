@@ -299,7 +299,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
 }
 
 function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
-  const platformOptions = ['Elastic Compute Cloud (EC2)', 'Elastic Container Service (ECS)'];
+  const platformOptions = [t('in-waiting-for-deployment:content.ec2'), t('in-waiting-for-deployment:content.ecs')];
 
   const [selectedPlatform, setPlatform] = useState(platformOptions[0]);
 
@@ -515,8 +515,17 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
 }
 
 function AWSFargateContent({ agentKey, serverlessEndpoint }) {
-  const runtimeOptions = ['Go', 'Java', '.NET Core', 'Node.js', 'Python'];
-  const baseImageOptions = ['Linux (glibc-based)', 'Alpine Linux (musl-based)'];
+  const runtimeOptions = [
+    t('in-waiting-for-deployment:runtime.go'),
+    t('in-waiting-for-deployment:runtime.java'),
+    t('in-waiting-for-deployment:runtime.dotnet'),
+    t('in-waiting-for-deployment:runtime.nodejs'),
+    t('in-waiting-for-deployment:runtime.python')
+  ];
+  const baseImageOptions = [
+    t('in-waiting-for-deployment:baseImg.glibcLinux'),
+    t('in-waiting-for-deployment:baseImg.glibcLinux')
+  ];
 
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
   const [baseImageName, setBaseImageName] = useState(baseImageOptions[0]);
@@ -756,7 +765,13 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
 }
 
 function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
-  const runtimeOptions = ['Go', 'Java', 'Node.js 10.x or newer', 'Node.js 8.x', 'Python 2.7 and 3.x'];
+  const runtimeOptions = [
+    t('in-waiting-for-deployment:runtime.go'),
+    t('in-waiting-for-deployment:runtime.java'),
+    t('in-waiting-for-deployment:runtime.nodejs10Plus'),
+    t('in-waiting-for-deployment:runtime.nodejs8'),
+    t('in-waiting-for-deployment:runtime.python2and3')
+  ];
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
   const awsRegionOptions = [
     'ap-northeast-1',
@@ -1587,10 +1602,10 @@ function GoogleComputeEngineContent({ agentKey, agentEndpoint, agentEndpointPort
     <>
       <Row>
         <Fragment>
-          <h4>Agent mode</h4>
+          <h4>{t('in-waiting-for-deployment:content.agentMode')}</h4>
           <p>
             <CheckboxFancy
-              label="Dynamic"
+              label={t('in-waiting-for-deployment:content.dynamic')}
               checked={agentMode === agentModeOptions[0]}
               onChange={() => setAgentMode(agentModeOptions[0])}
               size="default"
@@ -1599,7 +1614,7 @@ function GoogleComputeEngineContent({ agentKey, agentEndpoint, agentEndpointPort
           </p>
           <p>
             <CheckboxFancy
-              label="Static"
+              label={t('in-waiting-for-deployment:content.static')}
               checked={agentMode === agentModeOptions[1]}
               onChange={() => setAgentMode(agentModeOptions[1])}
               size="default"
@@ -1609,10 +1624,10 @@ function GoogleComputeEngineContent({ agentKey, agentEndpoint, agentEndpointPort
         </Fragment>
 
         <Fragment>
-          <h4>Agent JDK</h4>
+          <h4>{t('in-waiting-for-deployment:content.agentJdk')}</h4>
           <p>
             <CheckboxFancy
-              label="Azul Zulu 1.8"
+              label={t('in-waiting-for-deployment:content.azulZulu18')}
               checked={jvmVendor === jvmVendorOptions[0]}
               onChange={() => setJVMVendor(jvmVendorOptions[0])}
               size="default"
@@ -1621,7 +1636,7 @@ function GoogleComputeEngineContent({ agentKey, agentEndpoint, agentEndpointPort
           </p>
           <p>
             <CheckboxFancy
-              label="Eclipse OpenJ9 11"
+              label={t('in-waiting-for-deployment:content.eclipseOpenJ911')}
               checked={jvmVendor === jvmVendorOptions[1]}
               onChange={() => setJVMVendor(jvmVendorOptions[1])}
               size="default"
@@ -1700,9 +1715,20 @@ function K8sGoogleKubernetesEngineContent({ agentKey, agentEndpoint, agentEndpoi
 }
 
 function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
-  const installationMethods = ['Docker build', 'Cloud Native Buildpack'];
-  const runtimeOptions = ['.Net Core', 'Go', 'Java', 'Node.js'];
-  const baseImageOptions = ['Linux (glibc-based)', 'Alpine Linux (musl-based)'];
+  const installationMethods = [
+    t('in-waiting-for-deployment:installationMethods.docker'),
+    t('in-waiting-for-deployment:installationMethods.buildpack')
+  ];
+  const runtimeOptions = [
+    t('in-waiting-for-deployment:runtime.dotnet'),
+    t('in-waiting-for-deployment:runtime.go'),
+    t('in-waiting-for-deployment:runtime.java'),
+    t('in-waiting-for-deployment:runtime.nodejs')
+  ];
+  const baseImageOptions = [
+    t('in-waiting-for-deployment:baseImg.glibcLinux'),
+    t('in-waiting-for-deployment:baseImg.alpineLinux')
+  ];
   const [baseImageName, setBaseImageName] = useState(baseImageOptions[0]);
   const [appDirName, setAppDirName] = useState('/app');
 

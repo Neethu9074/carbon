@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'php.error',
-  category: t('in-forge:tracingCategory.logger', 'logger'),
+  category: t('in-forge:tracingCategory.logger'),
 
   detailView: 'PhpErrorSpanDetailView',
 

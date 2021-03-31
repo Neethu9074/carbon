@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'gwt',
-  category: t('in-forge:tracingCategory.rpc', 'rpc'),
+  category: t('in-forge:tracingCategory.rpc'),
 
   detailView: 'GwtSpanDetailView',
 

@@ -62,7 +62,7 @@ const resourceSizeMetrics = [
 
 const uniqueUsers = {
   metric: 'uniqueUsers',
-  label: 'Unique Users',
+  label: t('in-mobile-apps:analyzeView.uniqueUsers'),
   formatter: affectedUsers,
   supportedAggregations: ['DISTINCT_COUNT'],
   preferredRenderer: Renderer.stackedBar,

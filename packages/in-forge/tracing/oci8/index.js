@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'oci8',
-  category: t('in-forge:tracingCategory.database', 'database'),
+  category: t('in-forge:tracingCategory.database'),
 
   detailView: 'OCI8SpanDetailView',
 

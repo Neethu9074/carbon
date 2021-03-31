@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'ldap',
-  category: t('in-forge:tracingCategory.database', 'database'),
+  category: t('in-forge:tracingCategory.database'),
 
   detailView: 'LdapSpanDetailView',
 

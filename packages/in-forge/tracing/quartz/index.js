@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'quartz',
-  category: t('in-forge:tracingCategory.batch', 'batch'),
+  category: t('in-forge:tracingCategory.batch'),
 
   detailView: 'QuartzSpanDetailView',
 

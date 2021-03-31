@@ -25,7 +25,11 @@ export default function GroupBySection({
 }) {
   let title = t('in-new-components:groupingConfigurator.titleGroup');
   if (withOptionalMarker) {
-    title = <SectionLabelWithSubtext subtext="Optional">{title}</SectionLabelWithSubtext>;
+    title = (
+      <SectionLabelWithSubtext subtext={t('in-new-components:groupingConfigurator.optional')}>
+        {title}
+      </SectionLabelWithSubtext>
+    );
   }
   return (
     <Section icon={withoutIcon ? undefined : 'lib_group_by'} title={title} actions={actions} hasError={hasError}>

@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'distributeme.client',
-  category: t('in-forge:tracingCategory.remote', 'remote'),
+  category: t('in-forge:tracingCategory.remote'),
 
   detailView: 'DistributeMeClientSpanDetailView',
 

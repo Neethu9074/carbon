@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'hangfire',
-  category: t('in-forge:tracingCategory.batch', 'batch'),
+  category: t('in-forge:tracingCategory.batch'),
 
   detailView: 'HangfireSpanDetailView',
 

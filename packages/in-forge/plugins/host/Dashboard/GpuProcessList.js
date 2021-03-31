@@ -109,7 +109,15 @@ export default connectTo(
         };
       });
 
-    return <Table cardTitle={'GPU Memory/Process'} withoutPadding cols={cols} rows={rows} getRowDetails={getDetails} />;
+    return (
+      <Table
+        cardTitle={t('in-forge:plugins.host.dashboard.gpuMemoryProcess')}
+        withoutPadding
+        cols={cols}
+        rows={rows}
+        getRowDetails={getDetails}
+      />
+    );
   }
 );
 

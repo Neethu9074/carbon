@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'wcf',
-  category: t('in-forge:tracingCategory.remote', 'remote'),
+  category: t('in-forge:tracingCategory.remote'),
 
   detailView: 'WcfApiSpanDetailView',
 

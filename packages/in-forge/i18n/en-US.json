@@ -3562,6 +3562,8 @@
       }
     },
     "azureRedisCache": {
+      "enabled": "(Enabled)",
+      "disabled": "(Disabled)",
       "infoName": "Name",
       "infoResourceGroup": "Resource Group",
       "infoLocation": "Location",
@@ -4892,7 +4894,9 @@
         "txDropped": "TX Dropped",
         "dockerContainer": "Docker Container",
         "ports": "Ports",
-        "containerLabels": "Container Labels"
+        "containerLabels": "Container Labels",
+        "memory": "Memory",
+        "memoryLimit": "Memory (Limit: {{limitBytes}})"
       },
       "image": "Image",
       "command": "Command",
@@ -7097,6 +7101,7 @@
       "theOperatingSystemOfThisHostDoesNotSeemToOfferTheExtendedBerkeleyPacketFilterEBpfFunctionality": "The Operating System of this host does not seem to offer the extended Berkeley Packet Filter (eBPF) functionality that is required by the Process Abnormal Termination detection.",
       "troubleshootingDocs": "Troubleshooting docs",
       "dashboard": {
+        "gpuMemoryProcess": "GPU Memory/Process",
         "openAgentManagement": "Open Agent Management",
         "agentManagementIsOnlyAvailableWhenTheAgentIsRunning": "Agent management is only available when the agent is running.",
         "cpuUsage": "CPU Usage",
@@ -7888,6 +7893,9 @@
         "changeTheLoggingLevelOfThisAgent": "Change the logging level of this agent. Currently, this agent is running the log level <strong>{{currentLevel}}</strong>. Log level changes become active within a few seconds.",
         "changeTheMonitoringDetailLevelOfThisAgent": "Change the monitoring detail level of this agent. Currently, this agent is running in the <strong>{{currentMode}}</strong> mode. Mode changes become active within a few seconds."
       },
+      "disabled": "Disabled",
+      "infrastructure": "Infrastructure",
+      "apm": "APM",
       "theLookupOfWhichProcessIsSendingTracesToThisAgentUsingTraceEndpoints": "The lookup of which process is sending traces to this agent using trace endpoints like OpenTelemetry, Jaeger, Zipkin or Web Trace SDK cannot be performed because the following utilities are missing: <strong><code>{{missing}}</code></strong>. Please refer to your Linux distribution docs on how to install these utilities.",
       "theInstanaPcpProcessSeemsNotToBeRunningOnThisHostWhichPreventsTheHostAgentFromTracingNetApplications": "The InstanaPCP process seems not to be running on this host, which prevents the host agent from tracing .NET applications.",
       "troubleshootingDocs": "Troubleshooting docs",

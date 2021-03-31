@@ -79,12 +79,12 @@ const columnDefinitions = [
 ];
 
 const sortOptions = [
-  { label: 'Name', value: 'name' },
-  { label: 'Blueprint', value: 'blueprint' },
-  { label: 'Enabled', value: 'enabled' },
-  { label: 'Disabled', value: 'disabled' },
-  { label: 'Severity', value: 'severity' },
-  { label: 'Date created', value: 'created' }
+  { label: t('in-alerting:smartAlerts.sortOptions.name'), value: 'name' },
+  { label: t('in-alerting:smartAlerts.sortOptions.blueprint'), value: 'blueprint' },
+  { label: t('in-alerting:smartAlerts.sortOptions.enabled'), value: 'enabled' },
+  { label: t('in-alerting:smartAlerts.sortOptions.disabled'), value: 'disabled' },
+  { label: t('in-alerting:smartAlerts.sortOptions.severity'), value: 'severity' },
+  { label: t('in-alerting:smartAlerts.sortOptions.created'), value: 'created' }
 ];
 
 export const alertsCategoryMatrixParam = 'configsCategory';

@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { t } from 'in-i18n';
+
 export const modes = {
-  0: 'Disabled',
-  1: 'Infrastructure',
-  2: 'APM'
+  0: t('in-forge:plugins.instanaAgent.disabled'),
+  1: t('in-forge:plugins.instanaAgent.infrastructure'),
+  2: t('in-forge:plugins.instanaAgent.apm')
 };
 
 export const logLevels = {

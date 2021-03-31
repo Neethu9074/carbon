@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'jboss.scheduler',
-  category: t('in-forge:tracingCategory.batch', 'batch'),
+  category: t('in-forge:tracingCategory.batch'),
 
   detailView: 'JBossSchedulerSpanDetailView',
 

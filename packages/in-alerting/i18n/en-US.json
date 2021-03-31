@@ -786,6 +786,14 @@
         "stepConfigsStep3Title": "Step 3: Select Alerting Channels"
       },
       "addAlert": "Add Alert"
+    },
+    "sortOptions": {
+      "name": "Name",
+      "blueprint": "Blueprint",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "severity": "Severity",
+      "created": "Date created"
     }
   }
 }

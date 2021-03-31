@@ -41,5 +41,13 @@
   "infraMap": "Infra Map",
   "infrastructureContainerMap": "Infrastructure Container Map",
   "infrastructureHostMap": "Infrastructure Host Map",
-  "unknownView": "Unknown view"
+  "unknownView": "Unknown view",
+  "CPU": "CPU",
+  "Usage": "Usage",
+  "Memory": "Memory",
+  "MemUsage": "MemUsage",
+  "Load": "Load",
+  "Used": "Used",
+  "chooseMetric": "choose metric",
+  "reset": "Reset"
 }

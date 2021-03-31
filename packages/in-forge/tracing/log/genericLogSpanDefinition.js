@@ -11,7 +11,7 @@ export default logSpanDefinition('log');
 export function logSpanDefinition(type) {
   return {
     type: type,
-    category: t('in-forge:tracingCategory.logger', 'logger'),
+    category: t('in-forge:tracingCategory.logger'),
 
     detailView: 'LogSpanDetailView',
 

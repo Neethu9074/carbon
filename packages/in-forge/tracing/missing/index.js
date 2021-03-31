@@ -8,7 +8,7 @@ import { t } from 'in-i18n';
 
 registerSpanDefinition({
   type: 'missing',
-  category: t('in-forge:tracingCategory.missing', 'missing'),
+  category: t('in-forge:tracingCategory.missing'),
 
   detailView: 'MissingSpanDetailView',
 

@@ -81,7 +81,7 @@ function Ready({ shortUrl, setFixateTime, fixateTime, timeConfig }) {
             }}
           />
           <CopyToClipboardButton kind="create" getText={() => shortUrl} className={locals.copy}>
-            Copy
+            {t('in-new-components:dashboardHeader.copy')}
           </CopyToClipboardButton>
         </div>
 

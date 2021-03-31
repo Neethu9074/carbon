@@ -64,7 +64,7 @@ export default function FormComponent({
       {form.get('slo').map(field => (
         <Sections>
           <InputInSection
-            label="SLO"
+            label={t('in-custom-dashboards:widgets.slo.slo')}
             id="metric-configurator-slo"
             type="number"
             value={

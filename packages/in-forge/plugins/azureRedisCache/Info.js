@@ -34,7 +34,10 @@ export default function Info({ snapshot }) {
         </DescriptionItem>
         <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoPort')}>
           {' '}
-          {data.get('port')} {data.get('enableNonSslPort') ? '(Enabled)' : '(Disabled)'}
+          {data.get('port')}{' '}
+          {data.get('enableNonSslPort')
+            ? t('in-forge:plugins.azureRedisCache.enabled')
+            : t('in-forge:plugins.azureRedisCache.disabled')}
         </DescriptionItem>
         <DescriptionItem title={t('in-forge:plugins.azureRedisCache.infoSSLPort')}>
           {data.get('sslPort')}

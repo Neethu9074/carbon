@@ -179,7 +179,7 @@ function RichCode(props) {
             downloadLink.setAttribute('download', `configuration.${language}`);
           }}
         >
-          Download
+          {t('in-waiting-for-deployment:download')}
         </Button>
       </a>
     </Row>

@@ -59,7 +59,8 @@
     "urlShortenerTabListTextShortLink": "Short Link",
     "urlShortenerWaitTextGeneratingShortLink": "Generating short link.",
     "urlShortenerLabelLockCurrentTimeRange": "Lock current time range",
-    "urlShortenerLabelLive": "{{timeConfig}} (Live)"
+    "urlShortenerLabelLive": "{{timeConfig}} (Live)",
+    "copy": "Copy"
   },
   "delayed": {
     "displayNameDelayed": "Delayed"
@@ -125,7 +126,8 @@
     "exampleTagCatalogDescriptionLabelOfEntity": "Label of entity",
     "addGroup": "Add group",
     "titleGroup": "Group",
-    "loadingIndicatorLoadingTagCatalog": "Loading tag catalog…"
+    "loadingIndicatorLoadingTagCatalog": "Loading tag catalog…",
+    "optional": "Optional"
   },
   "health": {
     "eventTypeIssue": "Issue",
@@ -203,7 +205,8 @@
     "messagePleaseSelectAtMostMetrics": "Please select at most {{maximumNumberOfMetrics}} metrics.",
     "titleAddAMetric": "Add a metric",
     "labelPleaseSelect": "Please Select",
-    "labelAlreadySelected": "Already selected"
+    "labelAlreadySelected": "Already selected",
+    "search": "Search"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "Used",

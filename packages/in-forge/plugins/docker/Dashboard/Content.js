@@ -84,7 +84,13 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
       </DashboardSection>
       {hasMemoryMetrics(snapshot) ? (
         <DashboardSection
-          title={`Memory ${memoryLimitBytes ? '(Limit: ' + bytesTwoDecimalPlaces(memoryLimitBytes) + ')' : ''}`}
+          title={
+            memoryLimitBytes
+              ? t('in-forge:plugins.docker.dashboard.memoryLimit', {
+                  limitBytes: bytesTwoDecimalPlaces(memoryLimitBytes)
+                })
+              : t('in-forge:plugins.docker.dashboard.memory')
+          }
         >
           <Chart
             snapshotId={snapshotId}
