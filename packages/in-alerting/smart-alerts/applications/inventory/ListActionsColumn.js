@@ -29,7 +29,6 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import { stopPropagation } from 'in-services/util/function';
 import Button from 'in-new-components/Button';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './ListActionsColumn.mless';
@@ -84,22 +83,20 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
 }
 
 function handleDelete(id, setIsSaving, isGlobalSmartAlertConfig) {
-  if (role.canConfigureCustomAlerts) {
-    const deleteConfig = isGlobalSmartAlertConfig ? deleteGlobalAlertConfig : deleteAlertConfig;
-    setIsSaving(true);
+  const deleteConfig = isGlobalSmartAlertConfig ? deleteGlobalAlertConfig : deleteAlertConfig;
+  setIsSaving(true);
 
-    deleteConfig(id).once(
-      () => {
-        applicationsAlertingListAlertDeleted({
-          alertConfigId: id
-        });
-        refreshSmartAlertConfigsList();
-      },
-      () => {
-        setIsSaving(false);
-      }
-    );
-  }
+  deleteConfig(id).once(
+    () => {
+      applicationsAlertingListAlertDeleted({
+        alertConfigId: id
+      });
+      refreshSmartAlertConfigsList();
+    },
+    () => {
+      setIsSaving(false);
+    }
+  );
 }
 
 function handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig) {

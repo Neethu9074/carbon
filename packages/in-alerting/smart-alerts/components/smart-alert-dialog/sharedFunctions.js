@@ -4,6 +4,7 @@
  */
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
+import { t } from 'in-i18n';
 
 export function updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode, editMode) {
   const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
@@ -54,4 +55,16 @@ export function updateThresholdInForm(createThresholdForm, form, updateForm, dat
 
     updateForm(newForm);
   }
+}
+
+export function changeFormDataByCopyState(isCopy, formData) {
+  if (isCopy) {
+    const changedFormData = {
+      ...formData,
+      name: t('in-alerting:smartAlerts.titleCopyOf', { smartAlertTitle: formData.name })
+    };
+    delete changedFormData.id;
+    return changedFormData;
+  }
+  return formData;
 }

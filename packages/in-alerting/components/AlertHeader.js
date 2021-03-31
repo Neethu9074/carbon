@@ -218,6 +218,13 @@ export default function AlertHeader({
               <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip')}>
                 <SvgIcon className={locals.actionIcon} type="lib_actions_edit" onClick={openDialog} />
               </Tooltip>
+              <Tooltip content={t('in-alerting:components.alertHeaderCopyTooltip')}>
+                <SvgIcon
+                  className={locals.actionIcon}
+                  type="lib_actions_copy"
+                  onClick={() => openDialog({ isCopy: true })}
+                />
+              </Tooltip>
               <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')}>
                 <SvgIcon
                   className={locals.actionIcon}

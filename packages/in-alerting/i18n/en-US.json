@@ -14,6 +14,7 @@
     "alertHeaderEnableTooltip": " Enable",
     "alertHeaderRestoreDeleteTooltip": "Delete",
     "alertHeaderEditTooltip": "Edit",
+    "alertHeaderCopyTooltip": "Copy",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Please Confirm",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Are you sure you want to remove the <strong>\"alert {{alertConfigName}}\"</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remove",
@@ -89,6 +90,7 @@
   "smartAlerts": {
     "titleNoSmartAlertsConfigured": "No Smart Alerts configured",
     "titleNoSmartAlertsCreated": "No Smart Alerts created",
+    "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
     "applications": {
       "newGlobalAlert": "Global Smart Alert",
       "advanced": {
@@ -439,7 +441,6 @@
         "provideStatusCodeStatusCode": "Status Code"
       },
       "inventory": {
-        "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
         "noData": "No Smart Alerts configured. Click the button below to configure you first smart alert.",
         "noPersmissionToCreateGlobalSmartAlert": "You don't have the permission to configure smart alerts. Please comtact your administrator.",
         "labelGlobalSmartAlertsList": "Global Application Smart Alerts ({{numberOfAlerts}})",

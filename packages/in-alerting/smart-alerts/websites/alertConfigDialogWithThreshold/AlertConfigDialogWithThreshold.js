@@ -97,7 +97,7 @@ export default function AlertConfigDialogWithThreshold(props) {
         } else {
           websitesAlertingCloseDialog(getTrackingObject(form, { mode: modeAdvanced }));
         }
-        onClose();
+        onClose({});
       }}
       trackModeSwitch={(simpleMode, step) => {
         if (simpleMode) {
