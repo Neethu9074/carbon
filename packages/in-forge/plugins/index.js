@@ -186,6 +186,7 @@ import './garden';
 import './packet';
 import './statsd';
 import './sybase';
+import './envoy';
 import './awsEc';
 import './awsEs';
 import './awsMq';

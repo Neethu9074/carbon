@@ -334,6 +334,8 @@
   "pluginName_endpoint_1": "Endpoints",
   "pluginName_endpoint_2": "Endpoints",
   "pluginName_endpoint": "Endpoint",
+  "pluginName_envoy_plural": "Envoy Servers",
+  "pluginName_envoy": "Envoy Server",
   "pluginName_etcd_plural": "Etcd Nodes",
   "pluginName_etcd_0": "Etcd Nodes",
   "pluginName_etcd_1": "Etcd Nodes",
@@ -5184,6 +5186,13 @@
       "syntheticCallsPerSecond": "Synthetic Calls per Second",
       "syntheticErrorRate": "Synthetic Error Rate",
       "syntheticCallsS": "Synthetic calls/s"
+    },
+    "envoy": {
+      "envoy": "Envoy",
+      "pid": "Process ID",
+      "version": "Version",
+      "configFilePath": "Config File",
+      "requestsPerSecond": "Requests per second"
     },
     "etcd": {
       "dashboard": {
