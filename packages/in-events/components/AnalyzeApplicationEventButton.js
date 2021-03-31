@@ -11,6 +11,8 @@ import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-a
 import { containsTagName } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getDirectLinkToUA2 } from 'in-analyze/navigation/paths';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
@@ -108,7 +110,9 @@ export function getLinkToUnboundAnalytics(
       applicationName,
       serviceId,
       endpointId,
-      timeConfig
+      timeConfig,
+      false,
+      endpointName
     ),
     hiddenCalls: {
       includeInternal,
@@ -124,20 +128,23 @@ export function getEnrichedAnalyzeTagFilterFormModel(
   serviceId,
   endpointId,
   timeConfig,
-  excludeViolationRelatedFilters = false
+  excludeViolationRelatedFilters = false,
+  endpointName
 ) {
   const { rule, tagFilterExpression } = alertConfig;
   const alertType = rule.alertType;
   const blueprintConfig = getBlueprintConfig(alertType);
+
   return joinExpressions({
     expressions: [
       blueprintConfig.getEntityTagFilterFormModel(alertConfig, applicationId, applicationName, serviceId),
+      endpointName ? tagFilter('endpoint.name', EQUALS, endpointName) : null, // endpoint.name is still used by the affected entities list
       fromBackendModel(tagFilterExpression),
       excludeViolationRelatedFilters ? [] : blueprintConfig.getRuleTagFilterFormModel(rule),
       excludeViolationRelatedFilters
         ? []
         : blueprintConfig.getExtraAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig)
-    ]
+    ].filter(Boolean)
   });
 }
 

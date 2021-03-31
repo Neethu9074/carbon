@@ -69,7 +69,7 @@ export function SmartAlertAffectedEntities({
       applicationName,
       needsGroupByEndpoint ? serviceId : item.id,
       needsGroupByEndpoint ? serviceName : item.name,
-      needsGroupByEndpoint ? item.id : null, // FIXME we never have an ID here (e.g. for a PER-SERVICE SmartAlert), because we do a grouping by name. But that name is never used yet in QB2.
+      needsGroupByEndpoint ? item.id : null, // we never have an ID here (e.g. for a PER-SERVICE SmartAlert), because we do a grouping by name.
       needsGroupByEndpoint ? item.name : null,
       alertConfig,
       timeConfig,
