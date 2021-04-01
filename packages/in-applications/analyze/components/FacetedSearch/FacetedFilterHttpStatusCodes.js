@@ -17,11 +17,11 @@ import locals from './Suggestion.mless';
 
 const tag = 'call.http.status';
 const ranges = [
-  { start: 100, end: 199 },
-  { start: 200, end: 299 },
-  { start: 300, end: 399 },
-  { start: 400, end: 499 },
-  { start: 500, end: 599 }
+  { start: 100, end: 199, label: '1xx' },
+  { start: 200, end: 299, label: '2xx' },
+  { start: 300, end: 399, label: '3xx' },
+  { start: 400, end: 499, label: '4xx' },
+  { start: 500, end: 599, label: '5xx' }
 ];
 
 export default function FacetedFilterHttpStatusCodes({ title, tagFilterExpression, updateFilter, dataSource }) {
@@ -65,15 +65,13 @@ function existingFiltersForTag(tagFilterExpression) {
   );
 }
 
-const rangeLabel = range => `${range.start}-${range.end}`;
-
 function SelectedRanges({ selectedRanges, updateFilter }) {
   return (
     <>
       {selectedRanges.map(range => (
         <ExistingValue
           key={range.start}
-          value={rangeLabel(range)}
+          value={range.label}
           remove={() =>
             updateFilter({
               remove: [
@@ -123,7 +121,7 @@ function Suggestion({ range, updateFilter, dataSource }) {
         }}
         className={locals.label}
       >
-        {rangeLabel(range)}
+        {range.label}
       </Link>
     </div>
   );
