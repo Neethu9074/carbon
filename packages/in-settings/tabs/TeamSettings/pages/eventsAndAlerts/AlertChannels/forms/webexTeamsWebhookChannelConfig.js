@@ -121,7 +121,11 @@ function Form({ form, onChange }) {
               i18nKey="in-settings:tabs.webhookUrlToCiscoWebexTeams"
               components={{
                 incomingWebhookLink: (
-                  <a href="https://apphub.webex.com/teams/applications/incoming-webhooks-cisco-systems" />
+                  <a
+                    href="https://apphub.webex.com/teams/applications/incoming-webhooks-cisco-systems"
+                    rel="noreferrer"
+                    target="_blank"
+                  />
                 )
               }}
             />

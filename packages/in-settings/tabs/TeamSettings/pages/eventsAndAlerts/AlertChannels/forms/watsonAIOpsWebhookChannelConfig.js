@@ -121,7 +121,11 @@ function Form({ form, onChange }) {
               i18nKey="in-settings:tabs.webhookUrlToIbmWatsonAIOps"
               components={{
                 incomingWebhookLink: (
-                  <a href="https://www.ibm.com/support/knowledgecenter/en/SSTPTP_1.6.3/com.ibm.netcool_ops.doc/cem/em_incomingwebhook.html" />
+                  <a
+                    href="https://www.ibm.com/support/knowledgecenter/en/SSTPTP_1.6.3/com.ibm.netcool_ops.doc/cem/em_incomingwebhook.html"
+                    rel="noreferrer"
+                    target="_blank"
+                  />
                 )
               }}
             />
