@@ -14,6 +14,7 @@ import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
 import { buildEnumValidator } from 'in-services/validators/enum';
+import { aggregationLabels } from 'in-stores/metric/metric';
 import { t } from 'in-i18n';
 
 export function createForm(
@@ -50,7 +51,12 @@ export function createForm(
       'aggregation',
       createField({
         value: (savedState && savedState.aggregation) || '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          stringValidator,
+          notBlankValidator,
+          buildEnumValidator(Object.keys(aggregationLabels))
+        )
       })
     )
     .put(

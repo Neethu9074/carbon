@@ -128,7 +128,7 @@ export default function FormComponent({
           value={aggregationField.value}
           onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
           hasError={!aggregationField.valid && aggregationField.touched}
-          disabled={!metricField.valid || isSingleAggregator}
+          disabled={!metricField.valid || (isSingleAggregator && aggregators.includes(aggregationField.value))}
           additionalContent={<TouchedMessages field={aggregationField} />}
           useAlternateBg
         >

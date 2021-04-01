@@ -218,7 +218,7 @@ function Presenter({
           previewEnabled={previewEnabled}
           dataSource={dataSource}
         />
-        <Ul space="xsmall">
+        <Ul framed={!isLoading && totalHits > 0}>
           {(!isLoading || totalHits != null) &&
             items.map((item, rowIndex) => {
               const filterForGroup = groupingFilter(
@@ -234,7 +234,6 @@ function Presenter({
                 <Li
                   key={rowIndex}
                   noAlternatingBg
-                  borderRadius="medium"
                   highlightOpenState={false}
                   toggleContentOnRowClick
                   className={classNames({ [locals.unspecified]: item.name === UNSPECIFIED })}
