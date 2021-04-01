@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Toggle from 'react-toggle';
@@ -15,6 +15,7 @@ import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/compone
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertFilterConfigurator';
 import getApplicationsCursorPaginated from 'in-subscription/application/getApplicationsCursorPaginated';
 import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
+import { createBoundedAlertQueryBuilder } from '../../../applications/components/AlertQueryBuilder';
 import getServicesCursorPaginated from 'in-subscription/application/getServicesCursorPaginated';
 import { maxChartViewTimeframe } from '../../../../components/Chart/chartViewConfig';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
@@ -26,7 +27,10 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ScopeConfig.mless';
 
-export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, isGlobalSmartAlert, editMode }) {
+const timeConfig = {
+  windowSize: maxChartViewTimeframe
+};
+export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, editMode }) {
   const applications = form.get('applications').value;
   const boundaryScope = form.get('boundaryScope').value;
   const tagFilterExpression = form.get('tagFilterExpression').value;
@@ -34,6 +38,14 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, i
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filterBySelectionState, setFilterBySelectionState] = useState(Boolean(editMode));
+
+  const AlertQueryBuilder = useMemo(() => {
+    return createBoundedAlertQueryBuilder(
+      Object.values(applications)?.map(a => a.applicationId),
+      boundaryScope,
+      timeConfig
+    );
+  }, [applications, boundaryScope]);
 
   return (
     <LightCard
@@ -77,9 +89,7 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, i
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                 )
               }
-              timeConfig={{
-                windowSize: maxChartViewTimeframe
-              }}
+              timeConfig={timeConfig}
               boundaryScope={boundaryScope}
               includeSynthetic={includeSynthetic}
               searchQuery={searchQuery}
@@ -94,11 +104,7 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, i
               [locals.alertFilterConfiguratorWrapperBottomPadding]: tagFilterExpression.length === 0
             })}
           >
-            <AlertFilterConfigurator
-              QueryBuilderComponent={QueryBuilderComponent}
-              form={form}
-              updateForm={updateForm}
-            />
+            <AlertFilterConfigurator QueryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
           </div>
         </Stack>
         {tagFilterExpression.length > 0 && (
@@ -110,14 +116,6 @@ export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, i
     </LightCard>
   );
 }
-
-ScopeConfig.propTypes = {
-  QueryBuilderComponent: PropTypes.func.isRequired,
-  isGlobalSmartAlert: PropTypes.bool,
-  editMode: PropTypes.bool,
-  form: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired
-};
 
 function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFilterBySelectionState }) {
   return (
@@ -139,3 +137,10 @@ function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFi
     </HorizontalFlexWrapper>
   );
 }
+
+ScopeConfig.propTypes = {
+  isGlobalSmartAlert: PropTypes.bool,
+  editMode: PropTypes.bool,
+  form: PropTypes.object.isRequired,
+  updateForm: PropTypes.func.isRequired
+};
