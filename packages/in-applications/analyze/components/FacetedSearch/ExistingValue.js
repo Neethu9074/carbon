@@ -13,11 +13,16 @@ import Tooltip from 'in-components/Tooltip';
 import locals from './Suggestion.mless';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 
+/**
+ * A label and a remove icon, wrapped in a tooltip displaying the non-ellipsed label.
+ * The value passed in is parsed to a String.
+ * This is done since the value may also be a boolean or a number.
+ */
 export default function ExistingValue({ value, remove }) {
   return (
-    <Tooltip content={value} align="rightMiddle" delay={1000}>
+    <Tooltip content={String(value)} align="rightMiddle" delay={1000}>
       <div className={locals.suggestion}>
-        <span className={locals.existingLabel}>{value}</span>
+        <span className={locals.existingLabel}>{String(value)}</span>
         <SvgIcon className={locals.existingIcon} type="lib_openclose_cancel" size="s" onClick={remove} />
       </div>
     </Tooltip>
@@ -25,15 +30,13 @@ export default function ExistingValue({ value, remove }) {
 }
 
 export function existingValuesForTag(tagFilterExpression, tag, entity) {
-  const singleFilterValue =
+  const isSingleFilterValue =
     tagFilterExpression.type === TAG_FILTER_TYPE &&
     tagFilterExpression.name === tag &&
     tagFilterExpression.operator === EQUALS &&
-    (!entity || (tagFilterExpression.entity ?? DESTINATION) === entity) &&
-    tagFilterExpression.value !== null &&
-    tagFilterExpression.value;
-  if (singleFilterValue) {
-    return [singleFilterValue];
+    (!entity || (tagFilterExpression.entity ?? DESTINATION) === entity);
+  if (isSingleFilterValue) {
+    return [tagFilterExpression.value];
   }
   return (
     tagFilterExpression.type === EXPRESSION &&
@@ -47,6 +50,5 @@ export function existingValuesForTag(tagFilterExpression, tag, entity) {
           element.operator === EQUALS
       )
       .map(element => element.value)
-      .filter(value => value != null)
   );
 }

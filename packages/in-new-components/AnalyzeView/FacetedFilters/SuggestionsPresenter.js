@@ -96,38 +96,40 @@ function Results({
 
   return (
     <Stack space="small">
-      {presentedSuggestions.map((suggestion, i) => (
-        <div key={i} className={locals.suggestion}>
-          <Tooltip
-            content={
-              customLabelMapper === identity
-                ? customLabelMapper(suggestion.name)
-                : `${customLabelMapper(suggestion.name)} (${suggestion.name})`
-            }
-            align="rightMiddle"
-            delay={1000}
-          >
-            <Link
-              href={getUpdatedTagExpressionHref({
-                add: [
-                  {
-                    type: TAG,
-                    name: tag,
-                    operator: EQUALS,
-                    value: suggestion.name
-                  }
-                ]
-              })}
-              onClick={() => ua2FacetedSearchFilterAddedTracker({ dataSource, tagName: tag })}
-              className={locals.addSuggestion}
-              style={{ textDecoration: 'none' }}
+      {presentedSuggestions.map((suggestion, i) => {
+        return (
+          <div key={i} className={locals.suggestion}>
+            <Tooltip
+              content={
+                customLabelMapper === identity
+                  ? customLabelMapper(suggestion.name)
+                  : `${customLabelMapper(suggestion.name)} (${suggestion.name})`
+              }
+              align="rightMiddle"
+              delay={1000}
             >
-              <span className={locals.label}>{customLabelMapper(suggestion.name)}</span>
-              <span className={locals.count}>{siPrefix.detailed(suggestion.metrics.facetedSearchMetric[0][1])}</span>
-            </Link>
-          </Tooltip>
-        </div>
-      ))}
+              <Link
+                href={getUpdatedTagExpressionHref({
+                  add: [
+                    {
+                      type: TAG,
+                      name: tag,
+                      operator: EQUALS,
+                      value: suggestion.value
+                    }
+                  ]
+                })}
+                onClick={() => ua2FacetedSearchFilterAddedTracker({ dataSource, tagName: tag })}
+                className={locals.addSuggestion}
+                style={{ textDecoration: 'none' }}
+              >
+                <span className={locals.label}>{customLabelMapper(suggestion.name)}</span>
+                <span className={locals.count}>{siPrefix.detailed(suggestion.metrics.facetedSearchMetric[0][1])}</span>
+              </Link>
+            </Tooltip>
+          </div>
+        );
+      })}
       <div className={locals.buttonRow}>
         {nextBatch > 0 && (
           <Button className={locals.loadMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>

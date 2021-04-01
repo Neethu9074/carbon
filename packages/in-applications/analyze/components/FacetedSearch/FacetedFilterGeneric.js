@@ -5,13 +5,13 @@
 import React, { useState } from 'react';
 
 import FacetedExpandableCard from 'in-applications/analyze/components/FacetedSearch/FacetedExpandableCard';
+import SuggestionsPresenter from 'in-applications/analyze/components/FacetedSearch/SuggestionsPresenter';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import ExistingValue, { existingValuesForTag } from './ExistingValue';
 import SearchInput from 'in-new-components/SearchInput/SearchInput';
-import SuggestionsPresenter from './SuggestionsPresenter';
 import { identity } from 'in-services/util/function';
 import { mapDataHO } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -31,7 +31,8 @@ export default function FacetedFilterGeneric({
   dataSource,
   customLabelMapper,
   enableUseAsGroup = true,
-  groupbyTag
+  groupbyTag,
+  tagCatalog
 }) {
   return (
     <FacetedExpandableCard title={title}>
@@ -45,6 +46,7 @@ export default function FacetedFilterGeneric({
         dataSource={dataSource}
         customLabelMapper={customLabelMapper}
         enableUseAsGroup={enableUseAsGroup && tag !== groupbyTag}
+        tagCatalog={tagCatalog}
       />
     </FacetedExpandableCard>
   );
@@ -60,7 +62,8 @@ function Body({
   updateGroup,
   dataSource,
   customLabelMapper,
-  enableUseAsGroup
+  enableUseAsGroup,
+  tagCatalog
 }) {
   const [valueFilter, setValueFilter] = useState('');
 
@@ -100,6 +103,7 @@ function Body({
       dataSource={dataSource}
       customLabelMapper={customLabelMapper}
       enableUseAsGroup={enableUseAsGroup}
+      tagCatalog={tagCatalog}
     />
   );
 }
@@ -125,7 +129,8 @@ function SearchAndSuggestions({
   setValueFilter,
   dataSource,
   customLabelMapper = identity,
-  enableUseAsGroup
+  enableUseAsGroup,
+  tagCatalog
 }) {
   const timeConfig = useTimeConfig();
   const suggestionsFromServer = () =>
@@ -140,12 +145,20 @@ function SearchAndSuggestions({
       includeSynthetic: hiddenCalls.includeSynthetic,
       metrics: dataSourceConstants[dataSource].sumMetric
     });
+  const tagDefinition = tagCatalog?.tags.find(tagEntry => tagEntry.name === tag);
+  const isBooleanTag = tagDefinition?.type === 'BOOLEAN';
+
   const valueRegex = new RegExp(valueFilter.split('').join('.*'), 'i');
   const suggestions = useObservable(
     suggestionsFromServer().map(
       mapDataHO(data => ({
         ...data,
-        results: data.results.filter(suggestion => valueRegex.test(customLabelMapper(suggestion.label)))
+        results: data.results
+          .filter(suggestion => valueRegex.test(customLabelMapper(suggestion.label)))
+          .map(suggestion => ({
+            ...suggestion,
+            value: isBooleanTag ? suggestion.label === 'true' : suggestion.label
+          }))
       }))
     ),
     [tagFilterExpression, hiddenCalls, tag, valueFilter, dataSource, timeConfig]

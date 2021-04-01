@@ -51,7 +51,8 @@ export default function UngroupedAnalyzeView(props) {
     getHrefWithTagFilterExpression,
     withSamplingTooltip,
     getHrefToGroupedView,
-    ungroupedViewConfiguration
+    ungroupedViewConfiguration,
+    filteringTagCatalog
   } = props;
 
   const timeConfig = useTimeConfig();
@@ -165,6 +166,7 @@ export default function UngroupedAnalyzeView(props) {
                 dataSource
               })
             }
+            tagCatalog={filteringTagCatalog}
           />
         )}
         <div className={locals.resultContainer}>

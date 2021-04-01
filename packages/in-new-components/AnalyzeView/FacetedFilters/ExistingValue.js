@@ -19,11 +19,16 @@ import Link from 'in-components/Link';
 
 import locals from './ExistingValue.mless';
 
+/**
+ * A label and a remove icon, wrapped in a tooltip displaying the non-ellipsed label.
+ * The value passed in is parsed to a String.
+ * This is done since the value may also be a boolean or a number.
+ */
 export default function ExistingValue({ value, removeLink }) {
   return (
-    <Tooltip content={value} align="rightMiddle" delay={1000}>
+    <Tooltip content={String(value)} align="rightMiddle" delay={1000}>
       <div className={locals.suggestion}>
-        <span className={locals.label}>{value}</span>
+        <span className={locals.label}>{String(value)}</span>
         <Link href={removeLink}>
           <SvgIcon className={locals.icon} type="lib_openclose_cancel" size="s" />
         </Link>
@@ -34,15 +39,13 @@ export default function ExistingValue({ value, removeLink }) {
 
 export function getExistingValuesForTag(formModel, tag, entity) {
   const backendQueryModel = toBackendQueryModel(formModel);
-  const singleFilterValue =
+  const isSingleFilterValue =
     backendQueryModel.type === TAG_FILTER_TYPE &&
     backendQueryModel.name === tag &&
     backendQueryModel.operator === EQUALS &&
-    (!entity || (backendQueryModel.entity ?? DESTINATION) === entity) &&
-    backendQueryModel.value !== null &&
-    backendQueryModel.value;
-  if (singleFilterValue) {
-    return [singleFilterValue];
+    (!entity || (backendQueryModel.entity ?? DESTINATION) === entity);
+  if (isSingleFilterValue) {
+    return [backendQueryModel.value];
   }
   return backendQueryModel.type === EXPRESSION && backendQueryModel.logicalOperator === OPERATOR_AND
     ? backendQueryModel.elements
@@ -54,6 +57,5 @@ export function getExistingValuesForTag(formModel, tag, entity) {
             element.operator === EQUALS
         )
         .map(element => element.value)
-        .filter(value => value != null)
     : emptyArray;
 }

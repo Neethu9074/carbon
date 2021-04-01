@@ -18,14 +18,14 @@ export const Default = () => (
   <div>
     <SuggestionsPresenter
       suggestions={[
-        { label: 'suggestion A', metrics: { calls_SUM_Agg: [[0, 8]] } },
-        { label: 'suggestion B', metrics: { calls_SUM_Agg: [[0, 7]] } },
-        { label: 'suggestion C', metrics: { calls_SUM_Agg: [[0, 6]] } },
-        { label: 'suggestion D', metrics: { calls_SUM_Agg: [[0, 5]] } },
-        { label: 'suggestion E', metrics: { calls_SUM_Agg: [[0, 4]] } },
-        { label: 'suggestion F', metrics: { calls_SUM_Agg: [[0, 3]] } },
-        { label: 'suggestion G', metrics: { calls_SUM_Agg: [[0, 2]] } },
-        { label: 'suggestion H', metrics: { calls_SUM_Agg: [[0, 1]] } }
+        { value: 'suggestion A', metrics: { calls_SUM_Agg: [[0, 8]] } },
+        { value: 'suggestion B', metrics: { calls_SUM_Agg: [[0, 7]] } },
+        { value: 'suggestion C', metrics: { calls_SUM_Agg: [[0, 6]] } },
+        { value: 'suggestion D', metrics: { calls_SUM_Agg: [[0, 5]] } },
+        { value: 'suggestion E', metrics: { calls_SUM_Agg: [[0, 4]] } },
+        { value: 'suggestion F', metrics: { calls_SUM_Agg: [[0, 3]] } },
+        { value: 'suggestion G', metrics: { calls_SUM_Agg: [[0, 2]] } },
+        { value: 'suggestion H', metrics: { calls_SUM_Agg: [[0, 1]] } }
       ]}
       addFilter={() => alert('add filter')}
       tag="tag"

@@ -34,7 +34,8 @@ export default function FacetedFilterGeneric({
   getSuggestions,
   customLabelMapper,
   enableUseAsGroup = true,
-  groupbyTag
+  groupbyTag,
+  tagCatalog
 }) {
   return (
     <FacetedExpandableCard title={title} openByDefault={openByDefault}>
@@ -50,6 +51,7 @@ export default function FacetedFilterGeneric({
         getSuggestions={getSuggestions}
         customLabelMapper={customLabelMapper}
         enableUseAsGroup={enableUseAsGroup && tag !== groupbyTag}
+        tagCatalog={tagCatalog}
       />
     </FacetedExpandableCard>
   );
@@ -67,7 +69,8 @@ function Body({
   dataSource,
   getSuggestions,
   customLabelMapper,
-  enableUseAsGroup
+  enableUseAsGroup,
+  tagCatalog
 }) {
   const [valueFilter, setValueFilter] = useState('');
   const selectedValues = getExistingValuesForTag(formModel, tag, entity);
@@ -97,6 +100,7 @@ function Body({
       getSuggestions={getSuggestions}
       customLabelMapper={customLabelMapper}
       enableUseAsGroup={enableUseAsGroup}
+      tagCatalog={tagCatalog}
     />
   );
 }
@@ -137,16 +141,29 @@ function SearchAndSuggestions({
   dataSource,
   getSuggestions,
   customLabelMapper = identity,
-  enableUseAsGroup
+  enableUseAsGroup,
+  tagCatalog
 }) {
   const timeConfig = useTimeConfig();
+  const tagDefinition = tagCatalog?.tags.find(tagEntry => tagEntry.name === tag);
+  const isBooleanTag = tagDefinition?.type === 'BOOLEAN';
+
   const valueRegex = new RegExp(valueFilter.split('').join('.*'), 'i');
   const suggestions =
     useObservable(
       getSuggestions(tag).map(
         mapDataHO(data => ({
           ...data,
-          items: data.items.filter(suggestion => valueRegex.test(customLabelMapper(suggestion.name)))
+          items: data.items
+            .map(suggestion => ({
+              ...suggestion,
+              name: JSON.parse(suggestion.name)
+            }))
+            .filter(suggestion => valueRegex.test(customLabelMapper(suggestion.name)))
+            .map(suggestion => ({
+              ...suggestion,
+              value: isBooleanTag ? suggestion.name === 'true' : suggestion.name
+            }))
         }))
       ),
       [
@@ -174,10 +191,7 @@ function SearchAndSuggestions({
       <SuggestionsPresenter
         loading={suggestions?.progress.loading}
         errors={suggestions?.errors}
-        suggestions={suggestions?.data?.items.map(item => ({
-          ...item,
-          name: JSON.parse(item.name)
-        }))}
+        suggestions={suggestions?.data?.items}
         getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
         getHrefToGroupedView={getHrefToGroupedView}
         tag={tag}

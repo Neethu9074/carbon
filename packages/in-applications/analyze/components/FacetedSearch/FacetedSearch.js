@@ -6,7 +6,6 @@ import React from 'react';
 
 import FacetedFilterHttpStatusCodes from 'in-applications/analyze/components/FacetedSearch/FacetedFilterHttpStatusCodes';
 import FacetedFilterHiddenCalls from 'in-applications/analyze/components/FacetedSearch/FacetedFilterHiddenCalls';
-import FacetedFilterErroneous from 'in-applications/analyze/components/FacetedSearch/FacetedFilterErroneous';
 import FacetedFilterGeneric from 'in-applications/analyze/components/FacetedSearch/FacetedFilterGeneric';
 import FacetedFilterLatency from 'in-applications/analyze/components/FacetedSearch/FacetedFilterLatency';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
@@ -24,7 +23,8 @@ export default function FacetedSearch({
   onChangeHiddenCalls,
   isValid,
   dataSource,
-  groupbyTag
+  groupbyTag,
+  tagCatalog
 }) {
   return (
     <div className={locals.wrapper}>
@@ -35,12 +35,17 @@ export default function FacetedSearch({
         updateFilter={updateFilter}
         isValid={isValid}
       />
-      <FacetedFilterErroneous
+      <FacetedFilterGeneric
         title={t('in-applications:analyze.erroneous')}
+        tag="call.erroneous"
         tagFilterExpression={tagFilterExpression}
         updateFilter={updateFilter}
+        updateGroup={updateGroup}
         dataSource={dataSource}
         hiddenCalls={hiddenCalls}
+        enableUseAsGroup={dataSource !== 'traces'}
+        groupbyTag={groupbyTag}
+        tagCatalog={tagCatalog}
       />
       <FacetedFilterHttpStatusCodes
         title={t('in-applications:analyze.httpStatusCode')}
@@ -59,6 +64,7 @@ export default function FacetedSearch({
         hiddenCalls={hiddenCalls}
         enableUseAsGroup={dataSource !== 'traces'}
         groupbyTag={groupbyTag}
+        tagCatalog={tagCatalog}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.services')}
@@ -83,6 +89,7 @@ export default function FacetedSearch({
         hiddenCalls={hiddenCalls}
         enableUseAsGroup={dataSource !== 'traces'}
         groupbyTag={groupbyTag}
+        tagCatalog={tagCatalog}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.types')}
@@ -94,6 +101,7 @@ export default function FacetedSearch({
         hiddenCalls={hiddenCalls}
         enableUseAsGroup={dataSource !== 'traces'}
         groupbyTag={groupbyTag}
+        tagCatalog={tagCatalog}
       />
       <FacetedFilterGeneric
         title={t('in-applications:analyze.technologies')}
@@ -107,6 +115,7 @@ export default function FacetedSearch({
         customLabelMapper={label => getPluginName(label)}
         enableUseAsGroup={dataSource !== 'traces'}
         groupbyTag={groupbyTag}
+        tagCatalog={tagCatalog}
       />
       <FacetedFilterHiddenCalls
         title={t('in-applications:analyze.hiddenCalls')}

@@ -16,7 +16,8 @@ export default function FacetedSearch({
   dataSource,
   isValid,
   getSuggestions,
-  groupbyTag
+  groupbyTag,
+  tagCatalog
 }) {
   return (
     <div className={locals.wrapper}>
@@ -38,6 +39,7 @@ export default function FacetedSearch({
             dataSource={dataSource}
             getSuggestions={getSuggestions}
             groupbyTag={groupbyTag}
+            tagCatalog={tagCatalog}
             {...facetedSearchItem.extraProps}
           />
         );

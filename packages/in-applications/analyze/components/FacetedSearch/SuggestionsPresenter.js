@@ -103,41 +103,43 @@ function Results({
 
   return (
     <>
-      {presentedSuggestions.map((suggestion, i) => (
-        <div key={i} className={locals.suggestion}>
-          <Tooltip
-            content={
-              customLabelMapper === identity
-                ? customLabelMapper(suggestion.label)
-                : `${customLabelMapper(suggestion.label)} (${suggestion.label})`
-            }
-            align="rightMiddle"
-            delay={1000}
-          >
-            <Link
-              onClick={() => {
-                ua2FacetedSearchFilterAddedTracker({ dataSource, tagName: tag });
-                updateFilter({
-                  add: [
-                    {
-                      type: TAG,
-                      name: tag,
-                      operator: EQUALS,
-                      value: suggestion.label
-                    }
-                  ]
-                });
-              }}
-              className={locals.addSuggestion}
+      {presentedSuggestions.map((suggestion, i) => {
+        return (
+          <div key={i} className={locals.suggestion}>
+            <Tooltip
+              content={
+                customLabelMapper === identity
+                  ? customLabelMapper(suggestion.label)
+                  : `${customLabelMapper(suggestion.label)} (${suggestion.label})`
+              }
+              align="rightMiddle"
+              delay={1000}
             >
-              <span className={locals.label}>{customLabelMapper(suggestion.label)}</span>
-              <span className={locals.count}>
-                {siPrefix.detailed(suggestion.metrics[dataSourceConstants[dataSource].metricKey][0][1])}
-              </span>
-            </Link>
-          </Tooltip>
-        </div>
-      ))}
+              <Link
+                onClick={() => {
+                  ua2FacetedSearchFilterAddedTracker({ dataSource, tagName: tag });
+                  updateFilter({
+                    add: [
+                      {
+                        type: TAG,
+                        name: tag,
+                        operator: EQUALS,
+                        value: suggestion.value
+                      }
+                    ]
+                  });
+                }}
+                className={locals.addSuggestion}
+              >
+                <span className={locals.label}>{customLabelMapper(suggestion.label)}</span>
+                <span className={locals.count}>
+                  {siPrefix.detailed(suggestion.metrics[dataSourceConstants[dataSource].metricKey][0][1])}
+                </span>
+              </Link>
+            </Tooltip>
+          </div>
+        );
+      })}
       <div className={locals.buttonRow}>
         {nextBatch > 0 && (
           <Button className={locals.loadMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>

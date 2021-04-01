@@ -7,6 +7,8 @@ import { empty } from '@instana/observables';
 import classNames from 'classnames';
 import Toggle from 'react-toggle';
 
+import { getTagCatalog as getTraceFilteringTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
+import { getTagCatalog as getCallFilteringTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import FacetedSearch from 'in-applications/analyze/components/FacetedSearch/FacetedSearch';
 import { dataSourceConstants, getTypeTextByCount } from 'in-applications/analyze/metrics';
@@ -18,6 +20,7 @@ import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Link } from 'in-components/tables/sharedComponents';
@@ -100,6 +103,10 @@ export default function List({
     }
   }, [items]);
 
+  const filteringTagCatalog = useTagCatalog(
+    dataSource === 'traces' ? getTraceFilteringTagCatalog : getCallFilteringTagCatalog
+  );
+
   return tableOnly ? (
     <TableOnlyPresenter
       items={items}
@@ -143,6 +150,7 @@ export default function List({
       previewEnabled={previewEnabled}
       isValid={isValid}
       dataSource={dataSource}
+      tagCatalog={filteringTagCatalog}
     />
   );
 }
@@ -171,7 +179,8 @@ function Presenter({
   onChangePreviewEnabled,
   previewEnabled,
   isValid,
-  dataSource
+  dataSource,
+  tagCatalog
 }) {
   const internalVisible = useObservable(isInternalVisible$, []) || false;
   return (
@@ -193,6 +202,7 @@ function Presenter({
           onChangeHiddenCalls={onChangeHiddenCalls}
           isValid={isValid}
           dataSource={dataSource}
+          tagCatalog={tagCatalog}
         />
       </div>
       <div className={locals.table}>

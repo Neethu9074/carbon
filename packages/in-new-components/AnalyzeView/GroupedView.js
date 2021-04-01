@@ -79,6 +79,7 @@ export default function GroupedAnalyzeView(props) {
     withoutSorting = false,
     withoutChartGroupMarkers = false,
     chartedMetrics,
+    filteringTagCatalog,
     groupingTagCatalog
   } = props;
   const timeConfig = useTimeConfig();
@@ -278,6 +279,7 @@ export default function GroupedAnalyzeView(props) {
               })
             }
             groupbyTag={groupBy.groupbyTag}
+            tagCatalog={filteringTagCatalog}
           />
         )}
         <div className={locals.resultContainer}>
