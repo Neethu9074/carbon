@@ -321,6 +321,7 @@ export default function GroupedAnalyzeView(props) {
                         />
                       );
                     }}
+                    roundShadow
                   >
                     <div className={locals.list}>
                       <div className={locals.label}>
@@ -470,7 +471,7 @@ function actionColumns() {
       getContent({ href }) {
         return (
           <Tooltip content={t('in-new-components:analyze.focusOnGroup')}>
-            <IconButton type="lib_actions_filter" href={href} />
+            <IconButton type="lib_actions_filter" href={href} className={locals.focusButton} />
           </Tooltip>
         );
       }
