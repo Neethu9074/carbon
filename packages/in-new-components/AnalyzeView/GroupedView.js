@@ -282,7 +282,7 @@ export default function GroupedAnalyzeView(props) {
         )}
         <div className={locals.resultContainer}>
           {hasItems && (
-            <Ul space="xsmall">
+            <Ul>
               {items.map(item => {
                 const label = getLabel(item);
                 return (
