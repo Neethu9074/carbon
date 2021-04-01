@@ -548,6 +548,7 @@
         "Loading": "Loading…",
         "LoadingServices": "Loading services…",
         "NoServiceInScope": "No service in scope",
+        "PreviewForAP": "Preview for Application Perspective:",
         "PreviewForService": "Preview for Service:"
       },
       "alertsHub": {

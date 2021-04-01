@@ -9,7 +9,10 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { PER_AP_SERVICE } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import {
+  PER_AP_SERVICE,
+  PER_AP
+} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import ChartSubEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartSubEntitySelection';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
@@ -37,11 +40,11 @@ export default function ChartViewConfiguratorWithEntitySelection({
 }) {
   const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
   const [serviceId, setServiceId] = useState();
+  const [applicationId, setApplicationId] = useState(firstApplicationId(alertConfigWithFormModel?.applications));
   const applications = Object.values(alertConfigWithFormModel?.applications);
-  const showEntitySelection = alertConfigWithFormModel.evaluationType === PER_AP_SERVICE;
-
-  // TODO AP ID must be provided via selection as well for Global SmartAlerts.
-  const applicationId = firstApplicationId(alertConfigWithFormModel?.applications);
+  const showEntitySelection =
+    alertConfigWithFormModel.evaluationType === PER_AP_SERVICE ||
+    (alertConfigWithFormModel.evaluationType === PER_AP && applications.length > 1);
 
   return (
     <LightCard
@@ -69,7 +72,9 @@ export default function ChartViewConfiguratorWithEntitySelection({
         {showEntitySelection && (
           <StackItem>
             <ChartSubEntitySelection
+              selectApLevelOnly={alertConfigWithFormModel.evaluationType === PER_AP}
               applicationId={applicationId}
+              setApplicationId={setApplicationId}
               serviceId={serviceId}
               setServiceId={setServiceId}
               alertConfigWithFormModel={alertConfigWithFormModel}

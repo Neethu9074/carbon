@@ -26,6 +26,8 @@
   }
 
   .link {
+    white-space: normal;
+    word-break: break-word;
     color: @lib__colors__N900Primary;
   }
 }
