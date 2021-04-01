@@ -13,26 +13,26 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import MemoryPoolsTable from './MemoryPoolTable';
 import { t } from 'in-i18n';
 
-export default function IBMiDb2Dashboard({ snapshot, timeConfig }) {
+export default function IbmIOsDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
 
   return (
     <div>
-      <DashboardSection title={t('in-forge:plugins.ibmiDB2Database.dashboard.charts.cpu.name')}>
+      <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.cpu.name')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['avgCPURate'],
-            labels: [t('in-forge:plugins.ibmiDB2Database.dashboard.charts.cpu.rate')],
+            labels: [t('in-forge:plugins.ibmIOs.dashboard.charts.cpu.rate')],
             formatter: percentage.compact,
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.ibmiDB2Database.dashboard.charts.cpuUtilization.name')}>
+      <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.cpuUtilization.name')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -40,9 +40,9 @@ export default function IBMiDb2Dashboard({ snapshot, timeConfig }) {
             min: 0,
             metrics: ['avgCPUUtil', 'minCPUUtil', 'maxCPUUtil'],
             labels: [
-              t('in-forge:plugins.ibmiDB2Database.dashboard.charts.cpuUtilization.avg'),
-              t('in-forge:plugins.ibmiDB2Database.dashboard.charts.cpuUtilization.min'),
-              t('in-forge:plugins.ibmiDB2Database.dashboard.charts.cpuUtilization.max')
+              t('in-forge:plugins.ibmIOs.dashboard.charts.cpuUtilization.avg'),
+              t('in-forge:plugins.ibmIOs.dashboard.charts.cpuUtilization.min'),
+              t('in-forge:plugins.ibmIOs.dashboard.charts.cpuUtilization.max')
             ],
             formatter: percentage.compact,
             type: 'line'
@@ -50,7 +50,7 @@ export default function IBMiDb2Dashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.ibmiDB2Database.dashboard.charts.jobs.name')}>
+      <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.name')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
@@ -58,10 +58,10 @@ export default function IBMiDb2Dashboard({ snapshot, timeConfig }) {
             min: 0,
             metrics: ['activeJobs', 'interactiveJobs', 'totalJobs', 'maxJobs'],
             labels: [
-              t('in-forge:plugins.ibmiDB2Database.dashboard.charts.jobs.active'),
-              t('in-forge:plugins.ibmiDB2Database.dashboard.charts.jobs.interactive'),
-              t('in-forge:plugins.ibmiDB2Database.dashboard.charts.jobs.total'),
-              t('in-forge:plugins.ibmiDB2Database.dashboard.charts.jobs.max')
+              t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.active'),
+              t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.interactive'),
+              t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.total'),
+              t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.max')
             ],
             formatter: number.compact,
             type: 'line'
@@ -70,28 +70,28 @@ export default function IBMiDb2Dashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <Columize>
-        <DashboardSection title={t('in-forge:plugins.ibmiDB2Database.dashboard.charts.auxiliaryStoragePool.name')}>
+        <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.auxiliaryStoragePool.name')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               metrics: ['sysASPUsed'],
-              labels: [t('in-forge:plugins.ibmiDB2Database.dashboard.charts.auxiliaryStoragePool.used')],
+              labels: [t('in-forge:plugins.ibmIOs.dashboard.charts.auxiliaryStoragePool.used')],
               formatter: percentage.compact,
               type: 'line'
             }}
             y2={{
               min: 0,
               metrics: ['sysASPStorage'],
-              labels: [t('in-forge:plugins.ibmiDB2Database.dashboard.charts.auxiliaryStoragePool.capacity')],
+              labels: [t('in-forge:plugins.ibmIOs.dashboard.charts.auxiliaryStoragePool.capacity')],
               formatter: bytes.detailed,
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
         </DashboardSection>
-        <DashboardSection title={t('in-forge:plugins.ibmiDB2Database.dashboard.charts.temporaryStorage.name')}>
+        <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.temporaryStorage.name')}>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
@@ -99,8 +99,8 @@ export default function IBMiDb2Dashboard({ snapshot, timeConfig }) {
               min: 0,
               metrics: ['currTempStorage', 'maxTempStorage'],
               labels: [
-                t('in-forge:plugins.ibmiDB2Database.dashboard.charts.temporaryStorage.current'),
-                t('in-forge:plugins.ibmiDB2Database.dashboard.charts.temporaryStorage.max')
+                t('in-forge:plugins.ibmIOs.dashboard.charts.temporaryStorage.current'),
+                t('in-forge:plugins.ibmIOs.dashboard.charts.temporaryStorage.max')
               ],
               formatter: bytes.detailed,
               type: 'line'
@@ -109,14 +109,14 @@ export default function IBMiDb2Dashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       </Columize>
-      <DashboardSection title={t('in-forge:plugins.ibmiDB2Database.dashboard.charts.threads.name')}>
+      <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.threads.name')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             min: 0,
             metrics: ['activeThreads'],
-            labels: [t('in-forge:plugins.ibmiDB2Database.dashboard.charts.threads.active')],
+            labels: [t('in-forge:plugins.ibmIOs.dashboard.charts.threads.active')],
             formatter: number.compact,
             type: 'line'
           }}

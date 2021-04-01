@@ -11,11 +11,11 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { t } from 'in-i18n';
 import Info from '../Info';
 
-export default function IBMiDb2Sidebar({ snapshot }) {
+export default function IbmIOsSidebar({ snapshot }) {
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>{t('in-forge:plugins.ibmiDB2Database.sidebar.ibmiDb2Info')}</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.ibmIOs.sidebar.ibmIOSInfo')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
