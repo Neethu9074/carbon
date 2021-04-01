@@ -106,7 +106,7 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
           trackingCallback={applicationsAlertingThresholdOperatorChanged}
           allOptions
         />
-        {canSelectBaseline && (
+        {canSelectBaseline ? (
           <>
             <Dropdown
               asSimpleDropdown
@@ -147,6 +147,8 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
               <RecalculateBaselineButton onChange={onChange} editMode={editMode} />
             )}
           </>
+        ) : (
+          <div>{t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionStaticThreshold')}</div>
         )}
       </ThresholdConditionFormGroup>
 

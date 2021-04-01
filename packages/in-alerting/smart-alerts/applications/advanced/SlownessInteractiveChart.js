@@ -38,6 +38,7 @@ import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm'
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 import Label from 'in-components/form/Label';
+import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/InteractiveChart.mless';
 
@@ -121,7 +122,7 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
           onChange={onChange}
           trackingCallback={applicationsAlertingThresholdOperatorChanged}
         />
-        {canSelectBaseline && (
+        {canSelectBaseline ? (
           <>
             <Dropdown
               asSimpleDropdown
@@ -161,6 +162,8 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
               <RecalculateBaselineButton onChange={onChange} editMode={editMode} />
             )}
           </>
+        ) : (
+          <div>{t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionStaticThreshold')}</div>
         )}
       </ThresholdConditionFormGroup>
 

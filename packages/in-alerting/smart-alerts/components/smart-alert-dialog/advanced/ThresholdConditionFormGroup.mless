@@ -36,6 +36,8 @@
     button + input {
       margin-left: 0.5rem;
     }
+
+    color: @lib__colors__N700Medium;
   }
 
   .icon {
