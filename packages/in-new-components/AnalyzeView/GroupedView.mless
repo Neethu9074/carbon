@@ -70,4 +70,8 @@
   .italic {
     font-style: italic;
   }
+
+  .focusButton:hover:before {
+    opacity: 0.1;
+  }
 }

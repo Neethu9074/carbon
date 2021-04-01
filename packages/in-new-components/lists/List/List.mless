@@ -181,6 +181,13 @@
     }
   }
 
+  .expandIconRoundShadow {
+    &:hover {
+      box-shadow: 0 0 0 0.5rem @lib__colors__N300;
+      border-radius: @lib__shapes__radius_round;
+    }
+  }
+
   .nestedContent {
     padding: 0.75rem 1rem;
     background: @lib__colors__N050;

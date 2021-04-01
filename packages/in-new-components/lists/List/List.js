@@ -80,6 +80,7 @@ export const Li = forwardRef(function Li(props, ref) {
     borderRadius,
     highlightOpenState = true,
     tracking,
+    roundShadow,
     ...liProps
   } = props;
   let { onClick } = props;
@@ -124,7 +125,10 @@ export const Li = forwardRef(function Li(props, ref) {
       {expandable && (
         <div className={locals.actions}>
           <SvgIcon
-            className={locals.expandIcon}
+            className={classNames({
+              [locals.expandIcon]: true,
+              [locals.expandIconRoundShadow]: roundShadow
+            })}
             type={open ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
             aria-label={t('in-new-components:list.labelToggleExtraContent')}
             onClick={toggleContentOnRowClick ? undefined : () => setOpen(!open)}
@@ -198,5 +202,6 @@ Li.propTypes = {
   size: rpt.oneOf(['compact', 'normal']),
   style: rpt.object,
   subList: rpt.node,
-  toggleContentOnRowClick: rpt.bool
+  toggleContentOnRowClick: rpt.bool,
+  roundShadow: rpt.bool
 };

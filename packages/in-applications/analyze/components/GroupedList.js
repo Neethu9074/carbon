@@ -249,6 +249,7 @@ function Presenter({
                       linkFormModel={linkFormModel}
                     />
                   )}
+                  roundShadow
                 >
                   <div className={locals.list}>
                     <div className={locals.labelColumn}>
@@ -357,6 +358,7 @@ function actionColumns({ groupBy, onFocusOnGroup, groupByTagType }) {
             <IconButton
               type="lib_actions_filter"
               onClick={() => onFocusOnGroup(groupingFilter({ groupBy, group: group.name, groupByTagType }))}
+              className={locals.focusButton}
             />
           </Tooltip>
         );

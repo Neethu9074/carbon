@@ -32,7 +32,8 @@ const IconButton = forwardRef(function IconButton(
     rightAligned,
     refSetter,
     href,
-    href$
+    href$,
+    className
   },
   ref
 ) {
@@ -56,7 +57,8 @@ const IconButton = forwardRef(function IconButton(
     [locals[size]]: size,
     [locals.rightAligned]: rightAligned,
     [locals.leftAligned]: leftAligned,
-    [locals.disabled]: disabled
+    [locals.disabled]: disabled,
+    [className]: className
   });
 
   if (!willBeALink) {
@@ -91,5 +93,6 @@ IconButton.propTypes = {
   type: PropTypes.string.isRequired,
   leftAligned: PropTypes.bool,
   rightAligned: PropTypes.bool,
-  refSetter: PropTypes.func
+  refSetter: PropTypes.func,
+  className: PropTypes.string
 };
