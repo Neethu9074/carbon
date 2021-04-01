@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -19,14 +20,17 @@ export const getTagCatalog = memoize(
 );
 
 function getTagCatalogInternal({ useCase } = emptyObject) {
-  return createObservable(
-    http({
-      method: 'GET',
-      maxRetries: 3,
-      url: basePath,
-      queryParams: {
-        useCase
-      }
-    })
+  return isInternalVisible$.flatMap(includeInternalTags =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: basePath,
+        queryParams: {
+          useCase,
+          includeInternalTags
+        }
+      })
+    )
   );
 }
