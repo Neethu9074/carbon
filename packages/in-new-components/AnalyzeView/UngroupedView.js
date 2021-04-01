@@ -54,7 +54,8 @@ export default function UngroupedAnalyzeView(props) {
     useCursorPaginationStrategy,
     withoutHeader,
     withSamplingTooltip,
-    ungroupedViewConfiguration
+    ungroupedViewConfiguration,
+    filteringTagCatalog
   } = props;
 
   const timeConfig = useTimeConfig();
@@ -169,6 +170,7 @@ export default function UngroupedAnalyzeView(props) {
                 dataSource
               })
             }
+            tagCatalog={filteringTagCatalog}
           />
         )}
         <div className={locals.resultContainer}>
