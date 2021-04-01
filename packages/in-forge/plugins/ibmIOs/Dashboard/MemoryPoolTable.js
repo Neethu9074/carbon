@@ -15,7 +15,7 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.ibmiDB2Database.dashboard.tables.memoryPools.memoryPoolName'),
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.memoryPoolName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -24,7 +24,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmiDB2Database.dashboard.tables.memoryPools.storage'),
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.storage'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -40,7 +40,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmiDB2Database.dashboard.tables.memoryPools.storageReserved'),
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.storageReserved'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,7 +56,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmiDB2Database.dashboard.tables.memoryPools.activeThreads'),
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.activeThreads'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -72,7 +72,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmiDB2Database.dashboard.tables.memoryPools.maxActiveThreads'),
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.maxActiveThreads'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -106,7 +106,7 @@ export default function MemoryPoolsTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.ibmiDB2Database.dashboard.tables.memoryPools.name')}
+      cardTitle={t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.name')}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
@@ -132,9 +132,9 @@ function getRowDetails(row) {
               'memoryPoolMetrics.' + row.key + '.defSize'
             ],
             labels: [
-              t('in-forge:plugins.ibmiDB2Database.dashboard.tables.memoryPools.charts.storage.storageUsed'),
-              t('in-forge:plugins.ibmiDB2Database.dashboard.tables.memoryPools.charts.storage.storageReserved'),
-              t('in-forge:plugins.ibmiDB2Database.dashboard.tables.memoryPools.charts.storage.storageDefined')
+              t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.storage.storageUsed'),
+              t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.storage.storageReserved'),
+              t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.storage.storageDefined')
             ],
             min: 0,
             type: 'line'
@@ -154,9 +154,9 @@ function getRowDetails(row) {
               'memoryPoolMetrics.' + row.key + '.maxActiveThreads'
             ],
             labels: [
-              t('in-forge:plugins.ibmiDB2Database.dashboard.tables.memoryPools.charts.threads.activeThreads'),
-              t('in-forge:plugins.ibmiDB2Database.dashboard.tables.memoryPools.charts.threads.ineligibleThreads'),
-              t('in-forge:plugins.ibmiDB2Database.dashboard.tables.memoryPools.charts.threads.maxThreads')
+              t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.threads.activeThreads'),
+              t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.threads.ineligibleThreads'),
+              t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.threads.maxThreads')
             ],
             min: 0,
             type: 'line'

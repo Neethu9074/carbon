@@ -536,11 +536,16 @@
   "pluginName_ibmDataPowerSqlDatasource_1": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource_2": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource": "IBM DataPower SQL Data Source",
-  "pluginName_ibmiDB2Database_plural": "Db2s on i",
-  "pluginName_ibmiDB2Database_0": "Db2s on i",
-  "pluginName_ibmiDB2Database_1": "Db2s on i",
-  "pluginName_ibmiDB2Database_2": "Db2s on i",
-  "pluginName_ibmiDB2Database": "Db2 on i",
+  "pluginName_ibmIOs_plural": "Db2s on i",
+  "pluginName_ibmIOs_0": "Db2s on i",
+  "pluginName_ibmIOs_1": "Db2s on i",
+  "pluginName_ibmIOs_2": "Db2s on i",
+  "pluginName_ibmIOs": "Db2 on i",
+  "pluginName_ibmIDb2_plural": "Db2s on i",
+  "pluginName_ibmIDb2_0": "Db2s on i",
+  "pluginName_ibmIDb2_1": "Db2s on i",
+  "pluginName_ibmIDb2_2": "Db2s on i",
+  "pluginName_ibmIDb2": "Db2 on i",
   "pluginName_ibmIms": "IBM IMS",
   "pluginName_ibmIms_plural": "IBM IMS",
   "pluginName_ibmMqChannel_plural": "IBM MQ Channels",
@@ -7475,9 +7480,9 @@
       "labelVolumeWriteRequests": "Volume Write Requests",
       "labelZone": "Zone"
     },
-    "ibmiDB2Database": {
+    "ibmIOs": {
       "sidebar": {
-        "ibmiDb2Info": "Db2 on i Info",
+        "ibmIOSInfo": "Db2 on i Info",
         "hostName": "Host Name",
         "partitionId": "Partition ID",
         "numberOfPartitions": "Number of Partitions",
@@ -7540,7 +7545,7 @@
           }
         }
       },
-      "ibmiDb2": "Db2 on i"
+      "name": "Db2 on i"
     },
     "ibmMqChannel": {
       "dashboard": {
