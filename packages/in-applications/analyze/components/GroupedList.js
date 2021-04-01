@@ -11,6 +11,8 @@ import Toggle from 'react-toggle';
 
 import { getGroupingTagCatalog as getTraceGroupingTagCatalog } from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
 import { getGroupingTagCatalog as getCallGroupingTagCatalog } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
+import { getTagCatalog as getTraceFilteringTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
+import { getTagCatalog as getCallFilteringTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { UNSPECIFIED, NO_VALUE, UNSPECIFIED_LABEL, NO_VALUE_LABEL } from 'in-analyze/components/GroupedTraces/Group';
@@ -107,6 +109,10 @@ export default function GroupedList({
     }
   }, [result?.progress.loading, isValid, onResult, tagFilterExpression, dataSource]);
 
+  const filteringTagCatalog = useTagCatalog(
+    dataSource === 'traces' ? getTraceFilteringTagCatalog : getCallFilteringTagCatalog
+  );
+
   const groupingTagCatalog = useTagCatalog(
     dataSource === 'traces' ? getTraceGroupingTagCatalog : getCallGroupingTagCatalog
   );
@@ -140,6 +146,7 @@ export default function GroupedList({
       dataSource={dataSource}
       getNestedUngroupedData={getNestedUngroupedData}
       linkFormModel={linkFormModel}
+      tagCatalog={filteringTagCatalog}
       {...result}
     />
   );
@@ -178,7 +185,8 @@ function Presenter({
   groupByTagType,
   dataSource,
   getNestedUngroupedData,
-  linkFormModel
+  linkFormModel,
+  tagCatalog
 }) {
   const isLoading = progress.loading || !groupByTagType;
   const labelColumnDefinitions = labelColumns({ groupBy, showChartGroupMarkers, groupColors });
@@ -205,6 +213,7 @@ function Presenter({
           isValid={isValid}
           dataSource={dataSource}
           groupbyTag={groupBy.groupbyTag}
+          tagCatalog={tagCatalog}
         />
       </div>
       <div className={locals.table}>
