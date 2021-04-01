@@ -94,7 +94,7 @@ export default [
     labels: [
       t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.threads.activeThreads'),
       t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.threads.ineligibleThreads'),
-      t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.threads.maxThreads')
+      t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.threads.maxActiveThreads')
     ],
     min: 0,
     formatter: number,

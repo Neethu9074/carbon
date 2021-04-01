@@ -6,7 +6,6 @@
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from '../../../PluginDashboardsMarkerLanes';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, bytes } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
@@ -24,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.storage'),
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.storageUsed'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -56,6 +55,22 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.storageDefined'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `memoryPoolMetrics.${row.key}.defSize`;
+      },
+      getContent: bytes.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.activeThreads'),
     type: 'metric',
     typeArgs: {
@@ -64,6 +79,22 @@ const cols = [
       },
       getMetricName(row) {
         return `memoryPoolMetrics.${row.key}.currThreads`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.ineligibleThreads'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `memoryPoolMetrics.${row.key}.currIneligibleThreads`;
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -120,50 +151,46 @@ function getRowDetails(row) {
 
   return (
     <div>
-      <DashboardSection>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: bytes.detailed,
-            metrics: [
-              'memoryPoolMetrics.' + row.key + '.currSize',
-              'memoryPoolMetrics.' + row.key + '.resSize',
-              'memoryPoolMetrics.' + row.key + '.defSize'
-            ],
-            labels: [
-              t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.storage.storageUsed'),
-              t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.storage.storageReserved'),
-              t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.storage.storageDefined')
-            ],
-            min: 0,
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
-      <DashboardSection>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: number.compact,
-            metrics: [
-              'memoryPoolMetrics.' + row.key + '.currThreads',
-              'memoryPoolMetrics.' + row.key + '.currIneligibleThreads',
-              'memoryPoolMetrics.' + row.key + '.maxActiveThreads'
-            ],
-            labels: [
-              t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.threads.activeThreads'),
-              t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.threads.ineligibleThreads'),
-              t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.threads.maxThreads')
-            ],
-            min: 0,
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
+      <Chart
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          formatter: bytes.detailed,
+          metrics: [
+            'memoryPoolMetrics.' + row.key + '.currSize',
+            'memoryPoolMetrics.' + row.key + '.resSize',
+            'memoryPoolMetrics.' + row.key + '.defSize'
+          ],
+          labels: [
+            t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.storage.storageUsed'),
+            t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.storage.storageReserved'),
+            t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.storage.storageDefined')
+          ],
+          min: 0,
+          type: 'line'
+        }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
+      />
+      <Chart
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        y1={{
+          formatter: number.compact,
+          metrics: [
+            'memoryPoolMetrics.' + row.key + '.currThreads',
+            'memoryPoolMetrics.' + row.key + '.currIneligibleThreads',
+            'memoryPoolMetrics.' + row.key + '.maxActiveThreads'
+          ],
+          labels: [
+            t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.threads.activeThreads'),
+            t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.threads.ineligibleThreads'),
+            t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.threads.maxActiveThreads')
+          ],
+          min: 0,
+          type: 'line'
+        }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
+      />
     </div>
   );
 }
