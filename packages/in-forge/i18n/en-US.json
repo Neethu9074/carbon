@@ -7526,9 +7526,11 @@
           "memoryPools": {
             "name": "Active Memory Pools",
             "memoryPoolName": "Name",
-            "storage": "Storage",
+            "storageUsed": "Storage Used",
             "storageReserved": "Storage Reserved",
+            "storageDefined": "Storage Defined",
             "activeThreads": "Active Threads",
+            "ineligibleThreads": "Ineligible Threads",
             "maxActiveThreads": "Max Active Threads",
             "charts": {
               "storage": {
@@ -7539,7 +7541,7 @@
               "threads": {
                 "activeThreads": "Active Threads",
                 "ineligibleThreads": "Ineligible Threads",
-                "maxThreads": "Max Threads"
+                "maxActiveThreads": "Max Active Threads"
               }
             }
           }
