@@ -7,22 +7,27 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import PropContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/PropContainer';
+import Select from 'in-components/form/Select/Select';
 import TextArea from 'in-components/form/TextArea';
 import Toggle from 'in-components/form/Toggle';
-import ComboBox from 'in-components/ComboBox';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertProperties.mless';
 
-const warningIndex = 0;
 const severityWarning = 5;
 const severityCritical = 10;
 
-const severitySelectOptions = [
-  { value: severityWarning, label: t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesWarning') },
-  { value: severityCritical, label: t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesCritical') }
-];
+const severitySelectOptions = {
+  [severityWarning]: {
+    value: severityWarning,
+    label: t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesWarning')
+  },
+  [severityCritical]: {
+    value: severityCritical,
+    label: t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesCritical')
+  }
+};
 
 export default function AlertProperties({
   form,
@@ -61,19 +66,22 @@ export default function AlertProperties({
         icon={severity <= 5 ? 'lib_events_warning' : 'lib_events_critical'}
         left={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesAlertLevel')}
         right={
-          <ComboBox
+          <Select
             name={'severity'}
-            value={form.get('severity').value}
-            options={severitySelectOptions}
-            onChange={({ value = '' }) => {
-              onChange(['severity'], field => field.setValue(value).setTouched(true));
+            onChange={e => {
+              onChange(['severity'], field => field.setValue(e.target.value).setTouched(true));
               if (trackAlertLevelChanged) {
                 trackAlertLevelChanged();
               }
             }}
-            defaultValue={severitySelectOptions[warningIndex].value}
-            clearable={false}
-          />
+            defaultValue={severitySelectOptions[severity].value}
+          >
+            {Object.values(severitySelectOptions).map(({ value, label }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </Select>
         }
       />
       <PropContainer
