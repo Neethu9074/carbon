@@ -2601,20 +2601,68 @@ function PackagesContent({ agentKey }) {
 }
 
 function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, butlerDomain, tenant, tenantUnit }) {
-  const agentModeOptions = ['Dynamic agent', 'Static agent'];
-  const [agentMode, setMode] = useState(agentModeOptions[0]);
+  const agentModeOptions = ['dynamic', 'static'];
+  const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
+  const jvmVendorOptions = ['azul', 'eclipse'];
+  const [jvmVendor, setJVMVendor] = useState(jvmVendorOptions[0]);
 
   return (
     <>
       <Row>
-        <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
+        <Fragment>
+          <h4>{t('in-waiting-for-deployment:content.agentModeLabel')}</h4>
+          <p>
+            <CheckboxFancy
+              label={t('in-waiting-for-deployment:content.agentModeDynamic')}
+              checked={agentMode === agentModeOptions[0]}
+              onChange={() => setAgentMode(agentModeOptions[0])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+          <p>
+            <CheckboxFancy
+              label={t('in-waiting-for-deployment:content.agentModeStatic')}
+              checked={agentMode === agentModeOptions[1]}
+              onChange={() => setAgentMode(agentModeOptions[1])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+        </Fragment>
+
+        <Fragment>
+          <h4>{t('in-waiting-for-deployment:content.agentRuntimeLabel')}</h4>
+          <p>
+            <CheckboxFancy
+              label="Azul Zulu 1.8"
+              checked={jvmVendor === jvmVendorOptions[0]}
+              onChange={() => setJVMVendor(jvmVendorOptions[0])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+          <p>
+            <CheckboxFancy
+              label="Eclipse OpenJ9 11"
+              checked={jvmVendor === jvmVendorOptions[1]}
+              onChange={() => setJVMVendor(jvmVendorOptions[1])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+        </Fragment>
+      </Row>
+      <Row>
         <DownloadButton
           title={t('in-waiting-for-deployment:content.download')}
           href={getAgentDownloadURL(
             tenant,
             tenantUnit,
             agentKey,
-            agentMode === agentModeOptions[0] ? 'exe64' : 'exe64offline',
+            `exe64${jvmVendor === jvmVendorOptions[0] ? '' : 'j9'}${
+              agentMode === agentModeOptions[0] ? '' : 'offline'
+            }`,
             butlerDomain
           )}
         />
@@ -2652,13 +2700,57 @@ function WindowsInstallerUnattendedContent({
   tenant,
   tenantUnit
 }) {
-  const agentModeOptions = ['Dynamic agent', 'Static agent'];
-  const [agentMode, setMode] = useState(agentModeOptions[0]);
+  const agentModeOptions = ['dynamic', 'static'];
+  const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
+  const jvmVendorOptions = ['azul', 'eclipse'];
+  const [jvmVendor, setJVMVendor] = useState(jvmVendorOptions[0]);
 
   return (
     <>
       <Row>
-        <DropDown value={agentMode} options={agentModeOptions} onChange={setMode} />
+        <Fragment>
+          <h4>{t('in-waiting-for-deployment:content.agentModeLabel')}</h4>
+          <p>
+            <CheckboxFancy
+              label={t('in-waiting-for-deployment:content.agentModeDynamic')}
+              checked={agentMode === agentModeOptions[0]}
+              onChange={() => setAgentMode(agentModeOptions[0])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+          <p>
+            <CheckboxFancy
+              label={t('in-waiting-for-deployment:content.agentModeStatic')}
+              checked={agentMode === agentModeOptions[1]}
+              onChange={() => setAgentMode(agentModeOptions[1])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+        </Fragment>
+
+        <Fragment>
+          <h4>{t('in-waiting-for-deployment:content.agentRuntimeLabel')}</h4>
+          <p>
+            <CheckboxFancy
+              label="Azul Zulu 1.8"
+              checked={jvmVendor === jvmVendorOptions[0]}
+              onChange={() => setJVMVendor(jvmVendorOptions[0])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+          <p>
+            <CheckboxFancy
+              label="Eclipse OpenJ9 11"
+              checked={jvmVendor === jvmVendorOptions[1]}
+              onChange={() => setJVMVendor(jvmVendorOptions[1])}
+              size="default"
+              asRadioButton
+            />
+          </p>
+        </Fragment>
       </Row>
 
       <Description
@@ -2670,7 +2762,9 @@ function WindowsInstallerUnattendedContent({
             tenant,
             tenantUnit,
             agentKey,
-            agentMode === agentModeOptions[0] ? 'exe64' : 'exe64offline',
+            `exe64${jvmVendor === jvmVendorOptions[0] ? '' : 'j9'}${
+              agentMode === agentModeOptions[0] ? '' : 'offline'
+            }`,
             butlerDomain
           )
         ]}
