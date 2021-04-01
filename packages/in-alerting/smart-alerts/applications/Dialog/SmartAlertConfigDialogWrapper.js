@@ -27,7 +27,7 @@ import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformati
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 
-const logger = createLogger('in-applications/alerting/Dialog/SmartAlertConfigDialogWrapper');
+const logger = createLogger('in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialog');
 
 const initialChartConfigIndex = 0;
 

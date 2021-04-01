@@ -6,7 +6,7 @@
 import { just } from '@instana/observables';
 import React from 'react';
 
-import ServicesAndEndpointsListPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
+import ServicesAndEndpointsListPresenter from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
 import {
   getApplicationResult,
   getApplicationsResult,

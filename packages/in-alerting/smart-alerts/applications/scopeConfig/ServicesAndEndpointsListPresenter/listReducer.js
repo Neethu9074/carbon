@@ -9,7 +9,7 @@ import {
   selectApplication,
   selectEndpoint,
   selectService
-} from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/selectors';
+} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/selectors';
 
 export const actionType = {
   ADD_APPLICATION: 'ADD_APPLICATION',

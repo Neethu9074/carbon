@@ -10,7 +10,7 @@ import { expect } from 'chai';
 import {
   listReducer,
   actionType
-} from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
+} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
 
 const applicationId = 'abc-123';
 const serviceId = 'def-456';

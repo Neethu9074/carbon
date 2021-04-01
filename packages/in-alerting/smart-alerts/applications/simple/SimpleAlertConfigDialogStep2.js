@@ -7,7 +7,7 @@ import React from 'react';
 
 import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/applications/simple/SimpleAlertConfigDialogChart';
 import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
-import ScopeConfig from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ScopeConfig';
+import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/simple/SimpleAlertConfigDialogStep2.mless';

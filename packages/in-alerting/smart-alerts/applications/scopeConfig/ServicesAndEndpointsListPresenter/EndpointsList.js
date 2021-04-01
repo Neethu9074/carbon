@@ -5,64 +5,65 @@
 
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty } from 'lodash';
 
 import {
   createNoMatchingEntityText,
   DEFAULT_PAGE_SIZE,
   enrichListWithStaleSelectionData,
   sortListBySelectionState
-} from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/utils';
+} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/utils';
 import {
   createApplicationIdTagFilter,
   createEndpointNameTagFilter,
-  createServiceNameTagFilter
-} from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
+  createServiceIdTagFilter
+} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
 import {
   selectApplication,
+  selectEndpoint,
   selectService
-} from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/selectors';
-import { stateManagementPropType } from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
-import EndpointsList from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/EndpointsList';
-import SharedList from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
+} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/selectors';
+import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
+import SharedList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
 import { and, or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import getService from 'in-subscription/application/getService';
+import getEndpoint from 'in-subscription/application/getEndpoint';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { isLoading } from 'in-services/util/result';
 
-export default function ServicesList({ getServicesCursorPaginated, parentIds, ...props }) {
+export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, ...props }) {
   const { boundaryScope, timeConfig, includeSynthetic } = props;
   const searchQuery = props.searchQuery?.trim();
   const applicationIdTagFilter = createApplicationIdTagFilter(parentIds.applicationId, boundaryScope);
+  const serviceIdTagFilter = createServiceIdTagFilter(parentIds.serviceId);
 
   const { items, ...tableProps } = useCursorPagination(
     ({ cursor }) =>
-      getServicesCursorPaginated({
+      getEndpointsCursorPaginated({
         pagination: {
           cursor,
           retrievalSize: DEFAULT_PAGE_SIZE
         },
         order: {
-          by: 'serviceLabel',
+          by: 'endpointLabel',
           direction: 'ASC'
         },
-        metrics: {},
         filter: {
           timeConfig,
           includeSyntheticCalls: includeSynthetic
         },
+        metrics: {},
         tagFilterExpression: toBackendQueryModel(
           joinExpressions({
             logicalOperator: and,
             expressions: [
               applicationIdTagFilter,
+              serviceIdTagFilter,
               joinExpressions({
                 logicalOperator: or,
-                expressions: [createServiceNameTagFilter(searchQuery), createEndpointNameTagFilter(searchQuery)]
+                expressions: [createEndpointNameTagFilter(searchQuery)]
               })
             ]
           })
@@ -74,12 +75,11 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
   const { state } = props.stateManagement;
 
   const listData = useMemo(() => {
-    if (items.length === 0) return [];
-    const restructuredItems = items.map(({ service, ...rest }) => ({ ...rest, item: service }));
-    const application = selectApplication(state, parentIds);
+    const service = selectService(state, parentIds);
+    const restructuredItems = items.map(({ endpoint, ...rest }) => ({ ...rest, item: endpoint }));
     return searchQuery
       ? restructuredItems
-      : enrichListWithStaleSelectionData(Object.entries(application?.services ?? {}), restructuredItems);
+      : enrichListWithStaleSelectionData(Object.entries(service?.endpoints ?? {}), restructuredItems);
     // only ever recalculate if items array changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
@@ -94,45 +94,55 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
           ? sortListBySelectionState(listData, enhanceParentIdsWithChildId(parentIds), hasUserInteractedWithItem(state))
           : listData
       }
-      renderSubList={({ applicationId, serviceId }) => () => (
-        <EndpointsList {...props} parentIds={{ applicationId, serviceId }} />
-      )}
       stateProcessors={{
-        entityType: 'SERVICE',
+        entityType: 'ENDPOINT',
         getTooltipSettings() {
-          return { name: 'Service', iconType: 'lib_application_service' };
+          return { name: 'Endpoint', iconType: 'lib_application_endpoint' };
         },
         enhanceParentIdsWithChildId(id) {
           return enhanceParentIdsWithChildId(parentIds)(id);
         },
-        isIndeterminate(itemTreeIds) {
-          const service = selectService(state, itemTreeIds);
-          return !isEmpty(service?.endpoints) && service?.inclusive !== undefined;
+        isIndeterminate() {
+          return false;
         },
         isChecked(itemTreeIds) {
-          return Boolean(selectService(state, itemTreeIds)?.inclusive);
+          return Boolean(selectEndpoint(state, itemTreeIds)?.inclusive);
         },
         isExplicitlyExcluded(itemTreeIds) {
-          return selectService(state, itemTreeIds)?.inclusive === false;
+          return selectEndpoint(state, itemTreeIds)?.inclusive === false;
         },
         hasUserInteractedWithItem(itemTreeIds) {
-          return Boolean(selectService(state, itemTreeIds));
+          return hasUserInteractedWithItem(state)(itemTreeIds);
         },
         isImplicitlyChecked(itemTreeIds) {
           const application = selectApplication(state, itemTreeIds);
           const service = selectService(state, itemTreeIds);
-          return application?.inclusive === true && service?.inclusive === undefined;
+          const endpoint = selectEndpoint(state, itemTreeIds);
+
+          if (application?.inclusive === true) {
+            if (service?.inclusive === undefined || service?.inclusive === true) {
+              return endpoint?.inclusive === undefined;
+            }
+          }
+
+          if (application?.inclusive === false) {
+            if (service?.inclusive === true) {
+              return endpoint?.inclusive === undefined;
+            }
+          }
+
+          return false;
         },
         getNoDataCustomText() {
-          return searchQuery ? createNoMatchingEntityText('Service') : undefined;
+          return searchQuery ? createNoMatchingEntityText('Endpoint') : undefined;
         },
         shouldAdd(itemTreeIds) {
-          return selectService(state, itemTreeIds)?.inclusive === undefined;
+          return selectEndpoint(state, itemTreeIds)?.inclusive === undefined;
         },
-        getBadgeElement({ types }) {
-          return <EndpointTypeBadgeList types={types} />;
+        getBadgeElement({ type }) {
+          return <EndpointTypeBadgeList types={[type]} />;
         },
-        getStaleEntity$: getService
+        getStaleEntity$: getEndpoint
       }}
       initiallyOpen={Boolean(searchQuery) && items.length > 0}
     />
@@ -140,17 +150,18 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
 }
 
 function enhanceParentIdsWithChildId(parentIds) {
-  return id => ({ ...parentIds, serviceId: id });
+  return id => ({ ...parentIds, endpointId: id });
 }
 
 function hasUserInteractedWithItem(state) {
-  return itemTreeIds => Boolean(selectService(state, itemTreeIds));
+  return itemTreeIds => Boolean(selectEndpoint(state, itemTreeIds));
 }
 
-ServicesList.propTypes = {
-  getServicesCursorPaginated: PropTypes.func.isRequired,
+EndpointsList.propTypes = {
+  getEndpointsCursorPaginated: PropTypes.func.isRequired,
   parentIds: PropTypes.shape({
-    applicationId: PropTypes.string.isRequired
+    applicationId: PropTypes.string.isRequired,
+    serviceId: PropTypes.string.isRequired
   }).isRequired,
   boundaryScope: PropTypes.string.isRequired,
   stateManagement: stateManagementPropType.isRequired,

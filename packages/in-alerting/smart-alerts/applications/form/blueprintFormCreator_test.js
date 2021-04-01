@@ -16,7 +16,7 @@ import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/compone
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 
-describe('in-applications/alerting/form/blueprintFormCreator', () => {
+describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () => {
   function createTagFilterExpressionForm() {
     return createField({
       value: []

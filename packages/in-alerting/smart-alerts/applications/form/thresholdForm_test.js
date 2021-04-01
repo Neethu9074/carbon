@@ -8,7 +8,7 @@ import { expect } from 'chai';
 
 import { createSlownessForm } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 
-describe('in-applications/alerting/form/thresholdForm', () => {
+describe('in-alerting/smart-alerts/applications/form/thresholdForm', () => {
   context('when alertType is slowness', () => {
     context('when thresholdType is staticThreshold', () => {
       it('should contain fields: type, operator, lastUpdated, value', () => {

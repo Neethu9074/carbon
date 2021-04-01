@@ -27,12 +27,12 @@ import ErrorRateInteractiveChart from 'in-alerting/smart-alerts/applications/adv
 import SlownessInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/SlownessInteractiveChart';
 import BaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/BaselineErrorMessage';
 import SelectAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/SelectAlertChannel';
-import ScopeConfig from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ScopeConfig';
 import LogsInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/LogsInteractiveChart';
 import ProvideLogMessage from 'in-alerting/smart-alerts/applications/components/ProvideLogMessage';
 import ProvideStatusCode from 'in-alerting/smart-alerts/applications/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
+import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import LightCard from 'in-new-components/Card/LightCard';
 import { t } from 'in-i18n';

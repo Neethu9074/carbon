@@ -10,7 +10,7 @@ import Toggle from 'react-toggle';
 
 import ServicesAndEndpointsListPresenter, {
   ServicesAndEndpointsSearchInput
-} from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
+} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
 import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/smart-alert-dialog/ClearTagFilterExpressionButton';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertFilterConfigurator';
 import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewConfig';
@@ -20,7 +20,7 @@ import Stack from 'in-new-components/layout/Stack';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ScopeConfig.mless';
+import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig.mless';
 
 export default function ScopeConfig({ form, updateForm, QueryBuilderComponent, isGlobalSmartAlert, editMode }) {
   const applications = form.get('applications').value;

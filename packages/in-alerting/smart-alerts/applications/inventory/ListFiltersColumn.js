@@ -7,7 +7,7 @@ import { useObservable } from '@instana/hooks';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/components/smart-alert-dialog/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
+import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import getApplication from 'in-subscription/application/getApplication';
