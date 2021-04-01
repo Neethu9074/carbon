@@ -4,7 +4,6 @@
  */
 
 import React, { useRef } from 'react';
-import classNames from 'classnames';
 
 import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
 import Overlay from 'in-new-components/overlays/Overlay';
@@ -49,10 +48,7 @@ export default function FilterButton({
     >
       {({ toggle, refSetter }) => (
         <Button
-          className={classNames({
-            [locals.button]: true,
-            [locals.trailingButton]: trailingButton
-          })}
+          className={locals.button}
           size="compact"
           icon={trailingButton ? '' : 'lib_openclose_add'}
           kind="subtle"
