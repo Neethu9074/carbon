@@ -9,11 +9,6 @@
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_medium;
     position: relative;
-    top: 3px;
-  }
-
-  .trailingButton {
     margin-left: 0.125rem;
-    top: 0px;
   }
 }

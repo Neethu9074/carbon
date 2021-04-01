@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 import React, { useRef } from 'react';
-import classNames from 'classnames';
 import { t } from 'in-i18n';
 
 import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
@@ -48,10 +47,7 @@ export default function FilterButton({
     >
       {({ toggle, refSetter }) => (
         <Button
-          className={classNames({
-            [locals.button]: true,
-            [locals.trailingButton]: trailingButton
-          })}
+          className={locals.button}
           size="compact"
           icon={trailingButton ? '' : 'lib_openclose_add'}
           kind="subtle"
