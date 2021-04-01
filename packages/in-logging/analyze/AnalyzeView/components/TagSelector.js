@@ -47,7 +47,7 @@ function TagSelectorOverlay({ selectedTags, onSelectedTagsChange, maxSelectableT
   selectedTags = selectedTags.slice();
   selectedTags.sort(compare);
 
-  const allAvailableTags = tagCatalog.map(({ name }) => name);
+  const allAvailableTags = tagCatalog.filter(isAllowedLogTag).map(mapToName);
   const remainingTags = allAvailableTags.filter(tag => selectedTags.indexOf(tag) === -1);
 
   return (
@@ -65,6 +65,14 @@ function TagSelectorOverlay({ selectedTags, onSelectedTagsChange, maxSelectableT
       selectedTags={selectedTags}
     />
   );
+}
+
+function mapToName({ name }) {
+  return name;
+}
+
+function isAllowedLogTag({ name }) {
+  return name !== 'log.message';
 }
 
 function onSwap() {}
