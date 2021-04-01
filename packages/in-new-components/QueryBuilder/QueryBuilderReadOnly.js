@@ -73,6 +73,7 @@ function QueryBuilderReadOnly({ value: formModel, getTagCatalog, getSuggestions 
       <>
         {elements.map((element, i) => {
           const Component = componentMapping[element.type];
+
           return (
             <Component
               key={i}

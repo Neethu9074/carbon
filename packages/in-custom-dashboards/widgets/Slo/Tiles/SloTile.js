@@ -45,8 +45,8 @@ export default function SloTile({ smallRowStyle, title, value, color, targetInfo
 SloTile.propTypes = {
   smallRowStyle: PropTypes.bool,
   title: PropTypes.string.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   targetInfo: PropTypes.string.isRequired,
-  targetValue: PropTypes.string,
+  targetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   color: PropTypes.string
 };

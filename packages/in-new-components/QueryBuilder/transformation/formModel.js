@@ -59,6 +59,7 @@ export function fromBackendModel(backendModel) {
     logicalOperator: backendModel.logicalOperator,
     expressions: backendModel.elements.map(fromBackendModel)
   });
+
   return backendModel.brackets ? enclose(joined) : joined;
 }
 

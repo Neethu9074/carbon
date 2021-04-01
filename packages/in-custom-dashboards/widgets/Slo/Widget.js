@@ -23,6 +23,7 @@ import {
 } from 'in-custom-dashboards/widgets/Slo/form';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
+import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/SliConfigInfo';
 import getApplication from 'in-subscription/application/getApplication';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { getSliConfiguration } from 'in-custom-dashboards/api';
@@ -129,7 +130,12 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
       }
       title={title}
       headerClassName={locals.title}
-      leftHeaderContent={<LeftHeader applicationId={applicationId} />}
+      leftHeaderContent={
+        <>
+          <LeftHeader applicationId={applicationId} />
+          <SliConfigInfo sliConfig={sliConfig} />
+        </>
+      }
     >
       <WidgetHeader
         slo={slo}
@@ -171,9 +177,7 @@ function calculateTimeWindowConfig(
   timeWindowStartDate,
   timeWindowStartTime
 ) {
-  const timeWindowConfig = {
-    ...timeConfig
-  };
+  const timeWindowConfig = { ...timeConfig };
 
   let fromTimestamp = timeConfig.from ?? (timeConfig.to ?? new Date().getTime()) - timeConfig.windowSize;
   let toTimestamp = timeConfig.to ?? fromTimestamp + timeConfig.windowSize;

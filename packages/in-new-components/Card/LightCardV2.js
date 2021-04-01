@@ -65,7 +65,7 @@ export default function LightCardV2({
 
       <div
         className={classNames({
-          [locals.body]: children ? true : false,
+          [locals.body]: !!children,
           [bodyClassName]: bodyClassName
         })}
       >

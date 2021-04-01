@@ -30,10 +30,13 @@ export function createForm(sliConfig, applicationId, apDefaultBoundaryScope) {
   };
 
   const { id, sliName, sliEntity, metricConfiguration } = sliEntityWithApplicationId;
+
   let form = createMapForm();
+
   if (id) {
     form = form.put('id', createField({ value: id }));
   }
+
   form = form.put(
     'sliName',
     createField({
@@ -42,6 +45,7 @@ export function createForm(sliConfig, applicationId, apDefaultBoundaryScope) {
     })
   );
   form = form.put('sliEntity', createSliEntityForm(sliEntity, apDefaultBoundaryScope));
+
   if (sliEntity.sliType === applicationType) {
     form = form.put('metricConfiguration', createMetricsForm(metricConfiguration ?? {}));
   }

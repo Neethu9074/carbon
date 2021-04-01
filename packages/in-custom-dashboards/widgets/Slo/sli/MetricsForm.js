@@ -138,11 +138,11 @@ export const MetricsForm = ({ form, onChange }) => {
   );
 };
 
-function getThresholdLabelWithUnit(metricName) {
+export const getThresholdLabelWithUnit = metricName => {
   if (metricName === 'latency') {
     return t('in-custom-dashboards:widgets.slo.metricsForm.thresholdMs');
   } else if (metricName === 'errors') {
     return t('in-custom-dashboards:widgets.slo.metricsForm.thresholdPercent');
   }
   return t('in-custom-dashboards:widgets.slo.metricsForm.thresholdCount');
-}
+};

@@ -499,6 +499,12 @@
         "rollingTimeWindow": "Rolling time window",
         "fixedTimeWindow": "Fixed time window"
       },
+      "sliConfig": {
+        "sliName": "SLI Name",
+        "sliType": "SLI Type",
+        "badEventsFilter": "Bad Event Filters",
+        "metric": "Metric"
+      },
       "theTimeWindowSizeHasToBeLessOrEqualTo365Days": "The time window size has to be less or equal to 365 days.",
       "aValueMustBeSelected": "A value must be selected.",
       "atLeastOneFilterExpressionMustBeConfigured": "At least one filter expression must be configured.",
