@@ -31,12 +31,12 @@ export const isAlertQueryValid = ([tagFilterFormModel, timeConfig]) => isQueryVa
  * @param boundaryScope The applications boundary-scope this alert is bound to.
  * @returns A QueryBuilder where the scope is bound to a single application.
  */
-export function createBoundedAlertQueryBuilder(applicationIds, boundaryScope) {
+export function createBoundedAlertQueryBuilder(applicationIds, boundaryScope, customTimeConfig) {
   const { QueryBuilder } = createQueryBuilder({
     getTagCatalog: props => getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SMART_ALERTS' })(props),
     getSuggestions: args =>
       getTagSuggestions({
-        ...tagSuggestionArgs(args),
+        ...tagSuggestionArgs(args, customTimeConfig),
         tagFilterExpression: createTagFilterExpression(OPERATOR_AND, [
           createTagFilterExpression(
             OPERATOR_OR,
@@ -49,7 +49,7 @@ export function createBoundedAlertQueryBuilder(applicationIds, boundaryScope) {
   return QueryBuilder;
 }
 
-function tagSuggestionArgs(args) {
+function tagSuggestionArgs(args, customTimeConfig) {
   return {
     entity: args.entity,
     propose: args.propose,
@@ -57,7 +57,7 @@ function tagSuggestionArgs(args) {
     tagName: args.name,
     value: args.value,
     filter: {
-      timeConfig: args.timeConfig
+      timeConfig: customTimeConfig ?? args.timeConfig
     },
     secondLevelKeyTagName: args.key
   };

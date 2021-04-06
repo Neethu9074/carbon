@@ -128,7 +128,7 @@
     "awsServiceDocumentation": "AWS Service documentation.",
     "nextConfigureYourAwsLambdaFunctionsForNativeTracingAsDescribedInTheStepsBelowOtherOptionsToSetUpNativeLambdaTracingAndMoreDetailsAboutThisFeatureAreAvailableInThe": "Next, configure your AWS Lambda functions for native tracing as described in the steps below. Other options to set up native Lambda tracing and more details about this feature are available in the",
     "documentation": "documentation.",
-    "dynamicAgent": "UDynamic agent",
+    "dynamicAgent": "Dynamic agent",
     "staticAgent": "Static agent",
     "useTheFollowingScriptAsUserDataForTheEc2Instance": "Use the following script as \"User Data\" for the EC2 instance:",
     "theUserDataScriptAboveWillDownloadTheHostAgentInstallItOnTheVirtualMachineAsAWindowsServiceAndThenAutomaticallyStartIt": "The \"User Data\" script above will download the host agent, install it on the virtual machine as a Windows Service and then automatically start it.",

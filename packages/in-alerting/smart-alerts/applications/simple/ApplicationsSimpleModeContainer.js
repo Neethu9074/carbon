@@ -39,7 +39,6 @@ export default function ApplicationsSimpleModeContainer({
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
   isGlobalSmartAlert,
-  QueryBuilderComponent,
   ...props
 }) {
   const stepRenderers = [
@@ -56,7 +55,6 @@ export default function ApplicationsSimpleModeContainer({
         isGlobalSmartAlert={isGlobalSmartAlert}
         onChartViewConfigChange={onChartViewConfigChange}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        QueryBuilderComponent={QueryBuilderComponent}
         {...parentProps}
       />
     ),
@@ -86,6 +84,5 @@ ApplicationsSimpleModeContainer.propTypes = {
   updateForm: PropTypes.func.isRequired,
   isTagFilterFormModelValid: PropTypes.bool.isRequired,
   selectedChartViewConfigIndex: PropTypes.number.isRequired,
-  isGlobalSmartAlert: PropTypes.bool,
-  QueryBuilderComponent: PropTypes.elementType.isRequired
+  isGlobalSmartAlert: PropTypes.bool
 };

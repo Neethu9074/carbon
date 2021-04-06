@@ -10328,7 +10328,8 @@
     },
     "ims": {
       "titleImsAttributes": "IMS Attributes",
-      "titleEventKey": "IMS Event Key"
+      "titleEventKey": "IMS Event Key",
+      "titleComponent": "IMS Component"
     },
     "jaeger": {
       "titleService": "Service",
