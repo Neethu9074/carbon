@@ -30,6 +30,13 @@
         animation-iteration-count: 1;
       }
 
+      &.animationAfterSlightDelay {
+        // Painting of the svg element created using createElement is taking some fractions of seconds
+        // Added a delay to prevent partial rendering of svg elements
+        // Tip: setting up a slower network throttle can show a clear difference in painting
+        animation-delay: 0.2s;
+      }
+
       &.animationStart {
         animation-iteration-count: infinite;
       }

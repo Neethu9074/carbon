@@ -136,7 +136,8 @@ export default class IndeterminateLoadingIndicator extends PureComponent {
             className: classNames({
               [locals.animatedSvgElement]: true,
               [locals.animationSequenceIn]: true,
-              [locals.animationStartOnce]: this.state[key]
+              [locals.animationStartOnce]: this.state[key],
+              [locals.animationAfterSlightDelay]: this.state[key]
             })
           })
         )}
@@ -165,7 +166,7 @@ export default class IndeterminateLoadingIndicator extends PureComponent {
           strokeDasharray: this.state[`line${key}`] || 0,
           strokeDashoffset: this.state[`line${key}`] || 0,
           style: {
-            animationDelay: `${Number(key + 1) * 1000}ms`,
+            animationDelay: `${Number(key + 1.2) * 1000}ms`,
             stroke: connectorStrokeColor || stroke
           },
           className: classNames({
@@ -180,7 +181,7 @@ export default class IndeterminateLoadingIndicator extends PureComponent {
           key: `hexagon${key}`,
           d,
           style: {
-            animationDelay: `${Number(key + 1) * 1000}ms`,
+            animationDelay: `${Number(key + 1.2) * 1000}ms`,
             fill: hexagonFillColor || fill,
             stroke: hexagonStrokeColor || stroke
           },
