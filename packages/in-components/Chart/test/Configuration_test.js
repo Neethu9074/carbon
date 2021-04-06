@@ -119,9 +119,9 @@ describe('in-components/Chart/Configuration', () => {
 
     it('should multiply pre defined rollup', () => {
       const config = new Config(defaultProps);
-      config.update({ y1: {}, timeConfig: { windowSize: 60000, to: null } });
+      config.update({ y1: {}, timeConfig: { windowSize: 24 * 60 * 60 * 1000, to: null } });
       const rollup = config.calculateMaxMillisBetweenDatapoints();
-      expect(rollup).to.equal(allowedMultiplesOfRollupSizeMissingInCharts * 1000);
+      expect(rollup).to.equal(allowedMultiplesOfRollupSizeMissingInCharts * config.rollup);
     });
   });
 

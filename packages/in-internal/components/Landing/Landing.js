@@ -9,7 +9,6 @@ import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { isInstanaEngineer, isInstanaEmail } from 'in-stores/user';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getModifiedUrlStream } from 'in-stores/navigation';
@@ -17,6 +16,7 @@ import TimeZones from 'in-internal/components/TimeZones';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { getInfraGranularity } from 'in-stores/metric';
 import { number } from 'in-services/formatters/number';
+import { role, isInstanaEmail } from 'in-stores/user';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import { config } from 'in-services/config';
@@ -164,7 +164,7 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                   </LinkList>
                 </LinkListItem>
 
-                {isInstanaEngineer && (
+                {role.canSeeExtendedInternalMonitoring && (
                   <LinkListItem label={t('in-internal:components.landing.pipelines')}>
                     <LinkList>
                       <LinkListItem
@@ -321,7 +321,7 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                   </LinkListItem>
                 )}
 
-                {isInstanaEngineer && (
+                {role.canSeeExtendedInternalMonitoring && (
                   <LinkListItem label={t('in-internal:components.landing.dataStores')}>
                     <LinkList>
                       <LinkListItem

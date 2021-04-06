@@ -9,10 +9,10 @@ import { setLogLevel } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
-import { isInstanaEngineer } from 'in-stores/user';
 import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
+import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './LogLevel.mless';
@@ -58,7 +58,7 @@ export default class extends React.Component {
           >
             <option value="INFO">{t('in-forge:plugins.instanaAgent.dashboard.info2')}</option>
             <option value="DEBUG">{t('in-forge:plugins.instanaAgent.dashboard.debug')}</option>
-            {isInstanaEngineer ? (
+            {role.canSetAgentTraceLogLevel ? (
               <option value="TRACE">{t('in-forge:plugins.instanaAgent.dashboard.trace')}</option>
             ) : null}
             ;

@@ -15,7 +15,6 @@ export const user = window.instana.user;
 export const tenant = user?.tenants.find(tenant => tenant.tenantKey === config.tenant);
 export const role = user?.role ?? tenant?.role;
 
-export const isInstanaEngineer = user?.email === 'stan@instana.com';
 export const isInstanaEmail = user?.email.endsWith('@instana.com');
 
 export const isOwner = role?.id === ownerRoleId;

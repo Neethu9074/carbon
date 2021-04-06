@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { isInstanaEmail, isInstanaEngineer } from 'in-stores/user';
 import { isFeatureFlagEnabled } from 'in-services/config';
+import { isInstanaEmail } from 'in-stores/user';
 
 // ########################################################################################
 // Regular feature flags
@@ -72,13 +72,12 @@ export const hiddenSearchFieldValues = {
 // ########################################################################################
 // Chart gap hiding
 // ########################################################################################
-export const allowedMillisGapsInOneSecondResolution = isInstanaEngineer ? 2300 : 20000;
+export const allowedMillisGapsInOneSecondResolution = 20000;
 
 // Charts will hide small gaps in timeseries data to account for infrastructure hiccups and delays.
 // For example, the following configuration will hide up to 11.5s of missing data points.
 // rollup = 5s
-// allowedMultiplesOfRollupSizeMissingInCharts = 2.3
-export const allowedMultiplesOfRollupSizeMissingInCharts = isInstanaEngineer ? 2.3 : 4;
+export const allowedMultiplesOfRollupSizeMissingInCharts = 4;
 
 //Flag which exposes the download button - enables the download of metrics from event view
 export const allowDownloadMetricsFromCharts = isInstanaEmail;

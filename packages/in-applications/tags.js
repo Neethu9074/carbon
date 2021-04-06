@@ -9,7 +9,7 @@ import moment from 'moment';
 import { TAG_TYPES, entityTypes } from 'in-analyze/applicationFilter';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { deepCopy } from 'in-services/util/object';
-import { isInstanaEngineer } from 'in-stores/user';
+import { role } from 'in-stores/user';
 
 export const customServiceMappingTagKeys = [
   'agent.tag',
@@ -81,33 +81,33 @@ export const traceAnalysisDisabledTags = ['call.latency'];
 const disabledLists = {
   general: (() => {
     const disabledList = {
-      'application.id': !isInstanaEngineer,
-      'boundary.application.id': !isInstanaEngineer,
-      'service.id': !isInstanaEngineer,
-      'service.rule_id': !isInstanaEngineer,
-      'endpoint.id': !isInstanaEngineer,
-      'endpoint.type': !isInstanaEngineer,
+      'application.id': !role.canSeeInternalTags,
+      'boundary.application.id': !role.canSeeInternalTags,
+      'service.id': !role.canSeeInternalTags,
+      'service.rule_id': !role.canSeeInternalTags,
+      'endpoint.id': !role.canSeeInternalTags,
+      'endpoint.type': !role.canSeeInternalTags,
       'process.id': true,
       'docker.container.id': true,
       'containerd.container.id': true,
       'garden.container.id': true,
       'crio.container.id': true,
-      'host.snapshotId': !isInstanaEngineer,
-      'container.snapshotId': !isInstanaEngineer,
-      'process.snapshotId': !isInstanaEngineer,
-      'cluster.snapshotId': !isInstanaEngineer,
-      'cloud.snapshotId': !isInstanaEngineer,
-      'call.span_type': !isInstanaEngineer,
-      'call.http.hostCapturedFromSource': !isInstanaEngineer,
-      'call.meta_tags': !isInstanaEngineer,
-      'call.ingestion_time': !isInstanaEngineer,
-      'log.span_type': !isInstanaEngineer,
-      'related.infra.entity.snapshotId': !isInstanaEngineer,
-      'related.infra.entity.pluginId': !isInstanaEngineer,
-      'eum.correlation.id': !isInstanaEngineer,
-      'eum.correlation.type': !isInstanaEngineer,
-      'trace.service.id': !isInstanaEngineer,
-      'call.id': !isInstanaEngineer
+      'host.snapshotId': !role.canSeeInternalTags,
+      'container.snapshotId': !role.canSeeInternalTags,
+      'process.snapshotId': !role.canSeeInternalTags,
+      'cluster.snapshotId': !role.canSeeInternalTags,
+      'cloud.snapshotId': !role.canSeeInternalTags,
+      'call.span_type': !role.canSeeInternalTags,
+      'call.http.hostCapturedFromSource': !role.canSeeInternalTags,
+      'call.meta_tags': !role.canSeeInternalTags,
+      'call.ingestion_time': !role.canSeeInternalTags,
+      'log.span_type': !role.canSeeInternalTags,
+      'related.infra.entity.snapshotId': !role.canSeeInternalTags,
+      'related.infra.entity.pluginId': !role.canSeeInternalTags,
+      'eum.correlation.id': !role.canSeeInternalTags,
+      'eum.correlation.type': !role.canSeeInternalTags,
+      'trace.service.id': !role.canSeeInternalTags,
+      'call.id': !role.canSeeInternalTags
     };
     return tag => disabledList[tag];
   })(),
