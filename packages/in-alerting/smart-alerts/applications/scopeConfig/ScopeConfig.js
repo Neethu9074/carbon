@@ -13,8 +13,8 @@ import ServicesAndEndpointsListPresenter, {
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
 import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/smart-alert-dialog/ClearTagFilterExpressionButton';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertFilterConfigurator';
-import { createBoundedAlertQueryBuilder } from '../../../applications/components/AlertQueryBuilder';
-import { maxChartViewTimeframe } from '../../../../components/Chart/chartViewConfig';
+import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewConfig';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import LightCard from 'in-new-components/Card/LightCard';
 import Stack from 'in-new-components/layout/Stack';
