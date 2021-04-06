@@ -71,5 +71,45 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://www.instana.com/docs/setup_and_manage/host_agent`
+  },
+   apmproxy_missing_config: {
+    issueDescription: {
+      Component: function apmproxyMissingConfig({ missingConfig }) {
+        const missing = Array.isArray(missingConfig) ? missingConfig.join(', ') : missingConfig;
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.instanaAgent.apmProxyMissingConfig" values={{ missing }} />
+          </span>
+        );
+      }
+    },
+     explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
+    explanationLinkHref: `https://instana.com/docs/ecosystem/ibm-apmproxy/#apmproxy_missing_config`
+  },
+  apmproxy_connection_error: {
+    issueDescription: {
+      Component: function apmproxyConnectionError() {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.instanaAgent.apmProxyConnectionError" />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
+    explanationLinkHref: `https://instana.com/docs/ecosystem/ibm-apmproxy/#apmproxy_connection_error`
+  },
+  apmproxy_exception_error: {
+    issueDescription: {
+      Component: function apmproxyExceptionError({ e }) {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.instanaAgent.apmProxyExceptionError" values={{ e }} />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
+    explanationLinkHref: `https://instana.com/docs/ecosystem/ibm-apmproxy/#apmproxy_exception_error`
   }
 };
