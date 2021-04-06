@@ -23,7 +23,7 @@ export default function Legend(props) {
   const [isExpandable, setIsExpandalbe] = useState(false);
 
   const toggleLegendOverlay = () => {
-    setIsExpanded(!isExpanded);
+    setIsExpanded(expanded => !expanded);
   };
   return (
     <>
@@ -70,18 +70,19 @@ Legend.propTypes = {
 };
 
 function MetricSeries({ axis, reverseLegendOrder, labels, showExpandableTrigger }) {
-  if (!axis || !labels) {
-    return null;
-  }
-  const icons = axis.icons;
-
   const { ref, height } = useResizeObserver();
 
   useEffect(() => {
     if (height < ref.current?.scrollHeight) {
       showExpandableTrigger(true);
     }
-  }, [height, ref]);
+  }, [height, ref, showExpandableTrigger]);
+
+  if (!axis || !labels) {
+    return null;
+  }
+
+  const icons = axis.icons;
 
   return (
     <ul className={locals.metricList} ref={ref}>
