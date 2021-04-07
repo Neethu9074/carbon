@@ -138,34 +138,38 @@ function navigationTreeForRole(role) {
   if (role.canConfigureCustomAlerts || role.canConfigureIntegrations) {
     const eventsAndAlertsPages = [];
 
-    if (applicationSmartAlertsEnabled) {
-      eventsAndAlertsPages.push({
-        path: teamSettingsAlertingHub,
-        label: t('in-alerting:smartAlerts.components.alertsHub.title'),
-        component: AlertsHub,
-        subPages: hideEventSettings
-          ? [
-              {
-                path: teamSettingsAlertingEvents,
-                component: EventsPage
-              },
-              {
-                path: teamSettingsAlertingEventCustomNew,
-                component: CustomEventPage
-              },
-              {
-                path: teamSettingsAlertingEventCustomEdit,
-                component: CustomEventPage
-              },
-              {
-                path: teamSettingsAlertingEventBuiltInEdit,
-                component: BuiltInEventPage
-              }
-            ]
-          : []
-      });
+    if (role.canConfigureCustomAlerts) {
+      const showAlertsHub = applicationSmartAlertsEnabled;
 
-      if (!hideEventSettings) {
+      if (showAlertsHub) {
+        eventsAndAlertsPages.push({
+          path: teamSettingsAlertingHub,
+          label: t('in-alerting:smartAlerts.components.alertsHub.title'),
+          component: AlertsHub,
+          subPages: hideEventSettings
+            ? [
+                {
+                  path: teamSettingsAlertingEvents,
+                  component: EventsPage
+                },
+                {
+                  path: teamSettingsAlertingEventCustomNew,
+                  component: CustomEventPage
+                },
+                {
+                  path: teamSettingsAlertingEventCustomEdit,
+                  component: CustomEventPage
+                },
+                {
+                  path: teamSettingsAlertingEventBuiltInEdit,
+                  component: BuiltInEventPage
+                }
+              ]
+            : []
+        });
+      }
+
+      if (!(showAlertsHub && hideEventSettings)) {
         eventsAndAlertsPages.push({
           path: teamSettingsAlertingEvents,
           label: t('in-settings:tabs.events'),
