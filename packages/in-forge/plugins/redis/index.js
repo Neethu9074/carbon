@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/redis/agentMonitoringIssueDefinitions.js';
 import metricDefinitions from 'in-forge/plugins/redis/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/redis/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -14,6 +15,7 @@ registerSnapshotDefinition({
 
   kpiDefinitions,
   metricDefinitions,
+  agentMonitoringIssueDefinitions,
   technologyDescriptor: {
     label: t('in-forge:plugins.redis.redis')
   }

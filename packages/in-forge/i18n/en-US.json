@@ -5715,6 +5715,9 @@
       "rabbitMq": "RabbitMQ"
     },
     "redis": {
+      "configCommandNameNotConfigured": "Redis CONFIG command name needs to be configured to collect Redis metrics.",
+      "invalidPassword": "Agent could not connect to Redis server at {{host}}:{{port}} because configured password was invalid.",
+      "troubleshootingDocs": "Troubleshooting docs",
       "dashboard": {
         "notInProgress": "Not in progress",
         "lessThan": "Less than {{threshold}}",

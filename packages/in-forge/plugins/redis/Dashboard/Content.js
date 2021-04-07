@@ -8,7 +8,6 @@ import React from 'react';
 import { bytes, number, millis, kiloBytes, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
 import PubSubChannelsTable from 'in-forge/plugins/redis/Dashboard/PubSubChannelsTable';
 import CustomMonitorsTable from 'in-forge/plugins/redis/Dashboard/CustomMonitorsTable';
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DatabasesTable from 'in-forge/plugins/redis/Dashboard/DatabasesTable';
@@ -54,10 +53,6 @@ function getConnectionLabelsForRole(role) {
 
 export default function RedisDashboard({ snapshot, timeConfig }) {
   const data = snapshot.get('data');
-  const sensorConnectionStatus = data.get('sensorConnectionStatus');
-  if (sensorConnectionStatus !== 'OK') {
-    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
-  }
 
   const latencyThreshold = snapshot.getIn(['data', 'latency_monitor_threshold']);
   const channelNames = data.get('channels', emptyList).toArray();
