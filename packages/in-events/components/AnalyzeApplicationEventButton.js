@@ -112,7 +112,8 @@ export function getLinkToUnboundAnalytics(
       endpointId,
       timeConfig,
       false,
-      endpointName
+      endpointName,
+      serviceName
     ),
     hiddenCalls: {
       includeInternal,
@@ -129,7 +130,8 @@ export function getEnrichedAnalyzeTagFilterFormModel(
   endpointId,
   timeConfig,
   excludeViolationRelatedFilters = false,
-  endpointName
+  endpointName,
+  serviceName
 ) {
   const { rule, tagFilterExpression } = alertConfig;
   const alertType = rule.alertType;
@@ -138,6 +140,7 @@ export function getEnrichedAnalyzeTagFilterFormModel(
   return joinExpressions({
     expressions: [
       blueprintConfig.getEntityTagFilterFormModel(alertConfig, applicationId, applicationName, serviceId),
+      serviceName ? tagFilter('service.name', EQUALS, serviceName) : null, // service.name is still used by the affected entities list
       endpointName ? tagFilter('endpoint.name', EQUALS, endpointName) : null, // endpoint.name is still used by the affected entities list
       fromBackendModel(tagFilterExpression),
       excludeViolationRelatedFilters ? [] : blueprintConfig.getRuleTagFilterFormModel(rule),
