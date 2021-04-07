@@ -19,17 +19,18 @@ export default function RecalculateBaselineButton({ onChange, editMode }) {
   }
 
   return (
-    <Button
-      className={locals.buttonWrapper}
-      kind="secondaryDarker"
-      onClick={() => {
-        isRecalculated.current = true;
-        onChange(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true));
-      }}
-      disabled={isRecalculated.current}
-    >
-      {t('in-alerting:smartAlerts.components.smartAlertDialog.buttonRecalculateBaseline')}
-    </Button>
+    <div className={locals.buttonWrapper}>
+      <Button
+        kind="secondaryDarker"
+        onClick={() => {
+          isRecalculated.current = true;
+          onChange(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true));
+        }}
+        disabled={isRecalculated.current}
+      >
+        {t('in-alerting:smartAlerts.components.smartAlertDialog.buttonRecalculateBaseline')}
+      </Button>
+    </div>
   );
 }
 

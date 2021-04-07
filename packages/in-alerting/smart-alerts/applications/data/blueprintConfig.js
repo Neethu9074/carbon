@@ -99,7 +99,7 @@ const statusCodeBlueprintConfig = Object.freeze({
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.name'),
   headline: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.headline'),
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.text'),
-  baselineEnabled: false,
+  baselineEnabled: true,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
   getMetricLabel: () => t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.metricLabel'),

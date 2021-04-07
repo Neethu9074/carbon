@@ -139,14 +139,22 @@ export function getDescriptionPlaceholder(form) {
       });
     }
     case 'statusCode': {
+      const thresholdType = thresholdForm.get('type').value;
       const statusCodeStart = ruleForm.get('statusCodeStart').value;
       const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
-      const thresholdForm = form.get('threshold');
-      const thresholdValue = thresholdForm.get('value').value;
-      return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.statusCode', {
+
+      if (thresholdType === 'staticThreshold') {
+        const thresholdValue = thresholdForm.get('value').value;
+        return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.statusCodeStaticThreshold', {
+          context: getHigherOrLowerOperatorContext(thresholdOperator),
+          statusCodeFullText: getStatusCodeFullText(statusCodeStart, statusCodeEnd),
+          thresholdValue: thresholdValue
+        });
+      }
+
+      return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.statusCodeDefault', {
         context: getHigherOrLowerOperatorContext(thresholdOperator),
-        statusCodeFullText: getStatusCodeFullText(statusCodeStart, statusCodeEnd),
-        thresholdValue: thresholdValue
+        statusCodeFullText: getStatusCodeFullText(statusCodeStart, statusCodeEnd)
       });
     }
     case 'throughput': {

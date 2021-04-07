@@ -149,7 +149,7 @@ export default function AdvancedModeContainer(props) {
                     >
                       <ProvideStatusCode form={form} updateForm={updateForm} mode="Advanced" />
                     </LightCard>
-                    <StatusCodeInteractiveChart {...props} />
+                    <StatusCodeInteractiveChart {...props} editMode={editMode} />
                   </>
                 )}
                 renderThroughput={props => (

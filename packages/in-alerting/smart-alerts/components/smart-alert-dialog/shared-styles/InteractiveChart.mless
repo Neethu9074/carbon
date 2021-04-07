@@ -10,7 +10,6 @@
   .container {
     border: 1px solid @lib__colors__N300;
     border-radius: @lib__shapes__radius_small;
-    border-top: 0;
   }
 
   .message {

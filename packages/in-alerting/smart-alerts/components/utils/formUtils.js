@@ -37,7 +37,7 @@ export function alertConfigWithDefaultThreshold(form) {
     ...form.toJS(),
     threshold: {
       ...form.get('threshold').toJS(),
-      value: form.get('threshold').get('value').value || 0
+      value: form.get('threshold').get('value')?.value ?? 0
     }
   };
 }

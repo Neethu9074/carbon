@@ -40,7 +40,7 @@ export function createLogsForm(threshold = {}) {
 }
 
 export function createStatusCodeForm(threshold = {}) {
-  return createStaticThresholdForm(threshold);
+  return createBaselineEnabledForm(threshold);
 }
 
 export function createSlownessForm(threshold = {}) {
