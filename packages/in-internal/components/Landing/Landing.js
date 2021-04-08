@@ -250,6 +250,35 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                       </LinkListItem>
 
                       <LinkListItem
+                        label={t('in-internal:components.landing.logMonitor')}
+                        description={t('in-internal:components.landing.logMonitorDesc')}
+                      >
+                        <LinkList>
+                          <LinkListItem
+                            label={t('in-internal:components.landing.logMonitorProcessing')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/log/LogProcessor')
+                            )}
+                            description={t('in-internal:components.landing.logMonitorProcessingDesc')}
+                          />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.logMonitorWriter')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/log/LogWriter')
+                            )}
+                            description={t('in-internal:components.landing.logMonitorWriterDesc')}
+                          />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.logMonitorReader')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/log/LogReader')
+                            )}
+                            description={t('in-internal:components.landing.logMonitorReaderDesc')}
+                          />
+                        </LinkList>
+                      </LinkListItem>
+
+                      <LinkListItem
                         label={t('in-internal:components.landing.infrastructureMetrics')}
                         description={t('in-internal:components.landing.infrastructureMetricsDesc')}
                       >
