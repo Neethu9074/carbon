@@ -36,15 +36,12 @@ import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwi
 import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
-import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
-import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
-import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import AboutInstanaDialog from 'in-new-components/AboutInstanaDialog';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
@@ -307,18 +304,15 @@ function Analyze(props) {
         [
           hasApplicationsAccess &&
             getLinkToAnalyze({
-              dataSource: 'calls',
-              groupByTag: getConfigByDataSource('calls').defaultGrouping
+              dataSource: 'calls'
             }),
           hasWebsitesAccess &&
             getLinkToWebsiteAnalyze({
-              beaconType: 'pageLoad',
-              groupBy: defaultWebsiteGroupings.pageLoad
+              beaconType: 'pageLoad'
             }),
           hasMobileAppsAccess &&
             getLinkToMobileAppAnalyze({
-              beaconType: 'sessions',
-              groupBy: defaultMobileAppGroupings.sessions
+              beaconType: 'sessions'
             })
         ].filter(Boolean)[0]
       }
