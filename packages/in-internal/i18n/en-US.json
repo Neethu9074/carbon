@@ -37,6 +37,14 @@
       "queryPerformance": "Query Performance",
       "callExtraction": "Call Extraction",
       "resilientMapping": "Resilient Mapping",
+      "logMonitor": "Log Monitoring",
+      "logMonitorDesc": "Dashboards showing how logging data are written and read.",
+      "logMonitorProcessing": "log-processor (log processing)",
+      "logMonitorProcessingDesc": "The log-processor reads logs from kafka-topics and writes them enriched into other kafka topics.",
+      "logMonitorWriter": "log-writer (log ingestion)",
+      "logMonitorWriterDesc": "The log-writer ingest logs into ClickHouse.",
+      "logMonitorReader": "log-reader (log querying)",
+      "logMonitorReaderDesc": "The log-reader queries logs from ClickHouse.",
       "infrastructureMetrics": "Infrastructure Metrics",
       "infrastructureMetricsDesc": "Information about our infrastructure metric pipeline.",
       "fillerMetricExtraction": "Filler (metric extraction)",
@@ -314,6 +322,48 @@
       "createInsertHourlyPayloadRollupsMean": "Create And Insert Hourly Payload Rollups (mean)",
       "createInsertHourlyPayloadRollups50": "Create And Insert Hourly Payload Rollups (50th)",
       "createInsertHourlyPayloadRollups99": "Create And Insert Hourly Payload Rollups (99th)"
+    },
+    "log": {
+      "processor": {
+        "name": "log-processor",
+        "hostCpuLoad": "Host CPU load",
+        "common": {
+          "incoming": "Incoming Common Logs",
+          "failIncoming": "Failed Incoming Common Logs",
+          "processing": "Processing Common Logs",
+          "failProcessing": "Failed Processing Common Logs",
+          "kafkaConsumer": {
+            "availableCapacity": "Common Logs Kafka Consumer Available Capacity",
+            "emptyPolls": "Common Logs Kafka Consumer Empty Polls",
+            "tooOld": "Common Logs Kafka Consumer Too Old"
+          }
+        },
+        "trace" : {
+          "incoming": "Incoming Trace Logs",
+          "failIncoming": "Failed Incoming Trace Logs",
+          "processing": "Processing Trace Logs",
+          "failProcessing": "Failed Processing Trace Logs",
+          "kafkaConsumer": {
+            "availableCapacity": "Trace Logs Kafka Consumer Available Capacity",
+            "emptyPolls": "Trace Logs Kafka Consumer Empty Polls",
+            "tooOld": "Trace Logs Kafka Consumer Too Old"
+          }
+        },
+        "outgoing": "Outgoing Logs",
+        "failOutgoing": "Failed Outgoing Logs"
+      },
+      "writer": {
+        "name": "log-writer",
+        "hostCpuLoad": "Host CPU load",
+        "incoming": "Incoming Processed Logs",
+        "failIncoming": "Failed Incoming Processed Logs",
+        "write": "Log Batch Writes",
+        "failWrite": "Log Batch Write Failures"
+      },
+      "reader": {
+        "name": "log-reader",
+        "hostCpuLoad": "Host CPU load"
+      }
     },
     "eum": {
       "appDataWriter": {

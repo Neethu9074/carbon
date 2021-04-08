@@ -36,6 +36,7 @@ import SpansCassandra from 'in-internal/monitoringUnit/sre/SpansCassandra';
 import StateCassandra from 'in-internal/monitoringUnit/sre/StateCassandra';
 import MetaElasticNG from 'in-internal/monitoringUnit/sre/MetaElasticNG';
 import EumProcessor from 'in-internal/monitoringUnit/eum/EumProcessor';
+import LogProcessor from 'in-internal/monitoringUnit/log/LogProcessor';
 import EntityStatistics from 'in-internal/thisUnit/EntityStatistics';
 import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
 import EumAcceptor from 'in-internal/monitoringUnit/eum/EumAcceptor';
@@ -45,6 +46,8 @@ import Cashiers from 'in-internal/monitoringUnit/cashier/Cashiers';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
 import EumOverview from 'in-internal/monitoringUnit/eum/Overview';
 import AgentsAcrossUnits from 'in-internal/monitoringUnit/Agents';
+import LogWriter from 'in-internal/monitoringUnit/log/LogWriter';
+import LogReader from 'in-internal/monitoringUnit/log/LogReader';
 import UnitList from 'in-internal/monitoringUnit/units/UnitList';
 import FillerStats from 'in-internal/monitoringUnit/FillerStats';
 import Appdata from 'in-internal/monitoringUnit/Appdata/Appdata';
@@ -147,6 +150,10 @@ export default function Internal() {
           <Route path="/internal/monitoringUnit/hubforce" component={wrapIninternalView(Hubforce)} />
         </>
       )}
+
+      <Route path="/internal/monitoringUnit/log/LogProcessor" component={wrapIninternalView(LogProcessor)} />
+      <Route path="/internal/monitoringUnit/log/LogWriter" component={wrapIninternalView(LogWriter)} />
+      <Route path="/internal/monitoringUnit/log/LogReader" component={wrapIninternalView(LogReader)} />
 
       <>
         <Route path="/internal/thisUnit/entityStatistics" component={EntityStatistics} />
