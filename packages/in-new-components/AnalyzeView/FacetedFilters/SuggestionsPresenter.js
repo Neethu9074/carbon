@@ -9,8 +9,8 @@ import { range } from 'lodash';
 import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-new-components/tracker';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { siPrefix } from 'in-services/formatters/number';
 import { identity } from 'in-services/util/function';
 import Stack from 'in-new-components/layout/Stack';
 import Message from 'in-new-components/Message';
@@ -127,7 +127,7 @@ function Results({
                 <span className={locals.label}>{customLabelMapper(suggestion.name)}</span>
                 {suggestion.metrics && (
                   <span className={locals.count}>
-                    {siPrefix.detailed(suggestion.metrics.facetedSearchMetric[0][1])}
+                    {withSiPrefixOneDecimalPlace(suggestion.metrics.facetedSearchMetric[0][1])}
                   </span>
                 )}
               </Link>

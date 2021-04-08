@@ -228,6 +228,25 @@ export const siPrefix = {
   detailed: withSiPrefixThreeDecimalPlaces
 };
 
+export const withSiPrefixOneDecimalPlace = d => {
+  if (d < 1000 && d > -1000) {
+    return `${d}`;
+  }
+  const s = siPrefixThreeDecimalPlacesFormatRule(d);
+  const match = s.match(withSiPrefixThreeDecimalPlacesRegExp);
+
+  const sign = match[1] || '';
+  const major = match[2];
+  let minor = match[3];
+  const prefix = match[4];
+
+  if (minor.length > 1) {
+    minor = minor.substring(0, 1);
+  }
+
+  return `${sign}${major}${decimalSeparator}${minor}${prefix}`;
+};
+
 export const siPrefixPerSecond = {
   compact: d => t('in-services:formatters.perSec2', { num: withSiPrefixZeroDecimalPlaces(d) }),
   detailed: d => t('in-services:formatters.perSec2', { num: withSiPrefixThreeDecimalPlaces(d) })

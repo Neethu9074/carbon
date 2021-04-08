@@ -10,9 +10,9 @@ import { range } from 'lodash';
 import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-applications/tracker';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { siPrefix } from 'in-services/formatters/number';
 import { identity } from 'in-services/util/function';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
@@ -134,7 +134,7 @@ function Results({
               >
                 <span className={locals.label}>{customLabelMapper(suggestion.label)}</span>
                 <span className={locals.count}>
-                  {siPrefix.detailed(suggestion.metrics[dataSourceConstants[dataSource].metricKey][0][1])}
+                  {withSiPrefixOneDecimalPlace(suggestion.metrics[dataSourceConstants[dataSource].metricKey][0][1])}
                 </span>
               </Link>
             </Tooltip>
