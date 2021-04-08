@@ -20,13 +20,13 @@ import {
 import { getSeverityText, unmapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
-import { getMetricDefinition } from 'in-sdk/metrics/metrics';
 import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { submitEventTracker } from 'in-settings/tracker';
@@ -172,15 +172,17 @@ function getEventSpecification(event, form) {
     let metricName = form.get('metricName')?.value ?? null;
     let metricPattern = null;
 
-    const metricDefinition = getMetricDefinition(entityType, metricName);
-    if (metricDefinition && metricDefinition.metricPattern) {
-      metricPattern = {
-        prefix: metricDefinition.metricPattern.pre,
-        postfix: metricDefinition.metricPattern.post,
-        operator: form.get('metricPatternOperator').value,
-        placeholder: form.get('metricPatternPlaceholder')?.value ?? null
-      };
-      metricName = null;
+    if (isBuiltInDynamicMetric(entityType, metricName)) {
+      const metricDefinition = getMetricDefinition(entityType, metricName);
+      if (metricDefinition && metricDefinition.metricPattern) {
+        metricPattern = {
+          prefix: metricDefinition.metricPattern.pre,
+          postfix: metricDefinition.metricPattern.post,
+          operator: form.get('metricPatternOperator').value,
+          placeholder: form.get('metricPatternPlaceholder')?.value ?? null
+        };
+        metricName = null;
+      }
     }
 
     return createCustomThresholdBasedEventSpecification(
