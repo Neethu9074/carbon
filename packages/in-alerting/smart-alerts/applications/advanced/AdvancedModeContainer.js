@@ -113,7 +113,6 @@ export default function AdvancedModeContainer(props) {
                 renderSlowness={props => (
                   <>
                     <SlownessInteractiveChart {...props} editMode={editMode} timeConfig={timeConfig} />
-                    <BaselineErrorMessage thresholdResult={thresholdResult} />
                   </>
                 )}
                 renderLogs={props => (
@@ -155,10 +154,10 @@ export default function AdvancedModeContainer(props) {
                 renderThroughput={props => (
                   <>
                     <ThroughputInteractiveChart {...props} editMode={editMode} timeConfig={timeConfig} />
-                    <BaselineErrorMessage thresholdResult={thresholdResult} />
                   </>
                 )}
               />
+              {blueprintConfig.baselineEnabled && <BaselineErrorMessage thresholdResult={thresholdResult} />}
             </>
           )
         },

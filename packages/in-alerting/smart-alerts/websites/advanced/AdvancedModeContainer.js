@@ -55,7 +55,6 @@ export default function AdvancedModeContainer(props) {
   } = props;
   const alertType = form.get('rule').get('alertType').value;
   const blueprintConfig = getBlueprintConfig(alertType);
-
   return (
     <GlobalAdvancedModeContainer
       {...props}
@@ -135,7 +134,6 @@ export default function AdvancedModeContainer(props) {
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                     />
-                    <BaselineErrorMessage thresholdResult={thresholdResult} />
                   </>
                 )}
                 renderStatusCode={() => (
@@ -169,10 +167,10 @@ export default function AdvancedModeContainer(props) {
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
                     />
-                    <BaselineErrorMessage thresholdResult={thresholdResult} />
                   </>
                 )}
               />
+              {blueprintConfig.baselineEnabled && <BaselineErrorMessage thresholdResult={thresholdResult} />}
             </>
           )
         },
