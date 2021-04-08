@@ -31,6 +31,7 @@ import './ibmDataPowerQueueManager';
 import './crystalRuntimePlatform';
 import './googleCloudPubSubTopic';
 import './haskellRuntimePlatform';
+import './ibmCloudIsLoadBalancer';
 import './netCoreRuntimePlatform';
 import './redisEnterpriseCluster';
 import './golangRuntimePlatform';
