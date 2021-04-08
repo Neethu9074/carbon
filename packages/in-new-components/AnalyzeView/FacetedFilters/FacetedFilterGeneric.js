@@ -163,7 +163,7 @@ function SearchAndSuggestions({
           items: data.items
             .map(suggestion => ({
               ...suggestion,
-              name: JSON.parse(suggestion.name)
+              name: getFacetedGroupLabel(suggestion)
             }))
             .filter(suggestion => valueRegex.test(customLabelMapper(suggestion.name)))
             .map(suggestion => ({
@@ -197,10 +197,7 @@ function SearchAndSuggestions({
       <SuggestionsPresenter
         loading={suggestions?.progress.loading}
         errors={suggestions?.errors}
-        suggestions={suggestions?.data?.items.map(item => ({
-          ...item,
-          name: getFacetedGroupLabel(item)
-        }))}
+        suggestions={suggestions?.data?.items}
         getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
         getHrefToGroupedView={getHrefToGroupedView}
         tag={tag}
