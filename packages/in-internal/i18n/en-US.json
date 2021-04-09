@@ -39,7 +39,7 @@
       "resilientMapping": "Resilient Mapping",
       "logMonitor": "Log Monitoring",
       "logMonitorDesc": "Dashboards showing how logging data are written and read.",
-      "logMonitorProcessing": "log-processor (log processing)",
+      "logMonitorProcessing": "log-processor (log enrichment)",
       "logMonitorProcessingDesc": "The log-processor reads logs from kafka-topics and writes them enriched into other kafka topics.",
       "logMonitorWriter": "log-writer (log ingestion)",
       "logMonitorWriterDesc": "The log-writer ingest logs into ClickHouse.",
@@ -325,8 +325,12 @@
     },
     "log": {
       "processor": {
-        "name": "log-processor",
+        "title": "log-processor",
         "hostCpuLoad": "Host CPU load",
+        "hostLoad": "Host Load",
+        "host": "Host",
+        "garbageCollection": "Garbage Collection",
+        "instances": "log-processors ({{length}})",
         "common": {
           "incoming": "Incoming Common Logs",
           "failIncoming": "Failed Incoming Common Logs",
@@ -338,7 +342,7 @@
             "tooOld": "Common Logs Kafka Consumer Too Old"
           }
         },
-        "trace" : {
+        "trace": {
           "incoming": "Incoming Trace Logs",
           "failIncoming": "Failed Incoming Trace Logs",
           "processing": "Processing Trace Logs",
@@ -353,16 +357,62 @@
         "failOutgoing": "Failed Outgoing Logs"
       },
       "writer": {
-        "name": "log-writer",
+        "title": "log-writer",
         "hostCpuLoad": "Host CPU load",
+        "hostLoad": "Host Load",
+        "host": "Host",
+        "garbageCollection": "Garbage Collection",
+        "instances": "log-writers ({{length}})",
         "incoming": "Incoming Processed Logs",
         "failIncoming": "Failed Incoming Processed Logs",
         "write": "Log Batch Writes",
-        "failWrite": "Log Batch Write Failures"
+        "failWrite": "Log Batch Write Failures",
+        "clickHouse": {
+          "insert": "ClickHouse Inserts",
+          "failInsert": "ClickHouse Insert Failures",
+          "queryQueueing": "ClickHouse Query Queueing",
+          "newlyQueuedCalls": "Newly queued ClickHouse Calls",
+          "queuedCalls": "Queued ClickHouse Calls",
+          "queryLatency": "ClickHouse Query Latency",
+          "queryCalls": "ClickHouse Calls",
+          "queryLatency50": "ClickHouse Query Latency (50th)",
+          "queryLatency99": "ClickHouse Query Latency (99th)",
+          "queryErrorRate": "ClickHouse Error Rate",
+          "calls": "Calls",
+          "mean": "mean",
+          "50th": "50th",
+          "99th": "99th"
+        }
       },
       "reader": {
-        "name": "log-reader",
-        "hostCpuLoad": "Host CPU load"
+        "title": "log-reader",
+        "hostCpuLoad": "Host CPU load",
+        "hostLoad": "Host Load",
+        "host": "Host",
+        "garbageCollection": "Garbage Collection",
+        "instances": "log-readers ({{length}})",
+        "gRPCCalls": "Incoming gRPC calls",
+        "gRPCErrors": "Incoming gRPC errors",
+        "tagReaderClient": {
+          "gRPCCalls": "Outgoing tag-reader gRPC calls",
+          "gRPCErrors": "Outgoing tag-reader gRPC errors"
+        },
+        "clickHouse": {
+          "select": "ClickHouse Selects",
+          "failSelect": "ClickHouse Select Failures",
+          "queryQueueing": "ClickHouse Query Queueing",
+          "newlyQueuedCalls": "Newly queued ClickHouse Calls",
+          "queuedCalls": "Queued ClickHouse Calls",
+          "queryLatency": "ClickHouse Query Latency",
+          "queryCalls": "ClickHouse Calls",
+          "queryLatency50": "ClickHouse Query Latency (50th)",
+          "queryLatency99": "ClickHouse Query Latency (99th)",
+          "queryErrorRate": "ClickHouse Error Rate",
+          "calls": "Calls",
+          "mean": "mean",
+          "50th": "50th",
+          "99th": "99th"
+        }
       }
     },
     "eum": {
