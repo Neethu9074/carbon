@@ -18,7 +18,8 @@ export const issueMessages = {
   missing_parent_span: t('in-analyze:tabs.summary.messageMissing_parent_span'),
   exit_spans_followed_by_intermediate_spans: t(
     'in-analyze:tabs.summary.messageExit_spans_followed_by_intermediate_spans'
-  )
+  ),
+  trace_validation_timeout: t('in-analyze:tabs.summary.messageTrace_validation_timeout')
 };
 
 export default function TraceValidationResult({ issues }) {

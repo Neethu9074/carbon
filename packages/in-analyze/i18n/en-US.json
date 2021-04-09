@@ -388,6 +388,7 @@
       "messageToo_many_spans": "The trace contains too many calls, it can only be partially displayed and downloaded.",
       "messageMissing_parent_span": "Parent span is missing for some of the entry spans in this trace during the processing.",
       "messageExit_spans_followed_by_intermediate_spans": "Some exit spans are followed by intermediate spans.",
+      "messageTrace_validation_timeout": "The trace validation has been skipped because it took too long to fetch all the spans.",
       "thisTraceIsCausedByActivityOnTheMobileApp": "This trace is caused by activity on the <linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp> mobile app.",
       "thisTraceIsCausedByActivityOnThewebsite": "This trace is caused by activity on the <linkToWebsite>{{websiteLabel}}</linkToWebsite> website."
     }
