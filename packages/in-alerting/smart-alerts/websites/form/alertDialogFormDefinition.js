@@ -25,7 +25,7 @@ export const fieldNames = Object.freeze({
   granularity: 'granularity'
 });
 
-export default function alertFormDefinition(alertConfig) {
+export default function alertFormDefinition(alertConfig, editMode) {
   const {
     tagFilterExpression,
     alertChannelIds = [],
@@ -38,6 +38,10 @@ export default function alertFormDefinition(alertConfig) {
     id = '',
     granularity = 600000
   } = alertConfig;
+
+  // In edit mode, we don't want to override the saved threshold/baseline value with our suggestion by default.
+  // The saved value is the same as a user-defined value, which we should not override by default.
+  const doNotOverrideThresholdWithSuggestion = editMode;
 
   return createMapForm()
     .put(
@@ -103,10 +107,13 @@ export default function alertFormDefinition(alertConfig) {
     .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
     .put('threshold', createThresholdForm(alertConfig.threshold ?? {}, alertConfig.rule?.alertType))
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
-    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend));
+    .put(
+      'hiddenFields',
+      createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend, doNotOverrideThresholdWithSuggestion)
+    );
 }
 
-function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
+function createHiddenFieldsForm(calculateThresholdOnBackend = false, thresholdValueManuallyChanged = false) {
   return createMapForm()
     .put(
       'calculateThresholdOnBackend',
@@ -123,7 +130,7 @@ function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
     .put(
       'thresholdValueManuallyChanged',
       createField({
-        value: false
+        value: thresholdValueManuallyChanged ?? false
       })
     );
 }

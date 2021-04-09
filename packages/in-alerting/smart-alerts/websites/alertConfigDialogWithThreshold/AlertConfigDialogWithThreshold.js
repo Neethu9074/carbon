@@ -33,11 +33,11 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 export default function AlertConfigDialogWithThreshold(props) {
   const { form, updateForm, onClose, onCreate, editMode } = props;
 
-  const [simpleMode, setSimpleMode] = useState(!props.editMode);
+  const [simpleMode, setSimpleMode] = useState(!editMode);
 
   useCalculateThresholdOnBackendSignalEmitter(form);
 
-  const alertConfigWithFormModel = props.form.toJS();
+  const alertConfigWithFormModel = form.toJS();
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
 
   const { enrichedTagFilterFormModel, numeratorFilter } = getEnhancedTagFilterFormModel(
@@ -75,8 +75,7 @@ export default function AlertConfigDialogWithThreshold(props) {
         .filter(resp => resp && !resp.progress.loading)
         .tap(
           ({ data, errors, time }) =>
-            isValid &&
-            updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode, editMode)
+            isValid && updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode)
         ),
     [form, simpleMode, isValid]
   );

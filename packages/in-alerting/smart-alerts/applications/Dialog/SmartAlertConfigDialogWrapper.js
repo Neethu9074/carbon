@@ -41,7 +41,7 @@ export default function SmartAlertConfigDialogWrapper({
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
 
-  const [form, setForm] = useState(() => createSmartAlertForm(changeFormDataByCopyState(isCopy, formData)));
+  const [form, setForm] = useState(() => createSmartAlertForm(changeFormDataByCopyState(isCopy, formData), editMode));
   const [isSaving, setIsSaving] = useState(false);
 
   return (

@@ -20,7 +20,7 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfigDialog({ onClose, formData, websiteLabel, editMode, isCopy }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => alertFormDefinition(changeFormDataByCopyState(isCopy, formData)));
+  const [form, setForm] = useState(() => alertFormDefinition(changeFormDataByCopyState(isCopy, formData), editMode));
   const [isSaving, setIsSaving] = useState(false);
 
   return (

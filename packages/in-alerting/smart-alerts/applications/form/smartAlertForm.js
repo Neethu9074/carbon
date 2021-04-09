@@ -16,7 +16,11 @@ import { t } from 'in-i18n';
 const defaultSeverity = 5;
 const defaultGranularity = 600000;
 
-export function createSmartAlertForm(alertConfig) {
+export function createSmartAlertForm(alertConfig, editMode) {
+  // In edit mode, we don't want to override the saved threshold/baseline value with our suggestion by default.
+  // The saved value is the same as a user-defined value, which we should not override by default.
+  const doNotOverrideThresholdWithSuggestion = editMode;
+
   let form = createMapForm()
     .put(
       'name',
@@ -134,13 +138,13 @@ export function createSmartAlertForm(alertConfig) {
     )
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
     .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
-    .put('hiddenFields', createHiddenFieldsForm(alertConfig));
+    .put('hiddenFields', createHiddenFieldsForm(alertConfig, doNotOverrideThresholdWithSuggestion));
 
   const alertType = alertConfig.rule?.alertType ?? 'errorRate';
   return form.put('threshold', createThresholdForm(alertConfig.threshold, alertType));
 }
 
-function createHiddenFieldsForm(alertConfig) {
+function createHiddenFieldsForm(alertConfig, thresholdValueManuallyChanged) {
   return createMapForm()
     .put(
       'calculateThresholdOnBackend',
@@ -157,7 +161,7 @@ function createHiddenFieldsForm(alertConfig) {
     .put(
       'thresholdValueManuallyChanged',
       createField({
-        value: false
+        value: thresholdValueManuallyChanged ?? false
       })
     );
 }
