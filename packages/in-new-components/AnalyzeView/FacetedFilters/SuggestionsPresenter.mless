@@ -24,18 +24,22 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
-    color: @lib__colors__N800Dark;
-    &:hover {
+    &:hover > .count {
+      color: @lib__colors__light-blue800;
+    }
+    &:hover > .label {
       color: @lib__colors__light-blue800;
     }
   }
 
   .count {
     margin-left: 1rem;
+    color: @lib__colors__N600Light;
   }
 
   .label {
     .ellipsis();
+    color: @lib__colors__N800Dark;
   }
 
   .buttonRow {
