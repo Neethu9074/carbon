@@ -44,6 +44,7 @@ export default function FacetedSearch({
         updateFilter={updateFilter}
         updateGroup={updateGroup}
         dataSource={dataSource}
+        customLabelMapper={label => getErroneousLabel(label)}
         hiddenCalls={hiddenCalls}
         enableUseAsGroup={dataSource !== 'traces'}
         groupbyTag={groupbyTag}
@@ -141,4 +142,8 @@ export default function FacetedSearch({
       />
     </div>
   );
+}
+
+function getErroneousLabel(value) {
+  return t('in-applications:analyze.facetedSearch.erroneous', { context: value });
 }

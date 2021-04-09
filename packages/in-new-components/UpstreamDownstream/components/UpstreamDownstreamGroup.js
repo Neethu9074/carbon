@@ -39,7 +39,7 @@ export default function UpstreamDownstreamGroup({
     <div>
       <div className={locals.groupHead}>
         <div className={locals.groupHeadText}>
-          {relationshipText} {totalHits} {totalHits > 1 ? relationshipTypeText + 's' : relationshipTypeText}
+          {t(relationshipText, { context: relationshipTypeText, count: totalHits })}
         </div>
         <UpstreamDownstreamMetric
           metrics={[

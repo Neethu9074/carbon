@@ -34,7 +34,7 @@ export default function Conjunction(props) {
             ref={refSetter}
             {...elementProps}
           >
-            {logicalOperator}
+            {t('in-new-components:queryBuilder.components.conjunctionLogicalOperator', { context: logicalOperator })}
           </div>
         </div>
       )}

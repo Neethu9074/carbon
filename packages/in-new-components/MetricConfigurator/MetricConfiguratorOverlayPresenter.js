@@ -123,7 +123,9 @@ function Content({
                       value={aggregation}
                       disabled={!getPossibleAggregationsForMetric(metric.get('metric').value).includes(aggregation)}
                     >
-                      {aggregation}
+                      {t('in-new-components:metricConfigurator.aggregation', {
+                        context: aggregation.replace(/_/g, '')
+                      })}
                     </option>
                   ))}
               </Select>

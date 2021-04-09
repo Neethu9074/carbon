@@ -87,7 +87,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
       endpoint && (
         <Fragment>
           <DestinationLocation
-            location={'destination'}
+            location={t('in-analyze:traceDetail.callDetails.serviceComponent.destination')}
             endpoint={endpoint}
             service={service}
             snapshotId={destinationSnapshotId}
@@ -155,14 +155,20 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
               </svg>
             </div>
             {websiteBeacon && sourceService.id === 'ROOT' && (
-              <WebsiteSourceLocation location={'source'} beacon={websiteBeacon} />
+              <WebsiteSourceLocation
+                location={t('in-analyze:traceDetail.callDetails.serviceComponent.source')}
+                beacon={websiteBeacon}
+              />
             )}
             {mobileAppBeacon && sourceService.id === 'ROOT' && (
-              <MobileAppSourceLocation location={'source'} beacon={mobileAppBeacon} />
+              <MobileAppSourceLocation
+                location={t('in-analyze:traceDetail.callDetails.serviceComponent.source')}
+                beacon={mobileAppBeacon}
+              />
             )}
             {((!websiteBeacon && !mobileAppBeacon) || sourceService.id !== 'ROOT') && (
               <SourceLocation
-                location={'source'}
+                location={t('in-analyze:traceDetail.callDetails.serviceComponent.source')}
                 service={sourceService}
                 snapshotId={sourceSnapshotId}
                 entity={sourceEntity}
@@ -258,7 +264,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
           </>
         )}
         <DestinationLocation
-          location={'destination'}
+          location={t('in-analyze:traceDetail.callDetails.serviceComponent.destination')}
           endpoint={endpoint}
           service={service}
           snapshotId={destinationSnapshotId}

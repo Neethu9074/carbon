@@ -2337,7 +2337,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
         fields={[
           {
             name: 'agentReleaseVersion',
-            placeholder: "Release version, e.g. '0.0.1'",
+            placeholder: t('in-waiting-for-deployment:content.placeholderReleaseVersionEG001'),
             validate: {
               validator: validateAgentReleaseVersion,
               validationMessage: t(
@@ -2347,7 +2347,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
           },
           {
             name: 'foundationName',
-            placeholder: "Foundation name, e.g., 'prod'",
+            placeholder: t('in-waiting-for-deployment:content.placeholderFoundationNameEGProd'),
             validate: {
               validator: validateClusterName,
               validationMessage: t(
@@ -2357,7 +2357,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
           },
           {
             name: 'clientId',
-            placeholder: "UAA client id, e.g., 'my-client-id'",
+            placeholder: t('in-waiting-for-deployment:content.placeholderUaaClientIdEGMyClientId'),
             validate: {
               validator: validateNotEmpty,
               validationMessage: t('in-waiting-for-deployment:content.theUaaClientIdCannotBeBlank')
@@ -2365,7 +2365,7 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
           },
           {
             name: 'clientSecret',
-            placeholder: "UAA client secret, e.g., 'my-client-secret'",
+            placeholder: t('in-waiting-for-deployment:content.placeholderUaaClientSecretEGMyClientSecret'),
             validate: {
               validator: validateNotEmpty,
               validationMessage: t('in-waiting-for-deployment:content.theUaaClientSecretCannotBeBlank')
@@ -2388,7 +2388,12 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
         }) => (
           <>
             <HelpBox title={t('in-waiting-for-deployment:content.supportedStemcells')}>
-              <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial']} />
+              <Listing
+                items={[
+                  t('in-waiting-for-deployment:content.ubuntuTrusty'),
+                  t('in-waiting-for-deployment:content.ubuntuXenial')
+                ]}
+              />
             </HelpBox>
             <Spacer />
             <HelpBox title={t('in-waiting-for-deployment:content.instanaBoshAgentVersion')}>
@@ -2607,7 +2612,12 @@ function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       </HelpBox>
       <Spacer />
       <HelpBox title={t('in-waiting-for-deployment:content.supportedStemcells')}>
-        <Listing items={['Ubuntu Trusty', 'Ubuntu Xenial']} />
+        <Listing
+          items={[
+            t('in-waiting-for-deployment:content.ubuntuTrusty'),
+            t('in-waiting-for-deployment:content.ubuntuXenial')
+          ]}
+        />
       </HelpBox>
     </>
   );

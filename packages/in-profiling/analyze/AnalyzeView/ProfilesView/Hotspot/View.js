@@ -153,7 +153,7 @@ function Hotspot({
 
   return (
     <Col xs={4}>
-      <Card title={`${title} Hotspots`}>
+      <Card title={t('in-profiling:hotspots', { title: title })}>
         {isLoadingProfilesForHighlightedTimeframe ? (
           <HorizontalFlexWrapper className={locals.contentLoadingWrapper}>
             <LoadingIndicator width={150} height={150} text={t('in-profiling:loadingProfiles')} />

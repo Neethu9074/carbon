@@ -41,9 +41,12 @@ export const getLabel = beacon => {
   return label;
 };
 
-export const getExtraTooltipFields = beacon => ({
-  'Retrieval Time': latencyFixed.compact(beacon.duration)
-});
+export const getExtraTooltipFields = beacon => {
+  let retrievalTimeTooltipKey = t('in-websites:analyze.analyzeView.pageLoadView.httpRequestBeaconLabelRetrievalTime');
+  return {
+    [retrievalTimeTooltipKey]: latencyFixed.compact(beacon.duration)
+  };
+};
 
 export const LeftHeader = ({ beacon, earliestTimestamp }) => (
   <Fragment>

@@ -3,22 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
+import { t } from 'in-i18n';
 // each exported const is named the following way:
 // ${type}_${operator}
 
 export const STRING_EQUALS = '=';
 export const STRING_NOT_EQUAL = '!=';
-export const STRING_CONTAINS = 'contains';
-export const STRING_NOT_CONTAIN = 'does not contain';
-export const STRING_NOT_EMPTY = 'is present';
-export const STRING_IS_EMPTY = 'is not present';
-export const STRING_STARTS_WITH = 'starts with';
-export const STRING_ENDS_WITH = 'ends with';
-export const STRING_NOT_STARTS_WITH = 'does not start with';
-export const STRING_NOT_ENDS_WITH = 'does not end with';
+export const STRING_CONTAINS = t('in-new-components:queryBuilder.string.contains');
+export const STRING_NOT_CONTAIN = t('in-new-components:queryBuilder.string.doesNotContain');
+export const STRING_NOT_EMPTY = t('in-new-components:queryBuilder.string.isPresent');
+export const STRING_IS_EMPTY = t('in-new-components:queryBuilder.string.isNotPresent');
+export const STRING_STARTS_WITH = t('in-new-components:queryBuilder.string.startsWith');
+export const STRING_ENDS_WITH = t('in-new-components:queryBuilder.string.endsWith');
+export const STRING_NOT_STARTS_WITH = t('in-new-components:queryBuilder.string.doesNotStartWith');
+export const STRING_NOT_ENDS_WITH = t('in-new-components:queryBuilder.string.doesNotEndWith');
 
-export const STRING_EQUALS_DESCRIPTION = 'equals';
-export const STRING_NOT_EQUAL_DESCRIPTION = 'does not equal';
+export const STRING_EQUALS_DESCRIPTION = t('in-new-components:queryBuilder.string.equals');
+export const STRING_NOT_EQUAL_DESCRIPTION = t('in-new-components:queryBuilder.string.doesNotEqual');
 
 export const STRING_SET_EQUALS = STRING_EQUALS;
 export const STRING_SET_NOT_EQUAL = STRING_NOT_EQUAL;
@@ -52,27 +53,27 @@ export const NUMBER_EQUALS = '=';
 export const NUMBER_NOT_EQUAL = '!=';
 export const NUMBER_LESS_THAN = '<';
 export const NUMBER_GREATER_THAN = '>';
-export const NUMBER_NOT_EMPTY = 'is present';
-export const NUMBER_IS_EMPTY = 'is not present';
+export const NUMBER_NOT_EMPTY = t('in-new-components:queryBuilder.number.isPresent');
+export const NUMBER_IS_EMPTY = t('in-new-components:queryBuilder.number.isNotPresent');
 export const NUMBER_LESS_OR_EQUAL_THAN = '<=';
 export const NUMBER_GREATER_OR_EQUAL_THAN = '>=';
 // support string operators, currently used only for the 'call.http.status' tag
-export const NUMBER_CONTAINS = 'contains';
-export const NUMBER_NOT_CONTAIN = 'does not contain';
-export const NUMBER_STARTS_WITH = 'starts with';
-export const NUMBER_ENDS_WITH = 'ends with';
-export const NUMBER_NOT_STARTS_WITH = 'does not start with';
-export const NUMBER_NOT_ENDS_WITH = 'does not end with';
+export const NUMBER_CONTAINS = t('in-new-components:queryBuilder.number.contains');
+export const NUMBER_NOT_CONTAIN = t('in-new-components:queryBuilder.number.doesNotContain');
+export const NUMBER_STARTS_WITH = t('in-new-components:queryBuilder.number.startsWith');
+export const NUMBER_ENDS_WITH = t('in-new-components:queryBuilder.number.endsWith');
+export const NUMBER_NOT_STARTS_WITH = t('in-new-components:queryBuilder.number.doesNotStartWith');
+export const NUMBER_NOT_ENDS_WITH = t('in-new-components:queryBuilder.number.doesNotEndWith');
 
-export const BOOLEAN_EQUALS = 'is';
+export const BOOLEAN_EQUALS = t('in-new-components:queryBuilder.booleanIs');
 
-export const KEY_VALUE_PAIR_EQUALS = 'equals';
-export const KEY_VALUE_PAIR_NOT_EQUAL = 'does not equal';
-export const KEY_VALUE_PAIR_CONTAINS = 'contains';
-export const KEY_VALUE_PAIR_NOT_CONTAIN = 'does not contain';
-export const KEY_VALUE_PAIR_NOT_EMPTY = 'is present';
-export const KEY_VALUE_PAIR_IS_EMPTY = 'is not present';
-export const KEY_VALUE_PAIR_IS_BLANK = 'does not have value';
-export const KEY_VALUE_PAIR_NOT_BLANK = 'has value';
-export const KEY_VALUE_PAIR_STARTS_WITH = 'starts with';
-export const KEY_VALUE_PAIR_ENDS_WITH = 'ends with';
+export const KEY_VALUE_PAIR_EQUALS = t('in-new-components:queryBuilder.keyValuePair.equals');
+export const KEY_VALUE_PAIR_NOT_EQUAL = t('in-new-components:queryBuilder.keyValuePair.doesNotEqual');
+export const KEY_VALUE_PAIR_CONTAINS = t('in-new-components:queryBuilder.keyValuePair.contains');
+export const KEY_VALUE_PAIR_NOT_CONTAIN = t('in-new-components:queryBuilder.keyValuePair.doesNotContain');
+export const KEY_VALUE_PAIR_NOT_EMPTY = t('in-new-components:queryBuilder.keyValuePair.isPresent');
+export const KEY_VALUE_PAIR_IS_EMPTY = t('in-new-components:queryBuilder.keyValuePair.isNotPresent');
+export const KEY_VALUE_PAIR_IS_BLANK = t('in-new-components:queryBuilder.keyValuePair.doesNotHaveValue');
+export const KEY_VALUE_PAIR_NOT_BLANK = t('in-new-components:queryBuilder.keyValuePair.hasValue');
+export const KEY_VALUE_PAIR_STARTS_WITH = t('in-new-components:queryBuilder.keyValuePair.startsWith');
+export const KEY_VALUE_PAIR_ENDS_WITH = t('in-new-components:queryBuilder.keyValuePair.endsWith');

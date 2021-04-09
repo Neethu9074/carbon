@@ -24,7 +24,6 @@ import GroupingTableHeader from 'in-analyze/components/GroupingTableHeader';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import SortableColumn from 'in-analyze/components/SortableColumn';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
-import { dataSourceTitles } from 'in-mobile-apps/tags';
 import SetBodyColor from 'in-components/SetBodyColor';
 import Sticky from 'in-components/Sticky';
 
@@ -64,7 +63,7 @@ export default function BeaconsPresenter(props) {
         <LeftRightPadding>
           <TagFilterList {...props} />
           <GroupingTableHeader
-            itemType={dataSourceTitles[beaconType]}
+            itemType={beaconType}
             nbItems={props.totalHits}
             {...props}
             // Graphs are not supported in un-grouped view

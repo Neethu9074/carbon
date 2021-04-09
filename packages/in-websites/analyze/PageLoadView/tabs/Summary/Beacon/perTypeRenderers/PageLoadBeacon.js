@@ -19,9 +19,12 @@ export const getLabel = beacon => beacon.locationUrl;
 
 export const hideStartTimeTooltipField = true;
 
-export const getExtraTooltipFields = beacon => ({
-  'onLoad Time': latencyFixed.compact(beacon.duration)
-});
+export const getExtraTooltipFields = beacon => {
+  let onLoadTimeTooltipKey = t('in-websites:analyze.analyzeView.pageLoadView.pageLoadBeaconLabelOnLoadTime');
+  return {
+    [onLoadTimeTooltipKey]: latencyFixed.compact(beacon.duration)
+  };
+};
 
 export const LeftHeader = ({ beacon }) => (
   <Fragment>

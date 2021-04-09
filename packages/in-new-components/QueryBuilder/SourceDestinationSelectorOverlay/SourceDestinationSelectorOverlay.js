@@ -15,6 +15,7 @@ import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { ColumnizedContent } from 'in-new-components/lists/List';
 import { Ul } from 'in-new-components/lists/List/List';
 import SvgIcon from 'in-components/SvgIcon';
+import { t } from 'in-i18n';
 
 import locals from './SourceDestinationSelectorOverlay.mless';
 
@@ -44,7 +45,11 @@ export default function SourceDestinationSelectorOverlay({ value, onChange, clos
         value={source}
         size="compact"
       >
-        <ColumnizedContent columnDefinitions={columnDefinitions} icon="lib_application_call_source" label="Source" />
+        <ColumnizedContent
+          columnDefinitions={columnDefinitions}
+          icon="lib_application_call_source"
+          label={t('in-new-components:queryBuilder.source')}
+        />
       </OverlayOption>
       <OverlayOption
         className={locals.option}
@@ -57,7 +62,7 @@ export default function SourceDestinationSelectorOverlay({ value, onChange, clos
         <ColumnizedContent
           columnDefinitions={columnDefinitions}
           icon="lib_application_call_destination"
-          label="Destination"
+          label={t('in-new-components:queryBuilder.destination')}
         />
       </OverlayOption>
     </Ul>

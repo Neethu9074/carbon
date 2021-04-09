@@ -246,7 +246,9 @@
       "showSyntheticCalls": "Show Synthetic calls",
       "showInternalCalls": "Show Internal calls",
       "defaultTurnedOnSynthetic": "This option is selected since you query synthetic calls.",
-      "defaultTurnedOnInternal": "This option is selected since you query internal calls."
+      "defaultTurnedOnInternal": "This option is selected since you query internal calls.",
+      "erroneous_true": "true",
+      "erroneous_false": "false"
     },
     "applications": "Applications",
     "services": "Services",

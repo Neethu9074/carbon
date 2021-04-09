@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { t } from 'in-i18n';
-
 export const relationships = {
   UPSTREAM: 'UPSTREAM',
   DOWNSTREAM: 'DOWNSTREAM',
@@ -15,15 +13,15 @@ export const relationships = {
 
   info: {
     UPSTREAM: {
-      SERVICE: { type: 'Service', text: t('in-new-components:upstreamDownstream.upstreamServiceText') },
-      APPLICATION: { type: 'Application', text: t('in-new-components:upstreamDownstream.upstreamApplicationText') },
-      message: t('in-new-components:upstreamDownstream.upstreamMessage'),
+      SERVICE: { type: 'Service', text: 'in-new-components:upstreamDownstream.upstreamText' },
+      APPLICATION: { type: 'Application', text: 'in-new-components:upstreamDownstream.upstreamText' },
+      message: 'in-new-components:upstreamDownstream.upstreamMessage',
       icon: 'lib_context_guide_upstream'
     },
     DOWNSTREAM: {
-      SERVICE: { type: 'Service', text: t('in-new-components:upstreamDownstream.downstreamServiceText') },
-      APPLICATION: { type: 'Application', text: t('in-new-components:upstreamDownstream.downstreamApplicationText') },
-      message: t('in-new-components:upstreamDownstream.downstreamMessage'),
+      SERVICE: { type: 'Service', text: 'in-new-components:upstreamDownstream.downstreamText' },
+      APPLICATION: { type: 'Application', text: 'in-new-components:upstreamDownstream.downstreamText' },
+      message: 'in-new-components:upstreamDownstream.downstreamMessage',
       icon: 'lib_context_guide_downstream'
     }
   }

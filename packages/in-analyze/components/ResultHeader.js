@@ -77,7 +77,11 @@ export default connectTo(
 
 function formatCounter(nb, unit, limit = Number.MAX_SAFE_INTEGER) {
   if (nb != null) {
-    return `${number.compact(nb)}${nb < limit ? '' : '+'} ${unit}${nb === 1 ? '' : 's'}`;
+    return t('in-analyze:analyzeView.components.resultHeader.counter', {
+      context: unit,
+      count: nb,
+      number: nb < limit ? number.compact(nb) : number.compact(nb) + '+'
+    });
   }
-  return 'Loading…';
+  return t('in-analyze:analyzeView.components.resultHeader.loading');
 }

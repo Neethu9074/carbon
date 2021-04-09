@@ -146,7 +146,7 @@ function renderSplitScreenContent(props) {
     <NavigatorSplitScreen
       {...props}
       navigator={<BeaconsNavigator {...props} beaconId={beaconId} />}
-      typeLabel={dataSourceTitles[beaconType]}
+      typeLabel={beaconType}
       openItemIndex={findIndex(items, item => item.beacon.beaconId === beaconId)}
       openItem={e => {
         if (e.beacon.type !== 'sessionStart') {
