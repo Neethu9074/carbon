@@ -19,8 +19,8 @@ import Tooltip from 'in-new-components/LatencyDistributionBase10Chart/components
 import { HEIGHT as horizontalAxisHeight } from 'in-new-components/Axis/HorizontalAxis';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import ChartLegend from 'in-components/Chart/components/ChartLegend';
 import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
-import Legend from 'in-components/Chart/components/Legend.js';
 import { defaultTimeShift } from 'in-stores/time/shifting';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -122,6 +122,7 @@ export default function LatencyDistributionBase10ChartPresenter({
     config: {
       y1: {
         labels: [metricName],
+        metricIds: [metricName],
         colors100: [colorLatency],
         timeShifts: [{ offset: 0 }],
         reverseOrder: true
@@ -136,6 +137,7 @@ export default function LatencyDistributionBase10ChartPresenter({
   };
   if (timeShiftEnabled) {
     chartConfig.config.y1.labels.push(metricName);
+    chartConfig.config.y1.metricIds.push(metricName);
     chartConfig.config.y1.colors100.push(colorLatencyTimeShift);
     chartConfig.config.y1.timeShifts.push({ offset: timeShiftConfig.offset });
   }
@@ -166,7 +168,7 @@ export default function LatencyDistributionBase10ChartPresenter({
   return (
     <>
       <div className={locals.header}>
-        {showLegend && <Legend chart={chartConfig} filteredDataSeries={filteredDataSeries} />}
+        {showLegend && <ChartLegend chart={chartConfig} />}
         {showPercentileMenu && (
           <div className={locals.percentileButton}>
             <PercentileMenu
