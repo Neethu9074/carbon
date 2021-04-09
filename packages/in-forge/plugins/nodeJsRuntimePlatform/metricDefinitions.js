@@ -61,28 +61,28 @@ export default [
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('heapSpaces', 'available', 'Heap Space'),
+    metric: getDynamicMetricMatch('heapSpaces', 'available', t('in-forge:plugins.nodeJsRuntimePlatform.heapSpace')),
     label: t('in-forge:plugins.nodeJsRuntimePlatform.available'),
     min: 0,
     category: [t('in-forge:plugins.nodeJsRuntimePlatform.heapSpaces')],
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('heapSpaces', 'current', 'Heap Space'),
+    metric: getDynamicMetricMatch('heapSpaces', 'current', t('in-forge:plugins.nodeJsRuntimePlatform.heapSpace')),
     label: t('in-forge:plugins.nodeJsRuntimePlatform.current'),
     min: 0,
     category: [t('in-forge:plugins.nodeJsRuntimePlatform.heapSpaces')],
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('heapSpaces', 'used', 'Heap Space'),
+    metric: getDynamicMetricMatch('heapSpaces', 'used', t('in-forge:plugins.nodeJsRuntimePlatform.heapSpace')),
     label: t('in-forge:plugins.nodeJsRuntimePlatform.used'),
     min: 0,
     category: [t('in-forge:plugins.nodeJsRuntimePlatform.heapSpaces')],
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('heapSpaces', 'physical', 'Heap Space'),
+    metric: getDynamicMetricMatch('heapSpaces', 'physical', t('in-forge:plugins.nodeJsRuntimePlatform.heapSpace')),
     label: t('in-forge:plugins.nodeJsRuntimePlatform.physical'),
     min: 0,
     category: [t('in-forge:plugins.nodeJsRuntimePlatform.heapSpaces')],

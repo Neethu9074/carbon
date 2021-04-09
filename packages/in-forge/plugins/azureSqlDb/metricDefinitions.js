@@ -15,12 +15,12 @@ import { t } from 'in-i18n';
 export default [
   {
     metrics: [
-      getDynamicMetricMatch('metrics', 'dtu_limit', 'Database'),
-      getDynamicMetricMatch('metrics', 'cpu_limit', 'Database'),
-      getDynamicMetricMatch('metrics', 'connection_successful', 'Database'),
-      getDynamicMetricMatch('metrics', 'connection_failed', 'Database'),
-      getDynamicMetricMatch('metrics', 'blocked_by_firewall', 'Database'),
-      getDynamicMetricMatch('metrics', 'deadlock', 'Database')
+      getDynamicMetricMatch('metrics', 'dtu_limit', t('in-forge:plugins.azureSqlDb.database')),
+      getDynamicMetricMatch('metrics', 'cpu_limit', t('in-forge:plugins.azureSqlDb.database')),
+      getDynamicMetricMatch('metrics', 'connection_successful', t('in-forge:plugins.azureSqlDb.database')),
+      getDynamicMetricMatch('metrics', 'connection_failed', t('in-forge:plugins.azureSqlDb.database')),
+      getDynamicMetricMatch('metrics', 'blocked_by_firewall', t('in-forge:plugins.azureSqlDb.database')),
+      getDynamicMetricMatch('metrics', 'deadlock', t('in-forge:plugins.azureSqlDb.database'))
     ],
     labels: [
       t('in-forge:plugins.azureSqlDb.labelDTULimit'),
@@ -35,8 +35,8 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('metrics', 'dtu_used', 'Database'),
-      getDynamicMetricMatch('metrics', 'cpu_used', 'Database')
+      getDynamicMetricMatch('metrics', 'dtu_used', t('in-forge:plugins.azureSqlDb.database')),
+      getDynamicMetricMatch('metrics', 'cpu_used', t('in-forge:plugins.azureSqlDb.database'))
     ],
     labels: [t('in-forge:plugins.azureSqlDb.labelDTUUsed'), t('in-forge:plugins.azureSqlDb.labelCPUUsed')],
     formatter: twoDecimalPlaces,
@@ -44,14 +44,14 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('metrics', 'dtu_consumption_percent', 'Database'),
-      getDynamicMetricMatch('metrics', 'storage_percent', 'Database'),
-      getDynamicMetricMatch('metrics', 'cpu_percent', 'Database'),
-      getDynamicMetricMatch('metrics', 'physical_data_read_percent', 'Database'),
-      getDynamicMetricMatch('metrics', 'log_write_percent', 'Database'),
-      getDynamicMetricMatch('metrics', 'xtp_storage_percent', 'Database'),
-      getDynamicMetricMatch('metrics', 'workers_percent', 'Database'),
-      getDynamicMetricMatch('metrics', 'sessions_percent', 'Database')
+      getDynamicMetricMatch('metrics', 'dtu_consumption_percent', t('in-forge:plugins.azureSqlDb.database')),
+      getDynamicMetricMatch('metrics', 'storage_percent', t('in-forge:plugins.azureSqlDb.database')),
+      getDynamicMetricMatch('metrics', 'cpu_percent', t('in-forge:plugins.azureSqlDb.database')),
+      getDynamicMetricMatch('metrics', 'physical_data_read_percent', t('in-forge:plugins.azureSqlDb.database')),
+      getDynamicMetricMatch('metrics', 'log_write_percent', t('in-forge:plugins.azureSqlDb.database')),
+      getDynamicMetricMatch('metrics', 'xtp_storage_percent', t('in-forge:plugins.azureSqlDb.database')),
+      getDynamicMetricMatch('metrics', 'workers_percent', t('in-forge:plugins.azureSqlDb.database')),
+      getDynamicMetricMatch('metrics', 'sessions_percent', t('in-forge:plugins.azureSqlDb.database'))
     ],
     labels: [
       t('in-forge:plugins.azureSqlDb.labelDTUPercentage'),
@@ -67,7 +67,7 @@ export default [
     min: 0
   },
   {
-    metrics: [getDynamicMetricMatch('metrics', 'storage', 'Database')],
+    metrics: [getDynamicMetricMatch('metrics', 'storage', t('in-forge:plugins.azureSqlDb.database'))],
     labels: [t('in-forge:plugins.azureSqlDb.labelTotalDatabaseSize')],
     formatter: bytesTwoDecimalPlaces,
     min: 0

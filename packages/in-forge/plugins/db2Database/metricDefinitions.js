@@ -136,8 +136,8 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('containers', 'totalSize', 'Container'),
-      getDynamicMetricMatch('containers', 'usedSize', 'Container')
+      getDynamicMetricMatch('containers', 'totalSize', t('in-forge:plugins.db2Database.Container')),
+      getDynamicMetricMatch('containers', 'usedSize', t('in-forge:plugins.db2Database.Container'))
     ],
     labels: [t('in-forge:plugins.db2Database.fileSystemSize'), t('in-forge:plugins.db2Database.fileSystemUsed')],
     category: [t('in-forge:plugins.db2Database.containers')],
@@ -146,8 +146,8 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('containers', 'pagesRead', 'Container'),
-      getDynamicMetricMatch('containers', 'pagesWritten', 'Container')
+      getDynamicMetricMatch('containers', 'pagesRead', t('in-forge:plugins.db2Database.Container')),
+      getDynamicMetricMatch('containers', 'pagesWritten', t('in-forge:plugins.db2Database.Container'))
     ],
     labels: [t('in-forge:plugins.db2Database.pagesRead'), t('in-forge:plugins.db2Database.pagesWritten')],
     category: [t('in-forge:plugins.db2Database.containers')],
@@ -156,8 +156,8 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('containers', 'poolReadTime', 'Container'),
-      getDynamicMetricMatch('containers', 'poolWriteTime', 'Container')
+      getDynamicMetricMatch('containers', 'poolReadTime', t('in-forge:plugins.db2Database.Container')),
+      getDynamicMetricMatch('containers', 'poolWriteTime', t('in-forge:plugins.db2Database.Container'))
     ],
     labels: [t('in-forge:plugins.db2Database.poolReadTime'), t('in-forge:plugins.db2Database.poolWriteTime')],
     category: [t('in-forge:plugins.db2Database.containers')],

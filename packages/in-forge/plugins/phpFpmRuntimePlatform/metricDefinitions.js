@@ -9,77 +9,85 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    metric: getDynamicMetricMatch('worker_pool', 'accepted_conn', 'Pool'),
+    metric: getDynamicMetricMatch('worker_pool', 'accepted_conn', t('in-forge:plugins.phpFpmRuntimePlatform.pool')),
     label: t('in-forge:plugins.phpFpmRuntimePlatform.acceptedConnections'),
     category: [t('in-forge:plugins.phpFpmRuntimePlatform.connections')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('worker_pool', 'slow_requests', 'Pool'),
+    metric: getDynamicMetricMatch('worker_pool', 'slow_requests', t('in-forge:plugins.phpFpmRuntimePlatform.pool')),
     label: t('in-forge:plugins.phpFpmRuntimePlatform.slowRequests'),
     category: [t('in-forge:plugins.phpFpmRuntimePlatform.connections')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('worker_pool', 'listen_queue', 'Pool'),
+    metric: getDynamicMetricMatch('worker_pool', 'listen_queue', t('in-forge:plugins.phpFpmRuntimePlatform.pool')),
     label: t('in-forge:plugins.phpFpmRuntimePlatform.listenQueue'),
     category: [t('in-forge:plugins.phpFpmRuntimePlatform.connections')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('worker_pool', 'max_listen_queue', 'Pool'),
+    metric: getDynamicMetricMatch('worker_pool', 'max_listen_queue', t('in-forge:plugins.phpFpmRuntimePlatform.pool')),
     label: t('in-forge:plugins.phpFpmRuntimePlatform.max'),
     category: [t('in-forge:plugins.phpFpmRuntimePlatform.connections')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('worker_pool', 'listen_queue_len', 'Pool'),
+    metric: getDynamicMetricMatch('worker_pool', 'listen_queue_len', t('in-forge:plugins.phpFpmRuntimePlatform.pool')),
     label: t('in-forge:plugins.phpFpmRuntimePlatform.length'),
     category: [t('in-forge:plugins.phpFpmRuntimePlatform.connections')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('worker_pool', 'idle_processes', 'Pool'),
+    metric: getDynamicMetricMatch('worker_pool', 'idle_processes', t('in-forge:plugins.phpFpmRuntimePlatform.pool')),
     label: t('in-forge:plugins.phpFpmRuntimePlatform.idle'),
     category: [t('in-forge:plugins.phpFpmRuntimePlatform.processes')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('worker_pool', 'active_processes', 'Pool'),
+    metric: getDynamicMetricMatch('worker_pool', 'active_processes', t('in-forge:plugins.phpFpmRuntimePlatform.pool')),
     label: t('in-forge:plugins.phpFpmRuntimePlatform.active'),
     category: [t('in-forge:plugins.phpFpmRuntimePlatform.processes')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('worker_pool', 'total_processes', 'Pool'),
+    metric: getDynamicMetricMatch('worker_pool', 'total_processes', t('in-forge:plugins.phpFpmRuntimePlatform.pool')),
     label: t('in-forge:plugins.phpFpmRuntimePlatform.total'),
     category: [t('in-forge:plugins.phpFpmRuntimePlatform.processes')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('worker_pool', 'max_active_processes', 'Pool'),
+    metric: getDynamicMetricMatch(
+      'worker_pool',
+      'max_active_processes',
+      t('in-forge:plugins.phpFpmRuntimePlatform.pool')
+    ),
     label: t('in-forge:plugins.phpFpmRuntimePlatform.maxActive'),
     category: [t('in-forge:plugins.phpFpmRuntimePlatform.processes')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('worker_pool', 'max_children_reached', 'Pool'),
+    metric: getDynamicMetricMatch(
+      'worker_pool',
+      'max_children_reached',
+      t('in-forge:plugins.phpFpmRuntimePlatform.pool')
+    ),
     label: t('in-forge:plugins.phpFpmRuntimePlatform.maxChildren'),
     category: [t('in-forge:plugins.phpFpmRuntimePlatform.processes')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('worker_pool', 'total_memory', 'Pool'),
+    metric: getDynamicMetricMatch('worker_pool', 'total_memory', t('in-forge:plugins.phpFpmRuntimePlatform.pool')),
     label: t('in-forge:plugins.phpFpmRuntimePlatform.memory'),
     category: [t('in-forge:plugins.phpFpmRuntimePlatform.resources')],
     min: 0,

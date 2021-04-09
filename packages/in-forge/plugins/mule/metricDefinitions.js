@@ -10,9 +10,9 @@ import { t } from 'in-i18n';
 export default [
   {
     metrics: [
-      getDynamicMetricMatch('applications', 'processedEvents', 'Application'),
-      getDynamicMetricMatch('applications', 'executionErrors', 'Application'),
-      getDynamicMetricMatch('applications', 'fatalErrors', 'Application')
+      getDynamicMetricMatch('applications', 'processedEvents', t('in-forge:plugins.mule.application')),
+      getDynamicMetricMatch('applications', 'executionErrors', t('in-forge:plugins.mule.application')),
+      getDynamicMetricMatch('applications', 'fatalErrors', t('in-forge:plugins.mule.application'))
     ],
     labels: [
       t('in-forge:plugins.mule.processedEvents'),
@@ -25,9 +25,9 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('flows', 'processedEvents', 'Flow'),
-      getDynamicMetricMatch('flows', 'executionErrors', 'Flow'),
-      getDynamicMetricMatch('flows', 'fatalErrors', 'Flow')
+      getDynamicMetricMatch('flows', 'processedEvents', t('in-forge:plugins.mule.flow')),
+      getDynamicMetricMatch('flows', 'executionErrors', t('in-forge:plugins.mule.flow')),
+      getDynamicMetricMatch('flows', 'fatalErrors', t('in-forge:plugins.mule.flow'))
     ],
     labels: [
       t('in-forge:plugins.mule.processedEvents'),
@@ -39,14 +39,14 @@ export default [
     formatter: number
   },
   {
-    metrics: [getDynamicMetricMatch('applications', 'avgProcessingTime', 'Application')],
+    metrics: [getDynamicMetricMatch('applications', 'avgProcessingTime', t('in-forge:plugins.mule.application'))],
     labels: [t('in-forge:plugins.mule.averageProcessingTime')],
     category: [t('in-forge:plugins.mule.applications')],
     min: 0,
     formatter: millis.fixedCompact
   },
   {
-    metrics: [getDynamicMetricMatch('flows', 'avgProcessingTime', 'Flow')],
+    metrics: [getDynamicMetricMatch('flows', 'avgProcessingTime', t('in-forge:plugins.mule.flow'))],
     labels: [t('in-forge:plugins.mule.averageProcessingTime')],
     category: [t('in-forge:plugins.mule.flows')],
     min: 0,

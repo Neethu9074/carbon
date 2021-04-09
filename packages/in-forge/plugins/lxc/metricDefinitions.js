@@ -71,7 +71,7 @@ export default [
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('filesystems', 'usedPercentage', 'Device'),
+    metric: getDynamicMetricMatch('filesystems', 'usedPercentage', t('in-forge:plugins.lxc.device')),
     label: t('in-forge:plugins.lxc.usedPercentage'),
     category: [t('in-forge:plugins.lxc.filesystems')],
     min: 0,
@@ -80,8 +80,8 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('filesystems', 'used', 'Device'),
-      getDynamicMetricMatch('filesystems', 'free', 'Device')
+      getDynamicMetricMatch('filesystems', 'used', t('in-forge:plugins.lxc.device')),
+      getDynamicMetricMatch('filesystems', 'free', t('in-forge:plugins.lxc.device'))
     ],
     labels: [t('in-forge:plugins.lxc.used'), t('in-forge:plugins.lxc.free')],
     min: 0,

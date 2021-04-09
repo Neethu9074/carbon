@@ -72,7 +72,7 @@ export default {
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://www.instana.com/docs/setup_and_manage/host_agent`
   },
-   apmproxy_missing_config: {
+  apmproxy_missing_config: {
     issueDescription: {
       Component: function apmproxyMissingConfig({ missingConfig }) {
         const missing = Array.isArray(missingConfig) ? missingConfig.join(', ') : missingConfig;
@@ -83,7 +83,7 @@ export default {
         );
       }
     },
-     explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
+    explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/ibm-apmproxy/#apmproxy_missing_config`
   },
   apmproxy_connection_error: {

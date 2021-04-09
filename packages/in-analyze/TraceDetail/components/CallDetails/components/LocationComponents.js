@@ -133,7 +133,11 @@ export const MobileAppSourceLocation = ({ location, beacon }) => {
 function correctTooltip(location, entity, snapshotId) {
   if (!entity && snapshotId === null) {
     return (
-      <Tooltip content={`Instana does not monitor the ${location} of this call`}>
+      <Tooltip
+        content={t('in-analyze:traceDetail.components.callDetails.instanaDoesNotMonitorTheLocationOfThisCall', {
+          location: location
+        })}
+      >
         <SvgIcon className={locals.infoIcon} type="lib_help_error_info_circle" />
       </Tooltip>
     );

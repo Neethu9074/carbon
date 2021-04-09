@@ -121,7 +121,7 @@ function getDetails(row) {
         y1={{
           min: 0,
           metrics: [row.metricPrefix + '.producer_count', row.metricPrefix + '.consumer_count'],
-          labels: [t('in-forge:plugins.awsMq.producerCCount'), t('in-forge:plugins.awsMq.dashboard.consumerCount')],
+          labels: [t('in-forge:plugins.awsMq.producerCount'), t('in-forge:plugins.awsMq.dashboard.consumerCount')],
           type: 'line',
           formatter: number.compact
         }}

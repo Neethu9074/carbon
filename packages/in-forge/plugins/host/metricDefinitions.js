@@ -163,7 +163,7 @@ export default [
     formatter: percentage
   },
   {
-    metric: getDynamicMetricMatch('fs', 'free', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'free', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('Free'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
@@ -171,7 +171,7 @@ export default [
     formatter: kiloBytes
   },
   {
-    metric: getDynamicMetricMatch('fs', 'used', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'used', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('Used'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
@@ -179,7 +179,7 @@ export default [
     formatter: percentage
   },
   {
-    metric: getDynamicMetricMatch('fs', 'leaked', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'leaked', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('Leaked'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
@@ -187,7 +187,7 @@ export default [
     formatter: kiloBytes
   },
   {
-    metric: getDynamicMetricMatch('fs', 'inodeUsage', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'inodeUsage', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('Inode usage'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
@@ -195,7 +195,7 @@ export default [
     formatter: percentage
   },
   {
-    metric: getDynamicMetricMatch('fs', 'ifree', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'ifree', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('iFree'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
@@ -203,28 +203,28 @@ export default [
     formatter: siMultiplyPrefix
   },
   {
-    metric: getDynamicMetricMatch('fs', 'reads', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'reads', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('Reads/s'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
-    metric: getDynamicMetricMatch('fs', 'writes', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'writes', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('Writes/s'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
-    metric: getDynamicMetricMatch('fs', 'readBytes', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'readBytes', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('Bytes Read/s'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
     formatter: kiloBytes
   },
   {
-    metric: getDynamicMetricMatch('fs', 'writeBytes', 'Device'),
+    metric: getDynamicMetricMatch('fs', 'writeBytes', t('in-forge:plugins.host.device')),
     label: getFilesystemLabel('Bytes Written/s'),
     category: [t('in-forge:plugins.host.filesystem')],
     min: 0,
@@ -232,8 +232,8 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('gpus', 'gpuUtilization', 'GPU UUID'),
-      getDynamicMetricMatch('gpus', 'temperature', 'GPU UUID')
+      getDynamicMetricMatch('gpus', 'gpuUtilization', t('in-forge:plugins.host.gpuUuid')),
+      getDynamicMetricMatch('gpus', 'temperature', t('in-forge:plugins.host.gpuUuid'))
     ],
     labels: [t('in-forge:plugins.host.gpuUsage'), t('in-forge:plugins.host.temperature')],
     category: [t('in-forge:plugins.host.gpu')],
@@ -242,9 +242,9 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('gpus', 'encoderUtilization', 'GPU UUID'),
-      getDynamicMetricMatch('gpus', 'decoderUtilization', 'GPU UUID'),
-      getDynamicMetricMatch('gpus', 'memoryUtilization', 'GPU UUID')
+      getDynamicMetricMatch('gpus', 'encoderUtilization', t('in-forge:plugins.host.gpuUuid')),
+      getDynamicMetricMatch('gpus', 'decoderUtilization', t('in-forge:plugins.host.gpuUuid')),
+      getDynamicMetricMatch('gpus', 'memoryUtilization', t('in-forge:plugins.host.gpuUuid'))
     ],
     labels: [
       t('in-forge:plugins.host.encoder'),
@@ -257,8 +257,8 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('gpus', 'transmitted', 'GPU UUID'),
-      getDynamicMetricMatch('gpus', 'received', 'GPU UUID')
+      getDynamicMetricMatch('gpus', 'transmitted', t('in-forge:plugins.host.gpuUuid')),
+      getDynamicMetricMatch('gpus', 'received', t('in-forge:plugins.host.gpuUuid'))
     ],
     labels: [t('in-forge:plugins.host.transmittedS'), t('in-forge:plugins.host.receivedS')],
     category: [t('in-forge:plugins.host.gpu')],

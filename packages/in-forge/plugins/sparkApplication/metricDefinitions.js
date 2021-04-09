@@ -93,91 +93,95 @@ export default [
     min: 0
   },
   {
-    metric: getDynamicMetricMatch('executors', 'completedTasksDelta', 'Executor ID'),
+    metric: getDynamicMetricMatch(
+      'executors',
+      'completedTasksDelta',
+      t('in-forge:plugins.sparkApplication.executorId')
+    ),
     label: t('in-forge:plugins.sparkApplication.completedTasksPerSecond'),
     category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: zeroDecimalPlacesPerSecond
   },
   {
-    metric: getDynamicMetricMatch('executors', 'failedTasksDelta', 'Executor ID'),
+    metric: getDynamicMetricMatch('executors', 'failedTasksDelta', t('in-forge:plugins.sparkApplication.executorId')),
     label: t('in-forge:plugins.sparkApplication.failedTasksPerSecond'),
     category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: zeroDecimalPlacesPerSecond
   },
   {
-    metric: getDynamicMetricMatch('executors', 'completedTasks', 'Executor ID'),
+    metric: getDynamicMetricMatch('executors', 'completedTasks', t('in-forge:plugins.sparkApplication.executorId')),
     label: t('in-forge:plugins.sparkApplication.allCompletedTasks'),
     category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('executors', 'failedTasks', 'Executor ID'),
+    metric: getDynamicMetricMatch('executors', 'failedTasks', t('in-forge:plugins.sparkApplication.executorId')),
     label: t('in-forge:plugins.sparkApplication.allFailedTasks'),
     category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('executors', 'rddBlocks', 'Executor ID'),
+    metric: getDynamicMetricMatch('executors', 'rddBlocks', t('in-forge:plugins.sparkApplication.executorId')),
     label: t('in-forge:plugins.sparkApplication.rddBlocks'),
     category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('executors', 'memoryUsed', 'Executor ID'),
+    metric: getDynamicMetricMatch('executors', 'memoryUsed', t('in-forge:plugins.sparkApplication.executorId')),
     label: t('in-forge:plugins.sparkApplication.storageMemory'),
     category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('executors', 'diskUsed', 'Executor ID'),
+    metric: getDynamicMetricMatch('executors', 'diskUsed', t('in-forge:plugins.sparkApplication.executorId')),
     label: t('in-forge:plugins.sparkApplication.diskUsed'),
     category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('executors', 'inputBytesDelta', 'Executor ID'),
+    metric: getDynamicMetricMatch('executors', 'inputBytesDelta', t('in-forge:plugins.sparkApplication.executorId')),
     label: t('in-forge:plugins.sparkApplication.inputBytesPerSecond'),
     category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytesPerSecondTwoDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('executors', 'shuffleReadDelta', 'Executor ID'),
+    metric: getDynamicMetricMatch('executors', 'shuffleReadDelta', t('in-forge:plugins.sparkApplication.executorId')),
     label: t('in-forge:plugins.sparkApplication.shuffleReadPerSecond'),
     category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytesPerSecondTwoDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('executors', 'shuffleWriteDelta', 'Executor ID'),
+    metric: getDynamicMetricMatch('executors', 'shuffleWriteDelta', t('in-forge:plugins.sparkApplication.executorId')),
     label: t('in-forge:plugins.sparkApplication.shuffleWritePerSecond'),
     category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytesPerSecondTwoDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('executors', 'inputBytes', 'Executor ID'),
+    metric: getDynamicMetricMatch('executors', 'inputBytes', t('in-forge:plugins.sparkApplication.executorId')),
     label: t('in-forge:plugins.sparkApplication.totalInputBytes'),
     category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('executors', 'shuffleRead', 'Executor ID'),
+    metric: getDynamicMetricMatch('executors', 'shuffleRead', t('in-forge:plugins.sparkApplication.executorId')),
     label: t('in-forge:plugins.sparkApplication.totalShuffleRead'),
     category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('executors', 'shuffleWrite', 'Executor ID'),
+    metric: getDynamicMetricMatch('executors', 'shuffleWrite', t('in-forge:plugins.sparkApplication.executorId')),
     label: t('in-forge:plugins.sparkApplication.totalShuffleWrite'),
     category: [t('in-forge:plugins.sparkApplication.executors')],
     min: 0,

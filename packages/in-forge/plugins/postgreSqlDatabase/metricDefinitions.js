@@ -36,56 +36,56 @@ export default [
     formatter: zeroDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('databases', 'xact_commit', 'Database'),
+    metric: getDynamicMetricMatch('databases', 'xact_commit', t('in-forge:plugins.postgreSqlDatabase.database')),
     label: t('in-forge:plugins.postgreSqlDatabase.committedTransactions'),
     category: [t('in-forge:plugins.postgreSqlDatabase.databases')],
     min: 0,
     formatter: activity
   },
   {
-    metric: getDynamicMetricMatch('databases', 'xact_rollback', 'Database'),
+    metric: getDynamicMetricMatch('databases', 'xact_rollback', t('in-forge:plugins.postgreSqlDatabase.database')),
     label: t('in-forge:plugins.postgreSqlDatabase.rolledBackTransactions'),
     category: [t('in-forge:plugins.postgreSqlDatabase.databases')],
     min: 0,
     formatter: activity
   },
   {
-    metric: getDynamicMetricMatch('databases', 'blks_hit_rate', 'Database'),
+    metric: getDynamicMetricMatch('databases', 'blks_hit_rate', t('in-forge:plugins.postgreSqlDatabase.database')),
     label: t('in-forge:plugins.postgreSqlDatabase.cacheHitRatio'),
     category: [t('in-forge:plugins.postgreSqlDatabase.databases')],
     min: 0,
     formatter: hitRate
   },
   {
-    metric: getDynamicMetricMatch('databases', 'conflicts', 'Database'),
+    metric: getDynamicMetricMatch('databases', 'conflicts', t('in-forge:plugins.postgreSqlDatabase.database')),
     label: t('in-forge:plugins.postgreSqlDatabase.standbyConflicts'),
     category: [t('in-forge:plugins.postgreSqlDatabase.databases')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('databases', 'idx_tup_read', 'Database'),
+    metric: getDynamicMetricMatch('databases', 'idx_tup_read', t('in-forge:plugins.postgreSqlDatabase.database')),
     label: t('in-forge:plugins.postgreSqlDatabase.tupleRead'),
     category: [t('in-forge:plugins.postgreSqlDatabase.databases')],
     min: 0,
     formatter: activity
   },
   {
-    metric: getDynamicMetricMatch('databases', 'idx_tup_fetch', 'Database'),
+    metric: getDynamicMetricMatch('databases', 'idx_tup_fetch', t('in-forge:plugins.postgreSqlDatabase.database')),
     label: t('in-forge:plugins.postgreSqlDatabase.tupleFetch'),
     category: [t('in-forge:plugins.postgreSqlDatabase.databases')],
     min: 0,
     formatter: activity
   },
   {
-    metric: getDynamicMetricMatch('databases', 'db_size', 'Database'),
+    metric: getDynamicMetricMatch('databases', 'db_size', t('in-forge:plugins.postgreSqlDatabase.database')),
     label: t('in-forge:plugins.postgreSqlDatabase.databaseSize'),
     category: [t('in-forge:plugins.postgreSqlDatabase.databases')],
     min: 0,
     formatter: bytesTwoDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('databases', 'active_connections', 'Database'),
+    metric: getDynamicMetricMatch('databases', 'active_connections', t('in-forge:plugins.postgreSqlDatabase.database')),
     label: t('in-forge:plugins.postgreSqlDatabase.connection'),
     category: [t('in-forge:plugins.postgreSqlDatabase.databases')],
     min: 0,

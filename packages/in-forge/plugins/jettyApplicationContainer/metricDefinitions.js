@@ -21,7 +21,11 @@ export default [
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('webAppsSessionData', 'sessions', 'Web App'),
+    metric: getDynamicMetricMatch(
+      'webAppsSessionData',
+      'sessions',
+      t('in-forge:plugins.jettyApplicationContainer.webApp')
+    ),
     label: t('in-forge:plugins.jettyApplicationContainer.activeSessions'),
     category: [t('in-forge:plugins.jettyApplicationContainer.webApps')],
     min: 0,

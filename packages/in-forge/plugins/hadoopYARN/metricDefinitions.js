@@ -56,35 +56,35 @@ export default [
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('nodes', 'containers', 'Node'),
+    metric: getDynamicMetricMatch('nodes', 'containers', t('in-forge:plugins.hadoopYARN.node')),
     label: t('in-forge:plugins.hadoopYARN.containersRunning'),
     category: [t('in-forge:plugins.hadoopYARN.nodes')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('nodes', 'memoryAvailable', 'Node'),
+    metric: getDynamicMetricMatch('nodes', 'memoryAvailable', t('in-forge:plugins.hadoopYARN.node')),
     label: t('in-forge:plugins.hadoopYARN.memoryAvailable'),
     category: [t('in-forge:plugins.hadoopYARN.nodes')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('nodes', 'memoryUsed', 'Node'),
+    metric: getDynamicMetricMatch('nodes', 'memoryUsed', t('in-forge:plugins.hadoopYARN.node')),
     label: t('in-forge:plugins.hadoopYARN.memoryUsed'),
     category: [t('in-forge:plugins.hadoopYARN.nodes')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('nodes', 'virtualCoresAvailable', 'Node'),
+    metric: getDynamicMetricMatch('nodes', 'virtualCoresAvailable', t('in-forge:plugins.hadoopYARN.node')),
     label: t('in-forge:plugins.hadoopYARN.virtualCoresAvailable'),
     category: [t('in-forge:plugins.hadoopYARN.nodes')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('nodes', 'virtualCoresUsed', 'Node'),
+    metric: getDynamicMetricMatch('nodes', 'virtualCoresUsed', t('in-forge:plugins.hadoopYARN.node')),
     label: t('in-forge:plugins.hadoopYARN.virtualCoresUsed'),
     category: [t('in-forge:plugins.hadoopYARN.nodes')],
     min: 0,

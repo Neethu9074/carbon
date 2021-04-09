@@ -123,56 +123,56 @@ export default [
     formatter: number.compact
   },
   {
-    metric: getDynamicMetricMatch('pools', 'pct_used_pool', 'Pool'),
+    metric: getDynamicMetricMatch('pools', 'pct_used_pool', t('in-forge:plugins.ceph.pool')),
     label: t('in-forge:plugins.ceph.labelOverallCapacityUsage'),
     category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: percentageTwoDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('pools', 'num_objects_pool', 'Pool'),
+    metric: getDynamicMetricMatch('pools', 'num_objects_pool', t('in-forge:plugins.ceph.pool')),
     label: t('in-forge:plugins.ceph.labelNumberObjects'),
     category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: getDynamicMetricMatch('pools', 'read_bytes_pool', 'Pool'),
+    metric: getDynamicMetricMatch('pools', 'read_bytes_pool', t('in-forge:plugins.ceph.pool')),
     label: t('in-forge:plugins.ceph.labelTotalRead'),
     category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: bytes.compact
   },
   {
-    metric: getDynamicMetricMatch('pools', 'write_bytes_pool', 'Pool'),
+    metric: getDynamicMetricMatch('pools', 'write_bytes_pool', t('in-forge:plugins.ceph.pool')),
     label: t('in-forge:plugins.ceph.labelTotalWrite'),
     category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: bytes.compact
   },
   {
-    metric: getDynamicMetricMatch('pools', 'read_bytes_sec_pool', 'Pool'),
+    metric: getDynamicMetricMatch('pools', 'read_bytes_sec_pool', t('in-forge:plugins.ceph.pool')),
     label: t('in-forge:plugins.ceph.labelReadBPS'),
     category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: bytesPerSecondZeroDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('pools', 'write_bytes_sec_pool', 'Pool'),
+    metric: getDynamicMetricMatch('pools', 'write_bytes_sec_pool', t('in-forge:plugins.ceph.pool')),
     label: t('in-forge:plugins.ceph.labelWriteBPS'),
     category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: bytesPerSecondZeroDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('pools', 'read_op_per_sec', 'Pool'),
+    metric: getDynamicMetricMatch('pools', 'read_op_per_sec', t('in-forge:plugins.ceph.pool')),
     label: t('in-forge:plugins.ceph.labelReadOps'),
     category: [t('in-forge:plugins.ceph.pools')],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: getDynamicMetricMatch('pools', 'write_op_per_sec', 'Pool'),
+    metric: getDynamicMetricMatch('pools', 'write_op_per_sec', t('in-forge:plugins.ceph.pool')),
     label: t('in-forge:plugins.ceph.labelWriteOps'),
     category: [t('in-forge:plugins.ceph.pools')],
     min: 0,

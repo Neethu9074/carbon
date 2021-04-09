@@ -34,14 +34,14 @@ export default nodeMetricDefinitions.concat(bucketMetricDefinitions);
 export function getBucketMetricDefinitions(prefix, category) {
   return [
     {
-      metric: getDynamicMetricMatch(prefix, 'curr_items', 'Bucket'),
+      metric: getDynamicMetricMatch(prefix, 'curr_items', t('in-forge:plugins.couchbaseNode.bucket')),
       label: t('in-forge:plugins.couchbaseNode.labelItems'),
       category: [category],
       min: 0,
       formatter: number
     },
     {
-      metric: getDynamicMetricMatch(prefix, 'mem_used_ratio', 'Bucket'),
+      metric: getDynamicMetricMatch(prefix, 'mem_used_ratio', t('in-forge:plugins.couchbaseNode.bucket')),
       label: t('in-forge:plugins.couchbaseNode.labelUsedMemoryP'),
       category: [category],
       min: 0,
@@ -49,14 +49,14 @@ export function getBucketMetricDefinitions(prefix, category) {
       formatter: percentage
     },
     {
-      metric: getDynamicMetricMatch(prefix, 'couch_docs_actual_disk_size', 'Bucket'),
+      metric: getDynamicMetricMatch(prefix, 'couch_docs_actual_disk_size', t('in-forge:plugins.couchbaseNode.bucket')),
       label: t('in-forge:plugins.couchbaseNode.labelUsedDisk'),
       category: [category],
       min: 0,
       formatter: bytes
     },
     {
-      metric: getDynamicMetricMatch(prefix, 'ep_cache_miss_rate', 'Bucket'),
+      metric: getDynamicMetricMatch(prefix, 'ep_cache_miss_rate', t('in-forge:plugins.couchbaseNode.bucket')),
       label: t('in-forge:plugins.couchbaseNode.labelCacheMiss'),
       category: [category],
       min: 0,
@@ -64,7 +64,7 @@ export function getBucketMetricDefinitions(prefix, category) {
       formatter: percentage
     },
     {
-      metric: getDynamicMetricMatch(prefix, 'couch_docs_fragmentation', 'Bucket'),
+      metric: getDynamicMetricMatch(prefix, 'couch_docs_fragmentation', t('in-forge:plugins.couchbaseNode.bucket')),
       label: t('in-forge:plugins.couchbaseNode.labelFragmentation'),
       category: [category],
       min: 0,
@@ -72,28 +72,32 @@ export function getBucketMetricDefinitions(prefix, category) {
       formatter: percentage
     },
     {
-      metric: getDynamicMetricMatch(prefix, 'ops', 'Bucket'),
+      metric: getDynamicMetricMatch(prefix, 'ops', t('in-forge:plugins.couchbaseNode.bucket')),
       label: t('in-forge:plugins.couchbaseNode.labelOperationsPerSec'),
       category: [category],
       min: 0,
       formatter: number
     },
     {
-      metric: getDynamicMetricMatch(prefix, 'cmd_get', 'Bucket'),
+      metric: getDynamicMetricMatch(prefix, 'cmd_get', t('in-forge:plugins.couchbaseNode.bucket')),
       label: t('in-forge:plugins.couchbaseNode.labelGetsPerSec'),
       category: [category],
       min: 0,
       formatter: number
     },
     {
-      metric: getDynamicMetricMatch(prefix, 'cmd_set', 'Bucket'),
+      metric: getDynamicMetricMatch(prefix, 'cmd_set', t('in-forge:plugins.couchbaseNode.bucket')),
       label: t('in-forge:plugins.couchbaseNode.labelSetsPerSec'),
       category: [category],
       min: 0,
       formatter: number
     },
     {
-      metric: getDynamicMetricMatch(prefix, 'vb_active_resident_items_ratio', 'Bucket'),
+      metric: getDynamicMetricMatch(
+        prefix,
+        'vb_active_resident_items_ratio',
+        t('in-forge:plugins.couchbaseNode.bucket')
+      ),
       label: t('in-forge:plugins.couchbaseNode.labelActiveItems'),
       category: [category],
       min: 0,
@@ -101,14 +105,14 @@ export function getBucketMetricDefinitions(prefix, category) {
       formatter: percentage
     },
     {
-      metric: getDynamicMetricMatch(prefix, 'ep_bg_fetched', 'Bucket'),
+      metric: getDynamicMetricMatch(prefix, 'ep_bg_fetched', t('in-forge:plugins.couchbaseNode.bucket')),
       label: t('in-forge:plugins.couchbaseNode.labelDiskReads'),
       category: [category],
       min: 0,
       formatter: number
     },
     {
-      metric: getDynamicMetricMatch(prefix, 'vb_active_eject', 'Bucket'),
+      metric: getDynamicMetricMatch(prefix, 'vb_active_eject', t('in-forge:plugins.couchbaseNode.bucket')),
       label: t('in-forge:plugins.couchbaseNode.labelActiveItemsEjected'),
       category: [category],
       min: 0,

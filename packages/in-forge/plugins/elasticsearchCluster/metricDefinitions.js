@@ -61,14 +61,14 @@ export default [
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('index', 'document_count', 'Index'),
+    metric: getDynamicMetricMatch('index', 'document_count', t('in-forge:plugins.elasticsearchCluster.index')),
     label: t('in-forge:plugins.elasticsearchCluster.documents'),
     category: [t('in-forge:plugins.elasticsearchCluster.index')],
     min: 0,
     formatter: siMultiplyPrefix
   },
   {
-    metric: getDynamicMetricMatch('index', 'deleted_count', 'Index'),
+    metric: getDynamicMetricMatch('index', 'deleted_count', t('in-forge:plugins.elasticsearchCluster.index')),
     label: t('in-forge:plugins.elasticsearchCluster.deletions'),
     category: [t('in-forge:plugins.elasticsearchCluster.index')],
     min: 0,
@@ -87,7 +87,7 @@ export default [
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('index', 'size', 'Index'),
+    metric: getDynamicMetricMatch('index', 'size', t('in-forge:plugins.elasticsearchCluster.index')),
     label: t('in-forge:plugins.elasticsearchCluster.size'),
     category: [t('in-forge:plugins.elasticsearchCluster.index')],
     min: 0,

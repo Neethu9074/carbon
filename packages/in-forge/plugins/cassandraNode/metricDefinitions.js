@@ -94,28 +94,28 @@ export default [
     formatter: percentage
   },
   {
-    metric: getDynamicMetricMatch('keyspace', 'readLatency', 'Keyspace'),
+    metric: getDynamicMetricMatch('keyspace', 'readLatency', t('in-forge:plugins.cassandraNode.keyspace')),
     label: t('in-forge:plugins.cassandraNode.labelAverageReadLatency'),
     category: [t('in-forge:plugins.cassandraNode.keyspaces')],
     min: 0,
     formatter: muSecondsToMillis
   },
   {
-    metric: getDynamicMetricMatch('keyspace', 'writeLatency', 'Keyspace'),
+    metric: getDynamicMetricMatch('keyspace', 'writeLatency', t('in-forge:plugins.cassandraNode.keyspace')),
     label: t('in-forge:plugins.cassandraNode.labelAverageWriteLatency'),
     category: [t('in-forge:plugins.cassandraNode.keyspaces')],
     min: 0,
     formatter: muSecondsToMillis
   },
   {
-    metric: getDynamicMetricMatch('keyspace', 'reads', 'Keyspace'),
+    metric: getDynamicMetricMatch('keyspace', 'reads', t('in-forge:plugins.cassandraNode.keyspace')),
     label: t('in-forge:plugins.cassandraNode.labelReads'),
     category: [t('in-forge:plugins.cassandraNode.keyspaces')],
     min: 0,
     formatter: muSecondsToMillis
   },
   {
-    metric: getDynamicMetricMatch('keyspace', 'writes', 'Keyspace'),
+    metric: getDynamicMetricMatch('keyspace', 'writes', t('in-forge:plugins.cassandraNode.keyspace')),
     label: t('in-forge:plugins.cassandraNode.labelWrites'),
     category: [t('in-forge:plugins.cassandraNode.keyspaces')],
     min: 0,

@@ -52,21 +52,21 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('queueMetrics', 'consumer_count', 'Queue'),
-      getDynamicMetricMatch('queueMetrics', 'enqueue_count', 'Queue'),
-      getDynamicMetricMatch('queueMetrics', 'expired_count', 'Queue'),
-      getDynamicMetricMatch('queueMetrics', 'dispatch_count', 'Queue'),
-      getDynamicMetricMatch('queueMetrics', 'dequeue_count', 'Queue'),
-      getDynamicMetricMatch('queueMetrics', 'producer_count', 'Queue'),
-      getDynamicMetricMatch('queueMetrics', 'queue_size', 'Queue'),
+      getDynamicMetricMatch('queueMetrics', 'consumer_count', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics', 'enqueue_count', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics', 'expired_count', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics', 'dispatch_count', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics', 'dequeue_count', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics', 'producer_count', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics', 'queue_size', t('in-forge:plugins.awsMq.queue')),
 
-      getDynamicMetricMatch('queueMetrics2', 'consumer_count', 'Queue'),
-      getDynamicMetricMatch('queueMetrics2', 'enqueue_count', 'Queue'),
-      getDynamicMetricMatch('queueMetrics2', 'expired_count', 'Queue'),
-      getDynamicMetricMatch('queueMetrics2', 'dispatch_count', 'Queue'),
-      getDynamicMetricMatch('queueMetrics2', 'dequeue_count', 'Queue'),
-      getDynamicMetricMatch('queueMetrics2', 'producer_count', 'Queue'),
-      getDynamicMetricMatch('queueMetrics2', 'queue_size', 'Queue')
+      getDynamicMetricMatch('queueMetrics2', 'consumer_count', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics2', 'enqueue_count', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics2', 'expired_count', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics2', 'dispatch_count', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics2', 'dequeue_count', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics2', 'producer_count', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics2', 'queue_size', t('in-forge:plugins.awsMq.queue'))
     ],
     labels: [
       t('in-forge:plugins.awsMq.consumerCount'),
@@ -91,19 +91,19 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('topicMetrics', 'consumer_count', 'Topic'),
-      getDynamicMetricMatch('topicMetrics', 'enqueue_count', 'Topic'),
-      getDynamicMetricMatch('topicMetrics', 'expired_count', 'Topic'),
-      getDynamicMetricMatch('topicMetrics', 'dispatch_count', 'Topic'),
-      getDynamicMetricMatch('topicMetrics', 'dequeue_count', 'Topic'),
-      getDynamicMetricMatch('topicMetrics', 'producer_count', 'Topic'),
+      getDynamicMetricMatch('topicMetrics', 'consumer_count', t('in-forge:plugins.awsMq.topic')),
+      getDynamicMetricMatch('topicMetrics', 'enqueue_count', t('in-forge:plugins.awsMq.topic')),
+      getDynamicMetricMatch('topicMetrics', 'expired_count', t('in-forge:plugins.awsMq.topic')),
+      getDynamicMetricMatch('topicMetrics', 'dispatch_count', t('in-forge:plugins.awsMq.topic')),
+      getDynamicMetricMatch('topicMetrics', 'dequeue_count', t('in-forge:plugins.awsMq.topic')),
+      getDynamicMetricMatch('topicMetrics', 'producer_count', t('in-forge:plugins.awsMq.topic')),
 
-      getDynamicMetricMatch('topicMetrics2', 'consumer_count', 'Topic'),
-      getDynamicMetricMatch('topicMetrics2', 'enqueue_count', 'Topic'),
-      getDynamicMetricMatch('topicMetrics2', 'expired_count', 'Topic'),
-      getDynamicMetricMatch('topicMetrics2', 'dispatch_count', 'Topic'),
-      getDynamicMetricMatch('topicMetrics2', 'dequeue_count', 'Topic'),
-      getDynamicMetricMatch('topicMetrics2', 'producer_count', 'Topic')
+      getDynamicMetricMatch('topicMetrics2', 'consumer_count', t('in-forge:plugins.awsMq.topic')),
+      getDynamicMetricMatch('topicMetrics2', 'enqueue_count', t('in-forge:plugins.awsMq.topic')),
+      getDynamicMetricMatch('topicMetrics2', 'expired_count', t('in-forge:plugins.awsMq.topic')),
+      getDynamicMetricMatch('topicMetrics2', 'dispatch_count', t('in-forge:plugins.awsMq.topic')),
+      getDynamicMetricMatch('topicMetrics2', 'dequeue_count', t('in-forge:plugins.awsMq.topic')),
+      getDynamicMetricMatch('topicMetrics2', 'producer_count', t('in-forge:plugins.awsMq.topic'))
     ],
     labels: [
       t('in-forge:plugins.awsMq.consumerCount'),
@@ -149,8 +149,8 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('queueMetrics', 'memory_usage', 'Queue'),
-      getDynamicMetricMatch('queueMetrics2', 'memory_usage', 'Queue')
+      getDynamicMetricMatch('queueMetrics', 'memory_usage', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics2', 'memory_usage', t('in-forge:plugins.awsMq.queue'))
     ],
     labels: [t('in-forge:plugins.awsMq.memoryUsage'), t('in-forge:plugins.awsMq.memoryUsage2ndBroker')],
     category: [t('in-forge:plugins.awsMq.queues')],
@@ -160,8 +160,8 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('topicMetrics', 'memory_usage', 'Topic'),
-      getDynamicMetricMatch('topicMetrics2', 'memory_usage', 'Topic')
+      getDynamicMetricMatch('topicMetrics', 'memory_usage', t('in-forge:plugins.awsMq.topic')),
+      getDynamicMetricMatch('topicMetrics2', 'memory_usage', t('in-forge:plugins.awsMq.topic'))
     ],
     labels: [t('in-forge:plugins.awsMq.memoryUsage'), t('in-forge:plugins.awsMq.memoryUsage2ndBroker')],
     category: [t('in-forge:plugins.awsMq.topics')],
@@ -171,8 +171,8 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('queueMetrics', 'enqueue_time', 'Queue'),
-      getDynamicMetricMatch('queueMetrics2', 'enqueue_time', 'Queue')
+      getDynamicMetricMatch('queueMetrics', 'enqueue_time', t('in-forge:plugins.awsMq.queue')),
+      getDynamicMetricMatch('queueMetrics2', 'enqueue_time', t('in-forge:plugins.awsMq.queue'))
     ],
     labels: [t('in-forge:plugins.awsMq.enqueueTime'), t('in-forge:plugins.awsMq.enqueueTime2ndBroker')],
     category: [t('in-forge:plugins.awsMq.queues')],
@@ -181,8 +181,8 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('topicMetrics', 'enqueue_time', 'Topic'),
-      getDynamicMetricMatch('topicMetrics2', 'enqueue_time', 'Topic')
+      getDynamicMetricMatch('topicMetrics', 'enqueue_time', t('in-forge:plugins.awsMq.topic')),
+      getDynamicMetricMatch('topicMetrics2', 'enqueue_time', t('in-forge:plugins.awsMq.topic'))
     ],
     labels: [t('in-forge:plugins.awsMq.enqueueTime'), t('in-forge:plugins.awsMq.enqueueTime2ndBroker')],
     category: [t('in-forge:plugins.awsMq.topics')],

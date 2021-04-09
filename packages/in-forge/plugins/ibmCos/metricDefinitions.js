@@ -17,7 +17,7 @@ export default [
     metrics: ['used_bytes_total'],
     labels: [t('in-forge:plugins.ibmCos.labelTotalUsed')],
     min: 0,
-    category: ['Memory'],
+    category: [t('in-forge:plugins.ibmCos.labelMemory')],
     formatter: bytes
   }
 ];

@@ -134,14 +134,14 @@ export default [
   },
   {
     formatter: bytes,
-    metric: getDynamicMetricMatch('stats.tablespaceStats', 'usedSpace', 'Tablespace'),
+    metric: getDynamicMetricMatch('stats.tablespaceStats', 'usedSpace', t('in-forge:plugins.oracleDB.tablespace')),
     label: t('in-forge:plugins.oracleDB.usedSpace'),
     category: [t('in-forge:plugins.oracleDB.tablespaces')],
     min: 0
   },
   {
     formatter: percentage,
-    metric: getDynamicMetricMatch('stats.tablespaceStats', 'usedPercent', 'Tablespace'),
+    metric: getDynamicMetricMatch('stats.tablespaceStats', 'usedPercent', t('in-forge:plugins.oracleDB.tablespace')),
     label: t('in-forge:plugins.oracleDB.usedPercent'),
     category: [t('in-forge:plugins.oracleDB.tablespaces')],
     min: 0,

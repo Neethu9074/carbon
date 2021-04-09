@@ -19,154 +19,182 @@ export default [
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('cachesStatistics', 'hitRatioV2', 'Cache'),
+    metric: getDynamicMetricMatch('cachesStatistics', 'hitRatioV2', t('in-forge:plugins.jbossDataGrid.cache')),
     label: t('in-forge:plugins.jbossDataGrid.hitRatio'),
     category: [t('in-forge:plugins.jbossDataGrid.cacheStats')],
     min: 0,
     formatter: hitRate
   },
   {
-    metric: getDynamicMetricMatch('cachesStatistics', 'hits', 'Cache'),
+    metric: getDynamicMetricMatch('cachesStatistics', 'hits', t('in-forge:plugins.jbossDataGrid.cache')),
     label: t('in-forge:plugins.jbossDataGrid.hits'),
     category: [t('in-forge:plugins.jbossDataGrid.cacheStats')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('cachesStatistics', 'misses', 'Cache'),
+    metric: getDynamicMetricMatch('cachesStatistics', 'misses', t('in-forge:plugins.jbossDataGrid.cache')),
     label: t('in-forge:plugins.jbossDataGrid.misses'),
     category: [t('in-forge:plugins.jbossDataGrid.cacheStats')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('cachesStatistics', 'removeHits', 'Cache'),
+    metric: getDynamicMetricMatch('cachesStatistics', 'removeHits', t('in-forge:plugins.jbossDataGrid.cache')),
     label: t('in-forge:plugins.jbossDataGrid.removeHits'),
     category: [t('in-forge:plugins.jbossDataGrid.cacheStats')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('cachesStatistics', 'removeMisses', 'Cache'),
+    metric: getDynamicMetricMatch('cachesStatistics', 'removeMisses', t('in-forge:plugins.jbossDataGrid.cache')),
     label: t('in-forge:plugins.jbossDataGrid.removeMisses'),
     category: [t('in-forge:plugins.jbossDataGrid.cacheStats')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('cachesStatistics', 'averageReadTime', 'Cache'),
+    metric: getDynamicMetricMatch('cachesStatistics', 'averageReadTime', t('in-forge:plugins.jbossDataGrid.cache')),
     label: t('in-forge:plugins.jbossDataGrid.averageReadTime'),
     category: [t('in-forge:plugins.jbossDataGrid.cacheStats')],
     min: 0,
     formatter: millis
   },
   {
-    metric: getDynamicMetricMatch('cachesStatistics', 'averageWriteTime', 'Cache'),
+    metric: getDynamicMetricMatch('cachesStatistics', 'averageWriteTime', t('in-forge:plugins.jbossDataGrid.cache')),
     label: t('in-forge:plugins.jbossDataGrid.averageWriteTime'),
     category: [t('in-forge:plugins.jbossDataGrid.cacheStats')],
     min: 0,
     formatter: millis
   },
   {
-    metric: getDynamicMetricMatch('cachesStatistics', 'averageRemoveTime', 'Cache'),
+    metric: getDynamicMetricMatch('cachesStatistics', 'averageRemoveTime', t('in-forge:plugins.jbossDataGrid.cache')),
     label: t('in-forge:plugins.jbossDataGrid.averageRemoveTime'),
     category: [t('in-forge:plugins.jbossDataGrid.cacheStats')],
     min: 0,
     formatter: millis
   },
   {
-    metric: getDynamicMetricMatch('cachesStatistics', 'throughput', 'Cache'),
+    metric: getDynamicMetricMatch('cachesStatistics', 'throughput', t('in-forge:plugins.jbossDataGrid.cache')),
     label: t('in-forge:plugins.jbossDataGrid.throughputOpsSec'),
     category: [t('in-forge:plugins.jbossDataGrid.cacheStats')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('cachesStatistics', 'stores', 'Cache'),
+    metric: getDynamicMetricMatch('cachesStatistics', 'stores', t('in-forge:plugins.jbossDataGrid.cache')),
     label: t('in-forge:plugins.jbossDataGrid.cachePuts'),
     category: [t('in-forge:plugins.jbossDataGrid.cacheStats')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('cachesStatistics', 'readWriteRatioV2', 'Cache'),
+    metric: getDynamicMetricMatch('cachesStatistics', 'readWriteRatioV2', t('in-forge:plugins.jbossDataGrid.cache')),
     label: t('in-forge:plugins.jbossDataGrid.readWriteRatio'),
     category: [t('in-forge:plugins.jbossDataGrid.cacheStats')],
     min: 0,
     formatter: hitRate
   },
   {
-    metric: getDynamicMetricMatch('cachesStatistics', 'numberOfEntries', 'Cache'),
+    metric: getDynamicMetricMatch('cachesStatistics', 'numberOfEntries', t('in-forge:plugins.jbossDataGrid.cache')),
     label: t('in-forge:plugins.jbossDataGrid.entries'),
     category: [t('in-forge:plugins.jbossDataGrid.cacheStats')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('cachesStatistics', 'evictions', 'Cache'),
+    metric: getDynamicMetricMatch('cachesStatistics', 'evictions', t('in-forge:plugins.jbossDataGrid.cache')),
     label: t('in-forge:plugins.jbossDataGrid.evictions'),
     category: [t('in-forge:plugins.jbossDataGrid.cacheStats')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('clustersUDPStatistics', 'defaultThreadsSize', 'Cluster'),
+    metric: getDynamicMetricMatch(
+      'clustersUDPStatistics',
+      'defaultThreadsSize',
+      t('in-forge:plugins.jbossDataGrid.cluster')
+    ),
     label: t('in-forge:plugins.jbossDataGrid.incomingMessagesThreadsSize'),
     min: 0,
     category: [t('in-forge:plugins.jbossDataGrid.threadPools')],
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('clustersUDPStatistics', 'defaultActiveThreadsSize', 'Cluster'),
+    metric: getDynamicMetricMatch(
+      'clustersUDPStatistics',
+      'defaultActiveThreadsSize',
+      t('in-forge:plugins.jbossDataGrid.cluster')
+    ),
     label: t('in-forge:plugins.jbossDataGrid.incomingMessagesActiveThreadsSize'),
     min: 0,
     category: [t('in-forge:plugins.jbossDataGrid.threadPools')],
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('clustersUDPStatistics', 'defaultQueueSize', 'Cluster'),
+    metric: getDynamicMetricMatch(
+      'clustersUDPStatistics',
+      'defaultQueueSize',
+      t('in-forge:plugins.jbossDataGrid.cluster')
+    ),
     label: t('in-forge:plugins.jbossDataGrid.incomingMessagesQueueSize'),
     min: 0,
     category: [t('in-forge:plugins.jbossDataGrid.threadPools')],
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('clustersUDPStatistics', 'oobThreadsSize', 'Cluster'),
+    metric: getDynamicMetricMatch(
+      'clustersUDPStatistics',
+      'oobThreadsSize',
+      t('in-forge:plugins.jbossDataGrid.cluster')
+    ),
     label: t('in-forge:plugins.jbossDataGrid.oobMessagesThreadsSize'),
     min: 0,
     category: [t('in-forge:plugins.jbossDataGrid.threadPools')],
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('clustersUDPStatistics', 'oobActiveThreadsSize', 'Cluster'),
+    metric: getDynamicMetricMatch(
+      'clustersUDPStatistics',
+      'oobActiveThreadsSize',
+      t('in-forge:plugins.jbossDataGrid.cluster')
+    ),
     label: t('in-forge:plugins.jbossDataGrid.oobMessagesActiveThreadsSize'),
     min: 0,
     category: [t('in-forge:plugins.jbossDataGrid.threadPools')],
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('clustersUDPStatistics', 'oobQueueSize', 'Cluster'),
+    metric: getDynamicMetricMatch('clustersUDPStatistics', 'oobQueueSize', t('in-forge:plugins.jbossDataGrid.cluster')),
     label: t('in-forge:plugins.jbossDataGrid.oobMessagesQueueSize'),
     min: 0,
     category: [t('in-forge:plugins.jbossDataGrid.threadPools')],
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('clustersUDPStatistics', 'timerThreadsSize', 'Cluster'),
+    metric: getDynamicMetricMatch(
+      'clustersUDPStatistics',
+      'timerThreadsSize',
+      t('in-forge:plugins.jbossDataGrid.cluster')
+    ),
     label: t('in-forge:plugins.jbossDataGrid.timerThreadsSize'),
     min: 0,
     category: [t('in-forge:plugins.jbossDataGrid.threadPools')],
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('clustersUDPStatistics', 'timerQueueSize', 'Cluster'),
+    metric: getDynamicMetricMatch(
+      'clustersUDPStatistics',
+      'timerQueueSize',
+      t('in-forge:plugins.jbossDataGrid.cluster')
+    ),
     label: t('in-forge:plugins.jbossDataGrid.timerQueueSize'),
     min: 0,
     category: [t('in-forge:plugins.jbossDataGrid.threadPools')],
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('clustersUDPStatistics', 'timerTasks', 'Cluster'),
+    metric: getDynamicMetricMatch('clustersUDPStatistics', 'timerTasks', t('in-forge:plugins.jbossDataGrid.cluster')),
     label: t('in-forge:plugins.jbossDataGrid.timerTasksSize'),
     min: 0,
     category: [t('in-forge:plugins.jbossDataGrid.threadPools')],

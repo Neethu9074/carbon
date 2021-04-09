@@ -84,42 +84,66 @@ export default [
   },
   // recent changes
   {
-    metrics: getDynamicMetricMatch('recent_changes.data', 'add_entry_count', 'Database'),
+    metrics: getDynamicMetricMatch(
+      'recent_changes.data',
+      'add_entry_count',
+      t('in-forge:plugins.pingDirectory.database')
+    ),
     labels: [t('in-forge:plugins.pingDirectory.numberOfAddedEntries')],
     category: [t('in-forge:plugins.pingDirectory.recentChanges')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('recent_changes.data', 'changed_entry_count', 'Database'),
+    metrics: getDynamicMetricMatch(
+      'recent_changes.data',
+      'changed_entry_count',
+      t('in-forge:plugins.pingDirectory.database')
+    ),
     labels: [t('in-forge:plugins.pingDirectory.numberOfChangedEntries')],
     category: [t('in-forge:plugins.pingDirectory.recentChanges')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('recent_changes.data', 'delete_entry_count', 'Database'),
+    metrics: getDynamicMetricMatch(
+      'recent_changes.data',
+      'delete_entry_count',
+      t('in-forge:plugins.pingDirectory.database')
+    ),
     labels: [t('in-forge:plugins.pingDirectory.numberOfDeletedEntries')],
     category: [t('in-forge:plugins.pingDirectory.recentChanges')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('recent_changes.data', 'modify_entry_count', 'Database'),
+    metrics: getDynamicMetricMatch(
+      'recent_changes.data',
+      'modify_entry_count',
+      t('in-forge:plugins.pingDirectory.database')
+    ),
     labels: [t('in-forge:plugins.pingDirectory.numberOfModifiedEntries')],
     category: [t('in-forge:plugins.pingDirectory.recentChanges')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('recent_changes.data', 'rename_entry_count', 'Database'),
+    metrics: getDynamicMetricMatch(
+      'recent_changes.data',
+      'rename_entry_count',
+      t('in-forge:plugins.pingDirectory.database')
+    ),
     labels: [t('in-forge:plugins.pingDirectory.numberOfRenamedEntries')],
     category: [t('in-forge:plugins.pingDirectory.recentChanges')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('recent_changes.data', 'database_open_record_count', 'Database'),
+    metrics: getDynamicMetricMatch(
+      'recent_changes.data',
+      'database_open_record_count',
+      t('in-forge:plugins.pingDirectory.database')
+    ),
     labels: [t('in-forge:plugins.pingDirectory.numberOfOpenedRecords')],
     category: [t('in-forge:plugins.pingDirectory.recentChanges')],
     min: 0,
@@ -127,7 +151,11 @@ export default [
   },
   // ldap connection handlers
   {
-    metrics: getDynamicMetricMatch('ldap_connectors.data', 'connection_count', 'LDAP Connector'),
+    metrics: getDynamicMetricMatch(
+      'ldap_connectors.data',
+      'connection_count',
+      t('in-forge:plugins.pingDirectory.ldapConnector')
+    ),
     labels: [t('in-forge:plugins.pingDirectory.numberOfConnections')],
     category: [t('in-forge:plugins.pingDirectory.activeConnections')],
     min: 0,
@@ -135,49 +163,77 @@ export default [
   },
   // ldap connection handler statistics
   {
-    metrics: getDynamicMetricMatch('ldap_connector_statistics.data', 'add_requests', 'LDAP Connector'),
+    metrics: getDynamicMetricMatch(
+      'ldap_connector_statistics.data',
+      'add_requests',
+      t('in-forge:plugins.pingDirectory.ldapConnector')
+    ),
     labels: [t('in-forge:plugins.pingDirectory.numberOfAddRequests')],
     category: [t('in-forge:plugins.pingDirectory.connectionStats')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('ldap_connector_statistics.data', 'bind_requests', 'LDAP Connector'),
+    metrics: getDynamicMetricMatch(
+      'ldap_connector_statistics.data',
+      'bind_requests',
+      t('in-forge:plugins.pingDirectory.ldapConnector')
+    ),
     labels: [t('in-forge:plugins.pingDirectory.numberOfBindRequests')],
     category: [t('in-forge:plugins.pingDirectory.connectionStats')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('ldap_connector_statistics.data', 'compare_requests', 'LDAP Connector'),
+    metrics: getDynamicMetricMatch(
+      'ldap_connector_statistics.data',
+      'compare_requests',
+      t('in-forge:plugins.pingDirectory.ldapConnector')
+    ),
     labels: [t('in-forge:plugins.pingDirectory.numberOfCompareRequests')],
     category: [t('in-forge:plugins.pingDirectory.connectionStats')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('ldap_connector_statistics.data', 'delete_requests', 'LDAP Connector'),
+    metrics: getDynamicMetricMatch(
+      'ldap_connector_statistics.data',
+      'delete_requests',
+      t('in-forge:plugins.pingDirectory.ldapConnector')
+    ),
     labels: [t('in-forge:plugins.pingDirectory.numberOfDeleteRequests')],
     category: [t('in-forge:plugins.pingDirectory.connectionStats')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('ldap_connector_statistics.data', 'extended_requests', 'LDAP Connector'),
+    metrics: getDynamicMetricMatch(
+      'ldap_connector_statistics.data',
+      'extended_requests',
+      t('in-forge:plugins.pingDirectory.ldapConnector')
+    ),
     labels: [t('in-forge:plugins.pingDirectory.numberOfExtendedRequests')],
     category: [t('in-forge:plugins.pingDirectory.connectionStats')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('ldap_connector_statistics.data', 'modify_requests', 'LDAP Connector'),
+    metrics: getDynamicMetricMatch(
+      'ldap_connector_statistics.data',
+      'modify_requests',
+      t('in-forge:plugins.pingDirectory.ldapConnector')
+    ),
     labels: [t('in-forge:plugins.pingDirectory.numberOfModifyRequests')],
     category: [t('in-forge:plugins.pingDirectory.connectionStats')],
     min: 0,
     formatter: number
   },
   {
-    metrics: getDynamicMetricMatch('ldap_connector_statistics.data', 'search_requests', 'LDAP Connector'),
+    metrics: getDynamicMetricMatch(
+      'ldap_connector_statistics.data',
+      'search_requests',
+      t('in-forge:plugins.pingDirectory.ldapConnector')
+    ),
     labels: [t('in-forge:plugins.pingDirectory.numberOfSearchRequests')],
     category: [t('in-forge:plugins.pingDirectory.connectionStats')],
     min: 0,

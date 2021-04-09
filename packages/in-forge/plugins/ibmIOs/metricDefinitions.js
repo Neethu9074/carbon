@@ -72,9 +72,9 @@ export default [
 
   {
     metrics: [
-      getDynamicMetricMatch('memoryPoolMetrics', 'currSize', 'Memory Pool'),
-      getDynamicMetricMatch('memoryPoolMetrics', 'resSize', 'Memory Pool'),
-      getDynamicMetricMatch('memoryPoolMetrics', 'defSize', 'Memory Pool')
+      getDynamicMetricMatch('memoryPoolMetrics', 'currSize', t('in-forge:plugins.ibmIOs.memoryPool')),
+      getDynamicMetricMatch('memoryPoolMetrics', 'resSize', t('in-forge:plugins.ibmIOs.memoryPool')),
+      getDynamicMetricMatch('memoryPoolMetrics', 'defSize', t('in-forge:plugins.ibmIOs.memoryPool'))
     ],
     labels: [
       t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.storage.storageUsed'),
@@ -87,9 +87,9 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('memoryPoolMetrics', 'currThreads', 'Memory Pool'),
-      getDynamicMetricMatch('memoryPoolMetrics', 'currIneligibleThreads', 'Memory Pool'),
-      getDynamicMetricMatch('memoryPoolMetrics', 'maxActiveThreads', 'Memory Pool')
+      getDynamicMetricMatch('memoryPoolMetrics', 'currThreads', t('in-forge:plugins.ibmIOs.memoryPool')),
+      getDynamicMetricMatch('memoryPoolMetrics', 'currIneligibleThreads', t('in-forge:plugins.ibmIOs.memoryPool')),
+      getDynamicMetricMatch('memoryPoolMetrics', 'maxActiveThreads', t('in-forge:plugins.ibmIOs.memoryPool'))
     ],
     labels: [
       t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.charts.threads.activeThreads'),

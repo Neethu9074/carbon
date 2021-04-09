@@ -32,10 +32,10 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('topics', 'producerCount', 'Topic'),
-      getDynamicMetricMatch('topics', 'consumerCount', 'Topic'),
-      getDynamicMetricMatch('topics', 'enqueueCount', 'Topic'),
-      getDynamicMetricMatch('topics', 'dequeueCount', 'Topic')
+      getDynamicMetricMatch('topics', 'producerCount', t('in-forge:plugins.activeMQ.topic')),
+      getDynamicMetricMatch('topics', 'consumerCount', t('in-forge:plugins.activeMQ.topic')),
+      getDynamicMetricMatch('topics', 'enqueueCount', t('in-forge:plugins.activeMQ.topic')),
+      getDynamicMetricMatch('topics', 'dequeueCount', t('in-forge:plugins.activeMQ.topic'))
     ],
     labels: [
       t('in-forge:plugins.activeMQ.producerCount'),
@@ -49,9 +49,9 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('queues', 'enqueueCount', 'Queue'),
-      getDynamicMetricMatch('queues', 'dequeueCount', 'Queue'),
-      getDynamicMetricMatch('queues', 'queueSize', 'Queue')
+      getDynamicMetricMatch('queues', 'enqueueCount', t('in-forge:plugins.activeMQ.queue')),
+      getDynamicMetricMatch('queues', 'dequeueCount', t('in-forge:plugins.activeMQ.queue')),
+      getDynamicMetricMatch('queues', 'queueSize', t('in-forge:plugins.activeMQ.queue'))
     ],
     labels: [
       t('in-forge:plugins.activeMQ.messagesEnqueued'),
@@ -64,9 +64,9 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('dlqueues', 'enqueueCount', 'DL Queue'),
-      getDynamicMetricMatch('dlqueues', 'dequeueCount', 'DL Queue'),
-      getDynamicMetricMatch('dlqueues', 'queueSize', 'DL Queue')
+      getDynamicMetricMatch('dlqueues', 'enqueueCount', t('in-forge:plugins.activeMQ.dlQueue')),
+      getDynamicMetricMatch('dlqueues', 'dequeueCount', t('in-forge:plugins.activeMQ.dlQueue')),
+      getDynamicMetricMatch('dlqueues', 'queueSize', t('in-forge:plugins.activeMQ.dlQueue'))
     ],
     labels: [
       t('in-forge:plugins.activeMQ.messagesEnqueued'),
@@ -85,7 +85,7 @@ export default [
     formatter: percentage
   },
   {
-    metric: getDynamicMetricMatch('topics', 'memoryPercentage', 'Topic'),
+    metric: getDynamicMetricMatch('topics', 'memoryPercentage', t('in-forge:plugins.activeMQ.topic')),
     labels: t('in-forge:plugins.activeMQ.memoryUsage'),
     category: [t('in-forge:plugins.activeMQ.topics')],
     min: 0,
@@ -93,7 +93,7 @@ export default [
     formatter: percentage
   },
   {
-    metric: getDynamicMetricMatch('queues', 'memoryPercentage', 'Queue'),
+    metric: getDynamicMetricMatch('queues', 'memoryPercentage', t('in-forge:plugins.activeMQ.queue')),
     label: t('in-forge:plugins.activeMQ.memoryUsage'),
     category: [t('in-forge:plugins.activeMQ.queues')],
     min: 0,
@@ -101,7 +101,7 @@ export default [
     formatter: percentage
   },
   {
-    metrics: getDynamicMetricMatch('dlqueues', 'memoryPercentage', 'DL Queue'),
+    metrics: getDynamicMetricMatch('dlqueues', 'memoryPercentage', t('in-forge:plugins.activeMQ.dlQueue')),
     label: t('in-forge:plugins.activeMQ.memoryUsage'),
     category: [t('in-forge:plugins.activeMQ.dlQueues')],
     min: 0,

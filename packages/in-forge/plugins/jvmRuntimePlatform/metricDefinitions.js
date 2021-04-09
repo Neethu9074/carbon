@@ -51,14 +51,14 @@ export default [
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('gc', 'time', 'Garbage Collector'),
+    metric: getDynamicMetricMatch('gc', 'time', t('in-forge:plugins.jvmRuntimePlatform.garbageCollector')),
     label: getLabel(t('in-forge:plugins.jvmRuntimePlatform.time')),
     category: [t('in-forge:plugins.jvmRuntimePlatform.gc')],
     min: 0,
     formatter: millis.forcedFixedCompact
   },
   {
-    metric: getDynamicMetricMatch('gc', 'inv', 'Garbage Collector'),
+    metric: getDynamicMetricMatch('gc', 'inv', t('in-forge:plugins.jvmRuntimePlatform.garbageCollector')),
     label: getLabel(t('in-forge:plugins.jvmRuntimePlatform.invocations')),
     category: [t('in-forge:plugins.jvmRuntimePlatform.gc')],
     min: 0,
@@ -79,7 +79,7 @@ export default [
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('pools', null, 'Pool'),
+    metric: getDynamicMetricMatch('pools', null, t('in-forge:plugins.jvmRuntimePlatform.pool')),
     label: getLabel(t('in-forge:plugins.jvmRuntimePlatform.pool')),
     category: [t('in-forge:plugins.jvmRuntimePlatform.pools')],
     formatter: bytes

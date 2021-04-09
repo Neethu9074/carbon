@@ -15,8 +15,8 @@ import { t } from 'in-i18n';
 export default [
   {
     metrics: [
-      getDynamicMetricMatch('metrics', 'eDTU_limit', 'Elastic Pool'),
-      getDynamicMetricMatch('metrics', 'cpu_limit', 'Elastic Pool')
+      getDynamicMetricMatch('metrics', 'eDTU_limit', t('in-forge:plugins.azureSqlElasticPool.elasticPool')),
+      getDynamicMetricMatch('metrics', 'cpu_limit', t('in-forge:plugins.azureSqlElasticPool.elasticPool'))
     ],
     labels: [
       t('in-forge:plugins.azureSqlElasticPool.labelEDTULimit'),
@@ -27,8 +27,8 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('metrics', 'eDTU_used', 'Elastic Pool'),
-      getDynamicMetricMatch('metrics', 'cpu_used', 'Elastic Pool')
+      getDynamicMetricMatch('metrics', 'eDTU_used', t('in-forge:plugins.azureSqlElasticPool.elasticPool')),
+      getDynamicMetricMatch('metrics', 'cpu_used', t('in-forge:plugins.azureSqlElasticPool.elasticPool'))
     ],
     labels: [
       t('in-forge:plugins.azureSqlElasticPool.labelEDTUUsed'),
@@ -39,14 +39,22 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('metrics', 'dtu_consumption_percent', 'Elastic Pool'),
-      getDynamicMetricMatch('metrics', 'storage_percent', 'Elastic Pool'),
-      getDynamicMetricMatch('metrics', 'cpu_percent', 'Elastic Pool'),
-      getDynamicMetricMatch('metrics', 'physical_data_read_percent', 'Elastic Pool'),
-      getDynamicMetricMatch('metrics', 'log_write_percent', 'Elastic Pool'),
-      getDynamicMetricMatch('metrics', 'xtp_storage_percent', 'Elastic Pool'),
-      getDynamicMetricMatch('metrics', 'workers_percent', 'Elastic Pool'),
-      getDynamicMetricMatch('metrics', 'sessions_percent', 'Elastic Pool')
+      getDynamicMetricMatch(
+        'metrics',
+        'dtu_consumption_percent',
+        t('in-forge:plugins.azureSqlElasticPool.elasticPool')
+      ),
+      getDynamicMetricMatch('metrics', 'storage_percent', t('in-forge:plugins.azureSqlElasticPool.elasticPool')),
+      getDynamicMetricMatch('metrics', 'cpu_percent', t('in-forge:plugins.azureSqlElasticPool.elasticPool')),
+      getDynamicMetricMatch(
+        'metrics',
+        'physical_data_read_percent',
+        t('in-forge:plugins.azureSqlElasticPool.elasticPool')
+      ),
+      getDynamicMetricMatch('metrics', 'log_write_percent', t('in-forge:plugins.azureSqlElasticPool.elasticPool')),
+      getDynamicMetricMatch('metrics', 'xtp_storage_percent', t('in-forge:plugins.azureSqlElasticPool.elasticPool')),
+      getDynamicMetricMatch('metrics', 'workers_percent', t('in-forge:plugins.azureSqlElasticPool.elasticPool')),
+      getDynamicMetricMatch('metrics', 'sessions_percent', t('in-forge:plugins.azureSqlElasticPool.elasticPool'))
     ],
     labels: [
       t('in-forge:plugins.azureSqlElasticPool.labelEDTUPercentage'),
@@ -63,8 +71,8 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('metrics', 'storage_limit', 'Elastic Pool'),
-      getDynamicMetricMatch('metrics', 'storage_used', 'Elastic Pool')
+      getDynamicMetricMatch('metrics', 'storage_limit', t('in-forge:plugins.azureSqlElasticPool.elasticPool')),
+      getDynamicMetricMatch('metrics', 'storage_used', t('in-forge:plugins.azureSqlElasticPool.elasticPool'))
     ],
     labels: [
       t('in-forge:plugins.azureSqlElasticPool.labelStorageLimit'),

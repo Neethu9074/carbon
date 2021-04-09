@@ -108,8 +108,8 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('index', 'document_count', 'Index'),
-      getDynamicMetricMatch('index', 'deleted_count', 'Index')
+      getDynamicMetricMatch('index', 'document_count', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'deleted_count', t('in-forge:plugins.elasticsearchNode.index'))
     ],
     labels: [t('in-forge:plugins.elasticsearchNode.documents'), t('in-forge:plugins.elasticsearchNode.deletions')],
     category: [t('in-forge:plugins.elasticsearchNode.index')],
@@ -118,16 +118,16 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('index', 'query_current', 'Index'),
-      getDynamicMetricMatch('index', 'query_total', 'Index'),
-      getDynamicMetricMatch('index', 'fetch_current', 'Index'),
-      getDynamicMetricMatch('index', 'fetch_count', 'Index'),
-      getDynamicMetricMatch('index', 'query_cache_evictions', 'Index'),
-      getDynamicMetricMatch('index', 'request_cache_evictions', 'Index'),
-      getDynamicMetricMatch('index', 'get_count', 'Index'),
-      getDynamicMetricMatch('index', 'missing_count', 'Index'),
-      getDynamicMetricMatch('index', 'failed', 'Index'),
-      getDynamicMetricMatch('index', 'merge_current', 'Index')
+      getDynamicMetricMatch('index', 'query_current', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'query_total', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'fetch_current', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'fetch_count', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'query_cache_evictions', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'request_cache_evictions', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'get_count', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'missing_count', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'failed', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'merge_current', t('in-forge:plugins.elasticsearchNode.index'))
     ],
     labels: [
       t('in-forge:plugins.elasticsearchNode.queriesCurrent'),
@@ -147,11 +147,11 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('index', 'query_time', 'Index'),
-      getDynamicMetricMatch('index', 'fetch_time', 'Index'),
-      getDynamicMetricMatch('index', 'get_time', 'Index'),
-      getDynamicMetricMatch('index', 'missing_time', 'Index'),
-      getDynamicMetricMatch('index', 'merge_time', 'Index')
+      getDynamicMetricMatch('index', 'query_time', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'fetch_time', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'get_time', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'missing_time', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'merge_time', t('in-forge:plugins.elasticsearchNode.index'))
     ],
     labels: [
       t('in-forge:plugins.elasticsearchNode.queryTime'),
@@ -166,10 +166,10 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('index', 'size', 'Index'),
-      getDynamicMetricMatch('index', 'query_cache_size', 'Index'),
-      getDynamicMetricMatch('index', 'request_cache_size', 'Index'),
-      getDynamicMetricMatch('index', 'merge_size', 'Index'),
+      getDynamicMetricMatch('index', 'size', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'query_cache_size', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'request_cache_size', t('in-forge:plugins.elasticsearchNode.index')),
+      getDynamicMetricMatch('index', 'merge_size', t('in-forge:plugins.elasticsearchNode.index')),
       'rx_count',
       'tx_count'
     ],

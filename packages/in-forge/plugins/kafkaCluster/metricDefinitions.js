@@ -161,77 +161,101 @@ export default [
     formatter: siPrefix
   },
   {
-    metric: getDynamicMetricMatch('broker.lagData.data', 'lag', 'Topic'),
+    metric: getDynamicMetricMatch('broker.lagData.data', 'lag', t('in-forge:plugins.kafkaCluster.topic')),
     label: t('in-forge:plugins.kafkaCluster.consumerGroupLag'),
     category: [t('in-forge:plugins.kafkaCluster.topics')],
     min: 0,
     formatter: zeroDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('broker.topicData', 'bytesInPerSec', 'Topic'),
+    metric: getDynamicMetricMatch('broker.topicData', 'bytesInPerSec', t('in-forge:plugins.kafkaCluster.topic')),
     label: t('in-forge:plugins.kafkaCluster.bytesInPerSecond'),
     category: [t('in-forge:plugins.kafkaCluster.topics')],
     min: 0,
     formatter: bytesPerSecondTwoDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('broker.topicData', 'bytesOutPerSec', 'Topic'),
+    metric: getDynamicMetricMatch('broker.topicData', 'bytesOutPerSec', t('in-forge:plugins.kafkaCluster.topic')),
     label: t('in-forge:plugins.kafkaCluster.bytesOutPerSecond'),
     category: [t('in-forge:plugins.kafkaCluster.topics')],
     min: 0,
     formatter: bytesPerSecondTwoDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('broker.topicData', 'bytesRejectedPerSec', 'Topic'),
+    metric: getDynamicMetricMatch('broker.topicData', 'bytesRejectedPerSec', t('in-forge:plugins.kafkaCluster.topic')),
     label: t('in-forge:plugins.kafkaCluster.bytesRejectedPerSecond'),
     category: [t('in-forge:plugins.kafkaCluster.topics')],
     min: 0,
     formatter: bytesPerSecondTwoDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('broker.topicData', 'messagesInPerSec', 'Topic'),
+    metric: getDynamicMetricMatch('broker.topicData', 'messagesInPerSec', t('in-forge:plugins.kafkaCluster.topic')),
     label: t('in-forge:plugins.kafkaCluster.messagesInPerSecond'),
     category: [t('in-forge:plugins.kafkaCluster.topics')],
     min: 0,
     formatter: number.compact
   },
   {
-    metric: getDynamicMetricMatch('kafkaClient.producer', 'producerOutgoingByteRate', 'Producer'),
+    metric: getDynamicMetricMatch(
+      'kafkaClient.producer',
+      'producerOutgoingByteRate',
+      t('in-forge:plugins.kafkaCluster.producer')
+    ),
     label: t('in-forge:plugins.kafkaCluster.byteRate'),
     category: [t('in-forge:plugins.kafkaCluster.producers')],
     min: 0,
     formatter: bytesPerSecondTwoDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('kafkaClient.producer', 'produceThrottleTime', 'Producer'),
+    metric: getDynamicMetricMatch(
+      'kafkaClient.producer',
+      'produceThrottleTime',
+      t('in-forge:plugins.kafkaCluster.producer')
+    ),
     label: t('in-forge:plugins.kafkaCluster.throttling'),
     category: [t('in-forge:plugins.kafkaCluster.producers')],
     min: 0,
     formatter: millis
   },
   {
-    metric: getDynamicMetricMatch('kafkaClient.producer', 'produceRequestLatency', 'Producer'),
+    metric: getDynamicMetricMatch(
+      'kafkaClient.producer',
+      'produceRequestLatency',
+      t('in-forge:plugins.kafkaCluster.producer')
+    ),
     label: t('in-forge:plugins.kafkaCluster.latency'),
     category: [t('in-forge:plugins.kafkaCluster.producers')],
     min: 0,
     formatter: millis
   },
   {
-    metric: getDynamicMetricMatch('kafkaClient.consumer', 'consumedByteRate', 'Consumer'),
+    metric: getDynamicMetricMatch(
+      'kafkaClient.consumer',
+      'consumedByteRate',
+      t('in-forge:plugins.kafkaCluster.consumer')
+    ),
     label: t('in-forge:plugins.kafkaCluster.byteRate'),
     category: [t('in-forge:plugins.kafkaCluster.consumers')],
     min: 0,
     formatter: bytesPerSecondTwoDecimalPlaces
   },
   {
-    metric: getDynamicMetricMatch('kafkaClient.consumer', 'consumerFetchThrottleTime', 'Consumer'),
+    metric: getDynamicMetricMatch(
+      'kafkaClient.consumer',
+      'consumerFetchThrottleTime',
+      t('in-forge:plugins.kafkaCluster.consumer')
+    ),
     label: t('in-forge:plugins.kafkaCluster.throttling'),
     category: [t('in-forge:plugins.kafkaCluster.consumers')],
     min: 0,
     formatter: millis
   },
   {
-    metric: getDynamicMetricMatch('kafkaClient.consumer', 'consumerFetchLatency', 'Consumer'),
+    metric: getDynamicMetricMatch(
+      'kafkaClient.consumer',
+      'consumerFetchLatency',
+      t('in-forge:plugins.kafkaCluster.consumer')
+    ),
     label: t('in-forge:plugins.kafkaCluster.latency'),
     category: [t('in-forge:plugins.kafkaCluster.consumers')],
     min: 0,

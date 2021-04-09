@@ -2368,7 +2368,10 @@
       "consumerCount": "Consumer Count",
       "deadLetterQueuesNumber": "Dead-Letter Queues {{len}}",
       "queuesNumber": "Queues {{len}}",
-      "topicsNumber": "Topics {{len}}"
+      "topicsNumber": "Topics {{len}}",
+      "topic": "Topic",
+      "queue": "Queue",
+      "dlQueue": "DL Queue"
     },
     "activeMQArtemis": {
       "jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue": "Jmx is not enabled. You can enable it in activemq config by setting the broker property useJmx to true.",
@@ -2406,7 +2409,8 @@
       "allQueuesMessagesAdded": "All Queues Messages Added",
       "allQueuesMessagesAcknowledged": "All Queues Messages Acknowledged",
       "allQueuesMessagesExpired": "All Queues Messages Expired",
-      "allQueuesMessagesKilled": "All Queues Messages Killed"
+      "allQueuesMessagesKilled": "All Queues Messages Killed",
+      "queue": "Queue"
     },
     "aerospike": {
       "aerospike": "Aerospike"
@@ -3131,7 +3135,9 @@
       "memoryUsage2ndBroker": "MemoryUsage (2nd Broker)",
       "enqueueTime": "EnqueueTime",
       "enqueueTime2ndBroker": "EnqueueTime (2nd Broker)",
-      "producerCCount": "Producer Count"
+      "producerCount": "Producer Count",
+      "queue": "Queue",
+      "topic": "Topic"
     },
     "awsMskBroker": {
       "dashboard": {
@@ -3708,7 +3714,8 @@
         "labelInMemoryOLTPStorage": "In-Memory OLTP storage",
         "labelCPULimit": "CPU Limit",
         "labelCPUUsed": "CPU Used"
-      }
+      },
+      "database": "Database"
     },
     "azureSqlElasticPool": {
       "infoName": "Name",
@@ -3759,7 +3766,8 @@
         "titleVCore": "vCore",
         "labelCPULimit": "CPU Limit",
         "labelCPUUsed": "CPU Used"
-      }
+      },
+      "elasticPool": "Elastic Pool"
     },
     "azureSqlServer": {
       "infoName": "Name",
@@ -3966,7 +3974,8 @@
       "cassandraCluster": "Cassandra Cluster",
       "nodes": "Nodes",
       "latency": "Latency",
-      "keyspaces": "Keyspaces"
+      "keyspaces": "Keyspaces",
+      "keyspace": "Keyspace"
     },
     "cassandraNode": {
       "infoVersion": "Version",
@@ -4057,7 +4066,8 @@
       "communication": "Communication",
       "tokens": "Tokens",
       "latency": "Latency",
-      "keyspaces": "Keyspaces"
+      "keyspaces": "Keyspaces",
+      "keyspace": "Keyspace"
     },
     "ceph": {
       "infoProcessID": "Process ID",
@@ -4122,7 +4132,8 @@
       },
       "poolsWithCount": "Pools ({{len}})",
       "cephCluster": "Ceph Cluster",
-      "pools": "Pools"
+      "pools": "Pools",
+      "pool": "Pool"
     },
     "clickhouseCluster": {
       "indexLabel": "ClickHouse Cluster",
@@ -4655,7 +4666,8 @@
         "labelItemsPutToDiskQueue": "Items put to disk queue per sec.",
         "labelItemsWrittenToDisk": "Items written to disk per sec."
       },
-      "couchbaseNode": "Couchbase Node"
+      "couchbaseNode": "Couchbase Node",
+      "bucket": "Bucket"
     },
     "crio": {
       "getContainerInfo": "Get Container Info",
@@ -4847,7 +4859,8 @@
       "pagesRead": "Pages Read",
       "pagesWritten": "Pages Written",
       "poolReadTime": "Pool Read Time",
-      "poolWriteTime": "Pool Write Time"
+      "poolWriteTime": "Pool Write Time",
+      "Container": "Container"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
@@ -5269,7 +5282,8 @@
       "totalMemory": "Total Memory",
       "freeMemory": "Free Memory",
       "cpuUsage": "CPU Usage",
-      "httpRequests": "HTTP Requests"
+      "httpRequests": "HTTP Requests",
+      "device": "Device"
     },
     "finagleApplicationContainer": {
       "dashboard": {
@@ -5321,7 +5335,8 @@
       "maxChildren": "Max Children",
       "memory": "Memory",
       "resources": "Resources",
-      "phpFpm": "PHP-FPM"
+      "phpFpm": "PHP-FPM",
+      "pool": "Pool"
     },
     "phpRuntimePlatform": {
       "version": "Version",
@@ -5441,7 +5456,9 @@
       "numberOfDeleteRequests": "Number of delete requests",
       "numberOfExtendedRequests": "Number of extended requests",
       "numberOfModifyRequests": "Number of modify requests",
-      "numberOfSearchRequests": "Number of search requests"
+      "numberOfSearchRequests": "Number of search requests",
+      "database": "Database",
+      "ldapConnector": "LDAP Connector"
     },
     "postgreSqlDatabase": {
       "troubleshootingDocs": "Troubleshooting docs",
@@ -5497,7 +5514,8 @@
       "connection": "Connection",
       "replicationDelayInBytes": "Replication delay in bytes",
       "replicationDelayInSeconds": "Replication delay in seconds",
-      "postgreSql": "PostgreSQL"
+      "postgreSql": "PostgreSQL",
+      "database": "Database"
     },
     "process": {
       "jvmAttachGenericIssueDescription": "The host agent cannot attach correctly to this Java Virtual Machine. Therefore, this process will not be traced. Refer to the host agent logs for more information as to why the attachment failed. The host agent will try to connect again to this virtual machine every ten minutes. However, until it succeeds, neither traces nor metrics will be collected for this JVM.",
@@ -5712,7 +5730,8 @@
       "messagesTotal": "Messages total",
       "totalNumberOfNetworkPartitions": "Total number of Network partitions",
       "messagesAcknowledged": "Messages acknowledged",
-      "rabbitMq": "RabbitMQ"
+      "rabbitMq": "RabbitMQ",
+      "queue": "Queue"
     },
     "redis": {
       "configCommandNameNotConfigured": "Redis CONFIG command name needs to be configured to collect Redis metrics.",
@@ -6108,7 +6127,8 @@
       "documentsPending": "Documents pending",
       "solrEvictions": "Solr evictions",
       "startedAt": "Started At",
-      "solr": "Solr"
+      "solr": "Solr",
+      "core": "Core"
     },
     "solrCloudCluster": {
       "nodes": "Nodes",
@@ -6245,7 +6265,8 @@
       "shuffleWritePerSecond": "Shuffle Write per Second",
       "totalInputBytes": "Total Input Bytes",
       "totalShuffleRead": "Total Shuffle Read",
-      "totalShuffleWrite": "Total Shuffle Write"
+      "totalShuffleWrite": "Total Shuffle Write",
+      "executorId": "Executor ID"
     },
     "garden": {
       "cloudFoundry": "Cloud Foundry",
@@ -6827,7 +6848,8 @@
       "memoryAvailable": "Memory Available",
       "memoryUsed": "Memory Used",
       "virtualCoresAvailable": "Virtual Cores Available",
-      "virtualCoresUsed": "Virtual Cores Used"
+      "virtualCoresUsed": "Virtual Cores Used",
+      "node": "Node"
     },
     "hadoopYARNNode": {
       "dashboard": {
@@ -6906,7 +6928,9 @@
       "responseErrors": "Response Errors",
       "connectionRetries": "Connection Retries",
       "deniedResponses": "Denied Responses",
-      "reDispatchedRequests": "Re-Dispatched Requests"
+      "reDispatchedRequests": "Re-Dispatched Requests",
+      "frontend": "Frontend",
+      "backend": "Backend"
     },
     "haProxy": {
       "dashboard": {
@@ -7244,7 +7268,9 @@
       "vSphere": "vSphere",
       "vm": "VM",
       "esXiHost": "ESXi Host",
-      "datacenter": "Datacenter"
+      "datacenter": "Datacenter",
+      "device": "Device",
+      "gpuUuid": "GPU UUID"
     },
     "httpd": {
       "dashboard": {
@@ -7359,7 +7385,9 @@
       "memoryUsedPercent": "Memory Used Percent",
       "titleMemberCount": "Member Count",
       "labelMembers": "Member Count",
-      "labelZone": "Zone"
+      "labelZone": "Zone",
+      "labelDisk": "Disk",
+      "labelMemory": "Memory"
     },
     "ibmCloudFunctions": {
       "labelConcurrentInvocations": "Concurrent Invocations",
@@ -7387,7 +7415,8 @@
       "labelWaitTime": "Wait Time(ms)",
       "labelInitTime": "Init Time(ms)",
       "labelPackageCount": "Package Count",
-      "labelZone": "Zone"
+      "labelZone": "Zone",
+      "labelFunction": "Function"
     },
     "ibmCloudIsLoadBalancer": {
       "labelActiveConnections": "Active Connections",
@@ -7457,7 +7486,8 @@
       "titleObjectCount": "Object Count",
       "titleUsed": "Used Size",
       "labelUsed": "Used Size",
-      "labelZone": "Zone"
+      "labelZone": "Zone",
+      "labelMemory": "Memory"
     },
     "ibmIOs": {
       "sidebar": {
@@ -7468,7 +7498,7 @@
         "restrictedState": "Restricted State"
       },
       "dashboard": {
-        "charts" : {
+        "charts": {
           "cpu": {
             "name": "CPU",
             "rate": "Rate"
@@ -7526,7 +7556,8 @@
           }
         }
       },
-      "name": "Db2 on i"
+      "name": "Db2 on i",
+      "memoryPool": "Memory Pool"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -7816,7 +7847,11 @@
       "totalObjectCount": "Total Object Count",
       "totalUsedBytes": "Total Used Bytes",
       "labelVolumeWriteRequests": "Volume Write Requests",
-      "labelZone": "Zone"
+      "labelZone": "Zone",
+      "labelCPU": "CPU",
+      "labelMemory": "Memory",
+      "labelNetwork": "Network",
+      "labelVolume": "Volume"
     },
     "instanaAgent": {
       "dashboard": {
@@ -8007,7 +8042,8 @@
       "labelCoresUsed": "Cores Used",
       "labelCoresTotal": "Cores Total",
       "labelNumberFailedDrivers": "Number of failed Drivers",
-      "labelNumberFailedApplications": "Number of failed Applications"
+      "labelNumberFailedApplications": "Number of failed Applications",
+      "workerId": "Worker ID"
     },
     "kafka": {
       "kafkaMonitoringRequiresSslTruststoreLocation": "Kafka monitoring requires <code>sslTruststoreLocation</code> and <code>sslTruststorePassword</code> to be configured in Instana agent <code>configuration.yaml</code> for Kafka instances secured with TLS.",
@@ -8149,7 +8185,9 @@
       "consumers": "Consumers",
       "brokersMsgIn": "Brokers Msg.In",
       "brokersPartitions": "Brokers Partitions",
-      "prodLatency": "Prod. Latency"
+      "prodLatency": "Prod. Latency",
+      "producer": "Producer",
+      "consumer": "Consumer"
     },
     "kubernetesCluster": {
       "noActivity": "No activity",
@@ -8464,7 +8502,8 @@
       "connectionsCreated": "Connections created",
       "connectionsUsedPercentage": "Connections used percentage",
       "threadPools": "Thread Pools",
-      "threadsUsedPercentage": "Threads used percentage"
+      "threadsUsedPercentage": "Threads used percentage",
+      "datasourceJndi": "Datasource JNDI"
     },
     "jbossDataGrid": {
       "cacheName": "Cache [{{cacheName}}]",
@@ -8544,7 +8583,9 @@
       "globalConnections": "Global Connections",
       "connections": "Connections",
       "cacheStats": "Cache Stats",
-      "threadPools": "Thread Pools"
+      "threadPools": "Thread Pools",
+      "cache": "Cache",
+      "cluster": "Cluster"
     },
     "jenkins": {
       "disabled": "Disabled",
@@ -8577,7 +8618,8 @@
       "jobs": "Jobs",
       "healthStatusOfRecentBuilds": "Health status of recent builds",
       "lastBuildEstimatedDuration": "Last build estimated duration",
-      "lastBuildTimestamp": "Last build timestamp"
+      "lastBuildTimestamp": "Last build timestamp",
+      "job": "Job"
     },
     "jettyApplicationContainer": {
       "jmxModuleIsNotEnabledInJetty": "Jmx module is not enabled in jetty. Please enable it to be able to collect data. You can do so by adding <code>--module=jmx</code> to <code>start.ini</code>.",
@@ -8688,7 +8730,8 @@
       "pools": "Pools",
       "maxHeap": "Max Heap",
       "heapUsed": "Heap Used",
-      "threadDump": "Thread dump"
+      "threadDump": "Thread dump",
+      "garbageCollector": "Garbage Collector"
     },
     "springbootAppContainer": {
       "titleRequests": "Requests",
@@ -9486,7 +9529,8 @@
       "bytesReceived": "Bytes received",
       "version": "Version",
       "websites": "Websites",
-      "request": "Request"
+      "request": "Request",
+      "website": "Website"
     },
     "msSqlDatabase": {
       "connectionsAmpUsers": "Connections & Users",
@@ -9548,7 +9592,8 @@
       "processedEevents": "Processed events",
       "executionEerrors": "Execution errors",
       "fatalEerrors": "Fatal errors",
-      "averagePprocessingTime": "Average processing time"
+      "averagePprocessingTime": "Average processing time",
+      "flow": "Flow"
     },
     "netCoreRuntimePlatform": {
       "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "The process environment for this .NET Core application is not correctly configured for Instana to be able to monitor it. The following environment variables must be set on the .NET Core process: <code>{{missing}}</code>. Refer to the documentation for the right values to be set.",
@@ -9981,7 +10026,8 @@
       "inactiveUserSessions": "Inactive User Sessions",
       "backgroundSessions": "Background Sessions",
       "tablespaces": "Tablespaces",
-      "dbCpuTime": "DB CPU Time"
+      "dbCpuTime": "DB CPU Time",
+      "tablespace": "Tablespace"
     },
     "azureCosmosDb": {
       "totalRequests": "Total Requests",

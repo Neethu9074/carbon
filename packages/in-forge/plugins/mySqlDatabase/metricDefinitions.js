@@ -87,49 +87,49 @@ export default [
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('databases', 'avg_query_latency', 'Schema'),
+    metric: getDynamicMetricMatch('databases', 'avg_query_latency', t('in-forge:plugins.mySqlDatabase.schema')),
     label: t('in-forge:plugins.mySqlDatabase.avgQueryLatency'),
     category: [t('in-forge:plugins.mySqlDatabase.schemas')],
     min: 0,
     formatter: millis
   },
   {
-    metric: getDynamicMetricMatch('databases', 'queries', 'Schema'),
+    metric: getDynamicMetricMatch('databases', 'queries', t('in-forge:plugins.mySqlDatabase.schema')),
     label: t('in-forge:plugins.mySqlDatabase.queries'),
     category: [t('in-forge:plugins.mySqlDatabase.schemas')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('databases', 'select_count', 'Schema'),
+    metric: getDynamicMetricMatch('databases', 'select_count', t('in-forge:plugins.mySqlDatabase.schema')),
     label: t('in-forge:plugins.mySqlDatabase.selects'),
     min: 0,
     category: [t('in-forge:plugins.mySqlDatabase.schemas')],
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('databases', 'insert_count', 'Schema'),
+    metric: getDynamicMetricMatch('databases', 'insert_count', t('in-forge:plugins.mySqlDatabase.schema')),
     label: t('in-forge:plugins.mySqlDatabase.inserts'),
     min: 0,
     category: [t('in-forge:plugins.mySqlDatabase.schemas')],
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('databases', 'update_count', 'Schema'),
+    metric: getDynamicMetricMatch('databases', 'update_count', t('in-forge:plugins.mySqlDatabase.schema')),
     label: t('in-forge:plugins.mySqlDatabase.updates'),
     min: 0,
     category: [t('in-forge:plugins.mySqlDatabase.schemas')],
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('databases', 'delete_count', 'Schema'),
+    metric: getDynamicMetricMatch('databases', 'delete_count', t('in-forge:plugins.mySqlDatabase.schema')),
     label: t('in-forge:plugins.mySqlDatabase.deletes'),
     min: 0,
     category: [t('in-forge:plugins.mySqlDatabase.schemas')],
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('databases', 'other_count', 'Schema'),
+    metric: getDynamicMetricMatch('databases', 'other_count', t('in-forge:plugins.mySqlDatabase.schema')),
     label: t('in-forge:plugins.mySqlDatabase.other'),
     min: 0,
     category: [t('in-forge:plugins.mySqlDatabase.schemas')],

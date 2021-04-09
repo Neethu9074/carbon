@@ -59,7 +59,7 @@ export default [
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('keyspace', 'diskSize', 'Keyspace'),
+    metric: getDynamicMetricMatch('keyspace', 'diskSize', t('in-forge:plugins.cassandraCluster.keyspace')),
     label: t('in-forge:plugins.cassandraCluster.labelDiskSize'),
     category: [t('in-forge:plugins.cassandraCluster.keyspaces')],
     min: 0,

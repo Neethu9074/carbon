@@ -32,11 +32,11 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('queues', 'messageCount', 'Queue'),
-      getDynamicMetricMatch('queues', 'messagesAdded', 'Queue'),
-      getDynamicMetricMatch('queues', 'messagesAcknowledged', 'Queue'),
-      getDynamicMetricMatch('queues', 'messagesExpired', 'Queue'),
-      getDynamicMetricMatch('queues', 'messagesKilled', 'Queue')
+      getDynamicMetricMatch('queues', 'messageCount', t('in-forge:plugins.activeMQArtemis.queue')),
+      getDynamicMetricMatch('queues', 'messagesAdded', t('in-forge:plugins.activeMQArtemis.queue')),
+      getDynamicMetricMatch('queues', 'messagesAcknowledged', t('in-forge:plugins.activeMQArtemis.queue')),
+      getDynamicMetricMatch('queues', 'messagesExpired', t('in-forge:plugins.activeMQArtemis.queue')),
+      getDynamicMetricMatch('queues', 'messagesKilled', t('in-forge:plugins.activeMQArtemis.queue'))
     ],
     labels: [
       t('in-forge:plugins.activeMQArtemis.messageCount'),

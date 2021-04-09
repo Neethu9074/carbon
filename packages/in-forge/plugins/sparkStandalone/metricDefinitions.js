@@ -43,14 +43,14 @@ export default [
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('workers.metrics', 'memoryUsed', 'Worker ID'),
+    metric: getDynamicMetricMatch('workers.metrics', 'memoryUsed', t('in-forge:plugins.sparkStandalone.workerId')),
     label: t('in-forge:plugins.sparkStandalone.labelMemoryUsed'),
     category: [t('in-forge:plugins.sparkStandalone.titleWorkers')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('workers.metrics', 'coresUsed', 'Worker ID'),
+    metric: getDynamicMetricMatch('workers.metrics', 'coresUsed', t('in-forge:plugins.sparkStandalone.workerId')),
     label: t('in-forge:plugins.sparkStandalone.labelCoresUsed'),
     category: [t('in-forge:plugins.sparkStandalone.titleWorkers')],
     min: 0,
