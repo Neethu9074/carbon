@@ -19,7 +19,7 @@ export default function BaselineErrorMessage({ thresholdResult }) {
     <Message type="neutral" iconColor={theme.lib.colors.failure} withIcon>
       <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.baselineErrorMessageInsufficientDataToCompute" />
       <br />
-      <b>{t('in-alerting:smartAlerts.components.smartAlertDialog.baselineErrorMessageReason')}</b>
+      <b>{`${t('in-alerting:smartAlerts.components.smartAlertDialog.baselineErrorMessageReason')} `}</b>
       {getErrorReason(thresholdResult)}
     </Message>
   );
