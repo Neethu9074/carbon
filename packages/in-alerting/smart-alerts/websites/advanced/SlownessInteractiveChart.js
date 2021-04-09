@@ -145,6 +145,7 @@ export function ThresholdCondition({ form, updateForm, onChange, blueprintConfig
                 .put('threshold', newThresholdForm)
                 .put('rule', newRuleForm)
                 .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                .updateIn(['hiddenFields', 'thresholdValueManuallyChanged'], f => f.setValue(false))
             );
 
             websitesAlertingThresholdTypeChanged(getTrackingObject(form, { value: thresholdType }));

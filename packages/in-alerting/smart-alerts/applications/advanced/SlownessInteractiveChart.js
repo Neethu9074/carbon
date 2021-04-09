@@ -153,6 +153,7 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
                     .put('threshold', newThresholdForm)
                     .put('rule', newRuleForm)
                     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                    .updateIn(['hiddenFields', 'thresholdValueManuallyChanged'], f => f.setValue(false))
                 );
 
                 applicationsAlertingThresholdTypeChanged(getTrackingObject(form, { value: thresholdType }));

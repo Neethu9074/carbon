@@ -63,7 +63,7 @@ function SmartAlertConfigDialogWithQueryValidation({
         .filter(resp => resp && !resp.progress.loading)
         .tap(({ data, errors, time }) => {
           if (!isGlobalSmartAlert && isValid) {
-            updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode, editMode);
+            updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
           }
           if (isGlobalSmartAlert) {
             thresholdOrBaselineLoadingSignal$.emit(false);
