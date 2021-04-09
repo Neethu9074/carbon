@@ -21,7 +21,7 @@ export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, ti
   const { alertType, metricName, aggregation } = rule;
 
   const blueprintConfig = getBlueprintConfig(alertType);
-  const beaconType = blueprintConfig.getBeaconType();
+  const beaconType = blueprintConfig.getBeaconType(metricName);
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   return (
