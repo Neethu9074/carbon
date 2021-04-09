@@ -3468,11 +3468,11 @@ export default {
               name: 'metrics.gauges.clickHouse.clustered.runningCalls'
             },
             {
-              label: 'Dropwizard gauge com.instana.application.clickhouse.ClickHouseHttpClient.select.error_rate',
+              label: 'Dropwizard gauge com.instana.clickhouse.client.ClickHouseHttpClient.select.error_rate',
               description: 'Custom Dropwizard gauge',
               icon: 'lib_views_tag',
               type: 'dropwizardApplicationContainer',
-              name: 'metrics.gauges.com.instana.application.clickhouse.ClickHouseHttpClient.select.error_rate'
+              name: 'metrics.gauges.com.instana.clickhouse.client.ClickHouseHttpClient.select.error_rate'
             },
             {
               label:
@@ -16708,8 +16708,8 @@ export default {
     {
       description: '',
       valueType: 'STRING',
-      label: 'metrics.gauges.com.instana.application.clickhouse.ClickHouseHttpClient.select.error_rate',
-      name: 'metrics.gauges.com.instana.application.clickhouse.ClickHouseHttpClient.select.error_rate',
+      label: 'metrics.gauges.com.instana.clickhouse.client.ClickHouseHttpClient.select.error_rate',
+      name: 'metrics.gauges.com.instana.clickhouse.client.ClickHouseHttpClient.select.error_rate',
       type: 'dropwizardApplicationContainer'
     },
     {

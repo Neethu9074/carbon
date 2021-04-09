@@ -3,18 +3,49 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { millis, number } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
+
+const hostViewCols = [
+  {
+    title: t('in-internal:monitoringUnit.log.processor.host'),
+    type: 'snapshotLink',
+    typeArgs: {
+      pathname: physicalDashboardPath,
+      getSnapshotId(row) {
+        return row.host.get('id');
+      }
+    }
+  },
+  {
+    title: t('in-internal:monitoringUnit.log.processor.hostCpuLoad'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.host.get('id');
+      },
+      getMetricName() {
+        return `load.1min`;
+      },
+      getContent: number.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
 
 export default connectTo(
   {
@@ -27,11 +58,16 @@ export default connectTo(
     }
 
     rows = rows.slice().sort((a, b) => compareIgnoreCase(a.host.get('label'), b.host.get('label')));
-    const labels = rows.map(getLabel);
+    const labels = rows.map(r =>
+      r.host
+        .get('label')
+        .replace('.instana.io', '')
+        .replace('ip-', '')
+    );
 
     return (
       <div>
-        <h1>{t('in-internal:monitoringUnit.log.processor.name')}</h1>
+        <h1>{t('in-internal:monitoringUnit.log.processor.title')}</h1>
 
         <DashboardSection title={t('in-internal:monitoringUnit.log.processor.hostCpuLoad')}>
           <Chart
@@ -301,14 +337,70 @@ export default connectTo(
             />
           </DashboardSection>
         </Columize>
+
+        <DashboardSection
+          title={t('in-internal:monitoringUnit.log.processor.instances', {
+            length: rows.length
+          })}
+        >
+          <Table cols={hostViewCols} rows={rows} getRowDetails={getRowDetails} />
+        </DashboardSection>
       </div>
     );
   }
 );
 
-export function getLabel(row) {
-  return row.host
-    .get('label')
-    .replace('.instana.io', '')
-    .replace('ip-', '');
+function getRowDetails(row) {
+  return (
+    <Fragment>
+      <DashboardSection title={t('in-internal:monitoringUnit.log.processor.hostLoad')}>
+        <Chart
+          snapshotId={row.host.get('id')}
+          timeConfig={row.timeConfig}
+          minRollup={5000}
+          y1={{
+            min: 0,
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed,
+            metrics: ['load.1min'],
+            labels: [t('in-internal:monitoringUnit.log.processor.hostCpuLoad')],
+            type: 'stackedArea'
+          }}
+        />
+      </DashboardSection>
+
+      {row.jvm.getIn(['data', 'jvm.collectors']) ? (
+        <DashboardSection title={t('in-internal:monitoringUnit.log.processor.garbageCollection')}>
+          <Chart
+            snapshotId={row.jvm.get('id')}
+            timeConfig={row.timeConfig}
+            y1={{
+              metrics: row.jvm
+                .getIn(['data', 'jvm.collectors'])
+                .map(name => 'gc.' + name + '.time')
+                .toArray(),
+              labels: row.jvm
+                .getIn(['data', 'jvm.collectors'])
+                .map(name => name + ' Time')
+                .toArray(),
+              type: 'line',
+              formatter: millis.fixedDetailed
+            }}
+            y2={{
+              metrics: row.jvm
+                .getIn(['data', 'jvm.collectors'])
+                .map(name => 'gc.' + name + '.inv')
+                .toArray(),
+              labels: row.jvm
+                .getIn(['data', 'jvm.collectors'])
+                .map(name => name + ' Invocations')
+                .toArray(),
+              type: 'point',
+              formatter: number.detailed
+            }}
+          />
+        </DashboardSection>
+      ) : null}
+    </Fragment>
+  );
 }
