@@ -5,6 +5,7 @@
 
 import ClickAwayListener from 'react-click-away-listener';
 import React, { useState } from 'react';
+import classNames from 'classnames';
 
 import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
 import SvgIcon from 'in-components/SvgIcon';
@@ -24,15 +25,19 @@ export default function FloatingActionButtonMenu({ children, label = 'Add' }) {
 
   return (
     <div className={locals.container}>
-      {menuOpen && (
-        <ul>
-          {filteredItems.map((item, idx) => (
-            <li key={idx} className={locals.withShadow}>
-              {item}
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul
+        className={classNames({
+          [locals.menuOpen]: menuOpen,
+          [locals.menuClosed]: !menuOpen,
+          [locals.dropdown]: true
+        })}
+      >
+        {filteredItems.map((item, idx) => (
+          <li key={idx} className={locals.withShadow}>
+            {item}
+          </li>
+        ))}
+      </ul>
       <ClickAwayListener onClickAway={() => setMenuOpen(false)}>
         <FloatingActionButton onClick={toggleMenu} kind={menuOpen ? 'action' : 'primaryv2'} withBoxShadow>
           <div className={locals.buttonLabelContainer}>

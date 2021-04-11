@@ -49,6 +49,21 @@
 
   .rotate {
     transform: rotate(45deg);
-    transition: all linear 0.25s;
+    transition: all ease-in-out 0.25s;
+  }
+
+  .menuOpen {
+    max-height: 100%;
+  }
+
+  .menuClosed {
+    max-height: 0px;
+  }
+
+  .dropdown {
+    position: absolute;
+    transition: all ease-in-out 0.25s;
+    overflow: hidden;
+    bottom: 4rem;
   }
 }
