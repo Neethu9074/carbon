@@ -1325,7 +1325,9 @@ function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpoint
       <Description lines={[t('in-waiting-for-deployment:content.useTheFollowingScriptAsUserDataForTheEc2Instance')]} />
       <PowershellEC2
         lines={[
-          `Invoke-WebRequest -OutFile "$env:TEMP\\AgentBootstrap.exe" -Uri "https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${agentKey}&type=exe64"`,
+          `Invoke-WebRequest -OutFile "$env:TEMP\\AgentBootstrap.exe" -Uri "https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${agentKey}&type=exe64${
+            agentMode === agentModeOptions[0] ? '' : 'offline'
+          }"`,
           `Invoke-Expression -Command "$env:TEMP\\AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} /quiet"`
         ]}
       />
