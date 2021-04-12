@@ -22,6 +22,7 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import ChartLegend from 'in-components/Chart/components/ChartLegend';
 import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
 import { defaultTimeShift } from 'in-stores/time/shifting';
+import useResizeObserver from 'in-hooks/useResizeObserver';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -31,8 +32,6 @@ const colorLatency = theme.lib.colors.chart.strokeColors100[0];
 const colorLatencyTimeShift = theme.lib.colors.timeShift;
 
 export default function LatencyDistributionBase10ChartPresenter({
-  height,
-  width,
   customWidth,
   customHeight,
   showPercentileMenu,
@@ -46,6 +45,9 @@ export default function LatencyDistributionBase10ChartPresenter({
   dataSource,
   timeShiftConfig = defaultTimeShift
 }) {
+  // size
+  const { ref, width, height } = useResizeObserver();
+
   // which metrics to hide on the chart
   const filteredDataSeries$ = create();
   const [filteredDataSeries, setFilteredDataSeries] = useState(new Set([]));
@@ -59,7 +61,7 @@ export default function LatencyDistributionBase10ChartPresenter({
 
   if (!width || !subscriptionResult || (timeShiftSubscription && !timeShiftSubscriptionResult)) {
     // observable results are not available yet
-    return <div style={{ height: customHeight || height }} className={locals.histogram} />;
+    return <div style={{ height: customHeight || height }} className={locals.histogram} ref={ref} />;
   }
 
   const chartWidth = customWidth || width;
@@ -70,7 +72,7 @@ export default function LatencyDistributionBase10ChartPresenter({
     (timeShiftSubscription && timeShiftSubscriptionResult.errors.length > 0)
   ) {
     return (
-      <div className={locals.container}>
+      <div className={locals.container} ref={ref}>
         <NoDataAvailable width={chartWidth} height={chartHeight} />
       </div>
     );
@@ -80,7 +82,7 @@ export default function LatencyDistributionBase10ChartPresenter({
   ) {
     // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
     return (
-      <div className={locals.container}>
+      <div className={locals.container} ref={ref}>
         <LoadingIndicator height={chartHeight} size="xxl" />
       </div>
     );
@@ -91,7 +93,7 @@ export default function LatencyDistributionBase10ChartPresenter({
       timeShiftSubscriptionResult.data.buckets.map(b => b.calls).reduce((a, b) => a + b, 0) === 0)
   ) {
     return (
-      <div className={locals.container}>
+      <div className={locals.container} ref={ref}>
         <NoDataAvailable
           width={chartWidth}
           height={chartHeight}
@@ -166,7 +168,7 @@ export default function LatencyDistributionBase10ChartPresenter({
   );
 
   return (
-    <>
+    <div ref={ref}>
       <div className={locals.header}>
         {showLegend && <ChartLegend chart={chartConfig} />}
         {showPercentileMenu && (
@@ -258,7 +260,7 @@ export default function LatencyDistributionBase10ChartPresenter({
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

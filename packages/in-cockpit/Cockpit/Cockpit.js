@@ -23,8 +23,8 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { settings$, setSingle } from 'in-services/settings/settings';
-import getElementDimensions from 'in-hoc/getElementDimensions';
 import { hasKubernetesAccess } from 'in-stores/permission';
+import useResizeObserver from 'in-hooks/useResizeObserver';
 import SideNav from 'in-new-components/SideNav';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
@@ -148,7 +148,8 @@ function Header() {
   );
 }
 
-const Content = getElementDimensions(function Content({ itemOrder, width, applicationId }) {
+function Content({ itemOrder, applicationId }) {
+  const { ref: elementSizeRef, width } = useResizeObserver();
   const setNewItemOrder = items => {
     setSingle(settingsKey, { ordering: items.map(({ id }, i) => ({ id, x: 0, y: i * 10 })) });
   };
@@ -156,7 +157,7 @@ const Content = getElementDimensions(function Content({ itemOrder, width, applic
   const renderNavigation = width > 1200;
 
   return (
-    <div className={locals.wrapper}>
+    <div className={locals.wrapper} ref={elementSizeRef}>
       <div className={locals.left}>
         {width && (
           <DragDropContext
@@ -224,7 +225,7 @@ const Content = getElementDimensions(function Content({ itemOrder, width, applic
       )}
     </div>
   );
-});
+}
 
 function renderIcon({ icon }, isSelected) {
   return (

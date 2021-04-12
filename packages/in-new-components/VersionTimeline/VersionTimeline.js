@@ -4,23 +4,22 @@
  */
 
 import React, { Fragment } from 'react';
-import { compose } from 'recompose';
 import classNames from 'classnames';
 
 import { formatDuration, formatDateTime } from 'in-services/formatters/date';
 import HorizontalTimeAxis from 'in-new-components/Axis/HorizontalTimeAxis';
-import getElementDimensions from 'in-hoc/getElementDimensions';
+import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-services/scale';
 import theme from 'in-themes';
 
 import locals from './VersionTimeline.mless';
 
-export default compose(getElementDimensions)(VersionTimeline);
+export default function VersionTimeline({ onVersionClick, getTooltip, from, to, selectedVersion, versions }) {
+  const { ref: elementSizeRef, width } = useResizeObserver();
 
-function VersionTimeline({ onVersionClick, width, getTooltip, from, to, selectedVersion, versions }) {
   if (!width) {
-    return <div className={locals.view} />;
+    return <div className={locals.view} ref={elementSizeRef} />;
   }
 
   const scale = createScale();
@@ -30,7 +29,7 @@ function VersionTimeline({ onVersionClick, width, getTooltip, from, to, selected
   scale.setRangeTo(width);
 
   return (
-    <div className={locals.view}>
+    <div className={locals.view} ref={elementSizeRef}>
       {versions.length > 0 && (
         <>
           <BeginningGap firstVersion={versions[0]} scale={scale} />

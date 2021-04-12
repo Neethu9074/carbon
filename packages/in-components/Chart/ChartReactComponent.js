@@ -11,7 +11,6 @@ import { HEIGHT as commonLegendHeight } from 'in-components/Chart/components/Leg
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
 import ChartLegend from 'in-components/Chart/components/ChartLegend';
-import getElementDimensions from 'in-hoc/getElementDimensions';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Chart from 'in-components/Chart/Chart';
 
@@ -22,12 +21,20 @@ export default function ChartReactComponent(props) {
   if (props.automaticallySize) {
     return <CompletelyAutomaticallySized {...props} />;
   }
-  return <HorizontallyAutomaticallySized {...props} />;
+  return <HorizontallyAutomaticallySizedChart {...props} />;
 }
 
-const HorizontallyAutomaticallySized = getElementDimensions(function HorizontallyAutomaticallySizedChart(props) {
-  return <ChartReactWrapper {...props} width={props.width} height={props.customHeight || defaultChartHeight} />;
-});
+function HorizontallyAutomaticallySizedChart(props) {
+  const { ref: elementSizeRef, width } = useResizeObserver();
+  return (
+    <ChartReactWrapper
+      {...props}
+      width={width}
+      height={props.customHeight || defaultChartHeight}
+      ref={elementSizeRef}
+    />
+  );
+}
 
 function CompletelyAutomaticallySized(props) {
   return (
@@ -37,7 +44,7 @@ function CompletelyAutomaticallySized(props) {
   );
 }
 
-function ChartReactWrapper(props) {
+const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, externalRef) {
   const {
     width,
     height: heightOfWrapper,
@@ -59,7 +66,8 @@ function ChartReactWrapper(props) {
     height: chartHeight
   };
 
-  const chartWrapperRef = useRef();
+  const ref = useRef();
+  const chartWrapperRef = externalRef || ref;
   const [chart, setChart] = useState();
   const canvasRefSetter = canvas => {
     // Check that the canvas domElement != null. As part of the React lifecycle canvas
@@ -147,4 +155,4 @@ function ChartReactWrapper(props) {
       </div>
     </div>
   );
-}
+});
