@@ -21,6 +21,8 @@ phases:
     runtime-versions:
       docker: 18
     commands:
+      # Remove SBT repository: https://github.com/aws/aws-codebuild-docker-images/issues/449
+      - rm -f /etc/apt/sources.list.d/sbt.list
       # git configuration to check out git submodules
       - echo "https://$GITHUB_READ_USER:$GITHUB_READ_PASSWORD@github.com" > $HOME/.git-credentials
       - git config --global credential.helper store
