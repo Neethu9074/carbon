@@ -315,10 +315,12 @@ const getColumnDefinitions = (dataSource, linkFormModel) => {
       ),
       sortable: false,
       getContent(item) {
-        const severity = item[type].errorCount;
+        const severity = item[type].errorCount >= 1 ? 10 : 0;
         return (
           <Tooltip
-            content={severity > 0 ? t('in-applications:analyze.containsErrors') : t('in-applications:analyze.noErrors')}
+            content={
+              severity === 0 ? t('in-applications:analyze.noErrors') : t('in-applications:analyze.containsErrors')
+            }
             align="rightMiddle"
           >
             <div className={locals.erroneous}>

@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { clamp } from 'lodash';
 import React from 'react';
 
 import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
@@ -42,11 +41,14 @@ const erroneousColumnDefinition = {
   label: <div className={locals.dot} />,
   sortable: false,
   getContent(item) {
-    const severity = item.beacon.errorCount;
+    const severity = item.beacon.errorCount >= 1 ? 10 : 0;
     return (
-      <Tooltip content={severity > 0 ? t('in-websites:containsErrors') : t('in-websites:noErrors')} align="rightMiddle">
+      <Tooltip
+        content={severity === 0 ? t('in-websites:noErrors') : t('in-websites:containsErrors')}
+        align="rightMiddle"
+      >
         <div className={locals.erroneous}>
-          <HealthDot severity={clamp(severity, 10)} iconSize={10} />
+          <HealthDot severity={severity} iconSize={10} />
         </div>
       </Tooltip>
     );
