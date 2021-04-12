@@ -1,0 +1,22 @@
+FROM containers.instana.io/instana/product/nodejs:0.0.6
+
+ADD build/ /
+
+ARG version
+ARG iteration
+ARG branch
+ARG commit_id
+
+ENV COMPONENT_ID=""
+
+ENV COM_INSTANA_COMMIT_ID="${commit_id}" \
+    COM_INSTANA_BRANCH="${branch}" \
+    COM_INSTANA_IMAGE_TAG="${version}-${iteration}"
+
+LABEL com.instana.commit.id="${commit_id}" \
+      com.instana.branch="${branch}" \
+      com.instana.image.tag="${version}-${iteration}"
+
+USER instana:instana
+
+CMD ["/usr/bin/run.sh"]

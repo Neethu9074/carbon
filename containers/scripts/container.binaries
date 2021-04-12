@@ -1,0 +1,11 @@
+FROM centos:7
+
+ARG nodejs_bin
+
+ENV PATH="${nodejs_bin}":/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+ADD build/ /
+
+RUN yum makecache fast && yum install -y gcc gcc-c++ make
+
+RUN npm install --prefix /opt/instana/ui-client/target --production
