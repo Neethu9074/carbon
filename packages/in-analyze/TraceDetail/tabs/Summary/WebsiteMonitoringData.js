@@ -61,7 +61,7 @@ export default compose(
                 i18nKey="in-analyze:tabs.summary.thisTraceIsCausedByActivityOnThewebsite"
                 values={{ websiteLabel: beacon.websiteLabel }}
                 components={{
-                  linkToWebsite: <Link href$={getLinkToWebsite(beacon.websiteId)} />
+                  linkToWebsite: <Link href$={getLinkToWebsite(beacon.websiteId)} className={locals.link} />
                 }}
               />
             </span>

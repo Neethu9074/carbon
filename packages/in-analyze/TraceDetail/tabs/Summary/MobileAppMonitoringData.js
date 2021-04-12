@@ -84,7 +84,7 @@ export default compose(
                 i18nKey="in-analyze:tabs.summary.thisTraceIsCausedByActivityOnTheMobileApp"
                 values={{ mobileAppLabel: beacon.mobileAppLabel }}
                 components={{
-                  linkToMobileApp: <Link href$={getLinkToMobileApp(beacon.mobileAppId)} />
+                  linkToMobileApp: <Link href$={getLinkToMobileApp(beacon.mobileAppId)} className={locals.link} />
                 }}
               />
             </span>
