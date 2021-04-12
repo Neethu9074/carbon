@@ -5,6 +5,7 @@
 
 import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
+import { escapeRegExp } from 'lodash';
 
 import ExistingValue, { getExistingValuesForTag } from 'in-new-components/AnalyzeView/FacetedFilters/ExistingValue';
 import FacetedExpandableCard from 'in-new-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
@@ -154,7 +155,12 @@ function SearchAndSuggestions({
   const tagDefinition = tagCatalog?.tags.find(tagEntry => tagEntry.name === tag);
   const isBooleanTag = tagDefinition?.type === 'BOOLEAN';
 
-  const valueRegex = new RegExp(valueFilter.split('').join('.*'), 'i');
+  const valueRegex = new RegExp(
+    escapeRegExp(valueFilter)
+      .split('')
+      .join('.*'),
+    'i'
+  );
   const suggestions =
     useObservable(
       getSuggestions(tag).map(
