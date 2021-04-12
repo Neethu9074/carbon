@@ -304,8 +304,8 @@
   "agentDeployed": "Agent deployed",
   "agentsAreReportingDataIsBeingCollected": "Agents are reporting. Data is being collected.",
   "timeToExploreInstana": "Time to explore Instana!",
-  "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "Your Instana instance is ready, and works best with lots of data.",
+  "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "Almost done, we have created an Instana instance for you.",
   "whileWeArePreparingYourInstanaInstance": "While we are preparing your instana instance,",
   "getReadyToDeployAgentsInYourEnvironment": "get ready to deploy Agents in your environment…",
-  "letSGetSomeAgentsRunning": "Let's get some agents running…"
+  "letSGetSomeAgentsRunning": "We are waiting for you to install the Instana agent."
 }
