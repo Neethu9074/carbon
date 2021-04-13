@@ -457,7 +457,10 @@
         "noAlertConfigured": "No alert configured.",
         "alertEntityName": "alert \"{{entityName}}\"",
         "labelAlertFilters": "Filters",
-        "numberOfApplicationsSelected": "{{numberApplicationsSelected}} applications selected"
+        "numberOfApplicationsSelected": "{{numberApplicationsSelected}} applications selected",
+        "labelConfirm": "Please Confirm",
+        "labelConfirmRemoveConfig": "Are you sure you want to remove the config <strong>{{configName}}</strong>?",
+        "labelRemove": "Remove"
       }
     },
     "components": {

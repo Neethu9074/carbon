@@ -647,7 +647,7 @@ List.propTypes = {
   renderNoDataAvailable: PropTypes.func,
   rightHeader: PropTypes.node,
   searchAttributes: PropTypes.array,
-  searchMaxWidth: PropTypes.string,
+  searchMaxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   searchPlaceholder: PropTypes.string,
   setErrorMessage: PropTypes.func,
   setOrderBy: PropTypes.func,
@@ -658,6 +658,7 @@ List.propTypes = {
   tableInCard: PropTypes.bool,
   title: PropTypes.node,
   trackEvent: PropTypes.func,
+
   /**
    * Callback called on every page change
    */
