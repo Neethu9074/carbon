@@ -11,8 +11,10 @@ import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import TagList from 'in-logging/analyze/AnalyzeView/components/TagList';
+import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import SvgIcon from 'in-components/SvgIcon';
+import Link from 'in-components/Link';
 
 import locals from './LogMessageColumn.mless';
 
@@ -49,6 +51,7 @@ export default function LogMessageColumn({ logTags, message, selectedTags, getHr
             getHrefWithAdditionalTagFilter={getHrefWithAdditionalTagFilter}
           />
         </span>
+
         {isOverflowing && (
           <SvgIcon
             className={locals.icon}
@@ -56,6 +59,8 @@ export default function LogMessageColumn({ logTags, message, selectedTags, getHr
             onClick={() => setIsExpanded(!isExpanded)}
           />
         )}
+
+        <TraceIcon logTags={logTags} />
       </div>
 
       {tags.length > 0 && (
@@ -73,4 +78,13 @@ function getTagExpressionWithTag(tag) {
     type: TAG,
     operator: EQUALS
   };
+}
+
+function TraceIcon({ logTags }) {
+  const traceId = logTags.filter(({ name }) => name === 'log.traceId')[0]?.stringValue;
+  return traceId ? (
+    <Link href$={getLinkToTraceDetail(traceId)}>
+      <SvgIcon className={locals.icon} type="lib_application_trace" />
+    </Link>
+  ) : null;
 }

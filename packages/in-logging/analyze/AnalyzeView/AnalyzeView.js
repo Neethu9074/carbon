@@ -27,6 +27,7 @@ import useUrlState from 'in-hooks/useUrlState';
 const urlStateDefinition = {
   bind: [selectedTags]
 };
+const defaultChartedMetrics = [{ metricId: 'logs_distribution', aggregationId: 'SUM' }];
 
 const facetedSearchItems = [
   {
@@ -74,6 +75,7 @@ export default function LoggingAnalyzeView() {
             defaultOrderDirection: 'DESC',
             customFieldRenderingInstructions: {}
           },
+          defaultChartedMetrics,
           facetedSearchItems,
           defaultSelectableFields: []
         }
