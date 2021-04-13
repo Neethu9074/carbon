@@ -89,7 +89,7 @@ export default function AlertHistoryList(props) {
     ({ cursor }) =>
       getRawEvents({
         timeConfig,
-        query: `(event.specification.id:${alertConfigId}) AND (event.type:issue)`,
+        query: `(event.specification.id:"${alertConfigId}") AND (event.type:issue)`,
         pagination: {
           cursor,
           retrievalSize: 15
