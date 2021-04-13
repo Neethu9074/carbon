@@ -44,6 +44,7 @@ export default function LogsDistributionChartSection({
         options={options}
         tracking={tracking}
         hideRenderer
+        disableClose
       />
 
       {metric && (
