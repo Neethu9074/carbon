@@ -26,15 +26,16 @@ import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import { stopPropagation } from 'in-services/util/function';
 import Button from 'in-new-components/Button';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './ListActionsColumn.mless';
 
 export default function ListActionsColumn({ config, isLoading, isGlobalSmartAlertConfig }) {
-  const { enabled, id } = config;
+  const { enabled, id, name } = config;
   const [isSaving, setIsSaving] = useState(false);
   const [isMoreMenuSaving, setIsMoreMenuSaving] = useState(false);
 
@@ -73,7 +74,7 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
         </MoreMenuButton>
         <MoreMenuButton
           icon="lib_actions_delete"
-          onClick={() => handleDelete(id, setIsMoreMenuSaving, isGlobalSmartAlertConfig)}
+          onClick={() => handleDelete(id, setIsMoreMenuSaving, isGlobalSmartAlertConfig, name)}
         >
           {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
         </MoreMenuButton>
@@ -82,20 +83,37 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
   );
 }
 
-function handleDelete(id, setIsSaving, isGlobalSmartAlertConfig) {
+function handleDelete(id, setIsSaving, isGlobalSmartAlertConfig, configName) {
   const deleteConfig = isGlobalSmartAlertConfig ? deleteGlobalAlertConfig : deleteAlertConfig;
-  setIsSaving(true);
 
-  deleteConfig(id).once(
-    () => {
-      applicationsAlertingListAlertDeleted({
-        alertConfigId: id
-      });
-      refreshSmartAlertConfigsList();
-    },
-    () => {
-      setIsSaving(false);
-    }
+  addActiveDialog(
+    <ConfirmationDialog
+      header={t('in-alerting:smartAlerts.applications.inventory.labelConfirm')}
+      description={
+        <span>
+          <Trans
+            i18nKey="in-alerting:smartAlerts.applications.inventory.labelConfirmRemoveConfig"
+            values={{ configName }}
+          />
+        </span>
+      }
+      confirmButtonLabel={t('in-alerting:smartAlerts.applications.inventory.labelRemove')}
+      onSubmit={() => {
+        setIsSaving(true);
+        close();
+        deleteConfig(id).once(
+          () => {
+            applicationsAlertingListAlertDeleted({
+              alertConfigId: id
+            });
+            refreshSmartAlertConfigsList();
+          },
+          () => {
+            setIsSaving(false);
+          }
+        );
+      }}
+    />
   );
 }
 
@@ -147,7 +165,8 @@ function openSmartAlertDialog(config, isGlobalSmartAlertConfig, isCopy = false) 
 ListActionsColumn.propTypes = {
   config: PropTypes.shape({
     enabled: PropTypes.bool.isRequired,
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
   }).isRequired,
   isGlobalSmartAlertConfig: PropTypes.bool,
   isLoading: PropTypes.bool
