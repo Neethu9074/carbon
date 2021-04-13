@@ -9,16 +9,15 @@ import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { getNextValidRollup } from 'in-events/components/eventChartRollups';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import useResizeObserver from 'in-hooks/useResizeObserver';
 import { number } from 'in-services/formatters/number';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-export default function EventsChartWidthWrapper(props) {
-  const { ref: elementSizeRef, width } = useResizeObserver();
-  return <div ref={elementSizeRef}>{width && <EventsChart {...props} />}</div>;
-}
+export default getElementDimensions(function EventsChartWidthWrapper(props) {
+  return <div>{props.width && <EventsChart {...props} />}</div>;
+});
 
 function EventsChart({ width, timeConfig, query, eventType }) {
   const blockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(

@@ -8,7 +8,7 @@ import { hierarchy, treemap } from 'd3-hierarchy';
 import React from 'react';
 
 import Group from 'in-new-components/TreeMap/components/Group';
-import useResizeObserver from 'in-hooks/useResizeObserver';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 
 import locals from './TreeMap.mless';
 
@@ -17,16 +17,15 @@ export default compose(
     cheight: 'customHeight',
     cwidth: 'customWidth'
   }),
+  getElementDimensions,
   defaultProps({
     customHeight: 300
   })
 )(TreeMap);
 
-function TreeMap({ customWidth, customHeight, data, groupProps, nodeProps }) {
-  let { ref: elementSizeRef, width, height } = useResizeObserver();
-
+function TreeMap({ width, height, customWidth, customHeight, data, groupProps, nodeProps }) {
   if (!width || !data) {
-    return <div style={{ height: customHeight || height }} className={locals.treeMap} ref={elementSizeRef} />;
+    return <div style={{ height: customHeight || height }} className={locals.treeMap} />;
   }
 
   data = data.root;
@@ -43,7 +42,7 @@ function TreeMap({ customWidth, customHeight, data, groupProps, nodeProps }) {
     .paddingInner(node => (node.depth === 0 ? 8 : 4))(root);
 
   return (
-    <div style={{ height: root.y1 - root.y0 }} className={locals.treeMap} ref={elementSizeRef}>
+    <div style={{ height: root.y1 - root.y0 }} className={locals.treeMap}>
       {root.children.map(group => (
         <Group key={group.data.id} group={group} groupProps={groupProps} nodeProps={nodeProps} />
       ))}

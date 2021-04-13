@@ -8,17 +8,15 @@ import React from 'react';
 import CallStartLabel from 'in-analyze/TraceDetail/components/CallTimeAxis/CallStartLabel';
 import { getStart, getEnd } from 'in-analyze/TraceDetail/components/callStartAndEndTime';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
-import useResizeObserver from 'in-hooks/useResizeObserver';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 import { millis } from 'in-services/formatters/number';
 import theme from 'in-themes';
 
 import locals from './CallTimeAxis.mless';
 
-export default function CallTimeAxis({ call, showStartLabel }) {
-  const { ref: elementSizeRef, width } = useResizeObserver();
-
+export default getElementDimensions(function CallTimeAxis({ width, call, showStartLabel }) {
   if (!width) {
-    return <div ref={elementSizeRef} />;
+    return <div />;
   }
 
   const startTime = getStart(call);
@@ -26,7 +24,7 @@ export default function CallTimeAxis({ call, showStartLabel }) {
   const duration = endTime - startTime;
 
   return (
-    <div className={locals.timeAxis} ref={elementSizeRef}>
+    <div className={locals.timeAxis}>
       {showStartLabel && <CallStartLabel startTime={startTime} />}
       <HorizontalAxis
         align="top"
@@ -42,7 +40,7 @@ export default function CallTimeAxis({ call, showStartLabel }) {
       />
     </div>
   );
-}
+});
 
 function calculateTickPositions(duration) {
   if (duration < 1) {

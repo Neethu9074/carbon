@@ -7,13 +7,12 @@ import React, { useState, useEffect } from 'react';
 import { uniqBy } from 'lodash';
 
 import TechnologyIndicator from 'in-applications/components/TechnologyIndicator';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 import { getLabel } from 'in-applications/technologyRegistry';
-import useResizeObserver from 'in-hooks/useResizeObserver';
 
 import locals from './TechnologyIndicatorList.mless';
 
-export default function TechnologyIndicatorList({ technologies, getHref$, responsive }) {
-  const { ref: elementSizeRef, width } = useResizeObserver();
+export default getElementDimensions(function TechnologyIndicatorList({ technologies, getHref$, width, responsive }) {
   const [showTechnologyLabel, setShowTechnologyLabel] = useState(true);
 
   useEffect(() => {
@@ -30,7 +29,7 @@ export default function TechnologyIndicatorList({ technologies, getHref$, respon
   }, [width, responsive]);
 
   return (
-    <ul className={locals.list} ref={elementSizeRef}>
+    <ul className={locals.list}>
       {technologies?.length > 0 &&
         uniqBy(technologies, getLabel).map(pluginOrGroupType => (
           <TechnologyIndicator
@@ -42,4 +41,5 @@ export default function TechnologyIndicatorList({ technologies, getHref$, respon
         ))}
     </ul>
   );
-}
+  // }
+});

@@ -11,6 +11,7 @@ import { HEIGHT as commonLegendHeight } from 'in-components/Chart/components/Leg
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
 import ChartLegend from 'in-components/Chart/components/ChartLegend';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Chart from 'in-components/Chart/Chart';
 
@@ -21,20 +22,12 @@ export default function ChartReactComponent(props) {
   if (props.automaticallySize) {
     return <CompletelyAutomaticallySized {...props} />;
   }
-  return <HorizontallyAutomaticallySizedChart {...props} />;
+  return <HorizontallyAutomaticallySized {...props} />;
 }
 
-function HorizontallyAutomaticallySizedChart(props) {
-  const { ref: elementSizeRef, width } = useResizeObserver();
-  return (
-    <ChartReactWrapper
-      {...props}
-      width={width}
-      height={props.customHeight || defaultChartHeight}
-      ref={elementSizeRef}
-    />
-  );
-}
+const HorizontallyAutomaticallySized = getElementDimensions(function HorizontallyAutomaticallySizedChart(props) {
+  return <ChartReactWrapper {...props} width={props.width} height={props.customHeight || defaultChartHeight} />;
+});
 
 function CompletelyAutomaticallySized(props) {
   return (
@@ -44,7 +37,7 @@ function CompletelyAutomaticallySized(props) {
   );
 }
 
-const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, externalRef) {
+function ChartReactWrapper(props) {
   const {
     width,
     height: heightOfWrapper,
@@ -66,8 +59,7 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, ext
     height: chartHeight
   };
 
-  const ref = useRef();
-  const chartWrapperRef = externalRef || ref;
+  const chartWrapperRef = useRef();
   const [chart, setChart] = useState();
   const canvasRefSetter = canvas => {
     // Check that the canvas domElement != null. As part of the React lifecycle canvas
@@ -155,4 +147,4 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, ext
       </div>
     </div>
   );
-});
+}
