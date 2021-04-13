@@ -50,7 +50,7 @@ export default connectTo(
 );
 
 function MessageWrapper({ message }) {
-  const id = message?.text || '';
+  const id = message?.message || '';
   return (
     <div className={locals.messageWrapper}>{message && <TemporaryMessage id={id} {...message} duration={5000} />}</div>
   );

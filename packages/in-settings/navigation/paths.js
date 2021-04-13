@@ -11,6 +11,7 @@ export const settingsBasePath = settingsPath;
 
 export const userSettings = `${settingsBasePath}/user`;
 
+export const userSettingsProfile = `${userSettings}/profile`;
 export const userSettingsGeneral = `${userSettings}/general`;
 export const userSettingsAdvanced = `${userSettings}/advanced`;
 export const userSettingsPrivacy = `${userSettings}/privacy`;
