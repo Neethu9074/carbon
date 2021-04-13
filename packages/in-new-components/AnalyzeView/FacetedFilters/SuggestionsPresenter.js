@@ -23,6 +23,11 @@ import locals from './SuggestionsPresenter.mless';
 
 const DEFAULT_SUGGESTIONS_SIZE = 5;
 
+const ua2FacetedTracker = {
+  groupClicked: ua2FacetedSearchGroupChangedTracker,
+  suggestionClicked: ua2FacetedSearchFilterAddedTracker
+};
+
 export default function SuggestionsPresenter({
   loading = false,
   errors = [],
@@ -32,7 +37,8 @@ export default function SuggestionsPresenter({
   getHrefToGroupedView,
   customLabelMapper,
   dataSource,
-  enableUseAsGroup = true
+  enableUseAsGroup = true,
+  tracker = ua2FacetedTracker
 }) {
   const [numberOfPresentedRows, setNumberOfPresentedRows] = useState(DEFAULT_SUGGESTIONS_SIZE);
   if (loading) {
@@ -52,6 +58,7 @@ export default function SuggestionsPresenter({
         customLabelMapper={customLabelMapper}
         dataSource={dataSource}
         enableUseAsGroup={enableUseAsGroup}
+        tracker={tracker}
       />
     );
   } else {
@@ -85,6 +92,7 @@ function Results({
   setNumberOfPresentedRows,
   customLabelMapper = identity,
   dataSource,
+  tracker,
   enableUseAsGroup
 }) {
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
@@ -120,7 +128,7 @@ function Results({
                     }
                   ]
                 })}
-                onClick={() => ua2FacetedSearchFilterAddedTracker({ dataSource, tagName: tag })}
+                onClick={() => tracker.suggestionClicked({ dataSource, tagName: tag })}
                 className={locals.addSuggestion}
                 style={{ textDecoration: 'none' }}
               >
@@ -147,7 +155,7 @@ function Results({
             className={locals.addAsGroup}
             kind="action"
             href={getHrefToGroupedView(tag)}
-            onClick={() => ua2FacetedSearchGroupChangedTracker({ dataSource, tagName: tag })}
+            onClick={() => tracker.groupClicked({ dataSource, tagName: tag })}
           >
             {t('in-new-components:analyze.addAsGroup')}
           </Button>

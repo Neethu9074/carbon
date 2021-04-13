@@ -7,6 +7,7 @@ import React from 'react';
 
 import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/components/LogsDistributionChartSection';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
+import { filterAdded, queryChanged, groupAdded, chartChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import LogsGroupingConfigurator from 'in-logging/analyze/AnalyzeView/workspace/LogsGroupingConfigurator';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
@@ -23,18 +24,20 @@ import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 
-export default function LoggingQueryBuilderWorkspace({
-  onFormModelChange,
-  formModel,
-  backendQueryModel,
-  onGroupByChange,
-  onChartedMetricsChange,
-  isGrouped,
-  isInvalid,
-  children,
-  groupBy,
-  chartedMetrics
-}) {
+export default function LoggingQueryBuilderWorkspace(props) {
+  const {
+    onFormModelChange,
+    formModel,
+    backendQueryModel,
+    onGroupByChange,
+    onChartedMetricsChange,
+    isGrouped,
+    isInvalid,
+    children,
+    groupBy,
+    chartedMetrics
+  } = props;
+
   return (
     <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />}>
       <LeftRightPadding>
@@ -47,6 +50,10 @@ export default function LoggingQueryBuilderWorkspace({
               hasError={isInvalid}
               useLastValidStateWhenErroneous
               getSuggestionLabel={({ item }) => item}
+              tracking={{
+                onTagAdded: filterAdded,
+                onQueryChanged: () => queryChanged(backendQueryModel)
+              }}
             />
 
             <GroupingConfiguratorSection
@@ -54,12 +61,18 @@ export default function LoggingQueryBuilderWorkspace({
               onChange={onGroupByChange}
               GroupingConfigurator={LogsGroupingConfigurator}
               tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
+              tracking={{
+                onGroupAdded: group => groupAdded({ group: group.groupbyTag })
+              }}
             />
 
             <LogsDistributionChartSection
               chartedMetrics={chartedMetrics}
               onChartedMetricsChange={onChartedMetricsChange}
               backendQueryModel={backendQueryModel}
+              tracking={{
+                onChartChanged: chartConfig => chartConfig && chartChanged(chartConfig)
+              }}
             />
 
             <ActionSection right={<ApiQueryAction backendQueryModel={backendQueryModel} />} />

@@ -23,6 +23,7 @@ import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/ta
 import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
+import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { loggingEnabled } from 'in-services/featureFlags';
@@ -60,13 +61,15 @@ const productAreas = [
         dataSource: 'logs',
         beta: loggingEnabled,
         enabled: loggingEnabled,
-        getHref$: getLinkToLogsAnalyze
+        getHref$: getLinkToLogsAnalyze,
+        onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
       },
       {
         dataSource: 'rawlogs',
         beta: loggingEnabled,
         getHref$: getLinkToRawLogs,
-        enabled$: isInternalVisible$.map(isInternalVisible => isInternalVisible && loggingEnabled)
+        enabled$: isInternalVisible$.map(isInternalVisible => isInternalVisible && loggingEnabled),
+        onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
       }
     ]
   },
@@ -274,6 +277,7 @@ function ProductAreaEntry({
   mobileTagCatalogs,
   close,
   productArea,
+  onClickSideEffect,
   activeConfiguration,
   beta
 }) {
@@ -287,7 +291,12 @@ function ProductAreaEntry({
       key={dataSource}
       noAlternatingBg
       href$={getHref$({ isGrouped, formModel, ...websiteTagCatalogs, ...mobileTagCatalogs })}
-      onDefaultHrefInteractionSideEffect={close}
+      onDefaultHrefInteractionSideEffect={() => {
+        close();
+        if (onClickSideEffect) {
+          onClickSideEffect();
+        }
+      }}
     >
       <div
         className={classNames({
