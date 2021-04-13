@@ -5,7 +5,6 @@
 
 import RoEmitter from '@instana/roemitter';
 import { on } from '@instana/observables';
-import { get } from 'lodash';
 
 import {
   getServiceLocators,
@@ -116,23 +115,16 @@ export default class ApplicationMap {
     eventBusServiceLocator.emit(SIGNALS.MOUSE_MOVE, this.cursorCoordinates);
   }
 
-  updateState(oldProps, nextProps) {
-    const oldState = get(oldProps, ['result', 'data']);
-    let nextState = get(nextProps, ['result', 'data']);
-    if (nextState && oldState !== nextState) {
+  updateState({ result, layouter, particles, traffic, sizingMetric }) {
+    let nextState = result?.data;
+    if (nextState) {
       this.applyStateUpdate(nextState);
     }
 
-    getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(SIGNALS.LAYOUTER, nextProps.layouter);
-    getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(SIGNALS.PARTICLES, nextProps.particles);
-    getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(
-      SIGNALS.SHOW_EXTERNAL_TRAFFIC,
-      nextProps.traffic
-    );
-    getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(
-      SIGNALS.SIZING_METRIC,
-      nextProps.sizingMetric
-    );
+    getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(SIGNALS.LAYOUTER, layouter);
+    getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(SIGNALS.PARTICLES, particles);
+    getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(SIGNALS.SHOW_EXTERNAL_TRAFFIC, traffic);
+    getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(SIGNALS.SIZING_METRIC, sizingMetric);
   }
 
   applyStateUpdate(nextState) {
