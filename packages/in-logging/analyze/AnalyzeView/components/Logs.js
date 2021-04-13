@@ -12,6 +12,7 @@ import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessa
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import UngroupedViewList from 'in-new-components/AnalyzeView/UngroupedViewList';
+import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { formatDateTime } from 'in-services/formatters/date';
 import HealthDot from 'in-new-components/health/HealthDot';
 import getLogs from 'in-logging/subscriptions/getLogs';
@@ -47,6 +48,12 @@ const columnDefinitions = [
   }
 ];
 
+const tracker = {
+  loadMoreClicked: () => {
+    loadMoreClicked({ view: 'Logs view' });
+  }
+};
+
 export default function Logs(props) {
   let content = (
     <UngroupedViewList
@@ -62,6 +69,7 @@ export default function Logs(props) {
       getDetailData={detailId => getLog({ id: detailId })}
       CustomHeaderActions={TagSelector}
       withCountHeader={false}
+      tracker={tracker}
     />
   );
 

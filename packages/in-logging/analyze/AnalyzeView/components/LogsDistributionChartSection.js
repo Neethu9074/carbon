@@ -28,7 +28,12 @@ const options = [
   }
 ];
 
-export default function LogsDistributionChartSection({ chartedMetrics, onChartedMetricsChange, backendQueryModel }) {
+export default function LogsDistributionChartSection({
+  chartedMetrics,
+  onChartedMetricsChange,
+  backendQueryModel,
+  tracking
+}) {
   const metric = chartedMetrics && chartedMetrics[0];
 
   return (
@@ -37,6 +42,7 @@ export default function LogsDistributionChartSection({ chartedMetrics, onCharted
         value={chartedMetrics?.[0]}
         onChange={metric => onChartedMetricsChange(metric ? [metric] : [])}
         options={options}
+        tracking={tracking}
         hideRenderer
       />
 

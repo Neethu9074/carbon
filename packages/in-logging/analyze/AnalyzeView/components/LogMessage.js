@@ -6,6 +6,7 @@
 import React, { useMemo } from 'react';
 
 import { toChunks, MESSAGE_CHUNK } from 'in-logging/analyze/AnalyzeView/components/templateString';
+import { logMessageParameterClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -60,6 +61,7 @@ function ParamTag({ tag, getHrefWithAdditionalTagFilter }) {
             key: tag.key
           })
         )}
+        onClick={() => logMessageParameterClicked({ name: tag.name, key: tag.key, value })}
       >
         {value}
       </Link>

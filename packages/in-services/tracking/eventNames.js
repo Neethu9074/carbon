@@ -308,3 +308,17 @@ export const SLI_MANAGEMENT_DELETED = 'sli.management.deleted';
 export const SLI_MANAGEMENT_NEW_CREATED = 'sli.management.sliCreated';
 export const SLI_MANAGEMENT_CLONED = 'sli.management.cloned';
 export const SLI_MANAGEMENT_EDIT_ABORT = 'sli.management.editAbort';
+
+// Logging
+export const ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED = 'analyze.logging.queryBuilder.filter.added';
+export const ANALYZE_LOGGING_QUERY_BUILDER_QUERY_CHANGED = 'analyze.logging.queryBuilder.query.changed';
+export const ANALYZE_LOGGING_QUERY_BUILDER_GROUP_ADDED = 'analyze.logging.queryBuilder.group.added';
+export const ANALYZE_LOGGING_QUERY_BUILDER_CHART_CHANGED = 'analyze.logging.queryBuilder.chart.changed';
+export const ANALYZE_LOGGING_SELECTED_TAGS_CHANGED = 'analyze.logging.selected.tags.changed';
+export const ANALYZE_LOGGING_LOAD_MORE_CLICKED = 'analyze.logging.load.more.clicked';
+export const ANALYZE_LOGGING_TIMEFRAME_USED = 'analyze.logging.timeframe.used';
+export const ANALYZE_LOGGING_LOG_MESSAGE_PARAMETER_CLICKED = 'analyze.logging.log.message.parameter.clicked';
+export const ANALYZE_LOGGING_FACETTEDSEARCH_ITEM_CLICKED = 'analyze.logging.facettedsearch.item.clicked';
+export const ANALYZE_LOGGING_FACETTEDSEARCH_GROUP_CLICKED = 'analyze.logging.facettedsearch.group.clicked';
+export const ANALYZE_LOGGING_JUMP_TO_LOGS = 'analyze.logging.jump.to.logs';
+export const ANALYZE_LOGGING_TIME_SPENT = 'analyze.logging.time.spent';

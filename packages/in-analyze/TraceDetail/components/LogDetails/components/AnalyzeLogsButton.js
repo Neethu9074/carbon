@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { Li, Ul } from 'in-new-components/lists/List';
@@ -22,7 +23,10 @@ export default function AnalyzeLogsButton({ log }) {
       align="bottomLeft"
       content={() => (
         <Ul>
-          <Li href$={getLinkToTagFilterExpression({ name: 'log.message', value: log.message })}>
+          <Li
+            href$={getLinkToTagFilterExpression({ name: 'log.message', value: log.message })}
+            onDefaultHrefInteractionSideEffect={() => jumpToLogs({ source: 'similar logs' })}
+          >
             {t('in-analyze:logDetails.similarLogs')}
           </Li>
           {serviceId && (
@@ -32,6 +36,7 @@ export default function AnalyzeLogsButton({ log }) {
                 key: 'service_id',
                 value: serviceId
               })}
+              onDefaultHrefInteractionSideEffect={() => jumpToLogs({ source: 'similar services' })}
             >
               {t('in-analyze:logDetails.similarServiceLogs')}
             </Li>

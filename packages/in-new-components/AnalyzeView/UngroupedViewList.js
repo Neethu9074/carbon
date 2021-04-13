@@ -44,7 +44,8 @@ function List(props) {
     loadMore,
     withoutListItemLinkToDetails,
     progress,
-    withEmbeddedLoadingIndicator = false
+    withEmbeddedLoadingIndicator = false,
+    tracker
   } = props;
   return (
     <>
@@ -64,7 +65,14 @@ function List(props) {
               </Li>
             );
           })}
-          {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
+          {canLoadMore && (
+            <LoadMoreLi
+              loadMore={() => {
+                loadMore();
+                tracker?.loadMoreClicked();
+              }}
+            />
+          )}
         </Ul>
       )}
       {withEmbeddedLoadingIndicator && isLoading ? (

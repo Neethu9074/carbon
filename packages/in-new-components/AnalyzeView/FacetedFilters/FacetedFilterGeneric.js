@@ -21,61 +21,19 @@ import { isBlank } from 'in-services/util/string';
 
 import locals from './FacetedFilterGeneric.mless';
 
-export default function FacetedFilterGeneric({
-  title,
-  formModel,
-  formModelExcludingMissingGroupingTag,
-  tag,
-  entity,
-  getFacetedGroupLabel,
-  hiddenCalls,
-  getUpdatedTagExpressionHref,
-  getHrefToGroupedView,
-  openByDefault,
-  dataSource,
-  getSuggestions,
-  customLabelMapper,
-  enableUseAsGroup = true,
-  groupbyTag,
-  tagCatalog
-}) {
+export default function FacetedFilterGeneric(props) {
+  const { title, tag, openByDefault, enableUseAsGroup = true, groupbyTag } = props;
+
   return (
     <FacetedExpandableCard title={title} openByDefault={openByDefault}>
-      <Body
-        formModel={formModel}
-        formModelExcludingMissingGroupingTag={formModelExcludingMissingGroupingTag}
-        tag={tag}
-        entity={entity}
-        hiddenCalls={hiddenCalls}
-        getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
-        getHrefToGroupedView={getHrefToGroupedView}
-        getFacetedGroupLabel={getFacetedGroupLabel}
-        dataSource={dataSource}
-        getSuggestions={getSuggestions}
-        customLabelMapper={customLabelMapper}
-        enableUseAsGroup={enableUseAsGroup && tag !== groupbyTag}
-        tagCatalog={tagCatalog}
-      />
+      <Body {...props} enableUseAsGroup={enableUseAsGroup && tag !== groupbyTag} />
     </FacetedExpandableCard>
   );
 }
 
-function Body({
-  formModel,
-  formModelExcludingMissingGroupingTag,
-  tag,
-  entity,
-  title,
-  hiddenCalls,
-  getFacetedGroupLabel,
-  getUpdatedTagExpressionHref,
-  getHrefToGroupedView,
-  dataSource,
-  getSuggestions,
-  customLabelMapper,
-  enableUseAsGroup,
-  tagCatalog
-}) {
+function Body(props) {
+  const { formModel, tag, entity, title, getUpdatedTagExpressionHref, customLabelMapper } = props;
+
   const [valueFilter, setValueFilter] = useState('');
   const selectedValues = getExistingValuesForTag(formModel, tag, entity);
   if (selectedValues.length > 0) {
@@ -90,24 +48,7 @@ function Body({
       />
     );
   }
-  return (
-    <SearchAndSuggestions
-      formModel={formModel}
-      formModelExcludingMissingGroupingTag={formModelExcludingMissingGroupingTag}
-      hiddenCalls={hiddenCalls}
-      tag={tag}
-      getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
-      getHrefToGroupedView={getHrefToGroupedView}
-      getFacetedGroupLabel={getFacetedGroupLabel}
-      valueFilter={valueFilter}
-      setValueFilter={setValueFilter}
-      dataSource={dataSource}
-      getSuggestions={getSuggestions}
-      customLabelMapper={customLabelMapper}
-      enableUseAsGroup={enableUseAsGroup}
-      tagCatalog={tagCatalog}
-    />
-  );
+  return <SearchAndSuggestions {...props} valueFilter={valueFilter} setValueFilter={setValueFilter} />;
 }
 
 function ExistingFilters({ selectedValues, tag, entity, getUpdatedTagExpressionHref, customLabelMapper = identity }) {
@@ -148,7 +89,8 @@ function SearchAndSuggestions({
   getSuggestions,
   customLabelMapper = identity,
   enableUseAsGroup,
-  tagCatalog
+  tagCatalog,
+  tracker
 }) {
   const timeConfig = useTimeConfig();
   const tagDefinition = tagCatalog?.tags.find(tagEntry => tagEntry.name === tag);
@@ -204,6 +146,7 @@ function SearchAndSuggestions({
         customLabelMapper={customLabelMapper}
         dataSource={dataSource}
         enableUseAsGroup={enableUseAsGroup}
+        tracker={tracker}
       />
     </Stack>
   );

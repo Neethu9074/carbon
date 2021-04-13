@@ -81,6 +81,7 @@ export default function GroupedAnalyzeView(props) {
     withoutChartGroupMarkers = false,
     chartedMetrics,
     filteringTagCatalog,
+    tracker,
     groupingTagCatalog
   } = props;
   const timeConfig = useTimeConfig();
@@ -347,7 +348,14 @@ export default function GroupedAnalyzeView(props) {
                   </Li>
                 );
               })}
-              {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
+              {canLoadMore && (
+                <LoadMoreLi
+                  loadMore={() => {
+                    loadMore();
+                    tracker?.loadMoreClicked();
+                  }}
+                />
+              )}
             </Ul>
           )}
           {isValid && (
