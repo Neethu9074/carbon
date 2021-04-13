@@ -6,13 +6,14 @@
 import React from 'react';
 
 import getVersionsForLambdaFunction from 'in-subscription/getVersionsForLambdaFunction';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 export default connectTo(
   props => ({
@@ -24,7 +25,16 @@ export default connectTo(
   }),
   function DashboardVersionsList({ versions }) {
     if (!versions || versions.length === 0) {
-      return null;
+      return (
+        <DashboardNotification type="info">
+          <Trans
+            i18nKey="in-forge:plugins.awsLambdaFunction.noVersions"
+            components={{
+              installLink: <a href="https://instana.com/docs/ecosystem/aws#installation" />
+            }}
+          />
+        </DashboardNotification>
+      );
     }
 
     const cols = [

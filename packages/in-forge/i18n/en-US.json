@@ -3026,7 +3026,8 @@
       "headerLambdaFunctionInfo": "Lambda Function Info",
       "headerServicesLATEST": "Services for $LATEST",
       "labelVersions": "Versions",
-      "descriptionLambda": "It seems you are not monitoring this Lambda with an Instana agent. Setting up an AWS agent for the corresponding AWS account is a pre-requisite for native Lambda tracing. Please check our documentation on that, in particular the <installLink>AWS agent installation docs</installLink>."
+      "descriptionLambda": "It seems you are not monitoring this Lambda with an Instana agent. Setting up an AWS agent for the corresponding AWS account is a pre-requisite for native Lambda tracing. Please check our documentation on that, in particular the <installLink>AWS agent installation docs</installLink>.",
+      "noVersions": "We do not have data about individual versions of this Lambda function. Did you set up monitoring with the AWS agent for this AWS account and region? Please check our documentation on that, in particular the <installLink>AWS agent installation docs</installLink>."
     },
     "awsLambdaVersion": {
       "titleLambdaFunction": "Lambda Function",
