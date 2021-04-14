@@ -71,6 +71,18 @@ export function getLatestGlobalAlertConfig(id, config = { asObservable: false })
     : http(requestConfig).map(response => response.body);
 }
 
+export function getGlobalAlertConfigByIdAndTimestamp(id, timestamp) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}`,
+    queryParams: {
+      validOn: timestamp
+    }
+  }).map(response => response.body);
+}
+
 export function enableGlobalAlertConfig(id, config = { asObservable: false }) {
   const requestConfig = {
     method: 'PUT',
