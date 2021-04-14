@@ -7,6 +7,8 @@ import {
   track,
   ANALYZE_UA2_FACETED_SEARCH_FILTER_ADDED,
   ANALYZE_UA2_FACETED_SEARCH_GROUP_CHANGED,
+  ANALYZE_UA2_FACETED_SEARCH_FILTER_OPENED,
+  ANALYZE_UA2_FACETED_SEARCH_FILTER_CLOSED,
   ANALYZE_UA2_METRIC_ADDED,
   ANALYZE_UA2_METRIC_REMOVED,
   ANALYZE_UA2_ORDER_BY_CHANGED,
@@ -15,6 +17,8 @@ import {
 
 export const ua2FacetedSearchFilterAddedTracker = e => track(ANALYZE_UA2_FACETED_SEARCH_FILTER_ADDED, e);
 export const ua2FacetedSearchGroupChangedTracker = e => track(ANALYZE_UA2_FACETED_SEARCH_GROUP_CHANGED, e);
+export const ua2FacetedSearchFilterOpenedTracker = e => track(ANALYZE_UA2_FACETED_SEARCH_FILTER_OPENED, e);
+export const ua2FacetedSearchFilterClosedTracker = e => track(ANALYZE_UA2_FACETED_SEARCH_FILTER_CLOSED, e);
 export const ua2MetricAddedTracker = e => track(ANALYZE_UA2_METRIC_ADDED, e);
 export const ua2MetricRemovedTracker = e => track(ANALYZE_UA2_METRIC_REMOVED, e);
 export const ua2OrderByChangedTracker = e => track(ANALYZE_UA2_ORDER_BY_CHANGED, e);

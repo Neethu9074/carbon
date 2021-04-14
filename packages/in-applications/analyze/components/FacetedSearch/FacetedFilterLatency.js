@@ -31,7 +31,12 @@ export default function FacetedFilterLatency({
   openByDefault
 }) {
   return (
-    <FacetedExpandableCard title={title} openByDefault={openByDefault}>
+    <FacetedExpandableCard
+      title={title}
+      openByDefault={openByDefault}
+      tag={dataSourceConstants[dataSource].latencyTag}
+      dataSource={dataSource}
+    >
       <Body
         dataSource={dataSource}
         tagFilterExpression={tagFilterExpression}

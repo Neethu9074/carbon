@@ -40,7 +40,7 @@ export default function FacetedFilterGeneric({
   tagCatalog
 }) {
   return (
-    <FacetedExpandableCard title={title} openByDefault={openByDefault}>
+    <FacetedExpandableCard title={title} openByDefault={openByDefault} tag={tag} dataSource={dataSource}>
       <Body
         formModel={formModel}
         formModelExcludingMissingGroupingTag={formModelExcludingMissingGroupingTag}

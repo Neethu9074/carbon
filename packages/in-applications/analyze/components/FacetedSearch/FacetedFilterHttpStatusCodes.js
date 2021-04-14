@@ -27,7 +27,7 @@ const ranges = [
 
 export default function FacetedFilterHttpStatusCodes({ title, tagFilterExpression, updateFilter, dataSource }) {
   return (
-    <FacetedExpandableCard title={title}>
+    <FacetedExpandableCard title={title} tag={tag} dataSource={dataSource}>
       <Body tagFilterExpression={tagFilterExpression} updateFilter={updateFilter} dataSource={dataSource} />
     </FacetedExpandableCard>
   );
