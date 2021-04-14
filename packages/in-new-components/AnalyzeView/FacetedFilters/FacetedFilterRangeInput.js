@@ -33,7 +33,7 @@ export default function FacetedFilterRangeInput({
   dataSource
 }) {
   return (
-    <FacetedExpandableCard title={title} openByDefault={openByDefault}>
+    <FacetedExpandableCard title={title} openByDefault={openByDefault} tag={tag} dataSource={dataSource}>
       <Body
         tag={tag}
         formModel={formModel}

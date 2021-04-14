@@ -214,5 +214,10 @@ module.exports = exports = [
     uiClientKey: 'hideEventsSettings',
     instanaCtlKey: 'feature.settings.team.events.hide',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'openFacetedSearchByDefault',
+    instanaCtlKey: 'feature.facetedsearch.open.default',
+    defaultValue: false
   }
 ];

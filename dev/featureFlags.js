@@ -47,5 +47,6 @@ module.exports = {
   authenticationOidcEnabled: true,
   syntheticCallsEnabled: true,
   applicationHealthOverviewEnabled: true,
-  hideEventsSettings: true
+  hideEventsSettings: true,
+  openFacetedSearchByDefault: true
 };

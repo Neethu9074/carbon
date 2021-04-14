@@ -36,7 +36,7 @@ export default function FacetedFilterGeneric({
   tagCatalog
 }) {
   return (
-    <FacetedExpandableCard title={title}>
+    <FacetedExpandableCard title={title} tag={tag} dataSource={dataSource}>
       <Body
         tagFilterExpression={tagFilterExpression}
         tag={tag}

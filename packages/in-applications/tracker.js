@@ -14,6 +14,8 @@ import {
   ANALYZE_UA2_FACETED_SEARCH_GROUP_CHANGED,
   ANALYZE_UA2_FACETED_SEARCH_SYNTHETIC_CALLS_TOGGLED,
   ANALYZE_UA2_FACETED_SEARCH_INTERNAL_CALLS_TOGGLED,
+  ANALYZE_UA2_FACETED_SEARCH_FILTER_OPENED,
+  ANALYZE_UA2_FACETED_SEARCH_FILTER_CLOSED,
   ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED,
   ANALYZE_UA2_GROUP_CHANGED,
   ANALYZE_UA2_CHART_CHANGED,
@@ -38,6 +40,8 @@ export const ua2FacetedSearchSyntheticCallsToggledTracker = e =>
   track(ANALYZE_UA2_FACETED_SEARCH_SYNTHETIC_CALLS_TOGGLED, e);
 export const ua2FacetedSearchInternalCallsToggledTracker = e =>
   track(ANALYZE_UA2_FACETED_SEARCH_INTERNAL_CALLS_TOGGLED, e);
+export const ua2FacetedSearchFilterOpenedTracker = e => track(ANALYZE_UA2_FACETED_SEARCH_FILTER_OPENED, e);
+export const ua2FacetedSearchFilterClosedTracker = e => track(ANALYZE_UA2_FACETED_SEARCH_FILTER_CLOSED, e);
 export const ua2QueryBuilderFilterAddedTracker = e => track(ANALYZE_UA2_QUERY_BUILDER_FILTER_ADDED, e);
 export const ua2GroupChangedTracker = e => track(ANALYZE_UA2_GROUP_CHANGED, e);
 export const ua2ChartChangedTracker = e => track(ANALYZE_UA2_CHART_CHANGED, e);
