@@ -21,6 +21,7 @@ export default function WidgetPreview({ form, onChange }) {
 
   const widget = widgets[form.get('type').value];
   const config = form.get('config').toJS();
+
   if (form.hierarchyValid) {
     content = (
       <LocallyChangedTheme theme={lightV2}>

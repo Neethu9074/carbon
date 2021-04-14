@@ -4,7 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import { trackSliChanged } from 'in-custom-dashboards/widgets/Slo/tracker';
@@ -16,9 +16,17 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 export default function SliSelectionForm({ form, onChange, applicationId, openManageSLIComponent }) {
-  const { data: sliConfigurations } = useObservable(getSliConfigurations, []) ?? {};
+  const { data: sliConfigurations, progress } = useObservable(getSliConfigurations, []) ?? {};
   const filteredSLIs = sliConfigurations?.filter(sli => sli?.sliEntity?.applicationId === applicationId) ?? [];
-  const field = form.get(sliConfigId);
+  const sliField = form.get(sliConfigId);
+
+  useEffect(() => {
+    if (isSliConfigDeleted(sliField, filteredSLIs, progress)) {
+      onChange([], form => form.updateIn([sliConfigId], field => field.setValue(undefined).setTouched(true)));
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sliField, filteredSLIs, progress]);
 
   return (
     <Sections>
@@ -26,15 +34,15 @@ export default function SliSelectionForm({ form, onChange, applicationId, openMa
         label={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.srvLevelIndicator')}
         id="sli-selection"
         disabled={!applicationId}
-        value={field?.value}
+        value={sliField.value}
         onChange={e => {
           onChange([], form => form.updateIn([sliConfigId], field => field.setValue(e.target.value).setTouched(true)));
           trackSliChanged({ sliConfigId: e.target.value });
         }}
-        hasError={!field.valid && field.touched}
+        hasError={!sliField.valid && sliField.touched}
         additionalContent={
           <OverridingTextTouchedMessage
-            field={field}
+            field={sliField}
             message={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.selectASli')}
           />
         }
@@ -57,3 +65,7 @@ export default function SliSelectionForm({ form, onChange, applicationId, openMa
     </Sections>
   );
 }
+
+const isSliConfigDeleted = (sliField, filteredSLIs, progress) => {
+  return sliField.value && progress?.loading === false && !filteredSLIs.some(({ id }) => sliField.value === id);
+};

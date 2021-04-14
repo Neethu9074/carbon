@@ -30,9 +30,13 @@ import { getSliConfiguration } from 'in-custom-dashboards/api';
 import LightCardV2 from 'in-new-components/Card/LightCardV2';
 import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
 import { pendingResult } from 'in-services/fixedObjects';
+import Message from 'in-new-components/Message/Message';
+import { error } from 'in-new-components/Message/types';
 import { alwaysNull } from 'in-services/fixedStreams';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { hasError } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './Widget.mless';
 
@@ -47,7 +51,6 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   const slo = config?.[sloTarget] ?? '';
   const applicationId = config?.[apConfigId];
   const sliConfigIdValue = config?.[sliConfigId];
-
   const timeWindowTypeValue = config?.[timeWindowType] ?? dynamic;
   const isDynamic = timeWindowTypeValue === dynamic;
   const isRolling = timeWindowTypeValue === rolling;
@@ -80,38 +83,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   };
 
   const granularity = getGranularity(timeWindowConfig);
-  const metrics = {
-    consumed: {
-      ...metricBaseConfig,
-      metric: 'CONSUMED_ERROR_BUDGET_CHART',
-      granularity
-    },
-    sli: {
-      ...metricBaseConfig,
-      resultType: 'SINGLE_NUMBER',
-      metric: 'SLI'
-    },
-    spent: {
-      ...metricBaseConfig,
-      resultType: 'SINGLE_NUMBER',
-      metric: 'ERROR_BUDGET_SPENT'
-    },
-    remaining: {
-      ...metricBaseConfig,
-      resultType: 'SINGLE_NUMBER',
-      metric: 'ERROR_BUDGET_REMAINING'
-    },
-    budget: {
-      ...metricBaseConfig,
-      resultType: 'SINGLE_NUMBER',
-      metric: 'TOTAL_ERROR_BUDGET'
-    },
-    hourlyBudget: {
-      ...metricBaseConfig,
-      metric: 'HOURLY_ERROR_BUDGET_CHART',
-      granularity
-    }
-  };
+  const metrics = getMetrics(metricBaseConfig, granularity);
 
   const result = useObservable(() => getUnifiedMetricsObservable(metrics), [timeConfig, config]) ?? pendingResult;
 
@@ -148,12 +120,11 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
         sliEntity={sliConfig?.sliEntity}
       />
       <div className={locals.chart}>
-        <Chart
+        <WidgetContent
           result={result}
+          sliConfigIdValue={sliConfigIdValue}
           timeConfig={timeWindowConfig}
           granularity={granularity}
-          consumed={filterAvailableData(findResultMetric(result, 'consumed', result))}
-          hourlyBudget={filterAvailableData(findResultMetric(result, 'hourlyBudget', result))}
           budget={budget}
           sliConfig={sliConfig}
           isPreview={isPreview}
@@ -264,3 +235,69 @@ function getUnifiedMetricsObservable(metrics) {
 function getSliConfigurationObservable([sliConfigIdValue]) {
   return getSliConfiguration(sliConfigIdValue).map(({ data }) => data);
 }
+
+const getMetrics = (metricBaseConfig, granularity) => {
+  return {
+    consumed: {
+      ...metricBaseConfig,
+      metric: 'CONSUMED_ERROR_BUDGET_CHART',
+      granularity
+    },
+    sli: {
+      ...metricBaseConfig,
+      resultType: 'SINGLE_NUMBER',
+      metric: 'SLI'
+    },
+    spent: {
+      ...metricBaseConfig,
+      resultType: 'SINGLE_NUMBER',
+      metric: 'ERROR_BUDGET_SPENT'
+    },
+    remaining: {
+      ...metricBaseConfig,
+      resultType: 'SINGLE_NUMBER',
+      metric: 'ERROR_BUDGET_REMAINING'
+    },
+    budget: {
+      ...metricBaseConfig,
+      resultType: 'SINGLE_NUMBER',
+      metric: 'TOTAL_ERROR_BUDGET'
+    },
+    hourlyBudget: {
+      ...metricBaseConfig,
+      metric: 'HOURLY_ERROR_BUDGET_CHART',
+      granularity
+    }
+  };
+};
+
+const isConfiguredSliDeleted = (result, sliConfigIdValue) => {
+  return (
+    hasError(result) &&
+    result.errors.some(
+      ({ message }) => message === `The SliConfiguration for the id ${sliConfigIdValue} does not exist`
+    )
+  );
+};
+
+const WidgetContent = ({ result, sliConfigIdValue, ...otherChartProps }) => {
+  if (isConfiguredSliDeleted(result, sliConfigIdValue)) {
+    return (
+      <Message
+        type={error}
+        withIcon
+        title={t('in-custom-dashboards:widgets.chart.errorTitleForConfiguredSliDeletion')}
+        description={t('in-custom-dashboards:widgets.chart.errorDescriptionToConfigureOtherSLI')}
+      />
+    );
+  }
+
+  return (
+    <Chart
+      result={result}
+      consumed={filterAvailableData(findResultMetric(result, 'consumed', result))}
+      hourlyBudget={filterAvailableData(findResultMetric(result, 'hourlyBudget', result))}
+      {...otherChartProps}
+    />
+  );
+};

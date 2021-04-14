@@ -279,7 +279,9 @@
         "sharemaxValue": "Share the max values between the axes",
         "auto": "Auto"
       },
-      "atLeastOneDatasetIsRequired": "At least one dataset is required."
+      "atLeastOneDatasetIsRequired": "At least one dataset is required.",
+      "errorTitleForConfiguredSliDeletion": "Configured SLI has been deleted",
+      "errorDescriptionToConfigureOtherSLI": "Please update the SLO widget by selecting another SLI"
     },
     "formCompChart": {
       "colorConfiguratorChart": {
