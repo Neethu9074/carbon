@@ -5874,7 +5874,6 @@
       "clusterSize": "Cluster size",
       "nodes": "Nodes",
       "masterNodes": "Master nodes",
-      "redis": "Redis",
       "redisCluster": "Redis Cluster"
     },
     "redisEnterpriseCluster": {
@@ -5913,7 +5912,6 @@
         "shardsWithCount": "Shards ({{len}})",
         "redisEnterpriseCluster": "Redis Enterprise Cluster"
       },
-      "redisEnterprise": "Redis Enterprise",
       "name": "Name",
       "throughputOpsSecond": "Throughput (Ops/Second)",
       "keyspaceHits": "Keyspace Hits",

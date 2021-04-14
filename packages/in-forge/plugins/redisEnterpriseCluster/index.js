@@ -15,6 +15,6 @@ registerSnapshotDefinition({
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {
-    label: t('in-forge:plugins.redisEnterpriseCluster.redisEnterprise')
+    label: t('in-forge:plugins.redisEnterpriseCluster.redisEnterpriseCluster')
   }
 });
