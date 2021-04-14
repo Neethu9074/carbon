@@ -15,6 +15,6 @@ registerSnapshotDefinition({
   kpiDefinitions,
   metricDefinitions,
   technologyDescriptor: {
-    label: t('in-forge:plugins.redisCluster.redis')
+    label: t('in-forge:plugins.redisCluster.redisCluster')
   }
 });
