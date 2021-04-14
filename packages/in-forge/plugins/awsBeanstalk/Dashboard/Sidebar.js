@@ -24,18 +24,22 @@ export default function AwsBeanstalkSidebar({ snapshot }) {
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
-      <Collapsible initiallyOpen={false}>
-        <Collapsible.Header>
-          {t('in-forge:plugins.awsBeanstalk.titleInstances', { len: instanceIds.size })}
-        </Collapsible.Header>
-        <Collapsible.Content>
-          <List>
-            {instanceIds.map((id, i) => (
-              <List.Item key={i}>{id}</List.Item>
-            ))}
-          </List>
-        </Collapsible.Content>
-      </Collapsible>
+
+      {instanceIds && instanceIds.size > 0 && (
+        <Collapsible initiallyOpen={false}>
+          <Collapsible.Header>
+            {t('in-forge:plugins.awsBeanstalk.titleInstances', { len: instanceIds.size })}
+          </Collapsible.Header>
+          <Collapsible.Content>
+            <List>
+              {instanceIds.map((id, i) => (
+                <List.Item key={i}>{id}</List.Item>
+              ))}
+            </List>
+          </Collapsible.Content>
+        </Collapsible>
+      )}
+
       <TagList snapshot={snapshot} />
 
       <ServiceInstancesList snapshot={snapshot} />
