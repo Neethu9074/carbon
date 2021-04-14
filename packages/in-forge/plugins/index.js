@@ -42,6 +42,7 @@ import './nodeJsRuntimePlatform';
 import './phpFpmRuntimePlatform';
 import './pythonRuntimePlatform';
 import './tanzuFoundationMember';
+import './ibmCloudClinicalData';
 import './ibmCloudLoadBalancer';
 import './elasticsearchCluster';
 import './googleCloudDatastore';

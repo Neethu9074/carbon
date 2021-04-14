@@ -468,6 +468,11 @@
   "pluginName_httpd": "Apache HTTPd",
   "pluginName_ibmCics": "IBM CICS",
   "pluginName_ibmCics_plural": "IBM CICS",
+  "pluginName_ibmCloudClinicalData_plural": "IBM Clinical Datas",
+  "pluginName_ibmCloudClinicalData_0": "IBM Clinical Datas",
+  "pluginName_ibmCloudClinicalData_1": "IBM Clnical Datas",
+  "pluginName_ibmCloudClinicalData_2": "IBM Clinical Datas",
+  "pluginName_ibmCloudClinicalData": "IBM Clinical Data",
   "pluginName_ibmCloudCloudant_plural": "IBM Cloudants",
   "pluginName_ibmCloudCloudant_0": "IBM Cloudants",
   "pluginName_ibmCloudCloudant_1": "IBM Cloudants",
@@ -7330,6 +7335,17 @@
       "cpuLoad": "CPU load",
       "trafficPerRequest": "Traffic per request",
       "busyWorkers": "Busy workers"
+    },
+    "ibmCloudClinicalData": {
+      "ibmClinicalData": "IBM Clinical Data",
+      "ibmCloudClinicalData": "IBM Cloud Clinical Data",
+      "kind": "Kind",
+      "name": "Name",
+      "labelApiCalls": "API Calls",
+      "labelCallsCount": "Calls",
+      "labelRequestSizeBytes": "Request Size",
+      "labelTimeSeconds": "Response Time",
+      "labelZone": "Zone"
     },
     "ibmCloudCloudant": {
       "labelName": "Name",
