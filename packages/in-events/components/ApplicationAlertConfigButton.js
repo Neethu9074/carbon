@@ -7,17 +7,21 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { applicationsAlertingEventDetailsViewEditConfig } from 'in-alerting/smart-alerts/applications/tracker';
-import { goToAlertConfig } from 'in-applications/navigation/paths';
+import { goToAlertConfig, goToGlobalAlertConfig } from 'in-applications/navigation/paths';
 import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
-export default function ApplicationAlertConfigButton({ alertConfig }) {
+export default function ApplicationAlertConfigButton({ applicationId, alertConfig, isGlobalSmartAlert }) {
   return (
     <Button
       kind="secondary"
       onClick={() => {
         applicationsAlertingEventDetailsViewEditConfig({ id: alertConfig.id });
-        goToAlertConfig(alertConfig.id, alertConfig.created, alertConfig.applicationId);
+        if (isGlobalSmartAlert) {
+          goToGlobalAlertConfig(alertConfig.id, alertConfig.created, applicationId);
+        } else {
+          goToAlertConfig(alertConfig.id, alertConfig.created, applicationId);
+        }
       }}
     >
       {t('in-events:buttonViewAlertConfig')}
@@ -26,5 +30,10 @@ export default function ApplicationAlertConfigButton({ alertConfig }) {
 }
 
 ApplicationAlertConfigButton.propTypes = {
-  alertConfig: PropTypes.object.isRequired
+  applicationId: PropTypes.string.isRequired,
+  alertConfig: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    created: PropTypes.number
+  }),
+  isGlobalSmartAlert: PropTypes.bool
 };

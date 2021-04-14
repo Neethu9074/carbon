@@ -19,6 +19,11 @@ import {
   snapshotId as matrixSnapshotId,
   plugin as matrixPlugin
 } from 'in-applications/navigation/matrix';
+import {
+  categoryGlobal,
+  categoryLocal,
+  alertsCategoryMatrixParam
+} from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { getTagFilterToUrlString } from 'in-analyze/filterBuilder';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -228,15 +233,27 @@ export function goToAlertConfig(alertConfigId, alertConfigVersion, applicationId
   });
 }
 
+export function goToGlobalAlertConfig(alertConfigId, alertConfigVersion, applicationId) {
+  mutateUrl(location => {
+    fillAlertTabSpecificValues(location, applicationId, alertConfigId, alertConfigVersion, true);
+  });
+}
+
 export function getAlertConfig(alertConfigId, applicationId) {
   return getModifiedUrlStream(params => {
     fillAlertTabSpecificValues(params, applicationId, alertConfigId, null);
   });
 }
 
-function fillAlertTabSpecificValues(params, applicationId, alertConfigId, alertConfigVersion) {
+function fillAlertTabSpecificValues(params, applicationId, alertConfigId, alertConfigVersion, isGlobalSmartAlert) {
   params.pathname = alertsTabDetailsFullyQualified;
   setOrDeleteMatrixKey(params, applicationDashboard, applicationIdMatrixParam, applicationId);
   setOrDeleteMatrixKey(params, alertsTab, alertIdMatrixParam, alertConfigId);
   setOrDeleteMatrixKey(params, alertsTab, alertCreatedMatrixParam, alertConfigVersion);
+  setOrDeleteMatrixKey(
+    params,
+    alertsTab,
+    alertsCategoryMatrixParam,
+    isGlobalSmartAlert ? categoryGlobal : categoryLocal
+  );
 }
