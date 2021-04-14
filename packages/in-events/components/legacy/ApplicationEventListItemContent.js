@@ -35,6 +35,8 @@ export default function ApplicationEventListItemContent({ event }) {
     return null;
   }
 
+  const isGlobalSmartAlert = event.getIn(['metadata', 'globalSmartAlert'], false);
+  const { applicationId } = eventEntity;
   const alertType = alertConfig.rule.alertType;
 
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -50,7 +52,11 @@ export default function ApplicationEventListItemContent({ event }) {
     <>
       <ProblemDescription event={event} />
       <DescriptionButtons>
-        <ApplicationAlertConfigButton alertConfig={alertConfig} />
+        <ApplicationAlertConfigButton
+          applicationId={applicationId}
+          alertConfig={alertConfig}
+          isGlobalSmartAlert={isGlobalSmartAlert}
+        />
         <AnalyzeApplicationEventButton {...eventEntity} alertConfig={alertConfig} timeConfig={analyzeTimeConfig} />
       </DescriptionButtons>
       <div className={locals.sectionWrapper}>

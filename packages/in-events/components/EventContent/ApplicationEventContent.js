@@ -38,6 +38,8 @@ export default function ApplicationEventContent({ event }) {
     return null;
   }
 
+  const isGlobalSmartAlert = event.getIn(['metadata', 'globalSmartAlert'], false);
+  const { applicationId } = eventEntity;
   const { tagFilterExpression, rule, boundaryScope } = alertConfig;
   const alertType = rule.alertType;
 
@@ -65,7 +67,11 @@ export default function ApplicationEventContent({ event }) {
 
             <ProblemDescription event={event} />
             <DescriptionButtons>
-              <ApplicationAlertConfigButton alertConfig={alertConfig} />
+              <ApplicationAlertConfigButton
+                applicationId={applicationId}
+                alertConfig={alertConfig}
+                isGlobalSmartAlert={isGlobalSmartAlert}
+              />
               <AnalyzeApplicationEventButton
                 {...eventEntity}
                 alertConfig={alertConfig}
