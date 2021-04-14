@@ -63,7 +63,7 @@ export default function FacetedFilterHiddenCalls({
   }, [hasIsInternal]);
 
   return (
-    <FacetedExpandableCard title={title} openByDefault={openByDefault}>
+    <FacetedExpandableCard title={title} openByDefault={openByDefault} tag={'hiddenCalls'} dataSource={dataSource}>
       <HiddenCallCheck
         label={t('in-applications:analyze.facetedSearch.showSyntheticCalls')}
         checked={includeSynthetic || hasIsSynthetic}

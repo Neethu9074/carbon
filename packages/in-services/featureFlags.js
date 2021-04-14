@@ -56,6 +56,7 @@ export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
 export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled');
 export const hideEventSettings = isFeatureFlagEnabled('hideEventsSettings', false);
+export const openFacetedSearchByDefault = isFeatureFlagEnabled('openFacetedSearchByDefault', false);
 
 // ########################################################################################
 // Dynamic focus keywords

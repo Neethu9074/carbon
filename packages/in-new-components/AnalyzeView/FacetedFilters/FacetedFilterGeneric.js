@@ -23,10 +23,10 @@ import { isBlank } from 'in-services/util/string';
 import locals from './FacetedFilterGeneric.mless';
 
 export default function FacetedFilterGeneric(props) {
-  const { title, tag, openByDefault, enableUseAsGroup = true, groupbyTag } = props;
+  const { title, tag, openByDefault, enableUseAsGroup = true, groupbyTag, dataSource } = props;
 
   return (
-    <FacetedExpandableCard title={title} openByDefault={openByDefault}>
+    <FacetedExpandableCard title={title} openByDefault={openByDefault} tag={tag} dataSource={dataSource}>
       <Body {...props} enableUseAsGroup={enableUseAsGroup && tag !== groupbyTag} />
     </FacetedExpandableCard>
   );
