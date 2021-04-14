@@ -14,6 +14,7 @@ import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
+import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { formatDateTime } from 'in-services/formatters/date';
 import HealthDot from 'in-new-components/health/HealthDot';
 import getLogs from 'in-logging/subscriptions/getLogs';
@@ -94,7 +95,7 @@ function getData({ traceId, timeConfigForLogs, afterKey, beforeKey }) {
     afterKey,
     beforeKey,
     logicalOperator: 'AND',
-    logTagFilterExpression: { type: 'TAG_FILTER', name: 'log.traceId', value: traceId, operator: 'EQUALS' },
+    logTagFilterExpression: getTraceIdTagFilter(traceId),
     infraTagFilterExpression: emptyTagFilterExpression
   });
 }

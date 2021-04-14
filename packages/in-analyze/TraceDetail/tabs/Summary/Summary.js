@@ -28,6 +28,7 @@ import { loggingEnabledOnTrace } from 'in-services/featureFlags';
 import { number, latency } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import { callDetailClickedTracker } from 'in-analyze/tracker';
+import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import Logs from 'in-analyze/TraceDetail/components/Logs';
 import { traceDetail } from 'in-analyze/navigation/paths';
 import { warning } from 'in-new-components/Message/types';
@@ -335,9 +336,7 @@ class Summary extends React.Component {
                         kind="secondary"
                         icon="lib_analyze"
                         href$={getLinkToAnalyze({
-                          tagFilterExpression: [
-                            { type: 'TAG_FILTER', operator: 'EQUALS', name: 'log.traceId', value: traceId }
-                          ],
+                          tagFilterExpression: [getTraceIdTagFilter(traceId)],
                           timeConfig: timeConfigForLogs
                         })}
                       >
