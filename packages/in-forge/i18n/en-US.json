@@ -9005,7 +9005,8 @@
       "labelRemoteEndpointsCurrent": "Remote Endpoints Current",
       "labelDataSource": "Data Source",
       "labelJMSDestination": "JMS Destination",
-      "labelSAFAgent": "SAF Agent"
+      "labelSAFAgent": "SAF Agent",
+      "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {
       "titleName": "Name",
@@ -9040,7 +9041,8 @@
       "labelServlet": "Servlet",
       "labelServlets": "Servlets",
       "labelDatasource": "Datasource",
-      "labelDatasources": "Datasources"
+      "labelDatasources": "Datasources",
+      "webSphere": "WebSphere"
     },
     "webSphereLibertyAppContainer": {
       "titleName": "Name",
@@ -9075,7 +9077,8 @@
       "labelServlets": "Servlets",
       "labelPool": "Pool",
       "infoMonitorFeatureNotEnabled": "It seems that the monitor feature is not enabled. Please add the monitor-1.0 feature to server.xml and check that ws-javaagent.jar is loaded as -javaagent on server startup.",
-      "infoThreadPoolStatesNotAvailable": "Thread Pool stats are not available. There is a known problem when JMS features (WASJmsClient-1.1 and WASJmsServer-1.0) are enabled along with the monitor-1.0 feature in server.xml. Thread Pool stats mbean is overridden and not visible."
+      "infoThreadPoolStatesNotAvailable": "Thread Pool stats are not available. There is a known problem when JMS features (WASJmsClient-1.1 and WASJmsServer-1.0) are enabled along with the monitor-1.0 feature in server.xml. Thread Pool stats mbean is overridden and not visible.",
+      "webSphereLiberty": "WebSphere Liberty"
     },
     "zooKeeper": {
       "titleTicks": "Ticks",
