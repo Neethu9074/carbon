@@ -54,7 +54,7 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped, formMod
           if (activeConfiguration?.beta) {
             return (
               <FeatureFeedback
-                href={`https://docs.google.com/forms/d/e/1FAIpQLSejuUF8Gc-wQQN58ffivTnGjYe6OWdqVgLuBo59za3LTTMfIg/viewform?usp=pp_url&entry.558784134=${encodeURIComponent(
+                href={`https://docs.google.com/forms/d/e/1FAIpQLSdlmZfvaeJTcs6ZzIN7hJv2B2m1lAiux_He4Y5pUzPJWXCDxA/viewform?usp=pp_url&entry.1874481307=${encodeURIComponent(
                   window.location.href
                 )}`}
               />
