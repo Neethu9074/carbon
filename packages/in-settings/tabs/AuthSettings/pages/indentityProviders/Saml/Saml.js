@@ -57,6 +57,7 @@ export default function Saml() {
             result,
             idpMetadata: evt.target.result,
             setMessage,
+            ownerEmail: form.get('ownerEmail').value,
             spEntityId: form.get('spEntityId').value
           });
         };
@@ -244,9 +245,9 @@ function deleteItem({ setMessage }) {
   );
 }
 
-function saveItem({ setMessage, idpMetadata, spEntityId }) {
+function saveItem({ setMessage, ownerEmail, idpMetadata, spEntityId }) {
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: neutral, isSaving: true });
-  const setConfigResult$ = setConfig({ idpMetadata, spEntityId });
+  const setConfigResult$ = setConfig({ ownerEmail, idpMetadata, spEntityId });
   setConfigResult$.once(
     () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: success }),
     error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: errorType })
