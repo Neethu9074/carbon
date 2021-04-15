@@ -8,44 +8,43 @@ import { just } from '@instana/observables';
 import React, { useState } from 'react';
 
 import {
+  deleteAlertConfig,
+  disableAlertConfig,
+  enableAlertConfig,
   getAlertConfigByIdAndTimestamp,
   getAllVersionsOfAlertConfig,
   getLatestAlertConfig,
-  disableAlertConfig,
-  enableAlertConfig,
-  deleteAlertConfig,
   updateAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import {
-  applicationsAlertingAlertRevisionChanged,
+  applicationsAlertingAlertDeleted,
   applicationsAlertingAlertEdit,
   applicationsAlertingAlertPaused,
   applicationsAlertingAlertResumed,
-  applicationsAlertingAlertDeleted
+  applicationsAlertingAlertRevisionChanged
 } from 'in-alerting/smart-alerts/applications/tracker';
 import {
   deleteGlobalAlertConfig,
   disableGlobalAlertConfig,
   enableGlobalAlertConfig,
+  getLatestGlobalAlertConfig,
   updateGlobalAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import {
+  alertCreated as alertCreatedMatrixParam,
+  alertId as alertIdMatrixParam,
+  alertsCategory as alertsCategoryMatrixParam
+} from 'in-applications/navigation/matrix';
+import {
   alertsList,
+  alertsTab,
   alertsTabDetailsFullyQualified,
   alertsTabListFullyQualified,
   globalAlertDetails
 } from 'in-applications/navigation/paths';
-import {
-  alertsCategoryMatrixParam,
-  categoryGlobal
-} from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
-import {
-  alertCreated as alertCreatedMatrixParam,
-  alertId as alertIdMatrixParam
-} from 'in-applications/navigation/matrix';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
-import { getLatestGlobalAlertConfig } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import AlertConfiguration from 'in-applications/Dashboards/application/tabs/Alerts/AlertConfiguration';
+import { categoryGlobal } from 'in-alerting/smart-alerts/applications/inventory/constants';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -53,9 +52,8 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import getApplication from 'in-subscription/application/getApplication';
 import AlertHistoryList from 'in-alerting/components/AlertHistoryList';
 import AlertHeader from 'in-alerting/components/AlertHeader';
-import { alertsTab } from 'in-applications/navigation/paths';
 import { mutateUrl } from 'in-stores/navigation/navigation';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Col, Row } from 'in-new-components/layout/Grid';
 import SetBodyColor from 'in-components/SetBodyColor';
 import Footer from 'in-new-components/Footer/Footer';
 import Title from 'in-components/Title';

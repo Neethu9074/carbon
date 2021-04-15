@@ -10,6 +10,7 @@ import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
+import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/applications/inventory/constants';
 import EvaluationTypeColumn from 'in-alerting/smart-alerts/applications/inventory/EvaluationTypeColumn';
 import ListActionsColumn from 'in-alerting/smart-alerts/applications/inventory/ListActionsColumn';
 import ListFiltersColumn from 'in-alerting/smart-alerts/applications/inventory/ListFiltersColumn';
@@ -19,6 +20,7 @@ import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingLi
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import { ColumnizedContent, Li, Ul } from 'in-new-components/lists/List';
+import { alertsCategory } from 'in-applications/navigation/matrix';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { hasError, isLoading } from 'in-services/util/result';
 import { alertsTab } from 'in-applications/navigation/paths';
@@ -87,9 +89,6 @@ const sortOptions = [
   { label: t('in-alerting:smartAlerts.sortOptions.created'), value: 'created' }
 ];
 
-export const alertsCategoryMatrixParam = 'configsCategory';
-export const categoryLocal = 'local';
-export const categoryGlobal = 'global';
 const pageSize = 15;
 
 const urlStateDefinition = {
@@ -108,7 +107,7 @@ const urlStateDefinition = {
     },
     {
       path: alertsTab,
-      name: alertsCategoryMatrixParam,
+      name: alertsCategory,
       as: 'configsCategory',
       initialState: 'local' // "local" or "global"""
     },

@@ -8,36 +8,33 @@ import { get } from 'lodash';
 import React from 'react';
 
 import {
+  alertsList,
   applicationDashboard,
-  summaryTab,
   errorMessagesTab,
   logMessagesTab,
-  alertsList
+  summaryTab
 } from 'in-applications/navigation/paths';
-import {
-  alertsCategoryMatrixParam,
-  categoryGlobal
-} from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateGlobalSmartAlertButton';
 import IncludeSyntheticCallsDropdown from 'in-applications/Dashboards/commonComponents/IncludeSyntheticCallsDropdown';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
-import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
+import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
+import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-services/featureFlags';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
+import { categoryGlobal } from 'in-alerting/smart-alerts/applications/inventory/constants';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
-import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
+import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
-import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import getApplication from 'in-subscription/application/getApplication';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import tabs from 'in-applications/Dashboards/application/tabs/index';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
-import { syntheticCallsEnabled } from 'in-services/featureFlags';
+import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
+import { alertsCategory } from 'in-applications/navigation/matrix';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
@@ -123,7 +120,7 @@ function Header(props) {
 
 function renderButtonLine(props) {
   const { applicationId, timeConfig, boundaryScope, label, location, syntheticCalls } = props;
-  const isGlobalAlertConfig = getMatrixParameter(location, alertsList, alertsCategoryMatrixParam) === categoryGlobal;
+  const isGlobalAlertConfig = getMatrixParameter(location, alertsList, alertsCategory) === categoryGlobal;
 
   const AddSmartAlertButton = isGlobalAlertConfig ? (
     <CreateGlobalSmartAlertButton location={location} />
