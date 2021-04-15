@@ -520,7 +520,8 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
     t('in-waiting-for-deployment:runtime.java'),
     t('in-waiting-for-deployment:runtime.dotnet'),
     t('in-waiting-for-deployment:runtime.nodejs'),
-    t('in-waiting-for-deployment:runtime.python')
+    t('in-waiting-for-deployment:runtime.python'),
+    t('in-waiting-for-deployment:runtime.ruby')
   ];
   const baseImageOptions = [
     t('in-waiting-for-deployment:baseImg.glibcLinux'),
@@ -736,6 +737,34 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
         </GridRow>
       </Fragment>
     );
+  } else if (selectedRuntime === runtimeOptions[5]) {
+    steps = (
+      <Fragment>
+        <Spacer />
+
+        <TextWithLink
+          text={t(
+            'in-waiting-for-deployment:content.theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe'
+          )}
+          linkText={t('in-waiting-for-deployment:content.rubyDocumentation')}
+          href="https://instana.com/docs/ecosystem/ruby"
+        />
+        <Spacer />
+        <Description
+          lines={[t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEcsTaskDefinition')]}
+        />
+        <GridRow>
+          <Col xs={6}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+        </GridRow>
+      </Fragment>
+    );
   }
 
   return (
@@ -770,7 +799,8 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
     t('in-waiting-for-deployment:runtime.java'),
     t('in-waiting-for-deployment:runtime.nodejs10Plus'),
     t('in-waiting-for-deployment:runtime.nodejs8'),
-    t('in-waiting-for-deployment:runtime.python2and3')
+    t('in-waiting-for-deployment:runtime.python2and3'),
+    t('in-waiting-for-deployment:runtime.ruby')
   ];
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
   const awsRegionOptions = [
@@ -1274,6 +1304,39 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
             ]}
           />
         </HelpBox>
+      </Fragment>
+    );
+  } else if (selectedRuntime === runtimeOptions[5]) {
+    // Ruby
+    steps = (
+      <Fragment>
+        <Spacer />
+
+        <TextWithLink
+          text={t(
+            'in-waiting-for-deployment:content.awsLambdaFunctionsWrittenInRubyNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe'
+          )}
+          linkText={t('in-waiting-for-deployment:content.awsLambdaRubyDocumentation')}
+          href="https://instana.com/docs/ecosystem/aws-lambda/ruby"
+        />
+        <Spacer />
+        <Description
+          lines={[
+            t(
+              'in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEnvironmentVariablesSectionAtAwsLambdaConfigurationPage'
+            )
+          ]}
+        />
+        <GridRow>
+          <Col xs={6}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+        </GridRow>
       </Fragment>
     );
   }

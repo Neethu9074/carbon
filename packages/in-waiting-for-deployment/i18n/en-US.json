@@ -91,10 +91,16 @@
     "applicationDirectory": "Application directory",
     "theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "The support for Python on Fargate on ECS works the same way as with any Python application. Follow the instructions of the ",
     "pythonDocumentation": "Python documentation.",
+    "theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe": "The support for Ruby on Fargate on ECS works the same way as with any Ruby application. Follow the instructions of the ",
+    "rubyDocumentation": "Ruby documentation.",
+
     "supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs": "Support for AWS Fargate is designed to work with AWS Fargate on the Elastic Container Service (ECS).",
     "selectYourApplicationRuntime": "Select your application runtime:",
     "awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "AWS Lambda functions written in Go need to be manually instrumented in order to collect trace data. Follow the instructions of the ",
     "awsLambdaGoDocumentation": "AWS Lambda Go documentation.",
+    "awsLambdaFunctionsWrittenInRubyNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "AWS Lambda functions written in Ruuby need to be manually instrumented in order to collect trace data. Follow the instructions of the ",
+    "awsLambdaRubyDocumentation": "AWS Lambda Ruby documentation.",
+
     "setTheFollowingEnvironmentVariablesInTheEnvironmentVariablesSectionAtAwsLambdaConfigurationPage": "Set the following environment variables in the \"Environment Variables\" section at AWS Lambda configuration page:",
     "configuringYourAwsLambdaFunction": "Configuring Your AWS Lambda Function",
     "noteThatTheJava8RuntimeIsNotSupportedCurrentlyOnlySupportedRuntimesAreJava8A12AndJava11": "Note that the `java8` runtime is not supported. Currently only supported runtimes are `java8.a12` and `java11`.",
@@ -282,7 +288,8 @@
     "nodejs8": "Node.js 8.x",
     "nodejs10Plus": "Node.js 10.x or newer",
     "python": "Python",
-    "python2and3": "Python 2.7 and 3.x"
+    "python2and3": "Python 2.7 and 3.x",
+    "ruby": "Ruby"
   },
   "baseImg": {
     "glibcLinux": "Linux (glibc-based)",
