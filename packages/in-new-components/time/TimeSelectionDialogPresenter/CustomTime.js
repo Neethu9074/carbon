@@ -27,8 +27,8 @@ import { days, hours, minutes } from 'in-services/time';
 import { emptyObject } from 'in-services/fixedObjects';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
+import { t, activeLanguage } from 'in-i18n';
 import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import locals from './CustomTime.mless';
 
@@ -165,6 +165,7 @@ export default function CustomTime({ timeConfig, onChange, historicOrLargeDataRe
   }
 
   function getMark(value) {
+    moment.locale(activeLanguage);
     const months = moment.monthsShort();
     const date = new Date(value);
     const days = moment.weekdaysShort();

@@ -6,7 +6,7 @@
 import moment from 'moment';
 
 import { formatEnglishDurationAccurately, formatDurationAccurately } from 'in-services/formatters/date';
-import { t } from 'in-i18n';
+import { t, activeLanguage } from 'in-i18n';
 
 const minute = 60 * 1000;
 const hour = 60 * minute;
@@ -57,6 +57,7 @@ export const fixedTimePickerPresets = [
 ];
 
 export function getTimePresets() {
+  moment.locale(activeLanguage);
   const months = moment.monthsShort();
   return [
     ...fixedTimePickerPresets,
@@ -68,6 +69,7 @@ export function getTimePresets() {
 }
 
 export function getHistoricPresets() {
+  moment.locale(activeLanguage);
   const months = moment.monthsShort();
   return [
     getYesterdayPreset(months),
