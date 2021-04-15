@@ -7,16 +7,7 @@ import MomentLocaleUtils from 'react-day-picker/moment';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import { assign } from 'lodash';
-import 'moment/locale/pt-br';
-import 'moment/locale/zh-cn';
-import 'moment/locale/zh-tw';
 import React from 'react';
-import 'moment/locale/de';
-import 'moment/locale/fr';
-import 'moment/locale/it';
-import 'moment/locale/es';
-import 'moment/locale/ja';
-import 'moment/locale/ko';
 
 import { formatDate, parseDate } from 'in-services/formatters/date';
 import { dateValidator } from 'in-services/validators/date';

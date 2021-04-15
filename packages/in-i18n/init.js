@@ -8,6 +8,16 @@ import { initReactI18next } from 'react-i18next';
 // eslint-disable-next-line no-restricted-imports
 import i18n from 'i18next';
 import { combineLatest, fromPromise } from '@instana/observables';
+import 'moment/locale/pt-br';
+import 'moment/locale/zh-cn';
+import 'moment/locale/zh-tw';
+import moment from 'moment';
+import 'moment/locale/de';
+import 'moment/locale/fr';
+import 'moment/locale/it';
+import 'moment/locale/es';
+import 'moment/locale/ja';
+import 'moment/locale/ko';
 import React from 'react';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -18,6 +28,9 @@ import Code from 'in-components/Code';
 import http from 'in-services/http';
 
 export function init() {
+  // Set locale globally so that moment.js formats dates correctly.
+  moment.locale(activeLanguage);
+
   const keysAlreadyReportedAsMissing = new Map();
 
   return getLanguageBundles(activeLanguage).flatMap(languageBundles =>
