@@ -33,6 +33,7 @@
 
   .tag {
     background: @lib__colors__N050;
+    white-space: nowrap;
     &:focus,
     &:active,
     &:hover {
