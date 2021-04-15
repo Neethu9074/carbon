@@ -173,6 +173,7 @@ function createOptionsList(applicationList, applicationIds, selectApLevelOnly) {
 
   if (selectApLevelOnly) {
     return applicationList
+      .filter(result => Boolean(result.data))
       .map(({ data }) => data)
       .map(({ id, label }) => {
         return {
@@ -193,7 +194,9 @@ function createOptionsList(applicationList, applicationIds, selectApLevelOnly) {
     {
       label: 'Applications:',
       children: applicationList
+        .filter(result => Boolean(result.data))
         .map(({ data }) => data)
+        .filter(data => Boolean(data.app))
         .map(({ app, services }) => ({
           breadcrumbAndLabel: app.label,
           value: app.id,
