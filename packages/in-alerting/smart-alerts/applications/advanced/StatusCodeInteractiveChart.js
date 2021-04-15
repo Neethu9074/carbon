@@ -167,6 +167,7 @@ function onThresholdChange(e, form, updateForm) {
       .put('threshold', newThresholdForm)
       .put('rule', newRuleForm)
       .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+      .updateIn(['hiddenFields', 'thresholdValueManuallyChanged'], f => f.setValue(false))
   );
 }
 
