@@ -22,40 +22,39 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import Privacy from 'in-settings/tabs/UserSettings/pages/Privacy';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import SetBodyColor from 'in-components/SetBodyColor';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-const general = {
-  title: t('in-settings:tabs.general'),
-  pages: [
-    {
-      path: userSettingsProfile,
-      label: t('in-settings:tabs.profile'),
-      component: ProfilePage
-    }
-  ]
-};
-
-const userInterface = {
-  title: t('in-settings:tabs.userInterface'),
-  pages: [
-    {
-      path: userSettingsGeneral,
-      label: t('in-settings:tabs.general'),
-      component: GeneralPage
-    },
-    {
-      path: userSettingsAdvanced,
-      label: t('in-settings:tabs.advanced'),
-      component: AdvancedPage
-    }
-  ]
-};
-
-const preferences = {
-  title: t('in-settings:tabs.preferences'),
-  pages: getPreferencesRoutes(fullTermsConfigEnabled)
-};
+const navigationTree = [
+  {
+    title: t('in-settings:tabs.general'),
+    pages: [
+      {
+        path: userSettingsProfile,
+        label: t('in-settings:tabs.profile'),
+        component: ProfilePage
+      }
+    ]
+  },
+  {
+    title: t('in-settings:tabs.userInterface'),
+    pages: [
+      {
+        path: userSettingsGeneral,
+        label: t('in-settings:tabs.general'),
+        component: GeneralPage
+      },
+      {
+        path: userSettingsAdvanced,
+        label: t('in-settings:tabs.advanced'),
+        component: AdvancedPage
+      }
+    ]
+  },
+  {
+    title: t('in-settings:tabs.preferences'),
+    pages: getPreferencesRoutes(fullTermsConfigEnabled)
+  }
+];
 
 export default function View(props) {
   return (
@@ -69,8 +68,8 @@ export default function View(props) {
 
       <SideNavigationAndContent
         stickySidebar
-        navigationTree={role.canConfigureUsers ? [general, userInterface, preferences] : [userInterface, preferences]}
-        redirectToDefaultPage={role.canConfigureUsers ? userSettingsProfile : userSettingsGeneral}
+        navigationTree={navigationTree}
+        redirectToDefaultPage={userSettingsProfile}
         redirectFrom={userSettings}
         {...props}
       />
