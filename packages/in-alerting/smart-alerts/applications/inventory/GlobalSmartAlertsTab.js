@@ -6,14 +6,13 @@
 import { just } from '@instana/observables';
 import React, { useState } from 'react';
 
-import SmartAlertsBaseList, {
-  categoryLocal
-} from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import SmartAlertsNoDataNotification from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsNoDataNotification';
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateGlobalSmartAlertButton';
 import { getAllAlertConfigsForAllApplications } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getAllGlobalAlertConfigs } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
+import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
+import { categoryLocal } from 'in-alerting/smart-alerts/applications/inventory/constants';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import Alert from 'in-applications/Dashboards/application/tabs/Alerts/Alert';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
