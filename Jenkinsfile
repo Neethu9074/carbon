@@ -11,7 +11,7 @@ def latestReleaseBranch = null
 def autoDeployMagenta = true
 
 void setBuildStatus(String message, String state) {
-  commitSha     = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+  def commitSha = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 
   step([
       $class: "GitHubCommitStatusSetter",
@@ -23,115 +23,132 @@ void setBuildStatus(String message, String state) {
   ]);
 }
 
-stage('Checkout') {
-  node {
-    deleteDir()
+pipeline {
+  agent any
 
-    checkout scm
-    setBuildStatus('Build started', 'PENDING')
+  stages {
+    stage ('Setup') {
+      steps {
+        milestone(label: "Setup", ordinal: null)
+        setBuildStatus('Build started', 'PENDING')
 
-    latestReleaseBranch = getLatestReleaseBranch()
-    instanaVersion      = getVersion('ui-client', env.BRANCH_NAME)
-    gitCommitId         = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-    gitCommitAuthor     = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
-    gitMessage          = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.com/instana/ui-client/commit/%h|%h>): %s'").trim()
+        script {
+          latestReleaseBranch = getLatestReleaseBranch()
+          instanaVersion      = getVersion('ui-client', env.BRANCH_NAME)
+          gitCommitId         = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+          gitCommitAuthor     = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
+          gitMessage          = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.com/instana/ui-client/commit/%h|%h>): %s'").trim()
 
-    currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId.take(8)} -> ${instanaVersion}"
+          currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId.take(8)} -> ${instanaVersion}"
 
-    archiveName = "ui-client-${env.BRANCH_NAME}-${instanaVersion}.tar.gz"
+          archiveName = "ui-client-${env.BRANCH_NAME}-${instanaVersion}.tar.gz"
 
-    stash includes: "**/*", name: "ui-client-checkout-${gitCommitId}", useDefaultExcludes: false
-  }
-}
-
-stage('Build') {
-  node {
-    timeout(time: 20, unit: 'MINUTES') {
-      try {
-        awsCodeBuild credentialsType: 'jenkins',
-          credentialsId: 'codebuild',
-          projectName:
-          'ui-client',
-          region: 'us-west-2',
-          imageOverride: 'aws/codebuild/standard:5.0',
-          sourceControlType: 'project',
-          sourceVersion: gitCommitId,
-          envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaVersion + '}, {BRANCH_NAME, ' + env.BRANCH_NAME + '}, {GIT_BRANCH, ' + env.BRANCH_NAME + '} ]'
-
-        if ( currentBuild.currentResult == 'SUCCESS' ) {
-          slackNotification('Build successful', 'ui-client', gitCommitId, 'SUCCESS')
-          setBuildStatus('Build successful', 'SUCCESS')
+          stash includes: "**/*", name: "ui-client-checkout-${gitCommitId}", useDefaultExcludes: false
         }
-      } catch (e) {
-        setBuildStatus('Build Failure', 'FAILURE')
-        slackNotification('Build Failure', 'ui-client', gitCommitId, 'FAILURE')
-        throw e
       }
     }
-  }
-}
 
-stage (name: 'K8s Deploy') {
-  milestone label: "K8s deployment"
-  timeout(time: 30, unit: 'MINUTES') {
-    if (env.BRANCH_NAME == 'develop') {
-      build job: '/retag-artifacts', parameters: [
-          string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true),
-          string(name: 'ENVIRONMENT', value: 'pink', trim: true),
-          string(name: 'TENANT', value: 'instana', trim: true),
-          string(name: 'UNIT', value: 'test', trim: true),
-      ]
-    } else if ( env.BRANCH_NAME == latestReleaseBranch && autoDeployMagenta ) {
-      // retag artifacts, build k8s containers and deploy
-      build job: '/retag-artifacts', parameters: [
-          string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true),
-          string(name: 'ENVIRONMENT', value: 'magenta', trim: true)
-      ]
-    } else if (env.BRANCH_NAME ==~ /release-\d{3,}/ && env.BRANCH_NAME != latestReleaseBranch ) {
-      // retag artifacts and build k8s containers only
-      build job: '/retag-artifacts', parameters: [
-          string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true)
-      ]
-    } else if (env.BRANCH_NAME ==~ /hotfix-\d{3,}(-.+)?/ ) {
-      // retag artifacts and build k8s containers only
-      build job: '/retag-artifacts', parameters: [
-          string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true)
-      ]
-    }
-  }
-}
+    stage('Build') {
+      steps {
+        milestone(label: "Build", ordinal: null)
+        timeout(time: 20, unit: 'MINUTES') {
+          timestamps {
+            script {
+              try {
+                awsCodeBuild credentialsType: 'jenkins',
+                  credentialsId: 'codebuild',
+                  projectName: 'ui-client',
+                  region: 'us-west-2',
+                  imageOverride: 'aws/codebuild/standard:5.0',
+                  sourceControlType: 'project',
+                  sourceVersion: gitCommitId,
+                  envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaVersion + '}, {BRANCH_NAME, ' + env.BRANCH_NAME + '}, {GIT_BRANCH, ' + env.BRANCH_NAME + '} ]'
 
-stage('Storybook') {
-  if (env.BRANCH_NAME == 'develop'
-   || env.BRANCH_NAME.startsWith('release-')
-   || env.BRANCH_NAME.startsWith('storybook-')
-   || env.BRANCH_NAME.startsWith('chromatic-')
-   ) {
-    node {
-      timeout(time: 30, unit: 'MINUTES') {
-        try {
-          def RUN_UI_TEST_ON_DELIVERY = (
-             env.BRANCH_NAME.startsWith('storybook-') ||
-             env.BRANCH_NAME.startsWith('chromatic-'))
-             ? "true" : "false"
-
-          awsCodeBuild credentialsType: 'jenkins',
-            credentialsId: 'codebuild',
-            projectName:
-            'ui-client-storybook',
-            region: 'us-west-2',
-            imageOverride: 'aws/codebuild/standard:5.0',
-            sourceControlType: 'project',
-            envVariables: '[ {RUN_UI_TEST_ON_DELIVERY, ' + RUN_UI_TEST_ON_DELIVERY + '} ]',
-            sourceVersion: gitCommitId,
-            privilegedModeOverride: 'True'
-
-          if ( currentBuild.currentResult == 'SUCCESS' ) {
-            slackNotification('Storybook Build&Deploy Successful', 'ui-client', gitCommitId, 'SUCCESS')
+                if ( currentBuild.currentResult == 'SUCCESS' ) {
+                  slackNotification('Build successful', 'ui-client', gitCommitId, 'SUCCESS')
+                  setBuildStatus('Build successful', 'SUCCESS')
+                }
+              } catch (e) {
+                setBuildStatus('Build Failure', 'FAILURE')
+                slackNotification('Build Failure', 'ui-client', gitCommitId, 'FAILURE')
+                throw e
+              }
+            }
           }
-        } catch (e) {
-          slackNotification('Storybook Build&Deploy Failed', 'ui-client', gitCommitId, 'FAILURE')
-          throw e
+        }
+      }
+    }
+
+    stage('K8s Deploy') {
+      steps {
+        milestone(label: "K8s Deploy", ordinal: null)
+        timeout(time: 30, unit: 'MINUTES') {
+          timestamps {
+            script {
+              if (env.BRANCH_NAME == 'develop') {
+                build job: '/retag-artifacts', parameters: [
+                    string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true),
+                    string(name: 'ENVIRONMENT', value: 'pink', trim: true),
+                    string(name: 'TENANT', value: 'instana', trim: true),
+                    string(name: 'UNIT', value: 'test', trim: true),
+                ]
+              } else if ( env.BRANCH_NAME == latestReleaseBranch && autoDeployMagenta ) {
+                // retag artifacts, build k8s containers and deploy
+                build job: '/retag-artifacts', parameters: [
+                    string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true),
+                    string(name: 'ENVIRONMENT', value: 'magenta', trim: true)
+                ]
+              } else if (env.BRANCH_NAME ==~ /release-\d{3,}/ && env.BRANCH_NAME != latestReleaseBranch ) {
+                // retag artifacts and build k8s containers only
+                build job: '/retag-artifacts', parameters: [
+                    string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true)
+                ]
+              } else if (env.BRANCH_NAME ==~ /hotfix-\d{3,}(-.+)?/ ) {
+                // retag artifacts and build k8s containers only
+                build job: '/retag-artifacts', parameters: [
+                    string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true)
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+
+    stage('Storybook') {
+      steps {
+        timeout(time: 30, unit: 'MINUTES') {
+          timestamps {
+            script {
+              if (env.BRANCH_NAME == 'develop'
+                  || env.BRANCH_NAME.startsWith('release-')
+                  || env.BRANCH_NAME.startsWith('storybook-')
+                  || env.BRANCH_NAME.startsWith('chromatic-')) {
+
+                  try {
+                    def RUN_UI_TEST_ON_DELIVERY = 
+                      (env.BRANCH_NAME.startsWith('storybook-') || env.BRANCH_NAME.startsWith('chromatic-')) ? "true" : "false"
+
+                    awsCodeBuild credentialsType: 'jenkins',
+                      credentialsId: 'codebuild',
+                      projectName: 'ui-client-storybook',
+                      region: 'us-west-2',
+                      imageOverride: 'aws/codebuild/standard:5.0',
+                      sourceControlType: 'project',
+                      envVariables: '[ {RUN_UI_TEST_ON_DELIVERY, ' + RUN_UI_TEST_ON_DELIVERY + '} ]',
+                      sourceVersion: gitCommitId,
+                      privilegedModeOverride: 'True'
+
+                    if ( currentBuild.currentResult == 'SUCCESS' ) {
+                      slackNotification('Storybook Build&Deploy Successful', 'ui-client', gitCommitId, 'SUCCESS')
+                    }
+                  } catch (e) {
+                    slackNotification('Storybook Build&Deploy Failed', 'ui-client', gitCommitId, 'FAILURE')
+                    throw e
+                  }
+              }
+            }
+          }
         }
       }
     }
