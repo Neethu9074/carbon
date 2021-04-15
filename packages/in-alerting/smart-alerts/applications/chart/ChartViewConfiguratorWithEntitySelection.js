@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState, useEffect } from 'react';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
-import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -38,13 +38,24 @@ export default function ChartViewConfiguratorWithEntitySelection({
   framed = false,
   onChartViewConfigChange
 }) {
+  const selectApLevelOnly = alertConfigWithFormModel.evaluationType === PER_AP;
   const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
   const [serviceId, setServiceId] = useState();
-  const [applicationId, setApplicationId] = useState(firstApplicationId(alertConfigWithFormModel?.applications));
+  const [applicationId, setApplicationId] = useState(
+    selectApLevelOnly ? firstApplicationId(alertConfigWithFormModel?.applications) : null
+  );
   const applications = Object.values(alertConfigWithFormModel?.applications);
   const showEntitySelection =
     alertConfigWithFormModel.evaluationType === PER_AP_SERVICE ||
     (alertConfigWithFormModel.evaluationType === PER_AP && applications.length > 1);
+  useEffect(() => {
+    setServiceId(null);
+    if (selectApLevelOnly) {
+      setApplicationId(firstApplicationId(alertConfigWithFormModel?.applications));
+    } else {
+      setApplicationId(null);
+    }
+  }, [selectApLevelOnly]);
 
   return (
     <LightCard
@@ -72,7 +83,7 @@ export default function ChartViewConfiguratorWithEntitySelection({
         {showEntitySelection && (
           <StackItem>
             <ChartSubEntitySelection
-              selectApLevelOnly={alertConfigWithFormModel.evaluationType === PER_AP}
+              selectApLevelOnly={selectApLevelOnly}
               applicationId={applicationId}
               setApplicationId={setApplicationId}
               serviceId={serviceId}

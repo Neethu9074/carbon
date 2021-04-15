@@ -4,8 +4,8 @@
  */
 
 import { combineLatest, just } from '@instana/observables';
+import React, { useState, useEffect } from 'react';
 import { useObservable } from '@instana/hooks';
-import React, { useState } from 'react';
 
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
@@ -37,8 +37,17 @@ export default function ChartSubEntitySelection({
 }) {
   const { applications, boundaryScope, tagFilterExpression } = alertConfigWithFormModel;
   const [serviceName, setServiceName] = useState(null);
-  const [applicationName, setApplicationName] = useState(null);
   const [query, onQueryChange] = useState('');
+  const applicationName = useObservable(
+    applicationId ? getApplication({ id: applicationId }).map(({ data }) => data && data.label) : just(null),
+    [applicationId]
+  );
+
+  useEffect(() => {
+    if (selectApLevelOnly) {
+      setServiceName(null);
+    }
+  }, [selectApLevelOnly]);
 
   // only pass the user-defined part of the query, because the generated part is valid anyways, and the validation
   // would reject the entity-filter anyways, because the user is not allowed to use them
@@ -67,7 +76,7 @@ export default function ChartSubEntitySelection({
     });
   });
 
-  const applicationList = useObservable(combineLatest(fetchApps), [applications, isQueryValid]);
+  const applicationList = useObservable(combineLatest(fetchApps), [applications, isQueryValid, selectApLevelOnly]);
   const loading = !applicationList || applicationList?.some(result => isLoading(result));
 
   const options = loading ? loadingOptions : createOptionsList(applicationList, applicationIds, selectApLevelOnly);
@@ -81,12 +90,11 @@ export default function ChartSubEntitySelection({
         onChange={node => {
           if (node.type === 'SERVICE') {
             setServiceName(node.description);
-            setApplicationName(node.breadcrumbAndLabel);
             setServiceId(node.id);
             setApplicationId(node.appId);
           }
-          if (node.type === 'APPLICATION') {
-            setApplicationName(node.label);
+          if (node.type === 'APPLICATION' && selectApLevelOnly) {
+            // only change AP when in AP-only mode
             setApplicationId(node.id);
           }
           props.close();
@@ -121,7 +129,7 @@ export default function ChartSubEntitySelection({
               : t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewForService')}
           </DropdownButton>
           <ApplicationScopePath
-            applicationName={applicationName}
+            applicationName={applicationName ?? applicationId}
             applicationId={applicationId}
             serviceId={serviceId}
             serviceName={serviceName}
