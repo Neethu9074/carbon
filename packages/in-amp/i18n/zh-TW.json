@@ -1,0 +1,60 @@
+{
+  "components": {
+    "accountSettings": {
+      "accountSettings": "帳戶設定",
+      "billingAddress": "帳單地址",
+      "shippingAddress": "出貨地址",
+      "country": "國家/地區",
+      "state": "州/省（縣/市）",
+      "zip": "郵遞區號",
+      "city": "城市",
+      "address": "地址",
+      "additionalAddress": "其他地址",
+      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "如果本頁面上有任何資訊需要更正，請聯絡 <linkToMail>{{salesopsEmail}}</linkToMail>"
+    },
+    "activeLicenses": {
+      "name": "名稱",
+      "tenant": "租戶",
+      "type": "類型",
+      "licenseStartData": "授權開始資料",
+      "licenseEndData": "授權結束資料",
+      "licensedApmHosts": "授權的 APM 主機",
+      "licensedIqmHosts": "授權的 IQM 主機"
+    },
+    "ampInformationModifier": {
+      "allPaidUnitsAggregated": "所有付費單元（聚集）",
+      "customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense": "會報告您帳戶所有單元（具有付費授權）的客戶使用情形。"
+    },
+    "noLicenseAvailableMessage": {
+      "thereHasBeenNoActivePaidLicenseInThePast30Days": "過去 30 天沒有生效的付費授權。"
+    },
+    "restrictedUsage": {
+      "accountUsage": "帳戶使用情形"
+    },
+    "technologiesReportingTable": {
+      "name": "名稱",
+      "min": "最小值",
+      "max": "最大值",
+      "average": "平均值"
+    },
+    "timePresets": {
+      "last7Days": "過去 7 天",
+      "last30Days": "過去 30 天",
+      "last365Days": "過去 365 天"
+    },
+    "usages": {
+      "allPaidUnitsAggregated": "所有付費單元（聚集）",
+      "accountUsage": "帳戶使用情形",
+      "activeLicenses": "生效的授權",
+      "expiredLicenses": "過期的授權",
+      "queuedLicenses": "佇列的授權"
+    },
+    "usageCharts": {
+      "apmUsage": "APM 使用情形",
+      "apmHosts": "APM 主機",
+      "purchased": "已採購",
+      "infrastructureUsage": "基礎架構使用情形",
+      "iqmHosts": "IQM 主機"
+    }
+  }
+}

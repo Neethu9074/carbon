@@ -1,0 +1,67 @@
+{
+  "agentMonitoringSuffix01": "モニターされない",
+  "agentMonitoringAlert_prefix01": "モニタリングの問題",
+  "agentMonitoringSuffix02": "トレースされない",
+  "agentMonitoringAlert_prefix02": "トレースの欠落",
+  "agentMonitoringSuffix03": "プロファイルが作成されない",
+  "agentMonitoringAlert_prefix03": "プロファイルの欠落",
+  "agentMonitoringSuffix04": "モニターされない",
+  "agentMonitoringAlert_prefix04": "モニタリングの問題",
+  "agentMonitoringExplanationLinkLabel": "トラブルシューティング資料",
+  "agentMonitoringExplanationLinkHref": "https://instana.com/docs/",
+  "services": "サービス",
+  "dashboard": {
+    "customMetricsV2": {
+      "customMetricsContent": "ピン留めされたメトリックは、カスタム・メトリックの上の別の表に表示されます。 これを使用して、複数のカスタム・メトリック間で随時比較ができます。 また、同僚にリンクを送信することができ、同僚はピン留めされた同じ一連のメトリックを確認することができます。",
+      "customMetricsTitleType": "タイプ",
+      "customMetricsTitleName": "名前",
+      "customMetricsTitleValue": "値",
+      "customMetricsTitlePinned": "{{pinnedPrefix}} ピン留めされたメトリック ({{pinnedLength}})",
+      "customMetricsTitleCustom": "{{customPrefix}} カスタム・メトリック ({{customLength}})",
+      "customMetricsLableCount": "数",
+      "customMetricsLableValue": "値",
+      "customMetricsLableMean": "平均",
+      "customMetricsLableP50": "50 番目",
+      "customMetricsLableP99": "99 番目",
+      "customMetricsLableRate": "レート"
+    },
+    "table": {
+      "tableNoData": "データがありません。",
+      "tableExpandAll": "すべて展開",
+      "tableCollapseAll": "すべて折りたたみ"
+    }
+   },
+
+  "sidebar": {
+      "classpath": {
+        "classpathHide": "クラスパスの非表示",
+        "classpathShow": "クラスパスの表示"
+      },
+      "processStartedTitle": "開始時刻"
+  },
+
+  "traceDetails": {
+    "errorDescription": "エラー"
+  },
+
+  "snapshot": {
+    "registryHealth": "正常性",
+
+    "runtimeLabelNet": ".NET Core",
+    "runtimeLabelGo": "Go",
+    "runtimeLabelJava": "Java",
+    "runtimeLabelNodeJS": "Node.js",
+    "runtimeLabelPython": "Python",
+    "runtimeLabelRuby": "Ruby",
+    "runtimeLabelUnknown": "不明なランタイム"
+  },
+
+  "tracing": {
+    "registryCall": "呼び出し",
+    "registryCall_plural": "呼び出し",
+    "registryCall_0": "呼び出し",
+    "registryCall_1": "呼び出し",
+    "registryCall_2": "呼び出し"
+  }
+
+}

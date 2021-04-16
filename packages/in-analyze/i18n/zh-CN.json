@@ -1,0 +1,481 @@
+{
+  "analyzeView": {
+    "noData": "没有任何调用可用于所选时间范围。有关故障诊断信息，请参阅[文档]。\n\n[文档]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
+    "traces": "跟踪数",
+    "calls": "调用数",
+    "emptyAnalyzeViewTitle": "找不到 {{emptyEntityName}}",
+    "analyzeEditGroupHelp": "选择应作为调用和跟踪的分组依据的标记。",
+    "notAvailable": "不可用",
+    "quickFilterBarLabel": {
+      "application": "应用程序",
+      "application_plural": "应用程序",
+      "application_0": "应用程序",
+      "application_1": "应用程序",
+      "application_2": "应用程序",
+      "service": "服务",
+      "service_plural": "服务",
+      "service_0": "服务",
+      "service_1": "服务",
+      "service_2": "服务",
+      "endpoint": "端点",
+      "endpoint_plural": "端点",
+      "type": "类型",
+      "type_plural": "类型",
+      "type_0": "类型",
+      "type_1": "类型",
+      "type_2": "类型",
+      "technology": "技术",
+      "technology_plural": "技术",
+      "technology_0": "技术",
+      "technology_1": "技术",
+      "technology_2": "技术",
+      "latency": "等待时间",
+      "erroneous": "错误",
+      "hiddenCalls": "隐藏的调用数"
+    },
+    "quickGroupBarLabelApplication": "应用程序",
+    "quickGroupBarLabelService": "服务",
+    "quickGroupBarLabelEndpoint": "端点",
+    "quickGroupBarLabelType": "类型",
+    "quickGroupBarLabelTechnology": "技术",
+    "quickGroupBarLabelAllGroups": "所有组",
+    "tagGroupEmptyMessage": "未定义任何组。",
+    "components": {
+      "loadingStates": {
+        "preparing": "正在准备...",
+        "instanaIsProcessingALargeAmountOfTracingData": "Instana 正在处理大量跟踪数据。",
+        "pleaseDontReloadThisPageWillUpdateAutomatically": "请不要重新装入 - 此页面将自动更新。",
+        "runningQuery": "正在运行查询...",
+        "thisQueryHasTimedOut": "此查询已超时。",
+        "theQueryTookTooLongToRunAndHasBeenCancelled": "查询运行时间过长，已取消。",
+        "selectAShorterTimeframeOrIssueAMoreSpecificQueryByApplyingMoreFilters": "请选择更短的时间范围，或者通过应用更多过滤器来发出更具体的查询。",
+        "thereWasAnInputError": "出现了输入错误。",
+        "tooManyRequests": "请求次数太多",
+        "ourSystemIsCurrentlyBusyPleaseTryAgainLater": "我们的系统当前繁忙。请稍后重试。",
+        "serverError": "服务器错误",
+        "anUnexpectedErrorOccurredPleaseTryAgainLaterOrContactSupportToReportTheError": "发生意外错误。请稍后重试，或者联系支持人员以报告错误。"
+      },
+      "tagFilterConfiguration": {
+        "noFiltersDefined": "没有定义过滤器。"
+      },
+      "tagGroupConfiguration": {
+        "select": "选择",
+        "top5": "前 5 个",
+        "bottom5": "后 5 个",
+        "showRemainingGroupsAggregatedAsOther": "显示汇总为“其他”的剩余组。"
+      },
+      "resultHeader": {
+        "result": "结果"
+      }
+    },
+    "dataSources": {
+      "traceAnalytics": "跟踪分析",
+      "trace": "跟踪",
+      "callAnalytics": "调用分析",
+      "call": "调用",
+      "applications": "应用程序",
+      "websites": "Web 站点",
+      "mobileApps": "移动应用程序",
+      "profiles": "概要文件",
+      "logs": "日志",
+      "eumWebsites": "EUM：Web 站点",
+      "eumMobileApps": "EUM：移动应用程序",
+      "pageLoads": "页面加载数",
+      "pageTransitions": "页面转换数",
+      "pageTransitions2": "页面转换数",
+      "resources": "资源",
+      "httpRequests": "HTTP 请求数",
+      "httpRequests2": "HTTP 请求数",
+      "javaScriptErrors": "JavaScript 错误数",
+      "customEvents": "定制事件数",
+      "customEvents2": "定制事件数",
+      "sessionStarts": "会话启动数",
+      "viewTransitions": "视图转换数",
+      "pageLoads2": "页面加载数",
+      "jsErrors": "JS 错误数",
+      "viewTransitions2": "视图转换数",
+      "calls": "调用数",
+      "traces": "跟踪数",
+      "console": "控制台"
+    }
+  },
+  "services": {
+    "noData": "没有任何服务调用可用于所选时间范围。有关故障诊断信息，请参阅[文档]。\n\n[文档]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+  },
+  "traceDetail": {
+    "callDetails": {
+      "serviceComponent": {
+        "infrastructure": "基础架构",
+        "detailsAndStackTrace": "详细信息和堆栈跟踪",
+        "details": "详细信息",
+        "desClusterNotCorrelateNode": "目标是集群，Instana 无法将此调用关联到任何特定节点。",
+        "sourceUnmonitored": "尚未跟踪此调用的源，因此无法提供有关源的信息。所显示的有关此调用的所有信息均由目标提供。",
+        "sourceMonitoredByAnotherProvider": "此调用的源由其他分布式跟踪提供程序跟踪。通过在标识为 {{foreignParentId}} 的提供程序中搜索父跨度，您可以找到有关源的更多信息。",
+        "notMonitored": "未受 Instana 监视"
+      }
+    },
+    "tabs": {
+      "summary": {
+        "duplicateCalls": "重复调用",
+        "duplicateCallsDesc": "此跟踪由一个或多个重复调用（跨度）组成。唯一调用数：{{traceCallCountIgnoringBatchSize}} - 记录数：{{traceCallRecordCount}}。这将导致调用计数不正确（有批处理），出现错误的计数值，且可能出现其他违规。",
+        "batchedIngestion": "已批处理数据获取",
+        "traceIngestionBatchCount": "已在 {{traceIngestionBatchesCount}} 个批处理中处理此跟踪。这可能导致诸如跨度未合并到单个调用、部分服务映射或其他不完整数据显示等违规。",
+        "subCalls": "子调用",
+        "erroneousCalls": "错误调用数",
+        "errorLogs": "错误日志",
+        "warnLogs": "警告日志",
+        "latency": "等待时间",
+        "timeline": "时间线",
+        "serviceEndpointList": "服务端点列表",
+        "largeTrace": "大跟踪",
+        "largeTraceLink": "此跟踪很大，且呈现此跟踪可能会导致浏览器出现性能问题。您可以<linkToDocs>下载跟踪</linkToDocs>以进行手动检查，或者尝试在浏览器中呈现跟踪。我们将仅呈现组件的一个子集，以提高本次尝试的性能。",
+        "calls": "调用数",
+        "logs": "日志",
+        "analyzeLogs": "查看分析",
+        "correspondingMobileAppActivity": "相应的移动应用程序活动",
+        "hideMobileAppInformation": "隐藏移动应用程序信息",
+        "showMobileAppInformation": "显示移动应用程序信息",
+        "viewMobileAppActivity": "查看移动应用程序活动",
+        "erroneousTrace": "错误跟踪",
+        "attemptToRenderTrace": "尝试呈现跟踪",
+        "hideWebsiteInformation": "隐藏 Web 站点信息",
+        "showWebsiteInformation": "显示 Web 站点信息",
+        "viewWebsiteActivity": "查看 Web 站点活动"
+      }
+    },
+    "components": {
+      "callDetails": {
+        "error": "错误",
+        "warning": "警告",
+        "showStackTrace": "显示堆栈跟踪",
+        "expandButtonForContent": "展开内容按钮",
+        "logParameters": "日志参数",
+        "logStackTrace": "日志堆栈跟踪",
+        "thisCallIsBatchedAndRepresentsIndividualCalls": "此调用已批处理，并表示 {{batchSize}} 个个别调用。",
+        "correlationMissing": "缺少关联",
+        "noOtherRelationsFound": "找不到其他关系。",
+        "synthetic": "合成",
+        "thisCallDoesNotContributeToServiceOrApplicationKpIs": "此调用会不添加到服务或应用程序 KPI。",
+        "configureSyntheticEndpoints": "配置合成端点",
+        "of": "/",
+        "on": "于",
+        "instanaCouldNotCorrelateThisSpanWithTheInfrastructureThatGeneratedIt": "Instana 无法将此跨度与生成它的基础架构相关联。",
+        "httpCallUri": "HTTP 调用 URI",
+        "beaconType": "信标类型",
+        "networkInsights": "Network Insights",
+        "transferSize": "传输大小",
+        "encodedBodySize": "已编码主体大小",
+        "decodedBodySize": "已解码主体大小",
+        "goToBeacon": "转至信标",
+        "profiling": "正在进行概要分析",
+        "loadingProfile": "正在加载概要文件",
+        "noCpuProfileAvailable": "未提供 CPU 概要文件",
+        "cpuUser": "CPU 用户",
+        "cpuHotspots": "CPU 热点",
+        "analyzeProfiles": "分析概要文件",
+        "infrastructure": "基础架构",
+        "cxfType": "CXF 类型",
+        "type": "类型",
+        "category": "类别",
+        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "请注意：只能针对仍由 Instana 监视的进程检索源代码。",
+        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "请注意：只能针对 Instana 可成功链接相应基础架构的进程检索源代码。",
+        "stackTrace": "堆栈跟踪",
+        "in": "位在",
+        "windowLocation": "窗口位置",
+        "resourceUri": "资源 URI",
+        "cacheInteraction": "高速缓存交互"
+      },
+      "callTree": {
+        "expandButtonForRow": "展开行按钮",
+        "of": "/",
+        "inheritedFrom": "继承自"
+      },
+      "colorCodingToggleButtons": {
+        "colorizeBy": "着色方式",
+        "endpoint": "端点"
+      },
+      "logTooltipContent": {
+        "errorLog": "错误日志",
+        "warningLog": "警告日志"
+      }
+    },
+    "applications": "应用程序",
+    "analytics": "分析",
+    "download": "下载",
+    "traceId": "跟踪标识：",
+    "closeTraceDetail": "关闭跟踪详细信息"
+  },
+  "applicationFilter": {
+    "labelApplication": "应用程序",
+    "labelApplicationInbound": "应用程序入站",
+    "labelService": "服务",
+    "labelEndpoint": "端点",
+    "labelSOURCE_AND_DESTINATION": "源和目标",
+    "labelDESTINATION": "目标",
+    "labelSOURCE": "来源",
+    "labelNOTAPPLICABLE": "",
+    "labelStringEQUALS": "等于",
+    "labelStringNOT_EQUAL": "不等于",
+    "labelStringCONTAINS": "包含",
+    "labelStringNOT_CONTAIN": "不包含",
+    "labelStringNOT_EMPTY": "存在",
+    "labelStringIS_EMPTY": "不存在",
+    "labelStringSTARTS_WITH": "开头为",
+    "labelStringENDS_WITH": "结尾为",
+    "labelStringNOT_STARTS_WITH": "开头不是",
+    "labelStringNOT_ENDS_WITH": "结尾不是",
+    "labelNumberEQUALS": "=",
+    "labelNumberNOT_EQUAL": "!=",
+    "labelNumberLESS_THAN": "<",
+    "labelNumberGREATER_THAN": ">",
+    "labelNumberNOT_EMPTY": "存在",
+    "labelNumberIS_EMPTY": "不存在",
+    "labelNumberLESS_OR_EQUAL_THAN": "<=",
+    "labelNumberGREATER_OR_EQUAL_THAN": ">=",
+    "labelNumberCONTAINS": "包含",
+    "labelNumberNOT_CONTAIN": "不包含",
+    "labelNumberSTARTS_WITH": "开头为",
+    "labelNumberENDS_WITH": "结尾为",
+    "labelNumberNOT_STARTS_WITH": "开头不是",
+    "labelNumberNOT_ENDS_WITH": "结尾不是",
+    "labelBooleanEQUALS": "为",
+    "labelKeyPairEQUALS": "等于",
+    "labelKeyPairNOT_EQUAL": "不等于",
+    "labelKeyPairCONTAINS": "包含",
+    "labelKeyPairNOT_CONTAIN": "不包含",
+    "labelKeyPairNOT_EMPTY": "存在",
+    "labelKeyPairIS_EMPTY": "不存在",
+    "labelKeyPairIS_BLANK": "没有值",
+    "labelKeyPairNOT_BLANK": "具有值",
+    "labelKeyPairSTARTS_WITH": "开头为",
+    "labelKeyPairENDS_WITH": "结尾为"
+  },
+  "analyzeHeader": {
+    "title": "分析"
+  },
+  "editTagFilterDialog": {
+    "dialogTitleEdit": "编辑过滤器",
+    "dialogTitleAdd": "添加 {{filterCategory}} 过滤器",
+    "messageTitle": "选择应作为数据过滤依据的标记。标记区分大小写。",
+    "placeholder": "输入以过滤结果...",
+    "saveFilter": "保存过滤器",
+    "addFilter": "添加过滤器"
+  },
+  "filterBar": {
+    "checkboxBarOverlay": {
+      "labelSynthetic": "显示合成调用",
+      "labelInternal": "显示内部调用"
+    },
+    "keyValueBarItem": {
+      "tooltip": "移除过滤器"
+    },
+    "multiSelectBarItem": {
+      "moreDataMessage": "更多 {{pluralLabel}} 可用。仅显示前 200 个 {{pluralLabel}}。使用过滤器进一步向下钻取。"
+    },
+    "multiSelectBarOverlay": {
+      "loadingFilters": "正在加载过滤器选项。",
+      "noFiltersFound": "找不到过滤器选项。",
+      "clickToFilter": "单击以按 {{itemLabel}} 过滤"
+    },
+    "selectBarItem": {
+      "moreDataMessage": "更多 {{pluralLabel}} 可用。 仅显示前 200 个 {{pluralLabel}}。使用过滤器进一步向下钻取。"
+    },
+    "selectBarOverlay": {
+      "tooltip": "当前已按 {{selectedItemLabel}} 过滤。单击以移除过滤器。",
+      "loadingFilters": "正在加载过滤器选项。",
+      "noFiltersFound": "找不到过滤器选项。",
+      "clickToFilter": "单击以按 {{itemLabel}} 过滤"
+    },
+    "allFilters": "所有过滤器"
+  },
+  "groupedTraces": {
+    "labelGroup": "组",
+    "labelCount": "计数",
+    "labelEarliestTimestamp": "最早时间戳记",
+    "groupedTracesTitle": "选择指标",
+    "groupedTracesHelp": "选择哪些指标应该用作表中的列。同时定义可将哪些指标视为图形。"
+  },
+  "groupingInfo": {
+    "removeGrouping": "移除分组"
+  },
+  "metricsChart": {
+    "count": "计数"
+  },
+  "metricSelector": {
+    "tooltipGroups": "指标仅在分析组时可用。",
+    "tooltipRemove": "移除指标"
+  },
+  "radioButtons": {
+    "messageFilering": "源上的过滤和分组不可用于所选时间范围",
+    "messageIndependent": "此标记独立于源和目标",
+    "fragmentSource": "仅适用于调用的源",
+    "fragmentCall": "适用于调用源或目标"
+  },
+  "rawCalls": {
+    "callAnalytics": "调用分析",
+    "labelTimestamp": "时间戳记",
+    "labelLatency": "等待时间",
+    "tooltipBatched": "此调用已批处理，并表示 {{batchCount}} 个个别调用。",
+    "tooltipLatency": "{{batchCount}} 个批处理调用的总等待时间。"
+  },
+  "rawTraces": {
+    "labelTimestamp": "时间戳记",
+    "labelLatency": "等待时间"
+  },
+  "tagFilterList": {
+    "tooltipRemoveFilter": "移除过滤器"
+  },
+  "dialogs": {
+    "tooltip": "建议当前不可用，请输入值",
+    "components": {
+      "analyzeFilterForm": {
+        "false": "false",
+        "true": "true"
+      }
+    }
+  },
+  "logDetails": {
+    "title": "日志 ",
+    "titleTags": "TAG",
+    "titleParameters": "参数",
+    "tooltipCloseLogDetails": "关闭日志详细信息",
+    "analyzeLogsLabel": "分析日志",
+    "similarLogs": "相似日志",
+    "similarServiceLogs": "在服务上下文中"
+  },
+  "traceDetails": {
+    "titleAnalytics": "分析",
+    "titleTrace": "跟踪",
+    "tooltipData": "与此跟踪相关的一些数据发生延迟，请稍后重新装入页面。可能发生此情况的一个示例如下：正在查看最近跟踪，而其部分数据仍在处理中。",
+    "tooltipClose": "关闭跟踪详细信息",
+    "labelTotal": "总计",
+    "labelNetwork": "网络",
+    "labelSelf": "自身",
+    "labelWaiting": "正在等待",
+    "labelService": "服务",
+    "labelEndpoint": "端点",
+    "labelAggregatedTime": "汇总时间",
+    "labelErroneousCalls": "错误调用数",
+    "buttonTechnology": "技术",
+    "appNavigatorSplitScreen": {
+      "tooltipViewPrevious": "查看上一个 {{viewType}}（快捷方式：向左方向键）",
+      "tooltipViewNext": "查看下一个 {{viewType}}（快捷方式：向右方向键）",
+      "tooltipCloseSidebar": "关闭侧边栏",
+      "tooltipOpenSidebar": "打开侧边栏"
+    },
+    "callDetails": {
+      "tooltipCloseCallDetails": "关闭调用详细信息"
+    },
+
+    "callTimeAxis": {
+      "started": "已启动：{{startedTime}}"
+    },
+    "navigatorSplitScreen": {
+      "tooltipViewPrevious": "查看上一个 {{viewType}}（快捷方式：向左方向键）",
+      "tooltipViewNext": "查看下一个 {{viewType}}（快捷方式：向右方向键）",
+      "tooltipCloseSidebar": "关闭侧边栏",
+      "tooltipOpenSidebar": "打开侧边栏"
+    }
+  },
+  "tabs": {
+    "labelDetail": "详细信息",
+    "summary": {
+      "websiteMonitoringDataTitle": "相应的 Web 站点活动",
+      "messageMultiple_root_spans": "跟踪格式不正确，包含多个根调用",
+      "messageMissing_root_span": "跟踪的根调用缺失或尚未到达处理管道。",
+      "messageDuplicated_spans": "跟踪包含具有相同标识的重复调用。",
+      "messageToo_many_spans": "跟踪包含过多调用，只能部分显示和下载。",
+      "messageMissing_parent_span": "处理期间，此跟踪中的某些项跨度缺少父跨度。",
+      "messageExit_spans_followed_by_intermediate_spans": "某些出口跨度后跟中间跨度。",
+      "thisTraceIsCausedByActivityOnTheMobileApp": "此跟踪由 <linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp> 移动应用程序上的活动引起。",
+      "thisTraceIsCausedByActivityOnThewebsite": "此跟踪由 <linkToWebsite>{{websiteLabel}}</linkToWebsite> Web 站点上的活动引起。"
+    }
+  },
+  "resultHeaderTooltip": "查询时间范围已四舍五入到最接近的整分钟，以便更快速地装入此视图。",
+  "components": {
+    "analyzeHeader": {
+      "application": "应用程序",
+      "website": "Web 站点",
+      "mobileApp": "mobileApp",
+      "profiles": "概要文件",
+      "beta": "BETA",
+      "analytics": "分析"
+    },
+    "editGroupDialog": {
+      "group": "组",
+      "tag": "标记",
+      "loadingSuggestions": "正在加载建议...",
+      "save": "保存"
+    },
+    "editTagFilterDialog": {
+      "tag": "标记",
+      "loadingSuggestions": "正在加载建议...",
+      "operator": "运算符",
+      "true": "true",
+      "false": "false",
+      "removeFilter": "移除过滤器"
+    },
+    "filterBar": {
+      "group": "组",
+      "filters": "过滤器",
+      "clearFilters": "清除过滤器",
+      "loadingSuggestions": "正在加载建议...",
+      "operator": "运算符",
+      "key": "密钥",
+      "value": "值",
+      "addFilter": "添加过滤器",
+      "equalTo": "等于",
+      "notEqualTo": "不等于",
+      "greaterThan": "大于",
+      "greaterThanOrEquals": "大于或等于",
+      "lessThan": "小于",
+      "lessThanOrEquals": "小于或等于",
+      "clear": "清除",
+      "save": "保存"
+    },
+    "groupedTraces": {
+      "tagPresentWithNoValue": "存在没有任何值的标记",
+      "tagNotPresent": "标记不存在"
+    },
+    "groupingInfo": {
+      "groupedBy": "分组依据",
+      "removeGrouping": "移除分组"
+    },
+    "groupingTableHeader": {
+      "preview": "预览",
+      "groupBy": "分组依据",
+      "selectMetrics": "选择指标",
+      "hideGraph": "隐藏图形",
+      "showGraph": "显示图"
+    },
+    "metricsChart": {
+      "latencyDistribution": "等待时间（分布）",
+      "noDataToDisplay": "没有可显示的数据"
+    },
+    "metricsSelector": {
+      "pleaseSelectAtMostNumberOfmetrics": "请最多选择 {{maximumNumberOfMetrics}} 个指标。",
+      "addMetric": "添加指标",
+      "metric": "指标",
+      "pleaseSelect": "请选择",
+      "aggregation": "汇总",
+      "selectedMetrics": "选中的指标",
+      "save": "保存"
+    },
+    "radioButtons": {
+      "source": "来源",
+      "destination": "目标"
+    },
+    "rawCalls": {
+      "call": "调用",
+      "service": "服务"
+    },
+    "rawTraces": {
+      "trace": "跟踪",
+      "traceAnalytics": "跟踪分析",
+      "service": "服务"
+    },
+    "tagFilterList": {
+      "and": "和"
+    }
+  }
+}

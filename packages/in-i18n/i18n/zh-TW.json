@@ -1,0 +1,32 @@
+{
+  "forms": {
+    "actions": {
+      "save": "儲存",
+      "cancel": "取消",
+      "create": "建立",
+      "delete": "刪除",
+      "close": "關閉",
+      "submit": "提交"
+    },
+    "states": {
+      "saving": "儲存中...",
+      "loading": "載入中..."
+    }
+  },
+  "language_en-US": "英文",
+  "language_de-DE": "德文",
+  "language_zz-ZZ": "QA 用途的虛擬語言",
+  "aggregation_P25": "第 25 個",
+  "aggregation_P50": "第 50 個",
+  "aggregation_P75": "第 75 個",
+  "aggregation_P90": "第 90 個",
+  "aggregation_P95": "第 95 個",
+  "aggregation_P98": "第 98 個",
+  "aggregation_P99": "第 99 個",
+  "aggregation_MEAN": "平均值",
+  "aggregation_MIN": "最小值",
+  "aggregation_MAX": "最大值",
+  "aggregation_DISTINCT_COUNT": "個別的計數",
+  "aggregation_SUM": "總和",
+  "aggregation_DISTRIBUTION": "分佈"
+}

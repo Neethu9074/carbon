@@ -1,0 +1,13 @@
+{
+  "landing": {
+    "loadingData": "Chargement des données",
+    "noEntitiesFound": "Entité introuvable",
+    "noEntitiesFoundFor": "Aucune entité trouvée pour {{landingQueryCount}}",
+    "noMatchingEntitiesFoundTitle": "Aucune entité correspondante trouvée",
+    "results": "Résultats"
+  },
+  "logging": {
+    "goToLogs": "Accéder aux journaux"
+  }
+
+}

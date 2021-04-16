@@ -1,0 +1,32 @@
+{
+  "forms": {
+    "actions": {
+      "save": "保存",
+      "cancel": "キャンセル",
+      "create": "作成",
+      "delete": "削除",
+      "close": "閉じる",
+      "submit": "実行依頼"
+    },
+    "states": {
+      "saving": "保存中…",
+      "loading": "ロード中…"
+    }
+  },
+  "language_en-US": "英語",
+  "language_de-DE": "ドイツ語",
+  "language_zz-ZZ": "QA のための疑似言語",
+  "aggregation_P25": "25 パーセンタイル",
+  "aggregation_P50": "50 パーセンタイル",
+  "aggregation_P75": "75 パーセンタイル",
+  "aggregation_P90": "90 パーセンタイル",
+  "aggregation_P95": "95 パーセンタイル",
+  "aggregation_P98": "98 パーセンタイル",
+  "aggregation_P99": "99 パーセンタイル",
+  "aggregation_MEAN": "平均",
+  "aggregation_MIN": "最小",
+  "aggregation_MAX": "最大",
+  "aggregation_DISTINCT_COUNT": "個別の度数",
+  "aggregation_SUM": "合計",
+  "aggregation_DISTRIBUTION": "分布"
+}

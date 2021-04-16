@@ -1,0 +1,60 @@
+{
+  "components": {
+    "accountSettings": {
+      "accountSettings": "계정 설정",
+      "billingAddress": "비용 청구 주소",
+      "shippingAddress": "배송 주소",
+      "country": "국가",
+      "state": "시/도",
+      "zip": "우편번호",
+      "city": "구/군/시",
+      "address": "주소",
+      "additionalAddress": "추가 주소",
+      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "이 페이지에 있는 정보를 정정해야 하는 경우 <linkToMail>{{salesopsEmail}}</linkToMail>에 문의하십시오."
+    },
+    "activeLicenses": {
+      "name": "이름",
+      "tenant": "테넌트",
+      "type": "유형",
+      "licenseStartData": "라이센스 시작 데이터",
+      "licenseEndData": "라이센스 종료 데이터",
+      "licensedApmHosts": "라이센스가 부여된 APM 호스트",
+      "licensedIqmHosts": "라이센스가 부여된 IQM 호스트"
+    },
+    "ampInformationModifier": {
+      "allPaidUnitsAggregated": "모든 유료 장치(집계됨)",
+      "customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense": "유료 라이센스가 있는 계정의 모든 장치에서 고객 사용량이 보고됩니다."
+    },
+    "noLicenseAvailableMessage": {
+      "thereHasBeenNoActivePaidLicenseInThePast30Days": "지난 30일 동안 활성 상태의 유료 라이센스가 없었습니다."
+    },
+    "restrictedUsage": {
+      "accountUsage": "계정 사용량"
+    },
+    "technologiesReportingTable": {
+      "name": "이름",
+      "min": "최소",
+      "max": "최대",
+      "average": "평균"
+    },
+    "timePresets": {
+      "last7Days": "지난 7일",
+      "last30Days": "지난 30일",
+      "last365Days": "지난 365일"
+    },
+    "usages": {
+      "allPaidUnitsAggregated": "모든 유료 장치(집계됨)",
+      "accountUsage": "계정 사용량",
+      "activeLicenses": "활성 라이센스",
+      "expiredLicenses": "만료된 라이센스",
+      "queuedLicenses": "큐에 대기된 라이센스"
+    },
+    "usageCharts": {
+      "apmUsage": "APM 사용량",
+      "apmHosts": "APM 호스트",
+      "purchased": "구매",
+      "infrastructureUsage": "인프라 사용량",
+      "iqmHosts": "IQM 호스트"
+    }
+  }
+}

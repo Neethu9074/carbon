@@ -1,0 +1,32 @@
+{
+  "forms": {
+    "actions": {
+      "save": "Enregistrer",
+      "cancel": "Annuler",
+      "create": "Créer",
+      "delete": "Supprimer",
+      "close": "Fermer",
+      "submit": "Soumettre"
+    },
+    "states": {
+      "saving": "Enregistrement en cours...",
+      "loading": "Chargement en cours..."
+    }
+  },
+  "language_en-US": "Anglais",
+  "language_de-DE": "Allemand",
+  "language_zz-ZZ": "Pseudo langage pour les objectifs d'assurance qualité",
+  "aggregation_P25": "25e",
+  "aggregation_P50": "50e",
+  "aggregation_P75": "75e",
+  "aggregation_P90": "90e",
+  "aggregation_P95": "95e",
+  "aggregation_P98": "98e",
+  "aggregation_P99": "99e",
+  "aggregation_MEAN": "moyen",
+  "aggregation_MIN": "min",
+  "aggregation_MAX": "max",
+  "aggregation_DISTINCT_COUNT": "nombre distinct",
+  "aggregation_SUM": "sum",
+  "aggregation_DISTRIBUTION": "distribution"
+}

@@ -1,0 +1,143 @@
+{
+  "chart": {
+    "chartWrapperMetricNotfound": "メトリック ID {{metricId}} が見つかりません。",
+    "chartWrapperSameAxisSameValue": "1 つの軸のすべての集約タイプの値は同じである必要があります。",
+    "viewInAnalyticsBtnLabel": "分析で表示",
+    "chartLendMetricTimeShifted": "メトリックが {{timeShiftedLabel}} にタイムシフトされました",
+    "chartDownloadLabel": "JSON のダウンロード",
+    "chartGlobalHighlightLabel": "すべてのグラフで強調表示",
+    "chartZoomInLabel": "時刻範囲にズーム",
+    "chartAlertsLanePresenterAlertsLabel": "アラート",
+    "chartAlertsLaneTooltipContent": {
+      "countSmartAlert": "スマート・アラート",
+      "countSmartAlert_plural": "スマート・アラート",
+      "countSmartAlert_0": "スマート・アラート",
+      "countSmartAlert_1": "スマート・アラート",
+      "countSmartAlert_2": "スマート・アラート",
+      "countIncident": "インシデント",
+      "countIncident_plural": "インシデント",
+      "countIncident_0": "インシデント",
+      "countIncident_1": "インシデント",
+      "countIncident_2": "インシデント",
+      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "itemMsg": "さらに {{leftCount}} 件の {{moreMsg}}"
+    },
+    "chartAlertsPreviewLanePresenterAlertsLabel": "アラート",
+    "chartReleasesLanePresenterReleasesLabel": "リリース",
+    "chartReleasesLanePresenterTooltip": "さらに {{len}} 件のリリース",
+    "highlightedTimeframeCloseButtonClearHighlight": "強調表示を解除",
+    "resultAwareChartSomethingWentWrong": "問題があります…",
+    "resultAwareChartPleaseTryAgainLater": "後で再試行してください。",
+    "tooltip": {
+      "scrollHint": "<upArrow /><downArrow /> キーを使用してスクロール",
+      "rollup": "{{rollup}} 上",
+      "more": "さらに {{number}} 件"
+    }
+  },
+  "comboBox": {
+    "placeholderSelect": "選択…"
+  },
+  "downloadBtn": {
+    "downloadViewDownloadAsJsonLabel": "JSON としてダウンロード",
+    "downloadViewDownloadCSVLabel": "ダウンロード (*.csv)",
+    "downloadViewDownloadJsonLabel": "ダウンロード (*.json)",
+    "eventMetricDownloadViewDownloadJsonLabel": "ダウンロード (*.json)"
+  },
+  "touchedMessages": {
+    "withPath": "{{message}} (場所: <codeWithClass>{{path}}</codeWithClass>)"
+  },
+  "graphView": {
+    "graphTitle": "グラフ",
+    "explanationHeader": "ダイナミック・グラフ・ショーケース",
+    "explanationP1": "Instana を駆動するコア・テクノロジーは、ダイナミック・グラフと呼ばれています。 このグラフは、コンポーネントのすべての物理的および論理的な依存関係を理解するアプリケーションのモデルです。 右側に、現在の環境のダイナミック・グラフが表示されています。",
+    "explanationP2": "このグラフには、物理コンポーネントに加えて、トレース、アプリケーション、サービス、クラスター、テーブル・スペースなどの論理コンポーネントも含まれています。 コンポーネントとその依存関係は、Instana エージェントとセンサーによって自動的にディスカバーされます。これにより、グラフは継続的に最新状態に維持されます。 グラフ内のすべてのノードも、メトリック、構成データ、セマンティック知識と機械学習アプローチに基づいて計算された正常性値などの状態情報によって継続的に更新されます。 また、この知識によってグラフ内の依存関係が分析され、サービスやアプリケーションなどの論理的なグループを検出して、そのレベルでの影響を理解し、問題の重要度を導き出します。 グラフ全体が永続的であり、前後の時間に移動して、多くの運用上のユース・ケースにグラフの知識を活用できます。",
+    "explanationLink": "<linkToBlog>ブログにアクセス</linkToBlog>して、詳細をご確認ください。",
+    "closeBtn": "グラフを閉じる"
+  },
+  "gravatar": {
+    "avatarUrlAlt": "gravatar.com からの {{email}} のアバター。",
+    "avatarNullAlt": "{{email}} のフォールバック・アバター。"
+  },
+  "loadMoreRow": {
+    "loadMore": "さらにロード"
+},
+  "messageFlyout": {
+    "infrastructurePageName": "インフラストラクチャー",
+    "eumPageName": "EUM",
+    "settingsPageName": "設定",
+    "requestQuoteBtn": "見積もり依頼"
+  },
+  "releaseNotesDialog": {
+    "releaseNotesTitle": "リリース・ノート"
+  },
+  "requestQuoteDialog": {
+    "dialogRequestQuoteTitle": "見積もり依頼",
+    "dialogRequestLoadingText": "必要な情報のロード中…",
+    "dialogRequestQuoteSubmittedMsg": "見積もり依頼が正常に送信されました。",
+    "formAccountInfoSecrHeader": "アカウント情報",
+    "formCompanyNameLabel": "会社名",
+    "formNumberofAPMHostsLabel": "APM ホストの数",
+    "formNumberofIQMHostsLabel": "IQM ホストの数",
+    "formNumberofYearsLabel": "年数",
+    "formBillingInforSecHeader": "請求先情報",
+    "formStreetLabel": "番地",
+    "formCityLabel": "市区町村",
+    "formZipLabel": "郵便番号",
+    "formCountryLabel": "国",
+    "formStateLabel": "都道府県"
+  },
+  "searchBar": {
+    "usingTheSearchBar": "Instana ダイナミック・フォーカス検索機能を使用して、3D マップ、比較表、およびインシデント・ビューをフィルタリングできます。 \n検索バーには、ファジー検索とワイルドカード検索およびブール演算子を使用して検索するための拡張機能があります。 \n例えば、以下のクエリーは、CPU の数が 4 未満の実動ホストにビューを制限します。\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 構文\nダイナミック・フォーカスでは、[lucene クエリー構文](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)を活用します。Lucene 標準との違いは以下のとおりです。\n- **デフォルト演算子:** `AND`\n- **構文の制約:** は、[こちらの資料](https://instana.com/docs/dynamic_focus/#syntax-constraints)にリストされています。\n## 検索バーの対話\n検索バーは検索フィールドのオートコンプリートをサポートし、入力中に lucene クエリーの構文が強調表示されます。\n入力中に、現在の入力に一致する検索フィールドが検索バーに提案として表示されます。 \n「Return」を押すと、提案されたフィールドを受け入れることができます。 Ctrl + スペース・バーを押すと、オートコンプリートのポップアップが開きます。\n## Lucene クエリー構文の虎の巻\n - **フィールド検索:** `entity.host.cpu.count:>4`\n - **ブール演算子:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **グループ化:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **ワイルドカード検索:** `entity.type:container*`\n\n詳しくは、[こちらの資料](https://instana.com/docs/dynamic_focus/)を参照してください。",
+    "filtersBtn": "フィルター",
+    "filterPresetsMenuHeading": "フィルター",
+    "filterPresetsSaveFilters": "ここで簡単にアクセスできるようにフィルターを保存",
+    "filterPresetsEditFilter": "編集",
+    "filterPresetsRemoveFilter": "削除",
+    "saveDialogSaveFilterTitle": "フィルターの保存",
+    "saveDialogNameLabel": "名前",
+    "saveDialogDefinitionLabel": "定義",
+    "saveDialogSaveFilterBtn": "フィルターの保存",
+    "dialogRequireNameMsg": "フィルターの名前を指定してください。",
+    "dialogRequireFilterMsg": "保存するフィルターを指定してください。",
+    "filterConfirmRemovalHeader": "削除の確認",
+    "filterConfirmButtonLabel": "フィルターの削除",
+    "filterConfirmRemoveMsg": "フィルター <strong>{{filterName}}</strong> を削除しますか?",
+    "helpDialogTitleUsingTheSearchBar": "検索バーの使用"
+  },
+  "svgIcon": {
+    "pluginIcon": "{{pluginName}} アイコン"
+  },
+  "tables": {
+    "serverTable": {
+      "cursorPaginatedTableFilterByLabel": "このグループの分析",
+      "cursorPaginatedTableLoadMoreRowLabel": "さらにロード",
+      "withEmptyTableStateEntitiesName": "エンティティー",
+      "withEmptyTableStateEntityPageMainNotificationTitle": "{{name}} がありません",
+      "withEmptyTableStateEntityPageMainNotificationExplanation": "選択された時刻範囲の {{name}} が取得されませんでした。"
+    },
+    "sharedComponents": {
+      "configurableThSearchItemPlaceholder": "{{len}} 項目の検索",
+      "configurableThNoMatchesTxt": "一致がありません"
+    }
+  },
+  "tags": {
+    "tagFilterSearchPlaceholder": "検索…",
+    "tagListNoTagsDefined": "タグが定義されていません",
+    "tagListShowAll": "すべてのタグを表示 (さらに {{num}} 個)"
+  },
+  "copyToClipboardPressToCopy": "コピーするには、Ctrl+C または CMD+C を押してください。",
+  "copyToClipboardCopied": "コピーされました。",
+  "reloadUiDialogTitle": "ユーザー・インターフェースの新規バージョンが使用可能",
+  "reloadUiDialogP1": "ブラウザー内にロードされたユーザー・インターフェースのバージョンが古いため、ナビゲートの試行中にエラーが発生しました。",
+  "reloadUiDialogP2": "ブラウザー・ウィンドウを再ロードして最新バージョンを取得し、続行してください。",
+  "reloadUiDialogReloadBtn": "再ロード",
+  "sparkChart": {
+    "notAvailable": "N/A"
+  },
+  "errorBoundary": {
+    "message": {
+      "title": "エラーが発生しました",
+      "content": "<p>予期しないエラーのため、Instana UI の一部を有効にできませんでした。 ページを再ロードしてみてください。</p><p>エラー ID: <code>{{errorId}}</code></p>"
+    }
+  }
+}

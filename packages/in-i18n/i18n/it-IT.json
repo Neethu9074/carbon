@@ -1,0 +1,32 @@
+{
+  "forms": {
+    "actions": {
+      "save": "Salva",
+      "cancel": "Annulla",
+      "create": "Crea",
+      "delete": "Elimina",
+      "close": "Chiudi",
+      "submit": "Inoltra"
+    },
+    "states": {
+      "saving": "Salvataggio in corso...",
+      "loading": "Caricamento in corso…"
+    }
+  },
+  "language_en-US": "Inglese",
+  "language_de-DE": "Tedesco",
+  "language_zz-ZZ": "Pseudo linguaggio per QA",
+  "aggregation_P25": "25esimo",
+  "aggregation_P50": "50esimo",
+  "aggregation_P75": "75esimo",
+  "aggregation_P90": "90esimo",
+  "aggregation_P95": "95esimo",
+  "aggregation_P98": "98esimo",
+  "aggregation_P99": "99esimo",
+  "aggregation_MEAN": "media",
+  "aggregation_MIN": "min",
+  "aggregation_MAX": "max",
+  "aggregation_DISTINCT_COUNT": "conteggio distinto",
+  "aggregation_SUM": "somma",
+  "aggregation_DISTRIBUTION": "distribuzione"
+}

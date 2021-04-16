@@ -1,0 +1,13 @@
+{
+  "landing": {
+    "loadingData": "Caricamento dati",
+    "noEntitiesFound": "Nessuna entità rilevata ",
+    "noEntitiesFoundFor": "Nessuna entità rilevata per {{landingQueryCount}}",
+    "noMatchingEntitiesFoundTitle": "Nessuna entità corrispondente rilevata",
+    "results": "Risultati "
+  },
+  "logging": {
+    "goToLogs": "Vai ai Log"
+  }
+
+}

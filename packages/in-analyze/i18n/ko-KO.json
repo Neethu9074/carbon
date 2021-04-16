@@ -1,0 +1,481 @@
+{
+  "analyzeView": {
+    "noData": "선택한 시간 범위에 사용할 수 있는 호출이 없습니다. 문제점 해결 정보는 [문서][문서]를 참조하십시오.\n\n[문서]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
+    "traces": "추적",
+    "calls": "호출",
+    "emptyAnalyzeViewTitle": "{{emptyEntityName}}을(를) 찾을 수 없음",
+    "analyzeEditGroupHelp": "호출 및 추적을 그룹화할 태그를 선택하십시오.",
+    "notAvailable": "사용할 수 없음",
+    "quickFilterBarLabel": {
+      "application": "애플리케이션",
+      "application_plural": "애플리케이션",
+      "application_0": "애플리케이션",
+      "application_1": "애플리케이션",
+      "application_2": "애플리케이션",
+      "service": "서비스",
+      "service_plural": "서비스",
+      "service_0": "서비스",
+      "service_1": "서비스",
+      "service_2": "서비스",
+      "endpoint": "엔드포인트",
+      "endpoint_plural": "엔드포인트",
+      "type": "유형",
+      "type_plural": "유형",
+      "type_0": "유형",
+      "type_1": "유형",
+      "type_2": "유형",
+      "technology": "기술",
+      "technology_plural": "기술",
+      "technology_0": "기술",
+      "technology_1": "기술",
+      "technology_2": "기술",
+      "latency": "대기 시간",
+      "erroneous": "잘못된",
+      "hiddenCalls": "숨겨진 호출"
+    },
+    "quickGroupBarLabelApplication": "애플리케이션",
+    "quickGroupBarLabelService": "서비스",
+    "quickGroupBarLabelEndpoint": "엔드포인트",
+    "quickGroupBarLabelType": "유형",
+    "quickGroupBarLabelTechnology": "기술",
+    "quickGroupBarLabelAllGroups": "모든 그룹",
+    "tagGroupEmptyMessage": "정의된 그룹이 없습니다.",
+    "components": {
+      "loadingStates": {
+        "preparing": "준비 중…",
+        "instanaIsProcessingALargeAmountOfTracingData": "Instana에서 대량의 추적 데이터를 처리 중입니다.",
+        "pleaseDontReloadThisPageWillUpdateAutomatically": "다시 로드하지 마십시오. 이 페이지는 자동으로 업데이트됩니다.",
+        "runningQuery": "조회 실행 중…",
+        "thisQueryHasTimedOut": "이 조회는 제한시간이 초과되었습니다.",
+        "theQueryTookTooLongToRunAndHasBeenCancelled": "조회를 실행하는 데 시간이 너무 오래 소요되어 취소되었습니다.",
+        "selectAShorterTimeframeOrIssueAMoreSpecificQueryByApplyingMoreFilters": "더 짧은 시간 범위를 선택하거나 추가 필터를 적용하여 더 구체적인 조회를 실행하십시오.",
+        "thereWasAnInputError": "입력 오류가 있습니다.",
+        "tooManyRequests": "요청이 너무 많음",
+        "ourSystemIsCurrentlyBusyPleaseTryAgainLater": "시스템이 현재 사용 중입니다. 나중에 다시 시도하십시오.",
+        "serverError": "서버 오류",
+        "anUnexpectedErrorOccurredPleaseTryAgainLaterOrContactSupportToReportTheError": "예상치 못한 오류가 발생했습니다. 나중에 다시 시도하거나 지원 팀에 오류를 보고하십시오."
+      },
+      "tagFilterConfiguration": {
+        "noFiltersDefined": "정의된 필터가 없습니다."
+      },
+      "tagGroupConfiguration": {
+        "select": "선택",
+        "top5": "상위 5개",
+        "bottom5": "하위 5개",
+        "showRemainingGroupsAggregatedAsOther": "“기타”로 집계된 나머지 그룹을 표시합니다."
+      },
+      "resultHeader": {
+        "result": "결과"
+      }
+    },
+    "dataSources": {
+      "traceAnalytics": "추적 분석",
+      "trace": "추적",
+      "callAnalytics": "호출 분석",
+      "call": "호출",
+      "applications": "애플리케이션",
+      "websites": "웹 사이트",
+      "mobileApps": "모바일 앱",
+      "profiles": "프로파일",
+      "logs": "로그",
+      "eumWebsites": "EUM: 웹 사이트",
+      "eumMobileApps": "EUM: 모바일 앱",
+      "pageLoads": "페이지 로드",
+      "pageTransitions": "페이지 전환",
+      "pageTransitions2": "페이지 전환",
+      "resources": "리소스",
+      "httpRequests": "HTTP 요청",
+      "httpRequests2": "HTTP 요청",
+      "javaScriptErrors": "JavaScript 오류",
+      "customEvents": "사용자 정의 이벤트",
+      "customEvents2": "사용자 정의 이벤트",
+      "sessionStarts": "세션 시작",
+      "viewTransitions": "보기 전환",
+      "pageLoads2": "페이지 로드",
+      "jsErrors": "JS 오류",
+      "viewTransitions2": "보기 전환",
+      "calls": "호출",
+      "traces": "추적",
+      "console": "콘솔"
+    }
+  },
+  "services": {
+    "noData": "선택한 시간 범위에 사용할 수 있는 서비스 호출이 없습니다. 문제점 해결 정보는 [문서][문서]를 참조하십시오.\n\n[문서]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+  },
+  "traceDetail": {
+    "callDetails": {
+      "serviceComponent": {
+        "infrastructure": "인프라",
+        "detailsAndStackTrace": "세부사항 및 스택 추적",
+        "details": "세부사항",
+        "desClusterNotCorrelateNode": "대상이 클러스터입니다. Instana는 이 호출을 특정 노드에 상관시킬 수 없습니다.",
+        "sourceUnmonitored": "이 호출의 소스가 추적되지 않았으며 결과적으로 소스에 대한 정보를 제공할 수 없습니다. 이 호출에 대해 표시되는 모든 정보를 대상에서 제공합니다.",
+        "sourceMonitoredByAnotherProvider": "이 호출의 소스는 분배된 다른 추적 제공자에 의해 추적됩니다. ID가 {{foreignParentId}}인 해당 제공자 내의 상위 범위를 검색하여 소스에 대한 자세한 정보를 찾을 수 있습니다.",
+        "notMonitored": "Instana에서 모니터하지 않음"
+      }
+    },
+    "tabs": {
+      "summary": {
+        "duplicateCalls": "호출 복제",
+        "duplicateCallsDesc": "이 추적은 하나 이상의 중복 호출로 구성되어 있습니다(범위). 고유 호출: {{traceCallCountIgnoringBatchSize}} - 레코드: {{traceCallRecordCount}}. 이로 인해 호출 개수(일괄처리 포함) 및 오류 개수 값이 잘못되거나 기타 불규칙성이 발생할 수 있습니다.",
+        "batchedIngestion": "일괄처리된 수집",
+        "traceIngestionBatchCount": "이 추적은 {{traceIngestionBatchesCount}} 배치에서 처리되었습니다. 단일 호출로 병합되지 않은 범위, 부분 서비스 맵핑 또는 기타 불완전 데이터 표시와 같은 불규칙성이 발생할 수 있습니다.",
+        "subCalls": "하위 호출",
+        "erroneousCalls": "잘못된 호출",
+        "errorLogs": "오류 로그",
+        "warnLogs": "경고 로그",
+        "latency": "대기 시간",
+        "timeline": "타임라인",
+        "serviceEndpointList": "서비스 엔드포인트 목록",
+        "largeTrace": "대형 추적",
+        "largeTraceLink": "이 추적은 대형이며 이 추적을 렌더링하면 브라우저 내의 성능에 문제가 발생할 수 있습니다. 수동으로 조사하려는 경우 <linkToDocs>추적을 다운로드</linkToDocs>하거나 브라우저 내에서 추적 렌더링을 시도할 수 있습니다. 이 시도의 성능을 높이기 위해 컴포넌트의 서브세트만 렌더링합니다.",
+        "calls": "호출",
+        "logs": "로그",
+        "analyzeLogs": "분석으로 보기",
+        "correspondingMobileAppActivity": "해당하는 모바일 앱 활동",
+        "hideMobileAppInformation": "모바일 앱 정보 숨기기",
+        "showMobileAppInformation": "모바일 앱 정보 표시",
+        "viewMobileAppActivity": "모바일 앱 활동 보기",
+        "erroneousTrace": "잘못된 추적",
+        "attemptToRenderTrace": "추적을 렌더링하는 시도",
+        "hideWebsiteInformation": "웹 사이트 정보 숨기기",
+        "showWebsiteInformation": "웹 사이트 정보 표시",
+        "viewWebsiteActivity": "웹 사이트 활동 보기"
+      }
+    },
+    "components": {
+      "callDetails": {
+        "error": "오류",
+        "warning": "경고",
+        "showStackTrace": "스택 추적 표시",
+        "expandButtonForContent": "컨텐츠에 대한 단추 펼치기",
+        "logParameters": "로그 매개변수",
+        "logStackTrace": "로그 스택 추적",
+        "thisCallIsBatchedAndRepresentsIndividualCalls": "이 호출이 일괄처리되며 {{batchSize}}의 개별 호출을 나타냅니다.",
+        "correlationMissing": "상관 누락",
+        "noOtherRelationsFound": "다른 관계를 찾을 수 없습니다.",
+        "synthetic": "합성",
+        "thisCallDoesNotContributeToServiceOrApplicationKpIs": "이 호출은 서비스 또는 애플리케이션 API에 기여하지 않습니다.",
+        "configureSyntheticEndpoints": "합성 엔드포인트 구성",
+        "of": " -",
+        "on": "다음 관련",
+        "instanaCouldNotCorrelateThisSpanWithTheInfrastructureThatGeneratedIt": "Instana는 생성한 인프라와 이 범위를 상관시킬 수 없습니다.",
+        "httpCallUri": "HTTP 호출 URI",
+        "beaconType": "비콘 유형",
+        "networkInsights": "Network Insights",
+        "transferSize": "전송 크기",
+        "encodedBodySize": "인코딩된 본문 크기",
+        "decodedBodySize": "디코딩된 본문 크기",
+        "goToBeacon": "비콘으로 이동",
+        "profiling": "프로파일링",
+        "loadingProfile": "프로파일 로드 중",
+        "noCpuProfileAvailable": "사용 가능한 CPU 프로파일 없음",
+        "cpuUser": "CPU 사용자",
+        "cpuHotspots": "CPU 핫스팟",
+        "analyzeProfiles": "프로파일 분석",
+        "infrastructure": "인프라",
+        "cxfType": "CXF 유형",
+        "type": "유형",
+        "category": "카테고리",
+        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "참고: 소스 코드는 Instana에서 계속 모니터링 하는 프로세스에 대해서만 검색할 수 있습니다.",
+        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "참고: 소스 코드는 Instana가 해당 인프라를 링크할 수 있는 프로세스에 대해서만 검색할 수 있습니다.",
+        "stackTrace": "StackTrace",
+        "in": "위치",
+        "windowLocation": "창 위치",
+        "resourceUri": "리소스 URI",
+        "cacheInteraction": "캐시 상호작용"
+      },
+      "callTree": {
+        "expandButtonForRow": "행에 대한 단추 펼치기",
+        "of": " -",
+        "inheritedFrom": "다음에서 상속됨"
+      },
+      "colorCodingToggleButtons": {
+        "colorizeBy": "색상화 기준",
+        "endpoint": "엔드포인트"
+      },
+      "logTooltipContent": {
+        "errorLog": "오류 로그",
+        "warningLog": "경고 로그"
+      }
+    },
+    "applications": "애플리케이션",
+    "analytics": "분석",
+    "download": "다운로드",
+    "traceId": "추적 ID:",
+    "closeTraceDetail": "추적 세부사항 닫기"
+  },
+  "applicationFilter": {
+    "labelApplication": "애플리케이션",
+    "labelApplicationInbound": "애플리케이션 인바운드",
+    "labelService": "서비스",
+    "labelEndpoint": "엔드포인트",
+    "labelSOURCE_AND_DESTINATION": "소스 및 대상",
+    "labelDESTINATION": "대상",
+    "labelSOURCE": "소스",
+    "labelNOTAPPLICABLE": "",
+    "labelStringEQUALS": "같음",
+    "labelStringNOT_EQUAL": "같지 않음",
+    "labelStringCONTAINS": "포함",
+    "labelStringNOT_CONTAIN": "포함하지 않음",
+    "labelStringNOT_EMPTY": "있음",
+    "labelStringIS_EMPTY": "없음",
+    "labelStringSTARTS_WITH": "다음으로 시작",
+    "labelStringENDS_WITH": "다음으로 끝남",
+    "labelStringNOT_STARTS_WITH": "다음으로 시작하지 않음",
+    "labelStringNOT_ENDS_WITH": "다음으로 끝나지 않음",
+    "labelNumberEQUALS": "=",
+    "labelNumberNOT_EQUAL": "!=",
+    "labelNumberLESS_THAN": "<",
+    "labelNumberGREATER_THAN": ">",
+    "labelNumberNOT_EMPTY": "있음",
+    "labelNumberIS_EMPTY": "없음",
+    "labelNumberLESS_OR_EQUAL_THAN": "<=",
+    "labelNumberGREATER_OR_EQUAL_THAN": ">=",
+    "labelNumberCONTAINS": "포함",
+    "labelNumberNOT_CONTAIN": "포함하지 않음",
+    "labelNumberSTARTS_WITH": "다음으로 시작",
+    "labelNumberENDS_WITH": "다음으로 끝남",
+    "labelNumberNOT_STARTS_WITH": "다음으로 시작하지 않음",
+    "labelNumberNOT_ENDS_WITH": "다음으로 끝나지 않음",
+    "labelBooleanEQUALS": "일치",
+    "labelKeyPairEQUALS": "같음",
+    "labelKeyPairNOT_EQUAL": "같지 않음",
+    "labelKeyPairCONTAINS": "포함",
+    "labelKeyPairNOT_CONTAIN": "포함하지 않음",
+    "labelKeyPairNOT_EMPTY": "있음",
+    "labelKeyPairIS_EMPTY": "없음",
+    "labelKeyPairIS_BLANK": "값이 없음",
+    "labelKeyPairNOT_BLANK": "값이 있음",
+    "labelKeyPairSTARTS_WITH": "다음으로 시작",
+    "labelKeyPairENDS_WITH": "다음으로 끝남"
+  },
+  "analyzeHeader": {
+    "title": "분석"
+  },
+  "editTagFilterDialog": {
+    "dialogTitleEdit": "필터 편집",
+    "dialogTitleAdd": "{{filterCategory}} 필터 추가",
+    "messageTitle": "데이터를 필터링할 태그를 선택하십시오. 태그는 대소문자를 구분합니다.",
+    "placeholder": "결과를 필터링하려면 입력하십시오.",
+    "saveFilter": "필터 저장",
+    "addFilter": "필터 추가"
+  },
+  "filterBar": {
+    "checkboxBarOverlay": {
+      "labelSynthetic": "합성 호출 표시",
+      "labelInternal": "내부 호출 표시"
+    },
+    "keyValueBarItem": {
+      "tooltip": "필터 제거"
+    },
+    "multiSelectBarItem": {
+      "moreDataMessage": "추가 {{pluralLabel}}을(를) 사용할 수 있습니다. 상위 200개 {{pluralLabel}}만 표시됩니다. 드릴 다운하려면 필터를 사용하십시오."
+    },
+    "multiSelectBarOverlay": {
+      "loadingFilters": "필터 옵션을 로드합니다.",
+      "noFiltersFound": "필터 옵션을 찾을 수 없습니다.",
+      "clickToFilter": "{{itemLabel}}별로 필터링하려면 클릭하십시오."
+    },
+    "selectBarItem": {
+      "moreDataMessage": "추가 {{pluralLabel}}을(를) 사용할 수 있습니다. 상위 200개 {{pluralLabel}}만 표시됩니다. 드릴 다운하려면 필터를 사용하십시오."
+    },
+    "selectBarOverlay": {
+      "tooltip": "현재 {{selectedItemLabel}}별로 필터링되었습니다. 필터를 제거하려면 클릭하십시오.",
+      "loadingFilters": "필터 옵션을 로드합니다.",
+      "noFiltersFound": "필터 옵션을 찾을 수 없습니다.",
+      "clickToFilter": "{{itemLabel}}별로 필터링하려면 클릭하십시오."
+    },
+    "allFilters": "모든 필터"
+  },
+  "groupedTraces": {
+    "labelGroup": "그룹",
+    "labelCount": "개수",
+    "labelEarliestTimestamp": "최초 시간소인",
+    "groupedTracesTitle": "메트릭 선택",
+    "groupedTracesHelp": "테이블 내에서 열로 사용할 수 있는 메트릭을 선택하십시오. 그래프로 표시할 수 있는 메트릭도 정의합니다."
+  },
+  "groupingInfo": {
+    "removeGrouping": "그룹화 제거"
+  },
+  "metricsChart": {
+    "count": "개수"
+  },
+  "metricSelector": {
+    "tooltipGroups": "메트릭은 그룹 분석 시에만 사용 가능합니다.",
+    "tooltipRemove": "메트릭 제거"
+  },
+  "radioButtons": {
+    "messageFilering": "소스에 대한 필터링 및 그룹화를 선택한 시간 범위에 사용할 수 없습니다.",
+    "messageIndependent": "이 태그는 소스 및 대상과 별개입니다.",
+    "fragmentSource": "호출 소스에만 적용",
+    "fragmentCall": "호출 소스 또는 대상에 적용"
+  },
+  "rawCalls": {
+    "callAnalytics": "호출 분석",
+    "labelTimestamp": "시간소인",
+    "labelLatency": "대기 시간",
+    "tooltipBatched": "이 호출이 일괄처리되며 {{batchCount}}개 개별 호출을 나타냅니다.",
+    "tooltipLatency": "일괄처리된 {{batchCount}}개 호출의 총 대기 시간입니다."
+  },
+  "rawTraces": {
+    "labelTimestamp": "시간소인",
+    "labelLatency": "대기 시간"
+  },
+  "tagFilterList": {
+    "tooltipRemoveFilter": "필터 제거"
+  },
+  "dialogs": {
+    "tooltip": "현재 제안은 사용할 수 없습니다. 값을 입력해 주시기 바랍니다.",
+    "components": {
+      "analyzeFilterForm": {
+        "false": "false",
+        "true": "true"
+      }
+    }
+  },
+  "logDetails": {
+    "title": "로그",
+    "titleTags": "태그",
+    "titleParameters": "매개변수",
+    "tooltipCloseLogDetails": "로그 세부사항 닫기",
+    "analyzeLogsLabel": "로그 분석",
+    "similarLogs": "유사한 로그",
+    "similarServiceLogs": "서비스의 컨텍스트에서"
+  },
+  "traceDetails": {
+    "titleAnalytics": "분석",
+    "titleTrace": "추적",
+    "tooltipData": "이 추적과 관련된 일부 데이터가 지연되므로 잠시 후에 페이지를 다시 로드하십시오. 이러한 경우가 발생할 수 있는 예제는 해당 데이터의 일부가 처리 중인 매우 최근 추적에서 표시되고 있습니다.",
+    "tooltipClose": "추적 세부사항 닫기",
+    "labelTotal": "총계",
+    "labelNetwork": "네트워크",
+    "labelSelf": "셀프",
+    "labelWaiting": "대기 중",
+    "labelService": "서비스",
+    "labelEndpoint": "엔드포인트",
+    "labelAggregatedTime": "집계된 시간",
+    "labelErroneousCalls": "잘못된 호출",
+    "buttonTechnology": "기술",
+    "appNavigatorSplitScreen": {
+      "tooltipViewPrevious": "이전 {{viewType}} 보기(단축키: 왼쪽 화살표 키)",
+      "tooltipViewNext": "다음 {{viewType}} 보기(단축키: 오른쪽 화살표 키)",
+      "tooltipCloseSidebar": "사이드바 닫기",
+      "tooltipOpenSidebar": "사이드바 열기"
+    },
+    "callDetails": {
+      "tooltipCloseCallDetails": "호출 세부사항 닫기"
+    },
+
+    "callTimeAxis": {
+      "started": "시작됨: {{startedTime}}"
+    },
+    "navigatorSplitScreen": {
+      "tooltipViewPrevious": "이전 {{viewType}} 보기(단축키: 왼쪽 화살표 키)",
+      "tooltipViewNext": "다음 {{viewType}} 보기(단축키: 오른쪽 화살표 키)",
+      "tooltipCloseSidebar": "사이드바 닫기",
+      "tooltipOpenSidebar": "사이드바 열기"
+    }
+  },
+  "tabs": {
+    "labelDetail": "세부사항",
+    "summary": {
+      "websiteMonitoringDataTitle": "해당하는 웹 사이트 활동",
+      "messageMultiple_root_spans": "추적의 형식이 잘못되었으며 여러 루트 호출을 포함합니다.",
+      "messageMissing_root_span": "추적의 루트 호출이 누락되었거나 아직 처리 파이프라인에 도착하지 않았습니다.",
+      "messageDuplicated_spans": "추적에 동일한 ID의 중복 호출이 포함되어 있습니다.",
+      "messageToo_many_spans": "추적에 너무 많은 호출이 포함되어 있으며 일부만 표시하고 다운로드할 수 있습니다.",
+      "messageMissing_parent_span": "처리하는 동안 이 추적의 일부 항목 범위에 대한 상위 범위가 누락되었습니다.",
+      "messageExit_spans_followed_by_intermediate_spans": "일부 종료 범위는 중간 범위 다음에 옵니다.",
+      "thisTraceIsCausedByActivityOnTheMobileApp": "이 추적은 <linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp> 모바일 앱의 활동에 의해 발생합니다.",
+      "thisTraceIsCausedByActivityOnThewebsite": "이 추적은 <linkToWebsite>{{websiteLabel}}</linkToWebsite> 웹 사이트의 활동에 의해 발생합니다."
+    }
+  },
+  "resultHeaderTooltip": "이 보기를 더 빨리 로드할 수 있도록 조회 시간 범위가 가장 근접한 분 단위로 반올림되었습니다.",
+  "components": {
+    "analyzeHeader": {
+      "application": "애플리케이션",
+      "website": "웹 사이트",
+      "mobileApp": "모바일 앱",
+      "profiles": "프로파일",
+      "beta": "베타",
+      "analytics": "분석"
+    },
+    "editGroupDialog": {
+      "group": "그룹",
+      "tag": "태그",
+      "loadingSuggestions": "제안 로드 중…",
+      "save": "저장"
+    },
+    "editTagFilterDialog": {
+      "tag": "태그",
+      "loadingSuggestions": "제안 로드 중…",
+      "operator": "연산자",
+      "true": "true",
+      "false": "false",
+      "removeFilter": "필터 제거"
+    },
+    "filterBar": {
+      "group": "그룹",
+      "filters": "필터",
+      "clearFilters": "필터 지우기",
+      "loadingSuggestions": "제안 로드 중…",
+      "operator": "연산자",
+      "key": "키",
+      "value": "값",
+      "addFilter": "필터 추가",
+      "equalTo": "다음과 같음",
+      "notEqualTo": "다음과 같지 않음",
+      "greaterThan": "보다 큼",
+      "greaterThanOrEquals": "보다 크거나 같음",
+      "lessThan": "보다 작음",
+      "lessThanOrEquals": "보다 작거나 같음",
+      "clear": "지우기",
+      "save": "저장"
+    },
+    "groupedTraces": {
+      "tagPresentWithNoValue": "태그에 값이 없음",
+      "tagNotPresent": "태그가 없음"
+    },
+    "groupingInfo": {
+      "groupedBy": "그룹화 기준",
+      "removeGrouping": "그룹화 제거"
+    },
+    "groupingTableHeader": {
+      "preview": "미리보기",
+      "groupBy": "그룹화 기준",
+      "selectMetrics": "메트릭 선택",
+      "hideGraph": "그래프 숨기기",
+      "showGraph": "그래프 표시"
+    },
+    "metricsChart": {
+      "latencyDistribution": "대기 시간(분포)",
+      "noDataToDisplay": "표시할 데이터 없음"
+    },
+    "metricsSelector": {
+      "pleaseSelectAtMostNumberOfmetrics": "최대 {{maximumNumberOfMetrics}}개 메트릭을 선택하십시오.",
+      "addMetric": "메트릭 추가",
+      "metric": "메트릭",
+      "pleaseSelect": "선택하십시오.",
+      "aggregation": "집계",
+      "selectedMetrics": "선택된 메트릭",
+      "save": "저장"
+    },
+    "radioButtons": {
+      "source": "소스",
+      "destination": "대상"
+    },
+    "rawCalls": {
+      "call": "호출",
+      "service": "서비스"
+    },
+    "rawTraces": {
+      "trace": "추적",
+      "traceAnalytics": "추적 분석",
+      "service": "서비스"
+    },
+    "tagFilterList": {
+      "and": "and"
+    }
+  }
+}

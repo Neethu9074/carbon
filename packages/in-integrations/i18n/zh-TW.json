@@ -1,0 +1,13 @@
+{
+  "landing": {
+    "loadingData": "正在載入資料",
+    "noEntitiesFound": "找不到實體",
+    "noEntitiesFoundFor": "找不到 {{landingQueryCount}} 的實體",
+    "noMatchingEntitiesFoundTitle": "找不到相符的實體",
+    "results": "結果"
+  },
+  "logging": {
+    "goToLogs": "移至日誌"
+  }
+
+}

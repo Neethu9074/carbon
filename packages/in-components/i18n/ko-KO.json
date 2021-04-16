@@ -1,0 +1,143 @@
+{
+  "chart": {
+    "chartWrapperMetricNotfound": "메트릭 ID {{metricId}}을(를) 찾을 수 없습니다.",
+    "chartWrapperSameAxisSameValue": "하나의 축에 대한 모든 집계 유형에는 동일한 값이 있어야 합니다.",
+    "viewInAnalyticsBtnLabel": "분석으로 보기",
+    "chartLendMetricTimeShifted": "메트릭이 다음으로 시간이 이동됨: {{timeShiftedLabel}}",
+    "chartDownloadLabel": "JSON 다운로드",
+    "chartGlobalHighlightLabel": "모든 차트에서 강조표시",
+    "chartZoomInLabel": "시간 범위 확대",
+    "chartAlertsLanePresenterAlertsLabel": "경보",
+    "chartAlertsLaneTooltipContent": {
+      "countSmartAlert": "스마트 경보",
+      "countSmartAlert_plural": "스마트 경보",
+      "countSmartAlert_0": "스마트 경보",
+      "countSmartAlert_1": "스마트 경보",
+      "countSmartAlert_2": "스마트 경보",
+      "countIncident": "인시던트",
+      "countIncident_plural": "인시던트",
+      "countIncident_0": "인시던트",
+      "countIncident_1": "인시던트",
+      "countIncident_2": "인시던트",
+      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "itemMsg": "+{{leftCount}}개 {{moreMsg}} 추가"
+    },
+    "chartAlertsPreviewLanePresenterAlertsLabel": "경보",
+    "chartReleasesLanePresenterReleasesLabel": "릴리스",
+    "chartReleasesLanePresenterTooltip": "{{len}}개 추가 릴리스",
+    "highlightedTimeframeCloseButtonClearHighlight": "강조표시 지우기",
+    "resultAwareChartSomethingWentWrong": "문제가 발생함…",
+    "resultAwareChartPleaseTryAgainLater": "나중에 다시 시도하십시오.",
+    "tooltip": {
+      "scrollHint": "<upArrow /><downArrow /> 키를 사용하여 스크롤",
+      "rollup": "{{rollup}} 초과",
+      "more": "{{number}}개 더"
+    }
+  },
+  "comboBox": {
+    "placeholderSelect": "선택…"
+  },
+  "downloadBtn": {
+    "downloadViewDownloadAsJsonLabel": "JSON으로 다운로드",
+    "downloadViewDownloadCSVLabel": "다운로드(*.csv)",
+    "downloadViewDownloadJsonLabel": "다운로드(*.json)",
+    "eventMetricDownloadViewDownloadJsonLabel": "다운로드(*.json)"
+  },
+  "touchedMessages": {
+    "withPath": "{{message}}(<codeWithClass>{{path}}</codeWithClass>에서)"
+  },
+  "graphView": {
+    "graphTitle": "그래프",
+    "explanationHeader": "동적 그래프 쇼케이스",
+    "explanationP1": "코어 기술 기반 Instana는 동적 그래프라고 하는 솔루션입니다. 그래프는 컴포넌트의 모든 물리적 및 논리적 종속 항목을 이해하는 애플리케이션 모델입니다. 오른쪽에 현재 환경의 동적 그래프가 표시됩니다!",
+    "explanationP2": "그래프에는 물리적 컴포넌트가 더 많습니다. 추적, 애플리케이션, 서비스, 클러스터 또는 테이블스페이스와 같은 논리적 컴포넌트도 포함됩니다. 컴포넌트 및 해당 종속 항목은 Instana 에이전트 및 센서에 의해 자동으로 검색되며 그래프는 지속적으로 최신 상태로 유지됩니다. 그래프의 모든 노드도 의미적 지식 및 기계 학습 접근 방식을 기반으로 메트릭, 구성 데이터 및 계산된 상태 값과 같은 상태 정보로 지속적으로 업데이트됩니다. 이 지식도 해당 레벨의 영향을 이해하기 위해 그래프의 종속 항목을 분석하여 서비스 및 애플리케이션과 같은 논리적 그룹화를 찾고 문제의 중요도를 이끌어 낼 수 있습니다. 전체 그래프는 지속적이며 시간 사이를 이동하여 많은 운영 유스 케이스에 대한 그래프의 지식을 활용할 수 있습니다.",
+    "explanationLink": "자세한 정보는 <linkToBlog>블로그를 방문</linkToBlog>하십시오.",
+    "closeBtn": "그래프 닫기"
+  },
+  "gravatar": {
+    "avatarUrlAlt": "gravatar.com의 {{email}}에 대한 아바타.",
+    "avatarNullAlt": "{{email}}에 대한 폴백 아바타."
+  },
+  "loadMoreRow": {
+    "loadMore": "추가 로드"
+},
+  "messageFlyout": {
+    "infrastructurePageName": "인프라",
+    "eumPageName": "EUM",
+    "settingsPageName": "설정",
+    "requestQuoteBtn": "견적 요청"
+  },
+  "releaseNotesDialog": {
+    "releaseNotesTitle": "릴리스 정보"
+  },
+  "requestQuoteDialog": {
+    "dialogRequestQuoteTitle": "견적 요청",
+    "dialogRequestLoadingText": "필요한 정보 로드 중…",
+    "dialogRequestQuoteSubmittedMsg": "견적 요청이 제출되었습니다.",
+    "formAccountInfoSecrHeader": "계정 정보",
+    "formCompanyNameLabel": "회사 이름",
+    "formNumberofAPMHostsLabel": "APM 호스트 수",
+    "formNumberofIQMHostsLabel": "IQM 호스트 수",
+    "formNumberofYearsLabel": "년수",
+    "formBillingInforSecHeader": "비용 청구 정보",
+    "formStreetLabel": "상세 주소",
+    "formCityLabel": "구/군/시",
+    "formZipLabel": "우편번호",
+    "formCountryLabel": "국가",
+    "formStateLabel": "상태"
+  },
+  "searchBar": {
+    "usingTheSearchBar": "3D 맵, 비교 테이블 및 인시던트 보기를 필터링하는 데 Instana 동적 초점 검색 기능을 사용할 수 있습니다. 검색 표시줄에는\n부울 연산자뿐만 아니라 퍼지 및 와일드카드 검색을 사용하여 검색하는 확장 기능이 포함되어 있습니다. 예를 들어, 다음\n조회는 4개 미만의 CPU를 가진 프로덕션 호스트로 보기를 제한합니다.\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## 구문\n동적 초점은 Lucene 표준과 다음과 같은 차이점을 가진 [lucene 조회 구문](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)을 활용합니다.\n- **기본 연산자:** `AND`\n- **구문 제한조건:**이 [문서](https://instana.com/docs/dynamic_focus/#syntax-constraints)에 나열됩니다.\n## 검색 표시줄 상호작용\n검색 표시줄은 검색 필드에 대한 자동 완료 기능을 지원하며 입력하는 동안 lucene 조회를 구문 강조표시합니다.\n일단 입력하면 검색 표시줄에서 현재 입력과 일치하는 검색 필드를 제안합니다.`RETURN`을 눌러 제안된 필드를\n승인할 수 있습니다.자동 완성 팝업을 열려면 `CTRL+SPACE`를 누르십시오.\n## Lucene 조회 구문 치트 시트\n - **필드 검색:** `entity.host.cpu.count:>4`\n - **부울 연산자:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **그룹화:** `(entity.host.cpu.count:<4 AND entity.zone:production) 또는 entity.host.cpu.count:>4`\n - **와일드카드 검색:** `entity.type:container*`\n\n자세한 정보는 [문서](https://instana.com/docs/dynamic_focus/)를 참조하십시오.",
+    "filtersBtn": "필터",
+    "filterPresetsMenuHeading": "필터",
+    "filterPresetsSaveFilters": "여기에 쉽게 액세스하기 위해 필터 저장",
+    "filterPresetsEditFilter": "편집",
+    "filterPresetsRemoveFilter": "제거",
+    "saveDialogSaveFilterTitle": "필터 저장",
+    "saveDialogNameLabel": "이름",
+    "saveDialogDefinitionLabel": "정의",
+    "saveDialogSaveFilterBtn": "필터 저장",
+    "dialogRequireNameMsg": "필터에 대한 이름을 지정하십시오.",
+    "dialogRequireFilterMsg": "저장할 필터를 지정하십시오.",
+    "filterConfirmRemovalHeader": "제거 확인",
+    "filterConfirmButtonLabel": "필터 제거",
+    "filterConfirmRemoveMsg": "<strong>{{filterName}}</strong> 필터를 제거하시겠습니까?",
+    "helpDialogTitleUsingTheSearchBar": "검색 표시줄 사용"
+  },
+  "svgIcon": {
+    "pluginIcon": "{{pluginName}} 아이콘"
+  },
+  "tables": {
+    "serverTable": {
+      "cursorPaginatedTableFilterByLabel": "이 그룹 분석",
+      "cursorPaginatedTableLoadMoreRowLabel": "추가 로드",
+      "withEmptyTableStateEntitiesName": "엔티티",
+      "withEmptyTableStateEntityPageMainNotificationTitle": "{{name}}을(를) 사용할 수 없음",
+      "withEmptyTableStateEntityPageMainNotificationExplanation": "선택한 시간 범위에 대해 검색된 {{name}}이(가) 없습니다."
+    },
+    "sharedComponents": {
+      "configurableThSearchItemPlaceholder": "{{len}} 항목 검색",
+      "configurableThNoMatchesTxt": "일치사항 없음"
+    }
+  },
+  "tags": {
+    "tagFilterSearchPlaceholder": "검색…",
+    "tagListNoTagsDefined": "정의된 태그가 없음",
+    "tagListShowAll": "모든 태그 표시({{num}}개 더 표시)"
+  },
+  "copyToClipboardPressToCopy": "복사하려면 CTRL+C/CMD+C를 누르십시오!",
+  "copyToClipboardCopied": "복사됨!",
+  "reloadUiDialogTitle": "새 사용자 인터페이스 버전 사용 가능",
+  "reloadUiDialogP1": "브라우저 내에서 로드된 사용자 인터페이스 버전이 오래되어 탐색하려고 시도하는 중에 오류가 발생했습니다.",
+  "reloadUiDialogP2": "최신 버전을 가져와서 계속하려면 브라우저 창을 다시 로드하십시오.",
+  "reloadUiDialogReloadBtn": "다시 로드",
+  "sparkChart": {
+    "notAvailable": "해당사항 없음"
+  },
+  "errorBoundary": {
+    "message": {
+      "title": "오류 발생",
+      "content": "<p>예상치 못한 오류로 인해 Instana UI의 일부를 사용할 수 없습니다. 페이지를 다시 로드하십시오.</p><p>오류 ID: <code>{{errorId}}</code></p>"
+    }
+  }
+}

@@ -1,0 +1,435 @@
+{
+  "analyzeView": {
+    "splitScreenListTooltipCloseSidebar": "关闭侧边栏",
+    "splitScreenListTooltipOpenSidebar": "打开侧边栏",
+    "result": "{{formattedCount}} 个结果",
+    "result_plural": "{{formattedCount}} 个结果",
+    "result_0": "{{formattedCount}} 个结果",
+    "result_1": "{{formattedCount}} 个结果",
+    "result_2": "{{formattedCount}} 个结果",
+    "resultRetained": "已保留 {{formattedCount}} 个",
+    "resultRetained_plural": "已保留 {{formattedCount}} 个",
+    "resultRetained_0": "已保留 {{formattedCount}} 个",
+    "resultRetained_1": "已保留 {{formattedCount}} 个",
+    "resultRetained_2": "已保留 {{formattedCount}} 个",
+    "groupedViewHeader": "{{formattedCount}} 个组",
+    "groupedViewHeader_plural": "{{formattedCount}} 个组",
+    "groupedViewHeader_0": "组",
+    "groupedViewHeader_1": "组",
+    "groupedViewHeader_2": "组",
+    "resultHeaderLoading": "正在加载...",
+    "resultHeaderTooltip": "查询时间范围已四舍五入到最接近的整分钟，以便更快速地装入此视图。",
+    "queryProgress": {
+      "preparing": "正在准备...",
+      "preparingInfo": "请不要重新装入 - 此页面将自动更新。",
+      "runningQuery": "正在运行查询...",
+      "timeout": "此查询已超时。",
+      "timeoutEstimated": "此查询耗用的时间太长以致无法运行。",
+      "timeoutInfo": "请选择更短的时间范围，或者通过应用更多过滤器来发出更具体的查询。",
+      "inputError": "出现了输入错误。",
+      "tooManyRequests": "请求次数太多",
+      "tooManyRequestsInfo": "我们的系统当前繁忙。请稍后重试。",
+      "serverError": "服务器错误",
+      "serverErrorInfo": "发生意外错误。请稍后重试，或者联系支持人员以报告错误。"
+    }
+  },
+  "aboutInstanaDialog": {
+    "columnizedContentDeployment": "部署",
+    "columnizedContentUserInterface": "用户界面",
+    "columnizedContentBackend": "后端",
+    "labelRegion": "区域",
+    "labelTag": "标记",
+    "labelCommit": "落实",
+    "buttonGraphShowcase": "图形展示"
+  },
+  "blueprintFormMultistep": {
+    "buttonCancel": "取消",
+    "buttonBack": "上一步",
+    "buttonCreate": "创建",
+    "buttonNext": "下一步"
+  },
+  "chartingConfigurator": {
+    "buttonAddChart": "添加图表",
+    "labelChangeSelectedMetric": "更改所选指标",
+    "labelChangeSelectedAggregation": "更改所选汇总",
+    "labelChangeSelectedRenderer": "更改所选渲染器",
+    "titleChart": "图表"
+  },
+  "dashboardHeader": {
+    "urlShortenerTabListTextShortLink": "短链接",
+    "urlShortenerWaitTextGeneratingShortLink": "正在生成短链接。",
+    "urlShortenerLabelLockCurrentTimeRange": "锁定当前时间范围",
+    "urlShortenerLabelLive": "{{timeConfig}}（实时）",
+    "copy": "复制"
+  },
+  "delayed": {
+    "displayNameDelayed": "已延迟"
+  },
+  "dialog": {
+    "confirmationDialogLabelConfirm": "确认",
+    "promptPresenterLabelConfirm": "确认"
+  },
+  "draggableItemSelector": {
+    "tooltipReorderMetrics": "对指标重新排序"
+  },
+  "entityHealthIndicator": {
+    "indicatorPresenterNoIssues": "无问题",
+    "indicatorPresenterOpenIssues": "{{count}} 个问题",
+    "indicatorPresenterOpenIssues_plural": "{{count}} 个问题",
+    "indicatorPresenterOpenIssues_0": "{{count}} 个问题",
+    "indicatorPresenterOpenIssues_1": "{{count}} 个问题",
+    "indicatorPresenterOpenIssues_2": "{{count}} 个问题"
+  },
+  "entityPageMainNotification": {
+    "labelEntity": "实体",
+    "labelNotFound": "找不到 {{entity}}"
+  },
+  "entityVersionList": {
+    "headingAvailableTimeRanges": "可用时间范围",
+    "explanation": "我们在所选时间范围内找不到此实体的版本。我们在不同的时间范围内找到其他版本：",
+    "noDataAvailable": "无可用数据"
+  },
+  "error": {
+    "erroneousResultPresenterMessage": "发生意外错误。请刷新页面或稍后重试。",
+    "noDataAvailable": "无可用数据："
+  },
+  "expandableCard": {
+    "tooltipShowLess": "显示更少内容",
+    "tooltipShowMore": "显示更多内容"
+  },
+  "expandableGroup": {
+    "tooltipShowContent": "显示内容",
+    "labelExpandButtonForContent": "展开内容按钮"
+  },
+  "featureFeedback": {
+    "labelThisFeatureIsInBeta": "此功能处于测试阶段。",
+    "labelBETA": "BETA",
+    "linkLabelYouCanSendUsFeedback": "您可以向我们发送反馈"
+  },
+  "geoHeatMap": {
+    "loadingIndicatorLoadingData": "正在加载数据",
+    "tooltipResetView": "重置视图",
+    "tooltipZoomIn": "放大",
+    "tooltipZoomOut": "缩小"
+  },
+  "groupingConfigurator": {
+    "exampleTagCatalogLabelKubernetes": "Kubernetes",
+    "exampleTagCatalogLabelCluster": "集群",
+    "exampleTagCatalogLabelName": "名称",
+    "exampleTagCatalogLabelNamespace": "名称空间",
+    "exampleTagCatalogLabelInternal": "内部",
+    "exampleTagCatalogLabelType": "类型",
+    "exampleTagCatalogLabelLabel": "标签",
+    "exampleTagCatalogDescriptionStringClustersLabel": "字符串 - 集群的标签",
+    "exampleTagCatalogDescriptionStringNamespaceName": "字符串 - 名称空间名称",
+    "exampleTagCatalogDescriptionTypeOfEntity": "实体类型",
+    "exampleTagCatalogDescriptionLabelOfEntity": "实体的标签",
+    "addGroup": "添加组",
+    "titleGroup": "组",
+    "loadingIndicatorLoadingTagCatalog": "正在加载标记目录...",
+    "optional": "可选的"
+  },
+  "health": {
+    "eventTypeIssue": "问题",
+    "eventTypeIssue_plural": "问题",
+    "eventTypeIssue_0": "问题",
+    "eventTypeIssue_1": "问题",
+    "eventTypeIssue_2": "问题",
+    "eventTypeissue": "问题",
+    "eventTypeissue_plural": "问题",
+    "eventTypeissue_0": "问题",
+    "eventTypeissue_1": "问题",
+    "eventTypeissue_2": "问题",
+    "openIssuesListPresenterActionsViewIssues": "查看 {{eventType}}",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "查看 {{openIssueCount}} 个 {{eventType}}",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "正在加载未完成的 {{eventType}}...",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "无法加载未完成的 {{eventType}}",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} 个未完成的 {{eventType}}",
+    "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "（显示 {{maxIssuesToShow}} 个最严重）",
+    "openIssuesListPresenterIssueDescriptionOmitted": "已省略问题描述。可在事件的详细视图中看到更多详细信息。",
+    "openIssuesListPresenterStarted": "已启动"
+  },
+  "inlineTabNavigation": {
+    "labelSelectTab": "选择选项卡"
+  },
+  "kpiCard": {
+    "tooltipComparedToTimeShift": "与 {{timeShift}} 比较：{{comparisonValue}}"
+  },
+  "latencyDistributionBase10Chart": {
+    "latencyChartOverlayLabelRemoveLatencyFilter": "移除等待时间过滤器",
+    "percentileMenuButtonPercentileView": "百分位数视图",
+    "percentileMenuLabelAll": "所有",
+    "presenterLabelNoDataToDisplay": "没有可显示的数据",
+    "presenterLabelTraces": "跟踪数",
+    "presenterLabelCalls": "调用数"
+  },
+  "layout": {
+    "sideNavigationAndContentRouteNotFound": "未找到"
+  },
+  "list": {
+    "labelLoadMore": "加载更多",
+    "labelInitiateDefaultAction": "启动缺省操作",
+    "labelToggleExtraContent": "切换其他内容",
+    "labelMoreItems": "+ 另外 {{numMoreItems}} 项..."
+  },
+  "loading": {
+    "labelLoadingData": "正在加载数据"
+  },
+  "mainNavigation": {
+    "viewSwitcherLabelSettings": "设置",
+    "viewSwitcherLabelMore": "更多",
+    "viewSwitcherLabelTenants": "租户",
+    "viewSwitcherLabelAgents": "代理程序",
+    "viewSwitcherLabelReleaseNotes": "发行说明",
+    "viewSwitcherLabelDocumentation": "文档",
+    "viewSwitcherLabelSupport": "支持",
+    "viewSwitcherLabelAboutInstana": "关于 Instana",
+    "viewSwitcherLabelInternal": "内部",
+    "viewSwitcherLabelEvents": "事件",
+    "viewSwitcherlabelInfrastructure": "基础架构",
+    "viewSwitcherLabelApplications": "应用程序",
+    "viewSwitcherLabelAnalytics": "分析",
+    "viewSwitcherLabelWebsitesAndMobileApps": "Web 站点和移动应用程序",
+    "viewSwitcherLabelWebsites": "Web 站点",
+    "viewSwitcherLabelMobileApps": "移动应用程序",
+    "viewSwitcherLabelKubernetes": "Kubernetes",
+    "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
+    "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherLabelPlatforms": "平台",
+    "viewSwitcherButtonSignOut": "注销",
+    "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Instana UI 存在可用的新版本",
+    "newUiClientVersionAvailableButtonReloadToUpdate": "重新加载以更新"
+  },
+  "metricConfigurator": {
+    "buttonSelectMetrics": "选择指标",
+    "messagePleaseSelectAtMostMetrics": "请最多选择 {{maximumNumberOfMetrics}} 个指标。",
+    "titleAddAMetric": "添加指标",
+    "labelPleaseSelect": "请选择",
+    "labelAlreadySelected": "已选择",
+    "search": "搜索"
+  },
+  "profiling": {
+    "headerColumnDefinitionsUsed": "已用",
+    "headerColumnDefinitionsCode": "代码"
+  },
+  "resultForTimeSelectionIndicator": {
+    "labelShowingForSelection": "显示 {{entityName}} 以供选择",
+    "buttonClearSelection": "清除选择"
+  },
+  "searchInput": {
+    "placeholderSearch": "搜索..."
+  },
+  "selectorOverlay": {
+    "placeholderSearch": "搜索",
+    "loadingIndicatorLoadingCatalog": "正在加载目录"
+  },
+  "sortingConfigurator": {
+    "labelNA": "不适用",
+    "buttonAscending": "升序",
+    "buttonDescending": "降序"
+  },
+  "stack": {
+    "relationship": {
+      "CONTAINS": "包含 {{itemCount}} 个 {{plugin}}",
+      "DEFINED_IN": "已在 {{itemCount}} 个 {{plugin}} 中定义",
+      "DEPLOYED_ON": "已在 {{itemCount}} 个 {{plugin}} 上部署",
+      "DEPLOYED_WITHIN": "已在 {{itemCount}} 个 {{plugin}} 中部署",
+      "EXECUTED_BY": "由 {{itemCount}} 个 {{plugin}} 执行",
+      "EXECUTING": "正在执行 {{itemCount}} 个 {{plugin}}",
+      "EXPOSED_BY": "由 {{itemCount}} 个 {{plugin}} 公开",
+      "EXPOSED_THROUGH": "通过 {{itemCount}} 个 {{plugin}} 公开",
+      "EXPOSES": "公开 {{itemCount}} 个 {{plugin}}",
+      "EXPOSING": "正在公开 {{itemCount}} 个 {{plugin}}",
+      "ORCHESTRATED_IN": "已在 {{itemCount}} 个 {{plugin}} 中编排",
+      "ORCHESTRATED_ON": "已在 {{itemCount}} 个 {{plugin}} 上编排",
+      "ORCHESTRATING": "正在编排 {{itemCount}} 个 {{plugin}}",
+      "PART_OF": "{{itemCount}} 个 {{plugin}} 的一部分",
+      "PROVIDED_BY": "由 {{itemCount}} 个 {{plugin}} 提供",
+      "PROVIDED_FROM": "从 {{itemCount}} 个 {{plugin}} 中提供",
+      "PROVIDED_ON": "在 {{itemCount}} 个 {{plugin}} 上提供",
+      "PROVIDED_WITHIN": "在 {{itemCount}} 个 {{plugin}} 中提供",
+      "PROVIDES": "提供 {{itemCount}} 个 {{plugin}}",
+      "RUNS": "运行 {{itemCount}} 个 {{plugin}}",
+      "RUNS_IN": "在 {{itemCount}} 个 {{plugin}} 中运行",
+      "RUNS_ON": "在 {{itemCount}} 个 {{plugin}} 上运行",
+      "RUNS_WITHIN": "在 {{itemCount}} 个 {{plugin}} 中运行",
+      "SCHEDULED": "已调度 {{itemCount}} 个 {{plugin}}",
+      "SCHEDULED_BY": "由 {{itemCount}} 个 {{plugin}} 调度",
+      "SCHEDULED_ON": "已在 {{itemCount}} 个 {{plugin}} 上调度",
+      "SCHEDULED_WITHIN": "已在 {{itemCount}} 个 {{plugin}} 中调度",
+      "SCHEDULES": "调度 {{itemCount}} 个 {{plugin}}",
+      "SCHEDULING_IN": "正在 {{itemCount}} 个 {{plugin}} 中调度",
+      "SCHEDULING_ON": "正在 {{itemCount}} 个 {{plugin}} 上调度",
+      "SERVED_BY": "通过 {{itemCount}} 个 {{plugin}} 提供服务",
+      "SERVED_THROUGH": "已通过 {{itemCount}} 个 {{plugin}} 提供服务",
+      "SERVES": "为 {{itemCount}} 个 {{plugin}} 提供服务",
+      "SERVES_ON": "在 {{itemCount}} 个 {{plugin}} 上提供服务",
+      "SERVES_WITHIN": "在 {{itemCount}} 个 {{plugin}} 中提供服务",
+      "SPANS_ACROSS": "跨越 {{itemCount}} 个 {{plugin}}",
+      "WITHIN": "在 {{itemCount}} 个 {{plugin}} 中"
+    },
+    "apkpisLabelCalls": "调用数",
+    "apkpisLabelErroneousCalls": "错误调用数",
+    "buttonStack": "堆栈",
+    "stackPresenterEmptyMessage": "Instana 找不到任何相关项",
+    "stackPresenterDetailMessage": "我们没有足够的信息将此 {{itemText}} 与任何其他项相关",
+    "tabsLabelApplication": "应用程序",
+    "tabsEmptyMessageApplication": "没有相关的 Instana 应用程序或服务",
+    "tabsLabelKubernetes": "Kubernetes",
+    "tabsEmptyMessageKubernetes": "没有相关的 Kubernetes 资源",
+    "tabsLabelInfrastructure": "基础架构",
+    "tabsEmptyMessageInfrastructure": "没有相关的基础架构"
+  },
+  "stackTrace": {
+    "fillerTextIn": " 在",
+    "fillerTextAt": " 在"
+  },
+  "time": {
+    "lastMinute": "最近 1 分钟",
+    "lastMinute_plural": "最近 {{count}} 分钟",
+    "lastMinute_0": "最近 {{count}} 分钟",
+    "lastMinute_1": "最近 {{count}} 分钟",
+    "lastMinute_2": "最近 {{count}} 分钟",
+    "lastHour": "最近 1 小时",
+    "lastHour_plural": "最近 {{count}} 小时",
+    "lastHour_0": "最近 {{count}} 小时",
+    "lastHour_1": "最近 {{count}} 小时",
+    "lastHour_2": "最近 {{count}} 小时",
+    "yesterday": "昨天",
+    "twoDaysAgo": "两天前",
+    "lastSevenDays": "过去 7 天",
+    "previousWeek": "前一周",
+    "dashboardHeaderButtonLive": "实时",
+    "customTimeTitleTimeRange": "时间范围",
+    "to": "至",
+    "customTimeButtonSetTime": "设置时间",
+    "customTimeLabelYesterday": "昨天",
+    "customTimeLabelToday": "今天",
+    "customTimeLabelNow": "现在",
+    "customTimeMessageTheStartDateCannotBeGreaterThanTheEndDate": "开始日期不能晚于结束日期。",
+    "customTimeMessageTheLargestSelectableTimespanIsOneMonth": "可选择的最大时间范围是一个月。",
+    "presetsTitlePresets": "预设",
+    "releasesLabelName": "名称",
+    "releasesLabelScope": "作用域",
+    "releasesLabelGlobal": "全局",
+    "releasesLabelShowMore": "...显示另外 {{stepSize}} 项",
+    "releasesLabelReleaseTime": "发布时间",
+    "releasesLabelNoDataMessage": "找不到发布",
+    "releasesLabelPlaceholderFilter": "过滤...",
+    "timeSelectionDialogPresenterLabelTimeRange": "时间范围",
+    "timeSelectionDialogPresenterLabelReleases": "发布",
+    "timeFrameFormatterStarting": "{{fromTime}} 开始",
+    "timeFrameFormatterLast": "最近 {{duration}}",
+    "timeFrameFormatterLast24Hours": "过去 24 小时",
+    "timeIconHistoricDataMessage": "由于数据保留时间设置，因此您查看的是近似数据。提供了最近 {{retention}} 天内的精确数据。",
+    "timeIconLargeDataMessage": "由于数据集较大，因此您查看的是近似数据。请缩小时间范围以获取精确数据。",
+    "timePresetsLast": "最近 {{duration}}",
+    "timePresetsLast24Hours": "过去 24 小时",
+    "timeUnit_year": "年",
+    "timeUnit_month": "月",
+    "timeUnit_day": "天 ",
+    "timeUnit_hour": "小时",
+    "timeUnit_minute": "分钟",
+    "timeUnit_second": "第二"
+  },
+  "timeShift": {
+    "changeSelectedTimeShift": "更改所选时移",
+    "timeShiftValue": "时移：{{timeShiftValue}}",
+    "compareToTimeShiftTimeConfig": "与 {{timeShiftTimeConfig}} 比较"
+  },
+  "topListCard": {
+    "loadingData": "正在加载数据"
+  },
+  "uiClinetUpdateMessage": {
+    "newVersionOfInstanaAvailable": "Instana 存在可用的新版本",
+    "buttonReloadToUpdate": "重新加载以更新"
+  },
+  "upstreamDownstream": {
+    "buttonGoToDashboard": "转至仪表板",
+    "buttonGoToAnalytics": "转至分析",
+    "companionMetricLabelErroneousCallRate": "错误调用率：",
+    "metricLabelCallsAndErroneousCalls": "调用数和错误调用数",
+    "metricLabelCallsAndLatency": "调用数和等待时间",
+    "linkSeeAllApplications": "查看所有 {{count}} 个 {{activeTab}} 应用程序",
+    "linkSeeAllApplications_plural": "查看所有 {{count}} 个 {{activeTab}} 应用程序",
+    "linkSeeAllApplications_0": "查看所有 {{count}} 个 {{activeTab}} 应用程序",
+    "linkSeeAllApplications_1": "查看所有 {{count}} 个 {{activeTab}} 应用程序",
+    "linkSeeAllApplications_2": "查看所有 {{count}} 个 {{activeTab}} 应用程序",
+    "linkSeeApplication": "查看应用程序",
+    "linkSeeAllServices": "查看所有 {{count}} 个 {{activeTab}} 服务",
+    "linkSeeAllServices_plural": "查看所有 {{count}} 个 {{activeTab}} 服务",
+    "linkSeeAllServices_0": "查看所有 {{count}} 个 {{activeTab}} 服务",
+    "linkSeeAllServices_1": "查看所有 {{count}} 个 {{activeTab}} 服务",
+    "linkSeeAllServices_2": "查看所有 {{count}} 个 {{activeTab}} 服务",
+    "linkSeeService": "查看服务",
+    "labelMetric": "指标：",
+    "upstreamServiceText": "直接调用者",
+    "upstreamApplicationText": "在以下范围内直接调用",
+    "upstreamMessage": "未收到任何调用",
+    "downstreamServiceText": "直接调用",
+    "downstreamApplicationText": "直接调用以下范围内的服务",
+    "downstreamMessage": "未启动任何下游调用",
+    "tabsUpstream": "上游",
+    "tabsDownstream": "下游",
+    "buttonUpstreamDownstream": "上游/下游"
+  },
+  "withTvMode": {
+    "setEnabledMessagePressESCToDisableTVMode": "按 ESC 键可禁用 TV 方式。"
+  },
+  "analyze": {
+    "loadMoreWithCount": "加载另外 {{count}} 项",
+    "loadMore": "加载更多",
+    "addAsGroup": "添加为组",
+    "noResults": "无结果",
+    "from": "自",
+    "fromUnit": "自 ({{unit}})",
+    "to": "至",
+    "toUnit": "至 ({{unit}})",
+    "rangeOrder": "范围必须采用升序顺序。",
+    "earliestTimestamp": "最早时间戳记",
+    "timestamp": "时间戳记",
+    "focusOnGroup": "关注此组",
+    "splitScreen": {
+      "sidebarActions": {
+        "prev": "查看上一个 {{ itemName }}（快捷键：左方向键）",
+        "next": "查看下一个 {{ itemName }}（快捷方式：右方向键）"
+      }
+    },
+    "groupName": "组名称",
+    "groupedOnly": "指标仅在分析组时可用。"
+  },
+  "copyToClipboardButtonCopy": "复制",
+  "withEmptyStateFallbackTitleNoDataAvailable": "无可用数据",
+  "queryBuilder": {
+    "components": {
+      "tagBooleanSelectorFalse": "false",
+      "tagBooleanSelectorTrue": "true",
+      "tagPlaceholderKey": "密钥",
+      "tagPlaceholderValue": "值",
+      "spacingSuggestionAnd": "与",
+      "bracketLabelChosenBracket": "已选括号。单击此项可更改括号、选择连词或移除括号。",
+      "conjunctionLabelChosenConjunction": "已选连词。单击此项可更改连词、选择括号或移除连词。",
+      "filterButtonAddFilter": "添加过滤器"
+    },
+    "selectorOverlayClear": "清除",
+    "selectorOverlayAnd": "与",
+    "selectorOverlayOr": "或",
+    "usePreviousFilters": "使用先前过滤器",
+    "simpleValueSelectorMore": "更多",
+    "workspaceAPIQuery": "API 查询",
+    "workspaceUseThisExpressionToQueryOurAPI": "使用此表达式查询我们的 API",
+    "workspaceTitleFilter": "过滤",
+    "workspaceButtonClear": "清除",
+    "errorWithDataYourDefinedQueryIsTooComplex": "定义的查询太复杂，请减少嵌套数量。",
+    "sanitizedTagFilterValue": "标记过滤器值已缩短为最大允许长度。",
+    "sanitizedTagFilterValueAndOperator": "标记过滤器值已缩短为最大允许长度，并相应地调整了运算符。"
+  },
+  "applicationHealthOverview": {
+    "indicatorBar": {
+      "label": "运行状态",
+      "criticalTooltip": "{{count}} 个出现严重问题",
+      "warningTooltip": "{{count}} 个出现警告",
+      "healthyTooltip": "{{count}} 个正常运行"
+    }
+  }
+}

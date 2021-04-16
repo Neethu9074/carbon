@@ -1,0 +1,67 @@
+{
+  "agentMonitoringSuffix01": "未監視",
+  "agentMonitoringAlert_prefix01": "監視問題",
+  "agentMonitoringSuffix02": "未追蹤",
+  "agentMonitoringAlert_prefix02": "遺漏追蹤",
+  "agentMonitoringSuffix03": "未建立設定檔",
+  "agentMonitoringAlert_prefix03": "遺漏設定檔",
+  "agentMonitoringSuffix04": "未監視",
+  "agentMonitoringAlert_prefix04": "監視問題",
+  "agentMonitoringExplanationLinkLabel": "疑難排解文件",
+  "agentMonitoringExplanationLinkHref": "https://instana.com/docs/",
+  "services": "服務",
+  "dashboard": {
+    "customMetricsV2": {
+      "customMetricsContent": "固定度量會顯示在個別的表格中，並位於自訂度量上方。請使用此度量，在多個自訂度量之間進行特定比較。此外，您可以傳送鏈結給同事，他們會看到相同的一組固定度量。",
+      "customMetricsTitleType": "類型",
+      "customMetricsTitleName": "名稱",
+      "customMetricsTitleValue": "值",
+      "customMetricsTitlePinned": "{{pinnedPrefix}} 固定度量 ({{pinnedLength}})",
+      "customMetricsTitleCustom": "{{customPrefix}} 自訂度量 ({{customLength}})",
+      "customMetricsLableCount": "計數",
+      "customMetricsLableValue": "值",
+      "customMetricsLableMean": "平均值",
+      "customMetricsLableP50": "第 50 個",
+      "customMetricsLableP99": "第 99 個",
+      "customMetricsLableRate": "比率"
+    },
+    "table": {
+      "tableNoData": "無資料。",
+      "tableExpandAll": "全部展開",
+      "tableCollapseAll": "全部收合"
+    }
+   },
+
+  "sidebar": {
+      "classpath": {
+        "classpathHide": "隱藏類別路徑",
+        "classpathShow": "顯示類別路徑"
+      },
+      "processStartedTitle": "開始時間"
+  },
+
+  "traceDetails": {
+    "errorDescription": "錯誤"
+  },
+
+  "snapshot": {
+    "registryHealth": "性能",
+
+    "runtimeLabelNet": ".NET Core",
+    "runtimeLabelGo": "Go",
+    "runtimeLabelJava": "Java",
+    "runtimeLabelNodeJS": "Node.js",
+    "runtimeLabelPython": "Python",
+    "runtimeLabelRuby": "Ruby",
+    "runtimeLabelUnknown": "不明的執行時期"
+  },
+
+  "tracing": {
+    "registryCall": "呼叫",
+    "registryCall_plural": "呼叫",
+    "registryCall_0": "呼叫",
+    "registryCall_1": "呼叫",
+    "registryCall_2": "呼叫"
+  }
+
+}

@@ -1,0 +1,60 @@
+{
+  "components": {
+    "accountSettings": {
+      "accountSettings": "Impostazioni account",
+      "billingAddress": "Indirizzo di fatturazione",
+      "shippingAddress": "Indirizzo di spedizione",
+      "country": "Paese",
+      "state": "Stato",
+      "zip": "Codice postale",
+      "city": "Città",
+      "address": "Indirizzo",
+      "additionalAddress": "Indirizzo aggiuntivo",
+      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "Se qualcuna delle informazioni contenute in questa pagina deve essere corretta, contattaci.<linkToMail>{{salesopsEmail}}</linkToMail>"
+    },
+    "activeLicenses": {
+      "name": "Nome",
+      "tenant": "Tenant",
+      "type": "Tipo",
+      "licenseStartData": "Data di inizio della licenza",
+      "licenseEndData": "Data di fine della licenza",
+      "licensedApmHosts": "Host APM con licenza",
+      "licensedIqmHosts": "Host IQM con licenza "
+    },
+    "ampInformationModifier": {
+      "allPaidUnitsAggregated": "Tutte le unità pagate (aggregate) (aggregate)",
+      "customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense": "L'utilizzo del cliente viene riportato tra tutte le unità del proprio account con una licenza pagata."
+    },
+    "noLicenseAvailableMessage": {
+      "thereHasBeenNoActivePaidLicenseInThePast30Days": "Nessuna licenza pagata attiva negli ultimi 30 giorni."
+    },
+    "restrictedUsage": {
+      "accountUsage": "Utilizzo account"
+    },
+    "technologiesReportingTable": {
+      "name": "Nome",
+      "min": "Minimo",
+      "max": "Massimo",
+      "average": "Media"
+    },
+    "timePresets": {
+      "last7Days": "Ultimi 7 giorni",
+      "last30Days": "Ultimi 30 giorni",
+      "last365Days": "Ultimi 365 giorni"
+    },
+    "usages": {
+      "allPaidUnitsAggregated": "Tutte le unità pagate (aggregate) (aggregate)",
+      "accountUsage": "Utilizzo account",
+      "activeLicenses": "Licenze attive",
+      "expiredLicenses": "Licenze scadute",
+      "queuedLicenses": "Licenze in coda"
+    },
+    "usageCharts": {
+      "apmUsage": "Utilizzo APM",
+      "apmHosts": "Host APM",
+      "purchased": "Acquistato",
+      "infrastructureUsage": "Utilizzo infrastruttura",
+      "iqmHosts": "Host IQM"
+    }
+  }
+}

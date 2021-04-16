@@ -1,0 +1,91 @@
+{
+  "component": {
+    "applTopList": {
+      "openCreationDialog": "작성 대화 상자 열기",
+      "allApps": "모든 애플리케이션",
+      "errCallRate": "잘못된 호출 비율",
+      "latency": "대기 시간",
+      "calls": "호출",
+      "newAppPerspect": "새 애플리케이션 퍼스펙티브"
+    },
+    "eventChartCard": {
+      "allEvents": "모든 이벤트",
+      "incidents": "인시던트",
+      "critical": "심각",
+      "warning": "경고",
+      "viewEvents": "이벤트 보기"
+    },
+    "infrastructureTopList": {
+      "allHosts": "모든 호스트",
+      "allContainers": "모든 컨테이너",
+      "allProcesses": "모든 프로세스",
+      "hosts": "호스트",
+      "containers": "컨테이너",
+      "processes": "프로세스"
+    },
+    "platformsTopList": {
+      "esXiHosts": "ESXi 호스트",
+      "nodes": "노드",
+      "vMs": "VM",
+      "instances": "인스턴스",
+      "namespaces": "네임스페이스",
+      "cpuUsage": "CPU 사용량",
+      "memoryLimit": "메모리 한계",
+      "pods": "팟(Pod)",
+      "memoryUsage": "메모리 사용량",
+      "cloudFoundryApplication": "Cloud Foundry 애플리케이션",
+      "vSphereDatacenter": "vSphere Datacenter"
+    },
+    "websiteMobileTopList": {
+      "addWebsite": "웹 사이트 추가",
+      "addMobileApp": "모바일 앱 추가",
+      "allWebsites": "모든 웹 사이트",
+      "allMobileApps": "모든 모바일 앱",
+      "allWebsitesMobileApps": "모든 웹 사이트 및 모바일 앱",
+      "pageViews": "페이지 보기",
+      "sessions": "세션",
+      "onLoadTime": "onLoad 시간",
+      "views": "보기",
+      "website": "웹 사이트",
+      "mobileApp": "모바일 앱"
+    },
+    "openIncidentsButton": {
+      "numberOfIncidents": "{{count}}개 인시던트",
+      "numberOfIncidents_plural": "{{count}}개 인시던트",
+      "numberOfIncidents_0": "{{count}}개 인시던트",
+      "numberOfIncidents_1": "{{count}}개 인시던트",
+      "numberOfIncidents_2": "{{count}}개 인시던트"
+    }
+  },
+  "cockpit": {
+    "deployAgent": "에이전트 배치",
+    "applications": "애플리케이션",
+    "infrastructure": "인프라",
+    "events": "이벤트",
+    "home": "홈",
+    "addUser": "사용자 추가",
+    "platforms": "플랫폼",
+    "cloudFoundry": "Cloud Foundry",
+    "websites": "웹 사이트",
+    "mobileApps": "모바일 앱",
+    "websitesMobileApps": "웹 사이트 및 모바일 앱"
+  },
+  "widgets": {
+    "columnDefinitions": {
+      "numCpU": "CPU 수",
+      "cpuUsage": "CPU 사용량",
+      "created": "작성됨",
+      "started": "시작됨",
+      "os": "OS"
+    },
+    "topListWidget": {
+      "noLabelYet": "아직 {{nolabel}} 없음"
+    },
+    "websites": {
+      "noData": "웹 사이트 성능이 사용자 경험에 어떠한 영향을 미치는지 이해하기 위해 웹 사이트 모니터링을 시작합니다. 구성은 간단합니다!",
+      "createWebsite": "웹 사이트 작성",
+      "createMobileApp": "모바일 앱 작성",
+      "noLabelYet": "아직 {{nolabel}} 없음"
+    }
+  }
+}

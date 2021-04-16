@@ -1,0 +1,13 @@
+{
+  "landing": {
+    "loadingData": "正在加载数据",
+    "noEntitiesFound": "找不到实体",
+    "noEntitiesFoundFor": "找不到 {{landingQueryCount}} 的实体",
+    "noMatchingEntitiesFoundTitle": "找不到匹配的实体",
+    "results": "结果"
+  },
+  "logging": {
+    "goToLogs": "转至“日志”"
+  }
+
+}

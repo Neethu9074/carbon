@@ -1,0 +1,6 @@
+{
+  "entityFormSaving": "저장 중... ",
+  "entityFormLoading": "로드 중...",
+  "entityFormFailedToLoadData": "데이터를 로드하는 데 실패했습니다.",
+  "entityFormFailedToSave": "저장하는 데 실패함: {{SaveFailureMessage}}"
+}

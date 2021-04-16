@@ -1,0 +1,6 @@
+{
+  "entityFormSaving": "保存中...",
+  "entityFormLoading": "ロード中...",
+  "entityFormFailedToLoadData": "データのロードに失敗しました。",
+  "entityFormFailedToSave": "保存に失敗しました: {{SaveFailureMessage}}"
+}

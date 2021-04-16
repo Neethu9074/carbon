@@ -1,0 +1,143 @@
+{
+  "chart": {
+    "chartWrapperMetricNotfound": "找不到度量 ID {{metricId}}。",
+    "chartWrapperSameAxisSameValue": "一軸的所有聚集類型都必須具有相同的值。",
+    "viewInAnalyticsBtnLabel": "在分析中檢視",
+    "chartLendMetricTimeShifted": "度量的時間已遷移至：{{timeShiftedLabel}}",
+    "chartDownloadLabel": "下載 JSON",
+    "chartGlobalHighlightLabel": "在所有圖表上強調顯示",
+    "chartZoomInLabel": "縮放至時間範圍",
+    "chartAlertsLanePresenterAlertsLabel": "警示",
+    "chartAlertsLaneTooltipContent": {
+      "countSmartAlert": "智慧型警示",
+      "countSmartAlert_plural": "智慧型警示",
+      "countSmartAlert_0": "智慧型警示",
+      "countSmartAlert_1": "智慧型警示",
+      "countSmartAlert_2": "智慧型警示",
+      "countIncident": "事故",
+      "countIncident_plural": "事故",
+      "countIncident_0": "事故",
+      "countIncident_1": "事故",
+      "countIncident_2": "事故",
+      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "itemMsg": "+{{leftCount}} 個以上的 {{moreMsg}}"
+    },
+    "chartAlertsPreviewLanePresenterAlertsLabel": "警示",
+    "chartReleasesLanePresenterReleasesLabel": "版本",
+    "chartReleasesLanePresenterTooltip": "+{{len}} 個以上的版本",
+    "highlightedTimeframeCloseButtonClearHighlight": "清除強調顯示",
+    "resultAwareChartSomethingWentWrong": "出現差錯...",
+    "resultAwareChartPleaseTryAgainLater": "請稍後再試一次。",
+    "tooltip": {
+      "scrollHint": "捲動請使用 <upArrow /><downArrow /> 索引鍵",
+      "rollup": "超過 {{rollup}}",
+      "more": "{{number}} 以上"
+    }
+  },
+  "comboBox": {
+    "placeholderSelect": "選取…"
+  },
+  "downloadBtn": {
+    "downloadViewDownloadAsJsonLabel": "下載成 JSON",
+    "downloadViewDownloadCSVLabel": "下載 (*.csv)",
+    "downloadViewDownloadJsonLabel": "下載 (*.json)",
+    "eventMetricDownloadViewDownloadJsonLabel": "下載 (*.json)"
+  },
+  "touchedMessages": {
+    "withPath": "{{message}}（位於 <codeWithClass>{{path}}</codeWithClass>）"
+  },
+  "graphView": {
+    "graphTitle": "圖形",
+    "explanationHeader": "動態圖形展示",
+    "explanationP1": "推動 Instana 的核心技術我們稱為「動態圖形」。「圖形」是您應用程式的模型，可瞭解元件的所有實體與邏輯相依關係。在右邊，您會看到現行環境的「動態圖形」！",
+    "explanationP2": "「圖形」具有多個實體元件 - 它還包含邏輯元件，例如：追蹤、應用程式、服務、叢集或表格空間。「Instana 代理程式」和「感應器」會自動探索元件及其相依關係，使「圖形」持續保持最新。此外，也會根據語義知識和機器學習方法，持續以狀態資訊（例如：度量、配置資料和計算出的性能值）來更新「圖形」中的每一個節點。此知識也會分析圖形中的相依關係，來尋找服務和應用程式等之類的邏輯分組，以瞭解對該層次的影響，並衍生問題的嚴重性。整個圖形會持續存在，您可以適時地反覆來回，以便將圖形的知識運用於許多的作業使用案例中。",
+    "explanationLink": "<linkToBlog>請造訪我們的部落格</linkToBlog>，取得詳細資訊。",
+    "closeBtn": "關閉圖形"
+  },
+  "gravatar": {
+    "avatarUrlAlt": "gravatar.com 提供的 {{email}} 頭像。",
+    "avatarNullAlt": "{{email}} 的備用頭像。"
+  },
+  "loadMoreRow": {
+    "loadMore": "載入更多"
+},
+  "messageFlyout": {
+    "infrastructurePageName": "基礎架構",
+    "eumPageName": "EUM",
+    "settingsPageName": "設定",
+    "requestQuoteBtn": "要求報價"
+  },
+  "releaseNotesDialog": {
+    "releaseNotesTitle": "版本注意事項"
+  },
+  "requestQuoteDialog": {
+    "dialogRequestQuoteTitle": "要求報價",
+    "dialogRequestLoadingText": "正在載入必要資訊...",
+    "dialogRequestQuoteSubmittedMsg": "已順利提交您的報價要求。",
+    "formAccountInfoSecrHeader": "帳戶資訊",
+    "formCompanyNameLabel": "公司名稱",
+    "formNumberofAPMHostsLabel": "APM 主機數目",
+    "formNumberofIQMHostsLabel": "IQM 主機數目",
+    "formNumberofYearsLabel": "年數",
+    "formBillingInforSecHeader": "計費資訊",
+    "formStreetLabel": "街道",
+    "formCityLabel": "城市",
+    "formZipLabel": "郵遞區號",
+    "formCountryLabel": "國家/地區",
+    "formStateLabel": "州/省（縣/市）"
+  },
+  "searchBar": {
+    "usingTheSearchBar": "「Instana 動態焦點」搜尋功能可用來過濾3D 地圖、對照表和事故視圖。搜尋列\n具有廣泛的功能，可使用模糊和萬用字元搜尋以及布林運算子來搜尋。例如，下列\n查詢會限制視圖只顯示其 CPU 少於 4 個的正式作業主機：\n\n'entity.host.cpu.count:<4 AND entity.zone:production'。\n## 語法\n「Dynamic Focus 動態焦點」會運用 [lucene 查詢語法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)，只是不同於 Lucene 標準之處如下：\n- **預設運算子：** 'AND'\n- **語法限制項：** 列於 [說明文件] 中(https://instana.com/docs/dynamic_focus/#syntax-constraints)\n## 搜尋列互動\n搜尋列支援自動補全搜尋欄位，且在您鍵入期間會對 lucene 查詢採用語法強調顯示。\n在鍵入後，搜尋列會提議符合現行輸入的搜尋欄位。您可以按 'RETURN' 鍵，\n接受提議的欄位。按 'CTRL+SPACE'，可開啟自動補全蹦現畫面。\n## Lucene 查詢語法提要\n - **欄位搜尋：** 'entity.host.cpu.count:>4'\n - **布林運算子：** 'entity.host.cpu.count:<4 AND entity.zone:production'\n - **分組：** '(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4'\n - **萬用字元搜尋：** 'entity.type:container*'\n\n請參閱 [說明文件](https://instana.com/docs/dynamic_focus/)，取得相關資訊。",
+    "filtersBtn": "過濾器",
+    "filterPresetsMenuHeading": "過濾器",
+    "filterPresetsSaveFilters": "儲存過濾器以便可在這裡輕鬆存取",
+    "filterPresetsEditFilter": "編輯",
+    "filterPresetsRemoveFilter": "移除",
+    "saveDialogSaveFilterTitle": "儲存過濾器",
+    "saveDialogNameLabel": "名稱",
+    "saveDialogDefinitionLabel": "定義",
+    "saveDialogSaveFilterBtn": "儲存過濾器",
+    "dialogRequireNameMsg": "請指定過濾器的名稱。",
+    "dialogRequireFilterMsg": "請指定要儲存的過濾器。",
+    "filterConfirmRemovalHeader": "確認移除",
+    "filterConfirmButtonLabel": "移除過濾器",
+    "filterConfirmRemoveMsg": "您確定要移除過濾器 <strong>{{filterName}}</strong> 嗎？",
+    "helpDialogTitleUsingTheSearchBar": "使用搜尋列"
+  },
+  "svgIcon": {
+    "pluginIcon": "{{pluginName}} 圖示"
+  },
+  "tables": {
+    "serverTable": {
+      "cursorPaginatedTableFilterByLabel": "分析此群組",
+      "cursorPaginatedTableLoadMoreRowLabel": "載入更多",
+      "withEmptyTableStateEntitiesName": "實體",
+      "withEmptyTableStateEntityPageMainNotificationTitle": "沒有可用的 {{name}}",
+      "withEmptyTableStateEntityPageMainNotificationExplanation": "在選取的時間範圍內未擷取任何 {{name}}。"
+    },
+    "sharedComponents": {
+      "configurableThSearchItemPlaceholder": "搜尋 {{len}} 個項目",
+      "configurableThNoMatchesTxt": "無相符項"
+    }
+  },
+  "tags": {
+    "tagFilterSearchPlaceholder": "搜尋...",
+    "tagListNoTagsDefined": "未定義任何標籤",
+    "tagListShowAll": "顯示所有標籤（{{num}} 個以上）"
+  },
+  "copyToClipboardPressToCopy": "按 CTRL+C / CMD+C 以複製！",
+  "copyToClipboardCopied": "已複製！",
+  "reloadUiDialogTitle": "有新的使用者介面版本可用",
+  "reloadUiDialogP1": "嘗試導覽時發生錯誤，因為在瀏覽器內載入的使用者介面版本已過期。",
+  "reloadUiDialogP2": "請重新載入瀏覽器視窗，以取得最新版本並繼續。",
+  "reloadUiDialogReloadBtn": "重新載入",
+  "sparkChart": {
+    "notAvailable": "N/A"
+  },
+  "errorBoundary": {
+    "message": {
+      "title": "發生錯誤",
+      "content": "<p>無法啟用 Instana 使用者介面的一部分，因為發生非預期的錯誤。請嘗試重新載入此頁面。</p><p>錯誤 ID：<code>{{errorId}}</code></p>"
+    }
+  }
+}

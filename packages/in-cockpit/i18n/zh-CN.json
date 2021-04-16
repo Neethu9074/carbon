@@ -1,0 +1,91 @@
+{
+  "component": {
+    "applTopList": {
+      "openCreationDialog": "打开创建对话框",
+      "allApps": "所有应用程序",
+      "errCallRate": "错误调用率",
+      "latency": "等待时间",
+      "calls": "调用数",
+      "newAppPerspect": "新建应用程序透视图"
+    },
+    "eventChartCard": {
+      "allEvents": "所有事件",
+      "incidents": "突发事件",
+      "critical": "严重",
+      "warning": "警告",
+      "viewEvents": "查看事件"
+    },
+    "infrastructureTopList": {
+      "allHosts": "所有主机",
+      "allContainers": "所有容器",
+      "allProcesses": "所有进程",
+      "hosts": "主机",
+      "containers": "容器",
+      "processes": "进程"
+    },
+    "platformsTopList": {
+      "esXiHosts": "ESXi 主机",
+      "nodes": "节点数",
+      "vMs": "虚拟机",
+      "instances": "实例数",
+      "namespaces": "名称空间",
+      "cpuUsage": "CPU 使用率",
+      "memoryLimit": "内存限制",
+      "pods": "Pod",
+      "memoryUsage": "内存使用量",
+      "cloudFoundryApplication": "Cloud Foundry 应用程序",
+      "vSphereDatacenter": "vSphere 数据中心"
+    },
+    "websiteMobileTopList": {
+      "addWebsite": "添加 Web 站点",
+      "addMobileApp": "添加移动应用程序",
+      "allWebsites": "所有 Web 站点",
+      "allMobileApps": "所有移动应用程序",
+      "allWebsitesMobileApps": "所有 Web 站点和移动应用程序",
+      "pageViews": "页面浏览量",
+      "sessions": "会话数",
+      "onLoadTime": "onLoad 时间",
+      "views": "浏览量",
+      "website": "Web 站点",
+      "mobileApp": "移动应用程序"
+    },
+    "openIncidentsButton": {
+      "numberOfIncidents": "{{count}} 个突发事件",
+      "numberOfIncidents_plural": "{{count}} 个突发事件",
+      "numberOfIncidents_0": "{{count}} 个突发事件",
+      "numberOfIncidents_1": "{{count}} 个突发事件",
+      "numberOfIncidents_2": "{{count}} 个突发事件"
+    }
+  },
+  "cockpit": {
+    "deployAgent": "部署代理程序",
+    "applications": "应用程序",
+    "infrastructure": "基础架构",
+    "events": "事件",
+    "home": "主页",
+    "addUser": "添加用户",
+    "platforms": "平台",
+    "cloudFoundry": "Cloud Foundry",
+    "websites": "Web 站点",
+    "mobileApps": "移动应用程序",
+    "websitesMobileApps": "Web 站点和移动应用程序"
+  },
+  "widgets": {
+    "columnDefinitions": {
+      "numCpU": "CPU 数",
+      "cpuUsage": "CPU 使用率",
+      "created": "创建时间",
+      "started": "启动时间",
+      "os": "操作系统"
+    },
+    "topListWidget": {
+      "noLabelYet": "尚无 {{nolabel}}"
+    },
+    "websites": {
+      "noData": "开始使用 Web 站点监视功能，以便更好地了解 Web 站点性能对用户体验的影响。配置非常简单！",
+      "createWebsite": "创建 Web 站点",
+      "createMobileApp": "创建移动应用程序",
+      "noLabelYet": "尚无 {{nolabel}}"
+    }
+  }
+}

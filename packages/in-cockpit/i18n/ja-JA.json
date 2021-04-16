@@ -1,0 +1,91 @@
+{
+  "component": {
+    "applTopList": {
+      "openCreationDialog": "作成ダイアログを開く",
+      "allApps": "すべてのアプリケーション",
+      "errCallRate": "エラーのある呼び出し率",
+      "latency": "待ち時間",
+      "calls": "呼び出し",
+      "newAppPerspect": "新規アプリケーション・パースペクティブ"
+    },
+    "eventChartCard": {
+      "allEvents": "すべてのイベント",
+      "incidents": "インシデント",
+      "critical": "クリティカル",
+      "warning": "警告",
+      "viewEvents": "イベントの表示"
+    },
+    "infrastructureTopList": {
+      "allHosts": "すべてのホスト",
+      "allContainers": "すべてのコンテナー",
+      "allProcesses": "すべてのプロセス",
+      "hosts": "ホスト",
+      "containers": "コンテナー",
+      "processes": "プロセス"
+    },
+    "platformsTopList": {
+      "esXiHosts": "ESXi ホスト",
+      "nodes": "ノード",
+      "vMs": "VM",
+      "instances": "インスタンス",
+      "namespaces": "名前空間",
+      "cpuUsage": "CPU 使用率",
+      "memoryLimit": "メモリー制限",
+      "pods": "ポッド",
+      "memoryUsage": "メモリー使用率",
+      "cloudFoundryApplication": "Cloud Foundry アプリケーション",
+      "vSphereDatacenter": "vSphere データ・センター"
+    },
+    "websiteMobileTopList": {
+      "addWebsite": "Web サイトの追加",
+      "addMobileApp": "モバイル・アプリケーションの追加",
+      "allWebsites": "すべての Web サイト",
+      "allMobileApps": "すべてのモバイル・アプリケーション",
+      "allWebsitesMobileApps": "すべての Web サイトおよびモバイル・アプリケーション",
+      "pageViews": "ページ・ビュー",
+      "sessions": "セッション",
+      "onLoadTime": "onLoad 時間",
+      "views": "ビュー",
+      "website": "Web サイト",
+      "mobileApp": "モバイル・アプリケーション"
+    },
+    "openIncidentsButton": {
+      "numberOfIncidents": "{{count}} 個のインシデント",
+      "numberOfIncidents_plural": "{{count}} 個のインシデント",
+      "numberOfIncidents_0": "{{count}} 個のインシデント",
+      "numberOfIncidents_1": "{{count}} 個のインシデント",
+      "numberOfIncidents_2": "{{count}} 個のインシデント"
+    }
+  },
+  "cockpit": {
+    "deployAgent": "エージェントのデプロイ",
+    "applications": "アプリケーション",
+    "infrastructure": "インフラストラクチャー",
+    "events": "イベント",
+    "home": "ホーム",
+    "addUser": "ユーザーの追加",
+    "platforms": "プラットフォーム",
+    "cloudFoundry": "Cloud Foundry",
+    "websites": "Web サイト",
+    "mobileApps": "モバイル・アプリケーション",
+    "websitesMobileApps": "Web サイトおよびモバイル・アプリケーション"
+  },
+  "widgets": {
+    "columnDefinitions": {
+      "numCpU": "CPU の数",
+      "cpuUsage": "CPU 使用率",
+      "created": "作成済み",
+      "started": "開始済み",
+      "os": "OS"
+    },
+    "topListWidget": {
+      "noLabelYet": "{{nolabel}} がまだありません"
+    },
+    "websites": {
+      "noData": "Web サイトのパフォーマンスがユーザー・エクスペリエンスに与える影響を十分に把握するために、Web サイト・モニタリングを開始します。 構成はシンプルです。",
+      "createWebsite": "Web サイトの作成",
+      "createMobileApp": "モバイル・アプリケーションの作成",
+      "noLabelYet": "{{nolabel}} がまだありません"
+    }
+  }
+}
