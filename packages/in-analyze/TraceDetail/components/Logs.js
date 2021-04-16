@@ -88,12 +88,11 @@ export default function Logs({ traceId, selectedLogId, clearSelectedLogId, selec
   );
 }
 
-function getData({ traceId, timeConfigForLogs, afterKey, beforeKey }) {
+function getData({ traceId, timeConfigForLogs, afterKey }) {
   return getLogs({
     timeConfig: timeConfigForLogs,
     retrievalSize: 10,
     afterKey,
-    beforeKey,
     logicalOperator: 'AND',
     logTagFilterExpression: getTraceIdTagFilter(traceId),
     infraTagFilterExpression: emptyTagFilterExpression
