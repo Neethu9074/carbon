@@ -10,7 +10,7 @@ import createDynamicAggregatedMetricObservable from 'in-subscription/dynamicAggr
 import createTimeWindowMetricAggregation from 'in-subscription/timeWindowMetricAggregation';
 import createLatestMetricsObservable from 'in-subscription/latestMetrics';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
-import { timeConfig$, fixateTimeConfig } from 'in-stores/time/config';
+import { fixateTimeConfig, timeConfig$ } from 'in-stores/time/config';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { days, hours, minutes, seconds } from 'in-services/time';
 import createMetricsObservable from 'in-subscription/metrics';
@@ -208,20 +208,32 @@ export function getInfraGranularity(
     Math.max(minGranularity, MINIMUM_INFRA_GRANULARITY)
   );
 
+  const availableGranularities = getAvailableGranularities(timeConfig);
+
+  if (availableGranularities.length == 0) return fallbackGranularity;
+
+  const finestAvailableGranularity = availableGranularities[availableGranularities.length - 1].granularity;
+  const base = availableGranularities.find(g => g.granularity <= desiredGranularity)?.granularity;
+
+  if (!base) return finestAvailableGranularity;
+
+  return Math.floor(desiredGranularity / base) * base;
+}
+
+function getAvailableGranularities(timeConfig) {
   const { to, windowSize } = fixateTimeConfig(timeConfig);
   const from = to - windowSize;
   const metricAge = Date.now() - from;
 
-  const availableGranularities = INFRA_GRANULARITIES.filter(g => g.availableFor > metricAge);
+  return INFRA_GRANULARITIES.filter(g => g.availableFor > metricAge);
+}
 
-  if (availableGranularities.length == 0) return fallbackGranularity;
+export function getFinestAvailableGranularity(timeConfig) {
+  const availableGranularities = getAvailableGranularities(timeConfig);
 
-  const bestAvailableGranularity = availableGranularities[availableGranularities.length - 1].granularity;
-  const base = availableGranularities.find(g => g.granularity <= desiredGranularity)?.granularity;
+  if (availableGranularities.length == 0) return INFRA_GRANULARITIES[0].granularity;
 
-  if (!base) return bestAvailableGranularity;
-
-  return Math.floor(desiredGranularity / base) * base;
+  return availableGranularities[availableGranularities.length - 1].granularity;
 }
 
 export const currentRollup$ = timeConfig$.map(getInfraGranularity);
