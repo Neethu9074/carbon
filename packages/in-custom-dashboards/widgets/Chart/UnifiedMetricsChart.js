@@ -78,7 +78,7 @@ export default function UnifiedMetricsChart({
   const configuredGranularity = forceLoadingIndicator
     ? null
     : config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode, suggestedNumberOfDataPoints);
-  const minimumGranularity = forceLoadingIndicator ? null : getMinGranularity(config);
+  const minimumGranularity = forceLoadingIndicator ? null : getMinGranularity(config, timeConfig);
   const granularity = forceLoadingIndicator ? null : Math.max(minimumGranularity, configuredGranularity);
   let result =
     useResultData(config, granularity, timeConfigExtendedForLiveMode, forceLoadingIndicator) ?? pendingResult;
@@ -312,9 +312,9 @@ function getSuggestedNumberOfDataPoints(config) {
     .reduce((a, m) => Math.max(a, m), 0);
 }
 
-function getMinGranularity(config) {
+function getMinGranularity(config, timeConfig) {
   return getAllMetricSources(config)
-    .map(source => source.minGranularity ?? 0)
+    .map(source => source.getMinGranularity?.(timeConfig) ?? 0)
     .reduce((a, m) => Math.max(a, m), 0);
 }
 
