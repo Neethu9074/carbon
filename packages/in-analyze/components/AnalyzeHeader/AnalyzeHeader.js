@@ -106,6 +106,7 @@ function Label({ activeConfiguration }) {
   }
 
   const { productArea, dataSource } = activeConfiguration;
+
   return (
     <div className={locals.label}>
       {productAreaLabels[productArea] !== getLabelByType(dataSource) && (
@@ -126,40 +127,40 @@ const dataSourceSources = [
     ? {
         matrixPath: dataSourceMatrixParameter.path,
         matrixParam: dataSourceMatrixParameter.name,
-        productArea: t('in-analyze:components.analyzeHeader.application')
+        productArea: 'application'
       }
     : {
         matrixPath: appAnalyzePath,
         matrixParam: `callList.${dataSourceMatrixParameterUA1}`,
-        productArea: t('in-analyze:components.analyzeHeader.application')
+        productArea: 'application'
       },
   {
     matrixPath: logsAnalyzePath,
     matrixParam: logsDataSourceTypeMatrixParameter,
-    productArea: t('in-analyze:components.analyzeHeader.application')
+    productArea: 'application'
   },
   {
     matrixPath: rawLogsPathAnalyzePath,
     matrixParam: logsDataSourceTypeMatrixParameter,
-    productArea: t('in-analyze:components.analyzeHeader.application')
+    productArea: 'application'
   },
 
   {
     pathPrefix: websiteMonitoringPath,
     matrixPath: websiteAnalyzePath,
     matrixParam: websiteBeaconTypeMatrixParameter,
-    productArea: t('in-analyze:components.analyzeHeader.website')
+    productArea: 'website'
   },
   {
     pathPrefix: mobileAppMonitoringPath,
     matrixPath: mobileAppAnalyzePath,
     matrixParam: mobileAppBeaconTypeMatrixParameter,
-    productArea: t('in-analyze:components.analyzeHeader.mobileApp')
+    productArea: 'mobileApp'
   },
   {
     matrixPath: profilingAnalyzePath,
     matrixParam: dataSourceTypeMatrixParameter,
-    productArea: t('in-analyze:components.analyzeHeader.profiles')
+    productArea: 'profiles'
   }
 ];
 
@@ -188,7 +189,7 @@ function getActiveConfiguration(location) {
   }
 
   return {
-    productArea: t('in-analyze:components.analyzeHeader.application'),
+    productArea: 'application',
     dataSource: 'calls',
     ua2: newAnalyticsEnabled
   };

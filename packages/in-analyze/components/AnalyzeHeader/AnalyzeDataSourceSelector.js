@@ -36,7 +36,7 @@ import locals from './AnalyzeDataSourceSelector.mless';
 
 const productAreas = [
   {
-    productArea: t('in-analyze:components.analyzeHeader.application'),
+    productArea: 'application',
     hasAccess: hasApplicationsAccess || loggingEnabled,
     dataSources: [
       {
@@ -74,7 +74,7 @@ const productAreas = [
     ]
   },
   {
-    productArea: t('in-analyze:components.analyzeHeader.website'),
+    productArea: 'website',
     hasAccess: hasWebsitesAccess,
     dataSources: [
       {
@@ -146,7 +146,7 @@ const productAreas = [
     ]
   },
   {
-    productArea: t('in-analyze:components.analyzeHeader.mobileApp'),
+    productArea: 'mobileApp',
     hasAccess: hasMobileAppsAccess,
     dataSources: [
       {
@@ -196,7 +196,7 @@ const productAreas = [
     ]
   },
   {
-    productArea: t('in-analyze:components.analyzeHeader.profiles'),
+    productArea: 'profiles',
     hasAccess: true,
     dataSources: [
       {
