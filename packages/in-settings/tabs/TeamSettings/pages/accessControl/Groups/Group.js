@@ -13,12 +13,7 @@ import {
   productRestrictions,
   productOwnerPermissions
 } from 'in-stores/permission';
-import {
-  getGroupAsResultObservable,
-  saveGroup,
-  createNewGroup,
-  refresh
-} from 'in-settings/tabs/TeamSettings/api/groups';
+import { getGroupAsResultObservable, saveGroup, createNewGroup } from 'in-settings/tabs/TeamSettings/api/groups';
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
@@ -35,6 +30,7 @@ import { ownerRoleId, defaultRoleId } from 'in-stores/user';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Dialog from 'in-new-components/Dialog/Dialog';
+import { goToPath } from 'in-stores/navigation';
 import Toggle from 'in-components/form/Toggle';
 import Title from 'in-components/Title/Title';
 import Button from 'in-new-components/Button';
@@ -60,7 +56,7 @@ export default function Group({ match }) {
         })}
         enrichForm={enrichForm}
         saveItem={saveItem}
-        onCancelClick={refresh}
+        onCancelClick={() => goToPath(teamSettingsAccessControlGroups)}
         renderLoadingState={renderLoadingState}
         render={renderGroup}
         // additional props which are passed down
