@@ -13,7 +13,12 @@ import {
   productRestrictions,
   productOwnerPermissions
 } from 'in-stores/permission';
-import { getGroupAsResultObservable, saveGroup, createNewGroup } from 'in-settings/tabs/TeamSettings/api/groups';
+import {
+  getGroupAsResultObservable,
+  saveGroup,
+  createNewGroup,
+  refresh
+} from 'in-settings/tabs/TeamSettings/api/groups';
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
@@ -55,6 +60,7 @@ export default function Group({ match }) {
         })}
         enrichForm={enrichForm}
         saveItem={saveItem}
+        onCancelClick={refresh}
         renderLoadingState={renderLoadingState}
         render={renderGroup}
         // additional props which are passed down
