@@ -50,14 +50,12 @@ const PieChartWrapper = props => {
     [metricsWithDataPoints, hiddenMetrics]
   );
 
-  const sumForSliceCalculation = sum + metricsWithDataPoints.length * sliceGap;
-
   const slices = useMemo(
     () =>
       metricsWithDataPoints.map((eachMetric, i) => {
         if (!hiddenMetrics.includes(i)) {
           return {
-            percentage: eachMetric[0][1] / sum,
+            percentage: sum ? eachMetric[0][1] / sum : 0,
             value: eachMetric[0][1],
             color: props.y1.colors100[i],
             hoverColor: props.y1.colors50[i],
@@ -69,7 +67,6 @@ const PieChartWrapper = props => {
       }),
     [metricsWithDataPoints, props.y1.colors100, props.y1.colors50, hiddenMetrics, sum]
   );
-
   let renderedPercentage = 0;
   const customStyle = !props.automaticallySize
     ? {
@@ -78,23 +75,31 @@ const PieChartWrapper = props => {
         maxHeight: props.height
       }
     : {};
+
+  const renderableSlicesCount = slices.filter(slice => slice?.percentage).length;
+  const sliceValueSumWithGap = renderableSlicesCount > 1 ? sum + renderableSlicesCount * sliceGap * sum : sum;
+
   return (
     <div className={locals.chartContainer}>
       <PieLegend {...props} updateHiddenMetrics={setHiddenMetrics} hiddenMetrics={hiddenMetrics} />
       <div className={locals.chart} style={customStyle}>
         <svg className={locals.svg} viewBox="-1 -1 2 2">
           {slices.map((slice, i) => {
-            if (!slice) return null;
-            // destructuring assignment sets the two variables at once
-            const [startX, startY] = getCoordinatesForSlice(renderedPercentage + sliceGap);
+            if (!slice?.percentage) return null;
+            // starting the rendering from the initial point
+            const [startX, startY] = getCoordinatesForSlice(renderedPercentage);
 
-            // each slice starts where the last slice ended, so keep a cumulative percent
-            renderedPercentage += slice.value / sumForSliceCalculation;
+            // each slice starts where the last slice ended, so keep a cumulative percentage
+            renderedPercentage += slice.value / sliceValueSumWithGap;
 
+            // ending the slice render after the percentage reaches
             const [endX, endY] = getCoordinatesForSlice(renderedPercentage);
 
+            // keep adding a gap after every slice
+            renderedPercentage += sliceGap;
+
             // if the slice is more than 50%, take the large arc (the long way around)
-            const largeArcFlag = slice.percentage > 0.5 ? 1 : 0;
+            const largeArcFlag = slice.value / sliceValueSumWithGap > 0.5 ? 1 : 0;
 
             // Path for each sector
             const pathData = `M ${startX} ${startY} A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY} L 0 0`;
