@@ -8,18 +8,23 @@ import React from 'react';
 import {
   websitesAlertingAdditionalPropsAlertLevelChanged,
   websitesAlertingAdditionalPropsDescriptionChanged,
-  websitesAlertingAdditionalPropsTitleChanged,
   websitesAlertingAdditionalPropsTriggerChanged,
   websitesAlertingBlueprintChanged
 } from 'in-alerting/smart-alerts/websites/tracker';
+import {
+  AlertPreview,
+  AlertPreviewHeadline
+} from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesContainer';
+import { default as GlobalAdvancedModeContainer } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeContainer';
 import {
   getFormValueOrDefault,
   getDescriptionPlaceholder,
   getTitlePlaceholder
 } from 'in-alerting/smart-alerts/websites/form/formUtils';
-import { default as GlobalAdvancedModeContainer } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeContainer';
+import AlertProperties from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertProperties';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/websites/components/AlertTagFilterExpressionConfig';
+import WebsiteAlertPropertiesTitleRow from 'in-alerting/smart-alerts/websites/advanced/WebsiteAlertPropertiesTitleRow';
 import BlueprintSelection from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/BlueprintSelection';
 import StatusCodeInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/StatusCodeInteractiveChart';
 import ThroughputInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/ThroughputInteractiveChart';
@@ -206,16 +211,31 @@ export default function AdvancedModeContainer(props) {
           valid: true,
           content: (
             <AlertPropertiesContainer
-              form={form}
-              onChange={onChange}
-              label={websiteLabel}
-              entityIconType="lib_website"
-              getDescriptionPlaceholder={getDescriptionPlaceholder}
-              getTitlePlaceholder={getTitlePlaceholder}
-              trackAlertLevelChanged={websitesAlertingAdditionalPropsAlertLevelChanged}
-              trackDescriptionChanged={websitesAlertingAdditionalPropsDescriptionChanged}
-              trackTitleChanged={websitesAlertingAdditionalPropsTitleChanged}
-              trackTriggerChanged={websitesAlertingAdditionalPropsTriggerChanged}
+              renderAlertProperties={() => (
+                <AlertProperties
+                  form={form}
+                  onChange={onChange}
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  getPreviewTitlePlaceholder={getTitlePlaceholder}
+                  trackAlertLevelChanged={websitesAlertingAdditionalPropsAlertLevelChanged}
+                  trackDescriptionChanged={websitesAlertingAdditionalPropsDescriptionChanged}
+                  trackTriggerChanged={websitesAlertingAdditionalPropsTriggerChanged}
+                  renderAlertPopertiesTitleRow={() => (
+                    <WebsiteAlertPropertiesTitleRow form={form} onChange={onChange} />
+                  )}
+                />
+              )}
+              renderAlertPreview={() => (
+                <AlertPreview
+                  form={form}
+                  label={websiteLabel}
+                  entityIconType="lib_website"
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  renderHeadline={() => (
+                    <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder(form)} />
+                  )}
+                />
+              )}
             />
           )
         }

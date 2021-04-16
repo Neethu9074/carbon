@@ -18,7 +18,8 @@ export default function TwoColumnContainer({
   mainContentHeadline,
   moveMainAreaRight,
   removePaddingSecondaryArea,
-  warnMessage
+  warnMessage,
+  removeMainAreaContentBorder
 }) {
   return (
     <div
@@ -30,7 +31,14 @@ export default function TwoColumnContainer({
       <div className={locals.mainArea}>
         <h3 className={locals.headline}>{mainContentHeadline}</h3>
         {warnMessage && <Message type={warning}>{warnMessage}</Message>}
-        <div className={locals.mainAreaContent}>{mainContent}</div>
+        <div
+          className={classNames({
+            [locals.mainAreaContent]: true,
+            [locals.removeMainAreaContentBorder]: removeMainAreaContentBorder
+          })}
+        >
+          {mainContent}
+        </div>
       </div>
       <div
         className={classNames({
@@ -51,5 +59,6 @@ TwoColumnContainer.propTypes = {
   moveMainAreaRight: PropTypes.bool,
   removePaddingSecondaryArea: PropTypes.bool,
   secondaryContent: PropTypes.node.isRequired,
-  warnMessage: PropTypes.node
+  warnMessage: PropTypes.node,
+  removeMainAreaContentBorder: PropTypes.bool
 };

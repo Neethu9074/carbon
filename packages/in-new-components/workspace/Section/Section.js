@@ -12,7 +12,7 @@ import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Section.mless';
 
-export default function Section({ title, titleHtmlFor, hasError, icon, children, actions, useAlternateBg }) {
+export default function Section({ title, titleHtmlFor, hasError, icon, children, actions, iconColor, useAlternateBg }) {
   let verticalPositionCorrection;
 
   return (
@@ -25,7 +25,7 @@ export default function Section({ title, titleHtmlFor, hasError, icon, children,
           })}
           style={verticalPositionCorrection}
         >
-          {icon && <SvgIcon type={icon} />}
+          {icon && <SvgIcon type={icon} color={iconColor} />}
           <span className={locals.titleText}>{title}</span>
         </label>
 
@@ -49,5 +49,6 @@ Section.propTypes = {
   icon: PropTypes.string,
   actions: PropTypes.node,
   useAlternateBg: PropTypes.bool,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  iconColor: PropTypes.string
 };

@@ -8,15 +8,22 @@ import React from 'react';
 import {
   applicationsAlertingAdditionalPropsAlertLevelChanged,
   applicationsAlertingAdditionalPropsDescriptionChanged,
-  applicationsAlertingAdditionalPropsTitleChanged,
   applicationsAlertingAdditionalPropsTriggerChanged,
   applicationsAlertingBlueprintChanged
 } from 'in-alerting/smart-alerts/applications/tracker';
 import IncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/IncludeInternalOrSyntheticCallsSwitch';
 import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
+import ApplicationAlertPropertiesTitleRow, {
+  placeholders
+} from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPropertiesTitleRow';
+import {
+  AlertPreview,
+  AlertPreviewHeadline
+} from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 import GlobalAdvancedModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeContainer';
+import AlertProperties from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertProperties';
 import AlertEvaluationControl from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControl';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import BlueprintSelection from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/BlueprintSelection';
@@ -35,6 +42,7 @@ import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/Al
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import LightCard from 'in-new-components/Card/LightCard';
+import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props) {
@@ -193,16 +201,38 @@ export default function AdvancedModeContainer(props) {
           valid: true,
           content: (
             <AlertPropertiesContainer
-              form={form}
-              onChange={onChange}
-              label={applicationLabel}
-              entityIconType="lib_application"
-              getDescriptionPlaceholder={getDescriptionPlaceholder}
-              getTitlePlaceholder={getTitlePlaceholder}
-              trackAlertLevelChanged={applicationsAlertingAdditionalPropsAlertLevelChanged}
-              trackDescriptionChanged={applicationsAlertingAdditionalPropsDescriptionChanged}
-              trackTitleChanged={applicationsAlertingAdditionalPropsTitleChanged}
-              trackTriggerChanged={applicationsAlertingAdditionalPropsTriggerChanged}
+              renderAlertProperties={() => (
+                <AlertProperties
+                  form={form}
+                  onChange={onChange}
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  getPreviewTitlePlaceholder={getTitlePlaceholder}
+                  trackAlertLevelChanged={applicationsAlertingAdditionalPropsAlertLevelChanged}
+                  trackDescriptionChanged={applicationsAlertingAdditionalPropsDescriptionChanged}
+                  trackTriggerChanged={applicationsAlertingAdditionalPropsTriggerChanged}
+                  renderAlertPopertiesTitleRow={() => (
+                    <ApplicationAlertPropertiesTitleRow form={form} onChange={onChange} />
+                  )}
+                />
+              )}
+              renderAlertPreview={() => (
+                <AlertPreview
+                  form={form}
+                  label={applicationLabel}
+                  entityIconType="lib_application"
+                  getTitlePlaceholder={noop}
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  renderHeadline={() => {
+                    const manuallyChangedTitle = form.get('name').value;
+                    const titleWithReplacedTemplateStrings = manuallyChangedTitle
+                      .replaceAll(placeholders.applicationName, 'Application')
+                      .replaceAll(placeholders.serviceName, 'Service')
+                      .replaceAll(placeholders.endpointName, 'Endpoint');
+
+                    return <AlertPreviewHeadline title={titleWithReplacedTemplateStrings} />;
+                  }}
+                />
+              )}
             />
           )
         }

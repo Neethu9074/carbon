@@ -7,6 +7,7 @@ import { t } from 'in-i18n';
 
 export const PER_AP = 'PER_AP';
 export const PER_AP_SERVICE = 'PER_AP_SERVICE';
+export const PER_AP_ENDPOINT = 'PER_AP_ENDPOINT';
 
 const alertEvaluationTypes = {
   [PER_AP]: {

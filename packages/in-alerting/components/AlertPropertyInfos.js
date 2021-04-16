@@ -6,7 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import PropContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/PropContainer';
+import AlertSection from 'in-alerting/components/AlertSection';
+import Sections from 'in-new-components/workspace/Sections';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
@@ -27,27 +28,26 @@ const propertiesBySeverity = Object.freeze({
 export default function AlertPropertyInfos({ alertConfig: { name, description, triggering, severity } }) {
   const severityProperty = propertiesBySeverity[severity];
   return (
-    <>
-      <PropContainer
-        left={t('in-alerting:components.alertPropertyInfosLabelTitle')}
-        right={<Label className={locals.staticTitle}>{name}</Label>}
-      />
-      <PropContainer
-        icon={severityProperty.icon}
-        left={t('in-alerting:components.alertPropertyInfosLabelAlertLevel')}
-        right={<Label className={locals.staticSeverity}>{severityProperty.label}</Label>}
-      />
-      <PropContainer
+    <Sections>
+      <AlertSection title={t('in-alerting:components.alertPropertyInfosLabelTitle')}>
+        <Label className={locals.staticTitle}>{name}</Label>
+      </AlertSection>
+      <AlertSection icon={severityProperty.icon} title={t('in-alerting:components.alertPropertyInfosLabelAlertLevel')}>
+        <Label className={locals.staticSeverity}>{severityProperty.label}</Label>
+      </AlertSection>
+      <AlertSection
         icon="lib_events_incident"
-        left={t('in-alerting:components.alertPropertyInfosLabelTriggersIncident')}
-        right={<Toggle checked={triggering} disabled />}
-      />
-      <PropContainer
+        title={t('in-alerting:components.alertPropertyInfosLabelTriggersIncident')}
+      >
+        <Toggle checked={triggering} disabled />
+      </AlertSection>
+      <AlertSection
         icon="lib_help_error_error_outline"
-        left={t('in-alerting:components.alertPropertyInfosLabelDescription')}
-        right={<Label className={locals.staticDescription}>{description}</Label>}
-      />
-    </>
+        title={t('in-alerting:components.alertPropertyInfosLabelDescription')}
+      >
+        <Label className={locals.staticDescription}>{description}</Label>
+      </AlertSection>
+    </Sections>
   );
 }
 

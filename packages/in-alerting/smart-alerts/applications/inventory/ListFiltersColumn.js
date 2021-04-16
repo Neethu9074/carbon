@@ -84,7 +84,7 @@ function GlobalAlertsSelectionLabel({ applications }) {
     <div className={locals.bigSpace}>
       <IconLabel
         text={t('in-alerting:smartAlerts.applications.inventory.numberOfApplicationsSelected', {
-          numberApplicationsSelected: applicationIds.length
+          count: applicationIds.length
         })}
         type="lib_application"
         noBottomMargin

@@ -38,6 +38,10 @@
     border: 1px solid @lib__colors__N300;
   }
 
+  .removeMainAreaContentBorder {
+    border: none;
+  }
+
   .secondaryArea {
     grid-area: secondary;
     border-left: 1px solid @lib__colors__N300;

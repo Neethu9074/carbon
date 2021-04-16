@@ -4,15 +4,23 @@
  */
 
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import React from 'react';
 
+import Button, { kinds, sizes } from 'in-new-components/Button';
 import { stopPropagation } from 'in-services/util/function';
 import Overlay from 'in-new-components/overlays/Overlay';
-import Button from 'in-new-components/Button';
 
 import locals from './MoreMenu.mless';
 
-export default function MoreMenu({ children, kind = 'secondary', size = 'normal', className, isSaving }) {
+export default function MoreMenu({
+  children,
+  kind = 'secondary',
+  size = 'normal',
+  className,
+  isSaving,
+  renderInteractiveElement
+}) {
   return (
     <Overlay
       withoutWrapper
@@ -21,23 +29,41 @@ export default function MoreMenu({ children, kind = 'secondary', size = 'normal'
         content: children
       }}
     >
-      {({ toggle, refSetter }) => (
-        <Button
-          className={classNames(locals.button, className)}
-          onClick={e => {
-            stopPropagation(e);
-            toggle();
-          }}
-          refSetter={refSetter}
-          icon={isSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
-          size={size}
-          kind={kind}
-          iconSpinning={isSaving}
-        />
-      )}
+      {({ toggle, ref }) =>
+        renderInteractiveElement?.({
+          toggle,
+          ref
+        }) ?? (
+          <Button
+            className={classNames(locals.button, className)}
+            onClick={e => {
+              stopPropagation(e);
+              toggle();
+            }}
+            ref={ref}
+            icon={isSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
+            size={size}
+            kind={kind}
+            iconSpinning={isSaving}
+          />
+        )
+      }
     </Overlay>
   );
 }
+
+MoreMenu.propTypes = {
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string,
+  isSaving: PropTypes.bool,
+  kind: PropTypes.oneOf(kinds),
+  size: PropTypes.oneOf(sizes),
+  /**
+   * Renders a custom element to open the menu.
+   * Use this if you need some kind of different button or icon etc.
+   */
+  renderInteractiveElement: PropTypes.func
+};
 
 function MoreMenuContent({ content, close }) {
   return (

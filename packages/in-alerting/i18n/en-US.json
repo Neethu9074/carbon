@@ -23,8 +23,6 @@
     "alertHeaderYouCanOnlyStartOrPause": "You can only start or pause, but not edit those configurations when in Query Builder 1 mode",
     "alertHistoryListTitle": "Alerts Created",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alerts Created ({{totalRepresentedItemCount}})",
-    "alertPropertyInfosLabelWarning": "Warning",
-    "alertPropertyInfosLabelCritical": "Critical",
     "alertPropertyInfosLabelTitle": "Title",
     "alertPropertyInfosLabelAlertLevel": "Alert Level",
     "alertPropertyInfosLabelTriggersIncident": "Triggers Incident",
@@ -94,6 +92,7 @@
     "applications": {
       "newGlobalAlert": "Global Smart Alert",
       "advanced": {
+        "alertPropertyInsertPlaceholderLabel": "Insert placeholder",
         "evaluationSwitch": {
           "individual": "Individual Alerts",
           "evaluationTypePERAP": {
@@ -457,10 +456,11 @@
         "noAlertConfigured": "No alert configured.",
         "alertEntityName": "alert \"{{entityName}}\"",
         "labelAlertFilters": "Filters",
-        "numberOfApplicationsSelected": "{{numberApplicationsSelected}} applications selected",
         "labelConfirm": "Please Confirm",
         "labelConfirmRemoveConfig": "Are you sure you want to remove the config <strong>{{configName}}</strong>?",
-        "labelRemove": "Remove"
+        "labelRemove": "Remove",
+        "numberOfApplicationsSelected": "{{count}} application selected",
+        "numberOfApplicationsSelected_plural": "{{count}} applications selected"
       }
     },
     "components": {
@@ -518,6 +518,7 @@
         "timeThresholdConfigOff": "off",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Please provide a number >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Please provide a number between 1% and 100%",
+        "alertPropertiesInsertPlaceholderTooltip": "Insert placeholder",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "When the condition persists over a specified amount of time",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Every time the condition triggers a specified amount of times in a defined time frame",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "When a certain amount of my users are impacted",

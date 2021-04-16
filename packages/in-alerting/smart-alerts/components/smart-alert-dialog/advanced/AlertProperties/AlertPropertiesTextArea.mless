@@ -6,13 +6,8 @@
 @import '~in-themes/active.less';
 
 :local {
-  .textInput {
+  .textArea {
     width: 100%;
     background-color: @lib__colors__N100;
-  }
-
-  .textArea {
-    .textInput();
-    resize: none;
   }
 }
