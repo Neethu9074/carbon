@@ -19,5 +19,5 @@ export const label =
   (infraMetricsWidgetEnabled ? '(Beta)' : t('in-custom-dashboards:widgets.srcInfrastructure.metrics.comingSoon'));
 export const disabled = !infraMetricsWidgetEnabled;
 export const visible = true;
-export const getMinGranularity = getFinestAvailableGranularity;
+export const getMinGranularity = timeConfig => getFinestAvailableGranularity(timeConfig, 10000);
 export const suggestedNumberOfDataPoints = 400;

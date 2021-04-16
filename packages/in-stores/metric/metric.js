@@ -228,12 +228,12 @@ function getAvailableGranularities(timeConfig) {
   return INFRA_GRANULARITIES.filter(g => g.availableFor > metricAge);
 }
 
-export function getFinestAvailableGranularity(timeConfig) {
+export function getFinestAvailableGranularity(timeConfig, minimumGranularity = MINIMUM_INFRA_GRANULARITY) {
   const availableGranularities = getAvailableGranularities(timeConfig);
 
   if (availableGranularities.length == 0) return INFRA_GRANULARITIES[0].granularity;
 
-  return availableGranularities[availableGranularities.length - 1].granularity;
+  return Math.max(availableGranularities[availableGranularities.length - 1].granularity, minimumGranularity);
 }
 
 export const currentRollup$ = timeConfig$.map(getInfraGranularity);
