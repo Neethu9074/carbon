@@ -1,0 +1,582 @@
+{
+  "editor": {
+    "copyOf": "{{title}} 사본"
+  },
+  "customDashboard": {
+    "editJsonDialog": {
+      "editJsonDialogPresenter": {
+        "confirmBt": "확인",
+        "dashboardAJson": "JSON으로 대시보드",
+        "editDashboard": "대시보드 편집"
+      }
+    },
+    "grid": {
+      "grid": {
+        "edit": "편집",
+        "duplicate": "복제",
+        "delete": "삭제",
+        "customDashboardWidgetTitle": "사용자 정의 대시보드 위젯: {{title}}"
+      }
+    },
+    "sharingDialog": {
+      "individualEditRightSelect": {
+        "removeEditRightUserName": "{{fullName}}에 대한 편집 권한 제거",
+        "add": "추가",
+        "addEditors": "편집자 추가",
+        "pleaseSelect": "선택하십시오."
+      },
+      "sharingDialogPresenter": {
+        "share": "공유",
+        "shareMsg": "이 사용자 정의 대시보드에는 이 대화 상자에서 표시할 수 없는 고급 액세스 규칙이 있습니다. \"JSON으로 편집\" 기능을 사용하여 해당 액세스 규칙을 편집할 수 있습니다.",
+        "privateDashboardDefault": "개인용 대시보드(기본값)",
+        "privateDashboardDefaultExplain": "이 대시보드는 사용자에게만 표시됩니다.",
+        "publicDashboard": "공용 대시보드",
+        "publicDashboardExplain": "이 대시보드는 조직의 모든 구성원에게 표시됩니다. 사용자만 변경사항을 작성할 수 있지만 편집자를 추가할 수 있습니다.",
+        "done": "완료"
+      }
+    },
+    "widgetEditorDialog": {
+      "widgetTypeSelector": {
+        "showWidgetLabel": "{{label}} 위젯의 케이스 표시"
+      },
+      "widgetConfiguration": {
+        "widgetName": "위젯 이름",
+        "name": "이름",
+        "helpAction": "위젯 컨텐츠 위에 표시되는 이 위젯의 선택적 이름을 선택하십시오.",
+        "optional": "선택사항"
+      },
+      "widgetEditorDialogPresenter": {
+        "editWidget": "위젯 편집",
+        "addWidget": "위젯 추가",
+        "next": "다음",
+        "confirm": "확인",
+        "create": "작성",
+        "back": "이전"
+      },
+      "widgetPreview": {
+        "previewNotAvailWidgetConfigIncomplete": "위젯 구성이 완료되지 않아서 미리보기를 사용할 수 없습니다.",
+        "highlightMissingConfig": "누락된 구성 강조표시",
+        "preview": "미리보기",
+        "customDashboardPreviewTitle": "사용자 정의 대시보드 위젯 미리보기: {{title}}"
+      }
+    },
+    "customDashboard": {
+      "confirmDashboardDel": "대시보드 삭제 확인",
+      "delDashboard": "대시보드 삭제",
+      "uWantDelDashboardConfig": "대시보드 <strong>{{title}}</strong>을(를) 삭제하시겠습니까?",
+      "failDelDashboard": "대시보드를 삭제하는 데 실패했습니다.",
+      "renameDashboard": "대시보드 이름 바꾸기",
+      "dashboardName": "대시보드 이름",
+      "rename": "이름 바꾸기",
+      "failSaveDashboard": "대시보드를 저장하는 데 실패했습니다."
+    },
+    "customDashboardPresenter": {
+      "dashboardNotFound": "대시보드를 찾을 수 없음",
+      "failure": "실패",
+      "dashboardNotFoundExplain": "이 대시보드가 없거나 액세스 권한이 없습니다.",
+      "customDashboard": "사용자 정의 대시보드",
+      "saveChange": "변경사항 저장",
+      "discardChange": "변경사항 무시",
+      "addWidget": "위젯 추가",
+      "tvMode": "TV 모드",
+      "editName": "이름 편집",
+      "editAsJson": "JSON으로 편집",
+      "viewAsJson": "JSON으로 보기",
+      "duplicate": "복제",
+      "delete": "삭제",
+      "share": "공유",
+      "shareButtonTooltip": "사용자 계정에 대시보드를 공유할 수 있는 권한이 없습니다."
+    },
+    "editAsJsonDialog": {
+      "failedToParseInputAsJson": "입력을 JSON으로 구문 분석하는 데 실패했습니다.",
+      "jsonRootMustBeAnObject": "JSON 루트는 오브젝트여야 합니다."
+    }
+  },
+  "dashboardSwitcher": {
+    "dashboardSwitcher": {
+      "loading": "로드 중…"
+    },
+    "dashboardSwitcherOverlayPresenter": {
+      "createDashboard": "대시보드 작성",
+      "builtIn": "기본 제공",
+      "default": "기본값",
+      "search": "검색"
+    },
+    "dashboardSwitcherPresenter": {
+      "loading": "로드 중…"
+    }
+  },
+  "widgets": {
+    "metricConfig": {
+      "groupingConfig": {
+        "top5": "상위 5개",
+        "bottom5": "하위 5개",
+        "showRemainingGroupsAggregOther": "\"기타\"로 집계된 나머지 그룹 표시"
+      },
+      "hiddenCalls": {
+        "includeInternalCalls": "내부 호출 포함",
+        "includeSyntheticCalls": "합성 호출 포함"
+      }
+    },
+    "srcApp": {
+      "formComponent": {
+        "pleaseSelect": "선택하십시오.",
+        "pleaseSelectMetric": "메트릭을 선택하십시오.",
+        "aggregation": "집계",
+        "metric": "메트릭"
+      },
+      "index": {
+        "applicationsTracesAndCalls": "애플리케이션(추적 및 호출)"
+      },
+      "oldFormComponent": {
+        "metric": "메트릭",
+        "pleaseSelect": "선택하십시오.",
+        "aggregation": "집계",
+        "pleaseSelectMetric": "메트릭을 선택하십시오."
+      }
+    },
+    "srcEvent": {
+      "index": {
+        "events": "이벤트"
+      },
+      "formComponent": {
+        "metric": "메트릭",
+        "eventCount": "이벤트 개수",
+        "aggregation": "집계",
+        "pleaseSelectMetric": "메트릭을 선택하십시오.",
+        "pleaseSelect": "선택하십시오.",
+        "helpAction": "이벤트 보기 내에서 사용하는 DFQ(Dynamic Focus Query)입니다.",
+        "query": "조회"
+      }
+    },
+    "srcInfrastructure": {
+      "entityCount": {
+        "infrastructureEntityCount": "인프라 및 플랫폼 엔티티 수"
+      },
+      "entityCountFormComponent": {
+        "query": "조회",
+        "helpAction": "인프라 맵 내에서 사용하는 DFQ(Dynamic Focus Query)입니다.",
+        "metric": "메트릭",
+        "count": "개수",
+        "aggregation": "집계",
+        "pleaseSelect": "선택하십시오.",
+        "pleaseSelectMetric": "메트릭을 선택하십시오."
+      },
+      "metricsFormComponent": {
+        "metric": "메트릭",
+        "selectMetric": "메트릭 선택",
+        "aggregation": "집계",
+        "pleaseSelect": "선택하십시오.",
+        "pleaseSelectMetric": "메트릭을 선택하십시오."
+      },
+      "metricsLoadIndicator": {
+        "loadingMetrics": "메트릭 로드 중…"
+      },
+      "metrics": {
+        "infrastructurePlatforms": "인프라 및 플랫폼",
+        "comingSoon": "(곧 출시 예정)"
+      },
+      "typeAndMetricConfigurator": {
+        "pleaseSelectMetric": "메트릭을 선택하십시오."
+      }
+    },
+    "srcMobileApp": {
+      "formComp": {
+        "beaconType": "비콘 유형",
+        "pleaseSelect": "선택하십시오.",
+        "pleaseSelectDs": "데이터 소스를 선택하십시오.",
+        "metric": "메트릭",
+        "aggregation": "집계",
+        "pleaseSelectMetric": "메트릭을 선택하십시오."
+      },
+      "index": {
+        "mobileAppsBeacon": "모바일 앱(비콘)"
+      },
+      "oldFormComp": {
+        "beaconType": "비콘 유형",
+        "pleaseSelect": "선택하십시오.",
+        "pleaseSelectDs": "데이터 소스를 선택하십시오.",
+        "aggregation": "집계",
+        "pleaseSelectMetric": "메트릭을 선택하십시오.",
+        "metric": "메트릭"
+      }
+    },
+    "srcSli": {
+      "formComp": {
+        "configSli": "구성된 SLI",
+        "pleaseSelect": "선택하십시오.",
+        "sliConfigComputeErrBudgetSliVal": "오류 허용치 및 SLI 값을 계산하는 데 사용되는 SLI 구성",
+        "typeSloThreshold": "<code>{{compact}}</code> - <code>{{detailed}}</code> 사이의 원하는 SLO 임계값을 입력하십시오.",
+        "valType": "값 유형"
+      },
+      "index": {
+        "srvLevelIndicator": "SLI(Service-Level Indicator)"
+      },
+      "serviceLevelIndicators": {
+        "remainErrBudget": "나머지 오류 허용치"
+      }
+    },
+    "srcWebSite": {
+      "formComp": {
+        "beaconType": "비콘 유형",
+        "pleaseSelect": "선택하십시오.",
+        "metric": "메트릭",
+        "selectDs": "데이터 소스를 선택하십시오.",
+        "selectMetric": "메트릭을 선택하십시오.",
+        "aggregation": "집계"
+      },
+      "index": {
+        "websitesBeacons": "웹 사이트(비콘)"
+      },
+      "oldFormComp": {
+        "beaconType": "비콘 유형",
+        "pleaseSelect": "선택하십시오.",
+        "selectDs": "데이터 소스를 선택하십시오.",
+        "metric": "메트릭",
+        "aggregation": "집계",
+        "selectMetric": "메트릭을 선택하십시오."
+      }
+    },
+    "metricConfigurator": {
+      "ds": "데이터 소스",
+      "pleaseSelect": "선택하십시오.",
+      "name": "이름",
+      "pleaseSelectATimeShiftingConfiguration": "시간 이동 구성을 선택하십시오.",
+      "pleaseProvideAGroup": "그룹을 제공하십시오.",
+      "optional": "선택사항",
+      "theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999": "제공된 숫자가 올바르지 않습니다. 값은 0 - 99.99 사이여야 합니다."
+    },
+    "bigNumber": {
+      "comparisonColors": {
+        "green": "녹색",
+        "red": "빨간색",
+        "yellow": "노란색",
+        "orange": "주황색",
+        "blue": "파란색"
+      },
+      "formComponent": {
+        "whatULikeShow": "표시할 항목",
+        "formatter": "포맷터"
+      },
+      "timeShiftingForm": {
+        "addTimeShiftComparBadge": "시간 이동 비교 배지 추가",
+        "increaseColor": "색상 증가",
+        "decreaseColor": "색상 감소",
+        "timeShift": "시간 이동"
+      },
+      "bigNumber": "큰 수"
+    },
+    "chart": {
+      "axesConfigurator": {
+        "primaryYAxis": "기본 Y-축",
+        "secondaryYAxis": "보조 Y-축",
+        "chart": "차트",
+        "formatter": "포맷터",
+        "addSecondary": "보조 Y-축 추가",
+        "removeSecondary": "제거",
+        "min": "최소",
+        "max": "최대",
+        "sharemaxValue": "축 간의 최대 값 공유",
+        "auto": "자동"
+      },
+      "atLeastOneDatasetIsRequired": "하나 이상의 데이터 세트가 필요합니다."
+    },
+    "formCompChart": {
+      "colorConfiguratorChart": {
+        "colorDsGrpNotConfig": "그룹화를 활용하는 데이터 세트의 색상을 구성할 수 없습니다.",
+        "iconDepicAutoColorSelect": "자동 색상 선택을 묘사하는 아이콘.",
+        "colorAutoChose": "색상은 자동으로 선택됨",
+        "automatic": "자동"
+      },
+      "color": {
+        "lightBlue": "연한 파란색",
+        "green": "녹색",
+        "red": "빨간색",
+        "yellow": "노란색",
+        "orange": "주황색",
+        "blue": "파란색",
+        "deepPurple": "진보라색",
+        "cyan": "청록색",
+        "lime": "라임색",
+        "pink": "분홍색",
+        "teal": "암녹색",
+        "purple": "보라색",
+        "indigo": "남색"
+      },
+      "dataConfigChart": {
+        "addDataset": "데이터 세트 추가"
+      },
+      "indexChart": {
+        "datasets": "데이터 세트",
+        "axisConfig": "축 구성"
+      },
+      "metricConfigChart": {
+        "datasetTimeShift": "데이터 세트가 시간 이동됨",
+        "removeDataset": "데이터 세트 제거",
+        "duplicate": "복제"
+      },
+      "metricReorderingChart": {
+        "jumpConfigDataset": "이 데이터 세트의 구성으로 이동",
+        "datasetTimeShift": "데이터 세트가 시간 이동됨",
+        "dragDropDataset2Axes": "두 축 사이에 데이터 세트를 끌어서 놓습니다.",
+        "datasets": "데이터 세트"
+      },
+      "timeShiftingFormChart": {
+        "timeShift": "시간 이동",
+        "applyTimeShiftDs": "이 데이터 시리즈에 시간 이동 적용",
+        "timeShiftHelpAction": "<strong>현재 값 표시</strong>를 선택하면 이 데이터 시리즈가 동일한 축에 자동으로 복제됩니다. 첫 번째 데이터 시리즈의 시간 이동은 비활성화되며 두 번째 시리즈의 시간 이동이 사용으로 설정됩니다.",
+        "displayCurrentValues": "현재 값 표시"
+      }
+    },
+    "demo": {
+      "pageLoads": "페이지 로드",
+      "onLoadTime": "OnLoad 시간"
+    },
+    "index": {
+      "chartTimeSeries": "차트: 시계열"
+    },
+    "util": {
+      "unnamMetric": "이름이 지정되지 않은 메트릭"
+    },
+    "markdown": {
+      "formComp": {
+        "whatULikeShow": "표시할 항목",
+        "markdown": "마크다운",
+        "markdownHelpAction": "표준 마크다운 구문을 사용하여 대시보드에 대한 임의 텍스트 컨텐츠를 정의할 수 있습니다."
+      },
+      "markdown": "마크다운"
+    },
+    "pie": {
+      "formComponent": {
+        "datasets": "데이터 세트",
+        "dragDropDatasetsReorder": "다시 정렬하려면 데이터 세트를 끌어서 놓으십시오.",
+        "dataPresentation": "데이터 프리젠테이션",
+        "formatter": "포맷터"
+      },
+      "index": {
+        "chartPie": "차트: 원형"
+      }
+    },
+    "slo": {
+      "apConfigFormComp": {
+        "userJourneyOffering": "사용자 과정/오퍼링",
+        "appnPerspective": "애플리케이션 퍼스펙티브",
+        "selectAppPerspect": "애플리케이션 퍼스펙티브를 선택하십시오.",
+        "appPerspectHelpAction": "제품의 애플리케이션 영역에서 애플리케이션 퍼스펙티브로 모델링하여 사용자 과정/오퍼링을 설정하십시오.",
+        "noAppPerspect": "애플리케이션 퍼스펙티브 없음!",
+        "pleaseSelect": "선택하십시오."
+      },
+      "sliSelectionFormComp": {
+        "srvLevelIndicator": "SLI(Service Level Indicator)",
+        "selectASli": "SLI를 선택하십시오.",
+        "noneAvailCreateOne": "사용 가능한 항목이 없습니다. 하나를 작성하십시오.",
+        "pleaseSelect": "선택하십시오."
+      },
+      "createSliForm": {
+        "sliCreateSuccess": "SLI가 작성됨",
+        "failCreateSli": "SLI를 작성하는 데 실패했습니다.",
+        "problemCreateSli": "이 SLI를 작성하는 중에 문제점 발생: \"{{sliName}}\"",
+        "cloning": "복제 중…",
+        "creating": "작성 중…",
+        "clone": "복제",
+        "create": "작성",
+        "sliConfigMsg": "계산된 사용 예산의 무효화를 방지하기 위해 SLI의 매개변수를 수정할 수 없습니다. 이러한 이유로 매개변수를 변경하는 경우 SLI를 복제해야 합니다.",
+        "sliCreated": "SLI \"{{sliName}}\"이(가) 작성되었습니다."
+      },
+      "endpointSelectBox": {
+        "endpoint": "엔드포인트",
+        "allServices": "모든 서비스",
+        "loading": "<loading>"
+      },
+      "goodBadEventsForm": {
+        "goodEvents": "양호 이벤트",
+        "badEvents": "잘못된 이벤트"
+      },
+      "metricFormData": {
+        "latency": "대기 시간",
+        "callCount": "호출 개수",
+        "errorRate": "오류 비율",
+        "erroneousCalls": "잘못된 호출",
+        "mean": "평균",
+        "min": "최소",
+        "max": "최대",
+        "sum": "합계",
+        "25th": "25번째",
+        "50th": "50번째",
+        "75th": "75번째",
+        "90th": "90번째",
+        "95th": "95번째",
+        "98th": "98번째",
+        "99th": "99번째"
+      },
+      "metricsForm": {
+        "metricThreshold": "메트릭 및 임계값",
+        "metric": "메트릭",
+        "aggregation": "집계",
+        "valThresholdNotInvalidEmpty": "임계값의 값이 올바르지 않거나 비어 있습니다.",
+        "thresholdMs": "임계값(ms)",
+        "thresholdPercent": "임계값(%)",
+        "thresholdCount": "임계값(개수)"
+      },
+      "servicesSelectBox": {
+        "service": "서비스",
+        "loading": "<loading>",
+        "allServices": "모든 서비스"
+      },
+      "sliFormPresenter": {
+        "sliCustomization": "SLI 사용자 정의",
+        "name": "이름",
+        "sliNameNotEmpty": "SLI 이름은 비워둘 수 없습니다.",
+        "sliCustomHelpAction": "SLI 사용자 정의 및 SLI 유형에 대한 정보는 문서 내에 있습니다.",
+        "sliTimeBasedOrAnEventBasedSli": "SLI 유형은 시간 기준 또는 이벤트 기준 SLI여야 합니다.",
+        "pleaseSelect": "선택하십시오.",
+        "appPerspective": "애플리케이션 퍼스펙티브",
+        "boundary": "경계",
+        "hiddenCalls": "숨겨진 호출",
+        "includeInternalCalls": "내부 호출 포함",
+        "includeSyntheticCalls": "합성 호출 포함",
+        "type": "유형",
+        "sliEntity": "SLI 엔티티"
+      },
+      "sliList": {
+        "serviceLevelIndicators": "SLI(Service Level Indicator)",
+        "sliConfigDeleted": "SLI 구성이 삭제되었습니다.",
+        "failedDelSli": "SLI를 삭제하는 데 실패했습니다.",
+        "sliType": "SLI 유형",
+        "viewCloneSliConfig": "SLI 구성 보기/복제",
+        "delSliConfig": "SLI 구성 삭제",
+        "pleaseConfirm": "확인하시기 바랍니다.",
+        "pleaseConfirmMsg": "<strong>{{sliName}}</strong>을(를) 삭제하시겠습니까?",
+        "delete": "삭제"
+      },
+      "sliManageList": {
+        "configSrvLevelIndicatorsMsg": "SLI를 작성하거나 편집하기 위한 필수 <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> 권한이 없습니다.",
+        "sliList": "SLI 목록",
+        "createSli": "SLI 작성"
+      },
+      "tagFilterExpressConfig": {
+        "clear": "지우기"
+      },
+      "sloTimeTile": {
+        "sloTime": "<datetime-from /><br />부터 <datetime-to />까지"
+      },
+      "chart": {
+        "spent": "사용",
+        "budget": "예산",
+        "viewInAnalyze": "분석으로 보기"
+      },
+      "formComponent": {
+        "sliManagement": "SLI 관리",
+        "editSli": "SLI 편집",
+        "createSli": "SLI 작성",
+        "sloConfig": "SLO 구성",
+        "manageSlIs": "SLI 관리",
+        "sloTarget": "SLO 대상",
+        "enterVal0to100": "0 - 100 사이 값을 입력하십시오.",
+        "timeWindow": "시간 창",
+        "helpActionMsg1": "<strong>고정된 시간 간격:</strong> 시작 및 기간이 정의된 시간 창. 예: 2020-01-01부터 매월. 글로벌 시간 선택기의 시간 선택에 대한 마지막 부분 시간 간격이 표시됩니다.",
+        "helpActionMsg2": "<strong>롤링 시간 창:</strong> 기간이 정의된 시간 창이며 여기서 종료는 글로벌 시간 선택기의 오른쪽 날짜/시간 선택사항에서 정의합니다(예: 지난 2주).",
+        "helpActionMsg3": "<strong>동적 시간 창:</strong> 글로벌 시간 선택기에서 선택한 시간 창에 대해 SLO가 계산됩니다.",
+        "fixTimeInterval": "고정된 시간 간격",
+        "rollingTimeWindow": "롤링 시간 창",
+        "dynamicTimeWindow": "동적 시간 창",
+        "length": "기간",
+        "days": "일",
+        "weeks": "주",
+        "months": "개월",
+        "pleaseSpecifyTheNumber": "{{timeValue}} 수를 지정하십시오.",
+        "start": "시작",
+        "enterDateFormatYyyyMmDd": "날짜를 YYYY-MM-DD 형식으로 입력하십시오.",
+        "enterTimeInFormatHhMmSs": "시간을 HH:mm:ss 형식으로 입력하십시오."
+      },
+      "widgetHeader": {
+        "status": "상태",
+        "target": "대상:",
+        "errorBudgetSpent": "사용된 오류 허용치",
+        "errorBudget": "오류 허용치:",
+        "timeWindow": "시간 창",
+        "dynamicTimeWindow": "동적 시간 창",
+        "rollingTimeWindow": "롤링 시간 창",
+        "fixedTimeWindow": "고정 시간 창"
+      },
+      "sliConfig": {
+        "sliName": "SLI 이름",
+        "sliType": "SLI 유형",
+        "badEventsFilter": "잘못된 이벤트 필터",
+        "metric": "메트릭"
+      },
+      "theTimeWindowSizeHasToBeLessOrEqualTo365Days": "시간 창 크기는 356일보다 작거나 같아야 합니다.",
+      "aValueMustBeSelected": "값을 선택해야 합니다.",
+      "atLeastOneFilterExpressionMustBeConfigured": "하나 이상의 필터 표현식을 구성해야 합니다.",
+      "timeBased": "시간 기반",
+      "eventBased": "이벤트 기반",
+      "slo": "SLO"
+    },
+    "timezone": {
+      "demo": {
+        "sanFrancisco": "샌프란시스코",
+        "austin": "오스틴",
+        "newYorkCity": "뉴욕시",
+        "berlin": "베를린",
+        "tokyo": "도쿄",
+        "sydney": "시드니"
+      },
+      "formComp": {
+        "whatULikeShow": "표시할 항목",
+        "reorderTimeZones": "시간대 다시 정렬",
+        "timeZone": "시간대",
+        "removeTimeZone": "시간대 제거",
+        "addTimeZone": "시간대 추가"
+      },
+      "index": {
+        "timeZone": "시간대"
+      }
+    },
+    "topList": {
+      "formComp": {
+        "whatULikeShow": "표시할 항목",
+        "formatter": "포맷터"
+      },
+      "index": {
+        "topListLb": "상위 목록"
+      },
+      "widget": {
+        "aggregOtherGroup": "기타 그룹의 집계",
+        "other": "기타",
+        "tagNoValue": "태그 '{{labelname}}'에 값이 없음"
+      }
+    },
+    "applicationHealth": {
+      "index": {
+        "applicationHealth": "상태 개요"
+      },
+      "form": {
+        "validationError": "애플리케이션을 선택하십시오.",
+        "header": "모니터할 애플리케이션 선택",
+        "addApplication": "애플리케이션 추가",
+        "selectApplication": "애플리케이션 선택",
+        "secondaryHeadingText": "선택한 애플리케이션은 가장 높은 심각도를 기준으로 정렬됩니다.",
+        "applicationLabel": "애플리케이션",
+        "atLeastOneApplicationMustBeSelected": "하나 이상의 애플리케이션을 선택해야 합니다."
+      }
+    },
+    "timezones": {
+      "atLeastOneTimeZoneMustBeConfigured": "하나 이상의 시간대를 구성해야 합니다.",
+      "pleaseSelectATimeZone": "시간대를 선택하십시오."
+    }
+  },
+  "duplicateDashboardDialog": {
+    "duplicateDashboard": "대시보드 복제",
+    "dashboardName": "대시보드 이름",
+    "duplicate": "복제",
+    "copyShareConfig": "공유 구성 복사",
+    "failedToCreateDashboard": "대시보드를 작성하는 데 실패했습니다."
+  },
+  "newDashboardDialog": {
+    "createNewDashboard": "새 대시보드 작성",
+    "dashboardName": "대시보드 이름",
+    "additionalFields": "이 대시보드는 사용자에게만 표시됩니다. 작성 후에 동료와 공유하도록 선택할 수 있습니다.",
+    "create": "작성",
+    "failedToCreateDashboard": "대시보드를 작성하는 데 실패했습니다."
+  }
+}

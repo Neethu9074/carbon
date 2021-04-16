@@ -1,0 +1,582 @@
+{
+  "editor": {
+    "copyOf": "{{title}} 副本"
+  },
+  "customDashboard": {
+    "editJsonDialog": {
+      "editJsonDialogPresenter": {
+        "confirmBt": "確認",
+        "dashboardAJson": "JSON 形式的儀表板",
+        "editDashboard": "編輯儀表板"
+      }
+    },
+    "grid": {
+      "grid": {
+        "edit": "編輯",
+        "duplicate": "複製",
+        "delete": "刪除",
+        "customDashboardWidgetTitle": "自訂儀表板小組件：{{title}}"
+      }
+    },
+    "sharingDialog": {
+      "individualEditRightSelect": {
+        "removeEditRightUserName": "移除 {{fullName}} 的編輯權。",
+        "add": "新增",
+        "addEditors": "新增編輯者",
+        "pleaseSelect": "請選取"
+      },
+      "sharingDialogPresenter": {
+        "share": "共用",
+        "shareMsg": "此自訂儀表板具有進階存取規則，但此對話框無法呈現這些規則。您可以使用「以 JSON 型式編輯」特性來編輯這些存取規則。",
+        "privateDashboardDefault": "專用儀表板（預設值）",
+        "privateDashboardDefaultExplain": "此儀表板只有您看得見。",
+        "publicDashboard": "公用儀表板",
+        "publicDashboardExplain": "您組織中的每個人都可看見此儀表板。只有您能夠進行變更，但您可以新增編輯者。",
+        "done": "完成"
+      }
+    },
+    "widgetEditorDialog": {
+      "widgetTypeSelector": {
+        "showWidgetLabel": "顯示 {{label}} 小組件的案例"
+      },
+      "widgetConfiguration": {
+        "widgetName": "小組件名稱",
+        "name": "名稱",
+        "helpAction": "選擇此小組件的選用名稱，該名稱將呈現在小組件內容的上方。",
+        "optional": "選用"
+      },
+      "widgetEditorDialogPresenter": {
+        "editWidget": "編輯小組件",
+        "addWidget": "新增小組件",
+        "next": "下一步",
+        "confirm": "確認",
+        "create": "建立",
+        "back": "上一步"
+      },
+      "widgetPreview": {
+        "previewNotAvailWidgetConfigIncomplete": "預覽無法使用，因為小組件配置不完整。",
+        "highlightMissingConfig": "強調顯示遺漏的配置",
+        "preview": "預覽",
+        "customDashboardPreviewTitle": "自訂儀表板小組件預覽：{{title}}"
+      }
+    },
+    "customDashboard": {
+      "confirmDashboardDel": "確認刪除儀表板",
+      "delDashboard": "刪除儀表板",
+      "uWantDelDashboardConfig": "您確定要刪除儀表板 <strong>{{title}}</strong> 嗎？",
+      "failDelDashboard": "無法刪除儀表板。",
+      "renameDashboard": "重新命名儀表板",
+      "dashboardName": "儀表板名稱",
+      "rename": "重新命名",
+      "failSaveDashboard": "無法儲存儀表板。"
+    },
+    "customDashboardPresenter": {
+      "dashboardNotFound": "儀表板找不到",
+      "failure": "失敗",
+      "dashboardNotFoundExplain": "此儀表板不存在，或您無權存取它。",
+      "customDashboard": "自訂儀表板",
+      "saveChange": "儲存變更",
+      "discardChange": "捨棄變更",
+      "addWidget": "新增小組件",
+      "tvMode": "TV 模式",
+      "editName": "編輯名稱",
+      "editAsJson": "以 JSON 型式編輯",
+      "viewAsJson": "以 JSON 型式檢視",
+      "duplicate": "複製",
+      "delete": "刪除",
+      "share": "共用",
+      "shareButtonTooltip": "您的使用者帳戶無權共用儀表板。"
+    },
+    "editAsJsonDialog": {
+      "failedToParseInputAsJson": "無法剖析 JSON 形式的輸入。",
+      "jsonRootMustBeAnObject": "JSON root 必須是物件。"
+    }
+  },
+  "dashboardSwitcher": {
+    "dashboardSwitcher": {
+      "loading": "載入中..."
+    },
+    "dashboardSwitcherOverlayPresenter": {
+      "createDashboard": "建立儀表板",
+      "builtIn": "內建",
+      "default": "預設",
+      "search": "搜尋"
+    },
+    "dashboardSwitcherPresenter": {
+      "loading": "載入中..."
+    }
+  },
+  "widgets": {
+    "metricConfig": {
+      "groupingConfig": {
+        "top5": "前 5 名",
+        "bottom5": "末 5 名",
+        "showRemainingGroupsAggregOther": "顯示聚集成「其他」的其餘群組。"
+      },
+      "hiddenCalls": {
+        "includeInternalCalls": "包含內部呼叫",
+        "includeSyntheticCalls": "包含合成呼叫"
+      }
+    },
+    "srcApp": {
+      "formComponent": {
+        "pleaseSelect": "請選取",
+        "pleaseSelectMetric": "請選取度量",
+        "aggregation": "聚集",
+        "metric": "度量"
+      },
+      "index": {
+        "applicationsTracesAndCalls": "應用程式（追蹤和呼叫）"
+      },
+      "oldFormComponent": {
+        "metric": "度量",
+        "pleaseSelect": "請選取",
+        "aggregation": "聚集",
+        "pleaseSelectMetric": "請選取度量"
+      }
+    },
+    "srcEvent": {
+      "index": {
+        "events": "事件"
+      },
+      "formComponent": {
+        "metric": "度量",
+        "eventCount": "事件計數",
+        "aggregation": "聚集",
+        "pleaseSelectMetric": "請選取度量",
+        "pleaseSelect": "請選取",
+        "helpAction": "動態焦點查詢 (DFQ)（當您在事件視圖內使用時）。",
+        "query": "查詢"
+      }
+    },
+    "srcInfrastructure": {
+      "entityCount": {
+        "infrastructureEntityCount": "基礎架構和平台實體計數"
+      },
+      "entityCountFormComponent": {
+        "query": "查詢",
+        "helpAction": "動態焦點查詢 (DFQ)（當您在基礎架構圖內使用時）。",
+        "metric": "度量",
+        "count": "計數",
+        "aggregation": "聚集",
+        "pleaseSelect": "請選取",
+        "pleaseSelectMetric": "請選取度量"
+      },
+      "metricsFormComponent": {
+        "metric": "度量",
+        "selectMetric": "選取度量",
+        "aggregation": "聚集",
+        "pleaseSelect": "請選取",
+        "pleaseSelectMetric": "請選取度量"
+      },
+      "metricsLoadIndicator": {
+        "loadingMetrics": "正在載入度量..."
+      },
+      "metrics": {
+        "infrastructurePlatforms": "基礎架構和平台",
+        "comingSoon": "（即將推出）"
+      },
+      "typeAndMetricConfigurator": {
+        "pleaseSelectMetric": "請選取度量"
+      }
+    },
+    "srcMobileApp": {
+      "formComp": {
+        "beaconType": "引標類型",
+        "pleaseSelect": "請選取",
+        "pleaseSelectDs": "請選取資料來源",
+        "metric": "度量",
+        "aggregation": "聚集",
+        "pleaseSelectMetric": "請選取度量"
+      },
+      "index": {
+        "mobileAppsBeacon": "行動式應用程式（引標）"
+      },
+      "oldFormComp": {
+        "beaconType": "引標類型",
+        "pleaseSelect": "請選取",
+        "pleaseSelectDs": "請選取資料來源",
+        "aggregation": "聚集",
+        "pleaseSelectMetric": "請選取度量",
+        "metric": "度量"
+      }
+    },
+    "srcSli": {
+      "formComp": {
+        "configSli": "配置的 SLI",
+        "pleaseSelect": "請選取",
+        "sliConfigComputeErrBudgetSliVal": "用來計算錯誤預算和 SLI 值的 SLI 配置",
+        "typeSloThreshold": "請鍵入您要的 SLO 臨界值，從 <code>{{compact}}</code> 到 <code>{{detailed}}</code>。",
+        "valType": "值類型"
+      },
+      "index": {
+        "srvLevelIndicator": "服務水準指標"
+      },
+      "serviceLevelIndicators": {
+        "remainErrBudget": "其餘的錯誤預算"
+      }
+    },
+    "srcWebSite": {
+      "formComp": {
+        "beaconType": "引標類型",
+        "pleaseSelect": "請選取",
+        "metric": "度量",
+        "selectDs": "請選取資料來源",
+        "selectMetric": "請選取度量",
+        "aggregation": "聚集"
+      },
+      "index": {
+        "websitesBeacons": "網站（引標）"
+      },
+      "oldFormComp": {
+        "beaconType": "引標類型",
+        "pleaseSelect": "請選取",
+        "selectDs": "請選取資料來源",
+        "metric": "度量",
+        "aggregation": "聚集",
+        "selectMetric": "請選取度量"
+      }
+    },
+    "metricConfigurator": {
+      "ds": "資料來源",
+      "pleaseSelect": "請選取",
+      "name": "名稱",
+      "pleaseSelectATimeShiftingConfiguration": "請選取時間移位配置。",
+      "pleaseProvideAGroup": "請提供群組。",
+      "optional": "選用",
+      "theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999": "提供的數字無效。值應該介於 0 到 99.99 之間。"
+    },
+    "bigNumber": {
+      "comparisonColors": {
+        "green": "綠色",
+        "red": "紅色",
+        "yellow": "黃色",
+        "orange": "橙色",
+        "blue": "藍色"
+      },
+      "formComponent": {
+        "whatULikeShow": "您想要顯示什麼？",
+        "formatter": "格式製作程式"
+      },
+      "timeShiftingForm": {
+        "addTimeShiftComparBadge": "新增時間遷移比較識別證",
+        "increaseColor": "增加顏色",
+        "decreaseColor": "減少顏色",
+        "timeShift": "時間遷移"
+      },
+      "bigNumber": "大數"
+    },
+    "chart": {
+      "axesConfigurator": {
+        "primaryYAxis": "主要 Y 軸",
+        "secondaryYAxis": "次要 Y 軸",
+        "chart": "圖表",
+        "formatter": "格式製作程式",
+        "addSecondary": "新增次要 Y 軸",
+        "removeSecondary": "移除",
+        "min": "最小值",
+        "max": "最大值",
+        "sharemaxValue": "讓軸共用最大值",
+        "auto": "自動"
+      },
+      "atLeastOneDatasetIsRequired": "至少需要一個資料集。"
+    },
+    "formCompChart": {
+      "colorConfiguratorChart": {
+        "colorDsGrpNotConfig": "無法針對運用分組的資料集配置顏色。",
+        "iconDepicAutoColorSelect": "描述自動顏色選擇的圖示。",
+        "colorAutoChose": "自動選擇顏色",
+        "automatic": "自動"
+      },
+      "color": {
+        "lightBlue": "淺藍色",
+        "green": "綠色",
+        "red": "紅色",
+        "yellow": "黃色",
+        "orange": "橙色",
+        "blue": "藍色",
+        "deepPurple": "深紫色",
+        "cyan": "青藍色",
+        "lime": "萊姆色",
+        "pink": "粉紅色",
+        "teal": "藍綠色",
+        "purple": "紫色",
+        "indigo": "靛藍色"
+      },
+      "dataConfigChart": {
+        "addDataset": "新增資料集"
+      },
+      "indexChart": {
+        "datasets": "資料集",
+        "axisConfig": "軸配置"
+      },
+      "metricConfigChart": {
+        "datasetTimeShift": "資料集會隨時間遷移",
+        "removeDataset": "移除資料集",
+        "duplicate": "複製"
+      },
+      "metricReorderingChart": {
+        "jumpConfigDataset": "跳至此資料集的配置",
+        "datasetTimeShift": "資料集會隨時間遷移",
+        "dragDropDataset2Axes": "在兩軸之間拖放資料集。",
+        "datasets": "資料集"
+      },
+      "timeShiftingFormChart": {
+        "timeShift": "時間遷移",
+        "applyTimeShiftDs": "將時間遷移套用至這個資料系列",
+        "timeShiftHelpAction": "如果選取<strong>顯示現行值</strong>，會自動將此資料系列複製到相同軸上。第一個資料系列將停用時間遷移，第二個資料系列將啟用時間遷移。",
+        "displayCurrentValues": "顯示現行值"
+      }
+    },
+    "demo": {
+      "pageLoads": "頁面載入",
+      "onLoadTime": "載入時間"
+    },
+    "index": {
+      "chartTimeSeries": "圖表：時間序列"
+    },
+    "util": {
+      "unnamMetric": "未命名的度量"
+    },
+    "markdown": {
+      "formComp": {
+        "whatULikeShow": "您想要顯示什麼？",
+        "markdown": "Markdown",
+        "markdownHelpAction": "您可以使用標準 Markdown 語法，為儀表板定義任意文字內容。"
+      },
+      "markdown": "Markdown"
+    },
+    "pie": {
+      "formComponent": {
+        "datasets": "資料集",
+        "dragDropDatasetsReorder": "拖放資料集以重新排序。",
+        "dataPresentation": "資料呈現",
+        "formatter": "格式製作程式"
+      },
+      "index": {
+        "chartPie": "圖表：圓餅圖"
+      }
+    },
+    "slo": {
+      "apConfigFormComp": {
+        "userJourneyOffering": "使用者旅程 / 供應項目",
+        "appnPerspective": "應用程式視景",
+        "selectAppPerspect": "請選取應用程式視景。",
+        "appPerspectHelpAction": "設定使用者旅程 / 供應項目，作法是在產品的「應用程式」區域中，將它們建模成「應用程式視景」。",
+        "noAppPerspect": "無應用程式視景！",
+        "pleaseSelect": "請選取"
+      },
+      "sliSelectionFormComp": {
+        "srvLevelIndicator": "服務水準指標",
+        "selectASli": "請選取 SLI。",
+        "noneAvailCreateOne": "沒有可用的，請建立一個。",
+        "pleaseSelect": "請選取"
+      },
+      "createSliForm": {
+        "sliCreateSuccess": "已順利建立 SLI",
+        "failCreateSli": "無法建立 SLI。",
+        "problemCreateSli": "建立此 SLI 時發生問題：\"{{sliName}}\"",
+        "cloning": "複製中...",
+        "creating": "建立中…",
+        "clone": "複製",
+        "create": "建立",
+        "sliConfigMsg": "無法修改 SLI 的參數來防止所計算的耗費預算失效。這就是當您變更任何參數時，需要複製 SLI 的原因。",
+        "sliCreated": "已建立 SLI \"{{sliName}}\"。"
+      },
+      "endpointSelectBox": {
+        "endpoint": "端點",
+        "allServices": "所有服務",
+        "loading": "<loading>"
+      },
+      "goodBadEventsForm": {
+        "goodEvents": "良好事件",
+        "badEvents": "不當事件"
+      },
+      "metricFormData": {
+        "latency": "延遲時間",
+        "callCount": "呼叫計數",
+        "errorRate": "錯誤率",
+        "erroneousCalls": "錯誤呼叫",
+        "mean": "平均值",
+        "min": "最小值",
+        "max": "最大值",
+        "sum": "總和",
+        "25th": "第 25 個",
+        "50th": "第 50 個",
+        "75th": "第 75 個",
+        "90th": "第 90 個",
+        "95th": "第 95 個",
+        "98th": "第 98 個",
+        "99th": "第 99 個"
+      },
+      "metricsForm": {
+        "metricThreshold": "度量和臨界值",
+        "metric": "度量",
+        "aggregation": "聚集",
+        "valThresholdNotInvalidEmpty": "臨界值不得無效或空的。",
+        "thresholdMs": "臨界值（毫秒）",
+        "thresholdPercent": "臨界值 (%)",
+        "thresholdCount": "臨界值（計數）"
+      },
+      "servicesSelectBox": {
+        "service": "服務",
+        "loading": "<loading>",
+        "allServices": "所有服務"
+      },
+      "sliFormPresenter": {
+        "sliCustomization": "SLI 自訂作業",
+        "name": "名稱",
+        "sliNameNotEmpty": "SLI 名稱不能是空的。",
+        "sliCustomHelpAction": "SLI 自訂作業和 SLI 類型的相關資訊可在我們的文件內找到。",
+        "sliTimeBasedOrAnEventBasedSli": "SLI 類型必須是時間型或事件型 SLI。",
+        "pleaseSelect": "請選取",
+        "appPerspective": "應用程式視景",
+        "boundary": "界限",
+        "hiddenCalls": "隱藏的呼叫",
+        "includeInternalCalls": "包含內部呼叫",
+        "includeSyntheticCalls": "包含合成呼叫",
+        "type": "類型",
+        "sliEntity": "SLI 實體"
+      },
+      "sliList": {
+        "serviceLevelIndicators": "服務水準指標",
+        "sliConfigDeleted": "已順利刪除 SLI 配置。",
+        "failedDelSli": "無法刪除 sli。",
+        "sliType": "SLI 類型",
+        "viewCloneSliConfig": "檢視/複製 SLI 配置",
+        "delSliConfig": "刪除 SLI 配置",
+        "pleaseConfirm": "請確認",
+        "pleaseConfirmMsg": "您確定要刪除 <strong>{{sliName}}</strong> 嗎？",
+        "delete": "刪除"
+      },
+      "sliManageList": {
+        "configSrvLevelIndicatorsMsg": "您沒有必要的 <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> 許可權來建立或編輯 SLI。",
+        "sliList": "SLI 清單",
+        "createSli": "建立 SLI"
+      },
+      "tagFilterExpressConfig": {
+        "clear": "清除"
+      },
+      "sloTimeTile": {
+        "sloTime": "從 <datetime-from /><br />到 <datetime-to />"
+      },
+      "chart": {
+        "spent": "耗費",
+        "budget": "預算",
+        "viewInAnalyze": "在分析中檢視"
+      },
+      "formComponent": {
+        "sliManagement": "SLI 管理",
+        "editSli": "編輯 SLI",
+        "createSli": "建立 SLI",
+        "sloConfig": "SLO 配置",
+        "manageSlIs": "管理 SLI",
+        "sloTarget": "SLO 目標",
+        "enterVal0to100": "請輸入 0 到 100 之間的值。",
+        "timeWindow": "時間範圍",
+        "helpActionMsg1": "<strong>固定時間間隔：</strong>具有既定開始及持續時間的時間範圍。例如：每月從 2020-01-01 開始。會顯示從全球時間選取器所選時間的前次局部時間間隔。",
+        "helpActionMsg2": "<strong>輪詢時間範圍：</strong>一個定義了持續時間的時間範圍，其中，結束時間取決於全球時間選取器右側的日期/時間選擇，例如：過去 2 週。",
+        "helpActionMsg3": "<strong>動態時間範圍：</strong>針對全球時間選取器中選取的時間範圍，計算其 SLO。",
+        "fixTimeInterval": "固定時間間隔",
+        "rollingTimeWindow": "輪詢時間範圍",
+        "dynamicTimeWindow": "動態時間範圍",
+        "length": "長度",
+        "days": "日",
+        "weeks": "週",
+        "months": "個月",
+        "pleaseSpecifyTheNumber": "請指定 {{timeValue}} 的數字。",
+        "start": "開始",
+        "enterDateFormatYyyyMmDd": "請輸入 YYYY-MM-DD 格式的日期。",
+        "enterTimeInFormatHhMmSs": "請輸入 HH:mm:ss 格式的時間。"
+      },
+      "widgetHeader": {
+        "status": "狀態",
+        "target": "目標：",
+        "errorBudgetSpent": "所耗費的錯誤預算",
+        "errorBudget": "錯誤預算：",
+        "timeWindow": "時間範圍",
+        "dynamicTimeWindow": "動態時間範圍",
+        "rollingTimeWindow": "輪詢時間範圍",
+        "fixedTimeWindow": "固定時間範圍"
+      },
+      "sliConfig": {
+        "sliName": "SLI 名稱",
+        "sliType": "SLI 類型",
+        "badEventsFilter": "不正確事件過濾器",
+        "metric": "度量"
+      },
+      "theTimeWindowSizeHasToBeLessOrEqualTo365Days": "時間範圍大小必須小於或等於 365 天。",
+      "aValueMustBeSelected": "必須選取一個值。",
+      "atLeastOneFilterExpressionMustBeConfigured": "至少需要配置一個過濾表示式。",
+      "timeBased": "時間型",
+      "eventBased": "事件型",
+      "slo": "SLO"
+    },
+    "timezone": {
+      "demo": {
+        "sanFrancisco": "舊金山",
+        "austin": "奧斯汀",
+        "newYorkCity": "紐約市",
+        "berlin": "柏林",
+        "tokyo": "東京",
+        "sydney": "雪梨"
+      },
+      "formComp": {
+        "whatULikeShow": "您想要顯示什麼？",
+        "reorderTimeZones": "重新排序時區",
+        "timeZone": "時區",
+        "removeTimeZone": "移除時區",
+        "addTimeZone": "新增時區"
+      },
+      "index": {
+        "timeZone": "時區"
+      }
+    },
+    "topList": {
+      "formComp": {
+        "whatULikeShow": "您想要顯示什麼？",
+        "formatter": "格式製作程式"
+      },
+      "index": {
+        "topListLb": "排名居前清單"
+      },
+      "widget": {
+        "aggregOtherGroup": "其他群組的聚集",
+        "other": "其他",
+        "tagNoValue": "已存在標籤 '{{labelname}}' 且不含任何值"
+      }
+    },
+    "applicationHealth": {
+      "index": {
+        "applicationHealth": "性能概觀"
+      },
+      "form": {
+        "validationError": "請選取一個應用程式。",
+        "header": "選取您想監視的應用程式",
+        "addApplication": "新增應用程式",
+        "selectApplication": "選取應用程式",
+        "secondaryHeadingText": "所選取應用程式將會根據最高嚴重性進行排序",
+        "applicationLabel": "應用程式",
+        "atLeastOneApplicationMustBeSelected": "必須選取至少一個應用程式。"
+      }
+    },
+    "timezones": {
+      "atLeastOneTimeZoneMustBeConfigured": "必須配置至少一個時區。",
+      "pleaseSelectATimeZone": "請選取時區。"
+    }
+  },
+  "duplicateDashboardDialog": {
+    "duplicateDashboard": "複製儀表板",
+    "dashboardName": "儀表板名稱",
+    "duplicate": "複製",
+    "copyShareConfig": "複製共用配置",
+    "failedToCreateDashboard": "無法建立儀表板。"
+  },
+  "newDashboardDialog": {
+    "createNewDashboard": "建立新儀表板",
+    "dashboardName": "儀表板名稱",
+    "additionalFields": "此儀表板將只有您看得見。在建立之後，您可以選擇分享給同事",
+    "create": "建立",
+    "failedToCreateDashboard": "無法建立儀表板。"
+  }
+}

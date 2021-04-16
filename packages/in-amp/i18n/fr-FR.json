@@ -1,0 +1,60 @@
+{
+  "components": {
+    "accountSettings": {
+      "accountSettings": "Paramètres du compte",
+      "billingAddress": "Adresse de facturation",
+      "shippingAddress": "Adresse d'expédition",
+      "country": "Pays",
+      "state": "État",
+      "zip": "Code postal",
+      "city": "Ville",
+      "address": "Adresse",
+      "additionalAddress": "Adresse supplémentaire",
+      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "Si les informations contenues dans cette page doivent être corrigées, veuillez contacter <linkToMail>{{salesopsEmail}}</linkToMail>"
+    },
+    "activeLicenses": {
+      "name": "Nom",
+      "tenant": "Titulaire",
+      "type": "Type",
+      "licenseStartData": "Données de début de licence",
+      "licenseEndData": "Données de fin de licence",
+      "licensedApmHosts": "Hôtes APM sous licence",
+      "licensedIqmHosts": "Hôtes IQM sous licence"
+    },
+    "ampInformationModifier": {
+      "allPaidUnitsAggregated": "Toutes les unités payantes (agrégées)",
+      "customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense": "L'utilisation du client est signalée dans toutes les unités de votre compte avec une licence payante."
+    },
+    "noLicenseAvailableMessage": {
+      "thereHasBeenNoActivePaidLicenseInThePast30Days": "Aucune licence active payante active au cours des 30 derniers jours."
+    },
+    "restrictedUsage": {
+      "accountUsage": "Utilisation du compte"
+    },
+    "technologiesReportingTable": {
+      "name": "Nom",
+      "min": "Min",
+      "max": "Max",
+      "average": "Moyenne"
+    },
+    "timePresets": {
+      "last7Days": "Les 7 derniers jours",
+      "last30Days": "Les 30 derniers jours",
+      "last365Days": "365 derniers jours"
+    },
+    "usages": {
+      "allPaidUnitsAggregated": "Toutes les unités payantes (agrégées)",
+      "accountUsage": "Utilisation du compte",
+      "activeLicenses": "Licences actives",
+      "expiredLicenses": "Licences ayant expiré",
+      "queuedLicenses": "Licences mises en file d'attente"
+    },
+    "usageCharts": {
+      "apmUsage": "Utilisation APM",
+      "apmHosts": "Hôtes APM",
+      "purchased": "Acheté",
+      "infrastructureUsage": "Utilisation de l'infrastructure",
+      "iqmHosts": "Hôtes IQM"
+    }
+  }
+}

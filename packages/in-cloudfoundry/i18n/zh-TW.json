@@ -1,0 +1,46 @@
+{
+  "breadcrumbs": {
+    "cloudFoundryApplication": "Cloud Foundry 應用程式",
+    "cloudFoundryApplications": "Cloud Foundry 應用程式"
+  },
+  "cfApplicationsWithCount": "CF 應用程式 ({{count}})",
+  "cfApplicationsWithCount_plural": "CF 應用程式 ({{count}})",
+  "cfApplicationsWithCount_0": "CF 應用程式 ({{count}})",
+  "cfApplicationsWithCount_1": "CF 應用程式 ({{count}})",
+  "cfApplicationsWithCount_2": "CF 應用程式 ({{count}})",
+  "dashboards": {
+    "cfApplication": "CF 應用程式",
+    "cloudFoundryApplication": "Cloud Foundry 應用程式",
+    "name": "名稱",
+    "instanceIndex": "實例索引",
+    "cpuTotal": "CPU 總計",
+    "memoryTotal": "記憶體總計",
+    "health": "性能",
+    "containers": "儲存器",
+    "summary": "摘要",
+    "requestedState": "所要求的狀態",
+    "instances": "實例",
+    "memoryLimit": "記憶體限制",
+    "lastUpdated": "前次更新",
+    "buildpack": "建置套件",
+    "routes": "路徑",
+    "diskLimit": "磁碟限制",
+    "createdAt": "建立時間",
+    "analyzeCalls": "分析呼叫"
+  },
+  "name": "名稱",
+  "requestedState": "所要求的狀態",
+  "instances": "實例",
+  "memoryLimit": "記憶體限制",
+  "foundation": "基礎",
+  "organization": "組織",
+  "space": "空間",
+  "routes": "路徑",
+  "health": "性能",
+  "cloudFoundryApplications": "Cloud Foundry 應用程式",
+  "cfApplications": "CF 應用程式",
+  "noMonitoringDataFound": "找不到監視資料",
+  "cloudfoundry": {
+    "noData": "藉由應用程式視景，可針對環境、服務集、租戶或任何事物建模。"
+  }
+}

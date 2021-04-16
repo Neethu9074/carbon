@@ -1,0 +1,91 @@
+{
+  "component": {
+    "applTopList": {
+      "openCreationDialog": "Apri finestra di dialogo di creazione",
+      "allApps": "Tutte le applicazioni",
+      "errCallRate": "Tasso di chiamate errate",
+      "latency": "Latenza",
+      "calls": "Chiamate",
+      "newAppPerspect": "Nuova prospettiva applicazione"
+    },
+    "eventChartCard": {
+      "allEvents": "Tutti gli eventi",
+      "incidents": "Incidenti",
+      "critical": "Critico",
+      "warning": "Avvertenza",
+      "viewEvents": "Visualizza eventi"
+    },
+    "infrastructureTopList": {
+      "allHosts": "Tutti gli host",
+      "allContainers": "Tutti i contenitori",
+      "allProcesses": "Tutti i processi",
+      "hosts": "Host",
+      "containers": "Contenitori",
+      "processes": "Processi"
+    },
+    "platformsTopList": {
+      "esXiHosts": "Host ESXi",
+      "nodes": "Nodi",
+      "vMs": "VM",
+      "instances": "Istanze",
+      "namespaces": "Spazi dei nomi",
+      "cpuUsage": "utilizzo CPU",
+      "memoryLimit": "Limite di memoria",
+      "pods": "Pod",
+      "memoryUsage": "Utilizzo memoria",
+      "cloudFoundryApplication": "Applicazione Cloud Foundry",
+      "vSphereDatacenter": "Datacenter vSphere"
+    },
+    "websiteMobileTopList": {
+      "addWebsite": "Aggiungi sito Web",
+      "addMobileApp": "Aggiungi App mobile",
+      "allWebsites": "Tutti i siti Web",
+      "allMobileApps": "Tutte le App mobili",
+      "allWebsitesMobileApps": "Tutti i siti Web & App mobili",
+      "pageViews": "Visualizzazioni pagina",
+      "sessions": "Sessioni",
+      "onLoadTime": "Tempo onLoad",
+      "views": "Viste",
+      "website": "Sito Web",
+      "mobileApp": "App mobile"
+    },
+    "openIncidentsButton": {
+      "numberOfIncidents": "{{count}}Incidenti ",
+      "numberOfIncidents_plural": "{{count}} Incidenti",
+      "numberOfIncidents_0": "{{count}} Incidenti",
+      "numberOfIncidents_1": "{{count}} Incidenti",
+      "numberOfIncidents_2": "{{count}} Incidenti"
+    }
+  },
+  "cockpit": {
+    "deployAgent": "Distribuisci agent",
+    "applications": "Applicazioni",
+    "infrastructure": "Infrastruttura",
+    "events": "Eventi",
+    "home": "Home",
+    "addUser": "Aggiungi utente",
+    "platforms": "Piattaforme",
+    "cloudFoundry": "Cloud Foundry",
+    "websites": "Siti Web",
+    "mobileApps": "App mobili",
+    "websitesMobileApps": "Siti Web & App mobili"
+  },
+  "widgets": {
+    "columnDefinitions": {
+      "numCpU": "# di CPU",
+      "cpuUsage": "Utilizzo CPU",
+      "created": "Creato",
+      "started": "Avviato",
+      "os": "Sistema operativo"
+    },
+    "topListWidget": {
+      "noLabelYet": "Ancora nessuna {{nolabel}}"
+    },
+    "websites": {
+      "noData": "Iniziare con il monitoraggio del sito Web per comprendere meglio l'impatto delle prestazioni del sito Web sull'esperienza utente. La configurazione è semplice!",
+      "createWebsite": "Crea sito Web",
+      "createMobileApp": "Crea App mobile",
+      "noLabelYet": "Ancora nessuna {{nolabel}}"
+    }
+  }
+}

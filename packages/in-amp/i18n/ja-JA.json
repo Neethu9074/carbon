@@ -1,0 +1,60 @@
+{
+  "components": {
+    "accountSettings": {
+      "accountSettings": "アカウント設定",
+      "billingAddress": "請求先住所",
+      "shippingAddress": "配送先住所",
+      "country": "国",
+      "state": "都道府県",
+      "zip": "郵便番号",
+      "city": "市区町村",
+      "address": "住所",
+      "additionalAddress": "追加住所",
+      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "このページの情報に訂正が必要である場合は、<linkToMail>{{salesopsEmail}}</linkToMail> に連絡してください"
+    },
+    "activeLicenses": {
+      "name": "名前",
+      "tenant": "テナント",
+      "type": "タイプ",
+      "licenseStartData": "ライセンス開始データ",
+      "licenseEndData": "ライセンス終了データ",
+      "licensedApmHosts": "ライセンス交付を受けた APM ホスト",
+      "licensedIqmHosts": "ライセンス交付を受けた IQM ホスト"
+    },
+    "ampInformationModifier": {
+      "allPaidUnitsAggregated": "すべての有料単位 (集計)",
+      "customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense": "有料ライセンスのすべてのアカウント単位全体で、顧客の使用量が報告されます。"
+    },
+    "noLicenseAvailableMessage": {
+      "thereHasBeenNoActivePaidLicenseInThePast30Days": "過去 30 日間にアクティブな有料ライセンスはありません。"
+    },
+    "restrictedUsage": {
+      "accountUsage": "アカウント使用量"
+    },
+    "technologiesReportingTable": {
+      "name": "名前",
+      "min": "最小",
+      "max": "最大",
+      "average": "平均"
+    },
+    "timePresets": {
+      "last7Days": "過去 7 日間",
+      "last30Days": "過去 30 日間",
+      "last365Days": "過去 365 日間"
+    },
+    "usages": {
+      "allPaidUnitsAggregated": "すべての有料単位 (集計)",
+      "accountUsage": "アカウント使用量",
+      "activeLicenses": "アクティブなライセンス",
+      "expiredLicenses": "期限切れライセンス",
+      "queuedLicenses": "待機ライセンス"
+    },
+    "usageCharts": {
+      "apmUsage": "APM 使用量",
+      "apmHosts": "APM ホスト",
+      "purchased": "購入済み",
+      "infrastructureUsage": "インフラストラクチャー使用量",
+      "iqmHosts": "IQM ホスト"
+    }
+  }
+}

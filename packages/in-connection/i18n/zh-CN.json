@@ -1,0 +1,14 @@
+{
+    "stat": {
+        "connectLostState": {
+            "connecting":"正在连接...",
+            "connectingMsg":"连接尝试 {{connectAttempt}} 失败。正在继续重新尝试建立持久后端连接。",
+            "connectLostAttempReconnect":"连接丢失。正在尝试重新连接...",
+            "unauthorized":"未经授权...",
+            "unauthorizedMsg":"由于您未经授权，因此无法建立持久后端连接。请刷新页面以继续。"
+        }
+    },
+    "clientErrMsg": {
+        "techClientMsgeErrFromBackend":"来自后端的技术客户机消息（很可能是错误详细信息）"
+    }
+}

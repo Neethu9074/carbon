@@ -1,0 +1,143 @@
+{
+  "chart": {
+    "chartWrapperMetricNotfound": "找不到指标标识 {{metricId}}。",
+    "chartWrapperSameAxisSameValue": "一个轴的所有汇总类型必须具有相同的值。",
+    "viewInAnalyticsBtnLabel": "查看分析",
+    "chartLendMetricTimeShifted": "指标时移到：{{timeShiftedLabel}}",
+    "chartDownloadLabel": "下载 JSON",
+    "chartGlobalHighlightLabel": "在所有图表上突出显示",
+    "chartZoomInLabel": "缩放到时间范围",
+    "chartAlertsLanePresenterAlertsLabel": "警报",
+    "chartAlertsLaneTooltipContent": {
+      "countSmartAlert": "智能警报",
+      "countSmartAlert_plural": "智能警报",
+      "countSmartAlert_0": "智能警报",
+      "countSmartAlert_1": "智能警报",
+      "countSmartAlert_2": "智能警报",
+      "countIncident": "突发事件",
+      "countIncident_plural": "突发事件",
+      "countIncident_0": "突发事件",
+      "countIncident_1": "突发事件",
+      "countIncident_2": "突发事件",
+      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "itemMsg": "+ 另外 {{leftCount}} 条{{moreMsg}}"
+    },
+    "chartAlertsPreviewLanePresenterAlertsLabel": "警报",
+    "chartReleasesLanePresenterReleasesLabel": "发布",
+    "chartReleasesLanePresenterTooltip": "+ 另外 {{len}} 个发布",
+    "highlightedTimeframeCloseButtonClearHighlight": "清除突出显示",
+    "resultAwareChartSomethingWentWrong": "出错...",
+    "resultAwareChartPleaseTryAgainLater": "请稍后重试。",
+    "tooltip": {
+      "scrollHint": "使用 <upArrow /><downArrow /> 键滚动",
+      "rollup": "超出 {{rollup}}",
+      "more": "另外 {{number}} 项"
+    }
+  },
+  "comboBox": {
+    "placeholderSelect": "选择…"
+  },
+  "downloadBtn": {
+    "downloadViewDownloadAsJsonLabel": "以 JSON 格式下载",
+    "downloadViewDownloadCSVLabel": "下载 (*.csv)",
+    "downloadViewDownloadJsonLabel": "下载 (*.json)",
+    "eventMetricDownloadViewDownloadJsonLabel": "下载 (*.json)"
+  },
+  "touchedMessages": {
+    "withPath": "{{message}}（位于 <codeWithClass>{{path}}</codeWithClass>)"
+  },
+  "graphView": {
+    "graphTitle": "图形",
+    "explanationHeader": "Dynamic Graph 展示",
+    "explanationP1": "Dynamic Graph 是支持 Instana 的核心技术。这是一种应用程序模型，可方便您了解组件的所有物理和逻辑依赖关系。在右侧，您会看到当前环境的 Dynamic Graph！",
+    "explanationP2": "该图不仅包含物理组件，而且还包含逻辑组件，例如，跟踪、应用程序、服务、集群或表空间。组件及其依赖关系是由 Instana 代理程序和传感器自动发现的，因此该图总能保持最新状态。根据语义知识和机器学习方法，还会不断使用指标、配置数据和计算出的运行状况值等状态信息来更新该图中的每个节点。这些知识还会分析该图中的依赖关系以查找服务和应用程序等逻辑分组，继而了解对该级别的影响并推理出问题的严重程度。整个图具有持久性，您可以来回调整时间以将该图的知识用于多个操作用例。",
+    "explanationLink": "<linkToBlog>访问我们的博客</linkToBlog> 以获取更多信息。",
+    "closeBtn": "关闭图形"
+  },
+  "gravatar": {
+    "avatarUrlAlt": "来自 gravatar.com 的 {{email}} 头像。",
+    "avatarNullAlt": "{{email}} 的后备头像。"
+  },
+  "loadMoreRow": {
+    "loadMore": "加载更多"
+},
+  "messageFlyout": {
+    "infrastructurePageName": "基础架构",
+    "eumPageName": "EUM",
+    "settingsPageName": "设置",
+    "requestQuoteBtn": "请求报价"
+  },
+  "releaseNotesDialog": {
+    "releaseNotesTitle": "发行说明"
+  },
+  "requestQuoteDialog": {
+    "dialogRequestQuoteTitle": "请求报价",
+    "dialogRequestLoadingText": "正在加载必需的信息...",
+    "dialogRequestQuoteSubmittedMsg": "已成功提交您的报价请求。",
+    "formAccountInfoSecrHeader": "帐户信息",
+    "formCompanyNameLabel": "公司名称",
+    "formNumberofAPMHostsLabel": "APM 主机数",
+    "formNumberofIQMHostsLabel": "IQM 主机数",
+    "formNumberofYearsLabel": "年数",
+    "formBillingInforSecHeader": "帐单信息",
+    "formStreetLabel": "街道",
+    "formCityLabel": "市/县/区",
+    "formZipLabel": "邮政编码",
+    "formCountryLabel": "国家或地区",
+    "formStateLabel": "省/直辖市/自治区"
+  },
+  "searchBar": {
+    "usingTheSearchBar": "Instana 的 Dynamic Focus 搜索功能可用于过滤 3D 图、比较表和突发事件视图。搜索栏中提供了\n可使用模糊搜索和通配符搜索以及布尔运算符进行搜索的各种功能。例如，以下\n查询将视图限制为 CPU 数量少于 4 个的生产主机：\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 语法\nDynamic Focus 采用与 Lucene 标准存在以下差异的 [lucene 查询语法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)：\n- **缺省运算符：** `AND`\n- **语法约束：**都在 [文档](https://instana.com/docs/dynamic_focus/#syntax-constraints) 中列出\n## 搜索栏交互\n搜索栏支持自动填写搜索字段，并在您输入时突出显示 lucene 查询的语法。\n一旦输入内容，搜索栏将建议与当前输入匹配的搜索字段。可通过点击“RETURN”\n来接受建议的字段。点击“CTRL+SPACE”可打开自动填写弹出框。\n## Lucene 查询语法备忘单\n - **字段型搜索：** `entity.host.cpu.count:>4`\n - **布尔运算符：** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **分组：** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **通配符搜索：** `entity.type:container*`\n\n请参阅[文档](https://instana.com/docs/dynamic_focus/) 以获取更多信息。",
+    "filtersBtn": "过滤器",
+    "filterPresetsMenuHeading": "过滤器",
+    "filterPresetsSaveFilters": "保存过滤器以便在此处轻松访问",
+    "filterPresetsEditFilter": "编辑",
+    "filterPresetsRemoveFilter": "移除",
+    "saveDialogSaveFilterTitle": "保存过滤器",
+    "saveDialogNameLabel": "名称",
+    "saveDialogDefinitionLabel": "定义",
+    "saveDialogSaveFilterBtn": "保存过滤器",
+    "dialogRequireNameMsg": "请指定过滤器的名称。",
+    "dialogRequireFilterMsg": "请指定要保存的过滤器。",
+    "filterConfirmRemovalHeader": "确认移除",
+    "filterConfirmButtonLabel": "移除过滤器",
+    "filterConfirmRemoveMsg": "是否确定要移除过滤器 <strong>{{filterName}}</strong>？",
+    "helpDialogTitleUsingTheSearchBar": "使用搜索栏"
+  },
+  "svgIcon": {
+    "pluginIcon": "{{pluginName}} 图标"
+  },
+  "tables": {
+    "serverTable": {
+      "cursorPaginatedTableFilterByLabel": "分析此组",
+      "cursorPaginatedTableLoadMoreRowLabel": "加载更多",
+      "withEmptyTableStateEntitiesName": "实体",
+      "withEmptyTableStateEntityPageMainNotificationTitle": "无可用 {{name}}",
+      "withEmptyTableStateEntityPageMainNotificationExplanation": "针对所选时间范围未检索到任何 {{name}}。"
+    },
+    "sharedComponents": {
+      "configurableThSearchItemPlaceholder": "搜索 {{len}} 项",
+      "configurableThNoMatchesTxt": "无匹配项"
+    }
+  },
+  "tags": {
+    "tagFilterSearchPlaceholder": "搜索...",
+    "tagListNoTagsDefined": "未定义标记",
+    "tagListShowAll": "显示所有标记（{{num}} 个以上）"
+  },
+  "copyToClipboardPressToCopy": "按 CTRL+C/CMD+C 进行复制！",
+  "copyToClipboardCopied": "已复制！",
+  "reloadUiDialogTitle": "新用户界面版本可用",
+  "reloadUiDialogP1": "尝试浏览时发生错误，因为浏览器中加载的用户界面版本已过期。",
+  "reloadUiDialogP2": "请重新加载浏览器窗口以获取最新版本并继续。",
+  "reloadUiDialogReloadBtn": "重新加载",
+  "sparkChart": {
+    "notAvailable": "不适用"
+  },
+  "errorBoundary": {
+    "message": {
+      "title": "出错",
+      "content": "<p>由于意外错误，导致无法启用一部分的 Instana UI。请尝试重新加载该页面。</p><p>错误标识：<code>{{errorId}}</code></p>"
+    }
+  }
+}

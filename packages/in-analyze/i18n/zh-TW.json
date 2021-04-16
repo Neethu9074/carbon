@@ -1,0 +1,481 @@
+{
+  "analyzeView": {
+    "noData": "在選取的時間範圍內沒有任何可用的呼叫。如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
+    "traces": "追蹤",
+    "calls": "呼叫",
+    "emptyAnalyzeViewTitle": "找不到 {{emptyEntityName}}",
+    "analyzeEditGroupHelp": "選取標籤以作為呼叫和追蹤的分組依據。",
+    "notAvailable": "無法使用",
+    "quickFilterBarLabel": {
+      "application": "應用程式",
+      "application_plural": "應用程式",
+      "application_0": "應用程式",
+      "application_1": "應用程式",
+      "application_2": "應用程式",
+      "service": "服務",
+      "service_plural": "服務",
+      "service_0": "服務",
+      "service_1": "服務",
+      "service_2": "服務",
+      "endpoint": "端點",
+      "endpoint_plural": "端點",
+      "type": "類型",
+      "type_plural": "類型",
+      "type_0": "類型",
+      "type_1": "類型",
+      "type_2": "類型",
+      "technology": "技術",
+      "technology_plural": "技術",
+      "technology_0": "技術",
+      "technology_1": "技術",
+      "technology_2": "技術",
+      "latency": "延遲時間",
+      "erroneous": "錯誤",
+      "hiddenCalls": "隱藏的呼叫"
+    },
+    "quickGroupBarLabelApplication": "應用程式",
+    "quickGroupBarLabelService": "服務",
+    "quickGroupBarLabelEndpoint": "端點",
+    "quickGroupBarLabelType": "類型",
+    "quickGroupBarLabelTechnology": "技術",
+    "quickGroupBarLabelAllGroups": "所有群組",
+    "tagGroupEmptyMessage": "未定義群組。",
+    "components": {
+      "loadingStates": {
+        "preparing": "準備中...",
+        "instanaIsProcessingALargeAmountOfTracingData": "Instana 正在處理大量的追蹤資料。",
+        "pleaseDontReloadThisPageWillUpdateAutomatically": "請不要重新載入 - 此頁面會自動更新。",
+        "runningQuery": "正在執行查詢...",
+        "thisQueryHasTimedOut": "此查詢已逾時。",
+        "theQueryTookTooLongToRunAndHasBeenCancelled": "查詢執行過久，已經取消。",
+        "selectAShorterTimeframeOrIssueAMoreSpecificQueryByApplyingMoreFilters": "請選取較短的時間範圍，或套用更多過濾器以發出更具體的查詢。",
+        "thereWasAnInputError": "發生輸入錯誤。",
+        "tooManyRequests": "要求太多",
+        "ourSystemIsCurrentlyBusyPleaseTryAgainLater": "我們的系統目前忙碌中。請稍後再試一次。",
+        "serverError": "伺服器錯誤",
+        "anUnexpectedErrorOccurredPleaseTryAgainLaterOrContactSupportToReportTheError": "發生非預期的錯誤。請稍後重試，或聯絡支援中心以報告錯誤。"
+      },
+      "tagFilterConfiguration": {
+        "noFiltersDefined": "未定義過濾器。"
+      },
+      "tagGroupConfiguration": {
+        "select": "選取",
+        "top5": "前 5 名",
+        "bottom5": "末 5 名",
+        "showRemainingGroupsAggregatedAsOther": "顯示聚集成「其他」的剩餘群組。"
+      },
+      "resultHeader": {
+        "result": "結果"
+      }
+    },
+    "dataSources": {
+      "traceAnalytics": "追蹤分析",
+      "trace": "追蹤",
+      "callAnalytics": "呼叫分析",
+      "call": "呼叫",
+      "applications": "應用程式",
+      "websites": "網站",
+      "mobileApps": "行動式應用程式",
+      "profiles": "設定檔",
+      "logs": "日誌",
+      "eumWebsites": "EUM：網站",
+      "eumMobileApps": "EUM：行動式應用程式",
+      "pageLoads": "頁面載入",
+      "pageTransitions": "頁面轉移",
+      "pageTransitions2": "頁面轉移",
+      "resources": "資源",
+      "httpRequests": "HTTP 要求",
+      "httpRequests2": "HTTP 要求",
+      "javaScriptErrors": "JavaScript 錯誤",
+      "customEvents": "自訂事件",
+      "customEvents2": "自訂事件",
+      "sessionStarts": "階段作業啟動",
+      "viewTransitions": "視圖轉移",
+      "pageLoads2": "頁面載入",
+      "jsErrors": "JS 錯誤",
+      "viewTransitions2": "視圖轉移",
+      "calls": "呼叫",
+      "traces": "追蹤",
+      "console": "主控台"
+    }
+  },
+  "services": {
+    "noData": "在選取的時間範圍內沒有任何可用的服務呼叫。如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+  },
+  "traceDetail": {
+    "callDetails": {
+      "serviceComponent": {
+        "infrastructure": "基礎架構",
+        "detailsAndStackTrace": "詳細資料和堆疊追蹤",
+        "details": "詳細資料",
+        "desClusterNotCorrelateNode": "目的地是叢集，Instana 無法將此呼叫關聯至任何特定的節點。",
+        "sourceUnmonitored": "尚未追蹤到此呼叫的來源，因此，無法提供來源的相關資訊。針對此呼叫所顯示的所有相關資訊是由目的地提供。",
+        "sourceMonitoredByAnotherProvider": "此呼叫的來源是由另一個分散式追蹤提供者所追蹤。您可以在該提供者內利用 ID {{foreignParentId}} 搜尋母 span，以尋找來源的其他相關資訊。",
+        "notMonitored": "未受 Instana 監視"
+      }
+    },
+    "tabs": {
+      "summary": {
+        "duplicateCalls": "重複的呼叫",
+        "duplicateCallsDesc": "此追蹤由一或多個重複的呼叫 (span) 組成。唯一的呼叫：{{traceCallCountIgnoringBatchSize}} - 記錄：{{traceCallRecordCount}}。這會導致呼叫計數（含批次）值和錯誤計數值不正確，並且可能導致其他異常情況。",
+        "batchedIngestion": "已批次處理的汲取",
+        "traceIngestionBatchCount": "已在 {{traceIngestionBatchesCount}} 個批次中處理此追蹤。這可能導致異常情況，例如：span 未能合併至單一呼叫、局部的服務對映，或是顯示其他不完整的資料。",
+        "subCalls": "子呼叫",
+        "erroneousCalls": "錯誤呼叫",
+        "errorLogs": "錯誤日誌",
+        "warnLogs": "警告日誌",
+        "latency": "延遲時間",
+        "timeline": "時間表",
+        "serviceEndpointList": "服務端點清單",
+        "largeTrace": "大型追蹤",
+        "largeTraceLink": "此追蹤很大，在呈現此追蹤時可能導致您瀏覽器內出現效能問題。您可以<linkToDocs>下載追蹤</linkToDocs>以手動檢驗，或在您的瀏覽器內嘗試呈現追蹤。為了在此嘗試期間提高效能，我們只會呈現一部分的元件。",
+        "calls": "呼叫",
+        "logs": "日誌",
+        "analyzeLogs": "在分析中檢視",
+        "correspondingMobileAppActivity": "對應的行動式應用程式活動",
+        "hideMobileAppInformation": "隱藏行動式應用程式資訊",
+        "showMobileAppInformation": "顯示行動式應用程式資訊",
+        "viewMobileAppActivity": "檢視行動式應用程式活動",
+        "erroneousTrace": "錯誤追蹤",
+        "attemptToRenderTrace": "嘗試呈現追蹤",
+        "hideWebsiteInformation": "隱藏網站資訊",
+        "showWebsiteInformation": "顯示網站資訊",
+        "viewWebsiteActivity": "檢視網站活動"
+      }
+    },
+    "components": {
+      "callDetails": {
+        "error": "錯誤",
+        "warning": "警告",
+        "showStackTrace": "顯示堆疊追蹤",
+        "expandButtonForContent": "內容的展開按鈕",
+        "logParameters": "記載參數",
+        "logStackTrace": "記載堆疊追蹤",
+        "thisCallIsBatchedAndRepresentsIndividualCalls": "此呼叫已批次處理，且代表 {{batchSize}} 項個別的呼叫。",
+        "correlationMissing": "遺漏相關性",
+        "noOtherRelationsFound": "找不到其他關係。",
+        "synthetic": "綜合",
+        "thisCallDoesNotContributeToServiceOrApplicationKpIs": "此呼叫不會算進服務或應用程式 KPI。",
+        "configureSyntheticEndpoints": "配置綜合端點",
+        "of": "的",
+        "on": "位於",
+        "instanaCouldNotCorrelateThisSpanWithTheInfrastructureThatGeneratedIt": "Instana 無法將此 span 關聯於產生它的基礎架構。",
+        "httpCallUri": "HTTP 呼叫 URI",
+        "beaconType": "引標類型",
+        "networkInsights": "網路洞察",
+        "transferSize": "傳送大小",
+        "encodedBodySize": "編碼內文大小",
+        "decodedBodySize": "解碼內文大小",
+        "goToBeacon": "移至引標",
+        "profiling": "建立設定檔",
+        "loadingProfile": "正在載入設定檔",
+        "noCpuProfileAvailable": "沒有可用的 CPU 設定檔",
+        "cpuUser": "CPU 使用者",
+        "cpuHotspots": "CPU 熱點",
+        "analyzeProfiles": "分析設定檔",
+        "infrastructure": "基礎架構",
+        "cxfType": "CXF 類型",
+        "type": "類型",
+        "category": "種類",
+        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "請注意：只有仍在 Instana 監視之下的程序，才能擷取其原始碼。",
+        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "請注意：Instana 必須可在程序中順利鏈結對應的基礎架構，才能擷取該程序的原始碼。",
+        "stackTrace": "堆疊追蹤",
+        "in": "位於",
+        "windowLocation": "視窗位置",
+        "resourceUri": "資源 URI",
+        "cacheInteraction": "快取互動"
+      },
+      "callTree": {
+        "expandButtonForRow": "列的展開按鈕",
+        "of": "的",
+        "inheritedFrom": "繼承自"
+      },
+      "colorCodingToggleButtons": {
+        "colorizeBy": "著色依據",
+        "endpoint": "端點"
+      },
+      "logTooltipContent": {
+        "errorLog": "錯誤日誌",
+        "warningLog": "警告日誌"
+      }
+    },
+    "applications": "應用程式",
+    "analytics": "分析",
+    "download": "下載",
+    "traceId": "追蹤 ID：",
+    "closeTraceDetail": "關閉追蹤明細"
+  },
+  "applicationFilter": {
+    "labelApplication": "應用程式",
+    "labelApplicationInbound": "應用程式入埠",
+    "labelService": "服務",
+    "labelEndpoint": "端點",
+    "labelSOURCE_AND_DESTINATION": "來源和目的地",
+    "labelDESTINATION": "目的地",
+    "labelSOURCE": "來源",
+    "labelNOTAPPLICABLE": "",
+    "labelStringEQUALS": "等於",
+    "labelStringNOT_EQUAL": "不等於",
+    "labelStringCONTAINS": "包含",
+    "labelStringNOT_CONTAIN": "不包含",
+    "labelStringNOT_EMPTY": "存在",
+    "labelStringIS_EMPTY": "不存在",
+    "labelStringSTARTS_WITH": "開頭是",
+    "labelStringENDS_WITH": "結尾是",
+    "labelStringNOT_STARTS_WITH": "開頭不是",
+    "labelStringNOT_ENDS_WITH": "結尾不是",
+    "labelNumberEQUALS": "=",
+    "labelNumberNOT_EQUAL": "!=",
+    "labelNumberLESS_THAN": "<",
+    "labelNumberGREATER_THAN": ">",
+    "labelNumberNOT_EMPTY": "存在",
+    "labelNumberIS_EMPTY": "不存在",
+    "labelNumberLESS_OR_EQUAL_THAN": "<=",
+    "labelNumberGREATER_OR_EQUAL_THAN": ">=",
+    "labelNumberCONTAINS": "包含",
+    "labelNumberNOT_CONTAIN": "不包含",
+    "labelNumberSTARTS_WITH": "開頭是",
+    "labelNumberENDS_WITH": "結尾是",
+    "labelNumberNOT_STARTS_WITH": "開頭不是",
+    "labelNumberNOT_ENDS_WITH": "結尾不是",
+    "labelBooleanEQUALS": "是",
+    "labelKeyPairEQUALS": "等於",
+    "labelKeyPairNOT_EQUAL": "不等於",
+    "labelKeyPairCONTAINS": "包含",
+    "labelKeyPairNOT_CONTAIN": "不包含",
+    "labelKeyPairNOT_EMPTY": "存在",
+    "labelKeyPairIS_EMPTY": "不存在",
+    "labelKeyPairIS_BLANK": "沒有值",
+    "labelKeyPairNOT_BLANK": "有值",
+    "labelKeyPairSTARTS_WITH": "開頭是",
+    "labelKeyPairENDS_WITH": "結尾是"
+  },
+  "analyzeHeader": {
+    "title": "分析"
+  },
+  "editTagFilterDialog": {
+    "dialogTitleEdit": "編輯過濾器",
+    "dialogTitleAdd": "新增 {{filterCategory}} 過濾器",
+    "messageTitle": "選取標籤以作為資料的過濾依據。標籤有區分大小寫。",
+    "placeholder": "鍵入以過濾結果...",
+    "saveFilter": "儲存過濾器",
+    "addFilter": "新增過濾器"
+  },
+  "filterBar": {
+    "checkboxBarOverlay": {
+      "labelSynthetic": "顯示綜合呼叫",
+      "labelInternal": "顯示內部呼叫"
+    },
+    "keyValueBarItem": {
+      "tooltip": "移除過濾器"
+    },
+    "multiSelectBarItem": {
+      "moreDataMessage": "還有更多可用的 {{pluralLabel}}。只會顯示前 200 個 {{pluralLabel}}。請使用過濾器進一步往下探查。"
+    },
+    "multiSelectBarOverlay": {
+      "loadingFilters": "正在載入過濾器選項。",
+      "noFiltersFound": "找不到過濾器選項。",
+      "clickToFilter": "按一下以依 {{itemLabel}} 過濾"
+    },
+    "selectBarItem": {
+      "moreDataMessage": "還有更多可用的 {{pluralLabel}}。只會顯示前 200 個 {{pluralLabel}}。請使用過濾器進一步往下探查。"
+    },
+    "selectBarOverlay": {
+      "tooltip": "目前是依 {{selectedItemLabel}} 過濾。按一下以移除過濾器。",
+      "loadingFilters": "正在載入過濾器選項。",
+      "noFiltersFound": "找不到過濾器選項。",
+      "clickToFilter": "按一下以依 {{itemLabel}} 過濾"
+    },
+    "allFilters": "所有過濾器"
+  },
+  "groupedTraces": {
+    "labelGroup": "群組",
+    "labelCount": "計數",
+    "labelEarliestTimestamp": "最早時間戳記",
+    "groupedTracesTitle": "選取度量",
+    "groupedTracesHelp": "選取哪些度量應當成直欄提供於表格中。它也會定義哪些度量可採圖形方式來檢視。"
+  },
+  "groupingInfo": {
+    "removeGrouping": "移除分組"
+  },
+  "metricsChart": {
+    "count": "計數"
+  },
+  "metricSelector": {
+    "tooltipGroups": "度量僅適用於分析群組時。",
+    "tooltipRemove": "移除度量"
+  },
+  "radioButtons": {
+    "messageFilering": "在選取的時間範圍內，不提供來源的過濾及分組",
+    "messageIndependent": "此標籤與來源和目的地無關",
+    "fragmentSource": "只套用至呼叫的來源",
+    "fragmentCall": "套用至呼叫的來源或目的地"
+  },
+  "rawCalls": {
+    "callAnalytics": "呼叫分析",
+    "labelTimestamp": "時間戳記",
+    "labelLatency": "延遲時間",
+    "tooltipBatched": "此呼叫已批次處理，且代表 {{batchCount}} 個個別的呼叫。",
+    "tooltipLatency": "{{batchCount}} 個批次處理呼叫的延遲時間總計"
+  },
+  "rawTraces": {
+    "labelTimestamp": "時間戳記",
+    "labelLatency": "延遲時間"
+  },
+  "tagFilterList": {
+    "tooltipRemoveFilter": "移除過濾器"
+  },
+  "dialogs": {
+    "tooltip": "「建議」目前無法使用，請鍵入值",
+    "components": {
+      "analyzeFilterForm": {
+        "false": "false",
+        "true": "true"
+      }
+    }
+  },
+  "logDetails": {
+    "title": "日誌",
+    "titleTags": "標籤",
+    "titleParameters": "參數",
+    "tooltipCloseLogDetails": "關閉日誌詳細資料",
+    "analyzeLogsLabel": "分析日誌",
+    "similarLogs": "類似日誌",
+    "similarServiceLogs": "在服務的環境定義中"
+  },
+  "traceDetails": {
+    "titleAnalytics": "分析",
+    "titleTrace": "追蹤",
+    "tooltipData": "此追蹤的某些相關資料有所延遲，請稍後再重新載入頁面。舉例來說，當正在檢視最近的追蹤時，若其某些資料仍在處理中，就可能發生此情況。",
+    "tooltipClose": "關閉追蹤明細",
+    "labelTotal": "總計",
+    "labelNetwork": "網路",
+    "labelSelf": "自身",
+    "labelWaiting": "等待中",
+    "labelService": "服務",
+    "labelEndpoint": "端點",
+    "labelAggregatedTime": "聚集的時間",
+    "labelErroneousCalls": "錯誤呼叫",
+    "buttonTechnology": "技術",
+    "appNavigatorSplitScreen": {
+      "tooltipViewPrevious": "檢視前一個 {{viewType}}（快速鍵：左移鍵）",
+      "tooltipViewNext": "檢視下一個 {{viewType}}（快速鍵：右移鍵）",
+      "tooltipCloseSidebar": "關閉資訊看板",
+      "tooltipOpenSidebar": "開啟資訊看板"
+    },
+    "callDetails": {
+      "tooltipCloseCallDetails": "關閉呼叫明細"
+    },
+
+    "callTimeAxis": {
+      "started": "開始於：{{startedTime}}"
+    },
+    "navigatorSplitScreen": {
+      "tooltipViewPrevious": "檢視前一個 {{viewType}}（快速鍵：左移鍵）",
+      "tooltipViewNext": "檢視下一個 {{viewType}}（快速鍵：右移鍵）",
+      "tooltipCloseSidebar": "關閉資訊看板",
+      "tooltipOpenSidebar": "開啟資訊看板"
+    }
+  },
+  "tabs": {
+    "labelDetail": "詳細資料",
+    "summary": {
+      "websiteMonitoringDataTitle": "對應網站活動",
+      "messageMultiple_root_spans": "追蹤形態異常，含有多個根呼叫",
+      "messageMissing_root_span": "在處理程序管線中，遺漏或尚未抵達追蹤的根呼叫。",
+      "messageDuplicated_spans": "追蹤包含具有相同 ID 的重複呼叫。",
+      "messageToo_many_spans": "追蹤所包含的呼叫太多，只能局部顯示及下載它。",
+      "messageMissing_parent_span": "在處理期間，此追蹤中有些進入 span 遺漏了母 span。",
+      "messageExit_spans_followed_by_intermediate_spans": "有些跳出 span 後面跟著中繼 span。",
+      "thisTraceIsCausedByActivityOnTheMobileApp": "此追蹤是由 <linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp> 行動式應用程式上的活動所引發。",
+      "thisTraceIsCausedByActivityOnThewebsite": "此追蹤是由 <linkToWebsite>{{websiteLabel}}</linkToWebsite> 網站上的活動所引發。"
+    }
+  },
+  "resultHeaderTooltip": "查詢時間範圍已捨入至最接近的整分鐘，以便讓此視圖能更快載入。",
+  "components": {
+    "analyzeHeader": {
+      "application": "應用程式",
+      "website": "網站",
+      "mobileApp": "行動式應用程式",
+      "profiles": "設定檔",
+      "beta": "測試版",
+      "analytics": "分析"
+    },
+    "editGroupDialog": {
+      "group": "群組",
+      "tag": "標籤",
+      "loadingSuggestions": "正在載入建議...",
+      "save": "儲存"
+    },
+    "editTagFilterDialog": {
+      "tag": "標籤",
+      "loadingSuggestions": "正在載入建議...",
+      "operator": "運算子",
+      "true": "true",
+      "false": "false",
+      "removeFilter": "移除過濾器"
+    },
+    "filterBar": {
+      "group": "群組",
+      "filters": "過濾器",
+      "clearFilters": "清除過濾器",
+      "loadingSuggestions": "正在載入建議...",
+      "operator": "運算子",
+      "key": "索引鍵",
+      "value": "值",
+      "addFilter": "新增過濾器",
+      "equalTo": "等於",
+      "notEqualTo": "不等於",
+      "greaterThan": "大於",
+      "greaterThanOrEquals": "大於或等於",
+      "lessThan": "小於",
+      "lessThanOrEquals": "小於或等於",
+      "clear": "清除",
+      "save": "儲存"
+    },
+    "groupedTraces": {
+      "tagPresentWithNoValue": "標籤存在但沒有值",
+      "tagNotPresent": "標籤不存在"
+    },
+    "groupingInfo": {
+      "groupedBy": "分組方式",
+      "removeGrouping": "移除分組"
+    },
+    "groupingTableHeader": {
+      "preview": "預覽",
+      "groupBy": "分組方式",
+      "selectMetrics": "選取度量",
+      "hideGraph": "隱藏圖形",
+      "showGraph": "顯示圖形"
+    },
+    "metricsChart": {
+      "latencyDistribution": "延遲時間（分佈）",
+      "noDataToDisplay": "無資料可顯示"
+    },
+    "metricsSelector": {
+      "pleaseSelectAtMostNumberOfmetrics": "請選取最多 {{maximumNumberOfMetrics}} 個度量。",
+      "addMetric": "新增度量",
+      "metric": "度量",
+      "pleaseSelect": "請選取",
+      "aggregation": "聚集",
+      "selectedMetrics": "選取的度量",
+      "save": "儲存"
+    },
+    "radioButtons": {
+      "source": "來源",
+      "destination": "目的地"
+    },
+    "rawCalls": {
+      "call": "呼叫",
+      "service": "服務"
+    },
+    "rawTraces": {
+      "trace": "追蹤",
+      "traceAnalytics": "追蹤分析",
+      "service": "服務"
+    },
+    "tagFilterList": {
+      "and": "和"
+    }
+  }
+}

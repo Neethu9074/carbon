@@ -1,0 +1,481 @@
+{
+  "analyzeView": {
+    "noData": "選択された時刻範囲に使用可能な呼び出しがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[Docs]: https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
+    "traces": "トレース",
+    "calls": "呼び出し",
+    "emptyAnalyzeViewTitle": "{{emptyEntityName}} が見つかりません",
+    "analyzeEditGroupHelp": "呼び出しとトレースをグループ化するタグを選択します。",
+    "notAvailable": "利用不可",
+    "quickFilterBarLabel": {
+      "application": "アプリケーション",
+      "application_plural": "アプリケーション",
+      "application_0": "アプリケーション",
+      "application_1": "アプリケーション",
+      "application_2": "アプリケーション",
+      "service": "サービス",
+      "service_plural": "サービス",
+      "service_0": "サービス",
+      "service_1": "サービス",
+      "service_2": "サービス",
+      "endpoint": "エンドポイント",
+      "endpoint_plural": "エンドポイント",
+      "type": "タイプ",
+      "type_plural": "タイプ",
+      "type_0": "タイプ",
+      "type_1": "タイプ",
+      "type_2": "タイプ",
+      "technology": "テクノロジー",
+      "technology_plural": "テクノロジー",
+      "technology_0": "テクノロジー",
+      "technology_1": "テクノロジー",
+      "technology_2": "テクノロジー",
+      "latency": "待ち時間",
+      "erroneous": "エラー",
+      "hiddenCalls": "非表示の呼び出し"
+    },
+    "quickGroupBarLabelApplication": "アプリケーション",
+    "quickGroupBarLabelService": "サービス",
+    "quickGroupBarLabelEndpoint": "エンドポイント",
+    "quickGroupBarLabelType": "タイプ",
+    "quickGroupBarLabelTechnology": "テクノロジー",
+    "quickGroupBarLabelAllGroups": "すべてのグループ",
+    "tagGroupEmptyMessage": "グループが定義されていません。",
+    "components": {
+      "loadingStates": {
+        "preparing": "準備中…",
+        "instanaIsProcessingALargeAmountOfTracingData": "Instana は大量のトレース・データを処理しています。",
+        "pleaseDontReloadThisPageWillUpdateAutomatically": "再ロードしないでください。このページは自動的に更新されます。",
+        "runningQuery": "照会の実行中…",
+        "thisQueryHasTimedOut": "この照会はタイムアウトになりました。",
+        "theQueryTookTooLongToRunAndHasBeenCancelled": "クエリーの実行に時間がかかりすぎたため、キャンセルされました。",
+        "selectAShorterTimeframeOrIssueAMoreSpecificQueryByApplyingMoreFilters": "より短い時間フレームを選択するか、さらにフィルターを適用して、より具体的な照会を発行してください。",
+        "thereWasAnInputError": "入力エラーがありました。",
+        "tooManyRequests": "要求が多すぎます",
+        "ourSystemIsCurrentlyBusyPleaseTryAgainLater": "システムは現在ビジーです。 後で再試行してください。",
+        "serverError": "サーバー・エラー",
+        "anUnexpectedErrorOccurredPleaseTryAgainLaterOrContactSupportToReportTheError": "予期しないエラーが発生しました。 後で再試行するか、サポートに連絡してエラーを報告してください。"
+      },
+      "tagFilterConfiguration": {
+        "noFiltersDefined": "フィルターが定義されていません。"
+      },
+      "tagGroupConfiguration": {
+        "select": "選択",
+        "top5": "上位 5 件",
+        "bottom5": "下位 5 件",
+        "showRemainingGroupsAggregatedAsOther": "「その他」として集約された残りのグループを表示します。"
+      },
+      "resultHeader": {
+        "result": "結果"
+      }
+    },
+    "dataSources": {
+      "traceAnalytics": "トレース分析",
+      "trace": "トレース",
+      "callAnalytics": "呼び出し分析",
+      "call": "呼び出し",
+      "applications": "アプリケーション",
+      "websites": "Web サイト",
+      "mobileApps": "モバイル・アプリケーション",
+      "profiles": "プロファイル",
+      "logs": "ログ",
+      "eumWebsites": "EUM: Web サイト",
+      "eumMobileApps": "EUM: モバイル・アプリケーション",
+      "pageLoads": "ページ・ロード",
+      "pageTransitions": "ページ遷移",
+      "pageTransitions2": "ページ遷移",
+      "resources": "リソース",
+      "httpRequests": "HTTP 要求",
+      "httpRequests2": "HTTP 要求",
+      "javaScriptErrors": "JavaScript エラー",
+      "customEvents": "カスタム・イベント",
+      "customEvents2": "カスタム・イベント",
+      "sessionStarts": "セッション開始",
+      "viewTransitions": "遷移の表示",
+      "pageLoads2": "ページ・ロード",
+      "jsErrors": "JS エラー",
+      "viewTransitions2": "遷移の表示",
+      "calls": "呼び出し",
+      "traces": "トレース",
+      "console": "コンソール"
+    }
+  },
+  "services": {
+    "noData": "選択された時刻範囲に使用可能なサービス呼び出しがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+  },
+  "traceDetail": {
+    "callDetails": {
+      "serviceComponent": {
+        "infrastructure": "インフラストラクチャー",
+        "detailsAndStackTrace": "詳細およびスタック・トレース",
+        "details": "詳細",
+        "desClusterNotCorrelateNode": "宛先はクラスターであり、Instana はこの呼び出しを特定のノードに関連付けることができませんでした。",
+        "sourceUnmonitored": "この呼び出しのソースはトレースされていないため、ソースに関する情報を提供できません。 この呼び出しについて表示されるすべての情報は、宛先から提供されたものです。",
+        "sourceMonitoredByAnotherProvider": "この呼び出しのソースは、別の分散トレース・プロバイダーによってトレースされています。 ID {{foreignParentId}} のプロバイダー内の親スパンを検索することで、ソースに関する詳細情報を見つけることができます。",
+        "notMonitored": "Instana によってモニターされていません"
+      }
+    },
+    "tabs": {
+      "summary": {
+        "duplicateCalls": "重複した呼び出し",
+        "duplicateCallsDesc": "このトレースは、1 つ以上の重複した呼び出し (スパン) で構成されます。 固有の呼び出し: {{traceCallCountIgnoringBatchSize}} - レコード: {{traceCallRecordCount}}。 これにより、呼び出し数 (バッチを含む) およびエラー件数が正しくない値になり、その他の不規則性が生じる可能性があります。",
+        "batchedIngestion": "バッチ取り込み",
+        "traceIngestionBatchCount": "このトレースは {{traceIngestionBatchesCount}} 件のバッチで処理されました。 これにより、スパンが単一の呼び出しにマージされない、サービス・マッピングが部分的になる、データ表示が不完全になるなどのその他の不規則性が生じる可能性があります。",
+        "subCalls": "サブ呼び出し",
+        "erroneousCalls": "エラーのある呼び出し数",
+        "errorLogs": "エラー・ログ",
+        "warnLogs": "警告ログ",
+        "latency": "待ち時間",
+        "timeline": "タイムライン",
+        "serviceEndpointList": "サービス・エンドポイント・リスト",
+        "largeTrace": "大きなトレース",
+        "largeTraceLink": "このトレースはサイズが大きいため、このトレースをレンダリングすると、ブラウザーにパフォーマンス上の問題が生じる可能性があります。 <linkToDocs>トレースをダウンロード</linkToDocs>して手動で検査するか、ブラウザー内でトレース・レンダリングを試行することができます。 この試行では、パフォーマンスを向上させるために、コンポーネントのサブセットのみがレンダリングされます。",
+        "calls": "呼び出し",
+        "logs": "ログ",
+        "analyzeLogs": "分析で表示",
+        "correspondingMobileAppActivity": "対応するモバイル・アプリケーション・アクティビティー",
+        "hideMobileAppInformation": "モバイル・アプリケーション情報を隠す",
+        "showMobileAppInformation": "モバイル・アプリケーション情報を表示",
+        "viewMobileAppActivity": "モバイル・アプリケーション・アクティビティーを表示",
+        "erroneousTrace": "エラーのあるトレース",
+        "attemptToRenderTrace": "トレース・レンダリングの試行",
+        "hideWebsiteInformation": "Web サイト情報を隠す",
+        "showWebsiteInformation": "Web サイト情報を表示",
+        "viewWebsiteActivity": "Web サイト・アクティビティーを表示"
+      }
+    },
+    "components": {
+      "callDetails": {
+        "error": "エラー",
+        "warning": "警告",
+        "showStackTrace": "スタック・トレースの表示",
+        "expandButtonForContent": "コンテンツの展開ボタン",
+        "logParameters": "ログ・パラメーター",
+        "logStackTrace": "ログ・スタック・トレース",
+        "thisCallIsBatchedAndRepresentsIndividualCalls": "この呼び出しはバッチ処理され、{{batchSize}} 個の個別の呼び出しを表します。",
+        "correlationMissing": "相関がありません",
+        "noOtherRelationsFound": "他の関係が見つかりません。",
+        "synthetic": "合成",
+        "thisCallDoesNotContributeToServiceOrApplicationKpIs": "この呼び出しは、サービスまたはアプリケーションの KPI には影響しません。",
+        "configureSyntheticEndpoints": "合成エンドポイントの構成",
+        "of": "of",
+        "on": "on",
+        "instanaCouldNotCorrelateThisSpanWithTheInfrastructureThatGeneratedIt": "Instana は、このスパンを、生成元のインフラストラクチャーと相関させることができませんでした。",
+        "httpCallUri": "HTTP 呼び出しの URI",
+        "beaconType": "ビーコン・タイプ",
+        "networkInsights": "Network Insights",
+        "transferSize": "転送サイズ",
+        "encodedBodySize": "エンコード状態の本文のサイズ",
+        "decodedBodySize": "デコード状態の本文のサイズ",
+        "goToBeacon": "ビーコンに移動",
+        "profiling": "プロファイル",
+        "loadingProfile": "プロファイルのロード中",
+        "noCpuProfileAvailable": "使用可能な CPU プロファイルがありません",
+        "cpuUser": "CPU ユーザー",
+        "cpuHotspots": "CPU ホット・スポット",
+        "analyzeProfiles": "プロファイルの分析",
+        "infrastructure": "インフラストラクチャー",
+        "cxfType": "CXF タイプ",
+        "type": "タイプ",
+        "category": "カテゴリー",
+        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "注: ソース・コードを取得できるのは、Instana によってまだモニタリングされているプロセスについてのみです。",
+        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "注: ソース・コードを取得できるのは、対応するインフラストラクチャーが正常にリンクされたプロセスについてのみです。",
+        "stackTrace": "StackTrace",
+        "in": "in",
+        "windowLocation": "ウィンドウの位置",
+        "resourceUri": "リソース URI",
+        "cacheInteraction": "相互作用のキャッシュ"
+      },
+      "callTree": {
+        "expandButtonForRow": "行の展開ボタン",
+        "of": "of",
+        "inheritedFrom": "継承元"
+      },
+      "colorCodingToggleButtons": {
+        "colorizeBy": "カラー化基準",
+        "endpoint": "エンドポイント"
+      },
+      "logTooltipContent": {
+        "errorLog": "エラー・ログ",
+        "warningLog": "警告ログ"
+      }
+    },
+    "applications": "アプリケーション",
+    "analytics": "分析",
+    "download": "ダウンロード",
+    "traceId": "トレース ID:",
+    "closeTraceDetail": "トレース詳細を閉じる"
+  },
+  "applicationFilter": {
+    "labelApplication": "アプリケーション",
+    "labelApplicationInbound": "アプリケーション・インバウンド",
+    "labelService": "サービス",
+    "labelEndpoint": "エンドポイント",
+    "labelSOURCE_AND_DESTINATION": "ソースおよび宛先",
+    "labelDESTINATION": "宛先",
+    "labelSOURCE": "ソース",
+    "labelNOTAPPLICABLE": "",
+    "labelStringEQUALS": "等しい",
+    "labelStringNOT_EQUAL": "等しくない",
+    "labelStringCONTAINS": "次を含む",
+    "labelStringNOT_CONTAIN": "次を含まない",
+    "labelStringNOT_EMPTY": "存在する",
+    "labelStringIS_EMPTY": "存在しない",
+    "labelStringSTARTS_WITH": "次で始まる",
+    "labelStringENDS_WITH": "次で終わる",
+    "labelStringNOT_STARTS_WITH": "次で始まらない",
+    "labelStringNOT_ENDS_WITH": "次で終わらない",
+    "labelNumberEQUALS": "=",
+    "labelNumberNOT_EQUAL": "!=",
+    "labelNumberLESS_THAN": "<",
+    "labelNumberGREATER_THAN": ">",
+    "labelNumberNOT_EMPTY": "存在する",
+    "labelNumberIS_EMPTY": "存在しない",
+    "labelNumberLESS_OR_EQUAL_THAN": "<=",
+    "labelNumberGREATER_OR_EQUAL_THAN": ">=",
+    "labelNumberCONTAINS": "次を含む",
+    "labelNumberNOT_CONTAIN": "次を含まない",
+    "labelNumberSTARTS_WITH": "次で始まる",
+    "labelNumberENDS_WITH": "次で終わる",
+    "labelNumberNOT_STARTS_WITH": "次で始まらない",
+    "labelNumberNOT_ENDS_WITH": "次で終わらない",
+    "labelBooleanEQUALS": "等しい",
+    "labelKeyPairEQUALS": "等しい",
+    "labelKeyPairNOT_EQUAL": "等しくない",
+    "labelKeyPairCONTAINS": "次を含む",
+    "labelKeyPairNOT_CONTAIN": "次を含まない",
+    "labelKeyPairNOT_EMPTY": "存在する",
+    "labelKeyPairIS_EMPTY": "存在しない",
+    "labelKeyPairIS_BLANK": "値がない",
+    "labelKeyPairNOT_BLANK": "値がある",
+    "labelKeyPairSTARTS_WITH": "次で始まる",
+    "labelKeyPairENDS_WITH": "次で終わる"
+  },
+  "analyzeHeader": {
+    "title": "分析"
+  },
+  "editTagFilterDialog": {
+    "dialogTitleEdit": "フィルターの編集",
+    "dialogTitleAdd": "{{filterCategory}} フィルターの追加",
+    "messageTitle": "データのフィルタリングに使用するタグを選択します。 タグでは大/小文字が区別されます。",
+    "placeholder": "結果をフィルタリングする条件の入力…",
+    "saveFilter": "フィルターの保存",
+    "addFilter": "フィルターの追加"
+  },
+  "filterBar": {
+    "checkboxBarOverlay": {
+      "labelSynthetic": "合成呼び出しの表示",
+      "labelInternal": "内部呼び出しの表示"
+    },
+    "keyValueBarItem": {
+      "tooltip": "フィルターの削除"
+    },
+    "multiSelectBarItem": {
+      "moreDataMessage": "さらに {{pluralLabel}} があります。 上位 200 件の {{pluralLabel}} のみが表示されます。 さらにドリルダウンするにはフィルターを使用してください。"
+    },
+    "multiSelectBarOverlay": {
+      "loadingFilters": "フィルター・オプションのロード中。",
+      "noFiltersFound": "フィルター・オプションが見つかりません。",
+      "clickToFilter": "クリックして {{itemLabel}} でフィルタリング"
+    },
+    "selectBarItem": {
+      "moreDataMessage": "さらに {{pluralLabel}} があります。 上位 200 件の {{pluralLabel}} のみが表示されます。 さらにドリルダウンするにはフィルターを使用してください。"
+    },
+    "selectBarOverlay": {
+      "tooltip": "現在、{{selectedItemLabel}} でフィルタリングされています。 フィルターを削除するにはクリックしてください。",
+      "loadingFilters": "フィルター・オプションのロード中。",
+      "noFiltersFound": "フィルター・オプションが見つかりません。",
+      "clickToFilter": "クリックして {{itemLabel}} でフィルタリング"
+    },
+    "allFilters": "すべてのフィルター"
+  },
+  "groupedTraces": {
+    "labelGroup": "グループ",
+    "labelCount": "数",
+    "labelEarliestTimestamp": "最初のタイム・スタンプ",
+    "groupedTracesTitle": "メトリックの選択",
+    "groupedTracesHelp": "表内の列として使用可能にするメトリックを選択します。 これにより、グラフとして表示できるメトリックも定義されます。"
+  },
+  "groupingInfo": {
+    "removeGrouping": "グループ化の解除"
+  },
+  "metricsChart": {
+    "count": "数"
+  },
+  "metricSelector": {
+    "tooltipGroups": "グループの分析時にのみ使用可能なメトリック。",
+    "tooltipRemove": "メトリックの削除"
+  },
+  "radioButtons": {
+    "messageFilering": "選択した時間フレームでは、ソースのフィルタリングおよびグループ化は使用できません",
+    "messageIndependent": "このタグは、ソースおよび宛先に依存しません",
+    "fragmentSource": "呼び出しのソースにのみ適用されます",
+    "fragmentCall": "呼び出しのソースまたは宛先に適用されます"
+  },
+  "rawCalls": {
+    "callAnalytics": "呼び出し分析",
+    "labelTimestamp": "タイム・スタンプ",
+    "labelLatency": "待ち時間",
+    "tooltipBatched": "この呼び出しはバッチ処理され、{{batchCount}} 個の個別の呼び出しを表します。",
+    "tooltipLatency": "{{batchCount}} 個のバッチ呼び出しの合計待ち時間。"
+  },
+  "rawTraces": {
+    "labelTimestamp": "タイム・スタンプ",
+    "labelLatency": "待ち時間"
+  },
+  "tagFilterList": {
+    "tooltipRemoveFilter": "フィルターの削除"
+  },
+  "dialogs": {
+    "tooltip": "現在利用できる提案はありません。値を入力してください",
+    "components": {
+      "analyzeFilterForm": {
+        "false": "false",
+        "true": "true"
+      }
+    }
+  },
+  "logDetails": {
+    "title": "ログ",
+    "titleTags": "タグ",
+    "titleParameters": "パラメーター",
+    "tooltipCloseLogDetails": "ログ詳細を閉じる",
+    "analyzeLogsLabel": "ログの分析",
+    "similarLogs": "類似するログ",
+    "similarServiceLogs": "サービスのコンテキスト"
+  },
+  "traceDetails": {
+    "titleAnalytics": "分析",
+    "titleTrace": "トレース",
+    "tooltipData": "このトレースに関連するデータの一部が遅延しているため、少し時間をおいてからページを再ロードしてください。 例えば、データの一部がまだ処理中の最新のトレースを表示する場合に、このような現象が発生する場合があります。",
+    "tooltipClose": "トレース詳細を閉じる",
+    "labelTotal": "合計",
+    "labelNetwork": "ネットワーク",
+    "labelSelf": "セルフ",
+    "labelWaiting": "待機中",
+    "labelService": "サービス",
+    "labelEndpoint": "エンドポイント",
+    "labelAggregatedTime": "集約時間",
+    "labelErroneousCalls": "エラーのある呼び出し数",
+    "buttonTechnology": "テクノロジー",
+    "appNavigatorSplitScreen": {
+      "tooltipViewPrevious": "前の {{viewType}} を表示 (ショートカット: 左矢印キー)",
+      "tooltipViewNext": "次の {{viewType}} を表示 (ショートカット: 右矢印キー)",
+      "tooltipCloseSidebar": "サイドバーを閉じる",
+      "tooltipOpenSidebar": "サイドバーを開く"
+    },
+    "callDetails": {
+      "tooltipCloseCallDetails": "呼び出しの詳細を閉じる"
+    },
+
+    "callTimeAxis": {
+      "started": "開始日時: {{startedTime}}"
+    },
+    "navigatorSplitScreen": {
+      "tooltipViewPrevious": "前の {{viewType}} を表示 (ショートカット: 左矢印キー)",
+      "tooltipViewNext": "次の {{viewType}} を表示 (ショートカット: 右矢印キー)",
+      "tooltipCloseSidebar": "サイドバーを閉じる",
+      "tooltipOpenSidebar": "サイドバーを開く"
+    }
+  },
+  "tabs": {
+    "labelDetail": "詳細",
+    "summary": {
+      "websiteMonitoringDataTitle": "対応する Web サイト・アクティビティー",
+      "messageMultiple_root_spans": "誤った形式のトレースです。複数のルート呼び出しが含まれています",
+      "messageMissing_root_span": "トレースのルート呼び出しがないか、まだ処理パイプラインに到達していません。",
+      "messageDuplicated_spans": "トレースに同じ ID を持つ重複した呼び出しが含まれています。",
+      "messageToo_many_spans": "トレースに含まれる呼び出しが多すぎるため、部分的にしか表示およびダウンロードできません。",
+      "messageMissing_parent_span": "処理中に、このトレース内の項目スパンの一部で親スパンが欠落しています。",
+      "messageExit_spans_followed_by_intermediate_spans": "一部のエグジット・スパンの後には、中間スパンが続きます。",
+      "thisTraceIsCausedByActivityOnTheMobileApp": "このトレースは、<linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp> モバイル・アプリケーションのアクティビティーによって発生したものです。",
+      "thisTraceIsCausedByActivityOnThewebsite": "このトレースは、<linkToWebsite>{{websiteLabel}}</linkToWebsite> Web サイトのアクティビティーによって発生したものです。"
+    }
+  },
+  "resultHeaderTooltip": "照会の時刻範囲は、このビューをより迅速にロードするために直近の 1 分に切り上げられています。",
+  "components": {
+    "analyzeHeader": {
+      "application": "アプリケーション",
+      "website": "Web サイト",
+      "mobileApp": "モバイル・アプリケーション",
+      "profiles": "プロファイル",
+      "beta": "ベータ",
+      "analytics": "分析"
+    },
+    "editGroupDialog": {
+      "group": "グループ",
+      "tag": "タグ",
+      "loadingSuggestions": "提案のロード中…",
+      "save": "保存"
+    },
+    "editTagFilterDialog": {
+      "tag": "タグ",
+      "loadingSuggestions": "提案のロード中…",
+      "operator": "オペレーター",
+      "true": "true",
+      "false": "false",
+      "removeFilter": "フィルターの削除"
+    },
+    "filterBar": {
+      "group": "グループ",
+      "filters": "フィルター",
+      "clearFilters": "フィルターの消去",
+      "loadingSuggestions": "提案のロード中…",
+      "operator": "オペレーター",
+      "key": "キー",
+      "value": "値",
+      "addFilter": "フィルターの追加",
+      "equalTo": "次と等しい",
+      "notEqualTo": "次と等しくない",
+      "greaterThan": "次より大きい",
+      "greaterThanOrEquals": "次以上",
+      "lessThan": "次より小さい",
+      "lessThanOrEquals": "次以下",
+      "clear": "クリア",
+      "save": "保存"
+    },
+    "groupedTraces": {
+      "tagPresentWithNoValue": "値のないタグが存在します",
+      "tagNotPresent": "タグがありません"
+    },
+    "groupingInfo": {
+      "groupedBy": "グループ化の基準",
+      "removeGrouping": "グループ化の解除"
+    },
+    "groupingTableHeader": {
+      "preview": "プレビュー",
+      "groupBy": "グループ化の基準",
+      "selectMetrics": "メトリックの選択",
+      "hideGraph": "グラフを隠す",
+      "showGraph": "グラフを表示"
+    },
+    "metricsChart": {
+      "latencyDistribution": "待ち時間 (分布)",
+      "noDataToDisplay": "表示するデータがありません"
+    },
+    "metricsSelector": {
+      "pleaseSelectAtMostNumberOfmetrics": "最大 {{maximumNumberOfMetrics}} 個のメトリックを選択してください。",
+      "addMetric": "メトリックの追加",
+      "metric": "メトリック",
+      "pleaseSelect": "選択してください",
+      "aggregation": "集約",
+      "selectedMetrics": "選択されたメトリック",
+      "save": "保存"
+    },
+    "radioButtons": {
+      "source": "ソース",
+      "destination": "宛先"
+    },
+    "rawCalls": {
+      "call": "呼び出し",
+      "service": "サービス"
+    },
+    "rawTraces": {
+      "trace": "トレース",
+      "traceAnalytics": "トレース分析",
+      "service": "サービス"
+    },
+    "tagFilterList": {
+      "and": "かつ"
+    }
+  }
+}

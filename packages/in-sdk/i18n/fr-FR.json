@@ -1,0 +1,67 @@
+{
+  "agentMonitoringSuffix01": "non surveillé",
+  "agentMonitoringAlert_prefix01": "Problème de surveillance",
+  "agentMonitoringSuffix02": "non tracé",
+  "agentMonitoringAlert_prefix02": "Traçage manquant",
+  "agentMonitoringSuffix03": "non profilé",
+  "agentMonitoringAlert_prefix03": "Profils manquants",
+  "agentMonitoringSuffix04": "non surveillé",
+  "agentMonitoringAlert_prefix04": "Problème de surveillance",
+  "agentMonitoringExplanationLinkLabel": "Documentations sur l'identification et la résolution des incidents",
+  "agentMonitoringExplanationLinkHref": "https://instana.com/docs/",
+  "services": "Services",
+  "dashboard": {
+    "customMetricsV2": {
+      "customMetricsContent": "Les mesures épinglées sont affichées dans une table distincte au-dessus des métriques personnalisées. Utilisez cette option pour effectuer une comparaison ponctuelle entre plusieurs métriques personnalisées. En outre, vous pouvez envoyer le lien à des collègues pour qu'ils voient le même ensemble de métriques réservées.",
+      "customMetricsTitleType": "Type",
+      "customMetricsTitleName": "Nom",
+      "customMetricsTitleValue": "Valeur",
+      "customMetricsTitlePinned": "{{pinnedPrefix}} Métriques épinglées ({{pinnedLength}})",
+      "customMetricsTitleCustom": "{{customPrefix}} Métriques personnalisées ({{customLength}})",
+      "customMetricsLableCount": "Nombre",
+      "customMetricsLableValue": "Valeur",
+      "customMetricsLableMean": "Moyenne",
+      "customMetricsLableP50": "50e",
+      "customMetricsLableP99": "99e",
+      "customMetricsLableRate": "Taux"
+    },
+    "table": {
+      "tableNoData": "Aucune donnée.",
+      "tableExpandAll": "Développer tout",
+      "tableCollapseAll": "Réduire tout"
+    }
+   },
+
+  "sidebar": {
+      "classpath": {
+        "classpathHide": "Masquer le chemin d'accès aux classes",
+        "classpathShow": "Afficher le chemin d'accès aux classes"
+      },
+      "processStartedTitle": "Démarré à"
+  },
+
+  "traceDetails": {
+    "errorDescription": "Erreur"
+  },
+
+  "snapshot": {
+    "registryHealth": "Intégrité",
+
+    "runtimeLabelNet": ".NET Core",
+    "runtimeLabelGo": "Exécuter",
+    "runtimeLabelJava": "Java",
+    "runtimeLabelNodeJS": "Node.js",
+    "runtimeLabelPython": "Python",
+    "runtimeLabelRuby": "Ruby",
+    "runtimeLabelUnknown": "Environnement d'exécution inconnu"
+  },
+
+  "tracing": {
+    "registryCall": "Appel",
+    "registryCall_plural": "Appels",
+    "registryCall_0": "Appels",
+    "registryCall_1": "Appels",
+    "registryCall_2": "Appels"
+  }
+
+}

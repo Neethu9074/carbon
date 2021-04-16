@@ -36,6 +36,12 @@ export function init() {
 
   const keysAlreadyReportedAsMissing = new Map();
 
+  // Set a correct based lang HTML attribute. Wrap in a typeof check
+  // for unit testing purposes.
+  if (typeof document !== 'undefined') {
+    document?.documentElement?.setAttribute('lang', activeLanguage);
+  }
+
   return getLanguageBundles(activeLanguage).flatMap(languageBundles =>
     fromPromise(
       i18n.use(initReactI18next).init({

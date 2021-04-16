@@ -1,0 +1,14 @@
+{
+    "stat": {
+        "connectLostState": {
+            "connecting":"Connexion en cours...",
+            "connectingMsg":"La tentative de connexion {{connectAttempt}} a échoué. Poursuite de la tentative d'établissement d'une connexion back-end persistante.",
+            "connectLostAttempReconnect":"Connexion perdue. Tentative de reconnexion en cours...",
+            "unauthorized":"Non autorisé...",
+            "unauthorizedMsg":"Impossible d'établir une connexion back-end persistante, car vous n'êtes pas autorisé. Actualisez la page pour continuer."
+        }
+    },
+    "clientErrMsg": {
+        "techClientMsgeErrFromBackend":"Message technique du client (informations sur l'erreur la plus probable) du back-end"
+    }
+}

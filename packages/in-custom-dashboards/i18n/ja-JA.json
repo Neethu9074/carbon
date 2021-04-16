@@ -1,0 +1,582 @@
+{
+  "editor": {
+    "copyOf": "{{title}} のコピー"
+  },
+  "customDashboard": {
+    "editJsonDialog": {
+      "editJsonDialogPresenter": {
+        "confirmBt": "確認",
+        "dashboardAJson": "JSON 形式のダッシュボード",
+        "editDashboard": "ダッシュボードの編集"
+      }
+    },
+    "grid": {
+      "grid": {
+        "edit": "編集",
+        "duplicate": "複製",
+        "delete": "削除",
+        "customDashboardWidgetTitle": "カスタム・ダッシュボード・ウィジェット: {{title}}"
+      }
+    },
+    "sharingDialog": {
+      "individualEditRightSelect": {
+        "removeEditRightUserName": "{{fullName}} の編集権限を削除します。",
+        "add": "追加",
+        "addEditors": "編集者の追加",
+        "pleaseSelect": "選択してください"
+      },
+      "sharingDialogPresenter": {
+        "share": "共有",
+        "shareMsg": "このカスタム・ダッシュボードには、このダイアログでは表現できない高度なアクセス・ルールがあります。 「JSON として編集」機能を使用すると、これらのアクセス・ルールを編集できます。",
+        "privateDashboardDefault": "プライベート・ダッシュボード (デフォルト)",
+        "privateDashboardDefaultExplain": "このダッシュボードは、自分に対してのみ表示されます。",
+        "publicDashboard": "パブリック・ダッシュボード",
+        "publicDashboardExplain": "このダッシュボードは、組織内のすべてのユーザーに対して表示されます。 変更できるのは自分のみですが、編集者を追加できます。",
+        "done": "完了"
+      }
+    },
+    "widgetEditorDialog": {
+      "widgetTypeSelector": {
+        "showWidgetLabel": "{{label}} ウィジェットのケースを表示"
+      },
+      "widgetConfiguration": {
+        "widgetName": "ウィジェット名",
+        "name": "名前",
+        "helpAction": "このウィジェットのオプションの名前を選択します。これは、ウィジェット・コンテンツの上に表示されます。",
+        "optional": "オプション"
+      },
+      "widgetEditorDialogPresenter": {
+        "editWidget": "ウィジェットの編集",
+        "addWidget": "ウィジェットの追加",
+        "next": "次へ",
+        "confirm": "確認",
+        "create": "作成",
+        "back": "戻る"
+      },
+      "widgetPreview": {
+        "previewNotAvailWidgetConfigIncomplete": "ウィジェット構成が不完全であるため、プレビューを使用できません。",
+        "highlightMissingConfig": "欠落している構成の強調表示",
+        "preview": "プレビュー",
+        "customDashboardPreviewTitle": "カスタム・ダッシュボード・ウィジェットのプレビュー: {{title}}"
+      }
+    },
+    "customDashboard": {
+      "confirmDashboardDel": "ダッシュボードの削除の確認",
+      "delDashboard": "ダッシュボードの削除",
+      "uWantDelDashboardConfig": "ダッシュボード <strong>{{title}}</strong> を削除しますか?",
+      "failDelDashboard": "ダッシュボードを削除できませんでした。",
+      "renameDashboard": "ダッシュボードの名前変更",
+      "dashboardName": "ダッシュボード名",
+      "rename": "名前を変更",
+      "failSaveDashboard": "ダッシュボードを保存できませんでした。"
+    },
+    "customDashboardPresenter": {
+      "dashboardNotFound": "ダッシュボードが見つかりません",
+      "failure": "失敗",
+      "dashboardNotFoundExplain": "このダッシュボードは存在しないか、またはこのダッシュボードにアクセスする権限がありません。",
+      "customDashboard": "カスタム・ダッシュボード",
+      "saveChange": "変更の保存",
+      "discardChange": "変更の破棄",
+      "addWidget": "ウィジェットの追加",
+      "tvMode": "TV モード",
+      "editName": "名前の編集",
+      "editAsJson": "JSON として編集",
+      "viewAsJson": "JSON として表示",
+      "duplicate": "複製",
+      "delete": "削除",
+      "share": "共有",
+      "shareButtonTooltip": "ユーザー・アカウントにダッシュボードを共有する権限がありません。"
+    },
+    "editAsJsonDialog": {
+      "failedToParseInputAsJson": "入力を JSON として解析できませんでした。",
+      "jsonRootMustBeAnObject": "JSON root はオブジェクトでなければなりません。"
+    }
+  },
+  "dashboardSwitcher": {
+    "dashboardSwitcher": {
+      "loading": "ロード中…"
+    },
+    "dashboardSwitcherOverlayPresenter": {
+      "createDashboard": "ダッシュボードの作成",
+      "builtIn": "組み込み",
+      "default": "デフォルト",
+      "search": "検索"
+    },
+    "dashboardSwitcherPresenter": {
+      "loading": "ロード中…"
+    }
+  },
+  "widgets": {
+    "metricConfig": {
+      "groupingConfig": {
+        "top5": "上位 5 件",
+        "bottom5": "下位 5 件",
+        "showRemainingGroupsAggregOther": "「その他」として集約された残りのグループを表示"
+      },
+      "hiddenCalls": {
+        "includeInternalCalls": "内部呼び出しを含める",
+        "includeSyntheticCalls": "合成呼び出しを含める"
+      }
+    },
+    "srcApp": {
+      "formComponent": {
+        "pleaseSelect": "選択してください",
+        "pleaseSelectMetric": "メトリックを選択してください",
+        "aggregation": "集約",
+        "metric": "メトリック"
+      },
+      "index": {
+        "applicationsTracesAndCalls": "アプリケーション (トレースと呼び出し)"
+      },
+      "oldFormComponent": {
+        "metric": "メトリック",
+        "pleaseSelect": "選択してください",
+        "aggregation": "集約",
+        "pleaseSelectMetric": "メトリックを選択してください"
+      }
+    },
+    "srcEvent": {
+      "index": {
+        "events": "イベント"
+      },
+      "formComponent": {
+        "metric": "メトリック",
+        "eventCount": "イベント数",
+        "aggregation": "集約",
+        "pleaseSelectMetric": "メトリックを選択してください",
+        "pleaseSelect": "選択してください",
+        "helpAction": "イベント・ビュー内で使用するダイナミック・フォーカス・クエリー (DFQ)。",
+        "query": "照会"
+      }
+    },
+    "srcInfrastructure": {
+      "entityCount": {
+        "infrastructureEntityCount": "インフラストラクチャーとプラットフォームのエンティティー数"
+      },
+      "entityCountFormComponent": {
+        "query": "照会",
+        "helpAction": "インフラストラクチャー・マップ内で使用するダイナミック・フォーカス・クエリー (DFQ)。",
+        "metric": "メトリック",
+        "count": "数",
+        "aggregation": "集約",
+        "pleaseSelect": "選択してください",
+        "pleaseSelectMetric": "メトリックを選択してください"
+      },
+      "metricsFormComponent": {
+        "metric": "メトリック",
+        "selectMetric": "メトリックの選択",
+        "aggregation": "集約",
+        "pleaseSelect": "選択してください",
+        "pleaseSelectMetric": "メトリックを選択してください"
+      },
+      "metricsLoadIndicator": {
+        "loadingMetrics": "メトリックのロード中…"
+      },
+      "metrics": {
+        "infrastructurePlatforms": "インフラストラクチャーとプラットフォーム",
+        "comingSoon": "(近日公開)"
+      },
+      "typeAndMetricConfigurator": {
+        "pleaseSelectMetric": "メトリックを選択してください"
+      }
+    },
+    "srcMobileApp": {
+      "formComp": {
+        "beaconType": "ビーコン・タイプ",
+        "pleaseSelect": "選択してください",
+        "pleaseSelectDs": "データ・ソースを選択してください",
+        "metric": "メトリック",
+        "aggregation": "集約",
+        "pleaseSelectMetric": "メトリックを選択してください"
+      },
+      "index": {
+        "mobileAppsBeacon": "モバイル・アプリ (ビーコン)"
+      },
+      "oldFormComp": {
+        "beaconType": "ビーコン・タイプ",
+        "pleaseSelect": "選択してください",
+        "pleaseSelectDs": "データ・ソースを選択してください",
+        "aggregation": "集約",
+        "pleaseSelectMetric": "メトリックを選択してください",
+        "metric": "メトリック"
+      }
+    },
+    "srcSli": {
+      "formComp": {
+        "configSli": "構成済み SLI",
+        "pleaseSelect": "選択してください",
+        "sliConfigComputeErrBudgetSliVal": "エラー・バジェット値および SLI 値を計算するために使用される SLI 構成",
+        "typeSloThreshold": "必要な SLO しきい値を入力します (<code>{{compact}}</code> から <code>{{detailed}}</code>)。",
+        "valType": "値のタイプ"
+      },
+      "index": {
+        "srvLevelIndicator": "サービス・レベル指標"
+      },
+      "serviceLevelIndicators": {
+        "remainErrBudget": "残りのエラー・バジェット"
+      }
+    },
+    "srcWebSite": {
+      "formComp": {
+        "beaconType": "ビーコン・タイプ",
+        "pleaseSelect": "選択してください",
+        "metric": "メトリック",
+        "selectDs": "データ・ソースを選択してください",
+        "selectMetric": "メトリックを選択してください",
+        "aggregation": "集約"
+      },
+      "index": {
+        "websitesBeacons": "Web サイト (ビーコン)"
+      },
+      "oldFormComp": {
+        "beaconType": "ビーコン・タイプ",
+        "pleaseSelect": "選択してください",
+        "selectDs": "データ・ソースを選択してください",
+        "metric": "メトリック",
+        "aggregation": "集約",
+        "selectMetric": "メトリックを選択してください"
+      }
+    },
+    "metricConfigurator": {
+      "ds": "データ・ソース",
+      "pleaseSelect": "選択してください",
+      "name": "名前",
+      "pleaseSelectATimeShiftingConfiguration": "タイムシフト構成を選択してください",
+      "pleaseProvideAGroup": "グループを指定してください。",
+      "optional": "オプション",
+      "theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999": "指定された数値は無効です。0 から 99.99 までの値を指定してください。"
+    },
+    "bigNumber": {
+      "comparisonColors": {
+        "green": "緑",
+        "red": "赤",
+        "yellow": "黄色",
+        "orange": "オレンジ",
+        "blue": "青色"
+      },
+      "formComponent": {
+        "whatULikeShow": "表示する項目",
+        "formatter": "フォーマッター"
+      },
+      "timeShiftingForm": {
+        "addTimeShiftComparBadge": "タイムシフト比較バッジの追加",
+        "increaseColor": "増加の色",
+        "decreaseColor": "減少の色",
+        "timeShift": "タイムシフト"
+      },
+      "bigNumber": "大きな数"
+    },
+    "chart": {
+      "axesConfigurator": {
+        "primaryYAxis": "1 次 Y 軸",
+        "secondaryYAxis": "2 次 Y 軸",
+        "chart": "グラフ",
+        "formatter": "フォーマッター",
+        "addSecondary": "2 次 Y 軸の追加",
+        "removeSecondary": "削除",
+        "min": "最小",
+        "max": "最大",
+        "sharemaxValue": "軸間で最大値を共有",
+        "auto": "自動"
+      },
+      "atLeastOneDatasetIsRequired": "少なくとも 1 つのデータ・セットが必要です。"
+    },
+    "formCompChart": {
+      "colorConfiguratorChart": {
+        "colorDsGrpNotConfig": "グループを利用しているデータ・セットの色は構成できません。",
+        "iconDepicAutoColorSelect": "自動色選択を示すアイコン。",
+        "colorAutoChose": "色は自動的に選択されます",
+        "automatic": "自動"
+      },
+      "color": {
+        "lightBlue": "薄い青",
+        "green": "緑",
+        "red": "赤",
+        "yellow": "黄色",
+        "orange": "オレンジ",
+        "blue": "青",
+        "deepPurple": "ディープ・パープル",
+        "cyan": "シアン",
+        "lime": "ライム",
+        "pink": "ピンク",
+        "teal": "ティール",
+        "purple": "紫",
+        "indigo": "インディゴ"
+      },
+      "dataConfigChart": {
+        "addDataset": "データ・セットの追加"
+      },
+      "indexChart": {
+        "datasets": "データ・セット",
+        "axisConfig": "軸の構成"
+      },
+      "metricConfigChart": {
+        "datasetTimeShift": "データ・セットがタイムシフトされました",
+        "removeDataset": "データ・セットの削除",
+        "duplicate": "複製"
+      },
+      "metricReorderingChart": {
+        "jumpConfigDataset": "このデータ・セットの構成にジャンプ",
+        "datasetTimeShift": "データ・セットがタイムシフトされました",
+        "dragDropDataset2Axes": "2 つの軸の間でデータ・セットをドラッグ・アンド・ドロップします。",
+        "datasets": "データ・セット"
+      },
+      "timeShiftingFormChart": {
+        "timeShift": "タイムシフト",
+        "applyTimeShiftDs": "このデータ系列にタイムシフトを適用",
+        "timeShiftHelpAction": "<strong>「現行値の表示」</strong>を選択すると、このデータ系列が同じ軸に自動的に複製されます。 最初のデータ系列ではタイムシフトが無効になり、2 番目のデータ系列ではタイムシフトが有効になります。",
+        "displayCurrentValues": "現行値の表示"
+      }
+    },
+    "demo": {
+      "pageLoads": "ページ・ロード",
+      "onLoadTime": "OnLoad 時間"
+    },
+    "index": {
+      "chartTimeSeries": "グラフ: 時系列"
+    },
+    "util": {
+      "unnamMetric": "名前なしメトリック"
+    },
+    "markdown": {
+      "formComp": {
+        "whatULikeShow": "表示する項目",
+        "markdown": "マークダウン",
+        "markdownHelpAction": "標準のマークダウン構文を使用して、ダッシュボードの任意のテキスト・コンテンツを定義できます。"
+      },
+      "markdown": "マークダウン"
+    },
+    "pie": {
+      "formComponent": {
+        "datasets": "データ・セット",
+        "dragDropDatasetsReorder": "データ・セットをドラッグ・アンド・ドロップして並べ替えます。",
+        "dataPresentation": "データ表示",
+        "formatter": "フォーマッター"
+      },
+      "index": {
+        "chartPie": "グラフ: 円"
+      }
+    },
+    "slo": {
+      "apConfigFormComp": {
+        "userJourneyOffering": "ユーザー・ジャーニー/オファリング",
+        "appnPerspective": "アプリケーション・パースペクティブ",
+        "selectAppPerspect": "アプリケーション・パースペクティブを選択してください。",
+        "appPerspectHelpAction": "製品の「アプリケーション」領域でアプリケーション・パースペクティブとしてモデル化することにより、ユーザー・ジャーニー/オファリングをセットアップします。",
+        "noAppPerspect": "アプリケーション・パースペクティブがありません。",
+        "pleaseSelect": "選択してください"
+      },
+      "sliSelectionFormComp": {
+        "srvLevelIndicator": "サービス・レベル指標",
+        "selectASli": "SLI を選択してください。",
+        "noneAvailCreateOne": "使用可能なものがありません。作成してください。",
+        "pleaseSelect": "選択してください"
+      },
+      "createSliForm": {
+        "sliCreateSuccess": "SLI が正常に作成されました",
+        "failCreateSli": "SLI の作成に失敗しました。",
+        "problemCreateSli": "次の SLI の作成中に問題が発生しました: 「{{sliName}}」",
+        "cloning": "複製中…",
+        "creating": "作成中…",
+        "clone": "複製",
+        "create": "作成",
+        "sliConfigMsg": "計算済みの費やされたバジェットが無効にならないようにするために、SLI のパラメーターを変更することはできません。 そのため、パラメーターを変更する場合、SLI を複製する必要があります。",
+        "sliCreated": "SLI「{{sliName}}」が作成されました。"
+      },
+      "endpointSelectBox": {
+        "endpoint": "エンドポイント",
+        "allServices": "すべてのサービス",
+        "loading": "<loading>"
+      },
+      "goodBadEventsForm": {
+        "goodEvents": "良好なイベント",
+        "badEvents": "不良イベント"
+      },
+      "metricFormData": {
+        "latency": "待ち時間",
+        "callCount": "呼び出し数",
+        "errorRate": "エラー率",
+        "erroneousCalls": "エラーのある呼び出し数",
+        "mean": "平均",
+        "min": "最小",
+        "max": "最大",
+        "sum": "合計",
+        "25th": "25 番目",
+        "50th": "50 番目",
+        "75th": "75 番目",
+        "90th": "90 番目",
+        "95th": "95 番目",
+        "98th": "98 番目",
+        "99th": "99 番目"
+      },
+      "metricsForm": {
+        "metricThreshold": "メトリックおよびしきい値",
+        "metric": "メトリック",
+        "aggregation": "集約",
+        "valThresholdNotInvalidEmpty": "しきい値の値は無効または空にできません。",
+        "thresholdMs": "しきい値 (ms)",
+        "thresholdPercent": "しきい値 (%)",
+        "thresholdCount": "しきい値 (数)"
+      },
+      "servicesSelectBox": {
+        "service": "サービス",
+        "loading": "<loading>",
+        "allServices": "すべてのサービス"
+      },
+      "sliFormPresenter": {
+        "sliCustomization": "SLI カスタマイズ",
+        "name": "名前",
+        "sliNameNotEmpty": "SLI 名は空にできません。",
+        "sliCustomHelpAction": "SLI カスタマイズおよび SLI タイプに関する情報は、資料内にあります。",
+        "sliTimeBasedOrAnEventBasedSli": "SLI タイプは、時刻ベースまたはイベント・ベースのいずれかの SLI である必要があります。",
+        "pleaseSelect": "選択してください",
+        "appPerspective": "アプリケーション・パースペクティブ",
+        "boundary": "境界",
+        "hiddenCalls": "非表示の呼び出し",
+        "includeInternalCalls": "内部呼び出しを含める",
+        "includeSyntheticCalls": "合成呼び出しを含める",
+        "type": "タイプ",
+        "sliEntity": "SLI エンティティー"
+      },
+      "sliList": {
+        "serviceLevelIndicators": "サービス・レベル指標",
+        "sliConfigDeleted": "SLI 構成が正常に削除されました。",
+        "failedDelSli": "SLI を削除できませんでした。",
+        "sliType": "SLI タイプ",
+        "viewCloneSliConfig": "SLI 構成の表示/複製",
+        "delSliConfig": "SLI 構成の削除",
+        "pleaseConfirm": "ご確認ください",
+        "pleaseConfirmMsg": "<strong>{{sliName}}</strong> を削除しますか?",
+        "delete": "削除"
+      },
+      "sliManageList": {
+        "configSrvLevelIndicatorsMsg": "SLI を作成または編集するために必要な <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> 権限がありません。",
+        "sliList": "SLI リスト",
+        "createSli": "SLI の作成"
+      },
+      "tagFilterExpressConfig": {
+        "clear": "クリア"
+      },
+      "sloTimeTile": {
+        "sloTime": "開始: <datetime-from /><br />終了: <datetime-to />"
+      },
+      "chart": {
+        "spent": "費やされた",
+        "budget": "バジェット",
+        "viewInAnalyze": "分析で表示"
+      },
+      "formComponent": {
+        "sliManagement": "SLI 管理",
+        "editSli": "SLI の編集",
+        "createSli": "SLI の作成",
+        "sloConfig": "SLO の構成",
+        "manageSlIs": "SLI の管理",
+        "sloTarget": "SLO ターゲット",
+        "enterVal0to100": "0 から 100 までの値を入力してください。",
+        "timeWindow": "時間枠",
+        "helpActionMsg1": "<strong>固定時間間隔:</strong> 開始と期間が定義された時間枠。 例: 2020-01-01 開始で毎月。 グローバル時間ピッカーで選択した時間の最後の部分的な時間間隔が表示されます。",
+        "helpActionMsg2": "<strong>ローリング時間枠:</strong> 期間が定義された時間枠。終了は、グローバル時間ピッカーの右側の日時の選択 (例: 過去 2 週間) によって定義されます。",
+        "helpActionMsg3": "<strong>動的時間枠:</strong> SLO は、グローバル時間ピッカーで選択された時間枠に対して計算されます。",
+        "fixTimeInterval": "固定時間間隔",
+        "rollingTimeWindow": "ローリング時間枠",
+        "dynamicTimeWindow": "動的時間枠",
+        "length": "長さ",
+        "days": "日",
+        "weeks": "週",
+        "months": "月",
+        "pleaseSpecifyTheNumber": "{{timeValue}} の数を指定してください。",
+        "start": "開始",
+        "enterDateFormatYyyyMmDd": "YYYY-MM-DD の形式で日付を入力してください。",
+        "enterTimeInFormatHhMmSs": "HH:mm:ss の形式で時刻を入力してください。"
+      },
+      "widgetHeader": {
+        "status": "状況",
+        "target": "ターゲット:",
+        "errorBudgetSpent": "費やされたエラー・バジェット",
+        "errorBudget": "エラー・バジェット:",
+        "timeWindow": "時間枠",
+        "dynamicTimeWindow": "動的時間枠",
+        "rollingTimeWindow": "ローリング時間枠",
+        "fixedTimeWindow": "固定時間枠"
+      },
+      "sliConfig": {
+        "sliName": "SLI 名",
+        "sliType": "SLI タイプ",
+        "badEventsFilter": "不良イベント・フィルター",
+        "metric": "メトリック"
+      },
+      "theTimeWindowSizeHasToBeLessOrEqualTo365Days": "時間枠サイズは 365 日以下にする必要があります。",
+      "aValueMustBeSelected": "値を選択する必要があります。",
+      "atLeastOneFilterExpressionMustBeConfigured": "少なくとも 1 つのフィルター式を構成する必要があります。",
+      "timeBased": "時刻ベース",
+      "eventBased": "イベント・ベース",
+      "slo": "SLO"
+    },
+    "timezone": {
+      "demo": {
+        "sanFrancisco": "サンフランシスコ",
+        "austin": "オースティン",
+        "newYorkCity": "ニューヨーク市",
+        "berlin": "ベルリン",
+        "tokyo": "東京",
+        "sydney": "シドニー"
+      },
+      "formComp": {
+        "whatULikeShow": "表示する項目",
+        "reorderTimeZones": "タイム・ゾーンの再配列",
+        "timeZone": "タイム・ゾーン",
+        "removeTimeZone": "タイム・ゾーンの削除",
+        "addTimeZone": "タイム・ゾーンの追加"
+      },
+      "index": {
+        "timeZone": "タイム・ゾーン"
+      }
+    },
+    "topList": {
+      "formComp": {
+        "whatULikeShow": "表示する項目",
+        "formatter": "フォーマッター"
+      },
+      "index": {
+        "topListLb": "上位リスト"
+      },
+      "widget": {
+        "aggregOtherGroup": "その他のグループの集約",
+        "other": "その他",
+        "tagNoValue": "タグ「{{labelname}}」は存在しますが、値がありません"
+      }
+    },
+    "applicationHealth": {
+      "index": {
+        "applicationHealth": "正常性の概要"
+      },
+      "form": {
+        "validationError": "アプリケーションを選択してください。",
+        "header": "モニターするアプリケーションを選択",
+        "addApplication": "アプリケーションの追加",
+        "selectApplication": "アプリケーションの選択",
+        "secondaryHeadingText": "選択したアプリケーションは最も高い重大度を基準に並べられます",
+        "applicationLabel": "アプリケーション",
+        "atLeastOneApplicationMustBeSelected": "少なくとも 1 つのアプリケーションを選択する必要があります。"
+      }
+    },
+    "timezones": {
+      "atLeastOneTimeZoneMustBeConfigured": "少なくとも 1 つのタイム・ゾーンを構成する必要があります。",
+      "pleaseSelectATimeZone": "タイム・ゾーンを選択してください。"
+    }
+  },
+  "duplicateDashboardDialog": {
+    "duplicateDashboard": "ダッシュボードの複製",
+    "dashboardName": "ダッシュボード名",
+    "duplicate": "複製",
+    "copyShareConfig": "共有構成のコピー",
+    "failedToCreateDashboard": "ダッシュボードを作成できませんでした。"
+  },
+  "newDashboardDialog": {
+    "createNewDashboard": "新規ダッシュボードの作成",
+    "dashboardName": "ダッシュボード名",
+    "additionalFields": "このダッシュボードは、自分に対してのみ表示されます。 作成後に同僚と共有することを選択できます",
+    "create": "作成",
+    "failedToCreateDashboard": "ダッシュボードを作成できませんでした。"
+  }
+}

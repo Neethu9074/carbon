@@ -1,0 +1,481 @@
+{
+  "analyzeView": {
+    "noData": "Nessuna chiamata disponibile per l'intervallo di tempo selezionato. Per informazioni sulla risoluzione dei problemi consultare [la documentazione][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
+    "traces": "Tracce",
+    "calls": "Chiamate",
+    "emptyAnalyzeViewTitle": "Nessun {{emptyEntityName}} trovato",
+    "analyzeEditGroupHelp": "Selezionare un tag mediante il quale devono essere raggruppate le chiamate e le tracce",
+    "notAvailable": "Non disponibile",
+    "quickFilterBarLabel": {
+      "application": "Applicazione",
+      "application_plural": "Applicazioni",
+      "application_0": "Applicazioni",
+      "application_1": "Applicazioni",
+      "application_2": "Applicazioni",
+      "service": "Servizio",
+      "service_plural": "Servizi",
+      "service_0": "Servizi",
+      "service_1": "Servizi",
+      "service_2": "Servizi",
+      "endpoint": "Endpoint",
+      "endpoint_plural": "Endpoint",
+      "type": "Tipo",
+      "type_plural": "Tipi",
+      "type_0": "Tipi",
+      "type_1": "Tipi",
+      "type_2": "Tipi",
+      "technology": "Tecnologia",
+      "technology_plural": "Tecnologie",
+      "technology_0": "Tecnologie",
+      "technology_1": "Tecnologie",
+      "technology_2": "Tecnologie",
+      "latency": "Latenza",
+      "erroneous": "Errato",
+      "hiddenCalls": "Chiamate nascoste"
+    },
+    "quickGroupBarLabelApplication": "Applicazione",
+    "quickGroupBarLabelService": "Servizio",
+    "quickGroupBarLabelEndpoint": "Endpoint",
+    "quickGroupBarLabelType": "Tipo",
+    "quickGroupBarLabelTechnology": "Tecnologia",
+    "quickGroupBarLabelAllGroups": "Tutti i gruppi",
+    "tagGroupEmptyMessage": "Nessun gruppo definito.",
+    "components": {
+      "loadingStates": {
+        "preparing": "Preparazione…",
+        "instanaIsProcessingALargeAmountOfTracingData": "Instana sta elaborando una quantità elevata di dati di tracciamento.",
+        "pleaseDontReloadThisPageWillUpdateAutomatically": "Non ricaricare - questa pagina verrà aggiornata automaticamente.",
+        "runningQuery": "Esecuzione query…",
+        "thisQueryHasTimedOut": "Questa query è scaduta.",
+        "theQueryTookTooLongToRunAndHasBeenCancelled": "La query ha impiegato troppo tempo per essere eseguita ed è stata annullata.",
+        "selectAShorterTimeframeOrIssueAMoreSpecificQueryByApplyingMoreFilters": "Selezionare un intervallo di tempo più breve oppure immettere una query più specifica applicando ulteriori filtri.",
+        "thereWasAnInputError": "Si è verificato un errore di input.",
+        "tooManyRequests": "Troppe richieste",
+        "ourSystemIsCurrentlyBusyPleaseTryAgainLater": "Il nostro sistema è attualmente occupato. Riprovare successivamente.",
+        "serverError": "Errore del server",
+        "anUnexpectedErrorOccurredPleaseTryAgainLaterOrContactSupportToReportTheError": "Si è verificato un errore non previsto. Riprovare successivamente oppure contattare il supporto per segnalare l'errore."
+      },
+      "tagFilterConfiguration": {
+        "noFiltersDefined": "Nessun filtro definito."
+      },
+      "tagGroupConfiguration": {
+        "select": "Seleziona",
+        "top5": "Primi 5",
+        "bottom5": "Ultimi 5",
+        "showRemainingGroupsAggregatedAsOther": "Mostra i gruppi rimanenti aggregati come “Altro“."
+      },
+      "resultHeader": {
+        "result": "Risultato"
+      }
+    },
+    "dataSources": {
+      "traceAnalytics": "Dati analitici di traccia",
+      "trace": "Traccia",
+      "callAnalytics": "Dati analitici di chiamata",
+      "call": "Chiamata",
+      "applications": "Applicazioni",
+      "websites": "Siti Web",
+      "mobileApps": "App mobili",
+      "profiles": "Profili",
+      "logs": "Log",
+      "eumWebsites": "EUM: Siti Web",
+      "eumMobileApps": "EUM: App mobili",
+      "pageLoads": "Caricamenti pagina",
+      "pageTransitions": "Transizioni pagina",
+      "pageTransitions2": "Transizioni pagina",
+      "resources": "Risorse",
+      "httpRequests": "Richieste HTTP",
+      "httpRequests2": "Richieste HTTP",
+      "javaScriptErrors": "Errori JavaScript",
+      "customEvents": "Eventi personalizzati",
+      "customEvents2": "Eventi personalizzati",
+      "sessionStarts": "Avvii di sessione",
+      "viewTransitions": "Visualizza transizioni",
+      "pageLoads2": "Caricamenti pagina",
+      "jsErrors": "Errori JS",
+      "viewTransitions2": "Visualizza transizioni",
+      "calls": "Chiamate",
+      "traces": "Tracce",
+      "console": "Console"
+    }
+  },
+  "services": {
+    "noData": "Nessuna chiamata di servizio disponibile per l'intervallo di tempo selezionato. Per informazioni sulla risoluzione dei problemi consultare [la documentazione][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+  },
+  "traceDetail": {
+    "callDetails": {
+      "serviceComponent": {
+        "infrastructure": "Infrastruttura",
+        "detailsAndStackTrace": "Dettagli & traccia di stack",
+        "details": "Dettagli",
+        "desClusterNotCorrelateNode": "La destinazione è un cluster, Instana non è stato in grado di correlare questa chiamata ad alcun nodo specifico.",
+        "sourceUnmonitored": "L'origine di questa chiamata non è stata tracciata e di conseguenza non è possibile fornire informazioni sull'origine. Tutte le informazioni relative a questa chiamata visualizzate vengono fornite dalla destinazione.",
+        "sourceMonitoredByAnotherProvider": "L'origine di questa chiamata è tracciata da un altro provider di tracciamento distribuito. È possibile trovare ulteriori informazioni sull'origine effettuando una ricerca nell'estensione principale all'interno di tale provider con ID {{foreignParentId}}.",
+        "notMonitored": "Non monitorato da Instana"
+      }
+    },
+    "tabs": {
+      "summary": {
+        "duplicateCalls": "Chiamate duplicate",
+        "duplicateCallsDesc": "Questa traccia è composta da una o più chiamate duplicate (estensioni). Chiamate univoche: {{traceCallCountIgnoringBatchSize}} - Record: {{traceCallRecordCount}}. Questo comporta un conteggio di chiamate (con batch) e valori di conteggio degli errori non corretti e probabilmente altri valori non corretti.",
+        "batchedIngestion": "Inserimento in batch",
+        "traceIngestionBatchCount": "Questa traccia è stata elaborata in {{traceIngestionBatchesCount}} batch. Questo può causare irregolarità come estensioni non unite in una singola chiamata, associazioni di servizi parziali o altre visualizzazioni di dati non complete.",
+        "subCalls": "Chiamate secondarie",
+        "erroneousCalls": "Chiamate errate",
+        "errorLogs": "Log di errore",
+        "warnLogs": "Log di avvertenza",
+        "latency": "Latenza",
+        "timeline": "Sequenza temporale",
+        "serviceEndpointList": "Elenco endpoint di servizio",
+        "largeTrace": "Traccia di grande dimensioni",
+        "largeTraceLink": "Questa traccia è di grandi dimensioni ed il rendering di questa traccia può causare problemi di prestazioni all'interno del browser. È possibile <linkToDocs>scaricare la trace</linkToDocs> per l'ispezione manuale oppure provare il rendering della traccia all'interno del proprio browser. Verrà eseguito il rendering di un sottoinsieme dei componenti per incrementare le prestazioni di questo tentativo.",
+        "calls": "Chiamate",
+        "logs": "Log",
+        "analyzeLogs": "Visualizza in Analizza ",
+        "correspondingMobileAppActivity": "Attività app mobile corrispondente",
+        "hideMobileAppInformation": "Nascondi informazioni sull'app mobile",
+        "showMobileAppInformation": "Mostra informazioni sull'app mobile",
+        "viewMobileAppActivity": "Visualizza attività app mobile",
+        "erroneousTrace": "Traccia errata",
+        "attemptToRenderTrace": "Tentativo di rendering della traccia",
+        "hideWebsiteInformation": "Nascondi informazioni sul sito Web",
+        "showWebsiteInformation": "Mostra informazioni sul sito Web",
+        "viewWebsiteActivity": "Visualizza attività del sito Web"
+      }
+    },
+    "components": {
+      "callDetails": {
+        "error": "Errore",
+        "warning": "Avvertenza",
+        "showStackTrace": "Mostra traccia di stack",
+        "expandButtonForContent": "Pulsante Espandi per il contenuto",
+        "logParameters": "Parametri di log",
+        "logStackTrace": "Traccia di stack log",
+        "thisCallIsBatchedAndRepresentsIndividualCalls": "Questa chiamata è stata eseguita in batch e rappresenta {{batchSize}} singole chiamate.",
+        "correlationMissing": "Correlazione mancante",
+        "noOtherRelationsFound": "Nessuna altra relazione trovata.",
+        "synthetic": "Sintetico",
+        "thisCallDoesNotContributeToServiceOrApplicationKpIs": "Questa chiamata non contribuisce al servizio o ai KPI dell'applicazione.",
+        "configureSyntheticEndpoints": "Configura endpoint sintetici",
+        "of": "di",
+        "on": "su",
+        "instanaCouldNotCorrelateThisSpanWithTheInfrastructureThatGeneratedIt": "Instana non è in grado di correlare questa estensione con l'infrastruttura che la ha generato.",
+        "httpCallUri": "URI chiamata HTTP",
+        "beaconType": "Tipo di beacon",
+        "networkInsights": "Analisi approfondita della rete",
+        "transferSize": "Dimensione trasferimento",
+        "encodedBodySize": "Dimensione corpo codificata",
+        "decodedBodySize": "Dimensione corpo decodificata",
+        "goToBeacon": "Vai a Beacon",
+        "profiling": "Creazione profili",
+        "loadingProfile": "Caricamento profilo",
+        "noCpuProfileAvailable": "Nessun profilo CPU disponibile",
+        "cpuUser": "Utente CPU",
+        "cpuHotspots": "Hotspot CPU",
+        "analyzeProfiles": "Analizza profili",
+        "infrastructure": "Infrastruttura",
+        "cxfType": "Tipo CXF",
+        "type": "Tipo",
+        "category": "Categoria",
+        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "Nota: il codice di origine può essere richiamato solo per i processi ancora in fase di monitoraggio da parte di Instana.",
+        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "Nota: il codice di origine può essere richiamato solo per i processi in cui Instana è stato in grado di collegare correttamente l'infrastruttura corrispondente.",
+        "stackTrace": "StackTrace",
+        "in": "in",
+        "windowLocation": "Posizione finestra",
+        "resourceUri": "URI risorsa",
+        "cacheInteraction": "Interazione cache"
+      },
+      "callTree": {
+        "expandButtonForRow": "Pulsante Espandi per la riga",
+        "of": "di",
+        "inheritedFrom": "Ereditato da"
+      },
+      "colorCodingToggleButtons": {
+        "colorizeBy": "Colora per",
+        "endpoint": "Endpoint"
+      },
+      "logTooltipContent": {
+        "errorLog": "Log di errore",
+        "warningLog": "Log di avvertenza"
+      }
+    },
+    "applications": "Applicazioni",
+    "analytics": "Dati analitici",
+    "download": "Download",
+    "traceId": "ID traccia:",
+    "closeTraceDetail": "Chiudi dettagli traccia"
+  },
+  "applicationFilter": {
+    "labelApplication": "Applicazione",
+    "labelApplicationInbound": "Applicazione in entrata",
+    "labelService": "Servizio",
+    "labelEndpoint": "Endpoint",
+    "labelSOURCE_AND_DESTINATION": "Origine & destinazione",
+    "labelDESTINATION": "Destinazione",
+    "labelSOURCE": "Origine",
+    "labelNOTAPPLICABLE": "",
+    "labelStringEQUALS": "è uguale a",
+    "labelStringNOT_EQUAL": "non è uguale a",
+    "labelStringCONTAINS": "contiene",
+    "labelStringNOT_CONTAIN": "non contiene",
+    "labelStringNOT_EMPTY": "è presente",
+    "labelStringIS_EMPTY": "non è presente",
+    "labelStringSTARTS_WITH": "inizia con",
+    "labelStringENDS_WITH": "termina con",
+    "labelStringNOT_STARTS_WITH": "non inizia con",
+    "labelStringNOT_ENDS_WITH": "non termina con",
+    "labelNumberEQUALS": "=",
+    "labelNumberNOT_EQUAL": "!=",
+    "labelNumberLESS_THAN": "<",
+    "labelNumberGREATER_THAN": ">",
+    "labelNumberNOT_EMPTY": "è presente",
+    "labelNumberIS_EMPTY": "non è presente",
+    "labelNumberLESS_OR_EQUAL_THAN": "<=",
+    "labelNumberGREATER_OR_EQUAL_THAN": ">=",
+    "labelNumberCONTAINS": "contiene",
+    "labelNumberNOT_CONTAIN": "non contiene",
+    "labelNumberSTARTS_WITH": "inizia con",
+    "labelNumberENDS_WITH": "termina con",
+    "labelNumberNOT_STARTS_WITH": "non inizia con",
+    "labelNumberNOT_ENDS_WITH": "non termina con",
+    "labelBooleanEQUALS": "è",
+    "labelKeyPairEQUALS": "è uguale a",
+    "labelKeyPairNOT_EQUAL": "non è uguale a",
+    "labelKeyPairCONTAINS": "contiene",
+    "labelKeyPairNOT_CONTAIN": "non contiene",
+    "labelKeyPairNOT_EMPTY": "è presente",
+    "labelKeyPairIS_EMPTY": "non è presente",
+    "labelKeyPairIS_BLANK": "non ha il valore",
+    "labelKeyPairNOT_BLANK": "ha il valore",
+    "labelKeyPairSTARTS_WITH": "inizia con",
+    "labelKeyPairENDS_WITH": "termina con"
+  },
+  "analyzeHeader": {
+    "title": "Dati analitici"
+  },
+  "editTagFilterDialog": {
+    "dialogTitleEdit": "Modifica filtro",
+    "dialogTitleAdd": "Aggiungi filtro {{filterCategory}}",
+    "messageTitle": "Selezionare un tag in base al quale filtrare i dati. I tag sono sensibili al maiuscolo/minuscolo.",
+    "placeholder": "Immettere per filtrare i risultati…",
+    "saveFilter": "Salva filtro",
+    "addFilter": "Aggiungi filtro"
+  },
+  "filterBar": {
+    "checkboxBarOverlay": {
+      "labelSynthetic": "Mostra chiamate sintetiche",
+      "labelInternal": "Mostra chiamate interne"
+    },
+    "keyValueBarItem": {
+      "tooltip": "Rimuovi filtro"
+    },
+    "multiSelectBarItem": {
+      "moreDataMessage": "Altri {{pluralLabel}} disponibili. Sono visualizzati solo i primi 200 {{pluralLabel}}. Utilizzare il filtro per ulteriore drill down."
+    },
+    "multiSelectBarOverlay": {
+      "loadingFilters": "Caricamento delle opzioni del filtro.",
+      "noFiltersFound": "Nessuna opzione del filtro trovata.",
+      "clickToFilter": "Fare clic per filtrare per {{itemLabel}}"
+    },
+    "selectBarItem": {
+      "moreDataMessage": "Altri {{pluralLabel}} disponibili. Sono visualizzati solo i primi 200 {{pluralLabel}}. Utilizzare il filtro per ulteriore drill down."
+    },
+    "selectBarOverlay": {
+      "tooltip": "Attualmente filtrato in base a {{selectedItemLabel}}. Fare clic per rimuovere il filtro.",
+      "loadingFilters": "Caricamento delle opzioni del filtro.",
+      "noFiltersFound": "Nessuna opzione del filtro trovata.",
+      "clickToFilter": "Fare clic per filtrare per {{itemLabel}}"
+    },
+    "allFilters": "Tutti i filtri"
+  },
+  "groupedTraces": {
+    "labelGroup": "Gruppo",
+    "labelCount": "Conteggio",
+    "labelEarliestTimestamp": "Data/ora meno recente",
+    "groupedTracesTitle": "Seleziona metriche",
+    "groupedTracesHelp": "Selezionare le metriche che devono essere disponibili come colonne all'interno della tabella. Definisce anche le metriche che possono essere visualizzate come grafici."
+  },
+  "groupingInfo": {
+    "removeGrouping": "Rimuovi raggruppamento"
+  },
+  "metricsChart": {
+    "count": "Conteggio"
+  },
+  "metricSelector": {
+    "tooltipGroups": "Metrica disponibile solo durante l'analisi dei gruppi.",
+    "tooltipRemove": "Rimuovi metrica"
+  },
+  "radioButtons": {
+    "messageFilering": "Il filtro ed il raggruppamento sull'origine non è disponibile per l'intervallo di tempo selezionato",
+    "messageIndependent": "Questo tag è indipendente da origine e destinazione",
+    "fragmentSource": "Si applica solo all'origine della chiamata",
+    "fragmentCall": "Applica all'origine o alla destinazione della chiamata"
+  },
+  "rawCalls": {
+    "callAnalytics": "Dati analitici di chiamata",
+    "labelTimestamp": "Data/Ora",
+    "labelLatency": "Latenza",
+    "tooltipBatched": "Questa chiamata è stata eseguita in batch e rappresenta {{batchCount}} singole chiamate.",
+    "tooltipLatency": "Latenza totale di {{batchCount}} chiamate eseguite in batch."
+  },
+  "rawTraces": {
+    "labelTimestamp": "Data/Ora",
+    "labelLatency": "Latenza"
+  },
+  "tagFilterList": {
+    "tooltipRemoveFilter": "Rimuovi filtro"
+  },
+  "dialogs": {
+    "tooltip": "Suggerimenti attualmente non disponibili, immettere il valore",
+    "components": {
+      "analyzeFilterForm": {
+        "false": "false",
+        "true": "true"
+      }
+    }
+  },
+  "logDetails": {
+    "title": "Log",
+    "titleTags": "Tag",
+    "titleParameters": "Parametri",
+    "tooltipCloseLogDetails": "Chiudi dettagli log",
+    "analyzeLogsLabel": "Analizza log",
+    "similarLogs": "Log simili ",
+    "similarServiceLogs": "Nel contesto del servizio"
+  },
+  "traceDetails": {
+    "titleAnalytics": "Dati analitici",
+    "titleTrace": "Traccia",
+    "tooltipData": "Alcuni dati correlati a questa traccia sono ritardati, pertanto ricaricare la pagina tra qualche minuto. Un esempio di questa situazione è la visualizzazione di una traccia molto recente con alcuni di tali dati ancora in fase di elaborazione.",
+    "tooltipClose": "Chiudi dettagli traccia",
+    "labelTotal": "Totale",
+    "labelNetwork": "Rete",
+    "labelSelf": "Automatico",
+    "labelWaiting": "In attesa",
+    "labelService": "Servizio",
+    "labelEndpoint": "Endpoint",
+    "labelAggregatedTime": "Tempo aggregato",
+    "labelErroneousCalls": "Chiamate errate",
+    "buttonTechnology": "Tecnologia",
+    "appNavigatorSplitScreen": {
+      "tooltipViewPrevious": "Visualizza {{viewType}} precedente (tasto di scelta rapida: freccia sinistra)",
+      "tooltipViewNext": "Visualizza successivo {{viewType}} (tasto di scelta rapida: tasto freccia destra)",
+      "tooltipCloseSidebar": "Chiudi barra laterale",
+      "tooltipOpenSidebar": "Apri barra laterale"
+    },
+    "callDetails": {
+      "tooltipCloseCallDetails": "Chiudi dettagli chiamata"
+    },
+
+    "callTimeAxis": {
+      "started": "Avviato: {{startedTime}}"
+    },
+    "navigatorSplitScreen": {
+      "tooltipViewPrevious": "Visualizza {{viewType}} precedente (tasto di scelta rapida: freccia sinistra)",
+      "tooltipViewNext": "Visualizza successivo {{viewType}} (tasto di scelta rapida: tasto freccia destra)",
+      "tooltipCloseSidebar": "Chiudi barra laterale",
+      "tooltipOpenSidebar": "Apri barra laterale"
+    }
+  },
+  "tabs": {
+    "labelDetail": "Dettaglio",
+    "summary": {
+      "websiteMonitoringDataTitle": "Attività sito Web corrispondente",
+      "messageMultiple_root_spans": "La traccia è in formato non corretto e contiene più chiamate root",
+      "messageMissing_root_span": "La chiamata root della traccia non è presente o non è ancora arrivata nella pipeline di elaborazione.",
+      "messageDuplicated_spans": "La traccia contiene chiamate duplicate con lo stesso ID.",
+      "messageToo_many_spans": "La traccia contiene troppe chiamate, può essere visualizzata e scaricata solo parzialmente.",
+      "messageMissing_parent_span": "Estensione principale non presente per alcune estensioni di voci in questa traccia durante l'elaborazione.",
+      "messageExit_spans_followed_by_intermediate_spans": "Alcune estensioni di uscita sono seguite da estensioni intermedie.",
+      "thisTraceIsCausedByActivityOnTheMobileApp": "Questa traccia è causata da attività sull'app mobile <linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp>.",
+      "thisTraceIsCausedByActivityOnThewebsite": "Questa traccia è causata da attività sul sito Web <linkToWebsite>{{websiteLabel}}</linkToWebsite>."
+    }
+  },
+  "resultHeaderTooltip": "L'intervallo di tempo della query è stato arrotondato al minuto intero più vicino per consentire di caricare questa vista più rapidamente.",
+  "components": {
+    "analyzeHeader": {
+      "application": "applicazione",
+      "website": "sito web",
+      "mobileApp": "mobileApp",
+      "profiles": "profili",
+      "beta": "BETA",
+      "analytics": "Dati analitici"
+    },
+    "editGroupDialog": {
+      "group": "Gruppo",
+      "tag": "Tag",
+      "loadingSuggestions": "Caricamento dei suggerimenti…",
+      "save": "Salva"
+    },
+    "editTagFilterDialog": {
+      "tag": "Tag",
+      "loadingSuggestions": "Caricamento dei suggerimenti…",
+      "operator": "Operatore",
+      "true": "true",
+      "false": "false",
+      "removeFilter": "Rimuovi filtro"
+    },
+    "filterBar": {
+      "group": "Gruppo",
+      "filters": "Filtri",
+      "clearFilters": "Cancella filtri",
+      "loadingSuggestions": "Caricamento dei suggerimenti…",
+      "operator": "Operatore",
+      "key": "Chiave",
+      "value": "Valore",
+      "addFilter": "Aggiungi filtro",
+      "equalTo": "uguale a",
+      "notEqualTo": "non uguale a",
+      "greaterThan": "maggiore di",
+      "greaterThanOrEquals": "maggiore o uguale a",
+      "lessThan": "minore di",
+      "lessThanOrEquals": "minore o uguale a",
+      "clear": "Cancella",
+      "save": "Salva"
+    },
+    "groupedTraces": {
+      "tagPresentWithNoValue": "Tag presente senza valore",
+      "tagNotPresent": "Tag non presente"
+    },
+    "groupingInfo": {
+      "groupedBy": "Raggruppati per",
+      "removeGrouping": "Rimuovi raggruppamento"
+    },
+    "groupingTableHeader": {
+      "preview": "Anteprima",
+      "groupBy": "Raggruppa per",
+      "selectMetrics": "Seleziona metriche",
+      "hideGraph": "Nascondi grafico",
+      "showGraph": "Mostra grafico"
+    },
+    "metricsChart": {
+      "latencyDistribution": "Latenza (distribuzione)",
+      "noDataToDisplay": "Nessun dato da visualizzare."
+    },
+    "metricsSelector": {
+      "pleaseSelectAtMostNumberOfmetrics": "Selezionare al massimo {{maximumNumberOfMetrics}} metriche.",
+      "addMetric": "Aggiungi metrica",
+      "metric": "Metrica",
+      "pleaseSelect": "Selezionare",
+      "aggregation": "Aggregazione",
+      "selectedMetrics": "Metriche selezionate",
+      "save": "Salva"
+    },
+    "radioButtons": {
+      "source": "Origine",
+      "destination": "Destinazione"
+    },
+    "rawCalls": {
+      "call": "Chiamata",
+      "service": "Servizio"
+    },
+    "rawTraces": {
+      "trace": "Traccia",
+      "traceAnalytics": "Dati analitici di traccia",
+      "service": "Servizio"
+    },
+    "tagFilterList": {
+      "and": "e"
+    }
+  }
+}

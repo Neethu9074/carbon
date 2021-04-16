@@ -1,0 +1,6 @@
+{
+  "entityFormSaving": "正在保存...",
+  "entityFormLoading": "正在加载...",
+  "entityFormFailedToLoadData": "无法加载数据。",
+  "entityFormFailedToSave": "无法保存：{{SaveFailureMessage}}"
+}

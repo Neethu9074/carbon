@@ -1,0 +1,14 @@
+{
+    "stat": {
+        "connectLostState": {
+            "connecting":"連接中...",
+            "connectingMsg":"嘗試連線 {{connectAttempt}} 次失敗。正在繼續重試建立持續性後端連線。",
+            "connectLostAttempReconnect":"連線遺失。正在嘗試重新連接...",
+            "unauthorized":"未獲授權...",
+            "unauthorizedMsg":"無法建立持續性後端連線，因為您未獲授權。請重新整理頁面以繼續。"
+        }
+    },
+    "clientErrMsg": {
+        "techClientMsgeErrFromBackend":"來自後端的技術用戶端訊息（很可能是錯誤詳細資料）"
+    }
+}

@@ -1,0 +1,582 @@
+{
+  "editor": {
+    "copyOf": "{{title}} 副本"
+  },
+  "customDashboard": {
+    "editJsonDialog": {
+      "editJsonDialogPresenter": {
+        "confirmBt": "确认",
+        "dashboardAJson": "JSON 格式的仪表板",
+        "editDashboard": "编辑仪表板"
+      }
+    },
+    "grid": {
+      "grid": {
+        "edit": "编辑",
+        "duplicate": "复制",
+        "delete": "删除",
+        "customDashboardWidgetTitle": "定制仪表板窗口小部件：{{title}}"
+      }
+    },
+    "sharingDialog": {
+      "individualEditRightSelect": {
+        "removeEditRightUserName": "移除 {{fullName}} 的编辑权限。",
+        "add": "添加",
+        "addEditors": "添加编辑者",
+        "pleaseSelect": "请选择"
+      },
+      "sharingDialogPresenter": {
+        "share": "共享",
+        "shareMsg": "此定制仪表板具有该对话框无法表示的高级访问规则。您可以使用“以 JSON 格式编辑”功能编辑这些访问规则。",
+        "privateDashboardDefault": "专用仪表板（缺省）",
+        "privateDashboardDefaultExplain": "此仪表板仅对您可见。",
+        "publicDashboard": "公共仪表板",
+        "publicDashboardExplain": "此仪表板对组织中的所有人都可见。只有您可以进行更改，但您可以添加编辑者。",
+        "done": "完成"
+      }
+    },
+    "widgetEditorDialog": {
+      "widgetTypeSelector": {
+        "showWidgetLabel": "{{label}} 窗口小部件展示"
+      },
+      "widgetConfiguration": {
+        "widgetName": "窗口小部件名称",
+        "name": "名称",
+        "helpAction": "选择此窗口小部件的可选名称（将在窗口小部件内容上方显示）。",
+        "optional": "可选的"
+      },
+      "widgetEditorDialogPresenter": {
+        "editWidget": "编辑窗口小部件",
+        "addWidget": "添加窗口小部件",
+        "next": "下一步",
+        "confirm": "确认",
+        "create": "创建",
+        "back": "上一步"
+      },
+      "widgetPreview": {
+        "previewNotAvailWidgetConfigIncomplete": "由于窗口小部件配置不完整，因此预览不可用。",
+        "highlightMissingConfig": "突出显示缺少的配置",
+        "preview": "预览",
+        "customDashboardPreviewTitle": "定制仪表板窗口小部件预览：{{title}}"
+      }
+    },
+    "customDashboard": {
+      "confirmDashboardDel": "确认删除仪表板",
+      "delDashboard": "删除仪表板",
+      "uWantDelDashboardConfig": "是否确定要删除仪表板 <strong>{{title}}</strong>？",
+      "failDelDashboard": "无法删除该仪表板。",
+      "renameDashboard": "重命名仪表板",
+      "dashboardName": "仪表板名称",
+      "rename": "重命名",
+      "failSaveDashboard": "无法保存仪表板。"
+    },
+    "customDashboardPresenter": {
+      "dashboardNotFound": "仪表板找不到",
+      "failure": "失败",
+      "dashboardNotFoundExplain": "此仪表板不存在，或者您没有它的访问权。",
+      "customDashboard": "定制仪表板",
+      "saveChange": "保存更改",
+      "discardChange": "放弃更改",
+      "addWidget": "添加窗口小部件",
+      "tvMode": "TV 方式",
+      "editName": "编辑名称",
+      "editAsJson": "以 JSON 格式编辑",
+      "viewAsJson": "以 JSON 格式查看",
+      "duplicate": "复制",
+      "delete": "删除",
+      "share": "共享",
+      "shareButtonTooltip": "您的用户帐户无权共享仪表板。"
+    },
+    "editAsJsonDialog": {
+      "failedToParseInputAsJson": "无法将输入解析为 JSON。",
+      "jsonRootMustBeAnObject": "JSON 根必须为一个对象。"
+    }
+  },
+  "dashboardSwitcher": {
+    "dashboardSwitcher": {
+      "loading": "正在加载..."
+    },
+    "dashboardSwitcherOverlayPresenter": {
+      "createDashboard": "创建仪表板",
+      "builtIn": "内置",
+      "default": "缺省",
+      "search": "搜索"
+    },
+    "dashboardSwitcherPresenter": {
+      "loading": "正在加载..."
+    }
+  },
+  "widgets": {
+    "metricConfig": {
+      "groupingConfig": {
+        "top5": "前 5 个",
+        "bottom5": "后 5 个",
+        "showRemainingGroupsAggregOther": "显示汇总为“其他”的其余组"
+      },
+      "hiddenCalls": {
+        "includeInternalCalls": "包含内部调用数",
+        "includeSyntheticCalls": "包含合成调用数"
+      }
+    },
+    "srcApp": {
+      "formComponent": {
+        "pleaseSelect": "请选择",
+        "pleaseSelectMetric": "请选择指标",
+        "aggregation": "汇总",
+        "metric": "指标"
+      },
+      "index": {
+        "applicationsTracesAndCalls": "应用程序（跟踪和调用）"
+      },
+      "oldFormComponent": {
+        "metric": "指标",
+        "pleaseSelect": "请选择",
+        "aggregation": "汇总",
+        "pleaseSelectMetric": "请选择指标"
+      }
+    },
+    "srcEvent": {
+      "index": {
+        "events": "事件"
+      },
+      "formComponent": {
+        "metric": "指标",
+        "eventCount": "事件计数",
+        "aggregation": "汇总",
+        "pleaseSelectMetric": "请选择指标",
+        "pleaseSelect": "请选择",
+        "helpAction": "您将在事件视图中使用的 Dynamic Focus 查询 (DFQ)。",
+        "query": "查询"
+      }
+    },
+    "srcInfrastructure": {
+      "entityCount": {
+        "infrastructureEntityCount": "基础架构和平台实体计数"
+      },
+      "entityCountFormComponent": {
+        "query": "查询",
+        "helpAction": "您将在基础架构图中使用的 Dynamic Focus 查询 (DFQ)。",
+        "metric": "指标",
+        "count": "计数",
+        "aggregation": "汇总",
+        "pleaseSelect": "请选择",
+        "pleaseSelectMetric": "请选择指标"
+      },
+      "metricsFormComponent": {
+        "metric": "指标",
+        "selectMetric": "选择指标",
+        "aggregation": "汇总",
+        "pleaseSelect": "请选择",
+        "pleaseSelectMetric": "请选择指标"
+      },
+      "metricsLoadIndicator": {
+        "loadingMetrics": "正在加载指标..."
+      },
+      "metrics": {
+        "infrastructurePlatforms": "基础架构和平台",
+        "comingSoon": "（即将推出）"
+      },
+      "typeAndMetricConfigurator": {
+        "pleaseSelectMetric": "请选择指标"
+      }
+    },
+    "srcMobileApp": {
+      "formComp": {
+        "beaconType": "信标类型",
+        "pleaseSelect": "请选择",
+        "pleaseSelectDs": "请选择数据源",
+        "metric": "指标",
+        "aggregation": "汇总",
+        "pleaseSelectMetric": "请选择指标"
+      },
+      "index": {
+        "mobileAppsBeacon": "移动应用程序（信标）"
+      },
+      "oldFormComp": {
+        "beaconType": "信标类型",
+        "pleaseSelect": "请选择",
+        "pleaseSelectDs": "请选择数据源",
+        "aggregation": "汇总",
+        "pleaseSelectMetric": "请选择指标",
+        "metric": "指标"
+      }
+    },
+    "srcSli": {
+      "formComp": {
+        "configSli": "已配置的 SLI",
+        "pleaseSelect": "请选择",
+        "sliConfigComputeErrBudgetSliVal": "用于计算错误预算和 SLI 值的 SLI 配置",
+        "typeSloThreshold": "输入介于 <code>{{compact}}</code> 到 <code>{{detailed}}</code> 之间的期望 SLO 阈值。",
+        "valType": "值类型"
+      },
+      "index": {
+        "srvLevelIndicator": "服务级别指示符"
+      },
+      "serviceLevelIndicators": {
+        "remainErrBudget": "其余错误预算"
+      }
+    },
+    "srcWebSite": {
+      "formComp": {
+        "beaconType": "信标类型",
+        "pleaseSelect": "请选择",
+        "metric": "指标",
+        "selectDs": "请选择数据源",
+        "selectMetric": "请选择指标",
+        "aggregation": "汇总"
+      },
+      "index": {
+        "websitesBeacons": "Web 站点（信标）"
+      },
+      "oldFormComp": {
+        "beaconType": "信标类型",
+        "pleaseSelect": "请选择",
+        "selectDs": "请选择数据源",
+        "metric": "指标",
+        "aggregation": "汇总",
+        "selectMetric": "请选择指标"
+      }
+    },
+    "metricConfigurator": {
+      "ds": "数据源",
+      "pleaseSelect": "请选择",
+      "name": "名称",
+      "pleaseSelectATimeShiftingConfiguration": "请选择一个时移配置",
+      "pleaseProvideAGroup": "请提供一个组。",
+      "optional": "可选的",
+      "theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999": "提供的数字无效。该值必须在 0 到 99.99 之间。"
+    },
+    "bigNumber": {
+      "comparisonColors": {
+        "green": "绿色",
+        "red": "红色",
+        "yellow": "黄色",
+        "orange": "橙色",
+        "blue": "Blue"
+      },
+      "formComponent": {
+        "whatULikeShow": "您想要显示什么？",
+        "formatter": "格式化程序"
+      },
+      "timeShiftingForm": {
+        "addTimeShiftComparBadge": "添加时移比较徽章",
+        "increaseColor": "加深颜色",
+        "decreaseColor": "淡化颜色",
+        "timeShift": "时移"
+      },
+      "bigNumber": "大数"
+    },
+    "chart": {
+      "axesConfigurator": {
+        "primaryYAxis": "主 Y 轴",
+        "secondaryYAxis": "辅助 Y 轴",
+        "chart": "图表",
+        "formatter": "格式化程序",
+        "addSecondary": "添加辅助 Y 轴",
+        "removeSecondary": "移除",
+        "min": "最小值",
+        "max": "最大值",
+        "sharemaxValue": "在轴之间共享最大值",
+        "auto": "自动"
+      },
+      "atLeastOneDatasetIsRequired": "至少需要一个数据集。"
+    },
+    "formCompChart": {
+      "colorConfiguratorChart": {
+        "colorDsGrpNotConfig": "无法配置使用分组的数据集的颜色。",
+        "iconDepicAutoColorSelect": "描绘自动颜色选择的图标。",
+        "colorAutoChose": "自动选择颜色",
+        "automatic": "自动"
+      },
+      "color": {
+        "lightBlue": "浅蓝色",
+        "green": "绿色",
+        "red": "红色",
+        "yellow": "黄色",
+        "orange": "橙色",
+        "blue": "Blue",
+        "deepPurple": "深紫色",
+        "cyan": "蓝绿色",
+        "lime": "淡黄绿色",
+        "pink": "粉色",
+        "teal": "青色",
+        "purple": "紫色",
+        "indigo": "靛蓝色"
+      },
+      "dataConfigChart": {
+        "addDataset": "添加数据集"
+      },
+      "indexChart": {
+        "datasets": "数据集",
+        "axisConfig": "轴配置"
+      },
+      "metricConfigChart": {
+        "datasetTimeShift": "数据集已时移",
+        "removeDataset": "移除数据集",
+        "duplicate": "复制"
+      },
+      "metricReorderingChart": {
+        "jumpConfigDataset": "跳转至此数据集的配置",
+        "datasetTimeShift": "数据集已时移",
+        "dragDropDataset2Axes": "在两个轴之间拖放数据集。",
+        "datasets": "数据集"
+      },
+      "timeShiftingFormChart": {
+        "timeShift": "时移",
+        "applyTimeShiftDs": "对该数据序列应用时移",
+        "timeShiftHelpAction": "选择<strong>显示当前值</strong>会自动将此数据序列复制到同一个轴上。第一个数据序列会禁用时移，第二个数据序列会启用时移。",
+        "displayCurrentValues": "显示当前值"
+      }
+    },
+    "demo": {
+      "pageLoads": "页面加载数",
+      "onLoadTime": "OnLoad 时间"
+    },
+    "index": {
+      "chartTimeSeries": "图表：时间序列"
+    },
+    "util": {
+      "unnamMetric": "未命名指标"
+    },
+    "markdown": {
+      "formComp": {
+        "whatULikeShow": "您想要显示什么？",
+        "markdown": "Markdown",
+        "markdownHelpAction": "您可以使用标准 Markdown 语法为仪表板定义任意文本内容。"
+      },
+      "markdown": "Markdown"
+    },
+    "pie": {
+      "formComponent": {
+        "datasets": "数据集",
+        "dragDropDatasetsReorder": "拖放数据集以对其进行重新排序。",
+        "dataPresentation": "数据表示",
+        "formatter": "格式化程序"
+      },
+      "index": {
+        "chartPie": "图表：饼图"
+      }
+    },
+    "slo": {
+      "apConfigFormComp": {
+        "userJourneyOffering": "用户旅程/产品",
+        "appnPerspective": "应用程序透视图",
+        "selectAppPerspect": "请选择应用程序透视图。",
+        "appPerspectHelpAction": "通过在产品的“应用程序”区域中将用户旅程/产品建模为应用程序透视图来对其进行设置。",
+        "noAppPerspect": "无应用程序透视图！",
+        "pleaseSelect": "请选择"
+      },
+      "sliSelectionFormComp": {
+        "srvLevelIndicator": "服务级别指示符",
+        "selectASli": "请选择 SLI。",
+        "noneAvailCreateOne": "无可用 SLI，请创建一个 SLI。",
+        "pleaseSelect": "请选择"
+      },
+      "createSliForm": {
+        "sliCreateSuccess": "已成功创建 SLI",
+        "failCreateSli": "无法创建 SLI。",
+        "problemCreateSli": "创建此 SLI 时出现问题：“{{sliName}}”",
+        "cloning": "正在克隆...",
+        "creating": "正在创建...",
+        "clone": "克隆",
+        "create": "创建",
+        "sliConfigMsg": "不能修改 SLI 的参数，以防止计算的预算支出失效。这就是在更改任何参数时需要克隆 SLI 的原因。",
+        "sliCreated": "已创建 SLI“{{sliName}}”。"
+      },
+      "endpointSelectBox": {
+        "endpoint": "端点",
+        "allServices": "所有服务",
+        "loading": "<loading>"
+      },
+      "goodBadEventsForm": {
+        "goodEvents": "良性事件",
+        "badEvents": "恶性事件"
+      },
+      "metricFormData": {
+        "latency": "等待时间",
+        "callCount": "调用计数",
+        "errorRate": "错误率",
+        "erroneousCalls": "错误调用数",
+        "mean": "平均值",
+        "min": "最小值",
+        "max": "最大值",
+        "sum": "总和",
+        "25th": "第 25 个",
+        "50th": "第 50 个",
+        "75th": "第 75 个",
+        "90th": "第 90 个",
+        "95th": "第 95 个",
+        "98th": "第 98 个",
+        "99th": "第 99 个"
+      },
+      "metricsForm": {
+        "metricThreshold": "指标和阈值",
+        "metric": "指标",
+        "aggregation": "汇总",
+        "valThresholdNotInvalidEmpty": "阈值不能为无效值或为空。",
+        "thresholdMs": "阈值 (ms)",
+        "thresholdPercent": "阈值 (%)",
+        "thresholdCount": "阈值（计数）"
+      },
+      "servicesSelectBox": {
+        "service": "服务",
+        "loading": "<loading>",
+        "allServices": "所有服务"
+      },
+      "sliFormPresenter": {
+        "sliCustomization": "SLI 定制",
+        "name": "名称",
+        "sliNameNotEmpty": "SLI 名称不能为空。",
+        "sliCustomHelpAction": "可在我们的文档中找到有关 SLI 定制和 SLI 类型的信息。",
+        "sliTimeBasedOrAnEventBasedSli": "SLI 类型必须是基于时间或基于事件的 SLI。",
+        "pleaseSelect": "请选择",
+        "appPerspective": "应用程序透视图",
+        "boundary": "边界",
+        "hiddenCalls": "隐藏的调用数",
+        "includeInternalCalls": "包含内部调用数",
+        "includeSyntheticCalls": "包含合成调用数",
+        "type": "类型",
+        "sliEntity": "SLI 实体"
+      },
+      "sliList": {
+        "serviceLevelIndicators": "服务级别指示符",
+        "sliConfigDeleted": "已成功删除 SLI 配置。",
+        "failedDelSli": "无法删除 SLI。",
+        "sliType": "SLI 类型",
+        "viewCloneSliConfig": "查看/克隆 SLI 配置",
+        "delSliConfig": "删除 SLI 配置",
+        "pleaseConfirm": "请确认",
+        "pleaseConfirmMsg": "是否确定要删除 <strong>{{sliName}}</strong>？",
+        "delete": "删除"
+      },
+      "sliManageList": {
+        "configSrvLevelIndicatorsMsg": "您没有创建或编辑 SLI 所需的 <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> 许可权。",
+        "sliList": "SLI 列表",
+        "createSli": "创建 SLI"
+      },
+      "tagFilterExpressConfig": {
+        "clear": "清除"
+      },
+      "sloTimeTile": {
+        "sloTime": "自 <datetime-from /><br /> 到 <datetime-to />"
+      },
+      "chart": {
+        "spent": "已花费",
+        "budget": "预算",
+        "viewInAnalyze": "查看分析"
+      },
+      "formComponent": {
+        "sliManagement": "SLI 管理",
+        "editSli": "编辑 SLI",
+        "createSli": "创建 SLI",
+        "sloConfig": "SLO 配置",
+        "manageSlIs": "管理 SLI",
+        "sloTarget": "SLO 目标",
+        "enterVal0to100": "请输入介于 0 到 100 之间的值。",
+        "timeWindow": "时间窗口",
+        "helpActionMsg1": "<strong>固定时间间隔：</strong>定义了开始时间和持续时间的时间窗口。例如，自 2020 年 1 月 1 日起每月一次。将显示从全局时间选取器中选择的时间的最后部分时间间隔。",
+        "helpActionMsg2": "<strong>滚动时间窗口：</strong>定义了持续时间的时间窗口，其中结束时间由全局时间选取器右侧的日期/时间选项来定义，例如最近 2 周。",
+        "helpActionMsg3": "<strong>动态时间窗口：</strong>将针对在全局时间选取器中选择的时间窗口来计算 SLO。",
+        "fixTimeInterval": "固定时间间隔",
+        "rollingTimeWindow": "滚动时间窗口",
+        "dynamicTimeWindow": "动态时间窗口",
+        "length": "长度",
+        "days": "天",
+        "weeks": "周",
+        "months": "月",
+        "pleaseSpecifyTheNumber": "请指定 {{timeValue}} 的数字值。",
+        "start": "开始",
+        "enterDateFormatYyyyMmDd": "请输入格式为 YYYY-MM-DD 的日期。",
+        "enterTimeInFormatHhMmSs": "请输入格式为 HH:mm:ss 的时间。"
+      },
+      "widgetHeader": {
+        "status": "状态",
+        "target": "目标：",
+        "errorBudgetSpent": "已花费的错误预算",
+        "errorBudget": "错误预算：",
+        "timeWindow": "时间窗口",
+        "dynamicTimeWindow": "动态时间窗口",
+        "rollingTimeWindow": "滚动时间窗口",
+        "fixedTimeWindow": "固定时间窗口"
+      },
+      "sliConfig": {
+        "sliName": "SLI 名称",
+        "sliType": "SLI 类型",
+        "badEventsFilter": "事件过滤器错误",
+        "metric": "指标"
+      },
+      "theTimeWindowSizeHasToBeLessOrEqualTo365Days": "时间窗口大小必须小于或等于 365 天。",
+      "aValueMustBeSelected": "必须选择值。",
+      "atLeastOneFilterExpressionMustBeConfigured": "必须至少配置一个过滤表达式。",
+      "timeBased": "基于时间",
+      "eventBased": "基于事件",
+      "slo": "SLO"
+    },
+    "timezone": {
+      "demo": {
+        "sanFrancisco": "旧金山",
+        "austin": "奥斯汀",
+        "newYorkCity": "纽约市",
+        "berlin": "柏林",
+        "tokyo": "东京",
+        "sydney": "悉尼"
+      },
+      "formComp": {
+        "whatULikeShow": "您想要显示什么？",
+        "reorderTimeZones": "对时区重新排序",
+        "timeZone": "时区",
+        "removeTimeZone": "移除时区",
+        "addTimeZone": "添加时区"
+      },
+      "index": {
+        "timeZone": "时区"
+      }
+    },
+    "topList": {
+      "formComp": {
+        "whatULikeShow": "您想要显示什么？",
+        "formatter": "格式化程序"
+      },
+      "index": {
+        "topListLb": "最上层列表"
+      },
+      "widget": {
+        "aggregOtherGroup": "汇总其他组",
+        "other": "其他",
+        "tagNoValue": "呈现的标记“{{labelname}}”不含任何值"
+      }
+    },
+    "applicationHealth": {
+      "index": {
+        "applicationHealth": "运行概况"
+      },
+      "form": {
+        "validationError": "请选择应用程序。",
+        "header": "选择要监视的应用程序",
+        "addApplication": "添加应用程序",
+        "selectApplication": "选择应用程序",
+        "secondaryHeadingText": "选定的应用程序将按严重性从高到低排序",
+        "applicationLabel": "应用程序",
+        "atLeastOneApplicationMustBeSelected": "必须至少选择一个应用程序。"
+      }
+    },
+    "timezones": {
+      "atLeastOneTimeZoneMustBeConfigured": "必须至少配置一个时区。",
+      "pleaseSelectATimeZone": "请选择时区。"
+    }
+  },
+  "duplicateDashboardDialog": {
+    "duplicateDashboard": "复制仪表板",
+    "dashboardName": "仪表板名称",
+    "duplicate": "复制",
+    "copyShareConfig": "复制共享配置",
+    "failedToCreateDashboard": "无法创建仪表板。"
+  },
+  "newDashboardDialog": {
+    "createNewDashboard": "创建新仪表板",
+    "dashboardName": "仪表板名称",
+    "additionalFields": "此仪表板将仅对您可见。您可以选择在创建后将其与同事共享",
+    "create": "创建",
+    "failedToCreateDashboard": "无法创建仪表板。"
+  }
+}

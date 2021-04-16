@@ -1,0 +1,46 @@
+{
+  "breadcrumbs": {
+    "cloudFoundryApplication": "Application Cloud Foundry",
+    "cloudFoundryApplications": "Applications Cloud Foundry"
+  },
+  "cfApplicationsWithCount": "Applications CF ({{count}})",
+  "cfApplicationsWithCount_plural": "Applications CF ({{count}})",
+  "cfApplicationsWithCount_0": "Applications CF ({{count}})",
+  "cfApplicationsWithCount_1": "Applications CF ({{count}})",
+  "cfApplicationsWithCount_2": "Applications CF ({{count}})",
+  "dashboards": {
+    "cfApplication": "Application CF",
+    "cloudFoundryApplication": "Application Cloud Foundry",
+    "name": "Nom",
+    "instanceIndex": "Index d'instance",
+    "cpuTotal": "Total UC",
+    "memoryTotal": "Mémoire totale",
+    "health": "Intégrité",
+    "containers": "Conteneurs",
+    "summary": "Récapitulatif",
+    "requestedState": "État demandé",
+    "instances": "Instances",
+    "memoryLimit": "Limite de mémoire",
+    "lastUpdated": "Dernière mise à jour",
+    "buildpack": "Pack de génération",
+    "routes": "Routes",
+    "diskLimit": "Limite de disque",
+    "createdAt": "Créé à",
+    "analyzeCalls": "Analyser les appels"
+  },
+  "name": "Nom",
+  "requestedState": "État demandé",
+  "instances": "Instances",
+  "memoryLimit": "Limite de mémoire",
+  "foundation": "Fondation",
+  "organization": "Organisation",
+  "space": "Espace",
+  "routes": "Routes",
+  "health": "Intégrité",
+  "cloudFoundryApplications": "Applications Cloud Foundry",
+  "cfApplications": "Applications CF",
+  "noMonitoringDataFound": "Aucune donnée de surveillance trouvée",
+  "cloudfoundry": {
+    "noData": "Les perspectives d'application permettent de modéliser les environnements, les ensembles de services, les locataires, ou simplement n'importe quoi."
+  }
+}

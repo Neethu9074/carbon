@@ -1,0 +1,46 @@
+{
+  "breadcrumbs": {
+    "cloudFoundryApplication": "Applicazione Cloud Foundry",
+    "cloudFoundryApplications": "Applicazioni Cloud Foundry "
+  },
+  "cfApplicationsWithCount": "Applicazioni CF ({{count}})",
+  "cfApplicationsWithCount_plural": "Applicazioni CF ({{count}})",
+  "cfApplicationsWithCount_0": "Applicazioni CF ({{count}})",
+  "cfApplicationsWithCount_1": "Applicazioni CF ({{count}})",
+  "cfApplicationsWithCount_2": "Applicazioni CF ({{count}})",
+  "dashboards": {
+    "cfApplication": "Applicazione CF ",
+    "cloudFoundryApplication": "Applicazione Cloud Foundry",
+    "name": "Nome ",
+    "instanceIndex": "Indice istanza ",
+    "cpuTotal": "Totale CPU ",
+    "memoryTotal": "Totale memoria",
+    "health": "Condizione ",
+    "containers": "Contenitori",
+    "summary": "Riepilogo ",
+    "requestedState": "Stato richiesto",
+    "instances": "Istanze",
+    "memoryLimit": "Limite di memoria ",
+    "lastUpdated": "Ultimo aggiornamento",
+    "buildpack": "Pacchetto di build",
+    "routes": "Instradamenti ",
+    "diskLimit": "Limite disco",
+    "createdAt": "Ora di creazione",
+    "analyzeCalls": "Analizza chiamate "
+  },
+  "name": "Nome ",
+  "requestedState": "Stato richiesto",
+  "instances": "Istanze",
+  "memoryLimit": "Limite di memoria ",
+  "foundation": "Fondazione ",
+  "organization": "Organizzazione",
+  "space": "Spazio  ",
+  "routes": "Instradamenti ",
+  "health": "Condizione ",
+  "cloudFoundryApplications": "Applicazioni Cloud Foundry ",
+  "cfApplications": "Applicazioni CF",
+  "noMonitoringDataFound": "Nessun dato di monitoraggio trovato ",
+  "cloudfoundry": {
+    "noData": "Le prospettive applicazione forniscono uno strumento per modellare ambienti, insiemi di servizi, tenant o altro. "
+  }
+}

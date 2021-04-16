@@ -1,0 +1,13 @@
+{
+  "landing": {
+    "loadingData": "データのロード中",
+    "noEntitiesFound": "エンティティーが見つかりません",
+    "noEntitiesFoundFor": "{{landingQueryCount}} のエンティティーが見つかりません",
+    "noMatchingEntitiesFoundTitle": "一致するエンティティーが見つかりません",
+    "results": "結果"
+  },
+  "logging": {
+    "goToLogs": "ログに移動"
+  }
+
+}

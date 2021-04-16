@@ -1,0 +1,91 @@
+{
+  "component": {
+    "applTopList": {
+      "openCreationDialog": "Ouvrir la boîte de dialogue de création",
+      "allApps": "Toutes les applications",
+      "errCallRate": "Taux d'appels erronés",
+      "latency": "Latence",
+      "calls": "Appels",
+      "newAppPerspect": "Nouvelle perspective d'application"
+    },
+    "eventChartCard": {
+      "allEvents": "Tous les événements",
+      "incidents": "Incidents",
+      "critical": "Critique",
+      "warning": "Avertissement",
+      "viewEvents": "Afficher les événements"
+    },
+    "infrastructureTopList": {
+      "allHosts": "Tous les hôtes",
+      "allContainers": "Tous les conteneurs",
+      "allProcesses": "Tous les processus",
+      "hosts": "Hôtes",
+      "containers": "Conteneurs",
+      "processes": "Processus"
+    },
+    "platformsTopList": {
+      "esXiHosts": "Hôte ESXi",
+      "nodes": "Nœuds",
+      "vMs": "Machines virtuelles",
+      "instances": "Instances",
+      "namespaces": "Espaces de nom",
+      "cpuUsage": "Utilisation de l'UC",
+      "memoryLimit": "Limite de mémoire",
+      "pods": "Pods",
+      "memoryUsage": "Utilisation de la mémoire",
+      "cloudFoundryApplication": "Application Cloud Foundry",
+      "vSphereDatacenter": "vSphere Datacenter"
+    },
+    "websiteMobileTopList": {
+      "addWebsite": "Ajouter un site Web",
+      "addMobileApp": "Ajouter une application mobile",
+      "allWebsites": "Tous les sites Web",
+      "allMobileApps": "Toutes les applications mobiles",
+      "allWebsitesMobileApps": "Tous les sites Web et toutes les applications mobiles",
+      "pageViews": "Vues de pages",
+      "sessions": "Sessions",
+      "onLoadTime": "Durée onLoad",
+      "views": "Vues",
+      "website": "Site Web",
+      "mobileApp": "Application mobile"
+    },
+    "openIncidentsButton": {
+      "numberOfIncidents": "{{count}} incident",
+      "numberOfIncidents_plural": "{{count}} incidents",
+      "numberOfIncidents_0": "{{count}} incidents",
+      "numberOfIncidents_1": "{{count}} incidents",
+      "numberOfIncidents_2": "{{count}} incidents"
+    }
+  },
+  "cockpit": {
+    "deployAgent": "Déployer l'agent",
+    "applications": "Applications",
+    "infrastructure": "Infrastructure",
+    "events": "Événements",
+    "home": "Local",
+    "addUser": "Ajouter un utilisateur",
+    "platforms": "Plateformes",
+    "cloudFoundry": "Cloud Foundry",
+    "websites": "Sites Web",
+    "mobileApps": "Applications mobiles",
+    "websitesMobileApps": "Sites Web et applications mobiles"
+  },
+  "widgets": {
+    "columnDefinitions": {
+      "numCpU": "Nombre d'UC",
+      "cpuUsage": "Utilisation de l'UC",
+      "created": "Créé",
+      "started": "Démarré",
+      "os": "OS"
+    },
+    "topListWidget": {
+      "noLabelYet": "Pas de {{nolabel}} pour le moment"
+    },
+    "websites": {
+      "noData": "Démarrez avec la surveillance de site Web pour mieux comprendre l'impact des performances de votre site Web sur l'expérience utilisateur. La configuration est simple !",
+      "createWebsite": "Créer un site Web",
+      "createMobileApp": "Créer une application mobile",
+      "noLabelYet": "Pas de {{nolabel}} pour le moment"
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "agentMonitoringSuffix01": "non monitorato",
+  "agentMonitoringAlert_prefix01": "Problema di monitoraggio",
+  "agentMonitoringSuffix02": "non tracciato",
+  "agentMonitoringAlert_prefix02": "Tracciamento mancante",
+  "agentMonitoringSuffix03": "senza profilo",
+  "agentMonitoringAlert_prefix03": "Profili mancanti",
+  "agentMonitoringSuffix04": "non monitorato",
+  "agentMonitoringAlert_prefix04": "Problema di monitoraggio",
+  "agentMonitoringExplanationLinkLabel": "Documentazione di risoluzione dei problemi",
+  "agentMonitoringExplanationLinkHref": "https://instana.com/docs/",
+  "services": "Servizi",
+  "dashboard": {
+    "customMetricsV2": {
+      "customMetricsContent": "Le metriche bloccate sono visualizzate in una tabella separata al di sopra delle metriche personalizzate. Utilizzare questa funzione per un confronto ad-hoc tra più metriche personalizzate. Inoltre, è possibile inviare il collegamento ai colleghi, che visualizzeranno lo stesso insieme di metriche bloccate.",
+      "customMetricsTitleType": "Tipo",
+      "customMetricsTitleName": "Nome",
+      "customMetricsTitleValue": "Valore",
+      "customMetricsTitlePinned": "{{pinnedPrefix}} Metriche bloccate ({{pinnedLength}})",
+      "customMetricsTitleCustom": "{{customPrefix}} Metriche personalizzate ({{customLength}})",
+      "customMetricsLableCount": "Conteggio",
+      "customMetricsLableValue": "Valore",
+      "customMetricsLableMean": "Media",
+      "customMetricsLableP50": "50esimo",
+      "customMetricsLableP99": "99esimo",
+      "customMetricsLableRate": "Tasso"
+    },
+    "table": {
+      "tableNoData": "Nessun dato.",
+      "tableExpandAll": "Espandi tutto",
+      "tableCollapseAll": "Comprimi tutto"
+    }
+   },
+
+  "sidebar": {
+      "classpath": {
+        "classpathHide": "Nascondi Classpath",
+        "classpathShow": "Mostra Classpath"
+      },
+      "processStartedTitle": "Avviato alle"
+  },
+
+  "traceDetails": {
+    "errorDescription": "Errore"
+  },
+
+  "snapshot": {
+    "registryHealth": "Condizione",
+
+    "runtimeLabelNet": ".NET Core",
+    "runtimeLabelGo": "Go",
+    "runtimeLabelJava": "Java",
+    "runtimeLabelNodeJS": "Node.js",
+    "runtimeLabelPython": "Python",
+    "runtimeLabelRuby": "Ruby",
+    "runtimeLabelUnknown": "Runtime sconosciuto"
+  },
+
+  "tracing": {
+    "registryCall": "Chiamata",
+    "registryCall_plural": "Chiamate",
+    "registryCall_0": "Chiamate",
+    "registryCall_1": "Chiamate",
+    "registryCall_2": "Chiamate"
+  }
+
+}

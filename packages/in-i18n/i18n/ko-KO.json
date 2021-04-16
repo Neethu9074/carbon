@@ -1,0 +1,32 @@
+{
+  "forms": {
+    "actions": {
+      "save": "저장",
+      "cancel": "취소",
+      "create": "작성",
+      "delete": "삭제",
+      "close": "닫기",
+      "submit": "제출"
+    },
+    "states": {
+      "saving": "저장 중…",
+      "loading": "로드 중…"
+    }
+  },
+  "language_en-US": "영어",
+  "language_de-DE": "독일어",
+  "language_zz-ZZ": "QA 목적을 위한 의사 언어",
+  "aggregation_P25": "25번째",
+  "aggregation_P50": "50번째",
+  "aggregation_P75": "75번째",
+  "aggregation_P90": "90번째",
+  "aggregation_P95": "95번째",
+  "aggregation_P98": "98번째",
+  "aggregation_P99": "99번째",
+  "aggregation_MEAN": "평균",
+  "aggregation_MIN": "최소",
+  "aggregation_MAX": "최대",
+  "aggregation_DISTINCT_COUNT": "고유 개수",
+  "aggregation_SUM": "합계",
+  "aggregation_DISTRIBUTION": "분포"
+}

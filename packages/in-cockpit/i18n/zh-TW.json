@@ -1,0 +1,91 @@
+{
+  "component": {
+    "applTopList": {
+      "openCreationDialog": "開啟建立對話框",
+      "allApps": "所有應用程式",
+      "errCallRate": "錯誤呼叫率",
+      "latency": "延遲時間",
+      "calls": "呼叫",
+      "newAppPerspect": "新建應用程式視景"
+    },
+    "eventChartCard": {
+      "allEvents": "所有事件",
+      "incidents": "事故",
+      "critical": "重大",
+      "warning": "警告",
+      "viewEvents": "檢視事件"
+    },
+    "infrastructureTopList": {
+      "allHosts": "所有主機",
+      "allContainers": "所有儲存器",
+      "allProcesses": "所有程序",
+      "hosts": "主機",
+      "containers": "儲存器",
+      "processes": "程序"
+    },
+    "platformsTopList": {
+      "esXiHosts": "ESXi 主機",
+      "nodes": "節點",
+      "vMs": "VM",
+      "instances": "實例",
+      "namespaces": "名稱空間",
+      "cpuUsage": "CPU 使用率",
+      "memoryLimit": "記憶體限制",
+      "pods": "Pod",
+      "memoryUsage": "記憶體用量",
+      "cloudFoundryApplication": "Cloud Foundry 應用程式",
+      "vSphereDatacenter": "vSphere 資料中心"
+    },
+    "websiteMobileTopList": {
+      "addWebsite": "新增網站",
+      "addMobileApp": "新增行動式應用程式",
+      "allWebsites": "所有網站",
+      "allMobileApps": "所有行動式應用程式",
+      "allWebsitesMobileApps": "所有網站和行動式應用程式",
+      "pageViews": "頁面視圖",
+      "sessions": "階段作業",
+      "onLoadTime": "載入時間",
+      "views": "視圖",
+      "website": "網站",
+      "mobileApp": "行動式應用程式"
+    },
+    "openIncidentsButton": {
+      "numberOfIncidents": "{{count}} 個事故",
+      "numberOfIncidents_plural": "{{count}} 個事故",
+      "numberOfIncidents_0": "{{count}} 個事故",
+      "numberOfIncidents_1": "{{count}} 個事故",
+      "numberOfIncidents_2": "{{count}} 個事故"
+    }
+  },
+  "cockpit": {
+    "deployAgent": "部署代理程式",
+    "applications": "應用程式",
+    "infrastructure": "基礎架構",
+    "events": "事件",
+    "home": "首頁",
+    "addUser": "新增使用者",
+    "platforms": "平台",
+    "cloudFoundry": "Cloud Foundry",
+    "websites": "網站",
+    "mobileApps": "行動式應用程式",
+    "websitesMobileApps": "網站和行動式應用程式"
+  },
+  "widgets": {
+    "columnDefinitions": {
+      "numCpU": "CPU 數目",
+      "cpuUsage": "CPU 使用率",
+      "created": "建立日期",
+      "started": "開始日期",
+      "os": "作業系統"
+    },
+    "topListWidget": {
+      "noLabelYet": "尚無 {{nolabel}}"
+    },
+    "websites": {
+      "noData": "著手進行網站監視，以充分瞭解您的網站效能如何影響使用者體驗。配置很簡單！",
+      "createWebsite": "建立網站",
+      "createMobileApp": "建立行動式應用程式",
+      "noLabelYet": "尚無 {{nolabel}}"
+    }
+  }
+}

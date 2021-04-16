@@ -1,0 +1,67 @@
+{
+  "agentMonitoringSuffix01": "未监视",
+  "agentMonitoringAlert_prefix01": "监视问题",
+  "agentMonitoringSuffix02": "未跟踪",
+  "agentMonitoringAlert_prefix02": "缺少跟踪",
+  "agentMonitoringSuffix03": "未概要分析",
+  "agentMonitoringAlert_prefix03": "缺少概要文件",
+  "agentMonitoringSuffix04": "未监视",
+  "agentMonitoringAlert_prefix04": "监视问题",
+  "agentMonitoringExplanationLinkLabel": "故障诊断文档",
+  "agentMonitoringExplanationLinkHref": "https://instana.com/docs/",
+  "services": "服务",
+  "dashboard": {
+    "customMetricsV2": {
+      "customMetricsContent": "固定指标显示在定制指标上方的单独表中。使用该表可在多个定制指标之间进行临时比较。此外，您还可以将链接发送给同事，他们将看到相同的固定指标集。",
+      "customMetricsTitleType": "类型",
+      "customMetricsTitleName": "名称",
+      "customMetricsTitleValue": "值",
+      "customMetricsTitlePinned": "{{pinnedPrefix}} 固定指标 ({{pinnedLength}})",
+      "customMetricsTitleCustom": "{{customPrefix}} 定制指标 ({{customLength}})",
+      "customMetricsLableCount": "计数",
+      "customMetricsLableValue": "值",
+      "customMetricsLableMean": "平均值",
+      "customMetricsLableP50": "第 50 个",
+      "customMetricsLableP99": "第 99 个",
+      "customMetricsLableRate": "比率"
+    },
+    "table": {
+      "tableNoData": "无数据。",
+      "tableExpandAll": "全部展开",
+      "tableCollapseAll": "全部折叠"
+    }
+   },
+
+  "sidebar": {
+      "classpath": {
+        "classpathHide": "隐藏类路径",
+        "classpathShow": "显示类路径"
+      },
+      "processStartedTitle": "启动时间"
+  },
+
+  "traceDetails": {
+    "errorDescription": "错误"
+  },
+
+  "snapshot": {
+    "registryHealth": "运行状况",
+
+    "runtimeLabelNet": ".NET Core",
+    "runtimeLabelGo": "执行",
+    "runtimeLabelJava": "Java",
+    "runtimeLabelNodeJS": "Node.js",
+    "runtimeLabelPython": "Python",
+    "runtimeLabelRuby": "Ruby",
+    "runtimeLabelUnknown": "未知运行时"
+  },
+
+  "tracing": {
+    "registryCall": "调用",
+    "registryCall_plural": "调用数",
+    "registryCall_0": "调用次数",
+    "registryCall_1": "调用次数",
+    "registryCall_2": "调用次数"
+  }
+
+}
