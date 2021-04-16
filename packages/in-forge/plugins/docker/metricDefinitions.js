@@ -19,6 +19,17 @@ export default [
     formatter: percentage
   },
   {
+    metrics: ['cpu.total_usage_normalized', 'cpu.system_usage_normalized', 'cpu.user_usage_normalized'],
+    labels: [
+      t('in-forge:plugins.docker.totalNormalized'),
+      t('in-forge:plugins.docker.kernelNormalized'),
+      t('in-forge:plugins.docker.userNormalized')
+    ],
+    min: 0,
+    category: [t('in-forge:plugins.docker.cpu')],
+    formatter: percentage
+  },
+  {
     metrics: ['cpu.throttling_count'],
     labels: [t('in-forge:plugins.docker.throttlingCount')],
     category: [t('in-forge:plugins.docker.cpu')],

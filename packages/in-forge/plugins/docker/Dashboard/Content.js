@@ -61,6 +61,17 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
             formatter: percentageTwoDecimalPlaces,
             type: 'line'
           }}
+          y2={{
+            min: 0,
+            metrics: ['cpu.total_usage_normalized', 'cpu.system_usage_normalized', 'cpu.user_usage_normalized'],
+            labels: [
+              t('in-forge:plugins.docker.dashboard.totalNormalized'),
+              t('in-forge:plugins.docker.dashboard.kernelNormalized'),
+              t('in-forge:plugins.docker.dashboard.userNormalized')
+            ],
+            formatter: percentageTwoDecimalPlaces,
+            type: 'line'
+          }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
         <Chart
