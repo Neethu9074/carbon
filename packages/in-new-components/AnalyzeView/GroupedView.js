@@ -276,7 +276,7 @@ export default function GroupedAnalyzeView(props) {
             dataSource={dataSource}
             isValid={isValid}
             getFacetedGroupLabel={getLabel}
-            getSuggestions={tag =>
+            getSuggestions={({ tag, entity }) =>
               getFacetedSearchSuggestions({
                 timeConfig,
                 backendQueryModel,
@@ -285,7 +285,8 @@ export default function GroupedAnalyzeView(props) {
                 group: {
                   groupbyTag: tag
                 },
-                dataSource
+                dataSource,
+                entity
               })
             }
             groupbyTag={groupBy.groupbyTag}

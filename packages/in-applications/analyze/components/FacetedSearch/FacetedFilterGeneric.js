@@ -145,7 +145,8 @@ function SearchAndSuggestions({
       filterOnTagName: true,
       includeInternal: hiddenCalls.includeInternal,
       includeSynthetic: hiddenCalls.includeSynthetic,
-      metrics: dataSourceConstants[dataSource].sumMetric
+      metrics: dataSourceConstants[dataSource].sumMetric,
+      entity
     });
   const tagDefinition = tagCatalog?.tags.find(tagEntry => tagEntry.name === tag);
   const isBooleanTag = tagDefinition?.type === 'BOOLEAN';

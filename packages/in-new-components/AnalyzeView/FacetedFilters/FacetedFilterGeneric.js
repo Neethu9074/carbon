@@ -91,7 +91,8 @@ function SearchAndSuggestions({
   customLabelMapper = identity,
   enableUseAsGroup,
   tagCatalog,
-  tracker
+  tracker,
+  entity
 }) {
   const timeConfig = useTimeConfig();
   const tagDefinition = tagCatalog?.tags.find(tagEntry => tagEntry.name === tag);
@@ -105,7 +106,7 @@ function SearchAndSuggestions({
   );
   const suggestions =
     useObservable(
-      getSuggestions(tag).map(
+      getSuggestions({ tag, entity }).map(
         mapDataHO(data => ({
           ...data,
           items: data.items

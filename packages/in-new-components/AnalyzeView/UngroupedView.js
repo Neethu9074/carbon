@@ -159,7 +159,7 @@ export default function UngroupedAnalyzeView(props) {
             dataSource={dataSource}
             getFacetedGroupLabel={getFacetedGroupLabel}
             isValid={isValid}
-            getSuggestions={tag =>
+            getSuggestions={({ tag, entity }) =>
               getFacetedSearchSuggestions({
                 timeConfig,
                 backendQueryModel,
@@ -167,7 +167,8 @@ export default function UngroupedAnalyzeView(props) {
                 group: {
                   groupbyTag: tag
                 },
-                dataSource
+                dataSource,
+                entity
               })
             }
             tagCatalog={filteringTagCatalog}
