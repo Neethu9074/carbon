@@ -7,13 +7,15 @@ import { pseudoLanguageEnabled } from 'in-services/featureFlags';
 
 export const supportedLanguages = [
   'en-US',
-  'de-DE',
+  // files not yet shipped
+  // 'de-DE',
   'fr-FR',
   'it-IT',
   'ja-JA',
   'ko-KO',
   'zh-CN',
   'zh-TW',
-  'es-ES',
+  // files not yet shipped
+  // 'es-ES',
   pseudoLanguageEnabled && 'zz-ZZ'
 ].filter(Boolean);

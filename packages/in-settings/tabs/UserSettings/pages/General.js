@@ -123,12 +123,13 @@ export default function UiConfigGeneralPage() {
             {supportedLanguages
               .map(code => ({
                 code,
-                label: t('language', { context: code })
+                label: t('language', { context: code, lng: 'en-US' }),
+                localizedLabel: t('language', { context: code })
               }))
               .sort((a, b) => compareIgnoreCase(a.label, b.label))
-              .map(({ code, label }) => (
+              .map(({ code, label, localizedLabel }) => (
                 <option key={code} value={code}>
-                  {label}
+                  {label} {label !== localizedLabel && ` / ${localizedLabel}`}
                 </option>
               ))}
           </Select>
