@@ -13,28 +13,19 @@
 
   .sliConfigGridContainer {
     display: grid;
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: auto;
 
     font-size: @lib__typography__body__font-size;
     font-weight: 600;
   }
 
   .sliConfigLabel {
-    padding: 0.25rem;
+    padding: 0.25rem 0.25rem 0 0.25rem;
     color: @lib__colors__N600Light;
   }
 
   .sliConfigValue {
-    padding: 0.25rem;
+    padding: 0 0.25rem 0.25rem 0.25rem;
     color: @lib__colors__N800Dark;
-  }
-
-  .badEventFilterLabel {
-    padding: 0.5rem 0.25rem;
-    color: @lib__colors__N600Light;
-  }
-
-  .badEventFilterValue {
-    padding: 0 0.25rem;
   }
 }

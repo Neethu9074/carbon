@@ -70,8 +70,8 @@ const BadEventFilters = ({ sliConfig }) => {
 
     return (
       <>
-        <div className={locals.badEventFilterLabel}>{badEventsFilterLabel}</div>
-        <div className={locals.badEventFilterValue}>
+        <div className={locals.sliConfigLabel}>{badEventsFilterLabel}</div>
+        <div className={locals.sliConfigValue}>
           <SliEventsQueryBuilder value={fromBackendModel(badEventFilterExpression)} readOnly />
         </div>
       </>
