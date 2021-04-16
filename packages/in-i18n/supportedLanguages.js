@@ -5,4 +5,15 @@
 
 import { pseudoLanguageEnabled } from 'in-services/featureFlags';
 
-export const supportedLanguages = ['en-US', 'de-DE', pseudoLanguageEnabled && 'zz-ZZ'].filter(Boolean);
+export const supportedLanguages = [
+  'en-US',
+  'de-DE',
+  'fr-FR',
+  'it-IT',
+  'ja-JA',
+  'ko-KO',
+  'zh-CN',
+  'zh-TW',
+  'es-ES',
+  pseudoLanguageEnabled && 'zz-ZZ'
+].filter(Boolean);
