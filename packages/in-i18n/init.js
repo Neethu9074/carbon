@@ -31,6 +31,9 @@ export function init() {
   // Set locale globally so that moment.js formats dates correctly.
   moment.locale(activeLanguage);
 
+  // Report the locale to Instana for monitoring purposes
+  ineum('meta', 'locale', activeLanguage);
+
   const keysAlreadyReportedAsMissing = new Map();
 
   return getLanguageBundles(activeLanguage).flatMap(languageBundles =>

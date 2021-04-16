@@ -10,6 +10,7 @@ import { tenant, tenantUnitStructure$, user } from 'in-stores/user';
 import { registerTracker } from 'in-services/tracking/trackers';
 import getUsageInfo from 'in-subscription/getUsageInfo';
 import getAccount from 'in-subscription/getAccount';
+import { activeLanguage } from 'in-i18n/language';
 import { noop } from 'in-services/util/function';
 import { find } from 'in-services/arrayUtils';
 import config from 'in-services/config';
@@ -31,7 +32,8 @@ function initMixpanel() {
   window.mixpanel.people.set({
     $id: user.id,
     last_page_load: new Date(),
-    userSelfDefinedRole
+    userSelfDefinedRole,
+    language: activeLanguage
   });
 
   const tenants = [];
@@ -47,7 +49,8 @@ function initMixpanel() {
     tenantId: tenant.id,
     tenantUnit: config.tenantUnit,
     tenants,
-    userSelfDefinedRole
+    userSelfDefinedRole,
+    language: activeLanguage
   });
 
   combineLatest([
