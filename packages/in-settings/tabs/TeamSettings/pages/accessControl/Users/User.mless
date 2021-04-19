@@ -28,6 +28,11 @@
     color: @lib__colors__N500;
   }
 
+  .editIcon,
+  .editUserSaveButton {
+    margin-left: 0.25rem;
+  }
+
   .roles {
     max-width: 17rem;
   }

@@ -92,10 +92,10 @@
     "clickToDeselect": "Click to deselect."
   },
   "tabs": {
-    "name": "Name",
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "ldapHelpDoc": "Help and support is available in our <docLink>documentation pages</docLink>.",
     "testConfiguration": "Test configuration",
+    "save": "Save",
     "failedToDeleteConfig": "Failed to delete config: {{err}}",
     "samlHelpDoc": "Quick start guides are available in our documentation pages for <activeDirectoryLink>Active Directory</activeDirectoryLink> and <oktaLink>Okta</oktaLink>.",
     "audienceSpEntityId": "Audience/SP Entity ID",
