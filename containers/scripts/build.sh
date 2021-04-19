@@ -48,8 +48,11 @@ function _get_run_sh {
   RUN_SCRIPT=${COMPONENT_RUN_SCRIPT}
 
   _create_usr_bin_dir
-  cp ${RUN_SCRIPT} "${COMPONENT_USR_BIN_DIR}/run.sh"
-  sed -i '' -e "s/\${replace_me_component_name}/${COMPONENT_NAME}/" "${COMPONENT_USR_BIN_DIR}/run.sh"
+  cp ${RUN_SCRIPT} "${COMPONENT_USR_BIN_DIR}/run.sh"  
+  case "$(uname -s)" in
+    Darwin) sed -i '' -e "s/\${replace_me_component_name}/${COMPONENT_NAME}/" "${COMPONENT_USR_BIN_DIR}/run.sh";;
+    Linux) sed -i -e "s/\${replace_me_component_name}/${COMPONENT_NAME}/" "${COMPONENT_USR_BIN_DIR}/run.sh";;
+  esac
 }
 
 function _get_component_tar_gz {

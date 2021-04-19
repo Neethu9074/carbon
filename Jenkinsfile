@@ -152,5 +152,54 @@ pipeline {
         }
       }
     }
+
+    stage('Build & Push Images') {
+      steps {
+        // Only allow 1 concurrent build is allowed to build images at a time and newer
+        // builds are pulled off the queue first. When the a build reaches the milestone
+        // at the end of the lock, all jobs started prior to the current build that are
+        // still waiting for the lock will be aborted
+        // https://www.jenkins.io/blog/2016/10/16/stage-lock-milestone/
+        lock(resource: 'build-ui-client-images', inversePrecedence: true) {
+          timeout(time: 15, unit: 'MINUTES') {
+            timestamps {
+              script {
+                if (env.BRANCH_NAME == 'develop'
+                    || env.BRANCH_NAME == latestReleaseBranch
+                    || env.BRANCH_NAME ==~ /release-\d{3,}/
+                    || env.BRANCH_NAME ==~ /hotfix-\d{3,}(-.+)?/) {
+
+                  def majorReleaseVersion = instanaVersion.tokenize('.')[1].toInteger()
+                  // https://github.com/instana/jenkins/blob/develop/vars/getBackendComponents.groovy
+                  def uiClientComponents = getBackendComponents()
+                      .findAll { it.isIncludedInRelease(majorReleaseVersion) && (it.name ==~ /^ui-client.*/) }
+                      .collect { it.name }
+                  def buildAndPublish = [:]
+                  uiClientComponents.each { component ->
+                    buildAndPublish[component] = {
+                      buildAndPublishImage(gitCommitId, component, instanaVersion, env.BRANCH_NAME)
+                    }
+                  }
+
+                  parallel buildAndPublish
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
   }
+}
+
+def buildAndPublishImage(gitCommitId, componentName, version, branchName) {
+  awsCodeBuild credentialsType: 'jenkins',
+      credentialsId: 'codebuild',
+      projectName: 'build-ui-client-images',
+      region: 'us-west-2',
+      imageOverride: 'aws/codebuild/standard:5.0',
+      sourceControlType: 'project',
+      sourceVersion: gitCommitId,
+      envVariables: "[ {CONTAINER_IMAGE_NAME, ${componentName}}, {VERSION, ${version}}, {BRANCH_NAME, ${branchName}} ]"
 }

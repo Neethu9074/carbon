@@ -1,0 +1,27 @@
+version: 0.2
+
+env:
+  parameter-store:
+    GITHUB_READ_USER: "github.read.user"
+    GITHUB_READ_PASSWORD: "github.read.password"
+    CONTAINERS_INSTANA_IO_USER: "containers.instana.io.user"
+    CONTAINERS_INSTANA_IO_PASSWORD: "containers.instana.io.password"
+    ARTIFACT_INSTANA_IO_USER: "artifact.instana.io.user"
+    ARTIFACT_INSTANA_IO_PASSWORD: "artifact.instana.io.password"
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+    commands:
+      # git configuration to check out git submodules
+      - echo "https://$GITHUB_READ_USER:$GITHUB_READ_PASSWORD@github.com" > $HOME/.git-credentials
+      - git config --global credential.helper store
+      # download git submodules so that our shared CI tools are available
+      - git submodule update --init --recursive
+      # Set up the shared tooling
+      - 'USE_N=true ./build/ci-shared-tools/scripts/setup.bash'
+      - ./build/ci-shared-tools/scripts/codebuild/setup.bash
+  build:
+    commands:
+      - cd containers && ./scripts/build-and-publish.sh ${CONTAINER_IMAGE_NAME}
