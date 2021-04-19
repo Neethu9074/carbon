@@ -232,7 +232,8 @@
         "windowLocation": "Window Location",
         "resourceUri": "Resource URI",
         "cacheInteraction": "Cache Interaction",
-        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana does not monitor the {{location}} of this call"
+        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana does not monitor the {{location}} of this call",
+        "tags": "Tags"
       },
       "callTree": {
         "expandButtonForRow": "Expand button for row",

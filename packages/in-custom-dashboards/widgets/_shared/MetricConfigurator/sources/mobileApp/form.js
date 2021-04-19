@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator } from 'formalistic';
+import { createField } from 'formalistic';
 
 import { migrate as migrateTagFilterArray } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
 import { addTagFilterExpressionField } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import * as queryBuildersPerDataSource from 'in-mobile-apps/queryBuilder';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { notBlankValidator } from 'in-services/validators/string';
 import { stringValidator } from 'in-services/validators/jsonType';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { emptyObject } from 'in-services/fixedObjects';

@@ -34,7 +34,17 @@
       "pods": "Pods",
       "memoryUsage": "Memory Usage",
       "cloudFoundryApplication": "Cloud Foundry Application",
-      "vSphereDatacenter": "vSphere Datacenter"
+      "vSphereDatacenter": "vSphere Datacenter",
+      "clusterSubTitle": "{{clusterDistribution}} Cluster, {{count}} Node, {{numberOfPods}}",
+      "clusterSubTitle_plural": "{{clusterDistribution}} Cluster, {{count}} Nodes, {{numberOfPods}}",
+      "clusterSubTitle_0": "{{clusterDistribution}} Cluster, {{count}} Nodes, {{numberOfPods}}",
+      "clusterSubTitle_1": "{{clusterDistribution}} Cluster, {{count}} Nodes, {{numberOfPods}}",
+      "clusterSubTitle_2": "{{clusterDistribution}} Cluster, {{count}} Nodes, {{numberOfPods}}",
+      "numberOfPods": "{{count}} Pod",
+      "numberOfPods_plural": "{{count}} Pods",
+      "numberOfPods_0": "{{count}} Pods",
+      "numberOfPods_1": "{{count}} Pods",
+      "numberOfPods_2": "{{count}} Pods"
     },
     "websiteMobileTopList": {
       "addWebsite": "Add Website",

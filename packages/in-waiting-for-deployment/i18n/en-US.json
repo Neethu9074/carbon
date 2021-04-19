@@ -314,5 +314,6 @@
   "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "Almost done, we have created an Instana instance for you.",
   "whileWeArePreparingYourInstanaInstance": "While we are preparing your instana instance,",
   "getReadyToDeployAgentsInYourEnvironment": "get ready to deploy Agents in your environment…",
-  "letSGetSomeAgentsRunning": "We are waiting for you to install the Instana agent."
+  "letSGetSomeAgentsRunning": "We are waiting for you to install the Instana agent.",
+  "theFieldCannotBeBlank": "The field '{{fieldName}}' cannot be blank"
 }

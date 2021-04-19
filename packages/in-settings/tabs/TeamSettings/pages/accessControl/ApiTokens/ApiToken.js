@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { createMapForm, createField } from 'formalistic';
 import { createLogger } from '@instana/logger';
 import React from 'react';
 
@@ -12,6 +12,7 @@ import { getApiToken, saveApiToken } from 'in-settings/tabs/TeamSettings/pages/a
 import ApiTokenForm from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokenForm';
 import { teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import { apiTokenPermissions } from 'in-stores/permission';

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator } from 'formalistic';
+import { createField } from 'formalistic';
 import React, { useMemo } from 'react';
 import zxcvbn from 'zxcvbn';
 
@@ -11,6 +11,7 @@ import { success, neutral, error as errorType } from 'in-new-components/Message/
 import { changePassword } from 'in-settings/tabs/AuthSettings/api/changePassword';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import SubViewHeader from 'in-settings/components/SubViewHeader';

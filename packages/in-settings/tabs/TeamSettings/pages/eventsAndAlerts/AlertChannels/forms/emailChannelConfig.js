@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { createMapForm, createField } from 'formalistic';
 import { List } from 'immutable';
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
+import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { generateUniqueShortId } from 'in-services/util/id';

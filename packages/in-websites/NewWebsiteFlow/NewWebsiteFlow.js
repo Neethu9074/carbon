@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator } from 'formalistic';
 import { interval } from '@instana/observables';
+import { createField } from 'formalistic';
 import { get } from 'lodash';
 import React from 'react';
 
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
 import { addWebsite as addWebsiteTracker } from 'in-websites/tracker';
+import { notBlankValidator } from 'in-services/validators/string';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import InputStep from 'in-websites/NewWebsiteFlow/InputStep';

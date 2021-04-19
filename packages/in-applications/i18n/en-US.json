@@ -248,7 +248,8 @@
       "defaultTurnedOnSynthetic": "This option is selected since you query synthetic calls.",
       "defaultTurnedOnInternal": "This option is selected since you query internal calls.",
       "erroneous_true": "true",
-      "erroneous_false": "false"
+      "erroneous_false": "false",
+      "erroneous_Erroneous": "Erroneous"
     },
     "applications": "Applications",
     "services": "Services",

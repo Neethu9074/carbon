@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -22,6 +22,7 @@ import InboundAllCalls from 'in-applications/creation/components/InboundAllCalls
 import TagFilterList from 'in-analyze/AnalyzeView/components/TagFilterList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getApplicationCreationTagKeys } from 'in-applications/tags';
+import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import Spacer from 'in-applications/Forms/components/Spacer';

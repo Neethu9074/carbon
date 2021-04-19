@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator } from 'formalistic';
+import { createField } from 'formalistic';
 import { get, find } from 'lodash';
 import React from 'react';
 
@@ -11,6 +11,7 @@ import HelpParagraph from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/
 import { renameMobileApp as renameMobileAppTracker } from 'in-mobile-apps/tracker';
 import { renameMobileApp, getMobileApps } from 'in-mobile-apps/api/mobileApps';
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
+import { notBlankValidator } from 'in-services/validators/string';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';

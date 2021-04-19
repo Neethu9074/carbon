@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 import { compose, withProps } from 'recompose';
 import { empty } from '@instana/observables';
 
@@ -11,6 +11,7 @@ import EditGroupDialogPresenter from 'in-analyze/components/EditGroupDialog/Edit
 import { getTagType, getTagEntity, getSourceEntityAvailability } from 'in-applications/tags';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import withPropDependingState from 'in-hoc/withPropDependingState';
+import { notBlankValidator } from 'in-services/validators/string';
 import { close } from 'in-components/DialogPresenter/store';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { entityTypes } from 'in-analyze/applicationFilter';

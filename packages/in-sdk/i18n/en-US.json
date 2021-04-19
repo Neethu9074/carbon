@@ -37,7 +37,8 @@
         "classpathHide": "Hide Classpath",
         "classpathShow": "Show Classpath"
       },
-      "processStartedTitle": "Started At"
+      "processStartedTitle": "Started At",
+      "tags": "Tags ({{size}})"
   },
 
   "traceDetails": {

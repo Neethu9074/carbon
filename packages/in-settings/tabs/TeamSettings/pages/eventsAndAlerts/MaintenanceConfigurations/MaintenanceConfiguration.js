@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { createMapForm, createField } from 'formalistic';
 import { fromJS, List } from 'immutable';
 import React from 'react';
 
@@ -21,6 +21,7 @@ import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/da
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { notBlankValidator } from 'in-services/validators/string';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';

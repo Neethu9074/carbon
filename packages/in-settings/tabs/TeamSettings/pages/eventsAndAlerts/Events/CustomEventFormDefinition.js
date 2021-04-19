@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 
 import {
   getAllBuiltInMetrics,
@@ -18,6 +18,7 @@ import { mapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAnd
 import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecifications';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { queryValidationResultValidator, valid } from 'in-settings/validation';
+import { notBlankValidator } from 'in-services/validators/string';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
 import { plugins } from 'in-forge/constants';

@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { composeValidators, createField, createListForm, createMapForm, notBlankValidator } from 'formalistic';
+import { composeValidators, createField, createListForm, createMapForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { assign, get } from 'lodash';
 
 import { createNewServiceConfigs, getServiceConfigs, replaceAllServiceConfigs } from 'in-api/serviceConfiguration';
 import DragAndDropRuleList from 'in-applications/Forms/CustomServiceMapping/DragAndDropRuleList';
 import { regularExpressionValidator } from 'in-services/validators/regexp';
+import { notBlankValidator } from 'in-services/validators/string';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation';

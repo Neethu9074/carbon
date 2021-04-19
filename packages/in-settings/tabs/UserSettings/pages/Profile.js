@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator } from 'formalistic';
+import { createField } from 'formalistic';
 import React from 'react';
 
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import { updateUser } from 'in-settings/tabs/UserSettings/api/user';
+import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import FormGroup from 'in-components/form/FormGroup';

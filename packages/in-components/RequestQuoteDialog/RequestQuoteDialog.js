@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { createMapForm, createField } from 'formalistic';
 import { compose } from 'recompose';
 import React from 'react';
 
@@ -11,6 +11,7 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import RequestQuoteForm from 'in-components/RequestQuoteDialog/RequestQuoteForm';
 import { track, REQUEST_QUOTE_SUBMITTED } from 'in-services/tracking/tracking';
 import withPropDependingState from 'in-hoc/withPropDependingState';
+import { notBlankValidator } from 'in-services/validators/string';
 import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import requestQuote from 'in-subscription/requestQuote';

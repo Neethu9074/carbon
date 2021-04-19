@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField, notBlankValidator } from 'formalistic';
+import { createMapForm, createField } from 'formalistic';
 import React, { useState, useEffect } from 'react';
 import { useObservable } from '@instana/hooks';
 
@@ -13,6 +13,7 @@ import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { type as defaultType } from 'in-custom-dashboards/widgets/BigNumber';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import widgets, { enabledWidgets } from 'in-custom-dashboards/widgets';
+import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { cancelEditWidget } from 'in-custom-dashboards/tracker';
 import { close } from 'in-components/DialogPresenter/store';

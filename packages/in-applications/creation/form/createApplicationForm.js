@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, createListForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm, createListForm } from 'formalistic';
 import { get } from 'lodash';
 
 import { newAnalyticsEnabled, qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
+import { notBlankValidator } from 'in-services/validators/string';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';

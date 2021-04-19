@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator } from 'formalistic';
 import React, { useState, useEffect } from 'react';
+import { createField } from 'formalistic';
 
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
@@ -13,6 +13,7 @@ import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/A
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
+import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { Row, Col } from 'in-new-components/layout/Grid';

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 import { timeout, empty } from '@instana/observables';
 import { compose, withProps } from 'recompose';
 import { get } from 'lodash';
@@ -23,6 +23,7 @@ import { positiveNumberValidator } from 'in-services/validators/number';
 import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import withPropDependingState from 'in-hoc/withPropDependingState';
+import { notBlankValidator } from 'in-services/validators/string';
 import { close } from 'in-components/DialogPresenter/store';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { TAG_TYPES } from 'in-analyze/applicationFilter';

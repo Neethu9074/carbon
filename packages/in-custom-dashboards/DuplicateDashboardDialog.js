@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { compose, withProps, withState } from 'recompose';
+import { createMapForm, createField } from 'formalistic';
 import React from 'react';
 
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
 import HorizontalFormGroup from 'in-components/form/HorizontalFormGroup';
 import PromptPresenter from 'in-new-components/Dialog/PromptPresenter';
+import { notBlankValidator } from 'in-services/validators/string';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
 import { close } from 'in-components/DialogPresenter/store';
 import Toggle from 'in-components/form/Toggle';

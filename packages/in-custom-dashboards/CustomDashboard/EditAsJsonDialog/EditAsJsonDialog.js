@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, createListForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm, createListForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { getInitialFormState as createWidgetForm } from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
@@ -11,6 +11,7 @@ import EditAsJsonDialogPresenter from 'in-custom-dashboards/CustomDashboard/Edit
 import { stringValidator, arrayValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { notBlankValidator } from 'in-services/validators/string';
 import { close } from 'in-components/DialogPresenter/store';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { user, role } from 'in-stores/user';

@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, notBlankValidator } from 'formalistic';
 import { compose, withState, withProps } from 'recompose';
+import { createField, createMapForm } from 'formalistic';
 import { timeout, empty } from '@instana/observables';
 
 import KeyValueBarOverlayPresenter from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarOverlayPresenter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
+import { notBlankValidator } from 'in-services/validators/string';
 import { requiresSecondLevelName } from 'in-applications/tags';
 import connect from 'in-hoc/connectTo';
 

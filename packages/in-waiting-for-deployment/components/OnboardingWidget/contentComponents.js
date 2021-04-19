@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { notBlankValidator } from 'in-services/validators/string';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
 import InputComponent from 'in-components/form/Input';
@@ -283,7 +284,7 @@ function createForm(fields) {
       const validator = field.validate;
       const defaultValidator = {
         validator: notBlankValidator,
-        validationMessage: `The field '${field.name}' cannot be blank`
+        validationMessage: t('in-waiting-for-deployment:theFieldCannotBeBlank', { fieldName: field.name })
       };
       const error = !validator.validator(str) || !defaultValidator.validator(str);
       if (error) {

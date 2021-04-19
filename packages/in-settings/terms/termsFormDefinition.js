@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 
 import { isDeprecatedUserDefinedRole } from 'in-settings/terms/userSelfDefinedRole';
+import { notBlankValidator } from 'in-services/validators/string';
 import { t } from 'in-i18n';
 
 export default function termsFormDefinition(userSettings, withAcceptanceFields = true) {

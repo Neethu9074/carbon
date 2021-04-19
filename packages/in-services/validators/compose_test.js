@@ -4,10 +4,10 @@
  */
 
 /* eslint-env mocha, node */
-import { notBlankValidator } from 'formalistic';
 import { expect } from 'chai';
 
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { notBlankValidator } from 'in-services/validators/string';
 import { stringValidator } from 'in-services/validators/jsonType';
 
 describe('in-services/valiudators/compose', () => {

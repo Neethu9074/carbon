@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator } from 'formalistic';
 import { compose, withProps } from 'recompose';
+import { createField } from 'formalistic';
 
 import PromptPresenter from 'in-new-components/Dialog/PromptPresenter';
 import withPropDependingState from 'in-hoc/withPropDependingState';
+import { notBlankValidator } from 'in-services/validators/string';
 
 export default compose(
   withPropDependingState({

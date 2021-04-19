@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator } from 'formalistic';
 import { just } from '@instana/observables';
+import { createField } from 'formalistic';
 import React from 'react';
 
 import {
@@ -24,6 +24,7 @@ import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { success as successResult } from 'in-services/util/result';
+import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';

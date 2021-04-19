@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator } from 'formalistic';
+import { createField } from 'formalistic';
 import { find } from 'lodash';
 
 import { migrate as migrateTagFilterArray } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
@@ -11,6 +11,7 @@ import { addTagFilterExpressionField } from 'in-custom-dashboards/widgets/_share
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import * as queryBuildersPerDataSource from 'in-websites/queryBuilder';
+import { notBlankValidator } from 'in-services/validators/string';
 import { stringValidator } from 'in-services/validators/jsonType';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { emptyObject } from 'in-services/fixedObjects';

@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, notBlankValidator } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 import { compose, withProps } from 'recompose';
 import { find, without } from 'lodash';
 
 import MetricSelectorPresenter from 'in-analyze/components/MetricSelector/MetricSelectorPresenter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import withPropDependingState from 'in-hoc/withPropDependingState';
+import { notBlankValidator } from 'in-services/validators/string';
 import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
 

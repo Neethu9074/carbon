@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator } from 'formalistic';
 import { interval } from '@instana/observables';
+import { createField } from 'formalistic';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -13,6 +13,7 @@ import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import { notBlankValidator } from 'in-services/validators/string';
 import InputStep from 'in-mobile-apps/NewMobileAppFlow/InputStep';
 import ReadyStep from 'in-mobile-apps/NewMobileAppFlow/ReadyStep';
 import WaitStep from 'in-mobile-apps/NewMobileAppFlow/WaitStep';

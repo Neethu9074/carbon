@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator } from 'formalistic';
+import { createField } from 'formalistic';
 import React from 'react';
 
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
 import { customServiceMappingTagKeys, getTagType } from 'in-applications/tags';
+import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { close } from 'in-components/DialogPresenter/store';

@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField, notBlankValidator } from 'formalistic';
 import { compose, withState, withHandlers } from 'recompose';
+import { createMapForm, createField } from 'formalistic';
 import { fromJS, List } from 'immutable';
 import React from 'react';
 
@@ -24,6 +24,7 @@ import AlertForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alert
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingAlerts } from 'in-settings/navigation/paths';
+import { notBlankValidator } from 'in-services/validators/string';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';

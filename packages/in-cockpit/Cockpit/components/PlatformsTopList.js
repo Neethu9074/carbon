@@ -244,9 +244,12 @@ function getLabel(item) {
 function getSubTitle(item) {
   if (item.isKubernetes) {
     const clusterDistribution = get(item, ['cluster', 'clusterDistribution'], 'kubernetes');
-    return `${toTitleCase(clusterDistribution)} Cluster, ${item.nodes} Node${item.nodes > 1 ? 's' : ''}, ${
-      item.workloads.pods
-    } Pod${item.workloads.pods > 1 ? 's' : ''}`;
+
+    return t('in-cockpit:component.platformsTopList.clusterSubTitle', {
+      clusterDistribution: toTitleCase(clusterDistribution),
+      count: item.nodes,
+      numberOfPods: t('in-cockpit:component.platformsTopList.numberOfPods', { count: item.workloads.pods })
+    });
   }
   if (item.isPcf) {
     return t('in-cockpit:component.platformsTopList.cloudFoundryApplication');

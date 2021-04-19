@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator } from 'formalistic';
+import { createField } from 'formalistic';
 import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { getAccountAsResultObservable, refresh } from 'in-amp/api/account';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { Row, Col } from 'in-new-components/layout/Grid';

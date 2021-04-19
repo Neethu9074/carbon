@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator } from 'formalistic';
 import { compose, withProps, withState } from 'recompose';
+import { createField } from 'formalistic';
 import React from 'react';
 
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
 import PromptPresenter from 'in-new-components/Dialog/PromptPresenter';
+import { notBlankValidator } from 'in-services/validators/string';
 import { createDashboard } from 'in-custom-dashboards/tracker';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
 import { close } from 'in-components/DialogPresenter/store';
