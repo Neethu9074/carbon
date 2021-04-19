@@ -6,7 +6,12 @@
 import { combineLatest } from '@instana/observables';
 import React from 'react';
 
-import { getEventType, EVENT_TYPES, fireCallbacksForEventAtFocusedMomentAsStream } from 'in-stores/events';
+import {
+  getEventType,
+  EVENT_TYPES,
+  fireCallbacksForEventAtFocusedMomentAsStream,
+  getEventSeverity
+} from 'in-stores/events';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import { formatDurationAccurately } from 'in-services/formatters/date';
@@ -39,6 +44,9 @@ function EventKPIs({ event }) {
       </Col>
       <Col xs>
         <Duration event={event} />
+      </Col>
+      <Col xs>
+        <Severity event={event} />
       </Col>
     </Row>
   );
@@ -81,6 +89,9 @@ const IncidentKPIs = connectTo(
         </Col>
         <Col xs>
           <Duration event={event} />
+        </Col>
+        <Col xs>
+          <Severity event={event} />
         </Col>
         <Col xs>
           <KpiCard title={t('in-events:titleActive')} value={`${numOpenEvents}/${recentEvents.length}`} raw />
@@ -160,5 +171,20 @@ const Duration = connectTo(
     }
 
     return <KpiCard title={t('in-events:titleDuration')} value={value} raw />;
+  }
+);
+
+const Severity = connectTo(
+  ({ event }) => {
+    return {
+      isOpen: fireCallbacksForEventAtFocusedMomentAsStream(
+        event,
+        () => true,
+        () => false
+      )
+    };
+  },
+  function Severity({ event }) {
+    return <KpiCard title={t('in-events:titleSeverity')} value={getEventSeverity(event)} raw />;
   }
 );
