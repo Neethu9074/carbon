@@ -88,7 +88,7 @@ function CustomTags({ span }) {
           <ErrorDescriptionItem error={errorMessage} />
         </Dl>
       )}
-      <Card title={'in-analyze:traceDetail.components.callDetails.tags'} withoutPadding>
+      <Card title={t('in-analyze:traceDetail.components.callDetails.tags')} withoutPadding>
         <SidebarTagList tags={tags} />
       </Card>
     </>
