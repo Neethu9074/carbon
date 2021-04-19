@@ -68,7 +68,7 @@ export default function Alert({ location, timeConfig }) {
   const alertConfigCreated = getMatrixParameter(location, alertsTab, alertCreatedMatrixParam);
   const isGlobalAlertConfig = getMatrixParameter(location, alertsTab, alertsCategoryMatrixParam) === categoryGlobal;
 
-  const isInGlobalDetailsView = location.pathname === globalAlertDetails;
+  const isDetailsViewInAllAPsTab = location.pathname === globalAlertDetails;
 
   const alertConfig$ = isGlobalAlertConfig
     ? getLatestGlobalAlertConfig(alertConfigId)
@@ -100,7 +100,7 @@ export default function Alert({ location, timeConfig }) {
 
   function setRevision(created) {
     mutateUrl(location => {
-      location.pathname = isInGlobalDetailsView ? globalAlertDetails : alertsTabDetailsFullyQualified;
+      location.pathname = isDetailsViewInAllAPsTab ? globalAlertDetails : alertsTabDetailsFullyQualified;
       setOrDeleteMatrixKey(location, alertsTab, alertCreatedMatrixParam, created);
     });
     if (!created) {
@@ -139,11 +139,11 @@ export default function Alert({ location, timeConfig }) {
 
             applicationsAlertingAlertEdit({ alertConfigId: alertConfig.id });
           }}
-          fullyQualifiedAlertsList={isInGlobalDetailsView ? alertsList : alertsTabListFullyQualified}
-          doEnableConfig$={isInGlobalDetailsView ? enableGlobalAlertConfig : enableAlertConfig}
-          doDisableConfig$={isInGlobalDetailsView ? deleteGlobalAlertConfig : disableAlertConfig}
-          doDeleteConfig$={isInGlobalDetailsView ? disableGlobalAlertConfig : deleteAlertConfig}
-          doRestoreConfig$={isInGlobalDetailsView ? updateGlobalAlertConfig : updateAlertConfig}
+          fullyQualifiedAlertsList={isDetailsViewInAllAPsTab ? alertsList : alertsTabListFullyQualified}
+          doEnableConfig$={isGlobalAlertConfig ? enableGlobalAlertConfig : enableAlertConfig}
+          doDisableConfig$={isGlobalAlertConfig ? deleteGlobalAlertConfig : disableAlertConfig}
+          doDeleteConfig$={isGlobalAlertConfig ? disableGlobalAlertConfig : deleteAlertConfig}
+          doRestoreConfig$={isGlobalAlertConfig ? updateGlobalAlertConfig : updateAlertConfig}
           onConfigStateChanged={(alertConfigId, enabled) => {
             if (enabled) {
               applicationsAlertingAlertPaused({ alertConfigId });
