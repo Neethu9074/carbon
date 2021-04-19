@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import TrackVisibility from 'react-on-screen';
+import { InView } from 'react-intersection-observer';
 import { empty } from '@instana/observables';
 import React from 'react';
 
@@ -68,8 +68,8 @@ const InternalBackendTraceButton = connect(({ beacon }) => ({
 
 export default function BackendTraceButton(props) {
   return (
-    <TrackVisibility once offset={500} tag="span">
-      {({ isVisible }) => isVisible && <InternalBackendTraceButton {...props} />}
-    </TrackVisibility>
+    <InView triggerOnce rootMargin="200px 0px 0px 0px">
+      {({ inView, ref }) => <span ref={ref}>{inView && <InternalBackendTraceButton {...props} />}</span>}
+    </InView>
   );
 }

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -57,7 +57,13 @@ export default function WithTvMode({ children, urlParameter: { path, name } }) {
     };
   }, [setEnabled]);
 
-  return <div className={enabled ? locals.tvMode : null}>{children({ enabled, setEnabled })}</div>;
+  const [wrapperDomNode, setWrapperDomNode] = useState();
+
+  return (
+    <div className={enabled ? locals.tvMode : null} ref={setWrapperDomNode}>
+      {wrapperDomNode && children({ enabled, setEnabled, wrapperDomNode })}
+    </div>
+  );
 }
 
 WithTvMode.propTypes = {

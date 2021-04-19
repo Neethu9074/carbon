@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { InView } from 'react-intersection-observer';
 import React, { useState, useEffect } from 'react';
 import ReactGridLayout from 'react-grid-layout';
-import TrackVisibility from 'react-on-screen';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import classNames from 'classnames';
@@ -52,6 +52,7 @@ function Grid({
   onDuplicateWidget,
   onRemoveWidget,
   tvMode,
+  scrollAreaDomNode,
   width
 }) {
   // react-grid-layout has transitions enabled on each widget element. This means at the time of
@@ -133,13 +134,16 @@ function Grid({
         }
 
         if (onlyRenderInsideViewport) {
-          // We cannot reference 'content' directly within TrackVisibility as this would create a circular
-          // rendering problem.
+          // We cannot reference 'content' directly within InView as this would create a circular rendering problem.
           const trackVisibilityContent = content;
           content = (
-            <TrackVisibility once offset={300} tag="div" className={locals.visibilityTrackWrapper} partialVisibility>
-              {({ isVisible }) => isVisible && trackVisibilityContent}
-            </TrackVisibility>
+            <InView as="div" triggerOnce root={scrollAreaDomNode}>
+              {({ inView, ref }) => (
+                <div className={locals.visibilityTrackWrapper} ref={ref}>
+                  {inView && trackVisibilityContent}
+                </div>
+              )}
+            </InView>
           );
         }
 

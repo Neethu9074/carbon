@@ -73,7 +73,7 @@ function CustomDashboardPresenter(props) {
   return (
     <LocallyChangedTheme theme={lightV2}>
       <WithTvMode urlParameter={dashboardTvModeUrlParameter}>
-        {({ enabled, setEnabled }) => (
+        {({ enabled, setEnabled, wrapperDomNode }) => (
           <>
             {enabled && (
               <>
@@ -82,6 +82,7 @@ function CustomDashboardPresenter(props) {
                 {config && (
                   <Grid
                     tvMode
+                    scrollAreaDomNode={wrapperDomNode}
                     width={width}
                     config={config}
                     isResizable={false}

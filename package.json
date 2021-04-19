@@ -99,7 +99,7 @@
     "react-i18next": "^11.8.5",
     "react-immutable-proptypes": "^2.1.0",
     "react-input-autosize": "^2.2.2",
-    "react-on-screen": "^2.1.0",
+    "react-intersection-observer": "^8.31.0",
     "react-onclickoutside": "^6.8.0",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
