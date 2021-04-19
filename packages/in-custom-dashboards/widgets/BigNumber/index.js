@@ -13,6 +13,6 @@ export { demo } from 'in-custom-dashboards/widgets/BigNumber/demo';
 
 export const type = 'bigNumber';
 export const label = t('in-custom-dashboards:widgets.bigNumber.bigNumber');
-export const minimumWidth = 1;
+export const minimumWidth = 2;
 export const minimumHeight = 4;
 export const enabled = true;
