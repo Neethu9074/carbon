@@ -51,7 +51,8 @@ export default function AdvancedModeContainer(props) {
     selectedChartViewConfigIndex,
     thresholdResult,
     QueryBuilderComponent,
-    isTagFilterFormModelValid
+    isTagFilterFormModelValid,
+    editMode
   } = props;
   const alertType = form.get('rule').get('alertType').value;
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -120,6 +121,7 @@ export default function AdvancedModeContainer(props) {
                       updateForm={updateForm}
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                      editMode={editMode}
                     />
                   </>
                 )}
@@ -133,6 +135,7 @@ export default function AdvancedModeContainer(props) {
                       updateForm={updateForm}
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                      editMode={editMode}
                     />
                   </>
                 )}
@@ -153,6 +156,7 @@ export default function AdvancedModeContainer(props) {
                       timeConfig={timeConfig}
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                      editMode={editMode}
                     />
                   </>
                 )}
@@ -166,6 +170,7 @@ export default function AdvancedModeContainer(props) {
                       updateForm={updateForm}
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                      editMode={editMode}
                     />
                   </>
                 )}
