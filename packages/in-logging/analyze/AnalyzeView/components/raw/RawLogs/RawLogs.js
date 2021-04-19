@@ -96,12 +96,11 @@ function ErrorListItems({ errors }) {
   );
 }
 
-function getTableData({ timeConfig, afterKey, beforeKey, backendQueryModel, loadAfterCount }) {
+function getTableData({ timeConfig, afterKey, backendQueryModel, loadAfterCount }) {
   return getLogs({
     timeConfig,
     retrievalSize: 20,
     afterKey,
-    beforeKey,
     loadAfterCount,
     logicalOperator: 'AND',
     logTagFilterExpression: backendQueryModel,

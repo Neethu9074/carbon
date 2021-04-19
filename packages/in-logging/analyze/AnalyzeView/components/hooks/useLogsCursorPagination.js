@@ -15,8 +15,7 @@ const initialState = {
   errors: emptyArray,
   awaitingData: true,
   canLoadMore: false,
-  loadAfterCount: 0,
-  loadBeforeCount: 0
+  loadAfterCount: 0
 };
 
 export default function useLogsCursorPagination(create, deps = []) {
@@ -31,28 +30,14 @@ export default function useLogsCursorPagination(create, deps = []) {
   const [state, setState] = useState(initialState);
   useEffect(() => setState(initialState), deps);
 
-  const {
-    loadAfterCount,
-    loadBeforeCount,
-    totalHits,
-    progress,
-    beforeKey,
-    canLoadMore,
-    nextBeforeKey,
-    afterKey,
-    nextAfterKey,
-    errors,
-    items,
-    time
-  } = shallowEqual(prevDeps, deps) ? state : initialState;
+  const { loadAfterCount, progress, canLoadMore, afterKey, nextAfterKey, errors, items, time } = shallowEqual(
+    prevDeps,
+    deps
+  )
+    ? state
+    : initialState;
 
-  const observable = useMemo(() => create({ beforeKey, afterKey, loadAfterCount, loadBeforeCount }), [
-    beforeKey,
-    afterKey,
-    loadAfterCount,
-    loadBeforeCount,
-    ...deps
-  ]);
+  const observable = useMemo(() => create({ afterKey, loadAfterCount }), [afterKey, loadAfterCount, ...deps]);
   useEffect(() => setState(awaitItems), [observable, ...deps]);
 
   const result = useObservable(observable, [observable, ...deps]) ?? pendingResult;
@@ -67,24 +52,11 @@ export default function useLogsCursorPagination(create, deps = []) {
   );
   const loadMoreAfter = useCallback(() => setAfterKey(nextAfterKey), [nextAfterKey, loadAfterCount]);
 
-  const setBeforeKey = useCallback(_beforeKey =>
-    setState(prev => ({
-      ...prev,
-      beforeKey: _beforeKey,
-      loadBeforeCount: loadBeforeCount + 1
-    }))
-  );
-  const loadMoreBefore = useCallback(() => setBeforeKey(nextBeforeKey), [nextBeforeKey, loadBeforeCount]);
-
   return {
-    totalHits,
     progress,
     loadMore: loadMoreAfter,
     loadAfterCount,
-    loadBeforeCount,
     canLoadMore,
-    loadMoreBefore,
-    beforeKey,
     afterKey,
     errors,
     items,
@@ -100,7 +72,9 @@ function updateResult(prev, result) {
   if (!prev.awaitingData) {
     return prev;
   }
+
   const { data } = result;
+  // handles initial result.response.loading and error results
   if (!data) {
     return {
       ...prev,
@@ -108,14 +82,22 @@ function updateResult(prev, result) {
     };
   }
 
+  const isStreamingData = data.percentage < 1;
+
   return {
     ...prev,
     ...result,
-    awaitingData: false,
-    canLoadMore: true,
-    nextBeforeKey: (data.next ?? data.beforeKey) || prev.beforeKey,
+
+    progress: {
+      loading: isStreamingData,
+      percentage: data.percentage
+    },
+    awaitingData: isStreamingData,
+
+    // don't provide a load more button until the streaming of the current data is done
+    canLoadMore: !isStreamingData,
+
     nextAfterKey: (data.next ?? data.afterKey) || prev.afterKey,
-    totalHits: data.totalHits ?? prev.totalHits,
     items: (prev.items ?? []).concat(data.items ?? [])
   };
 }
