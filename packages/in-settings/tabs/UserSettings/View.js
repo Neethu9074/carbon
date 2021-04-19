@@ -10,14 +10,12 @@ import {
   userSettingsGeneral,
   userSettingsAdvanced,
   userSettingsPrivacy,
-  userSettingsProfile,
   userSettingsCommunication
 } from 'in-settings/navigation/paths';
 import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import Communication from 'in-settings/tabs/UserSettings/pages/Communication';
 import AdvancedPage from 'in-settings/tabs/UserSettings/pages/Advanced';
 import GeneralPage from 'in-settings/tabs/UserSettings/pages/General';
-import ProfilePage from 'in-settings/tabs/UserSettings/pages/Profile';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import Privacy from 'in-settings/tabs/UserSettings/pages/Privacy';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
@@ -25,16 +23,6 @@ import SetBodyColor from 'in-components/SetBodyColor';
 import { t } from 'in-i18n';
 
 const navigationTree = [
-  {
-    title: t('in-settings:tabs.general'),
-    pages: [
-      {
-        path: userSettingsProfile,
-        label: t('in-settings:tabs.profile'),
-        component: ProfilePage
-      }
-    ]
-  },
   {
     title: t('in-settings:tabs.userInterface'),
     pages: [
@@ -69,7 +57,7 @@ export default function View(props) {
       <SideNavigationAndContent
         stickySidebar
         navigationTree={navigationTree}
-        redirectToDefaultPage={userSettingsProfile}
+        redirectToDefaultPage={userSettingsGeneral}
         redirectFrom={userSettings}
         {...props}
       />
