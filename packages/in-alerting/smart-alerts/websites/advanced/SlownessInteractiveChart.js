@@ -151,6 +151,7 @@ export function ThresholdCondition({ form, updateForm, onChange, blueprintConfig
             websitesAlertingThresholdTypeChanged(getTrackingObject(form, { value: thresholdType }));
           }}
         />
+        {thresholdType === 'historicBaseline' && <RecalculateBaselineButton onChange={onChange} editMode={editMode} />}
       </ThresholdConditionFormGroup>
 
       {thresholdType === 'staticThreshold' && (
@@ -177,7 +178,6 @@ export function ThresholdCondition({ form, updateForm, onChange, blueprintConfig
           defaultValue={defaultDeviationFactor}
         />
       )}
-      {thresholdType === 'historicBaseline' && <RecalculateBaselineButton onChange={onChange} editMode={editMode} />}
     </>
   );
 }

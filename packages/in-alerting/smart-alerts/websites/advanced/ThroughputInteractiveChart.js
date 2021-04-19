@@ -158,6 +158,7 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
           }}
           defaultValue="staticThreshold"
         />
+        {thresholdType === 'historicBaseline' && <RecalculateBaselineButton onChange={onChange} editMode={editMode} />}
       </ThresholdConditionFormGroup>
       {thresholdType === 'staticThreshold' && (
         <ThresholdConditionFormGroup
@@ -183,8 +184,6 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
           defaultValue={defaultDeviationFactor}
         />
       )}
-
-      {thresholdType === 'historicBaseline' && <RecalculateBaselineButton onChange={onChange} editMode={editMode} />}
     </>
   );
 }
