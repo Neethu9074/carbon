@@ -216,7 +216,7 @@ export function getIcon({ event, eventType }) {
   }
 }
 
-export function getEventSeverity(event) {
+export function getEventSeverityLabel(event) {
   const isImmutableObject = !!event.get;
   const severity = isImmutableObject
     ? event.getIn(['problem', 'severity'], 0)

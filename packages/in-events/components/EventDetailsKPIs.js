@@ -10,7 +10,7 @@ import {
   getEventType,
   EVENT_TYPES,
   fireCallbacksForEventAtFocusedMomentAsStream,
-  getEventSeverity
+  getEventSeverityLabel
 } from 'in-stores/events';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
@@ -173,7 +173,7 @@ const Duration = connectTo(
 const Severity = connectTo(
   ({ event }) => {
     return {
-      severity: just(getEventSeverity(event)),
+      severity: just(getEventSeverityLabel(event)),
       isChangeEvent: just(getEventType(event) === EVENT_TYPES.CHANGE)
     };
   },
