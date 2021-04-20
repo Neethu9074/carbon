@@ -1,0 +1,582 @@
+{
+  "editor": {
+    "copyOf": "Cópia de {{title}}"
+  },
+  "customDashboard": {
+    "editJsonDialog": {
+      "editJsonDialogPresenter": {
+        "confirmBt": "Confirmar",
+        "dashboardAJson": "Painel como JSON",
+        "editDashboard": "Editar painel"
+      }
+    },
+    "grid": {
+      "grid": {
+        "edit": "Editar",
+        "duplicate": "Duplicata",
+        "delete": "Excluir",
+        "customDashboardWidgetTitle": "Widget do painel customizado: {{title}}"
+      }
+    },
+    "sharingDialog": {
+      "individualEditRightSelect": {
+        "removeEditRightUserName": "Remover direitos de edição para {{fullName}}.",
+        "add": "Incluir",
+        "addEditors": "Incluir editores",
+        "pleaseSelect": "Selecione"
+      },
+      "sharingDialogPresenter": {
+        "share": "Compartilhar",
+        "shareMsg": "Este painel customizado tem regras avançadas de acesso que não podem ser representadas por este diálogo. É possível usar o recurso \"Editar como JSON\" para editar essas regras de acesso.",
+        "privateDashboardDefault": "Painel privado (padrão)",
+        "privateDashboardDefaultExplain": "Este painel está visível somente para você.",
+        "publicDashboard": "Painel público",
+        "publicDashboardExplain": "Este painel está visível para todos em sua organização. Somente você tem autorização para fazer mudanças, mas é possível incluir editores.",
+        "done": "Concluído"
+      }
+    },
+    "widgetEditorDialog": {
+      "widgetTypeSelector": {
+        "showWidgetLabel": "Mostrar caso do widget {{label}}"
+      },
+      "widgetConfiguration": {
+        "widgetName": "Nome do widget",
+        "name": "Nome",
+        "helpAction": "Escolha um nome opcional para este widget que será apresentado acima do conteúdo do widget.",
+        "optional": "Opcional"
+      },
+      "widgetEditorDialogPresenter": {
+        "editWidget": "Editar widget",
+        "addWidget": "Incluir widget",
+        "next": "Avançar",
+        "confirm": "Confirmar",
+        "create": "Criar",
+        "back": "Voltar"
+      },
+      "widgetPreview": {
+        "previewNotAvailWidgetConfigIncomplete": "Visualização não disponível porque a configuração do widget está incompleta.",
+        "highlightMissingConfig": "Destacar a configuração ausente",
+        "preview": "Visualização",
+        "customDashboardPreviewTitle": "Visualização do widget de painel customizado: {{title}}"
+      }
+    },
+    "customDashboard": {
+      "confirmDashboardDel": "Confirmar exclusão do painel",
+      "delDashboard": "Excluir painel",
+      "uWantDelDashboardConfig": "Tem certeza de que deseja excluir o painel <strong>{{title}}</strong>?",
+      "failDelDashboard": "Falha ao excluir o painel.",
+      "renameDashboard": "Renomear painel",
+      "dashboardName": "Nome do painel",
+      "rename": "Renomear",
+      "failSaveDashboard": "Falha ao salvar o painel."
+    },
+    "customDashboardPresenter": {
+      "dashboardNotFound": "Painel não localizado",
+      "failure": "Falha",
+      "dashboardNotFoundExplain": "Este painel não existe ou você não tem acesso a ele.",
+      "customDashboard": "Painel customizado",
+      "saveChange": "Salvar mudanças",
+      "discardChange": "Descartar mudanças",
+      "addWidget": "Incluir widget",
+      "tvMode": "Modo TV",
+      "editName": "Editar nome",
+      "editAsJson": "Editar como JSON",
+      "viewAsJson": "Visualizar como JSON",
+      "duplicate": "Duplicata",
+      "delete": "Excluir",
+      "share": "Compartilhar",
+      "shareButtonTooltip": "Sua conta de usuário não tem permissões para compartilhar painéis."
+    },
+    "editAsJsonDialog": {
+      "failedToParseInputAsJson": "Falha ao analisar entrada como JSON.",
+      "jsonRootMustBeAnObject": "A raiz JSON deve ser um objeto."
+    }
+  },
+  "dashboardSwitcher": {
+    "dashboardSwitcher": {
+      "loading": "Carregando…"
+    },
+    "dashboardSwitcherOverlayPresenter": {
+      "createDashboard": "Criar painel",
+      "builtIn": "integrado",
+      "default": "padrão",
+      "search": "Procurar"
+    },
+    "dashboardSwitcherPresenter": {
+      "loading": "Carregando…"
+    }
+  },
+  "widgets": {
+    "metricConfig": {
+      "groupingConfig": {
+        "top5": "Os cinco principais",
+        "bottom5": "Parte inferior 5",
+        "showRemainingGroupsAggregOther": "Mostrar grupos restantes agregados como \"Outros\""
+      },
+      "hiddenCalls": {
+        "includeInternalCalls": "Incluir chamadas internas",
+        "includeSyntheticCalls": "Incluir chamadas sintéticas"
+      }
+    },
+    "srcApp": {
+      "formComponent": {
+        "pleaseSelect": "Selecione",
+        "pleaseSelectMetric": "Selecione uma métrica",
+        "aggregation": "Agregação",
+        "metric": "Métrica"
+      },
+      "index": {
+        "applicationsTracesAndCalls": "Aplicativos (rastreios e chamadas)"
+      },
+      "oldFormComponent": {
+        "metric": "Métrica",
+        "pleaseSelect": "Selecione",
+        "aggregation": "Agregação",
+        "pleaseSelectMetric": "Selecione uma métrica"
+      }
+    },
+    "srcEvent": {
+      "index": {
+        "events": "Eventos"
+      },
+      "formComponent": {
+        "metric": "Métrica",
+        "eventCount": "Contagem de evento",
+        "aggregation": "Agregação",
+        "pleaseSelectMetric": "Selecione uma métrica",
+        "pleaseSelect": "Selecione",
+        "helpAction": "Uma consulta de foco dinâmico (DFQ) como você usaria dentro da visualização do evento.",
+        "query": "Consulta"
+      }
+    },
+    "srcInfrastructure": {
+      "entityCount": {
+        "infrastructureEntityCount": "Contagem de entidades de infraestrutura e plataforma"
+      },
+      "entityCountFormComponent": {
+        "query": "Consulta",
+        "helpAction": "Uma consulta de foco dinâmico (DFQ) como você usaria dentro do mapa de infraestrutura.",
+        "metric": "Métrica",
+        "count": "Contagem",
+        "aggregation": "Agregação",
+        "pleaseSelect": "Selecione",
+        "pleaseSelectMetric": "Selecione uma métrica"
+      },
+      "metricsFormComponent": {
+        "metric": "Métrica",
+        "selectMetric": "Selecionar métrica",
+        "aggregation": "Agregação",
+        "pleaseSelect": "Selecione",
+        "pleaseSelectMetric": "Selecione uma métrica"
+      },
+      "metricsLoadIndicator": {
+        "loadingMetrics": "Carregando métricas…"
+      },
+      "metrics": {
+        "infrastructurePlatforms": "Infraestrutura e plataformas",
+        "comingSoon": "(em breve)"
+      },
+      "typeAndMetricConfigurator": {
+        "pleaseSelectMetric": "Selecione uma métrica"
+      }
+    },
+    "srcMobileApp": {
+      "formComp": {
+        "beaconType": "Tipo de indicador",
+        "pleaseSelect": "Selecione",
+        "pleaseSelectDs": "Selecione uma origem de dados",
+        "metric": "Métrica",
+        "aggregation": "Agregação",
+        "pleaseSelectMetric": "Selecione uma métrica"
+      },
+      "index": {
+        "mobileAppsBeacon": "Aplicativos móveis (indicadores)"
+      },
+      "oldFormComp": {
+        "beaconType": "Tipo de indicador",
+        "pleaseSelect": "Selecione",
+        "pleaseSelectDs": "Selecione uma origem de dados",
+        "aggregation": "Agregação",
+        "pleaseSelectMetric": "Selecione uma métrica",
+        "metric": "Métrica"
+      }
+    },
+    "srcSli": {
+      "formComp": {
+        "configSli": "SLI configurado",
+        "pleaseSelect": "Selecione",
+        "sliConfigComputeErrBudgetSliVal": "Configuração de SLI usada para calcular o orçamento de erros e valores de SLI",
+        "typeSloThreshold": "Digite o limite de SLO desejado de <code>{{compact}}</code> a <code>{{detailed}}</code>.",
+        "valType": "Tipo de valor"
+      },
+      "index": {
+        "srvLevelIndicator": "Indicadores de nível de serviço"
+      },
+      "serviceLevelIndicators": {
+        "remainErrBudget": "Orçamento de erro restante"
+      }
+    },
+    "srcWebSite": {
+      "formComp": {
+        "beaconType": "Tipo de indicador",
+        "pleaseSelect": "Selecione",
+        "metric": "Métrica",
+        "selectDs": "Selecione uma origem de dados",
+        "selectMetric": "Selecione uma métrica",
+        "aggregation": "Agregação"
+      },
+      "index": {
+        "websitesBeacons": "Websites (indicadores)"
+      },
+      "oldFormComp": {
+        "beaconType": "Tipo de indicador",
+        "pleaseSelect": "Selecione",
+        "selectDs": "Selecione uma origem de dados",
+        "metric": "Métrica",
+        "aggregation": "Agregação",
+        "selectMetric": "Selecione uma métrica"
+      }
+    },
+    "metricConfigurator": {
+      "ds": "Origem de dados",
+      "pleaseSelect": "Selecione",
+      "name": "Nome",
+      "pleaseSelectATimeShiftingConfiguration": "Selecione uma configuração de deslocamento de tempo",
+      "pleaseProvideAGroup": "Forneça um grupo.",
+      "optional": "Opcional",
+      "theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999": "O número fornecido é inválido. O valor deve ficar entre 0 e 99,99."
+    },
+    "bigNumber": {
+      "comparisonColors": {
+        "green": "Verde",
+        "red": "Vermelho",
+        "yellow": "Amarelo",
+        "orange": "Laranja",
+        "blue": "Azul"
+      },
+      "formComponent": {
+        "whatULikeShow": "O que você gostaria de mostrar?",
+        "formatter": "Formatador"
+      },
+      "timeShiftingForm": {
+        "addTimeShiftComparBadge": "Incluir um badge de comparação de deslocamento de tempo",
+        "increaseColor": "Aumentar cor",
+        "decreaseColor": "Diminuir cor",
+        "timeShift": "Deslocamento de tempo"
+      },
+      "bigNumber": "Número grande"
+    },
+    "chart": {
+      "axesConfigurator": {
+        "primaryYAxis": "Eixo Y primário",
+        "secondaryYAxis": "Eixo Y secundário",
+        "chart": "Gráfico",
+        "formatter": "Formatador",
+        "addSecondary": "Incluir eixo Y secundário",
+        "removeSecondary": "Remover",
+        "min": "Mínimo",
+        "max": "Máximo",
+        "sharemaxValue": "Compartilhe os valores máximos entre os eixos",
+        "auto": "Automático"
+      },
+      "atLeastOneDatasetIsRequired": "Pelo menos um conjunto de dados é necessário."
+    },
+    "formCompChart": {
+      "colorConfiguratorChart": {
+        "colorDsGrpNotConfig": "Não é possível configurar as cores dos conjuntos de dados que usam agrupamentos.",
+        "iconDepicAutoColorSelect": "Ícone representando seleção automática de cores.",
+        "colorAutoChose": "A cor é escolhida automaticamente",
+        "automatic": "Automático"
+      },
+      "color": {
+        "lightBlue": "Azul claro",
+        "green": "Verde",
+        "red": "Vermelho",
+        "yellow": "Amarelo",
+        "orange": "Laranja",
+        "blue": "Azul",
+        "deepPurple": "Roxo escuro",
+        "cyan": "Ciano",
+        "lime": "Lima",
+        "pink": "Rosa",
+        "teal": "Azul esverdeado",
+        "purple": "Roxo",
+        "indigo": "Índigo"
+      },
+      "dataConfigChart": {
+        "addDataset": "Incluir conjunto de dados"
+      },
+      "indexChart": {
+        "datasets": "Conjuntos de dados",
+        "axisConfig": "Configuração do eixo"
+      },
+      "metricConfigChart": {
+        "datasetTimeShift": "O conjunto de dados está com deslocamento de tempo",
+        "removeDataset": "Remover conjunto de dados",
+        "duplicate": "Duplicata"
+      },
+      "metricReorderingChart": {
+        "jumpConfigDataset": "Ir para configuração deste conjunto de dados",
+        "datasetTimeShift": "O conjunto de dados está com deslocamento de tempo",
+        "dragDropDataset2Axes": "Arrastar e soltar conjuntos de dados entre os dois eixos.",
+        "datasets": "Conjuntos de dados"
+      },
+      "timeShiftingFormChart": {
+        "timeShift": "Deslocamento de tempo",
+        "applyTimeShiftDs": "Aplicar deslocamento de tempo a esta série de dados",
+        "timeShiftHelpAction": "A seleção de <strong>Exibir valores atuais</strong> duplicará automaticamente esta série de dados sobre o mesmo eixo. O deslocamento de tempo será desativado para a primeira série de dados e ativado para a segunda.",
+        "displayCurrentValues": "Exibir valores atuais"
+      }
+    },
+    "demo": {
+      "pageLoads": "Carregamentos de página",
+      "onLoadTime": "Tempo de OnLoad"
+    },
+    "index": {
+      "chartTimeSeries": "Gráfico: série temporal"
+    },
+    "util": {
+      "unnamMetric": "Métrica não nomeada"
+    },
+    "markdown": {
+      "formComp": {
+        "whatULikeShow": "O que você gostaria de mostrar?",
+        "markdown": "Redução de preço",
+        "markdownHelpAction": "É possível usar a sintaxe Redução de preço padrão para definir o conteúdo de texto arbitrário para o seu painel."
+      },
+      "markdown": "Redução de preço"
+    },
+    "pie": {
+      "formComponent": {
+        "datasets": "Conjuntos de dados",
+        "dragDropDatasetsReorder": "Arrastar e soltar conjuntos de dados para reordená-los.",
+        "dataPresentation": "Apresentação de dados",
+        "formatter": "Formatador"
+      },
+      "index": {
+        "chartPie": "Gráfico: pizza"
+      }
+    },
+    "slo": {
+      "apConfigFormComp": {
+        "userJourneyOffering": "Jornada/Oferta do usuário",
+        "appnPerspective": "Perspectiva de aplicativo",
+        "selectAppPerspect": "Selecione uma Perspectiva de aplicativo.",
+        "appPerspectHelpAction": "Configure jornadas/ofertas do usuário modelando-as como uma Perspectiva de aplicativo na área Aplicativos do produto.",
+        "noAppPerspect": "Nenhuma perspectiva de aplicativo!",
+        "pleaseSelect": "Selecione"
+      },
+      "sliSelectionFormComp": {
+        "srvLevelIndicator": "Indicador de nível de serviço",
+        "selectASli": "Selecione uma SLI.",
+        "noneAvailCreateOne": "Nenhum disponível, crie um.",
+        "pleaseSelect": "Selecione"
+      },
+      "createSliForm": {
+        "sliCreateSuccess": "SLI criada com sucesso",
+        "failCreateSli": "Falha ao criar a SLI.",
+        "problemCreateSli": "Houve um problema na criação desta SLI: \"{{sliName}}\"",
+        "cloning": "Clonando…",
+        "creating": "Criando…",
+        "clone": "Clonar",
+        "create": "Criar",
+        "sliConfigMsg": "Os parâmetros da SLI não podem ser modificados para evitar a invalidação dos orçamentos de gastos calculados. Este é o motivo pelo qual a SLI precisa ser clonada quando você muda qualquer parâmetro.",
+        "sliCreated": "A SLI \"{{sliName}}\" foi criada."
+      },
+      "endpointSelectBox": {
+        "endpoint": "Terminal",
+        "allServices": "Todos os serviços",
+        "loading": "<loading>"
+      },
+      "goodBadEventsForm": {
+        "goodEvents": "Eventos bons",
+        "badEvents": "Eventos ruins"
+      },
+      "metricFormData": {
+        "latency": "Latência",
+        "callCount": "Contagem de chamadas",
+        "errorRate": "Taxa de erro",
+        "erroneousCalls": "Chamadas errôneas",
+        "mean": "média",
+        "min": "mínimo",
+        "max": "máximo",
+        "sum": "soma",
+        "25th": "25º",
+        "50th": "50º",
+        "75th": "75º",
+        "90th": "90º",
+        "95th": "95º",
+        "98th": "98º",
+        "99th": "99º"
+      },
+      "metricsForm": {
+        "metricThreshold": "Métrica e Limite",
+        "metric": "Métrica",
+        "aggregation": "Agregação",
+        "valThresholdNotInvalidEmpty": "O valor do limite não deve ser inválido ou vazio.",
+        "thresholdMs": "Limite (ms)",
+        "thresholdPercent": "Limite (%)",
+        "thresholdCount": "Limite (contagem)"
+      },
+      "servicesSelectBox": {
+        "service": "Serviço",
+        "loading": "<loading>",
+        "allServices": "Todos os serviços"
+      },
+      "sliFormPresenter": {
+        "sliCustomization": "Customização de SLI",
+        "name": "Nome",
+        "sliNameNotEmpty": "O nome da SLI não pode estar vazio.",
+        "sliCustomHelpAction": "As informações sobre customização de SLI e tipos de SLI estão localizadas em nossos docs.",
+        "sliTimeBasedOrAnEventBasedSli": "O tipo de SLI deve ser um baseado em tempo ou baseado em evento.",
+        "pleaseSelect": "Selecione",
+        "appPerspective": "Perspectiva de aplicativo",
+        "boundary": "Limite",
+        "hiddenCalls": "Chamadas ocultas",
+        "includeInternalCalls": "Incluir chamadas internas",
+        "includeSyntheticCalls": "Incluir chamadas sintéticas",
+        "type": "Tipo",
+        "sliEntity": "Entidade da SLI"
+      },
+      "sliList": {
+        "serviceLevelIndicators": "Indicadores de nível de serviço",
+        "sliConfigDeleted": "A configuração de SLI foi excluída com sucesso.",
+        "failedDelSli": "Falha ao excluir a SLI.",
+        "sliType": "Tipo de SLI",
+        "viewCloneSliConfig": "Visualizar/Clonar configuração de SLI",
+        "delSliConfig": "Excluir configuração de SLI",
+        "pleaseConfirm": "Confirme",
+        "pleaseConfirmMsg": "Tem certeza de que deseja excluir <strong>{{sliName}}</strong>?",
+        "delete": "Excluir"
+      },
+      "sliManageList": {
+        "configSrvLevelIndicatorsMsg": "Você não tem a permissão necessária <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> para criar ou editar SLIs.",
+        "sliList": "Lista da SLI",
+        "createSli": "Criar SLI"
+      },
+      "tagFilterExpressConfig": {
+        "clear": "Limpar"
+      },
+      "sloTimeTile": {
+        "sloTime": "de <datetime-from /><br />para <datetime-to />"
+      },
+      "chart": {
+        "spent": "Gasto",
+        "budget": "Orçamento",
+        "viewInAnalyze": "Visualizar na análise"
+      },
+      "formComponent": {
+        "sliManagement": "Gerenciamento de SLI",
+        "editSli": "Editar SLI",
+        "createSli": "Criar SLI",
+        "sloConfig": "Configuração do SLO",
+        "manageSlIs": "Gerenciar SLIs",
+        "sloTarget": "SLO de destino",
+        "enterVal0to100": "Insira um valor entre 0 e 100.",
+        "timeWindow": "Espaço de tempo",
+        "helpActionMsg1": "<strong>Intervalo de tempo fixo:</strong> um espaço de tempo com um início e uma duração definidos. Por exemplo, mensal a partir de 01-01-2020. O último intervalo de tempo parcial para a seleção de tempo por meio do selecionador de tempo global será exibido.",
+        "helpActionMsg2": "<strong>Espaço de tempo contínuo:</strong> um espaço de tempo com duração definida no qual o término é estabelecido pela seleção de data/hora à direita do selecionador de tempo global, por exemplo, duração de duas semanas.",
+        "helpActionMsg3": "<strong>Espaço de tempo dinâmico:</strong> o SLO é calculado para o espaço de tempo selecionado no selecionador de tempo global.",
+        "fixTimeInterval": "Intervalo de tempo fixo",
+        "rollingTimeWindow": "Espaço de tempo contínuo",
+        "dynamicTimeWindow": "Espaço de tempo dinâmico",
+        "length": "Comprimento",
+        "days": "dias",
+        "weeks": "semanas",
+        "months": "meses",
+        "pleaseSpecifyTheNumber": "Especifique o número de {{timeValue}}.",
+        "start": "Início",
+        "enterDateFormatYyyyMmDd": "Insira uma data no formato DD-MM-AAAA.",
+        "enterTimeInFormatHhMmSs": "Insira um horário no formato HH:mm:ss."
+      },
+      "widgetHeader": {
+        "status": "Status",
+        "target": "Destino:",
+        "errorBudgetSpent": "Orçamento gasto com erro",
+        "errorBudget": "Orçamento com erro:",
+        "timeWindow": "Espaço de tempo",
+        "dynamicTimeWindow": "Espaço de tempo dinâmico",
+        "rollingTimeWindow": "Espaço de tempo contínuo",
+        "fixedTimeWindow": "Espaço de tempo fixo"
+      },
+      "sliConfig": {
+        "sliName": "Nome de SLI",
+        "sliType": "Tipo de SLI",
+        "badEventsFilter": "Filtros de eventos ruins",
+        "metric": "Métrica"
+      },
+      "theTimeWindowSizeHasToBeLessOrEqualTo365Days": "O tamanho da janela de tempo tem que ser menor ou igual a 365 dias.",
+      "aValueMustBeSelected": "Um valor deve ser selecionado.",
+      "atLeastOneFilterExpressionMustBeConfigured": "Pelo menos uma expressão de filtro deve ser configurada.",
+      "timeBased": "Baseado em tempo",
+      "eventBased": "Baseado em evento",
+      "slo": "SLO"
+    },
+    "timezone": {
+      "demo": {
+        "sanFrancisco": "São Francisco",
+        "austin": "Austin",
+        "newYorkCity": "Cidade de Nova York",
+        "berlin": "Berlim",
+        "tokyo": "Tóquio",
+        "sydney": "Sydney"
+      },
+      "formComp": {
+        "whatULikeShow": "O que você gostaria de mostrar?",
+        "reorderTimeZones": "Reordenar fusos horários",
+        "timeZone": "Fuso horário",
+        "removeTimeZone": "Remover fuso horário",
+        "addTimeZone": "Incluir fuso horário"
+      },
+      "index": {
+        "timeZone": "Fuso horário"
+      }
+    },
+    "topList": {
+      "formComp": {
+        "whatULikeShow": "O que você gostaria de mostrar?",
+        "formatter": "Formatador"
+      },
+      "index": {
+        "topListLb": "Lista principal"
+      },
+      "widget": {
+        "aggregOtherGroup": "Agregação de outros grupos",
+        "other": "Outro",
+        "tagNoValue": "Tag '{{labelname}}' presente sem valor"
+      }
+    },
+    "applicationHealth": {
+      "index": {
+        "applicationHealth": "Visão geral de funcionamento"
+      },
+      "form": {
+        "validationError": "Selecione um aplicativo.",
+        "header": "Selecione os Aplicativos que você deseja monitorar",
+        "addApplication": "Incluir aplicativo",
+        "selectApplication": "Selecionar aplicativo",
+        "secondaryHeadingText": "Os aplicativos selecionados serão ordenados com base na maior gravidade",
+        "applicationLabel": "Aplicativo",
+        "atLeastOneApplicationMustBeSelected": "Pelo menos um aplicativo deve ser selecionado."
+      }
+    },
+    "timezones": {
+      "atLeastOneTimeZoneMustBeConfigured": "Pelo menos um fuso horário deve ser configurado.",
+      "pleaseSelectATimeZone": "Selecione um fuso horário."
+    }
+  },
+  "duplicateDashboardDialog": {
+    "duplicateDashboard": "Painel duplicado",
+    "dashboardName": "Nome do painel",
+    "duplicate": "Duplicata",
+    "copyShareConfig": "Copiar configuração de compartilhamento",
+    "failedToCreateDashboard": "Falha ao criar painel."
+  },
+  "newDashboardDialog": {
+    "createNewDashboard": "Criar novo painel",
+    "dashboardName": "Nome do painel",
+    "additionalFields": "Este painel estará visível somente para você. É possível optar por compartilhá-lo com seus colegas após a criação",
+    "create": "Criar",
+    "failedToCreateDashboard": "Falha ao criar painel."
+  }
+}

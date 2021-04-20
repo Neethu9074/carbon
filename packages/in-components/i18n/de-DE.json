@@ -1,0 +1,143 @@
+{
+  "chart": {
+    "chartWrapperMetricNotfound": "Messwert-ID {{metricId}} nicht gefunden. ",
+    "chartWrapperSameAxisSameValue": "Alle Aggregationstypen für eine Achse müssen denselben Wert haben.",
+    "viewInAnalyticsBtnLabel": "In Analyse anzeigen",
+    "chartLendMetricTimeShifted": "Messwert-Zeitverschiebung nach {{timeShiftedLabel}}",
+    "chartDownloadLabel": "JSON herunterladen",
+    "chartGlobalHighlightLabel": "In allen Diagrammen hervorheben",
+    "chartZoomInLabel": "Zoom auf Zeitbereich",
+    "chartAlertsLanePresenterAlertsLabel": "Alerts",
+    "chartAlertsLaneTooltipContent": {
+      "countSmartAlert": "Smart Alert",
+      "countSmartAlert_plural": "Smart Alert",
+      "countSmartAlert_0": "Smart Alerts",
+      "countSmartAlert_1": "Smart Alerts",
+      "countSmartAlert_2": "Smart Alerts",
+      "countIncident": "Vorfall",
+      "countIncident_plural": "Vorfälle",
+      "countIncident_0": "Vorfälle",
+      "countIncident_1": "Vorfälle",
+      "countIncident_2": "Vorfälle",
+      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "itemMsg": "+{{leftCount}} weitere {{moreMsg}}"
+    },
+    "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
+    "chartReleasesLanePresenterReleasesLabel": "Releases",
+    "chartReleasesLanePresenterTooltip": "+{{len}} weitere Releases",
+    "highlightedTimeframeCloseButtonClearHighlight": "Hervorhebung löschen",
+    "resultAwareChartSomethingWentWrong": "Ein Fehler ist aufgetreten...",
+    "resultAwareChartPleaseTryAgainLater": "Versuchen Sie es später erneut.",
+    "tooltip": {
+      "scrollHint": "Blättern mit <upArrow /><downArrow /> Tasten",
+      "rollup": "über {{rollup}}",
+      "more": "{{number}} weitere"
+    }
+  },
+  "comboBox": {
+    "placeholderSelect": "Auswählen …"
+  },
+  "downloadBtn": {
+    "downloadViewDownloadAsJsonLabel": "Als JSON herunterladen",
+    "downloadViewDownloadCSVLabel": "Herunterladen (*.csv)",
+    "downloadViewDownloadJsonLabel": "Herunterladen (*.json)",
+    "eventMetricDownloadViewDownloadJsonLabel": "Herunterladen (*.json)"
+  },
+  "touchedMessages": {
+    "withPath": "{{message}} (unter <codeWithClass>{{path}}</codeWithClass>)"
+  },
+  "graphView": {
+    "graphTitle": "Diagramm",
+    "explanationHeader": "Showcase für dynamisches Diagramm",
+    "explanationP1": "Die Kerntechnologie, die Instana antreibt, ist das dynamische Diagramm. Das Diagramm ist ein Modell für Ihre Anwendung, das alle physischen und logischen Abhängigkeiten von Komponenten abbildet. Auf der rechten Seite sehen Sie das dynamische Diagramm Ihrer aktuellen Umgebung!",
+    "explanationP2": "Das Diagramm enthält mehr als die physischen Komponenten. Es enthält auch logische Komponenten wie Traces, Anwendungen, Services, Cluster oder Tabellenbereiche. Komponenten und ihre Abhängigkeiten werden vom Instana-Agenten und den Sensoren automatisch erkannt, sodass das Diagramm kontinuierlich auf dem neuesten Stand gehalten wird. Jeder Knoten im Diagramm wird außerdem kontinuierlich mit Statusinformationen wie Messdaten, Konfigurationsdaten und einem berechneten Wert für den Allgemeinzustand auf Basis semantischer Kenntnisse und eines maschinellen Lernansatzes aktualisiert. Mit diesem Wissen werden auch die Abhängigkeiten im Diagramm analysiert, um logische Gruppierungen wie Services und Anwendungen zu finden, Auswirkungen auf diese Ebene zu verstehen und den Schweregrad von Problemen abzuleiten. Das gesamte Diagramm ist persistent und Sie können im Zeitablauf hin- und herblättern, um die Aussagen des Diagramms für viele Anwendungsfälle zu nutzen.",
+    "explanationLink": "Weitere Informationen finden Sie in unserem <linkToBlog>Blog</linkToBlog>.",
+    "closeBtn": "Diagramm schließen"
+  },
+  "gravatar": {
+    "avatarUrlAlt": "Avatar für {{email}} von gravatar.com.",
+    "avatarNullAlt": "Fallback-Avatar für {{email}}."
+  },
+  "loadMoreRow": {
+    "loadMore": "Mehr laden"
+},
+  "messageFlyout": {
+    "infrastructurePageName": "Infrastruktur",
+    "eumPageName": "EUM",
+    "settingsPageName": "Einstellungen",
+    "requestQuoteBtn": "Angebot anfordern"
+  },
+  "releaseNotesDialog": {
+    "releaseNotesTitle": "Releaseinformationen"
+  },
+  "requestQuoteDialog": {
+    "dialogRequestQuoteTitle": "Angebotsanfrage",
+    "dialogRequestLoadingText": "Erforderliche Informationen werden geladen...",
+    "dialogRequestQuoteSubmittedMsg": "Ihre Angebotsanfrage wurde erfolgreich übergeben.",
+    "formAccountInfoSecrHeader": "Accountinformationen",
+    "formCompanyNameLabel": "Unternehmensname",
+    "formNumberofAPMHostsLabel": "Anzahl der APM-Hosts",
+    "formNumberofIQMHostsLabel": "Anzahl der IQM-Hosts",
+    "formNumberofYearsLabel": "Anzahl der Jahre",
+    "formBillingInforSecHeader": "Rechnungsinformationen",
+    "formStreetLabel": "Straße",
+    "formCityLabel": "Ort",
+    "formZipLabel": "Postleitzahl",
+    "formCountryLabel": "Land",
+    "formStateLabel": "Bundesstaat"
+  },
+  "searchBar": {
+    "usingTheSearchBar": "Die Instana-Suchfunktion 'Dynamischer Fokus' kann verwendet werden, um die 3D-Karten, Vergleichstabellen und Ereignisansichten zu filtern. Die Suchleiste\n verfügt über umfangreiche Möglichkeiten zur Suche mit Unschärfe- und Platzhaltersuche sowie booleschen Operatoren. Die folgende Abfrage\n schränkt beispielsweise die Ansichten auf Produktionshosts mit weniger als vier CPUs ein:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\nDie Funktion 'Dynamischer Fokus' nutzt die [Lucene-Abfragesyntax](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html), wobei die folgenden Abweichungen vom Lucene-Standard bestehen:\n- **Standardoperator:** `UND`\n- **Syntaxbedingungen:** sind in der [Dokumentation] aufgeführt (https://instana.com/docs/dynamic_focus/#syntax-constraints)\n## Interaktion mit der Suchleiste\nDie Suchleiste unterstützt die automatische Vervollständigung bei Suchfeldern und hebt die Syntax der Lucene-Abfrage hervor, während getippt wird. \nBei der Eingabe schlägt die Suchleiste Suchfelder vor, die mit der aktuellen Eingabe übereinstimmen. Sie können vorgeschlagene Felder akzeptieren,\nindem Sie die Eingabetaste drücken. Drücken Sie die Tastenkombination Strg+Leertaste, um das Dialogfenster für automatische Vervollständigung zu öffnen. \n## Spickzettel für die Lucene-Abfragesyntax\n - **Feldsuche:** `entity.host.cpu.count:>4`\n - **Boolesche Operatoren:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Gruppierung:** `(entity.host.cpu. count:<4 AND entity.zone:production) ODER entity.host.cpu.count:>4`\n - **Platzhaltersuche:** `entity.type:container*`\n\nWeitere Informationen entnehmen Sie bitte der [Dokumentation](https://instana.com/docs/dynamic_focus/). ",
+    "filtersBtn": "Filter",
+    "filterPresetsMenuHeading": "Filter",
+    "filterPresetsSaveFilters": "Speichern Sie hier Filter für einfachen Zugriff",
+    "filterPresetsEditFilter": "Bearbeiten",
+    "filterPresetsRemoveFilter": "Entfernen",
+    "saveDialogSaveFilterTitle": "Filter speichern",
+    "saveDialogNameLabel": "Name",
+    "saveDialogDefinitionLabel": "Definition",
+    "saveDialogSaveFilterBtn": "Filter speichern",
+    "dialogRequireNameMsg": "Geben Sie einen Namen für den Filter an.",
+    "dialogRequireFilterMsg": "Geben Sie einen zu speichernden Filter an.",
+    "filterConfirmRemovalHeader": "Entfernen bestätigen",
+    "filterConfirmButtonLabel": "Filter entfernen",
+    "filterConfirmRemoveMsg": "Sind Sie sicher, dass Sie den Filter <strong>{{filterName}}</strong> entfernen möchten? ",
+    "helpDialogTitleUsingTheSearchBar": "Suchleiste verwenden"
+  },
+  "svgIcon": {
+    "pluginIcon": "{{pluginName}}-Symbol"
+  },
+  "tables": {
+    "serverTable": {
+      "cursorPaginatedTableFilterByLabel": "Diese Gruppe analysieren",
+      "cursorPaginatedTableLoadMoreRowLabel": "Mehr laden",
+      "withEmptyTableStateEntitiesName": "Entitäten",
+      "withEmptyTableStateEntityPageMainNotificationTitle": "Kein {{name}} verfügbar",
+      "withEmptyTableStateEntityPageMainNotificationExplanation": "Es wurden keine {{name}} für den ausgewählten Zeitraum abgerufen."
+    },
+    "sharedComponents": {
+      "configurableThSearchItemPlaceholder": "{{len}} Elemente suchen",
+      "configurableThNoMatchesTxt": "Keine Übereinstimmungen"
+    }
+  },
+  "tags": {
+    "tagFilterSearchPlaceholder": "Suche...",
+    "tagListNoTagsDefined": "Es sind keine Tags definiert",
+    "tagListShowAll": "Alle Tags anzeigen ({{num}} weitere)"
+  },
+  "copyToClipboardPressToCopy": "Drücken Sie STRG+C/CMD+C zum Kopieren!",
+  "copyToClipboardCopied": "Kopiert!",
+  "reloadUiDialogTitle": "Neue Version der Benutzerschnittstelle verfügbar",
+  "reloadUiDialogP1": "Beim Versuch, zu navigieren, ist ein Fehler aufgetreten, weil die im Browser geladene Version der Benutzerschnittstelle nicht mehr aktuell ist.",
+  "reloadUiDialogP2": "Laden Sie das Browserfenster erneut, um die aktuelle Version abzurufen und fortzufahren.",
+  "reloadUiDialogReloadBtn": "Erneut laden",
+  "sparkChart": {
+    "notAvailable": "Nicht zutreffend"
+  },
+  "errorBoundary": {
+    "message": {
+      "title": "Fehler aufgetreten",
+      "content": "<p>Ein Teil der Instana-Benutzerschnittstelle konnte aufgrund eines unerwarteten Fehlers nicht aktiviert werden. Versuchen Sie, die Seite erneut zu laden. </p><p>Fehler-ID: <code>{{errorId}}</code></p>"
+    }
+  }
+}

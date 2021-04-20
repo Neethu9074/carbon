@@ -1,0 +1,67 @@
+{
+  "agentMonitoringSuffix01": "não monitorado",
+  "agentMonitoringAlert_prefix01": "Problema de monitoramento",
+  "agentMonitoringSuffix02": "não rastreado",
+  "agentMonitoringAlert_prefix02": "Rastreio ausente",
+  "agentMonitoringSuffix03": "sem perfil definido",
+  "agentMonitoringAlert_prefix03": "Perfis ausentes",
+  "agentMonitoringSuffix04": "não monitorado",
+  "agentMonitoringAlert_prefix04": "Problema de monitoramento",
+  "agentMonitoringExplanationLinkLabel": "Docs de resolução de problemas",
+  "agentMonitoringExplanationLinkHref": "https://instana.com/docs/",
+  "services": "Serviços",
+  "dashboard": {
+    "customMetricsV2": {
+      "customMetricsContent": "As métricas fixadas são mostradas em uma tabela separada acima das métricas customizadas. Use-as para fazer uma comparação ad hoc entre diversas métricas customizadas. Além disso, é possível enviar o link para seus colegas e eles verão o mesmo conjunto de métricas fixadas.",
+      "customMetricsTitleType": "Tipo",
+      "customMetricsTitleName": "Nome",
+      "customMetricsTitleValue": "Valor",
+      "customMetricsTitlePinned": "{{pinnedPrefix}} métricas fixadas ({{pinnedLength}})",
+      "customMetricsTitleCustom": "{{customPrefix}} métricas customizadas ({{customLength}})",
+      "customMetricsLableCount": "Contagem",
+      "customMetricsLableValue": "Valor",
+      "customMetricsLableMean": "Média",
+      "customMetricsLableP50": "50º",
+      "customMetricsLableP99": "99º",
+      "customMetricsLableRate": "Taxa"
+    },
+    "table": {
+      "tableNoData": "Não há dados.",
+      "tableExpandAll": "Expandir tudo",
+      "tableCollapseAll": "Reduzir tudo"
+    }
+   },
+
+  "sidebar": {
+      "classpath": {
+        "classpathHide": "Ocultar caminho de classe",
+        "classpathShow": "Mostrar caminho de classe"
+      },
+      "processStartedTitle": "Iniciado em"
+  },
+
+  "traceDetails": {
+    "errorDescription": "Erro"
+  },
+
+  "snapshot": {
+    "registryHealth": "Funcionamento",
+
+    "runtimeLabelNet": ".NET Core",
+    "runtimeLabelGo": "Ir",
+    "runtimeLabelJava": "Java",
+    "runtimeLabelNodeJS": "Node.js",
+    "runtimeLabelPython": "Python",
+    "runtimeLabelRuby": "Ruby",
+    "runtimeLabelUnknown": "Tempo de execução desconhecido"
+  },
+
+  "tracing": {
+    "registryCall": "Chamada",
+    "registryCall_plural": "Chamadas",
+    "registryCall_0": "Chamadas",
+    "registryCall_1": "Chamadas",
+    "registryCall_2": "Chamadas"
+  }
+
+}

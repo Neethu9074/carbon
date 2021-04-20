@@ -1,0 +1,91 @@
+{
+  "component": {
+    "applTopList": {
+      "openCreationDialog": "Abrir diálogo de criação",
+      "allApps": "Todos os aplicativos",
+      "errCallRate": "Taxa de chamada errônea",
+      "latency": "Latência",
+      "calls": "Chamadas",
+      "newAppPerspect": "Nova perspectiva de aplicativo"
+    },
+    "eventChartCard": {
+      "allEvents": "Todos os eventos",
+      "incidents": "Incidentes",
+      "critical": "Crítico",
+      "warning": "Aviso",
+      "viewEvents": "Eventos de visualização"
+    },
+    "infrastructureTopList": {
+      "allHosts": "Todos os hosts",
+      "allContainers": "Todos os contêineres",
+      "allProcesses": "Todos os processos",
+      "hosts": "Hosts",
+      "containers": "Contêineres",
+      "processes": "Processos"
+    },
+    "platformsTopList": {
+      "esXiHosts": "Host ESXi",
+      "nodes": "Nós",
+      "vMs": "VMs",
+      "instances": "Instâncias",
+      "namespaces": "Namespaces",
+      "cpuUsage": "Uso de CPU",
+      "memoryLimit": "Limite de memória",
+      "pods": "Pods",
+      "memoryUsage": "Uso de memória",
+      "cloudFoundryApplication": "Aplicativo Cloud Foundry",
+      "vSphereDatacenter": "vSphere Datacenter"
+    },
+    "websiteMobileTopList": {
+      "addWebsite": "Incluir website",
+      "addMobileApp": "Incluir aplicativo móvel",
+      "allWebsites": "Todos os websites",
+      "allMobileApps": "Todos os aplicativos móveis",
+      "allWebsitesMobileApps": "Todos os websites e aplicativos móveis",
+      "pageViews": "Visualizações da página",
+      "sessions": "Sessões",
+      "onLoadTime": "Tempo de onLoad",
+      "views": "Visualizações",
+      "website": "Website",
+      "mobileApp": "Aplicativo móvel"
+    },
+    "openIncidentsButton": {
+      "numberOfIncidents": "{{count}} Incidente",
+      "numberOfIncidents_plural": "{{count}} Incidentes",
+      "numberOfIncidents_0": "{{count}} Incidentes",
+      "numberOfIncidents_1": "{{count}} Incidentes",
+      "numberOfIncidents_2": "{{count}} Incidentes"
+    }
+  },
+  "cockpit": {
+    "deployAgent": "Agente de implementação",
+    "applications": "Aplicativos",
+    "infrastructure": "Infraestrutura",
+    "events": "Eventos",
+    "home": "Página inicial",
+    "addUser": "Incluir usuário",
+    "platforms": "Plataformas",
+    "cloudFoundry": "Cloud Foundry",
+    "websites": "Websites",
+    "mobileApps": "Aplicativos móveis",
+    "websitesMobileApps": "Websites e aplicativos móveis"
+  },
+  "widgets": {
+    "columnDefinitions": {
+      "numCpU": "Nº de CPUs",
+      "cpuUsage": "Uso de CPU",
+      "created": "Criado",
+      "started": "Iniciado",
+      "os": "S.O."
+    },
+    "topListWidget": {
+      "noLabelYet": "Ainda nenhum {{nolabel}}"
+    },
+    "websites": {
+      "noData": "Comece com o monitoramento do website para entender melhor como o desempenho do seu website afeta a experiência do usuário. A configuração é simples.",
+      "createWebsite": "Criar website",
+      "createMobileApp": "Criar aplicativo móvel",
+      "noLabelYet": "Ainda nenhum {{nolabel}}"
+    }
+  }
+}

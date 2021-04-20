@@ -1,0 +1,46 @@
+{
+  "breadcrumbs": {
+    "cloudFoundryApplication": "Cloud Foundry-Anwendung",
+    "cloudFoundryApplications": "Cloud Foundry-Anwendungen"
+  },
+  "cfApplicationsWithCount": "CF-Anwendungen ({{count}})",
+  "cfApplicationsWithCount_plural": "CF-Anwendungen ({{count}})",
+  "cfApplicationsWithCount_0": "CF-Anwendungen ({{count}})",
+  "cfApplicationsWithCount_1": "CF-Anwendungen ({{count}})",
+  "cfApplicationsWithCount_2": "CF-Anwendungen ({{count}})",
+  "dashboards": {
+    "cfApplication": "CF-Anwendung",
+    "cloudFoundryApplication": "Cloud Foundry-Anwendung",
+    "name": "Name",
+    "instanceIndex": "Instanzindex",
+    "cpuTotal": "Gesamt-CPU",
+    "memoryTotal": "Speicher insgesamt",
+    "health": "Allgemeinzustand",
+    "containers": "Container",
+    "summary": "Zusammenfassung",
+    "requestedState": "Angeforderter Status",
+    "instances": "Instanzen",
+    "memoryLimit": "Speicherlimit",
+    "lastUpdated": "Letzte Aktualisierung",
+    "buildpack": "Buildpack",
+    "routes": "Routen",
+    "diskLimit": "Plattenbegrenzung",
+    "createdAt": "Erstellt um",
+    "analyzeCalls": "Aufrufe analysieren"
+  },
+  "name": "Name",
+  "requestedState": "Angeforderter Status",
+  "instances": "Instanzen",
+  "memoryLimit": "Speicherlimit",
+  "foundation": "Basis",
+  "organization": "Organisation",
+  "space": "Speicherplatz",
+  "routes": "Routen",
+  "health": "Allgemeinzustand",
+  "cloudFoundryApplications": "Cloud Foundry-Anwendungen",
+  "cfApplications": "CF-Anwendungen",
+  "noMonitoringDataFound": "Keine Überwachungsdaten gefunden",
+  "cloudfoundry": {
+    "noData": "Anwendungsperspektiven bieten eine Möglichkeit zum Modellieren von Umgebungen, Leistungsgruppen, Tenants und mehr. "
+  }
+}

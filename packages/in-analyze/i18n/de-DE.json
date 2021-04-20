@@ -1,0 +1,481 @@
+{
+  "analyzeView": {
+    "noData": "Für den ausgewählten Zeitraum sind keine Aufrufe verfügbar. Fehlerbehebungsinformationen finden Sie in der [Dokumentation] [Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
+    "traces": "Traces",
+    "calls": "Aufrufe",
+    "emptyAnalyzeViewTitle": "Kein(e) {{emptyEntityName}} gefunden",
+    "analyzeEditGroupHelp": "Wählen Sie einen Tag aus, nach dem Aufrufe und Traces gruppiert werden sollen.",
+    "notAvailable": "Nicht verfügbar",
+    "quickFilterBarLabel": {
+      "application": "Anwendung",
+      "application_plural": "Anwendungen",
+      "application_0": "Anwendungen",
+      "application_1": "Anwendungen",
+      "application_2": "Anwendungen",
+      "service": "Service",
+      "service_plural": "Services",
+      "service_0": "Services",
+      "service_1": "Services",
+      "service_2": "Services",
+      "endpoint": "Endpunkt",
+      "endpoint_plural": "Endpunkte",
+      "type": "Typ",
+      "type_plural": "Typen",
+      "type_0": "Typen",
+      "type_1": "Typen",
+      "type_2": "Typen",
+      "technology": "Technologie",
+      "technology_plural": "Technologien",
+      "technology_0": "Technologien",
+      "technology_1": "Technologien",
+      "technology_2": "Technologien",
+      "latency": "Latenzzeit",
+      "erroneous": "Fehlerhaft",
+      "hiddenCalls": "Verborgene Aufrufe"
+    },
+    "quickGroupBarLabelApplication": "Anwendung",
+    "quickGroupBarLabelService": "Service",
+    "quickGroupBarLabelEndpoint": "Endpunkt",
+    "quickGroupBarLabelType": "Typ",
+    "quickGroupBarLabelTechnology": "Technologie",
+    "quickGroupBarLabelAllGroups": "Alle Gruppen",
+    "tagGroupEmptyMessage": "Keine Gruppe definiert.",
+    "components": {
+      "loadingStates": {
+        "preparing": "Vorbereitung läuft...",
+        "instanaIsProcessingALargeAmountOfTracingData": "Instana verarbeitet eine große Menge an Tracingdaten. ",
+        "pleaseDontReloadThisPageWillUpdateAutomatically": "Bitte nicht erneut laden - diese Seite wird automatisch aktualisiert. ",
+        "runningQuery": "Abfrage wird ausgeführt...",
+        "thisQueryHasTimedOut": "Diese Abfrage hat das zulässige Zeitlimit überschritten.",
+        "theQueryTookTooLongToRunAndHasBeenCancelled": "Die Ausführung der Abfrage hat zu lange gedauert; die Abfrage wurde abgebrochen. ",
+        "selectAShorterTimeframeOrIssueAMoreSpecificQueryByApplyingMoreFilters": "Wählen Sie einen kürzeren Zeitrahmen aus oder setzen Sie eine spezifischere Abfrage ab, indem Sie weitere Filter anwenden.",
+        "thereWasAnInputError": "Es ist ein Eingabefehler aufgetreten.",
+        "tooManyRequests": "Zu viele Anforderungen",
+        "ourSystemIsCurrentlyBusyPleaseTryAgainLater": "Unser System ist derzeit ausgelastet. Versuchen Sie es später erneut.",
+        "serverError": "Serverfehler",
+        "anUnexpectedErrorOccurredPleaseTryAgainLaterOrContactSupportToReportTheError": "Ein unerwarteter Fehler ist aufgetreten. Versuchen Sie es später erneut oder wenden Sie sich an den Support, um den Fehler zu melden."
+      },
+      "tagFilterConfiguration": {
+        "noFiltersDefined": "Keine Filter definiert. "
+      },
+      "tagGroupConfiguration": {
+        "select": "Auswählen",
+        "top5": "Oberste 5",
+        "bottom5": "Unterste 5",
+        "showRemainingGroupsAggregatedAsOther": "Verbleibende Gruppen zusammengefasst als “Sonstige“ anzeigen. "
+      },
+      "resultHeader": {
+        "result": "Ergebnis"
+      }
+    },
+    "dataSources": {
+      "traceAnalytics": "Analyse nachverfolgen",
+      "trace": "Trace",
+      "callAnalytics": "Analyse aufrufen",
+      "call": "Aufruf",
+      "applications": "Anwendungen",
+      "websites": "Websites",
+      "mobileApps": "Mobile Apps",
+      "profiles": "Profile",
+      "logs": "Protokolle",
+      "eumWebsites": "EUM: Websites",
+      "eumMobileApps": "EUM: Mobile Apps",
+      "pageLoads": "Seitenladevorgänge",
+      "pageTransitions": "Seitenwechsel",
+      "pageTransitions2": "Seitenwechsel",
+      "resources": "Ressourcen",
+      "httpRequests": "HTTP-Anforderungen",
+      "httpRequests2": "HTTP-Anforderungen",
+      "javaScriptErrors": "JavaScript-Fehler",
+      "customEvents": "Angepasste Ereignisse",
+      "customEvents2": "Angepasste Ereignisse",
+      "sessionStarts": "Sitzungsstart",
+      "viewTransitions": "Wechsel anzeigen",
+      "pageLoads2": "Seitenladevorgänge",
+      "jsErrors": "JS-Fehler",
+      "viewTransitions2": "Wechsel anzeigen",
+      "calls": "Aufrufe",
+      "traces": "Traces",
+      "console": "Konsole"
+    }
+  },
+  "services": {
+    "noData": "Für den ausgewählten Zeitraum sind keine Serviceaufrufe verfügbar. Fehlerbehebungsinformationen finden Sie in der [Dokumentation] [Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+  },
+  "traceDetail": {
+    "callDetails": {
+      "serviceComponent": {
+        "infrastructure": "Infrastruktur",
+        "detailsAndStackTrace": "Details & Stack-Trace",
+        "details": "Details",
+        "desClusterNotCorrelateNode": "Das Ziel ist ein Cluster; Instana konnte diesen Aufruf nicht mit bestimmten Knoten korrelieren.",
+        "sourceUnmonitored": "Die Quelle dieses Aufrufs wurde nicht verfolgt; deshalb können keine Informationen zur Quelle bereitgestellt werden. Alle Informationen zu diesem Aufruf werden vom Ziel bereitgestellt. ",
+        "sourceMonitoredByAnotherProvider": "Die Quelle für diesen Aufruf wird von einem anderen verteilten Trace-Provider verfolgt. Weitere Informationen zu der Quelle finden Sie, indem Sie die übergeordnete Spanne innerhalb des jeweiligen Providers mit der ID {{foreignParentId}} durchsuchen.",
+        "notMonitored": "Nicht von Instana überwacht"
+      }
+    },
+    "tabs": {
+      "summary": {
+        "duplicateCalls": "Doppelte Aufrufe",
+        "duplicateCallsDesc": "Dieser Trace besteht aus einem oder mehreren doppelten Aufrufen (Spannen). Eindeutige Aufrufe: {{traceCallCountIgnoringBatchSize}} - Datensätze: {{traceCallRecordCount}}. Dies führt zu einer falschen Aufrufanzahl (mit Batches) und falschen Fehlerzählerwerten sowie möglicherweise zu anderen Unregelmäßigkeiten.",
+        "batchedIngestion": "Stapelorientierte Aufnahme",
+        "traceIngestionBatchCount": "Dieser Trace wurde in {{traceIngestionBatchesCount}}-Batches verarbeitet. Dies kann zu Unregelmäßigkeiten führen, z. B. dazu, dass Spannen nicht zu einem einzelnen Aufruf zusammengeführt werden, zu einer partiellen Servicezuordnung oder zu anderen unvollständigen Daten.",
+        "subCalls": "Untergeordnete Aufrufe",
+        "erroneousCalls": "Fehlerhafte Aufrufe",
+        "errorLogs": "Fehlerprotokolle",
+        "warnLogs": "Warnprotokolle",
+        "latency": "Latenzzeit",
+        "timeline": "Zeitachse",
+        "serviceEndpointList": "Serviceendpunktliste",
+        "largeTrace": "Großer Trace",
+        "largeTraceLink": "Dieser Trace ist groß und die Wiedergabe dieses Trace kann zu Leistungsproblemen in Ihrem Browser führen. Sie können entweder den <linkToDocs>Trace herunterladen</linkToDocs>, um ihn manuell zu überprüfen, oder versuchen, den Trace im Browser wiederzugeben. Es wird nur eine Teilmenge der Komponenten wiedergegeben, um die Leistung bei diesem Versuch zu steigern. ",
+        "calls": "Aufrufe",
+        "logs": "Protokolle",
+        "analyzeLogs": "In Analyse anzeigen",
+        "correspondingMobileAppActivity": "Entsprechende Aktivität in der mobilen App ",
+        "hideMobileAppInformation": "Informationen der mobilen App ausblenden",
+        "showMobileAppInformation": "Informationen der mobilen App anzeigen",
+        "viewMobileAppActivity": "Aktivität in der mobilen App anzeigen ",
+        "erroneousTrace": "Fehlerhafter Trace",
+        "attemptToRenderTrace": "Versuch, Trace wiederzugeben",
+        "hideWebsiteInformation": "Website-Informationen ausblenden",
+        "showWebsiteInformation": "Website-Informationen anzeigen",
+        "viewWebsiteActivity": "Website-Aktivität anzeigen"
+      }
+    },
+    "components": {
+      "callDetails": {
+        "error": "Fehler",
+        "warning": "Warnung",
+        "showStackTrace": "Stack-Trace anzeigen",
+        "expandButtonForContent": "Erweiterungsschaltfläche für Inhalt",
+        "logParameters": "Protokollparameter",
+        "logStackTrace": "Protokoll-Stack-Trace",
+        "thisCallIsBatchedAndRepresentsIndividualCalls": "Dieser Aufruf wurde gebündelt und stellt {{batchSize}} einzelne Aufrufe dar. ",
+        "correlationMissing": "Korrelation fehlt",
+        "noOtherRelationsFound": "Keine anderen Beziehungen gefunden. ",
+        "synthetic": "Synthetisch",
+        "thisCallDoesNotContributeToServiceOrApplicationKpIs": "Dieser Aufruf trägt nicht zu Service- oder Anwendungs-KPIs bei. ",
+        "configureSyntheticEndpoints": "Synthetische Endpunkte konfigurieren",
+        "of": "von",
+        "on": "am",
+        "instanaCouldNotCorrelateThisSpanWithTheInfrastructureThatGeneratedIt": "Instana konnte diese Spanne nicht mit der Infrastruktur, die sie generiert hat, korrelieren. ",
+        "httpCallUri": "HTTP-Aufruf-URI",
+        "beaconType": "Beacon-Typ",
+        "networkInsights": "Netzeinblicke",
+        "transferSize": "Übertragungsvolumen",
+        "encodedBodySize": "Größe des codierten Nachrichtentexts",
+        "decodedBodySize": "Größe des decodierten Nachrichtentexts",
+        "goToBeacon": "Zu Beacon wechseln",
+        "profiling": "Profilerstellung",
+        "loadingProfile": "Profil wird geladen",
+        "noCpuProfileAvailable": "Kein CPU-Profil verfügbar",
+        "cpuUser": "CPU-Benutzer",
+        "cpuHotspots": "CPU-Hot-Spots",
+        "analyzeProfiles": "Profile analysieren",
+        "infrastructure": "Infrastruktur",
+        "cxfType": "CXF-Typ",
+        "type": "Typ",
+        "category": "Kategorie",
+        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesThatAreStillUnderMonitoringByInstana": "Bitte beachten: Quellcode kann nur für Prozesse abgerufen werden, die noch von Instana überwacht werden. ",
+        "pleaseNoteSourceCodeCanOnlyBeRetrievedForProcessesWhereInstanaCouldSuccessfullyLinkTheCorrespondingInfrastructure": "Bitte beachten: Quellcode kann nur für Prozesse abgerufen werden, bei denen Instana die entsprechende Infrastruktur erfolgreich verlinken konnte. ",
+        "stackTrace": "Stack-Trace",
+        "in": "in",
+        "windowLocation": "Fensterposition",
+        "resourceUri": "Ressourcen-URI",
+        "cacheInteraction": "Cache-Interaktion"
+      },
+      "callTree": {
+        "expandButtonForRow": "Erweiterungsschaltfläche für Zeile",
+        "of": "von",
+        "inheritedFrom": "Übernommen von"
+      },
+      "colorCodingToggleButtons": {
+        "colorizeBy": "Farblich kennzeichnen nach",
+        "endpoint": "Endpunkt"
+      },
+      "logTooltipContent": {
+        "errorLog": "Fehlerprotokoll",
+        "warningLog": "Warnprotokoll"
+      }
+    },
+    "applications": "Anwendungen",
+    "analytics": "Analyse",
+    "download": "Herunterladen",
+    "traceId": "Trace-ID: ",
+    "closeTraceDetail": "Details zum Trace schließen"
+  },
+  "applicationFilter": {
+    "labelApplication": "Anwendung",
+    "labelApplicationInbound": "In Anwendung eingehend",
+    "labelService": "Service",
+    "labelEndpoint": "Endpunkt",
+    "labelSOURCE_AND_DESTINATION": "Quelle & Ziel",
+    "labelDESTINATION": "Ziel",
+    "labelSOURCE": "Quelle",
+    "labelNOTAPPLICABLE": "",
+    "labelStringEQUALS": "ist gleich",
+    "labelStringNOT_EQUAL": "ist ungleich",
+    "labelStringCONTAINS": "enthält",
+    "labelStringNOT_CONTAIN": "enthält nicht",
+    "labelStringNOT_EMPTY": "ist vorhanden",
+    "labelStringIS_EMPTY": "ist nicht vorhanden",
+    "labelStringSTARTS_WITH": "beginnt mit",
+    "labelStringENDS_WITH": "endet mit",
+    "labelStringNOT_STARTS_WITH": "beginnt nicht mit",
+    "labelStringNOT_ENDS_WITH": "endet nicht mit",
+    "labelNumberEQUALS": "=",
+    "labelNumberNOT_EQUAL": "!=",
+    "labelNumberLESS_THAN": "<",
+    "labelNumberGREATER_THAN": ">",
+    "labelNumberNOT_EMPTY": "ist vorhanden",
+    "labelNumberIS_EMPTY": "ist nicht vorhanden",
+    "labelNumberLESS_OR_EQUAL_THAN": "<=",
+    "labelNumberGREATER_OR_EQUAL_THAN": ">=",
+    "labelNumberCONTAINS": "enthält",
+    "labelNumberNOT_CONTAIN": "enthält nicht",
+    "labelNumberSTARTS_WITH": "beginnt mit",
+    "labelNumberENDS_WITH": "endet mit",
+    "labelNumberNOT_STARTS_WITH": "beginnt nicht mit",
+    "labelNumberNOT_ENDS_WITH": "endet nicht mit",
+    "labelBooleanEQUALS": "ist",
+    "labelKeyPairEQUALS": "ist gleich",
+    "labelKeyPairNOT_EQUAL": "ist ungleich",
+    "labelKeyPairCONTAINS": "enthält",
+    "labelKeyPairNOT_CONTAIN": "enthält nicht",
+    "labelKeyPairNOT_EMPTY": "ist vorhanden",
+    "labelKeyPairIS_EMPTY": "ist nicht vorhanden",
+    "labelKeyPairIS_BLANK": "hat nicht den Wert",
+    "labelKeyPairNOT_BLANK": "hat den Wert",
+    "labelKeyPairSTARTS_WITH": "beginnt mit",
+    "labelKeyPairENDS_WITH": "endet mit"
+  },
+  "analyzeHeader": {
+    "title": "Analyse"
+  },
+  "editTagFilterDialog": {
+    "dialogTitleEdit": "Filter bearbeiten",
+    "dialogTitleAdd": "{{filterCategory}}-Filter hinzufügen",
+    "messageTitle": "Wählen Sie einen Tag aus, nach dem Ihre Daten gefiltert werden sollen. Bei Tags muss die Groß-/Kleinschreibung beachtet werden. ",
+    "placeholder": "Eingabe zum Filtern der Ergebnisse...",
+    "saveFilter": "Filter speichern",
+    "addFilter": "Filter hinzufügen"
+  },
+  "filterBar": {
+    "checkboxBarOverlay": {
+      "labelSynthetic": "Synthetische Aufrufe anzeigen",
+      "labelInternal": "Interne Aufrufe anzeigen"
+    },
+    "keyValueBarItem": {
+      "tooltip": "Filter entfernen"
+    },
+    "multiSelectBarItem": {
+      "moreDataMessage": "Weitere {{pluralLabel}} verfügbar. Es wurden nur die obersten 200 {{pluralLabel}} angezeigt. Verwenden Sie den Filter, um einen weiteren Drilldown durchzuführen."
+    },
+    "multiSelectBarOverlay": {
+      "loadingFilters": "Filteroptionen werden geladen.",
+      "noFiltersFound": "Keine Filteroptionen gefunden.",
+      "clickToFilter": "Klicken Sie hier, um nach {{itemLabel}} zu filtern"
+    },
+    "selectBarItem": {
+      "moreDataMessage": "Weitere {{pluralLabel}} verfügbar. Es wurden nur die obersten 200 {{pluralLabel}} angezeigt. Verwenden Sie den Filter, um einen weiteren Drilldown durchzuführen."
+    },
+    "selectBarOverlay": {
+      "tooltip": "Aktuell gefiltert nach {{selectedItemLabel}}. Klicken Sie, um Filter zu entfernen.",
+      "loadingFilters": "Filteroptionen werden geladen.",
+      "noFiltersFound": "Keine Filteroptionen gefunden.",
+      "clickToFilter": "Klicken Sie hier, um nach {{itemLabel}} zu filtern"
+    },
+    "allFilters": "Alle Filter"
+  },
+  "groupedTraces": {
+    "labelGroup": "Gruppe",
+    "labelCount": " Anzahl   ",
+    "labelEarliestTimestamp": "Älteste Zeitmarke",
+    "groupedTracesTitle": "Messdaten auswählen",
+    "groupedTracesHelp": "Wählen Sie aus, welche Messdaten als Spalten in der Tabelle verfügbar sein sollten. Die Tabelle definiert auch, welche Messdaten als Diagramme angezeigt werden können."
+  },
+  "groupingInfo": {
+    "removeGrouping": "Gruppierung entfernen"
+  },
+  "metricsChart": {
+    "count": " Anzahl   "
+  },
+  "metricSelector": {
+    "tooltipGroups": "Messwert ist nur verfügbar, wenn Gruppen analysiert werden.",
+    "tooltipRemove": "Messwert entfernen"
+  },
+  "radioButtons": {
+    "messageFilering": "Die Filterung und Gruppierung der Quelle ist für den ausgewählten Zeitrahmen nicht verfügbar.",
+    "messageIndependent": "Dieser Tag ist unabhängig von Quelle und Ziel",
+    "fragmentSource": "Gilt nur für die Quelle des Aufrufs",
+    "fragmentCall": "Anwenden zum Aufrufen von Quelle oder Ziel"
+  },
+  "rawCalls": {
+    "callAnalytics": "Analyse aufrufen",
+    "labelTimestamp": "Zeitmarke",
+    "labelLatency": "Latenzzeit",
+    "tooltipBatched": "Dieser Aufruf wurde gebündelt und stellt {{batchCount}} einzelne Aufrufe dar. ",
+    "tooltipLatency": "Die gesamte Latenzzeit von {{batchCount}} gebündelten Aufrufen. "
+  },
+  "rawTraces": {
+    "labelTimestamp": "Zeitmarke",
+    "labelLatency": "Latenzzeit"
+  },
+  "tagFilterList": {
+    "tooltipRemoveFilter": "Filter entfernen"
+  },
+  "dialogs": {
+    "tooltip": "Derzeit sind keine Vorschläge verfügbar; bitte geben Sie den Wert ein",
+    "components": {
+      "analyzeFilterForm": {
+        "false": "falsch",
+        "true": "wahr"
+      }
+    }
+  },
+  "logDetails": {
+    "title": "Protokoll",
+    "titleTags": "Tags",
+    "titleParameters": "Parameter",
+    "tooltipCloseLogDetails": "Protokolldetails schließen",
+    "analyzeLogsLabel": "Protokolle analysieren",
+    "similarLogs": "Ähnliche Protokolle",
+    "similarServiceLogs": "Im Kontext des Service"
+  },
+  "traceDetails": {
+    "titleAnalytics": "Analyse",
+    "titleTrace": "Trace",
+    "tooltipData": "Einige Daten, die sich auf diesen Trace beziehen, sind verzögert. Bitte laden Sie die Seite etwas später erneut. Ein Beispiel, bei dem dies vorkommen kann, ist die Anzeige eines sehr aktuellen Trace, bei dem ein Teil der Daten noch verarbeitet wird.",
+    "tooltipClose": "Details zum Trace schließen",
+    "labelTotal": "Summe ",
+    "labelNetwork": "Netz",
+    "labelSelf": "Gleichgeordnet",
+    "labelWaiting": "Wartestatus",
+    "labelService": "Service",
+    "labelEndpoint": "Endpunkt",
+    "labelAggregatedTime": "Aggregierte Zeit",
+    "labelErroneousCalls": "Fehlerhafte Aufrufe",
+    "buttonTechnology": "Technologie",
+    "appNavigatorSplitScreen": {
+      "tooltipViewPrevious": "Vorherigen {{viewType}} anzeigen (Direktaufruf: Linkspfeiltaste) ",
+      "tooltipViewNext": "Nächsten {{viewType}} anzeigen (Direktaufruf: Rechtspfeiltaste)",
+      "tooltipCloseSidebar": "Seitenleiste schließen",
+      "tooltipOpenSidebar": "Seitenleiste öffnen"
+    },
+    "callDetails": {
+      "tooltipCloseCallDetails": "Aufrufdetails schließen"
+    },
+
+    "callTimeAxis": {
+      "started": "Gestartet: {{startedTime}}"
+    },
+    "navigatorSplitScreen": {
+      "tooltipViewPrevious": "Vorherigen {{viewType}} anzeigen (Direktaufruf: Linkspfeiltaste) ",
+      "tooltipViewNext": "Nächsten {{viewType}} anzeigen (Direktaufruf: Rechtspfeiltaste)",
+      "tooltipCloseSidebar": "Seitenleiste schließen",
+      "tooltipOpenSidebar": "Seitenleiste öffnen"
+    }
+  },
+  "tabs": {
+    "labelDetail": "Details",
+    "summary": {
+      "websiteMonitoringDataTitle": "Entsprechende Websiteaktivität",
+      "messageMultiple_root_spans": "Der Trace ist fehlerhaft und enthält mehrere Rootaufrufe",
+      "messageMissing_root_span": "Der Rootaufruf des Trace fehlt oder ist noch nicht in der Verarbeitungspipeline angekommen.",
+      "messageDuplicated_spans": "Der Trace enthält doppelte Aufrufe mit der gleichen ID.",
+      "messageToo_many_spans": "Der Trace enthält zu viele Aufrufe; er kann nur teilweise angezeigt und heruntergeladen werden.",
+      "messageMissing_parent_span": "Die übergeordnete Spanne fehlt für einige Eintragsspannen, die sich während der Verarbeitung in diesem Trace befinden. ",
+      "messageExit_spans_followed_by_intermediate_spans": "Einige Exitspannen werden von temporären Spannen verfolgt.",
+      "thisTraceIsCausedByActivityOnTheMobileApp": "Dieser Trace wird von Aktivität in der mobilen App <linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp> verursacht. ",
+      "thisTraceIsCausedByActivityOnThewebsite": "Dieser Trace wird durch Aktivität auf der Website <linkToWebsite>{{websiteLabel}}</linkToWebsite> verursacht. "
+    }
+  },
+  "resultHeaderTooltip": "Die Abfragezeitspanne wurde auf die nächste volle Minute gerundet, damit diese Ansicht schneller geladen werden kann.",
+  "components": {
+    "analyzeHeader": {
+      "application": "Anwendung",
+      "website": "Website",
+      "mobileApp": "mobile App",
+      "profiles": "Profile",
+      "beta": "BETA",
+      "analytics": "Analyse"
+    },
+    "editGroupDialog": {
+      "group": "Gruppe",
+      "tag": "Tag",
+      "loadingSuggestions": "Vorschläge werden geladen...",
+      "save": "Speichern"
+    },
+    "editTagFilterDialog": {
+      "tag": "Tag",
+      "loadingSuggestions": "Vorschläge werden geladen...",
+      "operator": "Operator",
+      "true": "wahr",
+      "false": "falsch",
+      "removeFilter": "Filter entfernen"
+    },
+    "filterBar": {
+      "group": "Gruppe",
+      "filters": "Filter",
+      "clearFilters": "Filter löschen",
+      "loadingSuggestions": "Vorschläge werden geladen...",
+      "operator": "Operator",
+      "key": "Schlüssel",
+      "value": "Wert",
+      "addFilter": "Filter hinzufügen",
+      "equalTo": "ist gleich",
+      "notEqualTo": "ist ungleich",
+      "greaterThan": "größer als",
+      "greaterThanOrEquals": "größer als oder gleich",
+      "lessThan": "kleiner als",
+      "lessThanOrEquals": "kleiner als oder gleich",
+      "clear": "Löschen",
+      "save": "Speichern"
+    },
+    "groupedTraces": {
+      "tagPresentWithNoValue": "Tag ohne Wert vorhanden",
+      "tagNotPresent": "Tag nicht vorhanden"
+    },
+    "groupingInfo": {
+      "groupedBy": "Gruppiert nach",
+      "removeGrouping": "Gruppierung entfernen"
+    },
+    "groupingTableHeader": {
+      "preview": "Vorschau",
+      "groupBy": "Gruppieren nach",
+      "selectMetrics": "Messdaten auswählen",
+      "hideGraph": "Diagramm ausblenden",
+      "showGraph": "Diagramm anzeigen"
+    },
+    "metricsChart": {
+      "latencyDistribution": "Latenzzeit (Verteilung)",
+      "noDataToDisplay": "Keine anzuzeigenden Daten"
+    },
+    "metricsSelector": {
+      "pleaseSelectAtMostNumberOfmetrics": "Wählen Sie maximal {{maximumNumberOfMetrics}} Messdaten aus.",
+      "addMetric": "Messwert hinzufügen",
+      "metric": "Messwert",
+      "pleaseSelect": "Bitte auswählen",
+      "aggregation": " Aggregation ",
+      "selectedMetrics": "Ausgewählte Messdaten",
+      "save": "Speichern"
+    },
+    "radioButtons": {
+      "source": "Quelle",
+      "destination": "Ziel"
+    },
+    "rawCalls": {
+      "call": "Aufruf",
+      "service": "Service"
+    },
+    "rawTraces": {
+      "trace": "Trace",
+      "traceAnalytics": "Analyse nachverfolgen",
+      "service": "Service"
+    },
+    "tagFilterList": {
+      "and": "und "
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "forms": {
+    "actions": {
+      "save": "Speichern",
+      "cancel": "Abbrechen",
+      "create": "Erstellen",
+      "delete": "Löschen",
+      "close": "Schließen",
+      "submit": "Übergeben"
+    },
+    "states": {
+      "saving": "Speichervorgang läuft...",
+      "loading": "Ladevorgang läuft..."
+    }
+  },
+  "language_en-US": "Englisch",
+  "language_de-DE": "Deutsch",
+  "language_zz-ZZ": "Pseudosprache für QA-Zwecke",
+  "aggregation_P25": "25.",
+  "aggregation_P50": "50.",
+  "aggregation_P75": "75.",
+  "aggregation_P90": "90.",
+  "aggregation_P95": "95.",
+  "aggregation_P98": "98.",
+  "aggregation_P99": "99.",
+  "aggregation_MEAN": "Mittelwert",
+  "aggregation_MIN": "Min.",
+  "aggregation_MAX": "Max.",
+  "aggregation_DISTINCT_COUNT": "eindeutige Anzahl",
+  "aggregation_SUM": "Summe",
+  "aggregation_DISTRIBUTION": "Verteilung"
+}

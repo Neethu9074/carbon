@@ -1,0 +1,13 @@
+{
+  "landing": {
+    "loadingData": "Cargando datos",
+    "noEntitiesFound": "No se han encontrado entidades",
+    "noEntitiesFoundFor": "No se han encontrado entidades para {{landingQueryCount}}",
+    "noMatchingEntitiesFoundTitle": "No se han encontrado entidades coincidentes",
+    "results": "Resultados"
+  },
+  "logging": {
+    "goToLogs": "Ir a registros"
+  }
+
+}

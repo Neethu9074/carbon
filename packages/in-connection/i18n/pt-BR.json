@@ -1,0 +1,14 @@
+{
+    "stat": {
+        "connectLostState": {
+            "connecting":"Conectando…",
+            "connectingMsg":"Falha na tentativa de conexão {{connectAttempt}}. Continue tentando estabelecer novamente a conexão de back-end persistente.",
+            "connectLostAttempReconnect":"Conexão perdida. Tentando reconectar…",
+            "unauthorized":"Desautorizado…",
+            "unauthorizedMsg":"Não é possível estabelecer a conexão de back-end persistente, você está desautorizado. Atualize a página para continuar."
+        }
+    },
+    "clientErrMsg": {
+        "techClientMsgeErrFromBackend":"Mensagem técnica do cliente (detalhes mais prováveis do erro) do back-end"
+    }
+}

@@ -1,0 +1,58 @@
+{
+  "shortcuts": {
+    "help": "Algunas funciones importantes de Instana se pueden activar utilizando accesos directos del teclado.\n\n - `c` : centrar la correlación\n - `f` : abrir y enfocar la barra de búsqueda\n - `esc` : cerrar la barra lateral/ panel de control visible actualmente\n - `Mayús + ?` : abrir el diálogo de ayuda para accesos directos",
+    "shortcuts": "Accesos directos"
+  },
+  "formatters": {
+    "yes": "Sí",
+    "no": "No",
+    "byteUnits": {
+      "B": "{{num}} B",
+      "kiB": "{{num}} kiB",
+      "MiB": "{{num}} MiB",
+      "GiB": "{{num}} GiB",
+      "TiB": "{{num}} TiB",
+      "PiB": "{{num}} PiB",
+      "EiB": "{{num}} EiB",
+      "ZiB": "{{num}} ZiB",
+      "YiB": "{{num}} YiB"
+    },
+    "perSec": "{{num}}/s",
+    "perSec2": "{{num}} / seg",
+    "noActivity": "Sin actividad",
+    "percent": "{{num}}%",
+    "detailedBytes": "{{bytesTwoDecimalPlaces}} ({{numCompact}} B)",
+    "healthy": "Saludable",
+    "unhealthy": "No saludable",
+    "timeUnits": {
+      "µs": "{{num}}µs",
+      "ns": "{{num}}ns",
+      "us": "{{num}}µs",
+      "ms": "{{num}}ms",
+      "s": "{{num}}s",
+      "min": "{{num}}min",
+      "h": "{{num}}h",
+      "d": "{{num}}d"
+    },
+    "temperature": "{{num}}°C",
+    "lt1ms": "< 1ms"
+  },
+  "validators": {
+    "timeDoesNotHaveTheFormat": "La hora no tiene el formato {{timeFormat}}",
+    "dateDoesNotHaveTheFormat": "La fecha no tiene el formato {{dateFormat}}",
+    "valueIsNotOneOfTheSupportedValuesExpectedOneOf": "El valor '{{v}}' no es uno de los valores esperados. Se esperaba uno de: {{allowedValues}}",
+    "commaJoin": ", ",
+    "aValueOfTypeExpectedTypeIsRequired": "Se requiere un valor de tipo '{{expectedType}}'.",
+    "msgGotActualType": "{{msg}} Obtenido '{{actualType}}'.",
+    "valueMustBeLargerOrEqualToMinInclusive": "El valor debe ser mayor o igual que {{minInclusive}}.",
+    "valueMustBeSmallerOrEqualToMinInclusive": "El valor debe ser menor o igual que {{maxInclusive}}.",
+    "valueMustBeShorterThanMaxLengthCharacters": "El valor debe tener menos de {{maxLength}} caracteres.",
+    "theGivenPathIsUnsupportedParsedPartName": "La vía de acceso proporcionada no está soportada ({{parsedPartName}})",
+    "dateIsInvalid": "La fecha no es válida",
+    "pleaseTypeInANumber": "Escriba un número.",
+    "pleaseTypeInAPositiveNumber": "Escriba un número positivo.",
+    "theProvidedNumberIsInvalid": "El número proporcionado no es válido.",
+    "theValueMustNotBeBlank": "El valor no debe estar en blanco.",
+    "theValueMustNotBeUndefined": "El valor no debe estar sin definir."
+  }
+}

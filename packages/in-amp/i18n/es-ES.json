@@ -1,0 +1,67 @@
+{
+  "components": {
+    "accountSettings": {
+      "accountSettings": "Valores de la cuenta",
+      "billingAddress": "Dirección de facturación",
+      "shippingAddress": "Dirección de envío",
+      "country": "País",
+      "state": "Estado",
+      "zip": "Código postal",
+      "city": "Ciudad",
+      "address": "Dirección",
+      "additionalAddress": "Dirección adicional"
+    },
+    "activeLicenses": {
+      "name": "Nombre",
+      "tenant": "Arrendatario",
+      "type": "Tipo",
+      "licenseStartData": "Datos de inicio de licencia",
+      "licenseEndData": "Datos de fin de licencia",
+      "licensedApmHosts": "Hosts APM con licencia",
+      "licensedImHosts": "Hosts IM con licencia"
+    },
+    "ampInformationModifier": {
+      "allPaidUnitsAggregated": "Todas las unidades pagadas (agregadas)",
+      "customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense": "El uso del cliente se notifica en todas las unidades de su cuenta con una licencia de pago."
+    },
+    "noLicenseAvailableMessage": {
+      "thereHasBeenNoActivePaidLicenseInThePast30Days": "Ninguna licencia de pago ha estado activa durante los últimos 30 días."
+    },
+    "restrictedUsage": {
+      "accountUsage": "Uso de la cuenta"
+    },
+    "technologiesReportingTable": {
+      "name": "Nombre",
+      "min": "Mín",
+      "max": "Máx",
+      "average": "Promedio"
+    },
+    "timePresets": {
+      "last7Days": "Últimos 7 días",
+      "last30Days": "Últimos 30 días",
+      "last365Days": "Últimos 365 días"
+    },
+    "usages": {
+      "allPaidUnitsAggregated": "Todas las unidades pagadas (agregadas)",
+      "accountUsage": "Uso de la cuenta",
+      "activeLicenses": "Licencias activas",
+      "expiredLicenses": "Licencias caducadas",
+      "queuedLicenses": "Licencias en cola"
+    },
+    "usageCharts": {
+      "apmUsage": "Uso de APM",
+      "apmHosts": "Hosts de APM",
+      "purchased": "Adquirido",
+      "infrastructureUsage": "Uso de la infraestructura",
+      "iqmHosts": "Hosts de IQM",
+      "containerUsage": "Uso del contenedor",
+      "docker": "Docker",
+      "containerD": "ContainerD",
+      "crio": "Crio",
+      "garden": "Garden",
+      "lxc": "LXC",
+      "serverlessUsage": "Uso sin servidor",
+      "serverless": "Sin servidor"
+    }
+  }
+}
