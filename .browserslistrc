@@ -2,4 +2,5 @@
 not dead
 not ie 6-11
 not iOS < 13
+not Safari < 13
 Firefox ESR

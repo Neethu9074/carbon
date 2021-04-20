@@ -5528,20 +5528,9 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30001084.tgz#f011ad731a4e7f469a12531984db2de2dcb307f0"
   integrity sha512-oxprDntKFaMkhNV0vfFtaKtGDAJda8rdCsWC//6WTXsJgb44NxTImwkYym1uFiKkawI0SsC/y3Lj8gxJjH3w3A==
 
-caniuse-lite@^1.0.30000792, caniuse-lite@^1.0.30000805, caniuse-lite@^1.0.30000989, caniuse-lite@^1.0.30001061:
-  version "1.0.30001151"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001151.tgz"
-  integrity sha512-Zh3sHqskX6mHNrqUerh+fkf0N72cMxrmflzje/JyVImfpknscMnkeJrlFGJcqTmaa0iszdYptGpWMJCRQDkBVw==
-
-caniuse-lite@^1.0.30001125:
-  version "1.0.30001204"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/caniuse-lite/-/caniuse-lite-1.0.30001204.tgz#256c85709a348ec4d175e847a3b515c66e79f2aa"
-  integrity sha1-JWyFcJo0jsTRdehHo7UVxm558qo=
-
-caniuse-lite@^1.0.30001157:
-  version "1.0.30001159"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001159.tgz#bebde28f893fa9594dadcaa7d6b8e2aa0299df20"
-  integrity sha512-w9Ph56jOsS8RL20K9cLND3u/+5WASWdhC/PPrf+V3/HsM3uHOavWOR1Xzakbv4Puo/srmPHudkmCRWM7Aq+/UA==
+caniuse-lite@^1.0.30000792, caniuse-lite@^1.0.30000805, caniuse-lite@^1.0.30000989, caniuse-lite@^1.0.30001061, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001157:
+  version "1.0.30001211"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/caniuse-lite/-/caniuse-lite-1.0.30001211.tgz"
 
 capture-exit@^2.0.0:
   version "2.0.0"
