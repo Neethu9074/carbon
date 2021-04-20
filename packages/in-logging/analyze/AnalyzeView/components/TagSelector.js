@@ -64,7 +64,6 @@ function TagSelectorOverlay({ selectedTags, onSelectedTagsChange, maxSelectableT
     <DraggableItemSelector
       items={selectedTags.map(name => ({ name }))}
       Content={Content}
-      onSwap={onSwap}
       tagCatalog={tagCatalog}
       onRemove={({ name }) => onSelectedTagsChange(selectedTags.filter(_tag => _tag !== name))}
       SlideInContent={TagList}
@@ -84,8 +83,6 @@ function mapToName({ name }) {
 function isAllowedLogTag({ name }) {
   return name !== 'log.message';
 }
-
-function onSwap() {}
 
 function TagList({ remainingTags, selectedTags, onSelectedTagsChange, onShowSlideInContentChange, tagCatalog }) {
   return (

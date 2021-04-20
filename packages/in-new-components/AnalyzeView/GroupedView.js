@@ -42,7 +42,6 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 import { aggregationLabels } from 'in-stores/metric';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import SvgIcon from 'in-components/SvgIcon';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -398,8 +397,7 @@ function labelColumns({ itemlabelColumnId, getLabel, showChartGroupMarkers, grou
                 .slice(0, tagDefinition.path.length - 1)
                 .map(node => node.label)
                 .join(' ')}
-              <SvgIcon className={locals.arrowRight} type="lib_arrow_drop_right" />
-              {tagDefinition.path[tagDefinition.path.length - 1].label}
+              .{tagDefinition.path[tagDefinition.path.length - 1].label}
             </span>
           );
         }

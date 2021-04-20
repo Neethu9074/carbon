@@ -12,17 +12,6 @@ import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
-import SvgIcon from 'in-components/SvgIcon';
-
-const columnDefinitions = [
-  {
-    id: 'icon',
-    width: '2rem',
-    getContent({ iconMap, groupBy }) {
-      return <SvgIcon type={iconMap.get(groupBy?.groupbyTag)} />;
-    }
-  }
-];
 
 const tracker = {
   loadMoreClicked: () => {
@@ -40,7 +29,6 @@ export default function GroupedLogs(props) {
       <GroupedView
         {...props}
         itemlabelColumnId="label"
-        columnDefinitions={columnDefinitions}
         getData={getTableData}
         iconMap={iconMap}
         UngroupedView={Logs}

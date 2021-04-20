@@ -12,9 +12,8 @@ import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import TagList from 'in-logging/analyze/AnalyzeView/components/TagList';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import IconButton from 'in-new-components/IconButton/IconButton';
 import useResizeObserver from 'in-hooks/useResizeObserver';
-import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
 
 import locals from './LogMessageColumn.mless';
 
@@ -40,6 +39,7 @@ export default function LogMessageColumn({ logTags, message, selectedTags, getHr
       <div className={locals.messageWrapper} ref={ref}>
         <span
           className={classNames({
+            [locals.message]: true,
             [locals.collapsedMessage]: !isExpanded,
             [locals.messageExpanded]: isExpanded
           })}
@@ -52,15 +52,16 @@ export default function LogMessageColumn({ logTags, message, selectedTags, getHr
           />
         </span>
 
-        {isOverflowing && (
-          <SvgIcon
-            className={locals.icon}
-            type={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-            onClick={() => setIsExpanded(!isExpanded)}
-          />
-        )}
+        <div>
+          {isOverflowing && (
+            <IconButton
+              type={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
+              onClick={() => setIsExpanded(!isExpanded)}
+            />
+          )}
 
-        <TraceIcon logTags={logTags} />
+          <TraceIcon logTags={logTags} />
+        </div>
       </div>
 
       {tags.length > 0 && (
@@ -82,9 +83,5 @@ function getTagExpressionWithTag(tag) {
 
 function TraceIcon({ logTags }) {
   const traceId = logTags.filter(({ name }) => name === 'log.traceId')[0]?.stringValue;
-  return traceId ? (
-    <Link href$={getLinkToTraceDetail(traceId)}>
-      <SvgIcon className={locals.icon} type="lib_application_trace" />
-    </Link>
-  ) : null;
+  return traceId ? <IconButton type="lib_application_trace" href$={getLinkToTraceDetail(traceId)} /> : null;
 }
