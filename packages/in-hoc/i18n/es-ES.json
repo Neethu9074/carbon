@@ -1,0 +1,6 @@
+{
+  "entityFormSaving": "Guardando...",
+  "entityFormLoading": "Cargando...",
+  "entityFormFailedToLoadData": "No se han podido cargar los datos.",
+  "entityFormFailedToSave": "No se ha podido guardar: {{SaveFailureMessage}}"
+}

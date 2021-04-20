@@ -1,0 +1,32 @@
+{
+  "forms": {
+    "actions": {
+      "save": "Salvar",
+      "cancel": "Cancelar",
+      "create": "Criar",
+      "delete": "Excluir",
+      "close": "Fechar",
+      "submit": "Enviar"
+    },
+    "states": {
+      "saving": "Salvando…",
+      "loading": "Carregando…"
+    }
+  },
+  "language_en-US": "Inglês",
+  "language_de-DE": "Alemão",
+  "language_zz-ZZ": "Pseudoidioma para fins de QA",
+  "aggregation_P25": "25º",
+  "aggregation_P50": "50º",
+  "aggregation_P75": "75º",
+  "aggregation_P90": "90º",
+  "aggregation_P95": "95º",
+  "aggregation_P98": "98º",
+  "aggregation_P99": "99º",
+  "aggregation_MEAN": "média",
+  "aggregation_MIN": "mínimo",
+  "aggregation_MAX": "máximo",
+  "aggregation_DISTINCT_COUNT": "contagem distinta",
+  "aggregation_SUM": "soma",
+  "aggregation_DISTRIBUTION": "distribuição"
+}

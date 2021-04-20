@@ -1,0 +1,14 @@
+{
+    "stat": {
+        "connectLostState": {
+            "connecting":"Verbindung wird hergestellt...",
+            "connectingMsg":"Verbindungsversuch {{connectAttempt}} fehlgeschlagen. Es wird weiterhin versucht, die persistente Back-End-Verbindung herzustellen.",
+            "connectLostAttempReconnect":"Verbindung unterbrochen. Es wird versucht, die Verbindung wiederherzustellen...",
+            "unauthorized":"Nicht berechtigt...",
+            "unauthorizedMsg":"Es kann keine persistente Back-End-Verbindung hergestellt werden, weil Sie nicht berechtigt sind. Aktualisieren Sie die Seite, um fortzufahren. "
+        }
+    },
+    "clientErrMsg": {
+        "techClientMsgeErrFromBackend":"Technische Clientnachricht (höchstwahrscheinlich Fehlerdetails) vom Back-End"
+    }
+}

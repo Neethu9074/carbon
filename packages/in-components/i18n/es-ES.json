@@ -1,0 +1,139 @@
+{
+  "chart": {
+    "chartWrapperMetricNotfound": "No se ha encontrado el ID de métrica {{metricId}}.",
+    "chartWrapperSameAxisSameValue": "Todos los tipos de agregaciones para un eje deben tener el mismo valor.",
+    "viewInAnalyticsBtnLabel": "Ver en Analizar",
+    "chartLendMetricTimeShifted": "El tiempo de la métrica se ha desplazado a: {{timeShiftedLabel}}",
+    "chartTooltipContentMore": "{{number}} más",
+    "chartDownloadLabel": "Descargar JSON",
+    "chartGlobalHighlightLabel": "Resaltar en todos los gráficos",
+    "chartZoomInLabel": "Ampliar el rango de tiempo",
+    "chartAlertsLanePresenterAlertsLabel": "Alertas",
+    "chartAlertsLaneTooltipContent": {
+      "countSmartAlert": "Alerta inteligente",
+      "countSmartAlert_plural": "Alerta inteligente",
+      "countSmartAlert_0": "Alertas inteligentes",
+      "countSmartAlert_1": "Alertas inteligentes",
+      "countSmartAlert_2": "Alertas inteligentes",
+      "countIncident": "Incidencia",
+      "countIncident_plural": "Incidencias",
+      "countIncident_0": "Incidencias",
+      "countIncident_1": "Incidencias",
+      "countIncident_2": "Incidencias",
+      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "itemMsg": "+{{leftCount}} más {{moreMsg}}"
+    },
+    "chartAlertsPreviewLanePresenterAlertsLabel": "Alertas",
+    "chartReleasesLanePresenterReleasesLabel": "Releases",
+    "chartReleasesLanePresenterTooltip": "+{{len}} más releases",
+    "highlightedTimeframeCloseButtonClearHighlight": "Borrar resaltado",
+    "resultAwareChartSomethingWentWrong": "Algo no ha ido bien…",
+    "resultAwareChartPleaseTryAgainLater": "Vuelva a intentarlo más adelante."
+  },
+  "downloadBtn": {
+    "downloadViewDownloadAsJsonLabel": "Descargar como JSON",
+    "downloadViewDownloadCSVLabel": "Descargar (*.csv)",
+    "downloadViewDownloadJsonLabel": "Descargar (*.json)",
+    "eventMetricDownloadViewDownloadJsonLabel": "Descargar (*.json)"
+  },
+  "touchedMessages": {
+    "withPath": "{{message}} (en <codeWithClass>{{path}}</codeWithClass>)"
+  },
+  "graphView": {
+    "graphTitle": "Gráfico",
+    "explanationHeader": "Presentación de gráficos dinámicos",
+    "explanationP1": "La tecnología principal en la que está basado Instana se denomina Gráfico dinámico. El gráfico es un modelo de la aplicación que comprende todas las dependencias físicas y lógicas de los componentes. A la derecha verá el Gráfico dinámico de su entorno actual.",
+    "explanationP2": "El gráfico tiene más que los componentes físicos; también incluye componentes lógicos como rastreos, aplicaciones, servicios, clústeres o espacios de tablas. El agente de Instana y los sensores descubren automáticamente los componentes y sus dependencias, de modo que el gráfico se mantiene actualizado de forma continua. Además, cada nodo del gráfico se actualiza continuamente con la información de estado, tal como las métricas, los datos de configuración y un valor de salud que se calcula en función de los conocimientos semánticos y un método de aprendizaje automático. Este conocimiento también analiza las dependencias del gráfico para buscar agrupaciones lógicas, tales como servicios y aplicaciones, para comprender el impacto en este nivel y derivar la gravedad de los problemas. El gráfico completo es persistente y puede retroceder y avanzar en el tiempo para beneficiarse del conocimiento del gráfico en muchos casos de uso operativos.",
+    "explanationLink": "<linkToBlog>Visite nuestro blog</linkToBlog> para obtener más información.",
+    "closeBtn": "Cerrar gráfico"
+  },
+  "gravatar": {
+    "avatarUrlAlt": "Avatar para {{email}} de gravatar.com.",
+    "avatarNullAlt": "Avatar de reserva para {{email}}."
+  },
+  "loadMoreRow": {
+    "loadMore": "Cargar más"
+  },
+  "messageFlyout": {
+    "infrastructurePageName": "Infraestructura",
+    "eumPageName": "EUM",
+    "settingsPageName": "Valores",
+    "requestQuoteBtn": "Solicitar un presupuesto"
+  },
+  "releaseNotesDialog": {
+    "releaseNotesTitle": "Notas del release"
+  },
+  "requestQuoteDialog": {
+    "dialogRequestQuoteTitle": "Solicitar presupuesto",
+    "dialogRequestLoadingText": "Cargando la información necesaria...",
+    "dialogRequestQuoteSubmittedMsg": "Su solicitud de presupuesto se ha enviado correctamente.",
+    "formAccountInfoSecrHeader": "Información de cuenta",
+    "formCompanyNameLabel": "Nombre de empresa",
+    "formNumberofAPMHostsLabel": "Número de hosts APM",
+    "formNumberofIMHostsLabel": "Número de hosts IM",
+    "formNumberofYearsLabel": "Número de años",
+    "formBillingInforSecHeader": "Información de facturación",
+    "formStreetLabel": "Calle",
+    "formCityLabel": "Ciudad",
+    "formZipLabel": "Código postal",
+    "formCountryLabel": "País",
+    "formStateLabel": "Estado"
+  },
+  "searchBar": {
+    "usingTheSearchBar": "Se puede utilizar la función de búsqueda de foco dinámico de Instana para filtrar los mapas en 3D, las tablas de comparación y las vistas de incidencias. La barra de búsqueda tiene\nun gran número de prestaciones de búsqueda que utilizan búsquedas inexactas y de comodín, así como operadores booleanos. Por ejemplo, la siguiente\nconsulta restringe las vistas a los hosts de producción con menos de cuatro CPU:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Sintaxis\nEl foco dinámico utiliza la [sintaxis de consulta de lucene](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) con las siguientes diferencias en relación con el estándar de Lucene:\n- **Operador predeterminado:** `AND`\n- **Restricciones de sintaxis:** que se listan en la [documentación](https://instana.com/docs/dynamic_focus/#syntax-constraints)\n## Interacción de la barra de búsqueda\nLa barra de búsqueda admite el relleno automático de los campos de búsqueda y resaltará la sintaxis de la consulta de lucene mientras escribe.\nCuando escribe, la barra de búsqueda le propone campos de búsqueda que coinciden con la entrada actual. Puede aceptar los campos propuestos\npulsando `INTRO`. Pulse `CTRL+ESPACIO` para abrir la ventana emergente de relleno automático.\n## Hoja de apuntes de sintaxis de Lucene\n - **Búsqueda por campos:** `entity.host.cpu.count:>4`\n - **Operadores booleanos:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Agrupación:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Búsquedas de comodín:** `entity.type:container*`\n\nConsulte la [documentación](https://instana.com/docs/dynamic_focus/) para obtener más información.",
+    "filtersBtn": "Filtros",
+    "filterPresetsMenuHeading": "Filtros",
+    "filterPresetsSaveFilters": "Guarde los filtros para acceder fácilmente aquí",
+    "filterPresetsEditFilter": "Editar",
+    "filterPresetsRemoveFilter": "Eliminar",
+    "saveDialogSaveFilterTitle": "Guardar filtro",
+    "saveDialogNameLabel": "Nombre",
+    "saveDialogDefinitionLabel": "Definición",
+    "saveDialogSaveFilterBtn": "Guardar filtro",
+    "dialogRequireNameMsg": "Especifique un nombre para el filtro.",
+    "dialogRequireFilterMsg": "Especifique un filtro para guardar.",
+    "filterConfirmRemovalHeader": "Confirmar eliminación",
+    "filterConfirmButtonLabel": "Eliminar filtro",
+    "filterConfirmRemoveMsg": "¿Está seguro de que desea eliminar el filtro <strong>{{filterName}}</strong>?",
+    "helpDialogTitleUsingTheSearchBar": "Utilizar la barra de búsqueda"
+  },
+  "svgIcon": {
+    "pluginIcon": "Icono {{pluginName}}"
+  },
+  "tables": {
+    "serverTable": {
+      "cursorPaginatedTableFilterByLabel": "Analizar este grupo",
+      "cursorPaginatedTableLoadMoreRowLabel": "Cargar más",
+      "withEmptyTableStateEntitiesName": "entidades",
+      "withEmptyTableStateEntityPageMainNotificationTitle": "Ningún {{name}} disponible",
+      "withEmptyTableStateEntityPageMainNotificationExplanation": "No se ha recuperado ningún {{name}} para el rango de tiempo seleccionado."
+    },
+    "sharedComponents": {
+      "configurableThSearchItemPlaceholder": "Buscar elementos {{len}}",
+      "configurableThNoMatchesTxt": "No hay coincidencias"
+    }
+  },
+  "tags": {
+    "tagFilterSearchPlaceholder": "Buscar…",
+    "tagListNoTagsDefined": "No hay códigos definidos",
+    "tagListShowAll": "Mostrar todos los códigos ({{num}} más)"
+  },
+  "copyToClipboardPressToCopy": "¡Pulse CTRL+C / CMD+C para copiar!",
+  "copyToClipboardCopied": "¡Copiado!",
+  "reloadUiDialogTitle": "Hay una nueva versión de la interfaz de usuario disponible",
+  "reloadUiDialogP1": "Se ha producido un error cuando se intentaba navegar porque la versión de la interfaz de usuario cargada en el navegador está en desuso.",
+  "reloadUiDialogP2": "Vuelva a cargar la ventana del navegador para obtener la versión más reciente y continuar.",
+  "reloadUiDialogReloadBtn": "Volver a cargar",
+  "sparkChart": {
+    "mean": "Media",
+    "sum": "Suma",
+    "distinctCount": "Recuento distinto",
+    "notAvailable": "N/D"
+  },
+  "errorBoundary": {
+    "message": {
+      "title": "Se ha producido un error",
+      "content": "<p>Una parte de la IU de Instana no se ha podido habilitar debido a un error inesperado. Intente volver a cargar la página.</p><p>ID de error: <code>{{errorId}}</code></p>"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "breadcrumbs": {
+    "cloudFoundryApplication": "Aplicativo Cloud Foundry",
+    "cloudFoundryApplications": "Aplicativos Cloud Foundry"
+  },
+  "cfApplicationsWithCount": "Aplicativos CF ({{count}})",
+  "cfApplicationsWithCount_plural": "Aplicativos CF ({{count}})",
+  "cfApplicationsWithCount_0": "Aplicativos CF ({{count}})",
+  "cfApplicationsWithCount_1": "Aplicativos CF ({{count}})",
+  "cfApplicationsWithCount_2": "Aplicativos CF ({{count}})",
+  "dashboards": {
+    "cfApplication": "Aplicativo CF",
+    "cloudFoundryApplication": "Aplicativo Cloud Foundry",
+    "name": "Nome",
+    "instanceIndex": "Índice da instância",
+    "cpuTotal": "Total de CPU",
+    "memoryTotal": "Total de memória",
+    "health": "Funcionamento",
+    "containers": "Contêineres",
+    "summary": "Resumo",
+    "requestedState": "Estado solicitado",
+    "instances": "Instâncias",
+    "memoryLimit": "Limite de memória",
+    "lastUpdated": "Última atualização",
+    "buildpack": "Buildpack",
+    "routes": "Rotas",
+    "diskLimit": "Limite de disco",
+    "createdAt": "Criado em",
+    "analyzeCalls": "Analisar chamadas"
+  },
+  "name": "Nome",
+  "requestedState": "Estado solicitado",
+  "instances": "Instâncias",
+  "memoryLimit": "Limite de memória",
+  "foundation": "Base",
+  "organization": "Organização",
+  "space": "Espaço",
+  "routes": "Rotas",
+  "health": "Funcionamento",
+  "cloudFoundryApplications": "Aplicativos Cloud Foundry",
+  "cfApplications": "Aplicativos CF",
+  "noMonitoringDataFound": "Dados de monitoramento não localizados",
+  "cloudfoundry": {
+    "noData": "As perspectivas de aplicativo fornecem um meio para modelar ambientes, conjuntos de serviços, locatários ou praticamente qualquer coisa."
+  }
+}

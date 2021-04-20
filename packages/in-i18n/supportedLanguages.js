@@ -9,15 +9,14 @@ import { pseudoLanguageEnabled } from 'in-services/featureFlags';
 // in-i18n/init
 export const supportedLanguages = [
   'en-US',
-  // files not yet shipped
-  // 'de-DE',
+  'de-DE',
   'fr-FR',
   'it-IT',
   'ja-JA',
   'ko-KO',
   'zh-CN',
   'zh-TW',
-  // files not yet shipped
-  // 'es-ES',
+  'es-ES',
+  'pt-BR',
   pseudoLanguageEnabled && 'zz-ZZ'
 ].filter(Boolean);

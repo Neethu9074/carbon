@@ -1,0 +1,91 @@
+{
+  "component": {
+    "applTopList": {
+      "openCreationDialog": "Erstellungsdialogfenster öffnen",
+      "allApps": "Alle Anwendungen",
+      "errCallRate": "Rate fehlerhafter Aufrufe",
+      "latency": "Latenzzeit",
+      "calls": "Aufrufe",
+      "newAppPerspect": "Neue Anwendungsperspektive"
+    },
+    "eventChartCard": {
+      "allEvents": "Alle Ereignisse",
+      "incidents": "Vorfälle",
+      "critical": "Kritisch",
+      "warning": "Warnung",
+      "viewEvents": "Ereignisse anzeigen"
+    },
+    "infrastructureTopList": {
+      "allHosts": "Alle Hosts",
+      "allContainers": "Alle Container",
+      "allProcesses": "Alle Prozesse",
+      "hosts": "Hosts",
+      "containers": "Container",
+      "processes": "Prozesse"
+    },
+    "platformsTopList": {
+      "esXiHosts": "ESXi-Host",
+      "nodes": "Knoten",
+      "vMs": "VMs",
+      "instances": "Instanzen",
+      "namespaces": "Namensbereiche",
+      "cpuUsage": "CPU-Nutzung",
+      "memoryLimit": "Speicherlimit",
+      "pods": "Pods",
+      "memoryUsage": " Speichernutzung           ",
+      "cloudFoundryApplication": "Cloud Foundry-Anwendung",
+      "vSphereDatacenter": "vSphere-Rechenzentrum"
+    },
+    "websiteMobileTopList": {
+      "addWebsite": "Website hinzufügen",
+      "addMobileApp": "Mobile App hinzufügen",
+      "allWebsites": "Alle Websites",
+      "allMobileApps": "Alle mobilen Apps",
+      "allWebsitesMobileApps": "Alle Websites und mobilen Apps",
+      "pageViews": "Seitenansichten",
+      "sessions": "Sitzungen",
+      "onLoadTime": "onLoad-Zeit",
+      "views": "Ansichten",
+      "website": "Website",
+      "mobileApp": "Mobile App"
+    },
+    "openIncidentsButton": {
+      "numberOfIncidents": "{{count}} Vorfall",
+      "numberOfIncidents_plural": "{{count}} Vorfälle",
+      "numberOfIncidents_0": "{{count}} Vorfälle",
+      "numberOfIncidents_1": "{{count}} Vorfälle",
+      "numberOfIncidents_2": "{{count}} Vorfälle"
+    }
+  },
+  "cockpit": {
+    "deployAgent": "Agent implementieren",
+    "applications": "Anwendungen",
+    "infrastructure": "Infrastruktur",
+    "events": "Ereignisse",
+    "home": "Home",
+    "addUser": "Benutzer hinzufügen",
+    "platforms": "Plattformen",
+    "cloudFoundry": "Cloud Foundry",
+    "websites": "Websites",
+    "mobileApps": "Mobile Apps",
+    "websitesMobileApps": "Websites und mobile Apps"
+  },
+  "widgets": {
+    "columnDefinitions": {
+      "numCpU": "Anzahl CPUs",
+      "cpuUsage": "CPU-Nutzung",
+      "created": "Erstellt",
+      "started": "Gestartet",
+      "os": "Betriebssystem"
+    },
+    "topListWidget": {
+      "noLabelYet": "Noch keine {{nolabel}} "
+    },
+    "websites": {
+      "noData": "Beginnen Sie mit der Website-Überwachung, um besser zu verstehen, wie Ihre Websiteleistung die Benutzererfahrung beeinflusst. Die Konfiguration ist einfach!",
+      "createWebsite": "Website erstellen",
+      "createMobileApp": "Mobile App erstellen",
+      "noLabelYet": "Noch keine {{nolabel}} "
+    }
+  }
+}

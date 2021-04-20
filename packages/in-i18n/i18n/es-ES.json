@@ -1,0 +1,19 @@
+{
+  "forms": {
+    "actions": {
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "create": "Crear",
+      "delete": "Suprimir",
+      "close": "Cerrar",
+      "submit": "Enviar"
+    },
+    "states": {
+      "saving": "Guardando…",
+      "loading": "Cargando…"
+    }
+  },
+  "language_en-US": "Inglés",
+  "language_de-DE": "Alemán",
+  "language_ps-EUDO": "Seudoidioma para fines de QA"
+}

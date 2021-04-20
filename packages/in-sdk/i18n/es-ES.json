@@ -1,0 +1,64 @@
+{
+  "agentMonitoringSuffix01": "no supervisado",
+  "agentMonitoringAlert_prefix01": "Problema de supervisión",
+  "agentMonitoringSuffix02": "no rastreado",
+  "agentMonitoringAlert_prefix02": "Falta rastreo",
+  "agentMonitoringSuffix03": "no perfilado",
+  "agentMonitoringAlert_prefix03": "Faltan perfiles",
+  "agentMonitoringSuffix04": "no supervisado",
+  "agentMonitoringAlert_prefix04": "Problema de supervisión",
+  "agentMonitoringExplanationLinkLabel": "Documentos de resolución de problemas",
+  "agentMonitoringExplanationLinkHref": "https://instana.com/docs/",
+
+  "dashboard": {
+    "customMetricsV2": {
+      "customMetricsContent": "Las métricas ancladas se muestran en una tabla separada sobre las métricas personalizadas. Utilice esta opción para realizar una comparación ad-hoc entre varias métricas personalizadas. Además, puede enviar el enlace a sus compañeros para que puedan ver el mismo conjunto de métricas ancladas.",
+      "customMetricsTitleType": "Tipo",
+      "customMetricsTitleName": "Nombre",
+      "customMetricsTitleValue": "Valor",
+      "customMetricsTitlePinned": "{{pinnedPrefix}} Métricas ancladas ({{pinnedLength}})",
+      "customMetricsTitleCustom": "{{customPrefix}} Métricas personalizadas ({{customLength}})",
+      "customMetricsLableCount": "Número",
+      "customMetricsLableValue": "Valor",
+      "customMetricsLableMean": "Media",
+      "customMetricsLableP50": "50º",
+      "customMetricsLableP99": "99º",
+      "customMetricsLableRate": "Tasa"
+    },
+    "table": {
+      "tableNoData": "Sin datos.",
+      "tableExpandAll": "Expandir todo",
+      "tableCollapseAll": "Contraer todo"
+    }
+   },
+
+  "sidebar": {
+      "classpath": {
+        "classpathHide": "Ocultar classpath",
+        "classpathShow": "Mostrar classpath"
+      },
+      "processStartedTitle": "Iniciado a las"
+  },
+
+  "traceDetails": {
+    "errorDescription": "Error"
+  },
+
+  "snapshot": {
+    "registryHealth": "Salud",
+
+    "runtimeLabelNet": ".NET Core",
+    "runtimeLabelGo": "Go",
+    "runtimeLabelJava": "Java",
+    "runtimeLabelNodeJS": "Node.js",
+    "runtimeLabelPython": "Python",
+    "runtimeLabelRuby": "Ruby",
+    "runtimeLabelUnknown": "Entorno de ejecución desconocido"
+  },
+
+  "tracing": {
+    "registryCall": "Llamada",
+    "registryCall_plural": "Llamadas"
+  }
+
+}

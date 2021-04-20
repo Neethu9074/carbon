@@ -1,0 +1,14 @@
+{
+    "stat": {
+        "connectLostState": {
+            "connecting":"Conectando…",
+            "connectingMsg":"Ha fallado el intento de conexión {{connectAttempt}}. Se continúa reintentado el establecimiento de una conexión de fondo persistente.",
+            "connectLostAttempReconnect":"Se ha perdido la conexión. Intentando la reconexión...",
+            "unauthorized":"No autorizado...",
+            "unauthorizedMsg":"No puede establecer una conexión de fondo persistente debido a que no está autorizado. Renueve la página para continuar."
+        }
+    },
+    "clientErrMsg": {
+        "techClientMsgeErrFromBackend":"Mensaje del cliente técnico (probablemente detalles del error) desde el programa de fondo"
+    }
+}

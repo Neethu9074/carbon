@@ -1,0 +1,13 @@
+{
+  "landing": {
+    "loadingData": "Daten werden geladen",
+    "noEntitiesFound": "Keine Entitäten gefunden",
+    "noEntitiesFoundFor": "Keine Entitäten gefunden für {{landingQueryCount}}",
+    "noMatchingEntitiesFoundTitle": "Keine übereinstimmenden Entitäten gefunden",
+    "results": "Ergebnisse"
+  },
+  "logging": {
+    "goToLogs": "Zu Protokollen wechseln"
+  }
+
+}

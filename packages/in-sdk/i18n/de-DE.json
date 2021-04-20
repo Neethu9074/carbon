@@ -1,0 +1,67 @@
+{
+  "agentMonitoringSuffix01": "nicht überwacht",
+  "agentMonitoringAlert_prefix01": "Überwachungsproblem",
+  "agentMonitoringSuffix02": "nicht verfolgt",
+  "agentMonitoringAlert_prefix02": "Fehlendes Tracing",
+  "agentMonitoringSuffix03": "nicht profiliert",
+  "agentMonitoringAlert_prefix03": "Fehlende Profile",
+  "agentMonitoringSuffix04": "nicht überwacht",
+  "agentMonitoringAlert_prefix04": "Überwachungsproblem",
+  "agentMonitoringExplanationLinkLabel": "Fehlerbehebungshandbücher",
+  "agentMonitoringExplanationLinkHref": "https://instana.com/docs/",
+  "services": "Services",
+  "dashboard": {
+    "customMetricsV2": {
+      "customMetricsContent": "Gepinnte Messdaten werden in einer separaten Tabelle über den angepassten Messdaten angezeigt. Verwenden Sie diese Option, um einen Ad-hoc-Vergleich zwischen mehreren angepassten Messdaten durchzuführen. Darüber hinaus können Sie den Link an Kollegen senden, sodass diese dieselbe Gruppe gepinnter Messdaten anzeigen können. ",
+      "customMetricsTitleType": "Typ",
+      "customMetricsTitleName": "Name",
+      "customMetricsTitleValue": "Wert",
+      "customMetricsTitlePinned": "{{pinnedPrefix}} gepinnte Messdaten ({{pinnedLength}})",
+      "customMetricsTitleCustom": "{{customPrefix}} angepasste Messdaten ({{customLength}})",
+      "customMetricsLableCount": "Anzahl",
+      "customMetricsLableValue": "Wert",
+      "customMetricsLableMean": "Mittelwert",
+      "customMetricsLableP50": "50.",
+      "customMetricsLableP99": "99.",
+      "customMetricsLableRate": "Rate"
+    },
+    "table": {
+      "tableNoData": "Keine Daten.",
+      "tableExpandAll": "Alles einblenden",
+      "tableCollapseAll": "Alles ausblenden"
+    }
+   },
+
+  "sidebar": {
+      "classpath": {
+        "classpathHide": "Klassenpfad ausblenden",
+        "classpathShow": "Klassenpfad anzeigen"
+      },
+      "processStartedTitle": "Gestartet um"
+  },
+
+  "traceDetails": {
+    "errorDescription": "Fehler"
+  },
+
+  "snapshot": {
+    "registryHealth": "Allgemeinzustand",
+
+    "runtimeLabelNet": ".NET Core",
+    "runtimeLabelGo": "Go",
+    "runtimeLabelJava": "Java",
+    "runtimeLabelNodeJS": "Node.js",
+    "runtimeLabelPython": "Python",
+    "runtimeLabelRuby": "Ruby",
+    "runtimeLabelUnknown": "Unbekannte Laufzeit"
+  },
+
+  "tracing": {
+    "registryCall": "Aufruf",
+    "registryCall_plural": "Aufrufe",
+    "registryCall_0": "Aufrufe",
+    "registryCall_1": "Aufrufe",
+    "registryCall_2": "Aufrufe"
+  }
+
+}
