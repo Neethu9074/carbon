@@ -30,7 +30,7 @@ export default function KubernetesTopList(props) {
       Renderer={Renderer}
       ViewAll={ViewAll}
       Label={Label}
-      Metric={props.renderMetric ? <span>{props.renderMetric}</span> : Metric}
+      Metric={props.Metric ? props.Metric : Metric}
       {...props}
     />
   );

@@ -29,7 +29,11 @@ export default function TopPodsList(props) {
       }
       allItemsHref$={props.allItemsHref$}
       getItemLabel={item => item.pod.label}
-      renderMetric={props => get(props.item.pod, ['status', 'phase'])}
+      Metric={Phase}
     />
   );
+}
+
+function Phase(props) {
+  return get(props, ['item', 'pod', 'status', 'phase']);
 }
