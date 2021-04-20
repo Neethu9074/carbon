@@ -182,7 +182,7 @@ pipeline {
                       imageOverride: 'aws/codebuild/standard:5.0',
                       sourceControlType: 'project',
                       sourceVersion: gitCommitId,
-                      envVariables: "[ {CONTAINER_IMAGE_NAMES, ${uiClientComponents}}, {VERSION, ${instanaVersion}}, {BRANCH_NAME, ${env.BRANCH_NAME}} ]"
+                      envVariables: "[ {CONTAINER_IMAGE_NAMES, ${uiClientComponents}}, {VERSION, ${version}}, {BRANCH_NAME, ${branchName}} ]"
                 }
               }
             }
