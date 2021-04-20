@@ -51,6 +51,7 @@ export default function LogsDistributionChartSection({
         <div className={locals.chartWrapper}>
           <UnifiedMetricsChart
             automaticallySize={false}
+            renderLegend={false}
             config={{
               y1: {
                 metrics: [

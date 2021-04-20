@@ -31,7 +31,7 @@ export default function DraggableItemSelector(props) {
         >
           <DragDropContext
             onDragEnd={e => {
-              if (e.destination) {
+              if (e.destination && onSwap) {
                 onSwap(e.source.index, e.destination.index);
               }
             }}
@@ -43,11 +43,15 @@ export default function DraggableItemSelector(props) {
                     <Draggable key={i} draggableId={String(i)} index={i}>
                       {provided => (
                         <div className={locals.item} ref={provided.innerRef} {...provided.draggableProps}>
-                          <Tooltip content={t('in-new-components:draggableItemSelector.tooltipReorderMetrics')}>
-                            <div className={locals.dragHandle} {...provided.dragHandleProps}>
-                              <SvgIcon type="lib_menu" size="xs" />
-                            </div>
-                          </Tooltip>
+                          {onSwap ? (
+                            <Tooltip content={t('in-new-components:draggableItemSelector.tooltipReorderMetrics')}>
+                              <div className={locals.dragHandle} {...provided.dragHandleProps}>
+                                <SvgIcon type="lib_menu" size="xs" />
+                              </div>
+                            </Tooltip>
+                          ) : (
+                            <div className={locals.dragHandle} {...provided.dragHandleProps} />
+                          )}
 
                           <Content item={item} {...props} i={i} />
 
@@ -94,7 +98,7 @@ DraggableItemSelector.propTypes = {
   slideInContentTitle: rpt.string.isRequired,
   Content: rpt.elementType.isRequired,
   onRemove: rpt.func.isRequired,
-  onSwap: rpt.func.isRequired,
   items: rpt.array.isRequired,
+  onSwap: rpt.func,
   disabled: rpt.bool
 };
