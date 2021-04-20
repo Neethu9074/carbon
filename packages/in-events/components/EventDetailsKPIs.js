@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
+import { combineLatest, just } from '@instana/observables';
 import React from 'react';
 
 import {
@@ -45,9 +45,7 @@ function EventKPIs({ event }) {
       <Col xs>
         <Duration event={event} />
       </Col>
-      <Col xs>
-        <Severity event={event} />
-      </Col>
+      <Severity event={event} />
     </Row>
   );
 }
@@ -90,9 +88,7 @@ const IncidentKPIs = connectTo(
         <Col xs>
           <Duration event={event} />
         </Col>
-        <Col xs>
-          <Severity event={event} />
-        </Col>
+        <Severity event={event} />
         <Col xs>
           <KpiCard title={t('in-events:titleActive')} value={`${numOpenEvents}/${recentEvents.length}`} raw />
         </Col>
@@ -177,14 +173,18 @@ const Duration = connectTo(
 const Severity = connectTo(
   ({ event }) => {
     return {
-      isOpen: fireCallbacksForEventAtFocusedMomentAsStream(
-        event,
-        () => true,
-        () => false
-      )
+      severity: just(getEventSeverity(event)),
+      isChangeEvent: just(getEventType(event) === EVENT_TYPES.CHANGE)
     };
   },
-  function Severity({ event }) {
-    return <KpiCard title={t('in-events:titleSeverity')} value={getEventSeverity(event)} raw />;
+  function Severity({ severity, isChangeEvent }) {
+    if (isChangeEvent) {
+      return null;
+    }
+    return (
+      <Col xs>
+        <KpiCard title={t('in-events:titleSeverity')} value={severity} raw />
+      </Col>
+    );
   }
 );

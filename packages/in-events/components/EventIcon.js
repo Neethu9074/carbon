@@ -5,8 +5,9 @@
 
 import React from 'react';
 
-import { getIcon, getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
+import { getIcon, getColorForEventAtFocusedMomentAsStream, getEventSeverity } from 'in-stores/events';
 import SvgIcon from 'in-components/SvgIcon';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import theme from 'in-themes';
 
@@ -21,14 +22,16 @@ export default connectTo(
   },
   function Icon({ className, event, color, size }) {
     return (
-      <SvgIcon
-        style={{
-          fill: color || '#40535b'
-        }}
-        className={className}
-        type={getIcon({ event })}
-        size={size || 's'}
-      />
+      <Tooltip content={getEventSeverity(event)} align="rightMiddle">
+        <SvgIcon
+          style={{
+            fill: color || '#40535b'
+          }}
+          className={className}
+          type={getIcon({ event })}
+          size={size || 's'}
+        />
+      </Tooltip>
     );
   }
 );

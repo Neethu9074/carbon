@@ -14,6 +14,7 @@ import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import { createStore } from 'in-stores/store';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 const noProblemsHealthInfo = Map({
   maxSeverity: 0,
@@ -217,14 +218,14 @@ export function getIcon({ event, eventType }) {
 
 export function getEventSeverity(event) {
   const isImmutableObject = !!event.get;
-  const severity = isImmutableObject ? event.get('problem')?.get('severity') : event.problem.severity;
+  const severity = isImmutableObject
+    ? event.getIn(['problem', 'severity'], 0)
+    : get(event, ['problem', 'severity'], event.severity || 0);
   switch (severity) {
-    case -1:
-      return 'CHANGE';
     case 5:
-      return 'WARNING';
+      return t('in-events:labelWarning');
     case 10:
-      return 'CRITICAL';
+      return t('in-events:labelCritical');
     default:
       return '';
   }
