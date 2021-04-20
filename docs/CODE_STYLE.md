@@ -37,7 +37,7 @@ export default function CallTree({
   ...
 ```
 
-## Running Prettier On Save
+## Running Code Formatting On Save
 
 ### VS Code
 
@@ -45,9 +45,22 @@ Install the "Prettier - Code formatter" code extension and the `sort-imports` ex
 
 ### IntelliJ & Co
 
-- Install the Prettier plugin (by JetBrains) and use these defaults:
+Install the  **Prettier plugin (by JetBrains)** and use these defaults:
   - Prettier package: <Project_RootDir>/node_modules/prettier
   - ✔️ Activate "run on save for files:" ({\*_/_,\*}.{js,jsx})
+
+For **Simon Sort** there is no plugin or extension really needed, because this will formatted by import-sort the post-commit step anyway.
+Just if you want to trigger _import-sort_ manually, then add this external tool entry:
+  - install `import-sort` globally via `yarn global add import-sort`
+  - In Preferences
+    - Add a new entry like this in the `Tools/External Tools` section:
+      ![Add import-sort as external tool](./screenshots/intellij-simonsort-as-external-tool.png)
+      - **Program** import-sort
+      - **Arguments** --write $FilePath$
+      - **Working directory** $ProjectFileDir$
+    - set your preferred shortcut to run it on a keystroke - via keymap config
+
+Note: Running it automatically on-save using _file watchers_ did not work reliably
 
 ### VIM
 
