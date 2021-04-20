@@ -20,6 +20,9 @@
   .right {
     position: absolute;
     top: -1rem;
+
+    // Above other contents, eg: "Clear highlight" button
+    z-index: 2;
   }
 
   .right {
