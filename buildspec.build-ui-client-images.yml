@@ -24,5 +24,4 @@ phases:
       - ./build/ci-shared-tools/scripts/codebuild/setup.bash
   build:
     commands:
-      - cd containers
-      - for image in ${CONTAINER_IMAGE_NAMES}; do ./scripts/build-and-publish.sh ${image}; done
+      - cd containers && ./scripts/build-and-publish.sh ${CONTAINER_IMAGE_NAME}

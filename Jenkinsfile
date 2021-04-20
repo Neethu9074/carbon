@@ -174,15 +174,14 @@ pipeline {
                   def uiClientComponents = getBackendComponents()
                       .findAll { it.isIncludedInRelease(majorReleaseVersion) && (it.name ==~ /^ui-client.*/) }
                       .collect { it.name }
+                  def buildAndPublish = [:]
+                  uiClientComponents.each { component ->
+                    buildAndPublish[component] = {
+                      buildAndPublishImage(gitCommitId, component, instanaVersion, env.BRANCH_NAME)
+                    }
+                  }
 
-                  awsCodeBuild credentialsType: 'jenkins',
-                      credentialsId: 'codebuild',
-                      projectName: 'build-ui-client-images',
-                      region: 'us-west-2',
-                      imageOverride: 'aws/codebuild/standard:5.0',
-                      sourceControlType: 'project',
-                      sourceVersion: gitCommitId,
-                      envVariables: "[ {CONTAINER_IMAGE_NAMES, ${uiClientComponents}}, {VERSION, ${version}}, {BRANCH_NAME, ${branchName}} ]"
+                  parallel buildAndPublish
                 }
               }
             }
@@ -192,4 +191,15 @@ pipeline {
     }
 
   }
+}
+
+def buildAndPublishImage(gitCommitId, componentName, version, branchName) {
+  awsCodeBuild credentialsType: 'jenkins',
+      credentialsId: 'codebuild',
+      projectName: 'build-ui-client-images',
+      region: 'us-west-2',
+      imageOverride: 'aws/codebuild/standard:5.0',
+      sourceControlType: 'project',
+      sourceVersion: gitCommitId,
+      envVariables: "[ {CONTAINER_IMAGE_NAME, ${componentName}}, {VERSION, ${version}}, {BRANCH_NAME, ${branchName}} ]"
 }
