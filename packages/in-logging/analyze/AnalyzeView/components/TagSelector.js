@@ -16,14 +16,17 @@ import { t } from 'in-i18n';
 
 import locals from './TagSelector.mless';
 
-export default function TagSelector({
-  maxSelectableTags = Number.MAX_VALUE,
-  onSelectedTagsChange,
-  filteringTagCatalog,
-  selectedTags,
-  compact
-}) {
+export default function TagSelector(props) {
+  const {
+    maxSelectableTags = Number.MAX_VALUE,
+    onSelectedTagsChange,
+    filteringTagCatalog,
+    selectedTags,
+    compact
+  } = props;
+
   const tagCatalog = filteringTagCatalog?.tags ?? [];
+  const tagTree = filteringTagCatalog?.tagTree ?? [];
 
   useEffect(() => {
     selectedChanged({ selectedTags });
@@ -37,7 +40,7 @@ export default function TagSelector({
   return (
     <Overlay
       content={TagSelectorOverlay}
-      props={{ selectedTags, maxSelectableTags, onSelectedTagsChange, tagCatalog }}
+      props={{ selectedTags, maxSelectableTags, onSelectedTagsChange, tagCatalog, tagTree }}
       withoutWrapper
     >
       {({ toggle, refSetter }) =>
@@ -53,7 +56,7 @@ export default function TagSelector({
   );
 }
 
-function TagSelectorOverlay({ selectedTags, onSelectedTagsChange, maxSelectableTags, tagCatalog }) {
+function TagSelectorOverlay({ selectedTags, onSelectedTagsChange, maxSelectableTags, tagCatalog, tagTree }) {
   selectedTags = selectedTags.slice();
   selectedTags.sort(compare);
 
@@ -65,6 +68,7 @@ function TagSelectorOverlay({ selectedTags, onSelectedTagsChange, maxSelectableT
       items={selectedTags.map(name => ({ name }))}
       Content={Content}
       tagCatalog={tagCatalog}
+      tagTree={tagTree}
       onRemove={({ name }) => onSelectedTagsChange(selectedTags.filter(_tag => _tag !== name))}
       SlideInContent={TagList}
       slideInContentTitle={t('in-logging:addATag')}
@@ -84,7 +88,14 @@ function isAllowedLogTag({ name }) {
   return name !== 'log.message';
 }
 
-function TagList({ remainingTags, selectedTags, onSelectedTagsChange, onShowSlideInContentChange, tagCatalog }) {
+function TagList({
+  remainingTags,
+  selectedTags,
+  onSelectedTagsChange,
+  onShowSlideInContentChange,
+  tagCatalog,
+  tagTree
+}) {
   return (
     <Ul>
       {remainingTags.map(tag => (
@@ -95,18 +106,25 @@ function TagList({ remainingTags, selectedTags, onSelectedTagsChange, onShowSlid
             onShowSlideInContentChange(false);
           }}
         >
-          {getLabelFromCatalog(tag, tagCatalog)}
+          {getLabelFromTreeOrCatalog(tag, tagCatalog, tagTree)}
         </Li>
       ))}
     </Ul>
   );
 }
 
-function Content({ item, tagCatalog }) {
-  return <span className={locals.label}>{getLabelFromCatalog(item.name, tagCatalog)}</span>;
+function Content({ item, tagCatalog, tagTree }) {
+  return <span className={locals.label}>{getLabelFromTreeOrCatalog(item.name, tagCatalog, tagTree)}</span>;
 }
 
-function getLabelFromCatalog(name, tagCatalog) {
+function getLabelFromTreeOrCatalog(name, tagCatalog, tagTree) {
+  for (let i = 0; i < tagTree.length; i++) {
+    const match = getLabelFromTree(name, tagTree[i], []);
+    if (match) {
+      return `${match.path.join('.')}.${match.label}`;
+    }
+  }
+
   for (let i = 0; i < tagCatalog.length; i++) {
     const item = tagCatalog[i];
     if (item.name === name) {
@@ -114,4 +132,17 @@ function getLabelFromCatalog(name, tagCatalog) {
     }
   }
   return name;
+}
+
+function getLabelFromTree(name, tagTree, path) {
+  if (tagTree.type === 'TAG' && tagTree.tagName === name) {
+    return { path, label: tagTree.label };
+  } else if (tagTree.type === 'LEVEL') {
+    for (let i = 0; i < tagTree.children.length; i++) {
+      const match = getLabelFromTree(name, tagTree.children[i], [...path, tagTree.label]);
+      if (match) {
+        return match;
+      }
+    }
+  }
 }
