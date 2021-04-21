@@ -57,6 +57,10 @@ export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicatio
 export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled');
 export const hideEventSettings = isFeatureFlagEnabled('hideEventsSettings', false);
 export const openFacetedSearchByDefault = isFeatureFlagEnabled('openFacetedSearchByDefault', false);
+export const applicationSmartAlertTitlePlaceholdersEnabled = isFeatureFlagEnabled(
+  'applicationSmartAlertTitlePlaceholdersEnabled',
+  false
+);
 
 // ########################################################################################
 // Dynamic focus keywords

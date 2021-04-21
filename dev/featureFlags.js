@@ -48,5 +48,6 @@ module.exports = {
   syntheticCallsEnabled: true,
   applicationHealthOverviewEnabled: true,
   hideEventsSettings: true,
-  openFacetedSearchByDefault: true
+  openFacetedSearchByDefault: true,
+  applicationSmartAlertTitlePlaceholdersEnabled: true
 };

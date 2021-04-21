@@ -219,5 +219,10 @@ module.exports = exports = [
     uiClientKey: 'openFacetedSearchByDefault',
     instanaCtlKey: 'feature.facetedsearch.open.default',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'applicationSmartAlertTitlePlaceholdersEnabled',
+    instanaCtlKey: 'feature.application.smart.alert.title.placeholders.enabled',
+    defaultValue: false
   }
 ];

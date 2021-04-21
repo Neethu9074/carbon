@@ -39,6 +39,7 @@ import ProvideLogMessage from 'in-alerting/smart-alerts/applications/components/
 import ProvideStatusCode from 'in-alerting/smart-alerts/applications/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
+import { applicationSmartAlertTitlePlaceholdersEnabled } from 'in-services/featureFlags';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import LightCard from 'in-new-components/Card/LightCard';
@@ -229,7 +230,11 @@ export default function AdvancedModeContainer(props) {
                       .replaceAll(placeholders.serviceName, 'Service')
                       .replaceAll(placeholders.endpointName, 'Endpoint');
 
-                    return <AlertPreviewHeadline title={titleWithReplacedTemplateStrings} />;
+                    const title = applicationSmartAlertTitlePlaceholdersEnabled
+                      ? titleWithReplacedTemplateStrings
+                      : manuallyChangedTitle;
+
+                    return <AlertPreviewHeadline title={title || getTitlePlaceholder(form)} />;
                   }}
                 />
               )}
