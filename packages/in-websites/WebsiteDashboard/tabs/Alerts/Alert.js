@@ -108,7 +108,7 @@ function Alert({
                   if (isCopy) {
                     mutateUrl(location => {
                       location.pathname = alertsTabDetailsFullyQualified;
-                      setOrDeleteMatrixKey(location, alertsTab, 'alertId', id);
+                      setOrDeleteMatrixKey(location, alertsTab, 'alertId', id ?? alertConfig.id);
                     });
                   }
                 }}
