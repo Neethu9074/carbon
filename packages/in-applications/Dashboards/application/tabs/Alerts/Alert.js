@@ -126,8 +126,10 @@ export default function Alert({ location, timeConfig }) {
                   setRevision(null);
                   if (isCopy) {
                     mutateUrl(location => {
-                      location.pathname = isGlobalAlertConfig ? globalAlertDetails : alertsTabDetailsFullyQualified;
-                      setOrDeleteMatrixKey(location, alertsTab, 'alertId', id);
+                      location.pathname = isDetailsViewInAllAPsTab
+                        ? globalAlertDetails
+                        : alertsTabDetailsFullyQualified;
+                      setOrDeleteMatrixKey(location, alertsTab, 'alertId', id ?? alertConfigId);
                     });
                   }
                 }}
