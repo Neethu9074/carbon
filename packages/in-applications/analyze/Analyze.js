@@ -287,6 +287,10 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
               value={tagFilterExpression}
               onChange={onTagFilterExpressionChange}
               QueryBuilder={dataSource === 'traces' ? TraceQueryBuilder : CallQueryBuilder}
+              getSuggestionsProps={{
+                includeInternal: hiddenCalls.includeInternal,
+                includeSynthetic: hiddenCalls.includeSynthetic
+              }}
               hasError={isInvalidExpression}
               errors={validTagFilterExpressionResult.errors}
               useLastValidStateWhenErroneous
