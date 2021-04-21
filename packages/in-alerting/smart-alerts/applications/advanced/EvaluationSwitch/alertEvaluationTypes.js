@@ -14,18 +14,47 @@ const alertEvaluationTypes = {
     selectionText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.selectionText'
     ),
+    globalSelectionText: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.globalSelectionText'
+    ),
     columnText: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.columnText'),
-    description: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.description')
+    description: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.description'),
+    globalDescription: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.globalDescription'
+    )
   },
   [PER_AP_SERVICE]: {
     selectionText: t(
-      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.description'
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.selectionText'
+    ),
+    globalSelectionText: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.globalSelectionText'
     ),
     columnText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.columnText'
     ),
     description: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.description'
+    ),
+    globalDescription: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.globalDescription'
+    )
+  },
+  [PER_AP_ENDPOINT]: {
+    selectionText: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.selectionText'
+    ),
+    globalSelectionText: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.globalSelectionText'
+    ),
+    columnText: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.columnText'
+    ),
+    description: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.description'
+    ),
+    globalDescription: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.globalDescription'
     )
   }
 };

@@ -73,7 +73,7 @@ export default function AdvancedModeContainer(props) {
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.title'),
           content: (
             <>
-              <AlertEvaluationControl form={form} updateForm={updateForm} />
+              <AlertEvaluationControl form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
               <InboundOutboundCallsSwitch form={form} updateForm={updateForm} />
               <IncludeInternalOrSyntheticCallsSwitch form={form} updateForm={updateForm} />
               <ScopeConfig

@@ -13,13 +13,14 @@ import theme from 'in-themes';
 
 import locals from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation.mless';
 
-export default function ReadOnlyAlertEvaluation({ evaluationType = PER_AP }) {
-  const { description } = alertEvaluationTypes[evaluationType];
+export default function ReadOnlyAlertEvaluation({ evaluationType = PER_AP, isGlobalSmartAlert }) {
+  const { description, globalDescription } = alertEvaluationTypes[evaluationType];
+
   return (
     <div className={locals.container}>
       <IconLabel
         type="lib_alerts_multiple_alerts"
-        text={description}
+        text={isGlobalSmartAlert ? globalDescription : description}
         color={theme.lib.colors.N600Light}
         noBottomMargin
       />

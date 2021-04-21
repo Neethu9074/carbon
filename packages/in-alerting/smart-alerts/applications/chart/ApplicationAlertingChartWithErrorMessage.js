@@ -5,7 +5,10 @@
 
 import React from 'react';
 
-import { PER_AP_SERVICE } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import {
+  PER_AP_SERVICE,
+  PER_AP_ENDPOINT
+} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
@@ -13,6 +16,10 @@ import { t } from 'in-i18n';
 
 export default function ApplicationAlertingChartWithErrorMessage(props) {
   const { alertConfigWithFormModel, serviceId } = props;
+
+  if (PER_AP_ENDPOINT === alertConfigWithFormModel.evaluationType) {
+    return <NoDataAvailable text={'Per Entity preview chart is not yet supported.'} />;
+  }
 
   if (PER_AP_SERVICE === alertConfigWithFormModel.evaluationType && !serviceId) {
     return <NoDataAvailable text={t('in-alerting:smartAlerts.applications.chart.noDataAvailable')} height={230} />;

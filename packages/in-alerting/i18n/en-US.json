@@ -96,14 +96,25 @@
         "evaluationSwitch": {
           "individual": "Individual Alerts",
           "evaluationTypePERAP": {
-            "selectionText": "On the aggregation of all selected Services and Endpoints",
+            "selectionText": "for this Application Perspective",
+            "globalSelectionText": "per Application Perspective",
             "columnText": "aggregated",
-            "description": "Alert on the aggregation of all selected Services and Endpoints"
+            "description": "Alert individually for this Application Perspective",
+            "globalDescription": "Alert individually per Application Perspective"
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "on the aggregation per Service",
+            "selectionText": "per Service for this Application Perspective",
+            "globalSelectionText": "per Service in the context of each Application Perspective",
             "columnText": "per Service",
-            "description": "Alert individually on the aggregation per Service"
+            "description": "Alert individually per Service for this Application Perspective",
+            "globalDescription": "Alert individually per Service in the context of each Application Perspective"
+          },
+          "evaluationTypePERAPENDPOINT": {
+            "selectionText": "per Endpoint for this Application Perspective",
+            "globalSelectionText": "per Endpoint in the context of each Application Perspective",
+            "columnText": "per Endpoint",
+            "description": "Alert individually per Endpoint for this Application Perspective",
+            "globalDescription": "Alert individually per Endpoint in the context of each Application Perspective"
           }
         },
         "inboundOutboundCalls": {

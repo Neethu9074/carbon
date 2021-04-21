@@ -34,7 +34,7 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/share
 const logLevelList = ['ERROR', 'WARN'];
 const initialChartConfigIndex = 0;
 
-export default function AlertConfiguration({ alertConfig, applicationName = '' }) {
+export default function AlertConfiguration({ alertConfig, applicationName = '', isGlobalSmartAlert }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
 
   const {
@@ -95,7 +95,7 @@ export default function AlertConfiguration({ alertConfig, applicationName = '' }
           bodyWithoutPadding
           darkFrame
         >
-          <ReadOnlyAlertEvaluation evaluationType={evaluationType} />
+          <ReadOnlyAlertEvaluation evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert} />
           <div className={locals.paddingBodyWrapper}>
             <div className={locals.alertFiltersWrapper}>
               <ScopeConfigPresenter
@@ -149,6 +149,7 @@ export default function AlertConfiguration({ alertConfig, applicationName = '' }
 
 AlertConfiguration.propTypes = {
   alertConfig: PropTypes.object.isRequired,
+  isGlobalSmartAlert: PropTypes.bool.isRequired,
   applicationName: PropTypes.string.isRequired
 };
 

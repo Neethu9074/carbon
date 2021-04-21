@@ -159,7 +159,11 @@ export default function Alert({ location, timeConfig }) {
 
         <Row>
           <Col xs={6}>
-            <AlertConfiguration alertConfig={alertConfig} applicationName={applicationName} />
+            <AlertConfiguration
+              alertConfig={alertConfig}
+              applicationName={applicationName}
+              isGlobalSmartAlert={isGlobalAlertConfig}
+            />
           </Col>
           <Col xs={6}>
             <AlertHistoryList alertConfigId={alertConfig.id} timeConfig={timeConfig} />
