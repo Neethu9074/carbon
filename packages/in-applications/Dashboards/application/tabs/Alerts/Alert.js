@@ -8,6 +8,15 @@ import { just } from '@instana/observables';
 import React, { useState } from 'react';
 
 import {
+  deleteGlobalAlertConfig,
+  disableGlobalAlertConfig,
+  enableGlobalAlertConfig,
+  getLatestGlobalAlertConfig,
+  updateGlobalAlertConfig,
+  getAllVersionsOfGlobalAlertConfig,
+  getGlobalAlertConfigByIdAndTimestamp
+} from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
+import {
   deleteAlertConfig,
   disableAlertConfig,
   enableAlertConfig,
@@ -23,13 +32,6 @@ import {
   applicationsAlertingAlertResumed,
   applicationsAlertingAlertRevisionChanged
 } from 'in-alerting/smart-alerts/applications/tracker';
-import {
-  deleteGlobalAlertConfig,
-  disableGlobalAlertConfig,
-  enableGlobalAlertConfig,
-  getLatestGlobalAlertConfig,
-  updateGlobalAlertConfig
-} from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam,
@@ -63,17 +65,24 @@ function getAlertConfig(id, created) {
   return created ? getAlertConfigByIdAndTimestamp(id, created) : getLatestAlertConfig(id);
 }
 
+function getGlobalAlertConfig(id, created) {
+  return created ? getGlobalAlertConfigByIdAndTimestamp(id, created) : getLatestGlobalAlertConfig(id);
+}
+
 export default function Alert({ location, timeConfig }) {
   const alertConfigId = getMatrixParameter(location, alertsTab, alertIdMatrixParam);
   const alertConfigCreated = getMatrixParameter(location, alertsTab, alertCreatedMatrixParam);
   const isGlobalAlertConfig = getMatrixParameter(location, alertsTab, alertsCategoryMatrixParam) === categoryGlobal;
-
   const isDetailsViewInAllAPsTab = location.pathname === globalAlertDetails;
 
   const alertConfig$ = isGlobalAlertConfig
-    ? getLatestGlobalAlertConfig(alertConfigId)
+    ? getGlobalAlertConfig(alertConfigId, alertConfigCreated)
     : getAlertConfig(alertConfigId, alertConfigCreated);
-  const alertConfigVersions$ = getAllVersionsOfAlertConfig(alertConfigId).startWith(null);
+
+  const alertConfigVersions$ = (isGlobalAlertConfig
+    ? getAllVersionsOfGlobalAlertConfig(alertConfigId)
+    : getAllVersionsOfAlertConfig(alertConfigId)
+  ).startWith(null);
 
   const [reload, triggerReload] = useState(undefined);
   const alertConfig = useObservable(alertConfig$.startWith(null), [alertConfigId, alertConfigCreated, reload]);

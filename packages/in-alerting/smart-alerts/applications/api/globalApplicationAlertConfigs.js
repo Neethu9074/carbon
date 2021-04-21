@@ -71,8 +71,8 @@ export function getLatestGlobalAlertConfig(id, config = { asObservable: false })
     : http(requestConfig).map(response => response.body);
 }
 
-export function getGlobalAlertConfigByIdAndTimestamp(id, timestamp) {
-  return http({
+export function getGlobalAlertConfigByIdAndTimestamp(id, timestamp, config = { asObservable: false }) {
+  const requestConfig = {
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -80,7 +80,11 @@ export function getGlobalAlertConfigByIdAndTimestamp(id, timestamp) {
     queryParams: {
       validOn: timestamp
     }
-  }).map(response => response.body);
+  };
+
+  return config.asObservable
+    ? createObservable(http(requestConfig))
+    : http(requestConfig).map(response => response.body);
 }
 
 export function enableGlobalAlertConfig(id, config = { asObservable: false }) {
@@ -115,6 +119,19 @@ export function deleteGlobalAlertConfig(id, config = { asObservable: false }) {
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${baseUrl}/${id}`
+  };
+
+  return config.asObservable
+    ? createObservable(http(requestConfig))
+    : http(requestConfig).map(response => response.body);
+}
+
+export function getAllVersionsOfGlobalAlertConfig(id, config = { asObservable: false }) {
+  const requestConfig = {
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}/versions`
   };
 
   return config.asObservable
