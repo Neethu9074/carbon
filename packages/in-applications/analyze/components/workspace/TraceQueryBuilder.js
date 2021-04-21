@@ -23,7 +23,9 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagC
           filter: {
             timeConfig: args.timeConfig
           },
-          secondLevelKeyTagName: args.key
+          secondLevelKeyTagName: args.key,
+          includeInternal: args.includeInternal,
+          includeSynthetic: args.includeSynthetic
         });
   },
   withoutOrConjunction: true,
