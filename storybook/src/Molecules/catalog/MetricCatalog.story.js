@@ -19,11 +19,16 @@ export default {
 function metricCatalog(numberOfCategories, numberOfMetricsPerCategory) {
   const metrics = type =>
     range(0, numberOfMetricsPerCategory).map(i => ({
-      label: `Metric number ${i}`,
-      description: 'Lorem ipsum',
-      icon: 'lib_views_tag',
-      type: type,
-      name: `metric_${i}`
+      label: `Metric number ${i} category`,
+      children: [
+        {
+          label: `Metric number ${i}`,
+          description: 'Lorem ipsum',
+          icon: 'lib_views_tag',
+          type: type,
+          name: `metric_${i}`
+        }
+      ]
     }));
   const categories = range(0, numberOfCategories).map(i => {
     const type = Object.keys(plugins)[i % Object.keys(plugins).length];
@@ -55,6 +60,7 @@ function metricCatalog(numberOfCategories, numberOfMetricsPerCategory) {
 export const Default = () => {
   const [metric, setMetric] = useState();
   const [type, setType] = useState();
+  const [query, onQueryChange] = useState('');
 
   const onChange = change => {
     setMetric(change.metric);
@@ -81,6 +87,8 @@ export const Default = () => {
         )}
         label="please select a metric"
         onChange={onChange}
+        query={query}
+        onQueryChange={onQueryChange}
       />
     </div>
   );
