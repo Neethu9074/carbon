@@ -69,5 +69,7 @@ phases:
       # Upload artifacts to Maven repository
       - 'FAIL_ON_DELIVERY_BRANCH=true ./build/ci-shared-tools/scripts/isDeliveryBranch.js || ./build/ci-shared-tools/scripts/uploadReleaseArtifact.bash "ui-client-$GIT_BRANCH-$INSTANA_CONTAINER_TAG.tar.gz" "target/*" "ui-client" "$GIT_BRANCH" "$INSTANA_CONTAINER_TAG"'
       # Mark as stable in Instana's own versioning system
-      - './build/ci-shared-tools/scripts/markStableVersion.bash "ui-client" "$GIT_BRANCH" "$INSTANA_CONTAINER_TAG"'
-      - './build/ci-shared-tools/scripts/markStableVersion.bash "ui-client-saas" "$GIT_BRANCH" "$INSTANA_CONTAINER_TAG"'
+      # except for the develop branch as we're trialing the new container image builds on develop
+      # and this step will eventually be moved to a later stage of the pipeline entirely
+      - if [ "$GIT_BRANCH" != "develop" ]; then ./build/ci-shared-tools/scripts/markStableVersion.bash "ui-client" "$GIT_BRANCH" "$INSTANA_CONTAINER_TAG"; fi
+      - if [ "$GIT_BRANCH" != "develop" ]; then ./build/ci-shared-tools/scripts/markStableVersion.bash "ui-client-saas" "$GIT_BRANCH" "$INSTANA_CONTAINER_TAG"; fi

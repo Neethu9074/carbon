@@ -5,8 +5,12 @@ def gitCommitId         = null
 def gitCommitAuthor     = null
 def gitMessage          = null
 def instanaVersion      = null
+def instanaImageVersion = null
+def majorReleaseVersion = null
 def archiveName         = null
 def latestReleaseBranch = null
+def backendComponents   = null
+def uiClientComponents  = null
 
 def autoDeployMagenta = true
 
@@ -35,14 +39,27 @@ pipeline {
         script {
           latestReleaseBranch = getLatestReleaseBranch()
           instanaVersion      = getVersion('ui-client', env.BRANCH_NAME)
+          instanaImageVersion = "3." + instanaVersion.tokenize('.').drop(1).join('.') + "-0"
+          majorReleaseVersion = instanaVersion.tokenize('.')[1].toInteger()
           gitCommitId         = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           gitCommitAuthor     = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
           gitMessage          = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.com/instana/ui-client/commit/%h|%h>): %s'").trim()
+          // https://github.com/instana/jenkins/blob/develop/vars/getBackendComponents.groovy
+          backendComponents = getBackendComponents()
+              .findAll { it.isIncludedInRelease(majorReleaseVersion) && !(it.name ==~ /^ui-client.*/) }
+              .collect { it.name }
+              .plus(['ingress', 'ingress-global'])
+          uiClientComponents = getBackendComponents()
+              .findAll { it.isIncludedInRelease(majorReleaseVersion) && (it.name ==~ /^ui-client.*/) }
+              .collect { it.name }
+
+          // download git submodules so that our shared CI tools are available
+          sh "git submodule update --init --recursive"
+          // Set up the shared tooling
+          sh "./build/ci-shared-tools/scripts/setup.bash"
 
           currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId.take(8)} -> ${instanaVersion}"
-
           archiveName = "ui-client-${env.BRANCH_NAME}-${instanaVersion}.tar.gz"
-
           stash includes: "**/*", name: "ui-client-checkout-${gitCommitId}", useDefaultExcludes: false
         }
       }
@@ -85,14 +102,15 @@ pipeline {
         timeout(time: 30, unit: 'MINUTES') {
           timestamps {
             script {
-              if (env.BRANCH_NAME == 'develop') {
-                build job: '/retag-artifacts', parameters: [
-                    string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true),
-                    string(name: 'ENVIRONMENT', value: 'pink', trim: true),
-                    string(name: 'TENANT', value: 'instana', trim: true),
-                    string(name: 'UNIT', value: 'test', trim: true),
-                ]
-              } else if ( env.BRANCH_NAME == latestReleaseBranch && autoDeployMagenta ) {
+              // if (env.BRANCH_NAME == 'develop') {
+              //   build job: '/retag-artifacts', parameters: [
+              //       string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true),
+              //       string(name: 'ENVIRONMENT', value: 'pink', trim: true),
+              //       string(name: 'TENANT', value: 'instana', trim: true),
+              //       string(name: 'UNIT', value: 'test', trim: true),
+              //   ]
+              // }
+              if ( env.BRANCH_NAME == latestReleaseBranch && autoDeployMagenta ) {
                 // retag artifacts, build k8s containers and deploy
                 build job: '/retag-artifacts', parameters: [
                     string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true),
@@ -111,6 +129,59 @@ pipeline {
               }
             }
           }
+        }
+      }
+    }
+
+    stage('Build & Push Images') {
+      steps {
+        // Only allow 1 concurrent build is allowed to build images at a time and newer
+        // builds are pulled off the queue first. When the a build reaches the milestone
+        // at the end of the lock, all jobs started prior to the current build that are
+        // still waiting for the lock will be aborted
+        // https://www.jenkins.io/blog/2016/10/16/stage-lock-milestone/
+        lock(resource: 'build-ui-client-images', inversePrecedence: true) {
+          timeout(time: 15, unit: 'MINUTES') {
+            timestamps {
+              script {
+                if (env.BRANCH_NAME == 'develop') {
+                  // Enable only for the develop branch for now
+                  // Other delivery branches will use 'K8s Deploy'
+                  //   || env.BRANCH_NAME == latestReleaseBranch
+                  //   || env.BRANCH_NAME ==~ /release-\d{3,}/
+                  //   || env.BRANCH_NAME ==~ /hotfix-\d{3,}(-.+)?/) {
+
+                  def buildAndPublish = [:]
+                  uiClientComponents.each { component ->
+                    buildAndPublish[component] = {
+                      buildAndPublishImage(gitCommitId, component, instanaVersion, env.BRANCH_NAME)
+                    }
+                  }
+                  parallel buildAndPublish
+
+                  retagBackend(backendComponents, env.BRANCH_NAME, instanaVersion, instanaImageVersion, currentBuild)
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        lock(resource: "deploy-instana-${env.BRANCH_NAME}", inversePrecedence: true) {
+           timeout(time: 30, unit: 'MINUTES') {
+             timestamps {
+               script {
+                 // Enable only for the develop branch for now
+                // Other delivery branches will use 'K8s Deploy'
+                if (env.BRANCH_NAME == 'develop') {
+                  deployInstana(env.BRANCH_NAME, instanaImageVersion, null, 'pink', 'instana', 'test')
+                }
+               }
+             }
+           }
         }
       }
     }
@@ -153,43 +224,6 @@ pipeline {
       }
     }
 
-    stage('Build & Push Images') {
-      steps {
-        // Only allow 1 concurrent build is allowed to build images at a time and newer
-        // builds are pulled off the queue first. When the a build reaches the milestone
-        // at the end of the lock, all jobs started prior to the current build that are
-        // still waiting for the lock will be aborted
-        // https://www.jenkins.io/blog/2016/10/16/stage-lock-milestone/
-        lock(resource: 'build-ui-client-images', inversePrecedence: true) {
-          timeout(time: 15, unit: 'MINUTES') {
-            timestamps {
-              script {
-                if (env.BRANCH_NAME == 'develop'
-                    || env.BRANCH_NAME == latestReleaseBranch
-                    || env.BRANCH_NAME ==~ /release-\d{3,}/
-                    || env.BRANCH_NAME ==~ /hotfix-\d{3,}(-.+)?/) {
-
-                  def majorReleaseVersion = instanaVersion.tokenize('.')[1].toInteger()
-                  // https://github.com/instana/jenkins/blob/develop/vars/getBackendComponents.groovy
-                  def uiClientComponents = getBackendComponents()
-                      .findAll { it.isIncludedInRelease(majorReleaseVersion) && (it.name ==~ /^ui-client.*/) }
-                      .collect { it.name }
-                  def buildAndPublish = [:]
-                  uiClientComponents.each { component ->
-                    buildAndPublish[component] = {
-                      buildAndPublishImage(gitCommitId, component, instanaVersion, env.BRANCH_NAME)
-                    }
-                  }
-
-                  parallel buildAndPublish
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
   }
 }
 
@@ -202,4 +236,37 @@ def buildAndPublishImage(gitCommitId, componentName, version, branchName) {
       sourceControlType: 'project',
       sourceVersion: gitCommitId,
       envVariables: "[ {CONTAINER_IMAGE_NAME, ${componentName}}, {VERSION, ${version}}, {BRANCH_NAME, ${branchName}} ]"
+}
+
+// Keep image tags for backend and ui-client in-sync as instanactl only accepts a single version
+// and expects all components to have an image with that version
+def retagBackend(backendComponents, branchName, instanaVersion, instanaImageVersion, currentBuild) {
+  def backendStableVersion =
+      sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js backend ${branchName}").trim()
+  def backendStableImageVersion = "3." + backendStableVersion.tokenize('.').drop(1).join('.') + "-0"
+  backendComponents.each {
+    sh "./build/ci-shared-tools/scripts/docker/retagImage.js containers.instana.io/instana/${branchName}/product/${it}:${backendStableImageVersion} containers.instana.io/instana/${branchName}/product/${it}:${instanaImageVersion}"
+  }
+  sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client ${branchName} ${instanaVersion}"
+  sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client-saas ${branchName} ${instanaVersion}"
+  currentBuild.description = "backend: ${backendStableVersion}, ui-client: ${instanaVersion}, Instana image version: ${instanaImageVersion}"
+}
+
+def deployInstana(branchName, version, globalEnvironment, environment, tenant, unit) {
+  if (globalEnvironment != null) {
+    println "Updating global environment ${globalEnvironment}"
+    sh "instanactl --deployment ${globalEnvironment} global migrate --branch=${branchName}"
+    sh "instanactl --deployment ${globalEnvironment} global update --version=${version} --branch=${branchName}"
+  }
+  if (tenant != null && unit != null) {
+    println "Updating tenant unit ${tenant}-${unit} in ${environment}"
+    sh "instanactl --deployment ${environment} core migrate --branch ${branchName}"
+    sh "instanactl --deployment ${environment} core update --version ${version} --branch ${branchName}"
+    sh "instanactl --deployment ${environment} tenantunit migrate ${tenant} ${unit} --branch ${branchName}"
+    sh "instanactl --deployment ${environment} tenantunit update ${tenant} ${unit} --version ${version} --branch ${branchName}"
+  } else {
+    println "Updating all tenant units in ${environment}"
+    sh "instanactl --deployment ${environment} tenantunit list"
+    sh "instanactl --deployment ${environment} upgrade --version=${version} --branch=${branchName}"
+  }
 }
