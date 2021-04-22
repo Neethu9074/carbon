@@ -35,6 +35,7 @@ module.exports = {
   vsphereEnabled: true,
   websiteUserBreakdownEnabled: true,
   ampCompanyInfoEnabled: true,
+  ampEnabled: true,
   newAnalyticsEnabled: true,
   persistentVolumeSupportEnabled: true,
   qb2InCustomDashboardsEnabled: true,

@@ -141,6 +141,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'ampEnabled',
+    instanaCtlKey: 'feature.amp.enabled',
+    defaultValue: true
+  },
+  {
     uiClientKey: 'sloWidgetEnabled',
     instanaCtlKey: 'feature.slo.widget.enabled',
     defaultValue: true

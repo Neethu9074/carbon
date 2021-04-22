@@ -40,6 +40,7 @@ export const infraMetricsWidgetEnabled = isFeatureFlagEnabled('infraMetricsWidge
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled');
 export const qb2InCustomDashboardsEnabled = isFeatureFlagEnabled('qb2InCustomDashboardsEnabled');
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled');
+export const ampEnabled = isFeatureFlagEnabled('ampEnabled', true);
 export const newAnalyticsEnabled = isFeatureFlagEnabled('newAnalyticsEnabled');
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
