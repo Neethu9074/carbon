@@ -170,6 +170,7 @@ export default function SmartAlertsBaseList({
 
   const offset = (page - 1) * pageSize;
   const until = offset + pageSize;
+  const resultsToDisplay = getResultsToDisplay(configs, query);
 
   return (
     <Stack>
@@ -218,13 +219,7 @@ export default function SmartAlertsBaseList({
         </HorizontalFlexWrapper>
       </HorizontalFlexWrapper>
       <Ul framed>
-        {configs
-          .filter(config => {
-            if (query.trim()) {
-              return config.name.toLowerCase().includes(query.toLowerCase());
-            }
-            return true;
-          })
+        {resultsToDisplay
           .sort(sortBy(orderBy, orderDirection))
           .slice(offset, until)
           .map(config => (
@@ -248,9 +243,7 @@ export default function SmartAlertsBaseList({
       </Ul>
       <Pagination
         currentPage={page}
-        numPages={Math.ceil(
-          (isGlobalSmartAlertConfig ? numberGlobalSmartAlertConfigs : numberLocalSmartAlertConfigs) / pageSize
-        )}
+        numPages={Math.ceil(resultsToDisplay.length / pageSize)}
         onChange={newPage => setUrlState({ page: newPage })}
       />
     </Stack>
@@ -327,6 +320,18 @@ function sortBy(orderBy, orderDirection) {
       return orderDirection === 'ASC' ? a.enabled - b.enabled : b.enabled - a.enabled;
     }
   };
+}
+
+function getResultsToDisplay(configs, query) {
+  return configs.filter(config => {
+    if (query.trim()) {
+      return config.name
+        .trim()
+        .toLowerCase()
+        .includes(query.trim().toLowerCase());
+    }
+    return true;
+  });
 }
 
 SmartAlertsBaseList.propTypes = {
