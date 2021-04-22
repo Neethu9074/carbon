@@ -12,8 +12,6 @@ def latestReleaseBranch = null
 def backendComponents   = null
 def uiClientComponents  = null
 
-def autoDeployMagenta = true
-
 void setBuildStatus(String message, String state) {
   def commitSha = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 
@@ -96,21 +94,15 @@ pipeline {
       }
     }
 
+    // This stage is deprecated for the 'develop' branch and will eventually be deprecated entirely
+    // Please see the following 'Build & Push Images' and 'Deploy' stages
     stage('K8s Deploy') {
       steps {
         milestone(label: "K8s Deploy", ordinal: null)
         timeout(time: 30, unit: 'MINUTES') {
           timestamps {
             script {
-              // if (env.BRANCH_NAME == 'develop') {
-              //   build job: '/retag-artifacts', parameters: [
-              //       string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true),
-              //       string(name: 'ENVIRONMENT', value: 'pink', trim: true),
-              //       string(name: 'TENANT', value: 'instana', trim: true),
-              //       string(name: 'UNIT', value: 'test', trim: true),
-              //   ]
-              // }
-              if ( env.BRANCH_NAME == latestReleaseBranch && autoDeployMagenta ) {
+              if ( env.BRANCH_NAME == latestReleaseBranch) {
                 // retag artifacts, build k8s containers and deploy
                 build job: '/retag-artifacts', parameters: [
                     string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true),
@@ -140,7 +132,7 @@ pipeline {
         // at the end of the lock, all jobs started prior to the current build that are
         // still waiting for the lock will be aborted
         // https://www.jenkins.io/blog/2016/10/16/stage-lock-milestone/
-        lock(resource: 'build-ui-client-images', inversePrecedence: true) {
+        lock(resource: "build-ui-client-images-${env.BRANCH_NAME}", inversePrecedence: true) {
           timeout(time: 15, unit: 'MINUTES') {
             timestamps {
               script {
@@ -170,6 +162,8 @@ pipeline {
 
     stage('Deploy') {
       steps {
+        // This lock is shared with the backend pipeline as well so as only to allow
+        // one deploy per deployable branch at a time
         lock(resource: "deploy-instana-${env.BRANCH_NAME}", inversePrecedence: true) {
            timeout(time: 30, unit: 'MINUTES') {
              timestamps {
