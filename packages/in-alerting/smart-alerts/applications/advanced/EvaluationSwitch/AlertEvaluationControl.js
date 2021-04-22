@@ -11,6 +11,7 @@ import alertEvaluationTypes, {
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import { applicationSmartAlertsPerEndpointsEnabled } from 'in-services/featureFlags';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import IconLabel from 'in-alerting/components/IconLabel';
 import theme from 'in-themes';
@@ -30,7 +31,10 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
         color={theme.lib.colors.N600Light}
       />
       <div className={locals.options}>
-        {[PER_AP, PER_AP_SERVICE, PER_AP_ENDPOINT].map(type => (
+        {(applicationSmartAlertsPerEndpointsEnabled
+          ? [PER_AP, PER_AP_SERVICE, PER_AP_ENDPOINT]
+          : [PER_AP, PER_AP_SERVICE]
+        ).map(type => (
           <CheckboxFancy
             key={type}
             label={
