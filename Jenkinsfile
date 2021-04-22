@@ -238,9 +238,15 @@ def retagBackend(backendComponents, branchName, instanaVersion, instanaImageVers
   def backendStableVersion =
       sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js backend ${branchName}").trim()
   def backendStableImageVersion = "3." + backendStableVersion.tokenize('.').drop(1).join('.') + "-0"
+
+  def retagBackendComponents = [:]
   backendComponents.each {
-    sh "./build/ci-shared-tools/scripts/docker/retagImage.js containers.instana.io/instana/${branchName}/product/${it}:${backendStableImageVersion} containers.instana.io/instana/${branchName}/product/${it}:${instanaImageVersion}"
+      retagBackendComponents[it] = {
+        sh "./build/ci-shared-tools/scripts/docker/retagImage.js containers.instana.io/instana/${branchName}/product/${it}:${backendStableImageVersion} containers.instana.io/instana/${branchName}/product/${it}:${instanaImageVersion}"
+    }
   }
+  parallel retagBackendComponents
+
   sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client ${branchName} ${instanaVersion}"
   sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client-saas ${branchName} ${instanaVersion}"
   currentBuild.description = "backend: ${backendStableVersion}, ui-client: ${instanaVersion}, Instana image version: ${instanaImageVersion}"
