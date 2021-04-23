@@ -118,7 +118,7 @@ function emails(emails) {
   for (let i = 0, length = emails.size; i < length; i++) {
     const email = emails.get(i);
     const error = notBlankValidator(email);
-    if (error.length > 0) {
+    if (error?.length > 0) {
       errors.push({
         mailIndex: i,
         severity: 'error',
