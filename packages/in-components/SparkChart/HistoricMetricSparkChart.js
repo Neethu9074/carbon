@@ -42,13 +42,13 @@ export default connectTo(
       datasource: null
     };
 
-    UNSAFE_componentWillMount() {
+    componentDidMount() {
       this.updateDatasource(this.props);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
-      if (!shallowEquals(this.props, nextProps)) {
-        this.updateDatasource(nextProps);
+    componentDidUpdate(prevProps) {
+      if (!shallowEquals(prevProps, this.props)) {
+        this.updateDatasource(this.props);
       }
     }
 
