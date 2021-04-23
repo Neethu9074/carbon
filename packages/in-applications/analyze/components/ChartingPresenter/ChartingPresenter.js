@@ -19,8 +19,8 @@ export default function ChartingPresenter({
   aggregation,
   groupBy,
   tagFilterExpression,
+  formModel,
   hiddenCalls,
-  orderBy,
   updateFilter,
   result,
   groupColors
@@ -34,9 +34,9 @@ export default function ChartingPresenter({
         aggregation={aggregation}
         dataSource={dataSource}
         tagFilterExpression={tagFilterExpression}
+        formModel={formModel}
         hiddenCalls={hiddenCalls}
         groupBy={groupBy}
-        orderBy={orderBy}
         updateFilter={updateFilter}
         result={result}
         groupColors={groupColors}
@@ -63,9 +63,9 @@ function GroupChartPresenter({
   aggregation,
   dataSource,
   tagFilterExpression,
+  formModel,
   hiddenCalls,
   groupBy,
-  orderBy,
   updateFilter,
   result,
   groupColors
@@ -86,10 +86,9 @@ function GroupChartPresenter({
       aggregation={aggregation}
       groupsResult={result}
       dataSource={dataSource}
-      tagFilterExpression={tagFilterExpression}
+      formModel={formModel}
       hiddenCalls={hiddenCalls}
       groupBy={groupBy}
-      orderBy={orderBy}
       formatter={getGroupChartFormatter(metric)}
       // we don't allow to select a chart renderer yet, use the default one
       renderer={defaultRenderer(metric, aggregation).renderer}
