@@ -11,7 +11,7 @@ import { CALLS } from 'in-applications/analyze/metrics';
 const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagCatalogInternal } = createQueryBuilder({
   getTagCatalog: props => getApplicationTagCatalog({ dataSource: CALLS, useCase: 'FILTERING' })(props),
   getSuggestions: args => {
-    return isIdTag(args.name)
+    return isIdTag(args.name) || (args.propose === 'VALUES' && args.key === '')
       ? null
       : getTagSuggestions({
           entity: args.entity,
@@ -22,7 +22,7 @@ const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagC
           filter: {
             timeConfig: args.timeConfig
           },
-          secondLevelKeyTagName: args.key,
+          secondLevelKeyTagName: args.propose === 'VALUES' ? args.key : undefined,
           includeInternal: args.includeInternal,
           includeSynthetic: args.includeSynthetic
         });
