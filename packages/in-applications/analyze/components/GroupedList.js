@@ -567,7 +567,7 @@ function ExpandedGroup({
   );
 }
 
-function groupingFilter({ groupBy, group, operator = EQUALS, groupByTagType }, tagFilterExpression = null) {
+export function groupingFilter({ groupBy, group, operator = EQUALS, groupByTagType }, tagFilterExpression = null) {
   let groupFilter;
 
   if (group === UNSPECIFIED) {
