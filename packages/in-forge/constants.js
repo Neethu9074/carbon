@@ -386,11 +386,11 @@ export const fullyQualifiedPlugins = {
     'com.instana.forge.infrastructure.messaging.kafkaconnect.derivedentity.connector.KafkaConnectConnector',
   kafkaConnectWorker: 'com.instana.forge.infrastructure.messaging.kafkaconnect.derivedentity.worker.KafkaConnectWorker',
   kubernetesCluster: 'com.instana.forge.infrastructure.paas.kubernetes.KubernetesCluster',
-  kubernetesCronJob: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.job.KubernetesCronJob',
+  kubernetesCronJob: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.batch.KubernetesCronJob',
   kubernetesDaemonSet: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.daemonset.KubernetesDaemonSet',
   kubernetesDeployment:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.deployment.KubernetesDeployment',
-  kubernetesJob: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.job.KubernetesJob',
+  kubernetesJob: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.batch.KubernetesJob',
   kubernetesNamespace: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.namespace.KubernetesNamespace',
   kubernetesNode: 'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.node.KubernetesNode',
   kubernetesPersistentVolume:
