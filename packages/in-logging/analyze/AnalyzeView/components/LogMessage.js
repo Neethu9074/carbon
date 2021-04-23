@@ -5,7 +5,7 @@
 
 import React, { useMemo } from 'react';
 
-import { toChunks, MESSAGE_CHUNK } from 'in-logging/analyze/AnalyzeView/components/templateString';
+import { toChunks, fillWithParams, MESSAGE_CHUNK } from 'in-services/util/stringToChunks';
 import { logMessageParameterClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
@@ -22,7 +22,7 @@ export default function LogMessage({ logTags, message, getHrefWithAdditionalTagF
 
     return (
       <>
-        {toChunks(message, paramTags).map(({ type, value }, i) =>
+        {fillWithParams(toChunks(message, ['{}']), paramTags).map(({ type, value }, i) =>
           type === MESSAGE_CHUNK ? (
             <MessageTag key={i} message={value} />
           ) : (
