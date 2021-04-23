@@ -7,12 +7,17 @@ import React, { useState, useEffect } from 'react';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
-import { chartMetricKey, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
+import { getGroupingTagCatalog as getTraceGroupingTagCatalog } from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
+import { getGroupingTagCatalog as getCallGroupingTagCatalog } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { addGroupingCriteriaToFormModel } from 'in-new-components/AnalyzeView/StateManagement';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { groupLabel } from 'in-applications/analyze/components/GroupedList';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import { chartMetricKey } from 'in-applications/analyze/metrics';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -23,15 +28,17 @@ export default function GroupMetricsChart({
   aggregation,
   groupsResult,
   dataSource,
-  tagFilterExpression,
+  formModel,
   hiddenCalls,
   groupBy,
-  orderBy,
   renderer,
   formatter,
   groupColors
 }) {
   const timeConfig = useTimeConfig();
+  const groupingTagCatalog = useTagCatalog(
+    dataSource === 'traces' ? getTraceGroupingTagCatalog : getCallGroupingTagCatalog
+  );
 
   // keep metrics fetched through getUnifiedMetrics query in the component state
   const [cachedMetrics, setCachedMetrics] = useState({});
@@ -45,9 +52,9 @@ export default function GroupMetricsChart({
   const nbGroups = groupColors.length;
 
   const metrics = useObservable(
-    ([groupsResult, metric, aggregation, tagFilterExpression, hiddenCalls, groupBy, orderBy]) => {
+    ([groupsResult, metric, aggregation, formModel, hiddenCalls, groupBy, groupingTagCatalog]) => {
       // if the groups result is still loading, wait and do nothing
-      if (groupsResult?.progress.loading ?? true) {
+      if (groupingTagCatalog == null || (groupsResult?.progress.loading ?? true)) {
         return just(groupsResult);
       }
 
@@ -62,39 +69,31 @@ export default function GroupMetricsChart({
       } else {
         // if the selected metric does not exist in the groups result and the cached metrics,
         // fetch the values using getUnifiedMetrics
-        const orderByMetricAndAggregation = getMetricAndAggregationFromMetricKey(orderBy.by);
+        const chartableDataSeries = groupsResult.items.slice(0, 5).map(item => ({
+          label: item.name,
+          formModel: addGroupingCriteriaToFormModel(groupBy, item.name, formModel, groupingTagCatalog)
+        }));
+
         return getUnifiedMetrics({
-          metrics: {
-            [metricKey]: {
-              source: 'APPLICATION',
-              dataSource,
-              metric,
-              timeConfig,
-              granularity,
-              aggregation,
-              tagFilterExpression,
-              includeInternal: hiddenCalls?.includeInternal,
-              includeSynthetic: hiddenCalls?.includeSynthetic,
-              grouping: [
-                {
-                  by: groupBy,
-                  // groups can be sorted by a metric different than the metric displayed in the chart
-                  metric: orderByMetricAndAggregation.metric,
-                  aggregation: orderByMetricAndAggregation.aggregation,
-                  maxResults: 5,
-                  direction: orderBy.direction,
-                  includeUnmatched: true
-                }
-              ]
-            }
-          }
+          metrics: chartableDataSeries?.map(({ label, formModel }) => ({
+            source: 'APPLICATION',
+            dataSource,
+            metric,
+            timeConfig,
+            granularity,
+            aggregation,
+            label: label,
+            tagFilterExpression: toBackendQueryModel(formModel),
+            includeInternal: hiddenCalls?.includeInternal,
+            includeSynthetic: hiddenCalls?.includeSynthetic
+          }))
         }).map(getMetricsFromUnifiedMetricResult);
       }
     },
-    [groupsResult, metric, aggregation, tagFilterExpression, hiddenCalls, groupBy, orderBy]
+    [groupsResult, metric, aggregation, formModel, hiddenCalls, groupBy, groupingTagCatalog]
   );
 
-  const loading = metrics?.progress?.loading;
+  const loading = metrics?.progress?.loading ?? false;
   if (loading) {
     return <LoadingIndicator height={189} size="xxl" />;
   }
