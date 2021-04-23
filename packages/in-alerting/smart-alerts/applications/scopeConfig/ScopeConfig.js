@@ -26,7 +26,7 @@ import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfi
 const timeConfig = {
   windowSize: maxChartViewTimeframe
 };
-export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, editMode }) {
+export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, editMode, initialConfiguredApplications }) {
   const applications = form.get('applications').value;
   const boundaryScope = form.get('boundaryScope').value;
   const tagFilterExpression = form.get('tagFilterExpression').value;
@@ -86,6 +86,7 @@ export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, edit
               editMode={editMode}
               showInteractedItemsOnly={filterBySelectionState}
               isGlobalSmartAlert={isGlobalSmartAlert}
+              initialConfiguredApplications={initialConfiguredApplications}
             />
           </div>
           <div
@@ -132,5 +133,6 @@ ScopeConfig.propTypes = {
   isGlobalSmartAlert: PropTypes.bool,
   editMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired
+  updateForm: PropTypes.func.isRequired,
+  initialConfiguredApplications: PropTypes.object
 };

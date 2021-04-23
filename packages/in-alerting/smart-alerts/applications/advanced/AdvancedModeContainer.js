@@ -60,7 +60,8 @@ export default function AdvancedModeContainer(props) {
     editMode,
     isGlobalSmartAlert,
     QueryBuilderComponent,
-    isTagFilterFormModelValid
+    isTagFilterFormModelValid,
+    initialConfiguredApplications = {}
   } = props;
   const alertType = form.get('rule').get('alertType').value;
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -83,6 +84,7 @@ export default function AdvancedModeContainer(props) {
                 QueryBuilderComponent={QueryBuilderComponent}
                 isGlobalSmartAlert={isGlobalSmartAlert}
                 editMode={editMode}
+                initialConfiguredApplications={initialConfiguredApplications}
               />
             </>
           ),

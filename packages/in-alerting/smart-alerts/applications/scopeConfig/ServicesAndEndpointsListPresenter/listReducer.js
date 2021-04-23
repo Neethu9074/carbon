@@ -17,7 +17,8 @@ export const actionType = {
   ADD_ENDPOINT: 'ADD_ENDPOINT',
   REMOVE_APPLICATION: 'REMOVE_APPLICATION',
   REMOVE_SERVICE: 'REMOVE_SERVICE',
-  REMOVE_ENDPOINT: 'REMOVE_ENDPOINT'
+  REMOVE_ENDPOINT: 'REMOVE_ENDPOINT',
+  RESET_STATE: 'RESET_STATE'
 };
 
 export function listReducer(state, action) {
@@ -31,11 +32,14 @@ export function listReducer(state, action) {
     case actionType.ADD_APPLICATION: {
       return addApplicationIfNotContained(state, action, !applicationInclusive);
     }
+
     case actionType.ADD_SERVICE: {
       const stateWithApplication = addApplicationIfNotContained(state, action, applicationInclusive);
       const stateWithService = addServiceIfNotContained(stateWithApplication, action, !applicationInclusive);
+
       return stateWithService;
     }
+
     case actionType.ADD_ENDPOINT: {
       const stateWithApplication = addApplicationIfNotContained(state, action, applicationInclusive);
       const stateWithService = addServiceIfNotContained(stateWithApplication, action, applicationInclusive);
@@ -49,11 +53,13 @@ export function listReducer(state, action) {
 
       return stateWithEndpoint;
     }
+
     case actionType.REMOVE_APPLICATION: {
       const stateCopy = { ...state };
       delete stateCopy[applicationId];
       return stateCopy;
     }
+
     case actionType.REMOVE_SERVICE: {
       const application = selectApplication(state, { applicationId }) ?? {};
       const servicesItemTreeCopy = { ...application?.services };
@@ -74,6 +80,7 @@ export function listReducer(state, action) {
         }
       };
     }
+
     case actionType.REMOVE_ENDPOINT: {
       const application = selectApplication(state, { applicationId }) ?? {};
       const service = selectService(state, { applicationId, serviceId }) ?? {};
@@ -100,6 +107,7 @@ export function listReducer(state, action) {
         const applicationsCopy = { ...state };
         const servicesCopy = { ...application.services };
         delete servicesCopy[serviceId];
+
         if (isEmpty(servicesCopy)) {
           delete applicationsCopy[applicationId];
           return applicationsCopy;
@@ -130,6 +138,11 @@ export function listReducer(state, action) {
         }
       };
     }
+
+    case actionType.RESET_STATE: {
+      return action?.initialState ?? {};
+    }
+
     default:
       throw new Error(`Unknown action: ${action}`);
   }
@@ -137,6 +150,7 @@ export function listReducer(state, action) {
 
 function addApplicationIfNotContained(state, { applicationId }, inclusive) {
   const application = selectApplication(state, { applicationId });
+
   if (isEmpty(application) || application?.inclusive !== inclusive) {
     return cloneNewStateWithApplication(state, applicationId, { inclusive, services: {} });
   }
@@ -146,22 +160,27 @@ function addApplicationIfNotContained(state, { applicationId }, inclusive) {
 
 function addServiceIfNotContained(state, { applicationId, serviceId }, inclusive) {
   const service = selectService(state, { applicationId, serviceId });
+
   if (isEmpty(service)) {
     return cloneNewStateWithService(state, applicationId, { serviceId, inclusive, endpoints: {} });
   }
+
   return state;
 }
 
 function addEndpointIfNotContained(state, { applicationId, serviceId, endpointId }, inclusive) {
   const endpoint = selectEndpoint(state, { applicationId, serviceId, endpointId });
+
   if (isEmpty(endpoint)) {
     return cloneNewStateWithEndpoint(state, applicationId, serviceId, { endpointId, inclusive });
   }
+
   return state;
 }
 
 export function cloneNewStateWithApplication(state, applicationId, applicationConfig) {
   const { inclusive, services } = applicationConfig;
+
   return {
     ...state,
     [applicationId]: {
