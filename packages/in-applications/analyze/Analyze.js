@@ -279,7 +279,7 @@ function ApplicationAnalyzeViewWithFixatedTimeConfig() {
   }
 
   return (
-    <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />}>
+    <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />} backgroundColor={theme.lib.colors.white}>
       <LeftRightPadding>
         <Stack space="gutter">
           <Sections>

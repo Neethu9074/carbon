@@ -142,5 +142,6 @@ AlertConfigDialogPresenter.propTypes = {
   simpleMode: PropTypes.bool.isRequired,
   setSimpleMode: PropTypes.func.isRequired,
   editMode: PropTypes.bool,
-  featureFeedbackElement: PropTypes.element
+  featureFeedbackElement: PropTypes.element,
+  initialConfiguredApplications: PropTypes.object
 };

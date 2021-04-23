@@ -94,6 +94,7 @@ export default function SmartAlertConfigDialogWrapper({
         createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving });
       }}
       isSaving={isSaving}
+      initialConfiguredApplications={formData?.applications ?? {}}
     />
   );
 }

@@ -82,6 +82,10 @@ export default class extends React.Component {
     } else {
       this.wrapper.style.paddingTop = `0px`;
     }
+
+    if (this.props.backgroundColor) {
+      this.wrapper.style.backgroundColor = this.props.backgroundColor;
+    }
   };
 
   componentDidMount() {

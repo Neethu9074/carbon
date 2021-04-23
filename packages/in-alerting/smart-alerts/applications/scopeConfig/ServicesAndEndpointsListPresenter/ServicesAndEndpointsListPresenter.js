@@ -5,10 +5,14 @@
 
 import React, { useEffect, useReducer, useState } from 'react';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 
 import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
+import {
+  actionType,
+  listReducer
+} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
 import ApplicationsList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ApplicationsList';
-import { listReducer } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
 import getApplicationsCursorPaginated from 'in-subscription/application/getApplicationsCursorPaginated';
 import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
@@ -16,6 +20,7 @@ import getServicesCursorPaginated from 'in-subscription/application/getServicesC
 import getApplication from 'in-subscription/application/getApplication';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { propTypeTimeConfig } from 'in-stores/time/config';
+import { boundaryScopes } from 'in-applications/constants';
 import SearchInput from 'in-new-components/SearchInput';
 
 const backendApiSubscriptions = {
@@ -31,7 +36,10 @@ export default function ServicesAndEndpointsListPresenter({
   onChange,
   timeConfig,
   isGlobalSmartAlert,
-  ...props
+  boundaryScope,
+  editMode,
+  initialConfiguredApplications,
+  ...otherProps
 }) {
   const [state, dispatch] = useReducer(listReducer, {}, () => {
     return applicationsSelection;
@@ -46,16 +54,26 @@ export default function ServicesAndEndpointsListPresenter({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
+  useEffect(() => {
+    if (boundaryScope === boundaryScopes.inbound && Object.values(state).some(({ services }) => !isEmpty(services))) {
+      dispatch({ type: actionType.RESET_STATE, initialState: editMode ? initialConfiguredApplications : {} });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [boundaryScope]);
+
   const [timeTo] = useState(Date.now());
 
   return (
     <ApplicationsList
-      {...props}
-      {...apiSubscriptions}
       isGlobalSmartAlert={isGlobalSmartAlert}
       alertApplicationId={alertApplicationId}
       stateManagement={{ state, dispatch }}
       timeConfig={{ ...timeConfig, to: timeTo, focusedMoment: timeTo }}
+      boundaryScope={boundaryScope}
+      editMode={editMode}
+      {...apiSubscriptions}
+      {...otherProps}
     />
   );
 }
@@ -85,5 +103,8 @@ ServicesAndEndpointsListPresenter.propTypes = {
   applicationsSelection: applicationsItemTreePropType,
   alertApplicationId: PropTypes.string,
   timeConfig: propTypeTimeConfig.isRequired,
-  isGlobalSmartAlert: PropTypes.bool
+  isGlobalSmartAlert: PropTypes.bool,
+  boundaryScope: PropTypes.string.isRequired,
+  initialConfiguredApplications: PropTypes.object,
+  editMode: PropTypes.bool
 };
