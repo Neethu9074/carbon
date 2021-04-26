@@ -3,16 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useObservable } from '@instana/hooks';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
 import Node from 'in-applications/ApplicationMap/components/Node/Node';
-import connectTo from 'in-hoc/connectTo';
+import usePrevious from 'in-hooks/usePrevious';
 
-export default connectTo(
-  ({ serviceLocatorUid }) => ({
-    nodes: getServiceLocators(serviceLocatorUid)
+export default function Nodes(props) {
+  const [preventRendering, setAreventRendering] = useState(false);
+  const prevApplicationId = usePrevious(props.applicationId);
+  const serviceNodes = useObservable(
+    getServiceLocators(props.serviceLocatorUid)
       .nodesServiceLocator.getNodes()
       .stream.debounce(100)
       .map(nodes => {
@@ -28,7 +31,11 @@ export default connectTo(
         }
         return nodesArray;
       }),
-    nodesSize: getServiceLocators(serviceLocatorUid)
+    [props.serviceLocatorUid]
+  );
+
+  const nodesSize = useObservable(
+    getServiceLocators(props.serviceLocatorUid)
       .eventBusServiceLocator.on(SIGNALS.WORLD_UNITS)
       .map(({ targetNodeSizeInRelationToInitSize }) => {
         if (targetNodeSizeInRelationToInitSize < 1) {
@@ -36,26 +43,19 @@ export default connectTo(
         }
         return 'mid';
       })
-      .distinct()
-  }),
-  props => <Nodes {...props} />
-);
+      .distinct(),
+    [props.serviceLocatorUid]
+  );
 
-class Nodes extends React.Component {
-  static displayName = 'Nodes';
-
-  preventRendering = false;
-
-  UNSAFE_componentWillUpdate(nextProps) {
-    this.preventRendering = this.props.applicationId !== nextProps.applicationId;
-  }
-
-  render() {
-    const { nodes, nodesSize } = this.props;
-    if (!nodes || this.preventRendering) {
-      return null;
+  useEffect(() => {
+    if (prevApplicationId) {
+      setAreventRendering(prevApplicationId !== props.applicationId);
     }
+  }, [props.applicationId]);
 
-    return nodes.map(node => <Node key={node.id} node={node} size={nodesSize} {...this.props} />);
+  if (!serviceNodes || preventRendering) {
+    return null;
   }
+
+  return serviceNodes.map(node => <Node key={node.id} node={node} size={nodesSize} {...props} />);
 }
