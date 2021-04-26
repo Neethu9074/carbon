@@ -39,6 +39,7 @@
   }
 
   .xs--auto,
+  .xs--auto-preserve-vertical,
   .xs--1,
   .xs--2,
   .xs--3,
@@ -52,6 +53,7 @@
   .xs--11,
   .xs--12,
   .md--auto,
+  .md--auto-preserve-vertical,
   .md--1,
   .md--2,
   .md--3,
@@ -65,6 +67,7 @@
   .md--11,
   .md--12,
   .lg--auto,
+  .lg--auto-preserve-vertical,
   .lg--1,
   .lg--2,
   .lg--3,
@@ -89,6 +92,9 @@
 
   .xs--auto {
     .auto();
+  }
+  .xs--auto-preserve-vertical {
+    .autoPreserveVertical();
   }
   .xs--1 {
     .cell(1);
@@ -167,6 +173,9 @@
     .md--auto {
       .auto();
     }
+    .md--auto-preserve-vertical {
+      .autoPreserveVertical();
+    }
     .md--1 {
       .cell(1);
     }
@@ -244,6 +253,9 @@
   @media (min-width: 1280px) {
     .lg--auto {
       .auto();
+    }
+    .lg--auto-preserve-vertical {
+      .autoPreserveVertical();
     }
     .lg--1 {
       .cell(1);
@@ -326,6 +338,12 @@
 
     // cell style applies - disable vertical margin
     margin-top: 0;
+  }
+
+  .autoPreserveVertical() {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
   }
 
   .cell(@i) {
