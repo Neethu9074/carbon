@@ -47,7 +47,7 @@ export default function WidgetEditorDialog({ widget, onSubmit }) {
       form={form}
       isEditing={widget != null}
       showWidgetSelector={showWidgetSelector}
-      setShowWidgetSelector={setShowWidgetSelector}
+      handleCancelAndResetFormDirtyState={handleCancelAndResetFormDirtyState}
       onChange={(path, fn) => setForm(form.updateIn(path, fn))}
       onChangeType={type => {
         if (type === form.get('type').value) {
@@ -92,6 +92,17 @@ export default function WidgetEditorDialog({ widget, onSubmit }) {
   function setShowWidgetSelector(showWidgetSelector) {
     setState({
       ...state,
+      showWidgetSelector
+    });
+  }
+
+  function handleCancelAndResetFormDirtyState() {
+    const form = state.form.setTouched(false, { recurse: true });
+    const showWidgetSelector = true;
+
+    setState({
+      ...state,
+      form,
       showWidgetSelector
     });
   }

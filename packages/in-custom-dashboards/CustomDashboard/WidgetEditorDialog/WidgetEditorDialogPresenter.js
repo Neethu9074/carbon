@@ -20,7 +20,7 @@ const formId = 'widget-editor';
 
 export default function WidgetEditorDialogPresenter({
   showWidgetSelector,
-  setShowWidgetSelector,
+  handleCancelAndResetFormDirtyState,
   isEditing,
   onSubmit,
   onChange,
@@ -61,7 +61,7 @@ export default function WidgetEditorDialogPresenter({
             {isEditing && <CancelButton onClick={onClose} />}
             {!isEditing && showWidgetSelector && <CancelButton onClick={onClose} />}
             {!isEditing && !showWidgetSelector && (
-              <CancelButton onClick={() => setShowWidgetSelector(true)}>
+              <CancelButton onClick={() => handleCancelAndResetFormDirtyState()}>
                 {t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetEditorDialogPresenter.back')}
               </CancelButton>
             )}
