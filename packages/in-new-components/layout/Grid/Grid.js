@@ -36,21 +36,36 @@ export const Row = ({
   );
 };
 
-export const Col = ({ lg, lgOffset, md, mdOffset, xs, xsOffset, children, className, style }) => {
+export const Col = ({
+  lg,
+  lgOffset,
+  md,
+  mdOffset,
+  xs,
+  xsOffset,
+  children,
+  className,
+  style,
+  preserveVerticalGutter
+}) => {
   return (
     <div
       className={classNames({
         [locals[`lg--${lg}`]]: typeof lg === 'number',
         [locals[`lg-offset--${lgOffset}`]]: typeof lgOffset === 'number',
         [locals['lg--auto']]: lg === true,
+        [locals['lg--auto']]: lg === true && !preserveVerticalGutter,
+        [locals['lg--auto-preserve-vertical']]: lg === true && preserveVerticalGutter,
 
         [locals[`md--${md}`]]: typeof md === 'number',
         [locals[`md-offset--${mdOffset}`]]: typeof mdOffset === 'number',
-        [locals['md--auto']]: md === true,
+        [locals['md--auto']]: md === true && !preserveVerticalGutter,
+        [locals['md--auto-preserve-vertical']]: md === true && preserveVerticalGutter,
 
         [locals[`xs--${xs}`]]: typeof xs === 'number',
         [locals[`xs-offset--${xsOffset}`]]: typeof xsOffset === 'number',
-        [locals['xs--auto']]: xs === true,
+        [locals['xs--auto']]: xs === true && !preserveVerticalGutter,
+        [locals['xs--auto-preserve-vertical']]: xs === true && preserveVerticalGutter,
 
         [className]: className != null
       })}
