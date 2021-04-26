@@ -31,6 +31,7 @@
 
   .noActiveGroupingButton {
     margin-top: 0.125rem;
+    margin-left: 0.125rem;
     border: 1px solid @lib__colors__N400;
     border-radius: @lib__shapes__radius_medium;
   }
