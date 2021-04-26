@@ -16,7 +16,7 @@ import { t } from 'in-i18n';
 import locals from './AnalyzeLogsButton.mless';
 
 export default function AnalyzeLogsButton({ log }) {
-  const serviceId = getServiceId(log.logTags);
+  const serviceId = getServiceId(log.tags);
 
   return (
     <Overlay
@@ -61,8 +61,8 @@ function getLinkToTagFilterExpression(tagFilterExpression) {
   });
 }
 
-function getServiceId(logTags) {
-  return logTags
+function getServiceId(tags) {
+  return tags
     .filter(({ name, key }) => name === 'log.custom' && key === 'service_id')
     .map(({ stringValue }) => stringValue)[0];
 }

@@ -6,7 +6,6 @@
 import React from 'react';
 
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
-import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/raw/QueryBuilderWorkspace';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
@@ -102,9 +101,7 @@ function getTableData({ timeConfig, afterKey, backendQueryModel, loadAfterCount 
     retrievalSize: 20,
     afterKey,
     loadAfterCount,
-    logicalOperator: 'AND',
-    logTagFilterExpression: backendQueryModel,
-    infraTagFilterExpression: emptyTagFilterExpression
+    tagFilterExpression: backendQueryModel
   });
 }
 

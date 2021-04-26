@@ -5,8 +5,8 @@
 
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 
-export default function LogHealthColumn({ logTags, children }) {
-  const logLevel = getLogLevel(logTags);
+export default function LogHealthColumn({ tags, children }) {
+  const logLevel = getLogLevel(tags);
   const severity = getSeverityByLogLevel(logLevel);
   return children({ severity });
 }

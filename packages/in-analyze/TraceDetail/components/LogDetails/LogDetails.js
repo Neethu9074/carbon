@@ -41,10 +41,10 @@ export default function LogDetails({ logId, onClose }) {
   }
 
   const log = logResult.data;
-  const tags = [...log.logTags.filter(tag => !isParameterTag(tag)), ...log.infraTags].map(mapToSiderbarTagListObject);
+  const tags = [...log.tags.filter(tag => !isParameterTag(tag))].map(mapToSiderbarTagListObject);
 
   // translate tag param key to not leak the technical rake
-  const parameterTags = log.logTags.filter(isParameterTag).map(mapToSiderbarTagListObject);
+  const parameterTags = log.tags.filter(isParameterTag).map(mapToSiderbarTagListObject);
 
   return (
     <aside className={locals.logDetails}>

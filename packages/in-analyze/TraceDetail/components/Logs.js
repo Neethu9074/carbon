@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import React from 'react';
 
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
-import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
@@ -26,9 +25,9 @@ const columnDefinitions = [
     id: 'logLevel',
     width: '2.5rem',
     widthInAbsoluteUnit: true,
-    getContent({ logTags }) {
+    getContent({ tags }) {
       return (
-        <LogHealthColumn logTags={logTags}>
+        <LogHealthColumn tags={tags}>
           {({ severity }) => <HealthDot severity={severity} iconSize={10} />}
         </LogHealthColumn>
       );
@@ -45,8 +44,8 @@ const columnDefinitions = [
   },
   {
     id: 'log',
-    getContent({ message, logTags }) {
-      return <LogMessage logTags={logTags} message={message} />;
+    getContent({ message, tags }) {
+      return <LogMessage tags={tags} message={message} />;
     }
   }
 ];
@@ -93,8 +92,6 @@ function getData({ traceId, timeConfigForLogs, afterKey }) {
     timeConfig: timeConfigForLogs,
     retrievalSize: 10,
     afterKey,
-    logicalOperator: 'AND',
-    logTagFilterExpression: getTraceIdTagFilter(traceId),
-    infraTagFilterExpression: emptyTagFilterExpression
+    tagFilterExpression: getTraceIdTagFilter(traceId)
   });
 }

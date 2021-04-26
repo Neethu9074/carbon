@@ -5,7 +5,6 @@
 
 import React, { useMemo } from 'react';
 
-import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
@@ -67,9 +66,7 @@ function getTableData({ timeConfig, cursor, backendQueryModel, groupBy }) {
   return getLogGroups({
     timeConfig,
     groupBy: groupBy.groupbyTag,
-    logicalOperator: 'AND',
-    logTagFilterExpression: backendQueryModel,
-    infraTagFilterExpression: emptyTagFilterExpression,
+    tagFilterExpression: backendQueryModel,
     pagination: {
       cursor,
       retrievalSize: 20
