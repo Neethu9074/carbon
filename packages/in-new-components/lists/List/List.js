@@ -4,6 +4,7 @@
  */
 
 import React, { useState, forwardRef } from 'react';
+import { useAutoFocus } from '@instana/hooks';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
@@ -13,7 +14,6 @@ import LoadingSkeletonLiComponent from 'in-new-components/lists/List/LoadingSkel
 import LoadMoreLiComponent from 'in-new-components/lists/List/LoadMoreLi';
 import ListGroupComponent from 'in-new-components/lists/List/ListGroup';
 import { emptyObject } from 'in-services/fixedObjects';
-import useAutoFocus from 'in-hooks/useAutoFocus';
 import SvgIcon from 'in-components/SvgIcon';
 import Link from 'in-components/Link';
 import { t } from 'in-i18n';

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useAutoFocus } from '@instana/hooks';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -11,7 +12,6 @@ import { toInteractiveElement } from 'in-new-components/interactiveCustomElement
 import Entity from 'in-new-components/GroupingConfigurator/Entity';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useAutoFocus from 'in-hooks/useAutoFocus';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './GroupingConfigurator.mless';

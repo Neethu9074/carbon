@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useAutoFocus } from '@instana/hooks';
 import React from 'react';
 
 import { doesTagNodeNeedSecondLevelKey } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
@@ -20,7 +21,6 @@ import { toInteractiveElement } from 'in-new-components/interactiveCustomElement
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useAutoFocus from 'in-hooks/useAutoFocus';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import theme from 'in-themes';
