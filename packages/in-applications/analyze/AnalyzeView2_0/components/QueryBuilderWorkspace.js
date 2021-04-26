@@ -38,6 +38,7 @@ import Stack from 'in-new-components/layout/Stack';
 import Message from 'in-new-components/Message';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './QueryBuilderWorkspace.mless';
@@ -69,7 +70,10 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
     hiddenCalls
   } = props;
   return (
-    <Sticky header={<AnalyzeHeader formModel={formModel} isGrouped={isGrouped} />}>
+    <Sticky
+      header={<AnalyzeHeader formModel={formModel} isGrouped={isGrouped} />}
+      backgroundColor={theme.lib.colors.white}
+    >
       <LeftRightPadding>
         <Stack space="gutter">
           <Sections>
