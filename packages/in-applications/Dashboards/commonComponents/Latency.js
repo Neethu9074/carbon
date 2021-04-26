@@ -5,11 +5,14 @@
 
 import React from 'react';
 
+import {
+  createFormModelFromSyntheticOption,
+  createHiddenCallsFromSyntheticOption
+} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { latencyFixed } from 'in-services/formatters/number';
 import { integral, line } from 'in-stores/metric/renderer';
@@ -24,13 +27,12 @@ export default function Latency({
   serviceId,
   boundaryScope,
   cardTitle,
-  isSynthetic,
+  syntheticCalls,
   timeShiftAggregation,
   tagFilters,
-  groupByTag,
+  groupBy,
   renderPostChartContent
 }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
   const granularity = getChartGranularity(timeConfig);
   const slownessBlueprintConfig = getBlueprintConfig('slowness');
   const aggregations = ['P90'];
@@ -47,13 +49,15 @@ export default function Latency({
     };
   }
 
+  const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
+
   const defaultMetricConfig = {
     granularity,
     metric: 'latency',
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
-    includeSynthetic: isSynthetic,
+    ...hiddenCalls,
     timeShift: 0
   };
 
@@ -167,22 +171,16 @@ export default function Latency({
             icon: 'lib_analyze',
             label: t('in-applications:lineViewInAnalyze'),
             getHref$: (highlightedTime, metricsToAdd) =>
-              tagCatalog &&
               getJumpToAnalyzeHref$(
                 { applicationId, serviceId, endpointId },
                 {
                   timeConfig: highlightedTime,
                   boundaryScope,
-                  groupByTag,
-                  filters: isSynthetic
-                    ? [
-                        { name: 'call.is_synthetic', value: 'true' },
-                        { name: 'include_synthetic', value: 'true' }
-                      ]
-                    : [],
-                  tagCatalog: tagCatalog,
-                  metrics: mapMetricsToAdd(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig),
-                  focusedMetric: focusBasedOnMetrics(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)
+                  groupBy,
+                  formModel: createFormModelFromSyntheticOption(syntheticCalls),
+                  hiddenCalls,
+                  fields: getFields(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig),
+                  chartedMetrics: getChartedMetrics(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)
                 }
               )
           }
@@ -192,23 +190,25 @@ export default function Latency({
   );
 }
 
-function mapMetricsToAdd(renderedMetrics, metrics, timeShiftConfig) {
-  const metricsForLink = [];
+function getFields(renderedMetrics, metricConfigs, timeShiftConfig) {
+  const fields = [];
   if (timeShiftConfig.offset) {
-    metricsForLink.push({ metric: 'latency', aggregation: metrics[0].aggregation });
+    fields.push(createMetricField('latency', metricConfigs[0].aggregation));
   } else {
-    const activeAggregations = renderedMetrics.map(metricId => metrics[parseMetricId(metricId).index].aggregation);
+    const activeAggregations = renderedMetrics.map(
+      metricId => metricConfigs[parseMetricId(metricId).index].aggregation
+    );
     activeAggregations.map(aggregation => {
-      metricsForLink.push({ metric: 'latency', aggregation: aggregation });
+      fields.push(createMetricField('latency', aggregation));
     });
   }
-  return metricsForLink;
+  return fields;
 }
 
-function focusBasedOnMetrics(renderedMetrics, metrics, timeShiftConfig) {
-  const metricsList = mapMetricsToAdd(renderedMetrics, metrics, timeShiftConfig);
-  if (metricsList.length > 1 && metricsList[0].aggregation === 'P99' && metricsList[1].aggregation === 'MAX') {
-    return `latency_MAX`;
+function getChartedMetrics(renderedMetrics, metricConfigs, timeShiftConfig) {
+  const metricsList = getFields(renderedMetrics, metricConfigs, timeShiftConfig);
+  if (metricsList.length > 1 && metricsList[0].aggregationId === 'P99' && metricsList[1].aggregationId === 'MAX') {
+    return [createChartedMetric('latency', 'MAX')];
   }
-  return `latency_${metricsList[0].aggregation}`;
+  return [createChartedMetric('latency', metricsList[0].aggregationId)];
 }

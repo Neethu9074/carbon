@@ -21,15 +21,17 @@ import {
   OPERATOR_OR,
   createTagFilterExpression
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import getCallGroups from 'in-subscription/application/getCallGroups';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
-import { entityTypes } from 'in-analyze/applicationFilter';
+import { createGroupBy } from 'in-analyze/navigation/paths';
+import { tagFilter } from 'in-analyze/navigation/matrix';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Link from 'in-components/Link';
@@ -112,18 +114,14 @@ export default function MatchedSyntheticEndpoints({ tagFilters }) {
 }
 
 function EndpointName({ item }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
   return (
     <Link
-      href$={
-        tagCatalog &&
-        getLinkToAnalyze({
-          dataSource: 'calls',
-          groupByTag: { name: 'endpoint.name', entity: entityTypes.DESTINATION },
-          filters: getDefaultTagFilters(item),
-          tagCatalog
-        })
-      }
+      href$={getLinkToAnalyze({
+        dataSource: 'calls',
+        groupBy: createGroupBy('endpoint.name', DESTINATION),
+        formModel: getDefaultFormModel(item),
+        hiddenCalls: { includeSynthetic: true }
+      })}
     >
       {item.name}
     </Link>
@@ -131,28 +129,22 @@ function EndpointName({ item }) {
 }
 
 function ServicesAffected({ item }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
   return (
     <Link
-      href$={
-        tagCatalog &&
-        getLinkToAnalyze({
-          dataSource: 'calls',
-          groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
-          filters: getDefaultTagFilters(item),
-          tagCatalog
-        })
-      }
+      href$={getLinkToAnalyze({
+        dataSource: 'calls',
+        groupBy: createGroupBy('service.name', DESTINATION),
+        formModel: getDefaultFormModel(item),
+        hiddenCalls: { includeSynthetic: true }
+      })}
     >
       {number.compact(get(item, ['metrics', 'services', 0, 1]))}
     </Link>
   );
 }
 
-function getDefaultTagFilters(item) {
-  return [
-    { name: 'endpoint.name', value: item.name },
-    { name: 'call.is_synthetic', value: 'true' },
-    { name: 'include_synthetic', value: 'true' }
-  ];
+function getDefaultFormModel(item) {
+  return joinExpressions({
+    expressions: [tagFilter('endpoint.name', EQUALS, item.name), tagFilter('call.is_synthetic', EQUALS, true)]
+  });
 }

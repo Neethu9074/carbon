@@ -43,7 +43,8 @@ const mappingsToUiInternalNames = {
   NUMBER: 'number.compact',
   PERCENTAGE: 'percentage.detailed',
   BYTES: 'bytes.detailed',
-  MILLIS: 'millis.compact'
+  MILLIS: 'millis.compact',
+  LATENCY: 'latency.detailed'
 };
 
 export function getUiInternalFormatterName(backendType) {

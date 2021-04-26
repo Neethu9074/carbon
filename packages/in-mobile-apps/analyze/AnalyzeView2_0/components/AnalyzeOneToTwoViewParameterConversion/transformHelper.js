@@ -39,7 +39,7 @@ export function transformOneZeroToTwoZero(location, tagCatalog, metricCatalog, d
 
   transformMetricParameters(location, dataSourceConfiguration);
 
-  transformChartedMetricsParameters(location);
+  transformChartedMetricsParameters(location, dataSourceConfiguration);
 }
 
 function transformDetailIdParameters(location) {
@@ -182,25 +182,19 @@ function transformMetricParameters(location, dataSourceConfiguration) {
   }
 }
 
-function transformChartedMetricsParameters(location) {
+function transformChartedMetricsParameters(location, dataSourceConfiguration) {
   const focusedMetric = getMatrixParameter(location, analyzePath, 'focusedMetric');
   setOrDeleteMatrixKey(location, analyzePath, 'showGraph');
   setOrDeleteMatrixKey(location, analyzePath, 'focusedMetric');
 
-  let chartedMetrics = [];
+  let chartedMetrics;
   // don't have to check showGraph value here as showGraph is always true for UA2
   if (focusedMetric) {
     const [metricId] = focusedMetric.split('_', 1);
     const aggregationId = focusedMetric.substring(metricId.length + 1);
-    chartedMetrics.push({
-      metricId,
-      aggregationId
-    });
+    chartedMetrics = [{ metricId, aggregationId }];
   } else {
-    chartedMetrics.push({
-      metricId: 'beaconCount',
-      aggregationId: 'SUM'
-    });
+    chartedMetrics = dataSourceConfiguration.defaultChartedMetrics;
   }
 
   setOrDeleteMatrixKey(

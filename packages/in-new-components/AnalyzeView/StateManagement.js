@@ -21,6 +21,7 @@ import { sanitizeTagFilter } from 'in-new-components/QueryBuilder/transformation
 import { columnDefinitionShape } from 'in-new-components/lists/List/ColumnizedContent';
 import { UNSPECIFIED, NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { emptyArray, emptyObject, pendingResult } from 'in-services/fixedObjects';
+import { getSingleNumberMetricId } from 'in-new-components/AnalyzeView/metrics';
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { getTagCatalogOnce } from 'in-services/tags/tagCatalog';
@@ -98,6 +99,8 @@ const chartedMetricsPropTypes = rpt.arrayOf(
 const groupedViewPropType = rpt.shape({
   defaultOrderBy: rpt.string.isRequired,
   defaultOrderDirection: rpt.oneOf(['ASC', 'DESC']).isRequired,
+  timestampName: rpt.string,
+  orderByGroupName: rpt.string,
   getOrderById: rpt.func,
   customFieldRenderingInstructions: rpt.objectOf(rpt.shape(extendedColumnDefinitionShape).isRequired)
 }).isRequired;
@@ -105,7 +108,7 @@ const groupedViewPropType = rpt.shape({
 const ungroupedViewPropType = rpt.shape({
   defaultOrderBy: rpt.string.isRequired,
   defaultOrderDirection: rpt.oneOf(['ASC', 'DESC']).isRequired,
-  getOrderById: rpt.func,
+  timestampName: rpt.string,
 
   // TODO: Technically this is not correct. The ungrouped view can be a list or a table.
   // The prop types are currently not accounting for this difference. However, they are
@@ -123,11 +126,23 @@ const facetedSearchItemsPropType = rpt.arrayOf(
   rpt.shape({
     renderer: rpt.func,
     title: rpt.string,
-    tag: rpt.string
+    tag: rpt.string,
+    enableUseAsGroup: rpt.bool,
+    customLabelMapper: rpt.func,
+    ranges: rpt.arrayOf(
+      rpt.shape({
+        start: rpt.number,
+        end: rpt.number
+      })
+    ),
+    key: rpt.string,
+    getItems: rpt.func,
+    getSuggestionName: rpt.func,
+    extraProps: rpt.object
   })
 );
 
-const metricCatalogFilterPropType = rpt.func;
+const metricCatalogTransformerPropType = rpt.func;
 
 TimeFixatingAnalyzeStateManagement.propTypes = {
   path: rpt.string.isRequired,
@@ -137,7 +152,8 @@ TimeFixatingAnalyzeStateManagement.propTypes = {
 
   dataSourceConfigurations: rpt.objectOf(
     rpt.shape({
-      metricCatalogFilter: metricCatalogFilterPropType,
+      metricCatalogTransformer: metricCatalogTransformerPropType,
+      chartableMetricCatalogTransformer: metricCatalogTransformerPropType,
       facetedSearchItems: facetedSearchItemsPropType,
       groupedView: groupedViewPropType,
       ungroupedView: ungroupedViewPropType,
@@ -169,7 +185,8 @@ function AnalyzeStateManagement({
     fixedFields = emptyArray,
     defaultSelectableFields = emptyArray,
     defaultChartedMetrics = emptyArray,
-    metricCatalogFilter
+    metricCatalogTransformer,
+    chartableMetricCatalogTransformer
   } = dataSourceConfigurations[dataSource];
 
   const formModel = useStableObjectInstance(urlState.formModel);
@@ -208,6 +225,21 @@ function AnalyzeStateManagement({
   const metricCatalogResult =
     useObservable(() => getMetricCatalog?.() || noResultObservable(), [getMetricCatalog]) ?? pendingResult;
 
+  const metricCatalog = useMemo(() => {
+    let catalog = metricCatalogResult?.data;
+    if (metricCatalogTransformer != null) {
+      return catalog?.map(metricCatalogTransformer).filter(Boolean);
+    }
+    return catalog;
+  }, [metricCatalogResult, metricCatalogTransformer]);
+
+  const chartableMetricCatalog = useMemo(() => {
+    if (chartableMetricCatalogTransformer != null) {
+      return metricCatalogResult?.data?.map(chartableMetricCatalogTransformer).filter(Boolean);
+    }
+    return metricCatalog;
+  }, [metricCatalog, metricCatalogResult, chartableMetricCatalogTransformer]);
+
   const isLoading =
     filteringTagCatalogResult.data == null || groupingTagCatalogResult.data == null || metricCatalogResult.data == null;
   const isValid = Boolean(
@@ -224,7 +256,7 @@ function AnalyzeStateManagement({
   const { defaultOrderBy: defaultOrderByGroups, defaultOrderDirection: defaultOrderDirectionGroups } =
     groupedView ?? emptyObject;
 
-  const backendQueryModel = useMemo(() => (isValid ? toBackendQueryModel(formModel) : null), [isValid, formModel]);
+  const backendQueryModel = useMemo(() => toBackendQueryModel(formModel), [formModel]);
 
   const orderBy = useStableObjectInstance({
     by: urlState.orderBy?.by ?? defaultOrderBy,
@@ -239,15 +271,11 @@ function AnalyzeStateManagement({
   // Eventually we might wanna store this within the URL. This might become a lot more interesting when
   // our users can (de-)select their desired data series.
   const [chartableDataSeries, onChartableDataSeriesChange] = useState(null);
-
-  const metricCatalog = metricCatalogResult.data;
   const onSelectableFieldsChange = selectableFields => {
     const changedParams = { fields: selectableFields };
     const fields = [...fixedFields, ...selectableFields];
     // reset "orderBy" if needed
-    const availableOrderByIds = fields
-      .map(field => ungroupedView.getOrderById && ungroupedView.getOrderById({ metricCatalog, field }))
-      .filter(Boolean);
+    const availableOrderByIds = fields.map(field => getOrderById({ metricCatalog, field })).filter(Boolean);
     if (!orderBy || !availableOrderByIds.includes(orderBy.by)) {
       changedParams.orderBy = {
         by: ungroupedView.defaultOrderBy,
@@ -275,10 +303,13 @@ function AnalyzeStateManagement({
     isValid,
     refreshFixatedTimeConfig,
     ungroupedViewConfiguration: ungroupedView,
-    groupedViewConfiguration: groupedView,
+    groupedViewConfiguration: {
+      getOrderById: ({ field }) =>
+        getOrderByGroupId({ field, dataSourceConfiguration: dataSourceConfigurations[dataSource] }),
+      ...groupedView
+    },
     facetedSearchItems,
     fixedFields,
-    metricCatalogFilter,
 
     backendQueryModel,
     formModel,
@@ -294,10 +325,11 @@ function AnalyzeStateManagement({
         detailId: null
       });
     },
-    getHrefToGroupedView(groupValue) {
+    getHrefToGroupedView(groupValue, groupbyTagEntity) {
       return getChangeAsUrl({
         groupBy: {
-          groupbyTag: groupValue
+          groupbyTag: groupValue,
+          ...(groupbyTagEntity && { groupbyTagEntity })
         }
       });
     },
@@ -336,7 +368,8 @@ function AnalyzeStateManagement({
     selectableFields,
     onSelectableFieldsChange,
 
-    metricCatalog: metricCatalogResult.data,
+    metricCatalog,
+    chartableMetricCatalog,
     chartableDataSeries,
     onChartableDataSeriesChange,
     chartedMetrics,
@@ -359,6 +392,40 @@ function AnalyzeStateManagement({
     };
   }
 }
+
+function getOrderById({ metricCatalog, field }) {
+  if (field.type === customType) {
+    return field.customFieldId;
+  }
+  if (field.type === metricType) {
+    const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metricId);
+    return metricDefinition?.tagName;
+  }
+  return null;
+}
+
+function getOrderByGroupId({ field, dataSourceConfiguration }) {
+  if (field.type === customType) {
+    if (field.customFieldId === 'timestamp') {
+      return dataSourceConfiguration.groupedView.timestampName ?? 'earliestTimestamp';
+    }
+    return field.customFieldId;
+  }
+  if (field.type === metricType) {
+    return getSingleNumberMetricId(field);
+  }
+  return null;
+}
+
+const metricCatalogPropType = rpt.arrayOf(
+  rpt.shape({
+    metricId: rpt.string,
+    label: rpt.string,
+    formatter: rpt.string,
+    description: rpt.string,
+    aggregations: rpt.arrayOf(rpt.string)
+  })
+);
 
 export const childrenArgsAsPropTypes = {
   isLoading: rpt.bool.isRequired,
@@ -396,16 +463,8 @@ export const childrenArgsAsPropTypes = {
   fixedFields: fieldsPropTypes,
   selectableFields: fieldsPropTypes,
   onSelectableFieldsChange: rpt.func.isRequired,
-  metricCatalogFilter: metricCatalogFilterPropType,
-  metricCatalog: rpt.arrayOf(
-    rpt.shape({
-      metricId: rpt.string,
-      label: rpt.string,
-      formatter: rpt.string,
-      description: rpt.string,
-      aggregations: rpt.arrayOf(rpt.string)
-    })
-  ),
+  metricCatalog: metricCatalogPropType,
+  chartableMetricCatalog: metricCatalogPropType,
   // If grouping is selected there is a difference between setting 'chartableDataSeries' to 'null' vs '[]'. The
   // former means that the 'chartableDataSeries' are not known yet, e.g., the query which will determine
   // the 'chartableDataSeries' is being executed, whereas the latter means that there is no 'chartableDataSeries'

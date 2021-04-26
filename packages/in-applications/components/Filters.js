@@ -5,11 +5,13 @@
 
 import React, { Fragment } from 'react';
 
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { type as tagFilterType } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { CONTAINS, EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Button from 'in-new-components/Button';
 import ComboBox from 'in-components/ComboBox';
@@ -28,45 +30,64 @@ export default function Filters({
   serviceName,
   endpointName,
   boundaryScope,
-  groupByTag,
+  groupBy,
   query
 }) {
   let queryFilter = [];
-  let endpointFilters = [];
-  let technologyFilters = [];
-
-  const tagCatalog = useTagCatalog(getTagCatalog);
   if (query) {
     if (applicationName || (!applicationName && !serviceName)) {
-      queryFilter = [{ name: 'service.name', value: query, operator: 'CONTAINS', entity: entityTypes.DESTINATION }];
+      queryFilter = [
+        { type: tagFilterType, name: 'service.name', value: query, operator: CONTAINS, entity: entityTypes.DESTINATION }
+      ];
     } else if (serviceName) {
-      queryFilter = [{ name: 'endpoint.name', value: query, operator: 'CONTAINS', entity: entityTypes.DESTINATION }];
+      queryFilter = [
+        {
+          type: tagFilterType,
+          name: 'endpoint.name',
+          value: query,
+          operator: CONTAINS,
+          entity: entityTypes.DESTINATION
+        }
+      ];
     }
   }
 
-  endpointTypes.map(type => endpointFilters.push({ name: 'call.type', value: type, operator: 'EQUALS' }));
-  technologies.map(type =>
-    technologyFilters.push({ name: 'technology', value: type, operator: 'EQUALS', entity: entityTypes.DESTINATION })
-  );
+  // TODO: https://instana.kanbanize.com/ctrl_board/66/cards/50518/details/
+  // filtering by multiple call.type tag filters connected with AND is not supported, using OR as a work-around
+  const endpointFilters = joinExpressions({
+    logicalOperator: or,
+    expressions: endpointTypes.map(endpointTypes => ({
+      type: tagFilterType,
+      name: 'call.type',
+      value: endpointTypes,
+      operator: EQUALS
+    }))
+  });
+
+  const technologyFilters = joinExpressions({
+    expressions: technologies.map(technology => ({
+      type: tagFilterType,
+      name: 'technology',
+      value: technology,
+      operator: EQUALS,
+      entity: entityTypes.DESTINATION
+    }))
+  });
 
   return (
     <Fragment>
       <Button
         kind="secondary"
         className={locals.button}
-        href$={
-          tagCatalog &&
-          getLinkToAnalyze({
-            applicationName,
-            serviceName,
-            endpointName,
-            dataSource: 'calls',
-            groupByTag,
-            boundaryScope,
-            filters: [...queryFilter, ...endpointFilters, ...technologyFilters],
-            tagCatalog
-          })
-        }
+        href$={getLinkToAnalyze({
+          applicationName,
+          serviceName,
+          endpointName,
+          dataSource: 'calls',
+          groupBy,
+          boundaryScope,
+          formModel: joinExpressions({ expressions: [queryFilter, endpointFilters, technologyFilters] })
+        })}
       >
         {t('in-applications:buttonAnalyzeWithLabel', { buttonLabel: buttonLabel })}
       </Button>

@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { range } from 'lodash';
+import { range, sortBy } from 'lodash';
 
 import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-new-components/tracker';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -33,6 +33,7 @@ export default function SuggestionsPresenter({
   errors = [],
   suggestions = [],
   tag,
+  entity,
   getUpdatedTagExpressionHref,
   getHrefToGroupedView,
   customLabelMapper,
@@ -52,6 +53,7 @@ export default function SuggestionsPresenter({
       <Results
         suggestions={suggestions}
         tag={tag}
+        entity={entity}
         getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
         getHrefToGroupedView={getHrefToGroupedView}
         setNumberOfPresentedRows={setNumberOfPresentedRows}
@@ -87,6 +89,7 @@ function Errors({ errors }) {
 function Results({
   suggestions,
   tag,
+  entity,
   getUpdatedTagExpressionHref,
   getHrefToGroupedView,
   setNumberOfPresentedRows,
@@ -97,7 +100,12 @@ function Results({
 }) {
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
   const nextBatch = Math.min(suggestions.length - showMore, 20);
-  const presentedSuggestions = suggestions.slice(0, showMore ? showMore : undefined);
+
+  const orderByMetric = Boolean(suggestions?.length > 0 && suggestions[0]?.metrics?.facetedSearchMetric[0][1]);
+  const presentedSuggestions = (orderByMetric
+    ? sortBy(suggestions, suggestion => -1 * suggestion.metrics.facetedSearchMetric[0][1])
+    : suggestions
+  ).slice(0, showMore ? showMore : undefined);
 
   useEffect(() => {
     setNumberOfPresentedRows(presentedSuggestions.length);
@@ -154,7 +162,7 @@ function Results({
           <Button
             className={locals.addAsGroup}
             kind="action"
-            href={getHrefToGroupedView(tag)}
+            href={getHrefToGroupedView(tag, entity)}
             onClick={() => tracker.groupClicked({ dataSource, tagName: tag })}
           >
             {t('in-new-components:analyze.addAsGroup')}

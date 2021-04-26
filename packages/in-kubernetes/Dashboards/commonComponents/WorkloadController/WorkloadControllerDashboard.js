@@ -11,6 +11,7 @@ import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/Dashb
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
+import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
@@ -18,7 +19,7 @@ import EntityVersionList from 'in-new-components/EntityVersionList';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
-import { entityTypes } from 'in-analyze/applicationFilter';
+import { createGroupBy } from 'in-analyze/navigation/paths';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import { t } from 'in-i18n';
@@ -127,7 +128,7 @@ function renderButtonLine({ workloadControllerType, workloadControllerId, timeCo
   const analyzeCallsProps = {
     clusterName: clusterName,
     namespaceName: namespaceName,
-    groupByTag: { name: 'kubernetes.pod.name', entity: entityTypes.DESTINATION },
+    groupBy: createGroupBy('kubernetes.pod.name', DESTINATION),
     timeConfig: timeConfig
   };
   const workloadControllerFieldName = `${workloadControllerType}Name`;

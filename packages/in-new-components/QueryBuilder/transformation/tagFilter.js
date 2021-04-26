@@ -135,6 +135,6 @@ function transformStringValue(tagCatalog, tagFilter) {
   return { key, value };
 }
 
-export function tagFilter(name, operator, value) {
-  return { type, name, operator, value };
+export function tagFilter(name, operator, value, key) {
+  return { type, name, operator, ...(value && { value }), ...(key && { key }) };
 }

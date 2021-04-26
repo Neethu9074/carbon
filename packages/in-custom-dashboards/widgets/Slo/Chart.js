@@ -15,6 +15,7 @@ import { getTagCatalog } from 'in-applications/analyze/components/workspace/Call
 import { EQUALS, GREATER_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import { createChartedMetric } from 'in-analyze/navigation/paths';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import theme from 'in-themes';
@@ -105,14 +106,14 @@ function getLinkToUnboundAnalytics(sliConfig, tagCatalog, highlightedTime) {
   const sliEntity = sliConfig.sliEntity;
   const boundaryScope = sliEntity.boundaryScope;
 
-  let tagFilterExpression;
+  let formModel;
   let filters;
   if (sliEntity.sliType === availabilityType) {
-    tagFilterExpression = sliEntity.badEventFilterExpression;
+    formModel = sliEntity.badEventFilterExpression;
     filters = [];
   } else {
     // application
-    tagFilterExpression = emptyTagFilterExpression;
+    formModel = emptyTagFilterExpression;
     filters = getAdditionalFiltersForApplicationSli(sliConfig);
   }
 
@@ -122,7 +123,7 @@ function getLinkToUnboundAnalytics(sliConfig, tagCatalog, highlightedTime) {
       serviceId: sliEntity.serviceId,
       endpointId: sliEntity.endpointId
     },
-    tagFilterExpression,
+    formModel,
     filters.map(f => toNewTagFilterFormat(f, tagCatalog)),
     boundaryScope,
     {
@@ -132,7 +133,7 @@ function getLinkToUnboundAnalytics(sliConfig, tagCatalog, highlightedTime) {
         includeInternal: sliEntity.includeInternal,
         includeSynthetic: sliEntity.includeSynthetic
       },
-      charts: getChartsParam(sliConfig)
+      chartedMetrics: getChartsParam(sliConfig)
     }
   );
 }
@@ -167,20 +168,10 @@ function getChartsParam(sliConfig) {
   if (sliConfig.sliEntity.sliType === 'application') {
     const metricName = sliConfig.metricConfiguration.metricName;
     if (metricName === 'latency') {
-      return [
-        {
-          metric: 'latency',
-          aggregation: 'DISTRIBUTION'
-        }
-      ];
+      return [createChartedMetric('latency', 'DISTRIBUTION')];
     }
   }
-  return [
-    {
-      metric: 'calls',
-      aggregation: 'SUM'
-    }
-  ];
+  return [createChartedMetric('calls', 'SUM')];
 }
 
 function getGroupByParam(sliEntity) {

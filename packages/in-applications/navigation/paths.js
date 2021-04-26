@@ -18,15 +18,24 @@ import {
   tagFilters as tagFiltersMatrixParam,
   snapshotId as matrixSnapshotId,
   plugin as matrixPlugin,
-  alertsCategory as alertsCategoryMatrixParam
+  alertsCategory as alertsCategoryMatrixParam,
+  dataSourceMatrixParameter,
+  previewEnabledMatrixParameter,
+  hiddenCallsMatrixParameter
 } from 'in-applications/navigation/matrix';
+import { sanitizeTagFilter, type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/applications/inventory/constants';
+import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
+import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
+import { createParameters } from 'in-new-components/AnalyzeView/parameters';
+import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { getTagFilterToUrlString } from 'in-analyze/filterBuilder';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
-import { emptyObject } from 'in-services/fixedObjects';
+import { boundaryScopes } from 'in-applications/constants';
 import { setTimeConfig } from 'in-stores/time/config';
 
 export const applicationsList = '/applications';
@@ -51,6 +60,153 @@ export const logMessagesTab = '/logMessages';
 export const alertsTab = '/alerts';
 export const alertsTabListFullyQualified = `${applicationDashboard}${alertsTab}`;
 export const alertsTabDetailsFullyQualified = `${alertsTabListFullyQualified}/details`;
+
+export const analyzePath = '/analyze';
+
+export const analyzeTwoParameters = createParameters(analyzePath);
+
+// tagCatalog - if specified, the formModel will be reset if any of its tags is not available in the tag catalog
+export function getLinkToAnalyze({
+  applicationName,
+  serviceName,
+  endpointName,
+  boundaryScope = boundaryScopes.inbound,
+  jumpToSource,
+  dataSource = 'calls',
+  groupBy,
+  orderBy,
+  orderByGroups,
+  formModel,
+  hiddenCalls,
+  chartedMetrics,
+  fields,
+  previewEnabled,
+  timeConfig,
+  tagCatalog
+}) {
+  return getModifiedUrlStream(params => {
+    params.pathname = analyzePath;
+
+    setOrDeleteMatrixParameter(params, dataSourceMatrixParameter, dataSource);
+    setOrDeleteMatrixParameter(params, analyzeTwoParameters.groupBy, groupBy?.groupbyTag ? groupBy : null);
+    setOrDeleteMatrixParameter(params, analyzeTwoParameters.orderBy, orderBy?.by ? orderBy : null);
+    setOrDeleteMatrixParameter(params, analyzeTwoParameters.orderByGroups, orderByGroups?.by ? orderByGroups : null);
+    setOrDeleteMatrixParameter(params, analyzeTwoParameters.fields, fields);
+    setOrDeleteMatrixParameter(params, analyzeTwoParameters.chartedMetrics, chartedMetrics);
+    setOrDeleteMatrixParameter(params, hiddenCallsMatrixParameter, hiddenCalls);
+    setOrDeleteMatrixParameter(params, previewEnabledMatrixParameter, previewEnabled);
+
+    if (timeConfig) {
+      setTimeConfig(params, timeConfig);
+    }
+
+    let extendingFormModel = [];
+    if (applicationName != null) {
+      const applicationFilter =
+        boundaryScope === boundaryScopes.inbound
+          ? {
+              type: TAG_FILTER,
+              name: APPLICATION_INBOUND.name,
+              value: applicationName,
+              operator: operators.EQUALS
+            }
+          : {
+              type: TAG_FILTER,
+              name: APPLICATION.name,
+              value: applicationName,
+              operator: operators.EQUALS,
+              entity: entityTypes.DESTINATION
+            };
+      extendingFormModel = joinExpressions({ expressions: [extendingFormModel, applicationFilter] });
+    }
+    if (serviceName != null) {
+      extendingFormModel = joinExpressions({
+        expressions: [
+          extendingFormModel,
+          {
+            type: TAG_FILTER,
+            name: SERVICE.name,
+            value: serviceName,
+            operator: operators.EQUALS,
+            entity: entityTypes.DESTINATION
+          }
+        ]
+      });
+    }
+    if (endpointName != null) {
+      extendingFormModel = joinExpressions({
+        expressions: [
+          extendingFormModel,
+          {
+            type: TAG_FILTER,
+            name: ENDPOINT.name,
+            value: endpointName,
+            operator: operators.EQUALS,
+            entity: entityTypes.DESTINATION
+          }
+        ]
+      });
+    }
+    if (jumpToSource) {
+      if (jumpToSource === 'application') {
+        extendingFormModel = [
+          {
+            type: TAG_FILTER,
+            name: APPLICATION.name,
+            value: applicationName,
+            operator: operators.EQUALS,
+            entity: entityTypes.SOURCE
+          }
+        ];
+      }
+      if (jumpToSource === 'service') {
+        extendingFormModel = [
+          {
+            type: TAG_FILTER,
+            name: SERVICE.name,
+            value: serviceName,
+            operator: operators.EQUALS,
+            entity: entityTypes.SOURCE
+          }
+        ];
+      }
+      if (jumpToSource === 'endpoint') {
+        extendingFormModel = [
+          {
+            type: TAG_FILTER,
+            name: ENDPOINT.name,
+            value: endpointName,
+            operator: operators.EQUALS,
+            entity: entityTypes.SOURCE
+          }
+        ];
+      }
+    }
+
+    let updatedFormModel = formModel;
+    if (tagCatalog && formModel?.length > 0) {
+      const availableTags = tagCatalog.tags.map(t => t.name);
+      const allTagsSupported = formModel
+        .filter(element => element.type === TAG_FILTER)
+        .every(tagFilter => availableTags.includes(tagFilter.name));
+      if (!allTagsSupported) {
+        // reset the provided formModel if it includes unsupported tags
+        updatedFormModel = null;
+      }
+    }
+    // sanitize all tag filters passed in the formModel, so that the caller doesn't have to care about it
+    updatedFormModel = updatedFormModel?.map(element =>
+      element.type === TAG_FILTER ? sanitizeTagFilter(element) : element
+    );
+
+    updatedFormModel = joinExpressions({ expressions: [extendingFormModel, updatedFormModel ?? emptyArray] });
+    setOrDeleteMatrixParameter(
+      params,
+      analyzeTwoParameters.tagFilterExpression,
+      updatedFormModel.length > 0 ? updatedFormModel : null
+    );
+  });
+}
 
 export const isApplicationsView = getRootPathPredicate(
   applicationsList,
@@ -149,6 +305,7 @@ export function getApplicationDashboard(
 ) {
   return getDashboard({
     base: applicationDashboard,
+
     applicationId,
     serviceId,
     endpointId,

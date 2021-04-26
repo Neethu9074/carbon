@@ -5,7 +5,6 @@
 
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
-import { analyze, traceDetail } from 'in-analyze/navigation/paths';
 
 export const applicationId = 'appId';
 export const serviceId = 'serviceId';
@@ -28,13 +27,13 @@ export const alertCreated = 'alertCreated';
 export const alertsCategory = 'configsCategory';
 
 export const dataSourceMatrixParameter = {
-  path: analyze,
+  path: '/analyze',
   name: 'dataSource',
   initialState: 'calls'
 };
 
 export const tagFilterExpressionMatrixParameter = {
-  path: analyze,
+  path: '/analyze',
   name: 'tagFilterExpression',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject),
@@ -42,21 +41,21 @@ export const tagFilterExpressionMatrixParameter = {
 };
 
 export const groupByMatrixParameter = {
-  path: analyze,
+  path: '/analyze',
   name: 'groupBy',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyArray)
 };
 
 export const orderByGroupsMatrixParameter = {
-  path: analyze,
+  path: '/analyze',
   name: 'orderByGroups',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject)
 };
 
 export const orderByMatrixParameter = {
-  path: analyze,
+  path: '/analyze',
   name: 'orderBy',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject),
@@ -64,14 +63,14 @@ export const orderByMatrixParameter = {
 };
 
 export const metricsMatrixParameter = {
-  path: analyze,
+  path: '/analyze',
   name: 'metrics',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyArray)
 };
 
 export const hiddenCallsMatrixParameter = {
-  path: analyze,
+  path: '/analyze',
   name: 'hiddenCalls',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject),
@@ -79,14 +78,14 @@ export const hiddenCallsMatrixParameter = {
 };
 
 export const chartsMatrixParameter = {
-  path: analyze,
+  path: '/analyze',
   name: 'charts',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject)
 };
 
 export const previewEnabledMatrixParameter = {
-  path: analyze,
+  path: '/analyze',
   name: 'previewEnabled',
   initialState: false,
   parser: v => v === 'true',
@@ -94,6 +93,8 @@ export const previewEnabledMatrixParameter = {
 };
 
 export const colorCodeMatrixParameter = {
-  path: traceDetail,
+  path: '/trace',
   name: 'colorCode'
 };
+
+export const dataSource = 'dataSource';

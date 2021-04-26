@@ -3,6 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import TraceGroupingConfigurator from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
+import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
+import TraceQueryBuilder from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
+import CallQueryBuilder from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { newTimeMetric, newNumberMetric } from 'in-analyze/metricDefinitionHelpers';
 import { callClickedTracker, traceClickedTracker } from 'in-analyze/tracker';
 import { number, percentage, millis } from 'in-services/formatters/number';
@@ -81,6 +85,7 @@ export const dataSourceConstants = {
     metricLabel: t('in-applications:analyze.metricLabel', { count: 1 }),
     metricsLabel: t('in-applications:analyze.metricLabel', { count: 2 }),
     type: 'call',
+    name: t('in-applications:labelCall'),
     backendDataSource: CALLS,
     sumMetric: {
       calls_SUM_Agg: {
@@ -128,13 +133,17 @@ export const dataSourceConstants = {
     latencyTag: 'call.latency',
     getData: getCalls,
     getGroupData: getCallGroups,
-    clickedTracker: callClickedTracker
+    clickedTracker: callClickedTracker,
+    QueryBuilder: CallQueryBuilder,
+    GroupingConfigurator: CallGroupingConfigurator,
+    traceIdName: 'traceId'
   },
   traces: {
     metricKey: 'traces_SUM_Agg',
     metricLabel: t('in-applications:analyze.traceLabel', { count: 1 }),
     metricsLabel: t('in-applications:analyze.traceLabel', { count: 2 }),
     type: 'trace',
+    name: t('in-applications:labelTrace'),
     backendDataSource: TRACES,
     sumMetric: {
       traces_SUM_Agg: {
@@ -186,6 +195,9 @@ export const dataSourceConstants = {
     latencyTag: 'trace.latency',
     getData: getTraces,
     getGroupData: getTraceGroups,
-    clickedTracker: traceClickedTracker
+    clickedTracker: traceClickedTracker,
+    QueryBuilder: TraceQueryBuilder,
+    GroupingConfigurator: TraceGroupingConfigurator,
+    traceIdName: 'id'
   }
 };

@@ -214,7 +214,7 @@ function Presenter({
         {internalVisible && (
           <div className={locals.header}>
             <div className={locals.preview}>
-              <span>{t('in-applications:analyze.groupedList.preview')}</span>
+              <span>{t('in-applications:analyze.preview')}</span>
               <Toggle checked={previewEnabled} onChange={e => onChangePreviewEnabled(e.target.checked)} />
             </div>
           </div>
@@ -352,7 +352,7 @@ const getColumnDefinitions = (dataSource, linkFormModel) => {
           <Link
             href$={getLinkToTraceDetail(dataSource === 'traces' ? item[type].id : item[type].traceId, {
               [type + 'Id']: item[type].id,
-              tagFilterExpression: linkFormModel
+              formModel: linkFormModel
             })}
             onClick={() => dataSourceConstants[dataSource].clickedTracker()}
           >

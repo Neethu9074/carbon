@@ -25,6 +25,7 @@ export default function CallTree({
   callTreeResult,
   getColor = () => '#e6e6e6',
   selectedCall$,
+  openedCallId,
   openedCall$,
   onCallClicked,
   onSubCallClicked,
@@ -57,6 +58,7 @@ export default function CallTree({
         getColor={getColor}
         scale={scale}
         selectedCall$={selectedCall$}
+        openedCallId={openedCallId}
         openedCall$={openedCall$}
         onSubCallClicked={onSubCallClicked}
         onCallClicked={onCallClicked}

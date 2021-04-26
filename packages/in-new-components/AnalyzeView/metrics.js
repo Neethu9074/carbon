@@ -16,11 +16,10 @@ export function getSparkChartTimeSeriesMetricId({ metricId, aggregationId }) {
   return metricId + '_' + aggregationId + '_sparkChart';
 }
 
-export function getAvailableMetrics({ metricCatalog, metricCatalogFilter, fixedFields }) {
+export function getAvailableMetrics({ metricCatalog, fixedFields }) {
   return (
     metricCatalog
-      ?.filter(metricDescription => metricCatalogFilter?.(metricDescription) ?? true)
-      .map(metric => {
+      ?.map(metric => {
         // Remove aggregations of fixed metrics
         const fixedAggregations = fixedFields
           .filter(f => f.type === metricType && f.metricId === metric.metricId)

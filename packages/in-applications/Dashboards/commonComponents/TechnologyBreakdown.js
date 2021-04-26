@@ -6,22 +6,24 @@
 import React from 'react';
 
 import {
-  getTagFiltersForSyntheticOption,
+  createFormModelFromSyntheticOption,
+  createHiddenCallsFromSyntheticOption,
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import getTechnologyBreakdown from 'in-applications/subscriptions/getTechnologyBreakdown';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { endpointNameTranslations, getColorChart } from 'in-applications/endpointTypes';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { createChartedMetric, createGroupBy } from 'in-analyze/navigation/paths';
+import { NOT_EQUAL } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { millis, meanLatencyFixed } from 'in-services/formatters/number';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { entityTypes } from 'in-analyze/applicationFilter';
 import connectTo from 'in-hoc/connectTo';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -51,7 +53,6 @@ export default connectTo(
     syntheticCalls,
     renderPostChartContent
   }) {
-    const tagCatalog = useTagCatalog(getTagCatalog);
     let config = {
       cardTitle: t('in-applications:titleProcessingTime')
     };
@@ -93,20 +94,21 @@ export default connectTo(
             icon: 'lib_analyze',
             label: t('in-applications:lineViewInAnalyze'),
             getHref$: (highlightedTime, config) =>
-              tagCatalog &&
               getJumpToAnalyzeHref$(
                 { applicationId, serviceId, endpointId },
                 {
                   boundaryScope,
                   timeConfig: highlightedTime,
-                  showGraph: true,
                   jumpToSource: endpointId ? 'endpoint' : serviceId ? 'service' : 'application',
-                  filters: isSyntheticOption(syntheticCalls)
-                    ? getTagFiltersForSyntheticOption(syntheticCalls)
-                    : filtersBasedOnMetrics(labels, config),
-                  tagCatalog: tagCatalog,
-                  groupByTag: { name: 'call.type', entity: entityTypes.NOT_APPLICABLE },
-                  focusedMetric: 'latency_MEAN'
+                  formModel: joinExpressions({
+                    expressions: [
+                      createFormModelFromSyntheticOption(syntheticCalls),
+                      formModelBasedOnMetrics(labels, config)
+                    ]
+                  }),
+                  hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
+                  groupBy: createGroupBy('call.type'),
+                  chartedMetrics: [createChartedMetric('latency', 'MEAN')]
                 }
               )
           }
@@ -118,15 +120,11 @@ export default connectTo(
   }
 );
 
-function filtersBasedOnMetrics(labels, config) {
-  return labels
-    .filter(metric => config.renderedMetrics.indexOf(metric) == -1)
-    .filter(metric => metric != 'Self')
-    .map(metric => ({
-      name: 'call.type',
-      secondLevelName: false,
-      value: metric.toUpperCase(),
-      operator: 'NOT_EQUAL',
-      entity: 'NOT_APPLICABLE'
-    }));
+function formModelBasedOnMetrics(labels, config) {
+  return joinExpressions({
+    expressions: labels
+      .filter(metric => !config.renderedMetrics.includes(metric))
+      .filter(metric => metric != 'Self')
+      .map(metric => tagFilter('call.type', NOT_EQUAL, metric.toUpperCase()))
+  });
 }

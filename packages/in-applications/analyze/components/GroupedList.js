@@ -518,7 +518,7 @@ function HeaderRow({
       />
       {internalVisible && (
         <div className={locals.preview}>
-          <span>{t('in-applications:analyze.groupedList.preview')}</span>
+          <span>{t('in-applications:analyze.preview')}</span>
           <Toggle checked={previewEnabled} onChange={e => onChangePreviewEnabled(e.target.checked)} />
         </div>
       )}

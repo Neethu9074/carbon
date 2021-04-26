@@ -37,13 +37,11 @@ export default function UngroupedAnalyzeView(props) {
     fixedFields,
     formModel,
     getData,
-    getFacetedGroupLabel,
     getFacetedSearchSuggestions,
     getHrefToGroupedView,
     getHrefWithTagFilterExpression,
     isValid,
     metricCatalog,
-    metricCatalogFilter,
     onFormModelChange,
     onOrderByChange,
     onSelectableFieldsChange,
@@ -55,15 +53,17 @@ export default function UngroupedAnalyzeView(props) {
     withoutHeader,
     withSamplingTooltip,
     ungroupedViewConfiguration,
-    filteringTagCatalog
+    filteringTagCatalog,
+    additionalGetDataDependencies = [],
+    hideMetricAndSortingConfigurator
   } = props;
 
   const timeConfig = useTimeConfig();
   const cursorPaginationState = (useCursorPaginationStrategy ?? useCursorPagination)(
     params => (isValid ? getData({ timeConfig, orderBy, backendQueryModel, ...params }) : empty),
-    [isValid, timeConfig, backendQueryModel, orderBy]
+    [isValid, timeConfig, backendQueryModel, orderBy, ...additionalGetDataDependencies]
   );
-  const { items, errors, progress, totalHits, totalRepresentedItemCount } = cursorPaginationState;
+  const { items, errors, progress, totalHits, totalRepresentedItemCount, adjustedWindowSize } = cursorPaginationState;
 
   const isLoading = props.isLoading || progress?.loading;
   // We deliberately use props.isLoading, because we do not want to remove all loaded entries
@@ -106,7 +106,6 @@ export default function UngroupedAnalyzeView(props) {
 
   const availableMetrics = getAvailableMetrics({
     metricCatalog,
-    metricCatalogFilter,
     fixedFields
   });
 
@@ -119,7 +118,7 @@ export default function UngroupedAnalyzeView(props) {
           totalHits={totalHits}
           totalRepresentedItemCount={totalRepresentedItemCount}
           setOrder={onOrderByChange}
-          availableMetrics={availableMetrics}
+          availableMetrics={hideMetricAndSortingConfigurator ? [] : availableMetrics}
           metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
           setMetrics={metrics =>
             onSelectableFieldsChange(
@@ -132,6 +131,7 @@ export default function UngroupedAnalyzeView(props) {
             )
           }
           withSamplingTooltip={withSamplingTooltip}
+          withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
           tracking={{
             onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
             onMetricAggregationChanged: ({ metric, aggregation }) =>
@@ -157,7 +157,6 @@ export default function UngroupedAnalyzeView(props) {
             getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
             getHrefToGroupedView={getHrefToGroupedView}
             dataSource={dataSource}
-            getFacetedGroupLabel={getFacetedGroupLabel}
             isValid={isValid}
             getSuggestions={({ tag, entity }) =>
               getFacetedSearchSuggestions({

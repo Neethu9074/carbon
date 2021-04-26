@@ -6,10 +6,11 @@
 import React from 'react';
 
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -22,24 +23,21 @@ export default connect(({ applicationId, timeConfig }) => ({
     }
   }).map(result => result.data)
 }))(function AnalyzeTracesButton({ application }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
   return (
     <Button
       kind="primary"
       icon="lib_application_call"
       disabled={!application}
-      href$={
-        tagCatalog &&
-        getLinkToAnalyze({
-          dataSource: 'calls',
-          filters: [
-            { name: 'cloudfoundry.application.id', value: application ? application.guid : '' },
-            { name: 'cloudfoundry.application.name', value: application ? application.label : '' }
-          ],
-          tagCatalog,
-          groupByTag: getConfigByDataSource('calls').defaultGrouping
-        })
-      }
+      href$={getLinkToAnalyze({
+        dataSource: 'calls',
+        formModel: joinExpressions({
+          expressions: [
+            tagFilter('cloudfoundry.application.id', EQUALS, application?.guid),
+            tagFilter('cloudfoundry.application.name', EQUALS, application?.label)
+          ]
+        }),
+        groupBy: defaultApplicationGroupings.calls
+      })}
     >
       {t('in-cloudfoundry:dashboards.analyzeCalls')}
     </Button>

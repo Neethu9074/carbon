@@ -10,10 +10,11 @@ import Configurator from 'in-new-components/AnalyzeView/Charting/Configurator';
 import Chart from 'in-new-components/AnalyzeView/Charting/Chart';
 
 export default function Charting(props) {
+  const { CustomChart } = props;
   return (
     <>
       <Configurator {...props} />
-      <Chart {...props} />
+      {CustomChart ? <CustomChart {...props} /> : <Chart {...props} />}
     </>
   );
 }

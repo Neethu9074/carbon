@@ -5,14 +5,19 @@
 
 import React, { useState } from 'react';
 
+import {
+  createFormModelFromSyntheticOption,
+  createHiddenCallsFromSyntheticOption
+} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { jumpToUnboundedAnalyticsFromLatencyTracker } from 'in-applications/tracker';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { fixateTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
@@ -23,50 +28,35 @@ export default function LatencyDistributionHistogram({
   serviceId,
   endpointId,
   boundaryScope,
-  includeSyntheticCalls
+  syntheticCalls
 }) {
   const [selectedLatencyRange, setSelectedLatencyRange] = useState({ from: null, to: null });
-  const tagCatalog = useTagCatalog(getTagCatalog);
   const timeShiftConfig = useTimeShiftConfig();
 
-  const filterForLink = () => {
+  const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
+
+  const formModelForLink = () => {
     const { from, to } = selectedLatencyRange;
-    let filters = [];
+    let formModel = [];
     if (from != null && from === to) {
-      filters.push({
-        name: 'call.latency',
-        value: from,
-        operator: EQUALS
-      });
+      formModel = joinExpressions({ expressions: [formModel, tagFilter('call.latency', EQUALS, from)] });
     } else {
       if (from > 0) {
-        filters.push({
-          name: 'call.latency',
-          value: from,
-          operator: GREATER_OR_EQUAL_THAN
+        formModel = joinExpressions({
+          expressions: [formModel, tagFilter('call.latency', GREATER_OR_EQUAL_THAN, from)]
         });
       }
       if (to) {
-        filters.push({
-          name: 'call.latency',
-          value: to,
-          operator: LESS_THAN
-        });
+        formModel = joinExpressions({ expressions: [formModel, tagFilter('call.latency', LESS_THAN, to)] });
       }
     }
-    if (includeSyntheticCalls) {
-      filters.push({
-        name: 'include_synthetic',
-        value: 'true'
-      });
-    }
-    return filters;
+    return formModel;
   };
 
   const latencyDistRequest = {
     maxLatencyBuckets: 80,
     includePercentiles: true,
-    includeSynthetic: includeSyntheticCalls || false,
+    ...hiddenCalls,
     filter: {
       timeConfig
     },
@@ -113,18 +103,17 @@ export default function LatencyDistributionHistogram({
           icon: 'lib_analyze',
           label: t('in-applications:lineViewInAnalyze'),
           getHref$: () =>
-            tagCatalog &&
             getJumpToAnalyzeHref$(
               { applicationId: applicationId, serviceId: serviceId, endpointId: endpointId },
               {
                 timeConfig: fixateTimeConfig(timeConfig),
                 boundaryScope,
-                groupByTag: {},
-                filters: filterForLink(),
-                tagCatalog: tagCatalog,
-                focusedMetric: 'latency_DISTRIBUTION',
-                orderBy: 'latency',
-                orderDirection: 'DESC'
+                formModel: joinExpressions({
+                  expressions: [createFormModelFromSyntheticOption(syntheticCalls), formModelForLink()]
+                }),
+                hiddenCalls,
+                chartedMetrics: [createChartedMetric('latency', 'DISTRIBUTION')],
+                orderBy: createOrderBy('latency', 'DESC')
               }
             ),
           onClick: () => {

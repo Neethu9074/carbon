@@ -22,6 +22,7 @@ export default function IcicleChart({
   getColor = () => '#1479ff',
   onCallClicked,
   hoveredServiceEndpoint$,
+  openedCallId,
   openedCall$
 }) {
   const callFrames = applyLayout(rootCall);
@@ -57,6 +58,7 @@ export default function IcicleChart({
                     onCallClicked={onCallClicked}
                     hoveredServiceEndpoint$={hoveredServiceEndpoint$}
                     isFakeRoot={isFakeRootCall(callFrame)}
+                    openedCallId={openedCallId}
                     openedCall$={openedCall$}
                   />
                 </Tooltip>

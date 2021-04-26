@@ -81,9 +81,9 @@ function SearchAndSuggestions({
   formModelExcludingMissingGroupingTag,
   hiddenCalls,
   tag,
+  entity,
   getUpdatedTagExpressionHref,
   getHrefToGroupedView,
-  getFacetedGroupLabel,
   valueFilter,
   setValueFilter,
   dataSource,
@@ -92,7 +92,8 @@ function SearchAndSuggestions({
   enableUseAsGroup,
   tagCatalog,
   tracker,
-  entity
+  getItems = ({ items }) => items,
+  getSuggestionName = ({ name }) => JSON.parse(name)
 }) {
   const timeConfig = useTimeConfig();
   const tagDefinition = tagCatalog?.tags.find(tagEntry => tagEntry.name === tag);
@@ -109,10 +110,10 @@ function SearchAndSuggestions({
       getSuggestions({ tag, entity }).map(
         mapDataHO(data => ({
           ...data,
-          items: data.items
+          items: getItems(data)
             .map(suggestion => ({
               ...suggestion,
-              name: getFacetedGroupLabel(suggestion)
+              name: getSuggestionName(suggestion)
             }))
             .filter(suggestion => valueRegex.test(customLabelMapper(suggestion.name)))
             .map(suggestion => ({
@@ -150,6 +151,7 @@ function SearchAndSuggestions({
         getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
         getHrefToGroupedView={getHrefToGroupedView}
         tag={tag}
+        entity={entity}
         customLabelMapper={customLabelMapper}
         dataSource={dataSource}
         enableUseAsGroup={enableUseAsGroup}

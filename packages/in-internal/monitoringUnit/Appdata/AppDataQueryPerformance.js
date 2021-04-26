@@ -6,9 +6,11 @@
 import React, { Fragment } from 'react';
 
 import CallGroupsChartWrapper from 'in-applications/analyze/components/CallGroupsChartWrapper';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { CONTAINS, NOT_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Row, Col } from 'in-new-components/layout/Grid';
@@ -20,7 +22,6 @@ import { t } from 'in-i18n';
 export default connectTo({
   timeConfig: timeConfig$
 })(function AppdataWriterStatistics({ timeConfig }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
   return (
     <Fragment>
       <h1>appdata-reader</h1>
@@ -32,24 +33,14 @@ export default connectTo({
             cardHeader={
               <Fragment>
                 <Button
-                  href$={
-                    tagCatalog &&
-                    getLinkToAnalyze({
-                      dataSource: 'calls',
-                      timeConfig,
-                      filters: [{ name: 'service.name', operator: 'EQUALS', value: 'clickhouse' }],
-                      tagCatalog,
-                      groupByTag: { name: 'call.tag', value: 'tenantUnit' },
-                      metrics: [
-                        {
-                          metric: 'latency',
-                          aggregation: 'SUM'
-                        }
-                      ],
-                      orderBy: 'latency_SUM_Agg',
-                      orderDirection: 'DESC'
-                    })
-                  }
+                  href$={getLinkToAnalyze({
+                    dataSource: 'calls',
+                    timeConfig,
+                    formModel: [tagFilter('service.name', CONTAINS, 'clickhouse')],
+                    groupBy: { groupbyTag: 'call.tag', groupbyTagSecondLevelKey: 'tenantUnit' },
+                    fields: [createMetricField('latency', 'SUM')],
+                    orderByGroups: createOrderBy('latency_SUM', 'DESC')
+                  })}
                 >
                   {t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.analyze')}
                 </Button>
@@ -57,7 +48,7 @@ export default connectTo({
               </Fragment>
             }
             timeConfig={timeConfig}
-            tagFilters={[{ name: 'service.name', operator: 'EQUALS', stringValue: 'clickhouse' }]}
+            tagFilters={[{ name: 'service.name', operator: CONTAINS, stringValue: 'clickhouse' }]}
             group={{ groupbyTag: 'call.tag', groupbyTagSecondLevelKey: 'tenantUnit' }}
             orderByMetric={0}
             metrics={[
@@ -90,20 +81,15 @@ export default connectTo({
                   href$={getLinkToAnalyze({
                     dataSource: 'calls',
                     timeConfig,
-                    filters: [
-                      { name: 'service.name', operator: 'CONTAINS', value: 'ui-backend' },
-                      { name: 'call.tag', operator: 'NOT_EMPTY', value: 'eventClass' },
-                      { name: 'call.is_synthetic', value: 'false' }
-                    ],
-                    groupByTag: { name: 'call.tag', value: 'eventClass' },
-                    metrics: [
-                      {
-                        metric: 'latency',
-                        aggregation: 'SUM'
-                      }
-                    ],
-                    orderBy: 'latency_SUM_Agg',
-                    orderDirection: 'DESC'
+                    formModel: joinExpressions({
+                      expressions: [
+                        tagFilter('service.name', CONTAINS, 'ui-backend'),
+                        tagFilter('call.tag', NOT_EMPTY, undefined, 'eventClass')
+                      ]
+                    }),
+                    groupBy: { groupbyTag: 'call.tag', groupbyTagSecondLevelKey: 'eventClass' },
+                    fields: [createMetricField('latency', 'SUM')],
+                    orderByGroups: createOrderBy('latency_SUM', 'DESC')
                   })}
                 >
                   {t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.analyze')}
@@ -113,9 +99,8 @@ export default connectTo({
             }
             timeConfig={timeConfig}
             tagFilters={[
-              { name: 'service.name', operator: 'CONTAINS', stringValue: 'ui-backend' },
-              { name: 'call.tag', operator: 'NOT_EMPTY', stringValue: 'eventClass=' },
-              { name: 'call.is_synthetic', booleanValue: 'false' }
+              { name: 'service.name', operator: CONTAINS, stringValue: 'ui-backend' },
+              { name: 'call.tag', operator: NOT_EMPTY, stringValue: 'eventClass' }
             ]}
             group={{ groupbyTag: 'call.tag', groupbyTagSecondLevelKey: 'eventClass' }}
             orderByMetric

@@ -33,6 +33,7 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { newServiceView } from 'in-applications/navigation/paths';
+import { createGroupBy } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -216,7 +217,7 @@ export default function ServicesList({
         setFilter={setFilter}
         query={query}
         buttonLabel={t('in-applications:lists.services')}
-        groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
+        groupBy={createGroupBy('service.name', entityTypes.DESTINATION)}
       />
     </>
   );

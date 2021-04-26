@@ -10,7 +10,6 @@ import locals from './FacetedSearch.mless';
 export default function FacetedSearch({
   facetedSearchItems = [],
   formModel,
-  getFacetedGroupLabel,
   formModelExcludingMissingGroupingTag,
   onFacetedSearchChange,
   getUpdatedTagExpressionHref,
@@ -27,10 +26,9 @@ export default function FacetedSearch({
         const FilterComponent = facetedSearchItem.renderer;
         return (
           <FilterComponent
-            key={facetedSearchItem.tag}
+            key={facetedSearchItem.tag ?? facetedSearchItem.key}
             title={facetedSearchItem.title}
             tag={facetedSearchItem.tag}
-            getFacetedGroupLabel={getFacetedGroupLabel}
             entity={facetedSearchItem.entity}
             formModel={formModel}
             formModelExcludingMissingGroupingTag={formModelExcludingMissingGroupingTag}
@@ -43,6 +41,11 @@ export default function FacetedSearch({
             getSuggestions={getSuggestions}
             groupbyTag={groupbyTag}
             tagCatalog={tagCatalog}
+            customLabelMapper={facetedSearchItem.customLabelMapper}
+            ranges={facetedSearchItem.ranges}
+            enableUseAsGroup={facetedSearchItem.enableUseAsGroup}
+            getItems={facetedSearchItem.getItems}
+            getSuggestionName={facetedSearchItem.getSuggestionName}
             {...facetedSearchItem.extraProps}
           />
         );

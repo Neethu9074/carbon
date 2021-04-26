@@ -8,11 +8,10 @@ import React from 'react';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
+import { getLinkToAnalyze, getServiceDashboard } from 'in-applications/navigation/paths';
+import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getApplication from 'in-subscription/application/getApplication';
-import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
-import { getServiceDashboard } from 'in-applications/navigation/paths';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { getButtonKindBySeverity } from 'in-stores/events';
 import { boundaryScopes } from 'in-applications/constants';
 import Button from 'in-new-components/Button';
@@ -74,7 +73,7 @@ export function ContextMenuContent({ applicationId, application, node, isTraffic
           // so link to Analyze should always use boundaryScopes.all
           boundaryScope: boundaryScopes.all,
           dataSource: 'calls',
-          groupByTag: getConfigByDataSource('calls').defaultGrouping
+          groupBy: defaultApplicationGroupings.calls
         })}
       >
         {t('in-applications:buttonGoToAnalytics')}

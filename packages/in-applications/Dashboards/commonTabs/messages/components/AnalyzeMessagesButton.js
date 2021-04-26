@@ -5,9 +5,11 @@
 
 import React from 'react';
 
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { CONTAINS, EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
@@ -23,51 +25,37 @@ export default function AnalyzeMessagesButton({
   includeSynthetic,
   showErroneous
 }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
-  const groupByTag = { name: groupByTagName };
-  const filters = [];
+  const groupBy = { groupbyTag: groupByTagName };
+  let formModel = [];
   if (query.length > 0) {
-    filters.push({ name: groupByTagName, value: query, operator: 'CONTAINS' });
-  }
-  if (includeInternal) {
-    filters.push({ name: 'include_internal', value: 'true', operator: 'EQUALS' });
-  }
-  if (includeSynthetic) {
-    filters.push({ name: 'include_synthetic', value: 'true', operator: 'EQUALS' });
+    formModel = joinExpressions({ expressions: [formModel, tagFilter(groupByTagName, CONTAINS, query)] });
   }
   if (showErroneous) {
-    filters.push({ name: 'call.erroneous', value: 'true', operator: 'EQUALS' });
+    formModel = joinExpressions({ expressions: [formModel, tagFilter('call.erroneous', EQUALS, true)] });
   }
-  const orderBy = showErroneous ? 'erroneousCalls_SUM_Agg' : null;
-  const focusedMetric = showErroneous ? 'erroneousCalls_SUM' : null;
-  const metrics = showErroneous
-    ? [
-        {
-          metric: 'erroneousCalls',
-          aggregation: 'SUM'
-        }
-      ]
-    : null;
+
+  const hiddenCalls = includeInternal || includeSynthetic ? { includeInternal, includeSynthetic } : null;
+
+  const orderByGroups = showErroneous ? { by: 'erroneousCalls_SUM' } : null;
+  const chartedMetrics = showErroneous ? [createChartedMetric('erroneousCalls', 'SUM')] : null;
+  const fields = showErroneous ? [createMetricField('erroneousCalls', 'SUM')] : null;
   return (
     <Button
       className={className}
       kind="secondary"
-      href$={
-        tagCatalog &&
-        getLinkToAnalyze({
-          applicationName,
-          serviceName,
-          endpointName,
-          dataSource: 'calls',
-          groupByTag,
-          boundaryScope,
-          filters,
-          tagCatalog,
-          orderBy,
-          focusedMetric,
-          metrics
-        })
-      }
+      href$={getLinkToAnalyze({
+        applicationName,
+        serviceName,
+        endpointName,
+        dataSource: 'calls',
+        groupBy,
+        boundaryScope,
+        formModel,
+        orderByGroups,
+        chartedMetrics,
+        fields,
+        hiddenCalls
+      })}
     >
       {t('in-applications:buttonAnalyzeMessages')}
     </Button>

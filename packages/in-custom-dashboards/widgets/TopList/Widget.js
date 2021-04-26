@@ -10,9 +10,10 @@ import { fromBackendModel, joinExpressions } from 'in-new-components/QueryBuilde
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import { getLinkToAnalyze, getDirectLinkToUA2 } from 'in-analyze/navigation/paths';
+import { getLinkToAnalyzeDeprecated } from 'in-analyze/navigation/paths';
 import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { isParseableAsNumber } from 'in-services/util/number';
@@ -89,12 +90,12 @@ function Label({ item, config, result, tagCatalog }) {
 
   const groupBy = config.metricConfiguration.grouping?.[0].by;
 
-  let tagFilterExpression = fromBackendModel(config.metricConfiguration.tagFilterExpression);
+  let formModel = fromBackendModel(config.metricConfiguration.tagFilterExpression);
 
   if (item.label !== 'other_group') {
-    tagFilterExpression = joinExpressions({
+    formModel = joinExpressions({
       expressions: [
-        tagFilterExpression,
+        formModel,
         getTagType(groupBy?.groupbyTag) === 'KEY_VALUE_PAIR' && !groupBy?.groupbyTagSecondLevelKey
           ? {
               type: TAG_FILTER,
@@ -134,7 +135,7 @@ function Label({ item, config, result, tagCatalog }) {
               entity: groupBy?.groupbyTagEntity
             };
       });
-    filteredTags.push(tagFilterExpression);
+    filteredTags.push(formModel);
     filteredTags.push({
       type: TAG_FILTER,
       name: groupBy?.groupbyTag,
@@ -142,20 +143,19 @@ function Label({ item, config, result, tagCatalog }) {
       operator: operators.NOT_EMPTY,
       entity: groupBy?.groupbyTagEntity
     });
-    tagFilterExpression = joinExpressions({
+    formModel = joinExpressions({
       expressions: filteredTags
     });
   }
 
   const link = config.metricConfiguration.tagFilterExpression
-    ? getDirectLinkToUA2({
+    ? getLinkToAnalyze({
         dataSource: 'calls',
-        tagFilterExpression: tagFilterExpression
+        formModel
       })
     : tagCatalog &&
-      getLinkToAnalyze({
+      getLinkToAnalyzeDeprecated({
         dataSource: 'calls',
-        groupByTag: [],
         filters,
         tagCatalog
       });

@@ -23,14 +23,18 @@ import locals from './Row.mless';
 const marginPerDepth = 27;
 
 function EnhancedRow(props) {
-  const { selectedCall$, call, openedCall$ } = props;
+  const { selectedCall$, call, openedCallId, openedCall$ } = props;
 
   const [isExpanded, setIsExpanded] = useState(true);
   const isSelected = useObservable(
     selectedCall$.map(selectedCall => selectedCall && call.id === selectedCall.id).distinct(),
     []
   );
-  const isOpened = useObservable(openedCall$.map(openedCall => openedCall && call.id === openedCall).distinct(), []);
+  const isOpenedObservable = useObservable(
+    openedCall$?.map(openedCallValue => openedCallValue && call.id === openedCallValue).distinct(),
+    []
+  );
+  const isOpened = openedCallId != null ? call.id === openedCallId : isOpenedObservable;
 
   return (
     <Row {...props} isExpanded={isExpanded} setIsExpanded={setIsExpanded} isSelected={isSelected} isOpened={isOpened} />
@@ -51,6 +55,7 @@ function Row(props) {
     onCallClicked,
     onSubCallClicked,
     selectedCall$,
+    openedCallId,
     openedCall$,
     isLargeTrace
   } = props;
@@ -111,6 +116,7 @@ function Row(props) {
               onCallClicked={onCallClicked}
               onSubCallClicked={onSubCallClicked}
               selectedCall$={selectedCall$}
+              openedCallId={openedCallId}
               openedCall$={openedCall$}
             />
           ))}

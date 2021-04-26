@@ -11,6 +11,16 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { deepCopy } from 'in-services/util/object';
 import { role } from 'in-stores/user';
 
+export const defaultGroupings = {
+  calls: {
+    groupbyTag: 'endpoint.name',
+    groupbyTagEntity: 'DESTINATION'
+  },
+  traces: {
+    groupbyTag: 'trace.endpoint.name'
+  }
+};
+
 export const customServiceMappingTagKeys = [
   'agent.tag',
   'cassandra.cluster.name',

@@ -47,7 +47,6 @@ export default function WebsiteQueryBuilderWorkspace(props) {
     groupBy,
     onGroupByChange,
     useLastValidStateWhenErroneous,
-    metricCatalogFilter,
     chartedMetrics,
     chartableDataSeries
   } = props;
@@ -90,7 +89,6 @@ export default function WebsiteQueryBuilderWorkspace(props) {
                 ...chartedMetric,
                 rendererId: metricRenderers[dataSource][chartedMetric.metricId] ?? 'stackedBar'
               }))}
-              metricCatalogFilter={metricCatalogFilter}
               unifiedMetricsSource="WEBSITE"
               mapMetricConfiguration={mapMetricConfiguration}
               forceLoadingIndicator={isGrouped && chartableDataSeries == null}

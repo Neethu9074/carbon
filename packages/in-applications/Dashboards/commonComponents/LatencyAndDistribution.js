@@ -74,7 +74,7 @@ export default function LatencyAndDistribution({
   tagFilters,
   timeConfig,
   boundaryScope,
-  includeSyntheticCalls,
+  syntheticCalls,
   cardTitle,
   percentileGroupBy,
   renderPostChartContent,
@@ -94,7 +94,7 @@ export default function LatencyAndDistribution({
         tagFilters={tagFilters}
         timeConfig={timeConfig}
         boundaryScope={boundaryScope}
-        includeSyntheticCalls={includeSyntheticCalls}
+        syntheticCalls={syntheticCalls}
         percentileGroupBy={percentileGroupBy}
         renderPostChartContent={renderPostChartContent}
       />
@@ -109,7 +109,7 @@ function ChartPresenter({
   tagFilters,
   timeConfig,
   boundaryScope,
-  includeSyntheticCalls,
+  syntheticCalls,
   percentileGroupBy,
   renderPostChartContent,
   selectedTabId,
@@ -126,9 +126,9 @@ function ChartPresenter({
       timeConfig={timeConfig}
       timeShiftConfig={timeShiftConfig}
       timeShiftAggregation={selectedMetricValue}
-      groupByTag={percentileGroupBy}
+      groupBy={percentileGroupBy}
       renderPostChartContent={renderPostChartContent}
-      isSynthetic={includeSyntheticCalls}
+      syntheticCalls={syntheticCalls}
     />
   ) : (
     <LatencyDistributionHistogram
@@ -137,7 +137,7 @@ function ChartPresenter({
       endpointId={endpointId}
       timeConfig={timeConfig}
       boundaryScope={boundaryScope}
-      includeSyntheticCalls={includeSyntheticCalls}
+      syntheticCalls={syntheticCalls}
     />
   );
 }

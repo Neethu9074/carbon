@@ -22,10 +22,13 @@ import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-service
 import ApplicationSwitcherContext from 'in-applications/components/ApplicationSwitcherContext';
 import IncludeSyntheticCallsDropdown from '../commonComponents/IncludeSyntheticCallsDropdown';
 import { serviceDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
+import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import getApplication from 'in-subscription/application/getApplication';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
@@ -34,7 +37,7 @@ import tabs from 'in-applications/Dashboards/service/tabs/index';
 import getService from 'in-subscription/application/getService';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
-import { entityTypes } from 'in-analyze/applicationFilter';
+import { createGroupBy } from 'in-analyze/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
@@ -170,10 +173,9 @@ function renderButtonLine({ applicationId, serviceId, boundaryScope, timeConfig,
         serviceId={serviceId}
         boundaryScope={boundaryScope}
         timeConfig={timeConfig}
-        groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
-        filters={filterByType(result.data.types)}
+        groupBy={createGroupBy('endpoint.name', DESTINATION)}
+        formModel={filterByType(result.data.types)}
         syntheticCalls={syntheticCalls}
-        area="service"
       />
     </>
   );
@@ -241,7 +243,7 @@ function renderApplicationContext(props) {
 
 function filterByType(types) {
   if (types.length === 1) {
-    return [{ name: 'call.type', value: types[0], operator: 'EQUALS', entity: 'NOT_APPLICABLE' }];
+    return [tagFilter('call.type', EQUALS, types[0])];
   } else {
     return [];
   }

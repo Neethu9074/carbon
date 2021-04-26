@@ -33,12 +33,14 @@ const facetedSearchItems = [
   {
     renderer: FacetedFilterRenderer,
     title: 'Log levels',
-    tag: 'log.level'
+    tag: 'log.level',
+    getSuggestionName: getLabel
   },
   {
     renderer: FacetedFilterRenderer,
     title: 'Stream',
-    tag: 'log.streamName'
+    tag: 'log.streamName',
+    getSuggestionName: getLabel
   }
 ];
 
@@ -90,12 +92,7 @@ export default function LoggingAnalyzeView() {
             getLabel={getLabel}
           />
         ) : (
-          <Logs
-            {...opts}
-            {...furtherProps}
-            getFacetedSearchSuggestions={getFacetedSearchSuggestions}
-            getFacetedGroupLabel={getLabel}
-          />
+          <Logs {...opts} {...furtherProps} getFacetedSearchSuggestions={getFacetedSearchSuggestions} />
         )
       }
     </StateManagement>

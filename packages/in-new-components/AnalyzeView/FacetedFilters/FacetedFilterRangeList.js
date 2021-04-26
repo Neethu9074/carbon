@@ -88,15 +88,13 @@ function getExistingFiltersForTag(tag, formModel) {
     : emptyArray;
 }
 
-const rangeLabel = range => `${range.start}-${range.end}`;
-
 function SelectedRanges({ tag, selectedRanges, getUpdatedTagExpressionHref }) {
   return (
     <>
       {selectedRanges.map(range => (
         <ExistingValue
-          key={range.start}
-          value={rangeLabel(range)}
+          key={range.label}
+          value={range.label}
           removeLink={getUpdatedTagExpressionHref({
             remove: [
               {
@@ -143,7 +141,7 @@ function Suggestion({ tag, range, getUpdatedTagExpressionHref, dataSource }) {
         style={{ textDecoration: 'none' }}
         className={locals.label}
       >
-        {rangeLabel(range)}
+        {range.label}
       </Link>
     </div>
   );

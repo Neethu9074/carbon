@@ -58,14 +58,12 @@ export default function GroupedAnalyzeView(props) {
     getHrefToUngroupedView,
     getHrefToGroupedView,
     UngroupedView,
-    getLabel,
+    getLabel = ({ name }) => JSON.parse(name),
     isValid,
     selectableFields,
     fixedFields,
-    getItemLabel,
     onSelectableFieldsChange,
     metricCatalog,
-    metricCatalogFilter,
     dataSource,
     facetedSearchItems,
     getFacetedSearchSuggestions,
@@ -81,7 +79,8 @@ export default function GroupedAnalyzeView(props) {
     chartedMetrics,
     filteringTagCatalog,
     tracker,
-    groupingTagCatalog
+    groupingTagCatalog,
+    additionalGetDataDependencies = []
   } = props;
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
@@ -131,13 +130,14 @@ export default function GroupedAnalyzeView(props) {
     canLoadMore,
     loadMore,
     totalHits,
-    totalRepresentedItemCount
+    totalRepresentedItemCount,
+    adjustedWindowSize
   } = useCursorPagination(
     ({ cursor }) =>
       isValid
         ? getData({ timeConfig, orderByGroups, backendQueryModel, groupBy, cursor, metrics: backendMetrics })
         : empty,
-    [isValid, timeConfig, groupBy, backendQueryModel, orderByGroups, backendMetrics]
+    [isValid, timeConfig, groupBy, backendQueryModel, orderByGroups, backendMetrics, ...additionalGetDataDependencies]
   );
 
   const isLoading = props.isLoading || progress?.loading;
@@ -157,18 +157,11 @@ export default function GroupedAnalyzeView(props) {
     } else {
       onChartableDataSeriesChange(
         items.slice(0, 5).map(item => ({
-          label: getItemLabel(item),
-          formModel: addGroupingCriteriaToFormModel(groupBy, getItemLabel(item), formModel, groupingTagCatalog)
+          label: getLabel(item),
+          formModel: addGroupingCriteriaToFormModel(groupBy, getLabel(item), formModel, groupingTagCatalog)
         }))
       );
     }
-
-    onChartableDataSeriesChange(
-      items.slice(0, 5).map(item => ({
-        label: getLabel(item),
-        formModel: addGroupingCriteriaToFormModel(groupBy, getLabel(item), formModel, groupingTagCatalog)
-      }))
-    );
   }, [
     items,
     isLoading,
@@ -198,9 +191,12 @@ export default function GroupedAnalyzeView(props) {
     })
     .filter(Boolean);
   // Allow to sort by group name
-  sortOptions.unshift({ value: groupName, label: t('in-new-components:analyze.groupName') });
+  sortOptions.unshift({
+    value: groupedViewConfiguration?.orderByGroupName ?? groupName,
+    label: t('in-new-components:analyze.groupName')
+  });
 
-  const availableMetrics = getAvailableMetrics({ metricCatalog, metricCatalogFilter, fixedFields });
+  const availableMetrics = getAvailableMetrics({ metricCatalog, fixedFields });
 
   const formModelExcludingMissingGroupingTag = useMemo(() => {
     const groupByTagType = groupingTagCatalog?.tags.find(t => t.name === groupBy.groupbyTag)?.type;
@@ -252,6 +248,7 @@ export default function GroupedAnalyzeView(props) {
         withGrouping
         withResultsInGroups={withResultsInGroups}
         withSamplingTooltip={withSamplingTooltip}
+        withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
         tracking={{
           onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
           onMetricAggregationChanged: ({ metric, aggregation }) =>
@@ -274,7 +271,6 @@ export default function GroupedAnalyzeView(props) {
             getHrefToGroupedView={getHrefToGroupedView}
             dataSource={dataSource}
             isValid={isValid}
-            getFacetedGroupLabel={getLabel}
             getSuggestions={({ tag, entity }) =>
               getFacetedSearchSuggestions({
                 timeConfig,
@@ -295,11 +291,11 @@ export default function GroupedAnalyzeView(props) {
         <div className={locals.resultContainer}>
           {hasItems && (
             <Ul>
-              {items.map(item => {
+              {items.map((item, index) => {
                 const label = getLabel(item);
                 return (
                   <Li
-                    key={label}
+                    key={`${label}-${index}`}
                     toggleContentOnRowClick
                     renderNestedContent={() => {
                       const formModelForUnGroupedView = addGroupingCriteriaToFormModel(

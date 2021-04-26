@@ -411,7 +411,8 @@ const metricCatalog = [
 ];
 
 const dataSourceConfig = {
-  fixedFields: [{ type: metricType, metricId: 'beaconCount', aggregationId: 'SUM' }]
+  fixedFields: [{ type: metricType, metricId: 'beaconCount', aggregationId: 'SUM' }],
+  defaultChartedMetrics: [{ metricId: 'beaconCount', aggregationId: 'SUM' }]
 };
 
 describe('in-websites/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper', () => {

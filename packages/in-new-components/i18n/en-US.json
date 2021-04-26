@@ -358,8 +358,6 @@
     "buttonReloadToUpdate": "Reload to update"
   },
   "upstreamDownstream": {
-    "buttonGoToDashboard": "Go to Dashboard",
-    "buttonGoToAnalytics": "Go to Analytics",
     "companionMetricLabelErroneousCallRate": "Erroneous Call Rate: ",
     "metricLabelCallsAndErroneousCalls": "Calls and Erroneous Calls",
     "metricLabelCallsAndLatency": "Calls and Latency",

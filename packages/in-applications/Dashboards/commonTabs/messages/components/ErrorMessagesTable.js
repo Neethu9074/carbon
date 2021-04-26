@@ -7,16 +7,16 @@ import React from 'react';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import { EQUALS, IS_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getErrorMessages from 'in-applications/subscriptions/getErrorMessages';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
-import { operators } from 'in-analyze/applicationFilter';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import Link from 'in-components/Link';
 import { t } from 'in-i18n';
@@ -166,36 +166,29 @@ function getTableData({
 }
 
 function Message({ message, applicationName, serviceName, endpointName, boundaryScope }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
   let displayedMessage;
   let errorMessageFilter;
-  const erroneousFilter = { name: 'call.erroneous', value: 'true' };
-  const includeInternalFilter = { name: 'include_internal', value: 'true', operator: 'EQUALS' };
-  const includeSyntheticFilter = { name: 'include_synthetic', value: 'true', operator: 'EQUALS' };
+  const erroneousFilter = tagFilter('call.erroneous', EQUALS, true);
 
   if (!message || message === '') {
     displayedMessage = t('in-applications:dashboards.errorCallWithoutMessage');
-    errorMessageFilter = { name: 'call.error.message', operator: operators.IS_EMPTY };
+    errorMessageFilter = tagFilter('call.error.message', IS_EMPTY);
   } else {
     displayedMessage = message;
-    errorMessageFilter = { name: 'call.error.message', value: message };
+    errorMessageFilter = tagFilter('call.error.message', EQUALS, message);
   }
 
   return (
     <Link
-      href$={
-        tagCatalog &&
-        getLinkToAnalyze({
-          applicationName,
-          serviceName,
-          endpointName,
-          dataSource: 'calls',
-          groupByTag: {},
-          filters: [erroneousFilter, errorMessageFilter, includeInternalFilter, includeSyntheticFilter],
-          tagCatalog,
-          boundaryScope
-        })
-      }
+      href$={getLinkToAnalyze({
+        applicationName,
+        serviceName,
+        endpointName,
+        dataSource: 'calls',
+        formModel: joinExpressions({ expressions: [erroneousFilter, errorMessageFilter] }),
+        hiddenCalls: { includeInternal: true, includeSynthetic: true },
+        boundaryScope
+      })}
     >
       {displayedMessage}
     </Link>

@@ -17,7 +17,6 @@ import FacetedFilterGeneric from 'in-new-components/AnalyzeView/FacetedFilters/F
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import GroupedBeacons from 'in-websites/analyze/AnalyzeView2_0/components/GroupedBeacons';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
-import { getSingleNumberMetricId } from 'in-new-components/AnalyzeView/metrics';
 import StateManagement from 'in-new-components/AnalyzeView/StateManagement';
 import Beacons from 'in-websites/analyze/AnalyzeView2_0/components/Beacons';
 import { getMetricCatalog } from 'in-websites/api/metricCatalog';
@@ -67,7 +66,6 @@ const facetedSearchItems = [
 const groupedView = {
   defaultOrderBy: 'beaconCount_SUM',
   defaultOrderDirection: 'DESC',
-  getOrderById: getOrderByGroupId,
   customFieldRenderingInstructions: {
     timestamp: createListTimestampColumnDefinition({
       getTimestamp: ({ item }) => item.earliestTimestamp
@@ -78,7 +76,6 @@ const groupedView = {
 const ungroupedView = {
   defaultOrderBy: 'timestamp',
   defaultOrderDirection: 'DESC',
-  getOrderById: getOrderById,
   customFieldRenderingInstructions: {
     timestamp: createTableTimestampColumnDefinition({
       getTimestamp: ({ beacon }) => beacon.timestamp
@@ -119,7 +116,7 @@ const defaultChartedMetrics = [{ metricId: 'beaconCount', aggregationId: 'SUM' }
 
 const dataSourceConfigurations = {
   pageLoad: {
-    metricCatalogFilter: createMetricCatalogFilter('pageLoad'),
+    metricCatalogTransformer: createMetricCatalogTransformer('pageLoad'),
     facetedSearchItems,
     groupedView,
     ungroupedView,
@@ -134,7 +131,7 @@ const dataSourceConfigurations = {
     defaultChartedMetrics
   },
   pageChange: {
-    metricCatalogFilter: createMetricCatalogFilter('pageChange'),
+    metricCatalogTransformer: createMetricCatalogTransformer('pageChange'),
     facetedSearchItems,
     groupedView,
     ungroupedView,
@@ -149,7 +146,7 @@ const dataSourceConfigurations = {
     defaultChartedMetrics
   },
   resourceLoad: {
-    metricCatalogFilter: createMetricCatalogFilter('resourceLoad'),
+    metricCatalogTransformer: createMetricCatalogTransformer('resourceLoad'),
     facetedSearchItems,
     groupedView,
     ungroupedView,
@@ -164,7 +161,7 @@ const dataSourceConfigurations = {
     defaultChartedMetrics
   },
   httpRequest: {
-    metricCatalogFilter: createMetricCatalogFilter('httpRequest'),
+    metricCatalogTransformer: createMetricCatalogTransformer('httpRequest'),
     facetedSearchItems,
     groupedView,
     ungroupedView,
@@ -184,7 +181,7 @@ const dataSourceConfigurations = {
     defaultChartedMetrics
   },
   error: {
-    metricCatalogFilter: createMetricCatalogFilter('error'),
+    metricCatalogTransformer: createMetricCatalogTransformer('error'),
     facetedSearchItems,
     groupedView,
     ungroupedView,
@@ -199,7 +196,7 @@ const dataSourceConfigurations = {
     defaultChartedMetrics
   },
   custom: {
-    metricCatalogFilter: createMetricCatalogFilter('custom'),
+    metricCatalogTransformer: createMetricCatalogTransformer('custom'),
     facetedSearchItems,
     groupedView,
     ungroupedView,
@@ -240,28 +237,18 @@ export default function WebsiteAnalyzeView() {
           <GroupedBeacons
             {...opts}
             getFacetedSearchSuggestions={getFacetedSearchSuggestions}
-            getLabel={getLabel}
             useLastValidStateWhenErroneous
           />
         ) : (
-          <Beacons
-            {...opts}
-            getFacetedSearchSuggestions={getFacetedSearchSuggestions}
-            useLastValidStateWhenErroneous
-            getFacetedGroupLabel={getLabel}
-          />
+          <Beacons {...opts} getFacetedSearchSuggestions={getFacetedSearchSuggestions} useLastValidStateWhenErroneous />
         )
       }
     </StateManagement>
   );
 }
 
-function getLabel(item) {
-  return JSON.parse(item.name);
-}
-
-function createMetricCatalogFilter(dataSource) {
-  return ({ beaconTypes }) => beaconTypes.includes(dataSource);
+function createMetricCatalogTransformer(dataSource) {
+  return metricDefinition => (metricDefinition.beaconTypes.includes(dataSource) ? metricDefinition : null);
 }
 
 function getFacetedSearchSuggestions({
@@ -295,25 +282,4 @@ function getFacetedSearchSuggestions({
       }
     }
   });
-}
-
-function getOrderById({ metricCatalog, field }) {
-  if (field.type === customType) {
-    return field.customFieldId;
-  }
-  if (field.type === metricType) {
-    const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metricId);
-    return metricDefinition?.tagName;
-  }
-  return null;
-}
-
-function getOrderByGroupId({ field }) {
-  if (field.type === customType) {
-    return field.customFieldId === 'timestamp' ? 'earliestTimestamp' : field.customFieldId;
-  }
-  if (field.type === metricType) {
-    return getSingleNumberMetricId(field);
-  }
-  return null;
 }

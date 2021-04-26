@@ -16,8 +16,7 @@ export default function GroupedMobileBeacons(props) {
     <QueryBuilderWorkspace {...props}>
       <GroupedView
         {...props}
-        getItemLabel={getItemLabel}
-        getLabel={getItemLabel}
+        getLabel={getLabel}
         itemlabelColumnId="name"
         getData={({ timeConfig, backendQueryModel, orderByGroups, groupBy, cursor, metrics }) =>
           getTableData({
@@ -37,7 +36,7 @@ export default function GroupedMobileBeacons(props) {
   );
 }
 
-function getItemLabel(item) {
+function getLabel(item) {
   return String(JSON.parse(item.name));
 }
 

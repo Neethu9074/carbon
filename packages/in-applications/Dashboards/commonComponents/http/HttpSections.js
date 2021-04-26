@@ -5,12 +5,18 @@
 
 import React from 'react';
 
-import { IS_EMPTY, NOT_EMPTY, NOT_STARTS_WITH, STARTS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import {
+  createFormModelFromSyntheticOption,
+  createHiddenCallsFromSyntheticOption
+} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
+import formModelFromHttpStatusRange, { TAG_CALL_HTTP_STATUS } from 'in-applications/analyze/utils/formModelUtils';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { IS_EMPTY, NOT_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { stackedBar, line } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
@@ -24,19 +30,17 @@ export default function HttpSections({
   endpointId,
   tagFilters,
   boundaryScope,
-  filters,
-  isSynthetic,
-  groupByTag,
-  metrics,
+  syntheticCalls,
+  groupBy,
   renderPostChartContentHttpStatus,
   timeShiftConfig,
   timeShiftMetric,
   hasHttpAndOtherEndpoints
 }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
   const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
+  const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
 
   const defaultMetricConfig = {
     granularity,
@@ -44,8 +48,8 @@ export default function HttpSections({
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
-    includeSynthetic: isSynthetic,
-    timeShift: 0
+    timeShift: 0,
+    ...hiddenCalls
   };
 
   const otherCallsMetricConfig = {
@@ -54,8 +58,8 @@ export default function HttpSections({
     source: 'APPLICATION',
     tagFilters: [{ name: 'call.http.status', operator: IS_EMPTY }, ...tagFilters],
     timeConfig: timeConfig,
-    includeSynthetic: isSynthetic,
-    timeShift: 0
+    timeShift: 0,
+    ...hiddenCalls
   };
 
   const chartMetrics = [
@@ -191,7 +195,6 @@ export default function HttpSections({
             icon: 'lib_analyze',
             label: t('in-applications:lineViewInAnalyze'),
             getHref$: (highlightedTime, metricsToAdd) =>
-              tagCatalog &&
               getJumpToAnalyzeHref$(
                 {
                   applicationId,
@@ -201,17 +204,15 @@ export default function HttpSections({
                 {
                   boundaryScope,
                   dataSource: 'calls',
-                  filters: isSynthetic
-                    ? [
-                        { name: 'call.is_synthetic', value: 'true' },
-                        { name: 'include_synthetic', value: 'true' },
-                        ...mapMetricsToAdd(filters, metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)
-                      ]
-                    : [...mapMetricsToAdd(filters, metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)],
-                  tagCatalog: tagCatalog,
-                  groupByTag: groupByTag ? groupByTag : {},
-                  timeConfig: highlightedTime,
-                  metrics: metrics ? metrics : null
+                  formModel: joinExpressions({
+                    expressions: [
+                      createFormModelFromSyntheticOption(syntheticCalls),
+                      selectedMetricsToFormModel(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)
+                    ]
+                  }),
+                  hiddenCalls,
+                  groupBy,
+                  timeConfig: highlightedTime
                 }
               )
           }
@@ -221,54 +222,47 @@ export default function HttpSections({
   );
 }
 
-// Needs to add not rendered metrics to array
-function mapMetricsToAdd(filters, renderedMetrics, metrics, timeShiftConfig) {
-  const metricsForLink = filters ? [...filters] : [];
+function selectedMetricsToFormModel(renderedMetrics, metricConfigs, timeShiftConfig) {
   if (timeShiftConfig.offset) {
-    if (metrics[0].metric === 'calls') {
-      metricsForLink.push({
-        name: 'call.http.status',
-        operator: IS_EMPTY
-      });
-    } else {
-      metricsForLink.push({
-        name: 'call.http.status',
-        operator: STARTS_WITH,
-        value: correctValue(metrics[0].metric)
-      });
+    if (metricConfigs[0].metric === 'calls') {
+      return [tagFilter(TAG_CALL_HTTP_STATUS, IS_EMPTY)];
     }
-  } else {
-    const activeMetrics = renderedMetrics.map(metricId => metrics[parseMetricId(metricId).index].metric);
-    const filteredArr = metrics.map(m => m.metric).filter(metric => !activeMetrics.includes(metric));
-    filteredArr.map(metric => {
-      if (metric === 'calls') {
-        metricsForLink.push({
-          name: 'call.http.status',
-          operator: NOT_EMPTY
-        });
-      } else {
-        metricsForLink.push({
-          name: 'call.http.status',
-          operator: NOT_STARTS_WITH,
-          value: correctValue(metric)
-        });
-      }
-    });
+    return formModelFromHttpStatusRange([getFirstStatusCodeDigit(metricConfigs[0].metric)]);
   }
-  return metricsForLink;
+
+  const activeMetrics = renderedMetrics.map(metricId => metricConfigs[parseMetricId(metricId).index].metric);
+  const activeNonHttp = activeMetrics.some(metric => metric === 'calls');
+  const includedHttpStatueRanges = activeMetrics
+    .filter(metric => metric != 'calls')
+    .map(metric => getFirstStatusCodeDigit(metric));
+  if (includedHttpStatueRanges.length === 0) {
+    // no http status ranges selected
+    return activeNonHttp ? [tagFilter(TAG_CALL_HTTP_STATUS, IS_EMPTY)] : [];
+  }
+  if (includedHttpStatueRanges.length === 5) {
+    // all http status ranges selected
+    return activeNonHttp ? [] : [tagFilter(TAG_CALL_HTTP_STATUS, NOT_EMPTY)];
+  }
+  return joinExpressions({
+    logicalOperator: or,
+    expressions: [
+      formModelFromHttpStatusRange(includedHttpStatueRanges),
+      activeNonHttp ? tagFilter(TAG_CALL_HTTP_STATUS, IS_EMPTY) : []
+    ]
+  });
 }
 
-function correctValue(metric) {
+function getFirstStatusCodeDigit(metric) {
   switch (metric) {
     case 'http.1xx':
-      return '1';
+      return 1;
     case 'http.2xx':
-      return '2';
+      return 2;
     case 'http.3xx':
-      return '3';
+      return 3;
     case 'http.4xx':
-      return '4';
+      return 4;
     case 'http.5xx':
-      return '5';
+      return 5;
   }
 }

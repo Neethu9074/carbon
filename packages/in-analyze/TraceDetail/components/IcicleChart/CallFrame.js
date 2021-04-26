@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { just } from '@instana/observables';
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
@@ -105,7 +106,10 @@ export default connectTo(
           )
           .distinct()
       : false,
-    isOpened: props.openedCall$.map(openedCall => openedCall && props.callFrame.id === openedCall).distinct()
+    isOpened:
+      props.openedCallId != null
+        ? just(props.callFrame.id === props.openedCallId)
+        : props.openedCall$?.map(openedCall => openedCall && props.callFrame.id === openedCall).distinct()
   }),
   CallFrame
 );

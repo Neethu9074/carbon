@@ -7,29 +7,31 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import {
+  createFormModelFromSyntheticOption,
+  createHiddenCallsFromSyntheticOption,
   getTagFiltersForSyntheticOption,
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { createChartedMetric, createGroupBy, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { summaryTab } from 'in-applications/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -47,7 +49,6 @@ export default connectTo(
     data,
     syntheticCalls: urlIncludeSyntheticCalls
   }) {
-    const tagCatalog = useTagCatalog(getTagCatalog);
     const timeShiftConfig = useTimeShiftConfig();
     const isSyntheticEndpoint = get(data, ['syntheticType'], 'NON_SYNTHETIC') === 'SYNTHETIC';
     const syntheticCalls =
@@ -111,26 +112,18 @@ export default connectTo(
                 text: t('in-applications:lineViewInAnalyze'),
                 kind: 'subtle',
                 icon: 'lib_analyze',
-                href$:
-                  tagCatalog &&
-                  getJumpToAnalyzeHref$(
-                    { applicationId, serviceId, endpointId },
-                    {
-                      timeConfig,
-                      boundaryScope,
-                      groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
-                      filters: getTagFiltersForSyntheticOption(syntheticCalls),
-                      tagCatalog: tagCatalog,
-                      metrics: [
-                        { metric: 'erroneousCalls', aggregation: 'SUM' },
-                        {
-                          metric: 'latency',
-                          aggregation: 'MEAN'
-                        }
-                      ],
-                      focusedMetric: 'calls_SUM'
-                    }
-                  )
+                href$: getJumpToAnalyzeHref$(
+                  { applicationId, serviceId, endpointId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupBy: createGroupBy('call.name'),
+                    formModel: createFormModelFromSyntheticOption(syntheticCalls),
+                    hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
+                    fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
+                    chartedMetrics: [createChartedMetric('calls', 'SUM')]
+                  }
+                )
               }}
             />
           </Col>
@@ -166,26 +159,23 @@ export default connectTo(
                 text: t('in-applications:lineViewInAnalyze'),
                 kind: 'subtle',
                 icon: 'lib_analyze',
-                href$:
-                  tagCatalog &&
-                  getJumpToAnalyzeHref$(
-                    { applicationId, serviceId, endpointId },
-                    {
-                      timeConfig,
-                      boundaryScope,
-                      groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
-                      filters: [
-                        ...getTagFiltersForSyntheticOption(syntheticCalls),
-                        { name: 'call.erroneous', value: 'true' }
-                      ],
-                      tagCatalog: tagCatalog,
-                      metrics: [
-                        { metric: 'errors', aggregation: 'MEAN' },
-                        { metric: 'latency', aggregation: 'MEAN' }
-                      ],
-                      focusedMetric: 'errors_MEAN'
-                    }
-                  )
+                href$: getJumpToAnalyzeHref$(
+                  { applicationId, serviceId, endpointId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupBy: createGroupBy('call.name'),
+                    formModel: joinExpressions({
+                      expressions: [
+                        createFormModelFromSyntheticOption(syntheticCalls),
+                        tagFilter('call.erroneous', EQUALS, true)
+                      ]
+                    }),
+                    hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
+                    fields: [createMetricField('errors', 'MEAN'), createMetricField('latency', 'MEAN')],
+                    chartedMetrics: [createChartedMetric('errors', 'MEAN')]
+                  }
+                )
               }}
             />
           </Col>
@@ -221,20 +211,17 @@ export default connectTo(
                 text: t('in-applications:lineViewInAnalyze'),
                 kind: 'subtle',
                 icon: 'lib_analyze',
-                href$:
-                  tagCatalog &&
-                  getJumpToAnalyzeHref$(
-                    { applicationId, serviceId, endpointId },
-                    {
-                      timeConfig,
-                      boundaryScope,
-                      groupByTag: { name: 'call.name', entity: entityTypes.NOT_APPLICABLE },
-                      orderBy: 'latency_MEAN_Agg',
-                      orderDirection: 'DESC',
-                      filters: getTagFiltersForSyntheticOption(syntheticCalls),
-                      tagCatalog: tagCatalog
-                    }
-                  )
+                href$: getJumpToAnalyzeHref$(
+                  { applicationId, serviceId, endpointId },
+                  {
+                    timeConfig,
+                    boundaryScope,
+                    groupBy: createGroupBy('call.name'),
+                    orderByGroups: createOrderBy('latency_MEAN', 'DESC'),
+                    formModel: createFormModelFromSyntheticOption(syntheticCalls),
+                    hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls)
+                  }
+                )
               }}
             />
           </Col>
@@ -250,7 +237,7 @@ export default connectTo(
               boundaryScope={boundaryScope}
               syntheticCalls={syntheticCalls}
               timeConfig={timeConfig}
-              callGroupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+              callGroupBy={createGroupBy('call.name')}
               renderPostChartContent={withPotentialProblemsLane}
               renderPostChartContentHttpStatus={MarkerLanes}
               showHttp={type.includes('HTTP')}
@@ -267,7 +254,7 @@ export default connectTo(
               syntheticCalls={syntheticCalls}
               timeConfig={timeConfig}
               tagFilters={tagFilters}
-              groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+              groupBy={createGroupBy('call.name')}
               renderPostChartContent={withPotentialProblemsLane}
             />
           </Col>
@@ -278,10 +265,10 @@ export default connectTo(
               serviceId={serviceId}
               endpointId={endpointId}
               boundaryScope={boundaryScope}
-              includeSyntheticCalls={includeSyntheticCalls}
+              syntheticCalls={syntheticCalls}
               timeConfig={timeConfig}
               tagFilters={tagFilters}
-              percentileGroupBy={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+              percentileGroupBy={createGroupBy('call.name')}
               renderPostChartContent={withPotentialProblemsLane}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'latencyTab', paramMetric: 'latencyMetric' }}
             />

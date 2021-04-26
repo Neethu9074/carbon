@@ -7,15 +7,15 @@ import React from 'react';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import { EQUALS, IS_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getLogMessages from 'in-applications/subscriptions/getLogMessages';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import Pill from 'in-new-components/Pill';
 import Link from 'in-components/Link';
@@ -172,30 +172,17 @@ function getTableData({
 }
 
 function Message({ message, applicationName, serviceName, endpointName, boundaryScope }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
-
-  const logMessageFilter = message
-    ? { name: 'log.message', value: message }
-    : { name: 'log.message', operator: 'IS_EMPTY' };
-
-  const includeInternalFilter = { name: 'include_internal', value: 'true', operator: 'EQUALS' };
-  const includeSyntheticFilter = { name: 'include_synthetic', value: 'true', operator: 'EQUALS' };
-
   return (
     <Link
-      href$={
-        tagCatalog &&
-        getLinkToAnalyze({
-          applicationName,
-          serviceName,
-          endpointName,
-          dataSource: 'calls',
-          groupByTag: {},
-          filters: [logMessageFilter, includeInternalFilter, includeSyntheticFilter],
-          tagCatalog,
-          boundaryScope
-        })
-      }
+      href$={getLinkToAnalyze({
+        applicationName,
+        serviceName,
+        endpointName,
+        dataSource: 'calls',
+        formModel: [message ? tagFilter('log.message', EQUALS, message) : tagFilter('log.message', IS_EMPTY)],
+        hiddenCalls: { includeInternal: true, includeSynthetic: true },
+        boundaryScope
+      })}
     >
       {message ? message : <div className={locals.italic}>{t('in-applications:dashboards.noLogMessage')}</div>}
     </Link>

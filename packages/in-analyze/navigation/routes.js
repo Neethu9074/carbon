@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import AnalyzeView from 'promise-loader?global,analyze!in-analyze/AnalyzeView';
+import AnalyzeView2_0 from 'promise-loader?global,applications!in-applications/analyze/AnalyzeView2_0/AnalyzeView';
 import { Route } from 'react-router-dom';
 import React, { Fragment } from 'react';
 
@@ -12,6 +12,6 @@ import { analyze } from 'in-analyze/navigation/paths';
 
 export default (
   <Fragment>
-    <Route path={analyze} component={createAsyncViewComponent(AnalyzeView)} />
+    <Route path={analyze} component={createAsyncViewComponent(AnalyzeView2_0)} />
   </Fragment>
 );

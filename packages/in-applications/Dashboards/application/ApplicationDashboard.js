@@ -25,6 +25,7 @@ import FloatingActionButtons from 'in-new-components/FloatingActionButton/Floati
 import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-services/featureFlags';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { categoryGlobal } from 'in-alerting/smart-alerts/applications/inventory/constants';
+import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import TimeShiftDropdown from 'in-new-components/TimeShift/TimeShiftDropdown';
@@ -38,7 +39,7 @@ import { alertsCategory } from 'in-applications/navigation/matrix';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
-import { entityTypes } from 'in-analyze/applicationFilter';
+import { createGroupBy } from 'in-analyze/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
@@ -154,9 +155,8 @@ function renderButtonLine(props) {
         applicationId={applicationId}
         boundaryScope={boundaryScope}
         timeConfig={timeConfig}
-        groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
+        groupBy={createGroupBy('service.name', DESTINATION)}
         syntheticCalls={syntheticCalls}
-        area="application"
       />
 
       {role.canConfigureCustomAlerts && applicationSmartAlertsEnabled && (

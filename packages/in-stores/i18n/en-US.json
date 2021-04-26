@@ -112,6 +112,7 @@
     "formatterLabelPercentage": "Percentage, e.g. {{example}}",
     "formatterLabelBytes": "Bytes, e.g. {{example}}",
     "formatterLabelMilliseconds": "Milliseconds, e.g. {{example}}",
+    "formatterLabelLatency": "Latency, e.g. {{example}}",
     "formatterLabelSIPrefix": "SI Prefix, e.g. {{example}}",
 
     "rendererLabelArea": "Area",

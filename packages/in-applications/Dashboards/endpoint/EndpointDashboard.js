@@ -34,8 +34,8 @@ import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
+import { createGroupBy } from 'in-analyze/navigation/paths';
 import { boundaryScopes } from 'in-applications/constants';
-import { entityTypes } from 'in-analyze/applicationFilter';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import Footer from 'in-new-components/Footer';
@@ -198,9 +198,8 @@ function renderButtonLine({ applicationId, serviceId, endpointId, boundaryScope,
         boundaryScope={boundaryScope}
         syntheticType={get(result, ['data', 'syntheticType'])}
         timeConfig={timeConfig}
-        groupByTag={{ name: 'call.name', entity: entityTypes.NOT_APPLICABLE }}
+        groupBy={createGroupBy('call.name')}
         syntheticCalls={syntheticCalls}
-        area="endpoint"
       />
     </>
   );

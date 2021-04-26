@@ -5,6 +5,7 @@
   "labelApplications": "Applications",
   "labelApplicationWithNum": "Application ({{numApplications}})",
   "labelAnalytic": "Analytics",
+  "labelCall": "Call",
   "labelTrace": "Trace",
   "linkDownload": "Download",
   "labelCalls": "Calls",
@@ -251,6 +252,7 @@
       "erroneous_false": "false",
       "erroneous_Erroneous": "Erroneous"
     },
+    "latency": "Latency",
     "applications": "Applications",
     "services": "Services",
     "endpoints": "Endpoints",
@@ -272,9 +274,9 @@
       "sortingMetricLabelTh": "{{sortingMetricLabel}} ({{num}}th)",
       "sortingMetricLabelRate": "{{sortingMetricLabel}} (rate)",
       "sortingMetricLabelCount": "{{sortingMetricLabel}} (count)",
-      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})",
-      "preview": "Preview"
+      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})"
     },
+    "preview": "Preview",
     "listLoadMore": "Load {{retrievalSize}} more",
     "listBatchTypeTooltip": "This {{type}} is batched and represents {{batchCount}} individual {{types}}.",
     "listBatchLatencyTooltip": "Total latency of {{batchCount}} batched {{types}}.",
@@ -317,7 +319,11 @@
     "service": "Service",
     "trace": "Trace",
     "calls": "Calls",
-    "none": "None"
+    "none": "None",
+    "dataSource_calls": "{{formattedCount}} Call",
+    "dataSource_calls_plural": "{{formattedCount}} Calls",
+    "dataSource_traces": "{{formattedCount}} Trace",
+    "dataSource_traces_plural": "{{formattedCount}} Traces"
   },
   "creation": {
     "newAP": "New Application Perspective",
@@ -628,5 +634,52 @@
   "lists": {
     "noSpecificApplication": " - no specific application - ",
     "services": "Services"
+  },
+  "containsErrors": "Contains Errors",
+  "noErrors": "No Errors",
+  "traceDetail": {
+    "tabs": {
+      "summary": {
+        "duplicateCalls": "Duplicate Calls",
+        "duplicateCallsDesc": "This trace consists of one or more duplicate calls (spans). Unique Calls: {{traceCallCountIgnoringBatchSize}} - Records: {{traceCallRecordCount}}. This leads to incorrect call count (with batches) and error count values, and perhaps other irregularities.",
+        "batchedIngestion": "Batched Ingestion",
+        "traceIngestionBatchCount": "This trace got processed in {{traceIngestionBatchesCount}} batches. That may cause irregularities such as spans not getting merged to a single Call, partial Service mapping or other incomplete data showing.",
+        "subCalls": "Sub Calls",
+        "erroneousCalls": "Erroneous Calls",
+        "errorLogs": "Error Logs",
+        "warnLogs": "Warn Logs",
+        "latency": "Latency",
+        "timeline": "Timeline",
+        "serviceEndpointList": "Service Endpoint List",
+        "largeTrace": "Large Trace",
+        "largeTraceLink": "This trace is large and rendering of this trace can result in performance problems within your browser. You can either <linkToDocs>download the trace</linkToDocs> for manual inspection or attempt trace rendering within your browser. We will only render a subset of the components in order to increase performance of this attempt.",
+        "calls": "Calls",
+        "logs": "Logs",
+        "analyzeLogs": "View in analyze",
+        "correspondingMobileAppActivity": "Corresponding Mobile App Activity",
+        "hideMobileAppInformation": "Hide Mobile App Information",
+        "showMobileAppInformation": "Show Mobile App Information",
+        "viewMobileAppActivity": "View Mobile App Activity",
+        "erroneousTrace": "Erroneous Trace",
+        "attemptToRenderTrace": "Attempt to render trace",
+        "hideWebsiteInformation": "Hide Website Information",
+        "showWebsiteInformation": "Show Website Information",
+        "viewWebsiteActivity": "View Website Activity"
+      }
+    }
+  },
+  "tabs": {
+    "labelDetail": "Detail"
+  },
+  "metrics": {
+    "calls_calls": "Calls",
+    "calls_latency": "Latency",
+    "calls_erroneousCalls": "Erroneous Calls",
+    "calls_errors": "Erroneous Calls Rate",
+    "traces_calls": "Traces",
+    "traces_traces": "Traces",
+    "traces_latency": "Latency",
+    "traces_erroneousCalls": "Erroneous Traces",
+    "traces_errors": "Erroneous Traces Rate"
   }
 }

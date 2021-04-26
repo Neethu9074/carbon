@@ -5,9 +5,9 @@
 
 import React from 'react';
 
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { type as typeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
@@ -20,35 +20,35 @@ export default function AnalyzeCallsButton({
   serviceName,
   statefulSetName,
   podName,
-  groupByTag
+  groupBy
 }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
   return (
     <Button
       kind="primary"
       icon="lib_application_call"
-      href$={
-        tagCatalog &&
-        getLinkToAnalyze({
-          dataSource: 'calls',
-          filters: getFilters({
-            clusterName,
-            namespaceName,
-            daemonSetName,
-            deploymentName,
-            deploymentConfigName,
-            serviceName,
-            statefulSetName,
-            podName
-          }),
-          tagCatalog,
-          groupByTag: groupByTag ? groupByTag : {}
-        })
-      }
+      href$={getLinkToAnalyze({
+        dataSource: 'calls',
+        formModel: getFormModel({
+          clusterName,
+          namespaceName,
+          daemonSetName,
+          deploymentName,
+          deploymentConfigName,
+          serviceName,
+          statefulSetName,
+          podName
+        }),
+        groupBy
+      })}
     >
       {t('in-kubernetes:dashboards.analyzeCalls')}
     </Button>
   );
+}
+
+function getFormModel(params) {
+  const tagFilters = getFilters(params).map(tagFilter => ({ type: typeTagFilter, ...tagFilter }));
+  return joinExpressions({ expressions: tagFilters });
 }
 
 export function getFilters({

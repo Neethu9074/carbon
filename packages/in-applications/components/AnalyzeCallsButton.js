@@ -7,16 +7,17 @@ import { get } from 'lodash';
 import React from 'react';
 
 import {
-  getTagFiltersForSyntheticOption,
-  isSyntheticOption
+  createFormModelFromSyntheticOption,
+  createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
+import { syntheticCallsOptions } from 'in-applications/constants';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { emptyArray } from 'in-services/fixedObjects';
 import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -44,28 +45,29 @@ function AnalyzeCallsButton({
   boundaryScope,
   syntheticType,
   syntheticCalls,
-  filters = [],
-  groupByTag
+  formModel = emptyArray,
+  groupBy
 }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
+  let syntheticOption = syntheticCallsOptions.exclude;
+  if (syntheticCallsEnabled) {
+    syntheticOption = syntheticCalls;
+  } else if (syntheticType === 'SYNTHETIC') {
+    syntheticOption = syntheticCallsOptions.only;
+  }
   return (
     <Button
       kind="primary"
       icon="lib_application_call"
-      href$={
-        tagCatalog &&
-        getLinkToAnalyze({
-          applicationName: applicationLabel,
-          serviceName: serviceLabel,
-          endpointName: endpointLabel,
-          boundaryScope: boundaryScope || applicationBoundaryScope,
-          dataSource: 'calls',
-          filters: getSyntheticCallFilters(syntheticType, syntheticCalls),
-          ...filters,
-          tagCatalog: tagCatalog,
-          groupByTag: groupByTag ? groupByTag : {}
-        })
-      }
+      href$={getLinkToAnalyze({
+        applicationName: applicationLabel,
+        serviceName: serviceLabel,
+        endpointName: endpointLabel,
+        boundaryScope: boundaryScope || applicationBoundaryScope,
+        dataSource: 'calls',
+        formModel: joinExpressions({ expressions: [formModel, createFormModelFromSyntheticOption(syntheticOption)] }),
+        hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticOption),
+        groupBy
+      })}
     >
       {t('in-applications:buttonAnalyzeCalls')}
     </Button>
@@ -78,24 +80,4 @@ function getLabel(result) {
 
 function getBoundaryScope(result) {
   return get(result, ['data', 'boundaryScope'], null);
-}
-
-function getSyntheticCallFilters(syntheticType, syntheticCalls) {
-  if (syntheticCallsEnabled && isSyntheticOption(syntheticCalls)) {
-    return getTagFiltersForSyntheticOption(syntheticCalls);
-  }
-  switch (syntheticType) {
-    case 'SYNTHETIC':
-      return [
-        { name: 'call.is_synthetic', value: 'true' },
-        { name: 'include_synthetic', value: 'true' }
-      ];
-    case 'MIXED':
-      return [
-        { name: 'call.is_synthetic', value: 'false' },
-        { name: 'include_synthetic', value: 'true' }
-      ];
-    default:
-      return [];
-  }
 }

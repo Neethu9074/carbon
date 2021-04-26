@@ -6,14 +6,17 @@
 import React from 'react';
 
 import {
-  getTagFiltersForSyntheticOption,
+  createFormModelFromSyntheticOption,
+  createHiddenCallsFromSyntheticOption,
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { bar, line } from 'in-stores/metric/renderer';
@@ -29,10 +32,9 @@ export default function Errors({
   boundaryScope,
   cardTitle,
   syntheticCalls,
-  groupByTag,
+  groupBy,
   renderPostChartContent
 }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
   const granularity = getChartGranularity(timeConfig);
   const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
   const timeShiftConfig = useTimeShiftConfig();
@@ -110,22 +112,21 @@ export default function Errors({
             icon: 'lib_analyze',
             label: t('in-applications:lineViewInAnalyze'),
             getHref$: highlightedTime =>
-              tagCatalog &&
               getJumpToAnalyzeHref$(
                 { applicationId, serviceId, endpointId },
                 {
                   timeConfig: highlightedTime,
                   boundaryScope,
-                  groupByTag,
-                  filters: isSyntheticOption(syntheticCalls)
-                    ? [...getTagFiltersForSyntheticOption(syntheticCalls), { name: 'call.erroneous', value: 'true' }]
-                    : [{ name: 'call.erroneous', value: 'true' }],
-                  tagCatalog: tagCatalog,
-                  metrics: [
-                    { metric: 'errors', aggregation: 'MEAN' },
-                    { metric: 'latency', aggregation: 'MEAN' }
-                  ],
-                  focusedMetric: 'errors_MEAN'
+                  groupBy,
+                  formModel: joinExpressions({
+                    expressions: [
+                      createFormModelFromSyntheticOption(syntheticCalls),
+                      tagFilter('call.erroneous', EQUALS, true)
+                    ]
+                  }),
+                  hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
+                  fields: [createMetricField('errors', 'MEAN'), createMetricField('latency', 'MEAN')],
+                  chartedMetrics: [createChartedMetric('errors', 'MEAN')]
                 }
               )
           }

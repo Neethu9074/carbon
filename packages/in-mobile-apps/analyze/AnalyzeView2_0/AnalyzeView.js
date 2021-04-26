@@ -17,7 +17,6 @@ import FacetedFilterGeneric from 'in-new-components/AnalyzeView/FacetedFilters/F
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
 import MobileBeacons from 'in-mobile-apps/analyze/AnalyzeView2_0/components/MobileBeacons';
-import { getSingleNumberMetricId } from 'in-new-components/AnalyzeView/metrics';
 import StateManagement from 'in-new-components/AnalyzeView/StateManagement';
 import { getMetricCatalog } from 'in-mobile-apps/api/metricCatalog';
 import { analyzePath } from 'in-mobile-apps/navigation/paths';
@@ -71,7 +70,6 @@ const facetedSearchItems = [
 const groupedView = {
   defaultOrderBy: 'beaconCount_SUM',
   defaultOrderDirection: 'DESC',
-  getOrderById: getOrderByGroupId,
   customFieldRenderingInstructions: {
     timestamp: createListTimestampColumnDefinition({
       getTimestamp: ({ item }) => item.earliestTimestamp
@@ -82,7 +80,6 @@ const groupedView = {
 const ungroupedView = {
   defaultOrderBy: 'timestamp',
   defaultOrderDirection: 'DESC',
-  getOrderById: getOrderById,
   customFieldRenderingInstructions: {
     timestamp: createTableTimestampColumnDefinition({
       getTimestamp: ({ beacon }) => beacon.timestamp
@@ -123,7 +120,7 @@ const defaultChartedMetrics = [{ metricId: 'beaconCount', aggregationId: 'SUM' }
 
 const dataSourceConfigurations = {
   sessionStart: {
-    metricCatalogFilter: createMetricCatalogFilter('sessionStart'),
+    metricCatalogTransformer: createMetricCatalogTransformer('sessionStart'),
     facetedSearchItems,
     groupedView,
     ungroupedView,
@@ -138,7 +135,7 @@ const dataSourceConfigurations = {
     defaultChartedMetrics
   },
   viewChange: {
-    metricCatalogFilter: createMetricCatalogFilter('viewChange'),
+    metricCatalogTransformer: createMetricCatalogTransformer('viewChange'),
     facetedSearchItems,
     groupedView,
     ungroupedView,
@@ -153,7 +150,7 @@ const dataSourceConfigurations = {
     defaultChartedMetrics
   },
   httpRequest: {
-    metricCatalogFilter: createMetricCatalogFilter('httpRequest'),
+    metricCatalogTransformer: createMetricCatalogTransformer('httpRequest'),
     facetedSearchItems,
     groupedView,
     ungroupedView,
@@ -173,7 +170,7 @@ const dataSourceConfigurations = {
     defaultChartedMetrics
   },
   custom: {
-    metricCatalogFilter: createMetricCatalogFilter('custom'),
+    metricCatalogTransformer: createMetricCatalogTransformer('custom'),
     facetedSearchItems,
     groupedView,
     ungroupedView,
@@ -207,14 +204,12 @@ export default function MobileAnalyzeView() {
           <GroupedMobileBeacons
             {...opts}
             getFacetedSearchSuggestions={getFacetedSearchSuggestions}
-            getLabel={getLabel}
             useLastValidStateWhenErroneous
           />
         ) : (
           <MobileBeacons
             {...opts}
             getFacetedSearchSuggestions={getFacetedSearchSuggestions}
-            getFacetedGroupLabel={getLabel}
             useLastValidStateWhenErroneous
           />
         )
@@ -223,12 +218,8 @@ export default function MobileAnalyzeView() {
   );
 }
 
-function getLabel(item) {
-  return JSON.parse(item.name);
-}
-
-function createMetricCatalogFilter(dataSource) {
-  return ({ beaconTypes }) => beaconTypes.includes(dataSource);
+function createMetricCatalogTransformer(dataSource) {
+  return metricDefinition => (metricDefinition.beaconTypes.includes(dataSource) ? metricDefinition : null);
 }
 
 function getFacetedSearchSuggestions({
@@ -262,25 +253,4 @@ function getFacetedSearchSuggestions({
       }
     }
   });
-}
-
-function getOrderById({ metricCatalog, field }) {
-  if (field.type === customType) {
-    return field.customFieldId;
-  }
-  if (field.type === metricType) {
-    const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metricId);
-    return metricDefinition?.tagName;
-  }
-  return null;
-}
-
-function getOrderByGroupId({ field }) {
-  if (field.type === customType) {
-    return field.customFieldId === 'timestamp' ? 'earliestTimestamp' : field.customFieldId;
-  }
-  if (field.type === metricType) {
-    return getSingleNumberMetricId(field);
-  }
-  return null;
 }

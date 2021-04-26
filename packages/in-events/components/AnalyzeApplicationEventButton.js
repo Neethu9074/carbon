@@ -14,7 +14,8 @@ import { getTagCatalog } from 'in-applications/analyze/components/workspace/Call
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
-import { getDirectLinkToUA2 } from 'in-analyze/navigation/paths';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
+import { createChartedMetric } from 'in-analyze/navigation/paths';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { entityTypes } from 'in-analyze/applicationFilter';
@@ -99,12 +100,12 @@ export function getLinkToUnboundAnalytics(
     ? groupingTagName
     : getGroupingTagName(alertType, tagFilterExpression, serviceId, endpointId);
 
-  return getDirectLinkToUA2({
+  return getLinkToAnalyze({
     dataSource,
     timeConfig,
     groupBy: toGroupByTag(groupByTag),
-    charts: getChartsParam(alertType),
-    tagFilterExpression: getEnrichedAnalyzeTagFilterFormModel(
+    chartedMetrics: getChartsParam(alertType),
+    formModel: getEnrichedAnalyzeTagFilterFormModel(
       alertConfig,
       applicationId,
       applicationName,
@@ -153,30 +154,15 @@ export function getEnrichedAnalyzeTagFilterFormModel(
 
 function getChartsParam(alertType) {
   if (alertType === 'slowness') {
-    return [
-      {
-        metric: 'latency',
-        aggregation: 'DISTRIBUTION'
-      }
-    ];
+    return [createChartedMetric('latency', 'DISTRIBUTION')];
   }
   if (alertType === 'errorRate') {
     // we don't show errors with MEAN aggregation here, because we already include a call.erroneous filter
-    return [
-      {
-        metric: 'erroneousCalls',
-        aggregation: 'SUM'
-      }
-    ];
+    return [createChartedMetric('erroneousCalls', 'SUM')];
   }
   // at the moment only 'latency_DISTRIBUTION' is available when no grouping is set. However, the analyze-view handles
   // this case properly and then shows the latency-distribution chart instead.
-  return [
-    {
-      metric: 'calls',
-      aggregation: 'SUM'
-    }
-  ];
+  return [createChartedMetric('calls', 'SUM')];
 }
 
 function getGroupingTagName(alertType, tagFilterExpression, serviceId, endpointId) {

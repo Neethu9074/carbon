@@ -48,7 +48,6 @@ export default function MobileAppsQueryBuilderWorkspace(props) {
     groupBy,
     onGroupByChange,
     useLastValidStateWhenErroneous,
-    metricCatalogFilter,
     chartedMetrics,
     chartableDataSeries
   } = props;
@@ -91,7 +90,6 @@ export default function MobileAppsQueryBuilderWorkspace(props) {
                 ...chartedMetric,
                 rendererId: metricRenderers[dataSource][chartedMetric.metricId] ?? 'stackedBar'
               }))}
-              metricCatalogFilter={metricCatalogFilter}
               unifiedMetricsSource="MOBILE_APP"
               mapMetricConfiguration={mapMetricConfiguration}
               forceLoadingIndicator={isGrouped && chartableDataSeries == null}

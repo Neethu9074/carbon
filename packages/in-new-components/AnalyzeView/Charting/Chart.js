@@ -17,7 +17,7 @@ import locals from './Chart.mless';
 
 export default function Chart({
   isGrouped,
-  metricCatalog,
+  chartableMetricCatalog,
   chartableDataSeries,
   chartedMetrics,
   backendQueryModel,
@@ -26,13 +26,13 @@ export default function Chart({
   dataSource,
   forceLoadingIndicator
 }) {
-  if (chartedMetrics.length < 1 || !metricCatalog) {
+  if (chartedMetrics.length < 1 || !chartableMetricCatalog) {
     return null;
   }
 
   const { aggregationId, metricId, rendererId } = chartedMetrics[0];
 
-  const metricDescription = metricCatalog.find(m => m.metricId === metricId);
+  const metricDescription = chartableMetricCatalog.find(m => m.metricId === metricId);
   if (!metricDescription) {
     return null;
   }

@@ -24,6 +24,11 @@ import {
   hasMobileAppsAccess
 } from 'in-stores/permission';
 import {
+  applicationsList,
+  getLinkToAnalyze as getLinkToApplicationsAnalyze,
+  isApplicationsView
+} from 'in-applications/navigation/paths';
+import {
   applicationListFullyQualified as cloudfoundryApplicationList,
   cloudfoundry
 } from 'in-cloudfoundry/navigation/paths';
@@ -33,19 +38,18 @@ import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from '
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-new-components/Profiling/navigation/paths';
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SubViewItem } from 'in-new-components/MainNavigation/components/ViewSwitcher/SubView';
-import { applicationsList, isApplicationsView } from 'in-applications/navigation/paths';
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import View from 'in-new-components/MainNavigation/components/ViewSwitcher/View';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
-import { getLinkToAnalyze, isAnalyzeView } from 'in-analyze/navigation/paths';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import AboutInstanaDialog from 'in-new-components/AboutInstanaDialog';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import Stan from 'in-new-components/MainNavigation/components/Stan';
+import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
 import { eventsPath } from 'in-events/navigation/paths';
@@ -303,7 +307,7 @@ function Analyze(props) {
       href$={
         [
           hasApplicationsAccess &&
-            getLinkToAnalyze({
+            getLinkToApplicationsAnalyze({
               dataSource: 'calls'
             }),
           hasWebsitesAccess &&

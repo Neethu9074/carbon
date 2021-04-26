@@ -9,7 +9,7 @@ import { get } from 'lodash';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { alwaysNull } from 'in-services/fixedStreams';
 
 function getLabels({ applicationId, serviceId, endpointId }) {
@@ -35,7 +35,6 @@ export default function getJumpToAnalyzeHref$(ids, additionalParams) {
       serviceName: serviceLabel,
       endpointName: endpointLabel,
       dataSource: 'calls',
-      showGraph: true,
       ...additionalParams
     })
   );

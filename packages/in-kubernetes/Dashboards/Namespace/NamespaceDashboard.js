@@ -13,6 +13,7 @@ import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsF
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { namespaceId as matrixNamespaceId } from 'in-kubernetes/navigation/matrix';
+import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
@@ -24,7 +25,7 @@ import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
-import { entityTypes } from 'in-analyze/applicationFilter';
+import { createGroupBy } from 'in-analyze/navigation/paths';
 import { namespaceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
@@ -123,7 +124,7 @@ function renderButtonLine({ namespaceId, timeConfig, result }) {
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'clusterName'])}
         namespaceName={get(result, ['data', 'label'])}
-        groupByTag={{ name: 'kubernetes.service.name', entity: entityTypes.DESTINATION }}
+        groupBy={createGroupBy('kubernetes.service.name', DESTINATION)}
         timeConfig={timeConfig}
       />
     </>

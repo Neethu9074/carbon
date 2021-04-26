@@ -12,11 +12,11 @@ import { traceId as traceIdMatrixParameter } from 'in-analyze/navigation/matrix'
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getColorPool } from 'in-services/util/ColorGenerator';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { traceDetail } from 'in-analyze/navigation/paths';
 import { getColor } from 'in-applications/endpointTypes';
 import tabs from 'in-analyze/TraceDetail/tabs/index';

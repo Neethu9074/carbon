@@ -28,6 +28,7 @@ import { getServiceDashboard } from 'in-applications/navigation/paths';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import { syntheticCallsOptions } from 'in-applications/constants';
 import getServices from 'in-subscription/application/getServices';
+import { createGroupBy } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
@@ -245,7 +246,7 @@ export default function ServiceList(props) {
       buttonLabel={t('in-applications:labelServices')}
       applicationName={applicationName}
       boundaryScope={boundaryScope}
-      groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
+      groupBy={createGroupBy('service.name', entityTypes.DESTINATION)}
     />
   );
 

@@ -11,6 +11,7 @@ import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/Kuber
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
+import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
@@ -24,7 +25,7 @@ import DashboardHeader from 'in-new-components/DashboardHeader';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
-import { entityTypes } from 'in-analyze/applicationFilter';
+import { createGroupBy } from 'in-analyze/navigation/paths';
 import { serviceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
@@ -135,7 +136,7 @@ function renderButtonLine({ timeConfig, result, serviceId }) {
         clusterName={clusterName}
         namespaceName={namespaceName}
         serviceName={serviceName}
-        groupByTag={{ name: 'kubernetes.pod.name', entity: entityTypes.DESTINATION }}
+        groupBy={createGroupBy('kubernetes.pod.name', DESTINATION)}
         timeConfig={timeConfig}
       />
     </>

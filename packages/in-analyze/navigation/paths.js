@@ -7,20 +7,6 @@ import { partition, range, uniq } from 'lodash';
 import invariant from 'invariant';
 
 import {
-  previewEnabled as previewEnabledMatrixParameterUA1,
-  orderDirection as orderDirectionMatrixParameterUA1,
-  dataSource as dataSourceMatrixParameterUA1,
-  tagFilter as tagFilterMatrixParameterUA1,
-  showGraph as showGraphMatrixParameterUA1,
-  orderBy as orderByMatrixParameterUA1,
-  groupBy as groupByMatrixParameterUA1,
-  metrics as metricsMatrixParameterUA1,
-  traceId as traceIdMatrixParameter,
-  callId as callIdMatrixParameter,
-  focusedMetric as focusedMetricMatrixParameterUA1,
-  serializeMetrics
-} from 'in-analyze/navigation/matrix';
-import {
   dataSourceMatrixParameter,
   groupByMatrixParameter,
   orderByGroupsMatrixParameter,
@@ -44,20 +30,25 @@ import {
   STARTS_WITH
 } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import {
+  groupBy as groupByMatrixParameterUA1,
+  traceId as traceIdMatrixParameter,
+  callId as callIdMatrixParameter
+} from 'in-analyze/navigation/matrix';
+import {
   toNewTagFilterFormat,
   sanitizeTagFilter,
   type as TAG_FILTER
 } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { getTagFilterToUrlString, getGroupToUrlString, getTagFilterFromUrlString } from 'in-analyze/filterBuilder';
-import { setOrDeleteMatrixKey, getMatrixParameter, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { dataSourceConstants, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
 import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
-import { callAnalysisDisabledTags, traceAnalysisDisabledTags } from 'in-applications/tags';
+import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { toNewOrderBy } from 'in-new-components/QueryBuilder/transformation/orderBy';
+import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
+import { getGroupToUrlString } from 'in-analyze/filterBuilder';
 import { newAnalyticsEnabled } from 'in-services/featureFlags';
 import { boundaryScopes } from 'in-applications/constants';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -73,11 +64,23 @@ export const TAG_CALL_HTTP_STATUS = 'call.http.status';
 
 export const isAnalyzeView = getRootPathPredicate(analyze);
 
-export function getLinkToAnalyze(props) {
-  return newAnalyticsEnabled ? getLinkToUA2(props) : getLinkToUA1(props);
+export function createGroupBy(groupbyTag, groupbyTagEntity) {
+  return { groupbyTag, ...(groupbyTagEntity && { groupbyTagEntity }) };
 }
 
-function getLinkToUA2({
+export function createOrderBy(by, direction) {
+  return { by, ...(direction && { direction }) };
+}
+
+export function createChartedMetric(metricId, aggregationId) {
+  return { metricId, aggregationId };
+}
+
+export function createMetricField(metricId, aggregationId) {
+  return { metricId, aggregationId, type: metricType };
+}
+
+export function getLinkToAnalyzeDeprecated({
   applicationName,
   serviceName,
   endpointName,
@@ -191,39 +194,6 @@ function getLinkToUA2({
       }
     }
     setTagFilterExpressionAndHiddenCalls(location, tagCatalog, filters, tagFilterExpression);
-  });
-}
-
-export function getDirectLinkToUA2({
-  dataSource = 'calls',
-  groupBy,
-  orderBy,
-  timeConfig,
-  metrics,
-  charts,
-  tagFilterExpression,
-  hiddenCalls = {}
-} = emptyObject) {
-  return getModifiedUrlStream(location => {
-    location.pathname = analyze;
-
-    setOrDeleteMatrixParameter(location, dataSourceMatrixParameter, dataSource);
-    setOrDeleteMatrixParameter(location, groupByMatrixParameter, groupBy);
-    setOrDeleteMatrixParameter(location, groupBy ? orderByGroupsMatrixParameter : orderByMatrixParameter, orderBy);
-    setMetricsMatrixParam(location, dataSource, metrics);
-    setOrDeleteMatrixParameter(
-      location,
-      chartsMatrixParameter,
-      charts ?? dataSourceConstants[dataSource].defaultCharts
-    );
-    if (timeConfig) {
-      setTimeConfig(location, timeConfig);
-    }
-    setOrDeleteMatrixParameter(location, tagFilterExpressionMatrixParameter, tagFilterExpression);
-
-    if (hiddenCalls.includeInternal || hiddenCalls.includeSynthetic) {
-      setOrDeleteMatrixParameter(location, hiddenCallsMatrixParameter, hiddenCalls);
-    }
   });
 }
 
@@ -468,184 +438,14 @@ export function tagFilterForBoundaryScope(boundaryScope, applicationName) {
   };
 }
 
-function getLinkToUA1({
-  applicationName,
-  serviceName,
-  endpointName,
-  boundaryScope = boundaryScopes.inbound,
-  dataSource = 'calls',
-  filters,
-  groupByTag, // use an empty object to prevent default grouping
-  orderBy,
-  orderDirection,
-  timeConfig,
-  metrics,
-  showGraph = true,
-  focusedMetric,
-  jumpToSource,
-  previewEnabled
-} = emptyObject) {
-  return getModifiedUrlStream(params => {
-    params.pathname = analyze;
-
-    if (dataSource != null) {
-      setOrDeleteMatrixKey(params, analyze, `callList.${dataSourceMatrixParameterUA1}`, dataSource);
-    }
-
-    if (groupByTag != null) {
-      setOrDeleteMatrixKey(params, analyze, `callList.${groupByMatrixParameterUA1}`, getGroupToUrlString(groupByTag));
-    }
-
-    if (previewEnabled) {
-      setOrDeleteMatrixKey(params, analyze, `callList.${previewEnabledMatrixParameterUA1}`, previewEnabled);
-    }
-
-    // Force lazy initialization of tagFilter so that we can differentiate between deliberate decision to reset filters
-    // and just no desire to change filters.
-    let tagFilter = null;
-    if (applicationName != null) {
-      tagFilter = tagFiltersForBoundaryScopeUA1(boundaryScope, applicationName);
-    }
-    if (serviceName != null) {
-      tagFilter = tagFilter || [];
-      tagFilter.push({
-        name: SERVICE.name,
-        value: serviceName,
-        operator: operators.EQUALS,
-        entity: entityTypes.DESTINATION
-      });
-    }
-    if (endpointName != null) {
-      tagFilter = tagFilter || [];
-      tagFilter.push({
-        name: ENDPOINT.name,
-        value: endpointName,
-        operator: operators.EQUALS,
-        entity: entityTypes.DESTINATION
-      });
-    }
-
-    if (jumpToSource) {
-      if (jumpToSource === 'application') {
-        tagFilter = [];
-        tagFilter.push({
-          name: APPLICATION.name,
-          value: applicationName,
-          operator: operators.EQUALS,
-          entity: entityTypes.SOURCE
-        });
-      }
-
-      if (jumpToSource === 'service') {
-        tagFilter = [];
-        tagFilter.push({
-          name: SERVICE.name,
-          value: serviceName,
-          operator: operators.EQUALS,
-          entity: entityTypes.SOURCE
-        });
-      }
-      if (jumpToSource === 'endpoint') {
-        tagFilter = [];
-        tagFilter.push({
-          name: ENDPOINT.name,
-          value: endpointName,
-          operator: operators.EQUALS,
-          entity: entityTypes.SOURCE
-        });
-      }
-    }
-
-    if (filters) {
-      tagFilter = tagFilter || [];
-      tagFilter.push(...filters);
-    }
-
-    if (tagFilter != null) {
-      setOrDeleteMatrixKey(
-        params,
-        analyze,
-        `callList.${tagFilterMatrixParameterUA1}`,
-        getTagFilterToUrlString(tagFilter)
-      );
-    } else if (dataSource === 'calls' || dataSource === 'traces') {
-      // remove disabled filters
-      let existingTagFilters = getTagFilterFromUrlString(
-        getMatrixParameter(params, analyze, `callList.${tagFilterMatrixParameterUA1}`)
-      );
-      const disabledTags = dataSource === 'calls' ? callAnalysisDisabledTags : traceAnalysisDisabledTags;
-      existingTagFilters = existingTagFilters.filter(t => disabledTags.indexOf(t.name) === -1);
-      setOrDeleteMatrixKey(
-        params,
-        analyze,
-        `callList.${tagFilterMatrixParameterUA1}`,
-        getTagFilterToUrlString(existingTagFilters)
-      );
-    }
-
-    const orderMatrixParameterPrefix = groupByTag == null || isNotBlank(groupByTag.name) ? 'groups.' : 'rawItems.';
-    if (orderBy != null) {
-      setOrDeleteMatrixKey(params, analyze, `${orderMatrixParameterPrefix}${orderByMatrixParameterUA1}`, orderBy);
-    }
-
-    if (orderDirection != null) {
-      setOrDeleteMatrixKey(
-        params,
-        analyze,
-        `${orderMatrixParameterPrefix}${orderDirectionMatrixParameterUA1}`,
-        orderDirection
-      );
-    }
-
-    if (metrics) {
-      setOrDeleteMatrixKey(params, analyze, `groups.${metricsMatrixParameterUA1}`, serializeMetrics(metrics));
-    }
-
-    if (timeConfig) {
-      setTimeConfig(params, timeConfig);
-    }
-
-    if (showGraph) {
-      setOrDeleteMatrixKey(params, analyze, `callList.${showGraphMatrixParameterUA1}`, showGraph);
-    }
-
-    if (focusedMetric) {
-      setOrDeleteMatrixKey(params, analyze, `callList.${focusedMetricMatrixParameterUA1}`, focusedMetric);
-    }
-  });
-}
-
-function tagFiltersForBoundaryScopeUA1(boundaryScope, applicationName) {
-  if (boundaryScope === boundaryScopes.all) {
-    return [
-      {
-        name: APPLICATION.name,
-        value: applicationName,
-        operator: operators.EQUALS,
-        entity: entityTypes.DESTINATION
-      }
-    ];
-  }
-  if (boundaryScope === boundaryScopes.inbound) {
-    return [
-      {
-        name: APPLICATION_INBOUND.name,
-        value: applicationName,
-        operator: operators.EQUALS
-      }
-    ];
-  }
-  return [];
-}
-
-export function getLinkToTraceDetail(traceId, { tab = '/tree', callId, tagFilterExpression } = emptyObject) {
+export function getLinkToTraceDetail(traceId, { tab = '/tree', callId, formModel } = emptyObject) {
   return getModifiedUrlStream(location => {
     location.pathname = `${traceDetailFullyQualified}${tab}`;
     setOrDeleteMatrixKey(location, traceDetail, traceIdMatrixParameter, traceId);
     setOrDeleteMatrixKey(location, traceDetail, callIdMatrixParameter, callId);
-    if (tagFilterExpression) {
+    if (formModel) {
       const serializer = tagFilterExpressionMatrixParameter.serializer;
-      setOrDeleteMatrixKey(location, analyze, tagFilterExpressionMatrixParameter.name, serializer(tagFilterExpression));
+      setOrDeleteMatrixKey(location, analyze, tagFilterExpressionMatrixParameter.name, serializer(formModel));
     }
 
     // make sure that there is no grouping as otherwise the trace cannot be loaded.

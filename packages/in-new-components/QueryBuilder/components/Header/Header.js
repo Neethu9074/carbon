@@ -26,6 +26,7 @@ export default function Header(props) {
     order,
     tracking,
     withSamplingTooltip,
+    withAdjustedWindowSizeTooltip,
     withGrouping,
     withResultsInGroups,
     withCountHeader = true,
@@ -54,6 +55,7 @@ export default function Header(props) {
           getItemName={getItemName}
           getHitName={getHitName}
           withSamplingTooltip={withSamplingTooltip}
+          withAdjustedWindowSizeTooltip={withAdjustedWindowSizeTooltip}
           withGrouping={withGrouping}
           withResultsInGroups={withResultsInGroups}
         />

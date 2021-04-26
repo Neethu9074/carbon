@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number, percentage, bytes, millis, siPrefix } from 'in-services/formatters/number';
+import { number, percentage, bytes, millis, siPrefix, latency } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export const defaultFormatter = {
@@ -55,6 +55,11 @@ export const formatters = [
     id: 'millis.detailed',
     label: t('in-stores:metric.formatterLabelMilliseconds', { example: millis.detailed(42.15) }),
     formatter: millis.detailed
+  },
+  {
+    id: 'latency.detailed',
+    label: t('in-stores:metric.formatterLabelLatency', { example: latency.detailed(0) }),
+    formatter: latency.detailed
   },
   {
     id: 'siPrefix.compact',

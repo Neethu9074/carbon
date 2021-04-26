@@ -29,6 +29,7 @@ import getApplication from 'in-subscription/application/getApplication';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
+import { createGroupBy } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
@@ -236,7 +237,7 @@ export default function Endpoints(props) {
         serviceName={serviceLabel}
         buttonLabel={t('in-applications:labelEndpoints')}
         boundaryScope={boundaryScope}
-        groupByTag={{ name: 'endpoint.name', entity: entityTypes.DESTINATION }}
+        groupBy={createGroupBy('endpoint.name', entityTypes.DESTINATION)}
       />
     </>
   );

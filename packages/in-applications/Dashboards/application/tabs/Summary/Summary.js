@@ -6,29 +6,31 @@
 import React, { Fragment } from 'react';
 
 import {
+  createFormModelFromSyntheticOption,
+  createHiddenCallsFromSyntheticOption,
   getTagFiltersForSyntheticOption,
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
+import { createChartedMetric, createGroupBy, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
 import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { hasHttpEndpoints, hasHttpAndOtherEndpoints } from 'in-applications/endpointTypes';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { summaryTab } from 'in-applications/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { entityTypes } from 'in-analyze/applicationFilter';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Footer from 'in-new-components/Footer/Footer';
 import { t } from 'in-i18n';
@@ -42,7 +44,6 @@ export default function Summary({
   endpointTypes: types
 }) {
   const timeShiftConfig = useTimeShiftConfig();
-  const tagCatalog = useTagCatalog(getTagCatalog);
   const boundaryScope = urlBoundaryScope || application.boundaryScope;
   const syntheticCalls = urlIncludeSyntheticCalls || syntheticCallsOptions.default;
   const includeSyntheticCalls = isSyntheticOption(syntheticCalls);
@@ -91,26 +92,18 @@ export default function Summary({
               text: t('in-applications:lineViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$:
-                tagCatalog &&
-                getJumpToAnalyzeHref$(
-                  { applicationId },
-                  {
-                    timeConfig,
-                    boundaryScope,
-                    groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
-                    filters: getTagFiltersForSyntheticOption(syntheticCalls),
-                    tagCatalog: tagCatalog,
-                    metrics: [
-                      { metric: 'erroneousCalls', aggregation: 'SUM' },
-                      {
-                        metric: 'latency',
-                        aggregation: 'MEAN'
-                      }
-                    ],
-                    focusedMetric: 'calls_SUM'
-                  }
-                )
+              href$: getJumpToAnalyzeHref$(
+                { applicationId },
+                {
+                  timeConfig,
+                  boundaryScope,
+                  groupBy: createGroupBy('service.name', DESTINATION),
+                  formModel: createFormModelFromSyntheticOption(syntheticCalls),
+                  hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
+                  fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
+                  chartedMetrics: [createChartedMetric('calls', 'SUM')]
+                }
+              )
             }}
           />
         </Col>
@@ -146,26 +139,23 @@ export default function Summary({
               text: t('in-applications:lineViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$:
-                tagCatalog &&
-                getJumpToAnalyzeHref$(
-                  { applicationId },
-                  {
-                    timeConfig,
-                    boundaryScope,
-                    groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
-                    filters: [
-                      { name: 'call.erroneous', value: 'true' },
-                      ...getTagFiltersForSyntheticOption(syntheticCalls)
-                    ],
-                    tagCatalog: tagCatalog,
-                    metrics: [
-                      { metric: 'errors', aggregation: 'MEAN' },
-                      { metric: 'latency', aggregation: 'MEAN' }
-                    ],
-                    focusedMetric: 'errors_MEAN'
-                  }
-                )
+              href$: getJumpToAnalyzeHref$(
+                { applicationId },
+                {
+                  timeConfig,
+                  boundaryScope,
+                  groupBy: createGroupBy('service.name', DESTINATION),
+                  formModel: joinExpressions({
+                    expressions: [
+                      tagFilter('call.erroneous', EQUALS, true),
+                      createFormModelFromSyntheticOption(syntheticCalls)
+                    ]
+                  }),
+                  hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
+                  fields: [createMetricField('errors', 'MEAN'), createMetricField('latency', 'MEAN')],
+                  chartedMetrics: [createChartedMetric('errors', 'MEAN')]
+                }
+              )
             }}
           />
         </Col>
@@ -201,20 +191,17 @@ export default function Summary({
               text: t('in-applications:lineViewInAnalyze'),
               kind: 'subtle',
               icon: 'lib_analyze',
-              href$:
-                tagCatalog &&
-                getJumpToAnalyzeHref$(
-                  { applicationId },
-                  {
-                    timeConfig,
-                    boundaryScope,
-                    filters: getTagFiltersForSyntheticOption(syntheticCalls),
-                    groupByTag: { name: 'service.name', entity: entityTypes.DESTINATION },
-                    tagCatalog: tagCatalog,
-                    orderBy: 'latency_MEAN_Agg',
-                    orderDirection: 'DESC'
-                  }
-                )
+              href$: getJumpToAnalyzeHref$(
+                { applicationId },
+                {
+                  timeConfig,
+                  boundaryScope,
+                  groupBy: createGroupBy('service.name', DESTINATION),
+                  formModel: createFormModelFromSyntheticOption(syntheticCalls),
+                  hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
+                  orderByGroups: createOrderBy('latency_MEAN', 'DESC')
+                }
+              )
             }}
           />
         </Col>
@@ -227,7 +214,7 @@ export default function Summary({
             tagFilters={tagFilters}
             boundaryScope={boundaryScope}
             timeConfig={timeConfig}
-            callGroupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
+            callGroupBy={createGroupBy('service.name', DESTINATION)}
             renderPostChartContent={withPotentialProblemsLane}
             renderPostChartContentHttpStatus={withPotentialProblemsLane}
             // if 'types' is not available yet, set to true, so that the initial state can be set based on all metrics
@@ -244,7 +231,7 @@ export default function Summary({
             timeConfig={timeConfig}
             boundaryScope={boundaryScope}
             tagFilters={tagFilters}
-            groupByTag={{ name: 'service.name', entity: entityTypes.DESTINATION }}
+            groupBy={createGroupBy('service.name', DESTINATION)}
             renderPostChartContent={withPotentialProblemsLane}
             syntheticCalls={syntheticCalls}
           />
@@ -256,9 +243,9 @@ export default function Summary({
             timeConfig={timeConfig}
             boundaryScope={boundaryScope}
             tagFilters={tagFilters}
-            percentileGroupBy={{ name: 'service.name', entity: entityTypes.DESTINATION }}
+            percentileGroupBy={createGroupBy('service.name', DESTINATION)}
             renderPostChartContent={withPotentialProblemsLane}
-            includeSyntheticCalls={includeSyntheticCalls}
+            syntheticCalls={syntheticCalls}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'latencyTab', paramMetric: 'latencyMetric' }}
           />
         </Col>

@@ -12,29 +12,21 @@ import { userSelectableRenderer } from 'in-custom-dashboards/widgets/Chart/rende
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { emptyArray } from 'in-services/fixedObjects';
 
-export default function Configurator({
-  onChartedMetricsChange,
-  chartedMetrics,
-  metricCatalog,
-  metricCatalogFilter,
-  tracking
-}) {
+export default function Configurator({ onChartedMetricsChange, chartedMetrics, chartableMetricCatalog, tracking }) {
   return (
     <ChartingConfiguratorSection
       value={chartedMetrics?.[0]}
       options={
-        metricCatalog
-          ?.filter(metricDescription => metricCatalogFilter?.(metricDescription) ?? true)
-          .map(({ metricId, label, description, aggregations }) => ({
-            metricId,
-            label,
-            description,
-            aggregations: aggregations.map(aggregationId => ({
-              id: aggregationId,
-              label: aggregationLabels[aggregationId],
-              renderers: userSelectableRenderer
-            }))
-          })) || emptyArray
+        chartableMetricCatalog?.map(({ metricId, label, description, aggregations }) => ({
+          metricId,
+          label,
+          description,
+          aggregations: aggregations.map(aggregationId => ({
+            id: aggregationId,
+            label: aggregationLabels[aggregationId],
+            renderers: userSelectableRenderer
+          }))
+        })) || emptyArray
       }
       onChange={metric => onChartedMetricsChange(metric ? [metric] : [])}
       tracking={tracking}
@@ -46,7 +38,6 @@ export default function Configurator({
 
 Configurator.propTypes = {
   ...childrenArgsAsPropTypes,
-  metricCatalogFilter: rpt.func,
   tracking: rpt.shape({
     onChartChanged: rpt.func
   })

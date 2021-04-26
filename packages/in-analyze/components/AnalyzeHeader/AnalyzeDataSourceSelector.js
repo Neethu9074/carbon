@@ -7,25 +7,21 @@ import { useObservable } from '@instana/hooks';
 import classNames from 'classnames';
 import React from 'react';
 
-import getConfigByDataSource, {
-  getIconByType,
-  getLabelByType,
-  productAreaIcons,
-  productAreaLabels
-} from 'in-analyze/AnalyzeView/dataSources';
+import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-new-components/Profiling/navigation/paths';
 import { getLinkToAnalyze as getLinkToLogsAnalyze, getLinkToRawLogs } from 'in-logging/navigation/paths';
 import { hasApplicationsAccess, hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
+import { getLinkToAnalyze as getLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
+import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
 import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
 import { loggingEnabled } from 'in-services/featureFlags';
 import { Li, Ul } from 'in-new-components/lists/List';
 import SvgIcon from 'in-components/SvgIcon';
@@ -43,18 +39,18 @@ const productAreas = [
         dataSource: 'calls',
         enabled: hasApplicationsAccess,
         getHref$: ({ isGrouped }) =>
-          getLinkToAnalyze({
+          getLinkToApplicationAnalyze({
             dataSource: 'calls',
-            groupByTag: isGrouped ? getConfigByDataSource('calls').defaultGrouping : emptyObject
+            groupBy: isGrouped ? defaultApplicationGroupings.calls : emptyObject
           })
       },
       {
         dataSource: 'traces',
         enabled: hasApplicationsAccess,
         getHref$: ({ isGrouped }) =>
-          getLinkToAnalyze({
+          getLinkToApplicationAnalyze({
             dataSource: 'traces',
-            groupByTag: isGrouped ? getConfigByDataSource('traces').defaultGrouping : emptyObject
+            groupBy: isGrouped ? defaultApplicationGroupings.traces : emptyObject
           })
       },
       {

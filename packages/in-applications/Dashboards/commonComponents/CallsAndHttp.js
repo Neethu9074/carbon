@@ -6,9 +6,9 @@
 import React from 'react';
 
 import { TimeShiftAwareChartSelectorWithUrlState } from 'in-applications/Dashboards/commonComponents/ChartSelectors';
-import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import CallsErrorsChart from 'in-applications/Dashboards/commonComponents/CallsErrorsChart';
 import HttpSections from 'in-applications/Dashboards/commonComponents/http/HttpSections';
+import { createGroupBy } from 'in-analyze/navigation/paths';
 import { t } from 'in-i18n';
 
 const tabCallCount = {
@@ -87,7 +87,7 @@ export default function CallsAndHttp({
   timeConfig,
   boundaryScope,
   cardTitle,
-  callGroupByTag,
+  callGroupBy,
   renderPostChartContent,
   renderPostChartContentHttpStatus,
   showHttp,
@@ -116,11 +116,11 @@ export default function CallsAndHttp({
         tagFilters={tagFilters}
         timeConfig={timeConfig}
         boundaryScope={boundaryScope}
-        callGroupByTag={callGroupByTag}
+        callGroupBy={callGroupBy}
         renderPostChartContent={renderPostChartContent}
         renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
         hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
-        isSynthetic={isSyntheticOption(syntheticCalls)}
+        syntheticCalls={syntheticCalls}
       />
     </TimeShiftAwareChartSelectorWithUrlState>
   );
@@ -133,14 +133,14 @@ function ChartPresenter({
   tagFilters,
   timeConfig,
   boundaryScope,
-  callGroupByTag,
+  callGroupBy,
   renderPostChartContent,
   renderPostChartContentHttpStatus,
   hasHttpAndOtherEndpoints,
   selectedTabId, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
   selectedMetricValue, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
   timeShiftConfig, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
-  isSynthetic
+  syntheticCalls
 }) {
   return selectedTabId === tabCallCount.id ? (
     <CallsErrorsChart
@@ -152,9 +152,9 @@ function ChartPresenter({
       timeConfig={timeConfig}
       timeShiftConfig={timeShiftConfig}
       timeShiftMetric={selectedMetricValue}
-      groupByTag={callGroupByTag}
+      groupBy={callGroupBy}
       renderPostChartContent={renderPostChartContent}
-      isSynthetic={isSynthetic}
+      syntheticCalls={syntheticCalls}
     />
   ) : (
     <HttpSections
@@ -166,11 +166,11 @@ function ChartPresenter({
       timeConfig={timeConfig}
       timeShiftConfig={timeShiftConfig}
       timeShiftMetric={selectedMetricValue}
-      groupByTag={{ name: 'call.http.status' }}
+      groupBy={createGroupBy('call.http.status')}
       renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
       hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
       showGraph
-      isSynthetic={isSynthetic}
+      syntheticCalls={syntheticCalls}
     />
   );
 }

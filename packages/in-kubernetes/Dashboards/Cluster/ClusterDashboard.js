@@ -11,6 +11,7 @@ import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/Dashb
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
 import { isOpenshift, clusterBadgeName } from 'in-kubernetes/clusterDistributions';
+import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
@@ -24,7 +25,7 @@ import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { ClusterBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Cluster/tabs/index';
 import BadgeList from 'in-new-components/BadgeList/BadgeList';
-import { entityTypes } from 'in-analyze/applicationFilter';
+import { createGroupBy } from 'in-analyze/navigation/paths';
 import { clusterTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
@@ -117,7 +118,7 @@ function renderButtonLine({ clusterId, timeConfig, result }) {
       />
       <AnalyzeCallsButton
         clusterName={get(result, ['data', 'label'], '')}
-        groupByTag={{ name: 'kubernetes.namespace', entity: entityTypes.DESTINATION }}
+        groupBy={createGroupBy('kubernetes.namespace', DESTINATION)}
         timeConfig={timeConfig}
       />
     </>

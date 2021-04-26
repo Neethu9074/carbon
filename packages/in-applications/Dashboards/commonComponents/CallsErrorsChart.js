@@ -5,12 +5,15 @@
 
 import React from 'react';
 
+import {
+  createFormModelFromSyntheticOption,
+  createHiddenCallsFromSyntheticOption
+} from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { barOverlapping, line } from 'in-stores/metric/renderer';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -23,8 +26,8 @@ export default function CallsErrorsChart({
   timeConfig,
   timeShiftConfig,
   timeShiftMetric,
-  isSynthetic,
-  groupByTag,
+  syntheticCalls,
+  groupBy,
   boundaryScope,
   cardTitle,
   renderPostChartContent
@@ -32,7 +35,7 @@ export default function CallsErrorsChart({
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
   const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
-  const tagCatalog = useTagCatalog(getTagCatalog);
+  const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
 
   const defaultMetricConfig = {
     granularity,
@@ -40,8 +43,8 @@ export default function CallsErrorsChart({
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
-    includeSynthetic: isSynthetic,
-    timeShift: 0
+    timeShift: 0,
+    ...hiddenCalls
   };
 
   const chartMetrics = [
@@ -151,28 +154,16 @@ export default function CallsErrorsChart({
             icon: 'lib_analyze',
             label: t('in-applications:lineViewInAnalyze'),
             getHref$: (highlightedTime, config) =>
-              tagCatalog &&
               getJumpToAnalyzeHref$(
                 { applicationId, serviceId, endpointId },
                 {
                   timeConfig: highlightedTime,
                   boundaryScope,
-                  groupByTag,
-                  filters: isSynthetic
-                    ? [
-                        { name: 'call.is_synthetic', value: 'true' },
-                        { name: 'include_synthetic', value: 'true' }
-                      ]
-                    : [],
-                  tagCatalog: tagCatalog,
-                  metrics: [
-                    { metric: 'erroneousCalls', aggregation: 'SUM' },
-                    {
-                      metric: 'latency',
-                      aggregation: 'MEAN'
-                    }
-                  ],
-                  focusedMetric: focusBasedOnMetrics(config)
+                  groupBy,
+                  formModel: createFormModelFromSyntheticOption(syntheticCalls),
+                  hiddenCalls,
+                  fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
+                  chartedMetrics: getChartedMetrics(config)
                 }
               )
           }
@@ -182,9 +173,6 @@ export default function CallsErrorsChart({
   );
 }
 
-function focusBasedOnMetrics(config) {
-  if (config.renderedMetrics[0] === 'erroneousCalls') {
-    return 'erroneousCalls_SUM';
-  }
-  return 'calls_SUM';
+function getChartedMetrics(config) {
+  return [createChartedMetric(config.renderedMetrics[0] === 'erroneousCalls' ? 'erroneousCalls' : 'calls', 'SUM')];
 }

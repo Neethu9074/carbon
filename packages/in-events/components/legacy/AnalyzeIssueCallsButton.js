@@ -15,10 +15,12 @@ import {
   hasErrors
 } from 'in-services/entityUtils';
 import { getTimeConfigFromEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import getConfigByDataSource from 'in-analyze/AnalyzeView/dataSources';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { containsIgnoreCase } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
@@ -37,7 +39,6 @@ export default connectTo(
     return observables;
   },
   function AnalyzeIssueCalls({ className, event, endpointEntity }) {
-    const tagCatalog = useTagCatalog(getTagCatalog);
     if (!event) {
       return null;
     }
@@ -62,39 +63,46 @@ export default connectTo(
 
     const isErroneous = isErrorEvent(event);
     const isSynthetic = endpointEntity && isSyntheticEndpoint(endpointEntity);
-    const filters = getFilters(isErroneous, isSynthetic);
+    const formModel = getFormModel(isErroneous, isSynthetic);
+    const hiddenCalls = isSynthetic ? { includeSynthetic: true } : null;
     const dataSource = 'calls';
-    const groupByTag = endpointName ? {} : getConfigByDataSource(dataSource).defaultGrouping;
-    const order = getAnalyzeOrder(event);
-    const focusedMetric = getAnalyzeFocusedMetricInChart(event);
+    const groupBy = endpointName ? null : defaultApplicationGroupings[dataSource];
+    const orderBy = getOrderBy(event, groupBy);
+    const orderByGroups = getOrderByGroup(event, groupBy);
+    const chartedMetrics = getChartedMetrics(event, groupBy);
 
     return (
       <Button
         className={className}
         kind="primary"
         icon="lib_application_call"
-        href$={
-          tagCatalog &&
-          getLinkToAnalyze({
-            applicationName,
-            serviceName,
-            endpointName,
-            dataSource,
-            filters,
-            tagCatalog,
-            groupByTag,
-            focusedMetric,
-            orderBy: order.by,
-            orderDirection: order.direction,
-            timeConfig: getTimeConfigFromEvent(event)
-          })
-        }
+        href$={getLinkToAnalyze({
+          applicationName,
+          serviceName,
+          endpointName,
+          dataSource,
+          formModel,
+          hiddenCalls,
+          groupBy,
+          chartedMetrics,
+          orderBy,
+          orderByGroups,
+          timeConfig: getTimeConfigFromEvent(event)
+        })}
       >
         {t('in-events:analyzeCalls')}
       </Button>
     );
   }
 );
+
+function getOrderByGroup(event, groupBy) {
+  return groupBy != null && isLatencyEvent(event) ? createOrderBy('latency_MEAN', 'DESC') : null;
+}
+
+function getOrderBy(event, groupBy) {
+  return groupBy == null && isLatencyEvent(event) ? createOrderBy('latency', 'DESC') : null;
+}
 
 function getEntityObservable(event) {
   const entityId = event.get('entityId');
@@ -111,42 +119,28 @@ function isSyntheticEndpoint(endpoint) {
   return get(endpoint, ['data', 'synthetic'], false);
 }
 
-function getFilters(isErroneous, isSynthetic) {
-  const filters = [];
+function getFormModel(isErroneous, isSynthetic) {
+  let formModel = [];
 
   if (isErroneous) {
-    filters.push({ name: 'call.erroneous', value: 'true' });
+    formModel = joinExpressions({ expressions: [formModel, tagFilter('call.erroneous', EQUALS, true)] });
   }
   if (isSynthetic) {
-    filters.push({ name: 'call.is_synthetic', value: 'true' });
+    formModel = joinExpressions({ expressions: [formModel, tagFilter('call.is_synthetic', EQUALS, true)] });
   }
 
-  return filters;
+  return formModel;
 }
 
-function getAnalyzeOrder(event) {
-  let orderBy;
-  let orderDirection;
-  const entityType = event.get('entityType');
-  if (isLatencyEvent(event)) {
-    orderBy = isEndpointEntity(entityType) ? 'latency' : 'latency_MEAN_Agg';
-    orderDirection = 'DESC';
-  }
-  return {
-    by: orderBy,
-    direction: orderDirection
-  };
-}
-
-function getAnalyzeFocusedMetricInChart(event) {
-  if (isLatencyEvent(event)) {
-    return 'latency_DISTRIBUTION';
+function getChartedMetrics(event, groupBy) {
+  if (groupBy == null || isLatencyEvent(event)) {
+    return [createChartedMetric('latency', 'DISTRIBUTION')];
   }
   if (isErrorEvent(event)) {
     // use count metric also for error-rate, because we already filter for erroneous calls only
-    return 'erroneousCalls_SUM';
+    return [createChartedMetric('erroneousCalls', 'SUM')];
   }
-  return 'calls_SUM';
+  return [createChartedMetric('calls', 'SUM')];
 }
 
 function isErrorEvent(event) {

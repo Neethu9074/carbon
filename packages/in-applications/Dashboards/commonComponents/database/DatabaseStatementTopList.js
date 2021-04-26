@@ -8,13 +8,13 @@ import { get } from 'lodash';
 
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import getDatabaseStatementTopList from 'in-subscription/application/getDatabaseStatementTopList';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { getLinkToAnalyze } from 'in-analyze/navigation/paths';
+import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { millis, number } from 'in-services/formatters/number';
 import { boundaryScopes } from 'in-applications/constants';
 import { shorten } from 'in-services/util/string';
@@ -116,24 +116,18 @@ function getList({
 }
 
 function Label({ item, applicationLabel, serviceLabel, endpointLabel, className }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
   return (
     <Fragment>
       <Link
         className={className}
-        href$={
-          tagCatalog &&
-          getLinkToAnalyze({
-            applicationName: applicationLabel,
-            serviceName: serviceLabel,
-            endpointName: endpointLabel,
-            boundaryScope: boundaryScopes.all,
-            dataSource: 'calls',
-            filters: [{ name: 'call.database.statement', operator: 'equals', value: item.statement }],
-            tagCatalog,
-            groupByTag: {}
-          })
-        }
+        href$={getLinkToAnalyze({
+          applicationName: applicationLabel,
+          serviceName: serviceLabel,
+          endpointName: endpointLabel,
+          boundaryScope: boundaryScopes.all,
+          dataSource: 'calls',
+          formModel: [tagFilter('call.database.statement', EQUALS, item.statement)]
+        })}
         onClick={() => trackTopListNavigation()}
       >
         {shorten(item.statement, 64)}
