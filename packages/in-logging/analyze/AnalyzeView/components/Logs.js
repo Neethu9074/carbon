@@ -6,7 +6,6 @@
 import React from 'react';
 
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
-import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
@@ -25,9 +24,9 @@ const columnDefinitions = [
     id: 'logLevel',
     width: '2.5rem',
     widthInAbsoluteUnit: true,
-    getContent({ logTags }) {
+    getContent({ tags }) {
       return (
-        <LogHealthColumn logTags={logTags}>
+        <LogHealthColumn tags={tags}>
           {({ severity }) => <HealthDot className={locals.dot} severity={severity} iconSize={10} />}
         </LogHealthColumn>
       );
@@ -90,8 +89,6 @@ function getTableData({ timeConfig, afterKey, backendQueryModel, loadAfterCount 
     retrievalSize: 20,
     afterKey,
     loadAfterCount,
-    logicalOperator: 'AND',
-    logTagFilterExpression: backendQueryModel,
-    infraTagFilterExpression: emptyTagFilterExpression
+    tagFilterExpression: backendQueryModel
   });
 }

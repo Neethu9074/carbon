@@ -6,7 +6,6 @@
 import React from 'react';
 
 import ChartingConfiguratorSection from 'in-new-components/ChartingConfigurator/ChartingConfiguratorSection';
-import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -84,9 +83,7 @@ function getMetricConfig(backendQueryModel, metric, logLevel, label) {
     aggregation: metric.aggregationId,
     label,
     source: 'DISTRIBUTED_LOGS_V2',
-    logicalOperator: 'AND',
-    logTagFilterExpression: addLogLevelFilterTagToQueryModel(logLevel, backendQueryModel),
-    infraTagFilterExpression: emptyTagFilterExpression
+    tagFilterExpression: addLogLevelFilterTagToQueryModel(logLevel, backendQueryModel)
 
     // granularity and timeConfig are send automatically by the chart impl
   };

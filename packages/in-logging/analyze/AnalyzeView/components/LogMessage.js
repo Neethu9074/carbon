@@ -14,9 +14,9 @@ import Link from 'in-components/Link';
 
 import locals from './LogMessage.mless';
 
-export default function LogMessage({ logTags, message, getHrefWithAdditionalTagFilter }) {
+export default function LogMessage({ tags, message, getHrefWithAdditionalTagFilter }) {
   const filledMessage = useMemo(() => {
-    const paramTags = logTags
+    const paramTags = tags
       .filter(({ key }) => key && key.indexOf('_msg_param') === 0)
       .sort((paramA, paramB) => compareIgnoreCase(paramA.key, paramB.key));
 
@@ -31,7 +31,7 @@ export default function LogMessage({ logTags, message, getHrefWithAdditionalTagF
         )}
       </>
     );
-  }, [message, logTags, getHrefWithAdditionalTagFilter]);
+  }, [message, tags, getHrefWithAdditionalTagFilter]);
 
   return filledMessage;
 }

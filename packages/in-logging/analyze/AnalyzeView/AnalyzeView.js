@@ -11,7 +11,6 @@ import {
   facettedSearchGroupClicked,
   facettedSearchItemClicked
 } from 'in-logging/analyze/AnalyzeView/tracker';
-import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import FacetedFilterGeneric from 'in-new-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
 import { logIdMatrixParameter, selectedTags } from 'in-logging/navigation/matrix';
 import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
@@ -107,9 +106,7 @@ function getFacetedSearchSuggestions({ timeConfig, backendQueryModel, group, cur
   return getLogGroups({
     timeConfig,
     groupBy: group.groupbyTag,
-    logicalOperator: 'AND',
-    logTagFilterExpression: backendQueryModel,
-    infraTagFilterExpression: emptyTagFilterExpression,
+    tagFilterExpression: backendQueryModel,
     pagination: {
       cursor,
       retrievalSize: 20

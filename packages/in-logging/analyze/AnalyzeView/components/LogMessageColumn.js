@@ -17,9 +17,9 @@ import useResizeObserver from 'in-hooks/useResizeObserver';
 
 import locals from './LogMessageColumn.mless';
 
-export default function LogMessageColumn({ logTags, message, selectedTags, getHrefWithAdditionalTagFilter }) {
+export default function LogMessageColumn({ tags, message, selectedTags, getHrefWithAdditionalTagFilter }) {
   const onSelectTagHref = tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag));
-  const tags = logTags.filter(({ name }) => selectedTags.indexOf(name) >= 0);
+  const tagListTags = tags.filter(({ name }) => selectedTags.indexOf(name) >= 0);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
@@ -45,11 +45,7 @@ export default function LogMessageColumn({ logTags, message, selectedTags, getHr
           })}
           ref={messageRef}
         >
-          <LogMessage
-            logTags={logTags}
-            message={message}
-            getHrefWithAdditionalTagFilter={getHrefWithAdditionalTagFilter}
-          />
+          <LogMessage tags={tags} message={message} getHrefWithAdditionalTagFilter={getHrefWithAdditionalTagFilter} />
         </span>
 
         <div>
@@ -60,13 +56,13 @@ export default function LogMessageColumn({ logTags, message, selectedTags, getHr
             />
           )}
 
-          <TraceIcon logTags={logTags} />
+          <TraceIcon tags={tags} />
         </div>
       </div>
 
-      {tags.length > 0 && (
+      {tagListTags.length > 0 && (
         <HorizontalFlexWrapper className={locals.tagsWrapper}>
-          <TagList tags={tags} onSelectTagHref={onSelectTagHref} />
+          <TagList tags={tagListTags} onSelectTagHref={onSelectTagHref} />
         </HorizontalFlexWrapper>
       )}
     </div>
@@ -81,7 +77,7 @@ function getTagExpressionWithTag(tag) {
   };
 }
 
-function TraceIcon({ logTags }) {
-  const traceId = logTags.filter(({ name }) => name === 'log.traceId')[0]?.stringValue;
+function TraceIcon({ tags }) {
+  const traceId = tags.filter(({ name }) => name === 'log.traceId')[0]?.stringValue;
   return traceId ? <IconButton type="lib_application_trace" href$={getLinkToTraceDetail(traceId)} /> : null;
 }
