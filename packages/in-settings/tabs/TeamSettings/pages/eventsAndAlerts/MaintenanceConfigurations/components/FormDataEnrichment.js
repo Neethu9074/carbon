@@ -16,7 +16,8 @@ export default class FormDataEnrichment extends React.Component {
   queryInput = create();
   validationResultSubscription = null;
 
-  UNSAFE_componentWillMount() {
+  constructor(props) {
+    super(props);
     const debouncedQuery = this.queryInput.debounce(1000);
     this.emitQueryIfNotBlank(getValueOrNull(this.props.form, 'query'));
     this.validationResultSubscription = debouncedQuery.flatMap(validate).subscribe(validationResponse20 => {
@@ -25,18 +26,15 @@ export default class FormDataEnrichment extends React.Component {
     });
   }
 
-  UNSAFE_componentWillUpdate(nextProps) {
-    startValidationInProgress(nextProps.setForm, nextProps.form);
-    this.emitQueryIfNotBlank(getValueOrNull(nextProps.form, 'query'));
+  componentDidUpdate() {
+    startValidationInProgress(this.props.setForm, this.props.form);
+    this.emitQueryIfNotBlank(getValueOrNull(this.props.form, 'query'));
   }
 
   shouldComponentUpdate(nextProps) {
     const prevQuery = getValueOrNull(this.props.form, 'query');
     const nextQuery = getValueOrNull(nextProps.form, 'query');
-    if (prevQuery !== nextQuery) {
-      return true;
-    }
-    return false;
+    return prevQuery !== nextQuery;
   }
 
   componentWillUnmount() {
