@@ -189,34 +189,34 @@ export default function Summary({
           </Row>
         ) : null}
         <Row withoutSideMargin>
-          <Col xs>
+          <Col xs preserveVerticalGutter>
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.subCalls')}
               value={number.compact(trace.callCount)}
             />
           </Col>
-          <Col xs>
+          <Col xs preserveVerticalGutter>
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.erroneousCalls')}
               color={trace.totalErrorCount > 0 ? theme.lib.colors.failure : theme.lib.colors.N900Primary}
               value={number.compact(trace.totalErrorCount)}
             />
           </Col>
-          <Col xs>
+          <Col xs preserveVerticalGutter>
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.errorLogs')}
               color={trace.totalErrorLogCount > 0 ? theme.lib.colors.failure : theme.lib.colors.N900Primary}
               value={number.compact(trace.totalErrorLogCount)}
             />
           </Col>
-          <Col xs>
+          <Col xs preserveVerticalGutter>
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.warnLogs')}
               color={trace.totalWarnLogCount > 0 ? theme.lib.colors.warning : theme.lib.colors.N900Primary}
               value={number.compact(trace.totalWarnLogCount)}
             />
           </Col>
-          <Col xs>
+          <Col xs preserveVerticalGutter>
             <KpiCard
               title={t('in-applications:traceDetail.tabs.summary.latency')}
               value={
