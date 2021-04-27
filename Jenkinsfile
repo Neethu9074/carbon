@@ -80,12 +80,10 @@ pipeline {
                   envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaVersion + '}, {BRANCH_NAME, ' + env.BRANCH_NAME + '}, {GIT_BRANCH, ' + env.BRANCH_NAME + '} ]'
 
                 if ( currentBuild.currentResult == 'SUCCESS' ) {
-                  slackNotification('Build successful', 'ui-client', gitCommitId, 'SUCCESS')
                   setBuildStatus('Build successful', 'SUCCESS')
                 }
               } catch (e) {
                 setBuildStatus('Build Failure', 'FAILURE')
-                slackNotification('Build Failure', 'ui-client', gitCommitId, 'FAILURE')
                 throw e
               }
             }
@@ -142,20 +140,12 @@ pipeline {
                   //   || env.BRANCH_NAME == latestReleaseBranch
                   //   || env.BRANCH_NAME ==~ /release-\d{3,}/
                   //   || env.BRANCH_NAME ==~ /hotfix-\d{3,}(-.+)?/) {
-
-                  def buildAndPublish = [:]
-                  uiClientComponents.each { component ->
-                    buildAndPublish[component] = {
-                      buildAndPublishImage(gitCommitId, component, instanaVersion, env.BRANCH_NAME)
-                    }
-                  }
-                  parallel buildAndPublish
-
-                  retagBackend(backendComponents, env.BRANCH_NAME, instanaVersion, instanaImageVersion, currentBuild)
+                  buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, env.BRANCH_NAME, instanaVersion, instanaImageVersion, currentBuild)
                 }
               }
             }
           }
+          milestone(label: "Build & Push Images", ordinal: null)
         }
       }
     }
@@ -166,13 +156,15 @@ pipeline {
         // one deploy per deployable branch at a time
         lock(resource: "deploy-instana-${env.BRANCH_NAME}", inversePrecedence: true) {
            timeout(time: 30, unit: 'MINUTES') {
-             timestamps {
-               script {
-                 // Enable only for the develop branch for now
-                // Other delivery branches will use 'K8s Deploy'
-                if (env.BRANCH_NAME == 'develop') {
-                  deployInstana(env.BRANCH_NAME, instanaImageVersion, null, 'pink', 'instana', 'test')
-                }
+             ansiColor('xterm') {
+               timestamps {
+                 script {
+                   // Enable only for the develop branch for now
+                   // Other delivery branches will use 'K8s Deploy'
+                   if (env.BRANCH_NAME == 'develop') {
+                     deployInstana(env.BRANCH_NAME, instanaImageVersion, null, 'pink', 'instana', 'test')
+                   }
+                 }
                }
              }
            }
@@ -205,10 +197,10 @@ pipeline {
                       privilegedModeOverride: 'True'
 
                     if ( currentBuild.currentResult == 'SUCCESS' ) {
-                      slackNotification('Storybook Build&Deploy Successful', 'ui-client', gitCommitId, 'SUCCESS')
+                      notifySuccess('dev-notification', "<${env.BUILD_URL}|${env.JOB_NAME} : Storybook build & deploy success: ${gitCommitId}")
                     }
                   } catch (e) {
-                    slackNotification('Storybook Build&Deploy Failed', 'ui-client', gitCommitId, 'FAILURE')
+                    notifyFailure('dev-notification', "<${env.BUILD_URL}|${env.JOB_NAME} : Storybook build & deploy failed: ${gitCommitId}")
                     throw e
                   }
               }
@@ -218,6 +210,24 @@ pipeline {
       }
     }
 
+  }
+}
+
+def buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, branchName, instanaVersion, instanaImageVersion, currentBuild) {
+  try {
+    def buildAndPublish = [:]
+    uiClientComponents.each { component ->
+      buildAndPublish[component] = {
+        buildAndPublishImage(gitCommitId, component, instanaVersion, branchName)
+      }
+    }
+    parallel buildAndPublish
+
+    retagBackend(backendComponents, branchName, instanaVersion, instanaImageVersion, currentBuild)
+    notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully built K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
+  } catch (e) {
+    notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Failed to build K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
+    throw e
   }
 }
 
@@ -253,20 +263,33 @@ def retagBackend(backendComponents, branchName, instanaVersion, instanaImageVers
 }
 
 def deployInstana(branchName, version, globalEnvironment, environment, tenant, unit) {
-  if (globalEnvironment != null) {
-    println "Updating global environment ${globalEnvironment}"
-    sh "instanactl --deployment ${globalEnvironment} global migrate --branch=${branchName}"
-    sh "instanactl --deployment ${globalEnvironment} global update --version=${version} --branch=${branchName}"
+  try {
+    if (globalEnvironment != null) {
+      println "Updating global environment ${globalEnvironment}"
+      sh "instanactl --deployment ${globalEnvironment} global migrate --branch=${branchName}"
+      sh "instanactl --deployment ${globalEnvironment} global update --version=${version} --branch=${branchName}"
+    }
+    if (tenant != null && unit != null) {
+      println "Updating tenant unit ${tenant}-${unit} in ${environment}"
+      sh "instanactl --deployment ${environment} core migrate --branch ${branchName}"
+      sh "instanactl --deployment ${environment} core update --version ${version} --branch ${branchName}"
+      sh "instanactl --deployment ${environment} tenantunit migrate ${tenant} ${unit} --branch ${branchName}"
+      sh "instanactl --deployment ${environment} tenantunit update ${tenant} ${unit} --version ${version} --branch ${branchName}"
+    } else {
+      println "Updating all tenant units in ${environment}"
+      sh "instanactl --deployment ${environment} tenantunit list"
+      sh "instanactl --deployment ${environment} upgrade --version=${version} --branch=${branchName}"
+    }
+    notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully deployed ${version} to deployment:*${environment}*")
+  } catch(e) {
+    notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Deployment of ${version} to deployment:*${environment}* failed")
   }
-  if (tenant != null && unit != null) {
-    println "Updating tenant unit ${tenant}-${unit} in ${environment}"
-    sh "instanactl --deployment ${environment} core migrate --branch ${branchName}"
-    sh "instanactl --deployment ${environment} core update --version ${version} --branch ${branchName}"
-    sh "instanactl --deployment ${environment} tenantunit migrate ${tenant} ${unit} --branch ${branchName}"
-    sh "instanactl --deployment ${environment} tenantunit update ${tenant} ${unit} --version ${version} --branch ${branchName}"
-  } else {
-    println "Updating all tenant units in ${environment}"
-    sh "instanactl --deployment ${environment} tenantunit list"
-    sh "instanactl --deployment ${environment} upgrade --version=${version} --branch=${branchName}"
-  }
+}
+
+def notifySuccess(channel, message) {
+  slackSend channel: channel, color: 'good', message: message
+}
+
+def notifyFailure(channel, message) {
+  slackSend channel: channel, color: 'danger', message: message
 }
