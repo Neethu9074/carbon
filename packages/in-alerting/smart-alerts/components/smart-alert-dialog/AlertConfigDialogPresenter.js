@@ -25,7 +25,8 @@ export default function AlertConfigDialogPresenter(props) {
     withTrackClose,
     withTrackCreate,
     updateForm,
-    featureFeedbackElement // to be removed after GA
+    featureFeedbackElement, // to be removed after GA
+    isGlobalSmartAlert
   } = props;
 
   const [slideInViewVisible, setSlideInViewVisible] = useState(false);
@@ -41,11 +42,7 @@ export default function AlertConfigDialogPresenter(props) {
 
   return (
     <DialogWithSlideInView
-      title={
-        editMode
-          ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert')
-          : t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert')
-      }
+      title={getDialogTitle(isGlobalSmartAlert, editMode)}
       slideInViewTitle={slideInConfig && slideInConfig.title}
       onSlideInViewTitleClick={() => setSlideInViewVisible(!slideInViewVisible)}
       titleIconType="lib_alerts_create"
@@ -131,6 +128,13 @@ export default function AlertConfigDialogPresenter(props) {
   }
 }
 
+function getDialogTitle(isGlobalSmartAlert, editMode) {
+  const mode = isGlobalSmartAlert ? 'Global' : 'Local';
+  return editMode
+    ? t(`in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert${mode}`)
+    : t(`in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert${mode}`);
+}
+
 AlertConfigDialogPresenter.propTypes = {
   AdvancedModeElement: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
@@ -143,5 +147,6 @@ AlertConfigDialogPresenter.propTypes = {
   setSimpleMode: PropTypes.func.isRequired,
   editMode: PropTypes.bool,
   featureFeedbackElement: PropTypes.element,
-  initialConfiguredApplications: PropTypes.object
+  initialConfiguredApplications: PropTypes.object,
+  isGlobalSmartAlert: PropTypes.bool
 };
