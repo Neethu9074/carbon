@@ -154,10 +154,10 @@ function Headline({ user, form, updateForm, setMessage }) {
       </>
     )
   ) : (
-    <span className={locals.name}>
-      {user.fullName}
+    <>
+      <span className={locals.name}>{user.fullName}</span>
       <span className={locals.email}>{user.email}</span>
-    </span>
+    </>
   );
 }
 
