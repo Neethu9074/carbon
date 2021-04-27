@@ -140,7 +140,7 @@ pipeline {
                   //   || env.BRANCH_NAME == latestReleaseBranch
                   //   || env.BRANCH_NAME ==~ /release-\d{3,}/
                   //   || env.BRANCH_NAME ==~ /hotfix-\d{3,}(-.+)?/) {
-                  buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, env.BRANCH_NAME, instanaVersion, instanaImageVersion, currentBuild)
+                  buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, env.BRANCH_NAME, instanaVersion, instanaImageVersion)
                 }
               }
             }
@@ -213,7 +213,7 @@ pipeline {
   }
 }
 
-def buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, branchName, instanaVersion, instanaImageVersion, currentBuild) {
+def buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, branchName, instanaVersion, instanaImageVersion) {
   try {
     def buildAndPublish = [:]
     uiClientComponents.each { component ->
@@ -223,7 +223,7 @@ def buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, br
     }
     parallel buildAndPublish
 
-    retagBackend(backendComponents, branchName, instanaVersion, instanaImageVersion, currentBuild)
+    retagBackend(backendComponents, branchName, instanaVersion, instanaImageVersion)
     notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully built K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
   } catch (e) {
     notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Failed to build K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
@@ -244,7 +244,7 @@ def buildAndPublishImage(gitCommitId, componentName, version, branchName) {
 
 // Keep image tags for backend and ui-client in-sync as instanactl only accepts a single version
 // and expects all components to have an image with that version
-def retagBackend(backendComponents, branchName, instanaVersion, instanaImageVersion, currentBuild) {
+def retagBackend(backendComponents, branchName, instanaVersion, instanaImageVersion) {
   def backendStableVersion =
       sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js backend ${branchName}").trim()
   def backendStableImageVersion = "3." + backendStableVersion.tokenize('.').drop(1).join('.') + "-0"
@@ -280,9 +280,9 @@ def deployInstana(branchName, version, globalEnvironment, environment, tenant, u
       sh "instanactl --deployment ${environment} tenantunit list"
       sh "instanactl --deployment ${environment} upgrade --version=${version} --branch=${branchName}"
     }
-    notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully deployed ${version} to deployment:*${environment}*")
+    notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully deployed ${version} to deployment:*${environment}* \n\n${currentBuild.description}")
   } catch(e) {
-    notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Deployment of ${version} to deployment:*${environment}* failed")
+    notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Deployment of ${version} to deployment:*${environment}* failed \n\n${currentBuild.description}")
   }
 }
 
