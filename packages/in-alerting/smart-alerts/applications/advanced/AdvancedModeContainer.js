@@ -13,18 +13,14 @@ import {
 } from 'in-alerting/smart-alerts/applications/tracker';
 import IncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/IncludeInternalOrSyntheticCallsSwitch';
 import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
-import ApplicationAlertPropertiesTitleRow, {
-  placeholders
-} from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPropertiesTitleRow';
-import {
-  AlertPreview,
-  AlertPreviewHeadline
-} from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
+import ApplicationAlertPropertiesTitleRow from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPropertiesTitleRow';
 import GlobalAdvancedModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeContainer';
 import AlertProperties from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertProperties';
+import ApplicationAlertPreviewHeadline from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPreviewHeadline';
 import AlertEvaluationControl from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControl';
+import { AlertPreview } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPreview';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import BlueprintSelection from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/BlueprintSelection';
 import StatusCodeInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/StatusCodeInteractiveChart';
@@ -39,7 +35,6 @@ import ProvideLogMessage from 'in-alerting/smart-alerts/applications/components/
 import ProvideStatusCode from 'in-alerting/smart-alerts/applications/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
-import { applicationSmartAlertTitlePlaceholdersEnabled } from 'in-services/featureFlags';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import LightCard from 'in-new-components/Card/LightCard';
@@ -225,19 +220,7 @@ export default function AdvancedModeContainer(props) {
                   entityIconType="lib_application"
                   getTitlePlaceholder={noop}
                   getDescriptionPlaceholder={getDescriptionPlaceholder}
-                  renderHeadline={() => {
-                    const manuallyChangedTitle = form.get('name').value;
-                    const titleWithReplacedTemplateStrings = manuallyChangedTitle
-                      .replaceAll(placeholders.applicationName, 'Application')
-                      .replaceAll(placeholders.serviceName, 'Service')
-                      .replaceAll(placeholders.endpointName, 'Endpoint');
-
-                    const title = applicationSmartAlertTitlePlaceholdersEnabled
-                      ? titleWithReplacedTemplateStrings
-                      : manuallyChangedTitle;
-
-                    return <AlertPreviewHeadline title={title || getTitlePlaceholder(form)} />;
-                  }}
+                  renderHeadline={() => <ApplicationAlertPreviewHeadline form={form} />}
                 />
               )}
             />

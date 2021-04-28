@@ -12,8 +12,9 @@ import PropTypes from 'prop-types';
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/applications/inventory/constants';
 import EvaluationTypeColumn from 'in-alerting/smart-alerts/applications/inventory/EvaluationTypeColumn';
+import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/inventory/ListEntityNameColumn';
 import ListActionsColumn from 'in-alerting/smart-alerts/applications/inventory/ListActionsColumn';
-import ListFiltersColumn from 'in-alerting/smart-alerts/applications/inventory/ListFiltersColumn';
+import ListFilterColumn from 'in-alerting/smart-alerts/applications/inventory/ListFiltersColumn';
 import { ListNameColumn } from 'in-alerting/smart-alerts/applications/inventory/ListNameColumn';
 import SortingConfigurator from 'in-new-components/SortingConfigurator/SortingConfigurator';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
@@ -61,10 +62,18 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'filters',
+    id: 'entityName',
+    width: '25%',
     sortable: false,
     getContent({ config, isGlobalSmartAlertConfig }) {
-      return <ListFiltersColumn {...config} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />;
+      return <ListEntityNameColumn {...config} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />;
+    }
+  },
+  {
+    id: 'filters',
+    sortable: false,
+    getContent({ config }) {
+      return <ListFilterColumn {...config} />;
     }
   },
   {

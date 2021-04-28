@@ -13,6 +13,7 @@ import {
   applicationDashboard,
   globalAlertDetails
 } from 'in-applications/navigation/paths';
+import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
 import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
@@ -32,7 +33,7 @@ export function ListNameColumn({ config, configsCategory, additionalMatrixKeys =
   const { description, enabled, name, severity, rule, id, created } = config;
 
   return (
-    <HorizontalFlexWrapper>
+    <HorizontalFlexWrapper className={locals.nameListColumn}>
       <SvgIcon
         className={classNames({
           [locals.alertIcon]: true,
@@ -41,10 +42,9 @@ export function ListNameColumn({ config, configsCategory, additionalMatrixKeys =
         })}
         type={enabled ? 'lib_alerts_alert' : 'lib_actions_pause'}
       />
-      <div className={classNames(locals.column, locals.fullWidth)}>
-        <Tooltip themeStyle="light" content={description} align="topMiddle" delay={500}>
+      <div className={locals.name}>
+        <Tooltip content={description} align="topMiddle" delay={500}>
           <Link
-            className={classNames(locals.name, locals.fullWidth)}
             href$={getModifiedUrlStream(_location => {
               _location.pathname = goToGlobalAlertDetails ? globalAlertDetails : alertsTabDetailsFullyQualified;
 
@@ -58,7 +58,7 @@ export function ListNameColumn({ config, configsCategory, additionalMatrixKeys =
               return _location;
             })}
           >
-            {name}
+            <AlertTitleWithPlaceholderHighlighting configName={name} />
           </Link>
         </Tooltip>
         <div className={locals.nameSubtext}>{getSubtitle(rule)}</div>

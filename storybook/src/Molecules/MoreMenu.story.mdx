@@ -1,6 +1,8 @@
 import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
 import { action as storybookAction } from '@storybook/addon-actions';
-import {MoreMenu, MoreMenuButton} from 'in-new-components/MoreMenu';
+import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
+import { stopPropagation } from 'in-services/util/function';
+import Button from 'in-new-components/Button';
 
 <Meta title="Molecules|MoreMenu" component={MoreMenu} />
 
@@ -22,5 +24,33 @@ Use `MoreMenu` to add an expandable section that reveals several actions/navigat
   </Story>
 </Preview>
 
+## MoreMenu
+
+Use `MoreMenu` to add an expandable section that reveals several actions/navigation paths that users can take.
+
+<Preview>
+  <Story name="with custom interactive element to open the menu">
+    <MoreMenu
+        renderInteractiveElement={({ ref, toggle }) => (
+          <Button
+            kind="action"
+            onClick={e => {
+              stopPropagation(e);
+              toggle();
+            }}
+            ref={ref}
+          >Trigger action</Button>
+        )}
+    >
+      <MoreMenuButton icon="lib_actions_maximize">TV Mode</MoreMenuButton>
+      <MoreMenuButton icon="lib_views_grid">Make Homepage</MoreMenuButton>
+      <MoreMenuButton icon="lib_actions_edit">Edit Name</MoreMenuButton>
+      <MoreMenuButton icon="lib_actions_copy">Duplicate</MoreMenuButton>
+      <MoreMenuButton icon="lib_actions_delete">Delete</MoreMenuButton>
+    </MoreMenu>
+  </Story>
+</Preview>
+
 ### Props
+
 <Props of={MoreMenu} />

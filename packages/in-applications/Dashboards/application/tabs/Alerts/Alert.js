@@ -44,6 +44,7 @@ import {
   alertsTabListFullyQualified,
   globalAlertDetails
 } from 'in-applications/navigation/paths';
+import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import AlertConfiguration from 'in-applications/Dashboards/application/tabs/Alerts/AlertConfiguration';
 import { categoryGlobal } from 'in-alerting/smart-alerts/applications/inventory/constants';
@@ -164,6 +165,7 @@ export default function Alert({ location, timeConfig }) {
           }}
           onConfigDeleted={applicationsAlertingAlertDeleted}
           onConfigRevisionChanged={applicationsAlertingAlertRevisionChanged}
+          renderCustomTitle={() => <AlertTitleWithPlaceholderHighlighting configName={alertConfig.name} />}
         />
 
         <Row>

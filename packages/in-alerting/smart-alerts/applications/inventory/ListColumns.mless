@@ -4,6 +4,7 @@
  */
 
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .fullWidth {
@@ -27,23 +28,19 @@
     flex-direction: column;
   }
 
+  .nameListColumn {
+    padding-right: 1rem;
+  }
+
   .name {
-    max-width: 90%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    .breakWord();
     line-height: 1.25rem;
-    flex-grow: 1;
   }
 
   .nameSubtext {
     color: @lib__colors__N600Light;
     font-size: @lib__typography__body-small__font-size;
     line-height: 1rem;
-  }
-
-  .filters {
-    display: flex;
   }
 
   .space {

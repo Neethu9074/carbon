@@ -18,7 +18,6 @@ export default function MoreMenu({
   kind = 'secondary',
   size = 'normal',
   className,
-  isSaving,
   renderInteractiveElement
 }) {
   return (
@@ -41,10 +40,9 @@ export default function MoreMenu({
               toggle();
             }}
             ref={ref}
-            icon={isSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
+            icon="lib_menu_more_horizontal"
             size={size}
             kind={kind}
-            iconSpinning={isSaving}
           />
         )
       }
@@ -55,12 +53,11 @@ export default function MoreMenu({
 MoreMenu.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
-  isSaving: PropTypes.bool,
   kind: PropTypes.oneOf(kinds),
   size: PropTypes.oneOf(sizes),
   /**
    * Renders a custom element to open the menu.
-   * Use this if you need some kind of different button or icon etc.
+   * Use this if you need some kind of different button etc.
    */
   renderInteractiveElement: PropTypes.func
 };

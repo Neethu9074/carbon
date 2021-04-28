@@ -25,12 +25,15 @@ const propertiesBySeverity = Object.freeze({
   }
 });
 
-export default function AlertPropertyInfos({ alertConfig: { name, description, triggering, severity } }) {
+export default function AlertPropertyInfos({
+  alertConfig: { name, description, triggering, severity },
+  renderCustomTitle
+}) {
   const severityProperty = propertiesBySeverity[severity];
   return (
     <Sections>
       <AlertSection title={t('in-alerting:components.alertPropertyInfosLabelTitle')}>
-        <Label className={locals.staticTitle}>{name}</Label>
+        <Label className={locals.staticTitle}>{renderCustomTitle?.() ?? name}</Label>
       </AlertSection>
       <AlertSection icon={severityProperty.icon} title={t('in-alerting:components.alertPropertyInfosLabelAlertLevel')}>
         <Label className={locals.staticSeverity}>{severityProperty.label}</Label>
@@ -52,5 +55,6 @@ export default function AlertPropertyInfos({ alertConfig: { name, description, t
 }
 
 AlertPropertyInfos.propTypes = {
-  alertConfig: PropTypes.object.isRequired
+  alertConfig: PropTypes.object.isRequired,
+  renderCustomTitle: PropTypes.func
 };

@@ -61,7 +61,20 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
         }}
       />
 
-      <MoreMenu kind="subtle" isSaving={isMoreMenuSaving}>
+      <MoreMenu
+        renderInteractiveElement={({ ref, toggle }) => (
+          <Button
+            kind="subtle"
+            icon={isMoreMenuSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
+            onClick={e => {
+              stopPropagation(e);
+              toggle();
+            }}
+            ref={ref}
+            iconSpinning={isMoreMenuSaving}
+          />
+        )}
+      >
         <MoreMenuButton
           icon={isSaving ? 'lib_actions_loading' : 'lib_actions_edit'}
           iconSpinning={isMoreMenuSaving}

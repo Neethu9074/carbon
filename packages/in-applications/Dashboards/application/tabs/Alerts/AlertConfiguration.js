@@ -10,6 +10,7 @@ import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-ale
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
+import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
 import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
@@ -140,7 +141,10 @@ export default function AlertConfiguration({ alertConfig, applicationName = '', 
           openByDefault
           darkFrame
         >
-          <AlertPropertyInfos alertConfig={alertConfig} />
+          <AlertPropertyInfos
+            alertConfig={alertConfig}
+            renderCustomTitle={() => <AlertTitleWithPlaceholderHighlighting configName={alertConfig.name} />}
+          />
         </ExpandableCard>
       </LocallyChangedTheme>
     </AlertDetailsCard>

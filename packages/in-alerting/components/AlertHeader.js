@@ -37,7 +37,8 @@ export default function AlertHeader({
   doRestoreConfig$,
   onConfigStateChanged,
   onConfigDeleted,
-  onConfigRevisionChanged
+  onConfigRevisionChanged,
+  renderCustomTitle
 }) {
   const alertRevision = getRevision(alertConfig, alertConfigVersions) || 1;
   const isDeletedConfig = alertConfig.readOnly && alertRevision === alertConfigVersions.length;
@@ -137,7 +138,7 @@ export default function AlertHeader({
             size="l"
             type="lib_alerts_alert"
           />
-          <div className={locals.name}>{alertConfig.name}</div>
+          <div className={locals.name}>{renderCustomTitle?.() ?? alertConfig.name}</div>
         </div>
 
         <div className={locals.right}>
@@ -296,7 +297,8 @@ AlertHeader.propTypes = {
   doRestoreConfig$: PropTypes.func.isRequired,
   onConfigStateChanged: PropTypes.func,
   onConfigDeleted: PropTypes.func,
-  onConfigRevisionChanged: PropTypes.func
+  onConfigRevisionChanged: PropTypes.func,
+  renderCustomTitle: PropTypes.func
 };
 
 function getLinkToAlerts(fullyQualifiedAlertsList) {

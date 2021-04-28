@@ -4,7 +4,6 @@
  */
 
 import React, { useRef } from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesTextArea';
@@ -13,6 +12,7 @@ import {
   PER_AP_SERVICE
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { applicationsAlertingAdditionalPropsTitleChanged } from 'in-alerting/smart-alerts/applications/tracker';
+import { placeholders, placeholderTypes } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { applicationSmartAlertTitlePlaceholdersEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
@@ -24,12 +24,6 @@ import Stack from 'in-new-components/layout/Stack';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationAlertPropertiesTitleRow.mless';
-
-export const placeholders = Object.freeze({
-  applicationName: '${application.name}',
-  serviceName: '${service.name}',
-  endpointName: '${endpoint.name}'
-});
 
 export default function ApplicationAlertPropertiesTitleRow({ form, onChange }) {
   const alertEvaluationType = form.get('evaluationType').value;
@@ -44,10 +38,10 @@ export default function ApplicationAlertPropertiesTitleRow({ form, onChange }) {
         {applicationSmartAlertTitlePlaceholdersEnabled && (
           <HorizontalFlexWrapper className={locals.placeholderMenuButtonWrapper}>
             <MoreMenu
-              renderInteractiveElement={({ buttonClassName, ref, toggle }) => (
+              renderInteractiveElement={({ ref, toggle }) => (
                 <Button
                   kind="action"
-                  className={classNames(buttonClassName, locals.placeholderMenu)}
+                  className={locals.placeholderMenu}
                   ref={ref}
                   onClick={e => {
                     stopPropagation(e);
@@ -58,16 +52,13 @@ export default function ApplicationAlertPropertiesTitleRow({ form, onChange }) {
                 </Button>
               )}
             >
-              {Object.values(placeholders)
-                .filter(placeholderSuggestionsFilter(alertEvaluationType))
-                .map(placeholderString => (
-                  <MoreMenuButton
-                    onClick={insertPlaceholderText(titleTextareaRef, placeholderString, onChange)}
-                    key={placeholderString}
-                  >
-                    {placeholderString}
+              {placeholders.filter(placeholderSuggestionsFilter(alertEvaluationType)).map(({ template }) => {
+                return (
+                  <MoreMenuButton onClick={insertPlaceholderText(titleTextareaRef, template, onChange)} key={template}>
+                    {template}
                   </MoreMenuButton>
-                ))}
+                );
+              })}
             </MoreMenu>
           </HorizontalFlexWrapper>
         )}
@@ -90,20 +81,20 @@ export default function ApplicationAlertPropertiesTitleRow({ form, onChange }) {
 }
 
 function placeholderSuggestionsFilter(alertEvaluationType) {
-  return placeholder => {
-    if (placeholder === placeholders.applicationName) {
-      return placeholder;
+  return ({ type }) => {
+    if (type === placeholderTypes.application) {
+      return true;
     }
 
-    if (placeholder === placeholders.endpointName && alertEvaluationType === PER_AP_ENDPOINT) {
-      return placeholder;
+    if (type === placeholderTypes.endpoint && alertEvaluationType === PER_AP_ENDPOINT) {
+      return true;
     }
 
     if (
-      (placeholder === placeholders.serviceName && alertEvaluationType === PER_AP_SERVICE) ||
+      (type === placeholderTypes.service && alertEvaluationType === PER_AP_SERVICE) ||
       alertEvaluationType === PER_AP_ENDPOINT
     ) {
-      return placeholder;
+      return true;
     }
   };
 }
