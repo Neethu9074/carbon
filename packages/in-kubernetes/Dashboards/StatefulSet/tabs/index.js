@@ -14,6 +14,8 @@ import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import Summary from 'in-kubernetes/Dashboards/StatefulSet/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/StatefulSet/tabs/Details';
 import { t } from 'in-i18n';
+import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
+import PersistentVolumes from '../../Cluster/tabs/PersistentVolumes';
 
 export default [
   {
@@ -48,6 +50,13 @@ export default [
     path: `${statefulSetDashboardFullyQualified}/pods`,
     component: Pods,
     header: props => getCounterComponent(props, v => v.pods)
+  },
+  persistentVolumeSupportEnabled && {
+    label: t('in-kubernetes:dashboards.persistentVolumes'),
+    path: `${statefulSetDashboardFullyQualified}/persistentvolumes`,
+    component: PersistentVolumes,
+    header: props => getCounterComponent(props, v => v.volumes),
+    stickToBottom: true
   }
 ].filter(Boolean);
 

@@ -80,7 +80,11 @@ function getTableData({
   orderBy = 'name',
   orderDirection = 'ASC',
   timeConfig,
-  clusterId
+  clusterId,
+  namespaceId,
+  podId,
+  workloadControllerId,
+  nodeId,
 }) {
   return getKubernetesPersistentVolumes({
     pagination: {
@@ -94,7 +98,11 @@ function getTableData({
     filter: {
       label: query,
       clusterId,
-      timeConfig
+      timeConfig,
+      namespaceId,
+      podId,
+      workloadControllerId,
+      nodeId,
     },
     granularity: getInfraGranularity(timeConfig)
   });

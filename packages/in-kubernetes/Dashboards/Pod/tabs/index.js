@@ -3,13 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
+import { PodVolumesTab, PodConditionsTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Conditions from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Conditions';
-import { PodConditionsTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Events from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import Infrastructure from 'in-kubernetes/Dashboards/Pod/tabs/Infrastructure';
 import { podDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
+import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import Summary from 'in-kubernetes/Dashboards/Pod/tabs/Summary/Summary';
 import Details from 'in-kubernetes/Dashboards/Pod/tabs/Details/Details';
+import PersistentVolumes from '../../Cluster/tabs/PersistentVolumes';
 import { t } from 'in-i18n';
 
 export default [
@@ -38,5 +40,12 @@ export default [
     label: t('in-kubernetes:dashboards.containers'),
     path: `${podDashboardFullyQualified}/containers`,
     component: Infrastructure
+  },
+  persistentVolumeSupportEnabled && {
+    label: t('in-kubernetes:dashboards.persistentVolumes'),
+    path: `${podDashboardFullyQualified}/persistentvolumes`,
+    component: PersistentVolumes,
+    header: PodVolumesTab,
+    stickToBottom: true
   }
 ].filter(Boolean);

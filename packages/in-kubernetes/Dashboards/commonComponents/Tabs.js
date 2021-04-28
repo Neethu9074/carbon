@@ -17,7 +17,6 @@ import getKubernetesCronJob from 'in-subscription/kubernetes/getKubernetesCronJo
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import { pendingResult } from 'in-services/fixedObjects';
-import { t } from 'in-i18n';
 
 function observe(fn, obj) {
   return useObservable(fn(obj), Object.values(obj));
@@ -67,57 +66,42 @@ export function CronJobPodTab({ cronJobId, tab, timeConfig }) {
   return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v.pods} />;
 }
 
-export function PodConditionsTab({ podId, timeConfig }) {
+export function PodTab({ cronJobId, tab, timeConfig }) {
+  const result = observe(getKubernetesCronJobItemCounters, { cronJobId, timeConfig });
+  return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v.pods} />;
+}
+
+export function PodVolumesTab({ podId, tab, timeConfig }) {
+  const result = observe(getKubernetesPod, { id: podId, timeConfig });
+  return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v?.volumes} />;
+}
+
+export function PodConditionsTab({ podId, tab, timeConfig }) {
   const result = observe(getKubernetesPod, { id: podId, timeConfig }) ?? pendingResult;
-  return (
-    <TabLabelWithCounter
-      counters={result?.data}
-      label={t('in-kubernetes:dashboards.conditions')}
-      valueExtractor={v => v?.conditions.length}
-    />
-  );
+  return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v?.conditions.length} />;
 }
 
-export function NodeConditionsTab({ nodeId, timeConfig }) {
+export function NodeConditionsTab({ nodeId, tab, timeConfig }) {
   const result = observe(getKubernetesNode, { id: nodeId, timeConfig }) ?? pendingResult;
-  return (
-    <TabLabelWithCounter
-      counters={result?.data}
-      label={t('in-kubernetes:dashboards.conditions')}
-      valueExtractor={v => v?.conditions.length}
-    />
-  );
+  return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v?.conditions.length} />;
 }
 
-export function CronJobConditionsTab({ cronJobId, timeConfig }) {
+export function NodeVolumesTab({ nodeId, tab, timeConfig }) {
+  const result = observe(getKubernetesNodeItemCounters, { nodeId, timeConfig });
+  return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v?.volumes} />;
+}
+
+export function CronJobConditionsTab({ cronJobId, tab, timeConfig }) {
   const result = observe(getKubernetesCronJob, { id: cronJobId, timeConfig }) ?? pendingResult;
-  return (
-    <TabLabelWithCounter
-      counters={result?.data}
-      label={t('in-kubernetes:dashboards.conditions')}
-      valueExtractor={v => v?.conditions.length}
-    />
-  );
+  return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v?.conditions.length} />;
 }
 
-export function DeploymentConfigConditionsTab({ deploymentConfigId, timeConfig }) {
+export function DeploymentConfigConditionsTab({ deploymentConfigId, tab, timeConfig }) {
   const result = observe(getKubernetesWorkloadController, { id: deploymentConfigId, timeConfig }) ?? pendingResult;
-  return (
-    <TabLabelWithCounter
-      counters={result?.data}
-      label={t('in-kubernetes:dashboards.conditions')}
-      valueExtractor={v => v?.conditions.length}
-    />
-  );
+  return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v?.conditions.length} />;
 }
 
-export function DeploymentConditionsTab({ deploymentId, timeConfig }) {
+export function DeploymentConditionsTab({ deploymentId, tab, timeConfig }) {
   const result = observe(getKubernetesWorkloadController, { id: deploymentId, timeConfig }) ?? pendingResult;
-  return (
-    <TabLabelWithCounter
-      counters={result?.data}
-      label={t('in-kubernetes:dashboards.conditions')}
-      valueExtractor={v => v?.conditions.length}
-    />
-  );
+  return <TabLabelWithCounter counters={result?.data} label={tab.label} valueExtractor={v => v?.conditions.length} />;
 }
