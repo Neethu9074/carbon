@@ -156,8 +156,16 @@ const Content = getElementDimensions(function Content({ itemOrder, width, applic
   const renderNavigation = width > 1200;
 
   return (
-    <div className={locals.wrapper}>
-      <div className={locals.left}>
+    <div
+      className={classNames(locals.wrapper, {
+        [locals.wrapperWithRightContent]: !!renderNavigation
+      })}
+    >
+      <div
+        className={classNames(locals.left, {
+          [locals.contentNoPaddingRight]: !!renderNavigation
+        })}
+      >
         {width && (
           <DragDropContext
             onDragEnd={({ source, destination }) => {
