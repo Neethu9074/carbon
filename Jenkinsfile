@@ -283,6 +283,7 @@ def deployInstana(branchName, version, globalEnvironment, environment, tenant, u
     notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully deployed ${version} to deployment:*${environment}* \n\n${currentBuild.description}")
   } catch(e) {
     notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Deployment of ${version} to deployment:*${environment}* failed \n\n${currentBuild.description}")
+    throw e
   }
 }
 
