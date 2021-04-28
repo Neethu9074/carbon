@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getIbmMqTopicsForCluster from 'in-subscription/ibmMqCluster/getIbmMqTopicsForCluster';
+import getIbmMqTopicsForQueueManager from 'in-subscription/ibmMqQueueManager/getIbmMqTopicsForQueueManager';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -20,15 +20,6 @@ const cols = [
     typeArgs: {
       getSnapshotId(row) {
         return row.key;
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmMqCluster.dashboard.queueManager'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.topic.getIn(['data', 'qmName']);
       }
     }
   },
@@ -103,7 +94,7 @@ const cols = [
 export default connectTo(
   props => ({
     topics: timeConfig$
-      .flatMap(timeConfig => getIbmMqTopicsForCluster({ snapshotId: props.snapshot.get('id'), timeConfig }))
+      .flatMap(timeConfig => getIbmMqTopicsForQueueManager({ snapshotId: props.snapshot.get('id'), timeConfig }))
       .flatMap(getSnapshots)
   }),
 

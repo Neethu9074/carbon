@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getIbmMqListenersForCluster from 'in-subscription/ibmMqCluster/getIbmMqListenersForCluster';
+import getIbmMqListenersForQueueManager from 'in-subscription/ibmMqQueueManager/getIbmMqListenersForQueueManager';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -57,22 +57,13 @@ const cols = [
         return row.listener.getIn(['data', 'listenerStartedAt']);
       }
     }
-  },
-  {
-    title: t('in-forge:plugins.ibmMqCluster.dashboard.qmName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.listener.getIn(['data', 'qmName']);
-      }
-    }
   }
 ];
 
 export default connectTo(
   props => ({
     listeners: timeConfig$
-      .flatMap(timeConfig => getIbmMqListenersForCluster({ snapshotId: props.snapshot.get('id'), timeConfig }))
+      .flatMap(timeConfig => getIbmMqListenersForQueueManager({ snapshotId: props.snapshot.get('id'), timeConfig }))
       .flatMap(getSnapshots)
   }),
 

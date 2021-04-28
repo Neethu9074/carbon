@@ -7,8 +7,10 @@ import React from 'react';
 
 import QueuesUsageTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/QueuesUsageTable.js';
 import ChannelsTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/ChannelsTable.js';
+import ListenersTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/ListenersTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import QueuesTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/QueuesTable.js';
+import TopicsTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/TopicsTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -64,6 +66,8 @@ export default function IbmMqQueueManagerDashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
 
+      <TopicsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <ListenersTable snapshot={snapshot} timeConfig={timeConfig} />
       <QueuesUsageTable snapshot={snapshot} timeConfig={timeConfig} />
       <QueuesTable snapshot={snapshot} timeConfig={timeConfig} />
       <ChannelsTable snapshot={snapshot} timeConfig={timeConfig} />

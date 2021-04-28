@@ -6,9 +6,7 @@
 import React from 'react';
 
 import QueueManagersTable from 'in-forge/plugins/ibmMqCluster/Dashboard/QueueManagersTable';
-import ListenersTable from 'in-forge/plugins/ibmMqCluster/Dashboard/ListenersTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
-import TopicsTable from 'in-forge/plugins/ibmMqCluster/Dashboard/TopicsTable';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
@@ -26,8 +24,6 @@ export default function IbmMqClusterDashboard({ snapshot, timeConfig }) {
         </KpiKeyValue>
       </KpiSection>
       <QueueManagersTable snapshot={snapshot} timeConfig={timeConfig} />
-      <TopicsTable snapshot={snapshot} timeConfig={timeConfig} />
-      <ListenersTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
