@@ -20,6 +20,7 @@ import { getResolvedTimeConfig } from 'in-applications/metrics';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Chart from 'in-components/Chart/ChartReactComponent';
+import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
@@ -55,7 +56,7 @@ export default function GroupMetricsChart({
     ([groupsResult, metric, aggregation, formModel, hiddenCalls, groupBy, groupingTagCatalog]) => {
       // if the groups result is still loading, wait and do nothing
       if (groupingTagCatalog == null || (groupsResult?.progress.loading ?? true)) {
-        return just(groupsResult);
+        return just(pendingResult);
       }
 
       // look for values of the selected metric in the groups result and in the cached metrics
