@@ -29,7 +29,9 @@ export default function MetricConfiguratorOverlay({
   const [form, setForm] = useState(initialForm);
 
   useEffect(() => {
-    onChangeExternal(form.toJS());
+    if (initialForm !== form) {
+      onChangeExternal(form.toJS());
+    }
   }, [form]);
 
   return (
