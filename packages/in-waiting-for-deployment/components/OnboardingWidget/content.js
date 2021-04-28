@@ -43,21 +43,44 @@ function validateClusterName(clusterName) {
   return maxClusterNameRegex.test(clusterName);
 }
 
-const clusterNameValidator = {
-  validator: validateClusterName,
-  validationMessage: t(
-    'in-waiting-for-deployment:content.theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong'
-  )
-};
+function clusterNameValidator(str) {
+  if (!validateClusterName(str)) {
+    return [
+      {
+        severity: 'error',
+        message: t(
+          'in-waiting-for-deployment:content.theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong'
+        )
+      }
+    ];
+  }
+  return null;
+}
 
 const agentReleaseVersionRegex = new RegExp(/^\d\.\d{1,3}\.\d+$/);
 
 function validateAgentReleaseVersion(agentReleaseVersion) {
-  return agentReleaseVersionRegex.test(agentReleaseVersion);
+  if (!agentReleaseVersionRegex.test(agentReleaseVersion)) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-waiting-for-deployment:content.theAgentReleaseVersionMustBeAValidSemanticVersion')
+      }
+    ];
+  }
+  return null;
 }
 
-function validateNotEmpty(value) {
-  return !!value;
+function validateNotEmpty(value, message) {
+  if (!value) {
+    return [
+      {
+        severity: 'error',
+        message: message
+      }
+    ];
+  }
+  return null;
 }
 
 export default function getEntries({ disableAwsSensorDocumentation }) {
@@ -2115,7 +2138,7 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       fields={[
         {
           name: 'clusterName',
-          placeholder: "Cluster name, e.g., 'prod'",
+          placeholder: t('in-waiting-for-deployment:content.clusterNameEGProd'),
           validate: clusterNameValidator
         }
       ]}
@@ -2402,37 +2425,25 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
           {
             name: 'agentReleaseVersion',
             placeholder: t('in-waiting-for-deployment:content.placeholderReleaseVersionEG001'),
-            validate: {
-              validator: validateAgentReleaseVersion,
-              validationMessage: t(
-                'in-waiting-for-deployment:content.theAgentReleaseVersionMustBeAValidSemanticVersion'
-              )
-            }
+            validate: validateAgentReleaseVersion
           },
           {
             name: 'foundationName',
             placeholder: t('in-waiting-for-deployment:content.placeholderFoundationNameEGProd'),
-            validate: {
-              validator: validateClusterName,
-              validationMessage: t(
-                'in-waiting-for-deployment:content.theFoundationNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong'
-              )
-            }
+            validate: clusterNameValidator
           },
           {
             name: 'clientId',
             placeholder: t('in-waiting-for-deployment:content.placeholderUaaClientIdEGMyClientId'),
-            validate: {
-              validator: validateNotEmpty,
-              validationMessage: t('in-waiting-for-deployment:content.theUaaClientIdCannotBeBlank')
+            validate: str => {
+              validateNotEmpty(str, t('in-waiting-for-deployment:content.theUaaClientIdCannotBeBlank'));
             }
           },
           {
             name: 'clientSecret',
             placeholder: t('in-waiting-for-deployment:content.placeholderUaaClientSecretEGMyClientSecret'),
-            validate: {
-              validator: validateNotEmpty,
-              validationMessage: t('in-waiting-for-deployment:content.theUaaClientSecretCannotBeBlank')
+            validate: str => {
+              validateNotEmpty(str, t('in-waiting-for-deployment:content.theUaaClientSecretCannotBeBlank'));
             }
           }
         ]}

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, composeValidators } from 'formalistic';
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
@@ -249,7 +249,7 @@ function CopyToClipboardButtonInternal(props) {
 }
 
 export function ValidatedInputFields({ fields, renderContent }) {
-  const [form, setForm] = useState(createForm(fields));
+  const [form, setForm] = useState(() => createForm(fields));
 
   const props = {};
   function update(key) {
@@ -279,26 +279,6 @@ export function ValidatedInputFields({ fields, renderContent }) {
 }
 
 function createForm(fields) {
-  function createValidation(field) {
-    return str => {
-      const validator = field.validate;
-      const defaultValidator = {
-        validator: notBlankValidator,
-        validationMessage: t('in-waiting-for-deployment:theFieldCannotBeBlank', { fieldName: field.name })
-      };
-      const error = !validator.validator(str) || !defaultValidator.validator(str);
-      if (error) {
-        return [
-          {
-            severity: 'error',
-            message: validator.validationMessage
-          }
-        ];
-      }
-      return null;
-    };
-  }
-
   let form = createMapForm();
   for (let i = 0; i < fields.length; i++) {
     const field = fields[i];
@@ -306,7 +286,7 @@ function createForm(fields) {
       field.name,
       createField({
         value: '',
-        validator: createValidation(field)
+        validator: composeValidators(notBlankValidator, field.validate)
       })
     );
   }
