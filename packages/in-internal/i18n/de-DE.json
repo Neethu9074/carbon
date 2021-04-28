@@ -39,7 +39,7 @@
       "resilientMapping": "Ausfallsichere Zuordnung",
       "logMonitor": "Protokollüberwachung",
       "logMonitorDesc": "Dashboards, die zeigen, wie Protokolldaten geschrieben und gelesen werden.",
-      "logMonitorProcessing": "Protokollverarbeitungsprogramm (Protokollverarbeitung)",
+      "logMonitorProcessing": "Protokollprozessor (Protokollaufbereitung)",
       "logMonitorProcessingDesc": "Das Protokollverarbeitungsprogramm liest Protokolle aus Kafka-Themen und schreibt sie angereichert in andere Kafka-Themen.",
       "logMonitorWriter": "Protokollausgabeprogramm (Protokollaufnahme)",
       "logMonitorWriterDesc": "Das Protokollausgabeprogramm nimmt Protokolle in ClickHouse auf.",
@@ -325,8 +325,12 @@
     },
     "log": {
       "processor": {
-        "name": "Protokollverarbeitungsprogramm",
+        "title": "Protokollverarbeitungsprogramm",
         "hostCpuLoad": "Host-CPU-Belastung",
+        "hostLoad": "Hostbelastung",
+        "host": "Host",
+        "garbageCollection": "Garbage-Collection",
+        "instances": "Protokollprozessoren ({{length}})",
         "common": {
           "incoming": "Eingehende gemeinsame Protokolle",
           "failIncoming": "Fehlgeschlagene eingehende gemeinsame Protokolle",
@@ -338,7 +342,7 @@
             "tooOld": "Gemeinsame Protokolle Kafka-Konsument Zu alt"
           }
         },
-        "trace" : {
+        "trace": {
           "incoming": "Eingehende Traceprotokolle",
           "failIncoming": "Fehlgeschlagene eingehende Traceprotokolle",
           "processing": "Traceprotokolle werden verarbeitet",
@@ -353,16 +357,62 @@
         "failOutgoing": "Fehlgeschlagene abgehende Protokolle"
       },
       "writer": {
-        "name": "Protokollausgabeprogramm",
+        "title": "Protokollausgabeprogramm",
         "hostCpuLoad": "Host-CPU-Belastung",
+        "hostLoad": "Hostbelastung",
+        "host": "Host",
+        "garbageCollection": "Garbage-Collection",
+        "instances": "Protokollschreibprogramme ({{length}})",
         "incoming": "Eingehende verarbeitete Protokolle",
         "failIncoming": "Fehlgeschlagene eingehende verarbeitete Protokolle",
         "write": "Protokoll-Batch-Schreibvorgänge",
-        "failWrite": "Protokoll-Batch-Schreibfehler"
+        "failWrite": "Protokoll-Batch-Schreibfehler",
+        "clickHouse": {
+          "insert": "ClickHouse-Einfügungen",
+          "failInsert": "ClickHouse-Einfügefehler",
+          "queryQueueing": "Warteschlangenbildung für ClickHouse-Abfragen",
+          "newlyQueuedCalls": "Neu in die Warteschlange gestellte ClickHouse-Aufrufe",
+          "queuedCalls": "ClickHouse-Aufrufe in der Warteschlange",
+          "queryLatency": "ClickHouse-Abfragelatenzzeit",
+          "queryCalls": "ClickHouse-Aufrufe",
+          "queryLatency50": "ClickHouse-Abfragelatenz (50.)",
+          "queryLatency99": "ClickHouse-Abfragelatenz (99.)",
+          "queryErrorRate": "ClickHouse-Fehlerrate",
+          "calls": "Aufrufe",
+          "mean": "Mittelwert",
+          "50th": "50.",
+          "99th": "99."
+        }
       },
       "reader": {
-        "name": "Protokollleseprogramm",
-        "hostCpuLoad": "Host-CPU-Belastung"
+        "title": "Protokollleseprogramm",
+        "hostCpuLoad": "Host-CPU-Belastung",
+        "hostLoad": "Hostbelastung",
+        "host": "Host",
+        "garbageCollection": "Garbage-Collection",
+        "instances": "Protokollleseprogramme ({{length}})",
+        "gRPCCalls": "Eingehende gRPC-Aufrufe",
+        "gRPCErrors": "Eingehende gRPC-Fehler",
+        "tagReaderClient": {
+          "gRPCCalls": "Ausgehende Tag-Leser-gRPC-Aufrufe",
+          "gRPCErrors": "Ausgehende Tag-Leser-gRPC-Fehler"
+        },
+        "clickHouse": {
+          "select": "ClickHouse-Auswahlvorgänge",
+          "failSelect": "ClickHouse-Auswahlfehler",
+          "queryQueueing": "Warteschlangenbildung für ClickHouse-Abfragen",
+          "newlyQueuedCalls": "Neu in die Warteschlange gestellte ClickHouse-Aufrufe",
+          "queuedCalls": "ClickHouse-Aufrufe in der Warteschlange",
+          "queryLatency": "ClickHouse-Abfragelatenzzeit",
+          "queryCalls": "ClickHouse-Aufrufe",
+          "queryLatency50": "ClickHouse-Abfragelatenz (50.)",
+          "queryLatency99": "ClickHouse-Abfragelatenz (99.)",
+          "queryErrorRate": "ClickHouse-Fehlerrate",
+          "calls": "Aufrufe",
+          "mean": "Mittelwert",
+          "50th": "50.",
+          "99th": "99."
+        }
       }
     },
     "eum": {

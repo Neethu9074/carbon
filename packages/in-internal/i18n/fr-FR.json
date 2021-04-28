@@ -39,7 +39,7 @@
       "resilientMapping": "Mappage résilient",
       "logMonitor": "Surveillance de journal",
       "logMonitorDesc": "Tableaux de bord montrant comment les données de consignation sont écrites et lues.",
-      "logMonitorProcessing": "log-processor (traitement de journal)",
+      "logMonitorProcessing": "processeur de journaux (enrichissement des journaux)",
       "logMonitorProcessingDesc": "Le mécanisme de traitement des journaux lit les journaux à partir de rubriques kafka et les écrit enrichis dans d'autres rubriques kafka-topics.",
       "logMonitorWriter": "log-writer (ingestion de journal)",
       "logMonitorWriterDesc": "Le mécanisme d'écriture des journaux ingère les journaux dans ClickHouse.",
@@ -325,8 +325,12 @@
     },
     "log": {
       "processor": {
-        "name": "log-processor",
+        "title": "log-processor",
         "hostCpuLoad": "Charge de l'UC hôte",
+        "hostLoad": "Charge de l'hôte",
+        "host": "Hôte",
+        "garbageCollection": "Récupération de place (GC)",
+        "instances": "processeurs de journaux ({{length}})",
         "common": {
           "incoming": "Journaux communs entrants",
           "failIncoming": "Journaux communs entrants ayant échoué",
@@ -338,7 +342,7 @@
             "tooOld": "Logs communs - Consommateur Kafka trop ancien"
           }
         },
-        "trace" : {
+        "trace": {
           "incoming": "Journaux de traçage entrants",
           "failIncoming": "Journaux de traces entrants ayant échoué",
           "processing": "Traitement de trace de traitement",
@@ -353,16 +357,62 @@
         "failOutgoing": "Journaux sortants ayant échoué"
       },
       "writer": {
-        "name": "log-writer",
+        "title": "log-writer",
         "hostCpuLoad": "Charge de l'UC hôte",
+        "hostLoad": "Charge de l'hôte",
+        "host": "Hôte",
+        "garbageCollection": "Récupération de place (GC)",
+        "instances": "rédacteurs de journaux ({{length}})",
         "incoming": "Journaux traités entrants",
         "failIncoming": "Journaux traités entrants ayant échoué",
         "write": "Consigner les opérations d'écriture par lots",
-        "failWrite": "Consigner les échecs d'opérations d'écriture par lots"
+        "failWrite": "Consigner les échecs d'opérations d'écriture par lots",
+        "clickHouse": {
+          "insert": "Insertions dans ClickHouse",
+          "failInsert": "Échecs d'insertion dans ClickHouse",
+          "queryQueueing": "Mise en file d'attente des requêtes ClickHouse",
+          "newlyQueuedCalls": "Appels ClickHouse nouvellement mis en file d'attente",
+          "queuedCalls": "Appels ClickHouse en file d'attente",
+          "queryLatency": "Latence des requêtes ClickHouse",
+          "queryCalls": "Appels ClickHouse",
+          "queryLatency50": "Latence des requêtes ClickHouse (50e)",
+          "queryLatency99": "Latence des requêtes ClickHouse (99e)",
+          "queryErrorRate": "Taux d'erreur ClickHouse",
+          "calls": "Appels",
+          "mean": "moyen",
+          "50th": "50e",
+          "99th": "99e"
+        }
       },
       "reader": {
-        "name": "log-reader",
-        "hostCpuLoad": "Charge de l'UC hôte"
+        "title": "log-reader",
+        "hostCpuLoad": "Charge de l'UC hôte",
+        "hostLoad": "Charge de l'hôte",
+        "host": "Hôte",
+        "garbageCollection": "Récupération de place (GC)",
+        "instances": "lecteurs de journaux ({{length}})",
+        "gRPCCalls": "Appels gRPC entrants",
+        "gRPCErrors": "Erreurs gRPC entrantes",
+        "tagReaderClient": {
+          "gRPCCalls": "Appels gRPC du lecteur de balises sortant",
+          "gRPCErrors": "Erreurs gRPC du lecteur de balises sortant"
+        },
+        "clickHouse": {
+          "select": "Sélections dans ClickHouse",
+          "failSelect": "Échecs de sélection dans ClickHouse",
+          "queryQueueing": "Mise en file d'attente des requêtes ClickHouse",
+          "newlyQueuedCalls": "Appels ClickHouse nouvellement mis en file d'attente",
+          "queuedCalls": "Appels ClickHouse en file d'attente",
+          "queryLatency": "Latence des requêtes ClickHouse",
+          "queryCalls": "Appels ClickHouse",
+          "queryLatency50": "Latence des requêtes ClickHouse (50e)",
+          "queryLatency99": "Latence des requêtes ClickHouse (99e)",
+          "queryErrorRate": "Taux d'erreur ClickHouse",
+          "calls": "Appels",
+          "mean": "moyen",
+          "50th": "50e",
+          "99th": "99e"
+        }
       }
     },
     "eum": {

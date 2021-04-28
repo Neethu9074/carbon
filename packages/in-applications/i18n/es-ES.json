@@ -20,6 +20,7 @@
   "labelSummary": "Resumen",
   "labelDependencies": "Dependencias",
   "labelServices": "Servicios",
+  "labelSmartAlerts": "Alertas inteligentes",
   "labelErrorMessages": "Mensajes de error",
   "labelErrorMessage": "Mensaje de error",
   "labelLogMessages": "Mensajes de registro",
@@ -172,13 +173,9 @@
     "thresholdLabel": "Valor de umbral",
     "titleAlertProperties": "Propiedades de alerta",
     "applicationSmartAlert": "Añadir alerta inteligente",
-    "headerConfiguredAlerts": "Alertas configuradas",
-    "headerConfiguredAlertsNum": "{{headerConfigAlerts}} ({{alertsSize}})",
     "noAlertConfigured": "No hay ninguna alerta configurada.",
     "getEntityName": "alerta \"{{entityName}}\"",
-
     "descriptionMessage": "{{description}}: \"{{message}}\"",
-    "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
     "tooltipFilter": "{{count}} filtro",
     "tooltipFilter_plural": "{{count}} filtros",
     "tooltipFilter_0": "{{count}} filtros",
@@ -241,14 +238,18 @@
       "labelErroneous": "Erróneo",
       "preconditionFailedTooltip": "Seleccione un servicio antes de seleccionar un punto final."
     },
-
     "chartingPresenter": {
       "noData": "No hay datos para visualizar"
     },
     "erroneous": "Erróneo",
     "facetedSearch": {
       "showSyntheticCalls": "Mostrar llamadas sintéticas",
-      "showInternalCalls": "Mostrar llamadas internas"
+      "showInternalCalls": "Mostrar llamadas internas",
+      "defaultTurnedOnSynthetic": "Esta opción está seleccionada ya que consulta las llamadas sintéticas.",
+      "defaultTurnedOnInternal": "Esta opción está seleccionada ya que consulta las llamadas internas.",
+      "erroneous_true": "true",
+      "erroneous_false": "false",
+      "erroneous_Erroneous": "Erróneo"
     },
     "applications": "Aplicaciones",
     "services": "Servicios",
@@ -258,7 +259,7 @@
     "httpStatusCode": "Código de estado HTTP",
     "hiddenCalls": "Llamadas ocultas",
     "noResults": "No hay resultados",
-    "showBatchMore": "mostrar {{nextBatch}} más",
+    "loadMore": "Cargar más",
     "callBatchCountTooltip": "Esta llamada está incluida en un lote y representa {{callBatchCount}} llamada individual.",
     "callBatchCountTooltip_plural": "Esta llamada está incluida en un lote y representa {{callBatchCount}} llamadas individuales.",
     "callBatchCountTooltip_0": "Esta llamada está incluida en un lote y representa {{callBatchCount}} llamadas individuales.",
@@ -309,9 +310,15 @@
     "typeTrace_1": "rastreo",
     "typeTrace_2": "rastreos",
     "containsErrors": "Contiene errores",
-    "noErrors": "Sin errores"
+    "noErrors": "Sin errores",
+    "fromMs": "Desde (ms)",
+    "toMs": "Hasta (ms)",
+    "theLatencyRangeHasToBeInAscendingOrder": "El rango de latencia debe estar en orden ascendente.",
+    "service": "Servicio",
+    "trace": "Rastreo",
+    "calls": "Llamadas",
+    "none": "Ninguno"
   },
-
   "creation": {
     "newAP": "Nueva perspectiva de aplicación",
     "switchSimpleMode": "Cambiar a modalidad simple",
@@ -374,6 +381,7 @@
           "whoShouldUse": "DevOps, Operaciones, SRE, QA, Propietario empresarial."
         },
         "container": {
+          "container": "Contenedor",
           "name": "Kubernetes o Contenedor",
           "headline": "Una aplicación modelada por etiquetas de Kubernetes o contenedor",
           "whenToUse": {
@@ -439,7 +447,24 @@
           "preselected": "Las \"Llamadas entrantes\" y \"Todos los servicios en sentido descendente\" están seleccionados previamente.",
           "switchMode": "Cambie a la modalidad avanzada para crear una consulta con puntos finales desde varios servicios.",
           "allFilters": "Pulse \"Todos los filtros\" para añadir códigos adicionales."
-        }
+        },
+        "zone": "Zona",
+        "cloud": "Cloud",
+        "host": "Host",
+        "http": "HTTP",
+        "customTag": "Código personalizado",
+        "kubernetes": "Kubernetes",
+        "orchestration": "Orquestación",
+        "httpHeader": "Cabecera HTTP",
+        "httpUrl": "URL HTTP",
+        "httpMisc": "HTTP varios",
+        "rpc": "RPC",
+        "database": "Base de datos",
+        "technology": "Tecnología",
+        "java": "Java",
+        "scripting": "Script",
+        "miscellaneous": "Varios",
+        "platform": "Plataforma"
       },
       "liveList": {
         "matchedServicesLastHour": "Servicios coincidentes durante la última hora",
@@ -460,14 +485,21 @@
       "defaultDashboardView": "4. Seleccione la vista predeterminada del panel de control",
       "clear": "Borrar",
       "addTag": "Añadir código",
-      "create": "Crear"
+      "create": "Crear",
+      "database": "DATABASE",
+      "messaging": "MESSAGING"
     },
     "scope": {
       "optionNoDownStreamServices": "Sin servicios en sentido descendente",
       "optionImmediateDownstreamServices": "Servicios de mensajería y base de datos en sentido descendente inmediato",
       "optionAllDownstreamServices": "Todos los servicios en sentido descendente"
     },
-    "tooltipEndpointBar": "Seleccione un único servicio antes de seleccionar los puntos finales."
+    "tooltipEndpointBar": "Seleccione un único servicio antes de seleccionar los puntos finales.",
+    "form": {
+      "theApplicationPerspectiveNameMustNotBeBlank": "El nombre de la perspectiva de aplicación no debe estar en blanco.",
+      "theApplicationPerspectiveNameMustNotBeLargerThan128Characters": "El nombre de la perspectiva de aplicación no debe tener más de 128 caracteres.",
+      "theQueryIsNotValid": "La consulta no es válida."
+    }
   },
   "dashboards": {
     "percentOfCalls": "{{percentage}} de todas las llamadas",
@@ -559,7 +591,8 @@
       "descriptionConfigureSyntheticEndpoints": "Las llamadas a puntos finales sintéticos se siguen capturando, pero no contribuyen a los ICR de servicio y aplicación. Nuestra regla incorporada detectará automáticamente y omitirá sus comprobaciones de salud, pero se pueden añadir manualmente puntos finales adicionales con nuevas reglas",
       "descriptionEndpointsRule": "Las llamadas a los puntos finales que coinciden con esta regla generada automáticamente no contribuyen a su aplicación, o a los ICR de servicio en Instana y se omiten.",
       "errorConditionRequired": "Se requiere como mínimo una condición de coincidencia."
-    }
+    },
+    "and": "AND"
   },
   "list": {
     "textNewApplicationPerspective": "Aquí se mostrarán cuando los haya creado un administrador de cuentas.",
@@ -583,5 +616,17 @@
     "undefined": "No definido",
     "self": "Propio",
     "sdk": "SDK"
+  },
+  "constants": {
+    "exclude": "Excluir",
+    "syntheticCallsAreExcludedFromTheMetrics": "Las llamadas sintéticas se excluyen de las métricas.",
+    "include": "Incluir",
+    "syntheticCallsAreIncludedInTheMetrics": "Las llamadas sintéticas se incluyen en las métricas.",
+    "only": "Solo",
+    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Sólo se muestran y se incluyen las llamadas sintéticas en las métricas"
+  },
+  "lists": {
+    "noSpecificApplication": " - ninguna aplicación específica - ",
+    "services": "Servicios"
   }
 }

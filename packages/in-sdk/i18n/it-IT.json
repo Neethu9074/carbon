@@ -37,7 +37,8 @@
         "classpathHide": "Nascondi Classpath",
         "classpathShow": "Mostra Classpath"
       },
-      "processStartedTitle": "Avviato alle"
+      "processStartedTitle": "Avviato alle",
+      "tags": "Tag ({{size}})"
   },
 
   "traceDetails": {

@@ -37,10 +37,10 @@
       "queryPerformance": "Prestazioni query",
       "callExtraction": "Estrazione chiamata",
       "resilientMapping": "Associazione resiliente",
-      "logMonitor": "Monitoraggio log ",
-      "logMonitorDesc": "Dashboard che visualizzano come i dati di registrazione vengono scritti e letti. ",
-      "logMonitorProcessing": "log-processor (elaborazione log) ",
-      "logMonitorProcessingDesc": "Il processore log legge i log dagli argomenti kafka e li riscrive arricchiti in altri argomenti kafka. ",
+      "logMonitor": "Monitoraggio log",
+      "logMonitorDesc": "Dashboard che visualizzano come i dati di registrazione vengono scritti e letti.",
+      "logMonitorProcessing": "log-processor (arricchimento log)",
+      "logMonitorProcessingDesc": "Il processore log legge i log dagli argomenti kafka e li riscrive arricchiti in altri argomenti kafka.",
       "logMonitorWriter": "log-writer (inserimento logn)",
       "logMonitorWriterDesc": "Log-writer inserisce i log in ClickHouse.",
       "logMonitorReader": "log-reader (query log",
@@ -325,44 +325,94 @@
     },
     "log": {
       "processor": {
-        "name": "log-processor",
+        "title": "log-processor",
         "hostCpuLoad": "Carico CPU host",
+        "hostLoad": "Carico host",
+        "host": "Host",
+        "garbageCollection": "Garbage Collection",
+        "instances": "log-processor({{length}})",
         "common": {
-          "incoming": "Log comuni in entrata ",
-          "failIncoming": "Log comuni in entrata non riusciti ",
-          "processing": "Elaborazione log comuni ",
-          "failProcessing": "Log comuni di elaborazione non riusciti ",
+          "incoming": "Log comuni in entrata",
+          "failIncoming": "Log comuni in entrata non riusciti",
+          "processing": "Elaborazione log comuni",
+          "failProcessing": "Log comuni di elaborazione non riusciti",
           "kafkaConsumer": {
-            "availableCapacity": "Capacità disponibile log comuni Kafka consumer ",
-            "emptyPolls": "Pool vuoti log comuni Kafka consumer ",
-            "tooOld": "Log comuni  Kafka Consumer troppo vecchi "
+            "availableCapacity": "Capacità disponibile log comuni Kafka consumer",
+            "emptyPolls": "Pool vuoti log comuni Kafka consumer",
+            "tooOld": "Log comuni  Kafka Consumer troppo vecchi"
           }
         },
-        "trace" : {
-          "incoming": "Log di traccia in entrata ",
-          "failIncoming": "Log di traccia in entrata non riusciti ",
-          "processing": "Log di traccia di elaborazione ",
-          "failProcessing": "Log di traccia di elaborazione non riuscita ",
+        "trace": {
+          "incoming": "Log di traccia in entrata",
+          "failIncoming": "Log di traccia in entrata non riusciti",
+          "processing": "Log di traccia di elaborazione",
+          "failProcessing": "Log di traccia di elaborazione non riuscita",
           "kafkaConsumer": {
             "availableCapacity": "Capacità disponibile log di traccia Kafka Consumer.",
             "emptyPolls": "Pool vuoti log di traccia Kafka Consumer",
-            "tooOld": "Log di traccia Kafka Consumer Troppo vecchi "
+            "tooOld": "Log di traccia Kafka Consumer Troppo vecchi"
           }
         },
-        "outgoing": "Log in uscita ",
-        "failOutgoing": "Log in uscita non riusciti "
+        "outgoing": "Log in uscita",
+        "failOutgoing": "Log in uscita non riusciti"
       },
       "writer": {
-        "name": "log-writer",
+        "title": "log-writer",
         "hostCpuLoad": "Carico CPU host",
-        "incoming": "Log in entrata elaborati ",
-        "failIncoming": "Log in entrata elaborati non riusciti ",
-        "write": "Scrittura batch log ",
-        "failWrite": "Errori di scrittura batch log "
+        "hostLoad": "Carico host",
+        "host": "Host",
+        "garbageCollection": "Garbage Collection",
+        "instances": "log-writers ({{length}})",
+        "incoming": "Log in entrata elaborati",
+        "failIncoming": "Log in entrata elaborati non riusciti",
+        "write": "Scrittura batch log",
+        "failWrite": "Errori di scrittura batch log",
+        "clickHouse": {
+          "insert": "Inserimenti ClickHouse",
+          "failInsert": "Errori di inserimento ClickHouse",
+          "queryQueueing": "Accodamento query ClickHouse",
+          "newlyQueuedCalls": "Chiamate ClickHouse appena accodate",
+          "queuedCalls": "Chiamate ClickHouse accodate",
+          "queryLatency": "Latenza query ClickHouse",
+          "queryCalls": "Chiamate ClickHouse",
+          "queryLatency50": "Latenza query ClickHouse (50esimo)",
+          "queryLatency99": "Latenza query ClickHouse (99esimo)",
+          "queryErrorRate": "Tasso di errore ClickHouse",
+          "calls": "Chiamate",
+          "mean": "media",
+          "50th": "50esimo",
+          "99th": "99esimo"
+        }
       },
       "reader": {
-        "name": "log-reader",
-        "hostCpuLoad": "Carico CPU host"
+        "title": "log-reader",
+        "hostCpuLoad": "Carico CPU host",
+        "hostLoad": "Carico host",
+        "host": "Host",
+        "garbageCollection": "Garbage Collection",
+        "instances": "log-readers ({{length}})",
+        "gRPCCalls": "Chiamate gRPC in entrata ",
+        "gRPCErrors": "Errori gRPC in entrata ",
+        "tagReaderClient": {
+          "gRPCCalls": "Chiamate gRPC tag-reader in entrata ",
+          "gRPCErrors": "Errori gRPC tag-reader in entrata "
+        },
+        "clickHouse": {
+          "select": "Selezioni ClickHouse",
+          "failSelect": "Errori selezione ClickHouse",
+          "queryQueueing": "Accodamento query ClickHouse",
+          "newlyQueuedCalls": "Chiamate ClickHouse appena accodate",
+          "queuedCalls": "Chiamate ClickHouse accodate",
+          "queryLatency": "Latenza query ClickHouse",
+          "queryCalls": "Chiamate ClickHouse",
+          "queryLatency50": "Latenza query ClickHouse (50esimo)",
+          "queryLatency99": "Latenza query ClickHouse (99esimo)",
+          "queryErrorRate": "Tasso di errore ClickHouse",
+          "calls": "Chiamate",
+          "mean": "media",
+          "50th": "50esimo",
+          "99th": "99esimo"
+        }
       }
     },
     "eum": {

@@ -37,7 +37,8 @@
         "classpathHide": "隐藏类路径",
         "classpathShow": "显示类路径"
       },
-      "processStartedTitle": "启动时间"
+      "processStartedTitle": "启动时间",
+      "tags": "标记 ({{size}})"
   },
 
   "traceDetails": {

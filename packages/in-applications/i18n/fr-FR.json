@@ -246,7 +246,10 @@
       "showSyntheticCalls": "Afficher les appels synthétiques",
       "showInternalCalls": "Afficher les appels internes",
       "defaultTurnedOnSynthetic": "Cette option est sélectionnée puisque vous interrogez les appels synthétiques.",
-      "defaultTurnedOnInternal": "Cette option est sélectionnée, car vous interrogez les appels internes."
+      "defaultTurnedOnInternal": "Cette option est sélectionnée, car vous interrogez les appels internes.",
+      "erroneous_true": "true",
+      "erroneous_false": "false",
+      "erroneous_Erroneous": "Erroné"
     },
     "applications": "Applications",
     "services": "Services",

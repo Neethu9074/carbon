@@ -23,8 +23,6 @@
     "alertHeaderYouCanOnlyStartOrPause": "Vous pouvez démarrer ou suspendre ces configurations, mais vous ne pouvez pas les modifier en mode Query Builder 1.",
     "alertHistoryListTitle": "Alertes créées",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alertes créées ({{totalRepresentedItemCount}})",
-    "alertPropertyInfosLabelWarning": "Avertissement",
-    "alertPropertyInfosLabelCritical": "Critique",
     "alertPropertyInfosLabelTitle": "Titre",
     "alertPropertyInfosLabelAlertLevel": "Niveau d'alerte",
     "alertPropertyInfosLabelTriggersIncident": "Déclenche un incident",
@@ -94,17 +92,29 @@
     "applications": {
       "newGlobalAlert": "Smart Alert globale",
       "advanced": {
+        "alertPropertyInsertPlaceholderLabel": "Insérer un espace réservé",
         "evaluationSwitch": {
           "individual": "Alertes individuelles",
           "evaluationTypePERAP": {
-            "selectionText": "Sur l'agrégation de tous les services et points d'extrémité sélectionnés",
+            "selectionText": "pour cette perspective d'application",
+            "globalSelectionText": "par perspective d'application",
             "columnText": "agrégé",
-            "description": "Alerte sur l'agrégation de tous les services et nœuds finaux sélectionnés"
+            "description": "Alerte individuelle pour cette perspective d'application",
+            "globalDescription": "Alerte individuelle par perspective d'application"
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "sur l'agrégation par service",
+            "selectionText": "par service pour cette perspective d'application",
+            "globalSelectionText": "par service dans le contexte de chaque perspective d'application",
             "columnText": "par service",
-            "description": "Alerte individuelle sur l'agrégation par service"
+            "description": "Alerte individuelle par service pour cette perspective d'application",
+            "globalDescription": "Alerte individuelle par service dans le contexte de chaque perspective d'application"
+          },
+          "evaluationTypePERAPENDPOINT": {
+            "selectionText": "par nœud final pour cette perspective d'application",
+            "globalSelectionText": "par nœud final dans le contexte de chaque perspective d'application",
+            "columnText": "par nœud final",
+            "description": "Alerte individuelle par nœud final pour cette perspective d'application",
+            "globalDescription": "Alerte individuelle par nœud final dans le contexte de chaque perspective d'application"
           }
         },
         "inboundOutboundCalls": {
@@ -289,7 +299,7 @@
           "any": "Erreur et avertissement"
         },
         "ruleLogMessageOperationOptions": {
-          "notEmpty": "Tout",
+          "notEmpty": "Tous",
           "equals": "Egal",
           "contains": "Contient",
           "startsWith": "Commence par",
@@ -330,7 +340,7 @@
         "errorPleaseProvideAnErrorMessage": "Veuillez fournir un message d'erreur.",
         "errorPleaseProvideANumberGreaterEqualsToZero": "Veuillez indiquer un nombre >= 0",
         "errorBaselineIsEmpty": "la référence est vide",
-        "ruleJsErrorsOperatorOptionAny": "Tout",
+        "ruleJsErrorsOperatorOptionAny": "Tous",
         "ruleJsErrorsOperatorOptionEquals": "Egal",
         "ruleJsErrorsOperatorOptionContains": "Contient",
         "ruleJsErrorsOperatorOptionStartsWith": "Commence par",
@@ -457,7 +467,11 @@
         "noAlertConfigured": "Aucune alerte définie.",
         "alertEntityName": "alerte \"{{entityName}}\"",
         "labelAlertFilters": "Filtres",
-        "numberOfApplicationsSelected": "{{numberApplicationsSelected}} applications sélectionnées"
+        "labelConfirm": "Veuillez confirmer.",
+        "labelConfirmRemoveConfig": "Êtes-vous sûr de vouloir supprimer la configuration <strong>{{configName}}</strong> ?",
+        "labelRemove": "Supprimer",
+        "numberOfApplicationsSelected": "{{count}} application sélectionnée",
+        "numberOfApplicationsSelected_plural": "{{count}} applications sélectionnées"
       }
     },
     "components": {
@@ -515,6 +529,7 @@
         "timeThresholdConfigOff": "désactivé",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Veuillez indiquer un nombre >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Veuillez fournir un nombre compris entre 1 % et 100 %",
+        "alertPropertiesInsertPlaceholderTooltip": "Insérer un espace réservé",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "Lorsque la condition persiste sur une durée spécifiée",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Chaque fois que la condition se déclenche un nombre de fois spécifié sur une période définie",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "Lorsqu'un certain nombre de mes utilisateurs sont affectés",
@@ -700,7 +715,7 @@
         "errorPleaseProvideAnErrorMessage": "Veuillez fournir un message d'erreur.",
         "errorPleaseProvideANumberGreaterEqualsToZero": "Veuillez indiquer un nombre >= 0",
         "errorBaselineIsEmpty": "la référence est vide",
-        "ruleJsErrorsOperatorOptionAny": "Tout",
+        "ruleJsErrorsOperatorOptionAny": "Tous",
         "ruleJsErrorsOperatorOptionEquals": "Egal",
         "ruleJsErrorsOperatorOptionContains": "Contient",
         "ruleJsErrorsOperatorOptionStartsWith": "Commence par",

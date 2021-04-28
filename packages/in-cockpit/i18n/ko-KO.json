@@ -34,7 +34,17 @@
       "pods": "팟(Pod)",
       "memoryUsage": "메모리 사용량",
       "cloudFoundryApplication": "Cloud Foundry 애플리케이션",
-      "vSphereDatacenter": "vSphere Datacenter"
+      "vSphereDatacenter": "vSphere Datacenter",
+      "clusterSubTitle": "{{clusterDistribution}} 클러스터, {{count}}개 노드, {{numberOfPods}}",
+      "clusterSubTitle_plural": "{{clusterDistribution}} 클러스터, {{count}}개 노드, {{numberOfPods}}",
+      "clusterSubTitle_0": "{{clusterDistribution}} 클러스터, {{count}}개 노드, {{numberOfPods}}",
+      "clusterSubTitle_1": "{{clusterDistribution}} 클러스터, {{count}}개 노드, {{numberOfPods}}",
+      "clusterSubTitle_2": "{{clusterDistribution}} 클러스터, {{count}}개 노드, {{numberOfPods}}",
+      "numberOfPods": "{{count}}개 팟(Pod)",
+      "numberOfPods_plural": "{{count}}개 팟(Pod)",
+      "numberOfPods_0": "{{count}}개 팟(Pod)",
+      "numberOfPods_1": "{{count}}개 팟(Pod)",
+      "numberOfPods_2": "{{count}}개 팟(Pod)"
     },
     "websiteMobileTopList": {
       "addWebsite": "웹 사이트 추가",

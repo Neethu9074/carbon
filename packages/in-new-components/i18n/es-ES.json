@@ -4,8 +4,14 @@
     "splitScreenListTooltipOpenSidebar": "Abrir barra lateral",
     "result": "{{formattedCount}} resultado",
     "result_plural": "{{formattedCount}} resultados",
+    "result_0": "{{formattedCount}} resultados",
+    "result_1": "{{formattedCount}} resultados",
+    "result_2": "{{formattedCount}} resultados",
     "resultRetained": "{{formattedCount}} retenido",
     "resultRetained_plural": "{{formattedCount}} retenidos",
+    "resultRetained_0": "{{formattedCount}} retenidos",
+    "resultRetained_1": "{{formattedCount}} retenido",
+    "resultRetained_2": "{{formattedCount}} retenidos",
     "groupedViewHeader": "{{formattedCount}} grupo",
     "groupedViewHeader_plural": "{{formattedCount}} grupos",
     "groupedViewHeader_0": "Grupos",
@@ -53,7 +59,8 @@
     "urlShortenerTabListTextShortLink": "Enlace corto",
     "urlShortenerWaitTextGeneratingShortLink": "Generando enlace corto.",
     "urlShortenerLabelLockCurrentTimeRange": "Rango de tiempo actual de bloqueo",
-    "urlShortenerLabelLive": "{{timeConfig}} (Activo)"
+    "urlShortenerLabelLive": "{{timeConfig}} (Activo)",
+    "copy": "Copiar"
   },
   "delayed": {
     "displayNameDelayed": "Retrasado"
@@ -99,9 +106,6 @@
     "labelBETA": "BETA",
     "linkLabelYouCanSendUsFeedback": "Usted puede enviarnos sus comentarios"
   },
-  "featureNew": {
-    "labelNEW": "NEW"
-  },
   "geoHeatMap": {
     "loadingIndicatorLoadingData": "Cargando datos",
     "tooltipResetView": "Restablecer vista",
@@ -122,7 +126,8 @@
     "exampleTagCatalogDescriptionLabelOfEntity": "Etiqueta de entidad",
     "addGroup": "Añadir grupo",
     "titleGroup": "Grupo",
-    "loadingIndicatorLoadingTagCatalog": "Cargando catálogo de códigos..."
+    "loadingIndicatorLoadingTagCatalog": "Cargando catálogo de códigos...",
+    "optional": "Opcional"
   },
   "health": {
     "eventTypeIssue": "Problema",
@@ -200,7 +205,21 @@
     "messagePleaseSelectAtMostMetrics": "Seleccione como máximo {{maximumNumberOfMetrics}} métricas.",
     "titleAddAMetric": "Añadir una métrica",
     "labelPleaseSelect": "Seleccione",
-    "labelAlreadySelected": "Ya está seleccionado"
+    "labelAlreadySelected": "Ya está seleccionado",
+    "search": "Buscar",
+    "aggregation_MEAN": "MEDIA",
+    "aggregation_MIN": "MÍN",
+    "aggregation_P25": "P25",
+    "aggregation_P50": "P50",
+    "aggregation_P75": "P75",
+    "aggregation_P90": "P90",
+    "aggregation_P95": "P95",
+    "aggregation_P98": "P98",
+    "aggregation_P99": "P99",
+    "aggregation_MAX": "MÁX",
+    "aggregation_DISTINCTCOUNT": "DISTINCT_COUNT",
+    "aggregation_SUM": "SUMA",
+    "aggregation_DISTRIBUTION": "DISTRIBUCIÓN"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "Utilizado",
@@ -281,14 +300,21 @@
   "time": {
     "lastMinute": "Último minuto",
     "lastMinute_plural": "Últimos {{count}} minutos",
+    "lastMinute_0": "Últimos {{count}} minutos",
+    "lastMinute_1": "Últimos {{count}} minutos",
+    "lastMinute_2": "Últimos {{count}} minutos",
     "lastHour": "Última hora",
     "lastHour_plural": "Últimas {{count}} horas",
+    "lastHour_0": "Últimas {{count}} horas",
+    "lastHour_1": "Últimas {{count}} horas",
+    "lastHour_2": "Últimas {{count}} horas",
     "yesterday": "Ayer",
     "twoDaysAgo": "Hace dos días",
     "lastSevenDays": "Últimos siete días",
     "previousWeek": "Semana anterior",
     "dashboardHeaderButtonLive": "Activo",
     "customTimeTitleTimeRange": "Rango de tiempo",
+    "to": "hasta",
     "customTimeButtonSetTime": "Hora establecida",
     "customTimeLabelYesterday": "Ayer",
     "customTimeLabelToday": "Hoy",
@@ -311,7 +337,13 @@
     "timeIconHistoricDataMessage": "Está visualizando datos aproximados debido a los valores de retención de datos. Los datos precisos estarán disponibles en los últimos {{retention}} días.",
     "timeIconLargeDataMessage": "Está visualizando datos aproximados debido a que un conjunto de datos de gran tamaño. Reduzca el intervalo de tiempo para obtener datos precisos.",
     "timePresetsLast": "Última {{duration}}",
-    "timePresetsLast24Hours": "Últimas 24 horas"
+    "timePresetsLast24Hours": "Últimas 24 horas",
+    "timeUnit_year": "año",
+    "timeUnit_month": "mes",
+    "timeUnit_day": "día",
+    "timeUnit_hour": "hora",
+    "timeUnit_minute": "minuto",
+    "timeUnit_second": "segundo"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Cambiar salto en el tiempo seleccionado",
@@ -344,12 +376,34 @@
     "linkSeeAllServices_2": "Ver todos los {{count}} {{activeTab}} servicios",
     "linkSeeService": "Ver servicio",
     "labelMetric": "Métrica:",
-    "upstreamServiceText": "Llamado directamente por",
-    "upstreamApplicationText": "Llamado directamente desde",
-    "upstreamMessage": "no ha recibido ninguna llamada",
-    "downstreamServiceText": "Llamando directamente",
-    "downstreamApplicationText": "Llamando directamente a los servicios desde",
-    "downstreamMessage": "ninguna llamada en sentido descendente se ha iniciado",
+    "upstreamText_Service": "Llamado directamente por {{count}} servicio ",
+    "upstreamText_Service_plural": "Llamado directamente por {{count}} servicios",
+    "upstreamText_Service_0": "Llamado directamente por {{count}} servicios",
+    "upstreamText_Service_1": "Llamado directamente por {{count}} servicios",
+    "upstreamText_Service_2": "Llamado directamente por {{count}} servicios",
+    "upstreamText_Application": "Llamada directamente desde {{count}}aplicación",
+    "upstreamText_Application_plural": "Llamada directamente desde {{count}} aplicaciones",
+    "upstreamText_Application_0": "Llamada directamente desde {{count}} aplicaciones",
+    "upstreamText_Application_1": "Llamada directamente desde {{count}} aplicaciones",
+    "upstreamText_Application_2": "Llamada directamente desde {{count}} aplicaciones",
+    "upstreamMessage_endpoint": "Este punto final no ha recibido ninguna llamada",
+    "upstreamMessage_service": "Este servicio no ha recibido ninguna llamada",
+    "upstreamMessage_application": "Esta aplicación no ha recibido ninguna llamada",
+    "upstreamMessage_entity": "Esta entidad no ha recibido ninguna llamada",
+    "downstreamText_Service": "Llamando directamente a {{count}} servicio",
+    "downstreamText_Service_plural": "Llamando directamente a {{count}} servicios ",
+    "downstreamText_Service_0": "Llamando directamente a {{count}} servicios ",
+    "downstreamText_Service_1": "Llamando directamente a {{count}} servicios ",
+    "downstreamText_Service_2": "Llamando directamente a {{count}} servicios ",
+    "downstreamText_Application": "Llamar directamente a los servicios en {{count}} aplicación",
+    "downstreamText_Application_plural": "Llamar directamente a los servicios en {{count}} aplicaciones",
+    "downstreamText_Application_0": "Llamar directamente a los servicios en {{count}} aplicaciones",
+    "downstreamText_Application_1": "Llamar directamente a los servicios en {{count}} aplicaciones",
+    "downstreamText_Application_2": "Llamar directamente a los servicios en {{count}} aplicaciones",
+    "downstreamMessage_endpoint": "Este punto final no ha iniciado ninguna llamada en sentido descendente",
+    "downstreamMessage_service": "Este servicio no ha iniciado ninguna llamada en sentido descendente",
+    "downstreamMessage_application": "Esta aplicación no ha iniciado ninguna llamada en sentido descendente",
+    "downstreamMessage_entity": "Esta entidad no ha iniciado ninguna llamada en sentido descendente",
     "tabsUpstream": "Sentido ascendente",
     "tabsDownstream": "Sentido descendente",
     "buttonUpstreamDownstream": "Ascendente/Descendente"
@@ -358,9 +412,9 @@
     "setEnabledMessagePressESCToDisableTVMode": "Pulse ESC para inhabilitar la modalidad de TV."
   },
   "analyze": {
-    "loadMore": "Cargar {{count}} más",
-    "showMore": "Mostrar {{count}} más",
-    "useAsGroup": "Utilizar como grupo",
+    "loadMoreWithCount": "Cargar {{count}} más",
+    "loadMore": "Cargar más",
+    "addAsGroup": "Añadir como grupo",
     "noResults": "No hay resultados",
     "from": "Desde",
     "fromUnit": "Desde {{unit}})",
@@ -373,7 +427,7 @@
     "splitScreen": {
       "sidebarActions": {
         "prev": "Ver {{ itemName }} anterior (acceso directo: tecla de flecha izquierda)",
-        "next": "Ver siguiente {{ itemName }} (acceso directo: tecla derecha izquierda)"
+        "next": "Ver siguiente {{ itemName }} (acceso directo: flecha derecha)"
       }
     },
     "groupName": "Nombre de grupo",
@@ -390,7 +444,10 @@
       "spacingSuggestionAnd": "AND",
       "bracketLabelChosenBracket": "Corchete elegido. Pulse para cambiar el corchete, para seleccionar una conjunción o para eliminar el corchete.",
       "conjunctionLabelChosenConjunction": "Conjunción elegida. Pulse para cambiar la conjunción, para seleccionar un corchete o para eliminar la conjunción.",
-      "filterButtonAddFilter": "Añadir filtro"
+      "filterButtonAddFilter": "Añadir filtro",
+      "conjunctionLogicalOperator_OR": "OR",
+      "conjunctionLogicalOperator_AND": "AND",
+      "conjunctionLogicalOperator_NOT": "NOT"
     },
     "selectorOverlayClear": "Borrar",
     "selectorOverlayAnd": "AND",
@@ -403,6 +460,51 @@
     "workspaceButtonClear": "Borrar",
     "errorWithDataYourDefinedQueryIsTooComplex": "La consulta definida es demasiado compleja, reduce la cantidad de anidación.",
     "sanitizedTagFilterValue": "El valor del filtro de código se ha reducido a la longitud máxima permitida.",
-    "sanitizedTagFilterValueAndOperator": "El valor de filtro de código se ha reducido a la longitud máxima permitida y el operador se ha ajustado en consecuencia."
+    "sanitizedTagFilterValueAndOperator": "El valor de filtro de código se ha reducido a la longitud máxima permitida y el operador se ha ajustado en consecuencia.",
+    "source": "Origen",
+    "destination": "Destino",
+    "string": {
+      "contains": "contiene",
+      "doesNotContain": "no contiene",
+      "isPresent": "está presente",
+      "isNotPresent": "no está presente",
+      "startsWith": "comienza por",
+      "endsWith": "termina por",
+      "doesNotStartWith": "no comienza por",
+      "doesNotEndWith": "no termina por",
+      "equals": "igual a",
+      "doesNotEqual": "no igual a"
+    },
+    "number": {
+      "isPresent": "está presente",
+      "isNotPresent": "no está presente",
+      "contains": "contiene",
+      "doesNotContain": "no contiene",
+      "startsWith": "comienza por",
+      "endsWith": "termina por",
+      "doesNotStartWith": "no comienza por",
+      "doesNotEndWith": "no termina por"
+    },
+    "booleanIs": "es",
+    "keyValuePair": {
+      "equals": "igual a",
+      "doesNotEqual": "no igual a",
+      "contains": "contiene",
+      "doesNotContain": "no contiene",
+      "isPresent": "está presente",
+      "isNotPresent": "no está presente",
+      "doesNotHaveValue": "no tiene valor",
+      "hasValue": "tiene valor",
+      "startsWith": "comienza por",
+      "endsWith": "termina por"
+    }
+  },
+  "applicationHealthOverview": {
+    "indicatorBar": {
+      "label": "Estado de salud",
+      "criticalTooltip": "{{count}} crítico",
+      "warningTooltip": "{{count}} aviso",
+      "healthyTooltip": "{{count}} saludable"
+    }
   }
 }

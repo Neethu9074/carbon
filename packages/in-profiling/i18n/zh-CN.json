@@ -44,5 +44,6 @@
   "numbersOfProfilesCollected_1": "已收集 {{count}} 个概要文件",
   "numbersOfProfilesCollected_2": "已收集 {{count}} 个概要文件",
   "profilesOfProcessDeepestTechSnapshot": "进程 {{deepestTechSnapshot}} 的概要文件",
-  "noEntityFound": "找不到 {{entityName}}"
+  "noEntityFound": "找不到 {{entityName}}",
+  "hotspots": "{{title}} 热点"
 }

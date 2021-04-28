@@ -44,5 +44,6 @@
   "numbersOfProfilesCollected_1": "{{count}} profil collecté",
   "numbersOfProfilesCollected_2": "{{count}} profils collectés",
   "profilesOfProcessDeepestTechSnapshot": "Profils de processus {{deepestTechSnapshot}}",
-  "noEntityFound": "Aucun {{entityName}} trouvé"
+  "noEntityFound": "Aucun {{entityName}} trouvé",
+  "hotspots": "Points d'accès à {{title}}"
 }

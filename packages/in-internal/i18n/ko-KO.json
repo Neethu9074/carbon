@@ -39,7 +39,7 @@
       "resilientMapping": "복원성 맵핑",
       "logMonitor": "로그 모니터링",
       "logMonitorDesc": "로깅 데이터를 쓰고 읽는 방법을 보여주는 대시보드입니다.",
-      "logMonitorProcessing": "log-processor(로그 처리)",
+      "logMonitorProcessing": "log-processor(로그 인리치먼트)",
       "logMonitorProcessingDesc": "log-processor는 Kafka 토픽에서 로그를 읽고 강화된 로그를 다른 Kafka 토픽에 기록합니다.",
       "logMonitorWriter": "log-writer(로그 수집)",
       "logMonitorWriterDesc": "log-writer는 ClickHouse에 로그를 수집합니다.",
@@ -325,8 +325,12 @@
     },
     "log": {
       "processor": {
-        "name": "log-processor",
+        "title": "log-processor",
         "hostCpuLoad": "호스트 CPU 로드",
+        "hostLoad": "호스트 로드",
+        "host": "호스트",
+        "garbageCollection": "가비지 콜렉션",
+        "instances": "log-processors({{length}})",
         "common": {
           "incoming": "수신 공통 로그",
           "failIncoming": "실패한 수신 공통 로그",
@@ -338,7 +342,7 @@
             "tooOld": "공통 로그 Kafka 이용자 너무 오래됨"
           }
         },
-        "trace" : {
+        "trace": {
           "incoming": "수신 추적 로그",
           "failIncoming": "실패한 수신 추적 로그",
           "processing": "추적 로그 처리",
@@ -353,16 +357,62 @@
         "failOutgoing": "실패한 발신 로그"
       },
       "writer": {
-        "name": "log-writer",
+        "title": "log-writer",
         "hostCpuLoad": "호스트 CPU 로드",
+        "hostLoad": "호스트 로드",
+        "host": "호스트",
+        "garbageCollection": "가비지 콜렉션",
+        "instances": "log-writers({{length}})",
         "incoming": "수신 처리 로그",
         "failIncoming": "실패한 수신 처리 로그",
         "write": "로그 일괄처리 쓰기",
-        "failWrite": "로그 일괄처리 쓰기 실패"
+        "failWrite": "로그 일괄처리 쓰기 실패",
+        "clickHouse": {
+          "insert": "ClickHouse 삽입",
+          "failInsert": "ClickHouse 삽입 실패",
+          "queryQueueing": "ClickHouse 조회 큐잉",
+          "newlyQueuedCalls": "새로 큐에 대기된 ClickHouse 호출",
+          "queuedCalls": "큐에 대기된 ClickHouse 호출",
+          "queryLatency": "ClickHouse 조회 대기 시간",
+          "queryCalls": "ClickHouse 호출",
+          "queryLatency50": "ClickHouse 조회 대기 시간(50번째)",
+          "queryLatency99": "ClickHouse 조회 대기 시간(99번째)",
+          "queryErrorRate": "ClickHouse 오류 비율",
+          "calls": "호출",
+          "mean": "평균",
+          "50th": "50번째",
+          "99th": "99번째"
+        }
       },
       "reader": {
-        "name": "log-reader",
-        "hostCpuLoad": "호스트 CPU 로드"
+        "title": "log-reader",
+        "hostCpuLoad": "호스트 CPU 로드",
+        "hostLoad": "호스트 로드",
+        "host": "호스트",
+        "garbageCollection": "가비지 콜렉션",
+        "instances": "log-readers({{length}})",
+        "gRPCCalls": "수신 gRPC 호출",
+        "gRPCErrors": "수신 gRPC 오류",
+        "tagReaderClient": {
+          "gRPCCalls": "발신 gRPC 호출",
+          "gRPCErrors": "발신 tag-reader gRPC 오류"
+        },
+        "clickHouse": {
+          "select": "ClickHouse 선택",
+          "failSelect": "ClickHouse 선택 실패",
+          "queryQueueing": "ClickHouse 조회 큐잉",
+          "newlyQueuedCalls": "새로 큐에 대기된 ClickHouse 호출",
+          "queuedCalls": "큐에 대기된 ClickHouse 호출",
+          "queryLatency": "ClickHouse 조회 대기 시간",
+          "queryCalls": "ClickHouse 호출",
+          "queryLatency50": "ClickHouse 조회 대기 시간(50번째)",
+          "queryLatency99": "ClickHouse 조회 대기 시간(99번째)",
+          "queryErrorRate": "ClickHouse 오류 비율",
+          "calls": "호출",
+          "mean": "평균",
+          "50th": "50번째",
+          "99th": "99번째"
+        }
       }
     },
     "eum": {

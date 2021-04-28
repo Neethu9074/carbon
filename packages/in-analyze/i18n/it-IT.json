@@ -65,7 +65,53 @@
         "showRemainingGroupsAggregatedAsOther": "Mostra i gruppi rimanenti aggregati come “Altro“."
       },
       "resultHeader": {
-        "result": "Risultato"
+        "result": "Risultato",
+        "counter_sessionStart": "{{number}} avvio sessione",
+        "counter_sessionStart_plural": "{{number}} di avvii sessione ",
+        "counter_sessionStart_0": "{{number}} di avvii sessione ",
+        "counter_sessionStart_1": "{{number}} di avvii sessione ",
+        "counter_sessionStart_2": "{{number}} di avvii sessione ",
+        "counter_viewChange": "{{number}} transizione vista",
+        "counter_viewChange_plural": "{{number}} transizioni vista",
+        "counter_viewChange_0": "{{number}} transizioni vista",
+        "counter_viewChange_1": "{{number}} transizioni vista",
+        "counter_viewChange_2": "{{number}} transizioni vista",
+        "counter_httpRequest": "{{number}} richiesta HTTP",
+        "counter_httpRequest_plural": "{{number}} richieste HTTP",
+        "counter_httpRequest_0": "{{number}} richieste HTTP",
+        "counter_httpRequest_1": "{{number}} richieste HTTP",
+        "counter_httpRequest_2": "{{number}} richieste HTTP",
+        "counter_custom": "{{number}} evento personalizzato",
+        "counter_custom_plural": "{{number}} eventi personalizzati",
+        "counter_custom_0": "{{number}} eventi personalizzati",
+        "counter_custom_1": "{{number}} eventi personalizzati",
+        "counter_custom_2": "{{number}} eventi personalizzati",
+        "counter_Row": "{{number}} di righe ",
+        "counter_Row_plural": "{{number}} di righe ",
+        "counter_Row_0": "{{number}} di righe ",
+        "counter_Row_1": "{{number}} di righe ",
+        "counter_Row_2": "{{number}} di righe ",
+        "counter_Group": "{{number}} gruppo",
+        "counter_Group_plural": "{{number}} gruppi",
+        "counter_Group_0": "{{number}} gruppi",
+        "counter_Group_1": "{{number}} gruppi",
+        "counter_Group_2": "{{number}} gruppi",
+        "counter_event": "{{number}} di eventi ",
+        "counter_event_plural": "{{number}} di eventi ",
+        "counter_event_0": "{{number}} di eventi ",
+        "counter_event_1": "{{number}} di eventi ",
+        "counter_event_2": "{{number}} di eventi ",
+        "counter_Call": "{{number}} di chiamate ",
+        "counter_Call_plural": "{{number}} di chiamate ",
+        "counter_Call_0": "{{number}} di chiamate ",
+        "counter_Call_1": "{{number}} di chiamate ",
+        "counter_Call_2": "{{number}} di chiamate ",
+        "counter_Trace": "{{number}} di tracce ",
+        "counter_Trace_plural": "{{number}} di tracce ",
+        "counter_Trace_0": "{{number}} di tracce ",
+        "counter_Trace_1": "{{number}} di tracce ",
+        "counter_Trace_2": "{{number}} di tracce ",
+        "loading": "Caricamento…"
       }
     },
     "dataSources": {
@@ -111,7 +157,9 @@
         "desClusterNotCorrelateNode": "La destinazione è un cluster, Instana non è stato in grado di correlare questa chiamata ad alcun nodo specifico.",
         "sourceUnmonitored": "L'origine di questa chiamata non è stata tracciata e di conseguenza non è possibile fornire informazioni sull'origine. Tutte le informazioni relative a questa chiamata visualizzate vengono fornite dalla destinazione.",
         "sourceMonitoredByAnotherProvider": "L'origine di questa chiamata è tracciata da un altro provider di tracciamento distribuito. È possibile trovare ulteriori informazioni sull'origine effettuando una ricerca nell'estensione principale all'interno di tale provider con ID {{foreignParentId}}.",
-        "notMonitored": "Non monitorato da Instana"
+        "notMonitored": "Non monitorato da Instana",
+        "source": "origine ",
+        "destination": "destinazione "
       }
     },
     "tabs": {
@@ -131,7 +179,7 @@
         "largeTraceLink": "Questa traccia è di grandi dimensioni ed il rendering di questa traccia può causare problemi di prestazioni all'interno del browser. È possibile <linkToDocs>scaricare la trace</linkToDocs> per l'ispezione manuale oppure provare il rendering della traccia all'interno del proprio browser. Verrà eseguito il rendering di un sottoinsieme dei componenti per incrementare le prestazioni di questo tentativo.",
         "calls": "Chiamate",
         "logs": "Log",
-        "analyzeLogs": "Visualizza in Analizza ",
+        "analyzeLogs": "Visualizza in Analizza",
         "correspondingMobileAppActivity": "Attività app mobile corrispondente",
         "hideMobileAppInformation": "Nascondi informazioni sull'app mobile",
         "showMobileAppInformation": "Mostra informazioni sull'app mobile",
@@ -183,7 +231,9 @@
         "in": "in",
         "windowLocation": "Posizione finestra",
         "resourceUri": "URI risorsa",
-        "cacheInteraction": "Interazione cache"
+        "cacheInteraction": "Interazione cache",
+        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana non monitora la {{location}} di questa chiamata ",
+        "tags": "Tag"
       },
       "callTree": {
         "expandButtonForRow": "Pulsante Espandi per la riga",
@@ -340,7 +390,7 @@
     "titleParameters": "Parametri",
     "tooltipCloseLogDetails": "Chiudi dettagli log",
     "analyzeLogsLabel": "Analizza log",
-    "similarLogs": "Log simili ",
+    "similarLogs": "Log simili",
     "similarServiceLogs": "Nel contesto del servizio"
   },
   "traceDetails": {
@@ -387,6 +437,7 @@
       "messageToo_many_spans": "La traccia contiene troppe chiamate, può essere visualizzata e scaricata solo parzialmente.",
       "messageMissing_parent_span": "Estensione principale non presente per alcune estensioni di voci in questa traccia durante l'elaborazione.",
       "messageExit_spans_followed_by_intermediate_spans": "Alcune estensioni di uscita sono seguite da estensioni intermedie.",
+      "messageTrace_validation_timeout": "La convalida di traccia è stata ignorata perché ha impiegato troppo tempo per recuperare tutte le estensioni.",
       "thisTraceIsCausedByActivityOnTheMobileApp": "Questa traccia è causata da attività sull'app mobile <linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp>.",
       "thisTraceIsCausedByActivityOnThewebsite": "Questa traccia è causata da attività sul sito Web <linkToWebsite>{{websiteLabel}}</linkToWebsite>."
     }

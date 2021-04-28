@@ -40,9 +40,9 @@
   "pluginName_apmProxy_2": "APM 代理",
   "pluginName_apmProxy": "APM 代理",
   "pluginName_application_plural": "应用程序",
-  "pluginName_application_0": "应用程序(A)",
-  "pluginName_application_1": "应用程序(A)",
-  "pluginName_application_2": "应用程序(A)",
+  "pluginName_application_0": "应用程序",
+  "pluginName_application_1": "应用程序",
+  "pluginName_application_2": "应用程序",
   "pluginName_application": "应用程序",
   "pluginName_availabilityZone_plural": "可用性区域",
   "pluginName_availabilityZone_0": "可用性区域",
@@ -305,9 +305,9 @@
   "pluginName_defaultEntity20_2": "回退",
   "pluginName_defaultEntity20": "回退",
   "pluginName_docker_plural": "Docker 容器",
-  "pluginName_docker_0": "Docker Containers",
-  "pluginName_docker_1": "Docker Containers",
-  "pluginName_docker_2": "Docker Containers",
+  "pluginName_docker_0": "Docker 容器",
+  "pluginName_docker_1": "Docker 容器",
+  "pluginName_docker_2": "Docker 容器",
   "pluginName_docker": "Docker 容器",
   "pluginName_dropwizardApplicationContainer_plural": "Dropwizard 应用程序",
   "pluginName_dropwizardApplicationContainer_0": "Dropwizard 应用程序",
@@ -468,6 +468,11 @@
   "pluginName_httpd": "Apache HTTPd",
   "pluginName_ibmCics": "IBM CICS",
   "pluginName_ibmCics_plural": "IBM CICS",
+  "pluginName_ibmCloudClinicalData_plural": "IBM 临床数据",
+  "pluginName_ibmCloudClinicalData_0": "IBM 临床数据",
+  "pluginName_ibmCloudClinicalData_1": "IBM 临床数据",
+  "pluginName_ibmCloudClinicalData_2": "IBM 临床数据",
+  "pluginName_ibmCloudClinicalData": "IBM 临床数据",
   "pluginName_ibmCloudCloudant_plural": "IBM Cloudant",
   "pluginName_ibmCloudCloudant_0": "IBM Cloudant",
   "pluginName_ibmCloudCloudant_1": "IBM Cloudant",
@@ -593,9 +598,9 @@
   "pluginName_instanaAgent_2": "Instana 代理程序",
   "pluginName_instanaAgent": "Instana 代理程序",
   "pluginName_jBossAsApplicationContainer_plural": "JBoss",
-  "pluginName_jBossAsApplicationContainer_0": "JBoss 服务器",
-  "pluginName_jBossAsApplicationContainer_1": "JBoss 服务器",
-  "pluginName_jBossAsApplicationContainer_2": "JBoss 服务器",
+  "pluginName_jBossAsApplicationContainer_0": "JBoss",
+  "pluginName_jBossAsApplicationContainer_1": "JBoss",
+  "pluginName_jBossAsApplicationContainer_2": "JBoss",
   "pluginName_jBossAsApplicationContainer": "JBoss",
   "pluginName_jbossDataGrid_plural": "JBoss Data Grid",
   "pluginName_jbossDataGrid_0": "JBoss Data Grid",
@@ -1406,10 +1411,10 @@
   "tracingTypeName_imsdb": "IMS DB 调用",
   "tracingTypeName_imsrpcentry": "IMS RCP 调用",
   "tracingTypeName_imsrpcexit": "IMS RCP 调用",
-  "tracingTypeName_jaeger": "呼叫",
+  "tracingTypeName_jaeger": "调用",
   "tracingTypeName_jaeger_plural": "调用次数",
   "tracingTypeName_jaeger_0": "调用次数",
-  "tracingTypeName_jaeger_1": "呼叫",
+  "tracingTypeName_jaeger_1": "调用",
   "tracingTypeName_jaeger_2": "调用次数",
   "tracingTypeName_javahttp": "HTTP 调用",
   "tracingTypeName_javahttp_plural": "HTTP 调用数",
@@ -1741,10 +1746,10 @@
   "tracingTypeName_scalatra_0": "HTTP 调用数",
   "tracingTypeName_scalatra_1": "HTTP 调用",
   "tracingTypeName_scalatra_2": "HTTP 调用数",
-  "tracingTypeName_sdk": "呼叫",
+  "tracingTypeName_sdk": "调用",
   "tracingTypeName_sdk_plural": "调用次数",
   "tracingTypeName_sdk_0": "调用次数",
-  "tracingTypeName_sdk_1": "呼叫",
+  "tracingTypeName_sdk_1": "调用",
   "tracingTypeName_sdk_2": "调用次数",
   "tracingTypeName_sdkbatch": "批处理作业",
   "tracingTypeName_sdkbatch_plural": "批处理作业",
@@ -1997,10 +2002,10 @@
   "tracingTypeName_zfview_0": "Zend 视图",
   "tracingTypeName_zfview_1": "Zend 视图",
   "tracingTypeName_zfview_2": "Zend 视图",
-  "tracingTypeName_zipkin": "呼叫",
+  "tracingTypeName_zipkin": "调用",
   "tracingTypeName_zipkin_plural": "调用次数",
   "tracingTypeName_zipkin_0": "调用次数",
-  "tracingTypeName_zipkin_1": "呼叫",
+  "tracingTypeName_zipkin_1": "调用",
   "tracingTypeName_zipkin_2": "调用次数",
   "tracingCategory": {
     "generic": "通用",
@@ -2368,7 +2373,10 @@
       "consumerCount": "使用者计数",
       "deadLetterQueuesNumber": "死信队列 {{len}}",
       "queuesNumber": "队列 {{len}}",
-      "topicsNumber": "主题 {{len}}"
+      "topicsNumber": "主题 {{len}}",
+      "topic": "主题",
+      "queue": "队列",
+      "dlQueue": "DL 队列"
     },
     "activeMQArtemis": {
       "jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue": "未启用 jmx。您可以通过将代理属性 useJmx 设置为 true，在 activemq 配置中将其启用。",
@@ -2406,7 +2414,8 @@
       "allQueuesMessagesAdded": "添加的所有队列消息数",
       "allQueuesMessagesAcknowledged": "确认的所有队列消息数",
       "allQueuesMessagesExpired": "到期的所有队列消息数",
-      "allQueuesMessagesKilled": "已终止的所有队列消息数"
+      "allQueuesMessagesKilled": "已终止的所有队列消息数",
+      "queue": "队列"
     },
     "aerospike": {
       "aerospike": "Aerospike"
@@ -2790,8 +2799,8 @@
       "infraTabSubscriptInWithAbbrSnapshotId": "<span>in</span><taskIcon /><taskLink><titledTask>{{taskLabel}}</titledTask></taskLink><span> /</span><versionIcon /><span> <titledDefinition>{{definition}}</titledDefinition>:{{taskDefinitionVersion}}</span>",
       "infraTabSubscriptIn": "<span>在 </span>{{taskLabel}} 中<span>/</span><versionIcon /><span> <titledDefinition>{{definition}}</titledDefinition>:{{taskDefinitionVersion}}</span>",
       "infraTabSubscriptInWithSnapshotId": "<span>in</span><taskIcon /><taskLink>{{taskLabel}}</taskLink><span> /</span><versionIcon /><span> <titledDefinition>{{definition}}</titledDefinition>:{{taskDefinitionVersion}}</span>",
-      "infraTabSubscriptOnWithAbbr": "</span> 上的 <span><clusterIcon /><span> <titledSpan>{{clusterArn}}</titledSpan> 在 {{region}}</span> 中",
-      "infraTabSubscriptOnWithAbbrSnapshotId": "</span> 上的 <span><clusterIcon /><span> <titledSpan>{{clusterArn}}</titledSpan> 在<cloudIcon /><regionLink>{{region}}</regionLink></span>",
+      "infraTabSubscriptOnWithAbbr": "<span> 上的 </span><clusterIcon /><span> <titledSpan>{{clusterArn}}</titledSpan> 在 {{region}}</span> 中",
+      "infraTabSubscriptOnWithAbbrSnapshotId": "<span> 上的 </span><clusterIcon /><span> <titledSpan>{{clusterArn}}</titledSpan> 在<cloudIcon /><regionLink>{{region}}</regionLink></span>",
       "infraTabSubscriptOn": "<span> 上的 </span><clusterIcon /><span> {{clusterArn}} 在 {{region}}</span>",
       "infraTabSubscriptOnWithSnapshotId": "<span> 上的 </span><clusterIcon /><span> {{clusterArn}} 位于<cloudIcon /><regionLink>{{region}}</regionLink></span>"
     },
@@ -3022,7 +3031,8 @@
       "headerLambdaFunctionInfo": "Lambda 函数信息",
       "headerServicesLATEST": "服务用于最新",
       "labelVersions": "版本",
-      "descriptionLambda": "您似乎未使用 Instana 代理程序监视此 Lambda。为对应的 AWS 帐户设置 AWS 代理程序是本机 Lambda 跟踪的先决条件。请查看我们的文档，特别是 <installLink>AWS 代理程序安装文档</installLink>."
+      "descriptionLambda": "您似乎未使用 Instana 代理程序监视此 Lambda。为对应的 AWS 帐户设置 AWS 代理程序是本机 Lambda 跟踪的先决条件。请查看我们的文档，特别是 <installLink>AWS 代理程序安装文档</installLink>.",
+      "noVersions": "我们没有有关此 Lambda 函数个别版本的数据。您是否为该 AWS 帐户和区域设置了使用 AWS 代理程序进行监视？请查看我们的文档，特别是 <installLink>AWS 代理程序安装文档</installLink>."
     },
     "awsLambdaVersion": {
       "titleLambdaFunction": "Lambda 函数",
@@ -3036,7 +3046,7 @@
       "subscriptNonId": "版本 {{version}} 函数 {{function}} 区域 {{region}} 中",
       "subscript_FuncId": "函数的版本 {{version}}<functionLink>{{function}}</functionLink> 区域 {{region}}",
       "subscript_RegionId": "区域中函数 {{function}} 的版本 {{version}} <regionLink>{{region}}</regionLink>",
-      "subscript_FuncIdRegionId": "函数的版本 {{version}}<functionLink>{{function}}</functionLink> 在区域 <regionLink>{{region}}</regionLink>"
+      "subscript_FuncIdRegionId": "函数的版本 {{version}}<functionLink>{{function}}</functionLink> 区域 <regionLink>{{region}}</regionLink>"
     },
     "awsMq": {
       "dashboard": {
@@ -3131,7 +3141,9 @@
       "memoryUsage2ndBroker": "MemoryUsage（第 2 个代理程序）",
       "enqueueTime": "EnqueueTime",
       "enqueueTime2ndBroker": "EnqueueTime（第 2 个代理程序）",
-      "producerCCount": "生产者计数"
+      "producerCount": "生产者计数",
+      "queue": "队列",
+      "topic": "主题"
     },
     "awsMskBroker": {
       "dashboard": {
@@ -3708,7 +3720,8 @@
         "labelInMemoryOLTPStorage": "内存中 OLTP 存储器",
         "labelCPULimit": "CPU 限制",
         "labelCPUUsed": "已用 CPU"
-      }
+      },
+      "database": "数据库"
     },
     "azureSqlElasticPool": {
       "infoName": "名称",
@@ -3759,7 +3772,8 @@
         "titleVCore": "vCore",
         "labelCPULimit": "CPU 限制",
         "labelCPUUsed": "已用 CPU"
-      }
+      },
+      "elasticPool": "弹性池"
     },
     "azureSqlServer": {
       "infoName": "名称",
@@ -3964,9 +3978,10 @@
         "titleKeyspaceDetails": "键空间详细信息 {{keyspaceDetails}}"
       },
       "cassandraCluster": "Cassandra 集群",
-      "nodes": "节点",
-      "latency": "延迟",
-      "keyspaces": "键空间"
+      "nodes": "节点数",
+      "latency": "等待时间",
+      "keyspaces": "键空间",
+      "keyspace": "键空间"
     },
     "cassandraNode": {
       "infoVersion": "版本",
@@ -4043,21 +4058,22 @@
         "labelMissRate": "不命中率",
         "titleKeyspace": "键空间",
         "titleReads": "读取",
-        "titleAvgReadLatency": "平均 读等待时间",
+        "titleAvgReadLatency": "平均读取等待时间",
         "titleWrites": "写入",
-        "titleAvgWriteLatency": "平均 写入等待时间",
+        "titleAvgWriteLatency": "平均写入等待时间",
         "titleSSTables": "SSTable 数",
         "titleDiskSize": "磁盘大小",
         "titleKeyspacesCount": "键空间 {{keyspacesCount}}",
         "labelAverageReadLatency": "平均读取等待时间",
         "labelAverageWriteLatency": "平均写入等待时间"
       },
-      "info": "信息性",
-      "topology": "Topology",
+      "info": "信息",
+      "topology": "拓扑",
       "communication": "通信",
       "tokens": "令牌",
-      "latency": "延迟",
-      "keyspaces": "键空间"
+      "latency": "等待时间",
+      "keyspaces": "键空间",
+      "keyspace": "键空间"
     },
     "ceph": {
       "infoProcessID": "进程标识",
@@ -4122,7 +4138,8 @@
       },
       "poolsWithCount": "池 ({{len}})",
       "cephCluster": "Ceph 集群",
-      "pools": "池"
+      "pools": "池",
+      "pool": "池"
     },
     "clickhouseCluster": {
       "indexLabel": "ClickHouse 集群",
@@ -4294,7 +4311,7 @@
       },
       "diegoWithCount": "Diego ({{len}})",
       "cloudFoundry": "CloudFoundry",
-      "info": "信息性"
+      "info": "信息"
     },
     "clrRuntimePlatform": {
       "indexLabel": ".NET",
@@ -4574,13 +4591,13 @@
         "labelInactiveCache": "不活动高速缓存"
       },
       "containerdContainer": "容器化容器",
-      "totalTime": "Total time",
+      "totalTime": "总时间",
       "kernelTime": "内核时间",
       "userTime": "用户时间",
       "cpu": "CPU",
       "throttlingCount": "调速计数",
       "throttlingTime": "调速时间",
-      "memory": "存储器"
+      "memory": "内存"
     },
     "couchbaseCluster": {
       "infoName": "名称",
@@ -4655,7 +4672,8 @@
         "labelItemsPutToDiskQueue": "每秒放入磁盘队列的项数。",
         "labelItemsWrittenToDisk": "每秒写入磁盘的项数。"
       },
-      "couchbaseNode": "Couchbase 节点"
+      "couchbaseNode": "Couchbase 节点",
+      "bucket": "存储区"
     },
     "crio": {
       "getContainerInfo": "获取容器信息",
@@ -4847,7 +4865,8 @@
       "pagesRead": "读取的页数",
       "pagesWritten": "写入的页数",
       "poolReadTime": "池读取时间",
-      "poolWriteTime": "池写入时间"
+      "poolWriteTime": "池写入时间",
+      "Container": "容器"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "每秒全部调用数",
@@ -4878,6 +4897,9 @@
         "total": "总计",
         "kernel": "内核",
         "user": "用户",
+        "totalNormalized": "规范化总数",
+        "kernelNormalized": "内核规范化",
+        "userNormalized": "用户规范化",
         "throttlingCount": "调速计数",
         "throttlingTime": "调速时间",
         "usage": "使用量",
@@ -4900,7 +4922,7 @@
         "dockerContainer": "Docker 容器",
         "ports": "端口",
         "containerLabels": "容器标签",
-        "memory": "存储器",
+        "memory": "内存",
         "memoryLimit": "内存（限制：{{limitBytes}}）"
       },
       "image": "图像",
@@ -4924,6 +4946,9 @@
       "total": "总计",
       "kernel": "内核",
       "user": "用户",
+      "totalNormalized": "规范化总数 [0,100]",
+      "kernelNormalized": "内核规范化 [0,100]",
+      "userNormalized": "用户规范化 [0,100]",
       "cpu": "CPU",
       "throttlingCount": "调速计数",
       "throttlingTime": "调速时间",
@@ -5198,7 +5223,7 @@
     },
     "envoy": {
       "envoy": "Envoy",
-      "pid": "流程标识",
+      "pid": "进程标识",
       "version": "版本",
       "configFilePath": "配置文件",
       "requestsPerSecond": "每秒请求数"
@@ -5269,7 +5294,8 @@
       "totalMemory": "总内存",
       "freeMemory": "可用内存",
       "cpuUsage": "CPU 使用率",
-      "httpRequests": "HTTP 请求数"
+      "httpRequests": "HTTP 请求数",
+      "device": "设备"
     },
     "finagleApplicationContainer": {
       "dashboard": {
@@ -5321,7 +5347,8 @@
       "maxChildren": "最大子项",
       "memory": "内存",
       "resources": "资源",
-      "phpFpm": "PHP-FPM"
+      "phpFpm": "PHP-FPM",
+      "pool": "池"
     },
     "phpRuntimePlatform": {
       "version": "版本",
@@ -5441,7 +5468,9 @@
       "numberOfDeleteRequests": "删除请求数",
       "numberOfExtendedRequests": "扩展请求数",
       "numberOfModifyRequests": "修改请求数",
-      "numberOfSearchRequests": "搜索请求数"
+      "numberOfSearchRequests": "搜索请求数",
+      "database": "数据库",
+      "ldapConnector": "LDAP 连接器"
     },
     "postgreSqlDatabase": {
       "troubleshootingDocs": "故障诊断文档",
@@ -5497,7 +5526,8 @@
       "connection": "连接",
       "replicationDelayInBytes": "复制延迟（以字节计）",
       "replicationDelayInSeconds": "复制延迟（以秒为单位）",
-      "postgreSql": "PostgreSQL"
+      "postgreSql": "PostgreSQL",
+      "database": "数据库"
     },
     "process": {
       "jvmAttachGenericIssueDescription": "主机代理进程无法正确连接至此 Java 虚拟机。因此，将无法跟踪此进程。请参阅主机代理进程日志以获取有关连接失败原因的更多信息。主机代理进程将每隔 10 分钟再次尝试连接到该虚拟机。但是，在成功之前，将不会收集此 JVM 的跟踪和指标。",
@@ -5712,7 +5742,8 @@
       "messagesTotal": "消息总数",
       "totalNumberOfNetworkPartitions": "网络分区总数",
       "messagesAcknowledged": "已确认的消息数",
-      "rabbitMq": "RabbitMQ"
+      "rabbitMq": "RabbitMQ",
+      "queue": "队列"
     },
     "redis": {
       "configCommandNameNotConfigured": "需要配置 Redis CONFIG 命令名称才能收集 Redis 指标。",
@@ -5855,7 +5886,6 @@
       "clusterSize": "集群大小",
       "nodes": "节点数",
       "masterNodes": "主节点",
-      "redis": "Redis",
       "redisCluster": "Redis 集群"
     },
     "redisEnterpriseCluster": {
@@ -5894,7 +5924,6 @@
         "shardsWithCount": "分片 ({{len}})",
         "redisEnterpriseCluster": "Redis Enterprise 集群"
       },
-      "redisEnterprise": "Redis Enterprise",
       "name": "名称",
       "throughputOpsSecond": "吞吐量（操作数/秒）",
       "keyspaceHits": "键空间命中次数",
@@ -6108,7 +6137,8 @@
       "documentsPending": "暂挂的文档",
       "solrEvictions": "Solr 逐出数",
       "startedAt": "开始时间",
-      "solr": "Solr"
+      "solr": "Solr",
+      "core": "内核"
     },
     "solrCloudCluster": {
       "nodes": "节点数",
@@ -6245,7 +6275,8 @@
       "shuffleWritePerSecond": "每秒随机写入数",
       "totalInputBytes": "输入字节总数",
       "totalShuffleRead": "随机读取总数",
-      "totalShuffleWrite": "随机写入总数"
+      "totalShuffleWrite": "随机写入总数",
+      "executorId": "执行程序标识"
     },
     "garden": {
       "cloudFoundry": "Cloud Foundry",
@@ -6827,7 +6858,8 @@
       "memoryAvailable": "可用内存",
       "memoryUsed": "已用内存",
       "virtualCoresAvailable": "可用虚拟核心数",
-      "virtualCoresUsed": "已用的虚拟核心数"
+      "virtualCoresUsed": "已用的虚拟核心数",
+      "node": "节点"
     },
     "hadoopYARNNode": {
       "dashboard": {
@@ -6906,7 +6938,9 @@
       "responseErrors": "响应出错数",
       "connectionRetries": "连接重试次数",
       "deniedResponses": "拒绝的响应数",
-      "reDispatchedRequests": "重新分派的请求数"
+      "reDispatchedRequests": "重新分派的请求数",
+      "frontend": "Frontend",
+      "backend": "后端"
     },
     "haProxy": {
       "dashboard": {
@@ -7244,7 +7278,9 @@
       "vSphere": "vSphere",
       "vm": "虚拟机",
       "esXiHost": "ESXi 主机",
-      "datacenter": "数据中心"
+      "datacenter": "数据中心",
+      "device": "设备",
+      "gpuUuid": "GPU UUID"
     },
     "httpd": {
       "dashboard": {
@@ -7304,6 +7340,17 @@
       "trafficPerRequest": "每个请求的流量",
       "busyWorkers": "繁忙工作程序数"
     },
+    "ibmCloudClinicalData": {
+      "ibmClinicalData": "IBM 临床数据",
+      "ibmCloudClinicalData": "IBM Cloud 临床数据",
+      "kind": "种类",
+      "name": "名称",
+      "labelApiCalls": "API 调用数",
+      "labelCallsCount": "调用次数",
+      "labelRequestSizeBytes": "请求大小",
+      "labelTimeSeconds": "响应时间",
+      "labelZone": "专区"
+    },
     "ibmCloudCloudant": {
       "labelName": "名称",
       "requestActivity": "请求活动",
@@ -7330,7 +7377,7 @@
       "labelDiskIOPSTotal": "磁盘 IOPS R/W 总计",
       "labelDiskTotal": "磁盘总字节数",
       "labelDiskUsed": "磁盘已用的字节数",
-      "labelDiskUsedPercent": "已用磁盘百分比",
+      "labelDiskUsedPercent": "使用的磁盘百分比",
       "labelMemoryLimit": "内存限制字节数",
       "labelMemoryUsed": "已用内存字节数",
       "labelMemoryUsedCount": "已用内存百分比",
@@ -7354,12 +7401,14 @@
       "diskUsedBytes": "磁盘已用的字节数",
       "diskUsedPercent": "使用的磁盘百分比",
       "memoryLimitBytes": "内存限制字节数",
-      "memory": "存储器",
+      "memory": "内存",
       "memoryUsedBytes": "已用内存字节数",
       "memoryUsedPercent": "已用内存百分比",
       "titleMemberCount": "成员计数",
       "labelMembers": "成员计数",
-      "labelZone": "专区"
+      "labelZone": "专区",
+      "labelDisk": "磁盘",
+      "labelMemory": "内存"
     },
     "ibmCloudFunctions": {
       "labelConcurrentInvocations": "并行调用",
@@ -7373,21 +7422,22 @@
       "labelDuration": "持续时间 (ms)",
       "labelStatusSuccess": "成功状态",
       "concurrentInvocations": "并行调用",
-      "action": "活动",
+      "action": "操作",
       "activation": "激活",
-      "duration": "时段",
+      "duration": "持续时间",
       "statusSuccess": "成功状态",
       "ibmFunctions": "IBMFunctions",
       "ibmCloudFunctions": "IBM Cloud Functions",
       "kind": "种类",
       "packageCount": "数据包计数",
       "activationTime": "激活时间",
-      "function": "函数 (Function)",
+      "function": "函数",
       "waitTime": "等待时间",
       "labelWaitTime": "等待时间 (ms)",
       "labelInitTime": "初始化时间 (ms)",
       "labelPackageCount": "数据包计数",
-      "labelZone": "专区"
+      "labelZone": "专区",
+      "labelFunction": "函数"
     },
     "ibmCloudIsLoadBalancer": {
       "labelActiveConnections": "活动连接数",
@@ -7414,7 +7464,7 @@
       "diskUsedBytes": "磁盘已用的字节数",
       "diskUsedPercent": "使用的磁盘百分比",
       "memoryLimitBytes": "内存限制字节数",
-      "memory": "存储器",
+      "memory": "内存",
       "memoryUsedBytes": "已用内存字节数",
       "memoryUsedPercent": "已用内存百分比",
       "labelZone": "专区"
@@ -7427,7 +7477,7 @@
       "labelDiskIOPSTotal": "磁盘 IOPS R/W 总计",
       "labelDiskTotal": "磁盘总字节数",
       "labelDiskUsed": "磁盘已用的字节数",
-      "labelDiskUsedPercent": "已用磁盘百分比",
+      "labelDiskUsedPercent": "使用的磁盘百分比",
       "labelMemoryLimit": "内存限制字节数",
       "labelMemoryUsed": "已用内存字节数",
       "labelMemoryUsedPercent": "已用内存百分比",
@@ -7444,7 +7494,7 @@
       "diskUsedBytes": "磁盘已用的字节数",
       "diskUsedPercent": "使用的磁盘百分比",
       "memoryLimitBytes": "内存限制字节数",
-      "memory": "存储器",
+      "memory": "内存",
       "memoryUsedBytes": "已用内存字节数",
       "memoryUsedPercent": "已用内存百分比",
       "labelZone": "专区"
@@ -7457,7 +7507,8 @@
       "titleObjectCount": "对象计数",
       "titleUsed": "已用大小",
       "labelUsed": "已用大小",
-      "labelZone": "专区"
+      "labelZone": "专区",
+      "labelMemory": "内存"
     },
     "ibmIOs": {
       "sidebar": {
@@ -7468,10 +7519,10 @@
         "restrictedState": "受限状态"
       },
       "dashboard": {
-        "charts" : {
+        "charts": {
           "cpu": {
             "name": "CPU",
-            "rate": "速率"
+            "rate": "比率"
           },
           "cpuUtilization": {
             "name": "CPU 使用率",
@@ -7488,12 +7539,12 @@
           },
           "auxiliaryStoragePool": {
             "name": "辅助存储池",
-            "capacity": "能力",
+            "capacity": "容量",
             "used": "已用"
           },
           "temporaryStorage": {
             "name": "临时存储器",
-            "current": "当前页面",
+            "current": "当前",
             "max": "最大值"
           },
           "threads": {
@@ -7508,17 +7559,17 @@
             "storageUsed": "已用存储容量",
             "storageReserved": "保留的存储容量",
             "storageDefined": "定义的存储容量",
-            "activeThreads": "有效线程数",
+            "activeThreads": "活动线程数",
             "ineligibleThreads": "不合格线程数",
             "maxActiveThreads": "最大活动线程数",
             "charts": {
               "storage": {
-                "storageUsed": "已使用的存储器",
+                "storageUsed": "已用存储容量",
                 "storageReserved": "保留的存储容量",
                 "storageDefined": "定义的存储容量"
               },
               "threads": {
-                "activeThreads": "有效线程数",
+                "activeThreads": "活动线程数",
                 "ineligibleThreads": "不合格线程数",
                 "maxActiveThreads": "最大活动线程数"
               }
@@ -7526,7 +7577,8 @@
           }
         }
       },
-      "name": "Db2 on i"
+      "name": "Db2 on i",
+      "memoryPool": "内存池"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -7753,8 +7805,8 @@
       "labelMemoryUsedPercent": "已用内存百分比",
       "labelNetworkTraffic": "网络流量",
       "labelVolumeUsed": "卷使用",
-      "titleMemory": "存储器",
-      "labelFree": "免费",
+      "titleMemory": "内存",
+      "labelFree": "可用",
       "labelUsed": "已用",
       "labelTotal": "总时间",
       "titleNetwork": "网络",
@@ -7788,8 +7840,8 @@
       "memoryUsedPercentage": "已用内存百分比",
       "networkTrafficBytes": "网络流量（字节）",
       "volumeUsageBytes": "卷使用量（字节）",
-      "memory": "存储器",
-      "free": "免费",
+      "memory": "内存",
+      "free": "可用",
       "used": "已用",
       "total": "总时间",
       "network": "网络",
@@ -7816,7 +7868,11 @@
       "totalObjectCount": "对象总计数 ",
       "totalUsedBytes": "已用字节总数",
       "labelVolumeWriteRequests": "卷写请求",
-      "labelZone": "专区"
+      "labelZone": "专区",
+      "labelCPU": "CPU",
+      "labelMemory": "内存",
+      "labelNetwork": "网络",
+      "labelVolume": "容量"
     },
     "instanaAgent": {
       "dashboard": {
@@ -8007,7 +8063,8 @@
       "labelCoresUsed": "已用核心",
       "labelCoresTotal": "内核总数",
       "labelNumberFailedDrivers": "失败的驱动程序数",
-      "labelNumberFailedApplications": "失败的应用程序数"
+      "labelNumberFailedApplications": "失败的应用程序数",
+      "workerId": "工作程序标识"
     },
     "kafka": {
       "kafkaMonitoringRequiresSslTruststoreLocation": "Kafka 监视功能需要在 Instana 代理程序 <code>configuration.yaml</code> 中为受 TLS 保护的 Kafka 实例配置 <code>sslTruststoreLocation</code> 和 <code>sslTruststorePassword</code>。",
@@ -8149,7 +8206,9 @@
       "consumers": "使用者数",
       "brokersMsgIn": "传入代理消息数",
       "brokersPartitions": "代理分区",
-      "prodLatency": "生产等待时间"
+      "prodLatency": "生产等待时间",
+      "producer": "发起者",
+      "consumer": "使用者"
     },
     "kubernetesCluster": {
       "noActivity": "无活动",
@@ -8212,7 +8271,7 @@
       "numberOfNodes": "节点数",
       "type": "类型",
       "calls": "调用数",
-      "avgLatency": "平均 延迟",
+      "avgLatency": "平均等待时间",
       "errorRate": "错误率",
       "instances": "实例数"
     },
@@ -8464,7 +8523,8 @@
       "connectionsCreated": "已创建的连接",
       "connectionsUsedPercentage": "已用连接百分比",
       "threadPools": "线程池",
-      "threadsUsedPercentage": "已用线程百分比"
+      "threadsUsedPercentage": "已用线程百分比",
+      "datasourceJndi": "数据源 JNDI"
     },
     "jbossDataGrid": {
       "cacheName": "高速缓存 [{{cacheName}}]",
@@ -8544,7 +8604,9 @@
       "globalConnections": "全局连接数",
       "connections": "连接数",
       "cacheStats": "高速缓存统计信息",
-      "threadPools": "线程池"
+      "threadPools": "线程池",
+      "cache": "高速缓存",
+      "cluster": "集群"
     },
     "jenkins": {
       "disabled": "已禁用",
@@ -8577,7 +8639,8 @@
       "jobs": "作业",
       "healthStatusOfRecentBuilds": "最近构建的运行状况",
       "lastBuildEstimatedDuration": "最后一个构建的估算持续时间",
-      "lastBuildTimestamp": "最后一个构建时间戳记"
+      "lastBuildTimestamp": "最后一个构建时间戳记",
+      "job": "作业"
     },
     "jettyApplicationContainer": {
       "jmxModuleIsNotEnabledInJetty": "在 jetty 中未启用 Jmx 模块。请启用该模块以便能够收集数据。可通过将 <code>--module=jmx</code> 添加到 <code>start.ini</code> 来执行该操作。",
@@ -8688,7 +8751,8 @@
       "pools": "池数",
       "maxHeap": "最大堆",
       "heapUsed": "已用堆",
-      "threadDump": "线程转储"
+      "threadDump": "线程转储",
+      "garbageCollector": "垃圾回收器"
     },
     "springbootAppContainer": {
       "titleRequests": "请求数",
@@ -9063,7 +9127,8 @@
       "labelRemoteEndpointsCurrent": "当前远程端点数",
       "labelDataSource": "数据源",
       "labelJMSDestination": "JMS 目标",
-      "labelSAFAgent": "SAF 代理程序"
+      "labelSAFAgent": "SAF 代理程序",
+      "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {
       "titleName": "名称",
@@ -9098,7 +9163,8 @@
       "labelServlet": "Servlet",
       "labelServlets": "Servlet",
       "labelDatasource": "数据源",
-      "labelDatasources": "数据源"
+      "labelDatasources": "数据源",
+      "webSphere": "WebSphere"
     },
     "webSphereLibertyAppContainer": {
       "titleName": "名称",
@@ -9133,7 +9199,8 @@
       "labelServlets": "Servlet",
       "labelPool": "池",
       "infoMonitorFeatureNotEnabled": "似乎未启用监视器功能。请将 monitor-1.0 功能添加到 server.xml，然后检查是否在服务器启动时将 ws-javaagent.jar 作为 -javaagent 加载。",
-      "infoThreadPoolStatesNotAvailable": "线程池统计信息不可用。 当 JMS 功能部件（WASJmsClient-1.1 和 WASJmsServer-1.0）与 server.xml 中的 monitor-1.0 功能部件一起启用时，存在已知问题。线程池统计信息 mbean 被覆盖且不可见。"
+      "infoThreadPoolStatesNotAvailable": "线程池统计信息不可用。 当 JMS 功能部件（WASJmsClient-1.1 和 WASJmsServer-1.0）与 server.xml 中的 monitor-1.0 功能部件一起启用时，存在已知问题。线程池统计信息 mbean 被覆盖且不可见。",
+      "webSphereLiberty": "WebSphere Liberty"
     },
     "zooKeeper": {
       "titleTicks": "刻度标记",
@@ -9486,7 +9553,8 @@
       "bytesReceived": "已接收的字节数",
       "version": "版本",
       "websites": "Web 站点",
-      "request": "请求"
+      "request": "请求",
+      "website": "Web 站点"
     },
     "msSqlDatabase": {
       "connectionsAmpUsers": "连接和用户",
@@ -9548,7 +9616,8 @@
       "processedEevents": "已处理的事件",
       "executionEerrors": "执行错误",
       "fatalEerrors": "致命错误",
-      "averagePprocessingTime": "平均处理时间"
+      "averagePprocessingTime": "平均处理时间",
+      "flow": "流程"
     },
     "netCoreRuntimePlatform": {
       "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "未正确配置此 .NET Core 应用程序的进程环境，以便能够对其进行监视。必须在 .NET Core 进程上设置以下环境变量：<code>{{missing}}</code>。 请参阅文档以了解要设置的正确值。",
@@ -9981,7 +10050,8 @@
       "inactiveUserSessions": "不活动用户会话数",
       "backgroundSessions": "后台会话",
       "tablespaces": "表空间",
-      "dbCpuTime": "数据库 CPU 时间"
+      "dbCpuTime": "数据库 CPU 时间",
+      "tablespace": "表空间"
     },
     "azureCosmosDb": {
       "totalRequests": "请求总数",

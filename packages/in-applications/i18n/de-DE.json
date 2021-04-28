@@ -246,7 +246,10 @@
       "showSyntheticCalls": "Synthetische Aufrufe anzeigen",
       "showInternalCalls": "Interne Aufrufe anzeigen",
       "defaultTurnedOnSynthetic": "Diese Option ist ausgewählt, da Sie synthetische Aufrufe abfragen.",
-      "defaultTurnedOnInternal": "Diese Option ist ausgewählt, da Sie interne Aufrufe abfragen."
+      "defaultTurnedOnInternal": "Diese Option ist ausgewählt, da Sie interne Aufrufe abfragen.",
+      "erroneous_true": "wahr",
+      "erroneous_false": "falsch",
+      "erroneous_Erroneous": "Fehlerhaft"
     },
     "applications": "Anwendungen",
     "services": "Services",

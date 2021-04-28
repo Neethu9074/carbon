@@ -37,7 +37,8 @@
         "classpathHide": "Klassenpfad ausblenden",
         "classpathShow": "Klassenpfad anzeigen"
       },
-      "processStartedTitle": "Gestartet um"
+      "processStartedTitle": "Gestartet um",
+      "tags": "Tags ({{size}})"
   },
 
   "traceDetails": {

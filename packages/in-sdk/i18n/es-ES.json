@@ -9,7 +9,7 @@
   "agentMonitoringAlert_prefix04": "Problema de supervisión",
   "agentMonitoringExplanationLinkLabel": "Documentos de resolución de problemas",
   "agentMonitoringExplanationLinkHref": "https://instana.com/docs/",
-
+  "services": "Servicios",
   "dashboard": {
     "customMetricsV2": {
       "customMetricsContent": "Las métricas ancladas se muestran en una tabla separada sobre las métricas personalizadas. Utilice esta opción para realizar una comparación ad-hoc entre varias métricas personalizadas. Además, puede enviar el enlace a sus compañeros para que puedan ver el mismo conjunto de métricas ancladas.",
@@ -37,7 +37,8 @@
         "classpathHide": "Ocultar classpath",
         "classpathShow": "Mostrar classpath"
       },
-      "processStartedTitle": "Iniciado a las"
+      "processStartedTitle": "Iniciado a las",
+      "tags": "Códigos ({{size}})"
   },
 
   "traceDetails": {
@@ -58,7 +59,10 @@
 
   "tracing": {
     "registryCall": "Llamada",
-    "registryCall_plural": "Llamadas"
+    "registryCall_plural": "Llamadas",
+    "registryCall_0": "Llamadas",
+    "registryCall_1": "Llamadas",
+    "registryCall_2": "Llamadas"
   }
 
 }

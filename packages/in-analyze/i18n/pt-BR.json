@@ -65,7 +65,53 @@
         "showRemainingGroupsAggregatedAsOther": "Mostrar grupos restantes agregados como “Outros“."
       },
       "resultHeader": {
-        "result": "Resultado"
+        "result": "Resultado",
+        "counter_sessionStart": "{{number}} Início da sessão",
+        "counter_sessionStart_plural": "{{number}} Início de sessões",
+        "counter_sessionStart_0": "{{number}} Início de sessões",
+        "counter_sessionStart_1": "{{number}} Início de sessões",
+        "counter_sessionStart_2": "{{number}} Início de sessões",
+        "counter_viewChange": "{{number}} Visualizar transição",
+        "counter_viewChange_plural": "{{number}} Visualizar transições",
+        "counter_viewChange_0": "{{number}} Visualizar transições",
+        "counter_viewChange_1": "{{number}} Visualizar transições",
+        "counter_viewChange_2": "{{number}} Visualizar transições",
+        "counter_httpRequest": "{{number}} solicitação de HTTP",
+        "counter_httpRequest_plural": "{{number}} solicitações de HTTP",
+        "counter_httpRequest_0": "{{number}} solicitações de HTTP",
+        "counter_httpRequest_1": "{{number}} solicitações de HTTP",
+        "counter_httpRequest_2": "{{number}} solicitações de HTTP",
+        "counter_custom": "{{number}} evento customizado",
+        "counter_custom_plural": "{{number}} eventos customizados",
+        "counter_custom_0": "{{number}} eventos customizados",
+        "counter_custom_1": "{{number}} eventos customizados",
+        "counter_custom_2": "{{number}} eventos customizados",
+        "counter_Row": "{{number}} Linha",
+        "counter_Row_plural": "{{number}} Linhas",
+        "counter_Row_0": "{{number}} Linhas",
+        "counter_Row_1": "{{number}} Linhas",
+        "counter_Row_2": "{{number}} Linhas",
+        "counter_Group": "{{number}} Grupo",
+        "counter_Group_plural": "{{number}} Grupos",
+        "counter_Group_0": "{{number}} Grupos",
+        "counter_Group_1": "{{number}} Grupos",
+        "counter_Group_2": "{{number}} Grupos",
+        "counter_event": "{{number}} evento",
+        "counter_event_plural": "{{number}} eventos",
+        "counter_event_0": "{{number}} eventos",
+        "counter_event_1": "{{number}} eventos",
+        "counter_event_2": "{{number}} eventos",
+        "counter_Call": "{{number}} Chamada",
+        "counter_Call_plural": "{{number}} Chamadas",
+        "counter_Call_0": "{{number}} Chamadas",
+        "counter_Call_1": "{{number}} Chamadas",
+        "counter_Call_2": "{{number}} Chamadas",
+        "counter_Trace": "{{number}} Rastreio",
+        "counter_Trace_plural": "{{number}} Rastreios",
+        "counter_Trace_0": "{{number}} Rastreios",
+        "counter_Trace_1": "{{number}} Rastreios",
+        "counter_Trace_2": "{{number}} Rastreios",
+        "loading": "Carregando…"
       }
     },
     "dataSources": {
@@ -111,7 +157,9 @@
         "desClusterNotCorrelateNode": "O destino é um cluster; o Instana não pôde correlacionar esta chamada a nenhum nó específico.",
         "sourceUnmonitored": "A origem desta chamada não foi rastreada e, como resultado, nenhuma informação pode ser fornecida sobre a origem. Todas as informações mostradas sobre esta chamada são fornecidas pelo destino.",
         "sourceMonitoredByAnotherProvider": "A origem desta chamada é rastreada por outro provedor de rastreio distribuído. É possível localizar mais informações sobre a origem procurando o span pai dentro desse provedor com o id {{foreignParentId}}.",
-        "notMonitored": "Não monitorado pelo Instana"
+        "notMonitored": "Não monitorado pelo Instana",
+        "source": "origem",
+        "destination": "destino"
       }
     },
     "tabs": {
@@ -183,7 +231,9 @@
         "in": "entrada",
         "windowLocation": "Local da janela",
         "resourceUri": "URI de recurso",
-        "cacheInteraction": "Interação do cache"
+        "cacheInteraction": "Interação do cache",
+        "instanaDoesNotMonitorTheLocationOfThisCall": "A Instana não monitora o {{location}} desta chamada",
+        "tags": "Tags"
       },
       "callTree": {
         "expandButtonForRow": "Botão Expandir para linha",
@@ -387,6 +437,7 @@
       "messageToo_many_spans": "O rastreio contém muitas chamadas, ele só pode ser parcialmente exibido e transferido por download.",
       "messageMissing_parent_span": "O span pai está ausente para alguns dos spans de entrada neste rastreio durante o processamento.",
       "messageExit_spans_followed_by_intermediate_spans": "Alguns spans de saída são seguidos por spans intermediários.",
+      "messageTrace_validation_timeout": "A validação de rastreio foi ignorada porque demorou demais para buscar todos os spans.",
       "thisTraceIsCausedByActivityOnTheMobileApp": "Esse rastreio é causado por atividade no <linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp> aplicativo móvel.",
       "thisTraceIsCausedByActivityOnThewebsite": "Esse rastreio é causado por atividade no <linkToWebsite>{{websiteLabel}}</linkToWebsite> website."
     }

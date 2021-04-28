@@ -18,7 +18,7 @@
       "gatherInsightsVarUnitsProblems": "收集各单元执行情况的洞察，并确定哪些单元存在问题。",
       "unitList": "单元列表",
       "allowsUnitLevelStability": "允许单元级别的洞察，例如,基础架构和应用程序监视稳定性。",
-      "agents": "代理",
+      "agents": "代理程序",
       "agentDesc": "了解哪个单元的代理出现问题。",
       "pipelines": "管道",
       "acceptor": "接受方",
@@ -39,7 +39,7 @@
       "resilientMapping": "弹性映射",
       "logMonitor": "日志监视",
       "logMonitorDesc": "显示如何写入和读取日志记录数据的仪表板",
-      "logMonitorProcessing": "log-processor（日志处理）",
+      "logMonitorProcessing": "log-processor（日志扩充）",
       "logMonitorProcessingDesc": "log-processor 从 kafka 主题中读取日志，然后为日志扩充内容并写入其他 kafka 主题。",
       "logMonitorWriter": "log-writer（日志并入）",
       "logMonitorWriterDesc": "log-writer 将日志并入 ClickHouse。",
@@ -325,8 +325,12 @@
     },
     "log": {
       "processor": {
-        "name": "log-processor",
+        "title": "log-processor",
         "hostCpuLoad": "主机 CPU 负载",
+        "hostLoad": "主机负载",
+        "host": "主机",
+        "garbageCollection": "垃圾回收",
+        "instances": "log-processor ({{length}})",
         "common": {
           "incoming": "入局通用日志",
           "failIncoming": "入局通用日志失败",
@@ -338,7 +342,7 @@
             "tooOld": "通用日志 Kafka 使用者太旧"
           }
         },
-        "trace" : {
+        "trace": {
           "incoming": "入局跟踪日志",
           "failIncoming": "入局跟踪日志失败",
           "processing": "处理跟踪日志",
@@ -353,16 +357,62 @@
         "failOutgoing": "出局日志失败"
       },
       "writer": {
-        "name": "log-writer",
+        "title": "log-writer",
         "hostCpuLoad": "主机 CPU 负载",
+        "hostLoad": "主机负载",
+        "host": "主机",
+        "garbageCollection": "垃圾回收",
+        "instances": "log-writer ({{length}})",
         "incoming": "入局已处理日志",
         "failIncoming": "入局已处理日志失败",
         "write": "日志批处理写入数",
-        "failWrite": "日志批处理写入失败"
+        "failWrite": "日志批处理写入失败",
+        "clickHouse": {
+          "insert": "ClickHouse 插入数",
+          "failInsert": "ClickHouse 插入失败数",
+          "queryQueueing": "ClickHouse 查询排队",
+          "newlyQueuedCalls": "新排队的 ClickHouse 调用数",
+          "queuedCalls": "已排队的 ClickHouse 调用数",
+          "queryLatency": "ClickHouse 查询等待时间",
+          "queryCalls": "ClickHouse 调用数",
+          "queryLatency50": "ClickHouse 查询等待时间（第 50 个）",
+          "queryLatency99": "ClickHouse 查询等待时间（第 99 个）",
+          "queryErrorRate": "ClickHouse 错误率",
+          "calls": "调用",
+          "mean": "平均值",
+          "50th": "第 50 个",
+          "99th": "第 99 个"
+        }
       },
       "reader": {
-        "name": "log-reader",
-        "hostCpuLoad": "主机 CPU 负载"
+        "title": "log-reader",
+        "hostCpuLoad": "主机 CPU 负载",
+        "hostLoad": "主机负载",
+        "host": "主机",
+        "garbageCollection": "垃圾回收",
+        "instances": "log-reader ({{length}})",
+        "gRPCCalls": "入局 gRPC 调用",
+        "gRPCErrors": "入局 gRPC 错误",
+        "tagReaderClient": {
+          "gRPCCalls": "出局 tag-reader gRPC 调用",
+          "gRPCErrors": "出局 tag-reader gRPC 错误"
+        },
+        "clickHouse": {
+          "select": "ClickHouse 选择数",
+          "failSelect": "ClickHouse 选择失败数",
+          "queryQueueing": "ClickHouse 查询排队",
+          "newlyQueuedCalls": "新排队的 ClickHouse 调用数",
+          "queuedCalls": "已排队的 ClickHouse 调用数",
+          "queryLatency": "ClickHouse 查询等待时间",
+          "queryCalls": "ClickHouse 调用数",
+          "queryLatency50": "ClickHouse 查询等待时间（第 50 个）",
+          "queryLatency99": "ClickHouse 查询等待时间（第 99 个）",
+          "queryErrorRate": "ClickHouse 错误率",
+          "calls": "调用",
+          "mean": "平均值",
+          "50th": "第 50 个",
+          "99th": "第 99 个"
+        }
       }
     },
     "eum": {
@@ -728,7 +778,7 @@
       "tenantUnit": {
         "tenantUnitLabel": "租户单元",
         "home": "主页",
-        "agents": "代理",
+        "agents": "代理程序",
         "application": "应用程序",
         "endUserMonitor": "最终用户监视",
         "entityStatistic": "实体统计信息",
@@ -816,7 +866,7 @@
       "spansClosed": "已关闭的范围",
       "spansFiltered": "已过滤的范围",
       "spansDropped": "已删除的范围",
-      "agents": "代理",
+      "agents": "代理程序",
       "cpuLoad": "CPU 负载",
       "warningCount": "警告计数"
     },
@@ -879,7 +929,7 @@
         "spansClosed": "已关闭的范围",
         "spansFilter": "已过滤的范围",
         "spansDropped": "已删除的范围",
-        "agents": "代理",
+        "agents": "代理程序",
         "sensorTimeConsumed": "传感器耗用时间",
         "errCount": "错误计数",
         "warningCount": "警告计数"

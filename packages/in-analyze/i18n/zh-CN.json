@@ -65,7 +65,53 @@
         "showRemainingGroupsAggregatedAsOther": "显示汇总为“其他”的剩余组。"
       },
       "resultHeader": {
-        "result": "结果"
+        "result": "结果",
+        "counter_sessionStart": "{{number}} 次会话启动",
+        "counter_sessionStart_plural": "{{number}} 次会话启动",
+        "counter_sessionStart_0": "{{number}} 次会话启动",
+        "counter_sessionStart_1": "{{number}} 次会话启动",
+        "counter_sessionStart_2": "{{number}} 次会话启动",
+        "counter_viewChange": "{{number}} 次视图转换",
+        "counter_viewChange_plural": "{{number}} 次视图转换",
+        "counter_viewChange_0": "{{number}} 次视图转换",
+        "counter_viewChange_1": "{{number}} 次视图转换",
+        "counter_viewChange_2": "{{number}} 次视图转换",
+        "counter_httpRequest": "{{number}} 个 HTTP 请求",
+        "counter_httpRequest_plural": "{{number}} 个 HTTP 请求数",
+        "counter_httpRequest_0": "{{number}} 个 HTTP 请求数",
+        "counter_httpRequest_1": "{{number}} 个 HTTP 请求数",
+        "counter_httpRequest_2": "{{number}} 个 HTTP 请求数",
+        "counter_custom": "{{number}} 个定制事件",
+        "counter_custom_plural": "{{number}} 个定制事件数",
+        "counter_custom_0": "{{number}} 个定制事件数",
+        "counter_custom_1": "{{number}} 个定制事件数",
+        "counter_custom_2": "{{number}} 个定制事件数",
+        "counter_Row": "{{number}} 行",
+        "counter_Row_plural": "{{number}} 行",
+        "counter_Row_0": "{{number}} 行",
+        "counter_Row_1": "{{number}} 行",
+        "counter_Row_2": "{{number}} 行",
+        "counter_Group": "{{number}} 个组",
+        "counter_Group_plural": "{{number}} 个组",
+        "counter_Group_0": "{{number}} 个组",
+        "counter_Group_1": "{{number}} 个组",
+        "counter_Group_2": "{{number}} 个组",
+        "counter_event": "{{number}} 个事件",
+        "counter_event_plural": "{{number}} 个事件",
+        "counter_event_0": "{{number}} 个事件",
+        "counter_event_1": "{{number}} 个事件",
+        "counter_event_2": "{{number}} 个事件",
+        "counter_Call": "{{number}} 个调用",
+        "counter_Call_plural": "{{number}} 个调用",
+        "counter_Call_0": "{{number}} 个调用",
+        "counter_Call_1": "{{number}} 个调用",
+        "counter_Call_2": "{{number}} 个调用",
+        "counter_Trace": "{{number}} 个跟踪",
+        "counter_Trace_plural": "{{number}} 个跟踪",
+        "counter_Trace_0": "{{number}} 个跟踪",
+        "counter_Trace_1": "{{number}} 个跟踪",
+        "counter_Trace_2": "{{number}} 个跟踪",
+        "loading": "正在加载..."
       }
     },
     "dataSources": {
@@ -111,7 +157,9 @@
         "desClusterNotCorrelateNode": "目标是集群，Instana 无法将此调用关联到任何特定节点。",
         "sourceUnmonitored": "尚未跟踪此调用的源，因此无法提供有关源的信息。所显示的有关此调用的所有信息均由目标提供。",
         "sourceMonitoredByAnotherProvider": "此调用的源由其他分布式跟踪提供程序跟踪。通过在标识为 {{foreignParentId}} 的提供程序中搜索父跨度，您可以找到有关源的更多信息。",
-        "notMonitored": "未受 Instana 监视"
+        "notMonitored": "未受 Instana 监视",
+        "source": "来源",
+        "destination": "目标"
       }
     },
     "tabs": {
@@ -183,7 +231,9 @@
         "in": "位在",
         "windowLocation": "窗口位置",
         "resourceUri": "资源 URI",
-        "cacheInteraction": "高速缓存交互"
+        "cacheInteraction": "高速缓存交互",
+        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana 不监视此调用的 {{location}}",
+        "tags": "标记"
       },
       "callTree": {
         "expandButtonForRow": "展开行按钮",
@@ -336,7 +386,7 @@
   },
   "logDetails": {
     "title": "日志 ",
-    "titleTags": "TAG",
+    "titleTags": "标记",
     "titleParameters": "参数",
     "tooltipCloseLogDetails": "关闭日志详细信息",
     "analyzeLogsLabel": "分析日志",
@@ -387,6 +437,7 @@
       "messageToo_many_spans": "跟踪包含过多调用，只能部分显示和下载。",
       "messageMissing_parent_span": "处理期间，此跟踪中的某些项跨度缺少父跨度。",
       "messageExit_spans_followed_by_intermediate_spans": "某些出口跨度后跟中间跨度。",
+      "messageTrace_validation_timeout": "已跳过跟踪验证，因为访存所有跨度所需的时间过长。",
       "thisTraceIsCausedByActivityOnTheMobileApp": "此跟踪由 <linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp> 移动应用程序上的活动引起。",
       "thisTraceIsCausedByActivityOnThewebsite": "此跟踪由 <linkToWebsite>{{websiteLabel}}</linkToWebsite> Web 站点上的活动引起。"
     }

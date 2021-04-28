@@ -3,7 +3,7 @@
     "alertHeaderToggleDisableErrorMessage": "Falha ao desativar a configuração de alerta com ID {{alertConfigID}}: {{errorMessage}}",
     "alertHeaderToggleEnableErrorMessage": "Falha ao ativar a configuração de alerta com ID {{alertConfigID}}: {{errorMessage}}",
     "alertHeaderDeleteErrorMessage": "Falha ao remover configuração de alerta com ID {{alertConfigID}}: {{errorMessage}}",
-    "alertHeaderRestoreErrorMessage": "Falha ao restaurar revisão de configuração de alerta com ID {{alertConfigID}} e versão {{alertConfigCreated}}: {{errorMessage}}",
+    "alertHeaderRestoreErrorMessage": "Falha ao restaurar a revisão de configuração de alerta com o ID {{alertConfigID}} e a versão {{alertConfigCreated}}: {{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "Voltar à lista de alertas",
     "alertHeaderAlert": "Alerta",
     "alertHeaderRestoreRevisionTooltip": "Restaurar Revisão {{alertRevision}}",
@@ -23,8 +23,6 @@
     "alertHeaderYouCanOnlyStartOrPause": "Só é possível iniciar ou pausar, mas não editar, essas configurações quando no modo Query Builder 1",
     "alertHistoryListTitle": "Alertas Criados",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alertas Criados ({{totalRepresentedItemCount}})",
-    "alertPropertyInfosLabelWarning": "Aviso",
-    "alertPropertyInfosLabelCritical": "Crítico",
     "alertPropertyInfosLabelTitle": "Título",
     "alertPropertyInfosLabelAlertLevel": "Nível de alerta",
     "alertPropertyInfosLabelTriggersIncident": "Incidente de acionadores",
@@ -94,17 +92,29 @@
     "applications": {
       "newGlobalAlert": "Alerta inteligente global",
       "advanced": {
+        "alertPropertyInsertPlaceholderLabel": "Inserir item temporário",
         "evaluationSwitch": {
           "individual": "Alertas individuais",
           "evaluationTypePERAP": {
-            "selectionText": "Sobre a agregação de todos os Serviços e Terminais selecionados",
+            "selectionText": "para esta Perspectiva de aplicativo",
+            "globalSelectionText": "por Perspectiva de aplicativo",
             "columnText": "agregada",
-            "description": "Alerta sobre a agregação de todos os Serviços e Terminais selecionados"
+            "description": "Alertar individualmente para esta Perspectiva de aplicativo",
+            "globalDescription": "Alertar individualmente por Perspectiva de aplicativo"
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "sobre a agregação por Serviço",
+            "selectionText": "por Serviço para esta Perspectiva de aplicativo",
+            "globalSelectionText": "por Serviço no contexto de cada Perspectiva de aplicativo",
             "columnText": "por Serviço",
-            "description": "Alertar individualmente sobre a agregação por Serviço"
+            "description": "Alertar individualmente por Serviço para esta Perspectiva de aplicativo",
+            "globalDescription": "Alertar individualmente por Serviço no contexto de cada Perspectiva de aplicativo"
+          },
+          "evaluationTypePERAPENDPOINT": {
+            "selectionText": "por Terminal para esta Perspectiva de aplicativo",
+            "globalSelectionText": "por Terminal no contexto de cada Perspectiva de aplicativo",
+            "columnText": "por Terminal",
+            "description": "Alertar individualmente por Terminal para esta Perspectiva de aplicativo",
+            "globalDescription": "Alertar individualmente por Terminal no contexto de cada Perspectiva de aplicativo"
           }
         },
         "inboundOutboundCalls": {
@@ -457,7 +467,11 @@
         "noAlertConfigured": "Nenhum alerta configurado.",
         "alertEntityName": "alerta \"{{entityName}}\"",
         "labelAlertFilters": "Filtros",
-        "numberOfApplicationsSelected": "{{numberApplicationsSelected}} aplicativos selecionados"
+        "labelConfirm": "Confirme",
+        "labelConfirmRemoveConfig": "Tem certeza de que deseja remover a configuração <strong>{{configName}}</strong>?",
+        "labelRemove": "Remover",
+        "numberOfApplicationsSelected": "{{count}} aplicativo selecionado",
+        "numberOfApplicationsSelected_plural": "{{count}} aplicativos selecionados"
       }
     },
     "components": {
@@ -515,6 +529,7 @@
         "timeThresholdConfigOff": "desligado",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Forneça um número >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Forneça um número entre 1% e 100%",
+        "alertPropertiesInsertPlaceholderTooltip": "Inserir item temporário",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "Quando a condição persistir por uma quantidade especificada de tempo",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Toda vez que a condição for acionada uma quantidade especificada de vezes em um intervalo de tempo definido",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "Quando uma determinada quantidade dos meus usuários for impactada",

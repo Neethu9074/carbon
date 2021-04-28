@@ -279,7 +279,9 @@
         "sharemaxValue": "在轴之间共享最大值",
         "auto": "自动"
       },
-      "atLeastOneDatasetIsRequired": "至少需要一个数据集。"
+      "atLeastOneDatasetIsRequired": "至少需要一个数据集。",
+      "errorTitleForConfiguredSliDeletion": "已删除配置的 SLI",
+      "errorDescriptionToConfigureOtherSLI": "请选择另一 SLI 来更新此 SLO 窗口小部件"
     },
     "formCompChart": {
       "colorConfiguratorChart": {

@@ -91,10 +91,16 @@
     "applicationDirectory": "애플리케이션 디렉토리",
     "theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "ECS 기반 Fargate에서 Python에 대한 지원은 Python 애플리케이션과 동일한 방식으로 작동합니다. 다음 지시사항을 따르십시오. ",
     "pythonDocumentation": "Python 문서.",
+    "theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe": "ECS 기반 Fargate에서 Ruby에 대한 지원은 Ruby 애플리케이션과 동일한 방식으로 작동합니다. 다음 지시사항을 따르십시오. ",
+    "rubyDocumentation": "Ruby 문서.",
+
     "supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs": "AWS Fargate에 대한 지원은 ECS(Elastic Container Service)에서 AWS Fargate와 함께 작동하도록 설계되었습니다.",
     "selectYourApplicationRuntime": "애플리케이션 런타임 선택:",
     "awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "Go로 작성된 AWS Lambda 함수는 추적 데이터를 수집하기 위해 수동으로 인스트루먼트해야 합니다. 다음 지시사항을 따르십시오. ",
     "awsLambdaGoDocumentation": "AWS Lambda Go 문서.",
+    "awsLambdaFunctionsWrittenInRubyNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "Ruby로 작성된 AWS Lambda 함수는 추적 데이터를 수집하기 위해 수동으로 인스트루먼트해야 합니다. 다음 지시사항을 따르십시오. ",
+    "awsLambdaRubyDocumentation": "AWS Lambda Ruby 문서.",
+
     "setTheFollowingEnvironmentVariablesInTheEnvironmentVariablesSectionAtAwsLambdaConfigurationPage": "AWS Lambda 구성 페이지의 \"환경 변수\" 섹션에서 다음 환경 변수 설정:",
     "configuringYourAwsLambdaFunction": "AWS Lambda 함수 구성",
     "noteThatTheJava8RuntimeIsNotSupportedCurrentlyOnlySupportedRuntimesAreJava8A12AndJava11": "`java8` 런타임은 지원되지 않습니다. 현재 지원되는 유일한 런타임은 `java8.a12` 및 `java11`입니다.",
@@ -186,11 +192,17 @@
     "installingTheInstanaAgentUsingTheOpenShiftOperatorIsDescribedIn": "사용하여 'prod-eu' 또는 'dev'와 같이 클러스터에 대한",
     "theInstanaOpenShiftDocumentation": "설명적 이름을 제공하려고 합니다.",
     "nameYourOpenShiftCluster": "OpenShift 클러스터 이름 지정",
+    "placeholderReleaseVersionEG001": "릴리스 버전(예: '0.0.1')",
     "theAgentReleaseVersionMustBeAValidSemanticVersion": "에이전트 릴리스 버전은 올바른 시맨틱 버전이어야 합니다.",
+    "placeholderFoundationNameEGProd": "기반 이름(예: 'prod')",
     "theFoundationNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "재단 이름은 문자, 대시 및 밑줄의 조합으로 최대 64자여야 합니다.",
+    "placeholderUaaClientIdEGMyClientId": "UAA 클라이언트 ID(예: 'my-client-id')",
     "theUaaClientIdCannotBeBlank": "UAA 클라이언트 ID는 비워둘 수 없음",
+    "placeholderUaaClientSecretEGMyClientSecret": "UAA 클라이언트 시크릿(예: 'my-client-secret')",
     "theUaaClientSecretCannotBeBlank": "UAA 클라이언트 시크릿은 비워둘 수 없음",
     "supportedStemcells": "지원되는 스템 셀",
+    "ubuntuTrusty": "Ubuntu Trusty",
+    "ubuntuXenial": "Ubuntu Xenial",
     "instanaBoshAgentVersion": "Instana BOSH 에이전트 버전",
     "pleaseProvideTheInstanaBoshReleaseVersionYouWantToUse": "사용할 Instana BOSH 릴리스 버전 제공:",
     "uploadTheInstanaBoshReleasesToTheBoshDirector": "Instana BOSH 릴리스를 BOSH Director에 업로드",
@@ -276,7 +288,8 @@
     "nodejs8": "Node.js 8.x",
     "nodejs10Plus": "Node.js 10.x 이상",
     "python": "Python",
-    "python2and3": "Python 2.7 및 3.x"
+    "python2and3": "Python 2.7 및 3.x",
+    "ruby": "Ruby"
   },
   "baseImg": {
     "glibcLinux": "Linux(glibc 기반",
@@ -298,8 +311,9 @@
   "agentDeployed": "배치된 에이전트",
   "agentsAreReportingDataIsBeingCollected": "에이전트가 보고 중입니다. 데이터가 수집되고 있습니다.",
   "timeToExploreInstana": "Instana에 대해 탐험할 시간입니다!",
-  "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "Instana 인스턴스가 준비되었으며 풍부한 데이터와 함께 가장 잘 작동합니다.",
+  "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "거의 완료되었습니다. Instana 인스턴스를 작성했습니다.",
   "whileWeArePreparingYourInstanaInstance": "Instana 인스턴스를 준비하는 동안,",
   "getReadyToDeployAgentsInYourEnvironment": "사용자 환경에 에이전트를 배치할 준비를 하고 있습니다.",
-  "letSGetSomeAgentsRunning": "일부 에이전트를 실행해 보겠습니다."
+  "letSGetSomeAgentsRunning": "Instana 에이전트 설치를 기다리고 있습니다.",
+  "theFieldCannotBeBlank": "'{{fieldName}}' 필드는 비워둘 수 없음"
 }

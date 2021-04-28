@@ -44,5 +44,6 @@
   "numbersOfProfilesCollected_1": "已收集 {{count}} 個設定檔",
   "numbersOfProfilesCollected_2": "已收集 {{count}} 個設定檔",
   "profilesOfProcessDeepestTechSnapshot": "程序 {{deepestTechSnapshot}} 的設定檔",
-  "noEntityFound": "找不到 {{entityName}}"
+  "noEntityFound": "找不到 {{entityName}}",
+  "hotspots": "{{title}} 熱點"
 }

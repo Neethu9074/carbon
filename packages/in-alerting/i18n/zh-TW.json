@@ -23,8 +23,6 @@
     "alertHeaderYouCanOnlyStartOrPause": "在「查詢建置器 1」模式下，您只能啟動或暫停這些配置，但無法編輯它們",
     "alertHistoryListTitle": "已建立的警示",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "已建立的警示 ({{totalRepresentedItemCount}})",
-    "alertPropertyInfosLabelWarning": "警告",
-    "alertPropertyInfosLabelCritical": "重大",
     "alertPropertyInfosLabelTitle": "標題",
     "alertPropertyInfosLabelAlertLevel": "警示層次",
     "alertPropertyInfosLabelTriggersIncident": "觸發事故",
@@ -94,17 +92,29 @@
     "applications": {
       "newGlobalAlert": "廣域智慧型警示",
       "advanced": {
+        "alertPropertyInsertPlaceholderLabel": "插入位置保留",
         "evaluationSwitch": {
           "individual": "個別警示",
           "evaluationTypePERAP": {
-            "selectionText": "針對所有所選「服務」和「端點」的聚集",
+            "selectionText": "針對此「應用程式視景」",
+            "globalSelectionText": "各「應用程式視景」",
             "columnText": "聚集的",
-            "description": "針對所有所選「服務」和「端點」的聚集發出警示"
+            "description": "針對此「應用程式視景」個別發出警示",
+            "globalDescription": "針對各「應用程式視景」個別發出警示"
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "針對各「服務」的聚集",
+            "selectionText": "針對此「應用程式視景」的各服務",
+            "globalSelectionText": "依每一個「應用程式視景」的環境定義中的服務",
             "columnText": "各服務",
-            "description": "針對各「服務」的聚集個別發出警示"
+            "description": "針對此「應用程式視景」的各服務個別發出警示",
+            "globalDescription": "針對每個「應用程式視景」環境定義中的各服務個別發出警示"
+          },
+          "evaluationTypePERAPENDPOINT": {
+            "selectionText": "針對此應用程式視景的各服務",
+            "globalSelectionText": "每個「應用程式視景」環境定義中的各端點",
+            "columnText": "各端點",
+            "description": "針對此「應用程式視景」的各端點個別發出警示",
+            "globalDescription": "針對每個「應用程式視景」環境定義中的各端點個別發出警示"
           }
         },
         "inboundOutboundCalls": {
@@ -457,7 +467,11 @@
         "noAlertConfigured": "未配置警示。",
         "alertEntityName": "警示 \"{{entityName}}\"",
         "labelAlertFilters": "過濾器",
-        "numberOfApplicationsSelected": "已選取 {{numberApplicationsSelected}} 個應用程式"
+        "labelConfirm": "請確認",
+        "labelConfirmRemoveConfig": "您確定要移除配置 <strong>{{configName}}</strong> 嗎？",
+        "labelRemove": "移除",
+        "numberOfApplicationsSelected": "已選取 {{count}} 個應用程式",
+        "numberOfApplicationsSelected_plural": "已選取 {{count}} 個應用程式"
       }
     },
     "components": {
@@ -515,6 +529,7 @@
         "timeThresholdConfigOff": "關閉",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "請提供大於等於 1 的數字",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "請提供 1% 到 100% 之間的數字",
+        "alertPropertiesInsertPlaceholderTooltip": "插入位置保留",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "當條件持續存在超過指定的時間量時",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "每當條件在定義的時間範圍內觸發次數達到指定的次數時",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "當有特定的使用者數量受到影響時",

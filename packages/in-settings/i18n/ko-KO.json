@@ -35,7 +35,7 @@
     "termsPage3": {
       "heading": "쿠키",
       "introduction": "제품을 사용하는 경우 Instana는 쿠키 및 기타 추적 기술을 사용합니다(\"Cookies\"). 제품이 올바르게 작동하기 위해 필요한 쿠키 외에도 사용자의 환경 설정에 따라, Instana 및 공식 파트너도 쿠키를 사용하여 제품 기능을 분석하고 최적화할 수 있습니다.",
-      "moreInformation": "자세한 정보는 <privacyButton /> 또는 <cookiePolicyButton />을(를) 참조하십시오."
+      "moreInformation": "자세한 정보는 <privacyButton /> 또는 <cookiePolicyButton />."
     },
     "termsPage4": {
       "heading": "프로파일",
@@ -92,11 +92,12 @@
     "clickToDeselect": "선택 취소하려면 클릭하십시오."
   },
   "tabs": {
+    "name": "이름",
     "failedToSaveConfig": "구성을 저장하는 데 실패함: {{err}}",
     "ldapHelpDoc": "도움말 및 지원은 <docLink>문서 페이지</docLink>에서 사용 가능합니다.",
     "testConfiguration": "구성 테스트",
     "failedToDeleteConfig": "구성을 삭제하는 데 실패함: {{err}}",
-    "samlHelpDoc": "빠른 시작 안내서는 <activeDirectoryLink>Active Directory</activeDirectoryLink> 및 <oktaLink>Okta</oktaLink>에 대한 해당 문서 페이지에서 사용 가능합니다.",
+    "samlHelpDoc": "빠른 시작 안내서는 <activeDirectoryLink>Active Directory</activeDirectoryLink> 및 <oktaLink>Okta</oktaLink>.",
     "audienceSpEntityId": "대상/SP 엔티티 ID",
     "configurationMetadata": "구성 메타데이터",
     "useUploadIdPMetadataBelowToDeliverTheFileToInstana": "아래 'IdP 메타데이터 업로드'를 사용하여 Instana에 파일을 전달합니다.",
@@ -107,6 +108,7 @@
     "thePasswordIsStrong": "비밀번호가 안전합니다.",
     "thePasswordIsVeryStrong": "비밀번호가 매우 안전합니다.",
     "failedToChangePassword": "비밀번호를 변경하는 데 실패함: {{err}}",
+    "failedToChangeName": "이름을 변경하는 데 실패함: {{err}}",
     "failedToDeleteTimeouts": "제한시간을 삭제하는 데 실패함: {{err}}",
     "failedToSaveTimeouts": "제한시간을 저장하는 데 실패함: {{err}}",
     "scanTheQrCodeBelow": "계정을 사용하려면 2단계 인증을 사용하여 아래 QR 코드를 스캔하십시오. 코드를 스캔할 수 없는 경우 다음 키를 수동으로 입력하여 계정을 설정할 수도 있습니다. ",
@@ -382,7 +384,9 @@
     "newPassword": "새 비밀번호",
     "repeatPassword": "비밀번호 반복",
     "savingNewPassword": "새 비밀번호 저장",
+    "savingNewName": "새 이름 저장",
     "passwordChanged": "비밀번호가 변경되었습니다.",
+    "nameChanged": "이름이 변경되었습니다.",
     "thePasswordIsNotStrongEnough": "비밀번호가 충분히 안전하지 않습니다.",
     "reset": "재설정",
     "configureSessionSettings": "세션 설정 구성",
@@ -724,6 +728,8 @@
     "setYourPreferencesForThirdPartyServicesBelow": "아래 서드파티 서비스에 대해 환경 설정을 지정하십시오.",
     "userInterface": "사용자 인터페이스",
     "advanced": "고급",
+    "profile": "프로파일",
+    "profileSettings": "프로파일 설정",
     "preferences": "환경 설정",
     "privacy": "개인정보 보호",
     "communication": "통신",

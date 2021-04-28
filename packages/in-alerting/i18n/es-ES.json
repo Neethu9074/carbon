@@ -3,7 +3,7 @@
     "alertHeaderToggleDisableErrorMessage": "No se ha podido inhabilitar la configuración de alertas con el ID {{alertConfigID}}: {{errorMessage}}",
     "alertHeaderToggleEnableErrorMessage": "No se ha podido habilitar la configuración de alertas con el ID {{alertConfigID}}: {{errorMessage}}",
     "alertHeaderDeleteErrorMessage": "No se ha podido eliminar la configuración de alertas con el ID {{alertConfigID}}: {{errorMessage}}",
-    "alertHeaderRestoreErrorMessage": "No se ha podido restaurar la revisión de la configuración de alertas con el ID ${alertConfigID} y versión {{alertConfigCreated}}: {{errorMessage}}",
+    "alertHeaderRestoreErrorMessage": "No se ha podido restaurar la revisión de la configuración de alertas con el ID {{alertConfigID}} y la versión {{alertConfigCreated}}: {{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "Volver a la lista de alertas",
     "alertHeaderAlert": "Alerta",
     "alertHeaderRestoreRevisionTooltip": "Restaurar revisión {{alertRevision}}",
@@ -14,6 +14,7 @@
     "alertHeaderEnableTooltip": " Habilitar",
     "alertHeaderRestoreDeleteTooltip": "Suprimir",
     "alertHeaderEditTooltip": "Editar",
+    "alertHeaderCopyTooltip": "Copiar",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Confírmelo",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "¿Está seguro de que desea eliminar la <strong>\" alerta {{alertConfigName}} \"</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Eliminar",
@@ -22,8 +23,6 @@
     "alertHeaderYouCanOnlyStartOrPause": "Sólo puede iniciar o pausar, pero no puede editar estas configuraciones cuando se está en modalidad de creador de consultas 1",
     "alertHistoryListTitle": "Alertas creadas",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alertas creadas ({{totalRepresentedItemCount}})",
-    "alertPropertyInfosLabelWarning": "Aviso",
-    "alertPropertyInfosLabelCritical": "Crítico",
     "alertPropertyInfosLabelTitle": "Título",
     "alertPropertyInfosLabelAlertLevel": "Nivel de alerta",
     "alertPropertyInfosLabelTriggersIncident": "Incidencia de activadores",
@@ -87,19 +86,35 @@
     "descriptionUnsupportedOperator": "Operador no soportado: {{operator}}"
   },
   "smartAlerts": {
+    "titleNoSmartAlertsConfigured": "No hay alertas inteligentes configuradas",
+    "titleNoSmartAlertsCreated": "No se han creado alertas inteligentes",
+    "titleCopyOf": "(Copia de) {{smartAlertTitle}}",
     "applications": {
+      "newGlobalAlert": "Alerta inteligente global",
       "advanced": {
+        "alertPropertyInsertPlaceholderLabel": "Insertar marcador",
         "evaluationSwitch": {
           "individual": "Alertas individuales",
           "evaluationTypePERAP": {
-            "selectionText": "en la agregación de todos los servicios y puntos finales seleccionados",
+            "selectionText": "para esta perspectiva de aplicación",
+            "globalSelectionText": "por perspectiva de aplicación",
             "columnText": "agregado",
-            "description": "Alertar sobre la agregación de todos los servicios y puntos finales seleccionados"
+            "description": "Alertar de forma individual para esta perspectiva de aplicación",
+            "globalDescription": "Alertar de forma individual por perspectiva de aplicación"
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "en la agregación por servicio",
+            "selectionText": "por servicio para esta perspectiva de aplicación",
+            "globalSelectionText": "por servicio en el contexto de cada perspectiva de aplicación",
             "columnText": "por servicio",
-            "description": "Alertar individualmente sobre la agregación por servicio"
+            "description": "Alertar de forma individual por servicio para esta perspectiva de aplicación",
+            "globalDescription": "Alertar de forma individual por servicio en el contexto de cada perspectiva de aplicación"
+          },
+          "evaluationTypePERAPENDPOINT": {
+            "selectionText": "por punto final para esta perspectiva de aplicación",
+            "globalSelectionText": "por punto final en el contexto de cada perspectiva de aplicación",
+            "columnText": "por punto final",
+            "description": "Alertar de forma individual por punto final para esta perspectiva de aplicación",
+            "globalDescription": "Alertar de forma individual por punto final en el contexto de cada perspectiva de aplicación"
           }
         },
         "inboundOutboundCalls": {
@@ -258,14 +273,18 @@
           "logsDefault_endHigherEqual": "El número de mensajes de registro de llamadas {{levelText}} que acaban con \"{{message}}\" es superior o igual a {{thresholdValue}}.",
           "logsDefault_endLowerThan": "El número de mensajes de registro de llamadas {{levelText}} que acaban con \"{{message}}\" es inferior a {{thresholdValue}}.",
           "logsDefault_endLowerEqual": "El número de mensajes de registro de llamadas {{levelText}} que acaban con \"{{message}}\" es inferior o igual a {{thresholdValue}}.",
-          "statusCode_higherThan": "El número de apariciones del código de estado HTTP {{statusCodeFullText}} es superior a {{thresholdValue}}.",
-          "statusCode_higherEqual": "El número de apariciones del código de estado HTTP {{statusCodeFullText}} es superior o igual a {{thresholdValue}}.",
-          "statusCode_lowerThan": "El número de apariciones del código de estado HTTP {{statusCodeFullText}} es inferior a {{thresholdValue}}.",
-          "statusCode_lowerEqual": "El número de apariciones del código de estado HTTP {{statusCodeFullText}} es inferior o igual a {{thresholdValue}}.",
+          "statusCodeStaticThreshold_higherThan": "El número de apariciones del código de estado HTTP {{statusCodeFullText}} es superior a {{thresholdValue}}.",
+          "statusCodeStaticThreshold_higherEqual": "El número de apariciones del código de estado HTTP {{statusCodeFullText}} es superior o igual a {{thresholdValue}}.",
+          "statusCodeStaticThreshold_lowerThan": "El número de apariciones del código de estado HTTP {{statusCodeFullText}} es inferior a {{thresholdValue}}.",
+          "statusCodeStaticThreshold_lowerEqual": "El número de apariciones del código de estado HTTP {{statusCodeFullText}} es inferior o igual a {{thresholdValue}}.",
+          "statusCodeDefault_higherThan": "El número de apariciones del código de estado HTTP {{statusCodeFullText}}es superior al previsto.",
+          "statusCodeDefault_higherEqual": "El número de apariciones del código de estado HTTP {{statusCodeFullText}} es igual o superior al previsto.",
+          "statusCodeDefault_lowerThan": "El número de apariciones del código de estado HTTP {{statusCodeFullText}}es inferior al previsto.",
+          "statusCodeDefault_lowerEqual": "El número de apariciones del código de estado HTTP {{statusCodeFullText}} es inferior o igual al previsto.",
           "throughputStaticThreshold_higherThan": "El número de llamadas es superior a {{thresholdValue}} llamadas.",
           "throughputStaticThreshold_higherEqual": "El número de llamadas es superior o igual a {{thresholdValue}} llamadas.",
           "throughputStaticThreshold_lowerThan": "El número de llamadas es inferior a {{thresholdValue}} llamadas.",
-          "throughputStaticThreshold_lowerEqual": "low == El número de llamadas es inferior o igual a {{thresholdValue}} llamadas.",
+          "throughputStaticThreshold_lowerEqual": "El número de llamadas es inferior o igual a {{thresholdValue}} llamadas.",
           "throughputDefault_higherThan": "El número de llamadas es superior a lo previsto.",
           "throughputDefault_higherEqual": "El número de llamadas es mayor o igual que lo previsto.",
           "throughputDefault_lowerThan": "El número de llamadas es inferior a lo previsto.",
@@ -291,7 +310,7 @@
         "anyJSErrors": "Cualquier error JS",
         "JSErrors": "Error(es) JS: {{errorMessage}}",
         "HTTPStatusCodes": "Código(s) de estado HTTP: {{statusCode}}",
-        "unsupportedAlertType": "alertType” {{alertType}} no soportado",
+        "unsupportedAlertType": "Tipo de alerta no soportado: {{alertType}}",
         "JSErrorsHaveBeenDetected": "Se han detectado errores JS.",
         "unsupportedOperator": "Operador no soportado: {{operator}}",
         "JSErrorTextEquals": "Se han detectado errores JS iguales a \"{{ruleValue}}\".",
@@ -428,10 +447,31 @@
         "step3Title": "Paso 3: Seleccionar canales de alertas"
       },
       "components": {
+        "createSmartAlert": "Añadir alerta inteligente",
+        "createGlobalSmartAlert": "Añadir alerta inteligente global",
         "provideLogMessageSelectLogMessage": "Seleccionar mensaje de registro",
         "provideLogMessageLogLevel": "Nivel de registro",
         "provideLogMessageErrorMessage": "Mensaje de error",
         "provideStatusCodeStatusCode": "Código de estado"
+      },
+      "inventory": {
+        "noData": "No se ha configurado ninguna alerta inteligente. Pulse el botón que se muestra a continuación para configurar la primera alerta inteligente.",
+        "noPersmissionToCreateGlobalSmartAlert": "No tiene el permiso para configurar alertas inteligentes. Póngase en contacto con el administrador.",
+        "labelGlobalSmartAlertsList": "Alertas inteligentes de aplicación global ({{numberOfAlerts}})",
+        "labelSmartAlertsList": "Alertas inteligentes de aplicación ({{numberOfAlerts}})",
+        "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+        "labelName": "Nombre",
+        "labelActionButtonEdit": "Editar",
+        "labelActionButtonDuplicate": "Duplicar",
+        "labelActionButtonDelete": "Suprimir",
+        "noAlertConfigured": "No hay ninguna alerta configurada.",
+        "alertEntityName": "alerta \"{{entityName}}\"",
+        "labelAlertFilters": "Filtros",
+        "labelConfirm": "Confírmelo",
+        "labelConfirmRemoveConfig": "¿Está seguro de que desea eliminar la configuración <strong>{{configName}}</strong>?",
+        "labelRemove": "Eliminar",
+        "numberOfApplicationsSelected": "{{count}} aplicación seleccionada",
+        "numberOfApplicationsSelected_plural": "{{count}} aplicaciones seleccionadas"
       }
     },
     "components": {
@@ -443,7 +483,15 @@
         "blueprintDescriptionButtonSelect": "Seleccionar",
         "selectAlertChannelButtonTitle": "Seleccionar canales de alerta",
         "selectAlertChannelButton": "Seleccionar canales de alerta",
+        "addChannel": "Añadir {{count}} canal",
+        "addChannel_plural": "Añadir {{count}} canales",
+        "addChannel_0": "Añadir {{count}} canales",
+        "addChannel_1": "Añadir {{count}} canales",
+        "addChannel_2": "Añadir {{count}} canales",
+        "add": "Añadir",
+        "scopeConfigTitleWithApplications": "Seleccionar Aplicaciones/Servicios/Puntos finales",
         "scopeConfigTitle": "Seleccionar servicios/puntos finales",
+        "scopeConfigTitleTooltip": "Mostrar las entidades disponibles durante los últimos 7 días",
         "sortByUserSelectionLabel": "Ordenar por selección de usuario",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Al menos {{count}} usuario y el {{userPercentage}} de usuarios afectados en {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Al menos {{count}} usuarios y el {{userPercentage}} de usuarios afectados en {{formattedTimeWindow}}",
@@ -481,6 +529,7 @@
         "timeThresholdConfigOff": "inactivo",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Proporcione un número >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Proporcione un número entre 1% y 100%",
+        "alertPropertiesInsertPlaceholderTooltip": "Insertar marcador",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "Cuando la condición persiste durante un periodo de tiempo especificado",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Cada vez que la condición se desencadena un número de veces especificado durante un intervalo de tiempo definido",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "Cuando una determinada cantidad de mis usuarios resultan afectados",
@@ -518,7 +567,46 @@
         "Loading": "Cargando…",
         "LoadingServices": "Cargando servicios...",
         "NoServiceInScope": "No hay ningún servicio en el ámbito",
+        "PreviewForAP": "Vista previa de la perspectiva de aplicación:",
         "PreviewForService": "Vista previa para el servicio:"
+      },
+      "alertsHub": {
+        "title": "Concentrador de alertas",
+        "introText": "Bienvenido al concentrador de configuración de alertas. Aquí es donde puede configurar sus expectativas de alertas.",
+        "readMore": "Leer más…",
+        "websites": {
+          "title": "Sitios web",
+          "description0": "Para configurar una alerta, vaya al sitio web en el que desea configurar la alerta y utilice el botón \" Añadir alerta inteligente \" en la parte inferior derecha.",
+          "stats": "Actualmente tiene $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) en $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
+          "alerts": "{{count}} Alerta inteligente de sitio web",
+          "alerts_plural": "{{count}} Alertas inteligentes de sitios web",
+          "websites": "{{count}} Sitio web",
+          "websites_plural": "{{count}} Sitios web",
+          "button0": "Sitios web"
+        },
+        "applications": {
+          "title": "Aplicaciones",
+          "description0": "Sólo puede configurar alertas inteligentes solo para una aplicación específica o configurar alertas inteligentes que cubran varias aplicaciones.",
+          "stats": "Actualmente tiene $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) y $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }).",
+          "gsa": "{{count}} Alerta inteligente global",
+          "gsa_plural": "{{count}} Alertas inteligentes globales",
+          "rsa": "{{count}} Alerta inteligente regular",
+          "rsa_plural": "{{count}} Alertas inteligentes globales",
+          "button0": "Alertas inteligentes"
+        },
+        "infrastructure": {
+          "title": "Infraestructura y plataformas",
+          "description0": "Las alertas para la infraestructura y las plataformas utilizan el flujo de trabajo de 2 pasos.",
+          "description1": "1) Sucesos definidos para condiciones específicas. Puede utilizar nuestros sucesos incluidos o crear sus propios sucesos personalizados.",
+          "description2": "2) A continuación, las alertas le avisan cuando se producen sucesos específicos.",
+          "stats": "Actualmente tiene $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) y $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }).",
+          "events": "{{count}} suceso personalizado",
+          "events_plural": "{{count}} sucesos personalizados",
+          "alerts": "{{count}} Alerta",
+          "alerts_plural": "{{count}} Alertas",
+          "button0": "Alertas",
+          "button1": "Sucesos"
+        }
       },
       "utils": {
         "aggregationTextP25": "25º",
@@ -597,7 +685,7 @@
         "anyJSErrors": "Cualquier error JS",
         "JSErrors": "Error(es) JS: {{errorMessage}}",
         "HTTPStatusCodes": "Código(s) de estado HTTP: {{statusCode}}",
-        "unsupportedAlertType": "alertType” {{alertType}} no soportado",
+        "unsupportedAlertType": "Tipo de alerta no soportado: {{alertType}}",
         "JSErrorsHaveBeenDetected": "Se han detectado errores JS.",
         "unsupportedOperator": "Operador no soportado: {{operator}}",
         "JSErrorTextEquals": "Se han detectado errores JS iguales a \"{{ruleValue}}\".",
@@ -728,7 +816,16 @@
         "stepConfigsStep1Title": "Paso 1: Seleccionar alerta",
         "stepConfigsStep2Title": "Paso 2: Seleccionar ámbito",
         "stepConfigsStep3Title": "Paso 3: Seleccionar canales de alertas"
-      }
+      },
+      "addAlert": "Añadir alerta"
+    },
+    "sortOptions": {
+      "name": "Nombre",
+      "blueprint": "Blueprint",
+      "enabled": "Habilitado",
+      "disabled": "Inhabilitado",
+      "severity": "Gravedad",
+      "created": "Fecha de creación"
     }
   }
 }

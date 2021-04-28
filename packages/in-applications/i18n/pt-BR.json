@@ -246,7 +246,10 @@
       "showSyntheticCalls": "Mostrar chamadas sintéticas",
       "showInternalCalls": "Mostrar chamadas internas",
       "defaultTurnedOnSynthetic": "Esta opção é selecionada uma vez que você consulta chamadas sintéticas.",
-      "defaultTurnedOnInternal": "Esta opção é selecionada uma vez que você consulta chamadas internas."
+      "defaultTurnedOnInternal": "Esta opção é selecionada uma vez que você consulta chamadas internas.",
+      "erroneous_true": "true",
+      "erroneous_false": "false",
+      "erroneous_Erroneous": "Errôneo"
     },
     "applications": "Aplicativos",
     "services": "Serviços",

@@ -9,14 +9,26 @@
     "quickFilterBarLabel": {
       "application": "Aplicación",
       "application_plural": "Aplicaciones",
+      "application_0": "Aplicaciones",
+      "application_1": "Aplicaciones",
+      "application_2": "Aplicaciones",
       "service": "Servicio",
       "service_plural": "Servicios",
+      "service_0": "Servicios",
+      "service_1": "Servicios",
+      "service_2": "Servicios",
       "endpoint": "Punto final",
       "endpoint_plural": "Puntos finales",
       "type": "Tipo",
       "type_plural": "Tipos",
+      "type_0": "Tipos",
+      "type_1": "Tipos",
+      "type_2": "Tipos",
       "technology": "Tecnología",
       "technology_plural": "Tecnologías",
+      "technology_0": "Tecnologías",
+      "technology_1": "Tecnologías",
+      "technology_2": "Tecnologías",
       "latency": "Latencia",
       "erroneous": "Errónea",
       "hiddenCalls": "Llamadas ocultas"
@@ -53,7 +65,53 @@
         "showRemainingGroupsAggregatedAsOther": "Mostrar los grupos agregados restantes como \"Otros\"."
       },
       "resultHeader": {
-        "result": "Resultado"
+        "result": "Resultado",
+        "counter_sessionStart": "{{number}} inicio de sesión",
+        "counter_sessionStart_plural": "{{number}} inicios de sesiones ",
+        "counter_sessionStart_0": "{{number}} inicios de sesiones ",
+        "counter_sessionStart_1": "{{number}} inicio de sesiones ",
+        "counter_sessionStart_2": "{{number}} inicios de sesiones ",
+        "counter_viewChange": "{{number}} transición de vista",
+        "counter_viewChange_plural": "{{number}} transiciones de vista",
+        "counter_viewChange_0": "{{number}} transiciones de vista",
+        "counter_viewChange_1": "{{number}} transiciones de vista",
+        "counter_viewChange_2": "{{number}} transiciones de vista",
+        "counter_httpRequest": "{{number}} solicitud HTTP",
+        "counter_httpRequest_plural": "{{number}} solicitudes HTTP",
+        "counter_httpRequest_0": "{{number}} solicitudes HTTP",
+        "counter_httpRequest_1": "{{number}} solicitudes HTTP",
+        "counter_httpRequest_2": "{{number}} solicitudes HTTP",
+        "counter_custom": "{{number}} suceso personalizado",
+        "counter_custom_plural": "{{number}} sucesos personalizados",
+        "counter_custom_0": "{{number}} sucesos personalizados",
+        "counter_custom_1": "{{number}} sucesos personalizados",
+        "counter_custom_2": "{{number}} sucesos personalizados",
+        "counter_Row": "{{number}} Fila ",
+        "counter_Row_plural": "{{number}} filas",
+        "counter_Row_0": "{{number}} filas",
+        "counter_Row_1": "{{number}} filas",
+        "counter_Row_2": "{{number}} filas",
+        "counter_Group": "{{number}} grupo",
+        "counter_Group_plural": "{{number}} grupos",
+        "counter_Group_0": "{{number}} grupos",
+        "counter_Group_1": "{{number}} grupos",
+        "counter_Group_2": "{{number}} grupos",
+        "counter_event": "{{number}} suceso",
+        "counter_event_plural": "{{number}} sucesos",
+        "counter_event_0": "{{number}} sucesos",
+        "counter_event_1": "{{number}} sucesos",
+        "counter_event_2": "{{number}} sucesos",
+        "counter_Call": "{{number}} llamada",
+        "counter_Call_plural": "{{number}} llamadas",
+        "counter_Call_0": "{{number}} llamadas",
+        "counter_Call_1": "{{number}} llamadas",
+        "counter_Call_2": "{{number}} llamadas",
+        "counter_Trace": "{{number}} rastreo",
+        "counter_Trace_plural": "{{number}} rastreos ",
+        "counter_Trace_0": "{{number}} rastreos ",
+        "counter_Trace_1": "{{number}} rastreos ",
+        "counter_Trace_2": "{{number}} rastreos ",
+        "loading": "Cargando…"
       }
     },
     "dataSources": {
@@ -99,7 +157,9 @@
         "desClusterNotCorrelateNode": "El destino es un clúster; Instana no ha podido correlacionar esta llamada con ningún nodo específico.",
         "sourceUnmonitored": "No se ha rastreado el origen de esta llamada y, como resultado, no se puede proporcionar información sobre el origen. El destino ha proporcionado toda la información mostrada sobre esta llamada.",
         "sourceMonitoredByAnotherProvider": "Otro proveedor de rastreo distribuido ha rastreado el origen de esta llamada. Puede encontrar más información sobre el origen realizando una búsqueda en el espacio padre de este proveedor con el ID {{foreignParentId}}.",
-        "notMonitored": "No supervisado por Instana"
+        "notMonitored": "No supervisado por Instana",
+        "source": "origen",
+        "destination": "destino"
       }
     },
     "tabs": {
@@ -118,6 +178,8 @@
         "largeTrace": "Rastreo de gran tamaño",
         "largeTraceLink": "Este es un rastreo de gran tamaño y la representación de este rastreo puede generar problemas de rendimiento en su navegador. Puede <linkToDocs>descargar el rastreo</linkToDocs> para realizar una inspección manual o para intentar visualizar el rastreo en el navegador. Sólo se visualizará un subconjunto de los componentes para mejorar el rendimiento durante este intento.",
         "calls": "Llamadas",
+        "logs": "Registros",
+        "analyzeLogs": "Ver en análisis",
         "correspondingMobileAppActivity": "Actividad de aplicación móvil correspondiente",
         "hideMobileAppInformation": "Ocultar información de aplicación móvil",
         "showMobileAppInformation": "Mostrar información de aplicación móvil",
@@ -169,7 +231,9 @@
         "in": "en",
         "windowLocation": "Ubicación de ventana",
         "resourceUri": "URI de recurso",
-        "cacheInteraction": "Interacción de memoria caché"
+        "cacheInteraction": "Interacción de memoria caché",
+        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana no supervisa la {{location}} de esta llamada ",
+        "tags": "Códigos"
       },
       "callTree": {
         "expandButtonForRow": "Ampliar botón para fila",
@@ -237,8 +301,7 @@
     "labelKeyPairENDS_WITH": "termina por"
   },
   "analyzeHeader": {
-    "title": "Analíticas",
-    "learnNewUI": "Obtenga información sobre la nueva interfaz de usuario."
+    "title": "Analíticas"
   },
   "editTagFilterDialog": {
     "dialogTitleEdit": "Editar filtro",
@@ -321,6 +384,15 @@
       }
     }
   },
+  "logDetails": {
+    "title": "Registro",
+    "titleTags": "Códigos",
+    "titleParameters": "Parámetros",
+    "tooltipCloseLogDetails": "Cerrar detalles del registro",
+    "analyzeLogsLabel": "Analizar registros",
+    "similarLogs": "Registros similares",
+    "similarServiceLogs": "En el contexto del servicio"
+  },
   "traceDetails": {
     "titleAnalytics": "Analíticas",
     "titleTrace": "Rastreo",
@@ -337,19 +409,20 @@
     "buttonTechnology": "Tecnología",
     "appNavigatorSplitScreen": {
       "tooltipViewPrevious": "Ver {{viewType}} anterior (acceso directo: tecla de flecha izquierda)",
-      "tooltipViewNext": "Ver {{viewType}} siguiente (acceso directo: tecla de flecha izquierda)",
+      "tooltipViewNext": "Ver siguiente {{viewType}} (acceso directo: flecha derecha)",
       "tooltipCloseSidebar": "Cerrar barra lateral",
       "tooltipOpenSidebar": "Abrir barra lateral"
     },
     "callDetails": {
       "tooltipCloseCallDetails": "Cerrar detalles de llamada"
     },
+
     "callTimeAxis": {
       "started": "Iniciado: {{startedTime}}"
     },
     "navigatorSplitScreen": {
       "tooltipViewPrevious": "Ver {{viewType}} anterior (acceso directo: tecla de flecha izquierda)",
-      "tooltipViewNext": "Ver {{viewType}} siguiente (acceso directo: tecla de flecha izquierda)",
+      "tooltipViewNext": "Ver siguiente {{viewType}} (acceso directo: flecha derecha)",
       "tooltipCloseSidebar": "Cerrar barra lateral",
       "tooltipOpenSidebar": "Abrir barra lateral"
     }
@@ -364,6 +437,7 @@
       "messageToo_many_spans": "El rastreo contiene demasiadas llamadas, sólo se puede visualizar y descargar parcialmente.",
       "messageMissing_parent_span": "En este rastreo falta el span padre en algunos spans de entrada de entrada durante el proceso.",
       "messageExit_spans_followed_by_intermediate_spans": "Algunos spans de salida van seguidos de spans intermedios.",
+      "messageTrace_validation_timeout": "La validación de rastreo se ha omitido porque ha tardado demasiado tiempo en capturar todos los intervalos.",
       "thisTraceIsCausedByActivityOnTheMobileApp": "Este rastreo lo genera la actividad en la aplicación móvil <linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp> .",
       "thisTraceIsCausedByActivityOnThewebsite": "Este rastreo lo genera la actividad el sitio web <linkToWebsite>{{websiteLabel}}</linkToWebsite> ."
     }
@@ -398,6 +472,7 @@
       "clearFilters": "Borrar filtros",
       "loadingSuggestions": "Cargando sugerencias...",
       "operator": "Operador",
+      "key": "Clave",
       "value": "Valor",
       "addFilter": "Añadir filtro",
       "equalTo": "igual a",

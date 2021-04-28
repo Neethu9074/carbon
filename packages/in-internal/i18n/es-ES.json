@@ -37,6 +37,14 @@
       "queryPerformance": "Rendimiento de consultas",
       "callExtraction": "Extracción de llamadas",
       "resilientMapping": "Correlación resiliente",
+      "logMonitor": "Supervisión del registro",
+      "logMonitorDesc": "Paneles de control que muestran cómo se escriben y leen los datos del registro.",
+      "logMonitorProcessing": "log-processor (mejora de registros)",
+      "logMonitorProcessingDesc": "log-processor lee los registros de los temas de kafka y los mejora y graba en otros tema de kafka.",
+      "logMonitorWriter": "log-writer (ingestión del registro)",
+      "logMonitorWriterDesc": "log-writer realiza la ingestión del registro en ClickHouse.",
+      "logMonitorReader": "log-reader (consulta del registro)",
+      "logMonitorReaderDesc": "log-reader consulta los registros de ClickHouse.",
       "infrastructureMetrics": "Métricas de la infraestructura",
       "infrastructureMetricsDesc": "Información sobre la interconexión de métrica de la infraestructura.",
       "fillerMetricExtraction": "Rellenos (extracción de métricas)",
@@ -314,6 +322,98 @@
       "createInsertHourlyPayloadRollupsMean": "Crear e insertar resúmenes de carga útil por hora (media)",
       "createInsertHourlyPayloadRollups50": "Crear e insertar resúmenes de carga útil por hora (50)",
       "createInsertHourlyPayloadRollups99": "Crear e insertar resúmenes de carga útil por hora (99)"
+    },
+    "log": {
+      "processor": {
+        "title": "log-processor",
+        "hostCpuLoad": "Carga de CPU de host",
+        "hostLoad": "Carga del host",
+        "host": "Host",
+        "garbageCollection": "Recogida de basura",
+        "instances": "log-processors ({{length}})",
+        "common": {
+          "incoming": "Registros comunes entrantes",
+          "failIncoming": "Registros comunes entrantes fallidos",
+          "processing": "Proceso de registros comunes",
+          "failProcessing": "Proceso de registros comunes fallidos",
+          "kafkaConsumer": {
+            "availableCapacity": "Capacidad disponible del consumidor de registros comunes de Kafka",
+            "emptyPolls": "Sondeos vacíos del consumidor de registros comunes de Kafka",
+            "tooOld": "Consumidor de registros comunes de Kafka demasiado antiguo"
+          }
+        },
+        "trace": {
+          "incoming": "Registros de rastreo entrantes",
+          "failIncoming": "Registros de rastreo de entrada fallidos",
+          "processing": "Proceso de registros de rastreo",
+          "failProcessing": "Proceso de registros de rastreo fallido",
+          "kafkaConsumer": {
+            "availableCapacity": "Capacidad disponible del consumidor de registros de rastreo de Kafka",
+            "emptyPolls": "Sondeos vacíos del consumidor de registros de rastreo de Kafka",
+            "tooOld": "Consumidor de registros de rastreo de Kafka demasiado antiguo"
+          }
+        },
+        "outgoing": "Registros salientes",
+        "failOutgoing": "Registros salientes fallidos"
+      },
+      "writer": {
+        "title": "log-writer",
+        "hostCpuLoad": "Carga de CPU de host",
+        "hostLoad": "Carga del host",
+        "host": "Host",
+        "garbageCollection": "Recogida de basura",
+        "instances": "log-writers ({{length}})",
+        "incoming": "Registros procesados entrantes",
+        "failIncoming": "Registros procesados entrantes fallidos",
+        "write": "Escrituras por lotes del registro",
+        "failWrite": "Fallos de escrituras por lotes del registro",
+        "clickHouse": {
+          "insert": "Inserciones de ClickHouse",
+          "failInsert": "Fallos de inserciones de ClickHouse",
+          "queryQueueing": "Consultas de ClickHouse en cola",
+          "newlyQueuedCalls": "Llamadas de ClickHouse puestas en cola recientemente",
+          "queuedCalls": "Llamadas en cola de ClickHouse",
+          "queryLatency": "Latencia de consultas de ClickHouse",
+          "queryCalls": "Llamadas de ClickHouse",
+          "queryLatency50": "Latencia de consultas de ClickHouse (50)",
+          "queryLatency99": "Latencia de consultas de ClickHouse (99)",
+          "queryErrorRate": "Tasa de errores de ClickHouse",
+          "calls": "Llamadas",
+          "mean": "media",
+          "50th": "50º",
+          "99th": "99º"
+        }
+      },
+      "reader": {
+        "title": "log-reader",
+        "hostCpuLoad": "Carga de CPU de host",
+        "hostLoad": "Carga del host",
+        "host": "Host",
+        "garbageCollection": "Recogida de basura",
+        "instances": "log-readers ({{length}})",
+        "gRPCCalls": "Llamadas de gRPC entrantes",
+        "gRPCErrors": "Errores de GRPC entrantes",
+        "tagReaderClient": {
+          "gRPCCalls": "Llamadas de gRPC de tag-reader salientes",
+          "gRPCErrors": "Errores de gRPC de tag-reader salientes"
+        },
+        "clickHouse": {
+          "select": "Selecciones de ClickHouse",
+          "failSelect": "Fallos de selecciones de ClickHouse",
+          "queryQueueing": "Consultas de ClickHouse en cola",
+          "newlyQueuedCalls": "Llamadas de ClickHouse puestas en cola recientemente",
+          "queuedCalls": "Llamadas en cola de ClickHouse",
+          "queryLatency": "Latencia de consultas de ClickHouse",
+          "queryCalls": "Llamadas de ClickHouse",
+          "queryLatency50": "Latencia de consultas de ClickHouse (50)",
+          "queryLatency99": "Latencia de consultas de ClickHouse (99)",
+          "queryErrorRate": "Tasa de errores de ClickHouse",
+          "calls": "Llamadas",
+          "mean": "media",
+          "50th": "50º",
+          "99th": "99º"
+        }
+      }
     },
     "eum": {
       "appDataWriter": {

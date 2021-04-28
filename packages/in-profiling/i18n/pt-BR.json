@@ -44,5 +44,6 @@
   "numbersOfProfilesCollected_1": "{{count}} perfil coletado",
   "numbersOfProfilesCollected_2": "{{count}} perfis coletados",
   "profilesOfProcessDeepestTechSnapshot": "Perfis de processo {{deepestTechSnapshot}}",
-  "noEntityFound": "Nenhum {{entityName}} localizado"
+  "noEntityFound": "Nenhum {{entityName}} localizado",
+  "hotspots": "{{title}} Pontos de acesso"
 }

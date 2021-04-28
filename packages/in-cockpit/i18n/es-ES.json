@@ -1,81 +1,101 @@
 {
   "component": {
     "applTopList": {
-      "openCreationDialog":"Abrir diálogo de creación",
-      "allApps":"Todas las aplicaciones",
-      "errCallRate":"Tasa de llamadas erróneas",
-      "latency":"Latencia",
-      "calls":"Llamadas",
-      "newAppPerspect":"Nueva perspectiva de aplicación"
+      "openCreationDialog": "Abrir diálogo de creación",
+      "allApps": "Todas las aplicaciones",
+      "errCallRate": "Tasa de llamadas erróneas",
+      "latency": "Latencia",
+      "calls": "Llamadas",
+      "newAppPerspect": "Nueva perspectiva de aplicación"
     },
     "eventChartCard": {
-      "allEvents":"Todos los sucesos",
-      "incidents":"Incidencias",
-      "critical":"Crítico",
-      "warning":"Aviso",
-      "viewEvents":"Ver sucesos"
+      "allEvents": "Todos los sucesos",
+      "incidents": "Incidencias",
+      "critical": "Crítico",
+      "warning": "Aviso",
+      "viewEvents": "Ver sucesos"
     },
     "infrastructureTopList": {
-      "allHosts":"Todos los hosts",
-      "allContainers":"Todos los contenedores",
-      "allProcesses":"Todos los procesos"
+      "allHosts": "Todos los hosts",
+      "allContainers": "Todos los contenedores",
+      "allProcesses": "Todos los procesos",
+      "hosts": "Hosts",
+      "containers": "Contenedores",
+      "processes": "Procesos"
     },
     "platformsTopList": {
-      "esXiHosts":"Host ESXi",
-      "nodes":"Nodos",
-      "vMs":"Máquinas virtuales",
-      "instances":"Instancias",
-      "namespaces":"Espacios de nombres",
-      "cpuUsage":"Uso de CPU",
-      "memoryLimit":"Límite de memoria",
-      "pods":"Pods",
-      "memoryUsage":"Uso de memoria",
-      "cloudFoundryApplication":"Aplicación Cloud Foundry",
-      "vSphereDatacenter":"vSphere Datacenter"
+      "esXiHosts": "Host ESXi",
+      "nodes": "Nodos",
+      "vMs": "Máquinas virtuales",
+      "instances": "Instancias",
+      "namespaces": "Espacios de nombres",
+      "cpuUsage": "Uso de CPU",
+      "memoryLimit": "Límite de memoria",
+      "pods": "Pods",
+      "memoryUsage": "Uso de memoria",
+      "cloudFoundryApplication": "Aplicación Cloud Foundry",
+      "vSphereDatacenter": "vSphere Datacenter",
+      "clusterSubTitle": "Clúster {{clusterDistribution}}, {{count}} Nodo, {{numberOfPods}}",
+      "clusterSubTitle_plural": "Clúster {{clusterDistribution}}, {{count}} Nodos, {{numberOfPods}}",
+      "clusterSubTitle_0": "Clúster {{clusterDistribution}}, {{count}} Nodos, {{numberOfPods}}",
+      "clusterSubTitle_1": "Clúster {{clusterDistribution}}, {{count}} Nodos, {{numberOfPods}}",
+      "clusterSubTitle_2": "Clúster {{clusterDistribution}}, {{count}} Nodos, {{numberOfPods}}",
+      "numberOfPods": "{{count}} Pod",
+      "numberOfPods_plural": "{{count}} Pods",
+      "numberOfPods_0": "{{count}} Pods",
+      "numberOfPods_1": "{{count}} Pods",
+      "numberOfPods_2": "{{count}} Pods"
     },
     "websiteMobileTopList": {
-      "addWebsite":"Añadir sitio web",
-      "addMobileApp":"Añadir aplicación móvil",
-      "allWebsites":"Todos los sitios web",
-      "allMobileApps":"Todas las aplicaciones móviles",
-      "allWebsitesMobileApps":"Todos los sitios web y aplicaciones móviles",
-      "pageViews":"Vistas de página",
-      "sessions":"Sesiones",
-      "onLoadTime":"Tiempo de carga",
-      "views":"Vistas",
-      "website":"Sitio web",
-      "mobileApp":"Aplicación móvil"
+      "addWebsite": "Añadir sitio web",
+      "addMobileApp": "Añadir aplicación móvil",
+      "allWebsites": "Todos los sitios web",
+      "allMobileApps": "Todas las aplicaciones móviles",
+      "allWebsitesMobileApps": "Todos los sitios web y aplicaciones móviles",
+      "pageViews": "Vistas de página",
+      "sessions": "Sesiones",
+      "onLoadTime": "Tiempo de carga",
+      "views": "Vistas",
+      "website": "Sitio web",
+      "mobileApp": "Aplicación móvil"
+    },
+    "openIncidentsButton": {
+      "numberOfIncidents": "{{count}} Incidencia",
+      "numberOfIncidents_plural": "{{count}} Incidencias",
+      "numberOfIncidents_0": "{{count}} Incidencias",
+      "numberOfIncidents_1": "{{count}} Incidencias",
+      "numberOfIncidents_2": "{{count}} Incidencias"
     }
   },
   "cockpit": {
     "deployAgent": "Desplegar agente",
-    "applications":"Aplicaciones",
-    "infrastructure":"Infraestructura",
-    "events":"Sucesos",
-    "home":"Inicio",
-    "addUser":"Añadir usuario",
-    "platforms":"Plataformas",
-    "cloudFoundry":"Cloud Foundry",
-    "websites":"Sitios web",
-    "mobileApps":"Aplicaciones móviles",
-    "websitesMobileApps":"Sitios web y aplicaciones móviles"
+    "applications": "Aplicaciones",
+    "infrastructure": "Infraestructura",
+    "events": "Sucesos",
+    "home": "Inicio",
+    "addUser": "Añadir usuario",
+    "platforms": "Plataformas",
+    "cloudFoundry": "Cloud Foundry",
+    "websites": "Sitios web",
+    "mobileApps": "Aplicaciones móviles",
+    "websitesMobileApps": "Sitios web y aplicaciones móviles"
   },
   "widgets": {
     "columnDefinitions": {
-      "numCpU":"Núm. de CPU",
-      "cpuUsage":"Uso de CPU",
-      "created":"Creado",
-      "started":"Iniciado",
-      "os":"SO"
+      "numCpU": "Núm. de CPU",
+      "cpuUsage": "Uso de CPU",
+      "created": "Creado",
+      "started": "Iniciado",
+      "os": "SO"
     },
     "topListWidget": {
-      "noLabelYet":"Sin {{nolabel}} todavía"
+      "noLabelYet": "Sin {{nolabel}} todavía"
     },
     "websites": {
       "noData": "Comience a supervisar sitios web para comprender mejor cómo el rendimiento del sitio web afecta a la experiencia de usuario. ¡La configuración es sencilla!",
-      "createWebsite":"Crear sitio web",
-      "createMobileApp":"Crear aplicación móvil",
-      "noLabelYet":"Sin {{nolabel}} todavía"
+      "createWebsite": "Crear sitio web",
+      "createMobileApp": "Crear aplicación móvil",
+      "noLabelYet": "Sin {{nolabel}} todavía"
     }
   }
 }

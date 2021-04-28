@@ -279,7 +279,9 @@
         "sharemaxValue": "Partager les valeurs maximum entre les axes",
         "auto": "Auto"
       },
-      "atLeastOneDatasetIsRequired": "Au moins un ensemble de données est requis."
+      "atLeastOneDatasetIsRequired": "Au moins un ensemble de données est requis.",
+      "errorTitleForConfiguredSliDeletion": "La SLI configurée a été supprimée",
+      "errorDescriptionToConfigureOtherSLI": "Veuillez mettre à jour le widget SLO en sélectionnant une autre SLI"
     },
     "formCompChart": {
       "colorConfiguratorChart": {

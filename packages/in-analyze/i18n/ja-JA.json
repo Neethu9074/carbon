@@ -65,7 +65,53 @@
         "showRemainingGroupsAggregatedAsOther": "「その他」として集約された残りのグループを表示します。"
       },
       "resultHeader": {
-        "result": "結果"
+        "result": "結果",
+        "counter_sessionStart": "{{number}} 件のセッション開始",
+        "counter_sessionStart_plural": "{{number}} 個のセッションが開始されました",
+        "counter_sessionStart_0": "{{number}} 個のセッションが開始されました",
+        "counter_sessionStart_1": "{{number}} 個のセッションが開始されました",
+        "counter_sessionStart_2": "{{number}} 個のセッションが開始されました",
+        "counter_viewChange": "{{number}} 件の遷移の表示",
+        "counter_viewChange_plural": "{{number}} 件の遷移の表示",
+        "counter_viewChange_0": "{{number}} 件の遷移の表示",
+        "counter_viewChange_1": "{{number}} 件の遷移の表示",
+        "counter_viewChange_2": "{{number}} 件の遷移の表示",
+        "counter_httpRequest": "{{number}} 件の HTTP 要求",
+        "counter_httpRequest_plural": "{{number}} 件の HTTP 要求",
+        "counter_httpRequest_0": "{{number}} 件の HTTP 要求",
+        "counter_httpRequest_1": "{{number}} 件の HTTP 要求",
+        "counter_httpRequest_2": "{{number}} 件の HTTP 要求",
+        "counter_custom": "{{number}} 件のカスタム・イベント",
+        "counter_custom_plural": "{{number}} 件のカスタム・イベント",
+        "counter_custom_0": "{{number}} 件のカスタム・イベント",
+        "counter_custom_1": "{{number}} 件のカスタム・イベント",
+        "counter_custom_2": "{{number}} 件のカスタム・イベント",
+        "counter_Row": "{{number}} 行",
+        "counter_Row_plural": "{{number}} 行",
+        "counter_Row_0": "{{number}} 行",
+        "counter_Row_1": "{{number}} 行",
+        "counter_Row_2": "{{number}} 行",
+        "counter_Group": "{{number}} 個のグループ",
+        "counter_Group_plural": "{{number}} 個のグループ",
+        "counter_Group_0": "{{number}} 個のグループ",
+        "counter_Group_1": "{{number}} 個のグループ",
+        "counter_Group_2": "{{number}} 個のグループ",
+        "counter_event": "{{number}} 個のイベント",
+        "counter_event_plural": "{{number}} 個のイベント",
+        "counter_event_0": "{{number}} 個のイベント",
+        "counter_event_1": "{{number}} 個のイベント",
+        "counter_event_2": "{{number}} 個のイベント",
+        "counter_Call": "{{number}} 回の呼び出し",
+        "counter_Call_plural": "{{number}} 回の呼び出し",
+        "counter_Call_0": "{{number}} 回の呼び出し",
+        "counter_Call_1": "{{number}} 回の呼び出し",
+        "counter_Call_2": "{{number}} 回の呼び出し",
+        "counter_Trace": "{{number}} 個のトレース",
+        "counter_Trace_plural": "{{number}} 個のトレース",
+        "counter_Trace_0": "{{number}} 個のトレース",
+        "counter_Trace_1": "{{number}} 個のトレース",
+        "counter_Trace_2": "{{number}} 個のトレース",
+        "loading": "ロード中…"
       }
     },
     "dataSources": {
@@ -111,7 +157,9 @@
         "desClusterNotCorrelateNode": "宛先はクラスターであり、Instana はこの呼び出しを特定のノードに関連付けることができませんでした。",
         "sourceUnmonitored": "この呼び出しのソースはトレースされていないため、ソースに関する情報を提供できません。 この呼び出しについて表示されるすべての情報は、宛先から提供されたものです。",
         "sourceMonitoredByAnotherProvider": "この呼び出しのソースは、別の分散トレース・プロバイダーによってトレースされています。 ID {{foreignParentId}} のプロバイダー内の親スパンを検索することで、ソースに関する詳細情報を見つけることができます。",
-        "notMonitored": "Instana によってモニターされていません"
+        "notMonitored": "Instana によってモニターされていません",
+        "source": "ソース",
+        "destination": "宛先"
       }
     },
     "tabs": {
@@ -183,7 +231,9 @@
         "in": "in",
         "windowLocation": "ウィンドウの位置",
         "resourceUri": "リソース URI",
-        "cacheInteraction": "相互作用のキャッシュ"
+        "cacheInteraction": "相互作用のキャッシュ",
+        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana はこの呼び出しの {{location}} をモニターしません",
+        "tags": "タグ"
       },
       "callTree": {
         "expandButtonForRow": "行の展開ボタン",
@@ -387,6 +437,7 @@
       "messageToo_many_spans": "トレースに含まれる呼び出しが多すぎるため、部分的にしか表示およびダウンロードできません。",
       "messageMissing_parent_span": "処理中に、このトレース内の項目スパンの一部で親スパンが欠落しています。",
       "messageExit_spans_followed_by_intermediate_spans": "一部のエグジット・スパンの後には、中間スパンが続きます。",
+      "messageTrace_validation_timeout": "すべてのスパンをフェッチするにはかかる時間が長すぎるため、トレース検証がスキップされました",
       "thisTraceIsCausedByActivityOnTheMobileApp": "このトレースは、<linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp> モバイル・アプリケーションのアクティビティーによって発生したものです。",
       "thisTraceIsCausedByActivityOnThewebsite": "このトレースは、<linkToWebsite>{{websiteLabel}}</linkToWebsite> Web サイトのアクティビティーによって発生したものです。"
     }

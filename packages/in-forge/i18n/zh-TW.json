@@ -468,6 +468,11 @@
   "pluginName_httpd": "Apache HTTPd",
   "pluginName_ibmCics": "IBM CICS",
   "pluginName_ibmCics_plural": "IBM CICS",
+  "pluginName_ibmCloudClinicalData_plural": "IBM Clinical Datas",
+  "pluginName_ibmCloudClinicalData_0": "IBM Clinical Datas",
+  "pluginName_ibmCloudClinicalData_1": "IBM Clnical Datas",
+  "pluginName_ibmCloudClinicalData_2": "IBM Clinical Datas",
+  "pluginName_ibmCloudClinicalData": "IBM Clinical Data",
   "pluginName_ibmCloudCloudant_plural": "IBM Cloudant",
   "pluginName_ibmCloudCloudant_0": "IBM Cloudant",
   "pluginName_ibmCloudCloudant_1": "IBM Cloudant",
@@ -2368,7 +2373,10 @@
       "consumerCount": "消費者計數",
       "deadLetterQueuesNumber": "無法傳送的郵件佇列 {{len}}",
       "queuesNumber": "佇列 {{len}}",
-      "topicsNumber": "主題 {{len}}"
+      "topicsNumber": "主題 {{len}}",
+      "topic": "主題",
+      "queue": "佇列",
+      "dlQueue": "DL 佇列"
     },
     "activeMQArtemis": {
       "jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue": "Jmx 未啟用。您可以在 activemq 配置中啟用它，作法是將分配管理系統內容 useJmx 設為 true。",
@@ -2406,7 +2414,8 @@
       "allQueuesMessagesAdded": "已新增所有佇列訊息",
       "allQueuesMessagesAcknowledged": "已確認所有佇列訊息",
       "allQueuesMessagesExpired": "所有佇列訊息都已過期",
-      "allQueuesMessagesKilled": "已刪除所有佇列訊息"
+      "allQueuesMessagesKilled": "已刪除所有佇列訊息",
+      "queue": "佇列"
     },
     "aerospike": {
       "aerospike": "Aerospike"
@@ -3022,7 +3031,8 @@
       "headerLambdaFunctionInfo": "Lambda 函數資訊",
       "headerServicesLATEST": "$LATEST 的服務",
       "labelVersions": "版本",
-      "descriptionLambda": "您似乎未使用 Instana 代理程式來監視此 Lambda。若要進行原生 Lambda 追蹤，先決條件是為對應的 AWS 帳號設定 AWS 代理程式。請檢查我們相關的說明文件，特別是 <installLink>AWS 代理程式安裝說明文件</installLink>."
+      "descriptionLambda": "您似乎未使用 Instana 代理程式來監視此 Lambda。若要進行原生 Lambda 追蹤，先決條件是為對應的 AWS 帳號設定 AWS 代理程式。請檢查我們相關的說明文件，特別是 <installLink>AWS 代理程式安裝說明文件</installLink>.",
+      "noVersions": "我們沒有此 Lambda 函數個別版本的相關資料。您是否已使用此 AWS 帳戶及地區的 AWS 代理程式來設定監視？請檢查我們相關的說明文件，特別是 <installLink>AWS 代理程式安裝說明文件</installLink>."
     },
     "awsLambdaVersion": {
       "titleLambdaFunction": "Lambda 函數",
@@ -3131,7 +3141,9 @@
       "memoryUsage2ndBroker": "MemoryUsage（第二個分配管理系統）",
       "enqueueTime": "EnqueueTime",
       "enqueueTime2ndBroker": "EnqueueTime（第二個分配管理系統）",
-      "producerCCount": "生產者計數"
+      "producerCount": "生產者計數",
+      "queue": "佇列",
+      "topic": "主題"
     },
     "awsMskBroker": {
       "dashboard": {
@@ -3708,7 +3720,8 @@
         "labelInMemoryOLTPStorage": "記憶體內 OLTP 儲存體",
         "labelCPULimit": "CPU 限制",
         "labelCPUUsed": "已用的 CPU"
-      }
+      },
+      "database": "資料庫"
     },
     "azureSqlElasticPool": {
       "infoName": "名稱",
@@ -3759,7 +3772,8 @@
         "titleVCore": "vCore",
         "labelCPULimit": "CPU 限制",
         "labelCPUUsed": "已用的 CPU"
-      }
+      },
+      "elasticPool": "Elastic Pool"
     },
     "azureSqlServer": {
       "infoName": "名稱",
@@ -3966,7 +3980,8 @@
       "cassandraCluster": "Cassandra 叢集",
       "nodes": "節點",
       "latency": "延遲時間",
-      "keyspaces": "鍵空間"
+      "keyspaces": "鍵空間",
+      "keyspace": "鍵空間"
     },
     "cassandraNode": {
       "infoVersion": "版本",
@@ -4057,7 +4072,8 @@
       "communication": "通訊",
       "tokens": "記號",
       "latency": "延遲時間",
-      "keyspaces": "鍵空間"
+      "keyspaces": "鍵空間",
+      "keyspace": "鍵空間"
     },
     "ceph": {
       "infoProcessID": "程序 ID",
@@ -4122,7 +4138,8 @@
       },
       "poolsWithCount": "儲存區 ({{len}})",
       "cephCluster": "Ceph 叢集",
-      "pools": "儲存區"
+      "pools": "儲存區",
+      "pool": "儲存區"
     },
     "clickhouseCluster": {
       "indexLabel": "ClickHouse 叢集",
@@ -4655,7 +4672,8 @@
         "labelItemsPutToDiskQueue": "每秒放置到磁碟佇列的項目",
         "labelItemsWrittenToDisk": "每秒寫入至磁碟的項目"
       },
-      "couchbaseNode": "Couchbase 節點"
+      "couchbaseNode": "Couchbase 節點",
+      "bucket": "儲存區"
     },
     "crio": {
       "getContainerInfo": "取得儲存器資訊",
@@ -4847,7 +4865,8 @@
       "pagesRead": "已讀取的頁數",
       "pagesWritten": "已寫入的頁數",
       "poolReadTime": "儲存區讀取時間",
-      "poolWriteTime": "儲存區寫入時間"
+      "poolWriteTime": "儲存區寫入時間",
+      "Container": "儲存器"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "每秒所有呼叫數",
@@ -4878,6 +4897,9 @@
         "total": "總計",
         "kernel": "核心",
         "user": "使用者",
+        "totalNormalized": "正規化總計",
+        "kernelNormalized": "核心正規化",
+        "userNormalized": "使用者正規化",
         "throttlingCount": "節流控制計數",
         "throttlingTime": "節流控制時間",
         "usage": "用量",
@@ -4924,6 +4946,9 @@
       "total": "總計",
       "kernel": "核心",
       "user": "使用者",
+      "totalNormalized": "正規化總計 [0,100]",
+      "kernelNormalized": "核心正規化 [0,100]",
+      "userNormalized": "使用者正規化 [0,100]",
       "cpu": "CPU",
       "throttlingCount": "節流控制計數",
       "throttlingTime": "節流控制時間",
@@ -5269,7 +5294,8 @@
       "totalMemory": "記憶體總數",
       "freeMemory": "可用記憶體",
       "cpuUsage": "CPU 使用率",
-      "httpRequests": "HTTP 要求"
+      "httpRequests": "HTTP 要求",
+      "device": "裝置"
     },
     "finagleApplicationContainer": {
       "dashboard": {
@@ -5321,7 +5347,8 @@
       "maxChildren": "子項上限",
       "memory": "記憶體",
       "resources": "資源",
-      "phpFpm": "PHP-FPM"
+      "phpFpm": "PHP-FPM",
+      "pool": "儲存區"
     },
     "phpRuntimePlatform": {
       "version": "版本",
@@ -5441,7 +5468,9 @@
       "numberOfDeleteRequests": "刪除要求",
       "numberOfExtendedRequests": "延伸要求",
       "numberOfModifyRequests": "修改要求",
-      "numberOfSearchRequests": "搜尋要求"
+      "numberOfSearchRequests": "搜尋要求",
+      "database": "資料庫",
+      "ldapConnector": "LDAP 連接器"
     },
     "postgreSqlDatabase": {
       "troubleshootingDocs": "疑難排解文件",
@@ -5497,7 +5526,8 @@
       "connection": "連線",
       "replicationDelayInBytes": "抄寫延遲（以位元組為單位）",
       "replicationDelayInSeconds": "抄寫延遲（以秒為單位）",
-      "postgreSql": "PostgreSQL"
+      "postgreSql": "PostgreSQL",
+      "database": "資料庫"
     },
     "process": {
       "jvmAttachGenericIssueDescription": "主機代理程式無法正確連接至此 Java 虛擬機器。因此，不會追蹤這項程序。請參閱主機代理程式日誌，以取得連接失敗原因的相關資訊。主機代理程式每隔 10 分鐘會再次嘗試連接至此虛擬機器。不過，在成功之前，不會收集此 JVM 的追蹤資料或度量。",
@@ -5712,7 +5742,8 @@
       "messagesTotal": "訊息總計",
       "totalNumberOfNetworkPartitions": "網路分割區總數",
       "messagesAcknowledged": "已確認的訊息",
-      "rabbitMq": "RabbitMQ"
+      "rabbitMq": "RabbitMQ",
+      "queue": "佇列"
     },
     "redis": {
       "configCommandNameNotConfigured": "Redis CONFIG 指令名稱需要進行配置才能收集 Redis 度量。",
@@ -5855,7 +5886,6 @@
       "clusterSize": "叢集大小",
       "nodes": "節點",
       "masterNodes": "主節點",
-      "redis": "Redis",
       "redisCluster": "Redis 叢集"
     },
     "redisEnterpriseCluster": {
@@ -5894,7 +5924,6 @@
         "shardsWithCount": "Shard ({{len}})",
         "redisEnterpriseCluster": "Redis Enterprise 叢集"
       },
-      "redisEnterprise": "Redis Enterprise",
       "name": "名稱",
       "throughputOpsSecond": "傳輸量（作業數/秒）",
       "keyspaceHits": "鍵空間命中",
@@ -6108,7 +6137,8 @@
       "documentsPending": "擱置的文件",
       "solrEvictions": "Solr 收回",
       "startedAt": "開始時間",
-      "solr": "Solr"
+      "solr": "Solr",
+      "core": "核心"
     },
     "solrCloudCluster": {
       "nodes": "節點",
@@ -6245,7 +6275,8 @@
       "shuffleWritePerSecond": "每秒 Shuffle 寫入數",
       "totalInputBytes": "輸入位元組數總計",
       "totalShuffleRead": "Shuffle 讀取總計",
-      "totalShuffleWrite": "Shuffle 寫入總計"
+      "totalShuffleWrite": "Shuffle 寫入總計",
+      "executorId": "執行程式 ID"
     },
     "garden": {
       "cloudFoundry": "Cloud Foundry",
@@ -6827,7 +6858,8 @@
       "memoryAvailable": "可用記憶體",
       "memoryUsed": "已用的記憶體",
       "virtualCoresAvailable": "可用的虛擬核心",
-      "virtualCoresUsed": "已用的虛擬核心"
+      "virtualCoresUsed": "已用的虛擬核心",
+      "node": "節點"
     },
     "hadoopYARNNode": {
       "dashboard": {
@@ -6906,7 +6938,9 @@
       "responseErrors": "回應錯誤次數",
       "connectionRetries": "連線重試次數",
       "deniedResponses": "拒絕的回應次數",
-      "reDispatchedRequests": "重新分派的要求"
+      "reDispatchedRequests": "重新分派的要求",
+      "frontend": "Frontend",
+      "backend": "後端"
     },
     "haProxy": {
       "dashboard": {
@@ -7244,7 +7278,9 @@
       "vSphere": "vSphere",
       "vm": "VM",
       "esXiHost": "ESXi 主機",
-      "datacenter": "資料中心"
+      "datacenter": "資料中心",
+      "device": "裝置",
+      "gpuUuid": "GPU UUID"
     },
     "httpd": {
       "dashboard": {
@@ -7304,6 +7340,17 @@
       "trafficPerRequest": "每個要求的資料流量",
       "busyWorkers": "忙碌的工作程式"
     },
+    "ibmCloudClinicalData": {
+      "ibmClinicalData": "IBM Clinical Data",
+      "ibmCloudClinicalData": "IBM Cloud Clinical Data",
+      "kind": "種類",
+      "name": "名稱",
+      "labelApiCalls": "API 呼叫",
+      "labelCallsCount": "呼叫",
+      "labelRequestSizeBytes": "要求大小",
+      "labelTimeSeconds": "回應時間",
+      "labelZone": "區域"
+    },
     "ibmCloudCloudant": {
       "labelName": "名稱",
       "requestActivity": "要求活動",
@@ -7359,7 +7406,9 @@
       "memoryUsedPercent": "已用的記憶體百分比",
       "titleMemberCount": "成員計數",
       "labelMembers": "成員計數",
-      "labelZone": "區域"
+      "labelZone": "區域",
+      "labelDisk": "磁碟",
+      "labelMemory": "記憶體"
     },
     "ibmCloudFunctions": {
       "labelConcurrentInvocations": "並行呼叫",
@@ -7387,7 +7436,8 @@
       "labelWaitTime": "等待時間（毫秒）",
       "labelInitTime": "起始時間（毫秒）",
       "labelPackageCount": "套件計數",
-      "labelZone": "區域"
+      "labelZone": "區域",
+      "labelFunction": "函數"
     },
     "ibmCloudIsLoadBalancer": {
       "labelActiveConnections": "作用中連線",
@@ -7457,7 +7507,8 @@
       "titleObjectCount": "物件計數",
       "titleUsed": "已使用的大小",
       "labelUsed": "已使用的大小",
-      "labelZone": "區域"
+      "labelZone": "區域",
+      "labelMemory": "記憶體"
     },
     "ibmIOs": {
       "sidebar": {
@@ -7468,7 +7519,7 @@
         "restrictedState": "限制狀態"
       },
       "dashboard": {
-        "charts" : {
+        "charts": {
           "cpu": {
             "name": "CPU",
             "rate": "比率"
@@ -7526,7 +7577,8 @@
           }
         }
       },
-      "name": "Db2 on i"
+      "name": "Db2 on i",
+      "memoryPool": "記憶體儲存區"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -7816,7 +7868,11 @@
       "totalObjectCount": "物件計數總計",
       "totalUsedBytes": "已使用的位元組數總計",
       "labelVolumeWriteRequests": "磁區寫入要求",
-      "labelZone": "區域"
+      "labelZone": "區域",
+      "labelCPU": "CPU",
+      "labelMemory": "記憶體",
+      "labelNetwork": "網路",
+      "labelVolume": "Volume"
     },
     "instanaAgent": {
       "dashboard": {
@@ -8007,7 +8063,8 @@
       "labelCoresUsed": "已用核心數",
       "labelCoresTotal": "核心總計",
       "labelNumberFailedDrivers": "失敗的驅動程式數目",
-      "labelNumberFailedApplications": "失敗的應用程式數目"
+      "labelNumberFailedApplications": "失敗的應用程式數目",
+      "workerId": "工作者 ID"
     },
     "kafka": {
       "kafkaMonitoringRequiresSslTruststoreLocation": "對於受到 TLS 保護的 Kafka 實例，Kafka 監視程序要求 Instana 代理程式的 <code>configuration.yaml</code> 中必須配置 <code>sslTruststoreLocation</code> 和 <code>sslTruststorePassword</code>。",
@@ -8149,7 +8206,9 @@
       "consumers": "消費者",
       "brokersMsgIn": "分配管理系統輸入訊息",
       "brokersPartitions": "分配管理系統分割區",
-      "prodLatency": "產生延遲時間"
+      "prodLatency": "產生延遲時間",
+      "producer": "保險業務員",
+      "consumer": "消費者"
     },
     "kubernetesCluster": {
       "noActivity": "無活動",
@@ -8464,7 +8523,8 @@
       "connectionsCreated": "已建立的連線",
       "connectionsUsedPercentage": "已用連線百分比",
       "threadPools": "執行緒儲存區",
-      "threadsUsedPercentage": "已用執行緒百分比"
+      "threadsUsedPercentage": "已用執行緒百分比",
+      "datasourceJndi": "資料來源 JNDI"
     },
     "jbossDataGrid": {
       "cacheName": "快取 [{{cacheName}}]",
@@ -8544,7 +8604,9 @@
       "globalConnections": "廣域連線",
       "connections": "連線",
       "cacheStats": "快取統計資料",
-      "threadPools": "執行緒儲存區"
+      "threadPools": "執行緒儲存區",
+      "cache": "快取",
+      "cluster": "叢集"
     },
     "jenkins": {
       "disabled": "已停用",
@@ -8577,7 +8639,8 @@
       "jobs": "工作",
       "healthStatusOfRecentBuilds": "最近建置的性能狀態",
       "lastBuildEstimatedDuration": "前次建置的預估持續時間",
-      "lastBuildTimestamp": "前次建置的時間戳記"
+      "lastBuildTimestamp": "前次建置的時間戳記",
+      "job": "工作"
     },
     "jettyApplicationContainer": {
       "jmxModuleIsNotEnabledInJetty": "jetty 中未啟用 Jmx 模組。 請啟用它，這樣才能夠收集資料。其做法是新增 <code>--module=jmx</code> 至 <code>start.ini</code>。",
@@ -8688,7 +8751,8 @@
       "pools": "儲存區",
       "maxHeap": "資料堆上限",
       "heapUsed": "已用資料堆",
-      "threadDump": "執行緒傾出"
+      "threadDump": "執行緒傾出",
+      "garbageCollector": "記憶體回收器"
     },
     "springbootAppContainer": {
       "titleRequests": "要求",
@@ -9063,7 +9127,8 @@
       "labelRemoteEndpointsCurrent": "現行遠端端點",
       "labelDataSource": "資料來源",
       "labelJMSDestination": "JMS 目的地",
-      "labelSAFAgent": "SAF 代理程式"
+      "labelSAFAgent": "SAF 代理程式",
+      "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {
       "titleName": "名稱",
@@ -9098,7 +9163,8 @@
       "labelServlet": "Servlet",
       "labelServlets": "Servlet",
       "labelDatasource": "資料來源",
-      "labelDatasources": "資料來源"
+      "labelDatasources": "資料來源",
+      "webSphere": "WebSphere"
     },
     "webSphereLibertyAppContainer": {
       "titleName": "名稱",
@@ -9133,7 +9199,8 @@
       "labelServlets": "Servlet",
       "labelPool": "儲存區",
       "infoMonitorFeatureNotEnabled": "似乎未啟用監視特性。請將 monitor-1.0 特性新增至 server.xml，然後檢查 ws-javaagent.jar 在啟動伺服器時載入為 -javaagent。",
-      "infoThreadPoolStatesNotAvailable": "「執行緒儲存區」統計資料無法使用。當在 server.xml 中啟用 JMS 特性（WASJmsClient-1.1 和 WASJmsServer-1.0）和 monitor-1.0 特性時，就會發生這個已知問題。「執行緒儲存區」統計資料 MBean 會被置換而看不見。"
+      "infoThreadPoolStatesNotAvailable": "「執行緒儲存區」統計資料無法使用。當在 server.xml 中啟用 JMS 特性（WASJmsClient-1.1 和 WASJmsServer-1.0）和 monitor-1.0 特性時，就會發生這個已知問題。「執行緒儲存區」統計資料 MBean 會被置換而看不見。",
+      "webSphereLiberty": "WebSphere 程式庫"
     },
     "zooKeeper": {
       "titleTicks": "刻度記號",
@@ -9486,7 +9553,8 @@
       "bytesReceived": "已接收的位元組數",
       "version": "版本",
       "websites": "網站",
-      "request": "要求"
+      "request": "要求",
+      "website": "網站"
     },
     "msSqlDatabase": {
       "connectionsAmpUsers": "連線和使用者",
@@ -9548,7 +9616,8 @@
       "processedEevents": "已處理的事件",
       "executionEerrors": "執行錯誤",
       "fatalEerrors": "嚴重錯誤",
-      "averagePprocessingTime": "平均處理時間"
+      "averagePprocessingTime": "平均處理時間",
+      "flow": "流程"
     },
     "netCoreRuntimePlatform": {
       "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "這個 .NET Core 應用程式的程序環境未正確配置，好讓 Instana 能夠監視它。下列環境變數必須設定在 .NET Core 程序上：<code>{{missing}}</code>。請參閱說明文件，以瞭解要設定的正確值。",
@@ -9981,7 +10050,8 @@
       "inactiveUserSessions": "非作用中使用者階段作業",
       "backgroundSessions": "背景階段作業",
       "tablespaces": "表格空間",
-      "dbCpuTime": "資料庫 CPU 時間"
+      "dbCpuTime": "資料庫 CPU 時間",
+      "tablespace": "表格空間"
     },
     "azureCosmosDb": {
       "totalRequests": "要求總計",
@@ -10075,7 +10145,7 @@
       "titleARN": "ARN",
       "titleFunctionName": "函數名稱",
       "titleVersion": "版本",
-      "titleTrigger": "觸發程式",
+      "titleTrigger": "觸發",
       "bodyCloudWatchEvents": "CloudWatch 事件",
       "bodyAWSEvents": "AWS S3 事件",
       "bodyAWSMessages": "AWS SQS 訊息",

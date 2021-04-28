@@ -34,7 +34,17 @@
       "pods": "Pod",
       "memoryUsage": "記憶體用量",
       "cloudFoundryApplication": "Cloud Foundry 應用程式",
-      "vSphereDatacenter": "vSphere 資料中心"
+      "vSphereDatacenter": "vSphere 資料中心",
+      "clusterSubTitle": "{{clusterDistribution}} 叢集，{{count}}個節點，{{numberOfPods}}",
+      "clusterSubTitle_plural": "{{clusterDistribution}} 叢集，{{count}} 個節點，{{numberOfPods}}",
+      "clusterSubTitle_0": "{{clusterDistribution}} 叢集，{{count}} 個節點，{{numberOfPods}}",
+      "clusterSubTitle_1": "{{clusterDistribution}} 叢集，{{count}} 個節點，{{numberOfPods}}",
+      "clusterSubTitle_2": "{{clusterDistribution}} 叢集，{{count}} 個節點，{{numberOfPods}}",
+      "numberOfPods": "{{count}} 個 Pod",
+      "numberOfPods_plural": "{{count}} 個 Pod",
+      "numberOfPods_0": "{{count}} 個 Pod",
+      "numberOfPods_1": "{{count}} 個 Pod",
+      "numberOfPods_2": "{{count}} 個 Pod"
     },
     "websiteMobileTopList": {
       "addWebsite": "新增網站",

@@ -23,8 +23,6 @@
     "alertHeaderYouCanOnlyStartOrPause": "È possibile solo avviare o mettere in pausa, ma non modificare tali configurazioni quando è attiva la modalità Query Builder 1",
     "alertHistoryListTitle": "Avvisi creati",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Avvisi creati ({{totalRepresentedItemCount}})",
-    "alertPropertyInfosLabelWarning": "Avvertenza",
-    "alertPropertyInfosLabelCritical": "Critico",
     "alertPropertyInfosLabelTitle": "Titolo",
     "alertPropertyInfosLabelAlertLevel": "Livello avviso",
     "alertPropertyInfosLabelTriggersIncident": "Attiva incidente",
@@ -88,23 +86,35 @@
     "descriptionUnsupportedOperator": "Operatore non supportato: {{operator}}"
   },
   "smartAlerts": {
-    "titleNoSmartAlertsConfigured": "Non è stato configurato nessun avviso smart ",
-    "titleNoSmartAlertsCreated": "Non è stato creato nessun avviso smart ",
+    "titleNoSmartAlertsConfigured": "Non è stato configurato nessun avviso smart",
+    "titleNoSmartAlertsCreated": "Non è stato creato nessun avviso smart",
     "titleCopyOf": "(Copia di) {{smartAlertTitle}}",
     "applications": {
-      "newGlobalAlert": "Avviso smart globale ",
+      "newGlobalAlert": "Avviso smart globale",
       "advanced": {
+        "alertPropertyInsertPlaceholderLabel": "Inserisci segnaposto ",
         "evaluationSwitch": {
           "individual": "Avvisi singoli",
           "evaluationTypePERAP": {
-            "selectionText": "Nell'aggregazione di tutti i servizi e endpoint selezionati ",
+            "selectionText": "per questa prospettiva applicazione ",
+            "globalSelectionText": "Per prospettiva applicazione ",
             "columnText": "aggregati",
-            "description": "Avviso sull'aggregazione di tutti i servizi ed endpoint selezionati"
+            "description": "Avvisa individualmente per questa prospettiva applicazione ",
+            "globalDescription": "Avvisa individualmente per questa prospettiva applicazione "
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "sull'aggregazione per servizio",
+            "selectionText": "per servizio per questa prospettiva applicazione ",
+            "globalSelectionText": "per servizio nel contesto di ogni prospettiva applicazione ",
             "columnText": "per servizio",
-            "description": "Avviso singolarmente sull'aggregazione per servizio"
+            "description": "Avvisa individualmente per questa prospettiva applicazione ",
+            "globalDescription": "Avvisa individualmente per questa prospettiva applicazione "
+          },
+          "evaluationTypePERAPENDPOINT": {
+            "selectionText": "per endpoint per questa prospettiva applicazione ",
+            "globalSelectionText": "per endpoint nel contesto di ogni prospettiva applicazione ",
+            "columnText": "per endpoint ",
+            "description": "Avvisa individualmente per endpoint per questa prospettiva applicazione ",
+            "globalDescription": "Avvisa individualmente per endpoint nel contesto di ogni prospettiva applicazione."
           }
         },
         "inboundOutboundCalls": {
@@ -267,14 +277,14 @@
           "statusCodeStaticThreshold_higherEqual": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è maggiore o uguale a {{thresholdValue}}.",
           "statusCodeStaticThreshold_lowerThan": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è minore di {{thresholdValue}}.",
           "statusCodeStaticThreshold_lowerEqual": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è minore o uguale a {{thresholdValue}}.",
-          "statusCodeDefault_higherThan": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è maggiore del previsto. ",
-          "statusCodeDefault_higherEqual": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è maggiore o uguale a quello previsto. ",
-          "statusCodeDefault_lowerThan": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è minore di quello previsto. ",
-          "statusCodeDefault_lowerEqual": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è minore o uguale a quello previsto. ",
+          "statusCodeDefault_higherThan": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è maggiore del previsto.",
+          "statusCodeDefault_higherEqual": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è maggiore o uguale a quello previsto.",
+          "statusCodeDefault_lowerThan": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è minore di quello previsto.",
+          "statusCodeDefault_lowerEqual": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeFullText}} è minore o uguale a quello previsto.",
           "throughputStaticThreshold_higherThan": "Il numero di chiamate è maggiore di {{thresholdValue}} chiamate.",
           "throughputStaticThreshold_higherEqual": "Il numero di chiamate è maggiore o uguale a {{thresholdValue}} chiamate.",
           "throughputStaticThreshold_lowerThan": "Il numero di chiamate è minore di {{thresholdValue}} chiamate.",
-          "throughputStaticThreshold_lowerEqual": "Il numero di chiamate è inferiore o uguale a {{thresholdValue}} chiamate. ",
+          "throughputStaticThreshold_lowerEqual": "Il numero di chiamate è inferiore o uguale a {{thresholdValue}} chiamate.",
           "throughputDefault_higherThan": "Il numero di chiamate è maggiore del previsto.",
           "throughputDefault_higherEqual": "Il numero di chiamate è maggiore o uguale al previsto.",
           "throughputDefault_lowerThan": "Il numero di chiamate è minore del previsto.",
@@ -445,8 +455,8 @@
         "provideStatusCodeStatusCode": "Codice di stato"
       },
       "inventory": {
-        "noData": "Non è stato configurato nessun avviso smart. Fare clic sul pulsante indicato di seguito per configurare il primo avviso smart. ",
-        "noPersmissionToCreateGlobalSmartAlert": "Non si dispone dell'autorizzazione per configurare gli avvisi smart. Rivolgersi all'amministratore. ",
+        "noData": "Non è stato configurato nessun avviso smart. Fare clic sul pulsante indicato di seguito per configurare il primo avviso smart.",
+        "noPersmissionToCreateGlobalSmartAlert": "Non si dispone dell'autorizzazione per configurare gli avvisi smart. Rivolgersi all'amministratore.",
         "labelGlobalSmartAlertsList": "Avvisi smart applicazione globali {{numberOfAlerts}}",
         "labelSmartAlertsList": "Avvisi smart applicazione ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -457,7 +467,11 @@
         "noAlertConfigured": "Nessun avviso configurato.",
         "alertEntityName": "avviso \"{{entityName}}\"",
         "labelAlertFilters": "Filtri",
-        "numberOfApplicationsSelected": "{{numberApplicationsSelected}}applicazioni selezionate "
+        "labelConfirm": "Confermare",
+        "labelConfirmRemoveConfig": "Si è sicuri di voler rimuovere la configurazione <strong>{{configName}}</strong>?",
+        "labelRemove": "Rimuovi",
+        "numberOfApplicationsSelected": "{{count}} applicazioni selezionate",
+        "numberOfApplicationsSelected_plural": "{{count}}applicazioni selezionate"
       }
     },
     "components": {
@@ -475,9 +489,9 @@
         "addChannel_1": "Aggiungi {{count}} canali",
         "addChannel_2": "Aggiungi {{count}} canali",
         "add": "Aggiungi",
-        "scopeConfigTitleWithApplications": "Selezionare applicazioni/servizi/endpoint ",
+        "scopeConfigTitleWithApplications": "Selezionare applicazioni/servizi/endpoint",
         "scopeConfigTitle": "Seleziona servizi/endpoint",
-        "scopeConfigTitleTooltip": "Visualizzazione delle entità disponibili per gli ultimi 7 giorni. ",
+        "scopeConfigTitleTooltip": "Visualizzazione delle entità disponibili per gli ultimi 7 giorni.",
         "sortByUserSelectionLabel": "Ordina in base alla selezione dell'utente",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Almeno {{count}} utente e {{userPercentage}} di utenti interessati all'interno di {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Almeno {{count}} utenti e {{userPercentage}} di utenti interessati all'interno di {{formattedTimeWindow}}",
@@ -515,6 +529,7 @@
         "timeThresholdConfigOff": "disattivo",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Fornire un numero >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Fornire un numero compreso tra 1% e 100%",
+        "alertPropertiesInsertPlaceholderTooltip": "Inserisci segnaposto ",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "Quando la condizione persiste per un periodo di tempo specificato",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Ogni volta che la condizione viene attivata per un numero di volte specificato in un intervallo di tempo definito",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "Quando è interessata una certa quantità di utenti",
@@ -552,43 +567,43 @@
         "Loading": "Caricamento…",
         "LoadingServices": "Caricamento dei servizi…",
         "NoServiceInScope": "Nessun servizio nell'ambito",
-        "PreviewForAP": "Anteprima per la prospettiva applicazione ",
+        "PreviewForAP": "Anteprima per la prospettiva applicazione",
         "PreviewForService": "Anteprima per il servizio:"
       },
       "alertsHub": {
-        "title": "Hub avvisi ",
-        "introText": "Benvenuti in Alerting Configuration Hub. Qui è dove è possibile impostare le aspettative di avviso. ",
+        "title": "Hub avvisi",
+        "introText": "Benvenuti in Alerting Configuration Hub. Qui è dove è possibile impostare le aspettative di avviso.",
         "readMore": "Ulteriori informazioni…",
         "websites": {
           "title": "Siti Web",
           "description0": "Per configurare un avviso passare al sito web per cui si desidera configurare l'avviso e utilizzare il pulsante  \"Aggiungi avvisi smart\" in basso a destra.",
           "stats": "Attualmente si dispone di $t(in-alerting:smartAlerts.components.alertsHub.websites.alerts, {\"count\": {{alerts}} }) in $t(in-alerting:smartAlerts.components.alertsHub.websites.websites, {\"count\": {{websites}} }).",
-          "alerts": "{{count}} Avvisi smart del sito web ",
-          "alerts_plural": "{{count}} Avvisi smart del sito web ",
-          "websites": "{{count}} siti web ",
-          "websites_plural": "{{count}} siti web ",
+          "alerts": "{{count}} Avvisi smart del sito web",
+          "alerts_plural": "{{count}} Avvisi smart del sito web",
+          "websites": "{{count}} siti web",
+          "websites_plural": "{{count}} siti web",
           "button0": "Siti Web"
         },
         "applications": {
           "title": "Applicazioni",
-          "description0": "È possibile configurare gli avvisi smart solo per una specifica applicazione o configurare gli avvisi smart che coprono più applicazioni. ",
+          "description0": "È possibile configurare gli avvisi smart solo per una specifica applicazione o configurare gli avvisi smart che coprono più applicazioni.",
           "stats": "Attualmente si dispone di $t(in-alerting:smartAlerts.components.alertsHub.applications.gsa, {\"count\": {{globalSmartAlerts}} }) e $t(in-alerting:smartAlerts.components.alertsHub.applications.rsa, {\"count\": {{smartAlerts}} }).",
-          "gsa": "{{count}}Avvisi smart globali ",
-          "gsa_plural": "{{count}} Avvisi smart globali ",
-          "rsa": "{{count}} Avvisi smart regolari ",
-          "rsa_plural": "{{count}} Avvisi smart regolari ",
+          "gsa": "{{count}}Avvisi smart globali",
+          "gsa_plural": "{{count}} Avvisi smart globali",
+          "rsa": "{{count}} Avvisi smart regolari",
+          "rsa_plural": "{{count}} Avvisi smart regolari",
           "button0": "Avvisi Smart"
         },
         "infrastructure": {
           "title": "Infrastruttura & Piattaforme",
           "description0": "Gli avvisi per Infrastructure & Platforms utilizza il flusso di lavoro del passo 2.",
-          "description1": "1) Eventi definiti per condizioni specifiche. È possibile utilizzare eventi integrati o creare propri eventi personalizzati. ",
-          "description2": "2) Avvisa quando si verificano eventi specifici ",
+          "description1": "1) Eventi definiti per condizioni specifiche. È possibile utilizzare eventi integrati o creare propri eventi personalizzati.",
+          "description2": "2) Avvisa quando si verificano eventi specifici",
           "stats": "Attualmente si dispone di $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) e  $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }).",
           "events": "{{count}} evento personalizzato",
           "events_plural": "{{count}} eventi personalizzati",
-          "alerts": "{{count}} Avvisi ",
-          "alerts_plural": "{{count}} Avvisi ",
+          "alerts": "{{count}} Avvisi",
+          "alerts_plural": "{{count}} Avvisi",
           "button0": "Avvisi",
           "button1": "Eventi"
         }
@@ -802,7 +817,7 @@
         "stepConfigsStep2Title": "Passo 2: Selezionare l'ambito",
         "stepConfigsStep3Title": "Passo 3: Selezionare i canali di avviso"
       },
-      "addAlert": "Aggiungi avviso "
+      "addAlert": "Aggiungi avviso"
     },
     "sortOptions": {
       "name": "Nome",
@@ -810,7 +825,7 @@
       "enabled": "Abilitato",
       "disabled": "Disabilitato",
       "severity": "Gravità",
-      "created": "Data di creazione "
+      "created": "Data di creazione"
     }
   }
 }

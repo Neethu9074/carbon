@@ -37,7 +37,8 @@
         "classpathHide": "隱藏類別路徑",
         "classpathShow": "顯示類別路徑"
       },
-      "processStartedTitle": "開始時間"
+      "processStartedTitle": "開始時間",
+      "tags": "標籤 ({{size}})"
   },
 
   "traceDetails": {

@@ -65,7 +65,53 @@
         "showRemainingGroupsAggregatedAsOther": "Afficher les groupes restants agrégés sous la forme « Autre »."
       },
       "resultHeader": {
-        "result": "Résultat"
+        "result": "Résultat",
+        "counter_sessionStart": "{{number}} session démarrée",
+        "counter_sessionStart_plural": "{{number}} sessions démarrées",
+        "counter_sessionStart_0": "{{number}} sessions démarrées",
+        "counter_sessionStart_1": "{{number}} sessions démarrées",
+        "counter_sessionStart_2": "{{number}} sessions démarrées",
+        "counter_viewChange": "{{number}} transition de vue",
+        "counter_viewChange_plural": "{{number}} transitions de vue",
+        "counter_viewChange_0": "{{number}} transitions de vue",
+        "counter_viewChange_1": "{{number}} transitions de vue",
+        "counter_viewChange_2": "{{number}} transitions de vue",
+        "counter_httpRequest": "{{number}} requête HTTP",
+        "counter_httpRequest_plural": "{{number}} requêtes HTTP",
+        "counter_httpRequest_0": "{{number}} requêtes HTTP",
+        "counter_httpRequest_1": "{{number}} requêtes HTTP",
+        "counter_httpRequest_2": "{{number}} requêtes HTTP",
+        "counter_custom": "{{number}} événement personnalisé",
+        "counter_custom_plural": "{{number}} événements personnalisés",
+        "counter_custom_0": "{{number}} événements personnalisés",
+        "counter_custom_1": "{{number}} événements personnalisés",
+        "counter_custom_2": "{{number}} événements personnalisés",
+        "counter_Row": "{{number}} ligne",
+        "counter_Row_plural": "{{number}} lignes",
+        "counter_Row_0": "{{number}} lignes",
+        "counter_Row_1": "{{number}} lignes",
+        "counter_Row_2": "{{number}} lignes",
+        "counter_Group": "{{number}} groupe",
+        "counter_Group_plural": "{{number}} groupes",
+        "counter_Group_0": "{{number}} groupes",
+        "counter_Group_1": "{{number}} groupes",
+        "counter_Group_2": "{{number}} groupes",
+        "counter_event": "{{number}} événement",
+        "counter_event_plural": "{{number}} événements",
+        "counter_event_0": "{{number}} événements",
+        "counter_event_1": "{{number}} événements",
+        "counter_event_2": "{{number}} événements",
+        "counter_Call": "{{number}} appel",
+        "counter_Call_plural": "{{number}} appels",
+        "counter_Call_0": "{{number}} appels",
+        "counter_Call_1": "{{number}} appels",
+        "counter_Call_2": "{{number}} appels",
+        "counter_Trace": "{{number}} trace",
+        "counter_Trace_plural": "{{number}} traces",
+        "counter_Trace_0": "{{number}} traces",
+        "counter_Trace_1": "{{number}} traces",
+        "counter_Trace_2": "{{number}} traces",
+        "loading": "Chargement en cours..."
       }
     },
     "dataSources": {
@@ -111,7 +157,9 @@
         "desClusterNotCorrelateNode": "La destination est un cluster. Instana n'a pas pu corréler cet appel à des nœuds spécifiques.",
         "sourceUnmonitored": "La source de cet appel n'a pas été tracée et, par conséquent, aucune information ne peut être fournie sur la source. Toutes les informations affichées sur cet appel sont fournies par la destination.",
         "sourceMonitoredByAnotherProvider": "La source de cet appel est tracée par un autre fournisseur de trace distribuée. Pour trouver plus d'informations sur la source, recherchez le span parent dans la portée parente de ce fournisseur avec l'ID {{foreignParentId}}.",
-        "notMonitored": "Non surveillé par Instana"
+        "notMonitored": "Non surveillé par Instana",
+        "source": "source",
+        "destination": "destination"
       }
     },
     "tabs": {
@@ -183,7 +231,9 @@
         "in": "in",
         "windowLocation": "Emplacement de la fenêtre",
         "resourceUri": "URI de la ressource",
-        "cacheInteraction": "Interaction du cache"
+        "cacheInteraction": "Interaction du cache",
+        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana n'effectue pas la surveillance de {{location}} pour cet appel",
+        "tags": "Balises"
       },
       "callTree": {
         "expandButtonForRow": "Bouton Développer de ligne",
@@ -387,6 +437,7 @@
       "messageToo_many_spans": "La trace contient un trop grand nombre d'appels. Elle peut être affichée ou téléchargée partiellement uniquement.",
       "messageMissing_parent_span": "Le span parent manque pour certains des spans d'entrée dans cette trace pendant le traitement.",
       "messageExit_spans_followed_by_intermediate_spans": "Des spans de sortie sont suivis par des spans intermédiaires.",
+      "messageTrace_validation_timeout": "La validation de la trace a été ignorée car la récupération de tous les spans a pris trop de temps.",
       "thisTraceIsCausedByActivityOnTheMobileApp": "Cette trace est due à une activité sur <linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp> l'application mobile.",
       "thisTraceIsCausedByActivityOnThewebsite": "Cette trace est due à une activité sur <linkToWebsite>{{websiteLabel}}</linkToWebsite> le site Web."
     }
