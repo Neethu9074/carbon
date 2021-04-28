@@ -152,8 +152,8 @@ export default function Alert({ location, timeConfig }) {
           }}
           fullyQualifiedAlertsList={isDetailsViewInAllAPsTab ? alertsList : alertsTabListFullyQualified}
           doEnableConfig$={isGlobalAlertConfig ? enableGlobalAlertConfig : enableAlertConfig}
-          doDisableConfig$={isGlobalAlertConfig ? deleteGlobalAlertConfig : disableAlertConfig}
-          doDeleteConfig$={isGlobalAlertConfig ? disableGlobalAlertConfig : deleteAlertConfig}
+          doDisableConfig$={isGlobalAlertConfig ? disableGlobalAlertConfig : disableAlertConfig}
+          doDeleteConfig$={isGlobalAlertConfig ? deleteGlobalAlertConfig : deleteAlertConfig}
           doRestoreConfig$={isGlobalAlertConfig ? updateGlobalAlertConfig : updateAlertConfig}
           onConfigStateChanged={(alertConfigId, enabled) => {
             if (enabled) {
