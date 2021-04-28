@@ -32,6 +32,7 @@ import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/f
 import getService from 'in-subscription/application/getService';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
+import { isNotBlank } from 'in-services/util/string';
 import { isLoading } from 'in-services/util/result';
 
 export default function ServicesList({ getServicesCursorPaginated, parentIds, ...props }) {
@@ -55,18 +56,20 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
           timeConfig,
           includeSyntheticCalls: includeSynthetic
         },
-        tagFilterExpression: toBackendQueryModel(
-          joinExpressions({
-            logicalOperator: and,
-            expressions: [
-              applicationIdTagFilter,
+        tagFilterExpression: isNotBlank(searchQuery)
+          ? toBackendQueryModel(
               joinExpressions({
-                logicalOperator: or,
-                expressions: [createServiceNameTagFilter(searchQuery), createEndpointNameTagFilter(searchQuery)]
+                logicalOperator: and,
+                expressions: [
+                  applicationIdTagFilter,
+                  joinExpressions({
+                    logicalOperator: or,
+                    expressions: [createServiceNameTagFilter(searchQuery), createEndpointNameTagFilter(searchQuery)]
+                  })
+                ]
               })
-            ]
-          })
-        )
+            )
+          : applicationIdTagFilter
       }),
     [searchQuery, boundaryScope, includeSynthetic]
   );
