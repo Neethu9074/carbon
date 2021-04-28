@@ -30,7 +30,7 @@
   "cpuGraph": "CPU グラフ",
   "showCpuOverTime": "経時的に CPU を表示する",
   "summary": "サマリー",
-  "thereAreNoProfilesInTheSelectedTimeframeshowingAllInstead": "選択した時間フレーム ({{startTime}} から {{endTime}}) にプロファイルがありません。代わりに、すべて表示します。",
+  "thereAreNoProfilesInTheSelectedTimeframeshowingAllInstead": "選択した時間フレーム ({{startTime}} から {{endTime}}) にプロファイルがありません。 代わりに、すべて表示します。",
   "showingProfilesForSelection": "選択対象 ({{startTime}} から {{endTime}}) のプロファイルの表示",
   "statisticalConfidenceInPercentageDistributionIsLowBecauseNotEnoughSamplesWereCollectedSamplesInTheSelectedTimeframe": "選択した時間フレームで十分なサンプル ({{totalNumSamples}} サンプル) が収集されなかったため、パーセンテージ分布の統計的信頼性が低くなっています。",
   "numberdOfProfiles": "{{count}} 個のプロファイル",
@@ -44,5 +44,6 @@
   "numbersOfProfilesCollected_1": "収集された {{count}} 個のプロファイル",
   "numbersOfProfilesCollected_2": "収集された {{count}} 個のプロファイル",
   "profilesOfProcessDeepestTechSnapshot": "プロセス {{deepestTechSnapshot}} のプロファイル",
-  "noEntityFound": "{{entityName}} が見つかりません"
+  "noEntityFound": "{{entityName}} が見つかりません",
+  "hotspots": "{{title}} 個のホット・スポット"
 }

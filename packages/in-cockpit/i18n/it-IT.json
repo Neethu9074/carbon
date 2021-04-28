@@ -34,7 +34,17 @@
       "pods": "Pod",
       "memoryUsage": "Utilizzo memoria",
       "cloudFoundryApplication": "Applicazione Cloud Foundry",
-      "vSphereDatacenter": "Datacenter vSphere"
+      "vSphereDatacenter": "Datacenter vSphere",
+      "clusterSubTitle": "{{clusterDistribution}} Cluster, {{count}} Nodo {{numberOfPods}}",
+      "clusterSubTitle_plural": "{{clusterDistribution}} Cluster, {{count}} Nodi {{numberOfPods}}",
+      "clusterSubTitle_0": "{{clusterDistribution}} Cluster, {{count}} Nodi {{numberOfPods}}",
+      "clusterSubTitle_1": "{{clusterDistribution}} Cluster, {{count}} Nodi {{numberOfPods}}",
+      "clusterSubTitle_2": "{{clusterDistribution}} Cluster, {{count}} Nodi {{numberOfPods}}",
+      "numberOfPods": "{{count}} Pod",
+      "numberOfPods_plural": "{{count}} Pod",
+      "numberOfPods_0": "{{count}} Pod",
+      "numberOfPods_1": "{{count}} Pod",
+      "numberOfPods_2": "{{count}} Pod"
     },
     "websiteMobileTopList": {
       "addWebsite": "Aggiungi sito Web",
@@ -50,7 +60,7 @@
       "mobileApp": "App mobile"
     },
     "openIncidentsButton": {
-      "numberOfIncidents": "{{count}}Incidenti ",
+      "numberOfIncidents": "{{count}}Incidenti",
       "numberOfIncidents_plural": "{{count}} Incidenti",
       "numberOfIncidents_0": "{{count}} Incidenti",
       "numberOfIncidents_1": "{{count}} Incidenti",

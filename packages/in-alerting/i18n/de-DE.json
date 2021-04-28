@@ -23,8 +23,6 @@
     "alertHeaderYouCanOnlyStartOrPause": "Sie können diese Konfigurationen im Query Builder 1-Modus nur starten oder anhalten, aber nicht bearbeiten",
     "alertHistoryListTitle": "Erstellte Alerts",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Erstellte Alerts ({{totalRepresentedItemCount}})",
-    "alertPropertyInfosLabelWarning": "Warnung",
-    "alertPropertyInfosLabelCritical": "Kritisch",
     "alertPropertyInfosLabelTitle": "Titel",
     "alertPropertyInfosLabelAlertLevel": "Alertstufe",
     "alertPropertyInfosLabelTriggersIncident": "Löst Vorfall aus",
@@ -94,17 +92,29 @@
     "applications": {
       "newGlobalAlert": "Globaler Smart Alert",
       "advanced": {
+        "alertPropertyInsertPlaceholderLabel": "Platzhalter einfügen",
         "evaluationSwitch": {
           "individual": "Einzelne Alerts",
           "evaluationTypePERAP": {
-            "selectionText": "zur Aggregation aller ausgewählten Services und Endpunkte",
+            "selectionText": "für diese Anwendungsperspektive",
+            "globalSelectionText": "pro Anwendungsperspektive",
             "columnText": "aggregiert",
-            "description": "Alert zur Aggregation aller ausgewählten Services und Endpunkte"
+            "description": "Alerts für diese Anwendungsperspektive",
+            "globalDescription": "Alert einzeln pro Anwendungsperspektive"
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "zur Aggregation pro Service",
+            "selectionText": "pro Service für diese Anwendungsperspektive",
+            "globalSelectionText": "pro Service im Kontext der einzelnen Anwendungsperspektive",
             "columnText": "pro Service",
-            "description": "Alert einzeln zur Aggregation pro Service"
+            "description": "Alerts einzeln pro Service für diese Anwendungsperspektive",
+            "globalDescription": "Alert einzeln pro Service im Kontext der einzelnen Anwendungsperspektive"
+          },
+          "evaluationTypePERAPENDPOINT": {
+            "selectionText": "pro Endpunkt für diese Anwendungsperspektive",
+            "globalSelectionText": "pro Endpunkt im Kontext der einzelnen Anwendungsperspektive",
+            "columnText": "pro Endpunkt",
+            "description": "Alert einzeln pro Endpunkt für diese Anwendungsperspektive",
+            "globalDescription": "Alert einzeln pro Endpunkt im Kontext der einzelnen Anwendungsperspektive"
           }
         },
         "inboundOutboundCalls": {
@@ -457,7 +467,11 @@
         "noAlertConfigured": "Kein Alert konfiguriert.",
         "alertEntityName": "Alert \"{{entityName}}\"",
         "labelAlertFilters": "Filter",
-        "numberOfApplicationsSelected": "{{numberApplicationsSelected}} Anwendungen ausgewählt"
+        "labelConfirm": "Bitte bestätigen",
+        "labelConfirmRemoveConfig": "Sind Sie sicher, dass Sie die Konfiguration <strong>{{configName}}</strong> entfernen möchten?",
+        "labelRemove": "Entfernen",
+        "numberOfApplicationsSelected": "{{count}} Anwendung ausgewählt",
+        "numberOfApplicationsSelected_plural": "{{count}} Anwendungen ausgewählt"
       }
     },
     "components": {
@@ -515,6 +529,7 @@
         "timeThresholdConfigOff": "aus",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Geben Sie eine Zahl >= 1 ein",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Geben Sie eine Zahl zwischen 1 und 100 % an",
+        "alertPropertiesInsertPlaceholderTooltip": "Platzhalter einfügen",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "Wenn die Bedingung über einen angegebenen Zeitraum bestehen bleibt",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Jedes Mal, wenn die Bedingung eine bestimmte Anzahl von Malen in einem definierten Zeitrahmen ausgelöst wird",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "Wenn eine bestimmte Menge meiner Benutzer betroffen ist",

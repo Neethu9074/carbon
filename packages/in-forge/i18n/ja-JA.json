@@ -468,6 +468,11 @@
   "pluginName_httpd": "Apache HTTPd",
   "pluginName_ibmCics": "IBM CICS",
   "pluginName_ibmCics_plural": "IBM CICS",
+  "pluginName_ibmCloudClinicalData_plural": "IBM Clinical Data",
+  "pluginName_ibmCloudClinicalData_0": "IBM Clinical Data",
+  "pluginName_ibmCloudClinicalData_1": "IBM Clnical Data",
+  "pluginName_ibmCloudClinicalData_2": "IBM Clinical Data",
+  "pluginName_ibmCloudClinicalData": "IBM Clinical Data",
   "pluginName_ibmCloudCloudant_plural": "IBM Cloudant",
   "pluginName_ibmCloudCloudant_0": "IBM Cloudant",
   "pluginName_ibmCloudCloudant_1": "IBM Cloudant",
@@ -2368,7 +2373,10 @@
       "consumerCount": "コンシューマー数",
       "deadLetterQueuesNumber": "デッド・レター・キュー数 {{len}}",
       "queuesNumber": "キュー数 {{len}}",
-      "topicsNumber": "トピック数 {{len}}"
+      "topicsNumber": "トピック数 {{len}}",
+      "topic": "トピック",
+      "queue": "キュー",
+      "dlQueue": "DL キュー"
     },
     "activeMQArtemis": {
       "jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue": "Jmx が有効になっていません。 activemq 構成でブローカー・プロパティー useJmx を true に設定することで、有効にすることができます。",
@@ -2406,7 +2414,8 @@
       "allQueuesMessagesAdded": "追加されたすべてのキュー・メッセージ数",
       "allQueuesMessagesAcknowledged": "確認済みのすべてのキュー・メッセージ数",
       "allQueuesMessagesExpired": "期限切れのすべてのキュー・メッセージ数",
-      "allQueuesMessagesKilled": "強制終了されたすべてのキュー・メッセージ数"
+      "allQueuesMessagesKilled": "強制終了されたすべてのキュー・メッセージ数",
+      "queue": "キュー"
     },
     "aerospike": {
       "aerospike": "Aerospike"
@@ -3022,7 +3031,8 @@
       "headerLambdaFunctionInfo": "Lambda 関数情報",
       "headerServicesLATEST": "$LATEST のサービス",
       "labelVersions": "バージョン",
-      "descriptionLambda": "この Lambda を Instana エージェントでモニターしていないようです。 Lambda のネイティブ・トレースを使用するには、前提条件として、対応する AWS アカウント用の AWS エージェントをセットアップする必要があります。 資料 (特に <installLink>AWS エージェント・インストールに関する資料</installLink>) を参照して、この前提条件について確認してください。"
+      "descriptionLambda": "この Lambda を Instana エージェントでモニターしていないようです。 Lambda のネイティブ・トレースを使用するには、前提条件として、対応する AWS アカウント用の AWS エージェントをセットアップする必要があります。 資料 (特に <installLink>AWS エージェント・インストールに関する資料</installLink>) を参照して、この前提条件について確認してください。",
+      "noVersions": "この Lambda 関数の個々のバージョンに関するデータはありません。この AWS アカウントとリージョンに対して AWS エージェントでのモニターをセットアップしましたか? 資料 (特に <installLink>AWS エージェント・インストールに関する資料</installLink>) を参照して、この前提条件について確認してください。"
     },
     "awsLambdaVersion": {
       "titleLambdaFunction": "Lambda 関数",
@@ -3131,7 +3141,9 @@
       "memoryUsage2ndBroker": "MemoryUsage (2 つ目のブローカー)",
       "enqueueTime": "EnqueueTime",
       "enqueueTime2ndBroker": "EnqueueTime (2 つ目のブローカー)",
-      "producerCCount": "Producer Count"
+      "producerCount": "Producer Count",
+      "queue": "キュー",
+      "topic": "トピック"
     },
     "awsMskBroker": {
       "dashboard": {
@@ -3708,7 +3720,8 @@
         "labelInMemoryOLTPStorage": "インメモリー OLTP ストレージ",
         "labelCPULimit": "CPU 制限",
         "labelCPUUsed": "使用中の CPU"
-      }
+      },
+      "database": "データベース"
     },
     "azureSqlElasticPool": {
       "infoName": "名前",
@@ -3759,7 +3772,8 @@
         "titleVCore": "vCore",
         "labelCPULimit": "CPU 制限",
         "labelCPUUsed": "使用中の CPU"
-      }
+      },
+      "elasticPool": "エラスティック・プール"
     },
     "azureSqlServer": {
       "infoName": "名前",
@@ -3966,7 +3980,8 @@
       "cassandraCluster": "Cassandra クラスター",
       "nodes": "ノード",
       "latency": "待ち時間",
-      "keyspaces": "キー・スペース"
+      "keyspaces": "キー・スペース",
+      "keyspace": "キー・スペース"
     },
     "cassandraNode": {
       "infoVersion": "バージョン",
@@ -4057,7 +4072,8 @@
       "communication": "通信",
       "tokens": "トークン",
       "latency": "待ち時間",
-      "keyspaces": "キー・スペース"
+      "keyspaces": "キー・スペース",
+      "keyspace": "キー・スペース"
     },
     "ceph": {
       "infoProcessID": "プロセス ID",
@@ -4122,7 +4138,8 @@
       },
       "poolsWithCount": "プール数 ({{len}})",
       "cephCluster": "Ceph クラスター",
-      "pools": "プール数"
+      "pools": "プール数",
+      "pool": "プール"
     },
     "clickhouseCluster": {
       "indexLabel": "ClickHouse クラスター",
@@ -4310,9 +4327,9 @@
       "labelContentionRate": "競合率",
       "labelLargeObject": "ラージ・オブジェクト",
       "labelGCTime": "GC 時間",
-      "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "この .NET Full Framework アプリケーションのプロセス環境は正しく構成されていないため、Instana がこの環境をモニターできません。.NET Core プロセスで環境変数 <code>{{missing}}</code> を設定する必要があります。 資料を参照して、適切な値を設定してください。",
-      "detectedThisBasedOnTheValueOfTheInvalidEnvKeyEnvironmentVariable": "別のツール ({{competitor}} など) がこの .NET Full Framework プロセスをモニターしている可能性があります。Instana ホスト・エージェントは、<code>{{invalidEnvKey}}</code> 環境変数の値に基づいてこれを検出しました。 Instana がこの .NET Core プロセスをトレースできるようにするには、他方のモニター・ツールを無効にする必要があります。",
-      "theEnvironmentVariableInvalidEnvKeyHasTheWrongValue": "この .NET Full Framework アプリケーションのプロセス環境は正しく構成されていないため、Instana がこの環境をモニターできません。環境変数 <code>{{invalidEnvKey}}</code> の値 <code>{{invalidEnvValue}}</code> は誤っています。 資料を参照して、<code>{{invalidEnvKey}}</code> 環境変数に設定する値を確認してください。",
+      "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "この .NET Full Framework アプリケーションのプロセス環境は正しく構成されていないため、Instana がこの環境をモニターできません。 .NET Core プロセスで環境変数 <code>{{missing}}</code> を設定する必要があります。 資料を参照して、適切な値を設定してください。",
+      "detectedThisBasedOnTheValueOfTheInvalidEnvKeyEnvironmentVariable": "別のツール ({{competitor}} など) がこの .NET Full Framework プロセスをモニターしている可能性があります。 Instana ホスト・エージェントは、<code>{{invalidEnvKey}}</code> 環境変数の値に基づいてこれを検出しました。 Instana がこの .NET Core プロセスをトレースできるようにするには、他方のモニター・ツールを無効にする必要があります。",
+      "theEnvironmentVariableInvalidEnvKeyHasTheWrongValue": "この .NET Full Framework アプリケーションのプロセス環境は正しく構成されていないため、Instana がこの環境をモニターできません。 環境変数 <code>{{invalidEnvKey}}</code> の値 <code>{{invalidEnvValue}}</code> は誤っています。 資料を参照して、<code>{{invalidEnvKey}}</code> 環境変数に設定する値を確認してください。",
       "dashboard": {
         "labelAllHeaps": "すべてのヒープ",
         "labelTime": "GC の時間の割合 (%)",
@@ -4510,7 +4527,7 @@
         "titleName": "名前",
         "titleValue": "値"
       },
-      "theConsulVersionYouAreUsingIsTooOld": "ご使用の Consul バージョンは、メトリックを提供しない古いバージョンです。このダッシュボードでメトリックを受信するためには、バージョン 0.9.1 以降にアップグレードしてください。",
+      "theConsulVersionYouAreUsingIsTooOld": "ご使用の Consul バージョンは、メトリックを提供しない古いバージョンです。 このダッシュボードでメトリックを受信するためには、バージョン 0.9.1 以降にアップグレードしてください。",
       "consulNode": "Consul ノード",
       "consul": "Consul"
     },
@@ -4655,7 +4672,8 @@
         "labelItemsPutToDiskQueue": "ディスク・キューに入れられた 1 秒当たりの項目数。",
         "labelItemsWrittenToDisk": "ディスクに書き込まれた 1 秒当たりの項目数。"
       },
-      "couchbaseNode": "Couchbase ノード"
+      "couchbaseNode": "Couchbase ノード",
+      "bucket": "バケット"
     },
     "crio": {
       "getContainerInfo": "コンテナー情報の取得",
@@ -4847,7 +4865,8 @@
       "pagesRead": "読み取りページ数",
       "pagesWritten": "書き込みページ数",
       "poolReadTime": "プール読み取り時間",
-      "poolWriteTime": "プール書き込み時間"
+      "poolWriteTime": "プール書き込み時間",
+      "Container": "コンテナー"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "1 秒当たりの呼び出し数 (すべての呼び出し)",
@@ -4878,6 +4897,9 @@
         "total": "合計",
         "kernel": "カーネル",
         "user": "ユーザー",
+        "totalNormalized": "正規化された合計",
+        "kernelNormalized": "正規化されたカーネル",
+        "userNormalized": "正規化されたユーザー",
         "throttlingCount": "スロットル数",
         "throttlingTime": "スロットル時間",
         "usage": "使用法",
@@ -4924,6 +4946,9 @@
       "total": "合計",
       "kernel": "カーネル",
       "user": "ユーザー",
+      "totalNormalized": "正規化された合計 [0,100]",
+      "kernelNormalized": "正規化されたカーネル [0,100]",
+      "userNormalized": "正規化されたユーザー [0,100]",
       "cpu": "CPU",
       "throttlingCount": "スロットル数",
       "throttlingTime": "スロットル時間",
@@ -5269,7 +5294,8 @@
       "totalMemory": "合計メモリー",
       "freeMemory": "空きメモリー",
       "cpuUsage": "CPU 使用率",
-      "httpRequests": "HTTP 要求数"
+      "httpRequests": "HTTP 要求数",
+      "device": "デバイス"
     },
     "finagleApplicationContainer": {
       "dashboard": {
@@ -5321,7 +5347,8 @@
       "maxChildren": "子の最大数の到達回数",
       "memory": "メモリー",
       "resources": "リソース数",
-      "phpFpm": "PHP-FPM"
+      "phpFpm": "PHP-FPM",
+      "pool": "プール"
     },
     "phpRuntimePlatform": {
       "version": "バージョン",
@@ -5441,12 +5468,14 @@
       "numberOfDeleteRequests": "削除要求の数",
       "numberOfExtendedRequests": "拡張要求の数",
       "numberOfModifyRequests": "変更要求の数",
-      "numberOfSearchRequests": "検索要求の数"
+      "numberOfSearchRequests": "検索要求の数",
+      "database": "データベース",
+      "ldapConnector": "LDAP コネクター"
     },
     "postgreSqlDatabase": {
       "troubleshootingDocs": "トラブルシューティング資料",
       "statsNotEnabledIssueDescription": "統計情報の収集は、サーバー構成によって有効にされていません。 <code>postgresql.conf</code> で <code>track_counts</code>、<code>track_activities</code>、<code>track_io_timing</code> が <strong>on</strong> に設定されていることを確認してください。",
-      "authFailedsDashboardNotification": "エージェントが PostgreSQL に接続できませんでした。 ユーザー <code>{{user}}</code> のパスワード認証に失敗しました。エラー・コード: <code>{{errorcode}}</code>",
+      "authFailedsDashboardNotification": "エージェントが PostgreSQL に接続できませんでした。 ユーザー <code>{{user}}</code> のパスワード認証に失敗しました。 エラー・コード: <code>{{errorcode}}</code>",
       "connectionFailedIssueDescription": "エージェントがユーザー <code>{{user}}</code> で {{host}}:{{port}} の PostgreSQL に接続できませんでした。 エラー・コード: <code>{{errorcode}}</code>",
       "dashboard": {
         "committedTransactionsKpiLabel": "コミットされたトランザクション",
@@ -5497,7 +5526,8 @@
       "connection": "接続",
       "replicationDelayInBytes": "レプリケーション遅延 (バイト)",
       "replicationDelayInSeconds": "レプリケーション遅延 (秒)",
-      "postgreSql": "PostgreSQL"
+      "postgreSql": "PostgreSQL",
+      "database": "データベース"
     },
     "process": {
       "jvmAttachGenericIssueDescription": "ホスト・エージェントがこの Java 仮想マシンに正しく接続できません。 したがって、このプロセスはトレースされません。 接続が失敗した理由の詳細については、ホスト・エージェントのログを参照してください。 ホスト・エージェントは 10 分ごとにこの仮想マシンへの接続を再試行します。 ただし、接続に成功するまでは、この JVM のトレースもメトリックも収集されません。",
@@ -5712,7 +5742,8 @@
       "messagesTotal": "メッセージ総数",
       "totalNumberOfNetworkPartitions": "ネットワーク・パーティションの総数",
       "messagesAcknowledged": "確認済みメッセージ数",
-      "rabbitMq": "RabbitMQ"
+      "rabbitMq": "RabbitMQ",
+      "queue": "キュー"
     },
     "redis": {
       "configCommandNameNotConfigured": "Redis メトリックを収集するように Redis CONFIG コマンド名を構成する必要があります。",
@@ -5855,7 +5886,6 @@
       "clusterSize": "クラスター・サイズ",
       "nodes": "ノード数",
       "masterNodes": "マスター・ノード数",
-      "redis": "Redis",
       "redisCluster": "Redis クラスター"
     },
     "redisEnterpriseCluster": {
@@ -5894,7 +5924,6 @@
         "shardsWithCount": "シャード数 ({{len}})",
         "redisEnterpriseCluster": "Redis Enterprise クラスター"
       },
-      "redisEnterprise": "Redis Enterprise",
       "name": "名前",
       "throughputOpsSecond": "スループット (操作数/秒)",
       "keyspaceHits": "キー・スペース・ヒット数",
@@ -6108,7 +6137,8 @@
       "documentsPending": "保留中のドキュメント",
       "solrEvictions": "Solr 強制削除数",
       "startedAt": "開始時刻",
-      "solr": "Solr"
+      "solr": "Solr",
+      "core": "コア"
     },
     "solrCloudCluster": {
       "nodes": "ノード数",
@@ -6245,7 +6275,8 @@
       "shuffleWritePerSecond": "1 秒当たりのシャッフル書き込み",
       "totalInputBytes": "合計入力バイト数",
       "totalShuffleRead": "合計シャッフル読み取り",
-      "totalShuffleWrite": "合計シャッフル書き込み"
+      "totalShuffleWrite": "合計シャッフル書き込み",
+      "executorId": "エグゼキューター ID"
     },
     "garden": {
       "cloudFoundry": "Cloud Foundry",
@@ -6827,7 +6858,8 @@
       "memoryAvailable": "使用可能なメモリー",
       "memoryUsed": "使用メモリー",
       "virtualCoresAvailable": "使用可能な仮想コア数",
-      "virtualCoresUsed": "使用済みの仮想コア数"
+      "virtualCoresUsed": "使用済みの仮想コア数",
+      "node": "ノード"
     },
     "hadoopYARNNode": {
       "dashboard": {
@@ -6906,7 +6938,9 @@
       "responseErrors": "応答エラー数",
       "connectionRetries": "接続再試行回数",
       "deniedResponses": "拒否された応答数",
-      "reDispatchedRequests": "再ディスパッチされた要求数"
+      "reDispatchedRequests": "再ディスパッチされた要求数",
+      "frontend": "フロントエンド",
+      "backend": "バックエンド"
     },
     "haProxy": {
       "dashboard": {
@@ -7244,7 +7278,9 @@
       "vSphere": "vSphere",
       "vm": "VM",
       "esXiHost": "ESXi ホスト",
-      "datacenter": "データ・センター"
+      "datacenter": "データ・センター",
+      "device": "デバイス",
+      "gpuUuid": "GPU UUID"
     },
     "httpd": {
       "dashboard": {
@@ -7304,6 +7340,17 @@
       "trafficPerRequest": "要求ごとのトラフィック",
       "busyWorkers": "ビジー・ワーカー数"
     },
+    "ibmCloudClinicalData": {
+      "ibmClinicalData": "IBM Clinical Data",
+      "ibmCloudClinicalData": "IBM Cloud Clinical Data",
+      "kind": "種類",
+      "name": "名前",
+      "labelApiCalls": "API 呼び出し",
+      "labelCallsCount": "呼び出し",
+      "labelRequestSizeBytes": "要求サイズ",
+      "labelTimeSeconds": "応答時間",
+      "labelZone": "ゾーン"
+    },
     "ibmCloudCloudant": {
       "labelName": "名前",
       "requestActivity": "要求アクティビティー",
@@ -7359,7 +7406,9 @@
       "memoryUsedPercent": "メモリーの使用率 (%)",
       "titleMemberCount": "メンバー数",
       "labelMembers": "メンバー数",
-      "labelZone": "ゾーン"
+      "labelZone": "ゾーン",
+      "labelDisk": "ディスク",
+      "labelMemory": "メモリー"
     },
     "ibmCloudFunctions": {
       "labelConcurrentInvocations": "同時呼び出し数",
@@ -7387,7 +7436,8 @@
       "labelWaitTime": "待機時間 (ms)",
       "labelInitTime": "初期化時間 (ms)",
       "labelPackageCount": "パッケージ・カウント",
-      "labelZone": "ゾーン"
+      "labelZone": "ゾーン",
+      "labelFunction": "関数"
     },
     "ibmCloudIsLoadBalancer": {
       "labelActiveConnections": "アクティブな接続",
@@ -7457,7 +7507,8 @@
       "titleObjectCount": "オブジェクト数",
       "titleUsed": "使用済みサイズ",
       "labelUsed": "使用済みサイズ",
-      "labelZone": "ゾーン"
+      "labelZone": "ゾーン",
+      "labelMemory": "メモリー"
     },
     "ibmIOs": {
       "sidebar": {
@@ -7468,7 +7519,7 @@
         "restrictedState": "制限状態"
       },
       "dashboard": {
-        "charts" : {
+        "charts": {
           "cpu": {
             "name": "CPU",
             "rate": "レート"
@@ -7526,7 +7577,8 @@
           }
         }
       },
-      "name": "Db2 on i"
+      "name": "Db2 on i",
+      "memoryPool": "メモリー・プール"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -7816,7 +7868,11 @@
       "totalObjectCount": "合計オブジェクト数",
       "totalUsedBytes": "合計使用済みバイト数",
       "labelVolumeWriteRequests": "ボリューム書き込み要求",
-      "labelZone": "ゾーン"
+      "labelZone": "ゾーン",
+      "labelCPU": "CPU",
+      "labelMemory": "メモリー",
+      "labelNetwork": "ネットワーク",
+      "labelVolume": "ボリューム"
     },
     "instanaAgent": {
       "dashboard": {
@@ -7941,7 +7997,7 @@
       "troubleshootingDocs": "トラブルシューティング資料",
       "theHostAgentCannotConnectToTheRunningInstanaPcpProcessWhichPreventsTheHostAgentFromTracingNetApplications": "ホスト・エージェントが実行中の InstanaPCP プロセスに接続できません。このため、ホスト・エージェントが .NET アプリケーションをトレースできません。",
       "theHostAgentIsMissingOneOrMorePrerequisitesForEnablingTheInstanaAutoTraceFunctionality": "ホスト・エージェントで、Instana AutoTrace 機能を使用可能にするための 1 つ以上の前提条件が満たされていません。 このため、Python プロセスが自動的にインスツルメントされません。",
-      "apmProxyMissingConfig": "センサーが正しく構成されていないため、Instana が APM V8 をモニターできません。configuration.yaml でプロパティー <code>{{missing}}</code> を設定する必要があります。 資料を参照して、適切な値を設定してください。",
+      "apmProxyMissingConfig": "センサーが正しく構成されていないため、Instana が APM V8 をモニターできません。 configuration.yaml でプロパティー <code>{{missing}}</code> を設定する必要があります。 資料を参照して、適切な値を設定してください。",
       "apmProxyConnectionError": "センサーが APMProxy サービスに接続できません。 センサーの構成 (ホスト/ポートなど) を確認してください。",
       "apmProxyExceptionError": "センサーが例外 <code>{{e}}</code> を生成しました。",
       "agentVersion": "エージェントのバージョン",
@@ -8007,7 +8063,8 @@
       "labelCoresUsed": "使用済みコア数",
       "labelCoresTotal": "合計コア数",
       "labelNumberFailedDrivers": "失敗したドライバーの数",
-      "labelNumberFailedApplications": "失敗したアプリケーションの数"
+      "labelNumberFailedApplications": "失敗したアプリケーションの数",
+      "workerId": "ワーカー ID"
     },
     "kafka": {
       "kafkaMonitoringRequiresSslTruststoreLocation": "Kafka のモニタリングを行うには、TLS で保護された Kafka インスタンス用に、Instana エージェントの <code>configuration.yaml</code> で <code>sslTruststoreLocation</code> および <code>sslTruststorePassword</code> を構成する必要があります。",
@@ -8149,7 +8206,9 @@
       "consumers": "コンシューマー数",
       "brokersMsgIn": "着信ブローカー・メッセージ",
       "brokersPartitions": "ブローカー・パーティション数",
-      "prodLatency": "生成待ち時間"
+      "prodLatency": "プロデューサー待ち時間",
+      "producer": "プロデューサー",
+      "consumer": "コンシューマー"
     },
     "kubernetesCluster": {
       "noActivity": "アクティビティーなし",
@@ -8464,7 +8523,8 @@
       "connectionsCreated": "作成された接続の数",
       "connectionsUsedPercentage": "使用済みの接続のパーセンテージ",
       "threadPools": "スレッド・プール数",
-      "threadsUsedPercentage": "使用済みのスレッドのパーセンテージ"
+      "threadsUsedPercentage": "使用済みのスレッドのパーセンテージ",
+      "datasourceJndi": "データ・ソース JNDI"
     },
     "jbossDataGrid": {
       "cacheName": "キャッシュ [{{cacheName}}]",
@@ -8544,7 +8604,9 @@
       "globalConnections": "グローバル接続数",
       "connections": "接続数",
       "cacheStats": "キャッシュ統計",
-      "threadPools": "スレッド・プール数"
+      "threadPools": "スレッド・プール数",
+      "cache": "キャッシュ",
+      "cluster": "クラスター"
     },
     "jenkins": {
       "disabled": "無効",
@@ -8577,7 +8639,8 @@
       "jobs": "ジョブ数",
       "healthStatusOfRecentBuilds": "最近のビルドの正常性状況",
       "lastBuildEstimatedDuration": "最新ビルドの推定所要時間",
-      "lastBuildTimestamp": "最新ビルドのタイムスタンプ"
+      "lastBuildTimestamp": "最新ビルドのタイムスタンプ",
+      "job": "ジョブ"
     },
     "jettyApplicationContainer": {
       "jmxModuleIsNotEnabledInJetty": "Jetty で Jmx モジュールが有効になっていません。 有効にして、データを収集できるようにしてください。 これを行うには、<code>start.ini</code> に <code>--module=jmx</code> を追加します。",
@@ -8688,7 +8751,8 @@
       "pools": "プール数",
       "maxHeap": "最大ヒープ",
       "heapUsed": "使用済みヒープ",
-      "threadDump": "スレッド・ダンプ"
+      "threadDump": "スレッド・ダンプ",
+      "garbageCollector": "ガーベッジ・コレクター"
     },
     "springbootAppContainer": {
       "titleRequests": "要求",
@@ -9063,7 +9127,8 @@
       "labelRemoteEndpointsCurrent": "現在のリモート・エンドポイント",
       "labelDataSource": "データ・ソース",
       "labelJMSDestination": "JMS 宛先",
-      "labelSAFAgent": "SAF エージェント"
+      "labelSAFAgent": "SAF エージェント",
+      "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {
       "titleName": "名前",
@@ -9098,7 +9163,8 @@
       "labelServlet": "サーブレット",
       "labelServlets": "サーブレット数",
       "labelDatasource": "データ・ソース",
-      "labelDatasources": "データ・ソース数"
+      "labelDatasources": "データ・ソース数",
+      "webSphere": "WebSphere"
     },
     "webSphereLibertyAppContainer": {
       "titleName": "名前",
@@ -9132,8 +9198,9 @@
       "labelServlet": "サーブレット",
       "labelServlets": "サーブレット数",
       "labelPool": "プール",
-      "infoMonitorFeatureNotEnabled": "モニター機能が有効になっていないようです。monitor-1.0 フィーチャーを server.xml に追加し、サーバー始動時に ws-javaagent.jar が -javaagent としてロードされることを確認してください。",
-      "infoThreadPoolStatesNotAvailable": "スレッド・プール統計は使用できません。 server.xml で monitor-1.0 フィーチャーに加えて JMS フィーチャー (WASJmsClient-1.1 および WASJmsServer-1.0) を有効にした場合には、既知の問題があります。 スレッド・プール統計 mbean はオーバーライドされ、表示されません。"
+      "infoMonitorFeatureNotEnabled": "モニター機能が有効になっていないようです。 monitor-1.0 フィーチャーを server.xml に追加し、サーバー始動時に ws-javaagent.jar が -javaagent としてロードされることを確認してください。",
+      "infoThreadPoolStatesNotAvailable": "スレッド・プール統計は使用できません。 server.xml で monitor-1.0 フィーチャーに加えて JMS フィーチャー (WASJmsClient-1.1 および WASJmsServer-1.0) を有効にした場合には、既知の問題があります。 スレッド・プール統計 mbean はオーバーライドされ、表示されません。",
+      "webSphereLiberty": "WebSphere Liberty"
     },
     "zooKeeper": {
       "titleTicks": "ティック数",
@@ -9486,7 +9553,8 @@
       "bytesReceived": "受信バイト数",
       "version": "バージョン",
       "websites": "Web サイト",
-      "request": "要求"
+      "request": "要求",
+      "website": "Web サイト"
     },
     "msSqlDatabase": {
       "connectionsAmpUsers": "接続数とユーザー数",
@@ -9548,7 +9616,8 @@
       "processedEevents": "処理済みイベント数",
       "executionEerrors": "実行エラー数",
       "fatalEerrors": "致命的エラー数",
-      "averagePprocessingTime": "平均処理時間"
+      "averagePprocessingTime": "平均処理時間",
+      "flow": "フロー"
     },
     "netCoreRuntimePlatform": {
       "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "この .NET Core アプリケーションのプロセス環境は正しく構成されていないため、Instana がこの環境をモニターできません。 .NET Core プロセスで環境変数 <code>{{missing}}</code> を設定する必要があります。 資料を参照して、適切な値を設定してください。",
@@ -9981,7 +10050,8 @@
       "inactiveUserSessions": "非アクティブ・ユーザー・セッション数",
       "backgroundSessions": "バックグラウンド・セッション数",
       "tablespaces": "テーブル・スペース数",
-      "dbCpuTime": "DB CPU 時間"
+      "dbCpuTime": "DB CPU 時間",
+      "tablespace": "テーブル・スペース"
     },
     "azureCosmosDb": {
       "totalRequests": "合計要求数",

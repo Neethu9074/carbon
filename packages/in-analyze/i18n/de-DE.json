@@ -65,7 +65,53 @@
         "showRemainingGroupsAggregatedAsOther": "Verbleibende Gruppen zusammengefasst als “Sonstige“ anzeigen. "
       },
       "resultHeader": {
-        "result": "Ergebnis"
+        "result": "Ergebnis",
+        "counter_sessionStart": "{{number}} Sitzungsstart",
+        "counter_sessionStart_plural": "{{number}} Sitzungen starten",
+        "counter_sessionStart_0": "{{number}} Sitzungen starten",
+        "counter_sessionStart_1": "{{number}} Sitzungen starten",
+        "counter_sessionStart_2": "{{number}} Sitzungen starten",
+        "counter_viewChange": "{{number}} Übergang anzeigen",
+        "counter_viewChange_plural": "{{number}} Übergänge anzeigen",
+        "counter_viewChange_0": "{{number}} Übergänge anzeigen",
+        "counter_viewChange_1": "{{number}} Übergänge anzeigen",
+        "counter_viewChange_2": "{{number}} Übergänge anzeigen",
+        "counter_httpRequest": "{{number}} HTTP-Anforderung",
+        "counter_httpRequest_plural": "{{number}} HTTP-Anforderungen",
+        "counter_httpRequest_0": "{{number}} HTTP-Anforderungen",
+        "counter_httpRequest_1": "{{number}} HTTP-Anforderungen",
+        "counter_httpRequest_2": "{{number}} HTTP-Anforderungen",
+        "counter_custom": "{{number}} angepasstes Ereignis",
+        "counter_custom_plural": "{{number}} angepasste Ereignisse",
+        "counter_custom_0": "{{number}} angepasste Ereignisse",
+        "counter_custom_1": "{{number}} angepasste Ereignisse",
+        "counter_custom_2": "{{number}} angepasste Ereignisse",
+        "counter_Row": "{{number}} Zeile",
+        "counter_Row_plural": "{{number}} Zeilen",
+        "counter_Row_0": "{{number}} Zeilen",
+        "counter_Row_1": "{{number}} Zeilen",
+        "counter_Row_2": "{{number}} Zeilen",
+        "counter_Group": "{{number}} Gruppe",
+        "counter_Group_plural": "{{number}} Gruppen",
+        "counter_Group_0": "{{number}} Gruppen",
+        "counter_Group_1": "{{number}} Gruppen",
+        "counter_Group_2": "{{number}} Gruppen",
+        "counter_event": "{{number}} Ereignis",
+        "counter_event_plural": "{{number}} Ereignisse",
+        "counter_event_0": "{{number}} Ereignisse",
+        "counter_event_1": "{{number}} Ereignisse",
+        "counter_event_2": "{{number}} Ereignisse",
+        "counter_Call": "{{number}} Aufruf",
+        "counter_Call_plural": "{{number}} Aufrufe",
+        "counter_Call_0": "{{number}} Aufrufe",
+        "counter_Call_1": "{{number}} Aufrufe",
+        "counter_Call_2": "{{number}} Aufrufe",
+        "counter_Trace": "{{number}} Trace",
+        "counter_Trace_plural": "{{number}} Traces",
+        "counter_Trace_0": "{{number}} Traces",
+        "counter_Trace_1": "{{number}} Traces",
+        "counter_Trace_2": "{{number}} Traces",
+        "loading": "Ladevorgang läuft..."
       }
     },
     "dataSources": {
@@ -111,7 +157,9 @@
         "desClusterNotCorrelateNode": "Das Ziel ist ein Cluster; Instana konnte diesen Aufruf nicht mit bestimmten Knoten korrelieren.",
         "sourceUnmonitored": "Die Quelle dieses Aufrufs wurde nicht verfolgt; deshalb können keine Informationen zur Quelle bereitgestellt werden. Alle Informationen zu diesem Aufruf werden vom Ziel bereitgestellt. ",
         "sourceMonitoredByAnotherProvider": "Die Quelle für diesen Aufruf wird von einem anderen verteilten Trace-Provider verfolgt. Weitere Informationen zu der Quelle finden Sie, indem Sie die übergeordnete Spanne innerhalb des jeweiligen Providers mit der ID {{foreignParentId}} durchsuchen.",
-        "notMonitored": "Nicht von Instana überwacht"
+        "notMonitored": "Nicht von Instana überwacht",
+        "source": "Quelle",
+        "destination": "Ziel"
       }
     },
     "tabs": {
@@ -183,7 +231,9 @@
         "in": "in",
         "windowLocation": "Fensterposition",
         "resourceUri": "Ressourcen-URI",
-        "cacheInteraction": "Cache-Interaktion"
+        "cacheInteraction": "Cache-Interaktion",
+        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana überwacht nicht die Position ({{location}}) dieses Aufrufs",
+        "tags": "Tags"
       },
       "callTree": {
         "expandButtonForRow": "Erweiterungsschaltfläche für Zeile",
@@ -387,6 +437,7 @@
       "messageToo_many_spans": "Der Trace enthält zu viele Aufrufe; er kann nur teilweise angezeigt und heruntergeladen werden.",
       "messageMissing_parent_span": "Die übergeordnete Spanne fehlt für einige Eintragsspannen, die sich während der Verarbeitung in diesem Trace befinden. ",
       "messageExit_spans_followed_by_intermediate_spans": "Einige Exitspannen werden von temporären Spannen verfolgt.",
+      "messageTrace_validation_timeout": "Die Tracevalidierung wurde übersprungen, weil es zu lange dauerte, bis alle Bereiche abgerufen wurden.",
       "thisTraceIsCausedByActivityOnTheMobileApp": "Dieser Trace wird von Aktivität in der mobilen App <linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp> verursacht. ",
       "thisTraceIsCausedByActivityOnThewebsite": "Dieser Trace wird durch Aktivität auf der Website <linkToWebsite>{{websiteLabel}}</linkToWebsite> verursacht. "
     }

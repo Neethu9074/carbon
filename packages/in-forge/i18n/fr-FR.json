@@ -239,11 +239,11 @@
   "pluginName_clickHouseDatabase_1": "Bases de données ClickHouse",
   "pluginName_clickHouseDatabase_2": "Bases de données ClickHouse",
   "pluginName_clickHouseDatabase": "Base de données ClickHouse",
-  "pluginName_cloudFoundry_plural": "CloudFoundry",
-  "pluginName_cloudFoundry_0": "CloudFoundry",
-  "pluginName_cloudFoundry_1": "CloudFoundry",
-  "pluginName_cloudFoundry_2": "CloudFoundry",
-  "pluginName_cloudFoundry": "CloudFoundry",
+  "pluginName_cloudFoundry_plural": "Cloud Foundry",
+  "pluginName_cloudFoundry_0": "Cloud Foundry",
+  "pluginName_cloudFoundry_1": "Cloud Foundry",
+  "pluginName_cloudFoundry_2": "Cloud Foundry",
+  "pluginName_cloudFoundry": "Cloud Foundry",
   "pluginName_clrRuntimePlatform_plural": "Applications .NET",
   "pluginName_clrRuntimePlatform_0": "Applications .NET",
   "pluginName_clrRuntimePlatform_1": "Applications .NET",
@@ -468,6 +468,11 @@
   "pluginName_httpd": "Apache HTTPd",
   "pluginName_ibmCics": "IBM CICS",
   "pluginName_ibmCics_plural": "IBM CICS",
+  "pluginName_ibmCloudClinicalData_plural": "Données cliniques IBM",
+  "pluginName_ibmCloudClinicalData_0": "Données cliniques IBM",
+  "pluginName_ibmCloudClinicalData_1": "Données cliniques IBM",
+  "pluginName_ibmCloudClinicalData_2": "Données cliniques IBM",
+  "pluginName_ibmCloudClinicalData": "Donnée clinique IBM",
   "pluginName_ibmCloudCloudant_plural": "IBM Cloudants",
   "pluginName_ibmCloudCloudant_0": "IBM Cloudants",
   "pluginName_ibmCloudCloudant_1": "IBM Cloudants",
@@ -2368,7 +2373,10 @@
       "consumerCount": "Nombre de consommateurs",
       "deadLetterQueuesNumber": "Files d'attente de lettre morte {{len}}",
       "queuesNumber": "Files d'attente {{len}}",
-      "topicsNumber": "Rubriques {{len}}"
+      "topicsNumber": "Rubriques {{len}}",
+      "topic": "Rubrique",
+      "queue": "File d'attente",
+      "dlQueue": "Files d'attente DL"
     },
     "activeMQArtemis": {
       "jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue": "Jmx n'est pas activé. Vous pouvez l'activer dans la configuration activemq en définissant true pour la propriété de courtier cuseJmx.",
@@ -2396,7 +2404,7 @@
       "messagesKilled": "Messages éliminés",
       "brokerInfo": "Informations sur le courtier",
       "transportAcceptorsInfo": "Informations sur les accepteurs de transport",
-      "activeMqArtemis": "ActiveMQArtemis",
+      "activeMqArtemis": "ActiveMQ Artemis",
       "version": "Version",
       "brokerName": "Nom du courtier",
       "nodeId": "ID du nœud",
@@ -2406,7 +2414,8 @@
       "allQueuesMessagesAdded": "Tous les messages de files d'attente ajoutés",
       "allQueuesMessagesAcknowledged": "Tous les messages de files d'attente acceptés",
       "allQueuesMessagesExpired": "Tous les messages de files d'attente ayant expiré",
-      "allQueuesMessagesKilled": "Tous les messages de files d'attente arrêtés"
+      "allQueuesMessagesKilled": "Tous les messages de files d'attente arrêtés",
+      "queue": "File d'attente"
     },
     "aerospike": {
       "aerospike": "Aerospike"
@@ -2791,7 +2800,7 @@
       "infraTabSubscriptIn": "<span>dans </span>{{taskLabel}}<span> de </span><versionIcon /><span> <titledDefinition>{{definition}}</titledDefinition>:{{taskDefinitionVersion}}</span>",
       "infraTabSubscriptInWithSnapshotId": "<span>dans </span><taskIcon /><taskLink>{{taskLabel}}</taskLink><span> sur </span><versionIcon /><span> <titledDefinition>{{definition}}</titledDefinition>:{{taskDefinitionVersion}}</span>",
       "infraTabSubscriptOnWithAbbr": "<span> sur </span><clusterIcon /><span> <titledSpan>{{clusterArn}}</titledSpan> dans {{region}}</span>",
-      "infraTabSubscriptOnWithAbbrSnapshotId": "<span> sur </span><clusterIcon /><span> <titledSpan>{{clusterArn}}</titledSpan> dans <cloudIcon /><regionLink>{{region}}</regionLink></span>",
+      "infraTabSubscriptOnWithAbbrSnapshotId": "<span> sur </span><clusterIcon /><span> <titledSpan>{{clusterArn}}</titledSpan> in <cloudIcon /><regionLink>{{region}}</regionLink></span>",
       "infraTabSubscriptOn": "<span> sur </span><clusterIcon /><span> {{clusterArn}} dans {{region}}</span>",
       "infraTabSubscriptOnWithSnapshotId": "<span> sur </span><clusterIcon /><span> {{clusterArn}} dans <cloudIcon /><regionLink>{{region}}</regionLink></span>"
     },
@@ -3022,7 +3031,8 @@
       "headerLambdaFunctionInfo": "Informations sur la fonction Lambda",
       "headerServicesLATEST": "Services pour $LATEST",
       "labelVersions": "Versions",
-      "descriptionLambda": "Il semble que vous ne surveillez pas cette fonction Lambda avec un agent Instana. La configuration d'un agent AWS pour le compte AWS correspondant est un prérequis pour le traçage Lambda natif. Veuillez consulter notre documentation correspondante, notamment, les <installLink>documentations relatives à l'installation des agents AWS.</installLink>."
+      "descriptionLambda": "Il semble que vous ne surveillez pas cette fonction Lambda avec un agent Instana. La configuration d'un agent AWS pour le compte AWS correspondant est un prérequis pour le traçage Lambda natif. Veuillez consulter notre documentation correspondante, notamment, les <installLink>documentations relatives à l'installation des agents AWS.</installLink>.",
+      "noVersions": "Nous ne disposons pas de données sur les versions individuelles de cette fonction Lambda. Avez-vous configuré la surveillance avec l'agent AWS pour ce compte AWS et cette région ? Veuillez consulter notre documentation correspondante, notamment, les <installLink>documentations relatives à l'installation des agents AWS.</installLink>."
     },
     "awsLambdaVersion": {
       "titleLambdaFunction": "Fonction Lambda",
@@ -3104,13 +3114,13 @@
       "totalConsumerCount2ndBroker": "TotalConsumerCount (2e courtier)",
       "totalMessageCount2ndBroker": "TotalMessageCount (2e courtier)",
       "totalProducerCount2ndBroker": "TotalProducerCount (2e courtier)",
-      "consumerCount": "ConsumerCount",
-      "enqueueCount": "EnqueueCount",
+      "consumerCount": "Nombre de consommateurs",
+      "enqueueCount": "Nombre de mises en file d'attente",
       "expiredCount": "ExpiredCount",
-      "dispatchCount": "DispatchCount",
-      "DequeueCount": "DequeueCount",
-      "producerCount": "ProducerCount",
-      "queueSize": "QueueSize",
+      "dispatchCount": "Nombre d'envois",
+      "DequeueCount": "Nombre de sorties de file d'attente",
+      "producerCount": "Nombre de producteurs",
+      "queueSize": "Taille de la file d'attente",
       "consumerCount2ndBroker": "ConsumerCount (2e courtier)",
       "enqueueCount2ndBroker": "EnqueueCount (2e courtier)",
       "expiredCount2ndBroker": "ExpiredCount (2e courtier)",
@@ -3119,19 +3129,21 @@
       "producerCount2ndBroker": "ProducerCount (2e courtier)",
       "queueSize2ndBroker": "QueueSize (2e courtier)",
       "queues": "Files d'attente",
-      "dequeueCount": "DequeueCount",
+      "dequeueCount": "Nombre de sorties de file d'attente",
       "topics": "Rubriques",
       "cpuUtilization": "CpuUtilization",
-      "heapUsage": "HeapUsage",
-      "storePercentUsage": "StorePercentUsage",
+      "heapUsage": "Utilisation du segment de mémoire",
+      "storePercentUsage": "Pourcentage d'utilisation du magasin",
       "cpuUtilization2ndBroker": "CpuUtilization (2e courtier)",
       "heapUsage2ndBroker": "HeapUsage (2e courtier)",
       "storePercentUsage2ndBroker": "StorePercentUsage (2e courtier)",
-      "memoryUsage": "MemoryUsage",
+      "memoryUsage": "Utilisation de la mémoire",
       "memoryUsage2ndBroker": "MemoryUsage (2e courtier)",
       "enqueueTime": "EnqueueTime",
       "enqueueTime2ndBroker": "EnqueueTime (2e courtier)",
-      "producerCCount": "Nombre de producteurs"
+      "producerCount": "Nombre de producteurs",
+      "queue": "File d'attente",
+      "topic": "Rubrique"
     },
     "awsMskBroker": {
       "dashboard": {
@@ -3491,7 +3503,7 @@
       "gatewayRequests": "Demandes de passerelle",
       "latency": "Latence",
       "eventHubEvents": "Événements Event Hub",
-      "sizeOfEventHubEvents": "Taille des événements Event Hub"
+      "sizeOfEventHubEvents": "Taille des événements EventHub"
     },
     "azureAppService": {
       "infoName": "Nom",
@@ -3708,7 +3720,8 @@
         "labelInMemoryOLTPStorage": "Stockage OLTP en mémoire",
         "labelCPULimit": "Limite UC",
         "labelCPUUsed": "UC utilisée"
-      }
+      },
+      "database": "Base de données"
     },
     "azureSqlElasticPool": {
       "infoName": "Nom",
@@ -3759,7 +3772,8 @@
         "titleVCore": "VCore",
         "labelCPULimit": "Limite UC",
         "labelCPUUsed": "UC utilisée"
-      }
+      },
+      "elasticPool": "Pool élastique"
     },
     "azureSqlServer": {
       "infoName": "Nom",
@@ -3966,7 +3980,8 @@
       "cassandraCluster": "Cluster Cassandra",
       "nodes": "Nœuds",
       "latency": "Latence",
-      "keyspaces": "Keyspaces"
+      "keyspaces": "Keyspaces",
+      "keyspace": "Keyspace"
     },
     "cassandraNode": {
       "infoVersion": "Version",
@@ -4057,11 +4072,12 @@
       "communication": "Communication",
       "tokens": "Jetons",
       "latency": "Latence",
-      "keyspaces": "Keyspaces"
+      "keyspaces": "Keyspaces",
+      "keyspace": "Keyspace"
     },
     "ceph": {
       "infoProcessID": "ID du processus",
-      "infoClusterName": "ClusterName",
+      "infoClusterName": "Nom de cluster",
       "infoVersion": "Version",
       "infoFsid": "Fsid",
       "labelOverallStatus": "Statut global",
@@ -4122,7 +4138,8 @@
       },
       "poolsWithCount": "Pools ({{len}})",
       "cephCluster": "Cluster Ceph",
-      "pools": "Pools"
+      "pools": "Pools",
+      "pool": "Pool"
     },
     "clickhouseCluster": {
       "indexLabel": "Cluster ClickHouse",
@@ -4293,7 +4310,7 @@
         "labelMemory": "Mémoire"
       },
       "diegoWithCount": "Diego ({{len}})",
-      "cloudFoundry": "CloudFoundry",
+      "cloudFoundry": "Cloud Foundry",
       "info": "Infos"
     },
     "clrRuntimePlatform": {
@@ -4655,7 +4672,8 @@
         "labelItemsPutToDiskQueue": "Éléments placés dans la file d'attente de disque par seconde.",
         "labelItemsWrittenToDisk": "Éléments écrits sur disque par seconde"
       },
-      "couchbaseNode": "Nœud Couchbase"
+      "couchbaseNode": "Nœud Couchbase",
+      "bucket": "Compartiment"
     },
     "crio": {
       "getContainerInfo": "Obtenir les informations du conteneur",
@@ -4847,7 +4865,8 @@
       "pagesRead": "Pages lues",
       "pagesWritten": "Pages écrites",
       "poolReadTime": "Temps de lecture du pool",
-      "poolWriteTime": "Temps d'écriture du pool"
+      "poolWriteTime": "Temps d'écriture du pool",
+      "Container": "Conteneur"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "Tous les appels par seconde",
@@ -4878,6 +4897,9 @@
         "total": "Total",
         "kernel": "Noyau",
         "user": "Utilisateur",
+        "totalNormalized": "Total normalisés",
+        "kernelNormalized": "Noyau normalisé",
+        "userNormalized": "Utilisateur normalisé",
         "throttlingCount": "Nombre de limitations",
         "throttlingTime": "Temps de limitation",
         "usage": "Utilisation",
@@ -4924,6 +4946,9 @@
       "total": "Total",
       "kernel": "Noyau",
       "user": "Utilisateur",
+      "totalNormalized": "Total normalisés [0,100]",
+      "kernelNormalized": "Noyau normalisé [0,100]",
+      "userNormalized": "Utilisateur normalisé [0,100]",
       "cpu": "UC",
       "throttlingCount": "Nombre de limitations",
       "throttlingTime": "Temps de limitation",
@@ -5269,7 +5294,8 @@
       "totalMemory": "Mémoire totale",
       "freeMemory": "Mémoire disponible",
       "cpuUsage": "Utilisation de l'UC",
-      "httpRequests": "Demandes HTTP"
+      "httpRequests": "Demandes HTTP",
+      "device": "Appareil"
     },
     "finagleApplicationContainer": {
       "dashboard": {
@@ -5321,7 +5347,8 @@
       "maxChildren": "Nombre max d'enfants",
       "memory": "Mémoire",
       "resources": "Ressources",
-      "phpFpm": "PHP-FPM"
+      "phpFpm": "PHP-FPM",
+      "pool": "Pool"
     },
     "phpRuntimePlatform": {
       "version": "Version",
@@ -5441,7 +5468,9 @@
       "numberOfDeleteRequests": "Nombre de demandes de suppression",
       "numberOfExtendedRequests": "Nombre de demandes étendues",
       "numberOfModifyRequests": "Nombre de demandes de modification",
-      "numberOfSearchRequests": "Nombre de demandes de recherche"
+      "numberOfSearchRequests": "Nombre de demandes de recherche",
+      "database": "Base de données",
+      "ldapConnector": "Connecteur LDAP"
     },
     "postgreSqlDatabase": {
       "troubleshootingDocs": "Documentations sur l'identification et la résolution des incidents",
@@ -5497,7 +5526,8 @@
       "connection": "Connexion",
       "replicationDelayInBytes": "Délai de réplication en octets",
       "replicationDelayInSeconds": "Délai de réplication en secondes",
-      "postgreSql": "PostgreSQL"
+      "postgreSql": "PostgreSQL",
+      "database": "Base de données"
     },
     "process": {
       "jvmAttachGenericIssueDescription": "L'agent hôte ne peut pas s'attacher correctement à cette machine virtuelle Java. Par conséquent, ce processus ne sera pas tracé. Pour plus d'informations sur la cause de l'échec de l'attachement, reportez-vous aux journaux de l'agent hôte. L'agent hôte tente de se connecter à nouveau à cette machine virtuelle toutes les dix minutes. Cependant, tant qu'il n'y parvient pas, aucune trace ou métrique n'est collectée pour cette machine JVM.",
@@ -5712,7 +5742,8 @@
       "messagesTotal": "Nombre total de messages",
       "totalNumberOfNetworkPartitions": "Nombre total de partitions réseau",
       "messagesAcknowledged": "Messages acceptés",
-      "rabbitMq": "RabbitMQ"
+      "rabbitMq": "RabbitMQ",
+      "queue": "File d'attente"
     },
     "redis": {
       "configCommandNameNotConfigured": "Le nom de commande CONFIG Redis doit être configuré pour collecter les métriques Redis.",
@@ -5855,7 +5886,6 @@
       "clusterSize": "Taille du cluster",
       "nodes": "Nœuds",
       "masterNodes": "Nœuds principaux",
-      "redis": "Redis",
       "redisCluster": "Cluster Redis"
     },
     "redisEnterpriseCluster": {
@@ -5894,7 +5924,6 @@
         "shardsWithCount": "Partitions ({{len}})",
         "redisEnterpriseCluster": "Cluster Redis Enterprise"
       },
-      "redisEnterprise": "Redis Enterprise",
       "name": "Nom",
       "throughputOpsSecond": "Débit (Ops/Seconde)",
       "keyspaceHits": "Succès de keyspace",
@@ -6108,7 +6137,8 @@
       "documentsPending": "Documents en attente",
       "solrEvictions": "Expulsions Solr",
       "startedAt": "Démarré à",
-      "solr": "Solr"
+      "solr": "Solr",
+      "core": "Cœur"
     },
     "solrCloudCluster": {
       "nodes": "Nœuds",
@@ -6245,7 +6275,8 @@
       "shuffleWritePerSecond": "Écriture aléatoire par seconde",
       "totalInputBytes": "Nombre total d'octets en entrée",
       "totalShuffleRead": "Nombre total de lectures aléatoires",
-      "totalShuffleWrite": "Nombre total d'écritures aléatoires"
+      "totalShuffleWrite": "Nombre total d'écritures aléatoires",
+      "executorId": "ID exécuteur"
     },
     "garden": {
       "cloudFoundry": "Cloud Foundry",
@@ -6420,7 +6451,7 @@
         "memoryUsage": "Utilisation de la mémoire",
         "heapUsage": "Utilisation du segment de mémoire",
         "gcActivity": "Activité de récupération de place",
-        "goroutines": "Goroutines",
+        "goroutines": "Routines Go",
         "systemHeap": "Segment de mémoire système",
         "usedHeap": "Segment de mémoire utilisé",
         "objects": "Objets",
@@ -6827,7 +6858,8 @@
       "memoryAvailable": "Mémoire disponible",
       "memoryUsed": "Mémoire utilisée",
       "virtualCoresAvailable": "Cœurs virtuels disponibles",
-      "virtualCoresUsed": "Cœurs virtuels utilisés"
+      "virtualCoresUsed": "Cœurs virtuels utilisés",
+      "node": "Nœud"
     },
     "hadoopYARNNode": {
       "dashboard": {
@@ -6906,7 +6938,9 @@
       "responseErrors": "Erreurs de réponse",
       "connectionRetries": "Nombre de tentatives de connexion",
       "deniedResponses": "Réponses refusées",
-      "reDispatchedRequests": "Demandes réexpédiées"
+      "reDispatchedRequests": "Demandes réexpédiées",
+      "frontend": "Système de front-end",
+      "backend": "Back-end"
     },
     "haProxy": {
       "dashboard": {
@@ -7244,7 +7278,9 @@
       "vSphere": "vSphere",
       "vm": "VM",
       "esXiHost": "Hôte ESXi",
-      "datacenter": "Centre de données"
+      "datacenter": "Centre de données",
+      "device": "Appareil",
+      "gpuUuid": "UUID UC"
     },
     "httpd": {
       "dashboard": {
@@ -7304,10 +7340,21 @@
       "trafficPerRequest": "Trafic par demande",
       "busyWorkers": "Workers occupés"
     },
+    "ibmCloudClinicalData": {
+      "ibmClinicalData": "Donnée clinique IBM",
+      "ibmCloudClinicalData": "Donnée clinique IBM Cloud",
+      "kind": "Type",
+      "name": "Nom",
+      "labelApiCalls": "Appels d'API",
+      "labelCallsCount": "Appels",
+      "labelRequestSizeBytes": "Taille de requête",
+      "labelTimeSeconds": "Délai de réponse",
+      "labelZone": "Zone"
+    },
     "ibmCloudCloudant": {
       "labelName": "Nom",
       "requestActivity": "Activité de demande",
-      "ibmCloudant": "IBMCloudant",
+      "ibmCloudant": "IBM Cloudant",
       "ibmCloudCloudant": "IBM Cloud Cloudant",
       "kind": "Type",
       "httpRequestsTotal": "Nombre total de demandes HTTP",
@@ -7359,7 +7406,9 @@
       "memoryUsedPercent": "Pourcentage de mémoire utilisée",
       "titleMemberCount": "Nombre de membres",
       "labelMembers": "Nombre de membres",
-      "labelZone": "Zone"
+      "labelZone": "Zone",
+      "labelDisk": "Disque",
+      "labelMemory": "Mémoire"
     },
     "ibmCloudFunctions": {
       "labelConcurrentInvocations": "Appels simultanés",
@@ -7387,7 +7436,8 @@
       "labelWaitTime": "Délai d'attente ms",
       "labelInitTime": "Délai Init (ms)",
       "labelPackageCount": "Nombre de packages",
-      "labelZone": "Zone"
+      "labelZone": "Zone",
+      "labelFunction": "Fonction"
     },
     "ibmCloudIsLoadBalancer": {
       "labelActiveConnections": "Connexions actives",
@@ -7457,7 +7507,8 @@
       "titleObjectCount": "Nombre d'objets",
       "titleUsed": "Taille utilisée",
       "labelUsed": "Taille utilisée",
-      "labelZone": "Zone"
+      "labelZone": "Zone",
+      "labelMemory": "Mémoire"
     },
     "ibmIOs": {
       "sidebar": {
@@ -7468,7 +7519,7 @@
         "restrictedState": "État restreint"
       },
       "dashboard": {
-        "charts" : {
+        "charts": {
           "cpu": {
             "name": "UC",
             "rate": "Taux"
@@ -7526,7 +7577,8 @@
           }
         }
       },
-      "name": "Db2 on i"
+      "name": "Db2 on i",
+      "memoryPool": "Pool de mémoire"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -7816,7 +7868,11 @@
       "totalObjectCount": "Nombre total d'objets",
       "totalUsedBytes": "Nombre total d'octets utilisés",
       "labelVolumeWriteRequests": "Demandes d'écriture de volume",
-      "labelZone": "Zone"
+      "labelZone": "Zone",
+      "labelCPU": "UC",
+      "labelMemory": "Mémoire",
+      "labelNetwork": "Réseau",
+      "labelVolume": "Volume"
     },
     "instanaAgent": {
       "dashboard": {
@@ -8007,7 +8063,8 @@
       "labelCoresUsed": "Cœurs utilisés",
       "labelCoresTotal": "Nombre total de cœurs",
       "labelNumberFailedDrivers": "Nombre de pilotes ayant échoué",
-      "labelNumberFailedApplications": "Nombre d'applications ayant échoué"
+      "labelNumberFailedApplications": "Nombre d'applications ayant échoué",
+      "workerId": "ID noeud worker"
     },
     "kafka": {
       "kafkaMonitoringRequiresSslTruststoreLocation": "La surveillance Kafka requiert que <code>sslTruststoreLocation</code> et <code>sslTruststorePassword</code> soient configurés dans l'agent Instana <code>configuration.yaml</code> pour les instances Kafka sécurisées avec TLS.",
@@ -8149,7 +8206,9 @@
       "consumers": "Consommateurs",
       "brokersMsgIn": "Agents Msg.In",
       "brokersPartitions": "Partitions de courtiers",
-      "prodLatency": "Prod. Latence"
+      "prodLatency": "Prod. Latence",
+      "producer": "Producteur",
+      "consumer": "Utilisateur"
     },
     "kubernetesCluster": {
       "noActivity": "Aucune activité",
@@ -8277,7 +8336,7 @@
       "timeSinceLastRebalance": "Délai depuis le dernier rééquilibrage",
       "rebalanceAverageTime": "Temps moyen de rééquilibrage",
       "workerInfo": "Informations sur le worker",
-      "kafkaWorker": "KafkaWorker",
+      "kafkaWorker": "Workers Kafka",
       "version": "Version",
       "workerName": "Nom du worker",
       "brokersInUse": "Courtiers en cours d'utilisation",
@@ -8464,7 +8523,8 @@
       "connectionsCreated": "Connexions créées",
       "connectionsUsedPercentage": "Pourcentage de connexions utilisées",
       "threadPools": "Pools d'unités d'exécution",
-      "threadsUsedPercentage": "Pourcentage d'unités d'exécution utilisées"
+      "threadsUsedPercentage": "Pourcentage d'unités d'exécution utilisées",
+      "datasourceJndi": "JNDI source de données"
     },
     "jbossDataGrid": {
       "cacheName": "Cache [{{cacheName}}]",
@@ -8544,7 +8604,9 @@
       "globalConnections": "Connexions globales",
       "connections": "Connexions",
       "cacheStats": "Statistiques du cache",
-      "threadPools": "Pools d'unités d'exécution"
+      "threadPools": "Pools d'unités d'exécution",
+      "cache": "Cache",
+      "cluster": "Cluster"
     },
     "jenkins": {
       "disabled": "Désactivé",
@@ -8577,7 +8639,8 @@
       "jobs": "Travaux",
       "healthStatusOfRecentBuilds": "Statut d'intégrité des générations récentes",
       "lastBuildEstimatedDuration": "Durée estimée de la dernière génération",
-      "lastBuildTimestamp": "Horodatage de la dernière génération"
+      "lastBuildTimestamp": "Horodatage de la dernière génération",
+      "job": "Travail"
     },
     "jettyApplicationContainer": {
       "jmxModuleIsNotEnabledInJetty": "Le module Jmx n'est pas activé dans Jetty. Activez-le pour pouvoir collecter des données. Pour ce faire, ajoutez <code>--module=jmx</code> à <code>start.ini</code>.",
@@ -8688,7 +8751,8 @@
       "pools": "Pools",
       "maxHeap": "Segment de mémoire max",
       "heapUsed": "Segment de mémoire utilisé",
-      "threadDump": "Vidage d'unité d'exécution"
+      "threadDump": "Vidage d'unité d'exécution",
+      "garbageCollector": "Récupérateur de place"
     },
     "springbootAppContainer": {
       "titleRequests": "Demandes",
@@ -8785,7 +8849,7 @@
       "labelPendingMessagesLimit": "Limite des messages en attente",
       "labelSubscribersCount": "Nombre d'abonnés",
       "labelReceiversCount": "Nombre de récepteurs",
-      "infoStatisticsDisabled": "Veuillez activer les statistiques pour Tibco EMS pour activer la collecte de métriques. Ajoutez <codeTag>statistics = enabled</codeTag> à <bold>dans le fichier tibemsd.conf</bold> et redémarrez le serveur ou exécutez <codeTag>set server statistics=enabled</codeTag> en utilisant <bold>tibemsadmin</bold>.",
+      "infoStatisticsDisabled": "Veuillez activer les statistiques pour Tibco EMS pour activer la collecte de métriques. Ajouter <codeTag>statistics = enabled</codeTag> à <bold>dans le fichier tibemsd.conf</bold> et redémarrez le serveur ou exécutez <codeTag>set server statistics=enabled</codeTag> en utilisant <bold>tibemsadmin</bold>.",
       "infoEnableMetricCollection": "Pour activer la collecte des métriques, veuillez ajouter <bold>tibjms-8.5.1.jar</bold> et <bold>tibjmsadmin-8.5.1.jar</bold> à <agent_install_dir>/system/com/tibco/tibjms/tibjms/8.5.1 et <agent_install_dir>/system/com/tibco/tibjms/tibjmsadmin/8.5.1, respectivement"
     },
     "tomcatAppContainer": {
@@ -9036,7 +9100,7 @@
       "labelIdle": "Inactif",
       "labelTotal": "Total",
       "labelHogging": "Encombrement",
-      "labelStandBy": "En veille",
+      "labelStandBy": "Mode Veille",
       "labelStuck": "Bloqué",
       "labelWarning": "Avertissement",
       "labelError": "Erreur",
@@ -9063,7 +9127,8 @@
       "labelRemoteEndpointsCurrent": "Noeuds finaux distants en cours",
       "labelDataSource": "Source de donnée",
       "labelJMSDestination": "Destination JMS",
-      "labelSAFAgent": "Agent SAF"
+      "labelSAFAgent": "Agent SAF",
+      "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {
       "titleName": "Nom",
@@ -9098,7 +9163,8 @@
       "labelServlet": "Servlet",
       "labelServlets": "Servlets",
       "labelDatasource": "Source de données",
-      "labelDatasources": "Sources de données"
+      "labelDatasources": "Sources de données",
+      "webSphere": "WebSphere"
     },
     "webSphereLibertyAppContainer": {
       "titleName": "Nom",
@@ -9133,7 +9199,8 @@
       "labelServlets": "Servlets",
       "labelPool": "Pool",
       "infoMonitorFeatureNotEnabled": "Il semble que la fonction de surveillance n'est pas activée. Veuillez ajouter la fonction monitor-1.0 au fichier server.xml et vérifier que ws-javaagent.jar est chargé en tant que -javaagent au démarrage du serveur.",
-      "infoThreadPoolStatesNotAvailable": "Les statistiques du pool d'unités d'exécution ne sont pas disponibles. Il existe un problème connu lorsque les fonctionnalités JMS (WASJmsClient-1.1 et WASJmsServer-1.0) sont activées avec la fonctionnalité monitor-1.0 dans server.xml. Le mbean des statistiques du pool d'unités d'exécution est remplacé et non visible."
+      "infoThreadPoolStatesNotAvailable": "Les statistiques du pool d'unités d'exécution ne sont pas disponibles. Il existe un problème connu lorsque les fonctionnalités JMS (WASJmsClient-1.1 et WASJmsServer-1.0) sont activées avec la fonctionnalité monitor-1.0 dans server.xml. Le mbean des statistiques du pool d'unités d'exécution est remplacé et non visible.",
+      "webSphereLiberty": "WebSphere Liberty"
     },
     "zooKeeper": {
       "titleTicks": "Ticks",
@@ -9486,7 +9553,8 @@
       "bytesReceived": "Octets reçus",
       "version": "Version",
       "websites": "Sites Web",
-      "request": "Demande"
+      "request": "Demande",
+      "website": "Site Web"
     },
     "msSqlDatabase": {
       "connectionsAmpUsers": "Connexions et utilisateurs",
@@ -9548,7 +9616,8 @@
       "processedEevents": "Événements traités",
       "executionEerrors": "Erreurs d'exécution",
       "fatalEerrors": "Erreurs irrémédiables",
-      "averagePprocessingTime": "Temps de traitement moyen"
+      "averagePprocessingTime": "Temps de traitement moyen",
+      "flow": "Flux"
     },
     "netCoreRuntimePlatform": {
       "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "L'environnement de processus de cette application .NET Core n'est pas correctement configuré pour qu'Instana puisse le surveiller. Les variables d'environnement suivantes doivent être définies sur le processus .NET Core : <code>{{missing}}</code>. Reportez-vous à la documentation pour définir les valeurs appropriées.",
@@ -9882,7 +9951,7 @@
       "operationsCcomplete": "Opérations terminées"
     },
     "openshiftDeploymentConfig": {
-      "openshiftDeploymentConfig": "Openshift DeploymentConfig",
+      "openshiftDeploymentConfig": "Configuration de déploiement Openshift",
       "oc": "oc",
       "describe": "décrire",
       "cluster": "Cluster",
@@ -9981,7 +10050,8 @@
       "inactiveUserSessions": "Sessions utilisateur inactives",
       "backgroundSessions": "Sessions en arrière-plan",
       "tablespaces": "Espaces table",
-      "dbCpuTime": "Temps UC de base de données"
+      "dbCpuTime": "Temps UC de base de données",
+      "tablespace": "Espace de table"
     },
     "azureCosmosDb": {
       "totalRequests": "Nombre total des demandes",

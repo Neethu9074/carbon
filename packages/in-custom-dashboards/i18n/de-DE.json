@@ -279,7 +279,9 @@
         "sharemaxValue": "Teilen Sie die Maximalwerte zwischen den Achsen",
         "auto": "Automatisch"
       },
-      "atLeastOneDatasetIsRequired": "Es ist mindestens ein Datensatz erforderlich."
+      "atLeastOneDatasetIsRequired": "Es ist mindestens ein Datensatz erforderlich.",
+      "errorTitleForConfiguredSliDeletion": "Konfigurierte SLI wurde gelöscht",
+      "errorDescriptionToConfigureOtherSLI": "Aktualisieren Sie das SLO-Widget, indem Sie eine andere SLI auswählen."
     },
     "formCompChart": {
       "colorConfiguratorChart": {

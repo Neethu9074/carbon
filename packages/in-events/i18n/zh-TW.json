@@ -26,6 +26,7 @@
   "titleAffectedEntities": "受影響的實體",
   "titleEnded": "已結束",
   "titleDuration": "持續時間",
+  "titleSeverity": "嚴重性",
   "titleOpenEvents": "開啟的事件",
   "titleEvent": "事件",
   "titleReleaseOccurred": "最近已產生版本",
@@ -98,5 +99,5 @@
   "tooltipAnalyzeCalls": "此項的配置會以「查詢建置器 2」表示式來儲存。<br /> 此按鈕僅適用於儲存在「查詢建置器 1」中的配置",
   "tooltipCloseEventDetail": "關閉事件詳細資料",
   "releaseOccurName": "版本：{{releaseName}}",
-  "releaseOccurTime": "{{releaseStartTime}}（<timeCount/> 前）"
+  "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）"
 }

@@ -91,10 +91,16 @@
     "applicationDirectory": "アプリケーション・ディレクトリー",
     "theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "Fargate on ECS では、他の Python アプリケーションと同じように Python がサポートされます。 次の説明に従ってください。 ",
     "pythonDocumentation": "Python の資料",
+    "theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe": "Fargate on ECS では、他の Ruby アプリケーションと同じように Ruby がサポートされます。次の説明に従ってください。 ",
+    "rubyDocumentation": "Ruby の資料",
+
     "supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs": "AWS Fargate のサポートは、AWS Fargate on ECS (Elastic Container Service) と連動するように設計されています。",
     "selectYourApplicationRuntime": "アプリケーション・ランタイムを選択します:",
     "awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "トレース・データを収集するには、Go で作成された AWS Lambda 関数を手動でインスツルメントする必要があります。 次の説明に従ってください。 ",
     "awsLambdaGoDocumentation": "AWS Lambda Go の資料",
+    "awsLambdaFunctionsWrittenInRubyNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "トレース・データを収集するには、Ruby で作成された AWS Lambda 関数を手動でインスツルメントする必要があります。次の説明に従ってください。 ",
+    "awsLambdaRubyDocumentation": "AWS Lambda Ruby の資料",
+
     "setTheFollowingEnvironmentVariablesInTheEnvironmentVariablesSectionAtAwsLambdaConfigurationPage": "AWS Lambda 構成ページの「環境変数」セクションで次の環境変数を設定します:",
     "configuringYourAwsLambdaFunction": "AWS Lambda 関数の構成",
     "noteThatTheJava8RuntimeIsNotSupportedCurrentlyOnlySupportedRuntimesAreJava8A12AndJava11": "「java8」ランタイムはサポートされないので注意してください。 現在サポートされているランタイムは「java8.a12」と「java11」だけです。",
@@ -186,11 +192,17 @@
     "installingTheInstanaAgentUsingTheOpenShiftOperatorIsDescribedIn": "OpenShift オペレーターを使用した Instana エージェントのインストールについては、次を参照してください。",
     "theInstanaOpenShiftDocumentation": "Instana OpenShift の資料",
     "nameYourOpenShiftCluster": "OpenShift クラスターに名前を付けます",
+    "placeholderReleaseVersionEG001": "リリース・バージョン (「0.0.1」など)",
     "theAgentReleaseVersionMustBeAValidSemanticVersion": "エージェント・リリース・バージョンは、有効なセマンティック・バージョンでなければなりません",
+    "placeholderFoundationNameEGProd": "ファウンデーション名 (「prod」など)",
     "theFoundationNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "ファウンデーション名は、英字、ダッシュ、アンダースコアーを組み合わせて 64 文字以内で指定する必要があります",
+    "placeholderUaaClientIdEGMyClientId": "UAA クライアント ID (「my-client-id」など)",
     "theUaaClientIdCannotBeBlank": "UAA クライアント ID はブランクにできません",
+    "placeholderUaaClientSecretEGMyClientSecret": "UAA クライアント・シークレット (「my-client-secret」など)",
     "theUaaClientSecretCannotBeBlank": "UAA クライアント・シークレットはブランクにできません",
     "supportedStemcells": "サポートされる stemcell",
+    "ubuntuTrusty": "Ubuntu Trusty",
+    "ubuntuXenial": "Ubuntu Xenial",
     "instanaBoshAgentVersion": "Instana BOSH エージェントのバージョン",
     "pleaseProvideTheInstanaBoshReleaseVersionYouWantToUse": "使用する Instana BOSH リリースのバージョンを指定してください:",
     "uploadTheInstanaBoshReleasesToTheBoshDirector": "Instana BOSH リリースを BOSH Director にアップロードします",
@@ -276,7 +288,8 @@
     "nodejs8": "Node.js 8.x",
     "nodejs10Plus": "Node.js 10.x 以降",
     "python": "Python",
-    "python2and3": "Python 2.7 および 3.x"
+    "python2and3": "Python 2.7 および 3.x",
+    "ruby": "Ruby"
   },
   "baseImg": {
     "glibcLinux": "Linux (glibc ベース)",
@@ -298,8 +311,9 @@
   "agentDeployed": "エージェントがデプロイされました",
   "agentsAreReportingDataIsBeingCollected": "エージェントがレポートを作成しています。 データを収集しています。",
   "timeToExploreInstana": "さっそく Instana を使ってみましょう。",
-  "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "Instana インスタンスの準備ができました。大量のデータ処理に適しています。",
+  "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "完了までもう少しです。Instana インスタンスを作成しました。",
   "whileWeArePreparingYourInstanaInstance": "現在、Instana インスタンスを準備しています。",
   "getReadyToDeployAgentsInYourEnvironment": "ご使用の環境にエージェントをデプロイできるように準備しましょう…",
-  "letSGetSomeAgentsRunning": "エージェントを実行しましょう…"
+  "letSGetSomeAgentsRunning": "Instana エージェントのインストールを待機しています。",
+  "theFieldCannotBeBlank": "フィールド「{{fieldName}}」はブランクにできません"
 }

@@ -246,7 +246,10 @@
       "showSyntheticCalls": "显示合成调用",
       "showInternalCalls": "显示内部调用",
       "defaultTurnedOnSynthetic": "由于您查询合成调用，因此将选择此选项。",
-      "defaultTurnedOnInternal": "由于您查询内部调用，因此将选择此选项。"
+      "defaultTurnedOnInternal": "由于您查询内部调用，因此将选择此选项。",
+      "erroneous_true": "true",
+      "erroneous_false": "false",
+      "erroneous_Erroneous": "错误"
     },
     "applications": "应用程序",
     "services": "服务",
@@ -502,7 +505,7 @@
     "percentOfCalls": "所有调用的 {{percentage}}",
     "meanLatencyFor90th": "第 90 个的 {{meanLatencyDetail}}",
     "selectInboundCalls": "仅选择入站调用数或选择所有调用",
-    "calculateInboundCalls": "正在计算 {{applicationName}} 的入站调用数，以查看整体切换到<linkToCalls>所有调用</linkToCalls> 的此 {{entityType}}。",
+    "calculateInboundCalls": "正在计算 {{applicationName}} 的入站调用数，以查看整体切换到<linkToCalls>所有调用</linkToCalls>的此 {{entityType}}。",
     "calculateAllCalls": "正在计算 {{applicationName}} 的<bold>所有调用数</bold>，以仅查看在应用程序边界切换到<linkToCalls>入站调用</linkToCalls>时的此 {{entityType}} 的一部分。",
     "infrastructureIssuesChanges": "基础架构问题与更改",
     "unknownTime": "在 {{entityTime}} 中未知",
@@ -589,7 +592,7 @@
       "descriptionEndpointsRule": "对与此自动生成规则匹配的端点的调用不会作用于 Instana 中的应用程序或服务 KPI，且将被忽略。",
       "errorConditionRequired": "至少需要一个匹配条件。"
     },
-    "and": "逻辑与 "
+    "and": "与"
   },
   "list": {
     "textNewApplicationPerspective": "一旦帐户管理员创建，它们就会出现在此处。",
@@ -601,7 +604,7 @@
     "servicesNoData": "没有任何服务调用可用于所选时间范围。有关故障诊断信息，请参阅[文档]。\n\n[文档]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
-    "batch": "批处理",
+    "batch": "批",
     "shell": "Shell",
     "database": "数据库",
     "http": "Http",

@@ -23,8 +23,6 @@
     "alertHeaderYouCanOnlyStartOrPause": "クエリー・ビルダー 1 モードでは、これらの構成の開始または一時停止のみが可能です。編集することはできません。",
     "alertHistoryListTitle": "作成されたアラート",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "作成されたアラート ({{totalRepresentedItemCount}})",
-    "alertPropertyInfosLabelWarning": "警告",
-    "alertPropertyInfosLabelCritical": "クリティカル",
     "alertPropertyInfosLabelTitle": "タイトル",
     "alertPropertyInfosLabelAlertLevel": "アラート・レベル",
     "alertPropertyInfosLabelTriggersIncident": "インシデントのトリガー",
@@ -94,17 +92,29 @@
     "applications": {
       "newGlobalAlert": "グローバル・スマート・アラート",
       "advanced": {
+        "alertPropertyInsertPlaceholderLabel": "プレースホルダーの挿入",
         "evaluationSwitch": {
           "individual": "個別のアラート",
           "evaluationTypePERAP": {
-            "selectionText": "選択したすべてのサービスおよびエンドポイントの集約について",
+            "selectionText": "このアプリケーション・パースペクティブに対して",
+            "globalSelectionText": "アプリケーション・パースペクティブごと",
             "columnText": "集約",
-            "description": "選択したすべてのサービスおよびエンドポイントの集約に関するアラート"
+            "description": "このアプリケーション・パースペクティブに対して個別にアラートを発行します",
+            "globalDescription": "アプリケーション・パースペクティブごとに個別にアラートを発行します"
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "サービスごとの集約について",
+            "selectionText": "このアプリケーション・パースペクティブのサービスごと",
+            "globalSelectionText": "各アプリケーション・パースペクティブのコンテキストでサービスごと",
             "columnText": "サービスごと",
-            "description": "サービスごとの集約に関して個別にアラート"
+            "description": "このアプリケーション・パースペクティブのサービスごとに個別にアラートを発行します",
+            "globalDescription": "各アプリケーション・パースペクティブのコンテキストでサービスごとに個別にアラートを発行します"
+          },
+          "evaluationTypePERAPENDPOINT": {
+            "selectionText": "このアプリケーション・パースペクティブのエンドポイントごと",
+            "globalSelectionText": "各アプリケーション・パースペクティブのコンテキストでエンドポイントごと",
+            "columnText": "エンドポイントごと",
+            "description": "このアプリケーション・パースペクティブのエンドポイントごとに個別にアラートを発行します",
+            "globalDescription": "各アプリケーション・パースペクティブのコンテキストでエンドポイントごとに個別にアラートを発行します"
           }
         },
         "inboundOutboundCalls": {
@@ -445,8 +455,8 @@
         "provideStatusCodeStatusCode": "状況コード"
       },
       "inventory": {
-        "noData": "スマート・アラートが構成されていません。下のボタンをクリックして最初のスマート・アラートを構成してください。",
-        "noPersmissionToCreateGlobalSmartAlert": "スマート・アラートを構成する権限がありません。管理者にお問い合わせください。",
+        "noData": "スマート・アラートが構成されていません。 下のボタンをクリックして最初のスマート・アラートを構成してください。",
+        "noPersmissionToCreateGlobalSmartAlert": "スマート・アラートを構成する権限がありません。 管理者にお問い合わせください。",
         "labelGlobalSmartAlertsList": "グローバル・アプリケーション・スマート・アラート ({{numberOfAlerts}} 個)",
         "labelSmartAlertsList": "アプリケーション・スマート・アラート ({{numberOfAlerts}} 個)",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -457,7 +467,11 @@
         "noAlertConfigured": "アラートが構成されていません。",
         "alertEntityName": "アラート「{{entityName}}」",
         "labelAlertFilters": "フィルター",
-        "numberOfApplicationsSelected": "{{numberApplicationsSelected}} 個のアプリケーションが選択されています"
+        "labelConfirm": "ご確認ください",
+        "labelConfirmRemoveConfig": "構成 <strong>{{configName}}</strong> を削除しますか?",
+        "labelRemove": "削除",
+        "numberOfApplicationsSelected": "{{count}} 個のアプリケーションが選択されています",
+        "numberOfApplicationsSelected_plural": "{{count}} 個のアプリケーションが選択されています"
       }
     },
     "components": {
@@ -515,6 +529,7 @@
         "timeThresholdConfigOff": "オフ",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "1 以上の数値を指定してください",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "1% から 100% までの数値を指定してください",
+        "alertPropertiesInsertPlaceholderTooltip": "プレースホルダーの挿入",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "状態が指定された時間以上続く場合",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "定義された時間フレーム内で指定された回数だけ条件がトリガーされるたび",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "特定の数のユーザーが影響を受ける場合",
@@ -523,7 +538,7 @@
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "違反数の経時変化",
         "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "ユーザーへの影響",
         "timeThresholdConfigTimeThresholdTitleRequestImpact": "要求への影響",
-        "timeThresholdConfigNoUserSessionDetected": "<linkToIdentifyingUsers>ユーザー</linkToIdentifyingUsers>および<linkToSessionTracking>セッション</linkToSessionTracking>が検出されませんでした。",
+        "timeThresholdConfigNoUserSessionDetected": "検出された<linkToIdentifyingUsers>ユーザー</linkToIdentifyingUsers>や<linkToSessionTracking>セッション</linkToSessionTracking>はありません",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "このオプションを使用する前に Web サイト・モニタリングを構成してください。",
         "alertPropertiesWarning": "警告",
         "alertPropertiesCritical": "クリティカル",
@@ -557,7 +572,7 @@
       },
       "alertsHub": {
         "title": "アラート・ハブ",
-        "introText": "アラート構成ハブにようこそ。ここではアラートの予想を設定できます。",
+        "introText": "アラート構成ハブにようこそ。 ここではアラートの予想を設定できます。",
         "readMore": "続きを読む…",
         "websites": {
           "title": "Web サイト",
@@ -582,7 +597,7 @@
         "infrastructure": {
           "title": "インフラストラクチャーとプラットフォーム",
           "description0": "インフラストラクチャーとプラットフォームのアラートでは、2 ステップ・ワークフローが使用されます。",
-          "description1": "1) 特定の条件に対してイベントが定義されます。組み込みイベントを使用するか、または独自のカスタム・イベントを作成できます。",
+          "description1": "1) 特定の条件に対してイベントが定義されます。 組み込みイベントを使用するか、または独自のカスタム・イベントを作成できます。",
           "description2": "2) 特定のイベントが発生するとアラートが通知されます。",
           "stats": "現在、$t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) および $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} }) があります。",
           "events": "{{count}} 件のカスタム・イベント",

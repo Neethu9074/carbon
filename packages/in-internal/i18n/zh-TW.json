@@ -39,7 +39,7 @@
       "resilientMapping": "備援對映",
       "logMonitor": "日誌監視",
       "logMonitorDesc": "顯示記載資料如何進行寫入和讀取的儀表板。",
-      "logMonitorProcessing": "log-processor（日誌處理）",
+      "logMonitorProcessing": "log-processor（日誌強化）",
       "logMonitorProcessingDesc": "log-processor 從 kafka-topics 讀取日誌，然後將經過強化的日誌寫入其他的 kafka 主題。",
       "logMonitorWriter": "log-writer（日誌汲取）",
       "logMonitorWriterDesc": "log-writer 將日誌汲取到 ClickHouse 中。",
@@ -325,8 +325,12 @@
     },
     "log": {
       "processor": {
-        "name": "log-processor",
+        "title": "log-processor",
         "hostCpuLoad": "主機 CPU 負載",
+        "hostLoad": "主機負載",
+        "host": "主機",
+        "garbageCollection": "記憶體回收",
+        "instances": "log-processors ({{length}})",
         "common": {
           "incoming": "送入的一般日誌",
           "failIncoming": "送入的一般日誌失敗",
@@ -338,7 +342,7 @@
             "tooOld": "一般日誌 Kafka Consumer 太舊"
           }
         },
-        "trace" : {
+        "trace": {
           "incoming": "送入的追蹤日誌",
           "failIncoming": "送入的追蹤日誌失敗",
           "processing": "處理追蹤日誌",
@@ -353,16 +357,62 @@
         "failOutgoing": "送出的日誌失敗"
       },
       "writer": {
-        "name": "log-writer",
+        "title": "log-writer",
         "hostCpuLoad": "主機 CPU 負載",
+        "hostLoad": "主機負載",
+        "host": "主機",
+        "garbageCollection": "記憶體回收",
+        "instances": "log-writer ({{length}})",
         "incoming": "送入的已處理日誌",
         "failIncoming": "送入的已處理日誌失敗",
         "write": "日誌批次寫入",
-        "failWrite": "日誌批次寫入失敗"
+        "failWrite": "日誌批次寫入失敗",
+        "clickHouse": {
+          "insert": "ClickHouse 插入",
+          "failInsert": "ClickHouse 插入失敗",
+          "queryQueueing": "ClickHouse 查詢佇列",
+          "newlyQueuedCalls": "新排入佇列的 ClickHouse呼叫",
+          "queuedCalls": "已排入佇列的 ClickHouse 呼叫",
+          "queryLatency": "ClickHouse 查詢延遲時間",
+          "queryCalls": "ClickHouse 呼叫",
+          "queryLatency50": "ClickHouse 查詢延遲時間（第 50 個）",
+          "queryLatency99": "ClickHouse 查詢延遲時間（第 99 個）",
+          "queryErrorRate": "ClickHouse 錯誤率",
+          "calls": "呼叫",
+          "mean": "平均值",
+          "50th": "第 50 個",
+          "99th": "第 99 個"
+        }
       },
       "reader": {
-        "name": "log-reader",
-        "hostCpuLoad": "主機 CPU 負載"
+        "title": "log-reader",
+        "hostCpuLoad": "主機 CPU 負載",
+        "hostLoad": "主機負載",
+        "host": "主機",
+        "garbageCollection": "記憶體回收",
+        "instances": "log-reader ({{length}})",
+        "gRPCCalls": "送入的 gRPC 呼叫",
+        "gRPCErrors": "送入的 gRPC 錯誤",
+        "tagReaderClient": {
+          "gRPCCalls": "送出的標籤讀取器 gRPC 呼叫",
+          "gRPCErrors": "送出的標籤讀取器 gRPC 錯誤"
+        },
+        "clickHouse": {
+          "select": "ClickHouse 選取",
+          "failSelect": "ClickHouse 選取失敗",
+          "queryQueueing": "ClickHouse 查詢佇列",
+          "newlyQueuedCalls": "新排入佇列的 ClickHouse呼叫",
+          "queuedCalls": "已排入佇列的 ClickHouse 呼叫",
+          "queryLatency": "ClickHouse 查詢延遲時間",
+          "queryCalls": "ClickHouse 呼叫",
+          "queryLatency50": "ClickHouse 查詢延遲時間（第 50 個）",
+          "queryLatency99": "ClickHouse 查詢延遲時間（第 99 個）",
+          "queryErrorRate": "ClickHouse 錯誤率",
+          "calls": "呼叫",
+          "mean": "平均值",
+          "50th": "第 50 個",
+          "99th": "第 99 個"
+        }
       }
     },
     "eum": {

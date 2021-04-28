@@ -468,6 +468,11 @@
   "pluginName_httpd": "Apache HTTPd",
   "pluginName_ibmCics": "IBM CICS",
   "pluginName_ibmCics_plural": "IBM CICS",
+  "pluginName_ibmCloudClinicalData_plural": "IBM Clinical Datas",
+  "pluginName_ibmCloudClinicalData_0": "IBM Clinical Datas",
+  "pluginName_ibmCloudClinicalData_1": "IBM Clnical Datas",
+  "pluginName_ibmCloudClinicalData_2": "IBM Clinical Datas",
+  "pluginName_ibmCloudClinicalData": "IBM Clinical Data",
   "pluginName_ibmCloudCloudant_plural": "IBM Cloudants",
   "pluginName_ibmCloudCloudant_0": "IBM Cloudants",
   "pluginName_ibmCloudCloudant_1": "IBM Cloudants",
@@ -581,7 +586,7 @@
   "pluginName_ibmMqTopic_2": "Argomenti IBM MQ",
   "pluginName_ibmMqTopic": "Argomento IBM MQ",
   "pluginName_ibmVsi_plural": "Istanze IBM Cloud Virtual Server",
-  "pluginName_ibmVsi_0": "Istanze IBM Cloud Virtual Server ",
+  "pluginName_ibmVsi_0": "Istanze IBM Cloud Virtual Server",
   "pluginName_ibmVsi_1": "Istanze BM Cloud Virtual Server",
   "pluginName_ibmVsi_2": "Istanze IBM Cloud Virtual Server",
   "pluginName_ibmVsi": "Istanza IBM Cloud Virtual Server",
@@ -1043,47 +1048,47 @@
   "tracingTypeName_actionview_plural": "Chiamate ActionView",
   "tracingTypeName_actionview_0": "Chiamate ActionView",
   "tracingTypeName_actionview_1": "ActionView",
-  "tracingTypeName_actionview_2": "Chiamate ActionView ",
+  "tracingTypeName_actionview_2": "Chiamate ActionView",
   "tracingTypeName_activerecord": "ActiveRecord",
   "tracingTypeName_activerecord_plural": "Chiamate ActiveRecord",
   "tracingTypeName_activerecord_0": "Chiamate ActiveRecord",
   "tracingTypeName_activerecord_1": "ActiveRecord",
   "tracingTypeName_activerecord_2": "Chiamate ActiveRecord",
-  "tracingTypeName_adonet": "Chiamata ADO ",
+  "tracingTypeName_adonet": "Chiamata ADO",
   "tracingTypeName_adonet_plural": "Chiamate ADO",
   "tracingTypeName_adonet_0": "Chiamate ADO",
-  "tracingTypeName_adonet_1": "Chiamata ADO ",
+  "tracingTypeName_adonet_1": "Chiamata ADO",
   "tracingTypeName_adonet_2": "Chiamate ADO",
-  "tracingTypeName_aerospike": "Chiamata Aerospike ",
-  "tracingTypeName_aerospike_plural": "Chiamate Aerospike ",
-  "tracingTypeName_aerospike_0": "Chiamate Aerospike ",
-  "tracingTypeName_aerospike_1": "Chiamata Aerospike ",
-  "tracingTypeName_aerospike_2": "Chiamate Aerospike ",
-  "tracingTypeName_aiohttpclient": "Richiesta client AIOHTTP ",
-  "tracingTypeName_aiohttpclient_plural": "Richieste client AIOHTTP ",
-  "tracingTypeName_aiohttpclient_0": "Richieste client AIOHTTP ",
-  "tracingTypeName_aiohttpclient_1": "Richiesta client AIOHTTP ",
-  "tracingTypeName_aiohttpclient_2": "Richieste client AIOHTTP ",
-  "tracingTypeName_aiohttpserver": "Chiamata server AIOHTTP ",
-  "tracingTypeName_aiohttpserver_plural": "Chiamate al server AIOHTTP ",
-  "tracingTypeName_aiohttpserver_0": "Chiamate al server AIOHTTP ",
-  "tracingTypeName_aiohttpserver_1": "Chiamata al server AIOHTTP ",
-  "tracingTypeName_aiohttpserver_2": "Chiamate al server AIOHTTP ",
+  "tracingTypeName_aerospike": "Chiamata Aerospike",
+  "tracingTypeName_aerospike_plural": "Chiamate Aerospike",
+  "tracingTypeName_aerospike_0": "Chiamate Aerospike",
+  "tracingTypeName_aerospike_1": "Chiamata Aerospike",
+  "tracingTypeName_aerospike_2": "Chiamate Aerospike",
+  "tracingTypeName_aiohttpclient": "Richiesta client AIOHTTP",
+  "tracingTypeName_aiohttpclient_plural": "Richieste client AIOHTTP",
+  "tracingTypeName_aiohttpclient_0": "Richieste client AIOHTTP",
+  "tracingTypeName_aiohttpclient_1": "Richiesta client AIOHTTP",
+  "tracingTypeName_aiohttpclient_2": "Richieste client AIOHTTP",
+  "tracingTypeName_aiohttpserver": "Chiamata server AIOHTTP",
+  "tracingTypeName_aiohttpserver_plural": "Chiamate al server AIOHTTP",
+  "tracingTypeName_aiohttpserver_0": "Chiamate al server AIOHTTP",
+  "tracingTypeName_aiohttpserver_1": "Chiamata al server AIOHTTP",
+  "tracingTypeName_aiohttpserver_2": "Chiamate al server AIOHTTP",
   "tracingTypeName_airflowtask": "Airflow",
   "tracingTypeName_airflowtask_plural": "Airflow",
   "tracingTypeName_airflowtask_0": "Airflow",
   "tracingTypeName_airflowtask_1": "Airflow",
   "tracingTypeName_airflowtask_2": "Airflow",
-  "tracingTypeName_akkaremoteentry": "Messaggio Akka ",
-  "tracingTypeName_akkaremoteentry_plural": "Messaggi Akka ",
-  "tracingTypeName_akkaremoteentry_0": "Messaggi Akka ",
-  "tracingTypeName_akkaremoteentry_1": "Messaggio Akka ",
-  "tracingTypeName_akkaremoteentry_2": "Messaggi Akka ",
-  "tracingTypeName_akkaremoteexit": "Messaggio Akka ",
-  "tracingTypeName_akkaremoteexit_plural": "Messaggi Akka ",
-  "tracingTypeName_akkaremoteexit_0": "Messaggi Akka ",
-  "tracingTypeName_akkaremoteexit_1": "Messaggio Akka ",
-  "tracingTypeName_akkaremoteexit_2": "Messaggi Akka ",
+  "tracingTypeName_akkaremoteentry": "Messaggio Akka",
+  "tracingTypeName_akkaremoteentry_plural": "Messaggi Akka",
+  "tracingTypeName_akkaremoteentry_0": "Messaggi Akka",
+  "tracingTypeName_akkaremoteentry_1": "Messaggio Akka",
+  "tracingTypeName_akkaremoteentry_2": "Messaggi Akka",
+  "tracingTypeName_akkaremoteexit": "Messaggio Akka",
+  "tracingTypeName_akkaremoteexit_plural": "Messaggi Akka",
+  "tracingTypeName_akkaremoteexit_0": "Messaggi Akka",
+  "tracingTypeName_akkaremoteexit_1": "Messaggio Akka",
+  "tracingTypeName_akkaremoteexit_2": "Messaggi Akka",
   "tracingTypeName_akkahttpclient": "Chiamata HTTP",
   "tracingTypeName_akkahttpclient_plural": "Chiamate HTTP",
   "tracingTypeName_akkahttpclient_0": "Chiamate HTTP",
@@ -1094,16 +1099,16 @@
   "tracingTypeName_akkahttpserver_0": "Chiamate HTTP",
   "tracingTypeName_akkahttpserver_1": "Chiamata HTTP",
   "tracingTypeName_akkahttpserver_2": "Chiamate HTTP",
-  "tracingTypeName_amqp": "Messaggio AMQP ",
-  "tracingTypeName_amqp_plural": "Messaggi AMQP ",
-  "tracingTypeName_amqp_0": "Messaggi AMQP ",
-  "tracingTypeName_amqp_1": "Messaggio AMQP ",
-  "tracingTypeName_amqp_2": "Messaggi AMQP ",
+  "tracingTypeName_amqp": "Messaggio AMQP",
+  "tracingTypeName_amqp_plural": "Messaggi AMQP",
+  "tracingTypeName_amqp_0": "Messaggi AMQP",
+  "tracingTypeName_amqp_1": "Messaggio AMQP",
+  "tracingTypeName_amqp_2": "Messaggi AMQP",
   "tracingTypeName_asgi": "ASGI",
-  "tracingTypeName_asgi_plural": "Chiamate ASGI ",
-  "tracingTypeName_asgi_0": "Chiamate ASGI ",
+  "tracingTypeName_asgi_plural": "Chiamate ASGI",
+  "tracingTypeName_asgi_0": "Chiamate ASGI",
   "tracingTypeName_asgi_1": "ASGI",
-  "tracingTypeName_asgi_2": "Chiamate ASGI ",
+  "tracingTypeName_asgi_2": "Chiamate ASGI",
   "tracingTypeName_aspnet": "Chiamata HTTP",
   "tracingTypeName_aspnet_plural": "Chiamate HTTP",
   "tracingTypeName_aspnet_0": "Chiamate HTTP",
@@ -1164,7 +1169,7 @@
   "tracingTypeName_celeryworker_0": "Chiamate Celery Worker",
   "tracingTypeName_celeryworker_1": "Chiamata Celery Worker",
   "tracingTypeName_celeryworker_2": "Chiamate Celery Worker",
-  "tracingTypeName_cicshttpentry": "Chiamata CICS HTTP ",
+  "tracingTypeName_cicshttpentry": "Chiamata CICS HTTP",
   "tracingTypeName_cicshttpexit": "Chiamata CICS HTTP",
   "tracingTypeName_cicsrpcentry": "Chiamata CICS RCP",
   "tracingTypeName_cicsrpcexit": "Chiamata CICS RCP",
@@ -1254,10 +1259,10 @@
   "tracingTypeName_feign_1": "Chiamata HTTP",
   "tracingTypeName_feign_2": "Chiamate HTTP",
   "tracingTypeName_file": "Accesso al file",
-  "tracingTypeName_file_plural": "Accesso file ",
-  "tracingTypeName_file_0": "Accesso file ",
+  "tracingTypeName_file_plural": "Accesso file",
+  "tracingTypeName_file_0": "Accesso file",
   "tracingTypeName_file_1": "Accesso al file",
-  "tracingTypeName_file_2": "Accesso file ",
+  "tracingTypeName_file_2": "Accesso file",
   "tracingTypeName_finagleclient": "Chiamata HTTP",
   "tracingTypeName_finagleclient_plural": "Chiamate HTTP",
   "tracingTypeName_finagleclient_0": "Chiamate HTTP",
@@ -1600,10 +1605,10 @@
   "tracingTypeName_oncrpcclient_plural": "Client RPC",
   "tracingTypeName_oncrpcclient_0": "Client RPC",
   "tracingTypeName_oncrpcclient_1": "Client RPC",
-  "tracingTypeName_oncrpcclient_2": "Client RPC ",
+  "tracingTypeName_oncrpcclient_2": "Client RPC",
   "tracingTypeName_oncrpcserver": "Server RPC",
   "tracingTypeName_oncrpcserver_plural": "Server RPC",
-  "tracingTypeName_oncrpcserver_0": "Server RPC ",
+  "tracingTypeName_oncrpcserver_0": "Server RPC",
   "tracingTypeName_oncrpcserver_1": "Server RPC",
   "tracingTypeName_oncrpcserver_2": "Server RPC",
   "tracingTypeName_okhttp": "Chiamata HTTP",
@@ -1616,26 +1621,26 @@
   "tracingTypeName_otel_0": "Chiamate",
   "tracingTypeName_otel_1": "Chiamata",
   "tracingTypeName_otel_2": "Chiamate",
-  "tracingTypeName_pdo": "Chiamata PDO ",
-  "tracingTypeName_pdo_plural": "Chiamate PDO ",
-  "tracingTypeName_pdo_0": "Chiamate PDO ",
-  "tracingTypeName_pdo_1": "Chiamata PDO ",
-  "tracingTypeName_pdo_2": "Chiamate PDO ",
-  "tracingTypeName_php": "Richiesta PHP ",
+  "tracingTypeName_pdo": "Chiamata PDO",
+  "tracingTypeName_pdo_plural": "Chiamate PDO",
+  "tracingTypeName_pdo_0": "Chiamate PDO",
+  "tracingTypeName_pdo_1": "Chiamata PDO",
+  "tracingTypeName_pdo_2": "Chiamate PDO",
+  "tracingTypeName_php": "Richiesta PHP",
   "tracingTypeName_php_plural": "Richieste PHP",
   "tracingTypeName_php_0": "Richieste PHP",
-  "tracingTypeName_php_1": "Richiesta PHP ",
+  "tracingTypeName_php_1": "Richiesta PHP",
   "tracingTypeName_php_2": "Richieste PHP",
-  "tracingTypeName_phpcompile": "Tempo di compilazione PHP ",
-  "tracingTypeName_phpcompile_plural": "Tempo di compilazione PHP ",
-  "tracingTypeName_phpcompile_0": "Tempo di compilazione PHP ",
-  "tracingTypeName_phpcompile_1": "Tempo di compilazione PHP ",
-  "tracingTypeName_phpcompile_2": "Tempo di compilazione PHP ",
-  "tracingTypeName_phperror": "Errore PHP ",
-  "tracingTypeName_phperror_plural": "Errori PHP ",
-  "tracingTypeName_phperror_0": "Errori PHP ",
-  "tracingTypeName_phperror_1": "Errore PHP ",
-  "tracingTypeName_phperror_2": "Errori PHP ",
+  "tracingTypeName_phpcompile": "Tempo di compilazione PHP",
+  "tracingTypeName_phpcompile_plural": "Tempo di compilazione PHP",
+  "tracingTypeName_phpcompile_0": "Tempo di compilazione PHP",
+  "tracingTypeName_phpcompile_1": "Tempo di compilazione PHP",
+  "tracingTypeName_phpcompile_2": "Tempo di compilazione PHP",
+  "tracingTypeName_phperror": "Errore PHP",
+  "tracingTypeName_phperror_plural": "Errori PHP",
+  "tracingTypeName_phperror_0": "Errori PHP",
+  "tracingTypeName_phperror_1": "Errore PHP",
+  "tracingTypeName_phperror_2": "Errori PHP",
   "tracingTypeName_play2": "Chiamata HTTP",
   "tracingTypeName_play2_plural": "Chiamate HTTP",
   "tracingTypeName_play2_0": "Chiamate HTTP",
@@ -1661,15 +1666,15 @@
   "tracingTypeName_pyhttp_0": "Chiamate HTTP",
   "tracingTypeName_pyhttp_1": "Chiamata HTTP",
   "tracingTypeName_pyhttp_2": "Chiamate HTTP",
-  "tracingTypeName_quartz": "Lavoro Quartz ",
-  "tracingTypeName_quartz_plural": "Lavori Quartz ",
-  "tracingTypeName_quartz_0": "Lavori Quartz ",
-  "tracingTypeName_quartz_1": "Lavoro Quartz ",
-  "tracingTypeName_quartz_2": "Lavori Quartz ",
-  "tracingTypeName_rabbitmq": "Messaggio RabbitMQ ",
+  "tracingTypeName_quartz": "Lavoro Quartz",
+  "tracingTypeName_quartz_plural": "Lavori Quartz",
+  "tracingTypeName_quartz_0": "Lavori Quartz",
+  "tracingTypeName_quartz_1": "Lavoro Quartz",
+  "tracingTypeName_quartz_2": "Lavori Quartz",
+  "tracingTypeName_rabbitmq": "Messaggio RabbitMQ",
   "tracingTypeName_rabbitmq_plural": "Messaggi rabbitMQ",
   "tracingTypeName_rabbitmq_0": "Messaggi rabbitMQ",
-  "tracingTypeName_rabbitmq_1": "Messaggio RabbitMQ ",
+  "tracingTypeName_rabbitmq_1": "Messaggio RabbitMQ",
   "tracingTypeName_rabbitmq_2": "Messaggi rabbitMQ",
   "tracingTypeName_rack": "Rack",
   "tracingTypeName_rack_plural": "Chiamate Rack",
@@ -1695,17 +1700,17 @@
   "tracingTypeName_render_plural": "Chiamate Render",
   "tracingTypeName_render_0": "Chiamate Render",
   "tracingTypeName_render_1": "Render",
-  "tracingTypeName_render_2": "Chiamate Render ",
-  "tracingTypeName_resqueclient": "Client Resque ",
+  "tracingTypeName_render_2": "Chiamate Render",
+  "tracingTypeName_resqueclient": "Client Resque",
   "tracingTypeName_resqueclient_plural": "Chiamate client Resque",
   "tracingTypeName_resqueclient_0": "Chiamate client Resque",
-  "tracingTypeName_resqueclient_1": "Client Resque ",
+  "tracingTypeName_resqueclient_1": "Client Resque",
   "tracingTypeName_resqueclient_2": "Chiamate client Resque",
   "tracingTypeName_resqueworker": "Operatore Worker",
-  "tracingTypeName_resqueworker_plural": "Operatori Resque ",
-  "tracingTypeName_resqueworker_0": "Operatori Resque ",
+  "tracingTypeName_resqueworker_plural": "Operatori Resque",
+  "tracingTypeName_resqueworker_0": "Operatori Resque",
   "tracingTypeName_resqueworker_1": "Operatore Worker",
-  "tracingTypeName_resqueworker_2": "Operatori Resque ",
+  "tracingTypeName_resqueworker_2": "Operatori Resque",
   "tracingTypeName_resteasy": "Chiamata HTTP",
   "tracingTypeName_resteasy_plural": "Chiamate HTTP",
   "tracingTypeName_resteasy_0": "Chiamate HTTP",
@@ -1731,11 +1736,11 @@
   "tracingTypeName_rpcserver_0": "Chiamate server RPC",
   "tracingTypeName_rpcserver_1": "Server RPC",
   "tracingTypeName_rpcserver_2": "Chiamate server RPC",
-  "tracingTypeName_s3": "Chiamata S3 ",
-  "tracingTypeName_s3_plural": "Chiamate S3 ",
-  "tracingTypeName_s3_0": "Chiamate S3 ",
-  "tracingTypeName_s3_1": "Chiamata S3 ",
-  "tracingTypeName_s3_2": "Chiamate S3 ",
+  "tracingTypeName_s3": "Chiamata S3",
+  "tracingTypeName_s3_plural": "Chiamate S3",
+  "tracingTypeName_s3_0": "Chiamate S3",
+  "tracingTypeName_s3_1": "Chiamata S3",
+  "tracingTypeName_s3_2": "Chiamate S3",
   "tracingTypeName_scalatra": "Chiamata HTTP",
   "tracingTypeName_scalatra_plural": "Chiamate HTTP",
   "tracingTypeName_scalatra_0": "Chiamate HTTP",
@@ -1746,16 +1751,16 @@
   "tracingTypeName_sdk_0": "Chiamate",
   "tracingTypeName_sdk_1": "Chiamata",
   "tracingTypeName_sdk_2": "Chiamate",
-  "tracingTypeName_sdkbatch": "Lavoro batch ",
-  "tracingTypeName_sdkbatch_plural": "Lavor batch ",
-  "tracingTypeName_sdkbatch_0": "Lavor batch ",
-  "tracingTypeName_sdkbatch_1": "Lavoro batch ",
-  "tracingTypeName_sdkbatch_2": "Lavor batch ",
-  "tracingTypeName_sdkdatabase": "Chiamata al database ",
-  "tracingTypeName_sdkdatabase_plural": "Chiamate al database ",
-  "tracingTypeName_sdkdatabase_0": "Chiamate al database ",
-  "tracingTypeName_sdkdatabase_1": "Chiamata al database ",
-  "tracingTypeName_sdkdatabase_2": "Chiamate al database ",
+  "tracingTypeName_sdkbatch": "Lavoro batch",
+  "tracingTypeName_sdkbatch_plural": "Lavor batch",
+  "tracingTypeName_sdkbatch_0": "Lavor batch",
+  "tracingTypeName_sdkbatch_1": "Lavoro batch",
+  "tracingTypeName_sdkbatch_2": "Lavor batch",
+  "tracingTypeName_sdkdatabase": "Chiamata al database",
+  "tracingTypeName_sdkdatabase_plural": "Chiamate al database",
+  "tracingTypeName_sdkdatabase_0": "Chiamate al database",
+  "tracingTypeName_sdkdatabase_1": "Chiamata al database",
+  "tracingTypeName_sdkdatabase_2": "Chiamate al database",
   "tracingTypeName_sdkgraphql": "GraphQL",
   "tracingTypeName_sdkgraphql_plural": "GraphQL",
   "tracingTypeName_sdkgraphql_0": "GraphQL",
@@ -1771,10 +1776,10 @@
   "tracingTypeName_sdkhttpexit_0": "Chiamate HTTP",
   "tracingTypeName_sdkhttpexit_1": "Chiamata HTTP",
   "tracingTypeName_sdkhttpexit_2": "Chiamate HTTP",
-  "tracingTypeName_sdkmessaging": "Chiamata di messaggistica ",
+  "tracingTypeName_sdkmessaging": "Chiamata di messaggistica",
   "tracingTypeName_sdkmessaging_plural": "Chiamate di messaggistica",
   "tracingTypeName_sdkmessaging_0": "Chiamate di messaggistica",
-  "tracingTypeName_sdkmessaging_1": "Chiamata di messaggistica ",
+  "tracingTypeName_sdkmessaging_1": "Chiamata di messaggistica",
   "tracingTypeName_sdkmessaging_2": "Chiamate di messaggistica",
   "tracingTypeName_sdkrpcentry": "Server RPC",
   "tracingTypeName_sdkrpcentry_plural": "Chiamate server RPC",
@@ -1791,36 +1796,36 @@
   "tracingTypeName_servlet_0": "Chiamate HTTP",
   "tracingTypeName_servlet_1": "Chiamata HTTP",
   "tracingTypeName_servlet_2": "Chiamate HTTP",
-  "tracingTypeName_session": "Chiamata sessione ",
-  "tracingTypeName_session_plural": "Chiamate sessione ",
-  "tracingTypeName_session_0": "Chiamate sessione ",
-  "tracingTypeName_session_1": "Chiamata sessione ",
-  "tracingTypeName_session_2": "Chiamate sessione ",
-  "tracingTypeName_shell": "Chiamata Shell ",
-  "tracingTypeName_shell_plural": "Chiamate Shell ",
-  "tracingTypeName_shell_0": "Chiamate Shell ",
-  "tracingTypeName_shell_1": "Chiamata Shell ",
-  "tracingTypeName_shell_2": "Chiamate Shell ",
-  "tracingTypeName_sidekiqclient": "Client Sidekiq ",
-  "tracingTypeName_sidekiqclient_plural": "Chiamate client Sidekiq ",
-  "tracingTypeName_sidekiqclient_0": "Chiamate client Sidekiq ",
-  "tracingTypeName_sidekiqclient_1": "Client Sidekiq ",
-  "tracingTypeName_sidekiqclient_2": "Chiamate client Sidekiq ",
-  "tracingTypeName_sidekiqworker": "Operatore Sidekiq ",
-  "tracingTypeName_sidekiqworker_plural": "Operatori Sidekiq ",
-  "tracingTypeName_sidekiqworker_0": "Operatori Sidekiq ",
-  "tracingTypeName_sidekiqworker_1": "Operatore Sidekiq ",
-  "tracingTypeName_sidekiqworker_2": "Operatori Sidekiq ",
-  "tracingTypeName_sns": "Messaggio SNS ",
+  "tracingTypeName_session": "Chiamata sessione",
+  "tracingTypeName_session_plural": "Chiamate sessione",
+  "tracingTypeName_session_0": "Chiamate sessione",
+  "tracingTypeName_session_1": "Chiamata sessione",
+  "tracingTypeName_session_2": "Chiamate sessione",
+  "tracingTypeName_shell": "Chiamata Shell",
+  "tracingTypeName_shell_plural": "Chiamate Shell",
+  "tracingTypeName_shell_0": "Chiamate Shell",
+  "tracingTypeName_shell_1": "Chiamata Shell",
+  "tracingTypeName_shell_2": "Chiamate Shell",
+  "tracingTypeName_sidekiqclient": "Client Sidekiq",
+  "tracingTypeName_sidekiqclient_plural": "Chiamate client Sidekiq",
+  "tracingTypeName_sidekiqclient_0": "Chiamate client Sidekiq",
+  "tracingTypeName_sidekiqclient_1": "Client Sidekiq",
+  "tracingTypeName_sidekiqclient_2": "Chiamate client Sidekiq",
+  "tracingTypeName_sidekiqworker": "Operatore Sidekiq",
+  "tracingTypeName_sidekiqworker_plural": "Operatori Sidekiq",
+  "tracingTypeName_sidekiqworker_0": "Operatori Sidekiq",
+  "tracingTypeName_sidekiqworker_1": "Operatore Sidekiq",
+  "tracingTypeName_sidekiqworker_2": "Operatori Sidekiq",
+  "tracingTypeName_sns": "Messaggio SNS",
   "tracingTypeName_sns_plural": "Messaggi SNS",
   "tracingTypeName_sns_0": "Messaggi SNS",
-  "tracingTypeName_sns_1": "Messaggio SNS ",
+  "tracingTypeName_sns_1": "Messaggio SNS",
   "tracingTypeName_sns_2": "Messaggi SNS",
-  "tracingTypeName_soap": "Richiesta SOAP ",
-  "tracingTypeName_soap_plural": "Richieste SOAP ",
-  "tracingTypeName_soap_0": "Richieste SOAP ",
-  "tracingTypeName_soap_1": "Richiesta SOAP ",
-  "tracingTypeName_soap_2": "Richieste SOAP ",
+  "tracingTypeName_soap": "Richiesta SOAP",
+  "tracingTypeName_soap_plural": "Richieste SOAP",
+  "tracingTypeName_soap_0": "Richieste SOAP",
+  "tracingTypeName_soap_1": "Richiesta SOAP",
+  "tracingTypeName_soap_2": "Richieste SOAP",
   "tracingTypeName_sprayclient": "Chiamata HTTP",
   "tracingTypeName_sprayclient_plural": "Chiamate HTTP",
   "tracingTypeName_sprayclient_0": "Chiamate HTTP",
@@ -1831,11 +1836,11 @@
   "tracingTypeName_sprayserver_0": "Chiamate HTTP",
   "tracingTypeName_sprayserver_1": "Chiamata HTTP",
   "tracingTypeName_sprayserver_2": "Chiamate HTTP",
-  "tracingTypeName_springbatch": "Lavoro batch Spring ",
-  "tracingTypeName_springbatch_plural": "Lavori batch Spring ",
-  "tracingTypeName_springbatch_0": "Lavori batch Spring ",
-  "tracingTypeName_springbatch_1": "Lavoro batch Spring ",
-  "tracingTypeName_springbatch_2": "Lavori batch Spring ",
+  "tracingTypeName_springbatch": "Lavoro batch Spring",
+  "tracingTypeName_springbatch_plural": "Lavori batch Spring",
+  "tracingTypeName_springbatch_0": "Lavori batch Spring",
+  "tracingTypeName_springbatch_1": "Lavoro batch Spring",
+  "tracingTypeName_springbatch_2": "Lavori batch Spring",
   "tracingTypeName_springcgentry": "Chiamata HTTP",
   "tracingTypeName_springcgentry_plural": "Chiamate HTTP",
   "tracingTypeName_springcgentry_0": "Chiamate HTTP",
@@ -1866,31 +1871,31 @@
   "tracingTypeName_springwebfluxexit_0": "Chiamate HTTP",
   "tracingTypeName_springwebfluxexit_1": "Chiamata HTTP",
   "tracingTypeName_springwebfluxexit_2": "Chiamate HTTP",
-  "tracingTypeName_sqlalchemy": "Chiamata SQLAlchemy ",
-  "tracingTypeName_sqlalchemy_plural": "Chiamate SQLAlchemy ",
-  "tracingTypeName_sqlalchemy_0": "Chiamate SQLAlchemy ",
-  "tracingTypeName_sqlalchemy_1": "Chiamata SQLAlchemy ",
-  "tracingTypeName_sqlalchemy_2": "Chiamate SQLAlchemy ",
-  "tracingTypeName_sqs": "Messaggio SQS ",
+  "tracingTypeName_sqlalchemy": "Chiamata SQLAlchemy",
+  "tracingTypeName_sqlalchemy_plural": "Chiamate SQLAlchemy",
+  "tracingTypeName_sqlalchemy_0": "Chiamate SQLAlchemy",
+  "tracingTypeName_sqlalchemy_1": "Chiamata SQLAlchemy",
+  "tracingTypeName_sqlalchemy_2": "Chiamate SQLAlchemy",
+  "tracingTypeName_sqs": "Messaggio SQS",
   "tracingTypeName_sqs_plural": "Messaggi SQS",
   "tracingTypeName_sqs_0": "Messaggi SQS",
-  "tracingTypeName_sqs_1": "Messaggio SQS ",
+  "tracingTypeName_sqs_1": "Messaggio SQS",
   "tracingTypeName_sqs_2": "Messaggi SQS",
   "tracingTypeName_symfony": "Symfony",
   "tracingTypeName_symfony_plural": "Symfonies",
   "tracingTypeName_symfony_0": "Symfonies",
   "tracingTypeName_symfony_1": "Symfony",
   "tracingTypeName_symfony_2": "Symfonies",
-  "tracingTypeName_tabex": "Chiamata Tabex ",
-  "tracingTypeName_tabex_plural": "Chiamate Tabex ",
-  "tracingTypeName_tabex_0": "Chiamate Tabex ",
-  "tracingTypeName_tabex_1": "Chiamata Tabex ",
-  "tracingTypeName_tabex_2": "Chiamate Tabex ",
-  "tracingTypeName_tornadoclient": "Richiesta client Tornado ",
-  "tracingTypeName_tornadoclient_plural": "Richieste client Tornado ",
-  "tracingTypeName_tornadoclient_0": "Richieste client Tornado ",
-  "tracingTypeName_tornadoclient_1": "Richiesta client Tornado ",
-  "tracingTypeName_tornadoclient_2": "Richieste client Tornado ",
+  "tracingTypeName_tabex": "Chiamata Tabex",
+  "tracingTypeName_tabex_plural": "Chiamate Tabex",
+  "tracingTypeName_tabex_0": "Chiamate Tabex",
+  "tracingTypeName_tabex_1": "Chiamata Tabex",
+  "tracingTypeName_tabex_2": "Chiamate Tabex",
+  "tracingTypeName_tornadoclient": "Richiesta client Tornado",
+  "tracingTypeName_tornadoclient_plural": "Richieste client Tornado",
+  "tracingTypeName_tornadoclient_0": "Richieste client Tornado",
+  "tracingTypeName_tornadoclient_1": "Richiesta client Tornado",
+  "tracingTypeName_tornadoclient_2": "Richieste client Tornado",
   "tracingTypeName_tornadserver": "Chiamata al server Tornado",
   "tracingTypeName_tornadserver_plural": "Chiamate al server Tornado",
   "tracingTypeName_tornadserver_0": "Chiamate al server Tornado",
@@ -1907,10 +1912,10 @@
   "tracingTypeName_url_1": "Chiamata HTTP",
   "tracingTypeName_url_2": "Chiamate HTTP",
   "tracingTypeName_urllib3": "Richiesta urllib3",
-  "tracingTypeName_urllib3_plural": "Richieste urllib3 ",
-  "tracingTypeName_urllib3_0": "Richieste Turllib3 ",
-  "tracingTypeName_urllib3_1": "Richiesta urllib3 ",
-  "tracingTypeName_urllib3_2": "Richieste urllib3 ",
+  "tracingTypeName_urllib3_plural": "Richieste urllib3",
+  "tracingTypeName_urllib3_0": "Richieste Turllib3",
+  "tracingTypeName_urllib3_1": "Richiesta urllib3",
+  "tracingTypeName_urllib3_2": "Richieste urllib3",
   "tracingTypeName_vaadin": "Chiamata HTTP",
   "tracingTypeName_vaadin_plural": "Chiamate HTTP",
   "tracingTypeName_vaadin_0": "Chiamate HTTP",
@@ -1921,16 +1926,16 @@
   "tracingTypeName_vertxclient_0": "Chiamate HTTP",
   "tracingTypeName_vertxclient_1": "Chiamata HTTP",
   "tracingTypeName_vertxclient_2": "Chiamate HTTP",
-  "tracingTypeName_vertxcluster": "Messaggio cluster Vert.x ",
-  "tracingTypeName_vertxcluster_plural": "Messaggi cluster Vert.x ",
-  "tracingTypeName_vertxcluster_0": "Messaggi cluster Vert.x ",
-  "tracingTypeName_vertxcluster_1": "Messaggio cluster Vert.x ",
-  "tracingTypeName_vertxcluster_2": "Messaggi cluster Vert.x ",
-  "tracingTypeName_vertxredis": "Chiamata Vert.x Redis ",
-  "tracingTypeName_vertxredis_plural": "Chiamate Vert.x Redis ",
-  "tracingTypeName_vertxredis_0": "Chiamate Vert.x Redis ",
-  "tracingTypeName_vertxredis_1": "Chiamata Vert.x Redis ",
-  "tracingTypeName_vertxredis_2": "Chiamate Vert.x Redis ",
+  "tracingTypeName_vertxcluster": "Messaggio cluster Vert.x",
+  "tracingTypeName_vertxcluster_plural": "Messaggi cluster Vert.x",
+  "tracingTypeName_vertxcluster_0": "Messaggi cluster Vert.x",
+  "tracingTypeName_vertxcluster_1": "Messaggio cluster Vert.x",
+  "tracingTypeName_vertxcluster_2": "Messaggi cluster Vert.x",
+  "tracingTypeName_vertxredis": "Chiamata Vert.x Redis",
+  "tracingTypeName_vertxredis_plural": "Chiamate Vert.x Redis",
+  "tracingTypeName_vertxredis_0": "Chiamate Vert.x Redis",
+  "tracingTypeName_vertxredis_1": "Chiamata Vert.x Redis",
+  "tracingTypeName_vertxredis_2": "Chiamate Vert.x Redis",
   "tracingTypeName_vertxserver": "Chiamata HTTP",
   "tracingTypeName_vertxserver_plural": "Chiamate HTTP",
   "tracingTypeName_vertxserver_0": "Chiamate HTTP",
@@ -1972,10 +1977,10 @@
   "tracingTypeName_wordpress_1": "Wordpress",
   "tracingTypeName_wordpress_2": "Wordpresses",
   "tracingTypeName_wsgi": "WSGI",
-  "tracingTypeName_wsgi_plural": "Chiamate WSGI ",
-  "tracingTypeName_wsgi_0": "Chiamata WSGI ",
+  "tracingTypeName_wsgi_plural": "Chiamate WSGI",
+  "tracingTypeName_wsgi_0": "Chiamata WSGI",
   "tracingTypeName_wsgi_1": "WSGI",
-  "tracingTypeName_wsgi_2": "Chiamate WSGI ",
+  "tracingTypeName_wsgi_2": "Chiamate WSGI",
   "tracingTypeName_xhc": "Chiamata HTTP",
   "tracingTypeName_xhc_plural": "Chiamate HTTP",
   "tracingTypeName_xhc_0": "Chiamate HTTP",
@@ -1986,35 +1991,35 @@
   "tracingTypeName_xhttp_0": "Chiamate HTTP",
   "tracingTypeName_xhttp_1": "Chiamata HTTP",
   "tracingTypeName_xhttp_2": "Chiamate HTTP",
-  "tracingTypeName_zceehttpentry": "Chiamata z/OS Connect HTTP ",
+  "tracingTypeName_zceehttpentry": "Chiamata z/OS Connect HTTP",
   "tracingTypeName_zf": "Framework Zend",
   "tracingTypeName_zf_plural": "Zend Frameworks",
   "tracingTypeName_zf_0": "Zend Frameworks",
   "tracingTypeName_zf_1": "Framework Zend",
   "tracingTypeName_zf_2": "Zend Frameworks",
   "tracingTypeName_zfview": "Vista Zend",
-  "tracingTypeName_zfview_plural": "Viste Zend ",
-  "tracingTypeName_zfview_0": "Viste Zend ",
+  "tracingTypeName_zfview_plural": "Viste Zend",
+  "tracingTypeName_zfview_0": "Viste Zend",
   "tracingTypeName_zfview_1": "Vista Zend",
-  "tracingTypeName_zfview_2": "Viste Zend ",
+  "tracingTypeName_zfview_2": "Viste Zend",
   "tracingTypeName_zipkin": "Chiamata",
   "tracingTypeName_zipkin_plural": "Chiamate",
   "tracingTypeName_zipkin_0": "Chiamate",
   "tracingTypeName_zipkin_1": "Chiamata",
   "tracingTypeName_zipkin_2": "Chiamate",
   "tracingCategory": {
-    "generic": "generico ",
+    "generic": "generico",
     "database": "database",
     "cache": "cache",
     "http": "http",
     "rpc": "rpc",
-    "messaging": "messaggistica ",
+    "messaging": "messaggistica",
     "batch": "batch",
     "remote": "remoto",
     "io": "io",
     "graphql": "graphql",
-    "logger": "programma di registrazione ",
-    "missing": "mancante ",
+    "logger": "programma di registrazione",
+    "missing": "mancante",
     "xray": "xray"
   },
   "plugins": {
@@ -2261,8 +2266,8 @@
       "nonHeapMemMax": "Memoria massima non heap JVM",
       "nonHeapMemCommitted": "Memoria impegnata non heap JVM",
       "nonHeapMemUsed": "Memoria utilizzata non heap JVM",
-      "cumulativeNumberOfGcCollections": "Numero raccolte dati inutilizzati ",
-      "cumulativeGCTimeInSeconds": "Durata raccolta dati inutilizzati ",
+      "cumulativeNumberOfGcCollections": "Numero raccolte dati inutilizzati",
+      "cumulativeGCTimeInSeconds": "Durata raccolta dati inutilizzati",
       "messageFlowName": "Nome flusso di messaggi",
       "status": "Stato",
       "messageFlowNumber": "Flusso di messaggi ({{count}})",
@@ -2368,7 +2373,10 @@
       "consumerCount": "Numero consumatori",
       "deadLetterQueuesNumber": "Code di messaggi non recapitabili {{len}}",
       "queuesNumber": "Code {{len}}",
-      "topicsNumber": "Argomenti {{len}}"
+      "topicsNumber": "Argomenti {{len}}",
+      "topic": "Argomento",
+      "queue": "Coda",
+      "dlQueue": "Coda DL "
     },
     "activeMQArtemis": {
       "jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue": "Jmx non è abilitato. È possibile abilitarlo nella configurazione activemq impostando su true la proprietà del broker useJmx.",
@@ -2406,7 +2414,8 @@
       "allQueuesMessagesAdded": "Messaggi aggiunti di tutte le code",
       "allQueuesMessagesAcknowledged": "Messaggi notificati di tutte le code",
       "allQueuesMessagesExpired": "Messaggi scaduti di tutte le code",
-      "allQueuesMessagesKilled": "Messaggi ignorati di tutte le code"
+      "allQueuesMessagesKilled": "Messaggi ignorati di tutte le code",
+      "queue": "Coda"
     },
     "aerospike": {
       "aerospike": "Aerospike"
@@ -3022,7 +3031,8 @@
       "headerLambdaFunctionInfo": "Info funzione Lambda",
       "headerServicesLATEST": "Servizi per $ULTIMO",
       "labelVersions": "Versioni",
-      "descriptionLambda": "Risulta che non si stia monitorando questa Lambda con un agent Instana. L'impostazione di un agent AWS per l'account AWS corrispondente rappresenta un prerequisito per il tracciamento della Lambda nativa. Si prega di verificare la documentazione sull'argomento, in particolare i documenti relativi all' <installLink>installazione dell'agent AWS</installLink>."
+      "descriptionLambda": "Risulta che non si stia monitorando questa Lambda con un agent Instana. L'impostazione di un agent AWS per l'account AWS corrispondente rappresenta un prerequisito per il tracciamento della Lambda nativa. Si prega di verificare la documentazione sull'argomento, in particolare i documenti relativi all' <installLink>installazione dell'agent AWS</installLink>.",
+      "noVersions": "Non si dispone di dati relativi a singole versioni di questa funzione Lambda. Si è configurato il monitoraggio con questo agent AWS per questo account e regione AWS? Si prega di verificare la documentazione sull'argomento, in particolare i documenti relativi all' <installLink>installazione dell'agent AWS</installLink>."
     },
     "awsLambdaVersion": {
       "titleLambdaFunction": "Funzione Lambda",
@@ -3131,7 +3141,9 @@
       "memoryUsage2ndBroker": "MemoryUsage (2° Broker)",
       "enqueueTime": "EnqueueTime",
       "enqueueTime2ndBroker": "EnqueueTime (2° Broker)",
-      "producerCCount": "Numero produttori"
+      "producerCount": "Numero produttori",
+      "queue": "Coda",
+      "topic": "Argomento"
     },
     "awsMskBroker": {
       "dashboard": {
@@ -3708,7 +3720,8 @@
         "labelInMemoryOLTPStorage": "Storage OLTP in memoria",
         "labelCPULimit": "Limite CPU",
         "labelCPUUsed": "CPU utilizzata"
-      }
+      },
+      "database": "Database"
     },
     "azureSqlElasticPool": {
       "infoName": "Nome",
@@ -3759,7 +3772,8 @@
         "titleVCore": "vCore",
         "labelCPULimit": "Limite CPU",
         "labelCPUUsed": "CPU utilizzata"
-      }
+      },
+      "elasticPool": "Pool elastico "
     },
     "azureSqlServer": {
       "infoName": "Nome",
@@ -3906,7 +3920,7 @@
         "labelSuspended": "Sospeso"
       },
       "documents": "Documenti",
-      "locations": "Ubicazioni ",
+      "locations": "Ubicazioni",
       "threads": "Thread",
       "throttlingDelay": "Limitazioni & Ritardo"
     },
@@ -3966,7 +3980,8 @@
       "cassandraCluster": "Cluster Cassandra",
       "nodes": "Nodi",
       "latency": "Latenza",
-      "keyspaces": "Keyspace"
+      "keyspaces": "Keyspace",
+      "keyspace": "Keyspace"
     },
     "cassandraNode": {
       "infoVersion": "Versione",
@@ -4057,7 +4072,8 @@
       "communication": "Comunicazioni",
       "tokens": "Token",
       "latency": "Latenza",
-      "keyspaces": "Keyspace"
+      "keyspaces": "Keyspace",
+      "keyspace": "Keyspace"
     },
     "ceph": {
       "infoProcessID": "ID processo",
@@ -4122,7 +4138,8 @@
       },
       "poolsWithCount": "Pool ({{len}})",
       "cephCluster": "Cluster Ceph",
-      "pools": "Pool"
+      "pools": "Pool",
+      "pool": "Pool"
     },
     "clickhouseCluster": {
       "indexLabel": "Cluster ClickHouse",
@@ -4495,7 +4512,7 @@
       "labelRaftLastSnapshotTerm": "Raft: ultimo scadenza istantanea",
       "labelRaftNumPeers": "Raft: numero di pari",
       "labelRaftTerm": "Raft: scaduto - elezione nuovo leader",
-      "consulVersionTooOld": "Versione Consul troppo vecchia ",
+      "consulVersionTooOld": "Versione Consul troppo vecchia",
       "currentConsulVersion": "Versione consul corrente ",
       "dashboard": {
         "labelState": "Stato",
@@ -4655,7 +4672,8 @@
         "labelItemsPutToDiskQueue": "Elementi inseriti nella coda del disco al sec.",
         "labelItemsWrittenToDisk": "Elementi scritti sul disco al sec."
       },
-      "couchbaseNode": "Nodo Couchbase"
+      "couchbaseNode": "Nodo Couchbase",
+      "bucket": "Bucket"
     },
     "crio": {
       "getContainerInfo": "Ottieni informazioni sul contenitore",
@@ -4847,7 +4865,8 @@
       "pagesRead": "Pagine lette",
       "pagesWritten": "Pagine scritte",
       "poolReadTime": "Tempo lettura pool",
-      "poolWriteTime": "Tempo scrittura pool"
+      "poolWriteTime": "Tempo scrittura pool",
+      "Container": "Contanitore"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "Tutte Le Chiamate al secondo",
@@ -4878,6 +4897,9 @@
         "total": "Totale",
         "kernel": "Kernel",
         "user": "Utente",
+        "totalNormalized": "Totale normalizzato ",
+        "kernelNormalized": "Kernel normalizzato ",
+        "userNormalized": "Utente normalizzato ",
         "throttlingCount": "Numero limitazioni",
         "throttlingTime": "Tempo limitazione",
         "usage": "Utilizzo",
@@ -4924,6 +4946,9 @@
       "total": "Totale",
       "kernel": "Kernel",
       "user": "Utente",
+      "totalNormalized": "Totale normalizzato [0,100]",
+      "kernelNormalized": "Kernel normalizzato [0,100]",
+      "userNormalized": "Utente normalizzato [0,100]",
       "cpu": "CPU",
       "throttlingCount": "Numero limitazioni",
       "throttlingTime": "Tempo limitazione",
@@ -5200,7 +5225,7 @@
       "envoy": "Envoy",
       "pid": "ID processo",
       "version": "Versione",
-      "configFilePath": "File di configurazione ",
+      "configFilePath": "File di configurazione",
       "requestsPerSecond": "Richieste al secondo"
     },
     "etcd": {
@@ -5269,7 +5294,8 @@
       "totalMemory": "Memoria totale",
       "freeMemory": "Memoria libera",
       "cpuUsage": "Utilizzo della CPU",
-      "httpRequests": "Richieste HTTP"
+      "httpRequests": "Richieste HTTP",
+      "device": "Dispositivo"
     },
     "finagleApplicationContainer": {
       "dashboard": {
@@ -5321,7 +5347,8 @@
       "maxChildren": "N. massimo elementi secondari",
       "memory": "Memoria",
       "resources": "Risorse",
-      "phpFpm": "PHP-FPM"
+      "phpFpm": "PHP-FPM",
+      "pool": "Pool"
     },
     "phpRuntimePlatform": {
       "version": "Versione",
@@ -5441,7 +5468,9 @@
       "numberOfDeleteRequests": "Numero di richieste di cancellazione",
       "numberOfExtendedRequests": "Numero di richieste estese",
       "numberOfModifyRequests": "Numero di richieste di modifica",
-      "numberOfSearchRequests": "Numero di richieste di ricerca"
+      "numberOfSearchRequests": "Numero di richieste di ricerca",
+      "database": "Database",
+      "ldapConnector": "Connettore LDAP "
     },
     "postgreSqlDatabase": {
       "troubleshootingDocs": "Documentazione per la risoluzione dei problemi",
@@ -5497,7 +5526,8 @@
       "connection": "Connessione",
       "replicationDelayInBytes": "Ritardo replica in byte",
       "replicationDelayInSeconds": "Ritardo replica in secondi",
-      "postgreSql": "PostgreSQL"
+      "postgreSql": "PostgreSQL",
+      "database": "Database"
     },
     "process": {
       "jvmAttachGenericIssueDescription": "L'agent host non riesce a collegarsi correttamente a questa Java Virtual Machine. Pertanto, questo processo non verrà tracciato. Fare riferimento ai log dell'agent host per maggiori informazioni sul motivo per cui il collegamento non è riuscito. L'agent host cercherà di collegarsi nuovamente a questa macchina virtuale ogni dieci minuti. Tuttavia, fino a quando non vi riesce, non verranno raccolte né tracce né metriche per questa JVM.",
@@ -5712,11 +5742,12 @@
       "messagesTotal": "Totale messaggi",
       "totalNumberOfNetworkPartitions": "Numero totale di partizioni di rete",
       "messagesAcknowledged": "Messaggi notificati",
-      "rabbitMq": "RabbitMQ"
+      "rabbitMq": "RabbitMQ",
+      "queue": "Coda"
     },
     "redis": {
-      "configCommandNameNotConfigured": "Il comando Redis CONFIG deve essere configurato per raccogliere le metriche Redis. ",
-      "invalidPassword": "L'agent non è in grado di connettersi al server a {{host}}:{{port}} perché la password configurata non è valida. ",
+      "configCommandNameNotConfigured": "Il comando Redis CONFIG deve essere configurato per raccogliere le metriche Redis.",
+      "invalidPassword": "L'agent non è in grado di connettersi al server a {{host}}:{{port}} perché la password configurata non è valida.",
       "troubleshootingDocs": "Documentazione per la risoluzione dei problemi",
       "dashboard": {
         "notInProgress": "Non in corso",
@@ -5855,7 +5886,6 @@
       "clusterSize": "Dimensione gruppo",
       "nodes": "Nodi",
       "masterNodes": "Nodi master",
-      "redis": "Redis",
       "redisCluster": "Cluster Redis"
     },
     "redisEnterpriseCluster": {
@@ -5894,7 +5924,6 @@
         "shardsWithCount": "Frammenti ({{len}})",
         "redisEnterpriseCluster": "Cluster Redis Enterprise"
       },
-      "redisEnterprise": "Redis Enterprise",
       "name": "Nome",
       "throughputOpsSecond": "Throughput (Op/secondo)",
       "keyspaceHits": "Riscontri spazio chiavi",
@@ -6108,7 +6137,8 @@
       "documentsPending": "Documenti in sospeso",
       "solrEvictions": "Eliminazioni Solr",
       "startedAt": "Avviato alle",
-      "solr": "Solr"
+      "solr": "Solr",
+      "core": "Core"
     },
     "solrCloudCluster": {
       "nodes": "Nodi",
@@ -6245,7 +6275,8 @@
       "shuffleWritePerSecond": "Scritture shuffle al secondo",
       "totalInputBytes": "Byte di input totali",
       "totalShuffleRead": "Totale letture shuffle",
-      "totalShuffleWrite": "Totale scritture shuffle"
+      "totalShuffleWrite": "Totale scritture shuffle",
+      "executorId": "ID esecutore "
     },
     "garden": {
       "cloudFoundry": "Cloud Foundry",
@@ -6827,7 +6858,8 @@
       "memoryAvailable": "Memoria disponibile",
       "memoryUsed": "Memoria utilizzata",
       "virtualCoresAvailable": "Core virtuali disponibili",
-      "virtualCoresUsed": "Core virtuali utilizzati"
+      "virtualCoresUsed": "Core virtuali utilizzati",
+      "node": "Nodo"
     },
     "hadoopYARNNode": {
       "dashboard": {
@@ -6906,7 +6938,9 @@
       "responseErrors": "Errori risposta",
       "connectionRetries": "Tentativi di connessione",
       "deniedResponses": "Risposte Negate",
-      "reDispatchedRequests": "Richieste nuovamente inviate"
+      "reDispatchedRequests": "Richieste nuovamente inviate",
+      "frontend": "Frontend",
+      "backend": "Backend"
     },
     "haProxy": {
       "dashboard": {
@@ -7109,7 +7143,7 @@
       "theOperatingSystemOfThisHostDoesNotSeemToOfferTheExtendedBerkeleyPacketFilterEBpfFunctionality": "Il Sistema Operativo di questo host non offre la funzionalità estesa Berkeley Packet Filter (eBPF) che è necessaria per il rilevamento del completamento anomalo di un processo.",
       "troubleshootingDocs": "Documentazione per la risoluzione dei problemi",
       "dashboard": {
-        "gpuMemoryProcess": "Processo/memoria GPU ",
+        "gpuMemoryProcess": "Processo/memoria GPU",
         "openAgentManagement": "Gestione open agent",
         "agentManagementIsOnlyAvailableWhenTheAgentIsRunning": "La gestione degli agent è disponibile solo quando l'agent è in esecuzione.",
         "cpuUsage": "Utilizzo della CPU",
@@ -7244,7 +7278,9 @@
       "vSphere": "vSphere",
       "vm": "VM",
       "esXiHost": "Host ESXi",
-      "datacenter": "Datacenter"
+      "datacenter": "Datacenter",
+      "device": "Dispositivo",
+      "gpuUuid": "UUID GPU "
     },
     "httpd": {
       "dashboard": {
@@ -7304,16 +7340,27 @@
       "trafficPerRequest": "Traffico per richiesta",
       "busyWorkers": "Worker occupati"
     },
+    "ibmCloudClinicalData": {
+      "ibmClinicalData": "IBM Clinical Data",
+      "ibmCloudClinicalData": "IBM Cloud Clinical Data",
+      "kind": "Tipologia",
+      "name": "Nome",
+      "labelApiCalls": "Chiamate API ",
+      "labelCallsCount": "Chiamate",
+      "labelRequestSizeBytes": "Dimensione richiesta ",
+      "labelTimeSeconds": "Tempo di risposta",
+      "labelZone": "Zona"
+    },
     "ibmCloudCloudant": {
       "labelName": "Nome",
-      "requestActivity": "Attività richiesta ",
+      "requestActivity": "Attività richiesta",
       "ibmCloudant": "IBMCloudant",
       "ibmCloudCloudant": "IBM Cloud Cloudant",
       "kind": "Tipologia",
-      "httpRequestsTotal": "Numero totale richieste HTTP ",
+      "httpRequestsTotal": "Numero totale richieste HTTP",
       "name": "Nome",
       "labelHTTPRequestsTotal": "Richieste Http Totali",
-      "titleRequestActivity": "Attività richiesta ",
+      "titleRequestActivity": "Attività richiesta",
       "labelZone": "Zona"
     },
     "ibmCloudEtcd": {
@@ -7322,11 +7369,11 @@
       "titleUsed": "Utilizzato",
       "titleUsedPercent": "Percentuale utilizzata",
       "titleTotal": "Totale",
-      "titleIOPercent": "Percentuale di utilizzo I/O ",
+      "titleIOPercent": "Percentuale di utilizzo I/O",
       "titleIOPSTotal": "IOPS in Lett./Scritt. totali",
       "titleDisk": "Disco",
       "titleMemory": "Memoria",
-      "labelDiskIOPercent": "Utilizzo percentuale medio I/O su disco ",
+      "labelDiskIOPercent": "Utilizzo percentuale medio I/O su disco",
       "labelDiskIOPSTotal": "IOPS in Lett./Scritt. totali sul disco",
       "labelDiskTotal": "Byte totali del disco",
       "labelDiskUsed": "Byte utilizzati del disco",
@@ -7340,13 +7387,13 @@
       "usedPercent": "Percentuale utilizzata",
       "percentIoUtilization5M": "Utilizzo IO percentuale (5m)",
       "iopsRWTotal": "IOPS in Lett./Scritt. totali",
-      "usedPercentage": "Percentuale utilizzata ",
-      "member": "Membro ",
+      "usedPercentage": "Percentuale utilizzata",
+      "member": "Membro",
       "limit": "Limite",
       "ibmEtcd": "IBMEtcd",
       "ibmCloudEtcd": "IBM Cloud Etcd",
       "kind": "Tipologia",
-      "members": "Membri ",
+      "members": "Membri",
       "diskAverageIoPercentUtilization5M": "Utilizzo percentuale medio di I/O sul disco (5m)",
       "disk": "Disco",
       "diskIopsRWTotal": "IOPS in Lett./Scritt. totali sul disco",
@@ -7359,7 +7406,9 @@
       "memoryUsedPercent": "Percentuale di memoria utilizzata",
       "titleMemberCount": "Numero membri",
       "labelMembers": "Numero membri",
-      "labelZone": "Zona"
+      "labelZone": "Zona",
+      "labelDisk": "Disco",
+      "labelMemory": "Memoria"
     },
     "ibmCloudFunctions": {
       "labelConcurrentInvocations": "Richiami simultanei",
@@ -7368,8 +7417,8 @@
       "titleDuration": "Durata",
       "titleStatusSuccess": "Stato: Eseguito correttamente",
       "titleWaitTime": "Tempo di attesa",
-      "titleInitTime": "Ora di inizio ",
-      "labelActivationCount": "Conteggio attivazioni ",
+      "titleInitTime": "Ora di inizio",
+      "labelActivationCount": "Conteggio attivazioni",
       "labelDuration": "Durata ms)",
       "labelStatusSuccess": "Stato: Eseguito correttamente",
       "concurrentInvocations": "Richiami simultanei",
@@ -7382,12 +7431,13 @@
       "kind": "Tipologia",
       "packageCount": "Conteggio package",
       "activationTime": "Ora di attivazione",
-      "function": "Funzione ",
+      "function": "Funzione",
       "waitTime": "Tempo di attesa",
       "labelWaitTime": "Tempo di attesa (ms)",
       "labelInitTime": "Ora di inizio (ms)",
-      "labelPackageCount": "Conteggio package ",
-      "labelZone": "Zona"
+      "labelPackageCount": "Conteggio package",
+      "labelZone": "Zona",
+      "labelFunction": "Funzione"
     },
     "ibmCloudIsLoadBalancer": {
       "labelActiveConnections": "Connessioni attive",
@@ -7451,24 +7501,25 @@
     },
     "ibmCos": {
       "labelTotalObjectCount": "Numero totale di oggetti",
-      "labelTotalUsed": "Totale dimensione utilizzata ",
+      "labelTotalUsed": "Totale dimensione utilizzata",
       "titleBuckets": "Bucket",
       "titleBucketName": "Nome bucket",
       "titleObjectCount": "Numero oggetti",
-      "titleUsed": "Dimensione utilizzata ",
-      "labelUsed": "Dimensione utilizzata ",
-      "labelZone": "Zona"
+      "titleUsed": "Dimensione utilizzata",
+      "labelUsed": "Dimensione utilizzata",
+      "labelZone": "Zona",
+      "labelMemory": "Memoria"
     },
     "ibmIOs": {
       "sidebar": {
-        "ibmIOSInfo": "Informazioni Db2 su i ",
+        "ibmIOSInfo": "Informazioni Db2 su i",
         "hostName": "Nome Host",
-        "partitionId": "ID partizione ",
-        "numberOfPartitions": "Numero di partizioni ",
-        "restrictedState": "Stato con restrizioni "
+        "partitionId": "ID partizione",
+        "numberOfPartitions": "Numero di partizioni",
+        "restrictedState": "Stato con restrizioni"
       },
       "dashboard": {
-        "charts" : {
+        "charts": {
           "cpu": {
             "name": "CPU",
             "rate": "Tasso"
@@ -7482,17 +7533,17 @@
           "jobs": {
             "name": "Lavori",
             "active": "Attiva",
-            "interactive": "Interattivo ",
+            "interactive": "Interattivo",
             "total": "Totale",
             "max": "Max"
           },
           "auxiliaryStoragePool": {
-            "name": "Pool di strage ausiliario ",
+            "name": "Pool di strage ausiliario",
             "capacity": "Capacità",
             "used": "Utilizzato"
           },
           "temporaryStorage": {
-            "name": "Storage temporaneo ",
+            "name": "Storage temporaneo",
             "current": "Corrente",
             "max": "Max"
           },
@@ -7503,30 +7554,31 @@
         },
         "tables": {
           "memoryPools": {
-            "name": "Pool di memoria attiva ",
+            "name": "Pool di memoria attiva",
             "memoryPoolName": "Nome",
             "storageUsed": "Storage utilizzato",
-            "storageReserved": "Storage riservato ",
-            "storageDefined": "Storage definito ",
+            "storageReserved": "Storage riservato",
+            "storageDefined": "Storage definito",
             "activeThreads": "Thread attivi",
-            "ineligibleThreads": "Thread non validi ",
-            "maxActiveThreads": "Numero massimo thread attivi ",
+            "ineligibleThreads": "Thread non validi",
+            "maxActiveThreads": "Numero massimo thread attivi",
             "charts": {
               "storage": {
                 "storageUsed": "Storage utilizzato",
-                "storageReserved": "Storage riservato ",
-                "storageDefined": "Storage definito "
+                "storageReserved": "Storage riservato",
+                "storageDefined": "Storage definito"
               },
               "threads": {
                 "activeThreads": "Thread attivi",
-                "ineligibleThreads": "Thread non validi ",
-                "maxActiveThreads": "Numero massimo thread attivi "
+                "ineligibleThreads": "Thread non validi",
+                "maxActiveThreads": "Numero massimo thread attivi"
               }
             }
           }
         }
       },
-      "name": "Db2 su i"
+      "name": "Db2 su i",
+      "memoryPool": "Pool di memoria "
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -7752,7 +7804,7 @@
       "labelAverageCPUUsedPercent": "Percentuale media CPU utilizzata",
       "labelMemoryUsedPercent": "Percentuale memoria utilizzata",
       "labelNetworkTraffic": "Traffico di rete",
-      "labelVolumeUsed": "Utilizzo volume ",
+      "labelVolumeUsed": "Utilizzo volume",
       "titleMemory": "Memoria",
       "labelFree": "Libero",
       "labelUsed": "Utilizzato",
@@ -7764,8 +7816,8 @@
       "labelReadBytes": "Byte letti",
       "labelWriteBytes": "Byte scritti",
       "titleVolumeAccessRequest": "Richiesta di accesso al volume",
-      "labelReadCount": "Conteggio letture ",
-      "labelWriteCount": "Conteggio scritture ",
+      "labelReadCount": "Conteggio letture",
+      "labelWriteCount": "Conteggio scritture",
       "titleCPU": "CPU",
       "titleCPUTime": "Tempo CPU",
       "titleCPUPercent": "Percentuale CPU",
@@ -7804,19 +7856,23 @@
       "cpuPercent": "Percentuale CPU",
       "individualCpuUsage": "Utilizzo CPU individuale",
       "percentageUsage": "Utilizzo percentuale",
-      "ibmVsi": "Istanza IBM Virtual Server ",
+      "ibmVsi": "Istanza IBM Virtual Server",
       "ibmCloudVirtualServerInfrastructure": "IBM Cloud Virtual Server Infrastructure",
       "kind": "Tipologia",
       "instanceName": "Nome istanza",
-      "generationId": "ID di generazione ",
+      "generationId": "ID di generazione",
       "cpuCount": "Numero CPU",
-      "averageCpuUsagePercent": "Percentuale media di utilizzo CPU ",
-      "memoryUsagePercent": "Percentuale utilizzo di memoria ",
+      "averageCpuUsagePercent": "Percentuale media di utilizzo CPU",
+      "memoryUsagePercent": "Percentuale utilizzo di memoria",
       "networkTraffic": "Traffico di rete",
       "totalObjectCount": "Numero totale di oggetti",
       "totalUsedBytes": "Byte totali utilizzati",
       "labelVolumeWriteRequests": "Richieste di scrittura sul volume",
-      "labelZone": "Zona"
+      "labelZone": "Zona",
+      "labelCPU": "CPU",
+      "labelMemory": "Memoria",
+      "labelNetwork": "Rete",
+      "labelVolume": "Volume "
     },
     "instanaAgent": {
       "dashboard": {
@@ -8007,7 +8063,8 @@
       "labelCoresUsed": "Core utilizzati",
       "labelCoresTotal": "Core totali",
       "labelNumberFailedDrivers": "Numero di driver con errori",
-      "labelNumberFailedApplications": "Numero di applicazioni con errori"
+      "labelNumberFailedApplications": "Numero di applicazioni con errori",
+      "workerId": "ID operatore "
     },
     "kafka": {
       "kafkaMonitoringRequiresSslTruststoreLocation": "Per le istanze Kafka protette con TLS, il monitoraggio Kafka richiede la configurazione di <code>sslTruststoreLocation</code> e <code>sslTruststorePassword</code> nell'agent di Instana <code>configuration.yaml</code>.",
@@ -8149,7 +8206,9 @@
       "consumers": "Consumatori",
       "brokersMsgIn": "Messaggi in ingresso dei broker",
       "brokersPartitions": "Partizioni Broker",
-      "prodLatency": "Prod. Latenza"
+      "prodLatency": "Prod. Latenza",
+      "producer": "Produttore ",
+      "consumer": "Consumatore"
     },
     "kubernetesCluster": {
       "noActivity": "Nessuna attività",
@@ -8464,7 +8523,8 @@
       "connectionsCreated": "Connessioni create",
       "connectionsUsedPercentage": "Percentuale di connessioni utilizzate",
       "threadPools": "Pool di thread",
-      "threadsUsedPercentage": "Percentuale di thread utilizzati"
+      "threadsUsedPercentage": "Percentuale di thread utilizzati",
+      "datasourceJndi": "JNDI origine dati "
     },
     "jbossDataGrid": {
       "cacheName": "Cache [{{cacheName}}]",
@@ -8544,7 +8604,9 @@
       "globalConnections": "Connessioni globali",
       "connections": "Connessioni",
       "cacheStats": "Statistiche cache",
-      "threadPools": "Pool di thread"
+      "threadPools": "Pool di thread",
+      "cache": "Cache",
+      "cluster": "Cluster"
     },
     "jenkins": {
       "disabled": "Disabilitato",
@@ -8577,7 +8639,8 @@
       "jobs": "Lavori",
       "healthStatusOfRecentBuilds": "Stato d'integrità delle build recenti",
       "lastBuildEstimatedDuration": "Durata stimata ultima build",
-      "lastBuildTimestamp": "Data/ora ultima build"
+      "lastBuildTimestamp": "Data/ora ultima build",
+      "job": "Lavoro"
     },
     "jettyApplicationContainer": {
       "jmxModuleIsNotEnabledInJetty": "Il modulo Jmx non è abilitato in jetty. Abilitarlo per raccogliere dati. È possibile farlo aggiungendo <code>--module=jmx</code> a <code>start.ini</code>.",
@@ -8688,7 +8751,8 @@
       "pools": "Pool",
       "maxHeap": "Heap massima",
       "heapUsed": "Heap utilizzata",
-      "threadDump": "Dump del thread"
+      "threadDump": "Dump del thread",
+      "garbageCollector": "Raccoglitore dati inutilizzati "
     },
     "springbootAppContainer": {
       "titleRequests": "Richieste",
@@ -8709,7 +8773,7 @@
       "warningActuatorConfigured": "Il monitoraggio di Spring Boot richiede che sia configurato Spring Boot Actuator. Per Spring Boot 2.2.x e successivi è necessario abilitare JMX.",
       "warningSpringbootConfig": "È possibile trovare ulteriori informazioni nella <linkToSpringboot>pagina di configurazione di Spring Boot</linkToSpringboot>.",
       "descriptionActuatorConfigured": "Il monitoraggio di Spring Boot richiede che sia configurato Spring Boot Actuator:",
-      "descriptionEnableJMX": "Per Spring Boot 2.2.x e versioni successive è necessario abilitare JMX. Imposta <codeTag><bold>spring.jmx.enabled=true</bold></codeTag> nelle <codeTag><bold>proprietà dell'applicazione </bold></codeTag> file."
+      "descriptionEnableJMX": "Per Spring Boot 2.2.x e versioni successive è necessario abilitare JMX. Imposta <codeTag><bold>spring.jmx.enabled=true</bold></codeTag> nelle <codeTag><bold>proprietà dell'applicazione</bold></codeTag> file."
     },
     "statsd": {
       "headerInformation": "Informazioni",
@@ -9063,7 +9127,8 @@
       "labelRemoteEndpointsCurrent": "Endpoint remoti correnti",
       "labelDataSource": "Origine dati",
       "labelJMSDestination": "Destinazione JMS",
-      "labelSAFAgent": "Agent SAF"
+      "labelSAFAgent": "Agent SAF",
+      "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {
       "titleName": "Nome",
@@ -9098,7 +9163,8 @@
       "labelServlet": "Servlet",
       "labelServlets": "Servlet",
       "labelDatasource": "Origine dati",
-      "labelDatasources": "Origini dati"
+      "labelDatasources": "Origini dati",
+      "webSphere": "WebSphere"
     },
     "webSphereLibertyAppContainer": {
       "titleName": "Nome",
@@ -9132,8 +9198,9 @@
       "labelServlet": "Servlet",
       "labelServlets": "Servlet",
       "labelPool": "Pool",
-      "infoMonitorFeatureNotEnabled": "Sembra che la funzione di monitoraggio non è abilitata. Aggiungere la funzione monitor-1.0 a server.xml e verificare che ws-javaagent.jar è caricato come as -javaagent all'avvio del server. ",
-      "infoThreadPoolStatesNotAvailable": "Le statistiche del pool di thread non sono disponibili. Vi è un problema noto che si verifica quando le funzioni JMS (WASJmsClient-1.1 e WASJmsServer-1.0) vengono abilitate insieme alla funzione monitor-1.0 nel file server.xml. L'mbean della statistiche del Pool di thread viene sovrascritto e non è visibile."
+      "infoMonitorFeatureNotEnabled": "Sembra che la funzione di monitoraggio non è abilitata. Aggiungere la funzione monitor-1.0 a server.xml e verificare che ws-javaagent.jar è caricato come as -javaagent all'avvio del server.",
+      "infoThreadPoolStatesNotAvailable": "Le statistiche del pool di thread non sono disponibili. Vi è un problema noto che si verifica quando le funzioni JMS (WASJmsClient-1.1 e WASJmsServer-1.0) vengono abilitate insieme alla funzione monitor-1.0 nel file server.xml. L'mbean della statistiche del Pool di thread viene sovrascritto e non è visibile.",
+      "webSphereLiberty": "WebSphere Liberty"
     },
     "zooKeeper": {
       "titleTicks": "Tick",
@@ -9486,7 +9553,8 @@
       "bytesReceived": "Byte ricevuti",
       "version": "Versione",
       "websites": "Siti Web",
-      "request": "Richiesta"
+      "request": "Richiesta",
+      "website": "Sito Web"
     },
     "msSqlDatabase": {
       "connectionsAmpUsers": "Connessioni & Utenti",
@@ -9548,7 +9616,8 @@
       "processedEevents": "Eventi elaborati",
       "executionEerrors": "Errori di esecuzione",
       "fatalEerrors": "Errori irreversibili",
-      "averagePprocessingTime": "Tempo di elaborazione medio"
+      "averagePprocessingTime": "Tempo di elaborazione medio",
+      "flow": "Flusso"
     },
     "netCoreRuntimePlatform": {
       "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "L'ambiente di elaborazione di questa applicazione .NET Core application non è configurato in modo da consentire a Instana di poterlo monitorare. È necessario impostare le seguenti variabili di ambiente sul processo .NET Core: <code>{{missing}}</code>. Fare riferimento alla documentazione per i valori da impostare.",
@@ -9635,7 +9704,7 @@
     "nodeJsRuntimePlatform": {
       "getSourceForArbitraryFile": "Acquisisci origine del file arbitrario",
       "analyseModules": "Analizza Moduli",
-      "itSeemsYouHaveInitializedTheInstanaCollectorPackageTooLate": "Il package @instana/collector è stato avviato troppo tardi. Si prega di verificare la documentazione sull'argomento, in particolare i documenti relativi all' <installLink>Documentazione sull'installazione </installLink> per @instana/collectore  <pitfallsLink>la sezione sulle minacce comuni</pitfallsLink>. La traccia potrebbe funzionare solo parzialmente con questo setup, cioè alcune chiamate non verranno acquisite.",
+      "itSeemsYouHaveInitializedTheInstanaCollectorPackageTooLate": "Il package @instana/collector è stato avviato troppo tardi. Si prega di verificare la documentazione sull'argomento, in particolare i documenti relativi all' <installLink>Documentazione sull'installazione</installLink> per @instana/collectore <pitfallsLink>la sezione sulle minacce comuni</pitfallsLink>. La traccia potrebbe funzionare solo parzialmente con questo setup, cioè alcune chiamate non verranno acquisite.",
       "nativeExtensionsCouldNotBeLoaded": "Non è stato possibile caricare le estensioni native per il monitoraggio dettagliato <strong>{{missingNativeExtensions}}</strong>. Di conseguenza, Instana può solo mostrare una serie limitata di metriche. Contattarci per ottenere supporto sull'installazione o fare riferimento alle <installLink>istruzioni sull'installazione del raccoglitore Node.js</installLink>..",
       "pleaseProvideTheAbsolutePathToTheJsFile": "Fornire il percorso assoluto del file JS",
       "tracingMightOnlyWorkPartiallyWithThisSetup": "Il package <code>@instana/collector</code> è stato avviato troppo tardi. La traccia potrebbe funzionare solo parzialmente con questo setup, cioè alcune chiamate non verranno acquisite.",
@@ -9981,7 +10050,8 @@
       "inactiveUserSessions": "Sessioni utente inattive",
       "backgroundSessions": "Sessioni in background",
       "tablespaces": "Spazi tabella",
-      "dbCpuTime": "Tempo CPU DB"
+      "dbCpuTime": "Tempo CPU DB",
+      "tablespace": "Spazio di tabella "
     },
     "azureCosmosDb": {
       "totalRequests": "Richieste totali",
@@ -10003,7 +10073,7 @@
       "clickHouseCluster": "Cluster ClickHouse"
     },
     "clickHouseDatabase": {
-      "clickHouseServer": "Server ClickHouse ",
+      "clickHouseServer": "Server ClickHouse",
       "settings": "Impostazioni"
     }
   },
@@ -10046,9 +10116,9 @@
       "message": "Messaggio"
     },
     "airflow": {
-      "titleDagID": "ID DAG ",
-      "titleTaskID": "ID attività ",
-      "titleExecutionDate": "Data di esecuzione "
+      "titleDagID": "ID DAG",
+      "titleTaskID": "ID attività",
+      "titleExecutionDate": "Data di esecuzione"
     },
     "amqp": {
       "command": "Comando",
@@ -10081,7 +10151,7 @@
       "bodyAWSMessages": "Messaggi AWS SQS",
       "bodyAWSEvent": "Evento ASWS",
       "bodyAWSEventDetail": "Una chiamata al Gateway API che non utilizza l'opzione Lambda Proxy o un trigger Lambda non identificato.",
-      "titleLambdaAttributes": "Attributi Lambda "
+      "titleLambdaAttributes": "Attributi Lambda"
     },
     "batchSynthetic": {
       "indexReturn": "Trigger interno",
@@ -10128,10 +10198,10 @@
       "titleRetryReason": "Motivo nuovo tentativo"
     },
     "cics": {
-      "titleCicsAttributes": "Attributi CICS ",
-      "titleUserId": "ID utente CICS ",
-      "titleTaskNumber": "Numero di attività CICS ",
-      "titleRegion": "Regione CICS "
+      "titleCicsAttributes": "Attributi CICS",
+      "titleUserId": "ID utente CICS",
+      "titleTaskNumber": "Numero di attività CICS",
+      "titleRegion": "Regione CICS"
     },
     "corba": {
       "titleMethod": "Metodo",
@@ -10363,9 +10433,9 @@
       "titleQuery": "Query"
     },
     "ims": {
-      "titleImsAttributes": "Attributi IMS ",
-      "titleEventKey": "Chiave evento IMS ",
-      "titleComponent": "Componente IMS "
+      "titleImsAttributes": "Attributi IMS",
+      "titleEventKey": "Chiave evento IMS",
+      "titleComponent": "Componente IMS"
     },
     "jaeger": {
       "titleService": "Servizio",
@@ -10761,11 +10831,11 @@
       "postTitle": "Invia titolo"
     },
     "zcee": {
-      "titleZceeAttributes": "Attributi z/OS Connect EE ",
+      "titleZceeAttributes": "Attributi z/OS Connect EE",
       "titleServiceName": "Nome del servizio",
-      "titleApiName": "Nome API ",
-      "titleRequestId": "ID richiesta ",
-      "titleCorrelator": "Correlatore "
+      "titleApiName": "Nome API",
+      "titleRequestId": "ID richiesta",
+      "titleCorrelator": "Correlatore"
     },
     "zf": {
       "controllerUnknown": "{{controllerVar}}::sconosciuto",

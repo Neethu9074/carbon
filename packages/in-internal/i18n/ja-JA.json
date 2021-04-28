@@ -39,7 +39,7 @@
       "resilientMapping": "弾力性マッピング",
       "logMonitor": "ログ・モニタリング",
       "logMonitorDesc": "ロギング・データの書き込みと読み取りがどのように行われているかを示すダッシュボード。",
-      "logMonitorProcessing": "log-processor (ログ処理)",
+      "logMonitorProcessing": "log-processor (ログのエンリッチ)",
       "logMonitorProcessingDesc": "log-processor は、kafka トピックからログを読み取り、それをエンリッチして他の kafka トピックに書き込みます。",
       "logMonitorWriter": "log-writer (ログの取り込み)",
       "logMonitorWriterDesc": "log-writer は、ClickHouse にログを取り込みます。",
@@ -325,8 +325,12 @@
     },
     "log": {
       "processor": {
-        "name": "log-processor",
+        "title": "log-processor",
         "hostCpuLoad": "ホスト CPU 負荷",
+        "hostLoad": "ホスト負荷",
+        "host": "ホスト",
+        "garbageCollection": "ガーベッジ・コレクション",
+        "instances": "log-processor ({{length}})",
         "common": {
           "incoming": "着信共通ログ",
           "failIncoming": "失敗した着信共通ログ",
@@ -338,7 +342,7 @@
             "tooOld": "共通ログ Kafka コンシューマーが古すぎる"
           }
         },
-        "trace" : {
+        "trace": {
           "incoming": "着信トレース・ログ",
           "failIncoming": "失敗した着信トレース・ログ",
           "processing": "処理中トレース・ログ",
@@ -353,16 +357,62 @@
         "failOutgoing": "失敗した発信ログ"
       },
       "writer": {
-        "name": "log-writer",
+        "title": "log-writer",
         "hostCpuLoad": "ホスト CPU 負荷",
+        "hostLoad": "ホスト負荷",
+        "host": "ホスト",
+        "garbageCollection": "ガーベッジ・コレクション",
+        "instances": "log-writer ({{length}})",
         "incoming": "着信処理済みログ",
         "failIncoming": "失敗した着信処理済みログ",
         "write": "ログ・バッチ書き込み",
-        "failWrite": "ログ・バッチ書き込み障害"
+        "failWrite": "ログ・バッチ書き込み障害",
+        "clickHouse": {
+          "insert": "ClickHouse 挿入",
+          "failInsert": "ClickHouse 挿入失敗",
+          "queryQueueing": "ClickHouse 照会のキューイング",
+          "newlyQueuedCalls": "新規にキューに入れられた ClickHouse 呼び出し",
+          "queuedCalls": "キューに入れられた ClickHouse 呼び出し",
+          "queryLatency": "ClickHouse 照会の待ち時間",
+          "queryCalls": "ClickHouse 呼び出し",
+          "queryLatency50": "ClickHouse 照会の待ち時間 (50 番目)",
+          "queryLatency99": "ClickHouse 照会の待ち時間 (99 番目)",
+          "queryErrorRate": "ClickHouse エラー率",
+          "calls": "呼び出し",
+          "mean": "平均",
+          "50th": "50 番目",
+          "99th": "99 番目"
+        }
       },
       "reader": {
-        "name": "log-reader",
-        "hostCpuLoad": "ホスト CPU 負荷"
+        "title": "log-reader",
+        "hostCpuLoad": "ホスト CPU 負荷",
+        "hostLoad": "ホスト負荷",
+        "host": "ホスト",
+        "garbageCollection": "ガーベッジ・コレクション",
+        "instances": "log-reader ({{length}})",
+        "gRPCCalls": "着信 gRPC 呼び出し",
+        "gRPCErrors": "着信 gRPC エラー",
+        "tagReaderClient": {
+          "gRPCCalls": "発信 tag-reader gRPC 呼び出し",
+          "gRPCErrors": "発信 tag-reader gRPC エラー"
+        },
+        "clickHouse": {
+          "select": "ClickHouse 選択",
+          "failSelect": "ClickHouse 選択失敗",
+          "queryQueueing": "ClickHouse 照会のキューイング",
+          "newlyQueuedCalls": "新規にキューに入れられた ClickHouse 呼び出し",
+          "queuedCalls": "キューに入れられた ClickHouse 呼び出し",
+          "queryLatency": "ClickHouse 照会の待ち時間",
+          "queryCalls": "ClickHouse 呼び出し",
+          "queryLatency50": "ClickHouse 照会の待ち時間 (50 番目)",
+          "queryLatency99": "ClickHouse 照会の待ち時間 (99 番目)",
+          "queryErrorRate": "ClickHouse エラー率",
+          "calls": "呼び出し",
+          "mean": "平均",
+          "50th": "50 番目",
+          "99th": "99 番目"
+        }
       }
     },
     "eum": {

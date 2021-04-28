@@ -23,8 +23,6 @@
     "alertHeaderYouCanOnlyStartOrPause": "시작 또는 일시정지만 할 수 있습니다. Query Builder 1 모드인 경우에는 이러한 구성을 편집할 수 없습니다.",
     "alertHistoryListTitle": "경보 작성됨",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "경보 작성됨({{totalRepresentedItemCount}})",
-    "alertPropertyInfosLabelWarning": "경고",
-    "alertPropertyInfosLabelCritical": "심각",
     "alertPropertyInfosLabelTitle": "제목",
     "alertPropertyInfosLabelAlertLevel": "경보 레벨",
     "alertPropertyInfosLabelTriggersIncident": "인시던트 트리거",
@@ -94,17 +92,29 @@
     "applications": {
       "newGlobalAlert": "글로벌 스마트 경보",
       "advanced": {
+        "alertPropertyInsertPlaceholderLabel": "플레이스홀더 삽입",
         "evaluationSwitch": {
           "individual": "올바르지 않은 경보",
           "evaluationTypePERAP": {
-            "selectionText": "선택된 모든 서비스 및 엔드포인트 집계 시",
+            "selectionText": "이 애플리케이션 퍼스펙티브의 경우",
+            "globalSelectionText": "애플리케이션 퍼스펙티브별",
             "columnText": "집계됨",
-            "description": "선택된 모든 서비스 및 엔드포인트의 집계에 대한 경보"
+            "description": "이 애플리케이션 퍼스펙티브에 대해 개별적으로 경보",
+            "globalDescription": "애플리케이션 퍼스펙티브에 따라 개별적으로 경보"
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "서비스별 집계 시",
+            "selectionText": "이 애플리케이션 퍼스펙티브에 대한 서비스별",
+            "globalSelectionText": "각 애플리케이션 퍼스펙티브의 컨텍스트에서 서비스별",
             "columnText": "서비스 기준",
-            "description": "서비스별 집계 시 개별적으로 경보 발송"
+            "description": "이 애플리케이션 퍼스펙티브에 대해 서비스별로 개별적으로 경보",
+            "globalDescription": "각 애플리케이션 퍼스펙티브의 컨텍스트에서 서비스별로 개별적으로 경보"
+          },
+          "evaluationTypePERAPENDPOINT": {
+            "selectionText": "이 애플리케이션 퍼스펙티브에 대한 엔드포인트별",
+            "globalSelectionText": "각 애플리케이션 퍼스펙티브의 컨텍스트에서 엔드포인트별",
+            "columnText": "엔드포인트별",
+            "description": "이 애플리케이션 퍼스펙티브에 대해 엔드포인트별로 개별적으로 경보",
+            "globalDescription": "각 애플리케이션 퍼스펙티브의 컨텍스트에서 엔드포인트별로 개별적으로 경보"
           }
         },
         "inboundOutboundCalls": {
@@ -457,7 +467,11 @@
         "noAlertConfigured": "경보가 구성되어 있지 않습니다.",
         "alertEntityName": "경보 \"{{entityName}}\"",
         "labelAlertFilters": "필터",
-        "numberOfApplicationsSelected": "{{numberApplicationsSelected}}개 애플리케이션이 선택됨"
+        "labelConfirm": "확인하시기 바랍니다.",
+        "labelConfirmRemoveConfig": "<strong>{{configName}}</strong> 구성을 제거하시겠습니까?",
+        "labelRemove": "제거",
+        "numberOfApplicationsSelected": "{{count}}개 애플리케이션이 선택됨",
+        "numberOfApplicationsSelected_plural": "{{count}}개 애플리케이션이 선택됨"
       }
     },
     "components": {
@@ -515,6 +529,7 @@
         "timeThresholdConfigOff": "해제",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "1 이상인 수를 제공하십시오.",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "1% - 100% 사이의 수를 제공하십시오.",
+        "alertPropertiesInsertPlaceholderTooltip": "플레이스홀더 삽입",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "조건이 지정된 시간 동안 지속되는 경우",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "조건이 정의된 시간 범위 동안 지정된 시간을 트리거할 때마다",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "내 사용자의 특정 수가 영향을 받는 경우",
@@ -523,7 +538,7 @@
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "시간 경과에 따른 위반 수",
         "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "사용자 영향",
         "timeThresholdConfigTimeThresholdTitleRequestImpact": "요청 영향",
-        "timeThresholdConfigNoUserSessionDetected": "<linkToIdentifyingUsers>사용자</linkToIdentifyingUsers> 또는 <linkToSessionTracking>세션</linkToSessionTracking>이 발견되지 않았습니다.",
+        "timeThresholdConfigNoUserSessionDetected": "<linkToIdentifyingUsers>사용자</linkToIdentifyingUsers> 또는 <linkToSessionTracking>세션</linkToSessionTracking> 이 발견되지 않았습니다.",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "이 옵션을 사용하기 전에 웹 사이트 모니터링을 구성하십시오.",
         "alertPropertiesWarning": "경고",
         "alertPropertiesCritical": "심각",

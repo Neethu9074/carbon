@@ -37,7 +37,8 @@
         "classpathHide": "Masquer le chemin d'accès aux classes",
         "classpathShow": "Afficher le chemin d'accès aux classes"
       },
-      "processStartedTitle": "Démarré à"
+      "processStartedTitle": "Démarré à",
+      "tags": "Balises ({{size}})"
   },
 
   "traceDetails": {

@@ -246,7 +246,10 @@
       "showSyntheticCalls": "顯示綜合呼叫",
       "showInternalCalls": "顯示內部呼叫",
       "defaultTurnedOnSynthetic": "此選項已在您查詢綜合呼叫之後選取。",
-      "defaultTurnedOnInternal": "此選項已在您查詢內部呼叫之後選取。"
+      "defaultTurnedOnInternal": "此選項已在您查詢內部呼叫之後選取。",
+      "erroneous_true": "true",
+      "erroneous_false": "false",
+      "erroneous_Erroneous": "錯誤"
     },
     "applications": "應用程式",
     "services": "服務",

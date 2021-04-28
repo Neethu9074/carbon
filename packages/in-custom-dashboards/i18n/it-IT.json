@@ -89,7 +89,7 @@
     },
     "editAsJsonDialog": {
       "failedToParseInputAsJson": "Impossibile analizzare l'input come JSON.",
-      "jsonRootMustBeAnObject": "La root JSON deve essere un oggetto "
+      "jsonRootMustBeAnObject": "La root JSON deve essere un oggetto"
     }
   },
   "dashboardSwitcher": {
@@ -241,10 +241,10 @@
       "ds": "Origine dati",
       "pleaseSelect": "Selezionare",
       "name": "Nome",
-      "pleaseSelectATimeShiftingConfiguration": "Selezionare una configurazione di spostamento temporale. ",
-      "pleaseProvideAGroup": "Fornire un gruppo. ",
+      "pleaseSelectATimeShiftingConfiguration": "Selezionare una configurazione di spostamento temporale.",
+      "pleaseProvideAGroup": "Fornire un gruppo.",
       "optional": "Facoltativo",
-      "theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999": "Il numero fornito non è valido. Il valore deve essere compreso tra 0 e 99,99. "
+      "theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999": "Il numero fornito non è valido. Il valore deve essere compreso tra 0 e 99,99."
     },
     "bigNumber": {
       "comparisonColors": {
@@ -264,7 +264,7 @@
         "decreaseColor": "Diminuisci Colore",
         "timeShift": "Spostamento temporale"
       },
-      "bigNumber": "Numero grande "
+      "bigNumber": "Numero grande"
     },
     "chart": {
       "axesConfigurator": {
@@ -279,14 +279,16 @@
         "sharemaxValue": "Condividi valori massimi tra gli assi",
         "auto": "Auto"
       },
-      "atLeastOneDatasetIsRequired": "È necessario almeno un dataset."
+      "atLeastOneDatasetIsRequired": "È necessario almeno un dataset.",
+      "errorTitleForConfiguredSliDeletion": "SLI configurato è stato eliminato ",
+      "errorDescriptionToConfigureOtherSLI": "Aggiornare il widget SLO selezionando un altro SLI "
     },
     "formCompChart": {
       "colorConfiguratorChart": {
         "colorDsGrpNotConfig": "I colori per i dataset che utilizzano i raggruppamenti non possono essere configurati.",
         "iconDepicAutoColorSelect": "Icona raffigurante la selezione automatica del colore.",
         "colorAutoChose": "Il colore viene scelto automaticamente",
-        "automatic": "Automatico "
+        "automatic": "Automatico"
       },
       "color": {
         "lightBlue": "Azzurro",
@@ -500,16 +502,16 @@
         "fixedTimeWindow": "Finestra temporale fissa"
       },
       "sliConfig": {
-        "sliName": "Nome SLI ",
+        "sliName": "Nome SLI",
         "sliType": "Tipo di SLI",
-        "badEventsFilter": "Filtri evento non validi ",
+        "badEventsFilter": "Filtri evento non validi",
         "metric": "Metrica"
       },
-      "theTimeWindowSizeHasToBeLessOrEqualTo365Days": "La dimensione della finestra temporale deve essere inferiore o uguale a 365 giorni. ",
-      "aValueMustBeSelected": "È necessario selezionare un valore. ",
-      "atLeastOneFilterExpressionMustBeConfigured": "È necessario configurare almeno un'espressione filtro. ",
-      "timeBased": "Basato sul tempo ",
-      "eventBased": "Basato sull'evento ",
+      "theTimeWindowSizeHasToBeLessOrEqualTo365Days": "La dimensione della finestra temporale deve essere inferiore o uguale a 365 giorni.",
+      "aValueMustBeSelected": "È necessario selezionare un valore.",
+      "atLeastOneFilterExpressionMustBeConfigured": "È necessario configurare almeno un'espressione filtro.",
+      "timeBased": "Basato sul tempo",
+      "eventBased": "Basato sull'evento",
       "slo": "SLO"
     },
     "timezone": {
@@ -548,21 +550,21 @@
     },
     "applicationHealth": {
       "index": {
-        "applicationHealth": "Panoramica integrità "
+        "applicationHealth": "Panoramica integrità"
       },
       "form": {
-        "validationError": "Selezionare un'applicazione ",
-        "header": "Selezionare le applicazioni che si desidera monitorare. ",
-        "addApplication": "Aggiungi applicazione ",
-        "selectApplication": "Seleziona applicazione ",
+        "validationError": "Selezionare un'applicazione",
+        "header": "Selezionare le applicazioni che si desidera monitorare.",
+        "addApplication": "Aggiungi applicazione",
+        "selectApplication": "Seleziona applicazione",
         "secondaryHeadingText": "Le applicazioni selezionate verranno ordinate in base alla maggiore gravità.",
         "applicationLabel": "Applicazione",
-        "atLeastOneApplicationMustBeSelected": "È necessario selezionare almeno un'applicazione. "
+        "atLeastOneApplicationMustBeSelected": "È necessario selezionare almeno un'applicazione."
       }
     },
     "timezones": {
-      "atLeastOneTimeZoneMustBeConfigured": "È necessario configurare almeno un fuso orario. ",
-      "pleaseSelectATimeZone": "Selezionare un fuso orario. "
+      "atLeastOneTimeZoneMustBeConfigured": "È necessario configurare almeno un fuso orario.",
+      "pleaseSelectATimeZone": "Selezionare un fuso orario."
     }
   },
   "duplicateDashboardDialog": {

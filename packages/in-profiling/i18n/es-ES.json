@@ -44,5 +44,6 @@
   "numbersOfProfilesCollected_1": "{{count}} perfil recopilado",
   "numbersOfProfilesCollected_2": "{{count}} perfiles recopilados",
   "profilesOfProcessDeepestTechSnapshot": "Perfiles del proceso {{deepestTechSnapshot}}",
-  "noEntityFound": "Ningún {{entityName}} encontrado"
+  "noEntityFound": "Ningún {{entityName}} encontrado",
+  "hotspots": "{{title}} Zonas activas"
 }

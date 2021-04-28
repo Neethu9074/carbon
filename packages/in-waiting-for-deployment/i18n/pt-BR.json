@@ -91,10 +91,16 @@
     "applicationDirectory": "Diretório de aplicativos",
     "theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "O suporte para Python no Fargate on ECS funciona da mesma forma que com qualquer aplicativo Python. Siga as instruções da ",
     "pythonDocumentation": "documentação do Python.",
+    "theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe": "O suporte para Ruby no Fargate on ECS funciona da mesma forma que com qualquer aplicativo Ruby. Siga as instruções da ",
+    "rubyDocumentation": "documentação do Ruby.",
+
     "supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs": "O suporte para ao AWS Fargate é projetado para trabalhar com o AWS Fargate no Elastic Container Service (ECS).",
     "selectYourApplicationRuntime": "Selecione seu tempo de execução do aplicativo:",
     "awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "As funções Lambda da AWS gravadas no Go precisam ser instrumentadas manualmente para coletarem dados de rastreio. Siga as instruções da ",
     "awsLambdaGoDocumentation": "documentação do Go da Lambda da AWS.",
+    "awsLambdaFunctionsWrittenInRubyNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "As funções Lambda da AWS gravadas no Ruby precisam ser instrumentadas manualmente para coletarem dados de rastreio. Siga as instruções da ",
+    "awsLambdaRubyDocumentation": "documentação do Ruby da Lambda da AWS.",
+
     "setTheFollowingEnvironmentVariablesInTheEnvironmentVariablesSectionAtAwsLambdaConfigurationPage": "Configure as variáveis de ambiente a seguir na seção \"Variáveis de ambiente\" na página de configuração da Lambda da AWS:",
     "configuringYourAwsLambdaFunction": "Configurando sua função Lambda da AWS",
     "noteThatTheJava8RuntimeIsNotSupportedCurrentlyOnlySupportedRuntimesAreJava8A12AndJava11": "Observe que o tempo de execução `java8` não é suportado. Atualmente, os únicos tempos de execução suportados são `java8.a12` e `java11`.",
@@ -186,11 +192,17 @@
     "installingTheInstanaAgentUsingTheOpenShiftOperatorIsDescribedIn": "A instalação do agente do Instana usando o operador OpenShift é descrita na",
     "theInstanaOpenShiftDocumentation": "documentação do OpenShift do Instana.",
     "nameYourOpenShiftCluster": "Nomeie seu cluster OpenShift",
+    "placeholderReleaseVersionEG001": "Versão de liberação, por exemplo, '0.0.1'",
     "theAgentReleaseVersionMustBeAValidSemanticVersion": "A versão de liberação do agente deve ser uma versão semântica válida",
+    "placeholderFoundationNameEGProd": "Nome de base, por exemplo, 'prod'",
     "theFoundationNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "O nome de base deve ser uma combinação de letras, hifens e sublinhados com até 64 caracteres de comprimento",
+    "placeholderUaaClientIdEGMyClientId": "ID do cliente UAA, por exemplo, 'my-client-id'",
     "theUaaClientIdCannotBeBlank": "O id do cliente UAA não pode ficar em branco",
+    "placeholderUaaClientSecretEGMyClientSecret": "Segredo do cliente UAA, por exemplo, 'my-client-secret'",
     "theUaaClientSecretCannotBeBlank": "O segredo do cliente UAA não pode ficar em branco",
     "supportedStemcells": "Stemcells suportados",
+    "ubuntuTrusty": "Ubuntu Trusty",
+    "ubuntuXenial": "Ubuntu Xenial",
     "instanaBoshAgentVersion": "Versão do agente BOSH do Instana",
     "pleaseProvideTheInstanaBoshReleaseVersionYouWantToUse": "Forneça a versão de liberação do BOSH do Instana que você deseja usar:",
     "uploadTheInstanaBoshReleasesToTheBoshDirector": "Faça o upload das liberações do BOSH do Instana para o diretor do BOSH",
@@ -202,7 +214,7 @@
     "createInTheFoundationSUserAccountAndAuthenticationUaaAClientWithCloudControllerAdminReadOnlyAuthority": "Crie a Conta do usuário e autenticação (UAA) da base, um cliente com autoridade 'cloud_controller.admin_read_only':",
     "theEasiestWayToCreateTheRequiredUaaClientIsToUseThe": "A maneira mais fácil de criar o cliente UAA necessário é usando a ",
     "uaacTool": "ferramenta uaac.",
-    "replaceInTheCommandsBelowUaaApiEndpointWithYourUaaApiEndpointAndClientsAdminSecretWithYourUaaClientWithClientsAdminOrClientsWriteAuthority": "Substitua os comandos '<uaa-api-endpoint>' abaixo pelo terminal de API UAA e '<clients.admin-secret>' pelo cliente UAA com autoridade 'clients.admin' ou 'clients.write'",
+    "replaceInTheCommandsBelowUaaApiEndpointWithYourUaaApiEndpointAndClientsAdminSecretWithYourUaaClientWithClientsAdminOrClientsWriteAuthority": "Substitua nos comandos abaixo '<uaa-api-endpoint>' pelo terminal de API UAA e '<clients.admin-secret>' pelo cliente UAA com autoridade 'clients.admin' ou 'clients.write'",
     "instanaBoshAddon": "Complemento do BOSH do Instana",
     "boshAddonsAreRuntimeConfigurationsForBoshThatAllowYouToDeclareAdditionalJobsToBeRunInYourDeploymentsForMoreInformationOnBoshRuntimeConfigurationsAndAddonsReferToThe": "Os complementos do BOSH são configurações de tempo de execução para BOSH que permitem declarar tarefas adicionais para serem executadas em suas implementações. Para obter mais informações sobre complementos e configurações de tempo de execução do BOSH, consulte a ",
     "boshRuntimeConfigurationsDocumentation": "documentação \"Configurações de tempo de execução do BOSH\".",
@@ -276,7 +288,8 @@
     "nodejs8": "Node.js 8.x",
     "nodejs10Plus": "Node.js 10.x ou mais recente",
     "python": "Python",
-    "python2and3": "Python 2.7 e 3.x"
+    "python2and3": "Python 2.7 e 3.x",
+    "ruby": "Ruby"
   },
   "baseImg": {
     "glibcLinux": "Linux (baseado em glibc)",
@@ -298,8 +311,9 @@
   "agentDeployed": "Agente implementado",
   "agentsAreReportingDataIsBeingCollected": "Os agentes estão relatando. Dados estão sendo coletados.",
   "timeToExploreInstana": "Hora de explorar o Instana!",
-  "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "Sua instância do Instana está pronta e funciona melhor com muitos dados.",
+  "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "Quase pronto, criamos uma instância da Instana para você.",
   "whileWeArePreparingYourInstanaInstance": "Enquanto estamos preparando sua instância do Instana,",
   "getReadyToDeployAgentsInYourEnvironment": "prepare-se para implementar agentes em seu ambiente…",
-  "letSGetSomeAgentsRunning": "Vamos colocar alguns agentes em execução…"
+  "letSGetSomeAgentsRunning": "Estamos esperando você instalar o agente da Instana.",
+  "theFieldCannotBeBlank": "O campo '{{fieldName}}' não pode ficar em branco"
 }

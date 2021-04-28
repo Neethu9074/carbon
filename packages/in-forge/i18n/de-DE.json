@@ -468,6 +468,11 @@
   "pluginName_httpd": "Apache-HTTP-Dämon",
   "pluginName_ibmCics": "IBM CICS",
   "pluginName_ibmCics_plural": "IBM CICS",
+  "pluginName_ibmCloudClinicalData_plural": "IBM Clinical Data",
+  "pluginName_ibmCloudClinicalData_0": "IBM Clinical Data",
+  "pluginName_ibmCloudClinicalData_1": "IBM Clnical Data",
+  "pluginName_ibmCloudClinicalData_2": "IBM Clinical Data",
+  "pluginName_ibmCloudClinicalData": "IBM Clinical Data",
   "pluginName_ibmCloudCloudant_plural": "IBM Cloudants",
   "pluginName_ibmCloudCloudant_0": "IBM Cloudants",
   "pluginName_ibmCloudCloudant_1": "IBM Cloudants",
@@ -2368,7 +2373,10 @@
       "consumerCount": "Anzahl der Konsumenten",
       "deadLetterQueuesNumber": "Warteschlangen für nicht zustellbare Nachrichten {{len}}",
       "queuesNumber": "Warteschlangen {{len}}",
-      "topicsNumber": "Themen {{len}}"
+      "topicsNumber": "Themen {{len}}",
+      "topic": "Thema",
+      "queue": "Warteschlange",
+      "dlQueue": "DL-Warteschlange"
     },
     "activeMQArtemis": {
       "jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue": "Jmx ist nicht aktiviert. Sie können es in 'activemq config' aktivieren, indem Sie die Brokereigenschaft 'useJmx' auf 'true' setzen.",
@@ -2406,7 +2414,8 @@
       "allQueuesMessagesAdded": "Alle Warteschlangen - hinzugefügte Nachrichten",
       "allQueuesMessagesAcknowledged": "Alle Warteschlangen - bestätigte Nachrichten",
       "allQueuesMessagesExpired": "Alle Warteschlangen - abgelaufene Nachrichten",
-      "allQueuesMessagesKilled": "Alle Warteschlangen - abgebrochene Nachrichten"
+      "allQueuesMessagesKilled": "Alle Warteschlangen - abgebrochene Nachrichten",
+      "queue": "Warteschlange"
     },
     "aerospike": {
       "aerospike": "Aerospike"
@@ -3022,7 +3031,8 @@
       "headerLambdaFunctionInfo": "Informationen zur Lambda-Funktion",
       "headerServicesLATEST": "Services für $LATEST",
       "labelVersions": "Versionen",
-      "descriptionLambda": "Anscheinend überwachen Sie dieses Lambda nicht mit einem Instana-Agenten. Die Einrichtung eines AWS-Agenten für den entsprechenden AWS-Account ist eine Voraussetzung für natives Lambda-Tracing. Informationen hierzu finden Sie in unserer Dokumentation, insbesondere in den <installLink>Dokumenten zur Installation des AWS-Agenten</installLink>."
+      "descriptionLambda": "Anscheinend überwachen Sie dieses Lambda nicht mit einem Instana-Agenten. Die Einrichtung eines AWS-Agenten für den entsprechenden AWS-Account ist eine Voraussetzung für natives Lambda-Tracing. Informationen hierzu finden Sie in unserer Dokumentation, insbesondere in den <installLink>Dokumenten zur Installation des AWS-Agenten</installLink>.",
+      "noVersions": "Wir haben keine Daten über die einzelnen Versionen dieser Lambda-Funktion. Haben Sie die Überwachung mit dem AWS-Agenten für dieses AWS-Konto und diese Region konfiguriert? Informationen hierzu finden Sie in unserer Dokumentation, insbesondere in den <installLink>Dokumenten zur Installation des AWS-Agenten</installLink>."
     },
     "awsLambdaVersion": {
       "titleLambdaFunction": "Lambda-Funktion",
@@ -3131,7 +3141,9 @@
       "memoryUsage2ndBroker": "MemoryUsage (2. Broker)",
       "enqueueTime": "EnqueueTime",
       "enqueueTime2ndBroker": "EnqueueTime (2. Broker)",
-      "producerCCount": "Anzahl der Produzenten"
+      "producerCount": "Anzahl der Produzenten",
+      "queue": "Warteschlange",
+      "topic": "Thema"
     },
     "awsMskBroker": {
       "dashboard": {
@@ -3708,7 +3720,8 @@
         "labelInMemoryOLTPStorage": "Speicherinterner OLTP-Storage",
         "labelCPULimit": "CPU-Limit",
         "labelCPUUsed": "Verwendete CPU"
-      }
+      },
+      "database": "Datenbank"
     },
     "azureSqlElasticPool": {
       "infoName": "Name",
@@ -3759,7 +3772,8 @@
         "titleVCore": "vCore",
         "labelCPULimit": "CPU-Limit",
         "labelCPUUsed": "Verwendete CPU"
-      }
+      },
+      "elasticPool": "Elastic Pool"
     },
     "azureSqlServer": {
       "infoName": "Name",
@@ -3966,7 +3980,8 @@
       "cassandraCluster": "Cassandra-Cluster",
       "nodes": "Knoten",
       "latency": "Latenzzeit",
-      "keyspaces": "Schlüsselbereiche"
+      "keyspaces": "Schlüsselbereiche",
+      "keyspace": "Schlüsselbereich"
     },
     "cassandraNode": {
       "infoVersion": "Version",
@@ -4057,7 +4072,8 @@
       "communication": "Kommunikation",
       "tokens": "Token",
       "latency": "Latenzzeit",
-      "keyspaces": "Schlüsselbereiche"
+      "keyspaces": "Schlüsselbereiche",
+      "keyspace": "Schlüsselbereich"
     },
     "ceph": {
       "infoProcessID": "Prozess-ID",
@@ -4122,7 +4138,8 @@
       },
       "poolsWithCount": "Pools ({{len}})",
       "cephCluster": "Ceph-Cluster",
-      "pools": "Pools"
+      "pools": "Pools",
+      "pool": "Pool"
     },
     "clickhouseCluster": {
       "indexLabel": "ClickHouse-Cluster",
@@ -4655,7 +4672,8 @@
         "labelItemsPutToDiskQueue": "In die Plattenwarteschlange gestellte Einträge pro Sekunde",
         "labelItemsWrittenToDisk": "Auf die Platte geschriebene Einträge pro Sekunde"
       },
-      "couchbaseNode": "Couchbase-Knoten"
+      "couchbaseNode": "Couchbase-Knoten",
+      "bucket": "Bucket"
     },
     "crio": {
       "getContainerInfo": "Container-Informationen abrufen",
@@ -4847,7 +4865,8 @@
       "pagesRead": "Gelesene Seiten",
       "pagesWritten": "Geschriebene Seiten",
       "poolReadTime": "Pool-Lesezeit",
-      "poolWriteTime": "Pool-Schreibzeit"
+      "poolWriteTime": "Pool-Schreibzeit",
+      "Container": "Container"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "Alle Aufrufe pro Sekunde",
@@ -4878,6 +4897,9 @@
         "total": "Gesamtzahl",
         "kernel": "Kernel",
         "user": "Benutzer",
+        "totalNormalized": "Insgesamt normalisiert",
+        "kernelNormalized": "Normalisierte Kernel ",
+        "userNormalized": "Normalisierte Benutzer",
         "throttlingCount": "Anzahl der Drosselungen",
         "throttlingTime": "Drosselungszeit",
         "usage": "Nutzung",
@@ -4924,6 +4946,9 @@
       "total": "Gesamtzahl",
       "kernel": "Kernel",
       "user": "Benutzer",
+      "totalNormalized": "Insgesamt normalisiert [0,100]",
+      "kernelNormalized": "Normalisierte Kernel [0,100]",
+      "userNormalized": "Normalisierte Benutzer [0,100]",
       "cpu": "CPU",
       "throttlingCount": "Anzahl der Drosselungen",
       "throttlingTime": "Drosselungszeit",
@@ -5269,7 +5294,8 @@
       "totalMemory": "Gesamtspeicher",
       "freeMemory": "Freier Speicher",
       "cpuUsage": "CPU-Nutzung",
-      "httpRequests": "HTTP-Anforderungen"
+      "httpRequests": "HTTP-Anforderungen",
+      "device": "Einheit"
     },
     "finagleApplicationContainer": {
       "dashboard": {
@@ -5321,7 +5347,8 @@
       "maxChildren": "Max. untergeordnet",
       "memory": "Speicher",
       "resources": "Ressourcen",
-      "phpFpm": "PHP-FPM"
+      "phpFpm": "PHP-FPM",
+      "pool": "Pool"
     },
     "phpRuntimePlatform": {
       "version": "Version",
@@ -5441,7 +5468,9 @@
       "numberOfDeleteRequests": "Anzahl der Löschanforderungen",
       "numberOfExtendedRequests": "Anzahl der erweiterten Anforderungen",
       "numberOfModifyRequests": "Anzahl der Änderungsanforderungen",
-      "numberOfSearchRequests": "Anzahl der Suchanforderungen"
+      "numberOfSearchRequests": "Anzahl der Suchanforderungen",
+      "database": "Datenbank",
+      "ldapConnector": "LDAP-Connector"
     },
     "postgreSqlDatabase": {
       "troubleshootingDocs": "Fehlerbehebungshandbücher",
@@ -5497,7 +5526,8 @@
       "connection": "Verbindung",
       "replicationDelayInBytes": "Replikationsverzögerung in Byte",
       "replicationDelayInSeconds": "Replikationsverzögerung in Sekunden",
-      "postgreSql": "PostgreSQL"
+      "postgreSql": "PostgreSQL",
+      "database": "Datenbank"
     },
     "process": {
       "jvmAttachGenericIssueDescription": "Der Hostagent kann nicht ordnungsgemäß an diese Java Virtual Machine angehängt werden. Daher wird dieser Prozess nicht verfolgt. Weitere Informationen dazu, warum das Anhängen fehlgeschlagen ist, finden Sie in den Protokollen des Hostagenten. Der Hostagent versucht alle 10 Minuten, erneut eine Verbindung zu dieser virtuellen Maschine herzustellen. Bis dieser Versuch erfolgreich ist, werden jedoch weder Traces noch Messdaten für diese JVM erfasst.",
@@ -5712,7 +5742,8 @@
       "messagesTotal": "Gesamtzahl der Nachrichten",
       "totalNumberOfNetworkPartitions": "Gesamtzahl der Netzpartitionen",
       "messagesAcknowledged": "Bestätigte Nachrichten",
-      "rabbitMq": "RabbitMQ"
+      "rabbitMq": "RabbitMQ",
+      "queue": "Warteschlange"
     },
     "redis": {
       "configCommandNameNotConfigured": "Der Name des Redis-Befehls CONFIG muss so konfiguriert werden, dass der Befehl Redis-Messdaten erfasst.",
@@ -5855,7 +5886,6 @@
       "clusterSize": "Clustergröße",
       "nodes": "Knoten",
       "masterNodes": "Masterknoten",
-      "redis": "Redis",
       "redisCluster": "Redis-Cluster"
     },
     "redisEnterpriseCluster": {
@@ -5894,7 +5924,6 @@
         "shardsWithCount": "Shards ({{len}})",
         "redisEnterpriseCluster": "Redis-Enterprise-Cluster"
       },
-      "redisEnterprise": "Redis Enterprise",
       "name": "Name",
       "throughputOpsSecond": "Durchsatz (O/s)",
       "keyspaceHits": "Schlüsselbereichstreffer",
@@ -6108,7 +6137,8 @@
       "documentsPending": "Anstehende Dokumente",
       "solrEvictions": "Solr-Bereinigungen",
       "startedAt": "Gestartet um",
-      "solr": "Solr"
+      "solr": "Solr",
+      "core": "Kern"
     },
     "solrCloudCluster": {
       "nodes": "Knoten",
@@ -6245,7 +6275,8 @@
       "shuffleWritePerSecond": "Shuffle-Schreibvorgänge pro Sekunde",
       "totalInputBytes": "Gesamtzahl der Eingabebytes",
       "totalShuffleRead": "Gesamtzahl der Shuffle-Lesevorgänge",
-      "totalShuffleWrite": "Gesamtzahl der Shuffle-Schreibvorgänge"
+      "totalShuffleWrite": "Gesamtzahl der Shuffle-Schreibvorgänge",
+      "executorId": "Executor-ID"
     },
     "garden": {
       "cloudFoundry": "Cloud Foundry",
@@ -6827,7 +6858,8 @@
       "memoryAvailable": "Verfügbarer Speicher",
       "memoryUsed": "Verwendeter Speicher",
       "virtualCoresAvailable": "Verfügbare virtuelle Kerne",
-      "virtualCoresUsed": "Verwendete virtuelle Kerne"
+      "virtualCoresUsed": "Verwendete virtuelle Kerne",
+      "node": "Knoten"
     },
     "hadoopYARNNode": {
       "dashboard": {
@@ -6906,7 +6938,9 @@
       "responseErrors": "Antwortfehler",
       "connectionRetries": "Verbindungswiederholungen",
       "deniedResponses": "Verweigerte Antworten",
-      "reDispatchedRequests": "Erneut gesendete Anforderungen"
+      "reDispatchedRequests": "Erneut gesendete Anforderungen",
+      "frontend": "Front-End",
+      "backend": "Back-End"
     },
     "haProxy": {
       "dashboard": {
@@ -7244,7 +7278,9 @@
       "vSphere": "vSphere",
       "vm": "VM",
       "esXiHost": "ESXi-Host",
-      "datacenter": "Rechenzentrum"
+      "datacenter": "Rechenzentrum",
+      "device": "Einheit",
+      "gpuUuid": "GPU-UUID"
     },
     "httpd": {
       "dashboard": {
@@ -7304,6 +7340,17 @@
       "trafficPerRequest": "Datenverkehr pro Anforderung",
       "busyWorkers": "Ausgelastete Worker"
     },
+    "ibmCloudClinicalData": {
+      "ibmClinicalData": "IBM Clinical Data",
+      "ibmCloudClinicalData": "IBM Cloud Clinical Data",
+      "kind": "Art",
+      "name": "Name",
+      "labelApiCalls": "API-Aufrufe",
+      "labelCallsCount": "Aufrufe",
+      "labelRequestSizeBytes": "Anforderungsgröße",
+      "labelTimeSeconds": "Antwortzeit",
+      "labelZone": "Zone"
+    },
     "ibmCloudCloudant": {
       "labelName": "Name",
       "requestActivity": "Anforderungsaktivität",
@@ -7359,7 +7406,9 @@
       "memoryUsedPercent": "Verwendeter Speicher in Prozent",
       "titleMemberCount": "Member-Anzahl",
       "labelMembers": "Member-Anzahl",
-      "labelZone": "Zone"
+      "labelZone": "Zone",
+      "labelDisk": "Platte",
+      "labelMemory": "Speicher"
     },
     "ibmCloudFunctions": {
       "labelConcurrentInvocations": "Gleichzeitige Aufrufe",
@@ -7387,7 +7436,8 @@
       "labelWaitTime": "Wartezeit (ms)",
       "labelInitTime": "Initialisierungszeit (ms)",
       "labelPackageCount": "Paketanzahl",
-      "labelZone": "Zone"
+      "labelZone": "Zone",
+      "labelFunction": "Funktion"
     },
     "ibmCloudIsLoadBalancer": {
       "labelActiveConnections": "Aktive Verbindungen",
@@ -7457,7 +7507,8 @@
       "titleObjectCount": "Objektanzahl",
       "titleUsed": "Verwendete Größe",
       "labelUsed": "Verwendete Größe",
-      "labelZone": "Zone"
+      "labelZone": "Zone",
+      "labelMemory": "Speicher"
     },
     "ibmIOs": {
       "sidebar": {
@@ -7468,7 +7519,7 @@
         "restrictedState": "Status des eingeschränkten Betriebs"
       },
       "dashboard": {
-        "charts" : {
+        "charts": {
           "cpu": {
             "name": "CPU",
             "rate": "Rate"
@@ -7526,7 +7577,8 @@
           }
         }
       },
-      "name": "Db2 on i"
+      "name": "Db2 on i",
+      "memoryPool": "Hauptspeicherpool"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -7816,7 +7868,11 @@
       "totalObjectCount": "Gesamtzahl der Objekte",
       "totalUsedBytes": "Gesamtzahl der verwendeten Byte",
       "labelVolumeWriteRequests": "Schreibanforderungen für Datenträger",
-      "labelZone": "Zone"
+      "labelZone": "Zone",
+      "labelCPU": "CPU",
+      "labelMemory": "Speicher",
+      "labelNetwork": "Netz",
+      "labelVolume": "Datenträger"
     },
     "instanaAgent": {
       "dashboard": {
@@ -8007,7 +8063,8 @@
       "labelCoresUsed": "Verwendete Kerne",
       "labelCoresTotal": "Kerne insgesamt",
       "labelNumberFailedDrivers": "Anzahl der fehlgeschlagenen Treiber",
-      "labelNumberFailedApplications": "Anzahl der fehlgeschlagenen Anwendungen"
+      "labelNumberFailedApplications": "Anzahl der fehlgeschlagenen Anwendungen",
+      "workerId": "Worker-ID"
     },
     "kafka": {
       "kafkaMonitoringRequiresSslTruststoreLocation": "Für die Kafka-Überwachung müssen für mit TLS gesicherte Kafka-Instanzen <code>sslTruststoreLocation</code> und <code>sslTruststorePassword</code> in der <code>configuration.yaml</code> des Instana-Agenten konfiguriert werden.",
@@ -8149,7 +8206,9 @@
       "consumers": "Konsumenten",
       "brokersMsgIn": "Eingehende Brokernachrichten",
       "brokersPartitions": "Brokerpartitionen",
-      "prodLatency": "Prod. Latenzzeit"
+      "prodLatency": "Prod. Latenzzeit",
+      "producer": "Produzent",
+      "consumer": "Konsument"
     },
     "kubernetesCluster": {
       "noActivity": "Keine Aktivität",
@@ -8464,7 +8523,8 @@
       "connectionsCreated": "Erstellte Verbindungen",
       "connectionsUsedPercentage": "Prozentsatz an verwendeten Verbindungen",
       "threadPools": "Thread-Pools",
-      "threadsUsedPercentage": "Prozentsatz an verwendeten Threads"
+      "threadsUsedPercentage": "Prozentsatz an verwendeten Threads",
+      "datasourceJndi": "Datenquellen-JNDI"
     },
     "jbossDataGrid": {
       "cacheName": "Cache [{{cacheName}}]",
@@ -8544,7 +8604,9 @@
       "globalConnections": "Globale Verbindungen",
       "connections": "Verbindungen",
       "cacheStats": "Cache-Statistiken",
-      "threadPools": "Thread-Pools"
+      "threadPools": "Thread-Pools",
+      "cache": "Cache",
+      "cluster": "Cluster"
     },
     "jenkins": {
       "disabled": "Inaktiviert",
@@ -8577,7 +8639,8 @@
       "jobs": "Jobs",
       "healthStatusOfRecentBuilds": "Allgemeinzustand des letzten Builds",
       "lastBuildEstimatedDuration": "Geschätzte Dauer des letzten Builds",
-      "lastBuildTimestamp": "Zeitmarke des letzten Builds"
+      "lastBuildTimestamp": "Zeitmarke des letzten Builds",
+      "job": "Job"
     },
     "jettyApplicationContainer": {
       "jmxModuleIsNotEnabledInJetty": "Das JMX-Modul ist in jetty nicht aktiviert. Aktivieren Sie es, damit Daten erfasst werden können. Fügen Sie hierfür <code>--module=jmx</code> zu <code>start.ini</code> hinzu.",
@@ -8688,7 +8751,8 @@
       "pools": "Pools",
       "maxHeap": "Max. Heapspeicher",
       "heapUsed": "Verwendeter Heapspeicher",
-      "threadDump": "Threadspeicherauszug"
+      "threadDump": "Threadspeicherauszug",
+      "garbageCollector": "Garbage-Collector"
     },
     "springbootAppContainer": {
       "titleRequests": "Anforderungen",
@@ -8705,7 +8769,7 @@
       "categoryRequests": "Anforderungen",
       "categorySessions": "Sitzungen",
       "requestsWithStatusCode": "Anforderungen mit Statuscode {{statusCode}}",
-      "warningTooManyMetrics": "Die Erfassung von Messdaten wurde gestoppt, da zu viele registrierte Messdaten in dieser Spring-Boot-Anwendung vorliegen. Dies kann an einem Fehler in <linkToSpring>Spring Boot</linkToSpring> liegen.",
+      "warningTooManyMetrics": "Die Erfassung von Messdaten wurde gestoppt, da zu viele registrierte Messdaten in dieser Spring-Boot-Anwendung vorliegen. Dies kann auch an einem Fehler in <linkToSpring>Spring Boot</linkToSpring> liegen.",
       "warningActuatorConfigured": "Für die Überwachung von Spring Boot muss der Spring Boot Actuator konfiguriert sein. Für Spring Boot Version 2.2.x und später muss JMX aktiviert sein.",
       "warningSpringbootConfig": "Weitere Informationen finden Sie auf der <linkToSpringboot>Seite zur Spring-Boot-Konfiguration</linkToSpringboot>.",
       "descriptionActuatorConfigured": "Für die Überwachung von Spring Boot muss der Spring Boot Actuator konfiguriert sein:",
@@ -9063,7 +9127,8 @@
       "labelRemoteEndpointsCurrent": "Aktuelle ferne Endpunkte",
       "labelDataSource": "Datenquelle",
       "labelJMSDestination": "JMS-Ziel",
-      "labelSAFAgent": "SAF-Agent"
+      "labelSAFAgent": "SAF-Agent",
+      "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {
       "titleName": "Name",
@@ -9098,7 +9163,8 @@
       "labelServlet": "Servlet",
       "labelServlets": "Servlets",
       "labelDatasource": "Datenquelle",
-      "labelDatasources": "Datenquellen"
+      "labelDatasources": "Datenquellen",
+      "webSphere": "WebSphere"
     },
     "webSphereLibertyAppContainer": {
       "titleName": "Name",
@@ -9133,7 +9199,8 @@
       "labelServlets": "Servlets",
       "labelPool": "Pool",
       "infoMonitorFeatureNotEnabled": "Anscheinend ist die Überwachungsfunktion nicht aktiviert. Fügen Sie die monitor-1.0-Funktion in der server.xml hinzu und überprüfen Sie, ob ws-javaagent.jar beim Serverstart als -javaagent geladen wird.",
-      "infoThreadPoolStatesNotAvailable": "Die Thread-Pool-Statistik ist nicht verfügbar. Es tritt ein bekanntes Problem auf, wenn JMS-Funktionen (WASJmsClient-1.1 und WASJmsServer-1.0) gemeinsam mit der monitor-1.0-Funktion in server.xml aktiviert werden. Das stats-MBean des Thread-Pools wird überschrieben und ist nicht sichtbar."
+      "infoThreadPoolStatesNotAvailable": "Die Thread-Pool-Statistik ist nicht verfügbar. Es tritt ein bekanntes Problem auf, wenn JMS-Funktionen (WASJmsClient-1.1 und WASJmsServer-1.0) gemeinsam mit der monitor-1.0-Funktion in server.xml aktiviert werden. Das stats-MBean des Thread-Pools wird überschrieben und ist nicht sichtbar.",
+      "webSphereLiberty": "WebSphere Liberty"
     },
     "zooKeeper": {
       "titleTicks": "Ticks",
@@ -9486,7 +9553,8 @@
       "bytesReceived": "Empfangene Byte",
       "version": "Version",
       "websites": "Websites",
-      "request": "Anforderung"
+      "request": "Anforderung",
+      "website": "Website"
     },
     "msSqlDatabase": {
       "connectionsAmpUsers": "Verbindungen und Benutzer",
@@ -9548,7 +9616,8 @@
       "processedEevents": "Verarbeitete Ereignisse",
       "executionEerrors": "Ausführungsfehler",
       "fatalEerrors": "Schwerwiegende Fehler",
-      "averagePprocessingTime": "Durchschnittliche Verarbeitungszeit"
+      "averagePprocessingTime": "Durchschnittliche Verarbeitungszeit",
+      "flow": "Datenfluss"
     },
     "netCoreRuntimePlatform": {
       "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "Die Prozessumgebung für diese .NET-Core-Anwendung ist nicht richtig für eine Überwachung durch Instana konfiguriert. Die folgenden Umgebungsvariablen müssen für den .NET-Core-Prozess festgelegt sein: <code>{{missing}}</code>. In der Dokumentation finden Sie Informationen zu den richtigen, festzulegenden Werten.",
@@ -9981,7 +10050,8 @@
       "inactiveUserSessions": "Inaktive Benutzersitzungen",
       "backgroundSessions": "Hintergrundsitzungen",
       "tablespaces": "Tabellenbereiche",
-      "dbCpuTime": "DB-CPU-Zeit"
+      "dbCpuTime": "DB-CPU-Zeit",
+      "tablespace": "Tabellenbereich"
     },
     "azureCosmosDb": {
       "totalRequests": "Gesamtzahl der Anforderungen",

@@ -37,7 +37,8 @@
         "classpathHide": "クラスパスの非表示",
         "classpathShow": "クラスパスの表示"
       },
-      "processStartedTitle": "開始時刻"
+      "processStartedTitle": "開始時刻",
+      "tags": "タグ ({{size}})"
   },
 
   "traceDetails": {

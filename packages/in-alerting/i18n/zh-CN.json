@@ -23,8 +23,6 @@
     "alertHeaderYouCanOnlyStartOrPause": "在查询构建器 1 方式下，您只能启动或暂停，但不能编辑这些配置",
     "alertHistoryListTitle": "已创建警报",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "已创建警报（{{totalRepresentedItemCount}} 个）",
-    "alertPropertyInfosLabelWarning": "警告",
-    "alertPropertyInfosLabelCritical": "严重",
     "alertPropertyInfosLabelTitle": "标题",
     "alertPropertyInfosLabelAlertLevel": "警报级别",
     "alertPropertyInfosLabelTriggersIncident": "触发事件",
@@ -94,17 +92,29 @@
     "applications": {
       "newGlobalAlert": "全局智能警报",
       "advanced": {
+        "alertPropertyInsertPlaceholderLabel": "插入占位符",
         "evaluationSwitch": {
           "individual": "个别警报",
           "evaluationTypePERAP": {
-            "selectionText": "对于所有选定服务和端点的汇总",
+            "selectionText": "对于此应用程序透视图",
+            "globalSelectionText": "每个应用程序透视图",
             "columnText": "已汇总",
-            "description": "对于所有选定服务和端点汇总的警报"
+            "description": "针对此应用程序透视图单独发出警报",
+            "globalDescription": "对每个应用程序透视图单独发出警报"
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "对于每个服务的汇总",
+            "selectionText": "此应用程序透视图的每个服务",
+            "globalSelectionText": "每个应用程序透视图上下文中的每个服务",
             "columnText": "每个服务",
-            "description": "对于每个服务汇总的个别警报"
+            "description": "针对此应用程序透视图的每个服务单独发出警报",
+            "globalDescription": "针对每个应用程序透视图上下文中的每个服务单独发出警报"
+          },
+          "evaluationTypePERAPENDPOINT": {
+            "selectionText": "此应用程序透视图的每个端点",
+            "globalSelectionText": "每个应用程序透视图上下文中的每个端点",
+            "columnText": "每个端点",
+            "description": "针对此应用程序透视图的每个端点单独发出警报",
+            "globalDescription": "针对每个应用程序透视图上下文中的每个端点单独发出警报"
           }
         },
         "inboundOutboundCalls": {
@@ -452,12 +462,16 @@
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
         "labelName": "名称",
         "labelActionButtonEdit": "编辑 ",
-        "labelActionButtonDuplicate": "重复",
+        "labelActionButtonDuplicate": "复制",
         "labelActionButtonDelete": "删除",
         "noAlertConfigured": "未配置任何警报。",
         "alertEntityName": "警报“{{entityName}}”",
         "labelAlertFilters": "过滤器",
-        "numberOfApplicationsSelected": "已选定 {{numberApplicationsSelected}} 个应用程序"
+        "labelConfirm": "请确认",
+        "labelConfirmRemoveConfig": "确定要移除配置 <strong>{{configName}}</strong> 吗？",
+        "labelRemove": "移除",
+        "numberOfApplicationsSelected": "已选择 {{count}} 个应用程序",
+        "numberOfApplicationsSelected_plural": "已选定 {{count}} 个应用程序"
       }
     },
     "components": {
@@ -515,6 +529,7 @@
         "timeThresholdConfigOff": "关闭",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "请提供大于或等于 1 的数字",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "请提供 1% 到 100% 之间的数字",
+        "alertPropertiesInsertPlaceholderTooltip": "插入占位符",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "当条件在指定时长后持续存在时",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "每次条件在定义的时间范围内触发指定的次数",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "当特定数量的用户受到影响时",

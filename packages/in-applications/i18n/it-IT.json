@@ -245,8 +245,11 @@
     "facetedSearch": {
       "showSyntheticCalls": "Mostra chiamate sintetiche",
       "showInternalCalls": "Mostra chiamate interne",
-      "defaultTurnedOnSynthetic": "Questa opzione viene selezionata poiché si è eseguita una query sulle chiamate sintetiche. ",
-      "defaultTurnedOnInternal": "Questa opzione viene selezionata poiché si è eseguita una query sulle chiamate interne. "
+      "defaultTurnedOnSynthetic": "Questa opzione viene selezionata poiché si è eseguita una query sulle chiamate sintetiche.",
+      "defaultTurnedOnInternal": "Questa opzione viene selezionata poiché si è eseguita una query sulle chiamate interne.",
+      "erroneous_true": "true",
+      "erroneous_false": "false",
+      "erroneous_Erroneous": "Errato"
     },
     "applications": "Applicazioni",
     "services": "Servizi",
@@ -256,7 +259,7 @@
     "httpStatusCode": "Codice di stato HTTP",
     "hiddenCalls": "Chiamate nascoste",
     "noResults": "Nessun risultato",
-    "loadMore": "Ulteriori informazioni ",
+    "loadMore": "Ulteriori informazioni",
     "callBatchCountTooltip": "Questa chiamata è stata eseguita in batch e rappresenta {{callBatchCount}} singola chiamata.",
     "callBatchCountTooltip_plural": "Questa chiamata è stata eseguita in batch e rappresenta {{callBatchCount}} singole chiamate.",
     "callBatchCountTooltip_0": "Questa chiamata è stata eseguita in batch e rappresenta {{callBatchCount}} singole chiamate.",
@@ -310,7 +313,7 @@
     "noErrors": "Nessun errore",
     "fromMs": "Da (ms)",
     "toMs": "A (ms)",
-    "theLatencyRangeHasToBeInAscendingOrder": "L'intervallo di latenza deve essere in ordine decrescente. ",
+    "theLatencyRangeHasToBeInAscendingOrder": "L'intervallo di latenza deve essere in ordine decrescente.",
     "service": "Servizio",
     "trace": "Traccia",
     "calls": "Chiamate",
@@ -449,18 +452,18 @@
         "cloud": "Cloud",
         "host": "Host",
         "http": "HTTP",
-        "customTag": "Tag personalizzato ",
+        "customTag": "Tag personalizzato",
         "kubernetes": "Kubernetes",
         "orchestration": "Orchestrazione",
         "httpHeader": "Intestazione HTTP",
-        "httpUrl": "URL HTTP ",
+        "httpUrl": "URL HTTP",
         "httpMisc": "Misc HTTP",
         "rpc": "RPC",
         "database": "Database",
         "technology": "Tecnologia",
         "java": "Java",
-        "scripting": "Script ",
-        "miscellaneous": "Varie ",
+        "scripting": "Script",
+        "miscellaneous": "Varie",
         "platform": "Piattaforme"
       },
       "liveList": {
@@ -474,7 +477,7 @@
       "apName": "Nome prospettiva applicazione",
       "apNameDescription": "Il nome della Prospettiva applicazione deve avere una definizione ben consolidata all'interno di un'organizzazione. Ad esempio, per modellare un ambiente: \"Production Blue\", per modellare un insieme di servizi: \"Payment\" oppure per modellare un tenant: \"ACME Customer\".",
       "defineUsingTags": "2. Definire la Prospettiva applicazione utilizzando uno o più tag.",
-      "defineUsingTagsDescription": "Ad esempio, dove la chiave è \"docker.label\" ed il valore è \"environment=Production Blue\" o la chiave è \"call.http.params\" ed il valore è \"tenant=ACMECustomer\". Notare che tutte le chiamate ad un servizio <pill-database>DATABASE</pill-database> o ad un servizio <pill-messaging>MESSAGING</pill-messaging> dai servizi che corrispondono a questa definizione verranno incluse automaticamente.",
+      "defineUsingTagsDescription": "Ad esempio, dove la chiave è \"docker.label\" ed il valore è \"environment=Production Blue\" o la chiave è \"call.http.params\" ed il valore è \"tenant=ACMECustomer\". Considerare che qualsiasi chiamata a <pill-database>DATABASE</pill-database> servizio o <pill-messaging>MESSAGGISTICA</pill-messaging> servizio dai servizi corrispondenti a questa definizione verrà automaticamente incluso. ",
       "andOperatorsPrecedence": "Gli operatori AND hanno precedenza e vengono valutati prima degli operatori OR",
       "andOperatorsPrecedenceBrackets": "Gli operatori AND hanno precedenza e vengono valutati prima degli operatori OR se non racchiusi tra parentesi",
       "downstreamCalls": "3. Archiviare le chiamate dei servizi a valle",
@@ -483,8 +486,8 @@
       "clear": "Cancella",
       "addTag": "Aggiungi tag",
       "create": "Crea",
-      "database": "DATABASE ",
-      "messaging": "MESSAGGISTICA "
+      "database": "DATABASE",
+      "messaging": "MESSAGGISTICA"
     },
     "scope": {
       "optionNoDownStreamServices": "Nessun servizio a valle",
@@ -495,7 +498,7 @@
     "form": {
       "theApplicationPerspectiveNameMustNotBeBlank": "Il nome della prospettiva applicazione non deve essere vuoto.",
       "theApplicationPerspectiveNameMustNotBeLargerThan128Characters": "Il nome della prospettiva applicazione non può contenere più di 128 caratteri.",
-      "theQueryIsNotValid": "La query non è valida "
+      "theQueryIsNotValid": "La query non è valida"
     }
   },
   "dashboards": {
@@ -561,7 +564,7 @@
       "helpApplicationPerspectives": "Le prospettive applicazione forniscono uno strumento per modellare ambienti, insiemi di servizi, tenant o altro.",
       "helpRenameApplication": "La ridenominazione di un'applicazione è un'azione congruente nel sistema Instana. Per questo motivo, la modifica del nome di un'applicazione può richiedere <italic>fino ad alcuni minuti</italic> fino a quando nn ha popolato l'intero sistema.",
       "descriptionApplicationName": "Il nome della Prospettiva applicazione deve avere una definizione ben consolidata all'interno di un'organizzazione. Ad esempio, per modellare un ambiente: \"Production Blue\", per modellare un insieme di servizi: \"Payment\" oppure per modellare un tenant: \"ACME Customer\".",
-      "descriptionTags": "Ad esempio, dove la chiave è \"docker.label\" ed il valore è \"environment=Production Blue\" o la chiave è \"call.http.params\" ed il valore è \"tenant=ACMECustomer\". Notare che tutte le chiamate ad un servizio <pillDatabase>DATABASE</pillDatabase> o ad un servizio <pillMessage>MESSAGING</pillMessage> dai servizi che corrispondono a questa definizione verranno incluse automaticamente.",
+      "descriptionTags": "Ad esempio, dove la chiave è \"docker.label\" ed il valore è \"environment=Production Blue\" o la chiave è \"call.http.params\" ed il valore è \"tenant=ACMECustomer\". Considerare che qualsiasi chiamata a <pillDatabase>DATABASE</pillDatabase> servizio o <pillMessage>MESSAGGISTICA</pillMessage> servizio dai servizi corrispondenti a questa definizione verrà automaticamente incluso. ",
       "descriptionOperators": "Gli operatori AND hanno precedenza e vengono valutati prima degli operatori OR",
       "descriptionOperatorsCreationEnabled": "Gli operatori AND hanno precedenza e vengono valutati prima degli operatori OR se non racchiusi tra parentesi",
       "descriptionPrepareToMonitor": "È in preparazione tutto il necessario per monitorare la prospettiva applicazione <bold>{{decodedLabel}}</bold>.",
@@ -615,12 +618,12 @@
     "sdk": "SDK"
   },
   "constants": {
-    "exclude": "Escludi ",
+    "exclude": "Escludi",
     "syntheticCallsAreExcludedFromTheMetrics": "Le chiamate sintetiche sono escluse dalle metriche.",
-    "include": "Includi ",
+    "include": "Includi",
     "syntheticCallsAreIncludedInTheMetrics": "Le chiamate sintetiche sono incluse nelle metriche.",
     "only": "Solo",
-    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Solo le chiamate sintetiche vengono visualizzate e incluse nelle metriche "
+    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Solo le chiamate sintetiche vengono visualizzate e incluse nelle metriche"
   },
   "lists": {
     "noSpecificApplication": " - nessuna applicazione specifica - ",

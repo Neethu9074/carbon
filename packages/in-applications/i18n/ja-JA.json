@@ -246,7 +246,10 @@
       "showSyntheticCalls": "合成呼び出しの表示",
       "showInternalCalls": "内部呼び出しの表示",
       "defaultTurnedOnSynthetic": "合成呼び出しを照会したため、このオプションが選択されます。",
-      "defaultTurnedOnInternal": "内部呼び出しを照会したため、このオプションが選択されます。"
+      "defaultTurnedOnInternal": "内部呼び出しを照会したため、このオプションが選択されます。",
+      "erroneous_true": "true",
+      "erroneous_false": "false",
+      "erroneous_Erroneous": "エラー"
     },
     "applications": "アプリケーション",
     "services": "サービス",

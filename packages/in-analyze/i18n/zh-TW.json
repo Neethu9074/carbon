@@ -65,7 +65,53 @@
         "showRemainingGroupsAggregatedAsOther": "顯示聚集成「其他」的剩餘群組。"
       },
       "resultHeader": {
-        "result": "結果"
+        "result": "結果",
+        "counter_sessionStart": "{{number}} 個階段作業啟動",
+        "counter_sessionStart_plural": "{{number}} 個階段作業開始",
+        "counter_sessionStart_0": "{{number}} 個階段作業開始",
+        "counter_sessionStart_1": "{{number}} 個階段作業開始",
+        "counter_sessionStart_2": "{{number}} 個階段作業開始",
+        "counter_viewChange": "{{number}} 個視圖轉移",
+        "counter_viewChange_plural": "{{number}} 個視圖轉移",
+        "counter_viewChange_0": "{{number}} 個視圖轉移",
+        "counter_viewChange_1": "{{number}} 個視圖轉移",
+        "counter_viewChange_2": "{{number}} 個視圖轉移",
+        "counter_httpRequest": "{{number}} 個 HTTP 要求",
+        "counter_httpRequest_plural": "{{number}} 個 HTTP 要求",
+        "counter_httpRequest_0": "{{number}} 個 HTTP 要求",
+        "counter_httpRequest_1": "{{number}} 個 HTTP 要求",
+        "counter_httpRequest_2": "{{number}} 個 HTTP 要求",
+        "counter_custom": "{{number}} 個自訂事件",
+        "counter_custom_plural": "{{number}} 個自訂事件",
+        "counter_custom_0": "{{number}} 個自訂事件",
+        "counter_custom_1": "{{number}} 個自訂事件",
+        "counter_custom_2": "{{number}} 個自訂事件",
+        "counter_Row": "{{number}} 列",
+        "counter_Row_plural": "{{number}} 列",
+        "counter_Row_0": "{{number}} 列",
+        "counter_Row_1": "{{number}} 列",
+        "counter_Row_2": "{{number}} 列",
+        "counter_Group": "{{number}} 個群組",
+        "counter_Group_plural": "{{number}} 個群組",
+        "counter_Group_0": "{{number}} 個群組",
+        "counter_Group_1": "{{number}} 個群組",
+        "counter_Group_2": "{{number}} 個群組",
+        "counter_event": "{{number}} 個事件",
+        "counter_event_plural": "{{number}} 個事件",
+        "counter_event_0": "{{number}} 個事件",
+        "counter_event_1": "{{number}} 個事件",
+        "counter_event_2": "{{number}} 個事件",
+        "counter_Call": "{{number}} 個呼叫",
+        "counter_Call_plural": "{{number}} 個呼叫",
+        "counter_Call_0": "{{number}} 個呼叫",
+        "counter_Call_1": "{{number}} 個呼叫",
+        "counter_Call_2": "{{number}} 個呼叫",
+        "counter_Trace": "{{number}} 個追蹤",
+        "counter_Trace_plural": "{{number}} 個追蹤",
+        "counter_Trace_0": "{{number}} 個追蹤",
+        "counter_Trace_1": "{{number}} 個追蹤",
+        "counter_Trace_2": "{{number}} 個追蹤",
+        "loading": "載入中..."
       }
     },
     "dataSources": {
@@ -111,7 +157,9 @@
         "desClusterNotCorrelateNode": "目的地是叢集，Instana 無法將此呼叫關聯至任何特定的節點。",
         "sourceUnmonitored": "尚未追蹤到此呼叫的來源，因此，無法提供來源的相關資訊。針對此呼叫所顯示的所有相關資訊是由目的地提供。",
         "sourceMonitoredByAnotherProvider": "此呼叫的來源是由另一個分散式追蹤提供者所追蹤。您可以在該提供者內利用 ID {{foreignParentId}} 搜尋母 span，以尋找來源的其他相關資訊。",
-        "notMonitored": "未受 Instana 監視"
+        "notMonitored": "未受 Instana 監視",
+        "source": "來源",
+        "destination": "目的地"
       }
     },
     "tabs": {
@@ -183,7 +231,9 @@
         "in": "位於",
         "windowLocation": "視窗位置",
         "resourceUri": "資源 URI",
-        "cacheInteraction": "快取互動"
+        "cacheInteraction": "快取互動",
+        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana 未監視此呼叫的 {{location}}",
+        "tags": "標籤"
       },
       "callTree": {
         "expandButtonForRow": "列的展開按鈕",
@@ -387,6 +437,7 @@
       "messageToo_many_spans": "追蹤所包含的呼叫太多，只能局部顯示及下載它。",
       "messageMissing_parent_span": "在處理期間，此追蹤中有些進入 span 遺漏了母 span。",
       "messageExit_spans_followed_by_intermediate_spans": "有些跳出 span 後面跟著中繼 span。",
+      "messageTrace_validation_timeout": "已跳過追蹤驗證，因為它花在提取所有跨距的時間太長。",
       "thisTraceIsCausedByActivityOnTheMobileApp": "此追蹤是由 <linkToMobileApp>{{mobileAppLabel}}</linkToMobileApp> 行動式應用程式上的活動所引發。",
       "thisTraceIsCausedByActivityOnThewebsite": "此追蹤是由 <linkToWebsite>{{websiteLabel}}</linkToWebsite> 網站上的活動所引發。"
     }

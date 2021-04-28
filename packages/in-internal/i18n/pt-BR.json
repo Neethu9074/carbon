@@ -39,7 +39,7 @@
       "resilientMapping": "Mapeamento resiliente",
       "logMonitor": "Monitoramento de log",
       "logMonitorDesc": "Painéis que mostram como os dados de criação de log são gravados e lidos.",
-      "logMonitorProcessing": "log-processor (processamento de log)",
+      "logMonitorProcessing": "log-processor (enriquecimento de log)",
       "logMonitorProcessingDesc": "O log-processor lê logs de tópicos Kafka e os grava enriquecidos em outros tópicos Kafka.",
       "logMonitorWriter": "log-writer (ingestão de log)",
       "logMonitorWriterDesc": "O log-writer ingere logs no ClickHouse.",
@@ -325,8 +325,12 @@
     },
     "log": {
       "processor": {
-        "name": "log-processor",
+        "title": "log-processor",
         "hostCpuLoad": "Carregamento de CPU do host",
+        "hostLoad": "Carregamento do host",
+        "host": "Host",
+        "garbageCollection": "Coleta de lixo",
+        "instances": "log-processors ({{length}})",
         "common": {
           "incoming": "Logs comuns recebidos",
           "failIncoming": "Logs comuns recebidos com falha",
@@ -338,7 +342,7 @@
             "tooOld": "Logs comuns do consumidor Kafka muito antigos"
           }
         },
-        "trace" : {
+        "trace": {
           "incoming": "Logs de rastreio recebidos",
           "failIncoming": "Logs de rastreio recebidos com falha",
           "processing": "Logs de rastreio de processamento",
@@ -353,16 +357,62 @@
         "failOutgoing": "Logs de saída com falha"
       },
       "writer": {
-        "name": "log-writer",
+        "title": "log-writer",
         "hostCpuLoad": "Carregamento de CPU do host",
+        "hostLoad": "Carregamento do host",
+        "host": "Host",
+        "garbageCollection": "Coleta de lixo",
+        "instances": "log-writers ({{length}})",
         "incoming": "Logs processados recebidos",
         "failIncoming": "Logs processados recebidos com falha",
         "write": "Gravações em lote de log",
-        "failWrite": "Falhas na gravação em lote de log"
+        "failWrite": "Falhas na gravação em lote de log",
+        "clickHouse": {
+          "insert": "Inserções do ClickHouse",
+          "failInsert": "Falhas de inserção do ClickHouse",
+          "queryQueueing": "Enfileiramento de consulta do ClickHouse",
+          "newlyQueuedCalls": "Chamadas do ClickHouse recém-enfileiradas",
+          "queuedCalls": "Chamadas enfileiradas do ClickHouse",
+          "queryLatency": "Latência de consulta do ClickHouse",
+          "queryCalls": "Chamadas do ClickHouse",
+          "queryLatency50": "Latência de consulta do ClickHouse (50º)",
+          "queryLatency99": "Latência de consulta do ClickHouse (99º)",
+          "queryErrorRate": "Taxa de erro do ClickHouse",
+          "calls": "Chamadas",
+          "mean": "média",
+          "50th": "50º",
+          "99th": "99º"
+        }
       },
       "reader": {
-        "name": "log-reader",
-        "hostCpuLoad": "Carregamento de CPU do host"
+        "title": "log-reader",
+        "hostCpuLoad": "Carregamento de CPU do host",
+        "hostLoad": "Carregamento do host",
+        "host": "Host",
+        "garbageCollection": "Coleta de lixo",
+        "instances": "log-readers ({{length}})",
+        "gRPCCalls": "Chamadas do gRPC recebidas",
+        "gRPCErrors": "Erros do gRPC recebidos",
+        "tagReaderClient": {
+          "gRPCCalls": "Chamadas do gRPC de saída do tag-reader",
+          "gRPCErrors": "Erros do gRPC de saída do tag-reader"
+        },
+        "clickHouse": {
+          "select": "Seleções do ClickHouse",
+          "failSelect": "Falhas de seleção do ClickHouse",
+          "queryQueueing": "Enfileiramento de consulta do ClickHouse",
+          "newlyQueuedCalls": "Chamadas do ClickHouse recém-enfileiradas",
+          "queuedCalls": "Chamadas enfileiradas do ClickHouse",
+          "queryLatency": "Latência de consulta do ClickHouse",
+          "queryCalls": "Chamadas do ClickHouse",
+          "queryLatency50": "Latência de consulta do ClickHouse (50º)",
+          "queryLatency99": "Latência de consulta do ClickHouse (99º)",
+          "queryErrorRate": "Taxa de erro do ClickHouse",
+          "calls": "Chamadas",
+          "mean": "média",
+          "50th": "50º",
+          "99th": "99º"
+        }
       }
     },
     "eum": {

@@ -244,7 +244,7 @@
       "pleaseSelectATimeShiftingConfiguration": "タイムシフト構成を選択してください",
       "pleaseProvideAGroup": "グループを指定してください。",
       "optional": "オプション",
-      "theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999": "指定された数値は無効です。0 から 99.99 までの値を指定してください。"
+      "theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999": "指定された数値は無効です。 0 から 99.99 までの値を指定してください。"
     },
     "bigNumber": {
       "comparisonColors": {
@@ -279,7 +279,9 @@
         "sharemaxValue": "軸間で最大値を共有",
         "auto": "自動"
       },
-      "atLeastOneDatasetIsRequired": "少なくとも 1 つのデータ・セットが必要です。"
+      "atLeastOneDatasetIsRequired": "少なくとも 1 つのデータ・セットが必要です。",
+      "errorTitleForConfiguredSliDeletion": "構成済みの SLI が削除されました",
+      "errorDescriptionToConfigureOtherSLI": "別の SLI を選択して SLO ウィジェットを更新してください"
     },
     "formCompChart": {
       "colorConfiguratorChart": {

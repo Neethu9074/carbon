@@ -34,7 +34,17 @@
       "pods": "ポッド",
       "memoryUsage": "メモリー使用率",
       "cloudFoundryApplication": "Cloud Foundry アプリケーション",
-      "vSphereDatacenter": "vSphere データ・センター"
+      "vSphereDatacenter": "vSphere データ・センター",
+      "clusterSubTitle": "{{clusterDistribution}} クラスター、{{count}} 個のノード、{{numberOfPods}}",
+      "clusterSubTitle_plural": "{{clusterDistribution}} クラスター、{{count}} 個のノード、{{numberOfPods}}",
+      "clusterSubTitle_0": "{{clusterDistribution}} クラスター、{{count}} 個のノード、{{numberOfPods}}",
+      "clusterSubTitle_1": "{{clusterDistribution}} クラスター、{{count}} 個のノード、{{numberOfPods}}",
+      "clusterSubTitle_2": "{{clusterDistribution}} クラスター、{{count}} 個のノード、{{numberOfPods}}",
+      "numberOfPods": "{{count}} 個のポッド",
+      "numberOfPods_plural": "{{count}} 個のポッド",
+      "numberOfPods_0": "{{count}} 個のポッド",
+      "numberOfPods_1": "{{count}} 個のポッド",
+      "numberOfPods_2": "{{count}} 個のポッド"
     },
     "websiteMobileTopList": {
       "addWebsite": "Web サイトの追加",

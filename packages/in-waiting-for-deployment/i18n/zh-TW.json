@@ -91,10 +91,16 @@
     "applicationDirectory": "應用程式目錄",
     "theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "Fargate on ECS 上的 Python 支援，就與任何 Python 應用程式的運作方式相同。請遵循以下的指示：",
     "pythonDocumentation": "Python 說明文件。",
+    "theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe": "在 ECS 上的 Ruby on Fargate 的支援與任何 Ruby 應用程式的運作方式相同。請遵循以下的指示：",
+    "rubyDocumentation": "Ruby 說明文件。",
+
     "supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs": "AWS Fargate 支援是設計成與 Elastic Container Service (ECS) 上的 AWS Fargate 搭配運作。",
     "selectYourApplicationRuntime": "選取您的應用程式執行時期：",
     "awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "以 Go 寫成的 AWS Lambda 函數需要手動檢測，才能收集追蹤資料。請遵循以下的指示：",
     "awsLambdaGoDocumentation": "AWS Lambda Go 說明文件。",
+    "awsLambdaFunctionsWrittenInRubyNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "以 Ruby 寫成的 AWS Lambda 函數需要手動檢測，才能收集追蹤資料。請遵循以下的指示：",
+    "awsLambdaRubyDocumentation": "AWS Lambda Ruby 說明文件。",
+
     "setTheFollowingEnvironmentVariablesInTheEnvironmentVariablesSectionAtAwsLambdaConfigurationPage": "在 AWS Lambda 配置頁面的「環境變數」區段中，設定下列環境變數：",
     "configuringYourAwsLambdaFunction": "配置 AWS Lambda 函數",
     "noteThatTheJava8RuntimeIsNotSupportedCurrentlyOnlySupportedRuntimesAreJava8A12AndJava11": "請注意，不支援 'java8' 執行時期。目前僅支援的執行時期為 'java8.a12' 和 'java11'。",
@@ -186,11 +192,17 @@
     "installingTheInstanaAgentUsingTheOpenShiftOperatorIsDescribedIn": "如需使用 OpenShift 操作器來安裝 Instana 代理程式的說明，請參閱：",
     "theInstanaOpenShiftDocumentation": "Instana OpenShift 說明文件。",
     "nameYourOpenShiftCluster": "為 OpenShift 叢集命名",
+    "placeholderReleaseVersionEG001": "已發行的版本，例如：'0.0.1'",
     "theAgentReleaseVersionMustBeAValidSemanticVersion": "代理程式發行版本必須是有效的語意版本",
+    "placeholderFoundationNameEGProd": "基礎名稱，例如：'prod'",
     "theFoundationNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "基礎名稱必須是字母、橫線及底線的組合，且最長 64 個字元",
+    "placeholderUaaClientIdEGMyClientId": "UAA 用戶端 ID，例如：'my-client-id'",
     "theUaaClientIdCannotBeBlank": "UAA 用戶端 ID 不能為空白",
+    "placeholderUaaClientSecretEGMyClientSecret": "UAA 用戶端密碼，例如：'my-client-secret'",
     "theUaaClientSecretCannotBeBlank": "UAA 用戶端密碼不能為空白",
     "supportedStemcells": "支援的 Stemcell",
+    "ubuntuTrusty": "Ubuntu Trusty",
+    "ubuntuXenial": "Ubuntu Xenial",
     "instanaBoshAgentVersion": "Instana BOSH 代理程式版本",
     "pleaseProvideTheInstanaBoshReleaseVersionYouWantToUse": "請提供您想使用的 Instana BOSH 發行版本：",
     "uploadTheInstanaBoshReleasesToTheBoshDirector": "將 Instana BOSH 版本上傳至 BOSH 引導器",
@@ -202,7 +214,7 @@
     "createInTheFoundationSUserAccountAndAuthenticationUaaAClientWithCloudControllerAdminReadOnlyAuthority": "在基礎的「使用者帳戶和鑑別 (UAA)」中，建立一個具有 'cloud_controller.admin_read_only' 權限的用戶端：",
     "theEasiestWayToCreateTheRequiredUaaClientIsToUseThe": "建立必要 UAA 用戶端最簡單的作法是使用 ",
     "uaacTool": "uaac 工具。",
-    "replaceInTheCommandsBelowUaaApiEndpointWithYourUaaApiEndpointAndClientsAdminSecretWithYourUaaClientWithClientsAdminOrClientsWriteAuthority": "在指令下方，將 '<uaa-api-endpoint>' 取代為您的 UAA API 端點，將 '<clients.admin-secret>' 取代為具有 'clients.admin' 或 'clients.write' 權限的 UAA 用戶端。",
+    "replaceInTheCommandsBelowUaaApiEndpointWithYourUaaApiEndpointAndClientsAdminSecretWithYourUaaClientWithClientsAdminOrClientsWriteAuthority": "在指令下方，將 '<uaa-api-endpoint' 取代為 UAA API 端點，並將 '<clients.admin-secret' 取代為具有 'clients.admin' 或 'clients.write' 權限的 UAA 用戶端。",
     "instanaBoshAddon": "Instana BOSH 附加程式",
     "boshAddonsAreRuntimeConfigurationsForBoshThatAllowYouToDeclareAdditionalJobsToBeRunInYourDeploymentsForMoreInformationOnBoshRuntimeConfigurationsAndAddonsReferToThe": "BOSH 附加程式是 BOSH 的執行時期配置，可讓您宣告要在部署中執行的其他工作。如需 BOSH 執行時期配置和附加程式的相關資訊，請參閱：",
     "boshRuntimeConfigurationsDocumentation": "「BOSH 執行時期配置」說明文件。",
@@ -276,7 +288,8 @@
     "nodejs8": "Node.js 8.x",
     "nodejs10Plus": "Node.js 10.x 或更新版本",
     "python": "Python",
-    "python2and3": "Python 2.7 及 3.x"
+    "python2and3": "Python 2.7 及 3.x",
+    "ruby": "Ruby"
   },
   "baseImg": {
     "glibcLinux": "Linux (glibc-based)",
@@ -298,8 +311,9 @@
   "agentDeployed": "代理程式已部署",
   "agentsAreReportingDataIsBeingCollected": "代理程式正在產生報告。正在收集資料。",
   "timeToExploreInstana": "是時候來探索 Instana 了！",
-  "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "您的 Instana 實例已備妥，並有大量的資料供您發揮最大功效。",
+  "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "幾乎完成了，我們已為您建立 Instana 實例。",
   "whileWeArePreparingYourInstanaInstance": "在我們準備您的 Instana 實例期間，",
   "getReadyToDeployAgentsInYourEnvironment": "請準備好將代理程式部署在您的環境中...",
-  "letSGetSomeAgentsRunning": "讓一些代理程式執行..."
+  "letSGetSomeAgentsRunning": "我們正在等待您安裝 Instana 代理程式。",
+  "theFieldCannotBeBlank": "欄位 '{{fieldName}}' 不能為空白"
 }

@@ -279,7 +279,9 @@
         "sharemaxValue": "축 간의 최대 값 공유",
         "auto": "자동"
       },
-      "atLeastOneDatasetIsRequired": "하나 이상의 데이터 세트가 필요합니다."
+      "atLeastOneDatasetIsRequired": "하나 이상의 데이터 세트가 필요합니다.",
+      "errorTitleForConfiguredSliDeletion": "구성된 SLI가 삭제되었습니다.",
+      "errorDescriptionToConfigureOtherSLI": "다른 SLI를 선택하여 SLO 위젯을 업데이트하십시오."
     },
     "formCompChart": {
       "colorConfiguratorChart": {
@@ -458,7 +460,7 @@
         "clear": "지우기"
       },
       "sloTimeTile": {
-        "sloTime": "<datetime-from /><br />부터 <datetime-to />까지"
+        "sloTime": "시작일: <datetime-from /><br /> 종료일: <datetime-to />"
       },
       "chart": {
         "spent": "사용",

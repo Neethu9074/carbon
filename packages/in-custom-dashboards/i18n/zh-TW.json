@@ -99,7 +99,7 @@
     "dashboardSwitcherOverlayPresenter": {
       "createDashboard": "建立儀表板",
       "builtIn": "內建",
-      "default": "預設",
+      "default": "預設值",
       "search": "搜尋"
     },
     "dashboardSwitcherPresenter": {
@@ -279,7 +279,9 @@
         "sharemaxValue": "讓軸共用最大值",
         "auto": "自動"
       },
-      "atLeastOneDatasetIsRequired": "至少需要一個資料集。"
+      "atLeastOneDatasetIsRequired": "至少需要一個資料集。",
+      "errorTitleForConfiguredSliDeletion": "已刪除配置的 SLI",
+      "errorDescriptionToConfigureOtherSLI": "請選取另一個 SLI，以更新 SLO 小組件"
     },
     "formCompChart": {
       "colorConfiguratorChart": {

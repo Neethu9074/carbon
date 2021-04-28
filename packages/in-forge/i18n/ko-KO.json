@@ -468,6 +468,11 @@
   "pluginName_httpd": "Apache HTTPd",
   "pluginName_ibmCics": "IBM CICS",
   "pluginName_ibmCics_plural": "IBM CICS",
+  "pluginName_ibmCloudClinicalData_plural": "IBM Clinical 데이터",
+  "pluginName_ibmCloudClinicalData_0": "IBM Clinical 데이터",
+  "pluginName_ibmCloudClinicalData_1": "IBM Clinical 데이터",
+  "pluginName_ibmCloudClinicalData_2": "IBM Clinical 데이터",
+  "pluginName_ibmCloudClinicalData": "IBM Clinical 데이터",
   "pluginName_ibmCloudCloudant_plural": "IBM Cloudant",
   "pluginName_ibmCloudCloudant_0": "IBM Cloudant",
   "pluginName_ibmCloudCloudant_1": "IBM Cloudant",
@@ -2368,7 +2373,10 @@
       "consumerCount": "컨슈머 수",
       "deadLetterQueuesNumber": "DLQ(Dead-Letter Queues) {{len}}",
       "queuesNumber": "큐 {{len}}",
-      "topicsNumber": "토픽 {{len}}"
+      "topicsNumber": "토픽 {{len}}",
+      "topic": "토픽",
+      "queue": "큐",
+      "dlQueue": "DL 큐"
     },
     "activeMQArtemis": {
       "jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue": "JMX가 사용으로 설정되어 있지 않습니다. 브로커 특성 useJmx를 true로 설정하여 activemq 구성에서 사용으로 설정할 수 있습니다.",
@@ -2406,7 +2414,8 @@
       "allQueuesMessagesAdded": "추가된 모든 큐 메시지 수",
       "allQueuesMessagesAcknowledged": "수신확인된 모든 큐 메시지 수",
       "allQueuesMessagesExpired": "만료된 모든 큐 메시지 수",
-      "allQueuesMessagesKilled": "강제 종료된 모든 큐 메시지 수"
+      "allQueuesMessagesKilled": "강제 종료된 모든 큐 메시지 수",
+      "queue": "큐"
     },
     "aerospike": {
       "aerospike": "Aerospike"
@@ -2792,8 +2801,8 @@
       "infraTabSubscriptInWithSnapshotId": "<span>위치</span><taskIcon /><taskLink>{{taskLabel}}</taskLink><span>/</span><versionIcon /><span> <titledDefinition>{{definition}}</titledDefinition>:{{taskDefinitionVersion}}</span>",
       "infraTabSubscriptOnWithAbbr": "<span> 다음 관련</span><clusterIcon /><span> <titledSpan>{{clusterArn}}</titledSpan> {{region}}</span>에서",
       "infraTabSubscriptOnWithAbbrSnapshotId": "<span> 다음 관련</span><clusterIcon /><span> <titledSpan>{{clusterArn}}</titledSpan> 위치 <cloudIcon /><regionLink>{{region}}</regionLink></span>",
-      "infraTabSubscriptOn": "<clusterIcon /><span>{{region}}의 {{clusterArn}}</span><span>에서</span> ",
-      "infraTabSubscriptOnWithSnapshotId": "<clusterIcon /><span><regionLink>{{region}}</regionLink>의 {{clusterArn}}<cloudIcon /></span><span>에서</span>"
+      "infraTabSubscriptOn": "<span> 다음 관련</span><clusterIcon /><span> {{clusterArn}}위치{{region}}</span>",
+      "infraTabSubscriptOnWithSnapshotId": "<span> 다음 관련</span><clusterIcon /><span> {{clusterArn}}위치<cloudIcon /><regionLink>{{region}}</regionLink></span>"
     },
     "awsEcsService": {
       "titleUnderConstruction": "생성 중",
@@ -3022,7 +3031,8 @@
       "headerLambdaFunctionInfo": "Lambda 함수 정보",
       "headerServicesLATEST": "$LATEST를 위한 서비스",
       "labelVersions": "버전",
-      "descriptionLambda": "Instana 에이전트로 이 Lambda를 모니터링하지 않는 것으로 보입니다. 해당 AWS 계정에 대해 AWS 에이전트를 설정하는 작업은 기본 Lambda 추적의 전제조건입니다. 관련 사항은 해당 문서 특히 <installLink>AWS 에이전트 설치 문서</installLink>를 확인하십시오."
+      "descriptionLambda": "Instana 에이전트로 이 Lambda를 모니터링하지 않는 것으로 보입니다. 해당 AWS 계정에 대해 AWS 에이전트를 설정하는 작업은 기본 Lambda 추적의 전제조건입니다. 관련 사항은 해당 문서 특히 <installLink>AWS 에이전트 설치 문서</installLink>를 확인하십시오.",
+      "noVersions": "이 Lambda 함수의 개별 버전에 대한 데이터가 없습니다. 이 AWS 계정 및 지역에 대해 AWS 에이전트로 모니터링을 설정하셨습니까? 관련 사항은 해당 문서 특히 <installLink>AWS 에이전트 설치 문서</installLink>를 확인하십시오."
     },
     "awsLambdaVersion": {
       "titleLambdaFunction": "Lambda 함수",
@@ -3131,7 +3141,9 @@
       "memoryUsage2ndBroker": "MemoryUsage(2번째 브로커)",
       "enqueueTime": "EnqueueTime",
       "enqueueTime2ndBroker": "EnqueueTime(2번째 브로커)",
-      "producerCCount": "프로듀서 수"
+      "producerCount": "프로듀서 수",
+      "queue": "큐",
+      "topic": "토픽"
     },
     "awsMskBroker": {
       "dashboard": {
@@ -3708,7 +3720,8 @@
         "labelInMemoryOLTPStorage": "인메모리 OLTP 스토리지",
         "labelCPULimit": "CPU 한계",
         "labelCPUUsed": "사용된 CPU"
-      }
+      },
+      "database": "데이터베이스"
     },
     "azureSqlElasticPool": {
       "infoName": "이름",
@@ -3759,7 +3772,8 @@
         "titleVCore": "vCore",
         "labelCPULimit": "CPU 한계",
         "labelCPUUsed": "사용된 CPU"
-      }
+      },
+      "elasticPool": "Elastic Pool"
     },
     "azureSqlServer": {
       "infoName": "이름",
@@ -3966,7 +3980,8 @@
       "cassandraCluster": "Cassandra 클러스터",
       "nodes": "노드",
       "latency": "대기 시간",
-      "keyspaces": "키 공간"
+      "keyspaces": "키 공간",
+      "keyspace": "키 공간"
     },
     "cassandraNode": {
       "infoVersion": "버전",
@@ -4057,7 +4072,8 @@
       "communication": "통신",
       "tokens": "토큰",
       "latency": "대기 시간",
-      "keyspaces": "키 공간"
+      "keyspaces": "키 공간",
+      "keyspace": "키 공간"
     },
     "ceph": {
       "infoProcessID": "프로세스 ID",
@@ -4122,7 +4138,8 @@
       },
       "poolsWithCount": "풀({{len}})",
       "cephCluster": "Ceph 클러스터",
-      "pools": "풀"
+      "pools": "풀",
+      "pool": "풀"
     },
     "clickhouseCluster": {
       "indexLabel": "ClickHouse 클러스터",
@@ -4655,7 +4672,8 @@
         "labelItemsPutToDiskQueue": "초당 디스크 큐에 넣는 항목",
         "labelItemsWrittenToDisk": "초당 디스크에 기록된 항목"
       },
-      "couchbaseNode": "Couchbase 노드"
+      "couchbaseNode": "Couchbase 노드",
+      "bucket": "버킷"
     },
     "crio": {
       "getContainerInfo": "컨테이너 정보 가져오기",
@@ -4847,7 +4865,8 @@
       "pagesRead": "읽은 페이지",
       "pagesWritten": "기록된 페이지",
       "poolReadTime": "풀 읽기 시간",
-      "poolWriteTime": "풀 쓰기 시간"
+      "poolWriteTime": "풀 쓰기 시간",
+      "Container": "컨테이너"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "초당 모든 호출",
@@ -4878,6 +4897,9 @@
         "total": "총계",
         "kernel": "커널",
         "user": "사용자",
+        "totalNormalized": "정규화 총계",
+        "kernelNormalized": "커널 정규화",
+        "userNormalized": "사용자 표준화",
         "throttlingCount": "스로틀링 개수",
         "throttlingTime": "스로틀링 시간",
         "usage": "사용량",
@@ -4924,6 +4946,9 @@
       "total": "총계",
       "kernel": "커널",
       "user": "사용자",
+      "totalNormalized": "정규화 총계[0,100]",
+      "kernelNormalized": "커널 정규화[0,100]",
+      "userNormalized": "사용자 표준화[0,100]",
       "cpu": "CPU",
       "throttlingCount": "스로틀링 개수",
       "throttlingTime": "스로틀링 시간",
@@ -5269,7 +5294,8 @@
       "totalMemory": "총 메모리",
       "freeMemory": "사용 가능한 메모리",
       "cpuUsage": "CPU 사용량",
-      "httpRequests": "HTTP 요청"
+      "httpRequests": "HTTP 요청",
+      "device": "디바이스"
     },
     "finagleApplicationContainer": {
       "dashboard": {
@@ -5321,7 +5347,8 @@
       "maxChildren": "최대 하위",
       "memory": "메모리",
       "resources": "리소스",
-      "phpFpm": "PHP-FPM"
+      "phpFpm": "PHP-FPM",
+      "pool": "풀"
     },
     "phpRuntimePlatform": {
       "version": "버전",
@@ -5441,7 +5468,9 @@
       "numberOfDeleteRequests": "삭제 요청 수",
       "numberOfExtendedRequests": "확장된 요청 수",
       "numberOfModifyRequests": "수정 요청 수",
-      "numberOfSearchRequests": "검색 요청 수"
+      "numberOfSearchRequests": "검색 요청 수",
+      "database": "데이터베이스",
+      "ldapConnector": "LDAP 커넥터"
     },
     "postgreSqlDatabase": {
       "troubleshootingDocs": "문제점 해결 문서",
@@ -5497,7 +5526,8 @@
       "connection": "연결",
       "replicationDelayInBytes": "복제 지연(바이트)",
       "replicationDelayInSeconds": "복제 지연(초)",
-      "postgreSql": "PostgreSQL"
+      "postgreSql": "PostgreSQL",
+      "database": "데이터베이스"
     },
     "process": {
       "jvmAttachGenericIssueDescription": "호스트 에이전트가 이 JVM(Java Virtual Machine)에 올바르게 접속할 수 없습니다. 따라서 이 프로세스는 추적되지 않습니다. 접속 실패 이유에 관한 자세한 정보는 호스트 에이전트 로그를 참조하십시오. 호스트 에이전트는 10분마다 이 가상 머신에 다시 연결하려고 시도합니다. 그러나 성공할 때까지, 이 JVM에 대한 추적 또는 메트릭은 수집되지 않습니다.",
@@ -5712,7 +5742,8 @@
       "messagesTotal": "총 메시지",
       "totalNumberOfNetworkPartitions": "총 네트워크 파티션 수",
       "messagesAcknowledged": "수신확인된 메시지",
-      "rabbitMq": "RabbitMQ"
+      "rabbitMq": "RabbitMQ",
+      "queue": "큐"
     },
     "redis": {
       "configCommandNameNotConfigured": "Redis 메트릭을 수집하려면 Redis CONFIG 명령 이름을 구성해야 합니다.",
@@ -5855,7 +5886,6 @@
       "clusterSize": "클러스터 크기",
       "nodes": "노드",
       "masterNodes": "마스터 노드",
-      "redis": "Redis",
       "redisCluster": "Redis 클러스터"
     },
     "redisEnterpriseCluster": {
@@ -5894,7 +5924,6 @@
         "shardsWithCount": "샤드({{len}})",
         "redisEnterpriseCluster": "Redis Enterprise 클러스터"
       },
-      "redisEnterprise": "Redis Enterprise",
       "name": "이름",
       "throughputOpsSecond": "처리량(Ops/초)",
       "keyspaceHits": "키 공간 히트",
@@ -6108,7 +6137,8 @@
       "documentsPending": "보류 중인 문서",
       "solrEvictions": "Solr 제거",
       "startedAt": "시작 시간",
-      "solr": "Solr"
+      "solr": "Solr",
+      "core": "코어"
     },
     "solrCloudCluster": {
       "nodes": "노드",
@@ -6245,7 +6275,8 @@
       "shuffleWritePerSecond": "초당 셔플 쓰기",
       "totalInputBytes": "총 입력 바이트",
       "totalShuffleRead": "총 셔플 읽기",
-      "totalShuffleWrite": "총 셔플 쓰기"
+      "totalShuffleWrite": "총 셔플 쓰기",
+      "executorId": "실행자 ID"
     },
     "garden": {
       "cloudFoundry": "Cloud Foundry",
@@ -6827,7 +6858,8 @@
       "memoryAvailable": "사용 가능한 메모리",
       "memoryUsed": "사용된 메모리",
       "virtualCoresAvailable": "사용 가능한 가상 코어",
-      "virtualCoresUsed": "사용된 가상 코어"
+      "virtualCoresUsed": "사용된 가상 코어",
+      "node": "노드"
     },
     "hadoopYARNNode": {
       "dashboard": {
@@ -6906,7 +6938,9 @@
       "responseErrors": "응답 오류",
       "connectionRetries": "연결 재시도",
       "deniedResponses": "거부된 응답",
-      "reDispatchedRequests": "다시 파견된 요청"
+      "reDispatchedRequests": "다시 파견된 요청",
+      "frontend": "프론트 엔드",
+      "backend": "백엔드"
     },
     "haProxy": {
       "dashboard": {
@@ -7244,7 +7278,9 @@
       "vSphere": "vSphere",
       "vm": "VM",
       "esXiHost": "ESXi 호스트",
-      "datacenter": "Datacenter"
+      "datacenter": "Datacenter",
+      "device": "디바이스",
+      "gpuUuid": "GPU UUID"
     },
     "httpd": {
       "dashboard": {
@@ -7304,6 +7340,17 @@
       "trafficPerRequest": "요청당 트래픽",
       "busyWorkers": "사용 중인 작업자"
     },
+    "ibmCloudClinicalData": {
+      "ibmClinicalData": "IBM Clinical 데이터",
+      "ibmCloudClinicalData": "IBM Cloud Clinical 데이터",
+      "kind": "종류",
+      "name": "이름",
+      "labelApiCalls": "API 호출",
+      "labelCallsCount": "호출",
+      "labelRequestSizeBytes": "요청 크기",
+      "labelTimeSeconds": "응답 시간",
+      "labelZone": "구역"
+    },
     "ibmCloudCloudant": {
       "labelName": "이름",
       "requestActivity": "요청 활동",
@@ -7359,7 +7406,9 @@
       "memoryUsedPercent": "사용된 메모리 백분율",
       "titleMemberCount": "멤버 수",
       "labelMembers": "멤버 수",
-      "labelZone": "구역"
+      "labelZone": "구역",
+      "labelDisk": "디스크",
+      "labelMemory": "메모리"
     },
     "ibmCloudFunctions": {
       "labelConcurrentInvocations": "동시 호출",
@@ -7387,7 +7436,8 @@
       "labelWaitTime": "대기 시간(밀리초)",
       "labelInitTime": "초기 시간(밀리초)",
       "labelPackageCount": "패키지 수",
-      "labelZone": "구역"
+      "labelZone": "구역",
+      "labelFunction": "함수"
     },
     "ibmCloudIsLoadBalancer": {
       "labelActiveConnections": "활성 연결",
@@ -7457,7 +7507,8 @@
       "titleObjectCount": "오브젝트 수",
       "titleUsed": "사용된 크기",
       "labelUsed": "사용된 크기",
-      "labelZone": "구역"
+      "labelZone": "구역",
+      "labelMemory": "메모리"
     },
     "ibmIOs": {
       "sidebar": {
@@ -7468,7 +7519,7 @@
         "restrictedState": "제한 상태"
       },
       "dashboard": {
-        "charts" : {
+        "charts": {
           "cpu": {
             "name": "CPU",
             "rate": "비율"
@@ -7526,7 +7577,8 @@
           }
         }
       },
-      "name": "Db2 on i"
+      "name": "Db2 on i",
+      "memoryPool": "메모리 풀"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -7816,7 +7868,11 @@
       "totalObjectCount": "총 오브젝트 수",
       "totalUsedBytes": "사용된 총 바이트",
       "labelVolumeWriteRequests": "볼륨 쓰기 요청",
-      "labelZone": "구역"
+      "labelZone": "구역",
+      "labelCPU": "CPU",
+      "labelMemory": "메모리",
+      "labelNetwork": "네트워크",
+      "labelVolume": "볼륨"
     },
     "instanaAgent": {
       "dashboard": {
@@ -8007,7 +8063,8 @@
       "labelCoresUsed": "사용된 코어",
       "labelCoresTotal": "총 코어",
       "labelNumberFailedDrivers": "실패한 드라이브 수",
-      "labelNumberFailedApplications": "실패한 애플리케이션 수"
+      "labelNumberFailedApplications": "실패한 애플리케이션 수",
+      "workerId": "작업자 ID"
     },
     "kafka": {
       "kafkaMonitoringRequiresSslTruststoreLocation": "Kafka 모니터링은 <code>sslTruststoreLocation</code> 및 <code>sslTruststorePassword</code>를 TLS로 보안이 설정된 Kafka 인스턴스에 대해 Instana 에이전트 <code>configuration.yaml</code>에 구성해야 합니다.",
@@ -8149,7 +8206,9 @@
       "consumers": "컨슈머",
       "brokersMsgIn": "수신 브로커 메시지",
       "brokersPartitions": "브로커 파티션",
-      "prodLatency": "생성 대기 시간"
+      "prodLatency": "생성 대기 시간",
+      "producer": "생성자",
+      "consumer": "컨슈머"
     },
     "kubernetesCluster": {
       "noActivity": "활동 없음",
@@ -8464,7 +8523,8 @@
       "connectionsCreated": "작성된 연결",
       "connectionsUsedPercentage": "사용된 연결 백분율",
       "threadPools": "스레드 풀",
-      "threadsUsedPercentage": "사용된 스레드 백분율"
+      "threadsUsedPercentage": "사용된 스레드 백분율",
+      "datasourceJndi": "데이터 소스 JNDI"
     },
     "jbossDataGrid": {
       "cacheName": "캐시 [{{cacheName}}]",
@@ -8544,7 +8604,9 @@
       "globalConnections": "글로벌 연결",
       "connections": "연결",
       "cacheStats": "캐시 통계",
-      "threadPools": "스레드 풀"
+      "threadPools": "스레드 풀",
+      "cache": "캐시",
+      "cluster": "클러스터"
     },
     "jenkins": {
       "disabled": "사용 안함",
@@ -8577,7 +8639,8 @@
       "jobs": "작업",
       "healthStatusOfRecentBuilds": "최근 빌드 상태",
       "lastBuildEstimatedDuration": "마지막 밀드 예상 기간",
-      "lastBuildTimestamp": "마지막 빌드 시간소인"
+      "lastBuildTimestamp": "마지막 빌드 시간소인",
+      "job": "작업"
     },
     "jettyApplicationContainer": {
       "jmxModuleIsNotEnabledInJetty": "JMX 모듈이 jetty에 사용으로 설정되어 있지 않습니다. 데이터를 수집할 수 있으려면 사용으로 설정하십시오. <code>--module=jmx</code>를 <code>start.ini</code>에 추가하여 설정할 수 있습니다.",
@@ -8688,7 +8751,8 @@
       "pools": "풀",
       "maxHeap": "최대 힙",
       "heapUsed": "사용된 힙",
-      "threadDump": "스레드 덤프"
+      "threadDump": "스레드 덤프",
+      "garbageCollector": "가비지 콜렉터"
     },
     "springbootAppContainer": {
       "titleRequests": "요청",
@@ -8705,7 +8769,7 @@
       "categoryRequests": "요청",
       "categorySessions": "세션",
       "requestsWithStatusCode": "상태 코드 {{statusCode}}인 요청",
-      "warningTooManyMetrics": "이 Spring Boot 애플리케이션에 너무 많은 메트릭이 등록되어 있어 메트릭 콜렉션이 중지되었습니다. 이 문제는 <linkToSpring>Spring Boot</linkToSpring>의 버그로 인해 발생할 수 있습니다.",
+      "warningTooManyMetrics": "이 Spring Boot 애플리케이션에 너무 많은 메트릭이 등록되어 있어 메트릭 콜렉션이 중지되었습니다. 이 문제는 <linkToSpring>Spring Boot</linkToSpring>.",
       "warningActuatorConfigured": "Spring Boot 모니터링은 Spring Boot Actuator가 구성되어 있어야 합니다. Spring Boot 2.2.x 이상의 경우 JMX를 사용으로 설정해야 합니다.",
       "warningSpringbootConfig": "자세한 정보는 <linkToSpringboot>Spring Boot 구성 페이지</linkToSpringboot>에서 참조할 수 있습니다.",
       "descriptionActuatorConfigured": "Spring Boot 모니터링은 Spring Boot Actuator가 구성되어 있어야 합니다.",
@@ -8786,7 +8850,7 @@
       "labelSubscribersCount": "구독자 수",
       "labelReceiversCount": "수신자 수",
       "infoStatisticsDisabled": "메트릭 콜렉션을 사용하려면 Tibco EMS에 대해 통계를 사용으로 설정하십시오.  <codeTag>statistics = enabled</codeTag>를 <bold>tibemsd.conf</bold> 파일에 추가하고 서버를 다시 시작하거나 <bold>tibemsadmin</bold>를 사용하여 <codeTag>set server statistics=enabled</codeTag>를 실행하십시오.",
-      "infoEnableMetricCollection": "메트릭 콜렉션을 사용으로 설정하려면 <bold>tibjms-8.5.1.jar</bold> 및 <bold>tibjmsadmin-8.5.1.jar</bold>을 <agent_install_dir>/system/com/tibco/tibjms/tibjms/8.5.1 및 <agent_install_dir>/system/com/tibco/tibjms/tibjmsadmin/8.5.1에 각각 추가하십시오."
+      "infoEnableMetricCollection": "메트릭 콜렉션을 사용으로 설정하려면 <bold>tibjms-8.5.1.jar</bold> 및 <bold>tibjmsadmin-8.5.1.jar</bold> 을 <agent_install_dir>/system/com/tibco/tibjms/tibjms/8.5.1 및 <agent_install_dir>/system/com/tibco/tibjms/tibjmsadmin/8.5.1에 각각 추가하십시오."
     },
     "tomcatAppContainer": {
       "titleName": "이름",
@@ -9063,7 +9127,8 @@
       "labelRemoteEndpointsCurrent": "현재 원격 엔드포인트",
       "labelDataSource": "데이터 소스",
       "labelJMSDestination": "JMS 대상",
-      "labelSAFAgent": "SAF 에이전트"
+      "labelSAFAgent": "SAF 에이전트",
+      "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {
       "titleName": "이름",
@@ -9098,7 +9163,8 @@
       "labelServlet": "서블릿",
       "labelServlets": "서블릿",
       "labelDatasource": "데이터 소스",
-      "labelDatasources": "데이터 소스"
+      "labelDatasources": "데이터 소스",
+      "webSphere": "WebSphere"
     },
     "webSphereLibertyAppContainer": {
       "titleName": "이름",
@@ -9133,7 +9199,8 @@
       "labelServlets": "서블릿",
       "labelPool": "풀",
       "infoMonitorFeatureNotEnabled": "모니터 기능이 사용으로 설정되어 있지 않은 것 같습니다. monitor-1.0 기능을 server.xml에 추가하고 서버 시작 시 ws-javaagent.jar이 -javaagent로 로드되었는지 확인하십시오.",
-      "infoThreadPoolStatesNotAvailable": "스레드 풀 통계를 사용할 수 없습니다. JMS 기능(WASJmsClient-1.1 and WASJmsServer-1.0)이 monitor-1.0 기능과 함께 server.xml에 사용으로 설정된 경우의 알려진 문제점입니다. 스레드 풀 통계 mbean이 대체되고 표시되지 않습니다."
+      "infoThreadPoolStatesNotAvailable": "스레드 풀 통계를 사용할 수 없습니다. JMS 기능(WASJmsClient-1.1 and WASJmsServer-1.0)이 monitor-1.0 기능과 함께 server.xml에 사용으로 설정된 경우의 알려진 문제점입니다. 스레드 풀 통계 mbean이 대체되고 표시되지 않습니다.",
+      "webSphereLiberty": "WebSphere Liberty"
     },
     "zooKeeper": {
       "titleTicks": "틱",
@@ -9486,7 +9553,8 @@
       "bytesReceived": "수신된 바이트",
       "version": "버전",
       "websites": "웹 사이트",
-      "request": "요청"
+      "request": "요청",
+      "website": "웹 사이트"
     },
     "msSqlDatabase": {
       "connectionsAmpUsers": "연결 및 사용자",
@@ -9548,7 +9616,8 @@
       "processedEevents": "처리된 이벤트",
       "executionEerrors": "실행 오류",
       "fatalEerrors": "심각한 오류",
-      "averagePprocessingTime": "평균 처리 시간"
+      "averagePprocessingTime": "평균 처리 시간",
+      "flow": "플로우"
     },
     "netCoreRuntimePlatform": {
       "theFollowingEnvironmentVariablesMustBeSetOnTheNetCoreProcess": "이 .NET Core 애플리케이션에 대한 프로세스 환경은 Instana가 모니터할 수 있도록 올바르게 구성되어 있지 않습니다. 다음 <code>{{missing}}</code>환경 변수를 .NET Core 프로세스에 설정해야 합니다. 설정할 올바른 값은 문서를 참조하십시오.",
@@ -9981,7 +10050,8 @@
       "inactiveUserSessions": "비활성 사용자 세션",
       "backgroundSessions": "백그라운드 세션",
       "tablespaces": "테이블스페이스",
-      "dbCpuTime": "DB CPU 시간"
+      "dbCpuTime": "DB CPU 시간",
+      "tablespace": "테이블스페이스"
     },
     "azureCosmosDb": {
       "totalRequests": "총 요청",

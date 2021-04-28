@@ -37,7 +37,8 @@
         "classpathHide": "Ocultar caminho de classe",
         "classpathShow": "Mostrar caminho de classe"
       },
-      "processStartedTitle": "Iniciado em"
+      "processStartedTitle": "Iniciado em",
+      "tags": "Tags ({{size}})"
   },
 
   "traceDetails": {
