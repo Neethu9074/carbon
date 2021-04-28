@@ -30,17 +30,19 @@ function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, ...re
   return <AlertsPreviewLanePresenter {...remainingProps} alerts={alerts} />;
 }
 
-function isConfigValid({ threshold }) {
-  if (threshold.type === 'historicBaseline' && (threshold.baseline == null || threshold.baseline?.length === 0)) {
-    return false;
+function isConfigValid({ granularity, threshold }) {
+  if (threshold.type === 'historicBaseline') {
+    if (threshold.baseline == null || threshold.baseline?.length <= 1) {
+      return false;
+    }
+    if (threshold.baseline[1][0] - threshold.baseline[0][0] !== granularity) {
+      return false;
+    }
   }
-  if (
+  return !(
     threshold.type === 'staticThreshold' &&
     (threshold.value === undefined || threshold.value == null || threshold.value < 0)
-  ) {
-    return false;
-  }
-  return true;
+  );
 }
 
 AlertsPreviewLane.propTypes = {

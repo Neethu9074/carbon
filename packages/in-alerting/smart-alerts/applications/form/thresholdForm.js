@@ -9,7 +9,7 @@ import { t } from 'in-i18n';
 
 export const defaultDeviationFactor = 3;
 
-export default function createThresholdForm(threshold, alertType) {
+export default function createThresholdForm(threshold = {}, alertType) {
   if (alertType === 'slowness') {
     return createSlownessForm(threshold);
   }

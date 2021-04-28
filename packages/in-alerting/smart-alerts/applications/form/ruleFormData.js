@@ -6,27 +6,6 @@
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
 
-export const ruleAggregationOptions = Object.freeze([
-  { value: 'MEAN', label: t('in-alerting:smartAlerts.applications.form.ruleAggregationOptionMEAN') },
-  { value: 'MIN', label: t('in-alerting:smartAlerts.applications.form.ruleAggregationOptionMIN') },
-  { value: 'P25', label: t('in-alerting:smartAlerts.applications.form.ruleAggregationOptionP25') },
-  { value: 'P50', label: t('in-alerting:smartAlerts.applications.form.ruleAggregationOptionP50') },
-  { value: 'P75', label: t('in-alerting:smartAlerts.applications.form.ruleAggregationOptionP75') },
-  { value: 'P90', label: t('in-alerting:smartAlerts.applications.form.ruleAggregationOptionP90') },
-  { value: 'P95', label: t('in-alerting:smartAlerts.applications.form.ruleAggregationOptionP95') },
-  { value: 'P98', label: t('in-alerting:smartAlerts.applications.form.ruleAggregationOptionP98') },
-  { value: 'P99', label: t('in-alerting:smartAlerts.applications.form.ruleAggregationOptionP99') },
-  { value: 'MAX', label: t('in-alerting:smartAlerts.applications.form.ruleAggregationOptionMAX') }
-]);
-
-export const ruleAggregationForWeeklySeasonalityOptions = Object.freeze([
-  {
-    value: 'MEAN',
-    label: t('in-alerting:smartAlerts.applications.form.ruleAggregationForWeeklySeasonalityOptionMEAN')
-  },
-  { value: 'P50', label: t('in-alerting:smartAlerts.applications.form.ruleAggregationForWeeklySeasonalityOptionP50') }
-]);
-
 export const ruleLogLevelOptions = Object.freeze([
   { value: 'ERROR', label: t('in-alerting:smartAlerts.applications.ruleForm.ruleLogLevelOptions.error') },
   { value: 'WARN', label: t('in-alerting:smartAlerts.applications.ruleForm.ruleLogLevelOptions.warning') },

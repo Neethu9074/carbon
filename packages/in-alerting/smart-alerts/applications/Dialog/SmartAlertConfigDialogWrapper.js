@@ -23,6 +23,7 @@ import { changeFormDataByCopyState } from 'in-alerting/smart-alerts/components/s
 import { SmartAlertConfigDialog } from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialog';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/applications/advanced/AdvancedModeContainer';
+import useSmartAlertFormSideEffects from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
@@ -40,8 +41,8 @@ export default function SmartAlertConfigDialogWrapper({
   isCopy
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-
   const [form, setForm] = useState(() => createSmartAlertForm(changeFormDataByCopyState(isCopy, formData), editMode));
+  const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
 
   return (
@@ -50,9 +51,9 @@ export default function SmartAlertConfigDialogWrapper({
       isGlobalSmartAlert={isGlobalSmartAlert}
       editMode={editMode}
       form={form}
-      updateForm={setForm}
+      updateForm={updateForm}
       granularity={form.get('granularity').value}
-      onChange={(path, fn) => setForm(form.updateIn(path, fn))}
+      onChange={(path, fn) => updateForm(form.updateIn(path, fn))}
       onChartViewConfigChange={setSelectedChartViewConfigIndex}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       AdvancedModeElement={AdvancedModeContainer}

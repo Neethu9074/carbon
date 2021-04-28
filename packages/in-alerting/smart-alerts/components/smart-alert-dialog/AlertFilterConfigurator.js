@@ -25,11 +25,7 @@ export default function AlertFilterConfigurator({ QueryBuilderComponent, form, u
 }
 
 export const handleChangeTagFilterExpressionChange = (tagFilterExpression, form, updateForm) => {
-  updateForm(
-    form
-      .updateIn(['tagFilterExpression'], f => f.setValue(tagFilterExpression).setTouched(true))
-      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-  );
+  updateForm(form.updateIn(['tagFilterExpression'], f => f.setValue(tagFilterExpression).setTouched(true)));
 };
 
 AlertFilterConfigurator.propTypes = {

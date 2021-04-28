@@ -6,6 +6,7 @@
 import { createMapForm, createField } from 'formalistic';
 
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+import { applyEditMode } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
@@ -39,11 +40,7 @@ export default function alertFormDefinition(alertConfig, editMode) {
     granularity = 600000
   } = alertConfig;
 
-  // In edit mode, we don't want to override the saved threshold/baseline value with our suggestion by default.
-  // The saved value is the same as a user-defined value, which we should not override by default.
-  const doNotOverrideThresholdWithSuggestion = editMode;
-
-  return createMapForm()
+  const form = createMapForm()
     .put(
       fieldNames.tagFilterExpression,
       createField({
@@ -107,13 +104,12 @@ export default function alertFormDefinition(alertConfig, editMode) {
     .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
     .put('threshold', createThresholdForm(alertConfig.threshold ?? {}, alertConfig.rule?.alertType))
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
-    .put(
-      'hiddenFields',
-      createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend, doNotOverrideThresholdWithSuggestion)
-    );
+    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend));
+
+  return applyEditMode(form, editMode);
 }
 
-function createHiddenFieldsForm(calculateThresholdOnBackend = false, thresholdValueManuallyChanged = false) {
+function createHiddenFieldsForm(calculateThresholdOnBackend = false) {
   return createMapForm()
     .put(
       'calculateThresholdOnBackend',
@@ -125,12 +121,6 @@ function createHiddenFieldsForm(calculateThresholdOnBackend = false, thresholdVa
       'suggestedThresholdValue',
       createField({
         value: null
-      })
-    )
-    .put(
-      'thresholdValueManuallyChanged',
-      createField({
-        value: thresholdValueManuallyChanged ?? false
       })
     );
 }

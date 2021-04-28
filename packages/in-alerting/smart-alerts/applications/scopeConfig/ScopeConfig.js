@@ -74,9 +74,7 @@ export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, edit
               applicationsSelection={applications}
               onChange={applicationsSelection =>
                 updateForm(
-                  form
-                    .updateIn(['applications'], field => field.setValue(applicationsSelection).setTouched(true))
-                    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
+                  form.updateIn(['applications'], field => field.setValue(applicationsSelection).setTouched(true))
                 )
               }
               timeConfig={timeConfig}

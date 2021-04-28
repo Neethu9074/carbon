@@ -66,7 +66,6 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
                               .updateIn(['rule', 'operator'], field =>
                                 field.setValue(operators.EQUALS).setTouched(true)
                               )
-                              .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
                           );
                         }}
                         slideOut={() => onSelectJsError({ isVisible: false })}
@@ -103,7 +102,6 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
                 form
                   .updateIn(['rule', 'operator'], f => f.setValue(newOperator).setTouched(true))
                   .updateIn(['rule', 'value'], f => f.setValue(newRuleValueValue).setTouched(true))
-                  .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
               );
             }}
             defaultValue={ruleJsErrorsOperatorOptions[0].value}
@@ -123,11 +121,7 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
               value={field.value}
               onValueChange={value => {
                 websitesAlertingJsErrorsMsgChanged({ mode });
-                updateForm(
-                  form
-                    .updateIn(['rule', 'value'], f => f.setValue(value ?? '').setTouched(true))
-                    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                );
+                updateForm(form.updateIn(['rule', 'value'], f => f.setValue(value ?? '').setTouched(true)));
               }}
               hasError={!field.valid && field.touched}
               maxLength={65536}

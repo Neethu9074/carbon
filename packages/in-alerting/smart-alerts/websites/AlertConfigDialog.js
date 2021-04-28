@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/websites/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
+import useSmartAlertFormSideEffects from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { changeFormDataByCopyState } from '../components/smart-alert-dialog/sharedFunctions';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
@@ -21,13 +22,14 @@ const initialChartConfigIndex = 0;
 export default function AlertConfigDialog({ onClose, formData, websiteLabel, editMode, isCopy }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const [form, setForm] = useState(() => alertFormDefinition(changeFormDataByCopyState(isCopy, formData), editMode));
+  const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
 
   return (
     <AlertConfigDialogWithThreshold
-      updateForm={setForm}
+      updateForm={updateForm}
       form={form}
-      onChange={createOnChange(setForm, form)}
+      onChange={createOnChange(updateForm, form)}
       onChartViewConfigChange={setSelectedChartViewConfigIndex}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       onClose={onClose}

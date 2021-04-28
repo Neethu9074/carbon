@@ -13,25 +13,19 @@ import {
   websitesAlertingThresholdTypeChanged,
   websitesAlertingThresholdValueChanged
 } from 'in-alerting/smart-alerts/websites/tracker';
-import {
-  getFormValueOrDefault,
-  getThresholdComboBoxValue
-} from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
-import {
-  ruleAggregationForWeeklySeasonalityOptions,
-  ruleAggregationOptions
-} from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdDeviationSliderForm';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdOperatorDropDown';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton';
+import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/UseSuggestedValueButton';
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
 import ThresholdValueInput from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueInput';
 import { findEntryByValue, alertConfigWithDefaultValues } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import createThresholdForm, { defaultDeviationFactor } from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
+import { getAggregationOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleForm';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
@@ -96,18 +90,10 @@ export function ThresholdCondition({ form, updateForm, onChange, blueprintConfig
         <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
         <Dropdown
           asSimpleDropdown
-          label={getAggregationLabelAndUpdateFormIfNeeded(form, updateForm)}
+          label={getAggregationLabel(form)}
           items={getAggregationOptions(form)}
           onChange={({ value = '' }) => {
-            updateForm(
-              form
-                .updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true))
-                .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                // reset "old" threshold/baseline-value to ensure that we don't call endpoints with the previous values
-                .updateIn(['threshold', thresholdType === 'historicBaseline' ? 'baseline' : 'value'], f =>
-                  f.setValue(null).setTouched(true)
-                )
-            );
+            updateForm(form.updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true)));
             websitesAlertingAggregationChanged(getTrackingObject(form, { value }));
           }}
         />
@@ -140,18 +126,14 @@ export function ThresholdCondition({ form, updateForm, onChange, blueprintConfig
 
             const newRuleForm = createRuleForm({ ...form.get('rule').toJS() });
 
-            updateForm(
-              form
-                .put('threshold', newThresholdForm)
-                .put('rule', newRuleForm)
-                .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                .updateIn(['hiddenFields', 'thresholdValueManuallyChanged'], f => f.setValue(false))
-            );
+            updateForm(form.put('threshold', newThresholdForm).put('rule', newRuleForm));
 
             websitesAlertingThresholdTypeChanged(getTrackingObject(form, { value: thresholdType }));
           }}
         />
-        {thresholdType === 'historicBaseline' && <RecalculateBaselineButton onChange={onChange} editMode={editMode} />}
+        {thresholdType === 'historicBaseline' && (
+          <RecalculateBaselineButton onChange={onChange} editMode={editMode} form={form} />
+        )}
       </ThresholdConditionFormGroup>
 
       {thresholdType === 'staticThreshold' && (
@@ -182,27 +164,11 @@ export function ThresholdCondition({ form, updateForm, onChange, blueprintConfig
   );
 }
 
-function getAggregationLabelAndUpdateFormIfNeeded(form, updateForm) {
+function getAggregationLabel(form) {
   const aggregationOptions = getAggregationOptions(form);
   let aggregationValue = form.get('rule').get('aggregation')?.value;
   let option = aggregationOptions.find(o => o.value === aggregationValue);
-  if (!option) {
-    aggregationValue = aggregationOptions[0].value;
-    updateForm(
-      form
-        .updateIn(['rule', 'aggregation'], f => f.setValue(aggregationValue).setTouched(true))
-        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-    );
-    option = aggregationOptions[0];
-  }
-  return option.label;
-}
-
-function getAggregationOptions(form) {
-  if (getFormValueOrDefault(form.get('threshold'), 'seasonality') === 'WEEKLY') {
-    return ruleAggregationForWeeklySeasonalityOptions;
-  }
-  return ruleAggregationOptions;
+  return option?.label;
 }
 
 SlownessInteractiveChart.propTypes = {

@@ -59,26 +59,17 @@ export default function AlertConfigDialogWithThreshold(props) {
     alertConfigWithFormModel.tagFilterExpression,
     isAlertQueryValid
   );
-
   const isValid = blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule) && isTagFilterFormModelValid;
 
-  const thresholdResult = useObservable(
-    ([form, simpleMode, isValid]) =>
-      resolveThresholdRequest(
-        alertConfigWithFormModel,
-        blueprintConfig,
-        enrichedTagFilterFormModel,
-        numeratorFilter,
-        simpleMode,
-        isValid
-      )
-        .filter(resp => resp && !resp.progress.loading)
-        .tap(
-          ({ data, errors, time }) =>
-            isValid && updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode)
-        ),
-    [form, simpleMode, isValid]
-  );
+  const [thresholdResult, setThresholdResult] = useState();
+  useThresholdSuggestion(form, updateForm, setThresholdResult, {
+    alertConfigWithFormModel,
+    blueprintConfig,
+    enrichedTagFilterFormModel,
+    numeratorFilter,
+    simpleMode,
+    isValid
+  });
 
   return (
     <AlertConfigDialogPresenter
@@ -124,11 +115,13 @@ function resolveThresholdRequest(
 ) {
   const {
     rule: { metricName },
+    rule,
     threshold: { operator, seasonality = null },
-    granularity
+    granularity,
+    hiddenFields: { calculateThresholdOnBackend }
   } = alertConfigWithFormModel;
 
-  if (!isValid) {
+  if (!isValid || !calculateThresholdOnBackend) {
     return empty;
   }
 
@@ -144,10 +137,10 @@ function resolveThresholdRequest(
   return thresholdSuggestionRequest({
     tagFilterExpression: toBackendQueryModel(enrichedTagFilterFormModel),
     metric: {
-      metric: blueprintConfig.getMetricName(alertConfigWithFormModel.rule),
+      metric: blueprintConfig.getMetricName(rule),
       granularity,
       numeratorFilter,
-      aggregation: blueprintConfig.getAggregation(alertConfigWithFormModel.rule)
+      aggregation: blueprintConfig.getAggregation(rule)
     },
     operator,
     seasonality: getSeasonality(),
@@ -167,4 +160,39 @@ function useIsTagFilterFormModelValid(tagFilterFormModel, isAlertQueryValid) {
   const timeConfig = useTimeConfig();
   const result = useObservable(args => isAlertQueryValid(args), [tagFilterFormModel, timeConfig]) ?? pendingResult;
   return !!result?.data;
+}
+
+function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
+  const {
+    alertConfigWithFormModel,
+    blueprintConfig,
+    enrichedTagFilterFormModel,
+    numeratorFilter,
+    simpleMode,
+    isValid
+  } = config;
+
+  const thresholdResult = useObservable(
+    ([simpleMode, isValid]) =>
+      resolveThresholdRequest(
+        alertConfigWithFormModel,
+        blueprintConfig,
+        enrichedTagFilterFormModel,
+        numeratorFilter,
+        simpleMode,
+        isValid
+      ),
+    [simpleMode, isValid, form]
+  );
+
+  useEffect(() => {
+    if (!thresholdResult || thresholdResult.progress?.loading) return;
+
+    setThresholdResult(thresholdResult);
+    const { data, errors, time } = thresholdResult;
+    if (isValid) {
+      updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [thresholdResult, form.get('hiddenFields').get('calculateThresholdOnBackend').value]);
 }

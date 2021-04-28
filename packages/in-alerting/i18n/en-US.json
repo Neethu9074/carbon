@@ -427,18 +427,6 @@
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad Time",
         "ruleMetricNameOptionThroughputPageLoads": "Page Loads",
         "ruleMetricNameOptionThroughputPageTransitions": "Page Transitions",
-        "ruleAggregationOptionMEAN": "mean",
-        "ruleAggregationOptionMIN": "min",
-        "ruleAggregationOptionP25": "25th",
-        "ruleAggregationOptionP50": "50th",
-        "ruleAggregationOptionP75": "75th",
-        "ruleAggregationOptionP90": "90th (recommended)",
-        "ruleAggregationOptionP95": "95th",
-        "ruleAggregationOptionP98": "98th",
-        "ruleAggregationOptionP99": "99th",
-        "ruleAggregationOptionMAX": "max",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "mean",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50th",
         "ruleFormPleaseProvideALogMessage": "Please provide a log message",
         "smartAlertFormNoEntitiesSelected": "No entities selected",
         "thresholdFormPleaseProvideANumber0": "Please provide a number >= 0",
@@ -478,6 +466,20 @@
         "numberOfApplicationsSelected": "{{count}} application selected",
         "numberOfApplicationsSelected_plural": "{{count}} applications selected"
       }
+    },
+    "form": {
+      "ruleAggregationOptionMEAN": "mean",
+      "ruleAggregationOptionMIN": "min",
+      "ruleAggregationOptionP25": "25th",
+      "ruleAggregationOptionP50": "50th",
+      "ruleAggregationOptionP75": "75th",
+      "ruleAggregationOptionP90": "90th (recommended)",
+      "ruleAggregationOptionP95": "95th",
+      "ruleAggregationOptionP98": "98th",
+      "ruleAggregationOptionP99": "99th",
+      "ruleAggregationOptionMAX": "max",
+      "ruleAggregationForWeeklySeasonalityOptionMEAN": "mean",
+      "ruleAggregationForWeeklySeasonalityOptionP50": "50th"
     },
     "components": {
       "smartAlertDialog": {
@@ -803,19 +805,7 @@
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Status Code Rate",
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad Time",
         "ruleMetricNameOptionThroughputPageLoads": "Page Loads",
-        "ruleMetricNameOptionThroughputPageTransitions": "Page Transitions",
-        "ruleAggregationOptionMEAN": "mean",
-        "ruleAggregationOptionMIN": "min",
-        "ruleAggregationOptionP25": "25th",
-        "ruleAggregationOptionP50": "50th",
-        "ruleAggregationOptionP75": "75th",
-        "ruleAggregationOptionP90": "90th (recommended)",
-        "ruleAggregationOptionP95": "95th",
-        "ruleAggregationOptionP98": "98th",
-        "ruleAggregationOptionP99": "99th",
-        "ruleAggregationOptionMAX": "max",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "mean",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50th"
+        "ruleMetricNameOptionThroughputPageTransitions": "Page Transitions"
       },
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "What do you want to be alerted on?",

@@ -60,7 +60,6 @@ export default function AlertConfigDialogPresenter(props) {
                 trackModeSwitch(simpleMode, simpleModeStep, form);
                 const newMode = !simpleMode;
                 setSimpleMode(newMode);
-                updateChartForBaselineSupportedBlueprint(newMode);
                 resetScrollShadow();
               }}
               kind="action"
@@ -107,23 +106,6 @@ export default function AlertConfigDialogPresenter(props) {
   function resetFormDirtyState() {
     if (!form.hierarchyValid) {
       updateForm(form.setTouched(false, { recurse: true }));
-    }
-  }
-
-  /**
-   * Trigger update of the chart when switching back to Simple Mode, and a baseline-supported blueprint is selected.
-   * So that the re re-request the threshold/baseline according to the fallback logic.
-   * In all other cases, it is currently not needed to refresh the chart, because there is no baseline (yet).
-   * @param simpleMode Whether simple mode is active or not.
-   */
-  function updateChartForBaselineSupportedBlueprint(simpleMode) {
-    if (!simpleMode) {
-      return;
-    }
-
-    const alertType = form.get('rule').get('alertType').value;
-    if (alertType === 'slowness') {
-      updateForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)));
     }
   }
 }

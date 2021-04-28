@@ -82,12 +82,7 @@ export function ThresholdCondition({ form, onChange, blueprintConfig, updateForm
         label={blueprintConfig.getMetricLabel(metricName)}
         items={ruleMetricNameOptions.statusCode}
         onChange={({ value = '' }) => {
-          updateForm(
-            form
-              .updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true))
-              .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-              .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
-          );
+          updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
 
           websitesAlertingThresholdMetricChanged(getTrackingObject(form, { value }));
         }}

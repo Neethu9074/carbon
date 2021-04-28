@@ -117,24 +117,6 @@ export const ruleMetricNameOptions = Object.freeze({
   ]
 });
 
-export const ruleAggregationOptions = Object.freeze([
-  { value: 'MEAN', label: t('in-alerting:smartAlerts.websites.form.ruleAggregationOptionMEAN') },
-  { value: 'MIN', label: t('in-alerting:smartAlerts.websites.form.ruleAggregationOptionMIN') },
-  { value: 'P25', label: t('in-alerting:smartAlerts.websites.form.ruleAggregationOptionP25') },
-  { value: 'P50', label: t('in-alerting:smartAlerts.websites.form.ruleAggregationOptionP50') },
-  { value: 'P75', label: t('in-alerting:smartAlerts.websites.form.ruleAggregationOptionP75') },
-  { value: 'P90', label: t('in-alerting:smartAlerts.websites.form.ruleAggregationOptionP90') },
-  { value: 'P95', label: t('in-alerting:smartAlerts.websites.form.ruleAggregationOptionP95') },
-  { value: 'P98', label: t('in-alerting:smartAlerts.websites.form.ruleAggregationOptionP98') },
-  { value: 'P99', label: t('in-alerting:smartAlerts.websites.form.ruleAggregationOptionP99') },
-  { value: 'MAX', label: t('in-alerting:smartAlerts.websites.form.ruleAggregationOptionMAX') }
-]);
-
-export const ruleAggregationForWeeklySeasonalityOptions = Object.freeze([
-  { value: 'MEAN', label: t('in-alerting:smartAlerts.websites.form.ruleAggregationForWeeklySeasonalityOptionMEAN') },
-  { value: 'P50', label: t('in-alerting:smartAlerts.websites.form.ruleAggregationForWeeklySeasonalityOptionP50') }
-]);
-
 export function getStatusCodeLabel(value) {
   return ruleStatusCodeValueOptions.filter(entry => entry.value === value)[0].label;
 }

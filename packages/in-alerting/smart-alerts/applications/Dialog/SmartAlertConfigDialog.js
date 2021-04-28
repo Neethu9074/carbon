@@ -26,7 +26,6 @@ export function SmartAlertConfigDialog(props) {
   const { enrichedTagFilterFormModel } = props.isGlobalSmartAlert
     ? {}
     : getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig, null);
-
   return (
     <SmartAlertConfigDialogWithQueryValidation
       {...props}
@@ -51,26 +50,15 @@ function SmartAlertConfigDialogWithQueryValidation({
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(alertConfigWithFormModel.tagFilterExpression);
   const isValid = blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule) && isTagFilterFormModelValid;
 
-  const thresholdResult = useObservable(
-    ([form, simpleMode, isValid]) =>
-      resolveThresholdRequest(
-        alertConfigWithFormModel,
-        blueprintConfig,
-        enrichedTagFilterFormModel,
-        simpleMode,
-        isValid
-      )
-        .filter(resp => resp && !resp.progress.loading)
-        .tap(({ data, errors, time }) => {
-          if (!isGlobalSmartAlert && isValid) {
-            updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
-          }
-          if (isGlobalSmartAlert) {
-            thresholdOrBaselineLoadingSignal$.emit(false);
-          }
-        }),
-    [form, simpleMode, isValid]
-  );
+  const [thresholdResult, setThresholdResult] = useState();
+  useThresholdSuggestion(form, updateForm, setThresholdResult, {
+    isGlobalSmartAlert,
+    isValid,
+    simpleMode,
+    alertConfigWithFormModel,
+    blueprintConfig,
+    enrichedTagFilterFormModel
+  });
 
   return (
     <AlertConfigDialogPresenter
@@ -100,13 +88,16 @@ function resolveThresholdRequest(
 ) {
   const {
     rule: { metricName },
+    rule,
     threshold: { operator, seasonality = null },
     includeInternal,
     includeSynthetic,
-    granularity
+    granularity,
+    evaluationType,
+    hiddenFields: { calculateThresholdOnBackend }
   } = alertConfigWithFormModel;
 
-  if (!isValid) {
+  if (!isValid || !calculateThresholdOnBackend) {
     return empty;
   }
 
@@ -124,13 +115,13 @@ function resolveThresholdRequest(
     includeInternal,
     includeSynthetic,
     metric: {
-      metric: blueprintConfig.getMetricName(alertConfigWithFormModel.rule),
+      metric: blueprintConfig.getMetricName(rule),
       granularity,
-      aggregation: blueprintConfig.getAggregation(alertConfigWithFormModel.rule)
+      aggregation: blueprintConfig.getAggregation(rule)
     },
     operator,
     seasonality: getSeasonality(),
-    evaluationType: alertConfigWithFormModel.evaluationType,
+    evaluationType,
     fallbackOnError
   });
 }
@@ -141,4 +132,41 @@ function useCalculateThresholdOnBackendSignalEmitter(form) {
   useEffect(() => {
     thresholdOrBaselineLoadingSignal$.emit(calculateThresholdOnBackend);
   }, [calculateThresholdOnBackend]);
+}
+
+function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
+  const {
+    isGlobalSmartAlert,
+    isValid,
+    simpleMode,
+    alertConfigWithFormModel,
+    blueprintConfig,
+    enrichedTagFilterFormModel
+  } = config;
+  const thresholdResult = useObservable(
+    ([simpleMode, isValid]) =>
+      resolveThresholdRequest(
+        alertConfigWithFormModel,
+        blueprintConfig,
+        enrichedTagFilterFormModel,
+        simpleMode,
+        isValid
+      ),
+    [simpleMode, isValid, form]
+  );
+
+  useEffect(() => {
+    if (!thresholdResult || thresholdResult.progress?.loading) return;
+
+    setThresholdResult(thresholdResult);
+    const { data, errors, time } = thresholdResult;
+
+    if (!isGlobalSmartAlert && isValid) {
+      updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
+    }
+    if (isGlobalSmartAlert) {
+      thresholdOrBaselineLoadingSignal$.emit(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [thresholdResult, form.get('hiddenFields').get('calculateThresholdOnBackend').value]);
 }

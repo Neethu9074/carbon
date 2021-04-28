@@ -90,29 +90,14 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
           label={blueprintConfig.getMetricLabel(metricName)}
           items={ruleMetricNameOptions.throughput}
           onChange={({ value = '' }) => {
-            updateForm(
-              form
-                .updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true))
-                .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
-                .updateIn(['threshold', thresholdType === 'historicBaseline' ? 'baseline' : 'value'], f =>
-                  f.setValue(null).setTouched(true)
-                )
-            );
+            updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
             websitesAlertingThresholdMetricChanged(getTrackingObject(form, { value }));
           }}
         />
         <ThresholdOperatorDropDown
           form={form}
           customOnChange={newOperator => {
-            let updatedForm = form.updateIn(['threshold', 'operator'], f => f.setValue(newOperator).setTouched(true));
-            if (thresholdType === 'staticThreshold') {
-              // if the operator direction changed in case of static-threshold: request new suggestion
-              updatedForm = updatedForm.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f =>
-                f.setValue(true)
-              );
-            }
-            updateForm(updatedForm);
+            updateForm(form.updateIn(['threshold', 'operator'], f => f.setValue(newOperator).setTouched(true)));
           }}
           trackingCallback={websitesAlertingThresholdOperatorChanged}
           allOptions
@@ -146,19 +131,15 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
 
             const newRuleForm = createRuleForm({ ...form.get('rule').toJS(), aggregation: null }); // reset to default value (happens in createRuleForm)
 
-            updateForm(
-              form
-                .put('threshold', newThresholdForm)
-                .put('rule', newRuleForm)
-                .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                .updateIn(['hiddenFields', 'thresholdValueManuallyChanged'], f => f.setValue(false))
-            );
+            updateForm(form.put('threshold', newThresholdForm).put('rule', newRuleForm));
 
             websitesAlertingThresholdTypeChanged(getTrackingObject(form, { value: newThresholdType }));
           }}
           defaultValue="staticThreshold"
         />
-        {thresholdType === 'historicBaseline' && <RecalculateBaselineButton onChange={onChange} editMode={editMode} />}
+        {thresholdType === 'historicBaseline' && (
+          <RecalculateBaselineButton onChange={onChange} editMode={editMode} form={form} />
+        )}
       </ThresholdConditionFormGroup>
       {thresholdType === 'staticThreshold' && (
         <ThresholdConditionFormGroup

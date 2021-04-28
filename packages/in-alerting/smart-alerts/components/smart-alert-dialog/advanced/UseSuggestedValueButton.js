@@ -14,8 +14,9 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advan
 
 export default function UseSuggestedValueButton({ form, onChange, percentageMetric, metricUnitPostfix }) {
   const suggestedThresholdValue = form.get('hiddenFields').get('suggestedThresholdValue').value;
-  const thresholdValueManuallyChanged = form.get('hiddenFields').get('thresholdValueManuallyChanged').value;
-  const thresholdValue = form.get('threshold').get('value').value;
+  const thresholdValueItem = form.get('threshold').get('value');
+  const thresholdValueManuallyChanged = thresholdValueItem.touched;
+  const thresholdValue = thresholdValueItem.value;
 
   const showButton = useShowButton(suggestedThresholdValue, thresholdValueManuallyChanged);
 

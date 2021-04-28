@@ -94,14 +94,7 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
         <ThresholdOperatorDropDown
           form={form}
           customOnChange={newOperator => {
-            let updatedForm = form.updateIn(['threshold', 'operator'], f => f.setValue(newOperator).setTouched(true));
-            if (thresholdType === 'staticThreshold') {
-              // if the operator direction changed in case of static-threshold: request new suggestion
-              updatedForm = updatedForm.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f =>
-                f.setValue(true)
-              );
-            }
-            updateForm(updatedForm);
+            updateForm(form.updateIn(['threshold', 'operator'], f => f.setValue(newOperator).setTouched(true)));
           }}
           trackingCallback={applicationsAlertingThresholdOperatorChanged}
           allOptions
@@ -119,9 +112,7 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
 
                 let newThresholdForm = createThroughputForm({
                   ...form.get('threshold').toJS(),
-                  type: newThresholdType,
-                  value: null, // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
-                  baseline: null
+                  type: newThresholdType
                 });
 
                 if (valueParts.length > 1) {
@@ -133,19 +124,13 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
 
                 const newRuleForm = createRuleForm({ ...form.get('rule').toJS(), aggregation: null }); // reset to default value (happens in createRuleForm)
 
-                updateForm(
-                  form
-                    .put('threshold', newThresholdForm)
-                    .put('rule', newRuleForm)
-                    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                    .updateIn(['hiddenFields', 'thresholdValueManuallyChanged'], f => f.setValue(false))
-                );
+                updateForm(form.put('threshold', newThresholdForm).put('rule', newRuleForm));
 
                 applicationsAlertingThresholdTypeChanged(getTrackingObject(form, { value: newThresholdType }));
               }}
             />
             {thresholdType === 'historicBaseline' && (
-              <RecalculateBaselineButton onChange={onChange} editMode={editMode} />
+              <RecalculateBaselineButton onChange={onChange} editMode={editMode} form={form} />
             )}
           </>
         ) : (

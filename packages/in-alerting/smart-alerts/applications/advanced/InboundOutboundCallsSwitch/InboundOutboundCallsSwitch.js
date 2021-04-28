@@ -40,11 +40,7 @@ export default function InboundOutboundCallsSwitch({ form, updateForm }) {
   );
 
   function updateBoundaryScope(boundaryScope) {
-    updateForm(
-      form
-        .updateIn(['boundaryScope'], f => f.setValue(boundaryScope).setTouched(true))
-        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-    );
+    updateForm(form.updateIn(['boundaryScope'], f => f.setValue(boundaryScope).setTouched(true)));
   }
 
   function handleChangeToInboundCalls() {

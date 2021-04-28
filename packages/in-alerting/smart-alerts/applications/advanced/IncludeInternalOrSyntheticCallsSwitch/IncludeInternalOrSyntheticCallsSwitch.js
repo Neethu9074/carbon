@@ -23,7 +23,7 @@ export default function IncludeInternalOrSyntheticCallsSwitch({ form, updateForm
               'in-alerting:smartAlerts.applications.advanced.includeInternalOrSynthethicCalls.includeInternalCalls'
             )}
             checked={includeInternal}
-            onChange={() => updateFieldAndTriggerThresholdCalculation('includeInternal', !includeInternal)}
+            onChange={() => updateField('includeInternal', !includeInternal)}
           />
         </Col>
         <Col lg={6} className={locals.column}>
@@ -32,18 +32,14 @@ export default function IncludeInternalOrSyntheticCallsSwitch({ form, updateForm
               'in-alerting:smartAlerts.applications.advanced.includeInternalOrSynthethicCalls.includeSyntethicCalls'
             )}
             checked={includeSynthetic}
-            onChange={() => updateFieldAndTriggerThresholdCalculation('includeSynthetic', !includeSynthetic)}
+            onChange={() => updateField('includeSynthetic', !includeSynthetic)}
           />
         </Col>
       </Row>
     </div>
   );
 
-  function updateFieldAndTriggerThresholdCalculation(fieldName, newValue) {
-    updateForm(
-      form
-        .updateIn([fieldName], f => f.setValue(newValue).setTouched(true))
-        .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-    );
+  function updateField(fieldName, newValue) {
+    updateForm(form.updateIn([fieldName], f => f.setValue(newValue).setTouched(true)));
   }
 }

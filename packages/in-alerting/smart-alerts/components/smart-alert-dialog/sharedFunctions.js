@@ -7,54 +7,49 @@ import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/
 import { t } from 'in-i18n';
 
 export function updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode) {
-  const calculateThresholdOnBackend = form.get('hiddenFields').get('calculateThresholdOnBackend').value;
-  const thresholdValueManuallyChanged = form.get('hiddenFields').get('thresholdValueManuallyChanged').value;
+  thresholdOrBaselineLoadingSignal$.emit(false);
 
-  if (calculateThresholdOnBackend) {
-    thresholdOrBaselineLoadingSignal$.emit(false);
+  const alertType = form.get('rule').get('alertType').value;
+  const thresholdForm = form.get('threshold');
+  const currentThreshold = thresholdForm.toJS();
 
-    const alertType = form.get('rule').get('alertType').value;
-    const currentThreshold = form.get('threshold').toJS();
-
-    let thresholdData;
-    if (errors.length === 0) {
-      thresholdData = {
-        ...currentThreshold,
-        ...data
-      };
-    } else {
-      // set empty baseline in case of error
-      thresholdData = {
-        ...currentThreshold,
-        baseline: []
-      };
-    }
-
-    const shouldAddNewThresholdData = simpleMode || !thresholdValueManuallyChanged;
-
-    let updatedThresholdForm = createThresholdForm(
-      {
-        lastUpdated: time,
-        ...(shouldAddNewThresholdData ? thresholdData : currentThreshold)
-      },
-      alertType
-    );
-
-    // preserve touched state on staticThreshold types
-    if (data?.type === 'staticThreshold' && (thresholdValueManuallyChanged || shouldAddNewThresholdData)) {
-      updatedThresholdForm = updatedThresholdForm.updateIn(['value'], f => f.setTouched(true));
-    }
-
-    let newForm = form
-      .put('threshold', updatedThresholdForm)
-      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false));
-
-    if (currentThreshold.value !== '') {
-      newForm = newForm.updateIn(['hiddenFields', 'suggestedThresholdValue'], f => f.setValue(data?.value));
-    }
-
-    updateForm(newForm);
+  let thresholdData;
+  if (errors.length === 0) {
+    thresholdData = {
+      ...currentThreshold,
+      ...data
+    };
+  } else {
+    // set empty baseline in case of error
+    thresholdData = {
+      ...currentThreshold,
+      baseline: []
+    };
   }
+
+  let updatedThresholdForm = createThresholdForm(
+    {
+      lastUpdated: time,
+      ...(shouldAddNewThresholdData(simpleMode, thresholdForm) ? thresholdData : currentThreshold)
+    },
+    alertType
+  );
+
+  // preserve touched state on staticThreshold types
+  // we need to do this because, createThresholdForm discards all touched states from the threshold form
+  // and because we use the touched state to decide if we should overwrite the current threshold input with new suggestions
+  // automatically
+  if (data?.type === 'staticThreshold' && thresholdForm.containsKey('value')) {
+    const oldState = thresholdForm.get('value').touched;
+    updatedThresholdForm = updatedThresholdForm.updateIn(['value'], f => f.setTouched(oldState));
+  }
+
+  let newForm = form
+    .put('threshold', updatedThresholdForm)
+    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
+    .updateIn(['hiddenFields', 'suggestedThresholdValue'], f => f.setValue(data?.value));
+
+  updateForm(newForm);
 }
 
 export function changeFormDataByCopyState(isCopy, formData) {
@@ -67,4 +62,31 @@ export function changeFormDataByCopyState(isCopy, formData) {
     return changedFormData;
   }
   return formData;
+}
+
+/**
+ * Apply editMode to form state. We use the touched state of the value and baseline fields to indicate if they should be
+ * updated with new suggestions.
+ */
+export function applyEditMode(form, editMode) {
+  if (!editMode) return form;
+
+  const type = form.get('threshold').get('type').value;
+
+  if (type === 'staticThreshold') {
+    return form
+      .updateIn(['threshold', 'value'], f => f.setTouched(true))
+      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)); // request update to show a new suggestion
+  }
+  return form.updateIn(['threshold', 'baseline'], f => f.setTouched(true));
+}
+
+function shouldAddNewThresholdData(simpleMode, thresholdForm) {
+  if (simpleMode) return true;
+
+  const type = thresholdForm?.get('type')?.value;
+  if (type === 'staticThreshold') {
+    return !thresholdForm?.get('value')?.touched;
+  }
+  return !thresholdForm?.get('baseline')?.touched;
 }

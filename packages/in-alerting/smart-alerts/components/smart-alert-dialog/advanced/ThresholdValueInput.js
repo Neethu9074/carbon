@@ -44,12 +44,7 @@ export default function ThresholdValueInput({
     }
 
     if (!onChange) {
-      updateForm?.(
-        form
-          .updateIn(['threshold', 'value'], f => f.setValue(value).setTouched(true))
-          .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-          .updateIn(['hiddenFields', 'thresholdValueManuallyChanged'], f => f.setValue(true))
-      );
+      updateForm?.(form.updateIn(['threshold', 'value'], f => f.setValue(value).setTouched(true)));
     }
 
     trackChange?.(getTrackingObject(form, { value }));

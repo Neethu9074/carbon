@@ -112,7 +112,7 @@ export function ThresholdCondition({ form, onChange, updateForm, blueprintConfig
               onChange={e => onThresholdChange(e, form, updateForm)}
             />
             {thresholdType === 'historicBaseline' && (
-              <RecalculateBaselineButton onChange={onChange} editMode={editMode} />
+              <RecalculateBaselineButton onChange={onChange} editMode={editMode} form={form} />
             )}
           </>
         ) : (
@@ -151,9 +151,7 @@ function onThresholdChange(e, form, updateForm) {
 
   let newThresholdForm = createStatusCodeForm({
     ...form.get('threshold').toJS(),
-    type: newType,
-    value: null, // Explicitly removing old values to avoid further calls with it
-    baseline: null
+    type: newType
   });
 
   if (newSeasonality) {
@@ -162,13 +160,7 @@ function onThresholdChange(e, form, updateForm) {
 
   const newRuleForm = createRuleForm({ ...form.get('rule').toJS(), aggregation: null });
 
-  updateForm(
-    form
-      .put('threshold', newThresholdForm)
-      .put('rule', newRuleForm)
-      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-      .updateIn(['hiddenFields', 'thresholdValueManuallyChanged'], f => f.setValue(false))
-  );
+  updateForm(form.put('threshold', newThresholdForm).put('rule', newRuleForm));
 }
 
 StatusCodeInteractiveChart.propTypes = {

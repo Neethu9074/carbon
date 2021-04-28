@@ -38,8 +38,6 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
                   form
                     .updateIn(['rule', 'value'], f => f.setValue((e && e.value) || '').setTouched(true))
                     .updateIn(['rule', 'operator'], f => f.setValue(getOperatorForStatusCode(e.value)).setTouched(true))
-                    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                    .updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(true)) // reset "old" value to ensure that we only call endpoints with the "new" threshold suggestion
                 );
               }}
               defaultValue="4"

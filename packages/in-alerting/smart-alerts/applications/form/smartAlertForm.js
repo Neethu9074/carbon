@@ -7,6 +7,7 @@ import { createField, createMapForm } from 'formalistic';
 
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import { PER_AP } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import { applyEditMode } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
@@ -17,10 +18,6 @@ const defaultSeverity = 5;
 const defaultGranularity = 600000;
 
 export function createSmartAlertForm(alertConfig, editMode) {
-  // In edit mode, we don't want to override the saved threshold/baseline value with our suggestion by default.
-  // The saved value is the same as a user-defined value, which we should not override by default.
-  const doNotOverrideThresholdWithSuggestion = editMode;
-
   let form = createMapForm()
     .put(
       'name',
@@ -138,13 +135,15 @@ export function createSmartAlertForm(alertConfig, editMode) {
     )
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
     .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
-    .put('hiddenFields', createHiddenFieldsForm(alertConfig, doNotOverrideThresholdWithSuggestion));
+    .put('hiddenFields', createHiddenFieldsForm(alertConfig));
 
   const alertType = alertConfig.rule?.alertType ?? 'errorRate';
-  return form.put('threshold', createThresholdForm(alertConfig.threshold, alertType));
+  form = form.put('threshold', createThresholdForm(alertConfig.threshold, alertType));
+
+  return applyEditMode(form, editMode);
 }
 
-function createHiddenFieldsForm(alertConfig, thresholdValueManuallyChanged) {
+function createHiddenFieldsForm(alertConfig) {
   return createMapForm()
     .put(
       'calculateThresholdOnBackend',
@@ -156,12 +155,6 @@ function createHiddenFieldsForm(alertConfig, thresholdValueManuallyChanged) {
       'suggestedThresholdValue',
       createField({
         value: null
-      })
-    )
-    .put(
-      'thresholdValueManuallyChanged',
-      createField({
-        value: thresholdValueManuallyChanged ?? false
       })
     );
 }

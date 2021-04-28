@@ -38,12 +38,7 @@ export default function SimpleAlertConfigDialogStep1({
       <Menu
         items={simpleModeBlueprintConfigs}
         onItemClick={item => {
-          updateForm(
-            createBlueprintForm(form, item.type, item.thresholdDefaults).updateIn(
-              ['hiddenFields', 'calculateThresholdOnBackend'],
-              f => f.setValue(true)
-            )
-          );
+          updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults));
 
           applicationsAlertingBlueprintChanged({ newBluePrint: alertType, mode: 'Simple' });
         }}

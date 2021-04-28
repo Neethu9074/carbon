@@ -33,20 +33,13 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
               options={ruleStatusCodeValueOptions}
               onChange={e => {
                 applicationsAlertingStatusCodeChanged({ mode });
-                const isBaseline = form.get('threshold').containsKey('baseline');
                 let updatedForm = form
                   .updateIn(['rule', 'statusCodeStart'], f =>
                     f.setValue(Number(getStartForStatusCode(e.value))).setTouched(true)
                   )
                   .updateIn(['rule', 'statusCodeEnd'], f =>
                     f.setValue(Number(getEndForStatusCode(e.value))).setTouched(true)
-                  )
-                  .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true));
-                if (isBaseline) {
-                  updatedForm = updatedForm
-                    .updateIn(['threshold', 'baseline'], f => f.setValue([]).setTouched(false))
-                    .updateIn(['hiddenFields', 'thresholdValueManuallyChanged'], f => f.setValue(false));
-                }
+                  );
                 updateForm(updatedForm);
               }}
               clearable={false}

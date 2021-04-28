@@ -57,7 +57,6 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
                       alertType
                     )
                   )
-                  .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
               )
             }
             asRadioButton

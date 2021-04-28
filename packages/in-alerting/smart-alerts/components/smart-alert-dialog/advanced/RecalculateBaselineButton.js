@@ -11,7 +11,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton.mless';
 
-export default function RecalculateBaselineButton({ onChange, editMode }) {
+export default function RecalculateBaselineButton({ onChange, editMode, form }) {
   const isRecalculated = useRef(false);
 
   if (!editMode) {
@@ -25,12 +25,10 @@ export default function RecalculateBaselineButton({ onChange, editMode }) {
         onClick={() => {
           isRecalculated.current = true;
           onChange(['hiddenFields'], f => {
-            return f
-              .updateIn(['calculateThresholdOnBackend'], field => field.setValue(true))
-              .updateIn(['thresholdValueManuallyChanged'], field => field.setValue(false));
+            return f.updateIn(['calculateThresholdOnBackend'], field => field.setValue(true));
           });
         }}
-        disabled={isRecalculated.current}
+        disabled={isRecalculated.current || !form?.get('threshold').get('baseline')?.touched}
       >
         {t('in-alerting:smartAlerts.components.smartAlertDialog.buttonRecalculateBaseline')}
       </Button>
@@ -40,5 +38,6 @@ export default function RecalculateBaselineButton({ onChange, editMode }) {
 
 RecalculateBaselineButton.propTypes = {
   onChange: PropTypes.func.isRequired,
-  editMode: PropTypes.bool
+  editMode: PropTypes.bool,
+  form: PropTypes.object
 };

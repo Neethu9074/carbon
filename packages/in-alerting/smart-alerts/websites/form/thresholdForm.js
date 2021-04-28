@@ -10,22 +10,22 @@ import { t } from 'in-i18n';
 export const defaultDeviationFactor = 3;
 
 export default function createThresholdForm(threshold, alertType) {
-  const baseForm = createBaseForm(threshold);
+  let form = createBaseForm(threshold);
 
   if (alertType === 'slowness') {
-    return createBaselineEnabledForm(baseForm, threshold);
+    return createBaselineEnabledForm(form, threshold);
   }
 
   if (alertType === 'specificJsError') {
-    return createSpecificJsErrorForm(baseForm, threshold);
+    return createSpecificJsErrorForm(form, threshold);
   }
 
   if (alertType === 'statusCode') {
-    return createStatusCodeForm(baseForm, threshold);
+    return createStatusCodeForm(form, threshold);
   }
 
   if (alertType === 'throughput') {
-    return createBaselineEnabledForm(baseForm, threshold);
+    return createBaselineEnabledForm(form, threshold);
   }
 }
 

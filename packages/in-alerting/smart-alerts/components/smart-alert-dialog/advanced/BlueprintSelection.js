@@ -53,12 +53,7 @@ export default function BlueprintSelection({
               selectButtonDisabled={selectButtonDisabled}
               onSelectBlueprint={blueprintConfig => {
                 setSelectButtonDisabled(true);
-                updateForm(
-                  createBlueprintForm(form, blueprintConfig.type, blueprintConfig.thresholdDefaults)
-                    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true))
-                    .updateIn(['hiddenFields', 'thresholdValueManuallyChanged'], f => f.setValue(false))
-                    .updateIn(['hiddenFields', 'suggestedThresholdValue'], f => f.setValue(null))
-                );
+                updateForm(createBlueprintForm(form, blueprintConfig.type, blueprintConfig.thresholdDefaults));
               }}
             />
           </div>
