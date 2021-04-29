@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
 
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ResolveResult from 'in-settings/components/ApiList/renderer/ResolveResult';
 import EmptyList from 'in-new-components/lists/List/sharedComponents/EmptyList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import TemporaryMessage from 'in-new-components/TemporaryMessage';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
@@ -47,7 +47,7 @@ export default function renderListInsideCard(props) {
         }
 
         return (
-          <Card
+          <LightCard
             title={
               t('in-settings:components.' + itemName, { count: totalFilteredItems }) +
               `${totalFilteredItems > 0 ? '(' + totalFilteredItems + ')' : ''}`
@@ -58,7 +58,7 @@ export default function renderListInsideCard(props) {
             {message && <TemporaryMessage {...message} duration={retainMessagesAfter} />}
             {content}
             <Pagination currentPage={page} numPages={numPages} onChange={setPage} />
-          </Card>
+          </LightCard>
         );
       }}
     </ResolveResult>
@@ -67,13 +67,13 @@ export default function renderListInsideCard(props) {
 
 function LoadingApiList(props) {
   return (
-    <Card
+    <LightCard
       title={t('in-settings:components.' + props.itemName, { count: props.totalFilteredItems })}
       bodyWithoutPadding
       headerClassName={locals.cardHeader}
     >
       <LoadingList />
-    </Card>
+    </LightCard>
   );
 }
 

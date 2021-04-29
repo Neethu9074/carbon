@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import { withState } from 'recompose';
 import React from 'react';
 
+import { toInteractiveElement } from '@instana/components';
+import { Link } from '@instana/components';
+
 import HeaderToggleIcon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/HeaderToggleIcon';
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import Beacon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';

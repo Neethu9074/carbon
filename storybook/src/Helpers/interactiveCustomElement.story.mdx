@@ -20,7 +20,7 @@ props to does actually make use of them!
 ## Import
 
 ```js
-import { toInteractiveElement, withInteractivitySideEffects } from 'in-new-components/interactiveCustomElement';
+import { toInteractiveElement, withInteractivitySideEffects } from '@instana/components';
 ```
 
 ## Creating Custom Interactive Elements
@@ -31,7 +31,7 @@ The following shows how to create a `<div />` that can be accessed via the tab k
 ```js
 import React from 'react';
 
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
+import { toInteractiveElement } from '@instana/components';
 
 function MyComponent() {
   return (
@@ -70,7 +70,7 @@ keyboard! You can however implement support for all the cases via `withInteracti
 ```js
 import React from 'react';
 
-import { withInteractivitySideEffects } from 'in-new-components/interactiveCustomElement';
+import { withInteractivitySideEffects } from '@instana/components';
 
 export default function MyComponent() {
   return (

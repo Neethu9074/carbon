@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useAutoFocus } from '@instana/hooks';
 import React from 'react';
+
+import { toInteractiveElement } from '@instana/components';
+import { useAutoFocus } from '@instana/hooks';
 
 import { doesTagNodeNeedSecondLevelKey } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
@@ -17,7 +19,6 @@ import {
 } from 'in-new-components/QueryBuilder/tagFilter/types';
 import KeyEquals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/KeyEquals';
 import SimpleValueSelector from 'in-new-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';

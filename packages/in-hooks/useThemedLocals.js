@@ -5,7 +5,7 @@
 
 import { useContext, useMemo } from 'react';
 
-import { ThemeContext } from 'in-themes/themes';
+import { ThemeContext } from '@instana/components';
 
 // This hook takes style definitions, typically imported and used via import locals from './XXX.mless'
 // With the current selected theme, it searches this style for ending name with the theme.

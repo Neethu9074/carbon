@@ -6,9 +6,10 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React from 'react';
 
+import { toInteractiveElement } from '@instana/components';
+
 import ColorConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/ColorConfigurator';
 import { getMetricId, getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import TouchedMessages from 'in-components/form/TouchedMessages';

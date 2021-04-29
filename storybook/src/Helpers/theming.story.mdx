@@ -14,8 +14,9 @@ can easily change a component to support themes mostly without messing aroung wi
 Chaning the theme via react context
 
 ```js
+import { light } from '@instana/components';
+
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
-import { light } from 'in-themes/themes';
 ```
 
 Consuming the theme via react hook
@@ -33,11 +34,12 @@ available for all children mounted inside this context.
 import React from 'react';
 
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
-import { light } from 'in-themes/themes';
+
+import { dark } from '@instana/components';
 
 function MyComponent() {
   return (
-    <LocallyChangedTheme theme={light}>
+    <LocallyChangedTheme theme={dark}>
       <ThemedComponent />
     </LocallyChangedTheme>
   );

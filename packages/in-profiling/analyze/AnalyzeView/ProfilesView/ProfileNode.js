@@ -6,9 +6,10 @@
 import React, { Fragment, useRef, useState } from 'react';
 import classNames from 'classnames';
 
+import { toInteractiveElement } from '@instana/components';
+
 import PercentIndicator from 'in-profiling/analyze/AnalyzeView/ProfilesView/PercentIndicator';
 import FileNameAndLine from 'in-new-components/Profiling/components/FileNameAndLine';
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import MethodName from 'in-new-components/Profiling/components/MethodName';
 import At from 'in-new-components/Profiling/components/At';
 import { treeViewExpanded } from 'in-profiling/tracker';

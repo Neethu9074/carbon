@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { withInteractivitySideEffects } from '@instana/components';
+
 import {
   and,
   or,
@@ -15,7 +17,6 @@ import {
 } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import ConjunctionSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/ConjunctionSelectorOverlay';
 import { OPEN_BRACKET, CLOSE_BRACKET, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { withInteractivitySideEffects } from 'in-new-components/interactiveCustomElement';
 import { onElementKeyUp } from 'in-new-components/QueryBuilder/keyboardInteraction';
 import Overlay from 'in-new-components/overlays/Overlay';
 

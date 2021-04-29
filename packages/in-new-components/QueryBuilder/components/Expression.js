@@ -6,8 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { isPrimaryInteractiveElement } from '@instana/components';
+
 import { CLOSE_BRACKET } from 'in-new-components/QueryBuilder/transformation/renderModel';
-import { isPrimaryInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import keyCodes from 'in-components/keyCodes';
 

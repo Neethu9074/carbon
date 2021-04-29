@@ -16,7 +16,7 @@ describe('in-new-components/QueryBuilder/keyboardInteraction', () => {
 
   beforeEach(() => {
     onKeyDown = proxyquire('in-new-components/QueryBuilder/keyboardInteraction', {
-      'in-new-components/interactiveCustomElement': {
+      '@instana/components': {
         // Do not require usage of specific DOM element types.
         isPrimaryInteractiveElement: e => e.isPrimaryInteractiveElement
       }

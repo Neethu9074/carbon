@@ -20,13 +20,11 @@ import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
-import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import SaveButton from 'in-components/form/SaveButton';
 import WithTvMode from 'in-new-components/WithTvMode';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
-import { lightV2 } from 'in-themes/themes';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
@@ -71,84 +69,80 @@ function CustomDashboardPresenter(props) {
     );
 
   return (
-    <LocallyChangedTheme theme={lightV2}>
-      <WithTvMode urlParameter={dashboardTvModeUrlParameter}>
-        {({ enabled, setEnabled, wrapperDomNode }) => (
-          <>
-            {enabled && (
-              <>
-                {loadingSection}
-                {errorSection}
-                {config && (
+    <WithTvMode urlParameter={dashboardTvModeUrlParameter}>
+      {({ enabled, setEnabled, wrapperDomNode }) => (
+        <>
+          {enabled && (
+            <>
+              {loadingSection}
+              {errorSection}
+              {config && (
+                <Grid
+                  tvMode
+                  scrollAreaDomNode={wrapperDomNode}
+                  width={width}
+                  config={config}
+                  isResizable={false}
+                  isConfigurable={false}
+                  isDraggable={false}
+                />
+              )}
+            </>
+          )}
+
+          {!enabled && (
+            <Sticky
+              header={
+                <>
+                  <DashboardHeader
+                    theme={themes.light}
+                    label={<DashboardSwitcher titleOverwrite={titleOverwrite} />}
+                    renderButtonLine={config && (() => <ButtonLine {...props} />)}
+                    renderButtonLineSecondary={
+                      config &&
+                      (() => <SecondaryButtonLine {...props} setTvModeEnabled={setEnabled} onAddWidget={onAddWidget} />)
+                    }
+                    renderTopLevelButtonLine={config && (() => <TopLevelButtonLine {...props} />)}
+                  />
+                  {result && <HorizontalIndicator progress={result.progress} />}
+                  <DashboardHeaderShadowModule />
+
+                  <Title
+                    title={t('in-custom-dashboards:customDashboard.customDashboardPresenter.customDashboard')}
+                    dynamic={config && config.title}
+                  />
+                  <ViewTrackingMeta
+                    data={{
+                      productArea: 'Custom Dashboard',
+                      pageRootName: 'Custom Dashboard',
+                      widgetTypes: uniqBy(config?.widgets.map(w => w.type) ?? []).join(', ')
+                    }}
+                  />
+                </>
+              }
+            >
+              {loadingSection}
+              {errorSection}
+              {config && (
+                <div className={locals.wrapper}>
                   <Grid
-                    tvMode
-                    scrollAreaDomNode={wrapperDomNode}
                     width={width}
                     config={config}
-                    isResizable={false}
-                    isConfigurable={false}
-                    isDraggable={false}
+                    onLayoutChange={onLayoutChange}
+                    onEditWidget={onEditWidget}
+                    onRemoveWidget={onRemoveWidget}
+                    onDuplicateWidget={onDuplicateWidget}
+                    isResizable={editable}
+                    isConfigurable={editable}
+                    isDraggable={editable}
                   />
-                )}
-              </>
-            )}
-
-            {!enabled && (
-              <Sticky
-                header={
-                  <>
-                    <DashboardHeader
-                      theme={themes.light}
-                      label={<DashboardSwitcher titleOverwrite={titleOverwrite} />}
-                      renderButtonLine={config && (() => <ButtonLine {...props} />)}
-                      renderButtonLineSecondary={
-                        config &&
-                        (() => (
-                          <SecondaryButtonLine {...props} setTvModeEnabled={setEnabled} onAddWidget={onAddWidget} />
-                        ))
-                      }
-                      renderTopLevelButtonLine={config && (() => <TopLevelButtonLine {...props} />)}
-                    />
-                    {result && <HorizontalIndicator progress={result.progress} />}
-                    <DashboardHeaderShadowModule />
-
-                    <Title
-                      title={t('in-custom-dashboards:customDashboard.customDashboardPresenter.customDashboard')}
-                      dynamic={config && config.title}
-                    />
-                    <ViewTrackingMeta
-                      data={{
-                        productArea: 'Custom Dashboard',
-                        pageRootName: 'Custom Dashboard',
-                        widgetTypes: uniqBy(config?.widgets.map(w => w.type) ?? []).join(', ')
-                      }}
-                    />
-                  </>
-                }
-              >
-                {loadingSection}
-                {errorSection}
-                {config && (
-                  <div className={locals.wrapper}>
-                    <Grid
-                      width={width}
-                      config={config}
-                      onLayoutChange={onLayoutChange}
-                      onEditWidget={onEditWidget}
-                      onRemoveWidget={onRemoveWidget}
-                      onDuplicateWidget={onDuplicateWidget}
-                      isResizable={editable}
-                      isConfigurable={editable}
-                      isDraggable={editable}
-                    />
-                  </div>
-                )}
-              </Sticky>
-            )}
-          </>
-        )}
-      </WithTvMode>
-    </LocallyChangedTheme>
+                </div>
+              )}
+            </Sticky>
+          )}
+        </>
+      )}
+    </WithTvMode>
   );
 }
 

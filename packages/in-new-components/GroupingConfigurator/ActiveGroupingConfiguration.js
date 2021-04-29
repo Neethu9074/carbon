@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useAutoFocus } from '@instana/hooks';
 import classNames from 'classnames';
 import React from 'react';
 
+import { toInteractiveElement } from '@instana/components';
+import { useAutoFocus } from '@instana/hooks';
+
 import SimpleValueSelector from 'in-new-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import Entity from 'in-new-components/GroupingConfigurator/Entity';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useTimeConfig from 'in-hooks/useTimeConfig';

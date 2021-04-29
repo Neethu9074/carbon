@@ -5,13 +5,11 @@
 
 import React from 'react';
 
-import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import Header from 'in-new-components/workspace/Header';
 import Stack from 'in-new-components/layout/Stack';
 import widgets from 'in-custom-dashboards/widgets';
 import Button from 'in-new-components/Button';
-import { lightV2 } from 'in-themes/themes';
 import { t } from 'in-i18n';
 
 import locals from './WidgetPreview.mless';
@@ -23,11 +21,7 @@ export default function WidgetPreview({ form, onChange }) {
   const config = form.get('config').toJS();
 
   if (form.hierarchyValid) {
-    content = (
-      <LocallyChangedTheme theme={lightV2}>
-        <widget.Widget title={form.get('title').value || '–'} config={config} isPreview />
-      </LocallyChangedTheme>
-    );
+    content = <widget.Widget title={form.get('title').value || '–'} config={config} isPreview />;
   } else {
     content = (
       <p className={locals.invalidConfig}>

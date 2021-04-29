@@ -7,7 +7,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
+import { toInteractiveElement } from '@instana/components';
+
 import WithHealthDot from 'in-new-components/health/WithHealthDot/WithHealthDot';
 import { emptyObject } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';

@@ -4,12 +4,13 @@
  */
 
 import React, { useState, forwardRef } from 'react';
-import { useAutoFocus } from '@instana/hooks';
-import { Link } from '@instana/components';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
-import { toInteractiveElement, withInteractivitySideEffects } from 'in-new-components/interactiveCustomElement';
+import { toInteractiveElement, withInteractivitySideEffects } from '@instana/components';
+import { useAutoFocus } from '@instana/hooks';
+import { Link } from '@instana/components';
+
 import HorizontalIndicatorLiComponent from 'in-new-components/lists/List/HorizontalIndicatorLi';
 import LoadingSkeletonLiComponent from 'in-new-components/lists/List/LoadingSkeletonLi';
 import LoadMoreLiComponent from 'in-new-components/lists/List/LoadMoreLi';

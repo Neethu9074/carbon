@@ -6,7 +6,8 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
+import { toInteractiveElement } from '@instana/components';
+
 import ComboBoxOverlay from 'in-components/form/ComboBox/ComboBoxOverlay';
 import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import Overlay from 'in-new-components/overlays/Overlay';

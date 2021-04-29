@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
+import { toInteractiveElement } from '@instana/components';
+
 import { clearActiveTooltip } from 'in-components/Tooltip/store';
 import { t } from 'in-i18n';
 

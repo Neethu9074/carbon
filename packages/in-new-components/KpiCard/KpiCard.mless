@@ -11,13 +11,6 @@
     padding: 0.625rem 1rem;
     .ellipsis();
     position: relative;
-  }
-
-  .light {
-    border-left: 3px solid @lib__colors__N200;
-  }
-
-  .lightV2 {
     background: @lib__colors__white;
     border-radius: @lib__shapes__radius_large;
     box-shadow: @lib__shadows__subtle;

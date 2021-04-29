@@ -8,7 +8,6 @@ import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import tagCatalogExampleJson from './tagCatalogExample';
 import tagCatalogExample from './tagCatalogExample.png';
 import SetBodyColor from 'in-components/SetBodyColor';
-import { dark } from 'in-themes/themes';
 
 <Meta title="Molecules|queryBuilder/QueryBuilder" />
 
@@ -29,15 +28,6 @@ export function DefaultExample() {
   )
 }
 
-export function DarkModeExample() {
-  return (
-    <LocallyChangedTheme theme={dark}>
-      <SetBodyColor color="#47525D" />
-      <DefaultExample />
-    </LocallyChangedTheme>
-  )
-}
-
 <p style={{color: 'darkred', fontSize: '1rem'}}>
   Please inspect the examples via Storybook's <code>Canvas</code> mode. You can access this mode via
    the <code>Canvas</code> button at the top of the screen.
@@ -46,12 +36,6 @@ export function DarkModeExample() {
 <Preview>
   <Story name="default">
     <DefaultExample />
-  </Story>
-</Preview>
-
-<Preview>
-  <Story name="dark mode">
-    <DarkModeExample />
   </Story>
 </Preview>
 

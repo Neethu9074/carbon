@@ -3,12 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
 
-import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import Select from 'in-components/form/Select';
-import { light } from 'in-themes/themes';
 import { t } from 'in-i18n';
 
 import locals from './EntryContent.mless';
@@ -19,25 +17,23 @@ export default function EntryContent(props) {
   const entryToDisplay = entry.subTechnologies ? entry.subTechnologies[selectedSubEntryIndex] : entry;
 
   return (
-    <LocallyChangedTheme theme={light}>
-      <Card
-        className={locals.card}
-        framed={false}
-        openByDefault
-        title={<span className={locals.title}>{entry.fullLabel || entry.label}</span>}
-        titleSubContent={
-          entry.subTechnologies && (
-            <SubTechnologiesDropdown
-              subTechnologies={entry.subTechnologies}
-              selectedSubEntryIndex={selectedSubEntryIndex}
-              onSubEntrySelected={onSubEntrySelected}
-            />
-          )
-        }
-      >
-        <entryToDisplay.Content {...props} />
-      </Card>
-    </LocallyChangedTheme>
+    <LightCard
+      className={locals.card}
+      framed={false}
+      openByDefault
+      title={<span className={locals.title}>{entry.fullLabel || entry.label}</span>}
+      titleSubContent={
+        entry.subTechnologies && (
+          <SubTechnologiesDropdown
+            subTechnologies={entry.subTechnologies}
+            selectedSubEntryIndex={selectedSubEntryIndex}
+            onSubEntrySelected={onSubEntrySelected}
+          />
+        )
+      }
+    >
+      <entryToDisplay.Content {...props} />
+    </LightCard>
   );
 }
 

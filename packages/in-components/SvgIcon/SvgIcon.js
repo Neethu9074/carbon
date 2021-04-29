@@ -8,7 +8,8 @@ import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
+import { toInteractiveElement } from '@instana/components';
+
 import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 import icons from 'in-components/SvgIcon/registry.json';
 import { emptyObject } from 'in-services/fixedObjects';

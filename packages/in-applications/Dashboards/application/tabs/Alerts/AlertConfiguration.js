@@ -16,6 +16,7 @@ import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
@@ -23,11 +24,8 @@ import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
-import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
-import ExpandableCard from 'in-new-components/ExpandableCard';
 import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-new-components/lists/Title';
-import { light } from 'in-themes/themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles//AlertConfiguration.mless';
@@ -51,102 +49,100 @@ export default function AlertConfiguration({ alertConfig, applicationName = '', 
 
   return (
     <AlertDetailsCard>
-      <LocallyChangedTheme theme={light}>
-        <ListTitle>Alert Configuration</ListTitle>
+      <ListTitle>Alert Configuration</ListTitle>
 
-        <ChartViewConfiguratorWithEntitySelection
-          alertConfigWithFormModel={{
-            ...alertConfig,
-            tagFilterExpression: tagFilterFormModel
-          }}
-          onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
-          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-          title={t('in-applications:alert.advancedModeContainer.trigger.label')}
-          framed
-        >
-          {(chartViewConfig, applicationId, serviceId) => (
-            <>
-              {alertType === 'logs' && (
-                <SelectedAlertTypeInfo
-                  title={t('in-applications:alert.advancedModeContainer.trigger.logMessageCardTitle')}
-                  description={getDescription(operator, message)}
-                  badges={getLogLevelAsList(level)}
-                />
-              )}
-
-              <ApplicationAlertingChartWithErrorMessage
-                alertConfigWithFormModel={{
-                  ...alertConfig,
-                  tagFilterExpression: tagFilterFormModel
-                }}
-                viewConfig={chartViewConfig}
-                blueprintConfig={blueprintConfig}
-                applicationId={applicationId}
-                serviceId={serviceId}
+      <ChartViewConfiguratorWithEntitySelection
+        alertConfigWithFormModel={{
+          ...alertConfig,
+          tagFilterExpression: tagFilterFormModel
+        }}
+        onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+        title={t('in-applications:alert.advancedModeContainer.trigger.label')}
+        framed
+      >
+        {(chartViewConfig, applicationId, serviceId) => (
+          <>
+            {alertType === 'logs' && (
+              <SelectedAlertTypeInfo
+                title={t('in-applications:alert.advancedModeContainer.trigger.logMessageCardTitle')}
+                description={getDescription(operator, message)}
+                badges={getLogLevelAsList(level)}
               />
-            </>
-          )}
-        </ChartViewConfiguratorWithEntitySelection>
+            )}
 
-        <ExpandableCard
-          className={locals.filterListContainer}
-          title={t('in-applications:alert.advancedModeContainer.scope.label')}
-          useMaxAvailableHeight={false}
-          openByDefault
-          bodyWithoutPadding
-          darkFrame
-        >
-          <ReadOnlyAlertEvaluation evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert} />
-          <div className={locals.paddingBodyWrapper}>
-            <div className={locals.alertFiltersWrapper}>
-              <ScopeConfigPresenter
-                tagFilterFormModel={tagFilterFormModel}
-                queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
-                scopePath={
-                  <ApplicationScopePath boundaryScope={alertConfig.boundaryScope} applicationName={applicationName} />
-                }
-              />
-            </div>
-            <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
-            <ReadOnlyIncludeInternalOrSyntheticCallsSwitch alertConfig={alertConfig} />
+            <ApplicationAlertingChartWithErrorMessage
+              alertConfigWithFormModel={{
+                ...alertConfig,
+                tagFilterExpression: tagFilterFormModel
+              }}
+              viewConfig={chartViewConfig}
+              blueprintConfig={blueprintConfig}
+              applicationId={applicationId}
+              serviceId={serviceId}
+            />
+          </>
+        )}
+      </ChartViewConfiguratorWithEntitySelection>
+
+      <ExpandableLightCard
+        className={locals.filterListContainer}
+        title={t('in-applications:alert.advancedModeContainer.scope.label')}
+        useMaxAvailableHeight={false}
+        openByDefault
+        bodyWithoutPadding
+        darkFrame
+      >
+        <ReadOnlyAlertEvaluation evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert} />
+        <div className={locals.paddingBodyWrapper}>
+          <div className={locals.alertFiltersWrapper}>
+            <ScopeConfigPresenter
+              tagFilterFormModel={tagFilterFormModel}
+              queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
+              scopePath={
+                <ApplicationScopePath boundaryScope={alertConfig.boundaryScope} applicationName={applicationName} />
+              }
+            />
           </div>
-        </ExpandableCard>
+          <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
+          <ReadOnlyIncludeInternalOrSyntheticCallsSwitch alertConfig={alertConfig} />
+        </div>
+      </ExpandableLightCard>
 
-        <ExpandableCard
-          title={t('in-applications:alert.advancedModeContainer.timeThreshold.label')}
-          useMaxAvailableHeight={false}
-          bodyWithoutPadding
-          openByDefault
-          darkFrame
-        >
-          <TimeThresholdDescription timeThreshold={timeThreshold} />
-        </ExpandableCard>
+      <ExpandableLightCard
+        title={t('in-applications:alert.advancedModeContainer.timeThreshold.label')}
+        useMaxAvailableHeight={false}
+        bodyWithoutPadding
+        openByDefault
+        darkFrame
+      >
+        <TimeThresholdDescription timeThreshold={timeThreshold} />
+      </ExpandableLightCard>
 
-        <ExpandableCard
-          title={t('in-applications:alert.advancedModeContainer.alertChannel.label')}
-          useMaxAvailableHeight={false}
-          bodyWithoutPadding
-          openByDefault
-          darkFrame
-        >
-          <div className={locals.alertChannelsWrapper}>
-            <AlertChannelsViewer alertChannelIds={alertChannelIds} />
-          </div>
-        </ExpandableCard>
+      <ExpandableLightCard
+        title={t('in-applications:alert.advancedModeContainer.alertChannel.label')}
+        useMaxAvailableHeight={false}
+        bodyWithoutPadding
+        openByDefault
+        darkFrame
+      >
+        <div className={locals.alertChannelsWrapper}>
+          <AlertChannelsViewer alertChannelIds={alertChannelIds} />
+        </div>
+      </ExpandableLightCard>
 
-        <ExpandableCard
-          title={t('in-applications:alert.titleAlertProperties')}
-          useMaxAvailableHeight={false}
-          bodyWithoutPadding
-          openByDefault
-          darkFrame
-        >
-          <AlertPropertyInfos
-            alertConfig={alertConfig}
-            renderCustomTitle={() => <AlertTitleWithPlaceholderHighlighting configName={alertConfig.name} />}
-          />
-        </ExpandableCard>
-      </LocallyChangedTheme>
+      <ExpandableLightCard
+        title={t('in-applications:alert.titleAlertProperties')}
+        useMaxAvailableHeight={false}
+        bodyWithoutPadding
+        openByDefault
+        darkFrame
+      >
+        <AlertPropertyInfos
+          alertConfig={alertConfig}
+          renderCustomTitle={() => <AlertTitleWithPlaceholderHighlighting configName={alertConfig.name} />}
+        />
+      </ExpandableLightCard>
     </AlertDetailsCard>
   );
 }

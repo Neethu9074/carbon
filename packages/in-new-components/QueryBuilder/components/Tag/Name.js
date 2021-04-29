@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { toInteractiveElement } from '@instana/components';
+
 import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { compositeRef } from 'in-services/util/react';
 import SvgIcon from 'in-components/SvgIcon';

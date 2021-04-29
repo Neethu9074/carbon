@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useRef } from 'react';
 import classNames from 'classnames';
+
+import { isPrimaryInteractiveElement, isDefaultInteractionTrigger } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import {
   LETTER,
@@ -18,7 +20,6 @@ import Suggestions, {
   translateSuggestionToNewFormModelElement
 } from 'in-new-components/QueryBuilder/components/Spacing/Suggestions';
 import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
-import { isPrimaryInteractiveElement, isDefaultInteractionTrigger } from 'in-new-components/interactiveCustomElement';
 import { and, or, not } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';

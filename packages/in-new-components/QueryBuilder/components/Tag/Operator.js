@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { toInteractiveElement } from '@instana/components';
+
 import OperatorSelectorOverlay from 'in-new-components/QueryBuilder/OperatorSelectorOverlay/OperatorSelectorOverlay';
 import * as operatorLabels from 'in-new-components/QueryBuilder/tagFilter/operatorLabelsMapping';
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { compositeRef } from 'in-services/util/react';
 

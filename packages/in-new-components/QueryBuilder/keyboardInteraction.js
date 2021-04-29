@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { isPrimaryInteractiveElement } from 'in-new-components/interactiveCustomElement';
+import { isPrimaryInteractiveElement } from '@instana/components';
+
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import keyCodes from 'in-components/keyCodes';
 

@@ -7,18 +7,16 @@ import { createMapForm, createField } from 'formalistic';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
+import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
-import ExpandableCard from 'in-new-components/ExpandableCard';
 import FormGroup from 'in-components/form/FormGroup';
 import { sendInvitation } from 'in-api/users';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
-import { light } from 'in-themes/themes';
 import { t } from 'in-i18n';
 
 import locals from './Collaboration.mless';
@@ -43,72 +41,70 @@ export default function Collaboration({ isRestricted, agentKey }) {
   const [isInvitingUser, setIsInvitingUser] = useState(false);
 
   return (
-    <LocallyChangedTheme theme={light}>
-      <ExpandableCard
-        className={locals.card}
-        title={t('in-waiting-for-deployment:needAColleagueToInstallTheInstanaAgent')}
-        framed={false}
-        openByDefault={false}
+    <ExpandableLightCard
+      className={locals.card}
+      title={t('in-waiting-for-deployment:needAColleagueToInstallTheInstanaAgent')}
+      framed={false}
+      openByDefault={false}
+    >
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          onSubmit(form, setForm, form.get('email').value, setIsInvitingUser);
+        }}
       >
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            onSubmit(form, setForm, form.get('email').value, setIsInvitingUser);
-          }}
-        >
-          <div className={locals.flexWrapper}>
-            {form.get('email').map(field => (
-              <Tooltip
-                themeStyle="light"
-                content={
-                  isRestricted ? t('in-waiting-for-deployment:thisWillBeAvailableOnceYourInstanceIsReady') : undefined
-                }
-                align="bottomMiddle"
+        <div className={locals.flexWrapper}>
+          {form.get('email').map(field => (
+            <Tooltip
+              themeStyle="light"
+              content={
+                isRestricted ? t('in-waiting-for-deployment:thisWillBeAvailableOnceYourInstanceIsReady') : undefined
+              }
+              align="bottomMiddle"
+            >
+              <FormGroup
+                className={classNames({
+                  [locals.userInvideFormGroup]: true,
+                  [locals.disabledUserInvideFormGroup]: isRestricted
+                })}
               >
-                <FormGroup
-                  className={classNames({
-                    [locals.userInvideFormGroup]: true,
-                    [locals.disabledUserInvideFormGroup]: isRestricted
-                  })}
-                >
-                  <Label>{t('in-waiting-for-deployment:addAColleagueToYourInstanaAccount')}</Label>
-                  <div className={locals.flexWrapper}>
-                    <Input
-                      className={locals.input}
-                      disabled={isRestricted}
-                      type="email"
-                      placeholder={t('in-waiting-for-deployment:email')}
-                      onChange={e => setEmail(e.target.value)}
-                      value={field.value}
-                      hasError={!field.valid && field.touched}
-                    />
-                    <Button
-                      className={locals.inviteButton}
-                      icon={isInvitingUser ? 'lib_actions_loading' : undefined}
-                      iconSpinning={isInvitingUser}
-                      kind="secondary"
-                      type="submit"
-                      disabled={isRestricted || isInvitingUser}
-                    >
-                      {isInvitingUser ? '' : t('in-waiting-for-deployment:invite')}
-                    </Button>
-                  </div>
-                  <TouchedMessages field={field} />
-                </FormGroup>
-              </Tooltip>
-            ))}
+                <Label>{t('in-waiting-for-deployment:addAColleagueToYourInstanaAccount')}</Label>
+                <div className={locals.flexWrapper}>
+                  <Input
+                    className={locals.input}
+                    disabled={isRestricted}
+                    type="email"
+                    placeholder={t('in-waiting-for-deployment:email')}
+                    onChange={e => setEmail(e.target.value)}
+                    value={field.value}
+                    hasError={!field.valid && field.touched}
+                  />
+                  <Button
+                    className={locals.inviteButton}
+                    icon={isInvitingUser ? 'lib_actions_loading' : undefined}
+                    iconSpinning={isInvitingUser}
+                    kind="secondary"
+                    type="submit"
+                    disabled={isRestricted || isInvitingUser}
+                  >
+                    {isInvitingUser ? '' : t('in-waiting-for-deployment:invite')}
+                  </Button>
+                </div>
+                <TouchedMessages field={field} />
+              </FormGroup>
+            </Tooltip>
+          ))}
 
-            <FormGroup>
-              <Label>{t('in-waiting-for-deployment:sendYourAgentKeyGuideToAColleague')}</Label>
-              <div className={locals.flexWrapper}>
-                <Input className={locals.input} type="text" onChange={() => {}} value={agentKey} />
-                <CopyToClipboardButton kind="secondary" getText={() => agentKey} />
-              </div>
-            </FormGroup>
-          </div>
-        </form>
-      </ExpandableCard>
-    </LocallyChangedTheme>
+          <FormGroup>
+            <Label>{t('in-waiting-for-deployment:sendYourAgentKeyGuideToAColleague')}</Label>
+            <div className={locals.flexWrapper}>
+              <Input className={locals.input} type="text" onChange={() => {}} value={agentKey} />
+              <CopyToClipboardButton kind="secondary" getText={() => agentKey} />
+            </div>
+          </FormGroup>
+        </div>
+      </form>
+    </ExpandableLightCard>
   );
 }
 

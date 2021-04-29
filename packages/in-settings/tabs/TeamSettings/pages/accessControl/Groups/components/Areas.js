@@ -26,11 +26,9 @@ import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Li, Ul } from 'in-new-components/lists/List';
-import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import { success } from 'in-services/util/result';
 import Button from 'in-new-components/Button';
-import { light } from 'in-themes/themes';
 import { t } from 'in-i18n';
 
 import locals from './Areas.mless';
@@ -39,39 +37,37 @@ export default function Areas({ update, permissionSet, removeId, removeDfq, read
   const [page, setPage] = useState(1);
 
   return (
-    <LocallyChangedTheme theme={light}>
-      <ListInsideACardRenderer
-        itemName="Area"
-        page={page}
-        setPage={setPage}
-        update={update}
-        ListRenderer={readOnly ? ReadOnlyListRenderer : ListRenderer}
-        itemsResult={success(
-          [
-            ...mapApplications(permissionSet.applicationIds, id => ({
-              delete: () => removeId(id, 'applicationIds')
-            })),
-            ...mapKubernetesClusters(permissionSet.kubernetesClusterUUIDs, id => ({
-              delete: () => removeId(id, 'kubernetesClusterUUIDs')
-            })),
-            ...mapKubernetesNamespaces(permissionSet.kubernetesNamespaceUIDs, id => ({
-              delete: () => removeId(id, 'kubernetesNamespaceUIDs')
-            })),
-            ...mapWebsites(permissionSet.websiteIds, id => ({
-              delete: () => removeId(id, 'websiteIds')
-            })),
-            ...mapMobileApps(permissionSet.mobileAppIds, id => ({
-              delete: () => removeId(id, 'mobileAppIds')
-            })),
-            mapInfraDfq(permissionSet.infraDfqFilter, () => ({
-              delete: removeDfq
-            }))
-          ].filter(Boolean)
-        )}
-        infraDfqFilter={permissionSet.infraDfqFilter}
-        renderAdditionalHeaderContent={readOnly ? null : renderAdditionalHeaderContent}
-      />
-    </LocallyChangedTheme>
+    <ListInsideACardRenderer
+      itemName="Area"
+      page={page}
+      setPage={setPage}
+      update={update}
+      ListRenderer={readOnly ? ReadOnlyListRenderer : ListRenderer}
+      itemsResult={success(
+        [
+          ...mapApplications(permissionSet.applicationIds, id => ({
+            delete: () => removeId(id, 'applicationIds')
+          })),
+          ...mapKubernetesClusters(permissionSet.kubernetesClusterUUIDs, id => ({
+            delete: () => removeId(id, 'kubernetesClusterUUIDs')
+          })),
+          ...mapKubernetesNamespaces(permissionSet.kubernetesNamespaceUIDs, id => ({
+            delete: () => removeId(id, 'kubernetesNamespaceUIDs')
+          })),
+          ...mapWebsites(permissionSet.websiteIds, id => ({
+            delete: () => removeId(id, 'websiteIds')
+          })),
+          ...mapMobileApps(permissionSet.mobileAppIds, id => ({
+            delete: () => removeId(id, 'mobileAppIds')
+          })),
+          mapInfraDfq(permissionSet.infraDfqFilter, () => ({
+            delete: removeDfq
+          }))
+        ].filter(Boolean)
+      )}
+      infraDfqFilter={permissionSet.infraDfqFilter}
+      renderAdditionalHeaderContent={readOnly ? null : renderAdditionalHeaderContent}
+    />
   );
 }
 

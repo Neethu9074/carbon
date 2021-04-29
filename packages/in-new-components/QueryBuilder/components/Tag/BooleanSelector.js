@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
+import { toInteractiveElement } from '@instana/components';
+
 import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import Overlay from 'in-new-components/overlays/Overlay';

@@ -3,15 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import useResizeObserver from 'in-hooks/useResizeObserver';
-import WithActiveTheme from 'in-themes/WithActiveTheme';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
@@ -65,48 +65,43 @@ export default function KpiCard({
   }
 
   return (
-    <WithActiveTheme>
-      {theme => (
-        <div
-          className={classNames({
-            [locals.wrapper]: true,
-            [locals[theme]]: true,
-            [locals.borderless]: borderless,
-            [locals.useMaxAvailableHeight]: useMaxAvailableHeight
-          })}
-        >
-          <div className={locals.title} ref={ref}>
-            <>{title}</>
-            {iconAction && (
-              <div
-                className={classNames({
-                  [locals.actionWrapper]: true,
-                  [locals.showLongVariantOnHover]: width > 300
-                })}
-              >
-                <Tooltip content={iconAction.text}>
-                  <Link href$={iconAction.href$}>
-                    <SvgIcon className={locals.actionIcon} type={iconAction.icon} onClick={iconAction.onClick} />
-                  </Link>
-                </Tooltip>
-                <Button
-                  className={locals.action}
-                  icon={iconAction.icon}
-                  href$={iconAction.href$}
-                  onClick={iconAction.onClick}
-                  kind={iconAction.kind}
-                >
-                  {iconAction.text}
-                </Button>
-              </div>
-            )}
+    <div
+      className={classNames({
+        [locals.wrapper]: true,
+        [locals.borderless]: borderless,
+        [locals.useMaxAvailableHeight]: useMaxAvailableHeight
+      })}
+    >
+      <div className={locals.title} ref={ref}>
+        <>{title}</>
+        {iconAction && (
+          <div
+            className={classNames({
+              [locals.actionWrapper]: true,
+              [locals.showLongVariantOnHover]: width > 300
+            })}
+          >
+            <Tooltip content={iconAction.text}>
+              <Link href$={iconAction.href$}>
+                <SvgIcon className={locals.actionIcon} type={iconAction.icon} onClick={iconAction.onClick} />
+              </Link>
+            </Tooltip>
+            <Button
+              className={locals.action}
+              icon={iconAction.icon}
+              href$={iconAction.href$}
+              onClick={iconAction.onClick}
+              kind={iconAction.kind}
+            >
+              {iconAction.text}
+            </Button>
           </div>
-          {content}
-          {companionValue && <span className={locals.companion}>{companionValue}</span>}
-          {actions && <div className={locals.actions}>{actions}</div>}
-        </div>
-      )}
-    </WithActiveTheme>
+        )}
+      </div>
+      {content}
+      {companionValue && <span className={locals.companion}>{companionValue}</span>}
+      {actions && <div className={locals.actions}>{actions}</div>}
+    </div>
   );
 }
 

@@ -7,7 +7,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
+import { toInteractiveElement } from '@instana/components';
+
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 
 import locals from './LightCard.mless';

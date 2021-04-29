@@ -7,11 +7,12 @@ import { compose, withState } from 'recompose';
 import classNames from 'classnames';
 import React from 'react';
 
+import { toInteractiveElement } from '@instana/components';
+
 import BackendTraceButton from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendTraceButton';
 import HeaderToggleIcon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/TypeHeader';
 import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
-import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import { HighlightedEffect } from 'in-new-components/SelectedElementHighlighter';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
