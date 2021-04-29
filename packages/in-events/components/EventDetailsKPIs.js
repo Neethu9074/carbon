@@ -178,7 +178,7 @@ const Severity = connectTo(
     };
   },
   function Severity({ severity, isChangeEvent }) {
-    if (isChangeEvent) {
+    if (isChangeEvent && severity === '') {
       return null;
     }
     return (

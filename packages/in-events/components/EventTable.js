@@ -8,8 +8,8 @@ import { findIndex } from 'lodash';
 import React from 'react';
 
 import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
+import { getEventType, EVENT_TYPES, getEvent, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { getEventType, EVENT_TYPES, getEvent } from 'in-stores/events';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -181,5 +181,12 @@ function hasServiceImpact(event) {
 }
 
 function renderIcon(event) {
-  return <EventIcon className={locals.icon} event={event} size="l" />;
+  return (
+    <EventIcon
+      className={locals.icon}
+      event={event}
+      tooltipLabel={getEventSeverityLabelWithEventType(event)}
+      size="l"
+    />
+  );
 }

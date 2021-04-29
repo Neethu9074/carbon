@@ -231,6 +231,32 @@ export function getEventSeverityLabel(event) {
   }
 }
 
+export function getEventSeverityLabelWithEventType(event) {
+  const isImmutableObject = !!event.get;
+  const eventType = isImmutableObject ? event.get('type') : event.type;
+  const eventTitle = isImmutableObject ? event.get('title') : event.title;
+  const problemText = isImmutableObject
+    ? event.getIn(['problem', 'problemText'])
+    : get(event, ['problem', 'problemText'], '');
+  const severityLabel = getEventSeverityLabel(event);
+  switch (eventType) {
+    case 'incident':
+      return severityLabel + ' ' + t('in-events:labelIncident');
+    case 'issue':
+      return severityLabel + ' ' + t('in-events:labelIssue');
+    case 'change':
+      if (eventTitle === 'offline' || problemText === 'offline') {
+        return t('in-events:labelOffline');
+      } else if (eventTitle === 'online' || problemText === 'online') {
+        return t('in-events:labelOnline');
+      } else {
+        return t('in-events:labelChange');
+      }
+    default:
+      return severityLabel;
+  }
+}
+
 export function getEventType(event) {
   const isImmutableObject = !!event.get;
   const eventType = isImmutableObject ? event.get('type') : event.type;
