@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest, create } from '@instana/observables';
 import React from 'react';
+
+import { combineLatest, create } from '@instana/observables';
 
 import {
   applicationIdsToDfq,
@@ -40,7 +41,7 @@ export default class FormDataEnrichment extends React.Component {
   matchingEntitesSubscription = null;
   validationResultSubscription = null;
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     const debouncedQuery = this.queryInput.debounce(1000);
     this.emitAllInputs(this.props.form);
     this.setUpMatchingEntitesSubscription(debouncedQuery);
@@ -141,9 +142,9 @@ export default class FormDataEnrichment extends React.Component {
     );
   }
 
-  UNSAFE_componentWillUpdate(nextProps) {
-    startValidationInProgress(nextProps.setForm, nextProps.form);
-    this.emitAllInputs(nextProps.form);
+  componentDidUpdate() {
+    startValidationInProgress(this.props.setForm, this.props.form);
+    this.emitAllInputs(this.props.form);
   }
 
   componentWillUnmount() {
