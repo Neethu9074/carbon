@@ -154,7 +154,7 @@ function Results({
           <Button
             className={locals.addAsGroup}
             kind="action"
-            href={getHrefToGroupedView(tag)}
+            href={getHrefToGroupedView({ tag })}
             onClick={() => tracker.groupClicked({ dataSource, tagName: tag })}
           >
             {t('in-new-components:analyze.addAsGroup')}

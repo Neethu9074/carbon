@@ -294,10 +294,12 @@ function AnalyzeStateManagement({
         detailId: null
       });
     },
-    getHrefToGroupedView(groupValue) {
+    getHrefToGroupedView({ tag, tagEntity, secondLevelKey }) {
       return getChangeAsUrl({
         groupBy: {
-          groupbyTag: groupValue
+          groupbyTag: tag,
+          groupbyTagSecondLevelKey: secondLevelKey,
+          ...(tagEntity && { groupbyTagEntity: tagEntity })
         }
       });
     },

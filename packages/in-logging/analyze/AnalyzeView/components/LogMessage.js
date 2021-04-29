@@ -4,17 +4,20 @@
  */
 
 import React, { useMemo } from 'react';
+import classNames from 'classnames';
 
 import { toChunks, MESSAGE_CHUNK } from 'in-logging/analyze/AnalyzeView/components/templateString';
 import { logMessageParameterClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { compareIgnoreCase } from 'in-services/util/string';
-import Link from 'in-components/Link';
+import Overlay from 'in-new-components/overlays/Overlay';
+import { Li, Ul } from 'in-new-components/lists/List';
+import { t } from 'in-i18n';
 
 import locals from './LogMessage.mless';
 
-export default function LogMessage({ tags, message, getHrefWithAdditionalTagFilter }) {
+export default function LogMessage({ tags, message, getHrefWithAdditionalTagFilter, getHrefToGroupedView }) {
   const filledMessage = useMemo(() => {
     const paramTags = tags
       .filter(({ key }) => key && key.indexOf('_msg_param') === 0)
@@ -26,12 +29,17 @@ export default function LogMessage({ tags, message, getHrefWithAdditionalTagFilt
           type === MESSAGE_CHUNK ? (
             <MessageTag key={i} message={value} />
           ) : (
-            <ParamTag key={i} tag={value} getHrefWithAdditionalTagFilter={getHrefWithAdditionalTagFilter} />
+            <ParamTag
+              key={i}
+              tag={value}
+              getHrefWithAdditionalTagFilter={getHrefWithAdditionalTagFilter}
+              getHrefToGroupedView={getHrefToGroupedView}
+            />
           )
         )}
       </>
     );
-  }, [message, tags, getHrefWithAdditionalTagFilter]);
+  }, [message, tags, getHrefWithAdditionalTagFilter, getHrefToGroupedView]);
 
   return filledMessage;
 }
@@ -48,23 +56,56 @@ function MessageTag({ message }) {
   return <span className={locals.message}>{message}</span>;
 }
 
-function ParamTag({ tag, getHrefWithAdditionalTagFilter }) {
+function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView }) {
   const value = tag.stringValue ?? tag.doubleValue ?? tag.booleanValue ?? tag.longValue;
+
   if (getHrefWithAdditionalTagFilter) {
     return (
-      <Link
-        className={locals.parameter}
-        href={getHrefWithAdditionalTagFilter(
-          getTagExpressionWithTag({
-            name: tag.name,
-            value,
-            key: tag.key
-          })
+      <Overlay
+        align="bottomLeft"
+        content={() => (
+          <Ul className={locals.list}>
+            <Li
+              className={locals.listItem}
+              href={getHrefWithAdditionalTagFilter(
+                getTagExpressionWithTag({
+                  name: tag.name,
+                  value,
+                  key: tag.key
+                })
+              )}
+              onDefaultHrefInteractionSideEffect={() =>
+                logMessageParameterClicked({ name: tag.name, key: tag.key, value })
+              }
+            >
+              {t('in-logging:addAsFilter')}
+            </Li>
+            <Li
+              className={locals.listItem}
+              href={getHrefToGroupedView({ tag: tag.name, secondLevelKey: tag.key })}
+              onDefaultHrefInteractionSideEffect={() =>
+                logMessageParameterClicked({ name: tag.name, key: tag.key, value })
+              }
+            >
+              {t('in-logging:addAsGroup')}
+            </Li>
+          </Ul>
         )}
-        onClick={() => logMessageParameterClicked({ name: tag.name, key: tag.key, value })}
+        withoutWrapper
       >
-        {value}
-      </Link>
+        {({ toggle, refSetter, isOpen }) => (
+          <span
+            className={classNames({
+              [locals.parameter]: true,
+              [locals.parameterOpen]: isOpen
+            })}
+            onClick={toggle}
+            ref={refSetter}
+          >
+            {value}
+          </span>
+        )}
+      </Overlay>
     );
   }
   return <span className={locals.parameter}>{value}</span>;
