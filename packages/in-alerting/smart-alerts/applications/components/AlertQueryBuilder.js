@@ -13,6 +13,7 @@ import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 import { CALLS } from 'in-applications/analyze/metrics';
+import { isIdTag } from 'in-applications/tags';
 
 const { QueryBuilder: AlertQueryBuilder, isQueryValid } = createQueryBuilder({
   getTagCatalog: props => getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SMART_ALERTS' })(props),
@@ -35,16 +36,18 @@ export function createBoundedAlertQueryBuilder(applicationIds, boundaryScope, cu
   const { QueryBuilder } = createQueryBuilder({
     getTagCatalog: props => getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SMART_ALERTS' })(props),
     getSuggestions: args =>
-      getTagSuggestions({
-        ...tagSuggestionArgs(args, customTimeConfig),
-        tagFilterExpression: createTagFilterExpression(OPERATOR_AND, [
-          createTagFilterExpression(
-            OPERATOR_OR,
-            applicationIds.map(id => getApplicationIdTagFilter(boundaryScope, id)) // The backend handles cases with less than two applicationIds just fine.
-          ),
-          args.tagFilterExpression
-        ])
-      })
+      isIdTag(args.name)
+        ? null
+        : getTagSuggestions({
+            ...tagSuggestionArgs(args, customTimeConfig),
+            tagFilterExpression: createTagFilterExpression(OPERATOR_AND, [
+              createTagFilterExpression(
+                OPERATOR_OR,
+                applicationIds.map(id => getApplicationIdTagFilter(boundaryScope, id)) // The backend handles cases with less than two applicationIds just fine.
+              ),
+              args.tagFilterExpression
+            ])
+          })
   });
   return QueryBuilder;
 }
