@@ -14,10 +14,18 @@ import TagList from 'in-logging/analyze/AnalyzeView/components/TagList';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useResizeObserver from 'in-hooks/useResizeObserver';
+import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './LogMessageColumn.mless';
 
-export default function LogMessageColumn({ tags, message, selectedTags, getHrefWithAdditionalTagFilter }) {
+export default function LogMessageColumn({
+  tags,
+  message,
+  selectedTags,
+  getHrefToGroupedView,
+  getHrefWithAdditionalTagFilter
+}) {
   const onSelectTagHref = tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag));
   const tagListTags = tags.filter(({ name }) => selectedTags.indexOf(name) >= 0);
 
@@ -45,7 +53,12 @@ export default function LogMessageColumn({ tags, message, selectedTags, getHrefW
           })}
           ref={messageRef}
         >
-          <LogMessage tags={tags} message={message} getHrefWithAdditionalTagFilter={getHrefWithAdditionalTagFilter} />
+          <LogMessage
+            tags={tags}
+            message={message}
+            getHrefWithAdditionalTagFilter={getHrefWithAdditionalTagFilter}
+            getHrefToGroupedView={getHrefToGroupedView}
+          />
         </span>
 
         <div>
@@ -79,5 +92,9 @@ function getTagExpressionWithTag(tag) {
 
 function TraceIcon({ tags }) {
   const traceId = tags.filter(({ name }) => name === 'log.traceId')[0]?.stringValue;
-  return traceId ? <IconButton type="lib_application_trace" href$={getLinkToTraceDetail(traceId)} /> : null;
+  return traceId ? (
+    <Tooltip content={t('in-logging:goToTrace')}>
+      <IconButton type="lib_application_trace" href$={getLinkToTraceDetail(traceId)} />
+    </Tooltip>
+  ) : null;
 }

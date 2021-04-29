@@ -4,8 +4,9 @@
  */
 
 import React, { useMemo, useState } from 'react';
-import { useObservable } from '@instana/hooks';
 import rpt from 'prop-types';
+
+import { useObservable } from '@instana/hooks';
 
 import { TAG, CONJUNCTION, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS, IS_EMPTY, NOT_EMPTY, IS_BLANK } from 'in-new-components/QueryBuilder/tagFilter/operators';
@@ -325,11 +326,12 @@ function AnalyzeStateManagement({
         detailId: null
       });
     },
-    getHrefToGroupedView(groupValue, groupbyTagEntity) {
+    getHrefToGroupedView({ tag, tagEntity, secondLevelKey }) {
       return getChangeAsUrl({
         groupBy: {
-          groupbyTag: groupValue,
-          ...(groupbyTagEntity && { groupbyTagEntity })
+          groupbyTag: tag,
+          groupbyTagSecondLevelKey: secondLevelKey,
+          ...(tagEntity && { groupbyTagEntity: tagEntity })
         }
       });
     },

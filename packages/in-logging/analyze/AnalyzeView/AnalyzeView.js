@@ -105,7 +105,7 @@ function getLabel(item) {
 function getFacetedSearchSuggestions({ timeConfig, backendQueryModel, group, cursor }) {
   return getLogGroups({
     timeConfig,
-    groupBy: group.groupbyTag,
+    group,
     tagFilterExpression: backendQueryModel,
     pagination: {
       cursor,
