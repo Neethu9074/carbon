@@ -371,7 +371,7 @@
     "discoveryURL": "Discovery URL",
     "secret": "Secret",
     "clientSetup": "Client setup",
-    "clientSetupDescription": "This option covers the case where your IdP doesn't allow the upload of our metadata. Your IdP will require the creation of an OIDC client and manually entering the required values. The values required to connect to Instana are as follows:",
+    "clientSetupDescription": "Your IdP will require the creation of an OIDC client and manually entering the required values. The values required to connect to Instana are as follows:",
     "redirectUrl": "Redirect URL",
     "endSessionUrl": "End Session URL",
     "useUploadIdpMetaDataBelow": "Use 'Upload IdP Metadata' below to deliver the file to Instana",
