@@ -19,12 +19,12 @@ export default function ApiList({ deleteItem, itemName, getItems, boundedPath, o
   const [{ query, page }, setState] = useUrlState({
     bind: [
       {
-        path: boundedPath ?? '',
+        path: boundedPath ?? '/',
         name: 'query',
         initialState: ''
       },
       {
-        path: boundedPath ?? '',
+        path: boundedPath ?? '/',
         name: 'page',
         initialState: 1,
         parser: intParser
