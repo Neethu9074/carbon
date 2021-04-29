@@ -38,11 +38,11 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
       const effects = [
         {
           path: ['logins', 'octocat'],
-          effect: dontExecute
+          effects: [dontExecute]
         },
         {
           path: ['logins', 'stan'],
-          effect: execute
+          effects: [execute]
         }
       ];
 
@@ -59,7 +59,7 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
       const effects = [
         {
           path: ['logins'],
-          effect: execute
+          effects: [execute]
         }
       ];
 
@@ -70,11 +70,29 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
       expect(execute.callCount).to.equal(1);
     });
 
+    it('can execute multiple effects per changed path', () => {
+      const e1 = sinon.fake();
+      const e2 = sinon.fake();
+      const effects = [
+        {
+          path: ['logins'],
+          effects: [e1, e2]
+        }
+      ];
+
+      const updateForm = useFormSideEffects(form, sinon.fake(), effects);
+
+      updateForm(form.updateIn(['logins', 'stan'], f => f.setValue(101)));
+
+      expect(e1.callCount).to.equal(1);
+      expect(e2.callCount).to.equal(1);
+    });
+
     it('side effects can alter the form', () => {
       const effects = [
         {
           path: ['logins', 'stan'],
-          effect: form => form.updateIn(['logins', 'octocat'], f => f.setValue(5))
+          effects: [form => form.updateIn(['logins', 'octocat'], f => f.setValue(5))]
         }
       ];
 
@@ -93,11 +111,11 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
       const effects = [
         {
           path: ['logins'],
-          effect: updateTotalLogins
+          effects: [updateTotalLogins]
         },
         {
           path: ['totalLogins'],
-          effect: dontExecute
+          effects: [dontExecute]
         }
       ];
 
@@ -115,10 +133,10 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
       const effects = [
         {
           path: [],
-          effect: execute
+          effects: [execute]
         },
         {
-          effect: execute2
+          effects: [execute2]
         }
       ];
 
@@ -135,10 +153,10 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
       const effects = [
         {
           path: [],
-          effect: execute
+          effects: [execute]
         },
         {
-          effect: execute
+          effects: [execute]
         }
       ];
 
@@ -155,10 +173,10 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
       const effects = [
         {
           path: [],
-          effect: execute
+          effects: [execute]
         },
         {
-          effect: execute
+          effects: [execute]
         }
       ];
 

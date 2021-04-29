@@ -14,7 +14,7 @@ import diff from 'deep-diff';
  * @param {function(MapForm|ListForm)} setForm The function to commit form updates application state
  * @param {Object[]} effects Effects to execute on form updates
  * @param {string[]} [effects[].path] Optionally filters executions of the effect to changes in or below this path
- * @param {function(MapForm|ListForm): [(MapForm|ListForm)]} effects[].effect The effect to execute
+ * @param {function(MapForm|ListForm): [(MapForm|ListForm)]} effects[].effects The list of effects to execute
  * @returns {function((MapForm|ListForm))} Wrapped form updated handler to use instead of setForm
  */
 export default function useFormSideEffects(form, setForm, effects = []) {
@@ -24,14 +24,10 @@ export default function useFormSideEffects(form, setForm, effects = []) {
     const effectsToExecute = uniq(
       findUpdatedPaths(form.toJS(), updatedForm.toJS()).flatMap(p => findEffectsForPath(p, effects))
     );
-    updatedForm = combineEffects(effectsToExecute)(updatedForm);
+    updatedForm = effectsToExecute.reduce((f, effect) => effect(f) || f, updatedForm);
 
     setForm(updatedForm);
   };
-}
-
-export function combineEffects(effects) {
-  return form => effects.reduce((f, effect) => effect(f) || f, form);
 }
 
 function findUpdatedPaths(previousData, updatedData) {
@@ -39,5 +35,5 @@ function findUpdatedPaths(previousData, updatedData) {
 }
 
 function findEffectsForPath(path, effects) {
-  return effects.filter(({ path: p = [] }) => isEqual(p, path.slice(0, p.length))).map(({ effect }) => effect);
+  return effects.filter(({ path: p = [] }) => isEqual(p, path.slice(0, p.length))).flatMap(({ effects }) => effects);
 }

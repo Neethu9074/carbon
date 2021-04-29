@@ -4,49 +4,49 @@
  */
 
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleForm';
-import useFormSideEffects, { combineEffects } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
+import useFormSideEffects from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
 
 export default function useSmartAlertFormSideEffects(form, setForm) {
   const effects = [
     {
       path: ['boundaryScope'],
-      effect: requestThresholdSuggestion
+      effects: [requestThresholdSuggestion]
     },
     {
       path: ['includeInternal'],
-      effect: requestThresholdSuggestion
+      effects: [requestThresholdSuggestion]
     },
     {
       path: ['includeSynthetic'],
-      effect: requestThresholdSuggestion
+      effects: [requestThresholdSuggestion]
     },
     {
       path: ['applications'],
-      effect: requestThresholdSuggestion
+      effects: [requestThresholdSuggestion]
     },
     {
       path: ['tagFilterExpression'],
-      effect: requestThresholdSuggestion
+      effects: [requestThresholdSuggestion]
     },
     {
       path: ['rule', 'alertType'],
-      effect: resetThreshold
+      effects: [resetThreshold]
     },
     {
       path: ['rule', 'metricName'],
-      effect: resetThreshold
+      effects: [resetThreshold]
     },
     {
       path: ['rule'],
-      effect: requestThresholdSuggestion
+      effects: [requestThresholdSuggestion]
     },
     {
       path: ['threshold', 'seasonality'],
-      effect: combineEffects([requestThresholdSuggestion, validateAggregation])
+      effects: [requestThresholdSuggestion, validateAggregation]
     },
     {
       path: ['granularity'],
-      effect: requestThresholdSuggestion
+      effects: [requestThresholdSuggestion]
     }
   ];
 
