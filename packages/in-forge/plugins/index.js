@@ -49,6 +49,7 @@ import './googleCloudDatastore';
 import './kubernetesDeployment';
 import './kubernetesReplicaSet';
 import './azureSqlElasticPool';
+import './ibmCloudEventStream';
 import './ibmDataPowerCluster';
 import './ibmDataPowerService';
 import './kafkaConnectCluster';
