@@ -11,14 +11,7 @@ export default [
   {
     metric: getDynamicMetricMatch('instances', 'app_container_age', 'Container'),
     label: t('in-forge:plugins.ibmCloudFoundry.age'),
-    category: ['Disk'],
-    min: 0,
-    formatter: millis
-  },
-  {
-    metric: getDynamicMetricMatch('instances', 'app_container_starttime', 'Container'),
-    label: t('in-forge:plugins.ibmCloudFoundry.startedAt'),
-    category: ['Disk'],
+    category: ['Container'],
     min: 0,
     formatter: millis
   },

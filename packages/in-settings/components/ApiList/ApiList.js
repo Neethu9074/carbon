@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import { DefaultListRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
@@ -19,12 +20,12 @@ export default function ApiList({ deleteItem, itemName, getItems, boundedPath, o
   const [{ query, page }, setState] = useUrlState({
     bind: [
       {
-        path: boundedPath ?? '',
+        path: boundedPath ?? '/',
         name: 'query',
         initialState: ''
       },
       {
-        path: boundedPath ?? '',
+        path: boundedPath ?? '/',
         name: 'page',
         initialState: 1,
         parser: intParser
