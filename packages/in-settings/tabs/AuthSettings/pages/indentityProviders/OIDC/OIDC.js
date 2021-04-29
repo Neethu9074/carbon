@@ -154,6 +154,28 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                 </Col>
               </Row>
 
+              <Row>
+                <Col xs={12}>
+                  {form.get('secret').map(secretField => (
+                    <FormGroup>
+                      <Label htmlFor="secret" hasError={!secretField.valid && secretField.touched}>
+                        {t('in-settings:tabs.secret')}
+                      </Label>
+                      <Input
+                        className={locals.input}
+                        type="password"
+                        id="secret"
+                        value={secretField.value}
+                        onChange={e => {
+                          setForm(form.updateIn(['secret'], f => f.setValue(e.target.value).setTouched(true)));
+                        }}
+                        autoComplete="off"
+                      />
+                    </FormGroup>
+                  ))}
+                </Col>
+              </Row>
+
               <Row className={indentityProvidersLocals.row}>
                 <Col xs={12}>
                   {form.get('ownerEmail').map(field => (
@@ -208,25 +230,6 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                       value={field.value}
                       onChange={e => {
                         setForm(form.updateIn(['discoveryUri'], f => f.setValue(e.target.value).setTouched(true)));
-                      }}
-                      disabled={!!file} // this input is disabled when a metadata file has been upload
-                      autoComplete="off"
-                    />
-                  </FormGroup>
-                ))}
-
-                {form.get('secret').map(secretField => (
-                  <FormGroup>
-                    <Label htmlFor="secret" hasError={!secretField.valid && secretField.touched}>
-                      {t('in-settings:tabs.secret')}
-                    </Label>
-                    <Input
-                      className={locals.input}
-                      type="password"
-                      id="secret"
-                      value={secretField.value}
-                      onChange={e => {
-                        setForm(form.updateIn(['secret'], f => f.setValue(e.target.value).setTouched(true)));
                       }}
                       disabled={!!file} // this input is disabled when a metadata file has been upload
                       autoComplete="off"
