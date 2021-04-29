@@ -4,11 +4,11 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { Card } from '@instana/components';
 import React, { useMemo } from 'react';
 import rpt from 'prop-types';
 
 import { serverTime$ } from 'in-stores/serverTime';
-import Card from 'in-new-components/Card';
 
 import locals from './Widget.mless';
 

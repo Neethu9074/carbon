@@ -4,6 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/components';
 import React from 'react';
 
 import { fromBackendModel, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -24,7 +25,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getTagType } from 'in-applications/tags';
 import Tooltip from 'in-components/Tooltip';
-import Link from 'in-components/Link';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

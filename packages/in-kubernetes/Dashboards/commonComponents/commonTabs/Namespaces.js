@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import { get, find } from 'lodash';
 import React from 'react';
 
@@ -21,7 +22,6 @@ import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaPercentage } from 'in-kubernetes/formatters';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { getInfraGranularity } from 'in-stores/metric/metric';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 const pathSegment = '/namespaces';

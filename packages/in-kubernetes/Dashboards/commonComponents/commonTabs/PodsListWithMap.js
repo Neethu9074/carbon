@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import { compose } from 'recompose';
 import React from 'react';
 
@@ -14,7 +15,6 @@ import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
 import ServerTreeMap from 'in-new-components/TreeMap/ServerTreeMap';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { getInfraGranularity } from 'in-stores/metric/metric';
-import Card from 'in-new-components/Card';
 
 export default compose(
   withUrlDependingState({

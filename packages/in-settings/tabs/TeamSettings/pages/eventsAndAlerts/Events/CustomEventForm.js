@@ -5,6 +5,7 @@
 
 import { compose, lifecycle, withState } from 'recompose';
 import { create, just } from '@instana/observables';
+import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 import { isEqual } from 'lodash';
@@ -83,7 +84,6 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
 import { validate } from 'in-api/search';
-import Link from 'in-components/Link';
 import { t, Trans } from 'in-i18n';
 
 import locals from './CustomEventForm.mless';

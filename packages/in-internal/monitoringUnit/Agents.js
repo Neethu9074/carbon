@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -16,7 +17,6 @@ import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import search from 'in-subscription/search';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 const cols = [

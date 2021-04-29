@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import { physicalPath } from 'in-stores/navigation/paths/mainPaths';
 import { goToPath } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
 import Button from 'in-new-components/Button';
-import Link from 'in-components/Link';
 import { Trans } from 'in-i18n';
 import { t } from 'in-i18n';
 

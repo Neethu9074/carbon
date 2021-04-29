@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -38,9 +40,7 @@ import Footer from 'in-new-components/Footer';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
-import Card from 'in-new-components/Card';
 import Title from 'in-components/Title';
-import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

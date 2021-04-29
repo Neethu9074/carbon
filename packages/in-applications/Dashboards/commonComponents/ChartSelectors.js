@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
@@ -12,7 +13,6 @@ import DropdownButton from 'in-new-components/Button/DropdownButton';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import useUrlState from 'in-hooks/useUrlState';
-import Card from 'in-new-components/Card';
 
 import locals from './ChartSelectors.mless';
 

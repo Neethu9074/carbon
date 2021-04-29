@@ -4,6 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { Card } from '@instana/components';
 import React from 'react';
 
 import AnalyzeLogsButton from 'in-analyze/TraceDetail/components/LogDetails/components/AnalyzeLogsButton';
@@ -16,7 +17,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import getLog from 'in-logging/subscriptions/getLog';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 import locals from './LogDetails.mless';

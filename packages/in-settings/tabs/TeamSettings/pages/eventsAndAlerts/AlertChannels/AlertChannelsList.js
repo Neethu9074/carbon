@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -13,7 +14,6 @@ import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import Tooltip from 'in-components/Tooltip';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './AlertChannelsList.mless';

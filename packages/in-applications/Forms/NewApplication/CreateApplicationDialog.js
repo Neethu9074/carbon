@@ -5,6 +5,7 @@
 
 import { createField, createMapForm, createListForm } from 'formalistic';
 import { just } from '@instana/observables';
+import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import { get } from 'lodash';
@@ -44,7 +45,6 @@ import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Pill from 'in-new-components/Pill';
-import Card from 'in-new-components/Card';
 import { Trans, t } from 'in-i18n';
 
 import locals from './CreateApplicationDialog.mless';

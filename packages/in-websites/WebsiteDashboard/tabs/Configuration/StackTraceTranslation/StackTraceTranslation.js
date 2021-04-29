@@ -10,7 +10,7 @@ import FileDownloadConfigurationDialog from 'in-websites/WebsiteDashboard/tabs/C
 import { getSourceMapConfigurations, removeSourceMapConfiguration } from 'in-websites/api/websites';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
+import LearnMoreCard from 'in-websites/LearnMoreCard/LearnMoreCard';
 import TemporaryMessage from 'in-components/TemporaryMessage';
 import { isNotBlank } from 'in-services/util/string';
 import Button from 'in-new-components/Button';

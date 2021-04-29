@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -20,7 +21,6 @@ import { role, isInstanaEmail } from 'in-stores/user';
 import { timeConfig$ } from 'in-stores/time/config';
 import Footer from 'in-new-components/Footer';
 import { config } from 'in-services/config';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

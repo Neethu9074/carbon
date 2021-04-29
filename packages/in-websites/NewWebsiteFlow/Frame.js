@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
-
-import Card from 'in-new-components/Card';
 
 import locals from './Frame.mless';
 

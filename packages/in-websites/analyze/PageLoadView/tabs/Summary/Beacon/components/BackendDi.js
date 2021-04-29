@@ -4,6 +4,7 @@
  */
 
 import { combineLatest } from '@instana/observables';
+import { Link } from '@instana/components';
 import React from 'react';
 
 import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackendTraces';
@@ -14,7 +15,6 @@ import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { Di } from 'in-new-components/HorizontalDescriptionList';
 import Tooltip from 'in-components/Tooltip';
 import connect from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 export default connect(({ beacon }) => ({

@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import SvgIcon, { sizes as iconSizes } from 'in-components/SvgIcon/SvgIcon';
-import { useObservableConfig } from 'in-components/Link/Link';
+import { useObservableConfig } from 'in-new-components/Button/Button';
 
 import locals from './IconButton.mless';
 

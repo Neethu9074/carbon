@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import semver from 'semver';
 import React from 'react';
 
@@ -13,7 +14,6 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import MetricValue from 'in-components/MetricValue';
-import Link from 'in-components/Link';
 import { Trans, t } from 'in-i18n';
 
 export default function HttpdDashboard({ snapshot, timeConfig }) {

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 import { get, find } from 'lodash';
 
@@ -20,7 +21,6 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { timeConfig$ } from 'in-stores/time/config';
 import SvgIcon from 'in-components/SvgIcon';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';

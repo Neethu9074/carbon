@@ -4,6 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { Card } from '@instana/components';
 import { get } from 'lodash';
 import moment from 'moment';
 import React from 'react';
@@ -27,7 +28,6 @@ import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/SliConfigInfo';
 import getApplication from 'in-subscription/application/getApplication';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { getSliConfiguration } from 'in-custom-dashboards/api';
-import LightCardV2 from 'in-new-components/Card/LightCardV2';
 import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
 import { pendingResult } from 'in-services/fixedObjects';
 import Message from 'in-new-components/Message/Message';
@@ -92,7 +92,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   const budget = findResultMetric(result, 'budget', result)?.[0][1];
 
   return (
-    <LightCardV2
+    <Card
       bodyClassName={locals.bodyNoPadding}
       header={
         <>
@@ -131,7 +131,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
           disableZooming={isFixed || isRolling}
         />
       </div>
-    </LightCardV2>
+    </Card>
   );
 }
 

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 
 import {
@@ -18,7 +19,6 @@ import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import { getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

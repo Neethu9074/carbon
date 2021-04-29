@@ -6,7 +6,7 @@
 import React from 'react';
 
 import Button from 'in-new-components/Button';
-import Card from 'in-new-components/Card';
+import { Card } from '@instana/components';
 
 export default {
   title: 'Molecules|Cards/Card',

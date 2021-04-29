@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
+import { Link } from '@instana/components';
 
 import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
 import { closeProfilesViewLink } from 'in-new-components/Profiling/navigation/paths';
@@ -24,7 +25,6 @@ import { mutateUrl } from 'in-stores/navigation';
 import useUrlState from 'in-hooks/useUrlState';
 import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './ProfilesView.mless';

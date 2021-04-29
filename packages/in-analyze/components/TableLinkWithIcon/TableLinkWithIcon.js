@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import classNames from 'classnames';
 import React from 'react';
 
-import { Link } from 'in-components/tables/sharedComponents';
 import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TableLinkWithIcon.mless';

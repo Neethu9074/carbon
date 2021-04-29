@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -25,7 +26,6 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';
-import Link from 'in-components/Link';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

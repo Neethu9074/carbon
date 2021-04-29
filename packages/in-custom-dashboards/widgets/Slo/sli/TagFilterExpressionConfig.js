@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import FilterConfigurator from 'in-custom-dashboards/widgets/Slo/sli/FilterConfigurator';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import IconLabel from 'in-alerting/components/IconLabel';
-import LightCard from 'in-new-components/Card/LightCard';
 import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 

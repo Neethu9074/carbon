@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
@@ -11,7 +12,6 @@ import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/forma
 import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
-import Link from 'in-components/Link';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

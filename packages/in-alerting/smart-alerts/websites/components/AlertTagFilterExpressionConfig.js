@@ -9,8 +9,8 @@ import React from 'react';
 
 import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/smart-alert-dialog/ClearTagFilterExpressionButton';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertFilterConfigurator';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import IconLabel from 'in-alerting/components/IconLabel';
-import LightCard from 'in-new-components/Card/LightCard';
 
 import locals from 'in-alerting/smart-alerts/websites/components/AlertTagFilterExpressionConfig.mless';
 

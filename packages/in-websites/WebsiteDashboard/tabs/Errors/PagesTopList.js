@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
@@ -13,7 +14,6 @@ import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags'
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 const metrics = ['errors', 'uniqueUsersOrSessions'];

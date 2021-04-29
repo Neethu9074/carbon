@@ -9,7 +9,7 @@ import React, { Fragment } from 'react';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { millis } from 'in-services/formatters/number';
 import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
+import { Link } from '@instana/components';
 
 const onChangeMetric = action('onChangeMetric');
 

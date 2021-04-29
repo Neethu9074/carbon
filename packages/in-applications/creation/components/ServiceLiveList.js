@@ -7,7 +7,7 @@ import React from 'react';
 
 import ServiceLiveListItem from 'in-applications/creation/components/ServiceLiveListItem';
 import { LoadingIndicator } from 'in-new-components/LoadingIndicators';
-import LightCard from 'in-new-components/Card/LightCard';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { Ul } from 'in-new-components/lists/List';
 import { t } from 'in-i18n';
 

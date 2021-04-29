@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 
 import { number, bytesZeroDecimalPlaces, percentage, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -14,7 +15,6 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
 import DatastoreTable from './DatastoreTable';
-import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

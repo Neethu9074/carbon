@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import Tooltip from 'in-components/Tooltip';
-import Link from 'in-components/Link';
 
 import locals from './InfoIndicator.mless';
 

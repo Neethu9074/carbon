@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import { Table, Thead, Tbody, Th, Tr, Td } from 'in-components/tables/sharedComponents';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 export default function SelectorsList({ resource, defaultOperator = '=' }) {

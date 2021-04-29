@@ -4,6 +4,7 @@
  */
 
 import { just } from '@instana/observables';
+import { Link } from '@instana/components';
 import React from 'react';
 
 import {
@@ -21,7 +22,6 @@ import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import { getSnapshot } from 'in-stores/snapshot';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './EntityInformation.mless';

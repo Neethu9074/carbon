@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React, { useMemo } from 'react';
 
 import { toChunks, fillWithParams, MESSAGE_CHUNK } from 'in-services/util/stringToChunks';
@@ -10,7 +11,6 @@ import { logMessageParameterClicked } from 'in-logging/analyze/AnalyzeView/track
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { compareIgnoreCase } from 'in-services/util/string';
-import Link from 'in-components/Link';
 
 import locals from './LogMessage.mless';
 

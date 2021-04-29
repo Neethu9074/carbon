@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
@@ -11,7 +12,6 @@ import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { formatDateTime } from 'in-services/formatters/date';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 const cols = [

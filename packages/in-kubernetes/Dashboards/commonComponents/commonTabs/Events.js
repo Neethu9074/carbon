@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -18,7 +19,6 @@ import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import DateTime from 'in-components/tables/sharedComponents/DateTime';
 import EntityLink from 'in-new-components/EntityLink';
 import Tooltip from 'in-components/Tooltip';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 const allColumns = [

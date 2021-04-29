@@ -37,7 +37,7 @@ import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blue
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
-import LightCard from 'in-new-components/Card/LightCard';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 

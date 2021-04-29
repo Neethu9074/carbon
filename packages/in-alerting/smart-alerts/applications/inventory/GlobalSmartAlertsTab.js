@@ -4,6 +4,7 @@
  */
 
 import { just } from '@instana/observables';
+import { Card } from '@instana/components';
 import React, { useState } from 'react';
 
 import SmartAlertsNoDataNotification from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsNoDataNotification';
@@ -24,7 +25,6 @@ import { applicationId } from 'in-applications/navigation/matrix';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
-import Card from 'in-new-components/Card';
 import { role } from 'in-stores/user';
 
 export default function GlobalSmartAlertsTab({ location }) {

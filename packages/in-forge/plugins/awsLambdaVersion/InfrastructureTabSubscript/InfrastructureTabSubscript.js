@@ -4,13 +4,13 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/components';
 import React from 'react';
 
 import getRegionForAwsLambdaVersion from 'in-subscription/getRegionForAwsLambdaVersion';
 import getLambdaFunctionForVersion from 'in-subscription/getLambdaFunctionForVersion';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
-import Link from 'in-components/Link';
 import { Trans, t } from 'in-i18n';
 
 import locals from './InfrastructureTabSubscript.mless';

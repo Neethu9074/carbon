@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -10,7 +11,6 @@ import MetricColumnCells from 'in-analyze/components/MetricColumn/MetricColumnCe
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
 import { number } from 'in-services/formatters/number';
-import Link from 'in-components/Link';
 
 import locals from './Group.mless';
 

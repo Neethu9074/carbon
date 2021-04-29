@@ -4,6 +4,7 @@
  */
 
 import { createLogger } from '@instana/logger';
+import { Link } from '@instana/components';
 import React from 'react';
 
 import {
@@ -19,7 +20,6 @@ import CopyToClipboard from 'in-components/CopyToClipboard';
 import IconButton from 'in-new-components/IconButton';
 import { goToPath } from 'in-stores/navigation';
 import Tooltip from 'in-components/Tooltip';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './ApiTokens.mless';

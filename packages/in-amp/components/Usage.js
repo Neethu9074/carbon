@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import NoLicenseAvailableMessage from 'in-amp/components/NoLicenseAvailableMessage';
@@ -14,7 +15,6 @@ import QueuedLicenses from 'in-amp/components/QueuedLicenses';
 import ActiveLicenses from 'in-amp/components/ActiveLicenses';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import UsageCharts from 'in-amp/components/UsageCharts';
-import Card from 'in-new-components/Card';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 

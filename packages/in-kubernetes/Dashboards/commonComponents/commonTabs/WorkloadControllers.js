@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -23,7 +24,6 @@ import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/num
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getInfraGranularity } from 'in-stores/metric/metric';
-import Card from 'in-new-components/Card/LightCardV2';
 import { t } from 'in-i18n';
 
 const msFormatter = d => (d < 0 ? t('in-kubernetes:dashboards.noActivity') : timeByMillisTwoDecimalPlaces(d));

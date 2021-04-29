@@ -4,6 +4,7 @@
  */
 
 import { combineLatest } from '@instana/observables';
+import { Card } from '@instana/components';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -11,7 +12,6 @@ import EventListItem from 'in-events/components/legacy/EventListItem';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { emptyList } from 'in-services/fixedImmutables';
 import { getEvent } from 'in-stores/events';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

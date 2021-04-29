@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
@@ -16,7 +17,6 @@ import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { pendingResult } from 'in-services/fixedObjects';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
-import Card from 'in-new-components/Card';
 
 import locals from './ServerTablePresenter.mless';
 

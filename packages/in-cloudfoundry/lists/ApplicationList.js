@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
@@ -21,7 +22,6 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';

@@ -4,6 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/components';
 import React from 'react';
 
 import getRevisionForGoogleCloudRunServiceRevisionInstance from 'in-subscription/getRevisionForGoogleCloudRunServiceRevisionInstance';
@@ -11,7 +12,6 @@ import getRegionForGoogleCloudRunServiceRevisionInstance from 'in-subscription/g
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { alwaysNull } from 'in-services/fixedStreams';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './InfrastructureTabSubscript.mless';

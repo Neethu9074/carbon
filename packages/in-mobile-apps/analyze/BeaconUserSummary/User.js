@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import { uniq, find } from 'lodash';
 import React from 'react';
 
@@ -11,7 +12,6 @@ import Button from 'in-new-components/Button';
 import Gravatar from 'in-components/Gravatar';
 import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './User.mless';

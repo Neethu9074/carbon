@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -14,7 +15,6 @@ import { goToPath } from 'in-stores/navigation/navigation';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import Button from 'in-new-components/Button';
-import Card from 'in-new-components/Card';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Remove.mless';

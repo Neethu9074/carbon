@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 
 import { formatDateTime } from 'in-services/formatters/date';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import { Ul, Li } from 'in-new-components/lists/List/List';
 import { setTimeConfig } from 'in-stores/time/config';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './EntityVersionListing.mless';

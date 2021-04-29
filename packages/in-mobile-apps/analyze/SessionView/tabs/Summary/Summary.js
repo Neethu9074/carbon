@@ -5,6 +5,7 @@
 
 import React, { useMemo, useEffect } from 'react';
 import { compose, withState } from 'recompose';
+import { Link } from '@instana/components';
 import { find, debounce } from 'lodash';
 
 import { fixClockSkewProblems } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/fixClockSkewProblems';
@@ -19,7 +20,6 @@ import { number } from 'in-services/formatters/number';
 import { openSession } from 'in-mobile-apps/tracker';
 import Message from 'in-new-components/Message';
 import KpiCard from 'in-new-components/KpiCard';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';

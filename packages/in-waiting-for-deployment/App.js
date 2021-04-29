@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import '@instana/components/esm/index.css';
 import { compose } from 'recompose';
 import React from 'react';
 

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
@@ -19,7 +20,6 @@ import { timeConfig$ } from 'in-stores/time/config';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import connect from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './InternalEvents.mless';

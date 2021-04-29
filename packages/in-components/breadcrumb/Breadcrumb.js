@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -10,7 +11,6 @@ import WithHealthIndication from 'in-components/health/WithHealthIndication';
 import { track, NAVIGATION_BREADCRUMB } from 'in-services/tracking/tracking';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
-import Link from 'in-components/Link';
 
 import locals from './Breadcrumb.mless';
 

@@ -4,6 +4,7 @@
  */
 
 import { just } from '@instana/observables';
+import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 
 import { getLinkToWebsite, errorsTabFullyQualified, getLinkToAnalyze, detailsPath } from 'in-websites/navigation/paths';
@@ -23,8 +24,8 @@ import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
 import { isNotBlank, removeBlankLines } from 'in-services/util/string';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import LearnMoreCard from 'in-websites/LearnMoreCard/LearnMoreCard';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -34,7 +35,6 @@ import { number } from 'in-services/formatters/number';
 import BackButton from 'in-new-components/BackButton';
 import Button from 'in-new-components/Button';
 import Footer from 'in-new-components/Footer';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import Code from 'in-components/Code';

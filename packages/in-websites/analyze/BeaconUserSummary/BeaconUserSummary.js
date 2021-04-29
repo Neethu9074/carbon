@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 import React from 'react';
 
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
@@ -13,8 +15,6 @@ import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import User from 'in-websites/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Card from 'in-new-components/Card';
-import Link from 'in-components/Link';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 

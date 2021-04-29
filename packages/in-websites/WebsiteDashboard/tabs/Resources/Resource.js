@@ -31,8 +31,8 @@ import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Resources/PagesTopLi
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { bytes, millis, number } from 'in-services/formatters/number';
+import LearnMoreCard from 'in-websites/LearnMoreCard/LearnMoreCard';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import LearnMoreCard from 'in-new-components/Card/LearnMoreCard';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';

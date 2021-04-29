@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 import React, { useEffect } from 'react';
 
 import { hotspotAutoExpandRowId as hotspotAutoExpandRowIdMatrixParameter } from 'in-new-components/Profiling/navigation/matrix';
@@ -26,8 +28,6 @@ import SetBodyColor from 'in-components/SetBodyColor';
 import { isLoading } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';
-import Card from 'in-new-components/Card';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './View.mless';

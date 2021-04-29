@@ -4,6 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/components';
 import React from 'react';
 
 import getEcsTaskForEcsContainer from 'in-subscription/getEcsTaskForEcsContainer';
@@ -12,7 +13,6 @@ import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { shorten } from 'in-services/util/string';
 import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
 import { Trans } from 'in-i18n';
 
 import locals from './InfrastructureTabSubscript.mless';

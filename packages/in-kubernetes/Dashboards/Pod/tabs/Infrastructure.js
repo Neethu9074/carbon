@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
@@ -30,7 +31,6 @@ import { getContainerIconByPlugin } from 'in-kubernetes/icons';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Capitalize from 'in-new-components/Capitalize';
 import Tooltip from 'in-components/Tooltip';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

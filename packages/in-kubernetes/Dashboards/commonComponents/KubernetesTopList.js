@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
 
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { number } from 'in-services/formatters/number';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 const metrics = ['pods'];

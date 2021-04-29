@@ -5,6 +5,7 @@
 
 import React, { useState, forwardRef } from 'react';
 import { useAutoFocus } from '@instana/hooks';
+import { Link } from '@instana/components';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
@@ -15,7 +16,6 @@ import LoadMoreLiComponent from 'in-new-components/lists/List/LoadMoreLi';
 import ListGroupComponent from 'in-new-components/lists/List/ListGroup';
 import { emptyObject } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './List.mless';

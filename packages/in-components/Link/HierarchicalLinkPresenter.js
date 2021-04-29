@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import HealthyPluginIcon from 'in-components/health/HealthyPluginIcon';
@@ -10,7 +11,6 @@ import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
 import { stopPropagation } from 'in-services/util/function';
 import Hierarchy from 'in-components/Link/Hierarchy';
 import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
 
 import locals from './HierarchicalLinkPresenter.mless';
 

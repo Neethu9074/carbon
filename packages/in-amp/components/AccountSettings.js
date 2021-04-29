@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import { createField } from 'formalistic';
 import React from 'react';
 
@@ -16,7 +17,6 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import Message from 'in-new-components/Message';
 import Title from 'in-components/Title/Title';
 import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
 import { t, Trans } from 'in-i18n';
 
 import locals from './AccountSettings.mless';

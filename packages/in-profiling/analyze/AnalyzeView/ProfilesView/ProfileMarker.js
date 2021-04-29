@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
-import Link from 'in-components/Link';
 
 export default function ProfileMarker({ getHref$, eventData, ...remainingProps }) {
   return (

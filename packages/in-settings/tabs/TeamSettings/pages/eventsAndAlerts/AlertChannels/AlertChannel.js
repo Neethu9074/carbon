@@ -4,6 +4,8 @@
  */
 
 import { createMapForm } from 'formalistic';
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 import { fromJS } from 'immutable';
 import React from 'react';
 
@@ -35,8 +37,6 @@ import List from 'in-settings/components/List';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import entityForm from 'in-hoc/entityForm';
-import Card from 'in-new-components/Card';
-import Link from 'in-components/Link';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

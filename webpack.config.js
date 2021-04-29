@@ -1,3 +1,8 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
 /* eslint-env node */
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -104,8 +109,12 @@ module.exports = {
         ]
       },
       {
-        test: /\.(css|less)$/i,
+        test: /\.less$/i,
         use: [styleLoader, 'css-loader', postCssLoader, 'less-loader']
+      },
+      {
+        test: /\.css$/i,
+        use: [styleLoader, 'css-loader', postCssLoader]
       },
       {
         test: /\.(jpe?g|gif|png|svg)$/i,

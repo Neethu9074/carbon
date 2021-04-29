@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -10,7 +11,6 @@ import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-a
 import { Td, Tr } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
 import { number } from 'in-services/formatters/number';
-import Link from 'in-components/Link';
 
 import locals from 'in-events/components/AffectedEntities/AffectedEntity.mless';
 

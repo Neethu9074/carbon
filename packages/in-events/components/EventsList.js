@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import {
@@ -22,7 +23,6 @@ import useTimeConfigUpdatingScale from 'in-services/hooks/useTimeConfigUpdatingS
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import EmptyEventList from 'in-events/components/EmptyEventsList';
 import EventListRow from 'in-events/components/EventsListRow';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 import locals from './EventsList.mless';

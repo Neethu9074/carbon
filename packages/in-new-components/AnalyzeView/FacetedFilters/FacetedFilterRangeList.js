@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import {
@@ -18,7 +19,6 @@ import { ua2FacetedSearchFilterAddedTracker } from 'in-new-components/tracker';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { emptyArray } from 'in-services/fixedObjects';
 import Stack from 'in-new-components/layout/Stack';
-import Link from 'in-components/Link';
 
 import locals from './FacetedFilterRangeList.mless';
 

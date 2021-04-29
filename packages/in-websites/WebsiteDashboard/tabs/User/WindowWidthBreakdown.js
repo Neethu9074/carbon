@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import getWindowWidthBreakdown from 'in-websites/subscriptions/getWindowWidthBreakdown';
@@ -13,7 +14,6 @@ import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 // Sizes and labels taken from the Chrome developer tools

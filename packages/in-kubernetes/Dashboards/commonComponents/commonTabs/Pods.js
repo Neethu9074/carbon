@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import { get, filter } from 'lodash';
 import { compose } from 'recompose';
 import React from 'react';
@@ -40,7 +41,6 @@ import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
 import ComboBox from 'in-components/ComboBox';
-import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

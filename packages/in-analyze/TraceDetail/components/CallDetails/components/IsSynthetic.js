@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import Group from 'in-analyze/TraceDetail/components/CallDetails/components/Group';
 import { configureSyntheticEndpointsView } from 'in-applications/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './IsSynthetic.mless';

@@ -21,4 +21,3 @@ export { default as ActionColumn } from 'in-components/tables/sharedComponents/A
 export { default as LoadMoreRow } from 'in-components/tables/sharedComponents/LoadMoreRow';
 export { default as SortableTh } from 'in-components/tables/sharedComponents/SortableTh';
 export { default as ErrorRows } from 'in-components/tables/sharedComponents/ErrorRows';
-export { default as Link } from 'in-components/Link';

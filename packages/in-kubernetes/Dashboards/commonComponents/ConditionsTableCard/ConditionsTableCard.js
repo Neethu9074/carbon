@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 import { withState } from 'recompose';
 import React from 'react';
 
@@ -11,8 +13,6 @@ import ConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/Condi
 import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { compareIgnoreCase } from 'in-services/util/string';
-import Card from 'in-new-components/Card';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './ConditionsTableCard.mless';

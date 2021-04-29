@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
@@ -16,7 +17,6 @@ import getKubernetesCronJobs from 'in-subscription/kubernetes/getKubernetesCronJ
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getCronJobDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 const pathSegment = '/cronjobs';

@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 export default function IPs({ resource: service }) {

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
@@ -10,7 +11,6 @@ import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/T
 import { getLinkToMobileApp, getLinkToHttpRequest } from 'in-mobile-apps/navigation/paths';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { number, percentage } from 'in-services/formatters/number';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 const metrics = ['beaconCount', 'beaconErrorRate'];

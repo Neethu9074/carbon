@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import { getView } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './BackToParentPathLink.mless';

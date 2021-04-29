@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
@@ -12,7 +13,6 @@ import { getLinkToWebsite, getLinkToAnalyze } from 'in-websites/navigation/paths
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 const metrics = ['beaconCount'];

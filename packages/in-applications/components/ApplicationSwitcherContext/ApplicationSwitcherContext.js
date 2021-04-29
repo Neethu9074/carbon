@@ -4,6 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/components';
 import React from 'react';
 
 import ApplicationSwitcher from 'in-applications/components/ApplicationSwitcherContext/ApplicationSwitcher';
@@ -13,7 +14,6 @@ import getApplication from 'in-subscription/application/getApplication';
 import { pendingResult } from 'in-services/fixedObjects';
 import Overlay from 'in-new-components/overlays/Overlay';
 import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationSwitcherContext.mless';

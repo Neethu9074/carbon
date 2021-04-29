@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Link } from '@instana/components';
 import PropTypes from 'prop-types';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -12,7 +13,6 @@ import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Pagination from 'in-new-components/Pagination';
-import Link from 'in-components/Link';
 
 import locals from './ApplicationHealthOverview.mless';
 

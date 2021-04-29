@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
@@ -21,7 +22,6 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
 import MetricValue from 'in-components/MetricValue';
-import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

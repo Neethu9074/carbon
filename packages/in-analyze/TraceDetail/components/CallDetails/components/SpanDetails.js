@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
@@ -15,7 +16,6 @@ import { getSpanDefinition, getTypeLabelSingular } from 'in-sdk/tracing';
 import { Di, Dl } from 'in-new-components/HorizontalDescriptionList';
 import { expandNestedSerializedJson } from 'in-services/util/json';
 import { flatten } from 'in-forge/tracing/sdk/flatten';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

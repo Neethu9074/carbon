@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 import React from 'react';
 
 import {
@@ -18,8 +20,6 @@ import AffectedEntities from 'in-events/components/AffectedEntities/AffectedEnti
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { isApplicationEntity } from 'in-services/entityUtils';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
-import Card from 'in-new-components/Card';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 export function SmartAlertAffectedEntities({

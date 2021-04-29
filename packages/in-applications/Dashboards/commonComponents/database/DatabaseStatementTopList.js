@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
@@ -19,7 +20,6 @@ import { millis, number } from 'in-services/formatters/number';
 import { boundaryScopes } from 'in-applications/constants';
 import { shorten } from 'in-services/util/string';
 import connect from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -10,7 +11,6 @@ import getApplication from 'in-subscription/application/getApplication';
 import { boundaryScopes } from 'in-applications/constants';
 import Message from 'in-new-components/Message';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import { Trans } from 'in-i18n';
 
 export default connectTo(

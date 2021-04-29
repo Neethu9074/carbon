@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import {
@@ -24,7 +25,6 @@ import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
 import EntityLink from 'in-new-components/EntityLink';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 const pathSegment = '/services';

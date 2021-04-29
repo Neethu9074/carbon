@@ -4,6 +4,7 @@
  */
 
 import shallowEquals from 'fbjs/lib/shallowEqual';
+import { Card } from '@instana/components';
 import React from 'react';
 
 import SortIndicator from 'in-sdk/components/dashboard/Table/components/SortIndicator';
@@ -12,7 +13,6 @@ import Row from 'in-sdk/components/dashboard/Table/components/Row';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 import locals from './Table.mless';

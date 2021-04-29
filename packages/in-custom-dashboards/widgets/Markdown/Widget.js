@@ -4,13 +4,13 @@
  */
 
 import { compose, setPropTypes } from 'recompose';
+import { Card } from '@instana/components';
 import rpt from 'prop-types';
 import React from 'react';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { toHtml } from 'in-services/formatters/markdown';
 import { sanitize } from 'in-services/formatters/html';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './Widget.mless';

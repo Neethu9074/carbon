@@ -5,6 +5,8 @@
 
 import { just, create } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 import React, { useState } from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -42,8 +44,6 @@ import useUrlState from 'in-hooks/useUrlState';
 import Button from 'in-new-components/Button';
 import { minutes } from 'in-services/time';
 import { connection } from 'in-connection';
-import Card from 'in-new-components/Card';
-import Link from 'in-components/Link';
 import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
 

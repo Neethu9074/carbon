@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import { Row, Col } from 'in-new-components/layout/Grid';
 import UsageChart from 'in-amp/components/UsageChart';
-import Card from 'in-new-components/Card';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

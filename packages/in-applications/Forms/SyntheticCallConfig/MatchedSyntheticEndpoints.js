@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import classNames from 'classnames';
 import { get } from 'lodash';
 import React from 'react';
@@ -34,7 +35,6 @@ import { createGroupBy } from 'in-analyze/navigation/paths';
 import { tagFilter } from 'in-analyze/navigation/matrix';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './MatchedSyntheticEndpoints.mless';

@@ -4,6 +4,7 @@
  */
 
 import irpt from 'react-immutable-proptypes';
+import { Link } from '@instana/components';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -28,7 +29,6 @@ import Marker from 'in-events/components/legacy/Marker';
 import EventIcon from 'in-events/components/EventIcon';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import 'in-events/components/legacy/EventListItem.less';

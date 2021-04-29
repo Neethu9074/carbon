@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -12,7 +13,6 @@ import { warning } from 'in-new-components/Message/types';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Message from 'in-new-components/Message';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import { Trans } from 'in-i18n';
 
 export default function MissingK8sPermissions(props) {

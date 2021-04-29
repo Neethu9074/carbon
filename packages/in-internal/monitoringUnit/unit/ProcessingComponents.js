@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
 import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
 import { getModifiedUrlStream } from 'in-stores/navigation';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

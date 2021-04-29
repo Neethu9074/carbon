@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
@@ -12,7 +13,6 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getInfraGranularity } from 'in-stores/metric/metric';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 const pathSegment = '/nodes';

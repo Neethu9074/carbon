@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
@@ -34,7 +35,6 @@ import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
 import Footer from 'in-new-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 const pathSegment = '/services';

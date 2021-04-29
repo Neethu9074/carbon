@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
@@ -12,7 +13,6 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { toHtml } from 'in-services/formatters/markdown';
 import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './Issue.mless';

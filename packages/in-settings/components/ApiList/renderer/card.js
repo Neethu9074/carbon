@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
@@ -12,7 +13,6 @@ import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import TemporaryMessage from 'in-new-components/TemporaryMessage';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 import locals from '../ApiListHeader.mless';

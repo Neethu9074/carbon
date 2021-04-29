@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -22,7 +23,6 @@ import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
 
 import locals from './FileDownloadConfigurationDialogPresenter.mless';
 

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -20,7 +21,6 @@ import { Li, Ul } from 'in-new-components/lists/List';
 import ListTitle from 'in-new-components/lists/Title';
 import { isLoading } from 'in-services/util/result';
 import WithIcon from 'in-new-components/WithIcon';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/EventsListRowDense.mless';

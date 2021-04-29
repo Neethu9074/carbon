@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import invariant from 'invariant';
 import React from 'react';
 
 import { cellLoadingIndicatorInstance } from 'in-infrastructure/tableView/components/Table/components/CellLoadingIndicator';
 import { noop } from 'in-services/fixedObjects';
-import Link from 'in-components/Link';
 
 export const type = 'link';
 

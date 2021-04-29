@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 
 import SearchInput from 'in-new-components/SearchInput';
-import Card from 'in-new-components/Card';
 
 import locals from './DashboardSection.mless';
 

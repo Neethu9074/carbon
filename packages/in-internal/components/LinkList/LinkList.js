@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
-
-import Link from 'in-components/Link';
 
 import locals from './LinkList.mless';
 

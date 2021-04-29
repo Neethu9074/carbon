@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import { GREATER_OR_EQUAL_THAN, LESS_OR_EQUAL_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
@@ -12,7 +13,6 @@ import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transfor
 import ExistingValue from 'in-applications/analyze/components/FacetedSearch/ExistingValue';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { ua2FacetedSearchFilterAddedTracker } from 'in-applications/tracker';
-import Link from 'in-components/Link';
 
 import locals from './Suggestion.mless';
 

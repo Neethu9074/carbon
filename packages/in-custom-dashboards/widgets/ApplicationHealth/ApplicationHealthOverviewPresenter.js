@@ -5,6 +5,7 @@
 
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { Card } from '@instana/components';
 import React from 'react';
 
 import ApplicationsHealthIndicatorBar from 'in-new-components/ApplicationHealthOverview/ApplicationsHealthIndicatorBar';
@@ -14,7 +15,6 @@ import ApplicationHealthOverview from 'in-new-components/ApplicationHealthOvervi
 import { compareIgnoreCase } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { compare } from 'in-services/util/number';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationHealthOverviewPresenter.mless';

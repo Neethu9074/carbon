@@ -4,6 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/components';
 import React from 'react';
 
 import getProfilesAvailable from 'in-new-components/Profiling/subscriptions/getProfilesAvailable';
@@ -23,7 +24,6 @@ import { percentage } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
 import { minutes } from 'in-services/time';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './ProfileInformation.mless';

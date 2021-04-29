@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import Pill from 'in-new-components/Pill/Pill';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './FeatureFeedback.mless';

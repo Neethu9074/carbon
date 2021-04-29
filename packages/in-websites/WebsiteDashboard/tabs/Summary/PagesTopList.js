@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
@@ -10,7 +11,6 @@ import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/T
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { meanLatency, number } from 'in-services/formatters/number';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 const metrics = ['pageViews', 'onLoadTime', 'errors'];

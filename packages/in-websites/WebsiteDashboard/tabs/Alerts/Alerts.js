@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -30,7 +31,6 @@ import Footer from 'in-new-components/Footer/Footer';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import List from 'in-settings/components/List';
-import Card from 'in-new-components/Card';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 

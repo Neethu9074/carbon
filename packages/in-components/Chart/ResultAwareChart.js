@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -12,7 +13,6 @@ import Chart from 'in-components/Chart/ChartReactComponent';
 import { warning } from 'in-new-components/Message/types';
 import PieChart from 'in-new-components/PieChart';
 import Message from 'in-new-components/Message';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 export default function ResultAwareChart({ result, config, renderLegend = true }) {

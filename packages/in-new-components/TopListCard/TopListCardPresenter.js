@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -10,7 +11,6 @@ import { track, TOPLIST_METRIC_CHANGED } from 'in-services/tracking/tracking';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import List from 'in-new-components/TopListCard/List';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 export default function TopListCard(props) {

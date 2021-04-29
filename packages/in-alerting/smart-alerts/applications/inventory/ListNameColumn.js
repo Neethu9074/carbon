@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Link } from '@instana/components';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -24,7 +25,6 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './ListColumns.mless';

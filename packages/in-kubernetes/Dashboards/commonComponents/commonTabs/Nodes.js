@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
@@ -21,7 +22,6 @@ import { percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { formatDuration } from 'in-services/formatters/date';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 const pathSegment = '/nodes';

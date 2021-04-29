@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
 import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
 
 import locals from './Button.mless';
 

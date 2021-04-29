@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
@@ -25,7 +26,6 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
 import { Col, Row } from 'in-new-components/layout/Grid';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationEventContent.mless';

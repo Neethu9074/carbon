@@ -4,6 +4,8 @@
  */
 
 import { compose, withState, withProps } from 'recompose';
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 
 import {
@@ -19,9 +21,7 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import { minutes } from 'in-services/time';
-import Card from 'in-new-components/Card';
 import connect from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import { Trans, t } from 'in-i18n';
 
 import locals from './MobileAppMonitoringData.mless';

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -10,7 +11,6 @@ import SubView from 'in-new-components/MainNavigation/components/ViewSwitcher/Su
 import { alwaysNull } from 'in-services/fixedStreams';
 import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 
 import locals from './View.mless';
 

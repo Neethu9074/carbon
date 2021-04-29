@@ -5,6 +5,7 @@
 
 import { createLogger } from '@instana/logger';
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/components';
 import { createField } from 'formalistic';
 import React, { useState } from 'react';
 import classNames from 'classnames';
@@ -62,7 +63,6 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
-import Link from 'in-components/Link';
 import { t, Trans } from 'in-i18n';
 
 import locals from './CustomPayloadForm.mless';

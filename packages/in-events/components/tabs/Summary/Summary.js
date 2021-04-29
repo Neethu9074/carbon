@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React, { useState } from 'react';
 
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
@@ -30,7 +31,6 @@ import { emptyList } from 'in-services/fixedImmutables';
 import getRecentEvents$ from 'in-events/recentEvents';
 import { getSnapshot } from 'in-stores/snapshot';
 import Button from 'in-new-components/Button';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

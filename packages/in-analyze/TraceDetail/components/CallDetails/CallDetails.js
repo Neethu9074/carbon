@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
@@ -19,7 +20,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

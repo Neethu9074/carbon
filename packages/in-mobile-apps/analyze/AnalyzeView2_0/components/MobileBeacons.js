@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import QueryBuilderWorkspace from 'in-mobile-apps/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
@@ -18,7 +19,6 @@ import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import HealthDot from 'in-new-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './MobileBeacons.mless';

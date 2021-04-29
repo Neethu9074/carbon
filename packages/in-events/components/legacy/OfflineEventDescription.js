@@ -4,6 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/components';
 import React from 'react';
 
 import CustomProblemDescription from 'in-events/components/legacy/CustomProblemDescription';
@@ -11,7 +12,6 @@ import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getSnapshotVersions } from 'in-stores/snapshot/snapshot';
 import { setTimeConfig } from 'in-stores/time/config';
-import Link from 'in-components/Link/Link';
 import { t } from 'in-i18n';
 
 export default function OfflineEventDescription({ event }) {

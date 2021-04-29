@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
@@ -12,7 +13,6 @@ import { getApplicationList, getServiceList } from 'in-applications/navigation/p
 import { relationships } from 'in-new-components/UpstreamDownstream/constants';
 import { capitalize } from 'in-services/formatters/string';
 import { Ul } from 'in-new-components/lists/List';
-import Link from 'in-components/Link/Link';
 import { t } from 'in-i18n';
 
 import locals from './UpstreamDownstreamGroup.mless';

@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 
 import { userSettings, teamSettings } from 'in-settings/navigation/paths';
 import { getView } from 'in-stores/navigation';
 import Title from 'in-components/Title';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 export default function NotFoundPage() {

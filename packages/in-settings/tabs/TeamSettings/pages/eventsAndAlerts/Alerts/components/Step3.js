@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 
 import Applications, {
@@ -31,7 +32,6 @@ import { isBlank } from 'in-services/util/string';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Step3.mless';

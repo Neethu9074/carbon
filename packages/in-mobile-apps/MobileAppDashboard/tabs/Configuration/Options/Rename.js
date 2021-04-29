@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import { createField } from 'formalistic';
 import { get, find } from 'lodash';
 import React from 'react';
@@ -19,7 +20,6 @@ import FormGroup from 'in-components/form/FormGroup';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import SvgIcon from 'in-components/SvgIcon';
-import Card from 'in-new-components/Card';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Rename.mless';

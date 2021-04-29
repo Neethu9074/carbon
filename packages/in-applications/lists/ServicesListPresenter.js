@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -41,10 +43,8 @@ import { isBlank } from 'in-services/util/string';
 import Footer from 'in-new-components/Footer';
 import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
-import Card from 'in-new-components/Card';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './ServicesList.mless';

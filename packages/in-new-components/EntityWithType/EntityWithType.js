@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React, { forwardRef } from 'react';
 
 import { getPluginName } from 'in-sdk/pluginName';
 import Tooltip from 'in-components/Tooltip';
-import Link from 'in-components/Link';
 
 import locals from './EntityWithType.mless';
 

@@ -4,6 +4,7 @@
  */
 
 import { createField, createMapForm, composeValidators } from 'formalistic';
+import { Link } from '@instana/components';
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
@@ -19,7 +20,6 @@ import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import { region } from 'in-services/config';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './content.mless';

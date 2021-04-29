@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import React from 'react';
@@ -11,7 +12,6 @@ import ConfigureAlertingThreshold from 'in-alerting/smart-alerts/components/smar
 import SelectTimeThreshold from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/SelectTimeThreshold';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
 import TwoColumnContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/TwoColumnContainer';
-import Link from 'in-components/Link';
 import { Trans, t } from 'in-i18n';
 
 const titleValues = {

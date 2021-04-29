@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import getMonitoringIssuesForSnapshot from 'in-subscription/getMonitoringIssuesForSnapshot';
@@ -15,7 +16,6 @@ import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
 

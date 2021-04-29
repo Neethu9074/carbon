@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
-import Link from 'in-components/Link';
 
 import locals from './WebsiteContext.mless';
 

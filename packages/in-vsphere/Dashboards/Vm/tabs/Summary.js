@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 
 import { number, bytes, percentage, bytesTwoDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
@@ -13,7 +14,6 @@ import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: vm }) {

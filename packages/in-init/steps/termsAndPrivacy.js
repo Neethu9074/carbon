@@ -5,6 +5,7 @@
 
 import { just, create } from '@instana/observables';
 import { createLogger } from '@instana/logger';
+import '@instana/components/esm/index.css';
 import ReactDOM from 'react-dom';
 import React from 'react';
 

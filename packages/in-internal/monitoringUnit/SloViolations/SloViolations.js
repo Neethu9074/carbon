@@ -4,6 +4,7 @@
  */
 
 import { interval } from '@instana/observables';
+import { Link } from '@instana/components';
 import { groupBy, chunk } from 'lodash';
 import React from 'react';
 
@@ -28,7 +29,6 @@ import Tooltip from 'in-components/Tooltip';
 import SvgIcon from 'in-components/SvgIcon';
 import { minutes } from 'in-services/time';
 import connect from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './SloViolations.mless';

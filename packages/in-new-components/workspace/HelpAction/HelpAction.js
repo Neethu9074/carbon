@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
-import Link from 'in-components/Link';
 
 import locals from './HelpAction.mless';
 

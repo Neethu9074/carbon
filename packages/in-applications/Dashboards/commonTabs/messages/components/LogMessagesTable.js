@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
@@ -18,7 +19,6 @@ import getLogMessages from 'in-applications/subscriptions/getLogMessages';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import Pill from 'in-new-components/Pill';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './MessagesTable.mless';

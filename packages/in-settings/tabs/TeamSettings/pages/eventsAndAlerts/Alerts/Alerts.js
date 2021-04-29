@@ -4,6 +4,7 @@
  */
 
 import { compose, withState } from 'recompose';
+import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
@@ -23,7 +24,6 @@ import { intersperse } from 'in-services/arrayUtils';
 import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
 import config from 'in-services/config';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './Alerts.mless';

@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 import React from 'react';
 
 import {
@@ -21,8 +23,6 @@ import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { number, ms } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import Footer from 'in-new-components/Footer';
-import Card from 'in-new-components/Card';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 const columnDefinitions = [

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import { fromJS } from 'immutable';
 import React from 'react';
 
@@ -17,7 +18,6 @@ import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink from 'in-new-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
-import Card from 'in-new-components/Card';
 import { t } from 'in-i18n';
 
 const pathSegment = '/hosts';

@@ -4,6 +4,7 @@
  */
 
 import { useLocation } from 'react-router';
+import '@instana/components/esm/index.css';
 import React from 'react';
 
 import FloatingActionButtonPresenter from 'in-new-components/FloatingActionButton/FloatingActionButtonPresenter';

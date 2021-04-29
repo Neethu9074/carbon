@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import { fromJS } from 'immutable';
 import { get } from 'lodash';
 import React from 'react';
@@ -17,7 +18,6 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import EntityLink from 'in-new-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
-import Card from 'in-new-components/Card';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

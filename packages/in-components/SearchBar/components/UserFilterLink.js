@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { DFQ_FILTER_SELECTED } from 'in-services/tracking/eventNames';
 import { track } from 'in-services/tracking/tracking';
-import Link from 'in-components/Link';
 
 import './UserFilterLink.less';
 

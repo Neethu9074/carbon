@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { Link } from '@instana/components';
 import { createField } from 'formalistic';
 
 import { getConfigAsResultObservable as getOidcConfigAsResultObservable } from 'in-settings/tabs/AuthSettings/api/oidc';
@@ -22,7 +23,6 @@ import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
-import Link from 'in-components/Link';
 import { t, Trans } from 'in-i18n';
 
 import indentityProvidersLocals from '../indentityProviders.mless';

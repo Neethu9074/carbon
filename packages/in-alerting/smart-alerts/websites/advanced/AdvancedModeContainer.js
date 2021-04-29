@@ -41,7 +41,7 @@ import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertT
 import ProvideJsError from 'in-alerting/smart-alerts/websites/components/ProvideJsError';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import { modeAdvanced } from 'in-alerting/smart-alerts/websites/constants';
-import LightCard from 'in-new-components/Card/LightCard';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props) {

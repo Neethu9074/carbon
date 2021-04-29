@@ -20,8 +20,8 @@ import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewCon
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import getApplication from 'in-subscription/application/getApplication';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
-import LightCard from 'in-new-components/Card/LightCard';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import Stack from 'in-new-components/layout/Stack';
 

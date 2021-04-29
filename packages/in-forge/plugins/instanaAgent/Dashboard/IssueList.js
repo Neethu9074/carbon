@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import getMonitoringIssuesForAgentSnapshot from 'in-subscription/getMonitoringIssuesForAgentSnapshot';
@@ -17,7 +18,6 @@ import BreakAll from 'in-components/typo/BreakAll';
 import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './IssueList.mless';

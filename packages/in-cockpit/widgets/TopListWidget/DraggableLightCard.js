@@ -3,11 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link, Card } from '@instana/components';
 import React, { useState } from 'react';
 
-import LightCard from 'in-new-components/Card/LightCardV2';
 import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
 
 import locals from './DraggableLightCard.mless';
 
@@ -15,7 +14,7 @@ export default function DraggableLightCard(props) {
   const [isHovering, setIsHovering] = useState(false);
 
   return (
-    <LightCard
+    <Card
       {...props}
       title={props.label}
       className={isHovering ? locals.cardWithStrongShadow : undefined}
@@ -43,6 +42,6 @@ export default function DraggableLightCard(props) {
       ) : (
         <div className={locals.link} />
       )}
-    </LightCard>
+    </Card>
   );
 }

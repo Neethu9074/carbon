@@ -4,6 +4,7 @@
  */
 
 import React, { Fragment, useState } from 'react';
+
 import { useObservable } from '@instana/hooks';
 
 import {

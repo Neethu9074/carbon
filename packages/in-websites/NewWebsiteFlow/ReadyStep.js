@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import TrackingSnippetPresenter from 'in-websites/trackingSnippet/TrackingSnippetPresenter';
@@ -13,7 +14,6 @@ import Actions from 'in-websites/NewWebsiteFlow/Actions';
 import { Trans, t, markAsSecureString } from 'in-i18n';
 import Frame from 'in-websites/NewWebsiteFlow/Frame';
 import Button from 'in-new-components/Button';
-import Link from 'in-components/Link';
 
 export default function ReadyStep({ websiteId, websiteName, websiteLink$, trackSessions, setTrackSessions }) {
   const eumSnippet = getTrackingSnippet({ key: websiteId, trackSessions });

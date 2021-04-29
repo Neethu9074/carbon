@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
@@ -11,7 +12,6 @@ import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPrese
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 export default function EffectiveConnectionTypeTopList({

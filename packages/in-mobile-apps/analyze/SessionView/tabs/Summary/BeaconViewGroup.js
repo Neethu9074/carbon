@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import { withState } from 'recompose';
 import React from 'react';
 
@@ -10,7 +11,6 @@ import HeaderToggleIcon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Be
 import { toInteractiveElement } from 'in-new-components/interactiveCustomElement';
 import Beacon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import SvgIcon from 'in-components/SvgIcon';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './BeaconViewGroup.mless';

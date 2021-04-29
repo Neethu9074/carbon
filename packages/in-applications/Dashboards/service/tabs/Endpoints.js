@@ -4,6 +4,7 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { Card } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
 
@@ -35,7 +36,6 @@ import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
 import useUrlState from 'in-hooks/useUrlState';
 import Button from 'in-new-components/Button';
-import Card from 'in-new-components/Card';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 

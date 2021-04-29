@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import { sortBy } from 'lodash';
 import React from 'react';
 
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import KeyValue from 'in-new-components/lists/KeyValue/KeyValue';
 import { Li, Ul } from 'in-new-components/lists/List';
-import Card from 'in-new-components/Card';
 
 export default function KeyValueList({ title, items, onEmptyText }) {
   if (!items || items.length === 0) {

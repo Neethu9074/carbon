@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import { get, findIndex } from 'lodash';
 import React from 'react';
 
@@ -31,7 +32,6 @@ import Button from 'in-new-components/Button';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './PageLoadView.mless';

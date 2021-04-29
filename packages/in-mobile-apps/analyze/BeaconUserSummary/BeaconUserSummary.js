@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Card } from '@instana/components';
 import React from 'react';
 
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';
@@ -11,7 +12,6 @@ import { expandNestedSerializedJson } from 'in-services/util/json';
 import User from 'in-mobile-apps/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Card from 'in-new-components/Card';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 

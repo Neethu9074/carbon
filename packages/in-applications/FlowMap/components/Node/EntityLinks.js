@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React, { forwardRef } from 'react';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 import locals from './EntityLink.mless';

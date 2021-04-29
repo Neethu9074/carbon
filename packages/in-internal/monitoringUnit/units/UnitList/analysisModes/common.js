@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Link } from '@instana/components';
 import React from 'react';
 
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation';
-import Link from 'in-components/Link';
 import { t } from 'in-i18n';
 
 export const unitColumn = {
