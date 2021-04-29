@@ -4,8 +4,9 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Link } from '@instana/components';
 import { range, sortBy } from 'lodash';
+
+import { Link } from '@instana/components';
 
 import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-new-components/tracker';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -162,7 +163,7 @@ function Results({
           <Button
             className={locals.addAsGroup}
             kind="action"
-            href={getHrefToGroupedView(tag, entity)}
+            href={getHrefToGroupedView({ tag, tagEntity: entity })}
             onClick={() => tracker.groupClicked({ dataSource, tagName: tag })}
           >
             {t('in-new-components:analyze.addAsGroup')}

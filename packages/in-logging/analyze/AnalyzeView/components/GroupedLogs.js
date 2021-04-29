@@ -65,7 +65,7 @@ function addToMap({ tagName, icon, children }, map) {
 function getTableData({ timeConfig, cursor, backendQueryModel, groupBy }) {
   return getLogGroups({
     timeConfig,
-    groupBy: groupBy.groupbyTag,
+    group: groupBy,
     tagFilterExpression: backendQueryModel,
     pagination: {
       cursor,
