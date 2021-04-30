@@ -119,9 +119,9 @@ function transformGroupByParameters(location) {
       // work-around: for backward compatibility we have to override the incorrectly set entity type,
       // which was wrongly set when jumping from the Latency chart in endpoint dashboards to UA.
       if (oldGroupBy.name === 'endpoint.name' && oldGroupBy.entity === entityTypes.NOT_APPLICABLE) {
-        newGroupBy.entity = entityTypes.DESTINATION;
+        newGroupBy.groupbyTagEntity = entityTypes.DESTINATION;
       } else if (oldGroupBy.entity !== entityTypes.NOT_APPLICABLE) {
-        newGroupBy.entity = oldGroupBy.entity;
+        newGroupBy.groupbyTagEntity = oldGroupBy.entity;
       }
     }
     setOrDeleteMatrixParameter(location, analyzeTwoParameters.groupBy, newGroupBy);
@@ -189,9 +189,12 @@ function transformOrderByGroupsParameters(location) {
   if (isNotBlank(by)) {
     if (by === 'count') {
       const dataSource = getMatrixParameter(location, analyzePath, 'callList.dataSource') || 'calls';
-      by = dataSource === 'traces' ? 'traces_SUM_Agg' : 'calls_SUM_Agg';
+      by = dataSource === 'traces' ? 'traces_SUM' : 'calls_SUM';
     }
-
+    if (by.endsWith('_Agg')) {
+      // This suffix is no longer used in the new format
+      by = by.substring(0, by.length - 4);
+    }
     const direction = getMatrixParameter(location, analyzePath, 'groups.orderDirection') || 'DESC';
     setOrDeleteMatrixParameter(location, analyzeTwoParameters.orderByGroups, {
       by,

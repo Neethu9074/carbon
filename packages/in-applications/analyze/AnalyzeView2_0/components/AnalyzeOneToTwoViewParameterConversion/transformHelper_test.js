@@ -68,11 +68,11 @@ const cases = [
           fields:
             '!(type~metric~metricId~latency~aggregationId~MEAN)(type~metric~metricId~errors~aggregationId~MEAN)(type~metric~metricId~latency~aggregationId~P50)~',
           chartedMetrics: '!(metricId~latency~aggregationId~MEAN)~',
-          groupBy: '(groupbyTag~endpoint.name~entity~DESTINATION)~',
+          groupBy: '(groupbyTag~endpoint.name~groupbyTagEntity~DESTINATION)~',
           tagFilterExpression:
             '!(type~TAG*_FILTER~name~service.name~value~backbone~operator~EQUALS~entity~DESTINATION)~',
           orderBy: '(by~latency~direction~DESC)~',
-          orderByGroups: '(by~latency*_MEAN*_Agg~direction~DESC)~'
+          orderByGroups: '(by~latency*_MEAN~direction~DESC)~'
         }
       }
     }
@@ -100,7 +100,7 @@ const cases = [
         '/analyze': {
           chartedMetrics: '!(metricId~latency~aggregationId~DISTRIBUTION)~',
           dataSource: 'calls',
-          groupBy: '(groupbyTag~endpoint.name~entity~DESTINATION)~',
+          groupBy: '(groupbyTag~endpoint.name~groupbyTagEntity~DESTINATION)~',
           orderBy: '(by~timestamp~direction~ASC)~',
           orderByGroups: '(by~firstTimestamp~direction~ASC)~'
         }
@@ -169,7 +169,7 @@ const cases = [
           dataSource: 'calls',
           previewEnabled: true,
           groupBy: '(groupbyTag~call.http.status)~',
-          orderByGroups: '(by~calls*_SUM*_Agg~direction~ASC)~'
+          orderByGroups: '(by~calls*_SUM~direction~ASC)~'
         }
       }
     }
@@ -205,7 +205,7 @@ const cases = [
             '!(type~metric~metricId~latency~aggregationId~MEAN)(type~metric~metricId~errors~aggregationId~MEAN)(type~metric~metricId~latency~aggregationId~P98)~',
           groupBy: '(groupbyTag~trace.endpoint.name)~',
           tagFilterExpression: '!(type~TAG*_FILTER~name~call.type~value~BATCH~operator~EQUALS)~',
-          orderByGroups: '(by~traces*_SUM*_Agg~direction~DESC)~'
+          orderByGroups: '(by~traces*_SUM~direction~DESC)~'
         }
       }
     }
@@ -271,7 +271,7 @@ const cases = [
             '!(type~metric~metricId~latency~aggregationId~MEAN)(type~metric~metricId~errors~aggregationId~MEAN)(type~metric~metricId~latency~aggregationId~P98)~',
           groupBy: '(groupbyTag~trace.endpoint.name)~',
           tagFilterExpression: '!(type~TAG*_FILTER~name~call.type~value~BATCH~operator~EQUALS)~',
-          orderByGroups: '(by~traces*_SUM*_Agg~direction~DESC)~',
+          orderByGroups: '(by~traces*_SUM~direction~DESC)~',
           detailId: '(traceId~*0000000000000000ae5511eda9237a73~colorCode~byServiceAndEndpoint)~'
         }
       }
