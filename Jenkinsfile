@@ -37,6 +37,11 @@ pipeline {
         setBuildStatus('Build started', 'PENDING')
 
         script {
+          if (env.BRANCH_NAME.contains('/') || env.BRANCH_NAME.contains(',')) {
+            setBuildStatus('Build failure', 'FAILURE')
+            error "Build aborted: Branch names containing slashes or commas aren't allowed. Please rename your branch."
+          }
+
           latestReleaseBranch = getLatestReleaseBranch()
           instanaVersion      = getVersion('ui-client', env.BRANCH_NAME)
           instanaImageVersion = "3." + instanaVersion.tokenize('.').drop(1).join('.') + "-0"
