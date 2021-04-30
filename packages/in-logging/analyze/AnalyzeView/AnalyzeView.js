@@ -11,6 +11,7 @@ import {
   facettedSearchGroupClicked,
   facettedSearchItemClicked
 } from 'in-logging/analyze/AnalyzeView/tracker';
+import TagExpressionValidation from 'in-logging/analyze/AnalyzeView/components/TagExpressionValidation';
 import FacetedFilterGeneric from 'in-new-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
 import { logIdMatrixParameter, selectedTags } from 'in-logging/navigation/matrix';
 import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
@@ -82,18 +83,28 @@ export default function LoggingAnalyzeView() {
         }
       }}
     >
-      {opts =>
-        opts.isGrouped ? (
-          <GroupedLogs
-            {...opts}
-            {...furtherProps}
-            getFacetedSearchSuggestions={getFacetedSearchSuggestions}
-            getLabel={getLabel}
-          />
-        ) : (
-          <Logs {...opts} {...furtherProps} getFacetedSearchSuggestions={getFacetedSearchSuggestions} />
-        )
-      }
+      {opts => (
+        <TagExpressionValidation {...opts}>
+          {validationProps =>
+            opts.isGrouped ? (
+              <GroupedLogs
+                {...opts}
+                {...furtherProps}
+                {...validationProps}
+                getFacetedSearchSuggestions={getFacetedSearchSuggestions}
+                getLabel={getLabel}
+              />
+            ) : (
+              <Logs
+                {...opts}
+                {...furtherProps}
+                {...validationProps}
+                getFacetedSearchSuggestions={getFacetedSearchSuggestions}
+              />
+            )
+          }
+        </TagExpressionValidation>
+      )}
     </StateManagement>
   );
 }
@@ -118,6 +129,7 @@ function FacetedFilterRenderer(props) {
   return (
     <FacetedFilterGeneric
       {...props}
+      openByDefault={false}
       tracker={{
         suggestionClicked: facettedSearchItemClicked,
         groupClicked: facettedSearchGroupClicked

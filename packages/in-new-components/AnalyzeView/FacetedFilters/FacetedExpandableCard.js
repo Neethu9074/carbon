@@ -28,7 +28,7 @@ export default function FacetedExpandableCard(props) {
         });
       }}
       {...props}
-      openByDefault={props.openByDefault || openFacetedSearchByDefault}
+      openByDefault={props.openByDefault === undefined ? openFacetedSearchByDefault : props.openByDefault}
     >
       <div className={locals.facetedCardBody}>{props.children}</div>
     </ExpandableCard>

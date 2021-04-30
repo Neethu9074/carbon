@@ -32,7 +32,8 @@ export default function LoggingQueryBuilderWorkspace(props) {
     onGroupByChange,
     onChartedMetricsChange,
     isGrouped,
-    isInvalid,
+    isValid,
+    validationError,
     children,
     groupBy,
     chartedMetrics
@@ -47,7 +48,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
               value={formModel}
               onChange={onFormModelChange}
               QueryBuilder={LogsQueryBuilder}
-              hasError={isInvalid}
+              hasError={!isValid}
               useLastValidStateWhenErroneous
               getSuggestionLabel={({ item }) => item}
               tracking={{
@@ -66,20 +67,23 @@ export default function LoggingQueryBuilderWorkspace(props) {
               }}
             />
 
-            <LogsDistributionChartSection
-              chartedMetrics={chartedMetrics}
-              onChartedMetricsChange={onChartedMetricsChange}
-              backendQueryModel={backendQueryModel}
-              tracking={{
-                onChartChanged: chartConfig => chartConfig && chartChanged(chartConfig)
-              }}
-            />
+            {isValid && (
+              <LogsDistributionChartSection
+                chartedMetrics={chartedMetrics}
+                onChartedMetricsChange={onChartedMetricsChange}
+                backendQueryModel={backendQueryModel}
+                tracking={{
+                  onChartChanged: chartConfig => chartConfig && chartChanged(chartConfig)
+                }}
+              />
+            )}
 
             <ActionSection right={<ApiQueryAction backendQueryModel={backendQueryModel} />} />
           </Sections>
-          {isInvalid && (
+          {!isValid && (
             <Message type={error} withIcon small>
-              {t('in-logging:theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing')}
+              {validationError ??
+                t('in-logging:theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing')}
             </Message>
           )}
           {children}
