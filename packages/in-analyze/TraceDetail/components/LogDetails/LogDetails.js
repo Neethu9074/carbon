@@ -3,17 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
 
+import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import AnalyzeLogsButton from 'in-analyze/TraceDetail/components/LogDetails/components/AnalyzeLogsButton';
 import SidebarTagList from 'in-analyze/TraceDetail/components/CallDetails/components/SidebarTagList';
 import LoadingCallDetails from 'in-analyze/TraceDetail/components/CallDetails/LoadingCallDetails';
-import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import ExpandableGroup from 'in-new-components/ExpandableGroup';
-import { pendingResult } from 'in-services/fixedObjects';
-import getLog from 'in-logging/subscriptions/getLog';
+import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
+import getLogs from 'in-logging/subscriptions/getLogs';
 import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Card from 'in-new-components/Card';
@@ -21,26 +20,18 @@ import { t } from 'in-i18n';
 
 import locals from './LogDetails.mless';
 
-export default function LogDetails({ logId, onClose }) {
-  const logResult = useObservable(getLogObservable, [logId]) ?? pendingResult;
+export default function LogDetails(props) {
+  const { onClose } = props;
+  const log = useLog(props);
 
-  if (logResult.progress?.loading) {
+  if (!log) {
     return (
       <div className={locals.logDetails}>
-        <LoadingCallDetails onClose={onClose} progress={logResult.progress} />
+        <LoadingCallDetails onClose={onClose} progress={0} />
       </div>
     );
   }
 
-  if (logResult.errors.length > 0) {
-    return (
-      <div className={locals.logDetails}>
-        <ErroneousResultPresenter errors={logResult.errors} />
-      </div>
-    );
-  }
-
-  const log = logResult.data;
   const tags = [...log.tags.filter(tag => !isParameterTag(tag))].map(mapToSiderbarTagListObject);
 
   // translate tag param key to not leak the technical rake
@@ -82,10 +73,6 @@ function isParameterTag({ key }) {
   return key && key.indexOf('_msg_param') === 0;
 }
 
-function getLogObservable([logId]) {
-  return getLog({ itemId: logId });
-}
-
 function mapToSiderbarTagListObject(tag) {
   return {
     name: getTagKey(tag),
@@ -99,4 +86,22 @@ function getTagKey({ label, name, key }) {
     return `${tagName} - ${isParameterTag(key) ? 'parameter' : key}`;
   }
   return tagName;
+}
+
+function useLog(props) {
+  const { logId, traceId, timeConfigForLogs, totalNumberOfLogs } = props;
+  const { items = [] } = useLogsCursorPagination(
+    params => getData({ traceId, timeConfigForLogs, totalNumberOfLogs, ...params }),
+    [logId, traceId, totalNumberOfLogs]
+  );
+
+  return items.filter(({ itemId }) => itemId === logId)[0];
+}
+
+function getData({ traceId, timeConfigForLogs, totalNumberOfLogs }) {
+  return getLogs({
+    timeConfig: timeConfigForLogs,
+    retrievalSize: totalNumberOfLogs,
+    tagFilterExpression: getTraceIdTagFilter(traceId)
+  });
 }

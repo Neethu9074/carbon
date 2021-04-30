@@ -168,7 +168,7 @@ function ExpandedList(props) {
         <HeightRestrictedView
           render={() => (
             <>
-              {hasErrors && <ErrorList errors={result.errors} />}
+              {hasErrors && <ErrorList errors={result?.errors} />}
               {hasItems && (
                 <Ul space="disabled">
                   {items.map((item, i) => {

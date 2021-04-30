@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState } from 'react';
+
 import { just, create } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import React, { useState } from 'react';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { callId as callIdMatrixParameter, logId as logIdMatrixParameter } from 'in-analyze/navigation/matrix';
@@ -136,6 +137,7 @@ class Summary extends React.Component {
     const hasWebsiteCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'web';
     const hasMobileCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'mobile';
     const missingEumCorrelation = !hasWebsiteCorrelationId && !hasMobileCorrelationId;
+    const totalNumberOfLogs = trace.totalErrorLogCount + trace.totalWarnLogCount;
 
     const timeWindowExtend = minutes.toMillis(10);
     const timeConfigForLogs = {
@@ -259,6 +261,9 @@ class Summary extends React.Component {
                       onCallClicked={this.onCallClicked}
                       hoveredServiceEndpoint$={this.hoveredServiceEndpoint$}
                       openedCall$={this.openedCall$}
+                      timeConfigForLogs={timeConfigForLogs}
+                      selectLogId={this.selectLogId}
+                      totalNumberOfLogs={totalNumberOfLogs}
                     />
                   </div>
                 </Card>
@@ -319,13 +324,16 @@ class Summary extends React.Component {
                     onCallClicked={this.onCallClicked}
                     openedCall$={this.openedCall$}
                     isLargeTrace={isLargeTrace}
+                    timeConfigForLogs={timeConfigForLogs}
+                    selectLogId={this.selectLogId}
+                    totalNumberOfLogs={totalNumberOfLogs}
                   />
                 </Card>
               </Col>
             </Row>
           )}
 
-          {loggingEnabledOnTrace && (
+          {loggingEnabledOnTrace && totalNumberOfLogs > 0 && (
             <ErrorBoundary name="log section">
               <Row singleRowTopMargin withoutSideMargin>
                 <Col lg={12}>
@@ -350,6 +358,7 @@ class Summary extends React.Component {
                       clearSelectedLogId={this.clearSelectedLogId}
                       selectedLogId={logId}
                       timeConfigForLogs={timeConfigForLogs}
+                      totalNumberOfLogs={totalNumberOfLogs}
                     />
                   </Card>
                 </Col>
@@ -365,7 +374,13 @@ class Summary extends React.Component {
       <HeightRestrictedView
         render={() => (
           <ErrorBoundary name="log tree sidebar">
-            <LogDetails logId={logId} onClose={this.clearSelectedLogId} />
+            <LogDetails
+              logId={logId}
+              traceId={traceId}
+              onClose={this.clearSelectedLogId}
+              timeConfigForLogs={timeConfigForLogs}
+              totalNumberOfLogs={totalNumberOfLogs}
+            />
           </ErrorBoundary>
         )}
         scrollResetProps={['callId']}

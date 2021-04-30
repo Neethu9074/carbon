@@ -26,10 +26,8 @@ function callIsInServiceEndpoint(call, serviceEndpoint) {
   }
 }
 
-const CallFrame = forwardRef(function CallFrame(
-  { callFrame, xScale, isUnhighlighted, getColor, onCallClicked, isFakeRoot, isOpened },
-  ref
-) {
+const CallFrame = forwardRef(function CallFrame(props, ref) {
+  const { callFrame, xScale, isUnhighlighted, getColor, onCallClicked, isFakeRoot, isOpened } = props;
   const { label, errorCount, depth, x, dx, totalDuration, traceStart, children } = callFrame;
   const top = FRAME_HEIGHT * depth;
   const left = xScale.getRange(x);
@@ -67,12 +65,11 @@ const CallFrame = forwardRef(function CallFrame(
             .filter(subCall => subCall.model === 'LOG')
             .map(subCall => (
               <LogIndicators
+                {...props}
                 parentCall={callFrame}
                 key={subCall.id}
                 top={top}
                 log={subCall}
-                xScale={xScale}
-                onCallClicked={onCallClicked}
                 x={totalDuration ? (subCall.start - traceStart) / totalDuration : 0}
               />
             ))}
@@ -81,11 +78,14 @@ const CallFrame = forwardRef(function CallFrame(
   );
 });
 
-function LogIndicators({ parentCall, log, xScale, x, top, onCallClicked }) {
+function LogIndicators(props) {
+  const { log, xScale, x } = props;
+
   const left = xScale.getRange(x);
+
   return (
     <Tooltip themeStyle="light" content={getTooltipContent(log)} align="topMiddle">
-      <LogIndicator inTimeline top={top} left={left} parentCall={parentCall} onCallClicked={onCallClicked} log={log} />
+      <LogIndicator {...props} inTimeline left={left} />
     </Tooltip>
   );
 }
