@@ -4,10 +4,11 @@
  */
 
 import React, { useEffect, useMemo } from 'react';
-import { empty } from '@instana/observables';
 import classNames from 'classnames';
 import { range } from 'lodash';
 import rpt from 'prop-types';
+
+import { empty } from '@instana/observables';
 
 import {
   getAvailableMetrics,
@@ -19,13 +20,13 @@ import { joinExpressions, removeTopLevelFilters, TAG } from 'in-new-components/Q
 import { UNSPECIFIED, NO_VALUE, UNSPECIFIED_LABEL, NO_VALUE_LABEL } from 'in-analyze/components/GroupedTraces/Group';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
+import { or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { addGroupingCriteriaToFormModel } from 'in-new-components/AnalyzeView/StateManagement';
 import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-new-components/tracker';
 import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
 import { BOOLEAN, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
 import { EQUALS, NOT_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { or } from '../QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
@@ -37,11 +38,13 @@ import { tagFilter } from '../QueryBuilder/transformation/tagFilter';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
+import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { aggregationLabels } from 'in-stores/metric';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import SvgIcon from 'in-components/SvgIcon';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -91,11 +94,23 @@ export default function GroupedAnalyzeView(props) {
   const showChartGroupMarkers =
     !withoutChartGroupMarkers && chartedMetrics?.[0] && chartedMetrics[0].aggregationId !== 'DISTRIBUTION';
 
+  const groupIcon =
+    useMemo(() => {
+      if (groupingTagCatalog != null) {
+        const tagDefinition = enrichTagCatalog(groupingTagCatalog).tagsByName[groupBy.groupbyTag];
+        if (tagDefinition?.path?.length > 0) {
+          return tagDefinition.path[tagDefinition.path.length - 1].icon;
+        }
+      }
+      return null;
+    }, [groupingTagCatalog, groupBy]) ?? 'lib_views_tag';
+
   const labelColumnDefinitions = labelColumns({
     itemlabelColumnId,
     getLabel,
     showChartGroupMarkers,
-    groupColors
+    groupColors,
+    groupIcon
   });
   const metricColumnDefinitions = metricColumns({
     columnDefinitions: props.columnDefinitions,
@@ -364,7 +379,7 @@ export default function GroupedAnalyzeView(props) {
   );
 }
 
-function labelColumns({ itemlabelColumnId, getLabel, showChartGroupMarkers, groupColors }) {
+function labelColumns({ itemlabelColumnId, getLabel, showChartGroupMarkers, groupColors, groupIcon }) {
   let i = 0;
   return [
     ...(showChartGroupMarkers
@@ -382,6 +397,16 @@ function labelColumns({ itemlabelColumnId, getLabel, showChartGroupMarkers, grou
           }
         ]
       : emptyArray),
+    {
+      width: '2.5rem',
+      getContent() {
+        return (
+          <div className={locals.center}>
+            <SvgIcon type={groupIcon} />
+          </div>
+        );
+      }
+    },
     {
       id: itemlabelColumnId,
       getContent({ item, groupBy: { groupbyTag }, groupingTagCatalog }) {
