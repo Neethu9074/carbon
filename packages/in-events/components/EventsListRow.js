@@ -13,6 +13,7 @@ import {
   isAppDataEntityType,
   isWebsiteEntityType
 } from 'in-services/entityUtils';
+import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
@@ -20,7 +21,6 @@ import EventsListRowDense from 'in-events/components/EventsListRowDense';
 import getApplication from 'in-subscription/application/getApplication';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
-import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { formatDateTime } from 'in-services/formatters/date';
 import getWebsite from 'in-subscription/website/getWebsite';
 import EventIcon from 'in-events/components/EventIcon';
@@ -55,7 +55,7 @@ export default function EventRow({ selectedEventId, onItemClicked, isDenseList, 
   return (
     <Tr key={event.id} size="compact" active={active} onClick={onClick}>
       <Td>
-        <EventIcon event={event} />
+        <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event)} />
       </Td>
       <Td>
         <div className={locals.title}>{event.title}</div>

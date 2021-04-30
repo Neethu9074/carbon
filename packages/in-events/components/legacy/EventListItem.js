@@ -7,6 +7,7 @@ import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
 import React from 'react';
 
+import { getColorForEventAtFocusedMomentAsStream, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import ApplicationEventListItemContent from 'in-events/components/legacy/ApplicationEventListItemContent';
 import { getTimeConfigFromEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
@@ -17,7 +18,6 @@ import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventA
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventListItemContent from 'in-events/components/legacy/EventListItemContent';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
-import { getColorForEventAtFocusedMomentAsStream } from 'in-stores/events';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -132,7 +132,12 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
     <div className={className} id={`event-${event.get('id')}`} onClick={onClick}>
       <div className={`${block}__left`}>
         <div className={`${block}__icon-wrapper`} style={{ background }}>
-          <EventIcon event={event} disableColorCalculation size="xs" />
+          <EventIcon
+            event={event}
+            tooltipLabel={getEventSeverityLabelWithEventType(event)}
+            disableColorCalculation
+            size="xs"
+          />
         </div>
 
         <div className={`${block}__entity`}>
