@@ -36,8 +36,12 @@ const necessaryLoaders = [
     ]
   },
   {
-    test: /\.(css|less)$/i,
+    test: /\.less$/i,
     use: ['style-loader', 'css-loader', 'less-loader']
+  },
+  {
+    test: /\.css$/i,
+    use: ['style-loader', 'css-loader']
   },
   {
     test: /\.(jpe?g|gif|png|svg)$/i,
