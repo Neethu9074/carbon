@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo, useState } from 'react';
-import rpt from 'prop-types';
-
+import React, { useCallback, useMemo, useState } from 'react';
 import { useObservable } from '@instana/hooks';
+import rpt from 'prop-types';
 
 import { TAG, CONJUNCTION, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS, IS_EMPTY, NOT_EMPTY, IS_BLANK } from 'in-new-components/QueryBuilder/tagFilter/operators';
@@ -102,7 +101,6 @@ const groupedViewPropType = rpt.shape({
   defaultOrderDirection: rpt.oneOf(['ASC', 'DESC']).isRequired,
   timestampName: rpt.string,
   orderByGroupName: rpt.string,
-  getOrderById: rpt.func,
   customFieldRenderingInstructions: rpt.objectOf(rpt.shape(extendedColumnDefinitionShape).isRequired)
 }).isRequired;
 
@@ -269,6 +267,9 @@ function AnalyzeStateManagement({
     direction: urlState.orderByGroups?.direction ?? defaultOrderDirectionGroups
   });
 
+  const timestampName = dataSourceConfigurations[dataSource].groupedView.timestampName;
+  const getOrderByGroupId = useCallback(createGetOrderByGroupId(timestampName), [timestampName]);
+
   // Eventually we might wanna store this within the URL. This might become a lot more interesting when
   // our users can (de-)select their desired data series.
   const [chartableDataSeries, onChartableDataSeriesChange] = useState(null);
@@ -284,9 +285,7 @@ function AnalyzeStateManagement({
       };
     }
     // reset "orderByGroups" if needed
-    const availableOrderByGroupIds = fields
-      .map(field => groupedView.getOrderById && groupedView.getOrderById({ field }))
-      .filter(Boolean);
+    const availableOrderByGroupIds = fields.map(field => getOrderByGroupId({ field })).filter(Boolean);
     // Allow to sort by group name
     availableOrderByGroupIds.push('groupName');
     if (!orderByGroups || !availableOrderByGroupIds.includes(orderByGroups.by)) {
@@ -304,11 +303,8 @@ function AnalyzeStateManagement({
     isValid,
     refreshFixatedTimeConfig,
     ungroupedViewConfiguration: ungroupedView,
-    groupedViewConfiguration: {
-      getOrderById: ({ field }) =>
-        getOrderByGroupId({ field, dataSourceConfiguration: dataSourceConfigurations[dataSource] }),
-      ...groupedView
-    },
+    groupedViewConfiguration: groupedView,
+    getOrderByGroupId,
     facetedSearchItems,
     fixedFields,
 
@@ -406,17 +402,19 @@ function getOrderById({ metricCatalog, field }) {
   return null;
 }
 
-function getOrderByGroupId({ field, dataSourceConfiguration }) {
-  if (field.type === customType) {
-    if (field.customFieldId === 'timestamp') {
-      return dataSourceConfiguration.groupedView.timestampName ?? 'earliestTimestamp';
+function createGetOrderByGroupId(timestampName) {
+  return ({ field }) => {
+    if (field.type === customType) {
+      if (field.customFieldId === 'timestamp') {
+        return timestampName ?? 'earliestTimestamp';
+      }
+      return field.customFieldId;
     }
-    return field.customFieldId;
-  }
-  if (field.type === metricType) {
-    return getSingleNumberMetricId(field);
-  }
-  return null;
+    if (field.type === metricType) {
+      return getSingleNumberMetricId(field);
+    }
+    return null;
+  };
 }
 
 const metricCatalogPropType = rpt.arrayOf(
@@ -436,6 +434,7 @@ export const childrenArgsAsPropTypes = {
   isValid: rpt.bool.isRequired,
   groupedViewConfiguration: groupedViewPropType,
   ungroupedViewConfiguration: ungroupedViewPropType,
+  getOrderByGroupId: rpt.func.isRequired,
 
   backendQueryModel: rpt.object,
   formModel: rpt.array.isRequired,

@@ -70,6 +70,7 @@ export default function GroupedAnalyzeView(props) {
     onFormModelChange,
     getHrefWithTagFilterExpression,
     groupedViewConfiguration,
+    getOrderByGroupId,
     itemlabelColumnId,
     onChartableDataSeriesChange,
     withSamplingTooltip,
@@ -176,7 +177,7 @@ export default function GroupedAnalyzeView(props) {
 
   const sortOptions = fields
     .map(field => {
-      const value = groupedViewConfiguration.getOrderById && groupedViewConfiguration.getOrderById({ field: field });
+      const value = getOrderByGroupId({ field: field });
       if (value == null) {
         return;
       }
