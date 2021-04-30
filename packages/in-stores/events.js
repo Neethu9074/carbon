@@ -241,9 +241,9 @@ export function getEventSeverityLabelWithEventType(event) {
   const severityLabel = getEventSeverityLabel(event);
   switch (eventType) {
     case 'incident':
-      return severityLabel + ' ' + t('in-events:labelIncident');
+      return t('in-events:labelIncidentWithSeverity', { severityLabel });
     case 'issue':
-      return severityLabel + ' ' + t('in-events:labelIssue');
+      return t('in-events:labelIssueWithSeverity', { severityLabel });
     case 'change':
       if (eventTitle === 'offline' || problemText === 'offline') {
         return t('in-events:labelOffline');
