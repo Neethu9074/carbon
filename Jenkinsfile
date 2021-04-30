@@ -27,7 +27,9 @@ void setBuildStatus(String message, String state) {
 
 pipeline {
   agent any
-
+  options {
+    ansiColor('xterm')
+  }
   stages {
     stage ('Setup') {
       steps {
@@ -155,19 +157,17 @@ pipeline {
         // This lock is shared with the backend pipeline as well so as only to allow
         // one deploy per deployable branch at a time
         lock(resource: "deploy-instana-${env.BRANCH_NAME}", inversePrecedence: true) {
-           timeout(time: 30, unit: 'MINUTES') {
-             ansiColor('xterm') {
-               timestamps {
-                 script {
-                   // Enable only for the develop branch for now
-                   // Other delivery branches will use 'K8s Deploy'
-                   if (env.BRANCH_NAME == 'develop') {
-                     deployInstana(env.BRANCH_NAME, instanaImageVersion, null, 'pink', 'instana', 'test')
-                   }
-                 }
-               }
-             }
-           }
+          timeout(time: 30, unit: 'MINUTES') {
+            timestamps {
+              script {
+                // Enable only for the develop branch for now
+                // Other delivery branches will use 'K8s Deploy'
+                if (env.BRANCH_NAME == 'develop') {
+                  deployInstana(env.BRANCH_NAME, instanaImageVersion, null, 'pink', 'instana', 'test')
+                }
+              }
+            }
+          }
         }
       }
     }
