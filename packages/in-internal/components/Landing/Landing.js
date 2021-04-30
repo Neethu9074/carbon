@@ -380,9 +380,15 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                       <LinkListItem label={t('in-internal:components.landing.clickhouse')}>
                         <LinkList>
                           <LinkListItem
-                            label={t('in-internal:components.landing.overview')}
+                            label={t('in-internal:components.landing.clickhouseApplication')}
                             href$={getModifiedUrlStream(
                               params => (params.pathname = '/internal/monitoringUnit/sre/clickhouse')
+                            )}
+                          />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.clickhouseLogs')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/sre/clickhouseLogs')
                             )}
                           />
                           <LinkListItem

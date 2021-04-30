@@ -42,6 +42,7 @@ import MetaElastic from 'in-internal/monitoringUnit/sre/MetaElastic';
 import EumAcceptor from 'in-internal/monitoringUnit/eum/EumAcceptor';
 import Hubforce from 'in-internal/monitoringUnit/hubforce/Hubforce';
 import Clickhouse from 'in-internal/monitoringUnit/sre/Clickhouse';
+import ClickhouseLogs from 'in-internal/monitoringUnit/sre/ClickhouseLogs';
 import Cashiers from 'in-internal/monitoringUnit/cashier/Cashiers';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
 import EumOverview from 'in-internal/monitoringUnit/eum/Overview';
@@ -131,6 +132,7 @@ export default function Internal() {
           />
           <Route path="/internal/monitoringUnit/sre/statecassandra" component={wrapIninternalView(StateCassandra)} />
           <Route path="/internal/monitoringUnit/sre/clickhouse" component={wrapIninternalView(Clickhouse)} />
+          <Route path="/internal/monitoringUnit/sre/clickhouseLogs" component={wrapIninternalView(ClickhouseLogs)} />
           <Route
             path="/internal/monitoringUnit/sre/clickhouseTableSizes"
             component={wrapIninternalView(ClickhouseTotalTableSizes)}
