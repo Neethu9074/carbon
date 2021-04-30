@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createLogger } from '@instana/logger';
 import { pick } from 'lodash';
+
+import { createLogger } from '@instana/logger';
 
 import { EQUALS, NOT_EQUAL, NOT_STARTS_WITH, STARTS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { KEY_VALUE_PAIR, BOOLEAN, NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
@@ -136,5 +137,5 @@ function transformStringValue(tagCatalog, tagFilter) {
 }
 
 export function tagFilter(name, operator, value, key) {
-  return { type, name, operator, ...(value && { value }), ...(key && { key }) };
+  return { type, name, operator, ...(value != null && { value }), ...(key != null && { key }) };
 }
