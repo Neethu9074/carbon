@@ -104,4 +104,8 @@
   .focusButton:hover:before {
     opacity: 0.1;
   }
+  .link {
+    display: block;
+    .ellipsis();
+  }
 }

@@ -18,7 +18,6 @@ import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressI
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import CountHeader from 'in-new-components/QueryBuilder/components/Header/CountHeader';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
-import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
@@ -348,26 +347,29 @@ const getColumnDefinitions = (dataSource, linkFormModel) => {
       sortable: false,
       ellipsis: true,
       getContent(item) {
+        const label = item[type].label;
         return (
-          <Link
-            href$={getLinkToTraceDetail(dataSource === 'traces' ? item[type].id : item[type].traceId, {
-              [type + 'Id']: item[type].id,
-              tagFilterExpression: linkFormModel
-            })}
-            onClick={() => dataSourceConstants[dataSource].clickedTracker()}
-          >
-            {item[type].label}
-            {dataSource !== 'traces' && (
-              <BatchingIndicator
-                batchCount={item[type].batchCount}
-                tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
-                  type: getTypeTextByCount(type, 1),
-                  batchCount: item[type].batchCount,
-                  types: getTypeTextByCount(type, item[type].batchCount)
-                })}
-              />
-            )}
-          </Link>
+          <Tooltip content={label} align="bottomLeft" delay={1000}>
+            <Link
+              href$={getLinkToTraceDetail(dataSource === 'traces' ? item[type].id : item[type].traceId, {
+                [type + 'Id']: item[type].id,
+                tagFilterExpression: linkFormModel
+              })}
+              onClick={() => dataSourceConstants[dataSource].clickedTracker()}
+            >
+              {label}
+              {dataSource !== 'traces' && (
+                <BatchingIndicator
+                  batchCount={item[type].batchCount}
+                  tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
+                    type: getTypeTextByCount(type, 1),
+                    batchCount: item[type].batchCount,
+                    types: getTypeTextByCount(type, item[type].batchCount)
+                  })}
+                />
+              )}
+            </Link>
+          </Tooltip>
         );
       }
     },
@@ -376,10 +378,13 @@ const getColumnDefinitions = (dataSource, linkFormModel) => {
       label: t('in-applications:analyze.service'),
       sortable: false,
       getContent(item) {
+        const label = item[type].service.label;
         return (
-          <TableLinkWithIcon href$={getServiceDashboard(item[type].service.id)}>
-            {item[type].service.label}
-          </TableLinkWithIcon>
+          <Tooltip content={label} align="bottomLeft" delay={1000}>
+            <Link className={locals.link} href$={getServiceDashboard(item[type].service.id)}>
+              {label}
+            </Link>
+          </Tooltip>
         );
       },
       width: '25'
