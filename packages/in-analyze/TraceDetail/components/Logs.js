@@ -11,7 +11,6 @@ import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealth
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
-import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -50,9 +49,10 @@ const columnDefinitions = [
   }
 ];
 
-export default function Logs({ traceId, selectedLogId, clearSelectedLogId, selectLogId, timeConfigForLogs }) {
-  const { items, errors, progress, canLoadMore, loadMore } = useLogsCursorPagination(
-    params => getData({ traceId, timeConfigForLogs, ...params }),
+export default function Logs(props) {
+  const { traceId, totalNumberOfLogs, selectedLogId, clearSelectedLogId, selectLogId, timeConfigForLogs } = props;
+  const { items, errors, progress } = useLogsCursorPagination(
+    params => getData({ traceId, totalNumberOfLogs, timeConfigForLogs, ...params }),
     [traceId]
   );
 
@@ -82,16 +82,14 @@ export default function Logs({ traceId, selectedLogId, clearSelectedLogId, selec
           </Li>
         );
       })}
-      {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
     </Ul>
   );
 }
 
-function getData({ traceId, timeConfigForLogs, afterKey }) {
+function getData({ traceId, totalNumberOfLogs, timeConfigForLogs }) {
   return getLogs({
     timeConfig: timeConfigForLogs,
-    retrievalSize: 10,
-    afterKey,
+    retrievalSize: totalNumberOfLogs,
     tagFilterExpression: getTraceIdTagFilter(traceId)
   });
 }

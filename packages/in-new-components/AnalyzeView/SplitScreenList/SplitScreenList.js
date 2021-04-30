@@ -4,10 +4,11 @@
  */
 
 import React, { useState, useLayoutEffect } from 'react';
-import { useObservable } from '@instana/hooks';
 import { findIndex, isEqual } from 'lodash';
 import classNames from 'classnames';
 import rpt from 'prop-types';
+
+import { useObservable } from '@instana/hooks';
 
 import { leftArrowId, rightArrowId } from 'in-new-components/AnalyzeView/SplitScreenList/elementIds';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
@@ -168,7 +169,7 @@ function ExpandedList(props) {
         <HeightRestrictedView
           render={() => (
             <>
-              {hasErrors && <ErrorList errors={result.errors} />}
+              {hasErrors && <ErrorList errors={result?.errors} />}
               {hasItems && (
                 <Ul space="disabled">
                   {items.map((item, i) => {

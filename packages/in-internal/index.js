@@ -34,6 +34,7 @@ import GraphExplorer from 'in-internal/thisUnit/GraphExplorer/GraphExplorer';
 import ErrorSimulator from 'in-internal/monitoringUnit/eum/ErrorSimulator';
 import SpansCassandra from 'in-internal/monitoringUnit/sre/SpansCassandra';
 import StateCassandra from 'in-internal/monitoringUnit/sre/StateCassandra';
+import ClickhouseLogs from 'in-internal/monitoringUnit/sre/ClickhouseLogs';
 import MetaElasticNG from 'in-internal/monitoringUnit/sre/MetaElasticNG';
 import EumProcessor from 'in-internal/monitoringUnit/eum/EumProcessor';
 import LogProcessor from 'in-internal/monitoringUnit/log/LogProcessor';
@@ -131,6 +132,7 @@ export default function Internal() {
           />
           <Route path="/internal/monitoringUnit/sre/statecassandra" component={wrapIninternalView(StateCassandra)} />
           <Route path="/internal/monitoringUnit/sre/clickhouse" component={wrapIninternalView(Clickhouse)} />
+          <Route path="/internal/monitoringUnit/sre/clickhouseLogs" component={wrapIninternalView(ClickhouseLogs)} />
           <Route
             path="/internal/monitoringUnit/sre/clickhouseTableSizes"
             component={wrapIninternalView(ClickhouseTotalTableSizes)}

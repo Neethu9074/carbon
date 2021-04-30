@@ -116,6 +116,8 @@
       "serverlessAcceptor": "ServerlessAcceptor",
       "hubforce": "Hubforce",
       "clickhouse": "Clickhouse",
+      "clickhouseApplication": "ClickHouse Application",
+      "clickhouseLogs": "ClickHouse Logs",
       "elasticsearch": "Elasticsearch",
       "elasticsearchNg": "ElasticsearchNG",
       "kafka": "Kafka",

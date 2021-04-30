@@ -27,7 +27,7 @@ import { t } from 'in-i18n';
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    chNodes: getClickhouseWithContext('entity.zone:"ClickHouse" entity.host.name:"clickhouse-*"')
+    chNodes: getClickhouseWithContext('entity.zone:"Logs ClickHouse" entity.host.name:"clickhouse-*"')
   },
   function Overview({ chNodes, timeConfig }) {
     if (chNodes.length === 0) {
@@ -35,7 +35,7 @@ export default connectTo(
     }
 
     chNodes = sort(chNodes);
-    const chNodeLabels = getLabels(chNodes, /^(clickhouse-\d+).*$/i);
+    const chNodeLabels = getLabels(chNodes, /^(clickhouse-logs-\d+).*$/i);
 
     return (
       <div>

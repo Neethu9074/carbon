@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest, just } from '@instana/observables';
 import React from 'react';
+
+import { combineLatest, just } from '@instana/observables';
 
 import {
   getEventType,
@@ -178,7 +179,7 @@ const Severity = connectTo(
     };
   },
   function Severity({ severity, isChangeEvent }) {
-    if (isChangeEvent) {
+    if (isChangeEvent && severity === '') {
       return null;
     }
     return (

@@ -6,6 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { formatDateTime } from 'in-services/formatters/date';
 import EventIcon from 'in-events/components/EventIcon';
@@ -16,7 +17,7 @@ export default function EventRow({ event, active, onClick }) {
   return (
     <Tr size="compact" active={active} onClick={onClick}>
       <Td>
-        <EventIcon event={event} />
+        <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event)} />
       </Td>
       <Td>
         <div

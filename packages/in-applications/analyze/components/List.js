@@ -4,10 +4,11 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { useObservable } from '@instana/hooks';
-import { empty } from '@instana/observables';
 import classNames from 'classnames';
 import Toggle from 'react-toggle';
+
+import { useObservable } from '@instana/hooks';
+import { empty } from '@instana/observables';
 
 import { getTagCatalog as getTraceFilteringTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import { getTagCatalog as getCallFilteringTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
@@ -18,7 +19,6 @@ import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressI
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import CountHeader from 'in-new-components/QueryBuilder/components/Header/CountHeader';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
-import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
@@ -376,10 +376,13 @@ const getColumnDefinitions = (dataSource, linkFormModel) => {
       label: t('in-applications:analyze.service'),
       sortable: false,
       getContent(item) {
+        const label = item[type].service.label;
         return (
-          <TableLinkWithIcon href$={getServiceDashboard(item[type].service.id)}>
-            {item[type].service.label}
-          </TableLinkWithIcon>
+          <Tooltip content={label} align="bottomLeft" delay={1000}>
+            <Link className={locals.link} href$={getServiceDashboard(item[type].service.id)}>
+              {label}
+            </Link>
+          </Tooltip>
         );
       },
       width: '25'

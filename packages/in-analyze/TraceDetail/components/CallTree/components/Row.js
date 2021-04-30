@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 import classNames from 'classnames';
+
+import { useObservable } from '@instana/hooks';
 
 import ChildrenDistributionTimeLine from 'in-analyze/TraceDetail/components/CallTree/components/ChildrenDistributionTimeLine';
 import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTree/components/ServiceEndpointInformation';
@@ -50,13 +51,9 @@ function Row(props) {
     call,
     nonInternalParentCall,
     getColor,
-    scale,
     depth = 0,
     onCallClicked,
     onSubCallClicked,
-    selectedCall$,
-    openedCallId,
-    openedCall$,
     isLargeTrace
   } = props;
 
@@ -106,18 +103,11 @@ function Row(props) {
           .map((subCall, i) => (
             <EnhancedRow
               key={subCall.id}
-              scale={scale}
-              getColor={getColor}
+              {...props}
               call={subCall}
               nonInternalParentCall={isInternalCall(call) ? nonInternalParentCall : call}
-              isLargeTrace={isLargeTrace}
               depth={depth + 1}
               intermediateRow={i !== call.children.filter(subCall => subCall.model !== 'LOG').length - 1}
-              onCallClicked={onCallClicked}
-              onSubCallClicked={onSubCallClicked}
-              selectedCall$={selectedCall$}
-              openedCallId={openedCallId}
-              openedCall$={openedCall$}
             />
           ))}
     </div>
@@ -127,15 +117,12 @@ function Row(props) {
 function CallInformation(props) {
   const {
     call,
-    getColor,
-    scale,
     marginLeft,
     hasChildren,
     isExpanded,
     lineWidth,
     setIsExpanded,
     onCallClicked,
-    onSubCallClicked,
     isLargeTrace,
     isOpened
   } = props;
@@ -189,15 +176,7 @@ function CallInformation(props) {
         {!isLargeTrace && <div className={locals.dashedLine} />}
       </div>
 
-      {!isLargeTrace && (
-        <ChildrenDistributionTimeLine
-          call={call}
-          getColor={getColor}
-          scale={scale}
-          onCallClicked={onCallClicked}
-          onSubCallClicked={onSubCallClicked}
-        />
-      )}
+      {!isLargeTrace && <ChildrenDistributionTimeLine {...props} />}
     </div>
   );
 }
