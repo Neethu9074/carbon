@@ -54,5 +54,6 @@ phases:
   build:
     commands:
       - yarn run storybookBuild
-      - npx s3-deploy@1.4.0 './storybookTarget/**' --cwd './storybookTarget/' --bucket instana-devinfra-ui-client-playground --deleteRemoved --invalidate
+      - npm install s3-deploy@1.4.0 -g
+      - s3-deploy './storybookTarget/**' --cwd './storybookTarget/' --bucket instana-devinfra-ui-client-playground --deleteRemoved --invalidate
       - 'test -n "$RUN_UI_TEST_ON_DELIVERY" -a "$RUN_UI_TEST_ON_DELIVERY" = "true" && yarn run storybookTest || true # ignore failing build'
