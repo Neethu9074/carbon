@@ -56,7 +56,21 @@ export default function ServicesAndEndpointsListPresenter({
 
   useEffect(() => {
     if (boundaryScope === boundaryScopes.inbound && Object.values(state).some(({ services }) => !isEmpty(services))) {
-      dispatch({ type: actionType.RESET_STATE, initialState: editMode ? initialConfiguredApplications : {} });
+      const getInitialStateForIndividualSmartAlert = () => {
+        const applicationId = Object.keys(initialConfiguredApplications)[0];
+
+        return {
+          [applicationId]: {
+            applicationId,
+            inclusive: true,
+            services: {}
+          }
+        };
+      };
+
+      const initialState = !isGlobalSmartAlert ? getInitialStateForIndividualSmartAlert() : {};
+
+      dispatch({ type: actionType.RESET_STATE, initialState });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
