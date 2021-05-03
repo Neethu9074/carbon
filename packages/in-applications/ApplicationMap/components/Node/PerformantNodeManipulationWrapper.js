@@ -5,8 +5,7 @@
 
 /* eslint-disable react/no-find-dom-node */
 import { combineLatest } from '@instana/observables';
-import ReactDOM from 'react-dom';
-import React from 'react';
+import React, { createRef } from 'react';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
@@ -23,10 +22,16 @@ export default function performantNodeManipulationWrapper(ComposedComponent) {
       metric: null
     };
 
+    constructor() {
+      super();
+
+      this.nodeRef = createRef();
+    }
+
     componentDidMount() {
       const { serviceLocatorUid, node } = this.props;
       const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
-      const nodeDomComponent = ReactDOM.findDOMNode(this);
+      const nodeDomComponent = this.nodeRef.current;
 
       this.subscriber.addSubscriptions([
         combineLatest([
@@ -69,7 +74,9 @@ export default function performantNodeManipulationWrapper(ComposedComponent) {
     }
 
     render() {
-      return <ComposedComponent {...this.props} metric={this.state.metric} power={this.state.power} />;
+      return (
+        <ComposedComponent {...this.props} metric={this.state.metric} power={this.state.power} ref={this.nodeRef} />
+      );
     }
   };
 }

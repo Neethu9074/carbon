@@ -18,9 +18,10 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './Node.mless';
 
-export default performantNodeManipulationWrapper(NodeComponent);
+const NodeWithRef = forwardRef(NodeComponent);
+export default performantNodeManipulationWrapper(NodeWithRef);
 
-export function NodeComponent(props) {
+export function NodeComponent(props, ref) {
   const { node, nodesSize, applicationId, serviceLocatorUid, power } = props;
   const dimensionInPx = 32 + 32 * power;
   const isExternalService = (node.data.applications || []).indexOf(applicationId) === -1;
@@ -36,6 +37,7 @@ export function NodeComponent(props) {
         top: -dimensionInPx / 2,
         left: -dimensionInPx / 2
       }}
+      ref={ref}
     >
       <Overlay
         content={ContextMenu}
