@@ -5,13 +5,14 @@
 
 import React from 'react';
 
+import { KeyValue } from '@instana/components';
+
 import { removeUserFromGroup, getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import AddUserToGroupButton from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/AddUserToGroupButton';
 import { getEntityIdView, teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import ApiList from 'in-settings/components/ApiList';
 import { t, Trans } from 'in-i18n';
 

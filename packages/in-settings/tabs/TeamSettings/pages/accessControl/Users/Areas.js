@@ -5,6 +5,8 @@
 
 import React, { useState } from 'react';
 
+import { KeyValue } from '@instana/components';
+
 import {
   mapApplications,
   mapKubernetesClusters,
@@ -18,7 +20,6 @@ import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer
 import { getGroupsOfASingleUser } from 'in-settings/tabs/TeamSettings/api/groups';
 import { ColumnizedContent, Li, Ul } from 'in-new-components/lists/List';
 import { hasError, isLoading } from 'in-services/util/result';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import { success } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

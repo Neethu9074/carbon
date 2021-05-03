@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import Toggle from 'react-toggle';
 
 import { useObservable } from '@instana/hooks';
+import { KeyValue } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { empty } from '@instana/observables';
 
@@ -39,7 +40,6 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { formatDateTime } from 'in-services/formatters/date';
 import List from 'in-applications/analyze/components/List';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import { emptyArray } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';

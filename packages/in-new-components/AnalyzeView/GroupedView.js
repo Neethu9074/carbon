@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { range } from 'lodash';
 import rpt from 'prop-types';
 
+import { KeyValue } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { empty } from '@instana/observables';
 
@@ -41,7 +42,6 @@ import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import { aggregationLabels } from 'in-stores/metric';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';

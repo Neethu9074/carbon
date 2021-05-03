@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
+import { KeyValue } from '@instana/components';
+
 import MetricValue from 'in-components/MetricValue';
 
 import locals from './KpiChart.mless';
@@ -16,7 +17,6 @@ export default function KpiChart({ snapshotId, label, metric, formatter }) {
       className={locals.chart}
       label={label}
       value={<MetricValue className={locals.value} snapshotId={snapshotId} metric={metric} formatter={formatter} />}
-      theme={themes.blue}
       accentuated
     />
   );

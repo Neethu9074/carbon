@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { KeyValue } from '@instana/components';
+
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import CodeComponent from 'in-components/Code';
 import { t } from 'in-i18n';
 

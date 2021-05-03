@@ -6,6 +6,8 @@
 import { defaultProps } from 'recompose';
 import React from 'react';
 
+import { KeyValue } from '@instana/components';
+
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
 import { number, isPercentageFormatter } from 'in-services/formatters/number';
@@ -13,7 +15,6 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import SparkTooltip from 'in-components/SparkChart/components/Tooltip';
 import AggregationSymbol from 'in-components/AggregationSymbol';
 import SparkChart from 'in-components/SparkChart/SparkChart';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import { isBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

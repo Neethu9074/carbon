@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { KeyValue } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
 import {
@@ -34,7 +35,6 @@ import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { hasError, isLoading } from 'in-services/util/result';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import { hasKubernetesAccess } from 'in-stores/permission';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import { add, remove } from 'in-stores/starredItems';
 import { success } from 'in-services/util/result';
 import { getMetric } from 'in-stores/metric';

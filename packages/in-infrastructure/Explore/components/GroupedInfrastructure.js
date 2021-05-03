@@ -5,6 +5,7 @@
 
 import React, { useCallback } from 'react';
 
+import { KeyValue } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
 import { average, getGranularity, getMetricKey, defaultFormatter } from 'in-infrastructure/Explore/services/metrics';
@@ -28,7 +29,6 @@ import { error as errorType } from 'in-new-components/Message/types';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import { emptyObject } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';

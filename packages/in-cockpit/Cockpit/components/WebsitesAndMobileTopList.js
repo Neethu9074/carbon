@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { KeyValue } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
@@ -35,7 +36,6 @@ import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import getWebsite from 'in-subscription/website/getWebsite';
 import { getView } from 'in-stores/navigation/navigation';
 import { websitesOpenAddForm } from 'in-websites/tracker';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import { add, remove } from 'in-stores/starredItems';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';

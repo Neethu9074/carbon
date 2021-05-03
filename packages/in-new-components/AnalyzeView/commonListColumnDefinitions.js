@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { KeyValue } from '@instana/components';
+
 import { formatDateTime } from 'in-services/formatters/date';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import { t } from 'in-i18n';
 
 export function createListTimestampColumnDefinition({

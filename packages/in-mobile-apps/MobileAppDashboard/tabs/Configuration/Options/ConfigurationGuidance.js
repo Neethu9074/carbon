@@ -5,11 +5,11 @@
 
 import React from 'react';
 
+import { KeyValue } from '@instana/components';
 import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 
 import { getReportingUrl } from 'in-mobile-apps/configuration';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import { Ul, Li } from 'in-new-components/lists/List';
 import { t } from 'in-i18n';
 

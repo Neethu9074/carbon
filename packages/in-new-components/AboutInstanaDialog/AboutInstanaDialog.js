@@ -5,13 +5,13 @@
 
 import React from 'react';
 
+import { KeyValue } from '@instana/components';
 import { Button } from '@instana/components';
 
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
 import { graphPath } from 'in-stores/navigation/paths/mainPaths';
 import { close } from 'in-components/DialogPresenter/store';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import { instanaRegion } from 'in-services/config';
 import Stack from 'in-new-components/layout/Stack';

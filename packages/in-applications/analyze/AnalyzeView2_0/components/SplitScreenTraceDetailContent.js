@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { KeyValue } from '@instana/components';
+
 import { formatDateTime } from 'in-services/formatters/date';
 import { latencyFixed } from 'in-services/formatters/number';
-import KeyValue from 'in-new-components/lists/KeyValue';
 
 const typePerDataSource = {
   calls: 'call',

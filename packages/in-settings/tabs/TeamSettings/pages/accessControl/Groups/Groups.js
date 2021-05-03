@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { KeyValue } from '@instana/components';
 import { Button } from '@instana/components';
 
 import {
@@ -19,7 +20,6 @@ import WithSubscript from 'in-settings/components/WithSubscript';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
 import { getView } from 'in-stores/navigation/navigation';
 import { RESTRICTED_ACCESS } from 'in-stores/permission';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import ApiList from 'in-settings/components/ApiList';
 import Title from 'in-components/Title/Title';
 import { t } from 'in-i18n';

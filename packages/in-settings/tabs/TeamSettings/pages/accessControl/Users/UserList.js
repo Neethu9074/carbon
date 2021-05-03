@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { KeyValue } from '@instana/components';
+
 import { getUsersAsResultObservable, removeUserFromTenant } from 'in-api/users';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import ApiList from 'in-settings/components/ApiList';
 import Gravatar from 'in-components/Gravatar';
 import { t } from 'in-i18n';

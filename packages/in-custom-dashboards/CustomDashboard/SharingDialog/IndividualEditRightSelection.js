@@ -5,13 +5,13 @@
 
 import React from 'react';
 
+import { KeyValue } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { Ul, Li, ColumnizedContent } from 'in-new-components/lists/List';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import Gravatar from 'in-components/Gravatar';

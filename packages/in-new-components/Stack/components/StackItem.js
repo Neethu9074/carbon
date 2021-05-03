@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, KeyValue } from '@instana/components';
 
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
@@ -14,7 +14,6 @@ import getProfilesAvailable from 'in-new-components/Profiling/subscriptions/getP
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
-import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 import SEVERITY_MAP from 'in-new-components/Stack/severity.json';
 import EntityWithIcon from 'in-new-components/EntityWithIcon';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
@@ -145,7 +144,6 @@ const showApKpis = metrics => {
               className={locals.chart}
               label={label}
               value={formatter(metrics[key][0][1])}
-              theme={themes.blue}
               accentuated
             />
           );

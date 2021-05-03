@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { KeyValue } from '@instana/components';
+
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
-import KeyValue, { themes } from 'in-new-components/lists/KeyValue';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
 import { formatDateTime } from 'in-services/formatters/date';
 import { percentage } from 'in-services/formatters/number';
@@ -115,7 +116,6 @@ export default {
           <KeyValue
             label={t('in-cockpit:widgets.columnDefinitions.created')}
             value={formatDateTime(item.snapshot.getIn(['data', 'Created'], ''))}
-            theme={themes.blue}
             accentuated
           />
         );
@@ -128,7 +128,6 @@ export default {
           <KeyValue
             label={t('in-cockpit:widgets.columnDefinitions.started')}
             value={formatDateTime(item.snapshot.getIn(['data', 'Started'], ''))}
-            theme={themes.blue}
             accentuated
           />
         );

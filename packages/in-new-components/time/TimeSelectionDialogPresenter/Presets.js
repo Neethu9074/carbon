@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { KeyValue } from '@instana/components';
+import { Link } from '@instana/components';
 
 import Secion from 'in-new-components/time/TimeSelectionDialogPresenter/Section';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getTimePresets } from 'in-new-components/time/timePresets';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import { setTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
 

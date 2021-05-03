@@ -5,12 +5,13 @@
 
 import React from 'react';
 
+import { KeyValue } from '@instana/components';
+
 import TwoFactorMarker from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/TwoFactorMarker';
 import { getEntityIdView, teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { getUsersAsResultObservable } from 'in-settings/tabs/AuthSettings/api/twoFactorAuth';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import { compare } from 'in-services/formatters/boolean';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import ApiList from 'in-settings/components/ApiList';
 import Gravatar from 'in-components/Gravatar';
 

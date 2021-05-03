@@ -8,6 +8,7 @@ import React from 'react';
 
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { KeyValue } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
@@ -33,7 +34,6 @@ import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
 import { getView } from 'in-stores/navigation/navigation';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import { getTimeConfig } from 'in-stores/time/config';
 import { add, remove } from 'in-stores/starredItems';
 import Tooltip from 'in-components/Tooltip';

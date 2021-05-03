@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { createRef } from 'react';
+
 /* eslint-disable react/no-find-dom-node */
 import { combineLatest } from '@instana/observables';
-import React, { createRef } from 'react';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';

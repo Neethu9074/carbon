@@ -8,6 +8,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { KeyValue } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
 import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
@@ -21,7 +22,6 @@ import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import getApplication from 'in-subscription/application/getApplication';
 import { deleteSliConfiguration } from 'in-custom-dashboards/api';
-import KeyValue from 'in-new-components/lists/KeyValue';
 import { isLoading } from 'in-services/util/result';
 import WithIcon from 'in-new-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
