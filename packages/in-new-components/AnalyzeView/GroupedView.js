@@ -409,21 +409,26 @@ function labelColumns({ itemlabelColumnId, getLabel, showChartGroupMarkers, grou
     },
     {
       id: itemlabelColumnId,
-      getContent({ item, groupBy: { groupbyTag }, groupingTagCatalog }) {
+      getContent({ item, groupBy: { groupbyTag, groupbyTagSecondLevelKey }, groupingTagCatalog }) {
         let label = groupbyTag;
         const tagDefinition = groupingTagCatalog.tagsByName[groupbyTag];
         if (tagDefinition) {
-          label = (
-            <span className={locals.groupLabel}>
-              {tagDefinition.path
-                .slice(0, tagDefinition.path.length - 1)
-                .map(node => node.label)
-                .join(' ')}
-              .{tagDefinition.path[tagDefinition.path.length - 1].label}
-            </span>
-          );
+          const tagCategory = tagDefinition.path
+            .slice(0, tagDefinition.path.length - 1)
+            .map(node => node.label)
+            .join(' ');
+          const tagName = tagDefinition.path[tagDefinition.path.length - 1].label;
+          label = groupbyTagSecondLevelKey
+            ? `${tagCategory}.${tagName} > ${groupbyTagSecondLevelKey}`
+            : `${tagCategory}.${tagName}`;
         }
-        return <KeyValue label={label} customValue={<GroupLabelTooltip groupName={getLabel(item)} />} />;
+        return (
+          <KeyValue
+            label={<span className={locals.groupLabel}>{label}</span>}
+            customValue={<GroupLabelTooltip groupName={getLabel(item)} />}
+            accentuated
+          />
+        );
       }
     }
   ];
