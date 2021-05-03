@@ -7,6 +7,7 @@ import { createField, notBlankValidator, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import UserPermissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserPermissions';
 import { success as successResult, error as errorResult } from 'in-services/util/result';
@@ -22,7 +23,6 @@ import Skeleton from 'in-new-components/Loading/Skeleton';
 import { getUsersAsResultObservable } from 'in-api/users';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Title from 'in-components/Title/Title';
-import Button from 'in-new-components/Button';
 import Gravatar from 'in-components/Gravatar';
 import Input from 'in-components/form/Input';
 import { role } from 'in-stores/user';

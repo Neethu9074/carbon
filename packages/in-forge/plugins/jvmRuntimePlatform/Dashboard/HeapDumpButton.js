@@ -5,13 +5,14 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import Prompt from 'in-new-components/Dialog/Prompt';
 import { isEntityOnline } from 'in-stores/snapshot';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

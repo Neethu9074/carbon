@@ -6,13 +6,14 @@
 import { createMapForm, createField } from 'formalistic';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { setCurrentViewWithViewGrouping } from 'in-stores/navigation/paths/mainPaths';
 import { notBlankValidator } from 'in-services/validators/string';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
-import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t, Trans } from 'in-i18n';

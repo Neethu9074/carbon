@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import Button from 'in-new-components/Button/Button';
+import { Button } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 import locals from './UiClientUpdateMessage.mless';

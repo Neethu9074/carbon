@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { Td } from 'in-components/tables/sharedComponents/Table';
-import Button from 'in-new-components/Button';
 
 import locals from './ActionColumn.mless';
 

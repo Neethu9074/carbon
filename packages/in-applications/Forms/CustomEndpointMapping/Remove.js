@@ -6,6 +6,8 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { Button } from '@instana/components';
+
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import { deleteEndpointConfig } from 'in-api/endpointConfiguration';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -13,7 +15,6 @@ import Spacer from 'in-applications/Forms/components/Spacer';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import { goToPath } from 'in-stores/navigation';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './Remove.mless';

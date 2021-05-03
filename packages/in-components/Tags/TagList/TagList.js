@@ -5,13 +5,14 @@
 
 import React, { useState } from 'react';
 
+import { Button } from '@instana/components';
+
 import TagFilter from 'in-components/Tags/TagList/components/TagFilter';
 import getFilterableTags from 'in-subscription/getFilterableTags';
 import { filteredTags$ } from 'in-stores/search/keywords/tags';
 import { number } from 'in-services/formatters/number';
 import { emptySet } from 'in-services/fixedImmutables';
 import { timeConfig$ } from 'in-stores/time/config';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Tag from 'in-components/Tags/Tag';
 import { t } from 'in-i18n';

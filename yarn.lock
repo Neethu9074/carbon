@@ -2056,10 +2056,10 @@
   resolved "https://registry.yarnpkg.com/@icons/material/-/material-0.2.4.tgz#e90c9f71768b3736e76d7dd6783fc6c2afa88bc8"
   integrity sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==
 
-"@instana/components@1.13.0":
-  version "1.13.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.13.0.tgz#77d3e46bb548c5dc687de43a298f475c5b6c341e"
-  integrity sha1-d9Pka7VIxdxofeQ6KY9HXFtsNB4=
+"@instana/components@1.14.0":
+  version "1.14.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.14.0.tgz#e5b5a222ea581e37682012151e56410e2a8e9f1a"
+  integrity sha1-5bWiIupYHjdoIBIVHlZBDiqOnxo=
   dependencies:
     "@instana/design-tokens" "^1.6.0"
     "@instana/hooks" "^1.3.0"

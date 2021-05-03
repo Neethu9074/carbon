@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { getButtonKindBySeverity } from 'in-stores/events';
-import Button from 'in-new-components/Button';
 
 export default function HealthIndicatorButtonPresenter({
   openIssues,

@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import { find } from 'lodash';
 import React from 'react';
+
+import { combineLatest } from '@instana/observables';
+import { Button } from '@instana/components';
 
 import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/KeyValueHeader';
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
@@ -13,7 +15,6 @@ import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBe
 import { getLinkToPageLoad } from 'in-websites/navigation/paths';
 import { latencyFixed } from 'in-services/formatters/number';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

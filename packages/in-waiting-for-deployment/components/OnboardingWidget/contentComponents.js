@@ -7,6 +7,9 @@ import { createField, createMapForm, composeValidators } from 'formalistic';
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
+import { Button } from '@instana/components';
+import { Link } from '@instana/components';
+
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -16,10 +19,8 @@ import InputComponent from 'in-components/form/Input';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import CodeComponent from 'in-components/Code';
 import Select from 'in-components/form/Select';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import { region } from 'in-services/config';
-import { Link } from '@instana/components';
 import { t } from 'in-i18n';
 
 import locals from './content.mless';

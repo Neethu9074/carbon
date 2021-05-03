@@ -6,7 +6,7 @@
 import CreatableSelect from 'react-select/lib/Creatable';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { Button, SvgIcon } from '@instana/components';
 
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
@@ -16,7 +16,6 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import { emptyArray } from 'in-services/fixedObjects';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
-import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

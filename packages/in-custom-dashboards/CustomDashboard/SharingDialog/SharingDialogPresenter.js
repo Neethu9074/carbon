@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import IndividualEditRightSelection from 'in-custom-dashboards/CustomDashboard/SharingDialog/IndividualEditRightSelection';
 import Option from 'in-custom-dashboards/CustomDashboard/SharingDialog/Option';
 import { close } from 'in-components/DialogPresenter/store';
@@ -12,7 +14,6 @@ import { neutral } from 'in-new-components/Message/types';
 import Actions from 'in-new-components/Dialog/Actions';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import Message from 'in-new-components/Message';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './SharingDialogPresenter.mless';

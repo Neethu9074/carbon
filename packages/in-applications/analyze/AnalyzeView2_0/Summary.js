@@ -4,8 +4,10 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
+
 import { just, create } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
@@ -37,7 +39,6 @@ import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { scrollIntoView } from 'in-services/util/dom';
 import Message from 'in-new-components/Message';
-import Button from 'in-new-components/Button';
 import { minutes } from 'in-services/time';
 import { connection } from 'in-connection';
 import { Trans, t } from 'in-i18n';

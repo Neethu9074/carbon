@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { loadDownloadableLogs } from 'in-forge/plugins/instanaAgent/selfMonitoring';
@@ -17,7 +19,6 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { close } from 'in-components/DialogPresenter/store';
 import { bytes } from 'in-services/formatters/number';
 import Dialog from 'in-new-components/Dialog/Dialog';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './LogsDownloadList.mless';

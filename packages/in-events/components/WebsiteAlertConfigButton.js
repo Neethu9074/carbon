@@ -6,9 +6,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { websitesAlertingEventDetailsViewEditConfig } from 'in-alerting/smart-alerts/websites/tracker';
 import { goToAlertConfig } from 'in-websites/navigation/paths';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export default function WebsiteAlertConfigButton({ alertConfig }) {

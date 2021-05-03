@@ -5,12 +5,13 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import Frame from 'in-mobile-apps/NewMobileAppFlow/Frame';
 import SaveError from 'in-components/form/SaveError';
 import FormGroup from 'in-components/form/FormGroup';
-import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';

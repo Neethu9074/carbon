@@ -7,6 +7,8 @@ import { composeValidators, createField, createListForm, createMapForm } from 'f
 import React, { Fragment } from 'react';
 import { assign, get } from 'lodash';
 
+import { Button } from '@instana/components';
+
 import { createNewServiceConfigs, getServiceConfigs, replaceAllServiceConfigs } from 'in-api/serviceConfiguration';
 import DragAndDropRuleList from 'in-applications/Forms/CustomServiceMapping/DragAndDropRuleList';
 import { regularExpressionValidator } from 'in-services/validators/regexp';
@@ -18,7 +20,6 @@ import { generateUniqueShortId } from 'in-services/util/id';
 import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';
 import { isBlank } from 'in-services/util/string';
-import Button from 'in-new-components/Button';
 import { Trans, t } from 'in-i18n';
 
 import locals from './CustomServiceMappingDialog.mless';

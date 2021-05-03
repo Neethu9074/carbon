@@ -5,13 +5,14 @@
 
 import React, { useEffect } from 'react';
 
+import { Button } from '@instana/components';
+
 import DraggableItemSelector from 'in-new-components/DraggableItemSelector';
 import { selectedChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { Ul, Li } from 'in-new-components/lists/List';
 import { compare } from 'in-services/util/string';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './TagSelector.mless';

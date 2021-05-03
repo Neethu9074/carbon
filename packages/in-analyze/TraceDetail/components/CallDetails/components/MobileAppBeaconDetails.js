@@ -5,6 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { Button } from '@instana/components';
+
 import BodyHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BodyHeader';
 import TypeHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/TypeHeader';
 import { getType, types } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/filterableTypes';
@@ -13,7 +15,6 @@ import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { getLinkToSession } from 'in-mobile-apps/navigation/paths';
 import { bytes } from 'in-services/formatters/number';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export default function MobileAppBeaconDetails({ beacon }) {

@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { isLoading, hasError } from 'in-services/util/result';
 import { getButtonKindBySeverity } from 'in-stores/events';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './Actions.mless';

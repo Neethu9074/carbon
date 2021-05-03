@@ -10,6 +10,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import {
   formatTime,
@@ -27,7 +28,6 @@ import { timeValidator, dateValidator } from 'in-services/validators/date';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { days, hours, minutes } from 'in-services/time';
 import { emptyObject } from 'in-services/fixedObjects';
-import Button from 'in-new-components/Button';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 

@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { clearSelectedSnapshots } from 'in-infrastructure/tableView/stores/selectedSnapshots';
 import { showAggregations$, toggle } from 'in-stores/metric/showAggregations';
 import { clearMetrics } from 'in-infrastructure/tableView/stores/metrics';
 import TimeWindowSizeLabel from 'in-components/TimeWindowSizeLabel';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { t, Trans } from 'in-i18n';

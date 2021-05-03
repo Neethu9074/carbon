@@ -5,6 +5,8 @@
 
 import React, { useState } from 'react';
 
+import { Button } from '@instana/components';
+
 import {
   mapApplications,
   mapKubernetesClusters,
@@ -28,7 +30,6 @@ import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
 import { ColumnizedContent, Li, Ul } from 'in-new-components/lists/List';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import { success } from 'in-services/util/result';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './Areas.mless';

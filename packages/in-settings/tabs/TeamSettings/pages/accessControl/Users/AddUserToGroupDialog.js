@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -13,7 +15,6 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import ApiList from 'in-settings/components/ApiList';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './AddUserToGroupDialog.mless';

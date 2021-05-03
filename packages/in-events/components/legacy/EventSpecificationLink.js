@@ -5,12 +5,13 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import {
   getEntityIdView,
   teamSettingsAlertingEventBuiltIn,
   teamSettingsAlertingEventCustom
 } from 'in-settings/navigation/paths';
-import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 

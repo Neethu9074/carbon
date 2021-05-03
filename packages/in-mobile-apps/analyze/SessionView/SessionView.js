@@ -7,6 +7,7 @@ import { get, findIndex } from 'lodash';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -32,7 +33,6 @@ import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import { dataSourceTitles } from 'in-mobile-apps/tags';
 import { shorten } from 'in-services/util/string';
 import withUrlState from 'in-hoc/withUrlState';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';

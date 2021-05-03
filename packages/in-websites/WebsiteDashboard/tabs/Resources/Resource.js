@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just } from '@instana/observables';
 import React, { Fragment } from 'react';
+
+import { Button } from '@instana/components';
+import { just } from '@instana/observables';
 
 import {
   getLinkToWebsite,
@@ -41,7 +43,6 @@ import { Col, Row } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import BackButton from 'in-new-components/BackButton';
 import Footer from 'in-new-components/Footer';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import theme from 'in-themes';

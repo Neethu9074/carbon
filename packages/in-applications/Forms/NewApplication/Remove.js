@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
+
+import { Button } from '@instana/components';
+import { Card } from '@instana/components';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { deleteApplicationConfig } from 'in-api/applicationConfigs';
@@ -15,7 +17,6 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import { goToPath } from 'in-stores/navigation';
-import Button from 'in-new-components/Button';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Remove.mless';

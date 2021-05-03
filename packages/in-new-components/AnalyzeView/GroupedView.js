@@ -8,8 +8,8 @@ import classNames from 'classnames';
 import { range } from 'lodash';
 import rpt from 'prop-types';
 
-import { empty } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
+import { empty } from '@instana/observables';
 
 import {
   getAvailableMetrics,

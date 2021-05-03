@@ -8,8 +8,8 @@ import classNames from 'classnames';
 import Toggle from 'react-toggle';
 
 import { useObservable } from '@instana/hooks';
-import { empty } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
+import { empty } from '@instana/observables';
 
 import { getGroupingTagCatalog as getTraceGroupingTagCatalog } from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
 import { getGroupingTagCatalog as getCallGroupingTagCatalog } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';

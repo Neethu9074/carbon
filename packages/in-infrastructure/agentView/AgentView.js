@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import { Switch, Route } from 'react-router-dom';
 import React from 'react';
+
+import { combineLatest } from '@instana/observables';
+import { Button } from '@instana/components';
 
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer/MaxWidthFullscreenContainer';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -30,7 +32,6 @@ import { timeConfig$ } from 'in-stores/time/config';
 import Dashboard from 'in-infrastructure/Dashboard';
 import SearchBar from 'in-components/SearchBar';
 import Footer from 'in-new-components/Footer';
-import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';

@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DialogPresenter from 'in-components/DialogPresenter';
 import Dialog from 'in-new-components/Dialog/Dialog';
-import Button from 'in-new-components/Button';
 
 import locals from './DialogBehaviour.mless';
 

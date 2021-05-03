@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useRef } from 'react';
 import rpt from 'prop-types';
+
+import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 
 import TagBasedPayload from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayload';
 import TagSelectorOverlay from 'in-new-components/TagSelectorOverlay/TagSelectorOverlay';
@@ -14,7 +16,6 @@ import { getTagCatalogOnce, enrichTagCatalog } from 'in-services/tags/tagCatalog
 import Overlay from 'in-new-components/overlays/Overlay';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './TagBasedPayloadConfigurator.mless';

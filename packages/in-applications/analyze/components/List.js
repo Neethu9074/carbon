@@ -8,8 +8,8 @@ import classNames from 'classnames';
 import Toggle from 'react-toggle';
 
 import { useObservable } from '@instana/hooks';
-import { empty } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
+import { empty } from '@instana/observables';
 
 import { getTagCatalog as getTraceFilteringTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import { getTagCatalog as getCallFilteringTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';

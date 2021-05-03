@@ -8,6 +8,7 @@ import React, { Fragment } from 'react';
 import { List } from 'immutable';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -19,7 +20,6 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import { emptyList } from 'in-services/fixedImmutables';
 import { isNotBlank } from 'in-services/util/string';
-import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';

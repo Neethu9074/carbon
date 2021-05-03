@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { type as typeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export default function AnalyzeCallsButton({

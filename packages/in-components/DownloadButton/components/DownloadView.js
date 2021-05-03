@@ -6,8 +6,9 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import './DownloadView.less';

@@ -4,9 +4,11 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Link } from '@instana/components';
 import { sortBy } from 'lodash';
 import { range } from 'lodash';
+
+import { Button } from '@instana/components';
+import { Link } from '@instana/components';
 
 import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-applications/tracker';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -16,7 +18,6 @@ import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { identity } from 'in-services/util/function';
 import Message from 'in-new-components/Message';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

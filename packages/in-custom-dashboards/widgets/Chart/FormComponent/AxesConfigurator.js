@@ -6,6 +6,8 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
+import { Button } from '@instana/components';
+
 import { MetricsForAxis, Reorderer } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
 import { userSelectableRenderer as availableRenderers } from 'in-custom-dashboards/widgets/Chart/renderer';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -16,7 +18,6 @@ import { Li, Ul } from 'in-new-components/lists/List';
 import FormGroup from 'in-components/form/FormGroup';
 import Stack from 'in-new-components/layout/Stack';
 import Toggle from 'in-components/form/Toggle';
-import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';

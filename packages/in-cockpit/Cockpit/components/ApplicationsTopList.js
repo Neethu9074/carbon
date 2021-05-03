@@ -9,6 +9,7 @@ import React from 'react';
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import ApplicationsNoDataNotification from 'in-applications/lists/components/ApplicationsNoDataNotification';
@@ -35,7 +36,6 @@ import { getView } from 'in-stores/navigation/navigation';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { getTimeConfig } from 'in-stores/time/config';
 import { add, remove } from 'in-stores/starredItems';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';

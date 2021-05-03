@@ -5,6 +5,8 @@
 
 import React, { useState } from 'react';
 
+import { Button } from '@instana/components';
+
 import { trackSliCreate, trackSliViewSLI } from 'in-custom-dashboards/widgets/Slo/tracker';
 import SlideInView, { NoHeader } from 'in-new-components/SlideInView/SlideInView';
 import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/sli/CreateSLIForm';
@@ -13,7 +15,6 @@ import SliList from 'in-custom-dashboards/widgets/Slo/sli/SliList';
 import { getSliConfigurations } from 'in-custom-dashboards/api';
 import { isLoading, hasError } from 'in-services/util/result';
 import Message from 'in-new-components/Message';
-import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 

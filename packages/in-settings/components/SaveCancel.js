@@ -5,11 +5,12 @@
 
 import React, { Fragment } from 'react';
 
+import { Button } from '@instana/components';
+
 import { savingMessage as entityFormSavingMessage } from 'in-hoc/entityForm';
 import SectionLine from 'in-settings/components/SectionLine';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './SaveCancel.mless';

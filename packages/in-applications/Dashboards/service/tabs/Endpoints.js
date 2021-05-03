@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
-import { Card } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
+import { Card } from '@instana/components';
 
 import {
   applicationDashboardUrlParameters,
@@ -35,7 +37,6 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
 import useUrlState from 'in-hooks/useUrlState';
-import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 

@@ -6,6 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { joinExpressions, fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
 import { containsTagName } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
@@ -19,7 +21,6 @@ import { createChartedMetric } from 'in-analyze/navigation/paths';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { entityTypes } from 'in-analyze/applicationFilter';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import { t, Trans } from 'in-i18n';
 

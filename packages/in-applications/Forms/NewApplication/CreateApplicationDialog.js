@@ -4,11 +4,13 @@
  */
 
 import { createField, createMapForm, createListForm } from 'formalistic';
-import { just } from '@instana/observables';
-import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import { get } from 'lodash';
+
+import { Button } from '@instana/components';
+import { just } from '@instana/observables';
+import { Card } from '@instana/components';
 
 import {
   createNewApplicationConfig,
@@ -41,7 +43,6 @@ import { getColor } from 'in-applications/endpointTypes';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
-import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Pill from 'in-new-components/Pill';

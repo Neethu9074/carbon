@@ -8,11 +8,11 @@ import React from 'react';
 
 import { create } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import { build, parse, validate } from 'in-services/validators/urlPath';
 import { testRules } from 'in-api/endpointConfiguration';
 import FormGroup from 'in-components/form/FormGroup';
-import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 

@@ -7,6 +7,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import { createApplicationHealthForm } from 'in-custom-dashboards/widgets/ApplicationHealth/form';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
@@ -18,7 +19,6 @@ import { Li, Ul } from 'in-new-components/lists/List';
 import Stack from 'in-new-components/layout/Stack';
 import Label from 'in-components/form/Label/Label';
 import Select from 'in-components/form/Select';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

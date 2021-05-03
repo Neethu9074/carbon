@@ -7,7 +7,7 @@ import CreatableSelect from 'react-select/lib/Creatable';
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { Button, SvgIcon } from '@instana/components';
 
 import { getOperatorLabel, entityTypes } from 'in-analyze/applicationFilter';
 import RadioGroup from 'in-analyze/components/RadioButtons/RadioGroup';
@@ -19,7 +19,6 @@ import FormGroup from 'in-components/form/FormGroup';
 import Typeahead from 'in-new-components/Typeahead';
 import Message from 'in-new-components/Message';
 import Select from 'in-components/form/Select';
-import Button from 'in-new-components/Button';
 import ComboBox from 'in-components/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';

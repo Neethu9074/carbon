@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import React from 'react';
+
+import { combineLatest } from '@instana/observables';
+import { Button } from '@instana/components';
 
 import {
   availableGroupings,
@@ -25,7 +27,6 @@ import { track, MAP_GROUPING_CHANGED } from 'in-services/tracking/tracking';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { getView } from 'in-stores/navigation/navigation';
 import { view$, types } from 'in-stores/view';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

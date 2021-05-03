@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { Button } from '@instana/components';
+import { Link } from '@instana/components';
 
 import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
 import { getReportingUrl } from 'in-mobile-apps/configuration';
@@ -12,7 +14,6 @@ import Actions from 'in-mobile-apps/NewMobileAppFlow/Actions';
 import Frame from 'in-mobile-apps/NewMobileAppFlow/Frame';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { Ul, Li } from 'in-new-components/lists/List';
-import Button from 'in-new-components/Button';
 import { t, Trans } from 'in-i18n';
 
 export default function WaitStep({ mobileAppName, mobileAppId }) {

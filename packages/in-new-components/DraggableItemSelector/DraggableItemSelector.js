@@ -9,9 +9,9 @@ import classNames from 'classnames';
 import rpt from 'prop-types';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import SlideInView, { ListHeader } from 'in-new-components/SlideInView/SlideInView';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

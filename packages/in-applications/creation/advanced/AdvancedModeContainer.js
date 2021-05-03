@@ -7,6 +7,8 @@ import { createField, createMapForm } from 'formalistic';
 import { get } from 'lodash';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import {
   getSecondLevelKeySuggestions,
   getValueSuggestions
@@ -31,7 +33,6 @@ import { getColor } from 'in-applications/endpointTypes';
 import { error } from 'in-new-components/Message/types';
 import FormGroup from 'in-components/form/FormGroup';
 import Message from 'in-new-components/Message';
-import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Pill from 'in-new-components/Pill';

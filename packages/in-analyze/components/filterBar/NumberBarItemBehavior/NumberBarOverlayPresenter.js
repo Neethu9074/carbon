@@ -5,12 +5,13 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { showGt, showLt } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
-import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';

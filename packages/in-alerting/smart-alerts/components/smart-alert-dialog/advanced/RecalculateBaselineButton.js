@@ -6,7 +6,8 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
-import Button from 'in-new-components/Button';
+import { Button } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton.mless';

@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
+
+import { Button } from '@instana/components';
+import { Card } from '@instana/components';
 
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import { removeWebsite as removeWebsiteTracker } from 'in-websites/tracker';
@@ -14,7 +16,6 @@ import { goToPath } from 'in-stores/navigation/navigation';
 import { combineDataAndError } from 'in-services/util/ro';
 import { removeWebsite } from 'in-websites/api/websites';
 import SaveError from 'in-components/form/SaveError';
-import Button from 'in-new-components/Button';
 import { Trans, t } from 'in-i18n';
 
 import locals from './Remove.mless';

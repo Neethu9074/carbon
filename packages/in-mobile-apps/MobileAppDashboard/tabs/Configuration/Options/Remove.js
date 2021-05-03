@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
+
+import { Button } from '@instana/components';
+import { Card } from '@instana/components';
 
 import HelpParagraph from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/HelpParagraph';
 import { removeMobileApp as removeMobileAppTracker } from 'in-mobile-apps/tracker';
@@ -14,7 +16,6 @@ import { removeMobileApp } from 'in-mobile-apps/api/mobileApps';
 import { goToPath } from 'in-stores/navigation/navigation';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
-import Button from 'in-new-components/Button';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Remove.mless';

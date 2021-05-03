@@ -7,6 +7,8 @@ import { createField, createMapForm } from 'formalistic';
 import { get } from 'lodash';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import TagFilterEditor from 'in-analyze/Dialogs/components/TagFilterEditor';
@@ -17,7 +19,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { close } from 'in-components/DialogPresenter/store';
 import FormTextArea from 'in-components/form/TextArea';
 import FormGroup from 'in-components/form/FormGroup';
-import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 

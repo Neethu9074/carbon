@@ -6,10 +6,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import FilterConfigurator from 'in-custom-dashboards/widgets/Slo/sli/FilterConfigurator';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import IconLabel from 'in-alerting/components/IconLabel';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './TagFilterExpressionConfig.mless';

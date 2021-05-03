@@ -6,7 +6,8 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import Button from 'in-new-components/Button';
+import { Button } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 import './ClasspathLayouter.less';

@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import {
   websitesAlertingJsErrorsMsgChanged,
   websitesAlertingJsErrorsOperatorChanged,
@@ -22,7 +24,6 @@ import { operators } from 'in-analyze/applicationFilter';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import ComboBox from 'in-components/ComboBox';
-import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 

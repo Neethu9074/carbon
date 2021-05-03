@@ -6,6 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
@@ -13,7 +15,6 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-new-components/FloatingActionButton';
 import { boundaryScopes } from 'in-applications/constants';
 import { propTypeLocation } from 'in-stores/navigation';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export default function CreateGlobalSmartAlertButton({ renderAsSimpleButton, location }) {

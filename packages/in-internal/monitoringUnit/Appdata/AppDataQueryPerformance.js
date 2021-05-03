@@ -5,6 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { Button } from '@instana/components';
+
 import CallGroupsChartWrapper from 'in-applications/analyze/components/CallGroupsChartWrapper';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { CONTAINS, NOT_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
@@ -15,7 +17,6 @@ import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 import { on } from '@instana/observables';
 
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
@@ -16,7 +17,6 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { emptyArray } from 'in-services/fixedObjects';
-import Button from 'in-new-components/Button';
 import keyCodes from 'in-components/keyCodes';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';

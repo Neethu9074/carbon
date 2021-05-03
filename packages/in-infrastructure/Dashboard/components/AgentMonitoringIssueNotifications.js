@@ -5,13 +5,14 @@
 
 import React, { Fragment } from 'react';
 
+import { Button } from '@instana/components';
+
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import getIssueDefinitionForSnapshotAndCode, * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
 import getMonitoringIssuesForSnapshot from 'in-subscription/getMonitoringIssuesForSnapshot';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { warning } from 'in-new-components/Message/types';
 import Message from 'in-new-components/Message';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './AgentMonitoringIssueNotifications.mless';

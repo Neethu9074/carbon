@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
 import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
@@ -13,7 +15,6 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { newApplicationWaiterView } from 'in-applications/navigation/paths';
 import { successObservable } from 'in-services/util/result';
 import { getTimeConfig } from 'in-stores/time/config';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export default function CreateApplication({

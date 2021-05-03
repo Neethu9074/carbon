@@ -6,6 +6,8 @@
 import React, { useState } from 'react';
 import rpt from 'prop-types';
 
+import { Button } from '@instana/components';
+
 import { isLandingPage as isCustomDashboardLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import { isLandingPage as isCockpitLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import { Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
@@ -16,7 +18,6 @@ import { indeterminateProgress } from 'in-services/fixedObjects';
 import { cockpitLink$ } from 'in-cockpit/navigation/paths';
 import SearchInput from 'in-new-components/SearchInput';
 import Lettering from 'in-components/Lettering';
-import Button from 'in-new-components/Button';
 import Pill from 'in-new-components/Pill';
 import connectTo from 'in-hoc/connectTo';
 import theme from 'in-themes';

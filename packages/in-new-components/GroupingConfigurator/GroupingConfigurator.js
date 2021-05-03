@@ -6,13 +6,14 @@
 import React, { useRef } from 'react';
 import rpt from 'prop-types';
 
+import { Button } from '@instana/components';
+
 import ActiveGroupingConfiguration from 'in-new-components/GroupingConfigurator/ActiveGroupingConfiguration';
 import TagSelectorOverlay from 'in-new-components/TagSelectorOverlay/TagSelectorOverlay';
 import LoadingIndicator from 'in-new-components/GroupingConfigurator/LoadingIndicator';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import Overlay from 'in-new-components/overlays/Overlay';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './GroupingConfigurator.mless';

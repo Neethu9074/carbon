@@ -5,11 +5,12 @@
 
 import React, { useEffect } from 'react';
 
+import { Button } from '@instana/components';
+
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
 import { autoOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
 import { createMetricForm } from 'in-custom-dashboards/widgets/Chart/form';
 import { Ul, Li } from 'in-new-components/lists/List';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export default function DataSeriesConfigurator({ form, onChange, getShortMetricKey }) {

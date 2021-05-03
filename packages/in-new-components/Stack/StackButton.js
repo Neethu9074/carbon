@@ -6,11 +6,11 @@
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { contextGuideEnabled } from 'in-services/featureFlags';
 import Overlay from 'in-new-components/overlays/Overlay';
-import Button from 'in-new-components/Button';
 import Stack from 'in-new-components/Stack';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

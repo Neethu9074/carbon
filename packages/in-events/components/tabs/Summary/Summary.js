@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React, { useState } from 'react';
+
+import { Button } from '@instana/components';
+import { Card } from '@instana/components';
 
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
@@ -30,7 +32,6 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import { emptyList } from 'in-services/fixedImmutables';
 import getRecentEvents$ from 'in-events/recentEvents';
 import { getSnapshot } from 'in-stores/snapshot';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
 
-import Button from 'in-new-components/Button';
+import { Button } from '@instana/components';
+import { Card } from '@instana/components';
 
 import locals from './LearnMoreCard.mless';
 

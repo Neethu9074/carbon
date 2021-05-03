@@ -5,10 +5,11 @@
 
 import React, { createRef, useEffect, useState, forwardRef } from 'react';
 
+import { Button } from '@instana/components';
+
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { compositeRef } from 'in-services/util/react';
 import { Li, Ul } from 'in-new-components/lists/List';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './SidebarTagList.mless';

@@ -5,12 +5,13 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { CONTAINS, EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export default function AnalyzeMessagesButton({

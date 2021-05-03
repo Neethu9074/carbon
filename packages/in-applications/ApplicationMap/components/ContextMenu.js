@@ -6,6 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
 import { getLinkToAnalyze, getServiceDashboard } from 'in-applications/navigation/paths';
@@ -14,7 +16,6 @@ import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getApplication from 'in-subscription/application/getApplication';
 import { getButtonKindBySeverity } from 'in-stores/events';
 import { boundaryScopes } from 'in-applications/constants';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

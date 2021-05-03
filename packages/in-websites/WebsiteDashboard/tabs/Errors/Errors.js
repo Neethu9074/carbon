@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { Fragment } from 'react';
+
+import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
-import React, { Fragment } from 'react';
 
 import {
   websiteIdUrlParameter,
@@ -26,7 +28,6 @@ import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
-import Button from 'in-new-components/Button';
 import Footer from 'in-new-components/Footer';
 import { t } from 'in-i18n';
 

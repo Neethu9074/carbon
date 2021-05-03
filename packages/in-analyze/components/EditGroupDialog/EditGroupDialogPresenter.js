@@ -7,6 +7,7 @@ import CreatableSelect from 'react-select/lib/Creatable';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import RadioGroup from 'in-analyze/components/RadioButtons/RadioGroup';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
@@ -16,7 +17,6 @@ import { emptyArray } from 'in-services/fixedObjects';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
 import Message from 'in-new-components/Message';
-import Button from 'in-new-components/Button';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';

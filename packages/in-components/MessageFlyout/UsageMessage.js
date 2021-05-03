@@ -7,13 +7,13 @@ import { motion } from 'framer-motion';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import { track, REQUEST_QUOTE_BUTTON_CLICKED } from 'in-services/tracking/tracking';
 import { onPremLicenseInformationEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import RequestQuoteDialog from 'in-components/RequestQuoteDialog';
 import history from 'in-stores/navigation/history';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './UsageMessage.mless';

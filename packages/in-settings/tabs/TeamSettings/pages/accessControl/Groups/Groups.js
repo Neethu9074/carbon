@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import {
   getEntityIdView,
   teamSettingsAccessControlGroups,
@@ -19,7 +21,6 @@ import { getView } from 'in-stores/navigation/navigation';
 import { RESTRICTED_ACCESS } from 'in-stores/permission';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import ApiList from 'in-settings/components/ApiList';
-import Button from 'in-new-components/Button';
 import Title from 'in-components/Title/Title';
 import { t } from 'in-i18n';
 

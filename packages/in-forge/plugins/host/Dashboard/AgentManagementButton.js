@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';
 import { isEntityOnline } from 'in-stores/snapshot';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

@@ -6,7 +6,7 @@
 import { useState } from 'react';
 import React from 'react';
 
-import Button from 'in-new-components/Button';
+import { Button } from '@instana/components';
 
 export function QueryBuilderStateHelper({ children: Component }) {
   const [readOnly, setReadOnly] = useState(false);

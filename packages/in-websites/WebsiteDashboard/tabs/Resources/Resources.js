@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
-import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 import { compose } from 'recompose';
+
+import { Button } from '@instana/components';
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 
 import {
   websiteIdUrlParameter,
@@ -28,7 +30,6 @@ import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { ms, number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import withUrlState from 'in-hoc/withUrlState';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 const columnDefinitions = [

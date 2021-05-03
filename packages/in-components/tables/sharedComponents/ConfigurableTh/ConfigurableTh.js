@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import { Th, SortableTh } from 'in-components/tables/sharedComponents';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
@@ -15,7 +16,6 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import Overlay from 'in-new-components/overlays/Overlay';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './ConfigurableTh.mless';

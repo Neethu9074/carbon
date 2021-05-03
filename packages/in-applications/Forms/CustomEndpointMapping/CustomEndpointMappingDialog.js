@@ -4,9 +4,11 @@
  */
 
 import { createField, createMapForm, createListForm } from 'formalistic';
-import { just } from '@instana/observables';
 import React, { useState } from 'react';
 import { get } from 'lodash';
+
+import { Button } from '@instana/components';
+import { just } from '@instana/observables';
 
 import EndpointExtractionRuleDialog from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/EndpointExtractionRuleDialog';
 import {
@@ -30,7 +32,6 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

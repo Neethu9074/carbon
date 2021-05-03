@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { bytes, timeByMicroTwoDecimalPlaces, time, twoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import PackageRetrievalDialog from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/PackageRetrievalDialog';
@@ -22,7 +24,6 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import MetricValue from 'in-components/MetricValue';
-import Button from 'in-new-components/Button';
 import { getCodeView } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t, Trans } from 'in-i18n';

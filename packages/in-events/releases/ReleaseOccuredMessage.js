@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { setTimeConfig, urlQueryKeys } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import TimeCount from 'in-new-components/time/TimeCount';
-import Button from 'in-new-components/Button/Button';
 import { t, Trans } from 'in-i18n';
 
 import locals from './ReleaseOccuredMessage.mless';

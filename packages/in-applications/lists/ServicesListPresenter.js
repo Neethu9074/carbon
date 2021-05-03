@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
-import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
+
+import { Button } from '@instana/components';
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 
 import {
   createEndpointTypesUrlParameter,
@@ -41,7 +43,6 @@ import Filters from 'in-applications/components/Filters';
 import { timeConfig$ } from 'in-stores/time/config';
 import { isBlank } from 'in-services/util/string';
 import Footer from 'in-new-components/Footer';
-import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';

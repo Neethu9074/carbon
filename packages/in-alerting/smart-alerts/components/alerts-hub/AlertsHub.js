@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 
 import getApplicationAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getApplicationAlertConfigStats';
 import getWebsiteAlertConfigStats from 'in-alerting/smart-alerts/subscriptions/getWebsiteAlertConfigStats';
@@ -17,7 +19,6 @@ import { getModifiedUrlStream } from 'in-stores/navigation';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub.mless';

@@ -6,11 +6,12 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import Notification from 'in-components/form/Notification';
 import { alertChannelTest } from 'in-api/alertChannels';
 import Section from 'in-settings/components/Section';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export default class extends React.Component {

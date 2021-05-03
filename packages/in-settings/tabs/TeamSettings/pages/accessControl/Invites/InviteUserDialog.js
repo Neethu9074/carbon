@@ -8,6 +8,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -18,7 +19,6 @@ import { Row, Col } from 'in-new-components/layout/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import Select from 'in-components/form/Select';
-import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { config } from 'in-services/config';

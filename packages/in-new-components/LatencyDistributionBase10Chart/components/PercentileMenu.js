@@ -7,10 +7,11 @@ import classNames from 'classnames';
 import { List } from 'immutable';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { latencyPercentileMenuClickedTracker } from 'in-analyze/tracker';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Overlay from 'in-new-components/overlays/Overlay';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './PercentileMenu.mless';

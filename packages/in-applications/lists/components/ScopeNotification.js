@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
@@ -20,7 +21,6 @@ import { getLabel as getSnapshotLabel } from 'in-sdk/snapshot';
 import { getSnapshot } from 'in-stores/snapshot/snapshot';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';
 

@@ -5,13 +5,14 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { setMode } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import { modes } from 'in-forge/plugins/instanaAgent/modes';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
-import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import { Trans, t } from 'in-i18n';
 

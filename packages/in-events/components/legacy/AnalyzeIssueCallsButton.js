@@ -6,6 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import {
   isApplicationEntity,
   isServiceEntity,
@@ -22,7 +24,6 @@ import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths'
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { containsIgnoreCase } from 'in-services/util/string';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

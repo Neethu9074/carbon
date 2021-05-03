@@ -6,6 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import {
   alertPropType,
@@ -19,7 +21,6 @@ import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { close } from 'in-components/DialogPresenter/store';
-import Button from 'in-new-components/Button/Button';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 

@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import Header from 'in-new-components/workspace/Header';
 import Stack from 'in-new-components/layout/Stack';
 import widgets from 'in-custom-dashboards/widgets';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './WidgetPreview.mless';

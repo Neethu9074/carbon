@@ -7,6 +7,8 @@ import { compose, withProps } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { mobileAppPath, mobileAppPathFullyQualified, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { mobileAppId as matrixMobileAppId, viewId as matrixViewId } from 'in-mobile-apps/navigation/matrix';
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
@@ -28,7 +30,6 @@ import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-mobile-apps/tracker';
 import withUrlState from 'in-hoc/withUrlState';
 import Footer from 'in-new-components/Footer';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export default compose(

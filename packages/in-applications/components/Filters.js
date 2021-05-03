@@ -5,6 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { Button } from '@instana/components';
+
 import { or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { type as tagFilterType } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
@@ -13,7 +15,6 @@ import { getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
-import Button from 'in-new-components/Button';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
 

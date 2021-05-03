@@ -5,10 +5,9 @@
 
 import React, { Fragment } from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { Button, SvgIcon } from '@instana/components';
 
 import Overlay from 'in-new-components/overlays/Overlay';
-import Button from 'in-new-components/Button';
 
 import locals from './MultiButton.mless';
 

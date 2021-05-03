@@ -6,6 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
@@ -18,7 +20,6 @@ import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { syntheticCallsOptions } from 'in-applications/constants';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { emptyArray } from 'in-services/fixedObjects';
-import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

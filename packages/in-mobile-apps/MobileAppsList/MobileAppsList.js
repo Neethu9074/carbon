@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import React from 'react';
+
+import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
-import React from 'react';
 
 import MobileAppsNoDataNotification from 'in-mobile-apps/MobileAppsList/components/MobileAppsNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -22,7 +24,6 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
-import Button from 'in-new-components/Button';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';

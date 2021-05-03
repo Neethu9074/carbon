@@ -6,7 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Button from 'in-new-components/Button';
+import { Button } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 export default function DeleteButton({

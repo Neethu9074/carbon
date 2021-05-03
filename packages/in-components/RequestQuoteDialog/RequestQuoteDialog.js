@@ -7,6 +7,8 @@ import { createMapForm, createField } from 'formalistic';
 import { compose } from 'recompose';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import RequestQuoteForm from 'in-components/RequestQuoteDialog/RequestQuoteForm';
 import { track, REQUEST_QUOTE_SUBMITTED } from 'in-services/tracking/tracking';
@@ -19,7 +21,6 @@ import { emptyObject } from 'in-services/fixedObjects';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import Section from 'in-settings/components/Section';
 import getAccount from 'in-subscription/getAccount';
-import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

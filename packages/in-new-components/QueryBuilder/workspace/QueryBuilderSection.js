@@ -7,12 +7,13 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import rpt from 'prop-types';
 
+import { Button } from '@instana/components';
+
 import { trackingProps as queryBuilderTrackingProps } from 'in-new-components/QueryBuilder/QueryBuilder';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import Section from 'in-new-components/workspace/Section';
 import Stack from 'in-new-components/layout/Stack';
 import Message from 'in-new-components/Message';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export default function QueryBuilderSection({

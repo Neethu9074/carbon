@@ -6,6 +6,7 @@
 import React, { Fragment } from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -21,7 +22,6 @@ import Dialog from 'in-new-components/Dialog/Dialog';
 import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
 import Select from 'in-components/form/Select';
-import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 

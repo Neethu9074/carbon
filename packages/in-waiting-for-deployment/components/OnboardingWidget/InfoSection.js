@@ -5,9 +5,8 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { Button, SvgIcon } from '@instana/components';
 
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './InfoSection.mless';

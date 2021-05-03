@@ -6,10 +6,11 @@
 import { compose, withState } from 'recompose';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './SelectListDialog.mless';

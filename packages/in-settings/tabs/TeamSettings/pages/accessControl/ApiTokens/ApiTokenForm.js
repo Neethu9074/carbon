@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
 import { apiTokenPermissions, productOwnerPermissions } from 'in-stores/permission';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
@@ -15,7 +17,6 @@ import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import Toggle from 'in-components/form/Toggle';
-import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { role } from 'in-stores/user';

@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import StepProgressBar from 'in-new-components/StepProgressBar/StepProgressBar';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import SaveButton from 'in-components/form/SaveButton';
-import Button from 'in-new-components/Button/Button';
 import { t } from 'in-i18n';
 
 import locals from './SimpleModePageNavigation.mless';

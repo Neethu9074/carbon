@@ -7,6 +7,7 @@ import { get, findIndex } from 'lodash';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -30,7 +31,6 @@ import { shorten, isNotBlank } from 'in-services/util/string';
 import getTabs from 'in-websites/analyze/PageLoadView/tabs';
 import { dataSourceTitles } from 'in-websites/tags';
 import withUrlState from 'in-hoc/withUrlState';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';

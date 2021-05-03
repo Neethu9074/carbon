@@ -8,6 +8,7 @@ import { get, find } from 'lodash';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 
 import HelpParagraph from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/HelpParagraph';
@@ -19,7 +20,6 @@ import ValidationBlock from 'in-components/form/ValidationBlock';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import FormGroup from 'in-components/form/FormGroup';
-import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import { t, Trans } from 'in-i18n';
 

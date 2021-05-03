@@ -6,8 +6,9 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
+import { Button } from '@instana/components';
+
 import DropdownButton from 'in-new-components/Button/DropdownButton';
-import Button from 'in-new-components/Button/Button';
 
 import locals from './DashboardHeaderButton.mless';
 

@@ -7,7 +7,8 @@
 import React, { Fragment } from 'react';
 import { withState } from 'recompose';
 
-import Button from 'in-new-components/Button';
+import { Button } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 export default withState(

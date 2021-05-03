@@ -7,6 +7,8 @@
 import { uniqBy } from 'lodash';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import EntityPageMainNotificationLightCardV2 from 'in-new-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -23,7 +25,6 @@ import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import SaveButton from 'in-components/form/SaveButton';
 import WithTvMode from 'in-new-components/WithTvMode';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';

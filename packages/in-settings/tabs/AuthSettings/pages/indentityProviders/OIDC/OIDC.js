@@ -6,6 +6,8 @@
 import React, { useState, useEffect } from 'react';
 import { createField } from 'formalistic';
 
+import { Button } from '@instana/components';
+
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
 import { defaultIdpType, idpTypes } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/idpTypes';
@@ -21,7 +23,6 @@ import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import { shorten } from 'in-services/util/string';
 import Select from 'in-components/form/Select';
-import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';

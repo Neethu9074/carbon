@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just } from '@instana/observables';
 import React, { Fragment } from 'react';
+
+import { Button } from '@instana/components';
+import { just } from '@instana/observables';
 
 import {
   getLinkToMobileApp,
@@ -27,7 +29,6 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import BackButton from 'in-new-components/BackButton';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import theme from 'in-themes';

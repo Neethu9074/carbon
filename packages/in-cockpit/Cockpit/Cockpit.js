@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
 import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
@@ -28,7 +29,6 @@ import { settings$, setSingle } from 'in-services/settings/settings';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { hasKubernetesAccess } from 'in-stores/permission';
 import SideNav from 'in-new-components/SideNav';
-import Button from 'in-new-components/Button';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';

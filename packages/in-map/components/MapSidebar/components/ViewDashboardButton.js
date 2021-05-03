@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

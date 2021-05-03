@@ -6,8 +6,8 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { empty } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
+import { empty } from '@instana/observables';
 
 import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { optionsPropType } from 'in-new-components/SortingConfigurator/SortingConfigurator';

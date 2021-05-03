@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { handleChangeTagFilterExpressionChange } from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertFilterConfigurator';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export function ClearTagFilterExpressionButton({ form, updateForm, customFormUpdater }) {

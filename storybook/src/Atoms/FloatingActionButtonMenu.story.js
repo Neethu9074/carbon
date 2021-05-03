@@ -6,9 +6,10 @@
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import FloatingActionButtonPresenter from 'in-new-components/FloatingActionButton/FloatingActionButtonPresenter';
 import FloatingActionButtonMenu from 'in-new-components/FloatingActionButton/FloatingActionButtonMenu';
-import Button from 'in-new-components/Button';
 
 export default {
   title: 'Atoms|Buttons/Floating Action Button Menu',

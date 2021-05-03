@@ -8,10 +8,9 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
-import Button from 'in-new-components/Button';
-
-import locals from './Button.mless';
+import locals from './DropdownButton.mless';
 
 const DropdownButton = React.forwardRef(function DropdownButton(props, ref) {
   return (
@@ -21,7 +20,9 @@ const DropdownButton = React.forwardRef(function DropdownButton(props, ref) {
 
       <SvgIcon
         type={props.expanded ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
-        className={locals.dropdownButtonIndicator}
+        className={classNames(locals.dropdownButtonIndicator, {
+          [`icon-${props.size}`]: props.size
+        })}
       />
     </Button>
   );

@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank } from 'in-services/util/string';
-import Button from 'in-new-components/Button';
 
 export default function HumioButton(props) {
   const { humioIntegration: integration } = props;

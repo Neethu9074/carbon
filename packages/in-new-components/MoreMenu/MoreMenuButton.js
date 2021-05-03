@@ -5,7 +5,7 @@
 
 import React, { forwardRef } from 'react';
 
-import Button from 'in-new-components/Button';
+import { Button } from '@instana/components';
 
 import locals from './MoreMenuButton.mless';
 

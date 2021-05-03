@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 
 import {
   sloTarget,
@@ -47,7 +49,6 @@ import Select from 'in-components/form/Select/Select';
 import DateInput from 'in-components/form/DateInput';
 import Input from 'in-components/form/Input/Input';
 import Stack from 'in-new-components/layout/Stack';
-import Button from 'in-new-components/Button';
 import { Trans, t } from 'in-i18n';
 
 import locals from './FormComponent.mless';

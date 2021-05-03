@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import ExpandableCard from 'in-new-components/ExpandableCard';
-import Button from 'in-new-components/Button';
 
 export default {
   title: 'Molecules|Cards/ExpandableCard',

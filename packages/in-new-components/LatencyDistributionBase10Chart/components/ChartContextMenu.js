@@ -8,10 +8,10 @@ import classNames from 'classnames';
 import rpt from 'prop-types';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 import { on } from '@instana/observables';
 
 import { containsIgnoreCase } from 'in-services/util/string';
-import Button from 'in-new-components/Button';
 import keyCodes from 'in-components/keyCodes';
 import Tooltip from 'in-components/Tooltip';
 

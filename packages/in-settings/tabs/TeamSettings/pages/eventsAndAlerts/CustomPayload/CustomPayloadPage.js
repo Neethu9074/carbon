@@ -11,6 +11,7 @@ import { uniqBy } from 'lodash';
 import { createLogger } from '@instana/logger';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -59,7 +60,6 @@ import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import Message from 'in-new-components/Message';
 import Select from 'in-components/form/Select';
-import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
 import Title from 'in-components/Title';

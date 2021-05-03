@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { Button } from '@instana/components';
 
 import getIssueDefinitionForSnapshotAndCode, * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
 import getKubernetesClusterByRelation from 'in-subscription/kubernetes/getKubernetesClusterByRelation';
@@ -13,7 +15,6 @@ import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { warning } from 'in-new-components/Message/types';
 import { getSnapshot } from 'in-stores/snapshot';
 import Message from 'in-new-components/Message';
-import Button from 'in-new-components/Button';
 
 import locals from './K8sAgentMonitoringIssueNotifications.mless';
 

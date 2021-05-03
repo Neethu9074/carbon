@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
-import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
+
+import { Button } from '@instana/components';
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
 import WebsitesNoDataNotification from 'in-websites/WebsitesList/components/WebsitesNoDataNotification';
@@ -27,7 +29,6 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import { timeConfig$ } from 'in-stores/time/config';
-import Button from 'in-new-components/Button';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';

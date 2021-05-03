@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import React from 'react';
+
+import { combineLatest } from '@instana/observables';
+import { Button } from '@instana/components';
 
 import FillerStatsRow, { DROPWIZARD_STATS } from 'in-internal/monitoringUnit/FillerStats/FillerStatsRow';
 import { getSnapshotFromPhysicalHierarchyByPlugin } from 'in-stores/snapshot';
 import { emptyArray } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
-import Button from 'in-new-components/Button';
 import search from 'in-subscription/search';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

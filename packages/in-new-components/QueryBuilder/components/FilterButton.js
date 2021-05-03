@@ -5,9 +5,10 @@
 
 import React, { useRef } from 'react';
 
+import { Button } from '@instana/components';
+
 import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
 import Overlay from 'in-new-components/overlays/Overlay';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './FilterButton.mless';

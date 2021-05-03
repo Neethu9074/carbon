@@ -5,13 +5,14 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import DebouncedDistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
 import { percentage } from 'in-services/formatters/number';
 import Overlay from 'in-new-components/overlays/Overlay';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Toggle from 'in-components/form/Toggle';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './SettingsButton.mless';

@@ -6,6 +6,8 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
+import { Button } from '@instana/components';
+
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesTextArea';
 import {
   PER_AP_ENDPOINT,
@@ -19,7 +21,6 @@ import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrappe
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import AlertSection from 'in-alerting/components/AlertSection';
 import { stopPropagation } from 'in-services/util/function';
-import Button from 'in-new-components/Button/Button';
 import Stack from 'in-new-components/layout/Stack';
 import { t } from 'in-i18n';
 

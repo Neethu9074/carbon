@@ -5,12 +5,13 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import HighlightingHandler from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph/HighlightingHandler';
 import strechData from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph/strechData';
 import render from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph/renderer';
 import mapData from 'in-profiling/analyze/AnalyzeView/ProfilesView/CanvasBasedProfileFlameGraph/data';
 import getElementDimensions from 'in-hoc/getElementDimensions';
-import Button from 'in-new-components/Button';
 import createScale from 'in-services/scale';
 import { t } from 'in-i18n';
 

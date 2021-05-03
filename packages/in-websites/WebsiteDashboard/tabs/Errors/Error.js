@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { Fragment } from 'react';
+
+import { Button } from '@instana/components';
 import { just } from '@instana/observables';
 import { Card } from '@instana/components';
-import React, { Fragment } from 'react';
 
 import { getLinkToWebsite, errorsTabFullyQualified, getLinkToAnalyze, detailsPath } from 'in-websites/navigation/paths';
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
@@ -33,7 +35,6 @@ import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
 import BackButton from 'in-new-components/BackButton';
-import Button from 'in-new-components/Button';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';

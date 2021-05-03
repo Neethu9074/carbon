@@ -12,6 +12,7 @@ import invariant from 'invariant';
 import { createLogger } from '@instana/logger';
 import { create } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -22,7 +23,6 @@ import Delete from 'in-settings/components/actions/Delete';
 import { arrayToResult } from 'in-services/util/result';
 import ListTitle from 'in-new-components/lists/Title';
 import { isBlank } from 'in-services/util/string';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';

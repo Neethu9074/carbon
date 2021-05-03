@@ -5,13 +5,12 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { Button, SvgIcon } from '@instana/components';
 
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { Li, Ul } from 'in-new-components/lists/List';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './AnalyzeLogsButton.mless';

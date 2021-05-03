@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import {
   getLinkToWebsite,
   getLinkToAnalyze,
@@ -30,7 +32,6 @@ import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { Col, Row } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import BackButton from 'in-new-components/BackButton';
-import Button from 'in-new-components/Button';
 import Footer from 'in-new-components/Footer';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';

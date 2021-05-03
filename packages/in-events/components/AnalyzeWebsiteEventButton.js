@@ -6,6 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { fromBackendModel, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { websitesAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/websites/tracker';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
@@ -13,7 +15,6 @@ import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilt
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { defaultGroupings } from 'in-websites/tags';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, timeConfig }) {

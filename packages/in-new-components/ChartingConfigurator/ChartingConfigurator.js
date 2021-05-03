@@ -6,10 +6,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import ChartingConfiguratorForm from 'in-new-components/ChartingConfigurator/ChartingConfiguratorForm';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { rendererShape } from 'in-stores/metric/renderer';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './ChartingConfigurator.mless';

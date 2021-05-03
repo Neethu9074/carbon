@@ -5,6 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { Button } from '@instana/components';
+
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/TypeHeader';
 import { getType, types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
@@ -14,7 +16,6 @@ import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { explanations } from 'in-websites/cacheInteractionTypes';
 import { getLinkToPageLoad } from 'in-websites/navigation/paths';
 import { bytes } from 'in-services/formatters/number';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export default function WebsiteBeaconDetails({ beacon }) {

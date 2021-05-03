@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { range, sortBy } from 'lodash';
 
+import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-new-components/tracker';
@@ -16,7 +17,6 @@ import Skeleton from 'in-new-components/Loading/Skeleton';
 import { identity } from 'in-services/util/function';
 import Stack from 'in-new-components/layout/Stack';
 import Message from 'in-new-components/Message';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

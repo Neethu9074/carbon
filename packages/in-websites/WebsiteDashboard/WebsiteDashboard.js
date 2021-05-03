@@ -7,6 +7,8 @@ import { compose, withProps } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
 import { websitePath, websitePathFullyQualified, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { websiteId as matrixWebsiteId, pageId as matrixPageId } from 'in-websites/navigation/matrix';
@@ -31,7 +33,6 @@ import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-websites/tracker';
 import withUrlState from 'in-hoc/withUrlState';
-import Button from 'in-new-components/Button';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 

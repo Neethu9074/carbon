@@ -4,9 +4,11 @@
  */
 
 import { compose, withState, withProps } from 'recompose';
+import React, { Fragment } from 'react';
+
+import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
-import React, { Fragment } from 'react';
 
 import {
   showWebsiteDetailsInTraceView,
@@ -18,7 +20,6 @@ import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserS
 import { getLinkToWebsite, getLinkToPageLoad } from 'in-websites/navigation/paths';
 import { tryGet, trySet } from 'in-services/localStorage';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';
 

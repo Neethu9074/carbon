@@ -6,6 +6,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { Button } from '@instana/components';
+
 import {
   applicationsAlertingAlertEdit,
   applicationsAlertingListAlertDeleted,
@@ -29,7 +31,6 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import { stopPropagation } from 'in-services/util/function';
-import Button from 'in-new-components/Button';
 import { t, Trans } from 'in-i18n';
 
 import locals from './ListActionsColumn.mless';

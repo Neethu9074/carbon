@@ -8,12 +8,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import useResizeObserver from 'in-hooks/useResizeObserver';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './KpiCard.mless';

@@ -7,12 +7,13 @@ import { compose, withState } from 'recompose';
 import diff from 'deep-diff';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import createSnapshotVersionsInTimeframeObservable from 'in-subscription/snapshotVersionsInTimeframe';
 import VersionTimeline from 'in-new-components/VersionTimeline';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
-import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';

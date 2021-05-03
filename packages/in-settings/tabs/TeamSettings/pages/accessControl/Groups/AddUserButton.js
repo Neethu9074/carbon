@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { iconColumn, labelColumn } from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
 import UserList from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserList';
 import withSelectableItems from 'in-settings/components/withSelectableItems';
@@ -12,7 +14,6 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import { find } from 'in-services/arrayUtils';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 import locals from './AddUserButton.mless';

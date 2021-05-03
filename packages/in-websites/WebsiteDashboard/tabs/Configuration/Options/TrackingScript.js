@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState } from 'react';
+
+import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
-import React, { useState } from 'react';
 
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import TrackingSnippetPresenter from 'in-websites/trackingSnippet/TrackingSnippetPresenter';
 import { getTrackingSnippet } from 'in-websites/trackingSnippet';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { Trans, markAsSecureString } from 'in-i18n';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export default function TrackingScript({ websiteId }) {

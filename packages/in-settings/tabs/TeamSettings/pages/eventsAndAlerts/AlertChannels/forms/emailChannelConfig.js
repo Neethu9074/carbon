@@ -7,13 +7,14 @@ import { createMapForm, createField } from 'formalistic';
 import { List } from 'immutable';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { generateUniqueShortId } from 'in-services/util/id';
 import FormGroup from 'in-settings/components/FormGroup';
-import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';

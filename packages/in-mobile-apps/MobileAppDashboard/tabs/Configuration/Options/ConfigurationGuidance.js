@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
+
+import { Button } from '@instana/components';
+import { Card } from '@instana/components';
 
 import { getReportingUrl } from 'in-mobile-apps/configuration';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { Ul, Li } from 'in-new-components/lists/List';
-import Button from 'in-new-components/Button';
 import { t } from 'in-i18n';
 
 export default function ConfigurationGuidance({ mobileAppId }) {

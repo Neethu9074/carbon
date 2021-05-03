@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import SelectListDialog from 'in-settings/tabs/TeamSettings/components/SelectListDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

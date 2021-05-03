@@ -4,14 +4,15 @@
  */
 
 import { InView } from 'react-intersection-observer';
-import { empty } from '@instana/observables';
 import React from 'react';
+
+import { empty } from '@instana/observables';
+import { Button } from '@instana/components';
 
 import getMobileAppBackendTraces from 'in-mobile-apps/subscriptions/getMobileAppBackendTraces';
 import { navigateToBackendTraceFromSession } from 'in-mobile-apps/tracker';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import Button from 'in-new-components/Button';
 import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

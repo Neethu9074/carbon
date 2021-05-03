@@ -7,10 +7,10 @@ import { uniq, find } from 'lodash';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
-import Button from 'in-new-components/Button';
 import Gravatar from 'in-components/Gravatar';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

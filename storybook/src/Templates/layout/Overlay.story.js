@@ -6,10 +6,11 @@
 import { range } from 'lodash';
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import Button from 'in-new-components/Button';
 
 export default {
   title: 'Templates|layout/Overlay',

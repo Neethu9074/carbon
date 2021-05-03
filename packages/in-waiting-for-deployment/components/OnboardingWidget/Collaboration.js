@@ -7,13 +7,14 @@ import { createMapForm, createField } from 'formalistic';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
+import { Button } from '@instana/components';
+
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
 import { sendInvitation } from 'in-api/users';
-import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';

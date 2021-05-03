@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
 import { graphPath } from 'in-stores/navigation/paths/mainPaths';
@@ -15,7 +17,6 @@ import { instanaRegion } from 'in-services/config';
 import Stack from 'in-new-components/layout/Stack';
 import { goToPath } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
-import Button from 'in-new-components/Button';
 import { build } from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

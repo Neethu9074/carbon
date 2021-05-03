@@ -5,13 +5,14 @@
 
 import React from 'react';
 
+import { Button } from '@instana/components';
+
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import AnalyzeGroupingInfo from 'in-analyze/AnalyzeView/components/AnalyzeEditGroupingInfo';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import GroupingInfo from 'in-analyze/components/GroupingInfo/GroupingInfo';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import Toggle from 'in-components/form/Toggle';
-import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
