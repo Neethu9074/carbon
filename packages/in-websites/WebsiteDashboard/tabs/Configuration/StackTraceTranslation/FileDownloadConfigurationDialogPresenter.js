@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -22,7 +24,6 @@ import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './FileDownloadConfigurationDialogPresenter.mless';
 

@@ -7,8 +7,9 @@ import classNames from 'classnames';
 import rpt from 'prop-types';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Button.mless';
 

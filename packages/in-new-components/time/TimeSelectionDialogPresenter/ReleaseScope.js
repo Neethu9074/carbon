@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
-import { just } from '@instana/observables';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
+import { just } from '@instana/observables';
 
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ReleaseScope.mless';
 

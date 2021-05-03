@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { Ul, Li, ColumnizedContent } from 'in-new-components/lists/List';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
@@ -14,7 +16,6 @@ import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Gravatar from 'in-components/Gravatar';
 import Label from 'in-components/form/Label';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';

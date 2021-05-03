@@ -5,8 +5,10 @@
 
 import GlobeViewLoader from 'promise-loader?global,globe-view!in-websites/WebsiteDashboard/components/GlobeView';
 import { Route, Switch } from 'react-router-dom';
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 import getWebsiteCountryBreakdown from 'in-websites/subscriptions/getWebsiteCountryBreakdown';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
@@ -17,7 +19,6 @@ import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import Button from 'in-new-components/MapControls/Button';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

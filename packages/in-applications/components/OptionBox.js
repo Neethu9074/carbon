@@ -6,8 +6,9 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
+import { SvgIcon } from '@instana/components';
+
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './OptionBox.mless';
 

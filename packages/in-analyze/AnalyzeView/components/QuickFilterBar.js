@@ -5,6 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import NumberBarItem from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
 import AnalyzeMultiSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeMultiSelectBarItem';
 import AnalyzeSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeSelectBarItem';
@@ -18,7 +20,6 @@ import { millis } from 'in-services/formatters/number';
 import { getTagFromList } from 'in-applications/tags';
 import { toTitleCase } from 'in-services/util/string';
 import { getTechnologyLabel } from 'in-sdk/snapshot';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './QuickFilterBar.mless';

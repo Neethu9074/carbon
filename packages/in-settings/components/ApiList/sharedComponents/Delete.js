@@ -6,9 +6,10 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
-import SvgIcon from 'in-components/SvgIcon';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Delete.mless';

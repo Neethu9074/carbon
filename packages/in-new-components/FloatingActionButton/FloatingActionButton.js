@@ -7,8 +7,9 @@ import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { SvgIcon } from '@instana/components';
+
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './FloatingActionButton.mless';
 

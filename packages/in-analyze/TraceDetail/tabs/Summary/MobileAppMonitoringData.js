@@ -4,9 +4,11 @@
  */
 
 import { compose, withState, withProps } from 'recompose';
+import React, { Fragment } from 'react';
+
+import { SvgIcon } from '@instana/components';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
-import React, { Fragment } from 'react';
 
 import {
   showMobileAppDetailsInTraceView,
@@ -19,7 +21,6 @@ import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacon
 import { tryGet, trySet } from 'in-services/localStorage';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
 import { minutes } from 'in-services/time';
 import connect from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';

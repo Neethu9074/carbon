@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Table/components/ViewWidthRestrictedColumn';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -14,7 +15,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
-import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
+import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import DateTime from 'in-components/tables/sharedComponents/DateTime';
 import EntityLink from 'in-new-components/EntityLink';

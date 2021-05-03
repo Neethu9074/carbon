@@ -8,9 +8,10 @@ import { range, rangeRight } from 'lodash';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
+import { SvgIcon } from '@instana/components';
+
 import { defaultTimeShift, getTimeShiftLabel } from 'in-stores/time/shifting';
 import useResizeObserver from 'in-hooks/useResizeObserver';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { empty } from '@instana/observables';
 import rpt from 'prop-types';
 import React from 'react';
+
+import { empty } from '@instana/observables';
+import { SvgIcon } from '@instana/components';
 
 import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { optionsPropType } from 'in-new-components/SortingConfigurator/SortingConfigurator';
@@ -20,7 +22,6 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './UngroupedView.mless';

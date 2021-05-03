@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import icons from 'in-components/SvgIcon/registry.json';
+import { getSvgIcon } from '@instana/components';
+
 import { getIconTypeCallback } from 'in-sdk/iconType';
 
 export function getIconType(snapshotOrPlugin) {
@@ -17,5 +18,5 @@ export function getIconType(snapshotOrPlugin) {
   }
 
   const name = `lib_infra_${plugin}`;
-  return icons[name] ? name : 'lib_infra_unknownIcon';
+  return getSvgIcon(name) ? name : 'lib_infra_unknownIcon';
 }

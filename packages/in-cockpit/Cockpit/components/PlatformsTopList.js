@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import { get } from 'lodash';
 import React from 'react';
+
+import { combineLatest } from '@instana/observables';
+import { SvgIcon } from '@instana/components';
 
 import {
   kubernetesCluster as kubernetesClusterType,
@@ -36,7 +38,6 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 import { add, remove } from 'in-stores/starredItems';
 import { success } from 'in-services/util/result';
 import { getMetric } from 'in-stores/metric';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

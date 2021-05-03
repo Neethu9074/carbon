@@ -7,6 +7,8 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { SvgIcon } from '@instana/components';
+
 import RevisionDropdown, { toAlertRevision } from 'in-alerting/components/RevisionDropdown';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
@@ -16,7 +18,6 @@ import { warning } from 'in-new-components/Message/types';
 import BackButton from 'in-new-components/BackButton';
 import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 import { role } from 'in-stores/user';

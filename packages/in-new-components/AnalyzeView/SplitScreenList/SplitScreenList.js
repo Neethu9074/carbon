@@ -9,6 +9,7 @@ import classNames from 'classnames';
 import rpt from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
 
 import { leftArrowId, rightArrowId } from 'in-new-components/AnalyzeView/SplitScreenList/elementIds';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
@@ -24,7 +25,6 @@ import { prefetch } from 'in-subscription/util/prefetch';
 import { generateStableHash } from 'in-services/util/id';
 import { Ul, Li } from 'in-new-components/lists/List';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 

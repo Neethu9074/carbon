@@ -7,8 +7,9 @@ import React, { useEffect, useReducer } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
+import { SvgIcon } from '@instana/components';
+
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 
 import './ModificationSaveStatus.less';
 

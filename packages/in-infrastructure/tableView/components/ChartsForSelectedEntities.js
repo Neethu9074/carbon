@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just, combineLatest } from '@instana/observables';
 import React, { Fragment } from 'react';
+
+import { just, combineLatest } from '@instana/observables';
+import { SvgIcon } from '@instana/components';
 
 import MetricChartDownloadView from 'in-components/DownloadButton/components/MetricChartDownloadView';
 import { selectedSnapshots$ } from 'in-infrastructure/tableView/stores/selectedSnapshots';
@@ -17,7 +19,6 @@ import { getMetricDefinition } from 'in-sdk/metrics';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getPluginName } from 'in-sdk/pluginName';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

@@ -5,11 +5,12 @@
 
 import React, { Fragment } from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import Button from 'in-new-components/MapControls/Button';
 import Overlay from 'in-new-components/overlays/Overlay';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

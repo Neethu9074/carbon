@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 import getEcsTaskForEcsContainer from 'in-subscription/getEcsTaskForEcsContainer';
 import getRegionForEcsContainer from 'in-subscription/getRegionForEcsContainer';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { shorten } from 'in-services/util/string';
-import SvgIcon from 'in-components/SvgIcon';
 import { Trans } from 'in-i18n';
 
 import locals from './InfrastructureTabSubscript.mless';

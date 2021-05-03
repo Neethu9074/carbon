@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { Card } from '@instana/components';
 
 import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTraceActivityTreeNodeDetails';
 import ServiceComponent from 'in-analyze/TraceDetail/components/CallDetails/components/ServiceComponent';
@@ -17,7 +19,6 @@ import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPr
 import Header from 'in-analyze/TraceDetail/components/CallDetails/components/Header';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import { pendingResult } from 'in-services/fixedObjects';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
 import connectTo from 'in-hoc/connectTo';

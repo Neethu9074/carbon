@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { on } from '@instana/observables';
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
+
+import { SvgIcon } from '@instana/components';
+import { on } from '@instana/observables';
 
 import { containsIgnoreCase } from 'in-services/util/string';
 import Button from 'in-new-components/Button';
 import keyCodes from 'in-components/keyCodes';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './ChartContextMenu.mless';
 

@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Link } from '@instana/components';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 import {
   alertsTab,
@@ -23,7 +25,6 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

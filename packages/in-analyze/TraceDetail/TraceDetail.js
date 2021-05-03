@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 import AppNavigatorSplitScreen from 'in-analyze/TraceDetail/components/AppNavigatorSplitScreen/AppNavigatorSplitScreen';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
@@ -23,7 +25,6 @@ import { getColor } from 'in-applications/endpointTypes';
 import tabs from 'in-analyze/TraceDetail/tabs/index';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';

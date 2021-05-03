@@ -9,7 +9,7 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
+import { SvgIcon } from '@instana/components';
 
 export default {
   title: 'Templates|Dashboard Header',

@@ -4,16 +4,17 @@
  */
 
 import React, { useState, useMemo } from 'react';
-import { useObservable } from '@instana/hooks';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
+
+import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
 
 import * as typeToLabelMapping from 'in-new-components/QueryBuilder/tagFilter/typeToLabelMapping';
 import SelectorOverlay from 'in-new-components/SelectorOverlay/SelectorOverlay';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { emptyArray } from 'in-services/fixedObjects';
 import { settings$ } from 'in-services/settings';
-import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import theme from 'in-themes';
 

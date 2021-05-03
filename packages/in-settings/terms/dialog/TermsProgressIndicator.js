@@ -6,7 +6,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import { SvgIcon } from '@instana/components';
+
 import theme from 'in-themes';
 
 import locals from './TermsProgressIndicator.mless';

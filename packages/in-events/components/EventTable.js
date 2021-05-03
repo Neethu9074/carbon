@@ -6,6 +6,7 @@
 import { findIndex } from 'lodash';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 import { on } from '@instana/observables';
 
@@ -23,7 +24,6 @@ import EventIcon from 'in-events/components/EventIcon';
 import { eventId } from 'in-events/navigation/matrix';
 import tabs from 'in-events/components/tabs/index';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

@@ -6,9 +6,10 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ExpandButton.mless';

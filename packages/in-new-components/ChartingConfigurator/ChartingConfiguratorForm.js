@@ -6,8 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './ChartingConfiguratorForm.mless';

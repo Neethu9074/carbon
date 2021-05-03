@@ -5,11 +5,12 @@
 
 import React, { useRef } from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import SourceDestinationSelectorOverlay from 'in-new-components/QueryBuilder/SourceDestinationSelectorOverlay/SourceDestinationSelectorOverlay';
 import { SOURCE } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { compositeRef } from 'in-services/util/react';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './GroupingConfigurator.mless';
 

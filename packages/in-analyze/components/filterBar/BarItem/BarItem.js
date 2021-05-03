@@ -6,8 +6,9 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
+import { SvgIcon } from '@instana/components';
+
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './BarItem.mless';
 

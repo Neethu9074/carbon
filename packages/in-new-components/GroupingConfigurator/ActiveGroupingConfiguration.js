@@ -8,12 +8,12 @@ import React from 'react';
 
 import { toInteractiveElement } from '@instana/components';
 import { useAutoFocus } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
 
 import SimpleValueSelector from 'in-new-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
 import Entity from 'in-new-components/GroupingConfigurator/Entity';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './GroupingConfigurator.mless';
 

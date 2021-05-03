@@ -7,11 +7,11 @@ import { withState } from 'recompose';
 import React from 'react';
 
 import { toInteractiveElement } from '@instana/components';
+import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 import HeaderToggleIcon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import Beacon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './BeaconPageGroup.mless';

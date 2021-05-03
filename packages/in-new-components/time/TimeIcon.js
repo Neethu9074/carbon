@@ -6,7 +6,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import SvgIcon from 'in-components/SvgIcon';
+import { SvgIcon } from '@instana/components';
+
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

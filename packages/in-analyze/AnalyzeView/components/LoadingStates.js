@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import { describeArc } from 'in-new-components/Loading/InfiniteCircle';
-import SvgIcon from 'in-components/SvgIcon';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

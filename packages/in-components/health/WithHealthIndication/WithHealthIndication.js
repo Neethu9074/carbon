@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { getPixelsBySize } from 'in-components/SvgIcon';
+import { SvgIconSizes } from '@instana/components';
+
 import { getColorBySeverity } from 'in-stores/events';
 
 import locals from './WithHealthIndication.mless';
@@ -15,7 +16,7 @@ export default function WithHealthIndication({ children, healthInfo, iconSize })
     return children;
   }
 
-  const size = getPixelsBySize(iconSize ?? 'regular');
+  const size = SvgIconSizes[iconSize ?? 'regular'];
   iconSize = 2 + ((size / 8) | 1) * 2;
 
   return (

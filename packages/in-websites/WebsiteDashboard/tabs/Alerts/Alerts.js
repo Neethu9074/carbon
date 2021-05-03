@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import pluralize from 'pluralize';
+
+import { SvgIcon } from '@instana/components';
+import { Card } from '@instana/components';
 
 import {
   websitesAlertingListAlertResumed,
@@ -29,7 +31,6 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import Footer from 'in-new-components/Footer/Footer';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import List from 'in-settings/components/List';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';

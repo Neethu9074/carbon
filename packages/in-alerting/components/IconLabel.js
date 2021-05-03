@@ -7,8 +7,9 @@ import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { SvgIcon } from '@instana/components';
+
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
-import SvgIcon from 'in-components/SvgIcon';
 import theme from 'in-themes';
 
 import locals from 'in-alerting/components/IconLabel.mless';

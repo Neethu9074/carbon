@@ -3,19 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 import getMonitoringIssuesForAgentSnapshot from 'in-subscription/getMonitoringIssuesForAgentSnapshot';
 import getIssueDefinitionForSnapshotAndCode from 'in-sdk/agentMonitoringIssueDefinition';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
+import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { formatDateTime } from 'in-services/formatters/date';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import BreakAll from 'in-components/typo/BreakAll';
-import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

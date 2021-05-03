@@ -20,7 +20,6 @@
     "storybook": "export STORYBOOK='true' && export BUILD_DEV='true' && export NODE_ENV='development' && gulp prepareTestExecution && export DEV_TOOLS='eval' && node --max-old-space-size=4096 ./node_modules/.bin/start-storybook -p 9001 -c storybook/config --no-version-updates",
     "storybookTest": "export STORYBOOK='true' && chromatic test -d storybookTarget --list --exit-zero-on-changes",
     "storybookBuild": "export STORYBOOK='true' && gulp prepareTestExecution && node --max-old-space-size=4096 ./node_modules/.bin/build-storybook -c storybook/config -o storybookTarget",
-    "translateIconRegistry": "node packages/in-components/SvgIcon/registryTranslator.js",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --write \"packages/**/*.{js,less,mless,css}\"",
     "postinstall": "./build/postInstall",
@@ -50,7 +49,7 @@
     "url": "https://github.com/instana/ui-client.git"
   },
   "dependencies": {
-    "@instana/components": "1.12.0",
+    "@instana/components": "1.13.0",
     "@instana/hooks": "^1.3.0",
     "@instana/logger": "^1.1.1",
     "@instana/observables": "^1.2.0",

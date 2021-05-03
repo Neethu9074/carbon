@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import { createField } from 'formalistic';
 import { get, find } from 'lodash';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { Card } from '@instana/components';
 
 import HelpParagraph from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/HelpParagraph';
 import { renameMobileApp as renameMobileAppTracker } from 'in-mobile-apps/tracker';
@@ -19,7 +21,6 @@ import SaveError from 'in-components/form/SaveError';
 import FormGroup from 'in-components/form/FormGroup';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
-import SvgIcon from 'in-components/SvgIcon';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Rename.mless';

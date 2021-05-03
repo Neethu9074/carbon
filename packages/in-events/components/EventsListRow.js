@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
@@ -27,7 +28,6 @@ import getWebsite from 'in-subscription/website/getWebsite';
 import EventIcon from 'in-events/components/EventIcon';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';
-import SvgIcon from 'in-components/SvgIcon';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

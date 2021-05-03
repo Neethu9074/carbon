@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 
 export default function PodMessage({ message }) {
   if (!message) {

@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import { getSvgIconNames, SvgIcon } from '@instana/components';
+
 import WithHealthIndication from 'in-components/health/WithHealthIndication';
-import icons from 'in-components/SvgIcon/registry.json';
-import SvgIcon from 'in-components/SvgIcon';
 
 export default {
   title: 'Molecules|health/WithHealthIndication',
@@ -64,7 +64,7 @@ export function AllIcons() {
   return (
     <>
       <ul>
-        {Object.keys(icons)
+        {getSvgIconNames()
           .sort()
           .map(icon => (
             <li

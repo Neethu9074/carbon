@@ -7,13 +7,14 @@ import classNames from 'classnames';
 import { compose } from 'recompose';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { leftArrowId, rightArrowId } from 'in-new-components/AnalyzeView/SplitScreenList/elementIds';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import ResultHeader from 'in-analyze/components/ResultHeader';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

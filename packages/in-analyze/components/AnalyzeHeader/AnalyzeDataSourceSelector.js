@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import classNames from 'classnames';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
 
 import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
@@ -24,7 +26,6 @@ import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { loggingEnabled } from 'in-services/featureFlags';
 import { Li, Ul } from 'in-new-components/lists/List';
-import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import { t } from 'in-i18n';
 

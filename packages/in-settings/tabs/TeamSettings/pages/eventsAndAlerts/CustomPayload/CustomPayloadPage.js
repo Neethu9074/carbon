@@ -3,13 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createLogger } from '@instana/logger';
-import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
 import { createField } from 'formalistic';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import { uniqBy } from 'lodash';
+
+import { createLogger } from '@instana/logger';
+import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 import {
   defaultType,
@@ -60,7 +62,6 @@ import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';

@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './HealthIndicatorPresenter.mless';
 

@@ -6,6 +6,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
 import { onChangeSource, duplicate } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/index';
@@ -15,7 +17,6 @@ import { getMetricId, getMetricLabel } from 'in-custom-dashboards/widgets/Chart/
 import { HighlightedEffect } from 'in-new-components/SelectedElementHighlighter';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import { Li, ColumnizedContent } from 'in-new-components/lists/List';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 import { t } from 'in-i18n';

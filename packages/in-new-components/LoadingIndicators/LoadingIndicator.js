@@ -7,8 +7,9 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { SvgIconSizes } from '@instana/components';
+
 import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
-import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './LoadingIndicator.mless';
 
@@ -19,7 +20,7 @@ export default function LoadingIndicator({ size = 'xl', title, text, className, 
   return (
     <div className={classNames(locals.container, className)} style={{ height: height, width: width, ...style }}>
       <div className={locals.content}>
-        <IndeterminateLoadingIndicator size={ICON_SIZES[size]} />
+        <IndeterminateLoadingIndicator size={SvgIconSizes[size]} />
         {title && <h2 className={locals.title}>{title}</h2>}
         <span className={locals.text}>{text}</span>
       </div>
@@ -28,7 +29,7 @@ export default function LoadingIndicator({ size = 'xl', title, text, className, 
 }
 
 LoadingIndicator.propTypes = {
-  size: PropTypes.oneOf(Object.keys(ICON_SIZES)),
+  size: PropTypes.oneOf(Object.keys(SvgIconSizes)),
   title: PropTypes.string,
   text: PropTypes.string,
   className: PropTypes.string,

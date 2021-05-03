@@ -6,10 +6,11 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
+import { SvgIcon } from '@instana/components';
+
 import SelectorOverlay from 'in-new-components/SelectorOverlay/SelectorOverlay';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import { emptyArray } from 'in-services/fixedObjects';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './MetricSelectorOverlay.mless';
 

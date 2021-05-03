@@ -7,6 +7,7 @@ import irpt from 'react-immutable-proptypes';
 import rpt from 'prop-types';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { getColorForEventAtFocusedMomentAsStream, getEventSeverityLabelWithEventType } from 'in-stores/events';
@@ -28,7 +29,6 @@ import { isAppDataEntityType } from 'in-services/entityUtils';
 import { formatTime } from 'in-services/formatters/date';
 import Marker from 'in-events/components/legacy/Marker';
 import EventIcon from 'in-events/components/EventIcon';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

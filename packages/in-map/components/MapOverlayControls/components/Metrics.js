@@ -9,11 +9,12 @@ import { fromJS } from 'immutable';
 import { isEqual } from 'lodash';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { setActiveMetric, clearActiveMetric, activeMetric$ } from 'in-stores/metric';
 import Control from 'in-map/components/MapOverlayControls/components/Control';
 import { track, MAP_METRICS_SHOW } from 'in-services/tracking/tracking';
 import { types, view$ } from 'in-stores/view';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

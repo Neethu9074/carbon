@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
 
 import ChildrenDistributionTimeLine from 'in-analyze/TraceDetail/components/CallTree/components/ChildrenDistributionTimeLine';
 import ServiceEndpointInformation from 'in-analyze/TraceDetail/components/CallTree/components/ServiceEndpointInformation';
@@ -14,7 +15,6 @@ import { isFakeRootCall, isUnknownTypeSpan, isInternalCall, isLog } from 'in-ana
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { shorten } from 'in-services/util/string';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 import { t } from 'in-i18n';

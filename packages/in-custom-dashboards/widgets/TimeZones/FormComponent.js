@@ -6,6 +6,8 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React, { useMemo } from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { createTimeZoneSubForm } from 'in-custom-dashboards/widgets/TimeZones/form';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -20,7 +22,6 @@ import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './FormComponent.mless';

@@ -6,6 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import PotentialProblemContentControls from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContentControls';
 import PotentialProblemChart from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemChart';
 import {
@@ -15,7 +17,6 @@ import {
 import { alertPropType, rulePropType } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
 import { getDescription, getTitle } from 'in-alerting/PotentialProblems/textUtil';
 import { formatDateTime } from 'in-services/formatters/date';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemContent/PotentialProblemContent.mless';
 

@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SvgIcon from 'in-components/SvgIcon';
+import { SvgIcon } from '@instana/components';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesContainer.mless';
 

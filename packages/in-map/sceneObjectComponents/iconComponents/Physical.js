@@ -4,7 +4,7 @@
  */
 
 import IconComponent from 'in-map/sceneObjectComponents/iconComponents/IconComponent';
-import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
+import { getIconType } from 'in-infrastructure/infrastructureIconType';
 
 export default class PhysicalIconComponent extends IconComponent {
   constructor(sceneObject, iconSize, getIconPosition) {

@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
+
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import useThemedLocals from 'in-hooks/useThemedLocals';
-import SvgIcon from 'in-components/SvgIcon';
 
 import styleDefs from './Button.mless';
 

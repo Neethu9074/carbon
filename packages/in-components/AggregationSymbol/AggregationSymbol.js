@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { aggregationLabels, aggregationIcons } from 'in-stores/metric/metric';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './AggregationSymbol.mless';
 

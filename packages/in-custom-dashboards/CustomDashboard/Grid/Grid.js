@@ -10,6 +10,8 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import classNames from 'classnames';
 
+import { SvgIcon } from '@instana/components';
+
 import {
   rowHeightPixels,
   cols,
@@ -21,7 +23,6 @@ import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
-import SvgIcon from 'in-components/SvgIcon';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

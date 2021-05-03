@@ -6,6 +6,8 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
+import { SvgIcon } from '@instana/components';
+
 import performantNodeManipulationWrapper from 'in-applications/ApplicationMap/components/Node/PerformantNodeManipulationWrapper';
 import ServiceInformation from 'in-applications/ApplicationMap/components/Tooltips/ServiceInformation/ServerServiceInformation';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
@@ -13,7 +15,6 @@ import ContextMenu from 'in-applications/ApplicationMap/components/ContextMenu';
 import { getButtonKindBySeverity } from 'in-stores/events';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Node.mless';
 

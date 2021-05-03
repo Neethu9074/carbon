@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
 import { get } from 'lodash';
 import React from 'react';
+
+import { create } from '@instana/observables';
+import { SvgIcon } from '@instana/components';
 
 import { build, parse, validate } from 'in-services/validators/urlPath';
 import { testRules } from 'in-api/endpointConfiguration';
 import FormGroup from 'in-components/form/FormGroup';
 import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './RuleTester.mless';

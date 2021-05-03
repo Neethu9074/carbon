@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import AnalyzeMultiSelectBarItem from 'in-analyze/AnalyzeView/components/AnalyzeMultiSelectBarItem';
 import MoreBarItem from 'in-analyze/components/filterBar/MoreBarItem';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 import { getTagFromList } from 'in-applications/tags';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './ServicesEndpointsBar.mless';

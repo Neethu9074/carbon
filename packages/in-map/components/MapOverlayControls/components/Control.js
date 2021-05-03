@@ -6,6 +6,8 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import {
   menuContent$,
   toggleContent,
@@ -13,7 +15,6 @@ import {
 } from 'in-map/components/MapOverlayControls/stores/menuContentStore';
 import { view$, types } from 'in-stores/view/view';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-map/components/MapOverlayControls/components/Control.less';

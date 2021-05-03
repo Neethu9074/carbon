@@ -6,6 +6,8 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
 import { customServiceMappingTagKeys, getTagType } from 'in-applications/tags';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -18,7 +20,6 @@ import Button from 'in-new-components/Button';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

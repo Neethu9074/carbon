@@ -6,13 +6,14 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
+import { SvgIcon } from '@instana/components';
+
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { containsIgnoreCase } from 'in-services/util/string';
 import SearchInput from 'in-new-components/SearchInput';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

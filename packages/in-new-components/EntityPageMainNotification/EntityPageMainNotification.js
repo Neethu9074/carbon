@@ -6,9 +6,10 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
+import { SvgIcon } from '@instana/components';
+
+import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { getPluginName } from 'in-sdk/pluginName';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './EntityPageMainNotification.mless';

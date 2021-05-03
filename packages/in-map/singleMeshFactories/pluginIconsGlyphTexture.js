@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
+import { getSvgIcon, getSvgIconNames } from '@instana/components';
 import { createLogger } from '@instana/logger';
 
 import { Texture, LinearFilter } from 'in-map/3DLibProvider';
-import icons from 'in-components/SvgIcon/registry.json';
 
-const allIcons = Object.keys(icons)
+const allIcons = getSvgIconNames()
   .filter(name => name.indexOf('lib_infra_') === 0)
-  .map(name => ({ id: name.substr('lib_infra_'.length), path: icons[name].path }));
+  .map(name => ({ id: name.substr('lib_infra_'.length), path: getSvgIcon(name).path }));
 
 export const config = {
   numElementsPerColumn: Math.ceil(Math.sqrt(allIcons.length)),

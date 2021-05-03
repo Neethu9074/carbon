@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { SOURCE, DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Entity.mless';
 

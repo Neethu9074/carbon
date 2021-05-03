@@ -7,6 +7,8 @@ import CreatableSelect from 'react-select/lib/Creatable';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { SvgIcon } from '@instana/components';
+
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -14,7 +16,6 @@ import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input/Input';
 import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

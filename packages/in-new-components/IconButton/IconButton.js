@@ -3,19 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { SvgIcon, SvgIconSizes } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
-import SvgIcon, { sizes as iconSizes } from 'in-components/SvgIcon/SvgIcon';
 import { useObservableConfig } from 'in-new-components/Button/Button';
 
 import locals from './IconButton.mless';
 
 export const kinds = Object.freeze(['primary', 'primaryv2', 'action', 'create', 'danger', 'warning', 'info']);
-export const sizes = iconSizes;
 const iconDimensions = {
   normal: 'regular',
   compact: 'xs'
@@ -89,7 +89,7 @@ IconButton.propTypes = {
   href$: PropTypes.object,
   kind: PropTypes.oneOf(kinds),
   onClick: PropTypes.func,
-  iconSize: PropTypes.oneOf(Object.keys(sizes)),
+  iconSize: PropTypes.oneOf(Object.keys(SvgIconSizes)),
   size: PropTypes.oneOf(Object.keys(iconDimensions)),
   type: PropTypes.string.isRequired,
   leftAligned: PropTypes.bool,

@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just } from '@instana/observables';
 import { createField } from 'formalistic';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { just } from '@instana/observables';
 
 import {
   productAreaPermissions,
@@ -37,7 +39,6 @@ import Title from 'in-components/Title/Title';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './Group.mless';

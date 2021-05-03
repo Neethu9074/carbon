@@ -5,10 +5,11 @@
 
 import React from 'react';
 
-import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
+import { SvgIcon } from '@instana/components';
+
+import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { getTechnologyLabel } from 'in-sdk/snapshot';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './MultipleTechnologiesIcon.mless';
 

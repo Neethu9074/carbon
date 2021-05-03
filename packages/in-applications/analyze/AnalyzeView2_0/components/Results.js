@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Link } from '@instana/components';
 import { clamp } from 'lodash';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import UngroupedViewTable, { retrievalSize } from 'in-new-components/AnalyzeView/UngroupedViewTable';
@@ -21,7 +23,6 @@ import { latencyFixed } from 'in-services/formatters/number';
 import getCalls from 'in-subscription/application/getCalls';
 import HealthDot from 'in-new-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

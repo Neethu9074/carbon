@@ -7,6 +7,7 @@ import React from 'react';
 
 import { toInteractiveElement } from '@instana/components';
 import { useAutoFocus } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
 
 import { doesTagNodeNeedSecondLevelKey } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayloadConfigurator';
 import {
@@ -22,7 +23,6 @@ import SimpleValueSelector from 'in-new-components/QueryBuilder/SimpleValueSelec
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import theme from 'in-themes';
 

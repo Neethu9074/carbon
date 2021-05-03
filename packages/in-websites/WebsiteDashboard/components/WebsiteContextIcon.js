@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import WithHealthIndication from 'in-components/health/WithHealthIndication';
-import SvgIcon from 'in-components/SvgIcon';
 
 export default function WebsiteContextIcon({ className, websiteId, timeConfig }) {
   return (

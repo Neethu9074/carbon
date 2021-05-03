@@ -6,7 +6,7 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
-import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
+import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import Delayed from 'in-new-components/Delayed/Delayed';
 import WithIcon from 'in-new-components/WithIcon';

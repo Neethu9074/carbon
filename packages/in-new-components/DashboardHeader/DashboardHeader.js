@@ -7,11 +7,12 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import UrlShortener from 'in-new-components/DashboardHeader/UrlShortener/UrlShortener';
 import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import Tooltip from 'in-components/Tooltip/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
 
 import locals from './DashboardHeader.mless';

@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 
 import './Helpify.less';
 

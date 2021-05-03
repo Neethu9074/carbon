@@ -5,12 +5,13 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import FileNameAndLine from 'in-new-components/Profiling/components/FileNameAndLine';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import MethodName from 'in-new-components/Profiling/components/MethodName';
 import At from 'in-new-components/Profiling/components/At';
 import { percentage } from 'in-services/formatters/number';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './StackTrace.mless';
 

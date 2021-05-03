@@ -6,9 +6,10 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
+import { SvgIcon } from '@instana/components';
+
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
 import Spacer from 'in-applications/Forms/components/Spacer';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TemporaryMessage.mless';
 

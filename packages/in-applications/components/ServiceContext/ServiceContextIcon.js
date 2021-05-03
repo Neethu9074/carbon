@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import WithApplicationHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithApplicationHealthIndicationBehaviour';
 import WithHealthIndication from 'in-components/health/WithHealthIndication';
-import SvgIcon from 'in-components/SvgIcon';
 
 export default function ServiceContextIcon({ className, applicationId, serviceId }) {
   return (

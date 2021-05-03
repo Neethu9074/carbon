@@ -6,7 +6,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import SvgIcon from 'in-components/SvgIcon';
+import { SvgIcon } from '@instana/components';
 
 import './DownloadButton.less';
 

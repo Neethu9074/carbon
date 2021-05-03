@@ -5,8 +5,9 @@
 
 import React, { forwardRef } from 'react';
 
-import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
-import SvgIcon from 'in-components/SvgIcon';
+import { SvgIcon } from '@instana/components';
+
+import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import theme from 'in-themes';
 
 export default forwardRef(function PluginIcon(props, ref) {

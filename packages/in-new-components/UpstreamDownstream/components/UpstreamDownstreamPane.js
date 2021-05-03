@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import UpstreamDownstreamGroup from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamGroup';
 import { relationships } from 'in-new-components/UpstreamDownstream/constants';
-import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './UpstreamDownstreamPane.mless';

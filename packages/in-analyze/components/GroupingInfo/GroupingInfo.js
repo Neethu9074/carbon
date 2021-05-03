@@ -5,10 +5,11 @@
 
 import React, { Fragment } from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import EntityIndicator from 'in-analyze/components/EntityIndicator';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { isNotBlank } from 'in-services/util/string';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

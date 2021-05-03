@@ -7,8 +7,9 @@ import ClickAwayListener from 'react-click-away-listener';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
+import { SvgIcon } from '@instana/components';
+
 import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
-import SvgIcon from 'in-components/SvgIcon';
 import { lib } from 'in-themes';
 
 import locals from './FloatingActionButtonMenu.mless';

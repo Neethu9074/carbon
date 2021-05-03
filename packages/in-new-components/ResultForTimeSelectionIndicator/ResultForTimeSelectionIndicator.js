@@ -6,9 +6,10 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { clearHighlightedTimeframe } from 'in-stores/highlightedTimeframe';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './ResultForTimeSelectionIndicator.mless';

@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
+
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import PluginIcon from 'in-components/PluginIcon';
 import { shorten } from 'in-services/util/string';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

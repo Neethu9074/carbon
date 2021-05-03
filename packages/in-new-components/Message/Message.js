@@ -6,8 +6,9 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
+import { SvgIcon } from '@instana/components';
+
 import { neutral, success, warning, error } from 'in-new-components/Message/types';
-import SvgIcon from 'in-components/SvgIcon';
 import theme from 'in-themes';
 
 import locals from './Message.mless';

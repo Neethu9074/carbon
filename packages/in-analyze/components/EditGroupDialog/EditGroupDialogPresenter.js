@@ -6,6 +6,8 @@
 import CreatableSelect from 'react-select/lib/Creatable';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import RadioGroup from 'in-analyze/components/RadioButtons/RadioGroup';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -17,7 +19,6 @@ import Message from 'in-new-components/Message';
 import Button from 'in-new-components/Button';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './EditGroupDialogPresenter.mless';

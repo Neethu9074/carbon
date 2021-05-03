@@ -9,6 +9,7 @@ import rpt from 'prop-types';
 
 import { toInteractiveElement, withInteractivitySideEffects } from '@instana/components';
 import { useAutoFocus } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 import HorizontalIndicatorLiComponent from 'in-new-components/lists/List/HorizontalIndicatorLi';
@@ -16,7 +17,6 @@ import LoadingSkeletonLiComponent from 'in-new-components/lists/List/LoadingSkel
 import LoadMoreLiComponent from 'in-new-components/lists/List/LoadMoreLi';
 import ListGroupComponent from 'in-new-components/lists/List/ListGroup';
 import { emptyObject } from 'in-services/fixedObjects';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './List.mless';

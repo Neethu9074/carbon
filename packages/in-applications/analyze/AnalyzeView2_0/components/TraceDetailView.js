@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
 import SplitScreenList from 'in-new-components/AnalyzeView/SplitScreenList/SplitScreenList';
@@ -18,7 +20,6 @@ import DashboardHeader from 'in-new-components/DashboardHeader';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import { getColor } from 'in-applications/endpointTypes';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import { role } from 'in-stores/user';

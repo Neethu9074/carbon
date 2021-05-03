@@ -8,6 +8,8 @@ import { compose } from 'recompose';
 import { findIndex } from 'lodash';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { traceId as traceIdMatrixParameter, callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTraceActivityTreeNodeDetails';
 import { leftArrowId, rightArrowId } from 'in-new-components/AnalyzeView/SplitScreenList/elementIds';
@@ -22,7 +24,6 @@ import ResultHeader from 'in-analyze/components/ResultHeader';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import { prefetch } from 'in-subscription/util/prefetch';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

@@ -4,9 +4,11 @@
  */
 
 import React, { useCallback, useMemo, useState, useRef } from 'react';
-import { useObservable } from '@instana/hooks';
 import { isEmpty, isEqual } from 'lodash';
 import classNames from 'classnames';
+
+import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
 
 import { groupMatrixParameter, typeMatrixParameter, getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import { allInfrastructureType, defaultAllInfraGroup, allTypes } from 'in-infrastructure/Explore/constants';
@@ -25,7 +27,6 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { Li } from 'in-new-components/lists/List';
 import { getPluginName } from 'in-sdk/pluginName';
 import useUrlState from 'in-hooks/useUrlState';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './TypeSelector.mless';

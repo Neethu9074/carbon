@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { interval, just } from '@instana/observables';
 import { Redirect } from 'react-router-dom';
 import React from 'react';
+
+import { interval, just } from '@instana/observables';
+import { SvgIcon } from '@instana/components';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
 import getApplication from 'in-subscription/application/getApplication';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';
 

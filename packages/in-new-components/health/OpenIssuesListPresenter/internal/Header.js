@@ -5,7 +5,8 @@
 
 import React, { Fragment } from 'react';
 
-import SvgIcon from 'in-components/SvgIcon';
+import { SvgIcon } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 import locals from './Header.mless';

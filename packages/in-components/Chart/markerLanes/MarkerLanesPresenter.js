@@ -6,13 +6,14 @@
 import React, { useState, Children, cloneElement, useRef } from 'react';
 import PropTypes from 'prop-types';
 
+import { SvgIconSizes } from '@instana/components';
+
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 import { propTypeTimeConfig } from 'in-stores/time/config';
-import { sizes } from 'in-components/SvgIcon/SvgIcon';
 
 import locals from './MarkerLanesPresenter.mless';
 
-const minBlockWidth = sizes.xs;
+const minBlockWidth = SvgIconSizes.xs;
 
 export default function MarkerLanesPresenterPropsChecker(props) {
   if (!props.children || !props.granularity) {

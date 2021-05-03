@@ -6,7 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SvgIcon from 'in-components/SvgIcon';
+import { SvgIcon } from '@instana/components';
+
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdConditionFormGroup.mless';
@@ -36,6 +37,6 @@ export default function ThresholdConditionFormGroup({
 
 ThresholdConditionFormGroup.propTypes = {
   children: PropTypes.node,
-  iconType: SvgIcon.propTypes.type,
+  iconType: PropTypes.string,
   label: PropTypes.string
 };

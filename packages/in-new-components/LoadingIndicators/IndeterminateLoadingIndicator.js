@@ -7,9 +7,10 @@ import React, { PureComponent, createElement } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { SvgIconSizes } from '@instana/components';
+
 import { IndeterminateLoadingIndicatorLineCoordinates as SVG_LINES } from 'in-new-components/LoadingIndicators/SvgLineCoordinates.json';
 import { IndeterminateLoadingIndicatorPaths as SVG_PATHS } from 'in-new-components/LoadingIndicators/SvgPaths.json';
-import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
 import theme from 'in-themes';
 
 import locals from './IndeterminateLoadingIndicator.mless';
@@ -28,7 +29,7 @@ export default class IndeterminateLoadingIndicator extends PureComponent {
   static displayName = 'IndeterminateLoadingIndicator';
 
   static defaultProps = {
-    size: ICON_SIZES.xxl,
+    size: SvgIconSizes.xxl,
     customStyle: {}
   };
 

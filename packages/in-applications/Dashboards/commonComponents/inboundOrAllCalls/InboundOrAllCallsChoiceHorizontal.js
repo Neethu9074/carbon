@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import InboundOrAllCallsOptionBox from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsOptionBox';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { boundaryScopes } from 'in-applications/constants';
 import { Col, Row } from 'in-new-components/layout/Grid';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

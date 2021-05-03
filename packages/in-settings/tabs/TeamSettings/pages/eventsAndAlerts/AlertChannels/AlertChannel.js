@@ -4,10 +4,12 @@
  */
 
 import { createMapForm } from 'formalistic';
-import { Card } from '@instana/components';
-import { Link } from '@instana/components';
 import { fromJS } from 'immutable';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 
 import {
   getEntityIdView,
@@ -34,7 +36,6 @@ import { toTitleCase } from 'in-services/util/string';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
 import List from 'in-settings/components/List';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import entityForm from 'in-hoc/entityForm';
 import { role } from 'in-stores/user';

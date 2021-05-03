@@ -5,6 +5,8 @@
 
 import React, { useState } from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import convertToScopes from 'in-new-components/time/TimeSelectionDialogPresenter/convertToScopes';
 import ReleaseScope from 'in-new-components/time/TimeSelectionDialogPresenter/ReleaseScope';
 import { getReleasesWithDefaults } from 'in-events/subscriptions/getReleases';
@@ -14,7 +16,6 @@ import ServerTable from 'in-components/tables/ServerTable';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 

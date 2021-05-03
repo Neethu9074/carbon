@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 import { get, find } from 'lodash';
+
+import { SvgIcon } from '@instana/components';
+import { Card } from '@instana/components';
 
 import KubernetesNoDataNotification from 'in-kubernetes/lists/components/KubernetesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -20,7 +22,6 @@ import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { timeConfig$ } from 'in-stores/time/config';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';

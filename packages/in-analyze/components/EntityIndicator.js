@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { getEntityLabelLUT, entityTypes } from 'in-analyze/applicationFilter';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './EntityIndicator.mless';
 

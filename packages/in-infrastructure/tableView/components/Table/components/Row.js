@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { scrollIntoView } from 'in-services/util/dom';
 import keyCodes from 'in-components/keyCodes';
-import SvgIcon from 'in-components/SvgIcon';
 
 import './Row.less';
 

@@ -6,6 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import {
   and,
   or,
@@ -16,7 +18,6 @@ import {
 import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { Ul } from 'in-new-components/lists/List/List';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './ConjunctionSelectorOverlay.mless';

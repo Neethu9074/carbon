@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
 
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
 import { productPermissions } from 'in-stores/permission';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getPermissions } from 'in-api/users';
-import SvgIcon from 'in-components/SvgIcon';
 import theme from 'in-themes';
 
 export default function UserPermissions({ userId }) {

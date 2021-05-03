@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import React from 'react';
+
+import { combineLatest } from '@instana/observables';
+import { SvgIcon } from '@instana/components';
 
 import ScreenPositionWrapper from 'in-applications/FlowMap/components/Node/ScreenPositionWrapper';
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';

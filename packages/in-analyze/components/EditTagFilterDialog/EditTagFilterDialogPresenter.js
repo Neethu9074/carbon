@@ -7,6 +7,8 @@ import CreatableSelect from 'react-select/lib/Creatable';
 import classNames from 'classnames';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { getOperatorLabel, entityTypes } from 'in-analyze/applicationFilter';
 import RadioGroup from 'in-analyze/components/RadioButtons/RadioGroup';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
@@ -21,7 +23,6 @@ import Button from 'in-new-components/Button';
 import ComboBox from 'in-components/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './EditTagFilterDialogPresenter.mless';

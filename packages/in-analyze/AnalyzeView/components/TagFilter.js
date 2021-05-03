@@ -6,11 +6,12 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import FilterOperator from 'in-analyze/AnalyzeView/components/FilterOperator';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import EntityIndicator from 'in-analyze/components/EntityIndicator';
 import { getOperatorLabel } from 'in-analyze/applicationFilter';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TagFilter.mless';
 

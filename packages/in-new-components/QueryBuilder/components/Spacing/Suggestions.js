@@ -5,12 +5,13 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/renderModel';
 import { ADD_CLOSING_BRACKET } from 'in-new-components/QueryBuilder/validation/bracket';
 import { CLOSE_BRACKET } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { ADD_CONJUNCTION } from 'in-new-components/QueryBuilder/validation/spacing';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './Spacing.mless';

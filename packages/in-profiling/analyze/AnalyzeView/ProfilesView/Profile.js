@@ -5,6 +5,8 @@
 
 import React, { useState, useEffect } from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import {
   cpuTreeViewOpened,
   cpuFlameGraphOpened,
@@ -28,7 +30,6 @@ import { error } from 'in-new-components/Message/types';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import SearchInput from 'in-new-components/SearchInput';
 import SetBodyColor from 'in-components/SetBodyColor';
-import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Message from 'in-new-components/Message';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

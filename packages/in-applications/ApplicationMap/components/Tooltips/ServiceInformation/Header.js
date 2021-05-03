@@ -5,10 +5,11 @@
 
 import React, { Fragment } from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Header.mless';
 

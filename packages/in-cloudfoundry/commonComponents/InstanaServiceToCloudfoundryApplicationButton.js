@@ -6,6 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import getCloudfoundryApplicationForInstanaApplication from 'in-subscription/cloudfoundry/getCloudfoundryApplicationForInstanaApplication';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -14,7 +16,6 @@ import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import EntityWithType from 'in-new-components/EntityWithType';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

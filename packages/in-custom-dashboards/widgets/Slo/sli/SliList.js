@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 import rpt from 'prop-types';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
 
 import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
@@ -22,7 +24,6 @@ import { deleteSliConfiguration } from 'in-custom-dashboards/api';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { isLoading } from 'in-services/util/result';
 import WithIcon from 'in-new-components/WithIcon';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';

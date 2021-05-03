@@ -9,6 +9,7 @@ import Toggle from 'react-toggle';
 
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
+import { SvgIcon } from '@instana/components';
 
 import { getTagCatalog as getTraceFilteringTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import { getTagCatalog as getCallFilteringTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
@@ -30,7 +31,6 @@ import { latencyFixed } from 'in-services/formatters/number';
 import HealthDot from 'in-new-components/health/HealthDot';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './List.mless';

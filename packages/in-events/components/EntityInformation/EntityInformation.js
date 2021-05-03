@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import React from 'react';
+
+import { SvgIcon } from '@instana/components';
 import { just } from '@instana/observables';
 import { Link } from '@instana/components';
-import React from 'react';
 
 import {
   isInfraEntityType,
@@ -20,7 +22,6 @@ import {
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import HierarchicalLink from 'in-components/Link/HierarchicalLink';
 import { getSnapshot } from 'in-stores/snapshot';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

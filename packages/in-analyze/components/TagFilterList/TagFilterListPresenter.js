@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { getOperatorLabel } from 'in-analyze/applicationFilter';
@@ -14,7 +16,6 @@ import { emptyArray } from 'in-services/fixedObjects';
 import { isBlank } from 'in-services/util/string';
 import EntityIndicator from '../EntityIndicator';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

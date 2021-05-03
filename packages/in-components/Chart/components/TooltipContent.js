@@ -7,12 +7,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { SvgIcon } from '@instana/components';
+
 import AggregationSymbol, { supportsAggregationIcon } from 'in-components/AggregationSymbol';
 import { collectAllDataPointsAtTime } from 'in-components/Chart/data/dataSearchUtils';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { getTimeShiftLabel, defaultTimeShift } from 'in-stores/time/shifting';
 import { formatDateTime } from 'in-services/formatters/date';
-import SvgIcon from 'in-components/SvgIcon';
 import { Trans, t } from 'in-i18n';
 
 import locals from './TooltipContent.mless';

@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import SvgIcon from 'in-components/SvgIcon';
+import { SvgIcon } from '@instana/components';
+
 import theme from 'in-themes';
 
 import locals from './SubViewHeader.mless';

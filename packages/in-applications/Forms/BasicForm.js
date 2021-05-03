@@ -4,7 +4,9 @@
  */
 
 import React, { useState, useEffect } from 'react';
+
 import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
@@ -14,7 +16,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { goToPath } from 'in-stores/navigation';
 import Button from 'in-new-components/Button';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 

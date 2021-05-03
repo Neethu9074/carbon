@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { formatDateTime } from 'in-services/formatters/date';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TimestampCell.mless';
 

@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just } from '@instana/observables';
 import React, { useState } from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { just } from '@instana/observables';
 
 import List from 'in-settings/components/List';
 import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './PermissionsList.mless';

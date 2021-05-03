@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link, Card } from '@instana/components';
 import React, { useState } from 'react';
 
-import SvgIcon from 'in-components/SvgIcon';
+import { Link, Card } from '@instana/components';
+import { SvgIcon } from '@instana/components';
 
 import locals from './DraggableLightCard.mless';
 

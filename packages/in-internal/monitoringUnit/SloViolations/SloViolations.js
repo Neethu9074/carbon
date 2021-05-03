@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { interval } from '@instana/observables';
-import { Link } from '@instana/components';
 import { groupBy, chunk } from 'lodash';
 import React from 'react';
+
+import { interval } from '@instana/observables';
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
@@ -26,7 +28,6 @@ import MetricValue from 'in-components/MetricValue';
 import { getPluginName } from 'in-sdk/pluginName';
 import getEvent from 'in-subscription/event';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import { minutes } from 'in-services/time';
 import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

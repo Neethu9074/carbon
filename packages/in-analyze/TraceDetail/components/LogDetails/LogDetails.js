@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
 import { Card } from '@instana/components';
 
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
@@ -15,7 +16,6 @@ import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import ExpandableGroup from 'in-new-components/ExpandableGroup';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import getLogs from 'in-logging/subscriptions/getLogs';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just } from '@instana/observables';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { just } from '@instana/observables';
 
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
 import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
@@ -15,7 +17,6 @@ import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-subscription/website/getWebsite';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { timeConfig$ } from 'in-stores/time/config';
-import SvgIcon from 'in-components/SvgIcon';
 import connecTo from 'in-hoc/connectTo';
 
 import locals from './AreaColumnDefinitions.mless';

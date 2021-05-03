@@ -6,6 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
@@ -15,7 +17,6 @@ import { getServiceDashboard } from 'in-applications/navigation/paths';
 import EntityWithType from 'in-new-components/EntityWithType';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Button from 'in-new-components/Button';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './EntityToInstanaServiceButton.mless';

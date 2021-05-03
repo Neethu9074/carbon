@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import { get } from 'lodash';
 import React from 'react';
+
+import { combineLatest } from '@instana/observables';
+import { SvgIcon } from '@instana/components';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
 import { website as websiteType, mobileApp as mobileAppType } from 'in-stores/starredItems/types';
@@ -35,7 +37,6 @@ import { websitesOpenAddForm } from 'in-websites/tracker';
 import KeyValue from 'in-new-components/lists/KeyValue';
 import { add, remove } from 'in-stores/starredItems';
 import { timeConfig$ } from 'in-stores/time/config';
-import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Button from 'in-new-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';

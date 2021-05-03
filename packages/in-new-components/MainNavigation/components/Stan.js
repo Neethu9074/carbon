@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import Lettering from 'in-components/Lettering';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Stan.mless';
 

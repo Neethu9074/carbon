@@ -6,10 +6,11 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import ApplicationMapTootlip from 'in-applications/ApplicationMap/components/Tooltips/ApplicationMapTootlip';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
 import { number, percentage, meanLatency } from 'in-services/formatters/number';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

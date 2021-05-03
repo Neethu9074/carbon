@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import getTraceParticipants from 'in-subscription/application/getTraceParticipants';
 import { latencyFixed } from 'in-services/formatters/number';
 import ServerTable from 'in-components/tables/ServerTable';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './ServiceEndpointList.mless';

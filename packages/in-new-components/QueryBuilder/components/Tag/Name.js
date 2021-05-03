@@ -6,11 +6,11 @@
 import React from 'react';
 
 import { toInteractiveElement } from '@instana/components';
+import { SvgIcon } from '@instana/components';
 
 import ConjunctionTagSelectorOverlay from 'in-new-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { compositeRef } from 'in-services/util/react';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Name.mless';
 

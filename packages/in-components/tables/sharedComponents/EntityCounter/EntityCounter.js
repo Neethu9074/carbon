@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { number } from 'in-services/formatters/number';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './EntityCounter.mless';
 

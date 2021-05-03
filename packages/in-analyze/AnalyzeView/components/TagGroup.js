@@ -6,8 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import EntityIndicator from 'in-analyze/components/EntityIndicator';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './TagGroup.mless';
 

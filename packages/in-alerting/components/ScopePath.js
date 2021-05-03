@@ -4,12 +4,13 @@
  */
 
 import React, { Fragment, forwardRef } from 'react';
-import { Link } from '@instana/components';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { SvgIcon } from '@instana/components';
+import { Link } from '@instana/components';
+
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from 'in-alerting/components/ScopePath.mless';
 

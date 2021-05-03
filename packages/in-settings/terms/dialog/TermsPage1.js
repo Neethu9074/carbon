@@ -7,11 +7,12 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { SvgIcon } from '@instana/components';
+
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { TosButton } from 'in-settings/terms/dialog/DocumentLinkButtons';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
-import SvgIcon from 'in-components/SvgIcon/SvgIcon';
 import Stack from 'in-new-components/layout/Stack';
 import Button from 'in-new-components/Button';
 import { t, Trans } from 'in-i18n';

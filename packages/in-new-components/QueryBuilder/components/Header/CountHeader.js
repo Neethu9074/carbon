@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
 
 import { historicOrLargeDataResult$ } from 'in-new-components/time/TimeSelection/TimeSelection';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
 import TimeIcon from 'in-new-components/time/TimeIcon';
 import { emptyObject } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

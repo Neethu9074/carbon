@@ -6,6 +6,8 @@
 import { createField, notBlankValidator, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import UserPermissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserPermissions';
 import { success as successResult, error as errorResult } from 'in-services/util/result';
 import { success, neutral, error as errorType } from 'in-new-components/Message/types';
@@ -23,7 +25,6 @@ import Title from 'in-components/Title/Title';
 import Button from 'in-new-components/Button';
 import Gravatar from 'in-components/Gravatar';
 import Input from 'in-components/form/Input';
-import SvgIcon from 'in-components/SvgIcon';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 

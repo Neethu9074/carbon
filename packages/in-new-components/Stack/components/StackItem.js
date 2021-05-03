@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { getDashboardForEntity as getDashboardForK8sEntity } from 'in-kubernetes/navigation/paths';
@@ -22,7 +24,6 @@ import KpiChart from 'in-new-components/KpiChart';
 import { Li } from 'in-new-components/lists/List';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './StackItem.mless';

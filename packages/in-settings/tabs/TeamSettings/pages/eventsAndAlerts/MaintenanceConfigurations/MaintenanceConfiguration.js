@@ -7,6 +7,8 @@ import { createMapForm, createField } from 'formalistic';
 import { fromJS, List } from 'immutable';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import {
   createMaintenanceConfig,
   createMaintenanceWindow,
@@ -29,7 +31,6 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
-import SvgIcon from 'in-components/SvgIcon';
 import entityForm from 'in-hoc/entityForm';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './Group.mless';
 

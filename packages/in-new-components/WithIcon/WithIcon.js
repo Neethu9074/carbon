@@ -6,8 +6,9 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
+import { SvgIcon } from '@instana/components';
+
 import PluginIcon from 'in-components/PluginIcon';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './WithIcon.mless';
 

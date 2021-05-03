@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable/NoDataAvailable';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
-import SvgIcon from 'in-components/SvgIcon';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import classNames from 'classnames';
 import React from 'react';
 
-import SvgIcon from 'in-components/SvgIcon';
+import { SvgIcon } from '@instana/components';
 
 import locals from './Message.mless';
 

@@ -6,10 +6,11 @@
 import React, { Fragment } from 'react';
 import { withState } from 'recompose';
 
+import { SvgIcon } from '@instana/components';
+
 import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTraceBehavior';
 import LogIndicator from 'in-analyze/TraceDetail/components/LogIndicator';
 import { shorten } from 'in-services/util/string';
-import SvgIcon from 'in-components/SvgIcon';
 import Tooltip from 'in-components/Tooltip';
 import Code from 'in-components/Code/Code';
 import { t } from 'in-i18n';

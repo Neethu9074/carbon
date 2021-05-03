@@ -6,7 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SvgIcon from 'in-components/SvgIcon';
+import { SvgIcon } from '@instana/components';
+
 import Pill from 'in-new-components/Pill';
 
 import locals from 'in-alerting/components/SelectedAlertTypeInfo.mless';

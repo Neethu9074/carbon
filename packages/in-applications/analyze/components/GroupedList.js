@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
-import { empty } from '@instana/observables';
 import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import Toggle from 'react-toggle';
+
+import { useObservable } from '@instana/hooks';
+import { empty } from '@instana/observables';
+import { SvgIcon } from '@instana/components';
 
 import { getGroupingTagCatalog as getTraceGroupingTagCatalog } from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
 import { getGroupingTagCatalog as getCallGroupingTagCatalog } from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
@@ -41,7 +43,6 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 import { emptyArray } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './List.mless';

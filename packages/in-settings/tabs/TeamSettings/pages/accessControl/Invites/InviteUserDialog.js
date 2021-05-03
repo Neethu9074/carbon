@@ -7,6 +7,8 @@ import { createField, notBlankValidator, createMapForm, createListForm } from 'f
 import rpt from 'prop-types';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { defaultRoleId, fallbackRoleId } from 'in-stores/user';
@@ -19,7 +21,6 @@ import Select from 'in-components/form/Select';
 import Button from 'in-new-components/Button';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import SvgIcon from 'in-components/SvgIcon';
 import { config } from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

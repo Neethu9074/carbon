@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
-import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
 
 import {
   getTimeConfigAlignedToResultTime,
@@ -38,7 +40,6 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { boundaryScopes } from 'in-applications/constants';
 import Footer from 'in-new-components/Footer';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';

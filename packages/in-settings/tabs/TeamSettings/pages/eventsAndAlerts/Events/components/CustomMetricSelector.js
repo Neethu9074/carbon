@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import Downshift from 'downshift';
 import React from 'react';
 
-import SvgIcon from 'in-components/SvgIcon/SvgIcon';
+import { SvgIcon } from '@instana/components';
 
 import locals from './CustomMetricSelector.mless';
 

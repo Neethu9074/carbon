@@ -6,12 +6,13 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { SvgIcon } from '@instana/components';
+
 import { getColor as getColorForEndpointType } from 'in-applications/endpointTypes';
 import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
 import { isUnknownTypeSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import Skeleton from 'in-new-components/Loading/Skeleton';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import Pill from 'in-new-components/Pill';
 import { t } from 'in-i18n';
 

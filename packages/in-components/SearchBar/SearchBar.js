@@ -6,6 +6,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
 import { unvalidatedQuery$, query$, setQueryInput } from 'in-stores/search/query';
 import ErrorIndicator from 'in-components/SearchBar/components/ErrorIndicator';
@@ -16,7 +18,6 @@ import { setValues } from 'in-components/SearchBar/stores/dialog';
 import { refresh } from 'in-components/SearchBar/stores/filters';
 import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import Input from 'in-components/SearchBar/Input';
-import SvgIcon from 'in-components/SvgIcon';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

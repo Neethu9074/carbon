@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import SvgIcon from 'in-components/SvgIcon';
+import { SvgIcon } from '@instana/components';
 
 import locals from './HeaderToggleIcon.mless';
 

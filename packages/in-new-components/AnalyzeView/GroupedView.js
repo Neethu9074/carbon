@@ -9,6 +9,7 @@ import { range } from 'lodash';
 import rpt from 'prop-types';
 
 import { empty } from '@instana/observables';
+import { SvgIcon } from '@instana/components';
 
 import {
   getAvailableMetrics,
@@ -44,7 +45,6 @@ import KeyValue from 'in-new-components/lists/KeyValue';
 import { aggregationLabels } from 'in-stores/metric';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import SvgIcon from 'in-components/SvgIcon';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

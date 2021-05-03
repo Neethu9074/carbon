@@ -6,9 +6,10 @@
 import { compose, withState } from 'recompose';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import KeyValueDialogPresenter from 'in-sdk/components/sidebar/KeyValueOverlay/KeyValueDialogPresenter';
 import Overlay from 'in-new-components/overlays/Overlay';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './KeyValueOverlay.mless';
 

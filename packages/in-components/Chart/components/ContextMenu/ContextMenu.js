@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { on } from '@instana/observables';
 import classNames from 'classnames';
 import React from 'react';
+
+import { SvgIcon } from '@instana/components';
+import { on } from '@instana/observables';
 
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
 import downloadAction from 'in-components/Chart/components/ContextMenu/actions/download';
@@ -17,7 +19,6 @@ import { emptyArray } from 'in-services/fixedObjects';
 import Button from 'in-new-components/Button';
 import keyCodes from 'in-components/keyCodes';
 import Tooltip from 'in-components/Tooltip';
-import SvgIcon from 'in-components/SvgIcon';
 import { minutes } from 'in-services/time';
 
 import locals from './ContextMenu.mless';

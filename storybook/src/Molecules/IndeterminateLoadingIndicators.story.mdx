@@ -2,7 +2,7 @@ import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
 import { action as storybookAction } from '@storybook/addon-actions';
 
 import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
-import { sizes as ICON_SIZES } from 'in-components/SvgIcon/SvgIcon';
+import { SvgIconSizes } from '@instana/components';
 import theme from 'in-themes';
 
 
@@ -40,6 +40,6 @@ import { IndeterminateLoadingIndicator} from 'in-new-components/LoadingIndicator
           pillTopFillColor: theme.lib.colors.lightBlue800,
           hexagonFillColor: theme.lib.colors.N300,
       }}
-      size={ICON_SIZES.xl} />
+      size={SvgIconSizes.xl} />
   </div>
 </Story>

@@ -14,8 +14,8 @@ import {
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import { getIconType } from 'in-components/SvgIcon/infrastructureIconType';
 import getApplication from 'in-subscription/application/getApplication';
+import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import StackPresenter from 'in-new-components/Stack/StackPresenter';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import getService from 'in-subscription/application/getService';

@@ -6,8 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import { Th } from 'in-components/tables/sharedComponents/Table';
-import SvgIcon from 'in-components/SvgIcon';
 
 import locals from './SortableTh.mless';
 

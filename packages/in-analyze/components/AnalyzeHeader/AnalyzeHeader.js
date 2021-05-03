@@ -6,6 +6,8 @@
 import { useLocation } from 'react-router';
 import React from 'react';
 
+import { SvgIcon } from '@instana/components';
+
 import {
   getIconByType,
   getLabelByType,
@@ -37,7 +39,6 @@ import Overlay from 'in-new-components/overlays/Overlay/Overlay';
 import { emptyArray } from 'in-services/fixedObjects';
 import { isNotBlank } from 'in-services/util/string';
 import Title from 'in-components/Title/Title';
-import SvgIcon from 'in-components/SvgIcon';
 import { t } from 'in-i18n';
 
 import locals from './AnalyzeHeader.mless';
