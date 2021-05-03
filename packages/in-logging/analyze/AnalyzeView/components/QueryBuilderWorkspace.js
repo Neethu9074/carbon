@@ -35,6 +35,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
     isValid,
     validationError,
     children,
+    isLoading,
     groupBy,
     chartedMetrics
   } = props;
@@ -80,7 +81,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
 
             <ActionSection right={<ApiQueryAction backendQueryModel={backendQueryModel} />} />
           </Sections>
-          {!isValid && (
+          {!isValid && !isLoading && (
             <Message type={error} withIcon small>
               {validationError ??
                 t('in-logging:theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing')}
