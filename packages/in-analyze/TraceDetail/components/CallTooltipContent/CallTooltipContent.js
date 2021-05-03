@@ -18,6 +18,7 @@ import { hasOnlyExitSpan } from 'in-analyze/TraceDetail/shared/CallHelper';
 import { latencyFixed } from 'in-services/formatters/number';
 import { shorten } from 'in-services/util/string';
 import Pill from 'in-new-components/Pill';
+import { t } from 'in-i18n';
 
 import locals from './CallTooltipContent.mless';
 
@@ -56,7 +57,11 @@ export default function CallTooltipContent({ call }) {
         )}
         <span className={locals.headingLabel}>{shorten(call.label, 32)}</span>
       </div>
-      {call.errorCount > 0 && <div className={locals.errorCount}>{call.errorCount} Errors</div>}
+      {call.errorCount > 0 && (
+        <div className={locals.errorCount}>
+          {t('in-analyze:traceDetail.components.callTooltipContent.numbersOfErrors', { count: call.errorCount })}
+        </div>
+      )}
       <TimingValueList values={values} />
       <div className={locals.horizontalLine} />
       <TimingValueTotal value={call.duration} />

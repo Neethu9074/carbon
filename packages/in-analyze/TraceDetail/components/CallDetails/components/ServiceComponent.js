@@ -361,8 +361,16 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
 
     return (
       <ExpandableGroup
-        title={`Logs ( ${errorLogs.length > 0 ? `${errorLogs.length} ${errorLogs.length > 1 ? 'Errors' : 'Error'}` : ''}
-        ${warnLogs.length > 0 ? `${warnLogs.length} ${warnLogs.length > 1 ? 'Warnings' : 'Warning'}` : ''} )`}
+        title={t('in-analyze:traceDetail.callDetails.serviceComponent.logs', {
+          errors:
+            errorLogs.length > 0
+              ? t('in-analyze:traceDetail.callDetails.serviceComponent.errors', { count: errorLogs.length })
+              : '',
+          warnings:
+            warnLogs.length > 0
+              ? t('in-analyze:traceDetail.callDetails.serviceComponent.warnings', { count: warnLogs.length })
+              : ''
+        })}
       >
         <CallLogs call={call} />
       </ExpandableGroup>

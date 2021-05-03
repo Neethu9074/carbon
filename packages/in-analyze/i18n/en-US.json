@@ -159,7 +159,18 @@
         "sourceMonitoredByAnotherProvider": "The source of this call is traced by another distributed tracing provider. You can find more information on the source by searching the parent span within that provider with id {{foreignParentId}}.",
         "notMonitored": "Not monitored by Instana",
         "source": "source",
-        "destination": "destination"
+        "destination": "destination",
+        "logs": "Logs ( {{errors}}{{warnings}} )",
+        "errors": "{{count}} Error",
+        "errors_plural": "{{count}} Errors",
+        "errors_0": "{{count}} Errors",
+        "errors_1": "{{count}} Errors",
+        "errors_2": "{{count}} Errors",
+        "warnings": "{{count}} Warning",
+        "warnings_plural": "{{count}} Warnings",
+        "warnings_0": "{{count}} Warnings",
+        "warnings_1": "{{count}} Warnings",
+        "warnings_2": "{{count}} Warnings"
       }
     },
     "tabs": {
@@ -247,6 +258,13 @@
       "logTooltipContent": {
         "errorLog": "Error Log",
         "warningLog": "Warning Log"
+      },
+      "callTooltipContent": {
+        "numbersOfErrors": "{{count}} Error",
+        "numbersOfErrors_plural": "{{count}} Errors",
+        "numbersOfErrors_0": "{{count}} Errors",
+        "numbersOfErrors_1": "{{count}} Errors",
+        "numbersOfErrors_2": "{{count}} Errors"
       }
     },
     "applications": "Applications",
