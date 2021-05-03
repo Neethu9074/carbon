@@ -17,14 +17,9 @@ import locals from './IcicleChart.mless';
 
 const tooltipAlignment = 'topMiddle';
 
-export default function IcicleChart({
-  rootCall,
-  getColor = () => '#1479ff',
-  onCallClicked,
-  hoveredServiceEndpoint$,
-  openedCallId,
-  openedCall$
-}) {
+export default function IcicleChart(props) {
+  const { rootCall, getColor = () => '#1479ff' } = props;
+
   const callFrames = applyLayout(rootCall);
 
   const maxDepth = callFrames.reduce((max, callFrame) => Math.max(max, callFrame.depth), 0);
@@ -52,14 +47,11 @@ export default function IcicleChart({
                   align={tooltipAlignment}
                 >
                   <CallFrame
+                    {...props}
                     callFrame={callFrame}
                     xScale={xScale}
                     getColor={getColor}
-                    onCallClicked={onCallClicked}
-                    hoveredServiceEndpoint$={hoveredServiceEndpoint$}
                     isFakeRoot={isFakeRootCall(callFrame)}
-                    openedCallId={openedCallId}
-                    openedCall$={openedCall$}
                   />
                 </Tooltip>
               </Fragment>

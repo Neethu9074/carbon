@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
@@ -380,9 +381,15 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                       <LinkListItem label={t('in-internal:components.landing.clickhouse')}>
                         <LinkList>
                           <LinkListItem
-                            label={t('in-internal:components.landing.overview')}
+                            label={t('in-internal:components.landing.clickhouseApplication')}
                             href$={getModifiedUrlStream(
                               params => (params.pathname = '/internal/monitoringUnit/sre/clickhouse')
+                            )}
+                          />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.clickhouseLogs')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/sre/clickhouseLogs')
                             )}
                           />
                           <LinkListItem

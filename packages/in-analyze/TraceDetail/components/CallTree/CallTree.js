@@ -21,16 +21,9 @@ import locals from './CallTree.mless';
 // Warning: This code will break when we want to show two call trees concurrently (which is not on the roadmap)
 const scale = createScale();
 
-export default function CallTree({
-  callTreeResult,
-  getColor = () => '#e6e6e6',
-  selectedCall$,
-  openedCallId,
-  openedCall$,
-  onCallClicked,
-  onSubCallClicked,
-  isLargeTrace
-}) {
+export default function CallTree(props) {
+  const { callTreeResult, getColor = () => '#e6e6e6' } = props;
+
   const isLoading = get(callTreeResult, ['progress', 'loading'], false);
   if (isLoading) {
     return <LoadingCallTree progress={callTreeResult.progress} />;
@@ -53,17 +46,7 @@ export default function CallTree({
   return (
     <div className={locals.callTree}>
       <TreeHeader rootCall={rootCall} scale={scale} />
-      <Row
-        call={rootCall}
-        getColor={getColor}
-        scale={scale}
-        selectedCall$={selectedCall$}
-        openedCallId={openedCallId}
-        openedCall$={openedCall$}
-        onSubCallClicked={onSubCallClicked}
-        onCallClicked={onCallClicked}
-        isLargeTrace={isLargeTrace}
-      />
+      <Row {...props} call={rootCall} getColor={getColor} scale={scale} />
     </div>
   );
 }

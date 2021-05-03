@@ -16,7 +16,9 @@ import { role } from 'in-stores/user';
 
 import locals from './ChildrenDistributionTimeLine.mless';
 
-export default function ChildrenDistributionTimeLine({ call, getColor, scale, onCallClicked, onSubCallClicked }) {
+export default function ChildrenDistributionTimeLine(props) {
+  const { call, getColor, scale, onCallClicked, onSubCallClicked } = props;
+
   return (
     <div className={locals.childrenDistributionTimeLine}>
       <div className={locals.line} />
@@ -40,7 +42,7 @@ export default function ChildrenDistributionTimeLine({ call, getColor, scale, on
       {call.children
         .filter(subCall => subCall.model === 'LOG')
         .map((subCall, i) => (
-          <LogIndicators key={i} parentCall={call} log={subCall} scale={scale} onCallClicked={onCallClicked} />
+          <LogIndicators key={i} {...props} parentCall={call} log={subCall} />
         ))}
     </div>
   );
@@ -140,12 +142,14 @@ function CallIndicator({ call, scale, getColor, onClick }) {
   );
 }
 
-function LogIndicators({ parentCall, log, scale, onCallClicked }) {
+function LogIndicators(props) {
+  const { log, scale } = props;
+
   const left = scale.getDomainFrom() === scale.getDomainTo() ? scale.getRangeFrom() : scale.getRange(log.start);
 
   return (
     <Tooltip themeStyle="light" content={getTooltipContent(log)} align="topMiddle">
-      <LogIndicator inTimeline left={left} parentCall={parentCall} onCallClicked={onCallClicked} log={log} />
+      <LogIndicator {...props} inTimeline left={left} />
     </Tooltip>
   );
 }
