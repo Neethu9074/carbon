@@ -420,6 +420,7 @@
         "ruleStatusCodeValueOption510": "510 (Not Extended)",
         "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
         "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
+        "ruleStatusCodeValueOptionCustom": "Custom Range",
         "ruleMetricNameOptionSpecificJsErrorErrors": "Error Count",
         "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "Error Rate",
         "ruleMetricNameOptionStatusCodeHttpxxx": "Status Code Count",
@@ -427,7 +428,10 @@
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad Time",
         "ruleMetricNameOptionThroughputPageLoads": "Page Loads",
         "ruleMetricNameOptionThroughputPageTransitions": "Page Transitions",
+        "ruleFormErrorStatusCodeStartGTEnd": "Please select an end http status code that is greater or equal than the start http status code",
         "ruleFormPleaseProvideALogMessage": "Please provide a log message",
+        "ruleFormPleaseProvideAStartStatusCode": "Please provide a start http status code",
+        "ruleFormPleaseProvideAEndStatusCode": "Please provide an end http status code",
         "smartAlertFormNoEntitiesSelected": "No entities selected",
         "thresholdFormPleaseProvideANumber0": "Please provide a number >= 0",
         "thresholdFormBaselineIsEmpty": "baseline is empty"

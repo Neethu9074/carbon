@@ -66,8 +66,8 @@ export function getTitlePlaceholder(form) {
       });
     }
     case 'statusCode': {
-      const statusCodeStart = ruleForm.get('statusCodeStart').value;
-      const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
+      const statusCodeStart = ruleForm.get('statusCode').get('statusCodeStart').value;
+      const statusCodeEnd = ruleForm.get('statusCode').get('statusCodeEnd').value;
       return t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.statusCode', {
         statusCodeShortText: getStatusCodeShortText(statusCodeStart, statusCodeEnd)
       });
@@ -140,8 +140,8 @@ export function getDescriptionPlaceholder(form) {
     }
     case 'statusCode': {
       const thresholdType = thresholdForm.get('type').value;
-      const statusCodeStart = ruleForm.get('statusCodeStart').value;
-      const statusCodeEnd = ruleForm.get('statusCodeEnd').value;
+      const statusCodeStart = ruleForm.get('statusCode').get('statusCodeStart').value;
+      const statusCodeEnd = ruleForm.get('statusCode').get('statusCodeEnd').value;
 
       if (thresholdType === 'staticThreshold') {
         const thresholdValue = thresholdForm.get('value').value;

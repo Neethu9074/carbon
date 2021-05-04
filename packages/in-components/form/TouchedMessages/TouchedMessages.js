@@ -11,7 +11,7 @@ import { Trans } from 'in-i18n';
 import locals from './TouchedMessages.mless';
 
 export default function TouchedMessages({ field, className }) {
-  if (!field?.touched) {
+  if (!field?.hierarchyTouched) {
     return null;
   }
 

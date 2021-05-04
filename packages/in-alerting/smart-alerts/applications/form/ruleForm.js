@@ -89,17 +89,51 @@ function extendForLogs(baseForm, rule) {
 }
 
 function extendForStatusCode(baseForm, rule) {
-  return baseForm
-    .put(
-      'statusCodeStart',
-      createField({
-        value: rule.statusCodeStart ?? 500
-      })
-    )
-    .put(
-      'statusCodeEnd',
-      createField({
-        value: rule.statusCodeEnd ?? 599
-      })
-    );
+  const statusCodeForm = createMapForm({
+    items: {
+      statusCodeStart: createField({
+        value: rule.statusCode?.statusCodeStart ?? 500,
+        validator: value => {
+          if (!Number.isInteger(value)) {
+            return [
+              {
+                severity: 'error',
+                message: t('in-alerting:smartAlerts.applications.form.ruleFormPleaseProvideAStartStatusCode')
+              }
+            ];
+          }
+          return null;
+        }
+      }),
+      statusCodeEnd: createField({
+        value: rule.statusCode?.statusCodeEnd ?? 599,
+        validator: value => {
+          if (!Number.isInteger(value)) {
+            return [
+              {
+                severity: 'error',
+                message: t('in-alerting:smartAlerts.applications.form.ruleFormPleaseProvideAEndStatusCode')
+              }
+            ];
+          }
+          return null;
+        }
+      }),
+      isCustomRange: createField({ value: rule.statusCode?.isCustomRange ?? false })
+    },
+    validator: items => {
+      const start = items['statusCodeStart'].value;
+      const end = items['statusCodeEnd'].value;
+      if (start > end) {
+        return [
+          {
+            severity: 'error',
+            message: t('in-alerting:smartAlerts.applications.form.ruleFormErrorStatusCodeStartGTEnd')
+          }
+        ];
+      }
+      return null;
+    }
+  });
+  return baseForm.put('statusCode', statusCodeForm);
 }

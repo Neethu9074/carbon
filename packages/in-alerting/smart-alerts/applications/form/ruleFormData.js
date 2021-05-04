@@ -113,9 +113,10 @@ export const ruleStatusCodeValueOptions = Object.freeze([
   { value: '508', label: t('in-alerting:smartAlerts.applications.form.ruleStatusCodeValueOption508') },
   { value: '510', label: t('in-alerting:smartAlerts.applications.form.ruleStatusCodeValueOption510') },
   { value: '511', label: t('in-alerting:smartAlerts.applications.form.ruleStatusCodeValueOption511') },
-  { value: '599', label: t('in-alerting:smartAlerts.applications.form.ruleStatusCodeValueOption599') }
+  { value: '599', label: t('in-alerting:smartAlerts.applications.form.ruleStatusCodeValueOption599') },
+  { value: 'custom', label: t('in-alerting:smartAlerts.applications.form.ruleStatusCodeValueOptionCustom') }
 ]);
 
 export function getStatusCodeLabel(value) {
-  return ruleStatusCodeValueOptions.filter(entry => entry.value === value)[0].label;
+  return ruleStatusCodeValueOptions.filter(entry => entry.value === value)[0]?.label ?? value.toString();
 }

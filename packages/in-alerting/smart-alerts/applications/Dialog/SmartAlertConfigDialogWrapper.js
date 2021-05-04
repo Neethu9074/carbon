@@ -41,7 +41,7 @@ export default function SmartAlertConfigDialogWrapper({
   isCopy
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => createSmartAlertForm(changeFormDataByCopyState(isCopy, formData), editMode));
+  const [form, setForm] = useState(() => createSmartAlertForm(fromAlertConfig(formData, isCopy), editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -152,15 +152,60 @@ function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, set
 }
 
 function toAlertConfig(form) {
-  const alertConfig = form
+  let alertConfig = form
     .remove('hiddenFields')
     .updateIn(['tagFilterExpression'], f =>
       f.setValue(toBackendQueryModel(form.get('tagFilterExpression').value, false))
     )
     .toJS();
 
+  if (alertConfig.rule.alertType === 'statusCode') {
+    alertConfig = mapStatusCodeSelection(alertConfig);
+  }
+
   alertConfig.applicationId = undefined;
   alertConfig.name = alertConfig.name || getTitlePlaceholder(form);
   alertConfig.description = alertConfig.description || getDescriptionPlaceholder(form);
   return alertConfig;
+}
+
+function mapStatusCodeSelection(alertConfig) {
+  const {
+    rule: {
+      statusCode: { statusCodeStart, statusCodeEnd },
+      ...remainingRule
+    }
+  } = alertConfig;
+
+  alertConfig.rule = {
+    statusCodeStart,
+    statusCodeEnd,
+    ...remainingRule
+  };
+  return alertConfig;
+}
+
+function fromAlertConfig(alertConfig, isCopy) {
+  if (alertConfig.rule.alertType === 'statusCode') {
+    alertConfig = mapStatusCodeConfig(alertConfig);
+  }
+  alertConfig = changeFormDataByCopyState(isCopy, alertConfig);
+  return alertConfig;
+}
+
+function mapStatusCodeConfig(alertConfig) {
+  const {
+    rule: { statusCodeStart, statusCodeEnd, ...remainingRule }
+  } = alertConfig;
+
+  return {
+    ...alertConfig,
+    rule: {
+      statusCode: {
+        statusCodeEnd,
+        statusCodeStart
+      },
+      ...remainingRule
+    }
+  };
 }

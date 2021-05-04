@@ -106,7 +106,7 @@ const statusCodeBlueprintConfig = Object.freeze({
   getMetricFormat: () => number.forcedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
-  isRuleComplete: alertRule => !!(alertRule.statusCodeStart && alertRule.statusCodeEnd),
+  isRuleComplete: alertRule => !!(alertRule.statusCode?.statusCodeStart && alertRule.statusCode?.statusCodeEnd),
   incompleteRuleMessage: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.incompleteRuleMessage'),
   getRuleTagFilterFormModel: getStatusCodeFormModel
 });
@@ -188,15 +188,15 @@ function getLogLevelFormModel(alertRule) {
 }
 
 function getStatusCodeFormModel(alertRule) {
-  if (alertRule.statusCodeStart === alertRule.statusCodeEnd) {
-    return [tagFilter('call.http.status', 'EQUALS', alertRule.statusCodeStart)];
+  if (alertRule.statusCode?.statusCodeStart === alertRule.statusCode?.statusCodeEnd) {
+    return [tagFilter('call.http.status', 'EQUALS', alertRule.statusCode?.statusCodeStart)];
   }
 
   return joinExpressions({
     logicalOperator: and,
     expressions: [
-      tagFilter('call.http.status', 'GREATER_OR_EQUAL_THAN', alertRule.statusCodeStart),
-      tagFilter('call.http.status', 'LESS_OR_EQUAL_THAN', alertRule.statusCodeEnd)
+      tagFilter('call.http.status', 'GREATER_OR_EQUAL_THAN', alertRule.statusCode?.statusCodeStart),
+      tagFilter('call.http.status', 'LESS_OR_EQUAL_THAN', alertRule.statusCode?.statusCodeEnd)
     ]
   });
 }
