@@ -131,6 +131,7 @@ export default function Summary({
   const hasWebsiteCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'web';
   const hasMobileCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'mobile';
   const missingEumCorrelation = !hasWebsiteCorrelationId && !hasMobileCorrelationId;
+  const totalNumberOfLogs = trace.totalErrorLogCount + trace.totalWarnLogCount;
 
   const timeWindowExtend = minutes.toMillis(10);
   const timeConfigForLogs = {
@@ -258,6 +259,9 @@ export default function Summary({
                     onCallClicked={onCallClicked}
                     hoveredServiceEndpoint$={hoveredServiceEndpoint$}
                     openedCallId={effectiveCallId}
+                    timeConfigForLogs={timeConfigForLogs}
+                    selectLogId={selectLogId}
+                    totalNumberOfLogs={totalNumberOfLogs}
                   />
                 </div>
               </Card>
@@ -331,6 +335,9 @@ export default function Summary({
                   onCallClicked={onCallClicked}
                   openedCallId={effectiveCallId}
                   isLargeTrace={isLargeTrace}
+                  timeConfigForLogs={timeConfigForLogs}
+                  selectLogId={selectLogId}
+                  totalNumberOfLogs={totalNumberOfLogs}
                 />
               </Card>
             </Col>
@@ -364,6 +371,7 @@ export default function Summary({
                     clearSelectedLogId={clearSelectedLogId}
                     selectedLogId={logId}
                     timeConfigForLogs={timeConfigForLogs}
+                    totalNumberOfLogs={totalNumberOfLogs}
                   />
                 </Card>
               </Col>
@@ -391,7 +399,13 @@ export default function Summary({
 
   const logDetails = (
     <ErrorBoundary name="log tree sidebar">
-      <LogDetails logId={logId} onClose={clearSelectedLogId} />
+      <LogDetails
+        logId={logId}
+        traceId={traceId}
+        onClose={clearSelectedLogId}
+        timeConfigForLogs={timeConfigForLogs}
+        totalNumberOfLogs={totalNumberOfLogs}
+      />
     </ErrorBoundary>
   );
 
