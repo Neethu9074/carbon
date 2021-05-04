@@ -19,6 +19,10 @@ export function createServiceIdTagFilter(serviceId) {
   return tagFilter('service.id', EQUALS, serviceId);
 }
 
+export function createApplicationNameTagFilter(name) {
+  return tagFilter('application.name', CONTAINS, name);
+}
+
 export function createServiceNameTagFilter(name) {
   return tagFilter('service.name', CONTAINS, name);
 }

@@ -13,10 +13,18 @@ import {
   createNoMatchingEntityText,
   sortListBySelectionState
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/utils';
+import {
+  createApplicationNameTagFilter,
+  createServiceNameTagFilter,
+  createEndpointNameTagFilter
+} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
 import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import { selectApplication } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/selectors';
 import ServicesList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesList';
 import SharedList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { isLoading } from 'in-services/util/result';
@@ -46,8 +54,19 @@ export default function ApplicationsList({
             filter: {
               timeConfig,
               includeSyntheticCalls: includeSynthetic
-            }
-            // tagFilterExpression: searchQuery ? [] : [] // TODO: not usable yet since EP doesn't support tagFilterExpression.
+            },
+            tagFilterExpression: searchQuery
+              ? toBackendQueryModel(
+                  joinExpressions({
+                    logicalOperator: or,
+                    expressions: [
+                      createApplicationNameTagFilter(searchQuery),
+                      createServiceNameTagFilter(searchQuery),
+                      createEndpointNameTagFilter(searchQuery)
+                    ]
+                  })
+                )
+              : null
           })
         : getApplication({ id: alertApplicationId }).map(result => {
             return { ...result, data: { items: result?.data ? [{ application: result.data }] : [] } };
