@@ -134,7 +134,7 @@ function getType(type) {
     snapshotDefinition &&
     !isEmpty(snapshotDefinition) && {
       plugin: type,
-      icon: `plugin:${type}`,
+      icon: `lib_infra_${type}`,
       name: getPluginName(type, 2)
     }
   );

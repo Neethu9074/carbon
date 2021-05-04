@@ -331,7 +331,7 @@ function getGroupPlugin(group) {
 
 function getGroupIcon(group) {
   const plugin = getGroupPlugin(group);
-  return plugin ? `plugin:${plugin.plugin}` : defaultGroupIcon;
+  return plugin ? `lib_infra_${plugin.plugin}` : defaultGroupIcon;
 }
 
 function getGroupTagValue(group, key) {
