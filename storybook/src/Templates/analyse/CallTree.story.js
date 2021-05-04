@@ -7,7 +7,7 @@ import { withKnobs } from '@storybook/addon-knobs/react';
 import { create } from '@instana/observables';
 import React from 'react';
 
-import CallTree from 'in-analyze/TraceDetail/components/CallTree';
+import CallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import TraceExamples from './TraceExamplesComponent';
 

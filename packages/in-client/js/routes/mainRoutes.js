@@ -16,7 +16,6 @@ import {
   hasApplicationsAccess,
   hasWebsitesAccess,
   hasKubernetesAccess,
-  hasAnalyzeAccess,
   hasMobileAppsAccess
 } from 'in-stores/permission';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
@@ -38,7 +37,6 @@ import profilingRoutes from 'in-profiling/navigation/routes';
 import loggingRoutes from 'in-logging/navigation/routes';
 import cockpitRoutes from 'in-cockpit/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
-import analyzeRoutes from 'in-analyze/navigation/routes';
 import { role, isInstanaEmail } from 'in-stores/user';
 import eventRoutes from 'in-events/navigation/routes';
 import deepLinkRoutes from 'in-client/js/deepLink';
@@ -62,7 +60,6 @@ export default (
     {eventRoutes}
 
     {hasApplicationsAccess && applicationRoutes}
-    {hasAnalyzeAccess && analyzeRoutes}
     {hasKubernetesAccess && kubernetesRoutes}
     {pcfEnabled && cloudfoundryRoutes}
     {vsphereEnabled && vsphereRoutes}

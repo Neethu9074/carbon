@@ -5,7 +5,9 @@
 
 import React from 'react';
 
-import TraceValidationResult, { issueMessages } from 'in-analyze/TraceDetail/tabs/Summary/TraceValidationResult';
+import TraceValidationResult, {
+  issueMessages
+} from 'in-applications/analyze/components/TraceDetails/tabs/Summary/TraceValidationResult';
 
 export default {
   title: 'Molecules|ProductNotifications/TraceValidation',

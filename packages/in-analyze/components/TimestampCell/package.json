@@ -1,6 +1,0 @@
-{
-  "name": "TimestampCell",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./TimestampCell.js"
-}

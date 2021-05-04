@@ -12,6 +12,7 @@ import NewApplicationWaiter from 'promise-loader?global,applications!in-applicat
 import EndpointDashboard from 'promise-loader?global,applications!in-applications/Dashboards/endpoint/EndpointDashboard';
 import ServiceDashboard from 'promise-loader?global,applications!in-applications/Dashboards/service/ServiceDashboard';
 import NewApplication from 'promise-loader?global,applications!in-applications/Forms/NewApplication/NewApplication';
+import AnalyzeView2_0 from 'promise-loader?global,applications!in-applications/analyze/AnalyzeView2_0/AnalyzeView';
 import ApplicationsList from 'promise-loader?global,applications!in-applications/lists/ApplicationsList';
 import ServicesList from 'promise-loader?global,applications!in-applications/lists/ServicesList';
 import { Route } from 'react-router-dom';
@@ -29,7 +30,8 @@ import {
   newApplicationWaiterView,
   newServiceView,
   serviceDashboard,
-  servicesList
+  servicesList,
+  analyzePath
 } from 'in-applications/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
@@ -61,5 +63,7 @@ export default (
     {applicationSmartAlertsEnabled && (
       <Route path={alertsList} component={createAsyncViewComponent(GlobalSmartAlertsTab)} />
     )}
+
+    <Route path={analyzePath} component={createAsyncViewComponent(AnalyzeView2_0)} />
   </Fragment>
 );

@@ -8,7 +8,6 @@ import MobileAppDashboard from 'promise-loader?global,mobileApps!in-mobile-apps/
 import NewMobileAppFlow from 'promise-loader?global,mobileApps!in-mobile-apps/NewMobileAppFlow/NewMobileAppFlow';
 import AnalyzeView2_0 from 'promise-loader?global,mobileApps!in-mobile-apps/analyze/AnalyzeView2_0/AnalyzeView';
 import MobileAppsList from 'promise-loader?global,mobileApps!in-mobile-apps/MobileAppsList/MobileAppsList';
-import AnalyzeView from 'promise-loader?global,mobileApps!in-mobile-apps/analyze/AnalyzeView/AnalyzeView';
 import { Route } from 'react-router-dom';
 import React, { Fragment } from 'react';
 
@@ -20,7 +19,6 @@ import {
   analyzePathFullyQualified
 } from 'in-mobile-apps/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import { webMobileQb2AnalyzeEnabled } from 'in-services/featureFlags';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default (
@@ -28,10 +26,7 @@ export default (
     <Route path={mobileAppsPathFullyQualified} component={createAsyncViewComponent(MobileAppsList)} />
     <Route path={newMobileAppPathFullyQualified} component={createAsyncViewComponent(NewMobileAppFlow)} />
     <Route path={mobileAppPathFullyQualified} component={createAsyncViewComponent(MobileAppDashboard)} />
-    <Route
-      path={analyzePathFullyQualified}
-      component={createAsyncViewComponent(webMobileQb2AnalyzeEnabled ? AnalyzeView2_0 : AnalyzeView)}
-    />
+    <Route path={analyzePathFullyQualified} component={createAsyncViewComponent(AnalyzeView2_0)} />
     <RedirectWithHash from={mobileAppMonitoringPath} to={mobileAppsPathFullyQualified} />
   </Fragment>
 );

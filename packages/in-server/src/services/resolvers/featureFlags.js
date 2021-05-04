@@ -156,24 +156,9 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'newAnalyticsEnabled',
-    instanaCtlKey: 'feature.new.analytics.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'persistentVolumeSupportEnabled',
     instanaCtlKey: 'feature.kubernetes.pvc.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'qb2InCustomDashboardsEnabled',
-    instanaCtlKey: 'feature.qb2.custom.dashboards.enabled',
-    defaultValue: true
-  },
-  {
-    uiClientKey: 'webMobileQb2AnalyzeEnabled',
-    instanaCtlKey: 'feature.web.mobile.qb2.analyze.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'loggingEnabled',
@@ -189,11 +174,6 @@ module.exports = exports = [
     uiClientKey: 'showUserSettingInternalTagsInUA',
     instanaCtlKey: 'feature.show.user.setting.internal.tags.in.ua',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'qb2InAPCreationEnabled',
-    instanaCtlKey: 'feature.qb2.ap.creation.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'languageSelectorEnabled',

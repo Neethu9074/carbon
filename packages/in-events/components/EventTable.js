@@ -10,7 +10,7 @@ import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 import { on } from '@instana/observables';
 
-import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
+import NavigatorSplitScreen from 'in-applications/analyze/components/TraceDetails/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import { getEventType, EVENT_TYPES, getEvent, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';

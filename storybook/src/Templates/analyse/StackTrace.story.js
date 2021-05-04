@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import StackTraceBehavior from 'in-analyze/TraceDetail/components/CallDetails/components/StackTrace/StackTraceBehavior';
+import StackTraceBehavior from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/StackTraceBehavior';
 
 export default {
   title: 'Templates|analyze/StackTraceBehavior',

@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import ServerIcicleChart from 'in-analyze/TraceDetail/components/IcicleChart/ServerIcicleChart';
-import IcicleChart from 'in-analyze/TraceDetail/components/IcicleChart';
+import ServerIcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/ServerIcicleChart';
+import IcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart';
 import { getColor } from 'in-applications/endpointTypes';
 import TraceExamples from './TraceExamplesComponent';
 import { always } from 'in-services/fixedStreams';

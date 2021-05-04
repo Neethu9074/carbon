@@ -27,12 +27,9 @@ import { dataSource as logsDataSourceTypeMatrixParameter } from 'in-logging/navi
 import { beaconType as websiteBeaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
 import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
-import { newAnalyticsEnabled, webMobileQb2AnalyzeEnabled } from 'in-services/featureFlags';
-import { dataSource as dataSourceMatrixParameterUA1 } from 'in-analyze/navigation/matrix';
 import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
 import { dataSourceMatrixParameter } from 'in-applications/navigation/matrix';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
-import { analyze as appAnalyzePath } from 'in-analyze/navigation/paths';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import Overlay from 'in-new-components/overlays/Overlay/Overlay';
@@ -124,17 +121,11 @@ function Label({ activeConfiguration }) {
 }
 
 const dataSourceSources = [
-  newAnalyticsEnabled
-    ? {
-        matrixPath: dataSourceMatrixParameter.path,
-        matrixParam: dataSourceMatrixParameter.name,
-        productArea: 'application'
-      }
-    : {
-        matrixPath: appAnalyzePath,
-        matrixParam: `callList.${dataSourceMatrixParameterUA1}`,
-        productArea: 'application'
-      },
+  {
+    matrixPath: dataSourceMatrixParameter.path,
+    matrixParam: dataSourceMatrixParameter.name,
+    productArea: 'application'
+  },
   {
     matrixPath: logsAnalyzePath,
     matrixParam: logsDataSourceTypeMatrixParameter,
@@ -171,19 +162,12 @@ function getActiveConfiguration(location) {
       continue;
     }
 
-    const ua2EnabledProductAreas = {
-      website: webMobileQb2AnalyzeEnabled,
-      application: newAnalyticsEnabled,
-      mobileApp: webMobileQb2AnalyzeEnabled
-    };
-
     const dataSource = getMatrixParameter(location, matrixPath, matrixParam);
-    const ua2 = ua2EnabledProductAreas[productArea];
     if (isNotBlank(dataSource)) {
       return {
         productArea,
         dataSource,
-        ua2,
+        ua2: true,
         beta: dataSource === 'logs' || dataSource === 'rawlogs'
       };
     }
@@ -192,6 +176,6 @@ function getActiveConfiguration(location) {
   return {
     productArea: 'application',
     dataSource: 'calls',
-    ua2: newAnalyticsEnabled
+    ua2: true
   };
 }

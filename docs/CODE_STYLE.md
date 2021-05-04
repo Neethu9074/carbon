@@ -24,11 +24,11 @@ Here is an example of some imports, correctly simon-sorted:
 import { get } from 'lodash';
 import React from 'react';
 
-import TreeHeader from 'in-analyze/TraceDetail/components/CallTree/components/TreeHeader';
-import { getStart, getEnd } from 'in-analyze/TraceDetail/components/callStartAndEndTime';
-import LoadingCallTree from 'in-analyze/TraceDetail/components/CallTree/LoadingCallTree';
+import TreeHeader from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/TreeHeader';
+import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetails/components/callStartAndEndTime';
+import LoadingCallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree/LoadingCallTree';
+import Row from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/Row';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import Row from 'in-analyze/TraceDetail/components/CallTree/components/Row';
 import createScale from 'in-services/scale';
 
 import locals from './CallTree.mless';

@@ -3,13 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, createListForm } from 'formalistic';
-import { get } from 'lodash';
+import { createField, createMapForm } from 'formalistic';
 
-import { newAnalyticsEnabled, qb2InAPCreationEnabled } from 'in-services/featureFlags';
-import { matchSpecificationValidator } from 'in-applications/Forms/BasicForm';
-import { notBlankValidator } from 'in-services/validators/string';
-import { entityTypes } from 'in-analyze/applicationFilter';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
@@ -45,68 +40,11 @@ export function createApplicationPerspectiveForm(application) {
       })
     );
 
-  if (newAnalyticsEnabled && qb2InAPCreationEnabled) {
-    return form.put(
-      'tagFilterExpression',
-      createField({
-        value: application.tagFilterExpression ?? [],
-        validator: tagFilterExpression => tagFilterExpressionValidator(tagFilterExpression)
-      })
-    );
-  } else {
-    return form.put(
-      'matchSpecification',
-      get(application, 'matchSpecification', []).reduce(
-        (form, matchSpecification) => form.push(getEnrichedMatchSpecificationForm(matchSpecification)),
-        createListForm({
-          validator: matchSpecificationValidator
-        })
-      )
-    );
-  }
-}
-
-function getMatchSpecificationForm(matchSpecification = {}) {
-  return createMapForm()
-    .put(
-      'key',
-      createField({
-        value: get(matchSpecification, 'key', ''),
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'entity',
-      createField({
-        value: get(matchSpecification, 'entity', entityTypes.NOT_APPLICABLE),
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'secondLevelName',
-      createField({
-        value: get(matchSpecification, 'secondLevelName', '')
-      })
-    )
-    .put(
-      'value',
-      createField({
-        value: get(matchSpecification, 'value', '')
-      })
-    )
-    .put(
-      'operator',
-      createField({
-        value: get(matchSpecification, 'operator', 'EQUALS')
-      })
-    );
-}
-
-function getEnrichedMatchSpecificationForm(matchSpecification) {
-  return getMatchSpecificationForm(matchSpecification).put(
-    'conjunction',
+  return form.put(
+    'tagFilterExpression',
     createField({
-      value: get(matchSpecification, 'conjunction', 'AND')
+      value: application.tagFilterExpression ?? [],
+      validator: tagFilterExpression => tagFilterExpressionValidator(tagFilterExpression)
     })
   );
 }

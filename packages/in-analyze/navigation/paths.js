@@ -30,15 +30,11 @@ import {
   STARTS_WITH
 } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import {
-  groupBy as groupByMatrixParameterUA1,
-  traceId as traceIdMatrixParameter,
-  callId as callIdMatrixParameter
-} from 'in-analyze/navigation/matrix';
-import {
   toNewTagFilterFormat,
   sanitizeTagFilter,
   type as TAG_FILTER
 } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { traceId as traceIdMatrixParameter, callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import { dataSourceConstants, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
 import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
@@ -48,8 +44,6 @@ import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
-import { getGroupToUrlString } from 'in-analyze/filterBuilder';
-import { newAnalyticsEnabled } from 'in-services/featureFlags';
 import { boundaryScopes } from 'in-applications/constants';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
@@ -449,11 +443,7 @@ export function getLinkToTraceDetail(traceId, { tab = '/tree', callId, formModel
     }
 
     // make sure that there is no grouping as otherwise the trace cannot be loaded.
-    if (newAnalyticsEnabled) {
-      setGroupByMatrixParam(location, null);
-    } else {
-      setOrDeleteMatrixKey(location, analyze, `callList.${groupByMatrixParameterUA1}`, getGroupToUrlString({}));
-    }
+    setGroupByMatrixParam(location, null);
   });
 }
 

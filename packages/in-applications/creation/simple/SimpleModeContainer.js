@@ -3,19 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import SimpleModePageNavigation from 'in-new-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import getApplicationLiveView from 'in-subscription/application/getApplicationLiveView';
-import { newAnalyticsEnabled, qb2InAPCreationEnabled } from 'in-services/featureFlags';
 import SimpleCreateStep1 from 'in-applications/creation/simple/SimpleCreateStep1';
 import SimpleCreateStep2 from 'in-applications/creation/simple/SimpleCreateStep2';
 import SimpleCreateStep3 from 'in-applications/creation/simple/SimpleCreateStep3';
 import { applicationCreationStepSwitch } from 'in-applications/creation/tracker';
 import { blueprintConfig } from 'in-applications/creation/data/blueprintConfig';
-import { mapMatchSpecificationListToTree } from 'in-api/applicationConfigs';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { successObservable } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -30,9 +29,7 @@ const stepConfigs = [
   },
   {
     title: t('in-applications:creation.simple.step2Title'),
-    validateIntermediately: [
-      [newAnalyticsEnabled && qb2InAPCreationEnabled ? 'tagFilterExpression' : 'matchSpecification']
-    ]
+    validateIntermediately: [['tagFilterExpression']]
   },
   {
     title: t('in-applications:creation.simple.step3Title')
@@ -96,9 +93,7 @@ export default function SimpleModeContainer({
                 <SimpleCreateStep1
                   selectedBlueprint={selectedBlueprint}
                   setSelectedBlueprint={selectedBlueprint => {
-                    if (qb2InAPCreationEnabled) {
-                      updateForm(form.updateIn(['tagFilterExpression'], field => field.setValue([])));
-                    }
+                    updateForm(form.updateIn(['tagFilterExpression'], field => field.setValue([])));
                     handleChangeBluePrint(selectedBlueprint);
                   }}
                 />
@@ -129,7 +124,7 @@ export default function SimpleModeContainer({
           }
         }}
         additionalStepCheck={step => {
-          if (step !== 0 && newAnalyticsEnabled && qb2InAPCreationEnabled) {
+          if (step !== 0) {
             return isValidTagFilterExpression;
           }
           return true;
@@ -142,15 +137,9 @@ export default function SimpleModeContainer({
 function getStreamData([form, isValidTagFilterExpression]) {
   const jsForm = form.toJS();
   const downstreamScope = jsForm.scope;
-  const matchSpecification = jsForm.matchSpecification;
-  const matchSpecificationTree = mapMatchSpecificationListToTree(matchSpecification);
   const tagFilterExpression = jsForm.tagFilterExpression;
 
-  if (
-    newAnalyticsEnabled && qb2InAPCreationEnabled
-      ? !isValidTagFilterExpression || tagFilterExpression.length === 0
-      : !matchSpecificationTree
-  ) {
+  if (!isValidTagFilterExpression || tagFilterExpression.length === 0) {
     return successObservable([]);
   }
 
@@ -158,9 +147,7 @@ function getStreamData([form, isValidTagFilterExpression]) {
     // The live view is based on historic data from last hour
     timeConfig: { to: null, windowSize: 3600000, focusedMoment: null, autoRefresh: false },
     pagination: { page: 1, pageSize: 100 },
-    matchExpression: !newAnalyticsEnabled || !qb2InAPCreationEnabled ? matchSpecificationTree : undefined,
     downstreamScope,
-    tagFilterExpression:
-      newAnalyticsEnabled && qb2InAPCreationEnabled ? toBackendQueryModel(tagFilterExpression) : undefined
+    tagFilterExpression: toBackendQueryModel(tagFilterExpression)
   });
 }

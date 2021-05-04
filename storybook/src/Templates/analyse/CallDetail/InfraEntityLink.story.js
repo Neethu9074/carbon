@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import InfrastructureEntityLinkPresenter from 'in-analyze/TraceDetail/components/CallDetails/components/InfrastructureEntityLink/InfrastructureEntityLinkPresenter';
+import InfrastructureEntityLinkPresenter from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/InfrastructureEntityLink/InfrastructureEntityLinkPresenter';
 
 export default {
   title: 'Templates|analyze/CallDetail/InfraEntityLink',

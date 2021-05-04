@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import ExpandableStackTrace from 'in-analyze/TraceDetail/components/CallDetails/components/ExpandableStackTrace/ExpandableStackTrace';
+import ExpandableStackTrace from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ExpandableStackTrace/ExpandableStackTrace';
 import { callExample } from './StackTrace.story.js';
 
 export default {

@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import { enableShowInternalTags, isShowInternalTagsEnabled$ } from 'in-applications/isShowInternalTagsEnabled';
-import { newAnalyticsEnabled, showUserSettingInternalTagsInUA } from 'in-services/featureFlags';
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
+import { showUserSettingInternalTagsInUA } from 'in-services/featureFlags';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
@@ -181,21 +182,17 @@ export default function UiConfigAdvancedPage() {
         </HorizontalFormGroup>
       </div>
 
-      {newAnalyticsEnabled && (
-        <>
-          <SectionHeading>{t('in-settings:tabs.applications')}</SectionHeading>
-          <div style={{ marginBottom: '1rem' }}>
-            <HorizontalFormGroup>
-              <Heading text={t('in-settings:tabs.useQueryableTagsOnly')} htmlFor="use_queryable_tags" />
-              <Toggle
-                id="use_queryable_tags"
-                checked={get(settings, ['use_queryable_tags_enabled'], true)}
-                onChange={e => saveSetting('use_queryable_tags_enabled', e.target.checked)}
-              />
-            </HorizontalFormGroup>
-          </div>
-        </>
-      )}
+      <SectionHeading>{t('in-settings:tabs.applications')}</SectionHeading>
+      <div style={{ marginBottom: '1rem' }}>
+        <HorizontalFormGroup>
+          <Heading text={t('in-settings:tabs.useQueryableTagsOnly')} htmlFor="use_queryable_tags" />
+          <Toggle
+            id="use_queryable_tags"
+            checked={get(settings, ['use_queryable_tags_enabled'], true)}
+            onChange={e => saveSetting('use_queryable_tags_enabled', e.target.checked)}
+          />
+        </HorizontalFormGroup>
+      </div>
 
       {showUserSettingInternalTagsInUA && (
         <>

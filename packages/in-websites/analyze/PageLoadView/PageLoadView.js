@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { get, findIndex } from 'lodash';
+import { get } from 'lodash';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
@@ -15,15 +15,11 @@ import {
   beaconIdUrlParameter,
   beaconTimestampUrlParameter
 } from 'in-websites/navigation/urlParameters';
-import NavigatorSplitScreen from 'in-analyze/TraceDetail/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import SplitScreenPageLoadContent from 'in-websites/analyze/PageLoadView/SplitScreenPageLoadContent';
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
 import SplitScreenList from 'in-new-components/AnalyzeView/SplitScreenList/SplitScreenList';
-import BeaconsNavigator from 'in-websites/analyze/AnalyzeView/Beacons/BeaconsNavigator';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
-import { webMobileQb2AnalyzeEnabled } from 'in-services/featureFlags';
-import { closePageLoadViewLink } from 'in-websites/navigation/paths';
 import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import DashboardHeader from 'in-new-components/DashboardHeader';
@@ -43,8 +39,8 @@ export default withUrlState({
 })(PageLoadView);
 
 function PageLoadView(props) {
-  const content = webMobileQb2AnalyzeEnabled ? renderSplitScreenContent_v2(props) : renderSplitScreenContent(props);
-  const beaconType = webMobileQb2AnalyzeEnabled ? props.dataSource : props.beaconType;
+  const content = renderSplitScreenContent_v2(props);
+  const beaconType = props.dataSource;
   return (
     <>
       <ViewTrackingMeta
@@ -123,43 +119,6 @@ function renderSplitScreenContent_v2(props) {
   );
 }
 
-function renderSplitScreenContent(props) {
-  const { items, onChange, beaconTimestamp, beaconType, pageLoadId, beaconId } = props;
-  return (
-    <NavigatorSplitScreen
-      {...props}
-      navigator={<BeaconsNavigator {...props} beaconId={beaconId} />}
-      typeLabel={beaconType}
-      openItemIndex={findIndex(items, item => item.beacon.beaconId === beaconId)}
-      openItem={e => {
-        if (e.beacon.type !== 'pageLoad') {
-          triggerHighlight(getHighlighterId(e.beacon.beaconId));
-        }
-        onChange({
-          pageLoadId: e.beacon.pageLoadId,
-          beaconId: e.beacon.beaconId
-        });
-      }}
-    >
-      <TabView
-        // Discard all state when the page load ID changes
-        key={pageLoadId}
-        HeaderComponent={Header}
-        location={location}
-        tabs={getTabs(props)}
-        result$={getWebsiteBeaconsForPageLoad({ pageLoadId, beaconTimestamp })}
-        withProps={({ result }) => ({
-          beacons: result.data,
-          pageLoadLabel: shorten(calculateLabel(result))
-        })}
-        props={props}
-        withoutBreadcrumb
-        withoutPadding
-      />
-    </NavigatorSplitScreen>
-  );
-}
-
 function calculateLabel(result) {
   if (!result || !result.data || result.data.length === 0) {
     return null;
@@ -179,7 +138,7 @@ function calculateLabel(result) {
 
 function renderButtonLine(props) {
   const { pageLoadLabel } = props;
-  const { pageLoadId, beaconTimestamp } = webMobileQb2AnalyzeEnabled ? props.detailId : props;
+  const { pageLoadId, beaconTimestamp } = props.detailId;
   if (!pageLoadLabel) {
     return null;
   }
@@ -199,13 +158,6 @@ function renderButtonLine(props) {
 }
 
 function renderContext({ getHrefToUngroupedView }) {
-  if (!webMobileQb2AnalyzeEnabled) {
-    return (
-      <Link className={locals.analyticsLink} href$={closePageLoadViewLink}>
-        {t('in-websites:analyze.analyzeView.pageLoadView.labelAnalytics')}
-      </Link>
-    );
-  }
   return (
     <Link className={locals.analyticsLink} href={getHrefToUngroupedView()}>
       {t('in-websites:analyze.analyzeView.pageLoadView.labelAnalytics')}
@@ -214,15 +166,6 @@ function renderContext({ getHrefToUngroupedView }) {
 }
 
 function renderTimeSelection({ getHrefToUngroupedView }) {
-  if (!webMobileQb2AnalyzeEnabled) {
-    return (
-      <Link href$={closePageLoadViewLink}>
-        <Tooltip content="Close page load details">
-          <SvgIcon className={locals.closeIcon} aria-label="Close page load details" type="lib_openclose_cancel" />
-        </Tooltip>
-      </Link>
-    );
-  }
   return (
     <Link href={getHrefToUngroupedView()}>
       <Tooltip content={t('in-websites:analyze.analyzeView.pageLoadView.renderTimeSelectionTooltip')}>

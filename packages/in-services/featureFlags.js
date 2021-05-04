@@ -38,22 +38,18 @@ export const newApCreationEnabled = isFeatureFlagEnabled('newApCreationEnabled')
 export const entityCountWidgetEnabled = isFeatureFlagEnabled('entityCountWidgetEnabled');
 export const infraMetricsWidgetEnabled = isFeatureFlagEnabled('infraMetricsWidgetEnabled');
 export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVolumeSupportEnabled');
-export const qb2InCustomDashboardsEnabled = isFeatureFlagEnabled('qb2InCustomDashboardsEnabled');
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled');
 export const ampEnabled = isFeatureFlagEnabled('ampEnabled', true);
-export const newAnalyticsEnabled = isFeatureFlagEnabled('newAnalyticsEnabled');
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
 export const applicationSmartAlertsPerEndpointsEnabled = isFeatureFlagEnabled(
   'applicationSmartAlertsPerEndpointsEnabled'
 );
-export const webMobileQb2AnalyzeEnabled = isFeatureFlagEnabled('webMobileQb2AnalyzeEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const loggingEnabledOnTrace = isFeatureFlagEnabled('loggingEnabledOnTrace');
 
 export const showUserSettingInternalTagsInUA = isFeatureFlagEnabled('showUserSettingInternalTagsInUA', false);
-export const qb2InAPCreationEnabled = isFeatureFlagEnabled('qb2InAPCreationEnabled');
 export const languageSelectorEnabled = isFeatureFlagEnabled('languageSelectorEnabled');
 export const authenticationOidcEnabled = isFeatureFlagEnabled('authenticationOidcEnabled', false);
 export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');

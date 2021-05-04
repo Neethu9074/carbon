@@ -46,7 +46,6 @@ export const isAnalyzeView = navigationParameters$.map(
 
 export const pageLoadViewPath = '/pageLoad';
 export const pageLoadViewPathFullyQualified = `${analyzePathFullyQualified}${pageLoadViewPath}`;
-export const closePageLoadViewLink = getModifiedUrlStream(params => (params.pathname = analyzePathFullyQualified));
 
 export const detailsPath = '/details';
 export const websitePath = '/website';

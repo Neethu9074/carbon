@@ -7,7 +7,7 @@ import { assign, omit } from 'lodash';
 import classNames from 'classnames';
 import React from 'react';
 
-import ErrorIndicator from 'in-analyze/TraceDetail/components/ErrorIndicator';
+import ErrorIndicator from 'in-applications/analyze/components/TraceDetails/components/ErrorIndicator';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import theme from 'in-themes';
 

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { DestinationLocation } from 'in-analyze/TraceDetail/components/CallDetails/components/LocationComponents';
+import { DestinationLocation } from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/LocationComponents';
 
 export default {
   title: 'Templates|CallDetail/DestinationLocation',

@@ -3,19 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import {
-  createForm as createNewForm,
-  migrate as migrateToNewForm
-} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp/form';
-import { createForm as createOldForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp/oldForm';
-import OldFormComponent from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp/OldFormComponent';
-import NewFormComponent from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp/FormComponent';
-import { qb2InCustomDashboardsEnabled } from 'in-services/featureFlags';
+import FormComponent from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp/FormComponent';
 import { t } from 'in-i18n';
 
-export const migrate = qb2InCustomDashboardsEnabled ? migrateToNewForm : null;
-export const createForm = qb2InCustomDashboardsEnabled ? createNewForm : createOldForm;
-export const Form = qb2InCustomDashboardsEnabled ? NewFormComponent : OldFormComponent;
+export { createForm, migrate } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp/form';
+
+export const Form = FormComponent;
 export const source = 'MOBILE_APP';
 export const label = t('in-custom-dashboards:widgets.srcMobileApp.index.mobileAppsBeacon');
 export const visible = true;
