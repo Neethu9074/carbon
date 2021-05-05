@@ -16,9 +16,11 @@ import {
   toBackendQueryModel,
   getMaximumExpressionDepth
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import QueryBuilderSection, {
+  DEFAULT_MAX_EXPRESSION_DEPTH
+} from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
-import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import * as groupingConfiguratorsByDataSource from 'in-mobile-apps/groupingConfigurators';
 import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
@@ -64,6 +66,7 @@ export default function MobileAppsQueryBuilderWorkspace(props) {
               onChange={onFormModelChange}
               QueryBuilder={queryBuildersByDataSource[dataSource].QueryBuilder}
               useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
+              maxExpressionDepth={DEFAULT_MAX_EXPRESSION_DEPTH}
               tracking={{
                 onTagAdded: tagFilter => ua2QueryBuilderFilterAddedTracker({ dataSource, tagName: tagFilter.name }),
                 onQueryChanged: formModel =>

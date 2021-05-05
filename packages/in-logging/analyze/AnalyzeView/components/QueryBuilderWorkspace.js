@@ -5,13 +5,15 @@
 
 import React from 'react';
 
+import QueryBuilderSection, {
+  DEFAULT_MAX_EXPRESSION_DEPTH
+} from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/components/LogsDistributionChartSection';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { filterAdded, queryChanged, groupAdded, chartChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import LogsGroupingConfigurator from 'in-logging/analyze/AnalyzeView/workspace/LogsGroupingConfigurator';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
-import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -51,6 +53,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
               QueryBuilder={LogsQueryBuilder}
               hasError={!isValid}
               useLastValidStateWhenErroneous
+              maxExpressionDepth={DEFAULT_MAX_EXPRESSION_DEPTH}
               getSuggestionLabel={({ item }) => item}
               tracking={{
                 onTagAdded: filterAdded,

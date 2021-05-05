@@ -12,9 +12,12 @@ import { Button } from '@instana/components';
 import { trackingProps as queryBuilderTrackingProps } from 'in-new-components/QueryBuilder/QueryBuilder';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import Section from 'in-new-components/workspace/Section';
+import { emptyObject } from 'in-services/fixedObjects';
 import Stack from 'in-new-components/layout/Stack';
 import Message from 'in-new-components/Message';
 import { t } from 'in-i18n';
+
+export const DEFAULT_MAX_EXPRESSION_DEPTH = 5;
 
 export default function QueryBuilderSection({
   value: tagFilterExpression,
@@ -24,12 +27,13 @@ export default function QueryBuilderSection({
   withoutIcon,
   actions,
   useLastValidStateWhenErroneous = false,
-  hasError,
-  errors,
+  maxExpressionDepth,
+  hasError: hasExteralError,
+  errors: exteralErrors,
   getSuggestionsProps = {},
   getSuggestionLabel
 }) {
-  const [queryHasErrors, setQueryHasErrors] = useState(false);
+  const [{ hasError: hasInternalError, errors: internalErrors }, setInternalError] = useState(emptyObject);
   const [clearRequested, setClearRequested] = useState(false);
   useEffect(() => {
     if (clearRequested) {
@@ -43,7 +47,7 @@ export default function QueryBuilderSection({
       title={t('in-new-components:queryBuilder.workspaceTitleFilter')}
       actions={
         <HorizontalFlexWrapper>
-          {(tagFilterExpression.length > 0 || queryHasErrors) && (
+          {(tagFilterExpression.length > 0 || hasInternalError) && (
             <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={onClear}>
               {t('in-new-components:queryBuilder.workspaceButtonClear')}
             </Button>
@@ -51,7 +55,7 @@ export default function QueryBuilderSection({
           {actions}
         </HorizontalFlexWrapper>
       }
-      hasError={hasError || queryHasErrors}
+      hasError={hasExteralError || hasInternalError}
     >
       <Stack space="xsmall">
         <div>
@@ -64,17 +68,21 @@ export default function QueryBuilderSection({
             onChange={tagFilterExpression => {
               // If the tag filter expression changes, reset the 'queryHasErrors' flag. In case that the updated
               // is invalid, the 'queryHasErrors' flag will be set again by the `onError` callback.
-              setQueryHasErrors(false);
+              setInternalError(emptyObject);
               onChange(tagFilterExpression);
             }}
-            onError={setQueryHasErrors}
+            maxExpressionDepth={maxExpressionDepth}
+            onError={setInternalError}
             tracking={tracking}
             useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
             getSuggestionsProps={getSuggestionsProps}
             getSuggestionLabel={getSuggestionLabel}
           />
         </div>
-        {hasError && errors?.map(error => <Message key={error} type="error" withIcon small title={error} />)}
+        {hasInternalError &&
+          internalErrors?.map(error => <Message key={error} type="error" withIcon small title={error} />)}
+        {hasExteralError &&
+          exteralErrors?.map(error => <Message key={error} type="error" withIcon small title={error} />)}
       </Stack>
     </Section>
   );
@@ -82,7 +90,7 @@ export default function QueryBuilderSection({
   function onClear() {
     tracking?.onQueryCleared?.();
     setClearRequested(true);
-    setQueryHasErrors(false);
+    setInternalError(emptyObject);
     onChange([]);
   }
 }
@@ -98,6 +106,8 @@ QueryBuilderSection.propTypes = {
     onQueryCleared: rpt.func
   }),
   useLastValidStateWhenErroneous: rpt.bool,
+  // Allows to limit the depth of expression nesting. It is unlimited by default.
+  maxExpressionDepth: rpt.number,
   hasError: rpt.bool,
   errors: rpt.array,
   getSuggestionsProps: rpt.object,

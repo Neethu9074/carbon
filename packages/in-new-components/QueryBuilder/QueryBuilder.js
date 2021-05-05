@@ -4,9 +4,10 @@
  */
 
 import React, { useRef, useLayoutEffect, useState, useEffect } from 'react';
+import rpt from 'prop-types';
+
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
-import rpt from 'prop-types';
 
 import {
   toRenderModel,
@@ -17,6 +18,10 @@ import {
   CLOSE_BRACKET,
   EXPRESSION
 } from 'in-new-components/QueryBuilder/transformation/renderModel';
+import {
+  getMaximumExpressionDepth,
+  toBackendQueryModel
+} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilderDragAndDropBehaviour from 'in-new-components/QueryBuilder/QueryBuilderDragAndDropBehaviour';
 import { onKeyDown, onClickQueryBuilderContent } from 'in-new-components/QueryBuilder/keyboardInteraction';
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
@@ -32,7 +37,9 @@ import Expression from 'in-new-components/QueryBuilder/components/Expression';
 import Bracket from 'in-new-components/QueryBuilder/components/Bracket';
 import Tag from 'in-new-components/QueryBuilder/components/Tag/Tag';
 import ErrorBoundary from 'in-components/ErrorBoundary';
+import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { t } from 'in-i18n';
 
 import locals from './QueryBuilder.mless';
 
@@ -64,6 +71,7 @@ function QueryBuilder({
   withoutOrConjunction = false,
   withoutBrackets = false,
   useLastValidStateWhenErroneous = false,
+  maxExpressionDepth,
   autoFocusInput = false,
   getSuggestionLabel
 }) {
@@ -76,14 +84,23 @@ function QueryBuilder({
   const [currentFormModel, setCurrentFormModel] = useState(formModel);
   const onChange = formModel => {
     setCurrentFormModel(formModel);
-    if (
-      !useLastValidStateWhenErroneous ||
-      (tagCatalog?.data && isFormModelValid({ tagCatalog: tagCatalog.data, formModel: formModel }))
-    ) {
+    let formValid = false;
+    let errors = emptyArray;
+    if (useLastValidStateWhenErroneous) {
+      formValid = tagCatalog?.data && isFormModelValid({ tagCatalog: tagCatalog.data, formModel: formModel });
+    }
+    if (formValid && maxExpressionDepth != null) {
+      const maxDepthExceeded = getMaximumExpressionDepth(toBackendQueryModel(formModel)) > maxExpressionDepth;
+      if (maxDepthExceeded) {
+        formValid = false;
+        errors = [t('in-new-components:queryBuilder.errorWithDataYourDefinedQueryIsTooComplex')];
+      }
+    }
+    if (!useLastValidStateWhenErroneous || formValid) {
       tracking?.onQueryChanged?.(formModel);
       onValidChange(formModel);
     } else {
-      onError(true);
+      onError({ hasError: true, errors });
     }
   };
 
@@ -405,6 +422,7 @@ QueryBuilder.propTypes = {
   withoutOrConjunction: rpt.bool,
   withoutBrackets: rpt.bool,
   useLastValidStateWhenErroneous: rpt.bool,
+  maxExpressionDepth: rpt.number,
   autoFocusInput: rpt.bool,
   getSuggestionLabel: rpt.func
 };

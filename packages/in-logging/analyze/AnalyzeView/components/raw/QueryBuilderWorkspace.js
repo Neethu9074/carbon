@@ -5,7 +5,9 @@
 
 import React from 'react';
 
-import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
+import QueryBuilderSection, {
+  DEFAULT_MAX_EXPRESSION_DEPTH
+} from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
@@ -28,6 +30,8 @@ export default function LoggingQueryBuilderWorkspace(props) {
             value={formModel}
             onChange={onFormModelChange}
             QueryBuilder={LogsQueryBuilder}
+            useLastValidStateWhenErroneous
+            maxExpressionDepth={DEFAULT_MAX_EXPRESSION_DEPTH}
             tracking={tracking}
             actions={<TagSelector {...props} compact maxSelectableTags={3} />}
             hasError={isInvalid}
