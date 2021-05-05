@@ -344,7 +344,7 @@ export default function Summary({
           </Row>
         )}
 
-        {loggingEnabledOnTrace && (
+        {loggingEnabledOnTrace && totalNumberOfLogs > 0 && (
           <ErrorBoundary name="log section">
             <Row singleRowTopMargin withoutSideMargin>
               <Col lg={12}>
