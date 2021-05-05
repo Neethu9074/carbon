@@ -37,10 +37,11 @@ import {
 import { traceId as traceIdMatrixParameter, callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import { dataSourceConstants, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
 import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
-import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { toNewOrderBy } from 'in-new-components/QueryBuilder/transformation/orderBy';
 import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
+import { createParameters } from 'in-new-components/AnalyzeView/parameters';
+import { setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
@@ -432,16 +433,20 @@ export function tagFilterForBoundaryScope(boundaryScope, applicationName) {
   };
 }
 
-export function getLinkToTraceDetail(traceId, { tab = '/tree', callId, formModel } = emptyObject) {
+const analyzeTwoParameters = createParameters(analyze);
+// TODO: move to the in-applications package, once all UA1 related code is removed
+export function getLinkToTraceDetail(traceId, { callId, formModel } = emptyObject) {
   return getModifiedUrlStream(location => {
-    location.pathname = `${traceDetailFullyQualified}${tab}`;
-    setOrDeleteMatrixKey(location, traceDetail, traceIdMatrixParameter, traceId);
-    setOrDeleteMatrixKey(location, traceDetail, callIdMatrixParameter, callId);
-    if (formModel) {
-      const serializer = tagFilterExpressionMatrixParameter.serializer;
-      setOrDeleteMatrixKey(location, analyze, tagFilterExpressionMatrixParameter.name, serializer(formModel));
-    }
+    location.pathname = analyze;
+    const detailId = {
+      traceId,
+      ...(callId && { callId })
+    };
+    setOrDeleteMatrixParameter(location, analyzeTwoParameters.detailId, detailId);
 
+    if (formModel) {
+      setOrDeleteMatrixParameter(location, analyzeTwoParameters.tagFilterExpression, formModel);
+    }
     // make sure that there is no grouping as otherwise the trace cannot be loaded.
     setGroupByMatrixParam(location, null);
   });
