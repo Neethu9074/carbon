@@ -7673,6 +7673,7 @@
         "ibmMqChannel": "IBM MQ Channel"
       },
       "name": "Name",
+      "type": "Type",
       "status": "Status",
       "inDoubt": "In Doubt",
       "substate": "Substate",

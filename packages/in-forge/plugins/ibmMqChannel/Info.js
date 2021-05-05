@@ -13,6 +13,7 @@ export default function Info({ snapshot }) {
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.ibmMqChannel.name')}>{data.get('channelName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqChannel.type')}>{data.get('channelType')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqChannel.status')}>{data.get('channelStatus')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqChannel.inDoubt')}>{data.get('channelInDoubt')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqChannel.substate')}>
