@@ -1,0 +1,79 @@
+<!--
+  (c) Copyright IBM Corp. 2021
+  (c) Copyright Instana Inc. 2021
+-->
+
+import { action as storybookAction } from '@storybook/addon-actions';
+import { Meta, Preview, Story } from '@storybook/addon-docs/blocks';
+
+import { just } from '@instana/observables';
+
+import { DynamicNode } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/DynamicNode';
+import {options, firstLevelChildren, leafNode, nodeWithKids} from './treeSelectionData';
+import PermanentlyVisibleOverlay from '../../util/PermanentlyVisibleOverlay';
+import Node from 'in-new-components/SelectorOverlay/Node';
+import { pendingResult } from 'in-services/fixedObjects';
+
+<Meta title="Molecules|ThreeLevelsSelectorOverlayNodes" />
+
+# Auto-Loading Nodes: On-demand loading children
+<Preview>
+  <DynamicNode node={nodeWithKids()} asListGroup withIcons />
+</Preview>
+
+## Nodes, with children
+### single row
+  <Story name="auto loading children, single row">
+    <DynamicNode node={nodeWithKids()} asListGroup={false} withIcons />
+  </Story>
+
+  <DynamicNode node={nodeWithKids()} asListGroup={false} />
+
+### list group
+
+  <DynamicNode node={nodeWithKids()} asListGroup withIcons />
+  <DynamicNode node={nodeWithKids()} asListGroup  />
+
+## Leaves
+### single row
+
+  <Story name="auto loading leaf, single row">
+    <DynamicNode node={leafNode()} asListGroup={false} withIcons />
+  </Story>
+
+  <DynamicNode node={leafNode()} asListGroup={false} />
+
+### List group
+
+  <DynamicNode node={leafNode()} asListGroup withIcons />
+  <DynamicNode node={leafNode()} asListGroup  />
+
+# Regular Nodes, with children
+### single row item
+
+  <Story name="static node with children, single row">
+    <Node node={nodeWithKids()} asListGroup={false} withIcons />
+  </Story>
+
+  <Node node={nodeWithKids()} asListGroup={false} />
+
+### list group
+
+  <Node node={nodeWithKids()} asListGroup withIcons />
+  <Node node={nodeWithKids()} asListGroup  />
+
+## Leaves
+### single row
+
+  <Story name="static node, leaf, single row">
+    <Node node={leafNode()} asListGroup={false} withIcons />
+  </Story>
+
+  <Node node={leafNode()} asListGroup={false} />
+
+### List group
+
+  <Node node={leafNode()} asListGroup withIcons />
+  <Node node={leafNode()} asListGroup  />
+
+  <Props of={Node} />

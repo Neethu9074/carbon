@@ -15,10 +15,15 @@ import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { t } from 'in-i18n';
 
 export default function ApplicationAlertingChartWithErrorMessage(props) {
-  const { alertConfigWithFormModel, serviceId } = props;
+  const { alertConfigWithFormModel, serviceId, endpointId } = props;
 
-  if (PER_AP_ENDPOINT === alertConfigWithFormModel.evaluationType) {
-    return <NoDataAvailable text={'Per Entity preview chart is not yet supported.'} />;
+  if (PER_AP_ENDPOINT === alertConfigWithFormModel.evaluationType && !endpointId) {
+    return (
+      <NoDataAvailable
+        text={t('in-alerting:smartAlerts.applications.chart.noDataWithoutEndpointSelection')}
+        height={230}
+      />
+    );
   }
 
   if (PER_AP_SERVICE === alertConfigWithFormModel.evaluationType && !serviceId) {
@@ -34,7 +39,8 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
   return (
     <AlertingChartWithErrorMessage
       {...props}
-      subEntityId={serviceId}
+      serviceId={serviceId}
+      endpointId={endpointId}
       getErrorMessage={isValidDependingOnMode =>
         getErrorMessage(!isValidDependingOnMode, !isServicesAndEndpointsSelectionValid)
       }

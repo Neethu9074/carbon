@@ -1,5 +1,5 @@
-import { Meta, Preview, Story } from '@storybook/addon-docs/blocks';
 import { action as storybookAction } from '@storybook/addon-actions';
+import { Meta, Preview, Story } from '@storybook/addon-docs/blocks';
 
 import SelectorOverlay from 'in-new-components/SelectorOverlay/SelectorOverlay';
 import PermanentlyVisibleOverlay from '../util/PermanentlyVisibleOverlay';
@@ -9,26 +9,26 @@ import PermanentlyVisibleOverlay from '../util/PermanentlyVisibleOverlay';
 export const options = [
   {
     label: 'Root Level Leaf',
-    description: 'Some description',
+    description: 'Some description - Root Level Leaf',
     icon: 'plugin:host'
   },
   {
     label: 'Root Level Node',
-    description: 'Some description',
+    description: 'Some description - Root Level Node',
     icon: 'plugin:neo4j',
     children: [
       {
         label: 'First Level Leaf',
-        description: 'Some description',
+        description: 'Some description - First Level Leaf',
         icon: 'plugin:docker'
       },
       {
         label: 'First Level Node',
-        description: 'Some description',
+        description: 'Some description - First Level Node',
         icon: 'plugin:mule',
         children: [
           {
-            label: 'Second Level Leaf'
+            label: 'Second Level Leaf',
           },
           {
             label: 'Second Level Node',
@@ -37,7 +37,7 @@ export const options = [
             children: [
               {
                 label: 'Third Level Leaf',
-                description: 'Some description'
+                description: 'Some description - Third Level Leaf',
               }
             ]
           }
@@ -58,6 +58,16 @@ export const options = [
   <Story name="loading">
     <PermanentlyVisibleOverlay>
       <SelectorOverlay onChange={storybookAction('onChange')} options={[]} loading />
+    </PermanentlyVisibleOverlay>
+  </Story>
+  <Story name="no-icons">
+    <PermanentlyVisibleOverlay>
+      <SelectorOverlay onChange={storybookAction('onChange')} options={options} withIcons={false} />
+    </PermanentlyVisibleOverlay>
+  </Story>
+  <Story name="with search">
+    <PermanentlyVisibleOverlay>
+      <SelectorOverlay onChange={storybookAction('onChange')} options={options} withIcons={false} query={"a"} />
     </PermanentlyVisibleOverlay>
   </Story>
 </Preview>

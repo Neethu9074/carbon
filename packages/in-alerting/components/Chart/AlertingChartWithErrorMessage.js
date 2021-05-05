@@ -21,7 +21,8 @@ export default function AlertingChartWithErrorMessage({
   customValidators,
   isAlertQueryValid = isApplicationAlertQueryValid,
   applicationId,
-  subEntityId,
+  serviceId,
+  endpointId,
   ...remainingProps
 }) {
   const { alertConfigWithFormModel, blueprintConfig, viewConfig } = remainingProps;
@@ -30,7 +31,8 @@ export default function AlertingChartWithErrorMessage({
     alertConfigWithFormModel,
     blueprintConfig,
     applicationId,
-    subEntityId
+    serviceId,
+    endpointId
   );
 
   const queryValidationResult =
@@ -76,10 +78,15 @@ AlertingChartWithErrorMessage.propTypes = {
    **/
   applicationId: PropTypes.string,
   /**
-   * Optional sub-entity ID
+   * Optional serviceId
    * to scope down the metric in the chart to a single entity
    **/
-  subEntityId: PropTypes.string,
+  serviceId: PropTypes.string,
+  /**
+   * Optional endpointId
+   * to scope down the metric in the chart to a single entity
+   **/
+  endpointId: PropTypes.string,
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool,
   isQB1only: PropTypes.bool,

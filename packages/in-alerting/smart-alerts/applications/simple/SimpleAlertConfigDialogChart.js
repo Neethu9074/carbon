@@ -26,13 +26,14 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
       className={locals.position}
       framed
     >
-      {(chartViewConfig, applicationId, serviceId) => (
+      {(chartViewConfig, applicationId, serviceId, endpointId) => (
         <>
           {isRuleComplete ? (
             <div className={locals.placeholder}>
               <ApplicationAlertingChartWithErrorMessage
                 applicationId={applicationId}
                 serviceId={serviceId}
+                endpointId={endpointId}
                 alertConfigWithFormModel={alertConfigWithFormModel}
                 viewConfig={chartViewConfig}
                 blueprintConfig={blueprintConfig}

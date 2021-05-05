@@ -16,7 +16,7 @@ import { EQUALS, NOT_EQUAL } from 'in-new-components/QueryBuilder/tagFilter/oper
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { boundaryScopes } from 'in-applications/constants';
 
-describe('in-applications/alerting/data/entitySelection', () => {
+describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
   describe('#getEntitySelectionAsTagFilterFormModel', () => {
     it('should return applicationId filter for full application selection', () => {
       const applications = {

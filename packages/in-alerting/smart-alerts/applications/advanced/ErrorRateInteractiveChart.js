@@ -42,10 +42,11 @@ export default function ErrorRateInteractiveChart({
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         headerTransparent
       >
-        {(chartViewConfig, applicationId, serviceId) => (
+        {(chartViewConfig, applicationId, serviceId, endpointId) => (
           <ApplicationAlertingChartWithErrorMessage
             applicationId={applicationId}
             serviceId={serviceId}
+            endpointId={endpointId}
             alertConfigWithFormModel={alertConfigWithFormModel}
             viewConfig={chartViewConfig}
             blueprintConfig={blueprintConfig}

@@ -27,13 +27,14 @@ const baseBlueprint = Object.freeze({
   thresholdDefaults: {
     operator: '>='
   },
-  getEntityTagFilterFormModel: (alertConfig, applicationId, applicationName, serviceId) =>
+  getEntityTagFilterFormModel: (alertConfig, applicationId, applicationName, serviceId, endpointId) =>
     getEntitySelectionAsTagFilterFormModel(
       alertConfig.applications,
       alertConfig.boundaryScope,
       applicationId ?? firstApplicationId(alertConfig.applications),
       applicationName,
-      serviceId
+      serviceId,
+      endpointId
     ),
   getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: () => []

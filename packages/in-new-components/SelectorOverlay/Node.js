@@ -15,14 +15,14 @@ import { Li } from 'in-new-components/lists/List/List';
 
 import locals from './Node.mless';
 
-const iconColumnDefinition = {
+export const iconColumnDefinition = {
   width: '2rem',
   getContent({ node }) {
     return <SvgIcon className={locals.icon} type={node.icon ?? 'lib_views_tag'} />;
   }
 };
 
-const labelColumnDefinition = {
+export const labelColumnDefinition = {
   getContent({ node }) {
     return (
       <KeyValue
@@ -38,7 +38,7 @@ const labelColumnDefinition = {
   }
 };
 
-const breadcrumbAndLabelColumnDefinition = {
+export const breadcrumbAndLabelColumnDefinition = {
   getContent({ node }) {
     return (
       <KeyValue
@@ -54,14 +54,14 @@ const breadcrumbAndLabelColumnDefinition = {
   }
 };
 
-const badgeColumnDefinition = {
+export const badgeColumnDefinition = {
   width: 'max-content',
   getContent({ node }) {
     return node.badge;
   }
 };
 
-const rightArrowColumnDefinition = {
+export const rightArrowColumnDefinition = {
   width: '2rem',
   getContent() {
     return <SvgIcon className={locals.icon} type="lib_arrow_expand_right" />;
@@ -69,7 +69,7 @@ const rightArrowColumnDefinition = {
 };
 
 export default function Node({ node, focusNode, onChange, withIcons, withBreadcrumbs, asListGroup, height }) {
-  if (node.children == null || node.children.length === 0) {
+  if (!node.children || node.children.length === 0) {
     let columnDefinitions = [withBreadcrumbs ? breadcrumbAndLabelColumnDefinition : labelColumnDefinition];
     columnDefinitions.push(badgeColumnDefinition);
     if (withIcons) {
@@ -100,7 +100,7 @@ export default function Node({ node, focusNode, onChange, withIcons, withBreadcr
   }
 }
 
-function Item({ node, onClick, columnDefinitions }) {
+export function Item({ node, onClick, columnDefinitions }) {
   return (
     <Li noAlternatingBg onClick={onClick} className={locals.option}>
       <ColumnizedContent columnDefinitions={columnDefinitions} node={node} />

@@ -4,22 +4,19 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { useObservable } from '@instana/hooks';
-import { just } from '@instana/observables';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import {
   PER_AP_SERVICE,
-  PER_AP
+  PER_AP,
+  PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
-import ChartSubEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartSubEntitySelection';
-import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
+import ChartSubEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/ChartSubEntitySelection';
+import { ShowApplicationSelection } from 'in-alerting/smart-alerts/applications/chart/ShowApplicationSelection';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewConfig';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
-import getApplication from 'in-subscription/application/getApplication';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import ButtonGroup from 'in-new-components/ButtonGroup';
@@ -41,20 +38,26 @@ export default function ChartViewConfiguratorWithEntitySelection({
   const selectApLevelOnly = alertConfigWithFormModel.evaluationType === PER_AP;
   const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
   const [serviceId, setServiceId] = useState();
+  const [endpointId, setEndpointId] = useState();
   const [applicationId, setApplicationId] = useState(
     selectApLevelOnly ? firstApplicationId(alertConfigWithFormModel?.applications) : null
   );
   const applications = Object.values(alertConfigWithFormModel?.applications);
   const showEntitySelection =
+    alertConfigWithFormModel.evaluationType === PER_AP_ENDPOINT ||
     alertConfigWithFormModel.evaluationType === PER_AP_SERVICE ||
-    (alertConfigWithFormModel.evaluationType === PER_AP && applications.length > 1);
+    (selectApLevelOnly && applications.length > 1);
+
   useEffect(() => {
+    // do a simple reset, after somebody switched evaluationType
     setServiceId(null);
     if (selectApLevelOnly) {
       setApplicationId(firstApplicationId(alertConfigWithFormModel?.applications));
     } else {
       setApplicationId(null);
     }
+    // trigger only when evaluationType was changed, but no by "firstApplicationId"
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectApLevelOnly]);
 
   return (
@@ -83,11 +86,12 @@ export default function ChartViewConfiguratorWithEntitySelection({
         {showEntitySelection && (
           <StackItem>
             <ChartSubEntitySelection
-              selectApLevelOnly={selectApLevelOnly}
               applicationId={applicationId}
               setApplicationId={setApplicationId}
               serviceId={serviceId}
               setServiceId={setServiceId}
+              endpointId={endpointId}
+              setEndpointId={setEndpointId}
               alertConfigWithFormModel={alertConfigWithFormModel}
               // use maximum possible timeframe, to have a stable list when switching between options
               queryWindowSize={maxChartViewTimeframe}
@@ -99,23 +103,11 @@ export default function ChartViewConfiguratorWithEntitySelection({
             <ShowApplicationSelection applicationId={applicationId} />
           </StackItem>
         )}
-        <StackItem>{children(selectedChartViewConfig, applicationId, serviceId)}</StackItem>
+        <StackItem>{children(selectedChartViewConfig, applicationId, serviceId, endpointId)}</StackItem>
       </Stack>
     </LightCard>
   );
 }
-
-const ShowApplicationSelection = ({ applicationId }) => {
-  const applicationName = useObservable(
-    applicationId ? getApplication({ id: applicationId }).map(({ data }) => data && data.label) : just(null),
-    [applicationId]
-  );
-  return (
-    <HorizontalFlexWrapper>
-      <ApplicationScopePath applicationName={applicationName} applicationId={applicationId} noBottomMargin />
-    </HorizontalFlexWrapper>
-  );
-};
 
 ChartViewConfiguratorWithEntitySelection.propTypes = {
   children: PropTypes.func.isRequired,

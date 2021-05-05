@@ -1,0 +1,51 @@
+<!--
+  (c) Copyright IBM Corp. 2021
+  (c) Copyright Instana Inc. 2021
+-->
+
+import { Meta, Preview, Story } from '@storybook/addon-docs/blocks';
+import { action as storybookAction } from '@storybook/addon-actions';
+
+import ThreeLevelsSelectorOverlay from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/ThreeLevelsSelectorOverlay';
+import PermanentlyVisibleOverlay from '../../util/PermanentlyVisibleOverlay';
+
+import {options, optionsWithBreadCrumbLabels, firstLevelChildren} from './treeSelectionData';
+
+
+<Meta title="Molecules|ThreeLevelsSelectorOverlay" />
+
+# Three-levels Selector Overlay
+
+<Preview>
+  <Story name="default">
+    <PermanentlyVisibleOverlay>
+      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={options()} />
+    </PermanentlyVisibleOverlay>
+  </Story>
+  <Story name="only two levels">
+    <PermanentlyVisibleOverlay>
+      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={firstLevelChildren()} />
+    </PermanentlyVisibleOverlay>
+  </Story>
+  <Story name="without icons">
+    <PermanentlyVisibleOverlay>
+      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={options()} withIcons={false} />
+    </PermanentlyVisibleOverlay>
+  </Story>
+  <Story name="with search">
+    <PermanentlyVisibleOverlay>
+      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={options()} query={"a"} />
+    </PermanentlyVisibleOverlay>
+  </Story>
+  <Story name="with search and enriched nodes">
+    <PermanentlyVisibleOverlay>
+      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={optionsWithBreadCrumbLabels()} withIcons={false} query={"a"} />
+    </PermanentlyVisibleOverlay>
+  </Story>
+</Preview>
+
+
+
+### Props
+
+<Props of={ThreeLevelsSelectorOverlay} />

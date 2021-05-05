@@ -72,6 +72,8 @@ export function getEntitySelection(applicationId, serviceId = null, endpointId =
  *                        we generate the filters for a backend request.
  * @param serviceId       Optional parameter, in case we are only interested in one specific service of the entire
  *                        given selection.
+ * @param endpointId      Optional parameter, in case we are only interested in one specific endpoint of the entire
+ *                        given selection.
  * @returns The FormModel of the resulting QB2 query.
  */
 export function getEntitySelectionAsTagFilterFormModel(
@@ -79,13 +81,26 @@ export function getEntitySelectionAsTagFilterFormModel(
   boundaryScope,
   applicationId,
   applicationName,
-  serviceId
+  serviceId,
+  endpointId
 ) {
   const application = applications[applicationId];
 
   if (application && serviceId) {
     if (serviceId in application.services) {
       const service = application.services[serviceId];
+
+      if (endpointId && endpointId in service.endpoints) {
+        const service = service.endpoints[endpointId];
+        return joinExpressions({
+          logicalOperator: and,
+          expressions: [
+            getApplicationTagFilter(boundaryScope, applicationId, applicationName),
+            getServiceTagFilterFormModel(service.serviceId, service.inclusive, service.endpoints, false)
+          ]
+        });
+      }
+
       return joinExpressions({
         logicalOperator: and,
         expressions: [
@@ -94,7 +109,7 @@ export function getEntitySelectionAsTagFilterFormModel(
         ]
       });
     }
-    return getExplicitEntityTagFilterFormModel(boundaryScope, applicationId, applicationName, serviceId);
+    return getExplicitEntityTagFilterFormModel(boundaryScope, applicationId, applicationName, serviceId, endpointId);
   }
 
   if (application) {
@@ -116,7 +131,17 @@ export function getEntitySelectionAsTagFilterFormModel(
   });
 }
 
-function getExplicitEntityTagFilterFormModel(boundaryScope, applicationId, applicationName, serviceId) {
+function getExplicitEntityTagFilterFormModel(boundaryScope, applicationId, applicationName, serviceId, endpointId) {
+  if (endpointId) {
+    return joinExpressions({
+      logicalOperator: and,
+      expressions: [
+        getApplicationTagFilter(boundaryScope, applicationId, applicationName),
+        getServiceIdTagFilter(serviceId, true),
+        getEndpointIdTagFilter(endpointId, true)
+      ]
+    });
+  }
   if (serviceId) {
     return joinExpressions({
       logicalOperator: and,
