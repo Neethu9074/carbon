@@ -18,10 +18,10 @@ const parseJson = buildJsonParser(null);
 
 export function isAnalyticsTwoBetaLocation(location) {
   return (
-    getMatrixParameter(location, analyzePath, dataSourceMatrixParameterName) != null &&
-    (getMatrixParameter(location, analyzePath, 'charts') != null ||
-      getMatrixParameter(location, analyzePath, 'metrics') != null ||
-      getMatrixParameter(location, '/trace', 'traceId') != null)
+    (getMatrixParameter(location, analyzePath, dataSourceMatrixParameterName) != null &&
+      (getMatrixParameter(location, analyzePath, 'charts') != null ||
+        getMatrixParameter(location, analyzePath, 'metrics') != null)) ||
+    getMatrixParameter(location, '/trace', 'traceId') != null
   );
 }
 

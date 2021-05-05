@@ -158,6 +158,30 @@ const cases = [
         }
       }
     }
+  },
+  {
+    name: 'call detail without dataSource',
+    one: {
+      pathname: '/analyze',
+      query: {},
+      matrix: {
+        '/analyze': {},
+        '/trace': {
+          traceId: '0000000000000000ae5511eda9237a73',
+          callId: 'ROOT'
+        },
+        '/tree': {}
+      }
+    },
+    two: {
+      pathname: '/analyze',
+      query: {},
+      matrix: {
+        '/analyze': {
+          detailId: '(traceId~*0000000000000000ae5511eda9237a73~callId~ROOT)~'
+        }
+      }
+    }
   }
 ];
 
@@ -173,7 +197,7 @@ describe('in-applications/analyze/AnalyzeView2_0/components/AnalyzeTwoBetaViewPa
   });
 
   describe('isAnalyticsOneLocation', () => {
-    describe('UA 2.0 GA locations', () => {
+    describe('UA 2 beta locations', () => {
       cases.forEach(({ name, one }) => {
         it(`must identify ${name}`, () => {
           expect(isAnalyticsTwoBetaLocation(one)).to.equal(true);
@@ -181,7 +205,7 @@ describe('in-applications/analyze/AnalyzeView2_0/components/AnalyzeTwoBetaViewPa
       });
     });
 
-    describe('UA 2.0 post-GA locations', () => {
+    describe('UA 2 locations', () => {
       cases.forEach(({ name, two }) => {
         it(`must identify ${name}`, () => {
           expect(isAnalyticsTwoBetaLocation(two)).to.equal(false);
