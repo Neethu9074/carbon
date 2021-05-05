@@ -25,7 +25,7 @@ export default function ResultHeader({
   totalHits,
   adjustedWindowSize,
   withSamplingTooltip = false,
-  isValid = true
+  isLoading = true
 }) {
   const historicOrLargeDataResult = useObservable(historicOrLargeDataResult$, []);
   const { containsHistoricData, retention } = historicOrLargeDataResult ?? emptyObject;
@@ -38,7 +38,9 @@ export default function ResultHeader({
       {label && <span className={locals.result}>{label}</span>}
       {(totalHits == null && totalRepresentedItemCount == null) || historicOrLargeDataResult == null ? (
         <span className={locals.number}>
-          {isValid ? t('in-new-components:analyzeView.resultHeaderLoading') : t('in-new-components:analyze.noResults')}
+          {isLoading
+            ? t('in-new-components:analyzeView.resultHeaderLoading')
+            : t('in-new-components:analyze.noResults')}
         </span>
       ) : (
         <>
@@ -70,5 +72,5 @@ ResultHeader.propTypes = {
   totalHits: rpt.number,
   adjustedWindowSize: rpt.number,
   withSamplingTooltip: rpt.bool,
-  isValid: rpt.bool
+  isLoading: rpt.bool
 };

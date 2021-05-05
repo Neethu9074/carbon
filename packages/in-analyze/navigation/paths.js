@@ -34,7 +34,6 @@ import {
   sanitizeTagFilter,
   type as TAG_FILTER
 } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { traceId as traceIdMatrixParameter, callId as callIdMatrixParameter } from 'in-analyze/navigation/matrix';
 import { dataSourceConstants, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
 import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
