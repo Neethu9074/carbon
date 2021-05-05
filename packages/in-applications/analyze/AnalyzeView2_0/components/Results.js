@@ -14,12 +14,10 @@ import UngroupedViewTable, { retrievalSize } from 'in-new-components/AnalyzeView
 import TraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView';
 import PreviewToggle from 'in-applications/analyze/AnalyzeView2_0/components/PreviewToggle';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
-import TableLinkWithIcon from 'in-analyze/components/TableLinkWithIcon';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import getTraces from 'in-subscription/application/getTraces';
-import { latencyFixed } from 'in-services/formatters/number';
 import getCalls from 'in-subscription/application/getCalls';
 import HealthDot from 'in-new-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
@@ -159,26 +157,28 @@ function getColumnDefinitions(dataSource) {
       id: type,
       label: namePerDataSource[dataSource],
       sortable: false,
-      ellipsis: true,
       getContent(item, { getHrefToDetailId, groupLabel }) {
+        const label = item[type].label;
         return (
-          <div className={locals.batchedLine}>
-            <LinkToDetailPage
-              item={item}
-              dataSource={dataSource}
-              getHrefToDetailId={getHrefToDetailId}
-              linkLabel={item[type].label}
-              groupLabel={groupLabel}
-            />
-            <BatchingIndicator
-              batchCount={item[type].batchCount}
-              tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
-                type: getTypeTextByCount(type, 1),
-                batchCount: item[type].batchCount,
-                types: getTypeTextByCount(type, item[type].batchCount)
-              })}
-            />
-          </div>
+          <Tooltip content={label} align="bottomLeft" delay={1000}>
+            <div className={locals.batchedLine}>
+              <LinkToDetailPage
+                item={item}
+                dataSource={dataSource}
+                getHrefToDetailId={getHrefToDetailId}
+                linkLabel={label}
+                groupLabel={groupLabel}
+              />
+              <BatchingIndicator
+                batchCount={item[type].batchCount}
+                tooltipContent={t('in-applications:analyze.listBatchTypeTooltip', {
+                  type: getTypeTextByCount(type, 1),
+                  batchCount: item[type].batchCount,
+                  types: getTypeTextByCount(type, item[type].batchCount)
+                })}
+              />
+            </div>
+          </Tooltip>
         );
       }
     },
@@ -187,33 +187,15 @@ function getColumnDefinitions(dataSource) {
       label: t('in-applications:labelService'),
       sortable: false,
       getContent(item) {
+        const label = item[type].service.label;
         return (
-          <TableLinkWithIcon href$={getServiceDashboard(item[type].service.id)}>
-            {item[type].service.label}
-          </TableLinkWithIcon>
+          <Tooltip content={label} align="bottomLeft" delay={1000}>
+            <Link className={locals.link} href$={getServiceDashboard(item[type].service.id)}>
+              {label}
+            </Link>
+          </Tooltip>
         );
-      },
-      width: '25'
-    },
-    {
-      id: 'latency',
-      label: t('in-applications:labelLatency'),
-      getContent(item) {
-        return (
-          <>
-            {latencyFixed.compact(item[type].duration)}
-            <BatchingIndicator
-              batchCount={item[type].batchCount}
-              tooltipContent={t('in-applications:analyze.listBatchLatencyTooltip', {
-                batchCount: item[type].batchCount,
-                type: getTypeTextByCount(item, item[type].batchCount)
-              })}
-            />
-          </>
-        );
-      },
-      widthInAbsoluteUnit: true,
-      width: '7rem'
+      }
     }
   ];
 }

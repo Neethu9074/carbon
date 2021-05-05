@@ -116,8 +116,11 @@ const ungroupedViewPropType = rpt.shape({
   metricFieldExtractors: rpt.shape({
     getColumnId: rpt.func.isRequired,
     getColumnLabel: rpt.func.isRequired,
-    getColumnFormatter: rpt.func.isRequired,
-    getColumnValue: rpt.func.isRequired
+    // For simple value rendring specify 'getColumnFormatter' and 'getColumnValue', for advanced
+    // rendering specify 'ColumnContent' instead.
+    getColumnFormatter: rpt.func,
+    getColumnValue: rpt.func,
+    ColumnContent: rpt.elementType
   })
 }).isRequired;
 

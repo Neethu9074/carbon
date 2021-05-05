@@ -23,14 +23,17 @@ import FacetedFilterRangeList from 'in-new-components/AnalyzeView/FacetedFilters
 import { custom as customType, metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import FacetedFilterGeneric from 'in-new-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
 import GroupedResults from 'in-applications/analyze/AnalyzeView2_0/components/GroupedResults';
+import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
 import { dataSource as dataSourceName } from 'in-applications/navigation/matrix';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import StateManagement from 'in-new-components/AnalyzeView/StateManagement';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
+import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import { analyzePath } from 'in-applications/navigation/paths';
 import { getTagCatalog } from 'in-applications/api/tagCatalog';
+import { latencyFixed } from 'in-services/formatters/number';
 import { getPluginName } from 'in-sdk/pluginName';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
@@ -201,20 +204,30 @@ function getUngroupedView(dataSource) {
     },
     metricFieldExtractors: {
       getColumnId({ metricDefinition }) {
-        return metricDefinition.tagName;
+        // 'latency' is the only metric whose raw value (duration) should be displayed in ungrouped view
+        return metricDefinition.metricId === 'latency' ? metricDefinition.metricId : null;
       },
-      getColumnLabel({ metricDefinition, tagCatalog }) {
-        const tagLabel = tagCatalog?.tagsByName[metricDefinition.tagName]?.label;
-        return tagLabel ?? metricDefinition.label;
+      getColumnLabel({ metricDefinition }) {
+        // 'latency' is the only metric whose raw value (duration) should be displayed in ungrouped view
+        return metricDefinition.metricId === 'latency' ? t('in-applications:labelLatency') : null;
       },
-      getColumnFormatter({ metricDefinition }) {
-        return metricDefinition.formatter;
+      ColumnContent(item) {
+        const type = typePerDataSource[dataSource];
+        return (
+          <>
+            {latencyFixed.compact(item[type].duration)}
+            <BatchingIndicator
+              batchCount={item[type].batchCount}
+              tooltipContent={t('in-applications:analyze.listBatchLatencyTooltip', {
+                batchCount: item[type].batchCount,
+                types: getTypeTextByCount(type, item[type].batchCount)
+              })}
+            />
+          </>
+        );
       },
-      getColumnValue() {
-        return null; // Currently, there are no configurable ungrouped metrics for Calls & Traces
-      },
-      hasRawValue() {
-        return false; // Currently, there are no configurable ungrouped metrics for Calls & Traces
+      hasRawValue({ metricDefinition }) {
+        return metricDefinition.metricId === 'latency';
       }
     },
     chartingOptions: ungroupedChartingOptions

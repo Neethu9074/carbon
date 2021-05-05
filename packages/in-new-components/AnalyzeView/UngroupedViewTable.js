@@ -61,7 +61,8 @@ function Table(props) {
             getColumnId,
             getColumnValue,
             getColumnLabel,
-            getColumnFormatter
+            getColumnFormatter,
+            ColumnContent
           } = ungroupedViewConfiguration.metricFieldExtractors;
           const columnId = getColumnId({ metricDefinition });
           if (columnId == null || existingColumnIds.includes(columnId)) {
@@ -70,15 +71,17 @@ function Table(props) {
           }
           existingColumnIds.push(columnId);
           const columnLabel = getColumnLabel({ metricDefinition, tagCatalog: filteringTagCatalog });
-          const columnFormatter = getColumnFormatter({ metricDefinition });
           return {
             label: columnLabel,
             id: columnId,
             width: '9rem',
-            minWidth: '6rem',
-            shrink: true,
+            widthInAbsoluteUnit: true,
             getContent(params) {
+              if (ColumnContent != null) {
+                return <ColumnContent {...params} />;
+              }
               const value = getColumnValue({ metricDefinition, ...params });
+              const columnFormatter = getColumnFormatter({ metricDefinition });
               const formatter = wrapToDiscardNegativeValues(getFormatter(columnFormatter)).compact;
               return <span>{formatter?.(value) ?? value}</span>;
             }
