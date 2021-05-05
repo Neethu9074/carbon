@@ -34,7 +34,7 @@ function KeyValueButtonWrapper(props) {
       <div className={locals.item}>
         <div className={locals.header}>{header}</div>
         <div className={isOpen ? locals.buttonOpen : locals.button} onClick={toggle}>
-          <SvgIcon className={locals.icon} type="lib_actions_copy" size="xs" expanded={isOpen} refSetter={refSetter} />
+          <SvgIcon className={locals.icon} type="lib_actions_copy" size="xs" ref={refSetter} />
         </div>
       </div>
     </div>

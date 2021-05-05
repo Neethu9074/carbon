@@ -37,20 +37,20 @@ export default class Table extends React.Component {
     this.newStore(this.props);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (!shallowEquals(this.props.cols, nextProps.cols) || this.props.maxItemsPerPage !== nextProps.maxItemsPerPage) {
+  componentDidUpdate(prevProps) {
+    if (!shallowEquals(this.props.cols, prevProps.cols) || this.props.maxItemsPerPage !== prevProps.maxItemsPerPage) {
       this.dispose();
-      this.newStore(nextProps);
+      this.newStore(this.props);
     } else {
-      if (this.props.rows !== nextProps.rows) {
-        this.store.onRowChange(nextProps.rows);
+      if (this.props.rows !== prevProps.rows) {
+        this.store.onRowChange(this.props.rows);
       }
-      if (!shallowEquals(this.props.selectedRowKeys, nextProps.selectedRowKeys)) {
-        this.store.onSelectedRowKeyChange(nextProps.selectedRowKeys);
+      if (!shallowEquals(this.props.selectedRowKeys, prevProps.selectedRowKeys)) {
+        this.store.onSelectedRowKeyChange(this.props.selectedRowKeys);
       }
     }
-    if (this.props.filter !== nextProps.filter) {
-      this.store.setFilter(nextProps.filter);
+    if (this.props.filter !== prevProps.filter) {
+      this.store.setFilter(this.props.filter);
     }
   }
 

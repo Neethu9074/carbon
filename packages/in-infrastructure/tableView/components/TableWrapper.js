@@ -63,6 +63,8 @@ export default connectTo(
     return (
       <div className={block}>
         <Table
+          // force dispose state when the plugin is changed
+          key={plugin}
           cols={cols}
           rows={rows}
           initialSortColumn={tableDefinition.initialSortColumn}

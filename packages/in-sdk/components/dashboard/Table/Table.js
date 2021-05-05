@@ -4,8 +4,9 @@
  */
 
 import shallowEquals from 'fbjs/lib/shallowEqual';
-import { Card } from '@instana/components';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import SortIndicator from 'in-sdk/components/dashboard/Table/components/SortIndicator';
 import { createStore } from 'in-sdk/components/dashboard/Table/stores/content';
@@ -36,16 +37,16 @@ export default class Table extends React.Component {
     this.newStore(this.props);
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (!shallowEquals(this.props.cols, nextProps.cols) || this.props.maxItemsPerPage !== nextProps.maxItemsPerPage) {
+  componentDidUpdate(prevProps) {
+    if (!shallowEquals(this.props.cols, prevProps.cols) || this.props.maxItemsPerPage !== prevProps.maxItemsPerPage) {
       this.dispose();
-      this.newStore(nextProps);
+      this.newStore(this.props);
     } else {
-      if (this.props.rows !== nextProps.rows) {
-        this.store.onRowChange(nextProps.rows);
+      if (this.props.rows !== prevProps.rows) {
+        this.store.onRowChange(this.props.rows);
       }
-      if (!shallowEquals(this.props.selectedRowKeys, nextProps.selectedRowKeys)) {
-        this.store.onSelectedRowKeyChange(nextProps.selectedRowKeys);
+      if (!shallowEquals(this.props.selectedRowKeys, prevProps.selectedRowKeys)) {
+        this.store.onSelectedRowKeyChange(this.props.selectedRowKeys);
       }
     }
   }
