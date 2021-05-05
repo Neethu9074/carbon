@@ -47,7 +47,12 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped, formMod
   return (
     <>
       <DashboardHeader
-        contextConfigurations={[{ renderContext: () => 'Analytics', contextIcon: 'lib_analyze_inverted' }]}
+        contextConfigurations={[
+          {
+            renderContext: () => t('in-analyze:components.analyzeHeader.analytics'),
+            contextIcon: 'lib_analyze_inverted'
+          }
+        ]}
         renderMetaInformation={() => {
           if (activeConfiguration?.beta) {
             return (
