@@ -58,6 +58,7 @@ export default function ListWidgetFormComponent({ form, onChange }) {
           event,
           sli
         ]}
+        maxGrouping={10}
       />
     </>
   );

@@ -109,8 +109,8 @@
   "widgets": {
     "metricConfig": {
       "groupingConfig": {
-        "top5": "Os cinco principais",
-        "bottom5": "Parte inferior 5",
+        "top": "Os {{number}} principais",
+        "bottom": "Parte inferior {{number}}",
         "showRemainingGroupsAggregOther": "Mostrar grupos restantes agregados como \"Outros\""
       },
       "hiddenCalls": {

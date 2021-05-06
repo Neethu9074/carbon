@@ -109,8 +109,8 @@
   "widgets": {
     "metricConfig": {
       "groupingConfig": {
-        "top5": "상위 5개",
-        "bottom5": "하위 5개",
+        "top": "상위 {{number}}개",
+        "bottom": "하위 {{number}}개",
         "showRemainingGroupsAggregOther": "\"기타\"로 집계된 나머지 그룹 표시"
       },
       "hiddenCalls": {

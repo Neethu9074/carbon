@@ -16,6 +16,8 @@ import { t } from 'in-i18n';
 
 import locals from './GroupingConfiguration.mless';
 
+const maxGroupingsAvailable = [5, 10, 20, 50];
+
 export default function GroupingConfiguration({
   withGrouping,
   grouping,
@@ -27,7 +29,8 @@ export default function GroupingConfiguration({
   hasError,
   additionalContent,
   withOptionalMarker,
-  hideIncludeOthersToggle
+  hideIncludeOthersToggle,
+  maxGrouping = 20
 }) {
   return (
     <>
@@ -49,13 +52,26 @@ export default function GroupingConfiguration({
               <div className={locals.wrapper}>
                 <Select
                   id="select-top-groups"
-                  value={grouping.direction}
+                  value={grouping.direction + '-' + grouping.maxResults}
                   onChange={e => {
-                    onDirectionChange(e.target.value);
+                    const [direction, maxResults] = e.target.value.split('-');
+                    onDirectionChange(direction, parseInt(maxResults));
                   }}
                 >
-                  <option value="DESC">{t('in-custom-dashboards:widgets.metricConfig.groupingConfig.top5')}</option>
-                  <option value="ASC">{t('in-custom-dashboards:widgets.metricConfig.groupingConfig.bottom5')}</option>
+                  {maxGroupingsAvailable
+                    .filter(m => m <= maxGrouping)
+                    .map(number => (
+                      <option key={`DESC-${number}`} value={`DESC-${number}`}>
+                        {t('in-custom-dashboards:widgets.metricConfig.groupingConfig.top', { number })}
+                      </option>
+                    ))}
+                  {maxGroupingsAvailable
+                    .filter(m => m <= maxGrouping)
+                    .map(number => (
+                      <option key={`ASC-${number}`} value={`ASC-${number}`}>
+                        {t('in-custom-dashboards:widgets.metricConfig.groupingConfig.bottom', { number })}
+                      </option>
+                    ))}
                 </Select>
                 {!hideIncludeOthersToggle && (
                   <>
@@ -82,7 +98,8 @@ GroupingConfiguration.propTypes = {
   grouping: PropTypes.shape({
     by: PropTypes.any,
     direction: PropTypes.any,
-    includeOthers: PropTypes.any
+    includeOthers: PropTypes.any,
+    maxResults: PropTypes.number
   }),
   onByChange: PropTypes.func.isRequired,
   onDirectionChange: PropTypes.func.isRequired,
@@ -95,5 +112,6 @@ GroupingConfiguration.propTypes = {
   withOptionalMarker: PropTypes.bool,
   hasError: PropTypes.bool,
   additionalContent: PropTypes.node,
-  hideIncludeOthersToggle: PropTypes.bool
+  hideIncludeOthersToggle: PropTypes.bool,
+  maxGrouping: PropTypes.number.isRequired
 };

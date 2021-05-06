@@ -4,6 +4,7 @@
  */
 
 import { createMapForm, createField, notBlankValidator, createListForm, alwaysValidValidator } from 'formalistic';
+
 import { just } from '@instana/observables';
 
 import { numberValidator, stringValidator, booleanValidator } from 'in-services/validators/jsonType';
@@ -246,7 +247,7 @@ export function createGroupingForm(grouping) {
           notUndefinedValidator,
           numberValidator,
           minValidator(1),
-          maxValidator(20)
+          maxValidator(50)
         )
       })
     );

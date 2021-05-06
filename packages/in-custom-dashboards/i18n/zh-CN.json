@@ -109,8 +109,8 @@
   "widgets": {
     "metricConfig": {
       "groupingConfig": {
-        "top5": "前 5 个",
-        "bottom5": "后 5 个",
+        "top": "前 {{number}} 个",
+        "bottom": "后 {{number}} 个",
         "showRemainingGroupsAggregOther": "显示汇总为“其他”的其余组"
       },
       "hiddenCalls": {

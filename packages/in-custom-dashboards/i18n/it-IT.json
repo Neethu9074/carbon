@@ -109,8 +109,8 @@
   "widgets": {
     "metricConfig": {
       "groupingConfig": {
-        "top5": "I primi 5",
-        "bottom5": "Gli ultimi 5",
+        "top": "I primi {{number}}",
+        "bottom": "Gli ultimi {{number}}",
         "showRemainingGroupsAggregOther": "Mostra i restanti gruppi aggregati come \"Altro\""
       },
       "hiddenCalls": {
