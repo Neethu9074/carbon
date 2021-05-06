@@ -176,6 +176,7 @@ function getColumnDefinitions(dataSource) {
                   batchCount: item[type].batchCount,
                   types: getTypeTextByCount(type, item[type].batchCount)
                 })}
+                noTopPosition
               />
             </div>
           </Tooltip>
