@@ -37,6 +37,7 @@ import Sections from 'in-new-components/workspace/Sections';
 import { error } from 'in-new-components/Message/types';
 import { emptyArray } from 'in-services/fixedObjects';
 import Stack from 'in-new-components/layout/Stack';
+import { getPluginName } from 'in-sdk/pluginName';
 import Message from 'in-new-components/Message';
 import Footer from 'in-new-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -93,6 +94,9 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
                     nestingDepth: getMaximumExpressionDepth(toBackendQueryModel(formModel))
                   })
               }}
+              getSuggestionLabel={({ item, tagName }) =>
+                tagName === 'technology' ? `${getPluginName(item)} (${item})` : item
+              }
             />
 
             <GroupingConfiguratorSection
