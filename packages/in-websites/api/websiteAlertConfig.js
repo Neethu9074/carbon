@@ -4,6 +4,7 @@
  */
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import createObservable from 'in-services/http/observableHttpResult';
 import http from 'in-services/http';
 
 const baseUrl = 'api/events/settings/website-alert-configs';
@@ -40,26 +41,34 @@ export function getAllAlertConfigs(websiteId) {
   }).map(response => response.body);
 }
 
-export function getAllVersionsOfAlertConfig(id) {
-  return http({
+export function getAllVersionsOfAlertConfig(id, config = { asObservable: false }) {
+  const requestConfig = {
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${baseUrl}/${id}/versions`
-  }).map(response => response.body);
+  };
+
+  return config.asObservable
+    ? createObservable(http(requestConfig))
+    : http(requestConfig).map(response => response.body);
 }
 
-export function getLatestAlertConfig(id) {
-  return http({
+export function getLatestAlertConfig(id, config = { asObservable: false }) {
+  const requestConfig = {
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${baseUrl}/${id}`
-  }).map(response => response.body);
+  };
+
+  return config.asObservable
+    ? createObservable(http(requestConfig))
+    : http(requestConfig).map(response => response.body);
 }
 
-export function getAlertConfigByIdAndTimestamp(id, timestamp) {
-  return http({
+export function getAlertConfigByIdAndTimestamp(id, timestamp, config = { asObservable: false }) {
+  const requestConfig = {
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -67,7 +76,11 @@ export function getAlertConfigByIdAndTimestamp(id, timestamp) {
     queryParams: {
       validOn: timestamp
     }
-  }).map(response => response.body);
+  };
+
+  return config.asObservable
+    ? createObservable(http(requestConfig))
+    : http(requestConfig).map(response => response.body);
 }
 
 export function enableAlertConfig(id) {

@@ -60,7 +60,6 @@
   "labelScope": "Bereich",
   "labelCustomServiceRules": "Angepasste Serviceregeln",
   "labelSyntheticEndpoints": "Synthetische Endpunkte",
-  "titleAlertDetails": "Alertdetails",
   "titleTopServices": "Oberste Services",
   "titleMeanLatency": "Durchschnittliche Latenzzeit",
   "titleErroneousCallRate": "Rate fehlerhafter Aufrufe",

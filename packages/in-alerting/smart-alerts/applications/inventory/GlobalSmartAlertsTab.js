@@ -14,8 +14,8 @@ import { getAllGlobalAlertConfigs } from 'in-alerting/smart-alerts/applications/
 import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import { categoryLocal } from 'in-alerting/smart-alerts/applications/inventory/constants';
+import AlertDetails from 'in-alerting/smart-alerts/applications/details/AlertDetails';
 import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
-import Alert from 'in-applications/Dashboards/application/tabs/Alerts/Alert';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import { globalAlertDetails } from 'in-applications/navigation/paths';
@@ -48,7 +48,7 @@ export default function GlobalSmartAlertsTab({ location }) {
         >
           <Card useMaxAvailableHeight={false} hasMarginBottom>
             {isGlobalDetailsView ? (
-              <Alert location={location} timeConfig={timeConfig} />
+              <AlertDetails location={location} timeConfig={timeConfig} />
             ) : (
               <SmartAlertsBaseList
                 onNoData={() => setHasDataToRender(false)}

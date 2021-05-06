@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createLogger } from '@instana/logger';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+import { createLogger } from '@instana/logger';
 
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/websites/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
@@ -14,16 +15,19 @@ import useSmartAlertFormSideEffects from 'in-alerting/smart-alerts/hooks/useSmar
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { changeFormDataByCopyState } from '../components/smart-alert-dialog/sharedFunctions';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
+import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 
 const logger = createLogger('in-websites/alerting/AlertDialog');
 const initialChartConfigIndex = 0;
 
-export default function AlertConfigDialog({ onClose, formData, websiteLabel, editMode, isCopy }) {
+export default function AlertConfigDialog({ onClose, formData, editMode, isCopy }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const [form, setForm] = useState(() => alertFormDefinition(changeFormDataByCopyState(isCopy, formData), editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
+
+  const websiteLabel = useWebsiteLabel(form.get('websiteId')?.value);
 
   return (
     <AlertConfigDialogWithThreshold
@@ -115,7 +119,6 @@ function toAlertConfig(form) {
 AlertConfigDialog.propTypes = {
   formData: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
-  websiteLabel: PropTypes.string.isRequired,
   editMode: PropTypes.bool,
   /**
    * Whether the new Smart Alert is a copy of a given Smart Alert

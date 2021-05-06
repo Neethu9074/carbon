@@ -38,8 +38,8 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { alertsCategory } from 'in-applications/navigation/matrix';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import DashboardHeader from 'in-new-components/DashboardHeader';
-import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { createGroupBy } from 'in-analyze/navigation/paths';
+import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
@@ -120,14 +120,13 @@ function Header(props) {
 }
 
 function renderButtonLine(props) {
-  const { applicationId, timeConfig, boundaryScope, label, location, syntheticCalls } = props;
+  const { applicationId, timeConfig, boundaryScope, location, syntheticCalls } = props;
   const isGlobalAlertConfig = getMatrixParameter(location, alertsList, alertsCategory) === categoryGlobal;
 
   const AddSmartAlertButton = isGlobalAlertConfig ? (
     <CreateGlobalSmartAlertButton location={location} />
   ) : (
     <CreateSmartAlert
-      applicationLabel={label}
       applicationId={applicationId}
       location={location}
       boundaryScope={boundaryScope}

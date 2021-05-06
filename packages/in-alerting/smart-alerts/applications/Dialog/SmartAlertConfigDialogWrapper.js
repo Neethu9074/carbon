@@ -13,8 +13,8 @@ import {
   applicationsAlertingSwitchMode
 } from 'in-alerting/smart-alerts/applications/tracker';
 import {
-  updateGlobalAlertConfig,
-  createGlobalAlertConfig
+  createGlobalAlertConfig,
+  updateGlobalAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import ApplicationsSimpleModeContainer from 'in-alerting/smart-alerts/applications/simple/ApplicationsSimpleModeContainer';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
@@ -25,25 +25,22 @@ import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-ale
 import AdvancedModeContainer from 'in-alerting/smart-alerts/applications/advanced/AdvancedModeContainer';
 import useSmartAlertFormSideEffects from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
+import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 
 const logger = createLogger('in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialog');
 
 const initialChartConfigIndex = 0;
 
-export default function SmartAlertConfigDialogWrapper({
-  applicationLabel,
-  onClose,
-  editMode,
-  isGlobalSmartAlert,
-  formData,
-  isCopy
-}) {
+export default function SmartAlertConfigDialogWrapper({ onClose, editMode, isGlobalSmartAlert, formData, isCopy }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
   const [form, setForm] = useState(() => createSmartAlertForm(fromAlertConfig(formData, isCopy), editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
+
+  const applicationLabel = useApplicationLabel(firstApplicationId(form.get('applications').value), isGlobalSmartAlert);
 
   return (
     <SmartAlertConfigDialog
@@ -101,7 +98,6 @@ export default function SmartAlertConfigDialogWrapper({
 }
 
 SmartAlertConfigDialogWrapper.propTypes = {
-  applicationLabel: PropTypes.string,
   editMode: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool,
   formData: PropTypes.shape({

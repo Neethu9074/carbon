@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just } from '@instana/observables';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -13,23 +12,13 @@ import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applicati
 import { refreshSmartAlertConfigsList } from '../inventory/SmartAlertsBaseList';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-new-components/FloatingActionButton';
-import getApplication from 'in-subscription/application/getApplication';
 import { propTypeLocation } from 'in-stores/navigation';
 import { reload } from 'in-settings/components/List';
 import { isBlank } from 'in-services/util/string';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-export default connectTo(({ applicationLabel, applicationId }) => {
-  const observables = {};
-  observables.applicationLabel =
-    !applicationLabel && applicationId ? getApplication({ id: applicationId }).map(getLabel) : just(applicationLabel);
-  return observables;
-})(CreateSmartAlert);
-
-function CreateSmartAlert({
+export default function CreateSmartAlert({
   applicationId,
-  applicationLabel,
   boundaryScope: urlBoundaryScope,
   defaultBoundaryScope,
   includeSynthetic,
@@ -41,7 +30,7 @@ function CreateSmartAlert({
     return null;
   }
 
-  if (isBlank(applicationId) || isBlank(applicationLabel)) {
+  if (isBlank(applicationId)) {
     return null;
   }
 
@@ -51,7 +40,6 @@ function CreateSmartAlert({
       onClick={() => {
         addActiveDialog(
           <SmartAlertConfigDialogWrapper
-            applicationLabel={applicationLabel /* figure out if this information is still helpful */}
             formData={generateFormData({
               boundaryScope: urlBoundaryScope || defaultBoundaryScope,
               applicationId,
@@ -68,7 +56,7 @@ function CreateSmartAlert({
             }}
           />
         );
-        applicationsAlertingAddAlert(location.pathname, applicationLabel);
+        applicationsAlertingAddAlert(location.pathname);
       }}
       withBoxShadow
     >
@@ -79,7 +67,6 @@ function CreateSmartAlert({
 
 CreateSmartAlert.propTypes = {
   applicationId: PropTypes.string,
-  applicationLabel: PropTypes.string,
   serviceId: PropTypes.string,
   endpointId: PropTypes.string,
   location: propTypeLocation.isRequired,
@@ -105,8 +92,4 @@ export function generateFormData({ boundaryScope, applicationId, serviceId, endp
     includeSynthetic,
     applications: getEntitySelection(applicationId, serviceId, endpointId)
   };
-}
-
-function getLabel(result) {
-  return result?.data?.label ?? null;
 }

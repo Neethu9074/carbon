@@ -61,7 +61,6 @@
   "labelScope": "Scope",
   "labelCustomServiceRules": "Custom Service Rules",
   "labelSyntheticEndpoints": "Synthetic Endpoints",
-  "titleAlertDetails": "Alert Details",
   "titleTopServices": "Top Services",
   "titleMeanLatency": "Mean Latency",
   "titleErroneousCallRate": "Erroneous Call Rate",
@@ -151,32 +150,10 @@
     "noData": "No service calls are available for the selected time range."
   },
   "alert": {
-    "advancedModeContainer": {
-      "scope": {
-        "label": "Scope",
-        "title": "Scope: Where is the condition happening?"
-      },
-      "trigger": {
-        "label": "Trigger",
-        "title": "Trigger: What do you want to be alerted on?",
-        "logMessageCardTitle": "Log Message",
-        "httpStatusCodesCardTitle": "HTTP Status Codes"
-      },
-      "timeThreshold": {
-        "label": "Time Threshold",
-        "title": "Time Threshold: When do you want to be alerted?"
-      },
-      "alertChannel": {
-        "label": "Alert Channels",
-        "title": "Alert Channels: Who needs to be alerted?"
-      }
-    },
     "thresholdLabel": "Threshold Value",
-    "titleAlertProperties": "Alert Properties",
     "applicationSmartAlert": "Application Smart Alert",
     "noAlertConfigured": "No alert configured.",
     "getEntityName": "alert \"{{entityName}}\"",
-    "descriptionMessage": "{{description}}: \"{{message}}\"",
     "tooltipFilter": "{{count}} filter",
     "tooltipFilter_plural": "{{count}} filters",
     "tooltipFilter_0": "{{count}} filters",

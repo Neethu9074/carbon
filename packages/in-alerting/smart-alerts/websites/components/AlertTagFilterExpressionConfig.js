@@ -44,7 +44,7 @@ export default function AlertTagFilterExpressionConfig({
 
 AlertTagFilterExpressionConfig.propTypes = {
   QueryBuilderComponent: PropTypes.func.isRequired,
-  websiteLabel: PropTypes.string.isRequired,
+  websiteLabel: PropTypes.string,
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
   headerTransparent: PropTypes.bool,

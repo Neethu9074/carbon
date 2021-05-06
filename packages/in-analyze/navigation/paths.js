@@ -7,15 +7,15 @@ import { partition, range, uniq } from 'lodash';
 import invariant from 'invariant';
 
 import {
+  chartsMatrixParameter,
   dataSourceMatrixParameter,
   groupByMatrixParameter,
-  orderByGroupsMatrixParameter,
-  orderByMatrixParameter,
-  tagFilterExpressionMatrixParameter,
   hiddenCallsMatrixParameter,
   metricsMatrixParameter,
-  chartsMatrixParameter,
-  previewEnabledMatrixParameter
+  orderByGroupsMatrixParameter,
+  orderByMatrixParameter,
+  previewEnabledMatrixParameter,
+  tagFilterExpressionMatrixParameter
 } from 'in-applications/navigation/matrix';
 import {
   EQUALS,
@@ -30,19 +30,25 @@ import {
   STARTS_WITH
 } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import {
-  toNewTagFilterFormat,
   sanitizeTagFilter,
+  toNewTagFilterFormat,
   type as TAG_FILTER
 } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import {
+  APPLICATION,
+  APPLICATION_INBOUND,
+  ENDPOINT,
+  entityTypes,
+  operators,
+  SERVICE
+} from 'in-analyze/applicationFilter';
 import { dataSourceConstants, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
-import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { toNewOrderBy } from 'in-new-components/QueryBuilder/transformation/orderBy';
 import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
 import { setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { entityTypes, operators } from 'in-analyze/applicationFilter';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { boundaryScopes } from 'in-applications/constants';
 import { emptyObject } from 'in-services/fixedObjects';

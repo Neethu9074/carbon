@@ -16,8 +16,10 @@ import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
@@ -33,8 +35,9 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/share
 const logLevelList = ['ERROR', 'WARN'];
 const initialChartConfigIndex = 0;
 
-export default function AlertConfiguration({ alertConfig, applicationName = '', isGlobalSmartAlert }) {
+export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
+  const applicationName = useApplicationLabel(firstApplicationId(alertConfig.applications), isGlobalSmartAlert);
 
   const {
     rule: { operator, alertType, message, level },
@@ -49,7 +52,7 @@ export default function AlertConfiguration({ alertConfig, applicationName = '', 
 
   return (
     <AlertDetailsCard>
-      <ListTitle>Alert Configuration</ListTitle>
+      <ListTitle>{t('in-alerting:smartAlerts.applications.alertConfiguration')} </ListTitle>
 
       <ChartViewConfiguratorWithEntitySelection
         alertConfigWithFormModel={{
@@ -58,14 +61,16 @@ export default function AlertConfiguration({ alertConfig, applicationName = '', 
         }}
         onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        title={t('in-applications:alert.advancedModeContainer.trigger.label')}
+        title={t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.label')}
         framed
       >
         {(chartViewConfig, applicationId, serviceId, endpointId) => (
           <>
             {alertType === 'logs' && (
               <SelectedAlertTypeInfo
-                title={t('in-applications:alert.advancedModeContainer.trigger.logMessageCardTitle')}
+                title={t(
+                  'in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.logMessageCardTitle'
+                )}
                 description={getDescription(operator, message)}
                 badges={getLogLevelAsList(level)}
               />
@@ -88,7 +93,7 @@ export default function AlertConfiguration({ alertConfig, applicationName = '', 
 
       <ExpandableLightCard
         className={locals.filterListContainer}
-        title={t('in-applications:alert.advancedModeContainer.scope.label')}
+        title={t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.label')}
         useMaxAvailableHeight={false}
         openByDefault
         bodyWithoutPadding
@@ -111,7 +116,7 @@ export default function AlertConfiguration({ alertConfig, applicationName = '', 
       </ExpandableLightCard>
 
       <ExpandableLightCard
-        title={t('in-applications:alert.advancedModeContainer.timeThreshold.label')}
+        title={t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.label')}
         useMaxAvailableHeight={false}
         bodyWithoutPadding
         openByDefault
@@ -121,7 +126,7 @@ export default function AlertConfiguration({ alertConfig, applicationName = '', 
       </ExpandableLightCard>
 
       <ExpandableLightCard
-        title={t('in-applications:alert.advancedModeContainer.alertChannel.label')}
+        title={t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.label')}
         useMaxAvailableHeight={false}
         bodyWithoutPadding
         openByDefault
@@ -133,7 +138,7 @@ export default function AlertConfiguration({ alertConfig, applicationName = '', 
       </ExpandableLightCard>
 
       <ExpandableLightCard
-        title={t('in-applications:alert.titleAlertProperties')}
+        title={t('in-alerting:smartAlerts.applications.details.titleAlertProperties')}
         useMaxAvailableHeight={false}
         bodyWithoutPadding
         openByDefault
@@ -150,17 +155,13 @@ export default function AlertConfiguration({ alertConfig, applicationName = '', 
 
 AlertConfiguration.propTypes = {
   alertConfig: PropTypes.object.isRequired,
-  isGlobalSmartAlert: PropTypes.bool.isRequired,
-  applicationName: PropTypes.string.isRequired
+  isGlobalSmartAlert: PropTypes.bool
 };
 
 function getDescription(operator, message) {
   let description = getLogMessageRuleOperatorLabel(operator);
   if (operator !== operators.NOT_EMPTY) {
-    description = t('in-applications:alert.descriptionMessage', {
-      description: description,
-      message: message
-    });
+    description = `${description}: "${message}"`;
   }
   return description;
 }

@@ -18,7 +18,7 @@
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Please Confirm",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Are you sure you want to remove the <strong>\"alert {{alertConfigName}}\"</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remove",
-    "alertHeaderIsNotLatestRevisionMessage": "You are looking at revision {{alertRevision}} of this alert configuration. Please select the <latestRevisionButton>latest revision<latestRevisionButton> if you want to make changes.",
+    "alertHeaderIsNotLatestRevisionMessage": "You are looking at revision {{alertRevision}} of this alert configuration. Please select the <latestRevisionButton>latest revision</latestRevisionButton> if you want to make changes.",
     "alertHeaderThisConfigIsStoredWithQueryBuilder2Expressions": "This config is stored with Query Builder 2 expressions.",
     "alertHeaderYouCanOnlyStartOrPause": "You can only start or pause, but not edit those configurations when in Query Builder 1 mode",
     "alertHistoryListTitle": "Alerts Created",
@@ -91,6 +91,7 @@
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
     "applications": {
       "newGlobalAlert": "Global Smart Alert",
+      "alertConfiguration": "Alert Configuration",
       "advanced": {
         "alertPropertyInsertPlaceholderLabel": "Insert placeholder",
         "evaluationSwitch": {
@@ -470,6 +471,10 @@
         "labelRemove": "Remove",
         "numberOfApplicationsSelected": "{{count}} application selected",
         "numberOfApplicationsSelected_plural": "{{count}} applications selected"
+      },
+      "details": {
+        "title": "Alert Details",
+        "titleAlertProperties": "Alert Properties"
       }
     },
     "form": {

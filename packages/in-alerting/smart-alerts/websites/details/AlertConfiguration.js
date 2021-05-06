@@ -15,6 +15,7 @@ import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/components/Aler
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
+import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
@@ -28,15 +29,17 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/share
 
 const initialChartConfigIndex = 0;
 
-export default function AlertConfiguration({ alertConfig, websiteLabel }) {
-  const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-
+export default function AlertConfiguration({ alertConfig }) {
   const {
     rule: { operator, value, alertType },
     timeThreshold,
     alertChannelIds,
-    tagFilterExpression
+    tagFilterExpression,
+    websiteId
   } = alertConfig;
+
+  const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
+  const websiteLabel = useWebsiteLabel(websiteId);
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
@@ -138,8 +141,7 @@ export default function AlertConfiguration({ alertConfig, websiteLabel }) {
 }
 
 AlertConfiguration.propTypes = {
-  alertConfig: PropTypes.object.isRequired,
-  websiteLabel: PropTypes.string.isRequired
+  alertConfig: PropTypes.object.isRequired
 };
 
 function getDescription(operator, value) {
