@@ -39,6 +39,8 @@ import locals from './Cockpit.mless';
 
 const settingsKey = 'cockpit_widget_ordering';
 
+const itemIds = [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }];
+
 const LUT = {
   '1': WebsitesAndMobileTopList,
   '2': ApplicationsTopList,
@@ -254,9 +256,17 @@ function renderButtonLine() {
 
 function getOrderedItems(settings) {
   const orderingFromSettings = settings[settingsKey];
-  return orderingFromSettings
-    ? orderingFromSettings.ordering
-    : [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }, { id: '5' }];
+  if (orderingFromSettings) {
+    const result = orderingFromSettings.ordering;
+    itemIds.forEach(item => {
+      if (!result.find(r => r.id === item.id)) {
+        result.push(item);
+      }
+    });
+    return orderingFromSettings.ordering;
+  }
+
+  return itemIds;
 }
 
 function filterItems(orderedItems) {
