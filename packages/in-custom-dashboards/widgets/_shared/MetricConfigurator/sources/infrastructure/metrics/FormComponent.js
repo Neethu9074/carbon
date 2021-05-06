@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
@@ -36,7 +37,8 @@ export default function FormComponent({
   labelSection,
   formatterSection,
   timeShiftConfiguration,
-  withGrouping = true
+  withGrouping = true,
+  maxGrouping = 50
 }) {
   const typeField = form.get('type');
   const metricField = form.get('metric');
@@ -44,7 +46,8 @@ export default function FormComponent({
   const tagFilterExpressionField = form.get('tagFilterExpression');
   const groupingField = form.get('grouping');
   const grouping = getGrouping(form);
-  const onDirectionChange = direction => onChangeGrouping(onChange, { ...grouping, direction });
+  const onDirectionChange = (direction, maxResults) =>
+    onChangeGrouping(onChange, { ...grouping, direction, maxResults });
   const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers });
 
   const tagCatalogResult = useObservable(getTagCatalog, []) ?? pendingResult;
@@ -125,6 +128,7 @@ export default function FormComponent({
         additionalContent={<TouchedMessages field={groupingField} />}
         withOptionalMarker={!isRequiringGroupingConfiguration(form)}
         hideIncludeOthersToggle
+        maxGrouping={maxGrouping}
       />
 
       {timeShiftConfiguration}

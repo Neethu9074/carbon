@@ -40,7 +40,8 @@ export default function FormComponent({
   labelSection,
   formatterSection,
   timeShiftConfiguration,
-  withGrouping = true
+  withGrouping = true,
+  maxGrouping = 20
 }) {
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
@@ -94,7 +95,8 @@ export default function FormComponent({
   const grouping = groupingField?.get(0)?.toJS();
 
   const onByChange = by => onChangeGrouping(onChange, { ...grouping, by });
-  const onDirectionChange = direction => onChangeGrouping(onChange, { ...grouping, direction });
+  const onDirectionChange = (direction, maxResults) =>
+    onChangeGrouping(onChange, { ...grouping, direction, maxResults });
   const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers });
   const aggregators = getAggregations(metricField.value);
   const isSingleAggregator = aggregators?.length < 2;
@@ -220,6 +222,7 @@ export default function FormComponent({
         hasError={groupingField ? groupingField.touched && !groupingField.valid : false}
         additionalContent={<TouchedMessages field={groupingField} />}
         withOptionalMarker={!isRequiringGroupingConfiguration(form)}
+        maxGrouping={maxGrouping}
       />
 
       {timeShiftConfiguration}

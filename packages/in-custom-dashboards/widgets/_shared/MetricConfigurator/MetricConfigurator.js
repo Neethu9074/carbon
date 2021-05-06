@@ -26,7 +26,8 @@ export default function MetricConfigurator({
   disabledDataSources = emptyArray,
   axisForm,
   axisName,
-  withGrouping = true
+  withGrouping = true,
+  maxGrouping
 }) {
   const sourceField = form.get('source');
 
@@ -90,6 +91,7 @@ export default function MetricConfigurator({
         axisForm={axisForm}
         axisName={axisName}
         withGrouping={withGrouping}
+        maxGrouping={maxGrouping}
       />
     );
   }

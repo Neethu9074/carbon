@@ -109,8 +109,8 @@
   "widgets": {
     "metricConfig": {
       "groupingConfig": {
-        "top5": "前 5 名",
-        "bottom5": "末 5 名",
+        "top": "前 {{number}} 名",
+        "bottom": "末 {{number}} 名",
         "showRemainingGroupsAggregOther": "顯示聚集成「其他」的其餘群組。"
       },
       "hiddenCalls": {

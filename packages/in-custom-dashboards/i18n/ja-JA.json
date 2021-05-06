@@ -109,8 +109,8 @@
   "widgets": {
     "metricConfig": {
       "groupingConfig": {
-        "top5": "上位 5 件",
-        "bottom5": "下位 5 件",
+        "top": "上位 {{number}} 件",
+        "bottom": "下位 {{number}} 件",
         "showRemainingGroupsAggregOther": "「その他」として集約された残りのグループを表示"
       },
       "hiddenCalls": {
