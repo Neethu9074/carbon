@@ -17,9 +17,9 @@ import {
   modeEventTypes,
   modeSelectedEvents
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step2';
-import getEventsInTimeframeSubscription from 'in-subscription/getEventsInTimeframeBothModes';
 import { combinedValidationResults, valid } from 'in-settings/validation';
-import { alwaysEmptyArray } from 'in-services/fixedStreams';
+import getRawEvents from 'in-subscription/getRawEvents';
+import { alwaysNull } from 'in-services/fixedStreams';
 import { isBlank } from 'in-services/util/string';
 import { validate } from 'in-api/search';
 import { days } from 'in-services/time';
@@ -81,7 +81,7 @@ export default class FormDataEnrichment extends React.Component {
           searchFn = searchWithSelectedEvents;
           eventParam = selectedEvents;
         } else {
-          return alwaysEmptyArray;
+          return alwaysNull;
         }
 
         let queryForSearch;
@@ -92,13 +92,13 @@ export default class FormDataEnrichment extends React.Component {
         } else if (applyOn === scopeEverything) {
           queryForSearch = '';
         } else {
-          return alwaysEmptyArray;
+          return alwaysNull;
         }
 
         return searchFn(timeOpened, eventParam, queryForSearch);
       })
-      .subscribe(events => {
-        this.props.onChange('matchingEntities', events ? events.length : events);
+      .subscribe(result => {
+        this.props.onChange('matchingEntities', result && result.data ? result.data.totalHits : result);
         this.props.onChange('matchingEntitiesQueryInProgress', false);
       });
   }
@@ -191,13 +191,22 @@ function search(timeOpened, query, additionalQueryPart) {
   } else {
     query = additionalQueryPart;
   }
-  return getEventsInTimeframeSubscription({
+  return getRawEvents({
     timeConfig: {
       focusedMoment: timeOpened,
       to: timeOpened,
       windowSize: days.toMillis(14)
     },
-    query
+    query,
+    pagination: {
+      //we are only interested in the total count, so a page size of 1 is enough
+      retrievalSize: 1
+    },
+    // order doesn't matter, but we must define it to avoid NPEs
+    order: {
+      by: 'start',
+      direction: 'DESC'
+    }
   });
 }
 
