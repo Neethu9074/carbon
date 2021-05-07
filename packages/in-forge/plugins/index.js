@@ -67,6 +67,7 @@ import './googleCloudStorage';
 import './kafkaConnectWorker';
 import './phpRuntimePlatform';
 import './postgreSqlDatabase';
+import './ibmCloudPostgreSql';
 import './ibmCloudFunctions';
 import './awsLambdaFunction';
 import './clickHouseCluster';
