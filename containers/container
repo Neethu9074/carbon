@@ -1,4 +1,6 @@
-FROM containers.instana.io/instana/product/nodejs:0.0.6
+ARG base_version
+
+FROM containers.instana.io/instana/product/nodejs:${base_version}
 
 ADD build/ /
 

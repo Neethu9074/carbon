@@ -88,11 +88,15 @@ function _extract_component_tar_gz {
   fi
 }
 
+function _get_base_version {
+  source "${SCRIPTPATH}/base-version.sh"
+}
+
 function _install_production_binaries {
   _log_info "Installing production binaries"
 
   # Get nodejs using the same version as ../container
-  docker create -t --name tmp-nodejs containers.instana.io/instana/product/nodejs:0.0.6
+  docker create -t --name tmp-nodejs containers.instana.io/instana/product/nodejs:${BASE_VERSION}
   docker cp tmp-nodejs:/opt/instana/nodejs "${OPT_INSTANA_DIR}"
   docker rm -f tmp-nodejs
 
@@ -126,11 +130,13 @@ function build_image {
   _get_run_sh
   _get_component_tar_gz
   _extract_component_tar_gz
+  _get_base_version
   _install_production_binaries
   _docker_login
 
   TAG=$1
   docker build \
+    --build-arg base_version=${BASE_VERSION} \
     --build-arg component_name=${COMPONENT_NAME} \
     --build-arg version=${CONTAINER_VERSION} \
     --build-arg iteration=${ITERATION} \
