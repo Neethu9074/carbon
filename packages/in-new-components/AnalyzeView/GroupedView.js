@@ -30,6 +30,7 @@ import { BOOLEAN, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilte
 import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
 import { EQUALS, NOT_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import FacetedSearch from 'in-new-components/AnalyzeView/FacetedSearch';
@@ -469,12 +470,18 @@ function metricColumns({ columnDefinitions, fields, groupedViewConfiguration, me
           return groupedViewConfiguration.customFieldRenderingInstructions[field.customFieldId];
         }
 
+        const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metricId);
+        // The width of metric values rendered using NUMBER formatter can vary significantly which may
+        // break column alignment, use more dense SI prefix based formatter instead.
+        const formatter =
+          metricDefinition?.formatter === 'NUMBER'
+            ? withSiPrefixOneDecimalPlace
+            : getFormatter(metricDefinition?.formatter);
         return {
           shrink: false,
           width: '16rem',
           minWidth: '9rem',
           getContent({ item: { metrics }, timeConfig, progress, sparkChartGranularity }) {
-            const metricDefinition = metricCatalog.find(({ metricId }) => metricId === field.metricId);
             return (
               <div className={locals.sparkChartWrapper}>
                 <SparkChart
@@ -484,7 +491,7 @@ function metricColumns({ columnDefinitions, fields, groupedViewConfiguration, me
                   aggregation={field.aggregationId}
                   metrics={metrics[getSparkChartTimeSeriesMetricId(field)]}
                   metric={metrics[getSingleNumberMetricId(field)]}
-                  tooltipFormatter={getFormatter(metricDefinition?.formatter)}
+                  tooltipFormatter={formatter}
                   label={metricDefinition?.label ?? field.metricId}
                   valueTheme="blue"
                 />
