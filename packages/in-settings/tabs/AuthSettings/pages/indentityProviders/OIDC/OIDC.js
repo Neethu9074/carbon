@@ -210,7 +210,7 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
                   icon="lib_views_file"
                   onClick={() => {
                     input.type = 'file';
-                    input.accept = 'text/xml';
+                    input.accept = 'application/json';
                     input.click();
                   }}
                 >
