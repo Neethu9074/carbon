@@ -21,6 +21,10 @@ import {
   alertsList
 } from 'in-applications/navigation/paths';
 
+const timeConfig = {
+  windowSize: 123
+};
+
 describe('Alert Details', () => {
   const globalAlertConfigFunctions = {
     getGlobalAlertConfigByIdAndTimestamp: sinon.fake(),
@@ -47,7 +51,7 @@ describe('Alert Details', () => {
       }
     };
 
-    const wrapper = shallow(<AlertDetails location={location} />);
+    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />);
 
     expect(wrapper.find('GlobalAlertDetails')).to.have.lengthOf(1);
   });
@@ -62,7 +66,7 @@ describe('Alert Details', () => {
       }
     };
 
-    const wrapper = shallow(<AlertDetails location={location} />);
+    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />);
 
     expect(wrapper.find('IndividiualAlertDetails')).to.have.lengthOf(1);
   });
@@ -73,7 +77,7 @@ describe('Alert Details', () => {
       matrix: {}
     };
 
-    const wrapper = shallow(<AlertDetails location={location} />);
+    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />);
 
     expect(wrapper.find('IndividiualAlertDetails')).to.have.lengthOf(1);
   });
@@ -88,7 +92,7 @@ describe('Alert Details', () => {
       }
     };
 
-    const wrapper = shallow(<AlertDetails location={location} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
     const timestamp = Date.now();
 
     const actualGetConfig = wrapper.prop('getConfig');
@@ -109,7 +113,7 @@ describe('Alert Details', () => {
       }
     };
 
-    const wrapper = shallow(<AlertDetails location={location} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
     const actualGetConfig = wrapper.prop('getConfig');
     actualGetConfig('123');
 
@@ -123,7 +127,7 @@ describe('Alert Details', () => {
       matrix: {}
     };
 
-    const wrapper = shallow(<AlertDetails location={location} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
     const actualGetConfig = wrapper.prop('getConfig');
     const timeconfig = Date.now();
     actualGetConfig('123', timeconfig);
@@ -139,7 +143,7 @@ describe('Alert Details', () => {
       matrix: {}
     };
 
-    const wrapper = shallow(<AlertDetails location={location} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
     const actualGetConfig = wrapper.prop('getConfig');
     actualGetConfig('123');
 
@@ -153,7 +157,7 @@ describe('Alert Details', () => {
       matrix: {}
     };
 
-    const wrapper = shallow(<AlertDetails location={location} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
 
     const actualDetailsPath = wrapper.prop('paths').detailsPath;
     expect(actualDetailsPath).to.be.equal(alertsTabDetailsFullyQualified);
@@ -165,7 +169,7 @@ describe('Alert Details', () => {
       matrix: {}
     };
 
-    const wrapper = shallow(<AlertDetails location={location} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
 
     const actualDetailsPath = wrapper.prop('paths').detailsPath;
     expect(actualDetailsPath).to.be.equal(globalAlertDetails);
@@ -177,7 +181,7 @@ describe('Alert Details', () => {
       matrix: {}
     };
 
-    const wrapper = shallow(<AlertDetails location={location} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
 
     const actualListPath = wrapper.prop('paths').listPath;
     expect(actualListPath).to.be.equal(alertsTabListFullyQualified);
@@ -189,7 +193,7 @@ describe('Alert Details', () => {
       matrix: {}
     };
 
-    const wrapper = shallow(<AlertDetails location={location} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
 
     const actualListPath = wrapper.prop('paths').listPath;
     expect(actualListPath).to.be.equal(alertsList);
