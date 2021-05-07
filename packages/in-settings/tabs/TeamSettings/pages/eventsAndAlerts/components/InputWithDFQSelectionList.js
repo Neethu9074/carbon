@@ -4,12 +4,12 @@
  */
 
 import { compose, withState, setPropTypes, withHandlers, withProps } from 'recompose';
+import ClickAwayListener from 'react-click-away-listener';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import RootCloseWrapper from 'in-new-components/overlays/RootCloseWrapper';
 import { getAllFilters } from 'in-api/filters';
 import Input from 'in-components/form/Input';
 import StoredFilters from './StoredFilters';
@@ -65,9 +65,9 @@ function InputWithSelectionList({
         />
       </div>
       {listVisible && (
-        <RootCloseWrapper onRootClose={onCloseList} event="click">
+        <ClickAwayListener onClickAway={onCloseList}>
           <StoredFilters filters={filters && filters.toArray()} onSelect={e => handleSelect(e)} above={positionAbove} />
-        </RootCloseWrapper>
+        </ClickAwayListener>
       )}
     </div>
   );
