@@ -16,7 +16,7 @@ import locals from './FloatingActionButton.mless';
 /* same scheme as used for IconButtons */
 export const kinds = ['primaryv2', 'action'];
 
-function FloatingActionButton({ children, iconType, onClick, withBoxShadow, kind = 'primaryv2' }, ref) {
+function FloatingActionButton({ children, icon, onClick, withBoxShadow, kind = 'primaryv2' }, ref) {
   return (
     <button
       ref={ref}
@@ -24,18 +24,18 @@ function FloatingActionButton({ children, iconType, onClick, withBoxShadow, kind
         [locals.button]: true,
         [locals.withShadow]: withBoxShadow,
         [locals[kind]]: true,
-        [locals.hasIcon]: !!iconType
+        [locals.hasIcon]: !!icon
       })}
       onClick={e => (onClick ? onClick(e) : stopPropagationAndPreventDefault(e))}
     >
       <div className={locals.inner}>
-        {iconType && (
+        {icon && (
           <SvgIcon
             className={classNames({
               [locals.iconHasMargin]: !!children,
-              [locals.icon]: !!iconType
+              [locals.icon]: !!icon
             })}
-            type={iconType}
+            type={icon}
           />
         )}
         <div className={locals.label}>{children}</div>
@@ -48,7 +48,7 @@ export default forwardRef(FloatingActionButton);
 
 FloatingActionButton.propTypes = {
   children: PropTypes.node.isRequired,
-  iconType: PropTypes.string,
+  icon: PropTypes.string,
   onClick: PropTypes.func,
   kind: PropTypes.oneOf(kinds),
   withBoxShadow: PropTypes.bool

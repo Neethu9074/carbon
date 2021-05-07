@@ -70,7 +70,7 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
   return (
     <>
       <FloatingActionButton
-        iconType="lib_alerts_create"
+        icon="lib_alerts_create"
         onClick={() => {
           addActiveDialog(
             <AlertConfigDialog

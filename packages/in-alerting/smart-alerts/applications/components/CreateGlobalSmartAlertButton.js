@@ -23,30 +23,34 @@ export default function CreateGlobalSmartAlertButton({ renderAsSimpleButton, loc
     return null;
   }
 
-  const Component = renderAsSimpleButton ? Button : FloatingActionButton;
+  const buttonProps = {
+    icon: 'lib_alerts_create',
+    kind: 'primaryv2',
+    onClick() {
+      addActiveDialog(
+        <SmartAlertConfigDialogWrapper
+          isGlobalSmartAlert
+          formData={generateFormData()}
+          onClose={() => {
+            close();
+            if (location?.pathname === '/application/alerts' || location?.pathname === '/alerts') {
+              refreshSmartAlertConfigsList();
+            }
+          }}
+        />
+      );
+      applicationsAlertingAddAlert(location?.pathname, 'global');
+    }
+  };
+
+  let Component = Button;
+  if (!renderAsSimpleButton) {
+    Component = FloatingActionButton;
+    buttonProps.withBoxShadow = true;
+  }
 
   return (
-    <Component
-      icon="lib_alerts_create"
-      iconType="lib_alerts_create"
-      kind="primaryv2"
-      onClick={() => {
-        addActiveDialog(
-          <SmartAlertConfigDialogWrapper
-            isGlobalSmartAlert
-            formData={generateFormData()}
-            onClose={() => {
-              close();
-              if (location?.pathname === '/application/alerts' || location?.pathname === '/alerts') {
-                refreshSmartAlertConfigsList();
-              }
-            }}
-          />
-        );
-        applicationsAlertingAddAlert(location?.pathname, 'global');
-      }}
-      withBoxShadow
-    >
+    <Component {...buttonProps}>
       {t('in-alerting:smartAlerts.applications.components.createGlobalSmartAlert')}
     </Component>
   );

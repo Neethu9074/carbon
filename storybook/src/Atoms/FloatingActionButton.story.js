@@ -28,17 +28,17 @@ export const WithShadow = () => {
 };
 
 export const WithIconAndText = () => (
-  <FloatingActionButton iconType="lib_alerts_create" onClick={onClick}>
+  <FloatingActionButton icon="lib_alerts_create" onClick={onClick}>
     Button Rounded with icon
   </FloatingActionButton>
 );
 
 export const AllKinds = () => (
   <>
-    <FloatingActionButton iconType="lib_alerts_create" onClick={onClick} kind={'primaryv2'}>
+    <FloatingActionButton icon="lib_alerts_create" onClick={onClick} kind={'primaryv2'}>
       Primaryv2
     </FloatingActionButton>
-    <FloatingActionButton iconType="lib_alerts_create" onClick={onClick} kind={'action'}>
+    <FloatingActionButton icon="lib_alerts_create" onClick={onClick} kind={'action'}>
       Action
     </FloatingActionButton>
   </>

@@ -36,7 +36,7 @@ export default function CreateSmartAlert({
 
   return (
     <FloatingActionButton
-      iconType="lib_alerts_create"
+      icon="lib_alerts_create"
       onClick={() => {
         addActiveDialog(
           <SmartAlertConfigDialogWrapper
