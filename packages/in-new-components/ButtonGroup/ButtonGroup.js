@@ -10,28 +10,23 @@ import { Button } from '@instana/components';
 
 import locals from './ButtonGroup.mless';
 
-export default function ButtonGroup(props) {
-  const { buttonPropsList, activeKey, segmented } = props;
-
+export default function ButtonGroup({ buttonPropsList, activeKey, segmented, className, ...remainingProps }) {
   return (
     <div
-      className={classNames({
-        [locals.buttonGroup]: true,
-        [props.className]: props.className
+      className={classNames(className, {
+        [locals.buttonGroup]: true
       })}
     >
       {buttonPropsList.map((buttonProps, i) => (
         <Button
           key={buttonProps.key}
-          {...props}
           {...buttonProps}
-          className={classNames({
-            [locals.button]: true,
+          {...remainingProps}
+          className={classNames(buttonProps.className, locals.button, {
             [locals.segmented]: segmented,
             [locals.first]: i === 0,
             [locals.last]: i === buttonPropsList.length - 1,
-            [locals.active]: activeKey === buttonProps.key,
-            [buttonProps.className]: buttonProps.className
+            [locals.active]: activeKey === buttonProps.key
           })}
         >
           {buttonProps.text}

@@ -12,19 +12,20 @@ import DropdownButton from 'in-new-components/Button/DropdownButton';
 
 import locals from './DashboardHeaderButton.mless';
 
-export default forwardRef(function DashboardHeaderButton(props, ref) {
-  const { darkTheme, expanded, className, size = 'xl' } = props;
+export default forwardRef(function DashboardHeaderButton(
+  { darkTheme, expanded, className, size = 'xl', ...buttonProps },
+  ref
+) {
   const Component = expanded != null ? DropdownButton : Button;
 
   return (
     <Component
-      {...props}
+      {...buttonProps}
       kind={darkTheme ? 'info' : 'secondary'}
       size={size}
-      className={classNames({
+      className={classNames(className, {
         [locals.light]: !darkTheme,
-        [locals.dark]: darkTheme,
-        [className]: className
+        [locals.dark]: darkTheme
       })}
       ref={ref}
     />

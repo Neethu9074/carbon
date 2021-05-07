@@ -12,16 +12,19 @@ import { Button } from '@instana/components';
 
 import locals from './DropdownButton.mless';
 
-const DropdownButton = React.forwardRef(function DropdownButton(props, ref) {
+const DropdownButton = React.forwardRef(function DropdownButton(
+  { children, expanded, size, className, ...buttonProps },
+  ref
+) {
   return (
-    <Button {...props} ref={ref} className={classNames(props.className, locals.dropdownButton)}>
+    <Button {...buttonProps} size={size} ref={ref} className={classNames(className, locals.dropdownButton)}>
       {/* Group into one flexbox item */}
-      <span>{props.children}</span>
+      <span>{children}</span>
 
       <SvgIcon
-        type={props.expanded ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
+        type={expanded ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'}
         className={classNames(locals.dropdownButtonIndicator, {
-          [`icon-${props.size}`]: props.size
+          [`icon-${size}`]: size
         })}
       />
     </Button>
