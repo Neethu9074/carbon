@@ -137,7 +137,8 @@ function startDevProxy(cb) {
     tlsCertificateFile: path.join(__dirname, '..', 'cert', 'server.crt'),
     tlsCertificateKeyFile: path.join(__dirname, '..', 'cert', 'server.key'),
     proxy: httpProxy,
-    websocketProxy
+    websocketProxy,
+    proxyReadTimeout: '90s'
   };
 
   buildUtil.startProxrox(config);
