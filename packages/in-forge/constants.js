@@ -113,6 +113,7 @@ export const nonServicePlugins = {
   ibmCloudIsLoadBalancer: 'ibmCloudIsLoadBalancer',
   ibmCloudLoadBalancer: 'ibmCloudLoadBalancer',
   ibmCloudPostgreSql: 'ibmCloudPostgreSql',
+  ibmCloudRedis: 'ibmCloudRedis',
   ibmCos: 'ibmCos',
   ibmDataPowerCluster: 'ibmDataPowerCluster',
   ibmDataPowerAppliance: 'ibmDataPowerAppliance',
@@ -352,6 +353,7 @@ export const fullyQualifiedPlugins = {
   ibmCloudIsLoadBalancer: 'com.instana.forge.infrastructure.loadbalancer.ibmcloud.loadbalancer.IbmCloudIsLoadBalancer',
   ibmCloudLoadBalancer: 'com.instana.forge.infrastructure.loadbalancer.ibmcloud.loadbalancer.IbmCloudLoadBalancer',
   ibmCloudPostgreSql: 'com.instana.forge.infrastructure.database.ibmcloud.postgres.IbmCloudPostgreSql',
+  ibmCloudRedis: 'com.instana.forge.infrastructure.cache.ibmcloud.redis.IbmCloudRedis',
   ibmCos: 'com.instana.forge.hardware.virtual.ibm.cos.IbmCos',
   ibmDataPowerCluster: 'com.instana.forge.infrastructure.messaging.ibmdatapower.IbmDataPowerCluster',
   ibmDataPowerAppliance:

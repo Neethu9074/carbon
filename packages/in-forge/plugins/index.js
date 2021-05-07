@@ -128,6 +128,7 @@ import './msSqlDatabase';
 import './mySqlDatabase';
 import './natsStreaming';
 import './pingDirectory';
+import './ibmCloudRedis';
 import './ibmCloudEtcd';
 import './awsBeanstalk';
 import './awsMskBroker';

@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import {
   alertsList,

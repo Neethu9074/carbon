@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createLogger } from '@instana/logger';
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+
+import { createLogger } from '@instana/logger';
 
 import {
   applicationsAlertingAlertCreated,
