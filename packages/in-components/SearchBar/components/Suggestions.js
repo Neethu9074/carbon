@@ -4,6 +4,7 @@
  */
 
 import classNames from 'classnames';
+import { isEqual } from 'lodash';
 import React from 'react';
 
 import {
@@ -36,14 +37,16 @@ export default class extends React.Component {
     this.setupSubscriptions();
   }
 
-  UNSAFE_componentWillUpdate(nextProps) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     // jump to first entry if the list changes
-    if (this.props.config !== nextProps.config) {
-      this.setState({
+    const availableChildren = getChildrenForConfig(nextProps.searchContext, nextProps.config);
+    if (!isEqual(prevState.availableChildren, availableChildren)) {
+      return {
         currentHighlightedRowIndex: 0,
-        availableChildren: getChildrenForConfig(this.props.searchContext, nextProps.config)
-      });
+        availableChildren
+      };
     }
+    return null;
   }
 
   componentWillunmount = () => {
