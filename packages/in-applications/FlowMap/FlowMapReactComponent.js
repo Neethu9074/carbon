@@ -26,34 +26,35 @@ export default getElementDimensions(
       }
     }
 
-    UNSAFE_componentWillUpdate(nextProps) {
-      if (this.props.flowMapState && !nextProps.flowMapState) {
+    componentDidUpdate(prevProps) {
+      const currentProps = this.props;
+      if (prevProps.flowMapState && !currentProps.flowMapState) {
         this.disposeFlowMapIfPresent();
-      } else if (!this.props.flowMapState && nextProps.flowMapState) {
+      } else if (!prevProps.flowMapState && currentProps.flowMapState) {
         if (!this.flowMap) {
-          this.initFlowMap(nextProps);
+          this.initFlowMap(currentProps);
         }
         if (this.flowMap) {
-          this.flowMap.updateState(nextProps.flowMapState);
+          this.flowMap.updateState(currentProps.flowMapState);
         }
       } else {
-        const flowMapStateHasChanged = this.props.flowMapStateVersion !== nextProps.flowMapStateVersion;
+        const flowMapStateHasChanged = prevProps.flowMapStateVersion !== currentProps.flowMapStateVersion;
         if (flowMapStateHasChanged) {
           if (!this.flowMap) {
-            this.initFlowMap(nextProps);
+            this.initFlowMap(currentProps);
           }
           if (this.flowMap) {
-            this.flowMap.updateState(nextProps.flowMapState);
+            this.flowMap.updateState(currentProps.flowMapState);
           }
         }
       }
       if (
-        this.props.width !== nextProps.width ||
-        this.props.height !== nextProps.height ||
-        this.props.customHeight !== nextProps.customHeight
+        prevProps.width !== currentProps.width ||
+        prevProps.height !== currentProps.height ||
+        prevProps.customHeight !== currentProps.customHeight
       ) {
         if (this.flowMap) {
-          this.flowMap.setSize(nextProps.width, nextProps.customHeight || nextProps.height);
+          this.flowMap.setSize(currentProps.width, currentProps.customHeight || currentProps.height);
         }
       }
     }
