@@ -9,7 +9,6 @@
   "cfApplicationsWithCount_1": "CF Applications ({{count}})",
   "cfApplicationsWithCount_2": "CF Applications ({{count}})",
   "dashboards": {
-    "cfApplication": "CF Application",
     "cloudFoundryApplication": "Cloud Foundry Application",
     "name": "Name",
     "instanceIndex": "Instance Index",
@@ -38,7 +37,6 @@
   "routes": "Routes",
   "health": "Health",
   "cloudFoundryApplications": "Cloud Foundry Applications",
-  "cfApplications": "CF Applications",
   "noMonitoringDataFound": "No Monitoring Data Found",
   "cloudfoundry": {
     "noData": "Application perspectives provide a means to model environments, sets of services, tenants, or just about anything."

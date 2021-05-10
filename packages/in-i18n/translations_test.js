@@ -6,7 +6,7 @@
 /* eslint-env node, mocha */
 
 const { Parser } = require('i18next-scanner');
-const { get } = require('lodash');
+const { difference, get, unset } = require('lodash');
 const path = require('path');
 const glob = require('glob');
 const fs = require('fs');
@@ -18,23 +18,19 @@ const DEFAULT_NAMESPACE = 'in-i18n';
 describe('in-i18n/translations', function() {
   this.timeout(1000 * 60);
 
+  const i18nKeys = getAllI18nKeys();
+
   it('must have a translation for each translation key in en-US', () => {
-    const i18nKeys = getAllI18nKeys();
     const languages = getAllLanguages();
     const findings = [];
 
     for (let i = 0; i < i18nKeys.length; i++) {
       const i18nKey = i18nKeys[i];
 
-      let namespace = DEFAULT_NAMESPACE;
-      let propPath = i18nKey;
-      if (i18nKey.includes(':')) {
-        const index = i18nKey.match(':').index;
-        namespace = i18nKey.slice(0, index);
-        propPath = i18nKey.slice(index + 1);
-      }
+      const { namespace, propPath } = extractNameSpaceAndPropPath(i18nKey);
 
       const languageFile = languages.get(namespace);
+
       if (!languageFile || typeof get(languageFile, propPath.split('.')) !== 'string') {
         findings.push(i18nKey);
       }
@@ -46,16 +42,83 @@ describe('in-i18n/translations', function() {
       );
     }
   });
+
+  it('Each translation key in en-US file is being used', () => {
+    const namespaceKeysMappingFromI18nKeys = new Map();
+    const namespaceKeysMappingFromLanguageFile = new Map();
+
+    const { languagesMap, nestedKeysMap } = getLanguagesAndNestedKeys();
+
+    for (const [namespace, languageFile] of languagesMap.entries()) {
+      namespaceKeysMappingFromLanguageFile.set(namespace, languageFileToKeyList(languageFile));
+    }
+
+    for (const i18nKey of i18nKeys) {
+      const { namespace, propPath } = extractNameSpaceAndPropPath(i18nKey);
+      const existingKeysForNameSpace = namespaceKeysMappingFromI18nKeys.get(namespace) || [];
+
+      namespaceKeysMappingFromI18nKeys.set(namespace, [...existingKeysForNameSpace, propPath]);
+    }
+
+    const unusedKeyMap = [...namespaceKeysMappingFromLanguageFile].reduce(
+      (result, [namespace, keysFromLanguageFile]) => {
+        const usedTranslationKeys = namespaceKeysMappingFromI18nKeys.get(namespace) || [];
+        const nestedKeys = nestedKeysMap.get(namespace) || [];
+        const unusedKey = difference(keysFromLanguageFile, usedTranslationKeys, nestedKeys);
+
+        return unusedKey.length > 0 ? result.set(namespace, unusedKey) : result;
+      },
+      new Map()
+    );
+
+    if (unusedKeyMap.size > 0) {
+      const keysAsString = JSON.stringify(Object.fromEntries(unusedKeyMap), null, 2);
+
+      throw new Error(
+        `The following keys from the translation file are not being used in the respective js file(s):\n${keysAsString}`
+      );
+    }
+  });
 });
+
+function extractNameSpaceAndPropPath(i18nKey) {
+  let namespace = DEFAULT_NAMESPACE;
+  let propPath = i18nKey;
+
+  if (i18nKey.includes(':')) {
+    const index = i18nKey.match(':').index;
+
+    namespace = i18nKey.slice(0, index);
+    propPath = i18nKey.slice(index + 1);
+  }
+
+  return { namespace, propPath };
+}
+
+function languageFileToKeyList(languageFile) {
+  const isObject = val => typeof val === 'object' && !Array.isArray(val);
+
+  const i18KeyList = (languageFile = {}, head = '') => {
+    return Object.entries(languageFile).reduce((result, [key, value]) => {
+      const fullPath = head ? `${head}.${key}` : key;
+
+      return isObject(value) ? result.concat(i18KeyList(value, fullPath)) : result.concat(fullPath);
+    }, []);
+  };
+
+  return i18KeyList(languageFile);
+}
 
 function getAllI18nKeys() {
   const parser = new Parser({});
   const keys = new Set();
 
   const files = getAllFiles('*.js').filter(file => !file.endsWith('_test.js'));
+
   for (let i = 0; i < files.length; i++) {
     const filePath = files[i];
     const content = fs.readFileSync(filePath, { encoding: 'utf8' });
+
     parser.parseFuncFromString(content, { list: ['t'] }, key => keys.add(key));
     parser.parseTransFromString(content, key => keys.add(key));
   }
@@ -66,6 +129,7 @@ function getAllI18nKeys() {
 function getAllLanguages() {
   const languagesMap = new Map();
   const files = getAllFiles('en-US.json');
+
   for (let i = 0; i < files.length; i++) {
     const filePath = files[i];
     const content = fs.readFileSync(filePath, { encoding: 'utf8' });
@@ -74,8 +138,10 @@ function getAllLanguages() {
 
     const jsonTree = JSON.parse(content);
     clearUpContextKeys(jsonTree);
+
     languagesMap.set(namespace, jsonTree);
   }
+
   return languagesMap;
 }
 
@@ -87,16 +153,84 @@ function getAllFiles(filePattern) {
 
 function clearUpContextKeys(jsonTree) {
   const keys = Object.keys(jsonTree);
+
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
     const value = jsonTree[key];
+
     if (typeof value === 'string') {
       const parts = key.split('_');
-      if (parts.length === 2) {
+
+      if (parts.length >= 2) {
         jsonTree[parts[0]] = jsonTree[key];
       }
     } else {
       clearUpContextKeys(value);
+    }
+  }
+}
+
+function getLanguagesAndNestedKeys() {
+  const languagesMap = new Map();
+  const nestedKeysMap = new Map();
+  const files = getAllFiles('en-US.json');
+
+  for (const filePath of files) {
+    const content = fs.readFileSync(filePath, { encoding: 'utf8' });
+    const pathInsidePackage = path.relative(path.join(__dirname, '..'), filePath);
+    const namespace = pathInsidePackage.slice(0, pathInsidePackage.match('/').index);
+
+    const jsonTree = JSON.parse(content);
+    ignorePluralsAndContext(jsonTree);
+
+    const nestedKeys = [];
+    updateNestedKeyReferences(jsonTree, nestedKeys);
+
+    if (nestedKeys.length) nestedKeysMap.set(namespace, nestedKeys);
+
+    languagesMap.set(namespace, jsonTree);
+  }
+
+  return { languagesMap, nestedKeysMap };
+}
+
+function updateNestedKeyReferences(jsonTree, nestedKeys) {
+  const keys = Object.keys(jsonTree);
+
+  for (const key of keys) {
+    const value = jsonTree[key];
+
+    if (typeof value === 'string') {
+      const nestedKeyUsage = /\$t\((?<i18nKey>[^,)]+)[,)]/g;
+
+      for (const nestedKey of value.matchAll(nestedKeyUsage)) {
+        const {
+          groups: { i18nKey }
+        } = nestedKey;
+        const { propPath } = extractNameSpaceAndPropPath(i18nKey);
+
+        nestedKeys.push(propPath);
+      }
+    } else {
+      updateNestedKeyReferences(value, nestedKeys);
+    }
+  }
+}
+
+function ignorePluralsAndContext(jsonTree) {
+  const keys = Object.keys(jsonTree);
+
+  for (const key of keys) {
+    const value = jsonTree[key];
+
+    if (typeof value === 'string') {
+      const parts = key.split('_');
+
+      if (parts.length >= 2) {
+        unset(jsonTree, key);
+      }
+    } else {
+      ignorePluralsAndContext(value);
     }
   }
 }

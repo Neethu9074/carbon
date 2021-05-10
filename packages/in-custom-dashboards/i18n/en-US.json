@@ -127,12 +127,6 @@
       },
       "index": {
         "applicationsTracesAndCalls": "Applications (Traces and Calls)"
-      },
-      "oldFormComponent": {
-        "metric": "Metric",
-        "pleaseSelect": "Please select",
-        "aggregation": "Aggregation",
-        "pleaseSelectMetric": "Please select a metric"
       }
     },
     "srcEvent": {
@@ -165,9 +159,7 @@
       "metricsFormComponent": {
         "metric": "Metric",
         "selectMetric": "Select metric",
-        "aggregation": "Aggregation",
-        "pleaseSelect": "Please select",
-        "pleaseSelectMetric": "Please select a metric"
+        "aggregation": "Aggregation"
       },
       "metricsLoadIndicator": {
         "loadingMetrics": "Loading metrics…"
@@ -191,14 +183,6 @@
       },
       "index": {
         "mobileAppsBeacon": "Mobile Apps (Beacons)"
-      },
-      "oldFormComp": {
-        "beaconType": "Beacon Type",
-        "pleaseSelect": "Please select",
-        "pleaseSelectDs": "Please select a data source",
-        "aggregation": "Aggregation",
-        "pleaseSelectMetric": "Please select a metric",
-        "metric": "Metric"
       }
     },
     "srcSli": {
@@ -227,14 +211,6 @@
       },
       "index": {
         "websitesBeacons": "Websites (Beacons)"
-      },
-      "oldFormComp": {
-        "beaconType": "Beacon Type",
-        "pleaseSelect": "Please select",
-        "selectDs": "Please select a data source",
-        "metric": "Metric",
-        "aggregation": "Aggregation",
-        "selectMetric": "Please select a metric"
       }
     },
     "metricConfigurator": {
@@ -294,9 +270,7 @@
         "lightBlue": "Light Blue",
         "green": "Green",
         "red": "Red",
-        "yellow": "Yellow",
         "orange": "Orange",
-        "blue": "Blue",
         "deepPurple": "Deep Purple",
         "cyan": "Cyan",
         "lime": "Lime",
@@ -432,7 +406,6 @@
         "sliCustomHelpAction": "Information about SLI customization and SLI types are located within our docs.",
         "sliTimeBasedOrAnEventBasedSli": "The SLI type must be either a time-based or an event-based SLI.",
         "pleaseSelect": "Please select",
-        "appPerspective": "Application Perspective",
         "boundary": "Boundary",
         "hiddenCalls": "Hidden Calls",
         "includeInternalCalls": "Include Internal Calls",

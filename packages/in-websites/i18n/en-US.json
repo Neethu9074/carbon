@@ -2,25 +2,13 @@
   "analyze": {
     "analyzeView": {
       "beacons": {
-        "perBeaconTypeConfigEventName": "Event Name",
-        "perBeaconTypeConfigWebsite": "Website",
-        "perBeaconTypeConfigLabelTimestamp": "Timestamp",
         "perBeaconTypeConfigEventTooltip": "This event was batched and represents {{batchSize}} individual events.",
-        "perBeaconTypeConfigErrorMessage": "Error Message",
         "perBeaconTypeConfigErrorTooltip": "This error was batched and represents {{batchSize}} individual events.",
-        "perBeaconTypeConfigAccess": "Access",
         "perBeaconTypeConfigHTTPRequestTooltip": "This HTTP request is batched and represents {{batchSize}} individual HTTP requests.",
-        "perBeaconTypeConfigPage": "Page",
         "perBeaconTypeConfigPageTransitionTooltip": "This page transition is batched and represents {{batchSize}} individual page transitions.",
-        "perBeaconTypeConfigPath": "Path",
         "perBeaconTypeConfigPageLoadTooltip": "This page load is batched and represents {{batchSize}} individual page loads.",
-        "perBeaconTypeConfigURI": "URI",
         "perBeaconTypeConfigResourceRetrievalsTooltip": "This resource retrievals is batched and represents {{batchSize}} individual resource retrievals."
       },
-      "metricsSelectorTitle": "Select Metrics",
-      "metricsSelectorHelp": "Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs.",
-      "noData": "No beacons available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
-      "emptyAnalyzeViewTitle": "No {{entityName}} found",
       "resourceTimingMetricsLabelRedirectTime": "Redirect Time",
       "resourceTimingMetricsLabelAppCacheTime": "AppCache Time",
       "resourceTimingMetricsLabelDNSTime": "DNS Time",
@@ -112,8 +100,6 @@
       "quickFilterBarLabelSubdivision_2": "subdivisions",
       "quickFilterBarLabelMeta": "Meta",
       "quickFilterBarLabelWindowWidth": "Window Width",
-      "websiteEditGroupDialogHelp": "Select a tag by which your beacons should be grouped.",
-      "WebsiteGroupMetricsChartLabelCount": "Count",
       "beaconUserSummary": {
         "titleUserInformation": "User Information",
         "titleBrowser": "Browser",
@@ -227,7 +213,6 @@
         "pageLoadBeaconTitleFirstInputDelay": "First Input Delay",
         "pageLoadBeaconTitleCumulativeLayoutShift": "Cumulative Layout Shift",
         "pageLoadBeaconTitleTimeToFirstByte": "Time to First Byte",
-        "pageLoadBeaconTitleInitiator": "Initiator",
         "pageLoadBeaconTitleWindowLocation": "Window Location",
         "pageLoadBeaconTitleFirstPaint": "First Paint",
         "pageLoadBeaconTotalDurationNameRetrievalTime": "onLoad time",
@@ -412,7 +397,6 @@
         "graphqlOperationsTopListLabelLatency": "Latency",
         "graphqlOperationsTopListLabelErrors": "Errors",
         "graphqlOperationsTopListTitle": "GraphQL Operation Names",
-        "graphqlOperationsTopListLinkLabel": "View all GraphQL operation names",
         "locationsTopListLabelCalls": "Calls",
         "locationsTopListLabelLatency": "Latency",
         "locationsTopListLabelErrors": "Errors",
@@ -484,12 +468,7 @@
         "alertsLabelName": "Name",
         "alertsLabelFilters": "Filters",
         "alertsHeaderConfiguredAlerts": "Configured Alerts",
-        "alertsNoDataMessage": "No alert configured.",
-        "alertsNumberOfFilters": "{{count}} filter",
-        "alertsNumberOfFilters_plural": "{{count}} filters",
-        "alertsNumberOfFilters_0": "{{count}} filters",
-        "alertsNumberOfFilters_1": "{{count}} filter",
-        "alertsNumberOfFilters_2": "{{count}} filters"
+        "alertsNoDataMessage": "No alert configured."
       },
       "configuration": {
         "configurationRemoveTitle": "Remove Website",

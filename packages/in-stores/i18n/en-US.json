@@ -1,8 +1,4 @@
 {
-  "storeStoreExists": "Store {{storeSpecName}} already exists",
-  "storeObservableMustBeProvided": "Observable must be provided",
-  "storeUnsupportedActionType": "Unsupported action type {{storeActionType}}. Did you forget to specify a reducer?",
-
   "permissionAccessWebsitesLabel": "Websites",
   "permissionAccessMobileAppsLabel": "Mobile Apps",
   "permissionAccessApplicationsLabel": "Applications",
@@ -92,21 +88,19 @@
   "permissionRestrictedHelp": "Enable role based access control.",
 
   "metric": {
-    "metric": {
-      "MEAN": "mean",
-      "MIN": "min",
-      "P25": "25th",
-      "P50": "50th",
-      "P75": "75th",
-      "P90": "90th",
-      "P95": "95th",
-      "P98": "98th",
-      "P99": "99th",
-      "MAX": "max",
-      "DISTINCT_COUNT": "distinct count",
-      "SUM": "sum",
-      "DISTRIBUTION": "distribution"
-    },
+    "metric_MEAN": "mean",
+    "metric_MIN": "min",
+    "metric_P25": "25th",
+    "metric_P50": "50th",
+    "metric_P75": "75th",
+    "metric_P90": "90th",
+    "metric_P95": "95th",
+    "metric_P98": "98th",
+    "metric_P99": "99th",
+    "metric_MAX": "max",
+    "metric_DISTINCT_COUNT": "distinct count",
+    "metric_SUM": "sum",
+    "metric_DISTRIBUTION": "distribution",
 
     "formatterLabelNumber": "Number, e.g. {{example}}",
     "formatterLabelPercentage": "Percentage, e.g. {{example}}",

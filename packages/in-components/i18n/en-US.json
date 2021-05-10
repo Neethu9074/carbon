@@ -19,7 +19,7 @@
       "countIncident_0": "Incidents",
       "countIncident_1": "Incidents",
       "countIncident_2": "Incidents",
-      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "msg": "{{smartAlertsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert, { \"count\": {{smartAlertsCount}} }) & {{incidentsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countIncident, { \"count\": {{incidentsCount}} })",
       "itemMsg": "+{{leftCount}} more {{moreMsg}}"
     },
     "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
@@ -103,9 +103,6 @@
     "filterConfirmButtonLabel": "Remove filter",
     "filterConfirmRemoveMsg": "Are you sure you want to remove the filter <strong>{{filterName}}</strong>?",
     "helpDialogTitleUsingTheSearchBar": "Using the Search Bar"
-  },
-  "svgIcon": {
-    "pluginIcon": "{{pluginName}} icon"
   },
   "tables": {
     "serverTable": {

@@ -62,6 +62,53 @@ import { Trans } from 'in-i18n';
 />
 ```
 
+### Guidelines for using [context](https://www.i18next.com/translation-function/context) instead of `string concatenation/string interpolation` with i18n key
+
+⚠️️ Do not use/define i18n keys like below as it does not help us to catch unused keys in en-US files.
+
+Below example, alertType has two values but in ideal scenario we could have `n` number of different values for a given constant which we want to use dynamically.
+
+```js
+import { t } from 'in-i18n';
+
+const alertType = isSmart ? 'smart' : 'dumb';
+
+t('in-alerting:alerts.component.' + alertType);
+t(`in-alerting:alerts.component.${alertType}`);
+```
+for above code respective en-US.json would look something like this.
+
+```json
+{
+  "alerts": {
+    "component": {
+      "smart": "smart",
+      "dumb": "dumb"
+    }
+  }
+}
+```
+
+We need to replace above part as below using context.
+
+```js
+import { t } from 'in-i18n';
+
+const alertType = isSmart ? 'smart' : 'dumb';
+
+t('in-alerting:alerts.component', { context: alertType });
+```
+respective json would change as below
+
+```json
+{
+  "alerts": {
+    "component_smart": "smart",
+    "component_dumb": "dumb",
+  }
+}
+```
+
 ## Tips/Gotchas
 
  - Merge in the latest changes from `develop` to ensure that you have the latest and

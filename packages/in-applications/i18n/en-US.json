@@ -17,7 +17,6 @@
   "labelMaxLatency": "Max latency",
   "labelService": "Service",
   "labelName": "Name",
-  "labelFilters": "Filters",
   "labelSummary": "Summary",
   "labelDependencies": "Dependencies",
   "labelServices": "Services",
@@ -146,41 +145,22 @@
   "applications": {
     "noData": "Application perspectives provide a means to model environments, sets of services, tenants, or just about anything."
   },
-  "services": {
-    "noData": "No service calls are available for the selected time range."
-  },
   "alert": {
     "thresholdLabel": "Threshold Value",
     "applicationSmartAlert": "Application Smart Alert",
-    "noAlertConfigured": "No alert configured.",
-    "getEntityName": "alert \"{{entityName}}\"",
-    "tooltipFilter": "{{count}} filter",
-    "tooltipFilter_plural": "{{count}} filters",
-    "tooltipFilter_0": "{{count}} filters",
-    "tooltipFilter_1": "{{count}} filter",
-    "tooltipFilter_2": "{{count}} filters",
     "tooltipMoreFilter": "+{{moreFilterCount}} more filter",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} more filters",
     "tooltipMoreFilter_0": "+{{moreFilterCount}} more filters",
     "tooltipMoreFilter_1": "+{{moreFilterCount}} more filter",
-    "tooltipMoreFilter_2": "+{{moreFilterCount}} more filters",
-    "filter": "filter",
-    "filter_plural": "filters",
-    "filter_0": "filters",
-    "filter_1": "filter",
-    "filter_2": "filters"
+    "tooltipMoreFilter_2": "+{{moreFilterCount}} more filters"
   },
   "inboundOutboundCalls": {
     "config": {
       "inbound": {
-        "text": "Inbound Calls",
-        "dashboard": "Only calls that are performed by the consumers of this application.",
-        "overrideDefault": "The default scope for this application is Inbound Calls only. You can change this in Configuration."
+        "text": "Inbound Calls"
       },
       "all": {
-        "text": "All Calls",
-        "dashboard": "Calls performed within this application, by both consumers as well as internally.",
-        "overrideDefault": "The default scope for this application is All Calls. You can change this in Configuration."
+        "text": "All Calls"
       }
     },
     "constants": {
@@ -192,29 +172,7 @@
   },
   "analyze": {
     "quickFilter": {
-      "labelService": "Service",
-      "labelService_plural": "Services",
-      "labelService_0": "Services",
-      "labelService_1": "Service",
-      "labelService_2": "Services",
-      "labelEndpoint": "Endpoint",
-      "labelEndpoint_plural": "Endpoints",
-      "labelEndpoint_0": "Endpoints",
-      "labelEndpoint_1": "Endpoint",
-      "labelEndpoint_2": "Endpoints",
-      "labelType": "Type",
-      "labelType_plural": "Types",
-      "labelType_0": "Types",
-      "labelType_1": "Type",
-      "labelType_2": "Types",
-      "labelTechnology": "Technology",
-      "labelTechnology_plural": "Technologies",
-      "labelTechnology_0": "Technologies",
-      "labelTechnology_1": "Technology",
-      "labelTechnology_2": "Technologies",
-      "labelLatency": "Latency",
-      "labelErroneous": "Erroneous",
-      "preconditionFailedTooltip": "Please select a service before selecting an endpoint."
+      "labelLatency": "Latency"
     },
     "chartingPresenter": {
       "noData": "No data to display"
@@ -461,13 +419,11 @@
       "apNameDescription": "Application Perspective names should have a well established definition within an organization. For example, to model an environment: \"Production Blue\", to model a set of services: \"Payment\", or to model a tenant: \"ACME Customer\".",
       "defineUsingTags": "2. Define the Application Perspective using one or more tags.",
       "defineUsingTagsDescription": "For example where key is \"docker.label\" and value is \"environment=Production Blue\", or key is \"call.http.params\" and value is \"tenant=ACMECustomer\". Note that any calls to a <pill-database>DATABASE</pill-database> service or <pill-messaging>MESSAGING</pill-messaging> service from services matching this definition will automatically be included.",
-      "andOperatorsPrecedence": "AND operators take precedence and are evaluated before OR operators",
       "andOperatorsPrecedenceBrackets": "AND operators take precedence and are evaluated before OR operators if not grouped in brackets",
       "downstreamCalls": "3. Store Calls of Downstream Services",
       "downstreamCallsDescription": "Choose which downstream services to include in the Application Perspective.",
       "defaultDashboardView": "4. Select the Default Dashboard View",
       "clear": "Clear",
-      "addTag": "Add Tag",
       "create": "Create",
       "database": "DATABASE",
       "messaging": "MESSAGING"
@@ -477,7 +433,6 @@
       "optionImmediateDownstreamServices": "Immediate downstream database and messaging services",
       "optionAllDownstreamServices": "All downstream services"
     },
-    "tooltipEndpointBar": "Please select a single service before selecting endpoints.",
     "form": {
       "theApplicationPerspectiveNameMustNotBeBlank": "The application perspective name must not be blank.",
       "theApplicationPerspectiveNameMustNotBeLargerThan128Characters": "The application perspective name must not be larger than 128 characters.",
@@ -502,8 +457,7 @@
     "errorMessages": "error messages",
     "errorCallWithoutMessage": "Erroneous call without error message",
     "logMessages": "log messages",
-    "noLogMessage": "No log message available",
-    "endpoints": "endpoints"
+    "noLogMessage": "No log message available"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "The service is not in the current application.",
@@ -548,7 +502,6 @@
       "helpRenameApplication": "Renaming an application is an eventually consistent action within the Instana system. For this reason, a change to an application name may take <italic>up to a few minutes</italic> until it has populated throughout the whole system.",
       "descriptionApplicationName": "Application perspective names should have a well established definition within an organization. For example, to model an environment: \"Production Blue\", to model a set of services: \"Payment\", or to model a tenant: \"ACME Customer\".",
       "descriptionTags": "For example where key is \"docker.label\" and value is \"environment=Production Blue\" or key is \"call.http.params\" and value is \"tenant=ACMECustomer\". Note that any calls to a <pillDatabase>DATABASE</pillDatabase> service or <pillMessage>MESSAGING</pillMessage> service from services matching this definition will automatically be included.",
-      "descriptionOperators": "AND operators take precedence and are evaluated before OR operators",
       "descriptionOperatorsCreationEnabled": "AND operators take precedence and are evaluated before OR operators if not grouped in brackets",
       "descriptionPrepareToMonitor": "We are preparing everything to monitor your application perspective <bold>{{decodedLabel}}</bold>.",
       "descriptionRemoveApplicationPerspective": "If you no longer wish to monitor the application perspective <strong>{{application}}</strong>, please use the button below to remove it. Removing an application perspective may take up to a few minutes.",
@@ -609,11 +562,8 @@
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Only synthetic calls are shown and included in the metrics"
   },
   "lists": {
-    "noSpecificApplication": " - no specific application - ",
     "services": "Services"
   },
-  "containsErrors": "Contains Errors",
-  "noErrors": "No Errors",
   "traceDetail": {
     "tabs": {
       "summary": {
@@ -631,17 +581,8 @@
         "largeTrace": "Large Trace",
         "largeTraceLink": "This trace is large and rendering of this trace can result in performance problems within your browser. You can either <linkToDocs>download the trace</linkToDocs> for manual inspection or attempt trace rendering within your browser. We will only render a subset of the components in order to increase performance of this attempt.",
         "calls": "Calls",
-        "logs": "Logs",
-        "analyzeLogs": "View in analyze",
-        "correspondingMobileAppActivity": "Corresponding Mobile App Activity",
-        "hideMobileAppInformation": "Hide Mobile App Information",
-        "showMobileAppInformation": "Show Mobile App Information",
-        "viewMobileAppActivity": "View Mobile App Activity",
         "erroneousTrace": "Erroneous Trace",
-        "attemptToRenderTrace": "Attempt to render trace",
-        "hideWebsiteInformation": "Hide Website Information",
-        "showWebsiteInformation": "Show Website Information",
-        "viewWebsiteActivity": "View Website Activity"
+        "attemptToRenderTrace": "Attempt to render trace"
       }
     }
   },

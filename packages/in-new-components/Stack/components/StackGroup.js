@@ -24,7 +24,8 @@ export default function StackGroup({
     <ListGroup
       label={
         <>
-          {t('in-new-components:stack.relationship.' + relationship, {
+          {t('in-new-components:stack.relationship', {
+            context: relationship,
             itemCount: itemCount,
             plugin: getPluginName(type, itemCount)
           })}

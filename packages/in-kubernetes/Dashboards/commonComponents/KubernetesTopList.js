@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
+
+import { Link } from '@instana/components';
 
 import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
@@ -75,11 +76,11 @@ function ViewAll({ entityNameKey, allItemsHref$, items, className }) {
     <Link className={className} href$={allItemsHref$}>
       {items.length > 1 &&
         t('in-kubernetes:dashboards.viewEntity', {
-          entityName: t('in-kubernetes:viewEntityName.all.' + key, { count: items.length })
+          entityName: t('in-kubernetes:viewAllEntityName', { context: key, count: items.length })
         })}
       {items.length === 1 &&
         t('in-kubernetes:dashboards.viewEntity', {
-          entityName: t('in-kubernetes:viewEntityName.' + key)
+          entityName: t('in-kubernetes:viewEntityName', { context: key })
         })}
     </Link>
   );

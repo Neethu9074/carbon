@@ -113,9 +113,14 @@ export default function AlertConfigDialogPresenter(props) {
 
 function getDialogTitle(isGlobalSmartAlert, editMode) {
   const mode = isGlobalSmartAlert ? 'Global' : 'Local';
+
   return editMode
-    ? t(`in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert${mode}`)
-    : t(`in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert${mode}`);
+    ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert', {
+        context: mode
+      })
+    : t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert', {
+        context: mode
+      });
 }
 
 AlertConfigDialogPresenter.propTypes = {

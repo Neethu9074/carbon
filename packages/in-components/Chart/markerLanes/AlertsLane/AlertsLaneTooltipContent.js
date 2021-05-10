@@ -28,9 +28,7 @@ export default function AlertsLaneTooltipContent({ smartAlerts = [], incidents =
         <div>
           {t('in-components:chart.chartAlertsLaneTooltipContent.msg', {
             smartAlertsCount: smartAlertsCount,
-            smartAlerts: t(countSmartAlertI18nKey, { count: smartAlertsCount }),
-            incidentsCount: incidentsCount,
-            incidents: t(countIncidentI18nKey, { count: incidentsCount })
+            incidentsCount: incidentsCount
           })}
         </div>
       ) : (

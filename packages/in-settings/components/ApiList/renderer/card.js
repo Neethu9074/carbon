@@ -49,7 +49,7 @@ export default function renderListInsideCard(props) {
         return (
           <LightCard
             title={
-              t('in-settings:components.' + itemName, { count: totalFilteredItems }) +
+              t('in-settings:cardTitle', { context: itemName, count: totalFilteredItems }) +
               `${totalFilteredItems > 0 ? '(' + totalFilteredItems + ')' : ''}`
             }
             header={<Header {..._props} />}
@@ -68,7 +68,7 @@ export default function renderListInsideCard(props) {
 function LoadingApiList(props) {
   return (
     <LightCard
-      title={t('in-settings:components.' + props.itemName, { count: props.totalFilteredItems })}
+      title={t('in-settings:cardTitle', { context: props.itemName, count: props.totalFilteredItems })}
       bodyWithoutPadding
       headerClassName={locals.cardHeader}
     >

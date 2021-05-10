@@ -1,69 +1,8 @@
 {
   "analyzeView": {
-    "noData": "No calls are available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
     "traces": "Traces",
     "calls": "Calls",
-    "emptyAnalyzeViewTitle": "No {{emptyEntityName}} found",
-    "analyzeEditGroupHelp": "Select a tag by which calls and traces should be grouped.",
-    "notAvailable": "Not available",
-    "quickFilterBarLabel": {
-      "application": "Application",
-      "application_plural": "Applications",
-      "application_0": "Applications",
-      "application_1": "Applications",
-      "application_2": "Applications",
-      "service": "Service",
-      "service_plural": "Services",
-      "service_0": "Services",
-      "service_1": "Services",
-      "service_2": "Services",
-      "endpoint": "Endpoint",
-      "endpoint_plural": "Endpoints",
-      "type": "Type",
-      "type_plural": "Types",
-      "type_0": "Types",
-      "type_1": "Types",
-      "type_2": "Types",
-      "technology": "Technology",
-      "technology_plural": "Technologies",
-      "technology_0": "Technologies",
-      "technology_1": "Technologies",
-      "technology_2": "Technologies",
-      "latency": "Latency",
-      "erroneous": "Erroneous",
-      "hiddenCalls": "Hidden Calls"
-    },
-    "quickGroupBarLabelApplication": "Application",
-    "quickGroupBarLabelService": "Service",
-    "quickGroupBarLabelEndpoint": "Endpoint",
-    "quickGroupBarLabelType": "Type",
-    "quickGroupBarLabelTechnology": "Technology",
-    "quickGroupBarLabelAllGroups": "All groups",
-    "tagGroupEmptyMessage": "No group defined.",
     "components": {
-      "loadingStates": {
-        "preparing": "Preparing…",
-        "instanaIsProcessingALargeAmountOfTracingData": "Instana is processing a large amount of tracing data.",
-        "pleaseDontReloadThisPageWillUpdateAutomatically": "Please don't reload - this page will update automatically.",
-        "runningQuery": "Running query…",
-        "thisQueryHasTimedOut": "This query has timed out.",
-        "theQueryTookTooLongToRunAndHasBeenCancelled": "The query took too long to run and has been cancelled.",
-        "selectAShorterTimeframeOrIssueAMoreSpecificQueryByApplyingMoreFilters": "Select a shorter timeframe or issue a more specific query by applying more filters.",
-        "thereWasAnInputError": "There was an input error.",
-        "tooManyRequests": "Too many requests",
-        "ourSystemIsCurrentlyBusyPleaseTryAgainLater": "Our system is currently busy. Please try again later.",
-        "serverError": "Server Error",
-        "anUnexpectedErrorOccurredPleaseTryAgainLaterOrContactSupportToReportTheError": "An unexpected error occurred. Please try again later or contact support to report the error."
-      },
-      "tagFilterConfiguration": {
-        "noFiltersDefined": "No filters defined."
-      },
-      "tagGroupConfiguration": {
-        "select": "Select",
-        "top5": "Top 5",
-        "bottom5": "Bottom 5",
-        "showRemainingGroupsAggregatedAsOther": "Show remaining groups aggregated as “Other“."
-      },
       "resultHeader": {
         "result": "Result",
         "counter_sessionStart": "{{number}} Session Start",
@@ -144,9 +83,6 @@
       "traces": "Traces",
       "console": "Console"
     }
-  },
-  "services": {
-    "noData": "No service calls are available for the selected time range. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
   },
   "traceDetail": {
     "callDetails": {
@@ -266,12 +202,7 @@
         "numbersOfErrors_1": "{{count}} Errors",
         "numbersOfErrors_2": "{{count}} Errors"
       }
-    },
-    "applications": "Applications",
-    "analytics": "Analytics",
-    "download": "Download",
-    "traceId": "Trace ID:",
-    "closeTraceDetail": "Close trace detail"
+    }
   },
   "applicationFilter": {
     "labelApplication": "Application",
@@ -356,42 +287,11 @@
     },
     "allFilters": "All filters"
   },
-  "groupedTraces": {
-    "labelGroup": "Group",
-    "labelCount": "Count",
-    "labelEarliestTimestamp": "Earliest Timestamp",
-    "groupedTracesTitle": "Select Metrics",
-    "groupedTracesHelp": "Select which metrics should be available as columns within the table. It also defines which metrics could be viewed as graphs."
-  },
-  "groupingInfo": {
-    "removeGrouping": "Remove grouping"
-  },
-  "metricsChart": {
-    "count": "Count"
-  },
-  "metricSelector": {
-    "tooltipGroups": "Metric only available when analyzing groups.",
-    "tooltipRemove": "Remove metric"
-  },
   "radioButtons": {
     "messageFilering": "Filtering and grouping on source is not available for the selected timeframe",
     "messageIndependent": "This tag is independent of source and destination",
     "fragmentSource": "Applies only to the source of the call",
     "fragmentCall": "Apply to call source or destination"
-  },
-  "rawCalls": {
-    "callAnalytics": "Call Analytics",
-    "labelTimestamp": "Timestamp",
-    "labelLatency": "Latency",
-    "tooltipBatched": "This call is batched and represents {{batchCount}} individual calls.",
-    "tooltipLatency": "Total latency of {{batchCount}} batched calls."
-  },
-  "rawTraces": {
-    "labelTimestamp": "Timestamp",
-    "labelLatency": "Latency"
-  },
-  "tagFilterList": {
-    "tooltipRemoveFilter": "Remove filter"
   },
   "dialogs": {
     "tooltip": "Suggestions currently not available, please type in the value",
@@ -412,10 +312,6 @@
     "similarServiceLogs": "In context of the service"
   },
   "traceDetails": {
-    "titleAnalytics": "Analytics",
-    "titleTrace": "Trace",
-    "tooltipData": "Some data related to this trace is delayed so please reload the page in a little later. An example where this may happen is viewing a very recent trace with some of its data is still being processed.",
-    "tooltipClose": "Close trace detail",
     "labelTotal": "Total",
     "labelNetwork": "Network",
     "labelSelf": "Self",
@@ -463,18 +359,8 @@
   "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
   "components": {
     "analyzeHeader": {
-      "application": "application",
-      "website": "website",
-      "mobileApp": "mobileApp",
-      "profiles": "profiles",
       "beta": "BETA",
       "analytics": "Analytics"
-    },
-    "editGroupDialog": {
-      "group": "Group",
-      "tag": "Tag",
-      "loadingSuggestions": "Loading suggestions…",
-      "save": "Save"
     },
     "editTagFilterDialog": {
       "tag": "Tag",
@@ -506,45 +392,9 @@
       "tagPresentWithNoValue": "Tag present with no value",
       "tagNotPresent": "Tag not present"
     },
-    "groupingInfo": {
-      "groupedBy": "Grouped by",
-      "removeGrouping": "Remove grouping"
-    },
-    "groupingTableHeader": {
-      "preview": "Preview",
-      "groupBy": "Group by",
-      "selectMetrics": "Select Metrics",
-      "hideGraph": "Hide Graph",
-      "showGraph": "Show Graph"
-    },
-    "metricsChart": {
-      "latencyDistribution": "Latency (distribution)",
-      "noDataToDisplay": "No data to display"
-    },
-    "metricsSelector": {
-      "pleaseSelectAtMostNumberOfmetrics": "Please select at most {{maximumNumberOfMetrics}} metrics.",
-      "addMetric": "Add Metric",
-      "metric": "Metric",
-      "pleaseSelect": "Please select",
-      "aggregation": "Aggregation",
-      "selectedMetrics": "Selected Metrics",
-      "save": "Save"
-    },
     "radioButtons": {
       "source": "Source",
       "destination": "Destination"
-    },
-    "rawCalls": {
-      "call": "Call",
-      "service": "Service"
-    },
-    "rawTraces": {
-      "trace": "Trace",
-      "traceAnalytics": "Trace Analytics",
-      "service": "Service"
-    },
-    "tagFilterList": {
-      "and": "and"
     }
   }
 }

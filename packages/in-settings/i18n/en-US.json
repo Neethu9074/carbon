@@ -7,7 +7,6 @@
     "cookiePolicy": "Cookie Policy",
     "instanaTermsOfService": "Instana's Terms of Service",
     "termsOfService": "Terms of Service",
-    "instanaPrivacyProductPolicy": "Instana's Privacy Product Policy",
     "privacyProductPolicy": "Privacy Product Policy",
     "productOnboarding": "Product onboarding & success tips",
     "productOnboardingExplanation": "to help you make the most of Instana products",
@@ -26,8 +25,7 @@
       "heading": "Terms of Service",
       "introduction": "Before moving forward, and before using Instana products and services, you need to read and agree to our Terms of Service.",
       "documents": "Please take a moment to read the following documents:",
-      "agreeToS": "I have read and agree to Instana's <tosButton />",
-      "checkBoxNotSetMessage": "You cannot use Instana until you have accepted the Terms of Service."
+      "agreeToS": "I have read and agree to Instana's <tosButton />"
     },
     "termsPage2": {
       "heading": "Messaging"
@@ -63,6 +61,17 @@
       "purpose": "User Onboarding and NPS store survey."
     }
   },
+  "cardTitle_Area": "Area ",
+  "cardTitle_Area_plural": "Areas ",
+  "cardTitle_Area_0": "Areas ",
+  "cardTitle_Area_1": "Areas ",
+  "cardTitle_Area_2": "Areas ",
+  "cardTitle_User": "User ",
+  "cardTitle_User_plural": "Users ",
+  "cardTitle_User_0": "Users ",
+  "cardTitle_User_1": "Users ",
+  "cardTitle_User_2": "Users ",
+  "cardTitle_Group": "Group ",
   "components": {
     "confirmRemoveEntity": "Are you sure you want to remove the <strong>{{entity}}</strong>?",
     "removeBtn": "Remove",
@@ -76,17 +85,6 @@
     "selectAll": "Select All ({{len}})",
     "failedToRemoveItemName": "Failed to remove {{itemName}}",
     "failedToRemoveItem": "Failed to remove item",
-    "Area": "Area ",
-    "Area_plural": "Areas ",
-    "Area_0": "Areas ",
-    "Area_1": "Areas ",
-    "Area_2": "Areas ",
-    "User": "User ",
-    "User_plural": "Users ",
-    "User_0": "Users ",
-    "User_1": "Users ",
-    "User_2": "Users ",
-    "Group": "Group ",
     "pleaseConfirm": "Please Confirm",
     "createNew": "Create New",
     "clickToDeselect": "Click to deselect."
@@ -154,7 +152,6 @@
     "areYouSureYouWantToDeleteThisUserFromTheGroup": "Are you sure you want to delete this user from the <strong>{{groupName}}</strong> group?",
     "failedToRemoveUserFromGroup": "Failed to remove user from group: {{err}}",
     "unableToFindUserUserId": "Unable to find user: {{userId}}",
-    "User": "User",
     "userDoesNotExist": "User does not exist",
     "apiCall": "API call",
     "testChannel": "Test Channel",
@@ -270,7 +267,6 @@
     "percentage": "Percentage",
     "ratePerSecond": "Rate per second",
     "bytesPerSecond": "Bytes per second",
-    "kilobytesPerSecond": "Kilobytes per second",
     "bytes": "Bytes",
     "kilobytes": "Kilobytes",
     "megabytes": "Megabytes",
@@ -728,8 +724,6 @@
     "setYourPreferencesForThirdPartyServicesBelow": "Set your preferences for third-party services below.",
     "userInterface": "User Interface",
     "advanced": "Advanced",
-    "profile": "Profile",
-    "profileSettings": "Profile Settings",
     "preferences": "Preferences",
     "privacy": "Privacy",
     "communication": "Communication",
@@ -769,10 +763,6 @@
   "queryValidationStillInProgress": "Query validation still in progress",
   "teamSettings": {
     "accessControl": {
-      "invites": {
-        "itemName": "pending invitation",
-        "searchPlaceHolder": "Filter invites"
-      },
       "groups": {
         "itemName": "group"
       },

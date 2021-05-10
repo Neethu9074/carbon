@@ -195,7 +195,6 @@
     "placeholderReleaseVersionEG001": "Release version, e.g. '0.0.1'",
     "theAgentReleaseVersionMustBeAValidSemanticVersion": "The agent release version must be a valid semantic version",
     "placeholderFoundationNameEGProd": "Foundation name, e.g., 'prod'",
-    "theFoundationNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "The foundation name must be a combination of letters, dashes and underscores, up to 64 characters long",
     "placeholderUaaClientIdEGMyClientId": "UAA client id, e.g., 'my-client-id'",
     "theUaaClientIdCannotBeBlank": "The UAA client id cannot be blank",
     "placeholderUaaClientSecretEGMyClientSecret": "UAA client secret, e.g., 'my-client-secret'",
@@ -314,6 +313,5 @@
   "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "Almost done, we have created an Instana instance for you.",
   "whileWeArePreparingYourInstanaInstance": "While we are preparing your instana instance,",
   "getReadyToDeployAgentsInYourEnvironment": "get ready to deploy Agents in your environment…",
-  "letSGetSomeAgentsRunning": "We are waiting for you to install the Instana agent.",
-  "theFieldCannotBeBlank": "The field '{{fieldName}}' cannot be blank"
+  "letSGetSomeAgentsRunning": "We are waiting for you to install the Instana agent."
 }
