@@ -161,9 +161,6 @@
         "selectMetric": "Select metric",
         "aggregation": "Aggregation"
       },
-      "metricsLoadIndicator": {
-        "loadingMetrics": "Loading metrics…"
-      },
       "metrics": {
         "infrastructurePlatforms": "Infrastructure & Platforms",
         "comingSoon": "(coming soon)"

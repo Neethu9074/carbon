@@ -436,7 +436,6 @@
     "selectorOverlayClear": "Clear",
     "selectorOverlayAnd": "AND",
     "selectorOverlayOr": "OR",
-    "usePreviousFilters": "Use previous filters",
     "simpleValueSelectorMore": "More",
     "workspaceAPIQuery": "API query",
     "workspaceUseThisExpressionToQueryOurAPI": "Use this expression to query our API",

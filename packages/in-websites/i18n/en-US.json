@@ -353,7 +353,6 @@
   },
   "websiteDashboard": {
     "components": {
-      "deprecationHeaderSupportEnds": "Support ends {{supportedUntil}}",
       "overlaysTooltipToogleHeatMap": "Toogle heat map",
       "overlaysTooltipPanLeft": "Pan left",
       "overlaysTooltipPanUp": "Pan up",

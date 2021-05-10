@@ -111,28 +111,12 @@
     },
     "tabs": {
       "summary": {
-        "duplicateCalls": "Duplicate Calls",
-        "duplicateCallsDesc": "This trace consists of one or more duplicate calls (spans). Unique Calls: {{traceCallCountIgnoringBatchSize}} - Records: {{traceCallRecordCount}}. This leads to incorrect call count (with batches) and error count values, and perhaps other irregularities.",
-        "batchedIngestion": "Batched Ingestion",
-        "traceIngestionBatchCount": "This trace got processed in {{traceIngestionBatchesCount}} batches. That may cause irregularities such as spans not getting merged to a single Call, partial Service mapping or other incomplete data showing.",
-        "subCalls": "Sub Calls",
-        "erroneousCalls": "Erroneous Calls",
-        "errorLogs": "Error Logs",
-        "warnLogs": "Warn Logs",
-        "latency": "Latency",
-        "timeline": "Timeline",
-        "serviceEndpointList": "Service Endpoint List",
-        "largeTrace": "Large Trace",
-        "largeTraceLink": "This trace is large and rendering of this trace can result in performance problems within your browser. You can either <linkToDocs>download the trace</linkToDocs> for manual inspection or attempt trace rendering within your browser. We will only render a subset of the components in order to increase performance of this attempt.",
-        "calls": "Calls",
         "logs": "Logs",
         "analyzeLogs": "View in analyze",
         "correspondingMobileAppActivity": "Corresponding Mobile App Activity",
         "hideMobileAppInformation": "Hide Mobile App Information",
         "showMobileAppInformation": "Show Mobile App Information",
         "viewMobileAppActivity": "View Mobile App Activity",
-        "erroneousTrace": "Erroneous Trace",
-        "attemptToRenderTrace": "Attempt to render trace",
         "hideWebsiteInformation": "Hide Website Information",
         "showWebsiteInformation": "Show Website Information",
         "viewWebsiteActivity": "View Website Activity"
@@ -261,20 +245,8 @@
     "addFilter": "Add Filter"
   },
   "filterBar": {
-    "checkboxBarOverlay": {
-      "labelSynthetic": "Show Synthetic calls",
-      "labelInternal": "Show Internal calls"
-    },
     "keyValueBarItem": {
       "tooltip": "Remove filter"
-    },
-    "multiSelectBarItem": {
-      "moreDataMessage": "More {{pluralLabel}} available. Only the top 200 {{pluralLabel}} shown. Use the filter to drill down further."
-    },
-    "multiSelectBarOverlay": {
-      "loadingFilters": "Loading filter options.",
-      "noFiltersFound": "No filter options found.",
-      "clickToFilter": "Click to filter by {{itemLabel}}"
     },
     "selectBarItem": {
       "moreDataMessage": "More {{pluralLabel}} available. Only the top 200 {{pluralLabel}} shown. Use the filter to drill down further."
@@ -321,12 +293,6 @@
     "labelAggregatedTime": "Aggregated Time",
     "labelErroneousCalls": "Erroneous Calls",
     "buttonTechnology": "Technology",
-    "appNavigatorSplitScreen": {
-      "tooltipViewPrevious": "View previous {{viewType}} (shortcut: left arrow key)",
-      "tooltipViewNext": "View next {{viewType}} (shortcut: right arrow key)",
-      "tooltipCloseSidebar": "Close sidebar",
-      "tooltipOpenSidebar": "Open sidebar"
-    },
     "callDetails": {
       "tooltipCloseCallDetails": "Close call details"
     },
@@ -342,7 +308,6 @@
     }
   },
   "tabs": {
-    "labelDetail": "Detail",
     "summary": {
       "websiteMonitoringDataTitle": "Corresponding Website Activity",
       "messageMultiple_root_spans": "The trace is malformed and contains multiple root calls",
