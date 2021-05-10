@@ -6,6 +6,7 @@
 /* eslint-env node */
 
 const webpack = require('webpack');
+const path = require('path');
 const {
   webpackPlugin: cssIdentWebpackPlugin,
   localIdentName,
@@ -112,7 +113,11 @@ const necessaryLoaders = [
         loader: 'babel-loader'
       },
       {
-        loader: '@mdx-js/loader',
+        // Issue: Referencing `@mdx-js/loader` (as a string) here would cause
+        // problems, because the Node root resolve dir for dependencies is technically
+        // the root ui-client dir. Referencing the dependency relative to this file
+        // provides an escape hatch.
+        loader: path.join(__dirname, '..', 'node_modules', '@mdx-js', 'loader'),
         options: {
           compilers: [createCompiler({})]
         }

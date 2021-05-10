@@ -1,3 +1,8 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
 /* eslint-env node */
 
 const path = require('path');
@@ -50,8 +55,9 @@ module.exports = {
     // All our main packages
     path.join(__dirname, 'packages', '**', '*.js'),
     // Storybook
-    path.join(__dirname, 'storybook', '**', '*.js'),
-    path.join(__dirname, 'storybook', '**', '*.mdx')
+    path.join(__dirname, 'storybook', 'config', '**', '*.js'),
+    path.join(__dirname, 'storybook', 'src', '**', '*.mdx'),
+    path.join(__dirname, 'storybook', 'src', '**', '*.js')
     // Note that we deliberately do not transpile everything under node_modules. This is not
     // forbidden per se, but we should allow this on a case-by-case basis.
   ]
