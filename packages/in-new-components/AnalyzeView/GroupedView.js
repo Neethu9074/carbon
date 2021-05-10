@@ -84,8 +84,7 @@ export default function GroupedAnalyzeView(props) {
     chartedMetrics,
     filteringTagCatalog,
     tracker,
-    groupingTagCatalog,
-    additionalGetDataDependencies = []
+    groupingTagCatalog
   } = props;
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
@@ -152,9 +151,17 @@ export default function GroupedAnalyzeView(props) {
   } = useCursorPagination(
     ({ cursor }) =>
       isValid
-        ? getData({ timeConfig, orderByGroups, backendQueryModel, groupBy, cursor, metrics: backendMetrics })
+        ? getData({
+            timeConfig,
+            orderByGroups,
+            backendQueryModel,
+            groupBy,
+            cursor,
+            dataSource,
+            metrics: backendMetrics
+          })
         : empty,
-    [isValid, timeConfig, groupBy, backendQueryModel, orderByGroups, backendMetrics, ...additionalGetDataDependencies]
+    [isValid, timeConfig, groupBy, backendQueryModel, orderByGroups, backendMetrics, dataSource, getData]
   );
 
   const isLoading = props.isLoading || progress?.loading;

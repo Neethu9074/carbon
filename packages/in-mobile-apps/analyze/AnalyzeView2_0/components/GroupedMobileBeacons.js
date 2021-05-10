@@ -18,17 +18,7 @@ export default function GroupedMobileBeacons(props) {
         {...props}
         getLabel={getLabel}
         itemlabelColumnId="name"
-        getData={({ timeConfig, backendQueryModel, orderByGroups, groupBy, cursor, metrics }) =>
-          getTableData({
-            timeConfig,
-            backendQueryModel,
-            groupBy,
-            cursor,
-            orderByGroups,
-            metrics,
-            dataSource: props.dataSource
-          })
-        }
+        getData={getTableData}
         UngroupedView={MobileBeacons}
         withSamplingTooltip
       />

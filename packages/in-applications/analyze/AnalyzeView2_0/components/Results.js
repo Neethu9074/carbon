@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { clamp } from 'lodash';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
@@ -13,6 +12,7 @@ import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/compon
 import UngroupedViewTable, { retrievalSize } from 'in-new-components/AnalyzeView/UngroupedViewTable';
 import TraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView';
 import PreviewToggle from 'in-applications/analyze/AnalyzeView2_0/components/PreviewToggle';
+import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -53,6 +53,10 @@ const columnsPerDataSource = {
 
 export default function Results(props) {
   const { dataSource, hiddenCalls, previewEnabled, onChangePreviewEnabled, withoutHeader, detailId } = props;
+  const getData = useCallback(params => getTableData({ ...params, hiddenCalls, previewEnabled }), [
+    hiddenCalls,
+    previewEnabled
+  ]);
   let content = (
     <UngroupedViewTable
       {...props}
@@ -64,17 +68,7 @@ export default function Results(props) {
         })
       }
       columnDefinitions={columnsPerDataSource[dataSource]}
-      getData={({ timeConfig, backendQueryModel, orderBy, cursor }) =>
-        getTableData({
-          timeConfig,
-          backendQueryModel,
-          orderBy,
-          cursor,
-          dataSource: dataSource,
-          hiddenCalls: hiddenCalls,
-          previewEnabled: previewEnabled
-        })
-      }
+      getData={getData}
       getId={item => {
         const type = typePerDataSource[dataSource];
         const traceIdName = traceIdNamePerDataSource[dataSource];
@@ -89,7 +83,6 @@ export default function Results(props) {
       CustomHeaderActions={() => (
         <PreviewToggle previewEnabled={previewEnabled} onChangePreviewEnabled={onChangePreviewEnabled} />
       )}
-      additionalGetDataDependencies={[hiddenCalls, previewEnabled]}
       hideMetricAndSortingConfigurator
     />
   );
@@ -128,14 +121,14 @@ function getColumnDefinitions(dataSource) {
       label: <div className={locals.dot} />,
       sortable: false,
       getContent(item) {
-        const severity = item[type].errorCount;
+        const severity = getServerity({ item, dataSource });
         return (
           <Tooltip
             content={severity > 0 ? t('in-applications:analyze.containsErrors') : t('in-applications:analyze.noErrors')}
             align="rightMiddle"
           >
             <div className={locals.erroneous}>
-              <HealthDot severity={clamp(severity, 10)} iconSize={10} />
+              <HealthDot severity={severity} iconSize={10} />
             </div>
           </Tooltip>
         );

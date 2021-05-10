@@ -8,6 +8,7 @@ import React from 'react';
 import { KeyValue } from '@instana/components';
 
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
+import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -25,9 +26,9 @@ const typePerDataSource = {
 export default function SplitScreenTraceDetailContent({ dataSource, ungroupedViewConfiguration, ...props }) {
   const type = typePerDataSource[dataSource];
   const item = props[type];
-  const { label, duration, errorCount, batchCount } = item;
+  const { label, duration, batchCount } = item;
   const timestamp = item[ungroupedViewConfiguration.timestampName];
-  const severity = errorCount >= 1 ? 10 : 0;
+  const severity = getServerity({ item: props, dataSource });
   return (
     <div className={locals.wrapper}>
       <Tooltip

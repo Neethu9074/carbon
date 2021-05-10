@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import PreviewToggle from 'in-applications/analyze/AnalyzeView2_0/components/PreviewToggle';
@@ -18,32 +18,23 @@ const getDataPerDataSource = {
 };
 
 export default function GroupedResults(props) {
-  const { dataSource, hiddenCalls, previewEnabled, onChangePreviewEnabled } = props;
+  const { hiddenCalls, previewEnabled, onChangePreviewEnabled } = props;
+  const getData = useCallback(params => getTableData({ ...params, hiddenCalls, previewEnabled }), [
+    hiddenCalls,
+    previewEnabled
+  ]);
   return (
     <QueryBuilderWorkspace {...props}>
       <GroupedView
         {...props}
         itemlabelColumnId="name"
-        getData={({ timeConfig, backendQueryModel, orderByGroups, groupBy, cursor, metrics }) =>
-          getTableData({
-            timeConfig,
-            backendQueryModel,
-            groupBy,
-            cursor,
-            orderByGroups,
-            metrics,
-            dataSource: dataSource,
-            hiddenCalls: hiddenCalls,
-            previewEnabled: previewEnabled
-          })
-        }
+        getData={getData}
         getLabel={getLabel}
         UngroupedView={Results}
         withSamplingTooltip
         CustomHeaderActions={() => (
           <PreviewToggle previewEnabled={previewEnabled} onChangePreviewEnabled={onChangePreviewEnabled} />
         )}
-        additionalGetDataDependencies={[hiddenCalls, previewEnabled]}
       />
     </QueryBuilderWorkspace>
   );
