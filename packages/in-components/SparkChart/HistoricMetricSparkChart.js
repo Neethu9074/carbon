@@ -4,8 +4,9 @@
  */
 
 import shallowEquals from 'fbjs/lib/shallowEqual';
-import { createLogger } from '@instana/logger';
 import React from 'react';
+
+import { createLogger } from '@instana/logger';
 
 import { getMetricsForTimeframe, getPixelAwareRollupSize } from 'in-stores/metric';
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';

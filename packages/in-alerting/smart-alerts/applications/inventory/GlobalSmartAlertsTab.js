@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { useState } from 'react';
+
 import { just } from '@instana/observables';
 import { Card } from '@instana/components';
-import React, { useState } from 'react';
 
 import SmartAlertsNoDataNotification from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsNoDataNotification';
 import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/components/CreateGlobalSmartAlertButton';

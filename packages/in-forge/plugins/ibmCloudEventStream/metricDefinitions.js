@@ -175,5 +175,137 @@ export default [
     category: [t('in-forge:plugins.ibmCloudEventStream.enterprise')],
     min: 0,
     formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'members',
+      'instance_produce_conversions_time_quantile.5',
+      t('in-forge:plugins.ibmCloudEventStream.instance')
+    ),
+    label: t('in-forge:plugins.ibmCloudEventStream.instance'),
+    category: [t('in-forge:plugins.ibmCloudEventStream.quantile5')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'members',
+      'instance_produce_conversions_time_quantile.75',
+      t('in-forge:plugins.ibmCloudEventStream.instance')
+    ),
+    label: t('in-forge:plugins.ibmCloudEventStream.instance'),
+    category: [t('in-forge:plugins.ibmCloudEventStream.quantile75')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'members',
+      'instance_produce_conversions_time_quantile.95',
+      t('in-forge:plugins.ibmCloudEventStream.instance')
+    ),
+    label: t('in-forge:plugins.ibmCloudEventStream.instance'),
+    category: [t('in-forge:plugins.ibmCloudEventStream.quantile95')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'members',
+      'instance_produce_conversions_time_quantile.98',
+      t('in-forge:plugins.ibmCloudEventStream.instance')
+    ),
+    label: t('in-forge:plugins.ibmCloudEventStream.instance'),
+    category: [t('in-forge:plugins.ibmCloudEventStream.quantile98')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'members',
+      'instance_produce_conversions_time_quantile.99',
+      t('in-forge:plugins.ibmCloudEventStream.instance')
+    ),
+    label: t('in-forge:plugins.ibmCloudEventStream.instance'),
+    category: [t('in-forge:plugins.ibmCloudEventStream.quantile99')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'members',
+      'instance_produce_conversions_time_quantile.999',
+      t('in-forge:plugins.ibmCloudEventStream.instance')
+    ),
+    label: t('in-forge:plugins.ibmCloudEventStream.instance'),
+    category: [t('in-forge:plugins.ibmCloudEventStream.quantile999')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'members',
+      'instance_consume_conversions_time_quantile.5',
+      t('in-forge:plugins.ibmCloudEventStream.instance')
+    ),
+    label: t('in-forge:plugins.ibmCloudEventStream.instance'),
+    category: [t('in-forge:plugins.ibmCloudEventStream.quantile5')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'members',
+      'instance_consume_conversions_time_quantile.75',
+      t('in-forge:plugins.ibmCloudEventStream.instance')
+    ),
+    label: t('in-forge:plugins.ibmCloudEventStream.instance'),
+    category: [t('in-forge:plugins.ibmCloudEventStream.quantile75')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'members',
+      'instance_consume_conversions_time_quantile.95',
+      t('in-forge:plugins.ibmCloudEventStream.instance')
+    ),
+    label: t('in-forge:plugins.ibmCloudEventStream.instance'),
+    category: [t('in-forge:plugins.ibmCloudEventStream.quantile95')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'members',
+      'instance_consume_conversions_time_quantile.98',
+      t('in-forge:plugins.ibmCloudEventStream.instance')
+    ),
+    label: t('in-forge:plugins.ibmCloudEventStream.instance'),
+    category: [t('in-forge:plugins.ibmCloudEventStream.quantile98')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'members',
+      'instance_consume_conversions_time_quantile.99',
+      t('in-forge:plugins.ibmCloudEventStream.instance')
+    ),
+    label: t('in-forge:plugins.ibmCloudEventStream.instance'),
+    category: [t('in-forge:plugins.ibmCloudEventStream.quantile99')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'members',
+      'instance_consume_conversions_time_quantile.999',
+      t('in-forge:plugins.ibmCloudEventStream.instance')
+    ),
+    label: t('in-forge:plugins.ibmCloudEventStream.instance'),
+    category: [t('in-forge:plugins.ibmCloudEventStream.quantile999')],
+    min: 0,
+    formatter: number
   }
 ];
