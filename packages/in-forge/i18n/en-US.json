@@ -2805,14 +2805,14 @@
       "titleCreatedAt": "Created At",
       "titleStartedAt": "Started At",
       "descriptionDockerContainer": "The runtime metrics and more details for this container can be found on its corresponding Docker container dashboard:",
-      "infraTabSubscriptInWithAbbr": "<span>in </span><titledTask>{{taskLabel}}</titledTask><span> of </span><versionIcon /><span> <titledDefinition>{{definition}}</titledDefinition>:{{taskDefinitionVersion}}</span>",
-      "infraTabSubscriptInWithAbbrSnapshotId": "<span>in </span><taskIcon /><taskLink><titledTask>{{taskLabel}}</titledTask></taskLink><span> of </span><versionIcon /><span> <titledDefinition>{{definition}}</titledDefinition>:{{taskDefinitionVersion}}</span>",
-      "infraTabSubscriptIn": "<span>in </span>{{taskLabel}}<span> of </span><versionIcon /><span> <titledDefinition>{{definition}}</titledDefinition>:{{taskDefinitionVersion}}</span>",
-      "infraTabSubscriptInWithSnapshotId": "<span>in </span><taskIcon /><taskLink>{{taskLabel}}</taskLink><span> of </span><versionIcon /><span> <titledDefinition>{{definition}}</titledDefinition>:{{taskDefinitionVersion}}</span>",
-      "infraTabSubscriptOnWithAbbr": "<span> on </span><clusterIcon /><span> <titledSpan>{{clusterArn}}</titledSpan> in {{region}}</span>",
-      "infraTabSubscriptOnWithAbbrSnapshotId": "<span> on </span><clusterIcon /><span> <titledSpan>{{clusterArn}}</titledSpan> in <cloudIcon /><regionLink>{{region}}</regionLink></span>",
-      "infraTabSubscriptOn": "<span> on </span><clusterIcon /><span> {{clusterArn}} in {{region}}</span>",
-      "infraTabSubscriptOnWithSnapshotId": "<span> on </span><clusterIcon /><span> {{clusterArn}} in <cloudIcon /><regionLink>{{region}}</regionLink></span>"
+      "infraTabSubscriptInWithAbbr": "in <titledTask>{{taskLabel}}</titledTask> of <versionIcon /> <titledDefinition>{{definition}}</titledDefinition>:{{taskDefinitionVersion}}",
+      "infraTabSubscriptInWithAbbrSnapshotId": "in <taskIcon /><taskLink><titledTask>{{taskLabel}}</titledTask></taskLink> of <versionIcon /> <titledDefinition>{{definition}}</titledDefinition>:{{taskDefinitionVersion}}",
+      "infraTabSubscriptIn": "in {{taskLabel}} of <versionIcon /> <titledDefinition>{{definition}}</titledDefinition>:{{taskDefinitionVersion}}",
+      "infraTabSubscriptInWithSnapshotId": "in <taskIcon /><taskLink>{{taskLabel}}</taskLink> of <versionIcon /> <titledDefinition>{{definition}}</titledDefinition>:{{taskDefinitionVersion}}",
+      "infraTabSubscriptOnWithAbbr": " on <clusterIcon /> <titledSpan>{{clusterArn}}</titledSpan> in {{region}}",
+      "infraTabSubscriptOnWithAbbrSnapshotId": " on <clusterIcon /> <titledSpan>{{clusterArn}}</titledSpan> in <cloudIcon /><regionLink>{{region}}</regionLink>",
+      "infraTabSubscriptOn": " on <clusterIcon /> {{clusterArn}} in {{region}}",
+      "infraTabSubscriptOnWithSnapshotId": " on <clusterIcon /> {{clusterArn}} in <cloudIcon /><regionLink>{{region}}</regionLink>"
     },
     "awsEcsService": {
       "titleUnderConstruction": "Under Construction",
