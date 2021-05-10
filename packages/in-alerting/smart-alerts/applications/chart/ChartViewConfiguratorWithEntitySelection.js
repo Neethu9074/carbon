@@ -9,8 +9,7 @@ import PropTypes from 'prop-types';
 
 import {
   PER_AP_SERVICE,
-  PER_AP,
-  PER_AP_ENDPOINT
+  PER_AP
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import ChartSubEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/ChartSubEntitySelection';
 import { ShowApplicationSelection } from 'in-alerting/smart-alerts/applications/chart/ShowApplicationSelection';
@@ -36,6 +35,7 @@ export default function ChartViewConfiguratorWithEntitySelection({
   onChartViewConfigChange
 }) {
   const selectApLevelOnly = alertConfigWithFormModel.evaluationType === PER_AP;
+  const selectServiceLevel = alertConfigWithFormModel.evaluationType === PER_AP_SERVICE;
   const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
   const [serviceId, setServiceId] = useState();
   const [endpointId, setEndpointId] = useState();
@@ -43,13 +43,11 @@ export default function ChartViewConfiguratorWithEntitySelection({
     selectApLevelOnly ? firstApplicationId(alertConfigWithFormModel?.applications) : null
   );
   const applications = Object.values(alertConfigWithFormModel?.applications);
-  const showEntitySelection =
-    alertConfigWithFormModel.evaluationType === PER_AP_ENDPOINT ||
-    alertConfigWithFormModel.evaluationType === PER_AP_SERVICE ||
-    (selectApLevelOnly && applications.length > 1);
+  const showEntitySelection = !selectApLevelOnly || applications.length > 1;
 
   useEffect(() => {
     // do a simple reset, after somebody switched evaluationType
+    setEndpointId(null);
     setServiceId(null);
     if (selectApLevelOnly) {
       setApplicationId(firstApplicationId(alertConfigWithFormModel?.applications));
@@ -58,7 +56,7 @@ export default function ChartViewConfiguratorWithEntitySelection({
     }
     // trigger only when evaluationType was changed, but no by "firstApplicationId"
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectApLevelOnly]);
+  }, [selectApLevelOnly, selectServiceLevel]);
 
   return (
     <LightCard
