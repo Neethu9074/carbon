@@ -90,13 +90,13 @@ export function getEntitySelectionAsTagFilterFormModel(
     if (serviceId in application.services) {
       const service = application.services[serviceId];
 
-      if (endpointId && endpointId in service.endpoints) {
-        const service = service.endpoints[endpointId];
+      if (endpointId) {
         return joinExpressions({
           logicalOperator: and,
           expressions: [
             getApplicationTagFilter(boundaryScope, applicationId, applicationName),
-            getServiceTagFilterFormModel(service.serviceId, service.inclusive, service.endpoints, false)
+            getServiceTagFilterFormModel(service.serviceId, service.inclusive, service.endpoints, false),
+            getEndpointIdTagFilter(endpointId, true)
           ]
         });
       }
@@ -112,6 +112,10 @@ export function getEntitySelectionAsTagFilterFormModel(
     return getExplicitEntityTagFilterFormModel(boundaryScope, applicationId, applicationName, serviceId, endpointId);
   }
 
+  // at this point, we make the assumption that we would have an endpointId always together with a serviceId and and applicationId
+  // so we have the logic above and could ignore handling endpointId here.
+  // In a follow-up this could easily be extended to me more accurate to the
+  // documentation of this method above.
   if (application) {
     return getApplicationTagFilterFormModel(
       boundaryScope,

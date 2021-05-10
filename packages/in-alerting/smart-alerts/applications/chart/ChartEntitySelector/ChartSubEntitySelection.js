@@ -57,13 +57,12 @@ export default function ChartSubEntitySelection({
     [isSelectApLevel, applicationId]
   );
   useEffect(() => {
-    // reset on first rendering or evaluation mode change
-    if (isSelectApLevel) {
-      setServiceName(null);
-      setEndpointName(null);
-    } else if (isSelectServiceLevel) {
-      setEndpointName(null);
-    }
+    // reset on first rendering or evaluation type change
+    // apId is currently set automatically in parent
+    setServiceName(null);
+    setServiceId(null);
+    setEndpointName(null);
+    setEndpointId(null);
   }, [isSelectApLevel, isSelectServiceLevel]);
 
   const applicationIds = Object.keys(applications);
