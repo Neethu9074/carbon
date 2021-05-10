@@ -6,6 +6,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import List from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
@@ -21,7 +25,7 @@ const columnDefinitions = [
   }
 ];
 
-export default function JsErrorsList({ websiteId, tagFilters, timeConfig, onJsErrorSelect, slideOut }) {
+export default function JsErrorsList({ websiteId, tagFilterExpression, timeConfig, onJsErrorSelect, slideOut }) {
   return (
     <>
       <List
@@ -32,14 +36,12 @@ export default function JsErrorsList({ websiteId, tagFilters, timeConfig, onJsEr
         columnDefinitions={columnDefinitions}
         loadEntities={() =>
           getTableData({
-            tagFilters: [
-              ...tagFilters,
-              {
-                name: 'beacon.website.id',
-                operator: 'EQUALS',
-                stringValue: websiteId
-              }
-            ],
+            tagFilterExpression: toBackendQueryModel(
+              joinExpressions({
+                logicalOperator: and,
+                expressions: [tagFilter('beacon.website.id', 'EQUALS', websiteId), tagFilterExpression]
+              })
+            ),
             timeConfig
           })
             .filter(tableData => tableData.data)
@@ -58,15 +60,15 @@ export default function JsErrorsList({ websiteId, tagFilters, timeConfig, onJsEr
 
 JsErrorsList.propTypes = {
   websiteId: PropTypes.string.isRequired,
-  tagFilters: PropTypes.arrayOf(PropTypes.object).isRequired,
+  tagFilterExpression: PropTypes.arrayOf(PropTypes.object).isRequired,
   onJsErrorSelect: PropTypes.func.isRequired,
   slideOut: PropTypes.func.isRequired,
   timeConfig: PropTypes.object.isRequired
 };
 
-function getTableData({ timeConfig, tagFilters }) {
+function getTableData({ timeConfig, tagFilterExpression }) {
   return getWebsiteErrors({
-    tagFilters,
+    tagFilterExpression,
     timeConfig,
     pagination: {
       page: 1,
