@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { Link } from '@instana/components';
 
 import QueryBuilderWorkspace from 'in-mobile-apps/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import getMobileAppBeaconsForSession from 'in-mobile-apps/subscriptions/getMobileAppBeaconsForSession';
@@ -172,9 +173,7 @@ export default function MobileBeacons(props) {
         })
       }
       columnDefinitions={columnsPerDataSource[props.dataSource]}
-      getData={({ timeConfig, backendQueryModel, orderBy, cursor }) =>
-        getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSource: props.dataSource })
-      }
+      getData={getTableData}
       getId={item => {
         return {
           sessionId: item.beacon?.sessionId,

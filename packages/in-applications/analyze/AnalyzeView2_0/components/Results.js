@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React, { useCallback } from 'react';
 import { clamp } from 'lodash';
-import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
@@ -53,6 +53,10 @@ const columnsPerDataSource = {
 
 export default function Results(props) {
   const { dataSource, hiddenCalls, previewEnabled, onChangePreviewEnabled, withoutHeader, detailId } = props;
+  const getData = useCallback(params => getTableData({ ...params, hiddenCalls, previewEnabled }), [
+    hiddenCalls,
+    previewEnabled
+  ]);
   let content = (
     <UngroupedViewTable
       {...props}
@@ -64,17 +68,7 @@ export default function Results(props) {
         })
       }
       columnDefinitions={columnsPerDataSource[dataSource]}
-      getData={({ timeConfig, backendQueryModel, orderBy, cursor }) =>
-        getTableData({
-          timeConfig,
-          backendQueryModel,
-          orderBy,
-          cursor,
-          dataSource: dataSource,
-          hiddenCalls: hiddenCalls,
-          previewEnabled: previewEnabled
-        })
-      }
+      getData={getData}
       getId={item => {
         const type = typePerDataSource[dataSource];
         const traceIdName = traceIdNamePerDataSource[dataSource];
@@ -89,7 +83,6 @@ export default function Results(props) {
       CustomHeaderActions={() => (
         <PreviewToggle previewEnabled={previewEnabled} onChangePreviewEnabled={onChangePreviewEnabled} />
       )}
-      additionalGetDataDependencies={[hiddenCalls, previewEnabled]}
       hideMetricAndSortingConfigurator
     />
   );

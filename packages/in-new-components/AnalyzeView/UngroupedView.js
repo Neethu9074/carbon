@@ -55,14 +55,13 @@ export default function UngroupedAnalyzeView(props) {
     withSamplingTooltip,
     ungroupedViewConfiguration,
     filteringTagCatalog,
-    additionalGetDataDependencies = [],
     hideMetricAndSortingConfigurator
   } = props;
 
   const timeConfig = useTimeConfig();
   const cursorPaginationState = (useCursorPaginationStrategy ?? useCursorPagination)(
-    params => (isValid ? getData({ timeConfig, orderBy, backendQueryModel, ...params }) : empty),
-    [isValid, timeConfig, backendQueryModel, orderBy, ...additionalGetDataDependencies]
+    params => (isValid ? getData({ timeConfig, orderBy, backendQueryModel, dataSource, ...params }) : empty),
+    [isValid, timeConfig, backendQueryModel, orderBy, dataSource, getData]
   );
   const { items, errors, progress, totalHits, totalRepresentedItemCount, adjustedWindowSize } = cursorPaginationState;
 
