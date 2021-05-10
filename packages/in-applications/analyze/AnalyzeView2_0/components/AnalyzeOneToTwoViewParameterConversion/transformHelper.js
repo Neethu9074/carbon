@@ -45,6 +45,8 @@ export function isAnalyticsOneLocation(location) {
 }
 
 export function transformOneZeroToTwoZero(location, tagCatalog, dataSourceConfiguration) {
+  location.pathname = analyzePath;
+
   transformDataSourceParameters(location);
 
   transformDetailIdParameters(location);

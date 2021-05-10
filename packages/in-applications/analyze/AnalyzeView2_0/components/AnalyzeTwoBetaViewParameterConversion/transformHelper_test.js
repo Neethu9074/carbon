@@ -72,7 +72,7 @@ const cases = [
   {
     name: 'trace detail',
     one: {
-      pathname: '/analyze',
+      pathname: '/analyze/trace/tree',
       query: {},
       matrix: {
         '/analyze': {
@@ -135,7 +135,7 @@ const cases = [
   {
     name: 'call detail',
     one: {
-      pathname: '/analyze',
+      pathname: '/analyze/trace/tree',
       query: {},
       matrix: {
         '/analyze': {
@@ -162,7 +162,7 @@ const cases = [
   {
     name: 'call detail without dataSource',
     one: {
-      pathname: '/analyze',
+      pathname: '/analyze/trace/tree',
       query: {},
       matrix: {
         '/analyze': {},

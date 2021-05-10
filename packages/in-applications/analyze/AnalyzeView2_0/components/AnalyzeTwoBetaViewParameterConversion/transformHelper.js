@@ -26,6 +26,8 @@ export function isAnalyticsTwoBetaLocation(location) {
 }
 
 export function transformTwoGAToPostGA(location) {
+  location.pathname = analyzePath;
+
   transformDetailIdParameters(location);
 
   transformOrderByGroupsParameters(location);
