@@ -4,7 +4,6 @@
  */
 
 import React, { useCallback } from 'react';
-import { clamp } from 'lodash';
 
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
@@ -13,6 +12,7 @@ import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/compon
 import UngroupedViewTable, { retrievalSize } from 'in-new-components/AnalyzeView/UngroupedViewTable';
 import TraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView';
 import PreviewToggle from 'in-applications/analyze/AnalyzeView2_0/components/PreviewToggle';
+import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
@@ -121,14 +121,14 @@ function getColumnDefinitions(dataSource) {
       label: <div className={locals.dot} />,
       sortable: false,
       getContent(item) {
-        const severity = item[type].errorCount;
+        const severity = getServerity({ item, dataSource });
         return (
           <Tooltip
             content={severity > 0 ? t('in-applications:analyze.containsErrors') : t('in-applications:analyze.noErrors')}
             align="rightMiddle"
           >
             <div className={locals.erroneous}>
-              <HealthDot severity={clamp(severity, 10)} iconSize={10} />
+              <HealthDot severity={severity} iconSize={10} />
             </div>
           </Tooltip>
         );
