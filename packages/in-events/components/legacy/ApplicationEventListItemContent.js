@@ -68,6 +68,7 @@ export default function ApplicationEventListItemContent({ event }) {
           viewConfig={chartViewConfig}
           blueprintConfig={blueprintConfig}
           serviceId={eventEntity.serviceId}
+          endpointId={eventEntity.endpointId}
         />
       </div>
       <div className={locals.sectionWrapper}>

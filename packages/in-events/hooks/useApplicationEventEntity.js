@@ -8,6 +8,7 @@ import { useObservable } from '@instana/hooks';
 
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
+import getEndpoint from 'in-subscription/application/getEndpoint';
 
 export default function useApplicationEventEntity(event) {
   return useObservable(
@@ -19,6 +20,7 @@ export default function useApplicationEventEntity(event) {
       const entityId = event.get('entityId');
       const entityType = event.get('entityType');
       const metadata = event.get('metadata');
+      const serviceId = event.get('endpointServiceId');
       const entityLabel = metadata.get('entityLabel');
       const applicationId = metadata.get('applicationId');
 
@@ -28,7 +30,7 @@ export default function useApplicationEventEntity(event) {
         case 'Service20':
           return getServiceEntity(applicationId, entityId, entityLabel);
         case 'Endpoint20':
-          return getEndpointEntity(entityId, entityLabel);
+          return getEndpointEntity(applicationId, serviceId, entityId, entityLabel);
         default:
           throw new Error('Event type unknown: ' + entityType);
       }
@@ -65,11 +67,19 @@ function resolveLabel(observable) {
     .map(response => response.data.label);
 }
 
-function getEndpointEntity(entityId, entityLabel) {
-  // TODO Implement full handling of endpoints, as soon as we start implementing Per-Endpoint Smart Alerts.
-  //      So far we just return the endpoint instead of the full App > Service > Endpoint path.
-  return just({
-    endpointId: entityId,
-    endpointName: entityLabel
+function getEndpointEntity(applicationId, serviceId, entityId, entityLabel) {
+  return combineLatest([
+    resolveLabel(getApplication({ id: applicationId })),
+    serviceId ? resolveLabel(getServiceLabel({ id: serviceId })) : just(null),
+    entityLabel ? just(entityLabel) : resolveLabel(getEndpoint({ id: entityId }))
+  ]).map(([applicationName, serviceName, endpointName]) => {
+    return {
+      applicationId: applicationId,
+      applicationName,
+      serviceId,
+      serviceName,
+      endpointId: entityId,
+      endpointName
+    };
   });
 }

@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
@@ -53,6 +54,8 @@ export default function ApplicationEventContent({ event }) {
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
+  const isEndpointType = event.get('entityType') === 'Endpoint20';
+
   return (
     <>
       <Row withoutSideMargin>
@@ -93,6 +96,7 @@ export default function ApplicationEventContent({ event }) {
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
               serviceId={eventEntity.serviceId}
+              endpointId={eventEntity.endpointId}
             />
           </Card>
         </Col>
@@ -114,11 +118,13 @@ export default function ApplicationEventContent({ event }) {
         </Col>
       </Row>
 
-      <Row withoutSideMargin>
-        <Col xs>
-          <SmartAlertAffectedEntities {...eventEntity} alertConfig={alertConfig} event={event} />
-        </Col>
-      </Row>
+      {!isEndpointType && (
+        <Row withoutSideMargin>
+          <Col xs>
+            <SmartAlertAffectedEntities {...eventEntity} alertConfig={alertConfig} event={event} />
+          </Col>
+        </Row>
+      )}
     </>
   );
 }
