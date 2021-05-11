@@ -1,6 +1,6 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
 
 /* eslint-env mocha,node */
@@ -8,13 +8,8 @@
 
 'use strict';
 
-// Set our default time zone so that tests with date formatting are predictable.
-process.env.TZ = 'Europe/Berlin';
-
 const Adapter = require('enzyme-adapter-react-16');
 const Enzyme = require('enzyme');
-const { JSDOM } = require('jsdom');
-const path = require('path');
 const chai = require('chai');
 // eslint-disable-next-line no-restricted-imports
 const i18n = require('i18next');
@@ -23,26 +18,6 @@ chai.use(require('chai-string'));
 chai.use(require('chai-subset'));
 chai.use(require('sinon-chai'));
 
-// support static file require statements
-['.png', '.less', '.css', '.svg', '.glsl', '.mless', '.mmd'].forEach(extension => {
-  require.extensions[extension] = () => {
-    return `a ${extension} module`;
-  };
-});
-
-const babelConfig = require(path.join(__dirname, '..', '..', 'babel.config.js'));
-require('@babel/register')(babelConfig);
-
-// Ensuring a browser environment is simulated before React is loaded to avoid
-// Error: Invariant Violation: Markup wrapping node not initialized
-// Also see:
-// https://github.com/facebook/react/issues/3840
-const jsdom = new JSDOM('<html><head></head><body></body></html>', {
-  url: 'http://demo.internal.instana.io'
-});
-global.window = jsdom.window;
-global.document = global.window.document;
-global.navigator = global.window.navigator;
 global.__DEV__ = false;
 global.__HOT_RELOAD__ = false;
 global.window.instana = {

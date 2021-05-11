@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-disable babel/no-unused-expressions */
-/* eslint-env mocha */
+// ...to.be.true is a valid syntax in chai, but eslint complains, so we turn this off
+/* eslint-disable @babel/no-unused-expressions */
+/* eslint-env jest */
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -31,7 +32,7 @@ describe('in-alerting/smart-alerts/applications/hooks/useSmartAlertFormSideEffec
     applications: getEntitySelection('foo')
   };
 
-  context('when updating the alert form', () => {
+  describe('when updating the alert form', () => {
     const form = createSmartAlertForm(initialAlertData);
     const setForm = sinon.fake();
     const updateForm = useSmartAlertFormSideEffects(form, setForm);

@@ -3,15 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha, node */
+/* eslint-env jest, node */
 import { create } from '@instana/observables';
-import proxyquire from 'proxyquire';
 import { expect } from 'chai';
+import { getDeltaTime } from 'in-map/misc/time';
+import { onWheel, onLeave, onMove, onDown, onUp } from 'in-services/util/reactiveMouseEvents';
+import createControls from 'in-components/graphView/components/Controls';
 
 import { PerspectiveCamera } from 'in-map/3DLibProvider';
 
+jest.mock('in-map/misc/time');
+jest.mock('in-services/util/reactiveMouseEvents');
+
 describe('controls', () => {
-  let createControls;
   let controls;
 
   let onMouseLeave;
@@ -30,33 +34,27 @@ describe('controls', () => {
   };
 
   beforeEach(() => {
-    createControls = proxyquire('in-components/graphView/components/Controls', {
-      'in-map/misc/time': {
-        getDeltaTime: () => 0.5
-      },
-      'in-services/util/reactiveMouseEvents': {
-        onWheel: (canvas, callback) => {
-          onMouseWheel = create();
-          return onMouseWheel.subscribe(callback);
-        },
-        onLeave: (canvas, callback) => {
-          onMouseLeave = create();
-          return onMouseLeave.subscribe(callback);
-        },
-        onMove: (canvas, callback) => {
-          onMouseMove = create();
-          return onMouseMove.subscribe(callback);
-        },
-        onDown: (canvas, callback) => {
-          onMouseDown = create();
-          return onMouseDown.subscribe(callback);
-        },
-        onUp: (canvas, callback) => {
-          onMouseUp = create();
-          return onMouseUp.subscribe(callback);
-        }
-      }
-    }).default;
+    getDeltaTime.mockReturnValue(0.5);
+    onWheel.mockImplementation((canvas, callback) => {
+      onMouseWheel = create();
+      return onMouseWheel.subscribe(callback);
+    });
+    onLeave.mockImplementation((canvas, callback) => {
+      onMouseLeave = create();
+      return onMouseLeave.subscribe(callback);
+    });
+    onMove.mockImplementation((canvas, callback) => {
+      onMouseMove = create();
+      return onMouseMove.subscribe(callback);
+    });
+    onDown.mockImplementation((canvas, callback) => {
+      onMouseDown = create();
+      return onMouseDown.subscribe(callback);
+    });
+    onUp.mockImplementation((canvas, callback) => {
+      onMouseUp = create();
+      return onMouseUp.subscribe(callback);
+    });
 
     camera = new PerspectiveCamera(75, 1, 1, 1000);
   });

@@ -3,43 +3,40 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 
-// ...to.be.true is a valid syntax in chai, but eslint complains, so we turn this off
-/* eslint-disable babel/no-unused-expressions */
-
-import proxyquire from 'proxyquire';
 import { shallow } from 'enzyme';
-import { expect } from 'chai';
 import React from 'react';
-import sinon from 'sinon';
 
+import {
+  getGlobalAlertConfigByIdAndTimestamp,
+  getLatestGlobalAlertConfig
+} from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import {
   alertsTabDetailsFullyQualified,
   globalAlertDetails,
   alertsTabListFullyQualified,
   alertsList
 } from 'in-applications/navigation/paths';
+import {
+  getAlertConfigByIdAndTimestamp,
+  getLatestAlertConfig
+} from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
+import AlertDetails from 'in-alerting/smart-alerts/applications/details/AlertDetails';
 
-const timeConfig = {
-  windowSize: 123
+jest.mock('in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs');
+jest.mock('in-alerting/smart-alerts/applications/api/applicationAlertConfig');
+
+const asObservable = {
+  asObservable: true
 };
 
 describe('Alert Details', () => {
-  const globalAlertConfigFunctions = {
-    getGlobalAlertConfigByIdAndTimestamp: sinon.fake(),
-    getLatestGlobalAlertConfig: sinon.fake()
+  const defaultProps = {
+    timeConfig: {
+      windowSize: 12345678
+    }
   };
-
-  const individualAlertConfigFunctions = {
-    getAlertConfigByIdAndTimestamp: sinon.fake(),
-    getLatestAlertConfig: sinon.fake()
-  };
-
-  const AlertDetails = proxyquire('in-alerting/smart-alerts/applications/details/AlertDetails', {
-    'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs': globalAlertConfigFunctions,
-    'in-alerting/smart-alerts/applications/api/applicationAlertConfig': individualAlertConfigFunctions
-  }).default;
 
   it('should render <GlobalAlertDetails> if matrix param "configsCategory" is set to local', () => {
     const location = {
@@ -51,9 +48,9 @@ describe('Alert Details', () => {
       }
     };
 
-    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />);
+    const wrapper = shallow(<AlertDetails location={location} {...defaultProps} />);
 
-    expect(wrapper.find('GlobalAlertDetails')).to.have.lengthOf(1);
+    expect(wrapper.find('GlobalAlertDetails')).toHaveLength(1);
   });
 
   it('should render <IndividiualAlertDetails> if matrix param "configsCategory" is set to local', () => {
@@ -66,20 +63,20 @@ describe('Alert Details', () => {
       }
     };
 
-    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />);
+    const wrapper = shallow(<AlertDetails location={location} {...defaultProps} />);
 
-    expect(wrapper.find('IndividiualAlertDetails')).to.have.lengthOf(1);
+    expect(wrapper.find('IndividiualAlertDetails')).toHaveLength(1);
   });
 
-  it('should render <IndividiualAlertDetails> if matrix param "configsCategory" is abscent', () => {
+  it('should render <IndividiualAlertDetails> if matrix param "configsCategory" is absent', () => {
     const location = {
       pathname: '/alerts/details',
       matrix: {}
     };
 
-    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />);
+    const wrapper = shallow(<AlertDetails location={location} {...defaultProps} />);
 
-    expect(wrapper.find('IndividiualAlertDetails')).to.have.lengthOf(1);
+    expect(wrapper.find('IndividiualAlertDetails')).toHaveLength(1);
   });
 
   it('prop getConfig should call getGlobalAlertConfigByIdAndTimestamp() for global smart alert with created date', () => {
@@ -92,15 +89,14 @@ describe('Alert Details', () => {
       }
     };
 
-    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} {...defaultProps} />).dive();
     const timestamp = Date.now();
 
     const actualGetConfig = wrapper.prop('getConfig');
     actualGetConfig('123', timestamp);
 
-    expect(globalAlertConfigFunctions.getGlobalAlertConfigByIdAndTimestamp.callCount).to.be.equal(1);
-    expect(globalAlertConfigFunctions.getGlobalAlertConfigByIdAndTimestamp.getCall(0).calledWith('123', timestamp)).to
-      .be.true;
+    expect(getGlobalAlertConfigByIdAndTimestamp).toHaveBeenCalledTimes(1);
+    expect(getGlobalAlertConfigByIdAndTimestamp).toHaveBeenLastCalledWith('123', timestamp, asObservable);
   });
 
   it('prop getConfig should call getInventoryPathForLocation() for global smart alert', () => {
@@ -113,12 +109,12 @@ describe('Alert Details', () => {
       }
     };
 
-    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} {...defaultProps} />).dive();
     const actualGetConfig = wrapper.prop('getConfig');
     actualGetConfig('123');
 
-    expect(globalAlertConfigFunctions.getLatestGlobalAlertConfig.callCount).to.be.equal(1);
-    expect(globalAlertConfigFunctions.getLatestGlobalAlertConfig.getCall(0).calledWith('123')).to.be.true;
+    expect(getLatestGlobalAlertConfig).toHaveBeenCalledTimes(1);
+    expect(getLatestGlobalAlertConfig).toHaveBeenLastCalledWith('123', asObservable);
   });
 
   it('prop getConfig should call getAlertConfigByIdAndTimestamp() for individual smart alert with created date', () => {
@@ -127,14 +123,13 @@ describe('Alert Details', () => {
       matrix: {}
     };
 
-    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} {...defaultProps} />).dive();
     const actualGetConfig = wrapper.prop('getConfig');
-    const timeconfig = Date.now();
-    actualGetConfig('123', timeconfig);
+    const timeConfig = Date.now();
+    actualGetConfig('123', timeConfig);
 
-    expect(individualAlertConfigFunctions.getAlertConfigByIdAndTimestamp.callCount).to.be.equal(1);
-    expect(individualAlertConfigFunctions.getAlertConfigByIdAndTimestamp.getCall(0).calledWith('123', timeconfig)).to.be
-      .true;
+    expect(getAlertConfigByIdAndTimestamp).toHaveBeenCalledTimes(1);
+    expect(getAlertConfigByIdAndTimestamp).toHaveBeenLastCalledWith('123', timeConfig, asObservable);
   });
 
   it('prop getConfig should call getLatestAlertConfig() for individual smart alert', () => {
@@ -143,12 +138,12 @@ describe('Alert Details', () => {
       matrix: {}
     };
 
-    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} {...defaultProps} />).dive();
     const actualGetConfig = wrapper.prop('getConfig');
     actualGetConfig('123');
 
-    expect(individualAlertConfigFunctions.getLatestAlertConfig.callCount).to.be.equal(1);
-    expect(individualAlertConfigFunctions.getLatestAlertConfig.getCall(0).calledWith('123')).to.be.true;
+    expect(getLatestAlertConfig).toHaveBeenCalledTimes(1);
+    expect(getLatestAlertConfig).toHaveBeenLastCalledWith('123', asObservable);
   });
 
   it('should have the correct prop paths.detailsPath for per-ap-inventory-tab', () => {
@@ -157,10 +152,10 @@ describe('Alert Details', () => {
       matrix: {}
     };
 
-    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} {...defaultProps} />).dive();
 
     const actualDetailsPath = wrapper.prop('paths').detailsPath;
-    expect(actualDetailsPath).to.be.equal(alertsTabDetailsFullyQualified);
+    expect(actualDetailsPath).toBe(alertsTabDetailsFullyQualified);
   });
 
   it('should have correct prop paths.detailsPath for global-inventory-tab', () => {
@@ -169,10 +164,10 @@ describe('Alert Details', () => {
       matrix: {}
     };
 
-    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} {...defaultProps} />).dive();
 
     const actualDetailsPath = wrapper.prop('paths').detailsPath;
-    expect(actualDetailsPath).to.be.equal(globalAlertDetails);
+    expect(actualDetailsPath).toBe(globalAlertDetails);
   });
 
   it('should have the correct prop paths.listPath for per-ap-inventory-tab', () => {
@@ -181,10 +176,10 @@ describe('Alert Details', () => {
       matrix: {}
     };
 
-    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} {...defaultProps} />).dive();
 
     const actualListPath = wrapper.prop('paths').listPath;
-    expect(actualListPath).to.be.equal(alertsTabListFullyQualified);
+    expect(actualListPath).toBe(alertsTabListFullyQualified);
   });
 
   it('should have the correct prop paths.listPath for global-inventory-tab', () => {
@@ -193,9 +188,9 @@ describe('Alert Details', () => {
       matrix: {}
     };
 
-    const wrapper = shallow(<AlertDetails location={location} timeConfig={timeConfig} />).dive();
+    const wrapper = shallow(<AlertDetails location={location} {...defaultProps} />).dive();
 
     const actualListPath = wrapper.prop('paths').listPath;
-    expect(actualListPath).to.be.equal(alertsList);
+    expect(actualListPath).toBe(alertsList);
   });
 });

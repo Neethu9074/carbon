@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha, node */
+/* eslint-env jest, node */
 import { create } from '@instana/observables';
-import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -23,6 +22,7 @@ describe('in-map', () => {
     let highlightedEntityIds;
 
     beforeEach(() => {
+      jest.resetModules();
       highlightedEntityId = create();
       highlightedEntityIds = create();
 
@@ -34,17 +34,16 @@ describe('in-map', () => {
       sceneObject.eventEmitter.on('isHighlighted').subscribe(isHighlighted);
       sceneObject2.eventEmitter.on('isHighlighted').subscribe(isHighlighted2);
 
-      const Component = proxyquire('in-map/sceneObjectComponents/HighlightingComponent/HighlightingComponent', {
-        'in-map/stores/highlightedEntityId': {
-          highlightedEntityId$: highlightedEntityId
-        },
-        'in-map/stores/selectedMapSceneObjectStore': {
-          selectedSnapshotIdForHighlightingInMap$: create().startWith(null)
-        },
-        'in-map/stores/highlightedEntityIds': {
-          highlightedEntityIds$: highlightedEntityIds
-        }
-      }).default;
+      jest.doMock('in-map/stores/highlightedEntityId', () => ({
+        highlightedEntityId$: highlightedEntityId
+      }));
+      jest.doMock('in-map/stores/selectedMapSceneObjectStore', () => ({
+        selectedSnapshotIdForHighlightingInMap$: create().startWith(null)
+      }));
+      jest.doMock('in-map/stores/highlightedEntityIds', () => ({
+        highlightedEntityIds$: highlightedEntityIds
+      }));
+      const Component = require('in-map/sceneObjectComponents/HighlightingComponent/HighlightingComponent').default;
 
       component = new Component(sceneObject);
       component.initEvents();

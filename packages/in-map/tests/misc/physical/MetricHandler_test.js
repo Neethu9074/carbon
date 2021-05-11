@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha, node */
+/* eslint-env jest, node */
 import { create } from '@instana/observables';
 import RoEmitter from '@instana/roemitter';
-import proxyquire from 'proxyquire';
 import { fromJS } from 'immutable';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -21,6 +20,7 @@ describe('in-map', () => {
     let node;
 
     beforeEach(() => {
+      jest.resetModules();
       activeMetric$ = create().startWith(
         fromJS({
           label: 'Load',
@@ -41,15 +41,12 @@ describe('in-map', () => {
         eventEmitter
       };
 
-      const createMetricHandler = proxyquire('in-map/misc/physical/MetricHandler', {
-        'in-stores/metric': {
-          activeMetric$,
-          getMetricForFocusedMoment: () => create().startWith({ '1': 1 })
-        },
-        'in-sdk/metrics': {
-          getMaxValue
-        }
-      }).default;
+      jest.doMock('in-stores/metric', () => ({
+        activeMetric$,
+        getMetricForFocusedMoment: () => create().startWith({ '1': 1 })
+      }));
+      jest.doMock('in-sdk/metrics', () => ({ getMaxValue }));
+      const createMetricHandler = require('in-map/misc/physical/MetricHandler').default;
 
       metrichandler = createMetricHandler(node, 'hasseNichJesehen');
     });

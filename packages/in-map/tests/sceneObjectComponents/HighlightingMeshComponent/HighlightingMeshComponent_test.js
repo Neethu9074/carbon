@@ -3,13 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha, node */
-import { create } from '@instana/observables';
-import proxyquire from 'proxyquire';
+/* eslint-env jest, node */
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { getFactory } from 'in-map/stores/factoriesStore';
 
 import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
+import HighlightingMeshComponent from 'in-map/sceneObjectComponents/HighlightingMeshComponent';
+
+jest.mock('in-map/stores/factoriesStore');
+jest.mock('in-map/stores/selectedMapSceneObjectStore', () => {
+  const { create } = jest.requireActual('@instana/observables');
+  return { selectedSnapshotIdForHighlightingInMap$: create().startWith(null) };
+});
 
 describe('in-map', () => {
   describe('sceneObjectComponents/HighlightingMeshComponent', () => {
@@ -28,20 +34,12 @@ describe('in-map', () => {
         remove: sinon.stub(),
         needsUpdate: sinon.stub()
       };
+      getFactory.mockReturnValue(factory);
 
-      const Component = proxyquire('in-map/sceneObjectComponents/HighlightingMeshComponent/HighlightingMeshComponent', {
-        'in-map/stores/selectedMapSceneObjectStore': {
-          selectedSnapshotIdForHighlightingInMap$: create().startWith(null)
-        },
-        'in-map/stores/factoriesStore': {
-          getFactory: () => factory
-        }
-      }).default;
-
-      component = new Component(sceneObject);
+      component = new HighlightingMeshComponent(sceneObject);
       component.initEvents();
 
-      component2 = new Component(sceneObject2);
+      component2 = new HighlightingMeshComponent(sceneObject2);
       component2.initEvents();
     });
 

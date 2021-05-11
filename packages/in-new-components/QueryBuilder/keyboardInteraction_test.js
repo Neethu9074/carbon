@@ -3,26 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 
-import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
+import { isPrimaryInteractiveElement } from '@instana/components';
+import { onKeyDown } from 'in-new-components/QueryBuilder/keyboardInteraction';
 import keyCodes from 'in-components/keyCodes';
 
+jest.mock('@instana/components');
+isPrimaryInteractiveElement.mockImplementation(e => e.isPrimaryInteractiveElement);
+
 describe('in-new-components/QueryBuilder/keyboardInteraction', () => {
-  let onKeyDown;
-
-  beforeEach(() => {
-    onKeyDown = proxyquire('in-new-components/QueryBuilder/keyboardInteraction', {
-      '@instana/components': {
-        // Do not require usage of specific DOM element types.
-        isPrimaryInteractiveElement: e => e.isPrimaryInteractiveElement
-      }
-    }).onKeyDown;
-  });
-
   describe('onKeyDown', () => {
     let stopElement;
 
