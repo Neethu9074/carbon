@@ -111,9 +111,9 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'infraExporeDataEnabled',
+    uiClientKey: 'infraExploreDataEnabled',
     instanaCtlKey: 'feature.infrastructure.explore.data.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'beeInstanaInfraMetricsEnabled',
@@ -138,7 +138,7 @@ module.exports = exports = [
   {
     uiClientKey: 'infraMetricsWidgetEnabled',
     instanaCtlKey: 'feature.infra.metrics.widget.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'ampCompanyInfoEnabled',
