@@ -19,7 +19,7 @@
     "dev": "yarn && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=4096 node_modules/gulp/bin/gulp.js dev",
     "storybook": "cd storybook && yarn && cd .. && export STORYBOOK='true' && export BUILD_DEV='true' && export NODE_ENV='development' && gulp prepareTestExecution && export DEV_TOOLS='eval' && node --max-old-space-size=4096 ./storybook/node_modules/.bin/start-storybook -p 9001 -c storybook/config --no-version-updates",
     "storybookTest": "export STORYBOOK='true' && chromatic test -d storybookTarget --list --exit-zero-on-changes",
-    "storybookBuild": "cd storybook && yarn && cd .. && export STORYBOOK='true' && gulp prepareTestExecution && node --max-old-space-size=4096 ./storybook/node_modules/.bin/build-storybook -c storybook/config -o storybookTarget",
+    "storybookBuild": "cd storybook && yarn -v && yarn config list && cd .. && export STORYBOOK='true' && gulp prepareTestExecution && node --max-old-space-size=4096 ./storybook/node_modules/.bin/build-storybook -c storybook/config -o storybookTarget",
     "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --write \"packages/**/*.{js,less,mless,css}\"",
     "postinstall": "./build/postInstall",
