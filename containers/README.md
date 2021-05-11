@@ -1,6 +1,10 @@
 # Component Images
 
-This directory contains all code necessary to build Instana `ui-client` component images based off of Instana runtime images. The `ui-client` component uses a similar `container` definition file as the [default backend one](https://github.com/instana/backend/blob/develop/containers/components/default/container) except that it's starting from the `nodejs` image instead of `jdk11` as the base.
+This directory contains all code necessary to build Instana `ui-client` component images based off of Instana runtime images. The `ui-client` component uses a similar `container` definition file as the [default backend one](https://github.com/instana/backend/blob/develop/containers/components/default/container) except that it's using the `nodejs` image instead of `jdk11` as the base.
+
+## Base Image
+
+All Instana component images use one of the [Instana runtime images](https://github.com/instana/backend/blob/develop/containers/runtimes) as its base. The version of that base image is controlled by the value in the [BASE_VERSION](BASE_VERSION) file.
 
 ## Usage
 
@@ -69,4 +73,4 @@ To build an image for a component on CI:
     CONTAINERS_INSTANA_IO_PASSWORD=<containers-pswd> \
     ./scripts/build-and-publish.sh ui-client
 
-TODO: Additional information on how this is integrated with the backend pipeline definition in `Jenkinsfile` once it is integrated
+Please see the `Build & Push Images` and `Deploy` stages in the `Jenkinsfile` at the root of this repository for the implementation.
