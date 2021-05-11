@@ -42,7 +42,7 @@ export default function AlertHeader({
   renderCustomTitle
 }) {
   const alertRevision = getRevision(alertConfig, alertConfigVersions) || 1;
-  const isDeletedConfig = alertConfig.readOnly && alertRevision === alertConfigVersions.length;
+  const isDeletedConfig = alertConfigVersions.some(alertConfig => alertConfig.deleted);
   const isNotLatestRevision = alertRevision < alertConfigVersions.length;
 
   const [errorMessage, setErrorMessage] = useState(null);
