@@ -3,6 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+const leadingZeros = '0000000000000000';
 export function getTraceIdTagFilter(traceId) {
-  return { type: 'TAG_FILTER', name: 'log.traceId', value: traceId.padStart(32, '0'), operator: 'EQUALS' };
+  if (traceId.length === 32 && traceId.startsWith(leadingZeros)) {
+    traceId = traceId.slice(leadingZeros.length);
+  }
+  return { type: 'TAG_FILTER', name: 'log.traceId', value: traceId, operator: 'CONTAINS' };
 }
