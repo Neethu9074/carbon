@@ -93,7 +93,7 @@ module.exports = exports = [
   {
     uiClientKey: 'applicationSmartAlertsPerEndpointsEnabled',
     instanaCtlKey: 'feature.application.smart.alerts.per.endpoints.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'agentMonitoringIssuesEnabled',
