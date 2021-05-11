@@ -692,15 +692,18 @@ describe('in-applications/navigation/paths', () => {
       // GIVEN
       const subscriber = sinon.stub();
       const undefinedCallback = {
-        ...traceFilters[0].params,
-        setNotificationCallback: undefined
+        ...filtersWithNotifications[0].params,
+        setOnClickNotificationMessage: undefined
       };
+      let caughtError = false;
 
       // WHEN
+      getLinkToAnalyze(undefinedCallback).subscribe(subscriber, () => {
+        caughtError = true;
+      });
 
       // THEN
-      // eslint-disable-next-line babel/no-unused-expressions
-      expect(getLinkToAnalyze(undefinedCallback).subscribe(subscriber)).not.to.throw;
+      expect(caughtError).to.equal(false);
     });
   });
 });
