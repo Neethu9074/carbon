@@ -128,6 +128,11 @@
     "optional": "Optional"
   },
   "health": {
+    "eventType_issue": "issue",
+    "eventType_issue_plural": "issues",
+    "eventType_issue_0": "issues",
+    "eventType_issue_1": "issue",
+    "eventType_issue_2": "issues",
     "openIssuesListPresenterActionsViewIssues": "View {{eventType}}",
     "openIssuesListPresenterActionsViewNumbersOfIssue": "View {{openIssueCount}} {{eventType}}",
     "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Loading Open {{eventType}}…",

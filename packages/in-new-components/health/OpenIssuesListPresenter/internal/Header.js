@@ -12,14 +12,19 @@ import { t } from 'in-i18n';
 import locals from './Header.mless';
 
 export default function Header({ openIssuesResult, maxIssuesToShow, eventType, close }) {
+  const eventTypeContext = eventType.toLowerCase();
+
   let title = null;
   if (openIssuesResult.progress.loading) {
     title = t('in-new-components:health.openIssuesListPresenterHeaderTitleLoadingOpenIssues', {
-      eventType: t('in-new-components:health.eventType' + eventType, { count: 2 })
+      eventType: t('in-new-components:health.eventType', { context: eventTypeContext, count: 2 })
     });
   } else if (openIssuesResult.errors.length > 0) {
     title = t('in-new-components:health.openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues', {
-      eventType: t('in-new-components:health.eventType' + eventType, { count: openIssuesResult.errors.length })
+      eventType: t('in-new-components:health.eventType', {
+        context: eventTypeContext,
+        count: openIssuesResult.errors.length
+      })
     });
   } else {
     const openIssueCount = openIssuesResult.data.length;
@@ -27,7 +32,7 @@ export default function Header({ openIssuesResult, maxIssuesToShow, eventType, c
       <Fragment>
         {t('in-new-components:health.openIssuesListPresenterHeaderNumbersOfOpenIssues', {
           openIssueCount: openIssueCount,
-          eventType: t('in-new-components:health.eventType' + eventType, { count: openIssueCount })
+          eventType: t('in-new-components:health.eventType', { context: eventTypeContext, count: openIssueCount })
         })}
         {openIssueCount > maxIssuesToShow && (
           <span className={locals.more}>

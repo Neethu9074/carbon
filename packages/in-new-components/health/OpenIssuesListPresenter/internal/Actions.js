@@ -18,13 +18,15 @@ export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink, 
     return null;
   }
 
+  const eventTypeContext = eventType.toLowerCase();
   const openIssues = openIssuesResult.data;
+
   if (openIssues.length === 0) {
     return (
       <div className={locals.actions}>
         <Button icon="lib_events_inverted" kind="primary" className={locals.button} asBlock href$={analyzeLink$}>
           {t('in-new-components:health.openIssuesListPresenterActionsViewIssues', {
-            eventType: t('in-new-components:health.eventType' + eventType, { count: openIssues.length })
+            eventType: t('in-new-components:health.eventType', { context: eventTypeContext, count: openIssues.length })
           })}
         </Button>
       </div>
@@ -49,7 +51,7 @@ export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink, 
       >
         {t('in-new-components:health.openIssuesListPresenterActionsViewNumbersOfIssue', {
           openIssueCount: openIssues.length,
-          eventType: t('in-new-components:health.eventType' + eventType, { count: openIssues.length })
+          eventType: t('in-new-components:health.eventType', { context: eventTypeContext, count: openIssues.length })
         })}
       </Button>
     </div>
