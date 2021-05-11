@@ -156,8 +156,6 @@
   },
   "list": {
     "labelLoadMore": "Load More",
-    "labelInitiateDefaultAction": "Initiate default action",
-    "labelToggleExtraContent": "Toggle extra content",
     "labelMoreItems": "+{{numMoreItems}} more..."
   },
   "loading": {

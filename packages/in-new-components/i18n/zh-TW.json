@@ -168,8 +168,6 @@
   },
   "list": {
     "labelLoadMore": "載入更多",
-    "labelInitiateDefaultAction": "起始預設動作",
-    "labelToggleExtraContent": "切換額外內容",
     "labelMoreItems": "再多 +{{numMoreItems}} 個..."
   },
   "loading": {

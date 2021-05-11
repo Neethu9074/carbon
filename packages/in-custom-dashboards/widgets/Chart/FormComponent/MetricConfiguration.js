@@ -6,6 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Li, ColumnizedContent } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
@@ -16,7 +17,6 @@ import TimeShiftingForm from 'in-custom-dashboards/widgets/Chart/FormComponent/T
 import { getMetricId, getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import { HighlightedEffect } from 'in-new-components/SelectedElementHighlighter';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
-import { Li, ColumnizedContent } from 'in-new-components/lists/List';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 import { t } from 'in-i18n';

@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { SvgIcon, KeyValue } from '@instana/components';
+import { Li } from '@instana/components';
 
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
@@ -20,7 +21,6 @@ import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
 import apKpis from 'in-new-components/Stack/apKpis';
 import { timeConfig$ } from 'in-stores/time/config';
 import KpiChart from 'in-new-components/KpiChart';
-import { Li } from 'in-new-components/lists/List';
 import { plugins } from 'in-forge/constants';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';

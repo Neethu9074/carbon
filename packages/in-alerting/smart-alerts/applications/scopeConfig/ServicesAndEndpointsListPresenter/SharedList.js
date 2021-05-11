@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
-import { just } from '@instana/observables';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { ColumnizedContent, Li, Ul } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
+
 import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
-import { ColumnizedContent, Li, Ul } from 'in-new-components/lists/List';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';

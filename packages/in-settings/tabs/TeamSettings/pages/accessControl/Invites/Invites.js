@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { ColumnizedContent, Ul, Li } from '@instana/components';
+
 import InviteUserButton from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserButton';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import { getInvitations$, revokeInvitation } from 'in-api/users';
 import ApiList from 'in-settings/components/ApiList';
 import Title from 'in-components/Title/Title';

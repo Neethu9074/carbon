@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { Ul, Li } from '@instana/components';
+
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import SnapshotLink from 'in-components/tables/ServerTable/components/SnapshotLink';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import { Ul, Li } from 'in-new-components/lists/List';
 import PluginIcon from 'in-components/PluginIcon';
 import { t } from 'in-i18n';
 

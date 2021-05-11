@@ -7,12 +7,14 @@ import React, { useState } from 'react';
 import rpt from 'prop-types';
 
 import { Button } from '@instana/components';
+import { Ul, Li } from '@instana/components';
 
 import { isLandingPage as isCustomDashboardLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import { isLandingPage as isCockpitLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
-import { Ul, Li, LoadingSkeletonLi, HorizontalIndicatorLi } from 'in-new-components/lists/List';
 import { isNotBlank, compareIgnoreCase, containsIgnoreCase } from 'in-services/util/string';
+import HorizontalIndicatorLi from 'in-new-components/lists/List/HorizontalIndicatorLi';
 import { getActiveConfiguration$ } from 'in-client/js/LandingPage/activeConfigration';
+import LoadingSkeletonLi from 'in-new-components/lists/List/LoadingSkeletonLi';
 import { getCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { cockpitLink$ } from 'in-cockpit/navigation/paths';

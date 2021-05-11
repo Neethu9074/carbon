@@ -168,8 +168,6 @@
   },
   "list": {
     "labelLoadMore": "加载更多",
-    "labelInitiateDefaultAction": "启动缺省操作",
-    "labelToggleExtraContent": "切换其他内容",
     "labelMoreItems": "+ 另外 {{numMoreItems}} 项..."
   },
   "loading": {

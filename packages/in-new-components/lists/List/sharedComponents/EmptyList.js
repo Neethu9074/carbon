@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { Ul, Li } from '@instana/components';
+
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import { Ul, Li } from 'in-new-components/lists/List';
 
 import locals from './EmptyList.mless';
 

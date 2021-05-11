@@ -168,8 +168,6 @@
   },
   "list": {
     "labelLoadMore": "추가 로드",
-    "labelInitiateDefaultAction": "기본 조치 시작",
-    "labelToggleExtraContent": "추가 컨텐츠 토글",
     "labelMoreItems": "{{numMoreItems}}개 추가 로드..."
   },
   "loading": {

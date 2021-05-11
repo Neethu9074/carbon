@@ -6,6 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { ListGroup } from '@instana/components';
+
 import {
   badgeColumnDefinition,
   breadcrumbAndLabelColumnDefinition,
@@ -16,7 +18,6 @@ import {
 } from 'in-new-components/SelectorOverlay/Node';
 import { DynamicNode } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/DynamicNode';
 import { node as nodePropType } from 'in-new-components/SelectorOverlay/props';
-import { ListGroup } from 'in-new-components/lists/List/List';
 
 export default function NodeWithDynoChildren({
   node,

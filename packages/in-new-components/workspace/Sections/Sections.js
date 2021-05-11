@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Ul } from 'in-new-components/lists/List';
+import { Ul } from '@instana/components';
 
 export default function Sections({ className, children }) {
   return (

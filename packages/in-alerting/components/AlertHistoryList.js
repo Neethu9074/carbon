@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import { Li, Ul } from '@instana/components';
+import { Link } from '@instana/components';
 
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
@@ -17,7 +19,6 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import getRawEvents from 'in-subscription/getRawEvents';
-import { Li, Ul } from 'in-new-components/lists/List';
 import ListTitle from 'in-new-components/lists/Title';
 import { isLoading } from 'in-services/util/result';
 import WithIcon from 'in-new-components/WithIcon';

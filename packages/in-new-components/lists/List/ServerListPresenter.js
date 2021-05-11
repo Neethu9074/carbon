@@ -5,12 +5,13 @@
 
 import React from 'react';
 
+import { ColumnizedContent, Ul, Li } from '@instana/components';
+
 /*
   This can be used as a Renderer for the ServerTableWithUrlState data handler
 */
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import ApiListHeader from 'in-settings/components/ApiList/ApiListHeader';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { hasError, isLoading } from 'in-services/util/result';

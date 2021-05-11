@@ -168,8 +168,6 @@
   },
   "list": {
     "labelLoadMore": "さらにロード",
-    "labelInitiateDefaultAction": "デフォルト・アクションの開始",
-    "labelToggleExtraContent": "追加コンテンツの切り替え",
     "labelMoreItems": "残り {{numMoreItems}} 件..."
   },
   "loading": {

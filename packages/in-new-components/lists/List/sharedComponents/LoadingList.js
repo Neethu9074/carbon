@@ -6,8 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Ul, Li } from '@instana/components';
+
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { Ul, Li } from 'in-new-components/lists/List';
 
 import locals from './LoadingList.mless';
 

@@ -6,11 +6,11 @@
 import React from 'react';
 
 import { toInteractiveElement } from '@instana/components';
+import { Ul } from '@instana/components';
 
 import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import Overlay from 'in-new-components/overlays/Overlay';
-import { Ul } from 'in-new-components/lists/List/List';
 import { compositeRef } from 'in-services/util/react';
 import { t } from 'in-i18n';
 

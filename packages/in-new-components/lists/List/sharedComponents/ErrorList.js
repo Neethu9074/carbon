@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Ul, Li } from '@instana/components';
+
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import { error as errorType } from 'in-new-components/Message/types';
-import { Ul, Li } from 'in-new-components/lists/List';
 import Message from 'in-new-components/Message';
 
 import locals from './ErrorList.mless';

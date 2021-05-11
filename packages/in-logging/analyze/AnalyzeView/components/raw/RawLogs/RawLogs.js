@@ -5,12 +5,13 @@
 
 import React from 'react';
 
+import { ColumnizedContent, Ul, Li } from '@instana/components';
+
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/raw/QueryBuilderWorkspace';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import UngroupedViewList from 'in-new-components/AnalyzeView/UngroupedViewList';
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import { formatDateTime } from 'in-services/formatters/date';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';

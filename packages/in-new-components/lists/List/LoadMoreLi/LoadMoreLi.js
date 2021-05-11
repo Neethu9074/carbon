@@ -6,8 +6,8 @@
 import React from 'react';
 
 import { Button } from '@instana/components';
+import { Li } from '@instana/components';
 
-import { Li } from 'in-new-components/lists/List';
 import { t } from 'in-i18n';
 
 import locals from './LoadMoreLi.mless';

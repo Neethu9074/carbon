@@ -6,12 +6,13 @@
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
+import { Ul, Li } from '@instana/components';
+
 import { nodeArray as nodeArrayPropType } from 'in-new-components/SelectorOverlay/props';
 import { search } from 'in-new-components/SelectorOverlay/search';
 import Pagination from 'in-new-components/Pagination/Pagination';
 import { getInteractiveElements } from 'in-services/util/dom';
 import SearchInput from 'in-new-components/SearchInput';
-import { Ul, Li } from 'in-new-components/lists/List';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 

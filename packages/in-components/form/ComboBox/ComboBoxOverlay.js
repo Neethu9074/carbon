@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { Ul } from '@instana/components';
+
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { Ul } from 'in-new-components/lists/List/List';
 
 import locals from './ComboBoxOverlay.mless';
 

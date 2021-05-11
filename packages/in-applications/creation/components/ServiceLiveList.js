@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { Ul } from '@instana/components';
+
 import ServiceLiveListItem from 'in-applications/creation/components/ServiceLiveListItem';
 import { LoadingIndicator } from 'in-new-components/LoadingIndicators';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import { Ul } from 'in-new-components/lists/List';
 import { t } from 'in-i18n';
 
 import locals from './ServiceLiveList.mless';

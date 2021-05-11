@@ -8,6 +8,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
+import { Li, Ul } from '@instana/components';
 
 import { createApplicationHealthForm } from 'in-custom-dashboards/widgets/ApplicationHealth/form';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
@@ -15,7 +16,6 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { pendingResult } from 'in-services/fixedObjects';
 import Header from 'in-new-components/workspace/Header';
-import { Li, Ul } from 'in-new-components/lists/List';
 import Stack from 'in-new-components/layout/Stack';
 import Label from 'in-components/form/Label/Label';
 import Select from 'in-components/form/Select';

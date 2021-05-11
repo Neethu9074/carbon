@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { KeyValue } from '@instana/components';
 
 import { removeUserFromGroup, getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
@@ -12,7 +13,6 @@ import AddUserToGroupButton from 'in-settings/tabs/TeamSettings/pages/accessCont
 import { getEntityIdView, teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import ApiList from 'in-settings/components/ApiList';
 import { t, Trans } from 'in-i18n';
 

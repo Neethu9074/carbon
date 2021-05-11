@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { Li } from '@instana/components';
+
 import Skeleton from 'in-new-components/Loading/Skeleton';
-import { Li } from 'in-new-components/lists/List';
 
 import locals from './LoadingSkeletonLi.mless';
 

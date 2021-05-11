@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Li, Ul } from '@instana/components';
 
 import { alertsLaneAlertsPropType } from 'in-components/Chart/markerLanes/AlertsLane/constants';
 import TwoIconsLaneItem from 'in-components/Chart/markerLanes/MarkerLane/TwoIconsLaneItem';
@@ -18,7 +19,6 @@ import LaneIcon from 'in-components/Chart/markerLanes/MarkerLane/LaneIcon';
 import AlertsLaneTooltipContent from './AlertsLaneTooltipContent';
 import EventDurationIndicator from './EventDurationIndicator';
 import { formatDateTime } from 'in-services/formatters/date';
-import { Li, Ul } from 'in-new-components/lists/List';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

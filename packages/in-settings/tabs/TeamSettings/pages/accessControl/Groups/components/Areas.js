@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 
+import { ColumnizedContent, Li, Ul } from '@instana/components';
 import { Button } from '@instana/components';
 
 import {
@@ -27,7 +28,6 @@ import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
-import { ColumnizedContent, Li, Ul } from 'in-new-components/lists/List';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';

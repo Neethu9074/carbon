@@ -7,10 +7,10 @@ import React from 'react';
 
 import { KeyValue } from '@instana/components';
 import { Button } from '@instana/components';
+import { Ul, Li } from '@instana/components';
 import { Card } from '@instana/components';
 
 import { getReportingUrl } from 'in-mobile-apps/configuration';
-import { Ul, Li } from 'in-new-components/lists/List';
 import { t } from 'in-i18n';
 
 export default function ConfigurationGuidance({ mobileAppId }) {

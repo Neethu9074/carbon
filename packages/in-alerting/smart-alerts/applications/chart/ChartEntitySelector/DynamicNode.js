@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { ListGroup } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -19,7 +20,6 @@ import NodeWithDynoChildren from 'in-alerting/smart-alerts/applications/chart/Ch
 import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import { LoadingIndicator } from 'in-new-components/LoadingIndicators';
 import { pendingResult } from 'in-services/fixedObjects';
-import { ListGroup } from 'in-new-components/lists/List';
 import { isLoading } from 'in-services/util/result';
 
 const loadingColumnDefinition = {

@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Li } from 'in-new-components/lists/List/List';
+import { Li } from '@instana/components';
 
 import locals from './OverlayOption.mless';
 

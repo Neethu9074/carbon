@@ -7,11 +7,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Ul, Li } from '@instana/components';
 
 import { alertRulesPropType, thresholdsPropType } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
 import { getType } from 'in-alerting/PotentialProblems/PotentialProblemDialog/potentialProblemsDialogUtil';
 import { getTitle } from 'in-alerting/PotentialProblems/textUtil';
-import { Ul, Li } from 'in-new-components/lists/List';
 
 import locals from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsList.mless';
 

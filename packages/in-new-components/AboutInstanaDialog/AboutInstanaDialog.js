@@ -5,10 +5,10 @@
 
 import React from 'react';
 
+import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { KeyValue } from '@instana/components';
 import { Button } from '@instana/components';
 
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
 import { graphPath } from 'in-stores/navigation/paths/mainPaths';
 import { close } from 'in-components/DialogPresenter/store';

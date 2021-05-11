@@ -168,8 +168,6 @@
   },
   "list": {
     "labelLoadMore": "Carica altro",
-    "labelInitiateDefaultAction": "Avvia azione predefinita",
-    "labelToggleExtraContent": "Attiva/disattiva contenuto supplementare",
     "labelMoreItems": "+{{numMoreItems}} altro..."
   },
   "loading": {

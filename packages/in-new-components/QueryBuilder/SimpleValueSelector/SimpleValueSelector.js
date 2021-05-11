@@ -4,13 +4,14 @@
  */
 
 import AutosizeInput from 'react-input-autosize';
-import { useObservable } from '@instana/hooks';
 import classNames from 'classnames';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+import { Ul, Li } from '@instana/components';
+
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
-import { Ul, Li } from 'in-new-components/lists/List/List';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import { number } from 'in-services/formatters/number';
 import { isLoading } from 'in-services/util/result';

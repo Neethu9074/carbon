@@ -6,10 +6,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Ul } from '@instana/components';
+
 import * as operatorLabels from 'in-new-components/QueryBuilder/tagFilter/operatorLabelsMapping';
 import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
-import { Ul } from 'in-new-components/lists/List/List';
 
 import locals from './OperatorSelectorOverlay.mless';
 

@@ -7,13 +7,13 @@ import React from 'react';
 
 import { KeyValue } from '@instana/components';
 import { Button } from '@instana/components';
+import { Ul, Li } from '@instana/components';
 import { Link } from '@instana/components';
 
 import Paragraph from 'in-mobile-apps/NewMobileAppFlow/Paragraph';
 import { getReportingUrl } from 'in-mobile-apps/configuration';
 import Actions from 'in-mobile-apps/NewMobileAppFlow/Actions';
 import Frame from 'in-mobile-apps/NewMobileAppFlow/Frame';
-import { Ul, Li } from 'in-new-components/lists/List';
 import { t, Trans } from 'in-i18n';
 
 export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }) {

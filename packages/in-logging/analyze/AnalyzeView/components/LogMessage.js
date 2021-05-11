@@ -6,13 +6,14 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
 
+import { Li, Ul } from '@instana/components';
+
 import { toChunks, fillWithParams, MESSAGE_CHUNK } from 'in-services/util/stringToChunks';
 import { logMessageParameterClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Overlay from 'in-new-components/overlays/Overlay';
-import { Li, Ul } from 'in-new-components/lists/List';
 import { t } from 'in-i18n';
 
 import locals from './LogMessage.mless';

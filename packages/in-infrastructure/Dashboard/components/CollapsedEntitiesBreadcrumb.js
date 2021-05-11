@@ -7,12 +7,12 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Ul, Li } from '@instana/components';
 
 import PhysicalHierarchyBreadcrumb from 'in-infrastructure/Dashboard/components/PhysicalHierarchyBreadcrumb';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Overlay from 'in-new-components/overlays/Overlay';
-import { Ul, Li } from 'in-new-components/lists/List';
 
 import locals from './CollapsedEntitiesBreadcrumb.mless';
 

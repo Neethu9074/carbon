@@ -5,10 +5,13 @@
 
 import React from 'react';
 
+import { ListGroup, Li } from '@instana/components';
+
 import StackItem from 'in-new-components/Stack/components/StackItem';
-import { ListGroup } from 'in-new-components/lists/List';
 import { getPluginName } from 'in-sdk/pluginName';
 import { t } from 'in-i18n';
+
+import locals from './StackGroup.mless';
 
 export default function StackGroup({
   applicationId,
@@ -31,7 +34,6 @@ export default function StackGroup({
           })}
         </>
       }
-      numMoreItems={numMoreItems}
     >
       {items.map(item => (
         <StackItem
@@ -44,6 +46,11 @@ export default function StackGroup({
           syntheticCalls={syntheticCalls}
         />
       ))}
+      {numMoreItems > 0 && (
+        <Li className={locals.loadMore} noAlternatingBg>
+          {t('in-new-components:list.labelMoreItems', { numMoreItems: numMoreItems })}
+        </Li>
+      )}
     </ListGroup>
   );
 }

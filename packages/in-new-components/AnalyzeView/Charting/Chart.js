@@ -6,12 +6,13 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import { Li } from '@instana/components';
+
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
 import { getUiInternalFormatterName } from 'in-services/formatters/backendFormatter';
 import { identity } from 'in-services/util/function';
-import { Li } from 'in-new-components/lists/List';
 
 import locals from './Chart.mless';
 

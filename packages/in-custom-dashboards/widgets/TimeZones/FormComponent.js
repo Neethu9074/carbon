@@ -8,13 +8,13 @@ import React, { useMemo } from 'react';
 
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
+import { Ul, Li } from '@instana/components';
 
 import { createTimeZoneSubForm } from 'in-custom-dashboards/widgets/TimeZones/form';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import StackItem from 'in-new-components/layout/Stack/StackItem';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { Ul, Li } from 'in-new-components/lists/List/List';
 import Header from 'in-new-components/workspace/Header';
 import Stack from 'in-new-components/layout/Stack';
 import { compare } from 'in-services/util/number';

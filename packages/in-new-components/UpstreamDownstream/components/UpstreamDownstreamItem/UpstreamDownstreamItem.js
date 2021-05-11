@@ -6,6 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { Li } from '@instana/components';
+
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { getServiceDashboard, getApplicationDashboard } from 'in-applications/navigation/paths';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
@@ -17,7 +19,6 @@ import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
 import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import EntityWithIcon from 'in-new-components/EntityWithIcon';
-import { Li } from 'in-new-components/lists/List';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

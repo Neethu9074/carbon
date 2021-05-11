@@ -4,8 +4,9 @@
  */
 
 import React, { useCallback, useMemo, useState } from 'react';
-import { useObservable } from '@instana/hooks';
 import rpt from 'prop-types';
+
+import { useObservable } from '@instana/hooks';
 
 import { TAG, CONJUNCTION, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS, IS_EMPTY, NOT_EMPTY, IS_BLANK } from 'in-new-components/QueryBuilder/tagFilter/operators';
@@ -18,7 +19,6 @@ import { ua2OrderByChangedTracker, ua2OrderByGroupChangedTracker } from 'in-new-
 import { NUMBER, KEY_VALUE_PAIR, BOOLEAN } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { isValid as isValidGrouping } from 'in-new-components/GroupingConfigurator/validation';
 import { sanitizeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { columnDefinitionShape } from 'in-new-components/lists/List/ColumnizedContent';
 import { UNSPECIFIED, NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { emptyArray, emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { getSingleNumberMetricId } from 'in-new-components/AnalyzeView/metrics';
@@ -71,7 +71,12 @@ export default function TimeFixatingAnalyzeStateManagement(props) {
 }
 
 const extendedColumnDefinitionShape = {
-  ...columnDefinitionShape,
+  width: rpt.string,
+  minWidth: rpt.string,
+  getContent: rpt.func.isRequired,
+  verticallyCenter: rpt.bool,
+  forceMinimumWidth: rpt.bool,
+  shrink: rpt.bool,
   label: rpt.string.isRequired
 };
 

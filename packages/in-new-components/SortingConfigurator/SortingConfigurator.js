@@ -7,12 +7,12 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { Button } from '@instana/components';
+import { Ul } from '@instana/components';
 
 import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import Overlay from 'in-new-components/overlays/Overlay';
-import { Ul } from 'in-new-components/lists/List/List';
 import { compositeRef } from 'in-services/util/react';
 import { t } from 'in-i18n';
 

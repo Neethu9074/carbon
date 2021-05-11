@@ -6,10 +6,11 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import { ColumnizedContent, Ul, Li } from '@instana/components';
+
 import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import UngroupedView from 'in-new-components/AnalyzeView/UngroupedView';
 import { generateStableHash } from 'in-services/util/id';
 

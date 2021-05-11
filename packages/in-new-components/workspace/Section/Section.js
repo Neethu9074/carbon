@@ -8,8 +8,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
-
-import { Li } from 'in-new-components/lists/List';
+import { Li } from '@instana/components';
 
 import locals from './Section.mless';
 

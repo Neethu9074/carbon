@@ -6,9 +6,10 @@
 import { compose } from 'recompose';
 import React from 'react';
 
+import { ColumnizedContent, Ul, Li } from '@instana/components';
+
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import { hasError, isLoading } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
 

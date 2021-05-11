@@ -6,12 +6,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { ListGroup, ColumnizedContent } from '@instana/components';
 import { KeyValue } from '@instana/components';
 import { SvgIcon } from '@instana/components';
+import { Li } from '@instana/components';
 
-import { ListGroup, ColumnizedContent } from 'in-new-components/lists/List/List';
 import { node as nodePropType } from 'in-new-components/SelectorOverlay/props';
-import { Li } from 'in-new-components/lists/List/List';
 
 import locals from './Node.mless';
 

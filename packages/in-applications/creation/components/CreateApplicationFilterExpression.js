@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { Button } from '@instana/components';
+import { Li } from '@instana/components';
 
 import TagFilterExpressionConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterExpressionConfigurationWrapper';
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
@@ -15,7 +16,6 @@ import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrappe
 import QuickFilterBar from 'in-applications/creation/components/QuickFilterBar';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 import Overlay from 'in-new-components/overlays/Overlay';
-import { Li } from 'in-new-components/lists/List';
 import { t } from 'in-i18n';
 
 import locals from './CreateApplicationFilterExpression.mless';

@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Ul, Li, ColumnizedContent } from '@instana/components';
+
 import FileNameAndLine from 'in-new-components/Profiling/components/FileNameAndLine';
 import MethodName from 'in-new-components/Profiling/components/MethodName';
-import { Ul, Li, ColumnizedContent } from 'in-new-components/lists/List';
 import { percentage } from 'in-services/formatters/number';
 import At from 'in-new-components/Profiling/components/At';
 import { t } from 'in-i18n';

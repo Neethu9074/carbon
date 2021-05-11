@@ -5,12 +5,12 @@
 
 import React from 'react';
 
+import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { Button } from '@instana/components';
 
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-new-components/Dialog/Dialog';

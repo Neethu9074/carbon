@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { KeyValue } from '@instana/components';
 import { Button } from '@instana/components';
 
@@ -15,7 +16,6 @@ import {
 } from 'in-settings/navigation/paths';
 import { getGroupsAsResultObservable, deleteGroup } from 'in-settings/tabs/TeamSettings/api/groups';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
 import { getView } from 'in-stores/navigation/navigation';

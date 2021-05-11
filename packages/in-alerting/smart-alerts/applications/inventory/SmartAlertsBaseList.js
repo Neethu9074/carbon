@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { create, just } from '@instana/observables';
 import React, { useEffect, useState } from 'react';
-import { useObservable } from '@instana/hooks';
 import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
+
+import { ColumnizedContent, Li, Ul } from '@instana/components';
+import { create, just } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/applications/inventory/constants';
@@ -20,7 +22,6 @@ import SortingConfigurator from 'in-new-components/SortingConfigurator/SortingCo
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
-import { ColumnizedContent, Li, Ul } from 'in-new-components/lists/List';
 import { alertsCategory } from 'in-applications/navigation/matrix';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { hasError, isLoading } from 'in-services/util/result';

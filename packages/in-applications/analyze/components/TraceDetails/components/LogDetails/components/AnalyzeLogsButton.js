@@ -6,11 +6,11 @@
 import React from 'react';
 
 import { Button, SvgIcon } from '@instana/components';
+import { Li, Ul } from '@instana/components';
 
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import Overlay from 'in-new-components/overlays/Overlay';
-import { Li, Ul } from 'in-new-components/lists/List';
 import { t } from 'in-i18n';
 
 import locals from './AnalyzeLogsButton.mless';

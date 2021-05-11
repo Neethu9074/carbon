@@ -7,10 +7,10 @@ import { sortBy } from 'lodash';
 import React from 'react';
 
 import { KeyValue } from '@instana/components';
+import { Li, Ul } from '@instana/components';
 import { Card } from '@instana/components';
 
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import { Li, Ul } from 'in-new-components/lists/List';
 
 export default function KeyValueList({ title, items, onEmptyText }) {
   if (!items || items.length === 0) {

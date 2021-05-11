@@ -5,13 +5,13 @@
 
 import React, { useState } from 'react';
 
+import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { loadDownloadableLogs } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import { track, AGENT_LOGS_DOWNLOAD_CLICKED } from 'in-services/tracking/tracking';
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { formatDateTime } from 'in-services/formatters/date';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';

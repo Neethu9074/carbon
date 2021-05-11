@@ -9,6 +9,7 @@ import classNames from 'classnames';
 
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
+import { Li } from '@instana/components';
 
 import { groupMatrixParameter, typeMatrixParameter, getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import { allInfrastructureType, defaultAllInfraGroup, allTypes } from 'in-infrastructure/Explore/constants';
@@ -24,7 +25,6 @@ import { containsIgnoreCase } from 'in-services/util/string';
 import { compareIgnoreCase } from 'in-services/util/string';
 import SearchInput from 'in-new-components/SearchInput';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { Li } from 'in-new-components/lists/List';
 import { getPluginName } from 'in-sdk/pluginName';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';

@@ -168,8 +168,6 @@
   },
   "list": {
     "labelLoadMore": "Charger plus",
-    "labelInitiateDefaultAction": "Lancer l'action par défaut",
-    "labelToggleExtraContent": "Basculer le contenu supplémentaire",
     "labelMoreItems": "+{{numMoreItems}} de plus..."
   },
   "loading": {

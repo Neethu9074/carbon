@@ -6,12 +6,13 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { ColumnizedContent, Ul, Li } from '@instana/components';
+
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
-import { ColumnizedContent, Ul, Li } from 'in-new-components/lists/List';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { formatDateTime } from 'in-services/formatters/date';
 import HealthDot from 'in-new-components/health/HealthDot';
