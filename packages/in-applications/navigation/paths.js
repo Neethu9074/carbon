@@ -23,10 +23,17 @@ import {
   previewEnabledMatrixParameter,
   hiddenCallsMatrixParameter
 } from 'in-applications/navigation/matrix';
-import { sanitizeTagFilter, type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import {
+  TAG as TAG_FILTER,
+  OPEN_BRACKET as OPEN_BRACKET_TYPE,
+  CLOSE_BRACKET as CLOSE_BRACKET_TYPE,
+  CONJUNCTION as CONJUNCTION_TYPE
+} from 'in-new-components/QueryBuilder/transformation/formModel';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/applications/inventory/constants';
+import { or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
+import { sanitizeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
@@ -37,6 +44,7 @@ import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { boundaryScopes } from 'in-applications/constants';
 import { setTimeConfig } from 'in-stores/time/config';
+import { t } from 'in-i18n';
 
 export const applicationsList = '/applications';
 export const applicationDashboard = '/application';
@@ -66,6 +74,7 @@ export const analyzePath = '/analyze';
 export const analyzeTwoParameters = createParameters(analyzePath);
 
 // tagCatalog - if specified, the formModel will be reset if any of its tags is not available in the tag catalog
+// setOnClickNotificationMessage - an optional callback which takes a string used to display a notification message on link click
 export function getLinkToAnalyze({
   applicationName,
   serviceName,
@@ -82,7 +91,8 @@ export function getLinkToAnalyze({
   fields,
   previewEnabled,
   timeConfig,
-  tagCatalog
+  tagCatalog,
+  setOnClickNotificationMessage
 }) {
   return getModifiedUrlStream(params => {
     params.pathname = analyzePath;
@@ -194,6 +204,22 @@ export function getLinkToAnalyze({
         updatedFormModel = null;
       }
     }
+
+    // Trace view only supports AND conjunction. When switching from calls to traces while preserving
+    // filters, trace filters are sanitized to only contain valid conjunctions
+    if (updatedFormModel != null && dataSource === 'traces') {
+      if (updatedFormModel.some(element => element.type === CONJUNCTION_TYPE && element.logicalOperator === or)) {
+        updatedFormModel = null;
+        setOnClickNotificationMessage?.(
+          t('in-applications:analyze.resetUnsupportedTracesFilterContainingOrConjunction')
+        );
+      } else {
+        updatedFormModel = updatedFormModel.filter(
+          element => !(element.type === OPEN_BRACKET_TYPE || element.type === CLOSE_BRACKET_TYPE)
+        );
+      }
+    }
+
     // sanitize all tag filters passed in the formModel, so that the caller doesn't have to care about it
     updatedFormModel = updatedFormModel?.map(element =>
       element.type === TAG_FILTER ? sanitizeTagFilter(element) : element

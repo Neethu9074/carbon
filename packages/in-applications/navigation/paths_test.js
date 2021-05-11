@@ -11,6 +11,7 @@ import sinon from 'sinon';
 import { STRING_MAX_LENGTH } from 'in-new-components/QueryBuilder/tagFilter/constraints';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { parseUrl } from 'in-stores/navigation/routing/parser';
+import { t } from 'in-i18n';
 
 const tagCatalog = {
   tags: [
@@ -457,6 +458,188 @@ const cases = [
   }
 ];
 
+const filtersWithNotifications = [
+  {
+    testName: 'reset invalid OR filter',
+    params: {
+      dataSource: 'traces',
+      formModel: [
+        {
+          type: 'TAG_FILTER',
+          name: 'call.error.message',
+          operator: 'EQUALS',
+          value: 'a'
+        },
+        {
+          type: 'CONJUNCTION',
+          logicalOperator: 'OR'
+        },
+        {
+          type: 'TAG_FILTER',
+          name: 'application.name',
+          operator: 'NOT_EQUAL',
+          value: 'b',
+          entity: 'DESTINATION'
+        }
+      ],
+      setOnClickNotificationMessage: () => {},
+      tagCatalog
+    },
+    expectedNotificationMessage: t('in-applications:analyze.resetUnsupportedTracesFilterContainingOrConjunction'),
+    expected: {
+      pathname: '/#/analyze',
+      query: {},
+      matrix: {
+        '/#': {},
+        '/analyze': {
+          dataSource: 'traces'
+        }
+      }
+    }
+  },
+  {
+    testName: 'resetting OR filters takes precedence over brackets',
+    params: {
+      dataSource: 'traces',
+      formModel: [
+        {
+          type: 'TAG_FILTER',
+          name: 'call.error.message',
+          operator: 'EQUALS',
+          value: 'a'
+        },
+        {
+          type: 'CONJUNCTION',
+          logicalOperator: 'AND'
+        },
+        {
+          type: 'OPEN_BRACKET'
+        },
+        {
+          type: 'TAG_FILTER',
+          name: 'application.name',
+          operator: 'NOT_EQUAL',
+          value: 'b',
+          entity: 'DESTINATION'
+        },
+        {
+          type: 'CLOSE_BRACKET'
+        },
+        {
+          type: 'CONJUNCTION',
+          logicalOperator: 'OR'
+        },
+        {
+          type: 'TAG_FILTER',
+          name: 'application.name',
+          operator: 'NOT_EQUAL',
+          value: 'b',
+          entity: 'DESTINATION'
+        }
+      ],
+      setOnClickNotificationMessage: () => {},
+      tagCatalog
+    },
+    expectedNotificationMessage: t('in-applications:analyze.resetUnsupportedTracesFilterContainingOrConjunction'),
+    expected: {
+      pathname: '/#/analyze',
+      query: {},
+      matrix: {
+        '/#': {},
+        '/analyze': {
+          dataSource: 'traces'
+        }
+      }
+    }
+  }
+];
+
+const traceFilters = [
+  {
+    testName: 'preserve valid filter',
+    params: {
+      dataSource: 'traces',
+      formModel: [
+        {
+          type: 'TAG_FILTER',
+          name: 'call.error.message',
+          operator: 'EQUALS',
+          value: 'a'
+        },
+        {
+          type: 'CONJUNCTION',
+          logicalOperator: 'AND'
+        },
+        {
+          type: 'TAG_FILTER',
+          name: 'application.name',
+          operator: 'NOT_EQUAL',
+          value: 'b',
+          entity: 'DESTINATION'
+        }
+      ],
+      tagCatalog
+    },
+    expected: {
+      pathname: '/#/analyze',
+      query: {},
+      matrix: {
+        '/#': {},
+        '/analyze': {
+          dataSource: 'traces',
+          tagFilterExpression:
+            '!(type~TAG*_FILTER~name~call.error.message~operator~EQUALS~value~a)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~application.name~operator~NOT*_EQUAL~value~b~entity~DESTINATION)~'
+        }
+      }
+    }
+  },
+  {
+    testName: 'remove brackets from filter',
+    params: {
+      dataSource: 'traces',
+      formModel: [
+        {
+          type: 'TAG_FILTER',
+          name: 'call.error.message',
+          operator: 'EQUALS',
+          value: 'a'
+        },
+        {
+          type: 'CONJUNCTION',
+          logicalOperator: 'AND'
+        },
+        {
+          type: 'OPEN_BRACKET'
+        },
+        {
+          type: 'TAG_FILTER',
+          name: 'application.name',
+          operator: 'NOT_EQUAL',
+          value: 'b',
+          entity: 'DESTINATION'
+        },
+        {
+          type: 'CLOSE_BRACKET'
+        }
+      ],
+      tagCatalog
+    },
+    expected: {
+      pathname: '/#/analyze',
+      query: {},
+      matrix: {
+        '/#': {},
+        '/analyze': {
+          dataSource: 'traces',
+          tagFilterExpression:
+            '!(type~TAG*_FILTER~name~call.error.message~operator~EQUALS~value~a)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~application.name~operator~NOT*_EQUAL~value~b~entity~DESTINATION)~'
+        }
+      }
+    }
+  },
+  ...filtersWithNotifications
+];
+
 describe('in-applications/navigation/paths', () => {
   describe('getLinkToAnalyze', () => {
     cases.forEach(({ testName, params, expected }) => {
@@ -465,6 +648,59 @@ describe('in-applications/navigation/paths', () => {
         getLinkToAnalyze(params).subscribe(subscriber);
         expect(parseUrl(subscriber.getCall(0).args[0])).to.deep.equal(expected);
       });
+    });
+  });
+
+  describe('resetTraceFilters', () => {
+    traceFilters.forEach(({ testName, params, expected }) => {
+      it(testName, () => {
+        // GIVEN
+        const subscriber = sinon.stub();
+
+        // WHEN
+        getLinkToAnalyze(params).subscribe(subscriber);
+        const result = parseUrl(subscriber.getCall(0).args[0]);
+
+        // THEN
+        expect(result).to.deep.equal(expected);
+      });
+    });
+  });
+
+  describe('trigger notifications', () => {
+    filtersWithNotifications.forEach(({ testName, params, expectedNotificationMessage }) => {
+      it(`should trigger a notification for ${testName}`, () => {
+        // GIVEN
+        const subscriber = sinon.stub();
+        const notificationSpy = sinon.spy();
+        const spyParameters = {
+          ...params,
+          setOnClickNotificationMessage: notificationSpy
+        };
+
+        // WHEN
+        getLinkToAnalyze(spyParameters).subscribe(subscriber);
+        const notificationMessage = notificationSpy.getCall(0).args[0];
+
+        // THEN
+        expect(notificationSpy.calledOnce).to.equal(true);
+        expect(notificationMessage).to.equal(expectedNotificationMessage);
+      });
+    });
+
+    it('should handle the optional notification callback gracefully', () => {
+      // GIVEN
+      const subscriber = sinon.stub();
+      const undefinedCallback = {
+        ...traceFilters[0].params,
+        setNotificationCallback: undefined
+      };
+
+      // WHEN
+
+      // THEN
+      // eslint-disable-next-line babel/no-unused-expressions
+      expect(getLinkToAnalyze(undefinedCallback).subscribe(subscriber)).not.to.throw;
     });
   });
 });

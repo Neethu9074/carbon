@@ -174,6 +174,7 @@
       "labelLatency": "Latency"
     },
     "erroneous": "Erroneous",
+    "resetUnsupportedTracesFilterContainingOrConjunction": "The filter was cleared because the logical operator OR is not supported in Analyze Traces.",
     "facetedSearch": {
       "showSyntheticCalls": "Show Synthetic calls",
       "showInternalCalls": "Show Internal calls",
