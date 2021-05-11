@@ -53,6 +53,8 @@ npm install -g yarn@1.22.5
 yarn
 cd packages/in-server
 yarn
+cd ../../storybook
+yarn
 
 ACTUAL_NODE_VERSION=$(node --version)
 
