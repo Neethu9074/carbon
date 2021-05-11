@@ -4,11 +4,12 @@
  */
 
 import { compose, lifecycle, withState } from 'recompose';
-import { create, just } from '@instana/observables';
-import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 import { isEqual } from 'lodash';
+
+import { create, just } from '@instana/observables';
+import { Link } from '@instana/components';
 
 import {
   dataSourceCustom,
@@ -1197,6 +1198,7 @@ const entityTypesToExcludeInVerificationRule = Object.freeze([
   'endpoint',
   'hazelcastCluster',
   'host',
+  'instanaAgent',
   'kafkaCluster',
   'kubernetesCluster',
   'kubernetesDeployment',
