@@ -16,7 +16,7 @@ export const label =
   t('in-custom-dashboards:widgets.srcInfrastructure.metrics.infrastructurePlatforms') +
   ' ' +
   (entityCountWidgetEnabled ? 'Metrics ' : '') +
-  (infraMetricsWidgetEnabled ? '(Beta)' : t('in-custom-dashboards:widgets.srcInfrastructure.metrics.comingSoon'));
+  (infraMetricsWidgetEnabled ? '' : t('in-custom-dashboards:widgets.srcInfrastructure.metrics.comingSoon'));
 export const disabled = !infraMetricsWidgetEnabled;
 export const visible = true;
 export const getMinGranularity = timeConfig => getFinestAvailableGranularity(timeConfig, 10000);
