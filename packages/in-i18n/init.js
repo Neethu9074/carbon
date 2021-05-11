@@ -7,7 +7,6 @@
 import { initReactI18next } from 'react-i18next';
 // eslint-disable-next-line no-restricted-imports
 import i18n from 'i18next';
-import { combineLatest, fromPromise } from '@instana/observables';
 import 'moment/locale/pt-br';
 import 'moment/locale/zh-cn';
 import 'moment/locale/zh-tw';
@@ -19,6 +18,8 @@ import 'moment/locale/es';
 import 'moment/locale/ja';
 import 'moment/locale/ko';
 import React from 'react';
+
+import { combineLatest, fromPromise } from '@instana/observables';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { activeLanguage, fallbackLanguage } from 'in-i18n/language';
@@ -57,7 +58,7 @@ export function init() {
           // complexity we can save ourselves.
           bindI18n: '',
           useSuspense: false,
-          transKeepBasicHtmlNodesFor: ['br', 'strong', 'i', 'p', 'code']
+          transKeepBasicHtmlNodesFor: ['br', 'strong', 'em', 'p', 'code']
         },
 
         interpolation: {

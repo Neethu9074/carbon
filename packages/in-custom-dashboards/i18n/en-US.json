@@ -422,7 +422,7 @@
         "delete": "Delete"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "You are not having the required <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> permission to create or edit SLIs.",
+        "configSrvLevelIndicatorsMsg": "You are not having the required <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> permission to create or edit SLIs.",
         "sliList": "SLI List",
         "createSli": "Create SLI"
       },

@@ -437,7 +437,7 @@
       "smartAlertDialog": {
         "sharedListTooltip": "Selected {{typeName}} is not available anymore",
         "clearTagFilterExpressionButton": "Clear",
-        "baselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline. Please select <i>Static Threshold</i> instead.",
+        "baselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline. Please select <em>Static Threshold</em> instead.",
         "baselineErrorMessageReason": "Reason:",
         "blueprintDescriptionButtonSelect": "Select",
         "selectAlertChannelButtonTitle": "Select alert channels",
