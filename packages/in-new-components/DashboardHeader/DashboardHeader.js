@@ -7,11 +7,11 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { LoadingSkeleton } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
 import UrlShortener from 'in-new-components/DashboardHeader/UrlShortener/UrlShortener';
 import TimeSelection from 'in-new-components/time/TimeSelection/TimeSelection';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Title from 'in-components/Title';
 
@@ -112,15 +112,15 @@ export default function DashboardHeader(props) {
 }
 
 function getSkeletonButton() {
-  return <Skeleton className={locals.buttonSkeleton} />;
+  return <LoadingSkeleton className={locals.buttonSkeleton} />;
 }
 
 function getSkeletonLabel() {
-  return <Skeleton className={locals.labelSkeleton} />;
+  return <LoadingSkeleton className={locals.labelSkeleton} />;
 }
 
 function getSkeletonIcon() {
-  return <Skeleton className={locals.iconSkeleton} />;
+  return <LoadingSkeleton className={locals.iconSkeleton} />;
 }
 
 function Context(props) {

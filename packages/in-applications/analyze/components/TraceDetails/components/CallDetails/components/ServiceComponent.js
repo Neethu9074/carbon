@@ -6,6 +6,8 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { LoadingSkeleton } from '@instana/components';
+
 import {
   SourceLocation,
   DestinationLocation,
@@ -24,7 +26,6 @@ import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { loggingEnabledOnTrace } from 'in-services/featureFlags';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
 import ExpandableGroup from 'in-new-components/ExpandableGroup';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
@@ -75,7 +76,7 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
     return (
       <div className={locals.serviceLine}>
         <div className={locals.skeleton}>
-          <Skeleton className={locals.skeleton} />
+          <LoadingSkeleton className={locals.skeleton} />
         </div>
       </div>
     );

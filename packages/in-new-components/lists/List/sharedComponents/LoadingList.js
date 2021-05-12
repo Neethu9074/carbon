@@ -6,9 +6,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { LoadingSkeleton } from '@instana/components';
 import { Ul, Li } from '@instana/components';
-
-import Skeleton from 'in-new-components/Loading/Skeleton';
 
 import locals from './LoadingList.mless';
 
@@ -17,7 +16,7 @@ export default function LoadingList({ className, skeletonClassName, size, numSke
   for (let i = 0; i < numSkeletonRows; i++) {
     loadingRows[i] = (
       <Li key={i} size={size}>
-        <Skeleton
+        <LoadingSkeleton
           className={classNames({
             [locals.skeleton]: true,
             [skeletonClassName]: skeletonClassName

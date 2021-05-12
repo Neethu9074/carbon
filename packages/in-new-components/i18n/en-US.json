@@ -160,7 +160,6 @@
     "sideNavigationAndContentRouteNotFound": "Not Found"
   },
   "list": {
-    "labelLoadMore": "Load More",
     "labelMoreItems": "+{{numMoreItems}} more..."
   },
   "loading": {

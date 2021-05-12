@@ -7,6 +7,7 @@
 import { uniqBy } from 'lodash';
 import React from 'react';
 
+import { HorizontalIndicator } from '@instana/components';
 import { Button } from '@instana/components';
 
 import EntityPageMainNotificationLightCardV2 from 'in-new-components/EntityPageMainNotification/EntityPageMainNotificationLightCardV2';
@@ -18,7 +19,6 @@ import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHe
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import { dashboardTvModeUrlParameter } from 'in-custom-dashboards/navigation/url';
-import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';

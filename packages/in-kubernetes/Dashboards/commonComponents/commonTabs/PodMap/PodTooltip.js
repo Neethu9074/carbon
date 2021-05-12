@@ -6,9 +6,10 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { LoadingSkeleton } from '@instana/components';
+
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import { resourceQuotaBytes } from 'in-kubernetes/formatters';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import Delayed from 'in-new-components/Delayed/Delayed';
 import MetricValue from 'in-components/MetricValue';
 import WithIcon from 'in-new-components/WithIcon';
@@ -93,14 +94,14 @@ function getMetricValue(node, metricName) {
       />
     );
   }
-  return <Skeleton className={locals.metricValueSkeleton} />;
+  return <LoadingSkeleton className={locals.metricValueSkeleton} />;
 }
 
 function getPodLabel(pod, node) {
   if (pod) {
     return <span className={locals.headerLabel}>{get(pod, ['label'], node.data.id)}</span>;
   } else {
-    return <Skeleton className={locals.labelSkeleton} />;
+    return <LoadingSkeleton className={locals.labelSkeleton} />;
   }
 }
 
@@ -119,6 +120,6 @@ function getGroupLabel(groupEntity, node) {
     if (node && node.data.groupId === 'unknown') {
       return 'Unknown';
     }
-    return <Skeleton className={locals.labelSkeleton} />;
+    return <LoadingSkeleton className={locals.labelSkeleton} />;
   }
 }

@@ -6,11 +6,12 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { HorizontalIndicator } from '@instana/components';
+import { LoadingSkeleton } from '@instana/components';
+
 import IcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
-import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ServerIcicleChart.mless';
@@ -39,7 +40,7 @@ function LoadingIcicleChart({ progress }) {
   return (
     <div>
       <HorizontalIndicator progress={progress} />
-      <Skeleton className={locals.skeleton} />
+      <LoadingSkeleton className={locals.skeleton} />
     </div>
   );
 }

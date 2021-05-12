@@ -6,15 +6,15 @@
 import React, { useState } from 'react';
 import rpt from 'prop-types';
 
+import { LiHorizontalIndicator } from '@instana/components';
+import { LiLoadingSkeleton } from '@instana/components';
 import { Button } from '@instana/components';
 import { Ul, Li } from '@instana/components';
 
 import { isLandingPage as isCustomDashboardLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/customDashboards';
 import { isLandingPage as isCockpitLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import { isNotBlank, compareIgnoreCase, containsIgnoreCase } from 'in-services/util/string';
-import HorizontalIndicatorLi from 'in-new-components/lists/List/HorizontalIndicatorLi';
 import { getActiveConfiguration$ } from 'in-client/js/LandingPage/activeConfigration';
-import LoadingSkeletonLi from 'in-new-components/lists/List/LoadingSkeletonLi';
 import { getCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { cockpitLink$ } from 'in-cockpit/navigation/paths';
@@ -69,8 +69,8 @@ function DashboardSwitcherOverlayPresenter({
           query={query}
           activeLandingPageConfiguration={activeLandingPageConfiguration}
         />
-        {isLoadingMore && <HorizontalIndicatorLi progress={indeterminateProgress} />}
-        {isLoadingMore && <LoadingSkeletonLi />}
+        {isLoadingMore && <LiHorizontalIndicator progress={indeterminateProgress} />}
+        {isLoadingMore && <LiLoadingSkeleton />}
       </Ul>
     </div>
   );

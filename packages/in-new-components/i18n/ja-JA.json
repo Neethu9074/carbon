@@ -167,7 +167,6 @@
     "sideNavigationAndContentRouteNotFound": "未検出"
   },
   "list": {
-    "labelLoadMore": "さらにロード",
     "labelMoreItems": "残り {{numMoreItems}} 件..."
   },
   "loading": {

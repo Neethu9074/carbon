@@ -6,12 +6,12 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { LoadingSkeleton } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
 import { isUnknownTypeSpan } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
 import ErrorIndicator from 'in-applications/analyze/components/TraceDetails/components/ErrorIndicator';
 import { getColor as getColorForEndpointType } from 'in-applications/endpointTypes';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 import { t } from 'in-i18n';
@@ -51,7 +51,7 @@ export default function Header({ call }) {
             )}
           </div>
         ) : (
-          <Skeleton className={locals.skeleton} />
+          <LoadingSkeleton className={locals.skeleton} />
         )}
       </div>
     </Fragment>

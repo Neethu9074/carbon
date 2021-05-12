@@ -8,6 +8,7 @@ import { findIndex, isEqual } from 'lodash';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
+import { LiLoadMore } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Ul, Li } from '@instana/components';
@@ -19,7 +20,6 @@ import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateMana
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import { detailViewProps } from 'in-new-components/AnalyzeView/UngroupedView';
-import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import ResultHeader from 'in-new-components/AnalyzeView/ResultHeader';
 import { prefetch } from 'in-subscription/util/prefetch';
@@ -186,7 +186,7 @@ function ExpandedList(props) {
                       </Li>
                     );
                   })}
-                  {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
+                  {canLoadMore && <LiLoadMore loadMore={loadMore} />}
                 </Ul>
               )}
               {isLoading && <LoadingList numSkeletonRows={3} />}

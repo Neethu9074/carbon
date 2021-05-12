@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import { LoadingSkeleton } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import { Row, Col } from 'in-new-components/layout/Grid';
 
 import locals from './Group.mless';
@@ -19,7 +19,7 @@ export default function LoadingGroup() {
         <Col lg>
           <div className={locals.headline}>
             <SvgIcon className={locals.icon} type="lib_alerts_user_impacted" size="l" />
-            <Skeleton className={locals.titleSkeleton} />
+            <LoadingSkeleton className={locals.titleSkeleton} />
           </div>
         </Col>
       </Row>

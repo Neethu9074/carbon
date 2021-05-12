@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { LoadingSkeleton } from '@instana/components';
+
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getLabel } from 'in-sdk/snapshot';
@@ -25,7 +26,7 @@ export default connectTo(
     if (!snapshot) {
       return (
         <Breadcrumb>
-          <Skeleton className={locals.skeleton} />
+          <LoadingSkeleton className={locals.skeleton} />
         </Breadcrumb>
       );
     }

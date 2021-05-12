@@ -167,7 +167,6 @@
     "sideNavigationAndContentRouteNotFound": "찾을 수 없음"
   },
   "list": {
-    "labelLoadMore": "추가 로드",
     "labelMoreItems": "{{numMoreItems}}개 추가 로드..."
   },
   "loading": {

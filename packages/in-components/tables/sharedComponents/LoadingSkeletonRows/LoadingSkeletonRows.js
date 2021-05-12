@@ -6,8 +6,9 @@
 import { range } from 'lodash';
 import React from 'react';
 
+import { LoadingSkeleton } from '@instana/components';
+
 import { Tr, Td } from 'in-components/tables/sharedComponents/Table';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 
 import locals from './LoadingSkeletonRows.mless';
 
@@ -29,7 +30,10 @@ export default function LoadingSkeletonRows({ cols, rows = 3 }) {
         <Tr key={i}>
           {range(cols).map(i => (
             <Td key={i} className={locals.cell}>
-              <Skeleton className={locals.skeleton} style={{ width: `${dimensions[i % dimensions.length] * 100}%` }} />
+              <LoadingSkeleton
+                className={locals.skeleton}
+                style={{ width: `${dimensions[i % dimensions.length] * 100}%` }}
+              />
             </Td>
           ))}
         </Tr>

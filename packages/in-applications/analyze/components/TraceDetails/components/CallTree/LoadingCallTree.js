@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { HorizontalIndicator } from '@instana/components';
+import { LoadingSkeleton } from '@instana/components';
+
 import TreeHeader from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/TreeHeader';
-import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 
 import locals from './CallTree.mless';
 
@@ -16,7 +17,7 @@ export default function LoadingCallTree({ progress }) {
     <div className={locals.callTree}>
       <TreeHeader rootCall={null} />
       <HorizontalIndicator progress={progress} />
-      <Skeleton className={locals.skeleton} />
+      <LoadingSkeleton className={locals.skeleton} />
     </div>
   );
 }

@@ -9,6 +9,7 @@ import { range } from 'lodash';
 import rpt from 'prop-types';
 
 import { ColumnizedContent, Ul, Li } from '@instana/components';
+import { LiLoadMore } from '@instana/components';
 import { KeyValue } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { empty } from '@instana/observables';
@@ -32,7 +33,6 @@ import { EQUALS, NOT_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/oper
 import { UNSPECIFIED, NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
-import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import FacetedSearch from 'in-new-components/AnalyzeView/FacetedSearch';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
@@ -371,7 +371,7 @@ export default function GroupedAnalyzeView(props) {
                 );
               })}
               {canLoadMore && (
-                <LoadMoreLi
+                <LiLoadMore
                   loadMore={() => {
                     loadMore();
                     tracker?.loadMoreClicked();

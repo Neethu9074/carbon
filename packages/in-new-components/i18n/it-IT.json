@@ -167,7 +167,6 @@
     "sideNavigationAndContentRouteNotFound": "Non trovato"
   },
   "list": {
-    "labelLoadMore": "Carica altro",
     "labelMoreItems": "+{{numMoreItems}} altro..."
   },
   "loading": {

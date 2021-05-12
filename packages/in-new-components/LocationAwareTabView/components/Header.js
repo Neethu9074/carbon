@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { HorizontalIndicator } from '@instana/components';
+
 import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
 import DashboardHeaderModule, { themes } from 'in-new-components/DashboardHeader/DashboardHeaderModule';
-import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 
 import locals from './Header.mless';

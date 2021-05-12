@@ -6,6 +6,9 @@
 import React, { useCallback } from 'react';
 
 import { ColumnizedContent, Ul, Li } from '@instana/components';
+import { LiHorizontalIndicator } from '@instana/components';
+import { LiLoadingSkeleton } from '@instana/components';
+import { LiLoadMore } from '@instana/components';
 import { KeyValue } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
@@ -14,14 +17,11 @@ import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/compo
 import { type as TAG_FILTER_TYPE } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import HorizontalIndicatorLi from 'in-new-components/lists/List/HorizontalIndicatorLi';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
-import LoadingSkeletonLi from 'in-new-components/lists/List/LoadingSkeletonLi';
 import { pluginTag, defaultOrder } from 'in-infrastructure/Explore/constants';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import MetricLabel from 'in-infrastructure/Explore/components/MetricLabel';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
@@ -165,8 +165,8 @@ function Presenter({
             <ColumnizedContent columnDefinitions={columnDefinitions} group={item} />
           </Li>
         ))}
-        {isLoading && <HorizontalIndicatorLi progress={indeterminateProgress} />}
-        {isLoading && <LoadingSkeletonLi />}
+        {isLoading && <LiHorizontalIndicator progress={indeterminateProgress} />}
+        {isLoading && <LiLoadingSkeleton />}
         {hasErrors &&
           getUniqueErrors(errors).map(error => (
             <Li key={error}>
@@ -176,7 +176,7 @@ function Presenter({
             </Li>
           ))}
         {canLoadMore && (
-          <LoadMoreLi
+          <LiLoadMore
             loadMore={() => {
               defaultCursorPaginationLoadMore();
               tracking?.onLoadMore?.(pagesLoaded(cursor?.offset, retrievalSize), LOAD_MORE_CONTEXT.GROUPS);

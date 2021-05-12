@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
+import { HorizontalIndicator } from '@instana/components';
+import { useObservable } from '@instana/hooks';
+
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { propTypeTimeConfig } from 'in-stores/time/config';

@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { sortBy } from 'lodash';
 import { range } from 'lodash';
 
+import { LoadingSkeleton } from '@instana/components';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
@@ -15,7 +16,6 @@ import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import { identity } from 'in-services/util/function';
 import Message from 'in-new-components/Message';
 import Tooltip from 'in-components/Tooltip';
@@ -67,7 +67,7 @@ function Loading({ numberOfRows = 5 }) {
   return range(numberOfRows + 1).map((e, i) => (
     <div key={i} className={locals.suggestion}>
       <div className={locals.addSuggestion}>
-        <Skeleton className={locals.skeletonContainer} darkMode />
+        <LoadingSkeleton className={locals.skeletonContainer} darkMode />
       </div>
     </div>
   ));

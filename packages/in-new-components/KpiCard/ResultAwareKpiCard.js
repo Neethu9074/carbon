@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { HorizontalIndicator } from '@instana/components';
+
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 
 export default function ResultAwareKpiCard({ title, result, renderKpiCard, useMaxAvailableHeight, actions }) {

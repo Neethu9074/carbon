@@ -6,13 +6,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { LiLoadMore } from '@instana/components';
 import { Li, Ul } from '@instana/components';
 import { Link } from '@instana/components';
 
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
 import { getDesignLibraryColorBySeverity, getIcon } from 'in-stores/events';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -61,7 +61,7 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }) => {
             </Li>
           );
         })}
-        {canLoadMore && <LoadMoreLi loadMore={loadMore} />}
+        {canLoadMore && <LiLoadMore loadMore={loadMore} />}
         {loading && <LoadingList numSkeletonRows={items?.length ? 1 : 3} />}
         {!loading && !items?.length && (
           <SmartAlertsNoDataAvailable

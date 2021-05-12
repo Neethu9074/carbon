@@ -167,7 +167,6 @@
     "sideNavigationAndContentRouteNotFound": "找不到"
   },
   "list": {
-    "labelLoadMore": "載入更多",
     "labelMoreItems": "再多 +{{numMoreItems}} 個..."
   },
   "loading": {

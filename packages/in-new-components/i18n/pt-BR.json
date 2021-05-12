@@ -167,7 +167,6 @@
     "sideNavigationAndContentRouteNotFound": "Não localizado"
   },
   "list": {
-    "labelLoadMore": "Carregar mais",
     "labelMoreItems": "+{{numMoreItems}} mais..."
   },
   "loading": {

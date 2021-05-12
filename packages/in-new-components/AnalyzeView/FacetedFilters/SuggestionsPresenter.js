@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { range, sortBy } from 'lodash';
 
+import { LoadingSkeleton } from '@instana/components';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
@@ -13,7 +14,6 @@ import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import { identity } from 'in-services/util/function';
 import Stack from 'in-new-components/layout/Stack';
 import Message from 'in-new-components/Message';
@@ -73,7 +73,7 @@ function Loading({ numberOfRows = 5 }) {
   return range(numberOfRows + 1).map((e, i) => (
     <div key={i} className={locals.suggestion}>
       <div className={locals.addSuggestion}>
-        <Skeleton className={locals.skeletonContainer} darkMode />
+        <LoadingSkeleton className={locals.skeletonContainer} darkMode />
       </div>
     </div>
   ));

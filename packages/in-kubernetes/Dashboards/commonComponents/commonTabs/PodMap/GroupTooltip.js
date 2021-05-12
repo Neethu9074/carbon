@@ -6,8 +6,9 @@
 import { fromJS } from 'immutable';
 import React from 'react';
 
+import { LoadingSkeleton } from '@instana/components';
+
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import Delayed from 'in-new-components/Delayed/Delayed';
 import WithIcon from 'in-new-components/WithIcon';
 import { getSnapshot } from 'in-stores/snapshot';
@@ -52,7 +53,7 @@ export function GroupTooltipComponent({ isMetricValuePresented, group, groupEnti
         {groupEntity ? (
           <WithIcon icon={getIconType(groupEntity.get('plugin'))}>{getLabel(groupEntity)}</WithIcon>
         ) : (
-          <Skeleton className={locals.metricValueSkeleton} />
+          <LoadingSkeleton className={locals.metricValueSkeleton} />
         )}
       </div>
       <ul className={locals.list}>

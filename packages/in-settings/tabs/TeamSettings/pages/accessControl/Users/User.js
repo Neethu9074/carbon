@@ -6,6 +6,7 @@
 import { createField, notBlankValidator, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { LoadingSkeleton } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
@@ -19,7 +20,6 @@ import { updateUser } from 'in-settings/tabs/UserSettings/api/user';
 import { refresh } from 'in-settings/tabs/TeamSettings/api/groups';
 import { isLoading, hasError } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import { getUsersAsResultObservable } from 'in-api/users';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Title from 'in-components/Title/Title';
@@ -67,8 +67,8 @@ function renderLoadingState() {
   return (
     <div className={locals.headline}>
       <Gravatar className={locals.avatar} size="l" />
-      <Skeleton className={locals.nameSkeleton} />
-      <Skeleton className={locals.nameSkeleton} />
+      <LoadingSkeleton className={locals.nameSkeleton} />
+      <LoadingSkeleton className={locals.nameSkeleton} />
     </div>
   );
 }

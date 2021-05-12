@@ -5,8 +5,9 @@
 
 import React, { Fragment } from 'react';
 
+import { HorizontalIndicator } from '@instana/components';
+
 import Header from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/Header';
-import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
 
 export default function LoadingCallDetails({ onClose, progress }) {
   return (

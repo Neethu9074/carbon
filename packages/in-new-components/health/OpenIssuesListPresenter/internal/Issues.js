@@ -5,10 +5,11 @@
 
 import React from 'react';
 
+import { HorizontalIndicator } from '@instana/components';
+import { LoadingSkeleton } from '@instana/components';
+
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import Issue from 'in-new-components/health/OpenIssuesListPresenter/internal/Issue';
-import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 
 import locals from './Issues.mless';
 
@@ -17,8 +18,8 @@ export default function Issues({ openIssuesResult, maxIssuesToShow, getIssueLink
     return (
       <div>
         <HorizontalIndicator progress={openIssuesResult.progress} />
-        <Skeleton className={locals.skeleton} />
-        <Skeleton className={locals.skeleton} />
+        <LoadingSkeleton className={locals.skeleton} />
+        <LoadingSkeleton className={locals.skeleton} />
       </div>
     );
   }

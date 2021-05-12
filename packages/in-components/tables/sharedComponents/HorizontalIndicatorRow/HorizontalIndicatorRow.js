@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import HorizontalIndicator from 'in-new-components/Loading/HorizontalIndicator';
+import { HorizontalIndicator } from '@instana/components';
 
 import locals from './HorizontalIndicatorRow.mless';
 

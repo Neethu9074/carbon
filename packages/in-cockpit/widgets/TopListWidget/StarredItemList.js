@@ -6,11 +6,11 @@
 import React from 'react';
 
 import { ColumnizedContent, Ul, Li } from '@instana/components';
+import { LoadingSkeleton } from '@instana/components';
 
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import WithStarredItems from 'in-cockpit/widgets/TopListWidget/WithStarredItems';
 import { hasError, isLoading } from 'in-services/util/result';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import { error } from 'in-new-components/Message/types';
 import Message from 'in-new-components/Message';
 
@@ -58,7 +58,7 @@ function Item({ item, timeConfig, getItemLink, columnDefinitions }) {
           columnDefinitions={[
             {
               getContent() {
-                return <Skeleton className={locals.skeleton} />;
+                return <LoadingSkeleton className={locals.skeleton} />;
               }
             },
             columnDefinitions[columnDefinitions.length - 1]

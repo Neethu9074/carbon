@@ -6,9 +6,10 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { LoadingSkeleton } from '@instana/components';
+
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import TreeMap from 'in-new-components/TreeMap';
 
 import locals from './ResultAwareTreeMap.mless';
@@ -21,7 +22,7 @@ export default function ResultAwareTreeMap({
 }) {
   const isLoading = result.progress.loading;
   if (isLoading) {
-    return <Skeleton style={{ height: customHeigt }} className={locals.skeletonTreeMap} />;
+    return <LoadingSkeleton style={{ height: customHeigt }} className={locals.skeletonTreeMap} />;
   }
 
   const hasErrors = result.errors.length > 0;

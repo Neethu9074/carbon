@@ -6,11 +6,12 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { LoadingSkeleton } from '@instana/components';
+
 import { shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { formatDateTime } from 'in-services/formatters/date';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import PluginIcon from 'in-components/PluginIcon';
 import { t } from 'in-i18n';
 
@@ -22,7 +23,7 @@ export default function InfrastructureEntityLink({ entity, snapshot, plugin, phy
   if (isLoading || physicalContext === null) {
     return (
       <div className={locals.skeleton}>
-        <Skeleton className={locals.skeleton} />
+        <LoadingSkeleton className={locals.skeleton} />
       </div>
     );
   }

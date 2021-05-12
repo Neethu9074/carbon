@@ -5,12 +5,12 @@
 
 import React from 'react';
 
+import { LoadingSkeleton } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import InfrastructureEntityLink from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/InfrastructureEntityLink';
 import { shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
-import Skeleton from 'in-new-components/Loading/Skeleton';
 import Hierarchy from 'in-components/Link/Hierarchy';
 import { t } from 'in-i18n';
 
@@ -32,7 +32,7 @@ export default function InfrastructureHierarchy({
   const hierarchy = useObservable(getHierarchy, [snapshotId, timeConfig, calculateHierarchy]);
 
   if (!hierarchy) {
-    return <Skeleton />;
+    return <LoadingSkeleton />;
   }
   if (hierarchy.size < 2) {
     return (
