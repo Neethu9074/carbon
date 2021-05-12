@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 import { escapeRegExp } from 'lodash';
+
+import { useObservable } from '@instana/hooks';
 
 import ExistingValue, { getExistingValuesForTag } from 'in-new-components/AnalyzeView/FacetedFilters/ExistingValue';
 import FacetedExpandableCard from 'in-new-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
@@ -100,11 +101,13 @@ function SearchAndSuggestions({
   const isBooleanTag = tagDefinition?.type === 'BOOLEAN';
 
   const valueRegex = new RegExp(
-    escapeRegExp(valueFilter)
+    valueFilter
       .split('')
+      .map(escapeRegExp)
       .join('.*'),
     'i'
   );
+
   const suggestions =
     useObservable(
       getSuggestions({ tag, entity }).map(
