@@ -121,7 +121,8 @@
       "elasticsearch": "Elasticsearch",
       "elasticsearchNg": "ElasticsearchNG",
       "kafka": "Kafka",
-      "demous": "demous"
+      "demous": "demous",
+      "demoeu": "demoeu"
     },
     "internalViewWrapper": {
       "internal": "Internal"
