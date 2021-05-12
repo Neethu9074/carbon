@@ -38,7 +38,7 @@ export default function CursorPaginatedTable(props) {
     allRowsAreSelected = false,
     setSelectedStateForRows,
     renderNoDataAvailable,
-    filterBy,
+    filterByOnClick,
     filterByHref,
 
     // events
@@ -100,7 +100,7 @@ export default function CursorPaginatedTable(props) {
               cols={visibleColumns.length}
               loadMore={canLoadMore && loadMore}
               label={loadMoreLabel}
-              filterBy={filterBy}
+              filterByOnClick={filterByOnClick}
               filterByLabel={t('in-components:tables.serverTable.cursorPaginatedTableFilterByLabel')}
               filterByHref={filterByHref}
             />
@@ -118,19 +118,19 @@ function LoadMoreRow({
   label = t('in-components:tables.serverTable.cursorPaginatedTableLoadMoreRowLabel'),
   size,
   className,
-  filterBy,
+  filterByOnClick,
   filterByLabel,
   filterByHref
 }) {
   const filterByCols = loadMore ? cols - 2 : cols;
-  const supportsFilterBy = Boolean(filterByHref || filterBy);
+  const supportsFilterBy = Boolean(filterByHref || filterByOnClick);
   const loadMoreCols = supportsFilterBy ? cols - filterByCols : cols;
   return (
     <Tr depth={depth} size={size} className={className}>
       {supportsFilterBy && (
-        <ActionColumn cols={filterByCols} action={filterBy} actionHref={filterByHref} label={filterByLabel} />
+        <ActionColumn cols={filterByCols} onClick={filterByOnClick} href={filterByHref} label={filterByLabel} />
       )}
-      {loadMore && <ActionColumn cols={loadMoreCols} action={loadMore} label={label} />}
+      {loadMore && <ActionColumn cols={loadMoreCols} onClick={loadMore} label={label} />}
     </Tr>
   );
 }

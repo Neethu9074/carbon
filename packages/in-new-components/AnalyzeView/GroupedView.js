@@ -46,6 +46,7 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import { aggregationLabels } from 'in-stores/metric';
 import { identity } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { scrollToTop } from 'in-services/util/dom';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -521,7 +522,12 @@ function actionColumns() {
       getContent({ href }) {
         return (
           <Tooltip content={t('in-new-components:analyze.focusOnGroup')}>
-            <IconButton type="lib_actions_filter" href={href} className={locals.focusButton} />
+            <IconButton
+              type="lib_actions_filter"
+              href={href}
+              className={locals.focusButton}
+              onClick={() => scrollToTop(window)}
+            />
           </Tooltip>
         );
       }

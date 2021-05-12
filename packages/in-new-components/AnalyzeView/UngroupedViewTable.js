@@ -12,6 +12,7 @@ import { wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers'
 import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
+import { scrollToTop } from 'in-services/util/dom';
 import { t } from 'in-i18n';
 
 import locals from './UngroupedViewTable.mless';
@@ -124,6 +125,7 @@ function Table(props) {
           orderBy={orderBy.by}
           orderDirection={orderBy.direction}
           filterByHref={groupLabel ? getHrefToUngroupedView(groupLabel) : null}
+          filterByOnClick={() => scrollToTop(window)}
           loadMoreLabel={t('in-new-components:analyze.loadMoreWithCount', { count: retrievalSize })}
           renderNoDataAvailable={noDataMessage => (
             <NoDataAvailable className={locals.noData} text={noDataMessage} height={80} />

@@ -19,7 +19,7 @@ export default function LoadMoreRow({
 }) {
   return (
     <Tr depth={depth} size={size} className={className}>
-      <ActionColumn cols={cols} action={loadMore} label={label} />
+      <ActionColumn cols={cols} onClick={loadMore} label={label} />
     </Tr>
   );
 }

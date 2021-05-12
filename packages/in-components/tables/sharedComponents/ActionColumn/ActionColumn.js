@@ -11,19 +11,21 @@ import { Td } from 'in-components/tables/sharedComponents/Table';
 
 import locals from './ActionColumn.mless';
 
-export default function ActionCol({ cols, action, actionHref, label }) {
+export default function ActionCol({ cols, onClick, href, label }) {
   return (
     <Td colSpan={cols}>
       <div className={locals.wrapper}>
         <Button
           kind="action"
-          href={actionHref}
+          href={href}
           onClick={
-            action
+            onClick
               ? e => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  action();
+                  if (href == null) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                  }
+                  onClick();
                 }
               : undefined
           }
