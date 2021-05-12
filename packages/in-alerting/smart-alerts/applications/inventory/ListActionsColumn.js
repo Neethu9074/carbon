@@ -6,8 +6,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { Button } from '@instana/components';
-
 import {
   applicationsAlertingAlertEdit,
   applicationsAlertingListAlertDeleted,
@@ -30,6 +28,7 @@ import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrappe
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
+import IconButton from 'in-new-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
 import { t, Trans } from 'in-i18n';
 
@@ -52,9 +51,9 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
 
   return (
     <HorizontalFlexWrapper className={locals.actions}>
-      <Button
-        icon={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
-        kind="subtle"
+      <IconButton
+        kind="primaryv2"
+        type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
         iconSpinning={isSaving}
         onClick={e => {
           stopPropagation(e);
@@ -64,9 +63,9 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
 
       <MoreMenu
         renderInteractiveElement={({ ref, toggle }) => (
-          <Button
-            kind="subtle"
-            icon={isMoreMenuSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
+          <IconButton
+            kind="info"
+            type={isMoreMenuSaving ? 'lib_actions_loading' : 'lib_menu_more_horizontal'}
             onClick={e => {
               stopPropagation(e);
               toggle();
