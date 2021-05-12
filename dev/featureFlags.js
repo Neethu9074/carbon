@@ -47,5 +47,6 @@ module.exports = {
   applicationHealthOverviewEnabled: true,
   hideEventsSettings: true,
   openFacetedSearchByDefault: true,
-  applicationSmartAlertTitlePlaceholdersEnabled: true
+  applicationSmartAlertTitlePlaceholdersEnabled: true,
+  agentInstallViewRestrictedToIBMSaas: false
 };
