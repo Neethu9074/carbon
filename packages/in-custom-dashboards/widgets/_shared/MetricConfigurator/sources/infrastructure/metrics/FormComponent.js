@@ -58,7 +58,7 @@ export default function FormComponent({
   });
 
   const catalogQuery = useDebouncedValue('', noop, 800);
-  const metricCatalog = useMetricCatalog({ getMetricCatalog, query: catalogQuery.debouncedValue });
+  const metricCatalog = useMetricCatalog({ getMetricCatalog, tagFilterExpression, query: catalogQuery.debouncedValue });
 
   return (
     <Stack space="xsmall">
