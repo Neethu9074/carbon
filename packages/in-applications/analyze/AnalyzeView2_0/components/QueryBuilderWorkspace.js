@@ -70,7 +70,8 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
     useLastValidStateWhenErroneous,
     chartedMetrics,
     chartableDataSeries,
-    hiddenCalls
+    hiddenCalls,
+    groupedViewConfiguration
   } = props;
   return (
     <Sticky
@@ -111,6 +112,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
 
             <Charting
               {...props}
+              getCustomGroupLabel={groupedViewConfiguration.getCustomGroupLabel}
               chartedMetrics={chartedMetrics.map(chartedMetric => ({
                 ...chartedMetric,
                 rendererId: metricRenderers[dataSource][chartedMetric.metricId] ?? 'stackedBar'

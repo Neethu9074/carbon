@@ -14,6 +14,7 @@ import {
   ungroupedChartingOptions,
   groupedChartingOptions
 } from 'in-applications/analyze/components/ChartingPresenter/chartingOptions';
+import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED, UNSPECIFIED_LABEL } from 'in-analyze/components/GroupedTraces/Group';
 import { createTableTimestampColumnDefinition } from 'in-new-components/AnalyzeView/commonTableColumnDefinitions';
 import FacetedFilterHiddenCalls from 'in-applications/analyze/components/FacetedSearch/FacetedFilterHiddenCalls';
 import { createListTimestampColumnDefinition } from 'in-new-components/AnalyzeView/commonListColumnDefinitions';
@@ -184,8 +185,19 @@ function getGroupedView(dataSource) {
         getTimestamp: ({ item }) => item.timestamp
       })
     },
-    chartingOptions: groupedChartingOptions[dataSource]
+    chartingOptions: groupedChartingOptions[dataSource],
+    getCustomGroupLabel
   };
+}
+
+function getCustomGroupLabel(groupName) {
+  if (groupName === UNSPECIFIED) {
+    return UNSPECIFIED_LABEL;
+  }
+  if (groupName === NO_VALUE) {
+    return NO_VALUE_LABEL;
+  }
+  return groupName;
 }
 
 function getUngroupedView(dataSource) {

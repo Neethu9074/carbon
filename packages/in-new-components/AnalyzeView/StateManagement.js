@@ -4,8 +4,9 @@
  */
 
 import React, { useCallback, useMemo, useState } from 'react';
-import { useObservable } from '@instana/hooks';
 import rpt from 'prop-types';
+
+import { useObservable } from '@instana/hooks';
 
 import { TAG, CONJUNCTION, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS, IS_EMPTY, NOT_EMPTY, IS_BLANK } from 'in-new-components/QueryBuilder/tagFilter/operators';
@@ -101,7 +102,8 @@ const groupedViewPropType = rpt.shape({
   defaultOrderDirection: rpt.oneOf(['ASC', 'DESC']).isRequired,
   timestampName: rpt.string,
   orderByGroupName: rpt.string,
-  customFieldRenderingInstructions: rpt.objectOf(rpt.shape(extendedColumnDefinitionShape).isRequired)
+  customFieldRenderingInstructions: rpt.objectOf(rpt.shape(extendedColumnDefinitionShape).isRequired),
+  getCustomGroupLabel: rpt.func
 }).isRequired;
 
 const ungroupedViewPropType = rpt.shape({

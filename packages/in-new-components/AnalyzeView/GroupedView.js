@@ -19,7 +19,6 @@ import {
   groupName
 } from 'in-new-components/AnalyzeView/metrics';
 import { joinExpressions, removeTopLevelFilters, TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { UNSPECIFIED, NO_VALUE, UNSPECIFIED_LABEL, NO_VALUE_LABEL } from 'in-analyze/components/GroupedTraces/Group';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
@@ -29,6 +28,7 @@ import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressI
 import { BOOLEAN, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { childrenArgsAsPropTypes } from 'in-new-components/AnalyzeView/StateManagement';
 import { EQUALS, NOT_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { UNSPECIFIED, NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import LoadMoreLi from 'in-new-components/lists/List/LoadMoreLi/LoadMoreLi';
@@ -44,6 +44,7 @@ import IconButton from 'in-new-components/IconButton/IconButton';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { aggregationLabels } from 'in-stores/metric';
+import { identity } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import theme from 'in-themes';
@@ -108,6 +109,7 @@ export default function GroupedAnalyzeView(props) {
   const labelColumnDefinitions = labelColumns({
     itemlabelColumnId,
     getLabel,
+    getCustomGroupLabel: groupedViewConfiguration.getCustomGroupLabel,
     showChartGroupMarkers,
     groupColors,
     groupIcon
@@ -387,7 +389,14 @@ export default function GroupedAnalyzeView(props) {
   );
 }
 
-function labelColumns({ itemlabelColumnId, getLabel, showChartGroupMarkers, groupColors, groupIcon }) {
+function labelColumns({
+  itemlabelColumnId,
+  getLabel,
+  getCustomGroupLabel,
+  showChartGroupMarkers,
+  groupColors,
+  groupIcon
+}) {
   let i = 0;
   return [
     ...(showChartGroupMarkers
@@ -433,7 +442,7 @@ function labelColumns({ itemlabelColumnId, getLabel, showChartGroupMarkers, grou
         return (
           <KeyValue
             label={<span className={locals.groupLabel}>{label}</span>}
-            customValue={<GroupLabelTooltip groupName={getLabel(item)} />}
+            customValue={<GroupLabelTooltip groupName={getLabel(item)} getCustomGroupLabel={getCustomGroupLabel} />}
             accentuated
           />
         );
@@ -442,7 +451,8 @@ function labelColumns({ itemlabelColumnId, getLabel, showChartGroupMarkers, grou
   ];
 }
 
-function GroupLabelTooltip({ groupName }) {
+function GroupLabelTooltip({ groupName, getCustomGroupLabel }) {
+  const groupLabel = getCustomGroupLabel ?? identity;
   const label = groupLabel(groupName);
   return (
     <Tooltip content={label} align="bottomLeft" delay={1000}>
@@ -455,16 +465,6 @@ function GroupLabelTooltip({ groupName }) {
       </div>
     </Tooltip>
   );
-}
-
-export function groupLabel(groupName) {
-  if (groupName === UNSPECIFIED) {
-    return UNSPECIFIED_LABEL;
-  }
-  if (groupName === NO_VALUE) {
-    return NO_VALUE_LABEL;
-  }
-  return groupName;
 }
 
 function metricColumns({ columnDefinitions, fields, groupedViewConfiguration, metricCatalog }) {
