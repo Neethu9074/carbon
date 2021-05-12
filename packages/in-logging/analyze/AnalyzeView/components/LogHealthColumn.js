@@ -5,6 +5,11 @@
 
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 
+const logHealthMappings = new Map([
+  ['error', 10],
+  ['warn', 5]
+]);
+
 export default function LogHealthColumn({ tags, children }) {
   const logLevel = getLogLevel(tags);
   const severity = getSeverityByLogLevel(logLevel);
@@ -12,11 +17,5 @@ export default function LogHealthColumn({ tags, children }) {
 }
 
 function getSeverityByLogLevel(level) {
-  if ('ERROR' === level) {
-    return 10;
-  }
-  if ('WARN' === level) {
-    return 5;
-  }
-  return 0;
+  return level ? logHealthMappings.get(level.toLowerCase()) ?? 0 : 0;
 }
