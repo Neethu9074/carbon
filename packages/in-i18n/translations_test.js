@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env node, jest */
+/* eslint-env node, mocha */
 
 const { Parser } = require('i18next-scanner');
 const { difference, get, unset } = require('lodash');
@@ -16,7 +16,7 @@ const DEFAULT_NAMESPACE = 'in-i18n';
 // Not using a lambda so that we can adapt the test timeout.
 // parseTransFromString takes quite some time
 describe('in-i18n/translations', function() {
-  jest.setTimeout(1000 * 60);
+  this.timeout(1000 * 60);
 
   const i18nKeys = getAllI18nKeys();
 

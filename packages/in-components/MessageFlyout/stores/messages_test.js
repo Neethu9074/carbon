@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
+/* eslint-env mocha */
+import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import React from 'react';
 
@@ -13,9 +14,8 @@ describe('in-components/MessageFlyout/stores/messages', () => {
   let mod;
 
   beforeEach(() => {
-    jest.resetModules();
     resetStoreRegistry();
-    mod = require('in-components/MessageFlyout/stores/messages');
+    mod = proxyquire('in-components/MessageFlyout/stores/messages', {});
   });
 
   it('must start without any messages', done => {

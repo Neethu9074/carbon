@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest ,node */
+/* eslint-env mocha,node */
+import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 
 describe('viewStructureStore', () => {
@@ -14,12 +15,11 @@ describe('viewStructureStore', () => {
     let query = 'entity.host.name:*';
 
     describe('with RBAC enabled and limited access', () => {
-      jest.resetModules();
-      jest.doMock('in-stores/permission', () => ({
-        __esModule: true,
-        hasRestrictedAccess: true
-      }));
-      const store = require('in-map/stores/physical/viewStructureStore');
+      const store = proxyquire('in-map/stores/physical/viewStructureStore', {
+        'in-stores/permission': {
+          hasRestrictedAccess: true
+        }
+      });
 
       it('should return given search matches on query', () => {
         expect(store.getPermittedIds(match, null, query)).to.equal(match);
@@ -48,12 +48,11 @@ describe('viewStructureStore', () => {
     });
 
     describe('with RBAC disabled or full access', () => {
-      jest.resetModules();
-      jest.doMock('in-stores/permission', () => ({
-        __esModule: true,
-        hasRestrictedAccess: false
-      }));
-      const store = require('in-map/stores/physical/viewStructureStore');
+      const store = proxyquire('in-map/stores/physical/viewStructureStore', {
+        'in-stores/permission': {
+          hasRestrictedAccess: false
+        }
+      });
 
       it('should return given search matches', () => {
         expect(store.getPermittedIds(match, null, '')).to.equal(match);

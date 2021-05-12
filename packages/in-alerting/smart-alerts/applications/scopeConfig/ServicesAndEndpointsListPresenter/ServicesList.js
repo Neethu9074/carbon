@@ -97,7 +97,6 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
           ? sortListBySelectionState(listData, enhanceParentIdsWithChildId(parentIds), hasUserInteractedWithItem(state))
           : listData
       }
-      /* eslint-disable-next-line react/display-name */
       renderSubList={({ applicationId, serviceId }) => () => (
         <EndpointsList {...props} parentIds={{ applicationId, serviceId }} />
       )}

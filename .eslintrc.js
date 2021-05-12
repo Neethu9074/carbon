@@ -11,7 +11,7 @@ module.exports = {
     sourceType: 'module'
   },
 
-  plugins: ['react', 'jest', '@babel/eslint-plugin', 'header'],
+  plugins: ['react', 'mocha', 'babel', 'header'],
 
   settings: {
     react: {
@@ -71,7 +71,12 @@ module.exports = {
     'no-useless-escape': 'error',
     // prevent from throwing no-unused-expression error when using optional chaining
     'no-unused-expressions': 'off',
-    '@babel/no-unused-expressions': ['error', { allowShortCircuit: true }],
+    'babel/no-unused-expressions': 'error',
+
+    // ###########################################################
+    // ### Mocha
+    // ###########################################################
+    'mocha/no-exclusive-tests': 'error',
 
     // ###########################################################
     // ### React

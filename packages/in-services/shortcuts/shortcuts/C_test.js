@@ -3,7 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env mocha, node */
+import { create } from '@instana/observables';
+import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -14,6 +16,7 @@ import keyCodes from 'in-components/keyCodes';
 describe('shortcuts/C', () => {
   let selectedEntityId;
   let currentService;
+  let focusEntityId;
   let onKeyPressed;
   let shortcuts;
 
@@ -29,9 +32,9 @@ describe('shortcuts/C', () => {
     };
     CameraControllerServiceLocator.provide(currentService);
 
-    loadModules();
-
+    selectedEntityId = create();
     selectedEntityId.emit(null);
+    loadModules();
   });
 
   it('should focus entity when C was pressed', () => {
@@ -69,26 +72,28 @@ describe('shortcuts/C', () => {
         };
       }
     });
-    const actualObservables = jest.requireActual('@instana/observables');
-
-    selectedEntityId = actualObservables.create();
-
-    jest.doMock('in-map/stores/focusableSceneObjectsStore', () => ({
-      sceneObjects: {
-        stream: actualObservables.create().startWith(defaultObjects)
+    focusEntityId = proxyquire('in-map/services/focus', {
+      'in-map/stores/focusableSceneObjectsStore': {
+        sceneObjects: {
+          stream: create().startWith(defaultObjects)
+        }
+      },
+      'in-map/stores/selectedMapSceneObjectStore': {
+        selectedSnapshotIdForHighlightingInMap$: create().startWith('id1')
       }
-    }));
-    jest.doMock('in-map/stores/selectedMapSceneObjectStore', () => ({
-      selectedSnapshotIdForHighlightingInMap$: actualObservables.create().startWith('id1')
-    }));
+    });
 
-    onKeyPressed = actualObservables.create();
-    jest.doMock('@instana/observables', () => ({
-      ...actualObservables,
-      on: () => onKeyPressed
-    }));
+    const mod = proxyquire('in-services/shortcuts/shortcuts/C', {
+      'in-map/services/focus': focusEntityId
+    });
 
-    shortcuts = require('in-services/shortcuts');
+    onKeyPressed = create();
+    shortcuts = proxyquire('in-services/shortcuts', {
+      '@instana/observables': {
+        on: () => onKeyPressed
+      },
+      'in-services/shortcuts/shortcuts/C': mod
+    });
     shortcuts.init();
   }
 });

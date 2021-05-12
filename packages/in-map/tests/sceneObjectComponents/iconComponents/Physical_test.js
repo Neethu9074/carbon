@@ -3,17 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env mocha, node */
+import proxyquire from 'proxyquire';
 import { fromJS } from 'immutable';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { getFactory } from 'in-map/stores/factoriesStore';
-import Physical from 'in-map/sceneObjectComponents/iconComponents/Physical';
 
 import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
 import { plugins } from 'in-forge/constants';
-
-jest.mock('in-map/stores/factoriesStore');
 
 describe('in-map', () => {
   describe('sceneObjectComponents/iconComponents/Physical', () => {
@@ -32,9 +29,20 @@ describe('in-map', () => {
         remove: sinon.stub(),
         needsUpdate: sinon.stub()
       };
-      getFactory.mockReturnValue(factory);
 
-      component = new Physical(sceneObject, 1, getIconPositionCallback);
+      const IconComponent = proxyquire('in-map/sceneObjectComponents/iconComponents/IconComponent', {
+        'in-map/stores/factoriesStore': {
+          getFactory: () => factory
+        }
+      }).default;
+
+      const Component = proxyquire('in-map/sceneObjectComponents/iconComponents/Physical', {
+        'in-map/sceneObjectComponents/iconComponents/IconComponent': {
+          default: IconComponent
+        }
+      }).default;
+
+      component = new Component(sceneObject, 1, getIconPositionCallback);
       component.initEvents();
     });
 

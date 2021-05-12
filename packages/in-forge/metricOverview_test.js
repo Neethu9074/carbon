@@ -16,8 +16,11 @@ import { getPluginName } from 'in-sdk/pluginName';
 const oneZeroEntitiesDeprecationReason =
   'Deprecated: Entities of this type are only available to environments still running Classic Mode.';
 
-const maybe = process.env.GENERATE_METRIC_OVERVIEW ? describe.only : describe.skip;
-maybe('in-forge/metricOverview', () => {
+if (process.env.GENERATE_METRIC_OVERVIEW) {
+  describe.only('in-forge/metricOverview', doGenerate);
+}
+
+function doGenerate() {
   it('must generate a metric overview for docs', () => {
     const plugins = Object.keys(allMetricDefinitions).sort((a, b) =>
       getPluginName(a, 2).localeCompare(getPluginName(b, 2))
@@ -103,4 +106,4 @@ maybe('in-forge/metricOverview', () => {
     fs.writeFileSync(targetFileName, content);
     console.log('Metric overview for ui backend written to %s', targetFileName);
   });
-});
+}

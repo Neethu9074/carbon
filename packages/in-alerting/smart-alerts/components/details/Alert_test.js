@@ -3,77 +3,107 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest */
+/* eslint-env mocha */
 
+import proxyquire from 'proxyquire';
 import { shallow } from 'enzyme';
+import { expect } from 'chai';
 import React from 'react';
-import Alert from 'in-alerting/smart-alerts/components/details/Alert';
+import Sinon from 'sinon';
 
-const mockTriggerReload = jest.fn();
+const triggerReload = Sinon.fake();
 
-jest.mock('@instana/hooks', () => ({
-  useObservable: params => {
-    return params();
+const Alert = proxyquire('in-alerting/smart-alerts/components/details/Alert', {
+  '@instana/hooks': {
+    useObservable: params => {
+      return params();
+    }
+  },
+  react: {
+    React,
+    useState: () => [null, triggerReload]
+  },
+  'in-stores/navigation/navigation': {
+    mutateUrl: Sinon.fake()
   }
-}));
-jest.mock('react', () => ({
-  ...jest.requireActual('react'),
-  useState: () => [null, mockTriggerReload]
-}));
-jest.mock('in-stores/navigation/navigation', () => ({
-  ...jest.requireActual('in-stores/navigation/navigation'),
-  mutateUrl: jest.fn()
-}));
+}).default;
 
 describe('Alert', () => {
   beforeEach(() => {
-    mockTriggerReload.mockClear();
+    triggerReload.resetHistory();
   });
 
-  const defaultProps = {
-    paths: {
-      detailsPath: '',
-      listPath: '',
-      alertsTabSegment: ''
-    },
-    matrix: {
-      alertIdParam: '',
-      alertCreatedParam: ''
-    },
-    location: {
-      pathname: '',
-      matrix: {}
-    },
-    getConfig: () => ({ data: {}, errors: [] }),
-    getConfigVersions: () => ({ data: [], errors: [] }),
-    renderAlertConfiguration: jest.fn(),
-    deleteConfig: jest.fn(),
-    disableConfig: jest.fn(),
-    enableConfig: jest.fn(),
-    renderSmartAlertDialog: jest.fn(),
-    restoreConfig: jest.fn(),
-    timeConfig: {
-      windowSize: 12345678
-    }
-  };
-
-  it('setRevision should trigger a reload if created date is absent', () => {
-    const wrapper = shallow(<Alert {...defaultProps} />);
+  it('setRevision should trigger a reload if created date is abscent', () => {
+    const wrapper = shallow(
+      <Alert
+        paths={{
+          detailsPath: '',
+          listPath: '',
+          alertsTabSegment: ''
+        }}
+        matrix={{
+          alertIdParam: '',
+          alertCreatedParam: ''
+        }}
+        location={{
+          pathname: '',
+          matrix: {}
+        }}
+        getConfig={() => ({ data: {}, errors: [] })}
+        getConfigVersions={() => ({ data: [], errors: [] })}
+        renderAlertConfiguration={Sinon.fake()}
+        deleteConfig={Sinon.fake()}
+        disableConfig={Sinon.fake()}
+        enableConfig={Sinon.fake()}
+        renderSmartAlertDialog={Sinon.fake()}
+        restoreConfig={Sinon.fake()}
+        timeConfig={{
+          windowSize: 12345678
+        }}
+      />
+    );
 
     const actualSetRevision = wrapper.find('AlertHeader').prop('setRevision');
 
     actualSetRevision();
 
-    expect(mockTriggerReload).toHaveBeenCalledTimes(1);
+    expect(triggerReload.callCount).to.be.equal(1);
   });
 
   it('setRevision should not trigger a reload if created date is present', () => {
-    const wrapper = shallow(<Alert {...defaultProps} />);
+    const wrapper = shallow(
+      <Alert
+        paths={{
+          detailsPath: '',
+          listPath: '',
+          alertsTabSegment: ''
+        }}
+        matrix={{
+          alertIdParam: '',
+          alertCreatedParam: ''
+        }}
+        location={{
+          pathname: '',
+          matrix: {}
+        }}
+        getConfig={() => ({ data: {}, errors: [] })}
+        getConfigVersions={() => ({ data: [], errors: [] })}
+        renderAlertConfiguration={() => {}}
+        deleteConfig={Sinon.fake()}
+        disableConfig={Sinon.fake()}
+        enableConfig={Sinon.fake()}
+        renderSmartAlertDialog={Sinon.fake()}
+        restoreConfig={Sinon.fake()}
+        timeConfig={{
+          windowSize: 12345678
+        }}
+      />
+    );
 
     const actualSetRevision = wrapper.find('AlertHeader').prop('setRevision');
 
     actualSetRevision(Date.now());
 
-    expect(mockTriggerReload).toHaveBeenCalledTimes(0);
+    expect(triggerReload.callCount).to.be.equal(0);
   });
 });

@@ -9,15 +9,15 @@ import { expect } from 'chai';
 import { createSlownessForm } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 
 describe('in-alerting/smart-alerts/applications/form/thresholdForm', () => {
-  describe('when alertType is slowness', () => {
-    describe('when thresholdType is staticThreshold', () => {
+  context('when alertType is slowness', () => {
+    context('when thresholdType is staticThreshold', () => {
       it('should contain fields: type, operator, lastUpdated, value', () => {
         const thresholdForm = createSlownessForm({ type: 'staticThreshold' }).toJS();
         expect(thresholdForm).to.have.keys('type', 'operator', 'lastUpdated', 'value');
       });
     });
 
-    describe('when thresholdType includes historicBaseline', () => {
+    context('when thresholdType includes historicBaseline', () => {
       it('should contain fields: type, operator, lastUpdated, seasonality, baseline, deviationFactor', () => {
         const thresholdForm = createSlownessForm({ type: 'historicBaseline' }).toJS();
         expect(thresholdForm).to.have.keys(

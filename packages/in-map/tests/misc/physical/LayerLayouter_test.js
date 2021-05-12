@@ -3,19 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env mocha, node */
+import proxyquire from 'proxyquire';
 import RoEmitter from '@instana/roemitter';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { getFactory } from 'in-map/stores/factoriesStore';
-import createLayouter from 'in-map/misc/physical/LayerLayouter';
 
 import createObjectCollection from 'in-map/stores/ObjectCollectionStream';
-
-jest.mock('in-map/stores/factoriesStore');
-jest.mock('in-map/misc/TimingConfig', () => ({
-  LAYER_LAYOUTING: 0
-}));
 
 describe('in-map', () => {
   describe('misc/physical/LayerLayouter', () => {
@@ -30,7 +24,15 @@ describe('in-map', () => {
         remove: sinon.stub(),
         needsUpdate: sinon.stub()
       };
-      getFactory.mockReturnValue(factory);
+
+      const createLayouter = proxyquire('in-map/misc/physical/LayerLayouter', {
+        'in-map/stores/factoriesStore': {
+          getFactory: () => factory
+        },
+        'in-map/misc/TimingConfig': {
+          LAYER_LAYOUTING: 0
+        }
+      }).default;
 
       layer = createObjectCollection();
       eventEmitter = new RoEmitter();

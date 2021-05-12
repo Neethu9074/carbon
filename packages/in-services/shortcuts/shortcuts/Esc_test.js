@@ -3,14 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env mocha, node */
 import { create } from '@instana/observables';
+import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { homePath } from 'in-stores/navigation/paths/mainPaths';
 import { resetStoreRegistry } from 'in-stores/store';
 import keyCodes from 'in-components/keyCodes';
+import { createStore } from 'in-stores/store';
 
 describe('shortcuts/dashboard', () => {
   let onKeyPressed;
@@ -31,7 +33,6 @@ describe('shortcuts/dashboard', () => {
   let navigationMock;
 
   beforeEach(() => {
-    jest.resetModules();
     resetStoreRegistry();
     loadModules();
 
@@ -106,8 +107,6 @@ describe('shortcuts/dashboard', () => {
   }
 
   function loadModules() {
-    const { createStore } = jest.requireActual('in-stores/store');
-
     navigationParametersStore = createStore({
       name: 'navigationTestStore',
       initialValue: {
@@ -156,20 +155,21 @@ describe('shortcuts/dashboard', () => {
       presetsVisible$: filerDialogStore.observable
     };
 
-    jest.doMock('in-stores/navigation', () => navigationMock);
-    jest.doMock('in-components/SearchBar/stores/presetsVisibility', () => filerDialogMock);
-    jest.doMock('in-stores/snapshot', () => ({
-      ...jest.requireActual('in-stores/snapshot'),
-      clearSelectedSnapshotId: () => selectedSnapshotStore.applyStateMutation(() => null)
-    }));
+    const mod = proxyquire('in-services/shortcuts/shortcuts/Esc', {
+      'in-stores/navigation': navigationMock,
+      'in-components/SearchBar/stores/presetsVisibility': filerDialogMock,
+      'in-stores/snapshot': {
+        clearSelectedSnapshotId: () => selectedSnapshotStore.applyStateMutation(() => null)
+      }
+    });
+
     onKeyPressed = create();
-
-    jest.doMock('@instana/observables', () => ({
-      ...jest.requireActual('@instana/observables'),
-      on: () => onKeyPressed
-    }));
-
-    shortcuts = require('in-services/shortcuts');
+    shortcuts = proxyquire('in-services/shortcuts', {
+      '@instana/observables': {
+        on: () => onKeyPressed
+      },
+      'in-services/shortcuts/shortcuts/Esc': mod
+    });
     shortcuts.init();
   }
 });

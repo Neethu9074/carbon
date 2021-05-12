@@ -94,7 +94,6 @@ export default function ApplicationsList({
           ? sortListBySelectionState(listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem(state))
           : listData
       }
-      /* eslint-disable-next-line react/display-name */
       renderSubList={({ applicationId }) => () => {
         return <ServicesList {...props} parentIds={{ applicationId }} />;
       }}

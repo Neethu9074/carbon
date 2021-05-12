@@ -3,15 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env mocha, node */
+import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { getFactory } from 'in-map/stores/factoriesStore';
 
 import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
-import MeshComponent from 'in-map/sceneObjectComponents/MeshComponent';
-
-jest.mock('in-map/stores/factoriesStore');
 
 describe('in-map', () => {
   describe('sceneObjectComponents/MeshComponent', () => {
@@ -27,9 +24,14 @@ describe('in-map', () => {
         remove: sinon.stub(),
         needsUpdate: sinon.stub()
       };
-      getFactory.mockReturnValue(factory);
 
-      component = new MeshComponent(sceneObject);
+      const Component = proxyquire('in-map/sceneObjectComponents/MeshComponent/MeshComponent', {
+        'in-map/stores/factoriesStore': {
+          getFactory: () => factory
+        }
+      }).default;
+
+      component = new Component(sceneObject);
       component.initEvents();
     });
 

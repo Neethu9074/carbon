@@ -3,26 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env mocha, node */
+import proxyquire from 'proxyquire';
 import { fromJS } from 'immutable';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import Component from 'in-map/sceneObjectComponents/PowerComponent/PowerComponent';
 import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
-
-jest.mock('in-map/misc/TimingConfig', () => ({
-  POWER_CHECKING: 0
-}));
-
-jest.mock('in-sdk/snapshot', () => ({
-  getPower: snapshot => {
-    if (snapshot.get('id') === 'id1') {
-      return 1;
-    }
-    return 2;
-  }
-}));
 
 describe('in-map', () => {
   describe('sceneObjectComponents/PowerComponent', () => {
@@ -41,6 +28,24 @@ describe('in-map', () => {
       powerChanged2 = sinon.stub();
       sceneObject2 = createSceneObject('id2');
       sceneObject2.eventEmitter.on('powerChanged').subscribe(powerChanged2);
+
+      const powerStore = proxyquire('in-map/stores/physical/powerStore', {
+        'in-map/misc/TimingConfig': {
+          POWER_CHECKING: 0
+        }
+      });
+
+      const Component = proxyquire('in-map/sceneObjectComponents/PowerComponent/PowerComponent', {
+        'in-map/stores/physical/powerStore': powerStore,
+        'in-sdk/snapshot': {
+          getPower: snapshot => {
+            if (snapshot.get('id') === 'id1') {
+              return 1;
+            }
+            return 2;
+          }
+        }
+      }).default;
 
       component = new Component(sceneObject);
       component.initEvents();

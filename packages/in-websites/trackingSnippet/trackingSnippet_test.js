@@ -3,30 +3,36 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env mocha */
+
+import proxyquire from 'proxyquire';
+import { expect } from 'chai';
 
 describe('in-websites/trackingSnippet', () => {
+  let mod;
+
   beforeEach(() => {
-    jest.resetModules();
+    mod = null;
   });
 
   function load({ useInstanaSaasEumTrackingUrlEnabled, region }) {
-    jest.doMock('in-services/featureFlags', () => ({
-      useInstanaSaasEumTrackingUrlEnabled: useInstanaSaasEumTrackingUrlEnabled
-    }));
-    jest.doMock('in-services/config', () => ({
-      region
-    }));
-    return import('in-websites/trackingSnippet/trackingSnippet');
+    mod = proxyquire('in-websites/trackingSnippet/trackingSnippet', {
+      'in-services/featureFlags': {
+        useInstanaSaasEumTrackingUrlEnabled: useInstanaSaasEumTrackingUrlEnabled
+      },
+      'in-services/config': {
+        region
+      }
+    });
   }
 
   describe('getTrackingSnippet', () => {
     it('must provide regular SAAS eum snippet', () => {
-      return load({
+      load({
         useInstanaSaasEumTrackingUrlEnabled: true
-      }).then(module => {
-        expect(module.getTrackingSnippet({ key: '123' })).toBe(
-          `
+      });
+      expect(mod.getTrackingSnippet({ key: '123' })).to.equal(
+        `
 <script>
   (function(s,t,a,n){s[t]||(s[t]=a,n=s[a]=function(){n.q.push(arguments)},
   n.q=[],n.v=2,n.l=1*new Date)})(window,"InstanaEumObject","ineum");
@@ -36,8 +42,7 @@ describe('in-websites/trackingSnippet', () => {
 </script>
 <script defer crossorigin="anonymous" src="https://eum.instana.io/eum.min.js"></script>
 `.trim()
-        );
-      });
+      );
     });
 
     testSaasUrl('blue', 'https://eum-blue-saas.instana.io');
@@ -48,12 +53,12 @@ describe('in-websites/trackingSnippet', () => {
     testSaasUrl('', '<trackingBaseUrl>');
 
     it('must support additional lines', () => {
-      return load({
+      load({
         useInstanaSaasEumTrackingUrlEnabled: true,
         region: 'us-west-2'
-      }).then(mod => {
-        expect(mod.getTrackingSnippet({ key: '123', additionalScript: 'ineum(true);\nineum(false);' })).toBe(
-          `
+      });
+      expect(mod.getTrackingSnippet({ key: '123', additionalScript: 'ineum(true);\nineum(false);' })).to.equal(
+        `
 <script>
   (function(s,t,a,n){s[t]||(s[t]=a,n=s[a]=function(){n.q.push(arguments)},
   n.q=[],n.v=2,n.l=1*new Date)})(window,"InstanaEumObject","ineum");
@@ -65,16 +70,15 @@ describe('in-websites/trackingSnippet', () => {
 </script>
 <script defer crossorigin="anonymous" src="https://eum.instana.io/eum.min.js"></script>
 `.trim()
-        );
-      });
+      );
     });
 
     it('must provide onprem eum snippet', () => {
-      return load({
+      load({
         useInstanaSaasEumTrackingUrlEnabled: false
-      }).then(mod => {
-        expect(mod.getTrackingSnippet({ key: '123' })).toBe(
-          `
+      });
+      expect(mod.getTrackingSnippet({ key: '123' })).to.equal(
+        `
 <script>
   // Note: Replace the <trackingBaseUrl> with the base URL under
   // which you proxy the Instana eum-acceptor (note that this
@@ -88,18 +92,17 @@ describe('in-websites/trackingSnippet', () => {
 </script>
 <script defer crossorigin="anonymous" src="<trackingBaseUrl>/eum.min.js"></script>
 `.trim()
-        );
-      });
+      );
     });
 
     function testSaasUrl(region, expectedReportingUrl) {
       it(`must provide regular SAAS eum snippet for region ${region || '<empty>'}`, () => {
-        return load({
+        load({
           useInstanaSaasEumTrackingUrlEnabled: true,
           region
-        }).then(mod => {
-          expect(mod.getTrackingSnippet({ key: '123' })).toBe(
-            `
+        });
+        expect(mod.getTrackingSnippet({ key: '123' })).to.equal(
+          `
 <script>
   (function(s,t,a,n){s[t]||(s[t]=a,n=s[a]=function(){n.q.push(arguments)},
   n.q=[],n.v=2,n.l=1*new Date)})(window,"InstanaEumObject","ineum");
@@ -109,8 +112,7 @@ describe('in-websites/trackingSnippet', () => {
 </script>
 <script defer crossorigin="anonymous" src="https://eum.instana.io/eum.min.js"></script>
 `.trim()
-          );
-        });
+        );
       });
     }
   });

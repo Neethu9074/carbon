@@ -3,17 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env mocha, node */
 import { create } from '@instana/observables';
+import proxyquire from 'proxyquire';
 import { fromJS } from 'immutable';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 
 import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
-import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
-
-jest.mock('in-stores/events');
 
 describe('in-map', () => {
   describe('sceneObjectComponents/HealthComponent', () => {
@@ -26,17 +23,20 @@ describe('in-map', () => {
       sceneObject = createSceneObject();
       sceneObject.eventEmitter.on('healthChanged').subscribe(healthChanged);
 
-      getHealthInfoAtFocusedMoment.mockReturnValue(
-        create().startWith(
-          fromJS({
-            problem: {
-              severity: 5
-            }
-          })
-        )
-      );
+      const Component = proxyquire('in-map/sceneObjectComponents/HealthComponent/HealthComponent', {
+        'in-stores/events': {
+          getHealthInfoAtFocusedMoment: () =>
+            create().startWith(
+              fromJS({
+                problem: {
+                  severity: 5
+                }
+              })
+            )
+        }
+      }).default;
 
-      component = new HealthComponent(sceneObject);
+      component = new Component(sceneObject);
       component.initEvents();
     });
 
