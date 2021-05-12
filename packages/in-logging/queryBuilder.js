@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-const leadingZeros = '0000000000000000';
 export function getTraceIdTagFilter(traceId) {
-  if (traceId.length === 32 && traceId.startsWith(leadingZeros)) {
-    traceId = traceId.slice(leadingZeros.length);
-  }
-  return { type: 'TAG_FILTER', name: 'log.traceId', value: traceId, operator: 'CONTAINS' };
+  // Until the transition to 128bit trace IDs is complete, only the ID's last 64 bits should
+  // be used for finding traces by ID
+  traceId = traceId.slice(-16);
+  return { type: 'TAG_FILTER', name: 'log.traceId', value: traceId, operator: 'ENDS_WITH' };
 }
