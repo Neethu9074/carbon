@@ -37,6 +37,7 @@ export default function TagExpressionValidation(props) {
   return props.children({
     isValid: isValid && props.isValid,
     validationError,
-    backendQueryModel: lastValidBackendQueryModel
+    backendQueryModel: lastValidBackendQueryModel,
+    isLoading: isValidating || props.isLoading
   });
 }

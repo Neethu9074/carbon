@@ -5,6 +5,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import shallowEqual from 'fbjs/lib/shallowEqual';
+
 import { useObservable } from '@instana/hooks';
 
 import { pendingResult, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
@@ -98,6 +99,16 @@ function updateResult(prev, result) {
     canLoadMore: !isStreamingData,
 
     nextAfterKey: (data.next ?? data.afterKey) || prev.afterKey,
-    items: (prev.items ?? []).concat(data.items ?? [])
+    items: concat(prev.items, data.items)
   };
+}
+
+// Some subscriptions will stream data and return the items found so far.
+// So the different results can contain duplicates which must be filtered.
+function concat(logItems1 = [], logItems2 = []) {
+  const allIds = new Set(logItems1.map(getId));
+  return logItems1.slice().concat(logItems2.filter(item => !allIds.has(getId(item))));
+}
+function getId(item) {
+  return item.itemId;
 }
