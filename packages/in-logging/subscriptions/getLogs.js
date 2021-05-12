@@ -6,6 +6,5 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 export default createResultSubscriptionFactory({
-  eventId: 'logsV2.getLogs',
-  memoizeFor: 50
+  eventId: 'logsV2.getLogs'
 });

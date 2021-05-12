@@ -31,24 +31,6 @@ function getTagCatalogInternal({ useCase } = emptyObject) {
           includeInternalTags
         }
       })
-    ).map(r => {
-      if (r.data) {
-        return {
-          ...r,
-          data: {
-            ...r.data,
-            tags: [
-              ...r.data.tags,
-              {
-                label: 'Trace Id',
-                name: 'log.traceId',
-                type: 'STRING'
-              }
-            ]
-          }
-        };
-      }
-      return r;
-    })
+    )
   );
 }
