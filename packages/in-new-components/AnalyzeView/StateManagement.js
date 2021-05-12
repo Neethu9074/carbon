@@ -106,7 +106,8 @@ const groupedViewPropType = rpt.shape({
   defaultOrderDirection: rpt.oneOf(['ASC', 'DESC']).isRequired,
   timestampName: rpt.string,
   orderByGroupName: rpt.string,
-  customFieldRenderingInstructions: rpt.objectOf(rpt.shape(extendedColumnDefinitionShape).isRequired)
+  customFieldRenderingInstructions: rpt.objectOf(rpt.shape(extendedColumnDefinitionShape).isRequired),
+  getCustomGroupLabel: rpt.func
 }).isRequired;
 
 const ungroupedViewPropType = rpt.shape({

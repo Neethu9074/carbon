@@ -18,6 +18,7 @@ import locals from './Chart.mless';
 
 export default function Chart({
   isGrouped,
+  getCustomGroupLabel,
   chartableMetricCatalog,
   chartableDataSeries,
   chartedMetrics,
@@ -47,13 +48,14 @@ export default function Chart({
   };
 
   if (isGrouped) {
+    const groupLabel = getCustomGroupLabel ?? identity;
     chartConfig.y1.metrics = chartableDataSeries?.map(({ label, formModel }) =>
       mapMetricConfiguration(
         {
           metric: metricId,
           tagFilterExpression: toBackendQueryModel(formModel),
           aggregation: aggregationId,
-          label: label,
+          label: groupLabel(label),
           source: unifiedMetricsSource
         },
         { dataSource }
@@ -85,5 +87,7 @@ Chart.propTypes = {
   ...childrenArgsAsPropTypes,
   mapMetricConfiguration: rpt.func,
   unifiedMetricsSource: rpt.string.isRequired,
-  forceLoadingIndicator: rpt.bool
+  forceLoadingIndicator: rpt.bool,
+  // Allows to customize group labels
+  getCustomGroupLabel: rpt.func
 };
