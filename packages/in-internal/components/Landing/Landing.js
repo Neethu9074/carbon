@@ -574,13 +574,13 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                       <LinkList>
                         <LinkListItem
                           label={t('in-internal:components.landing.demous')}
-                          href="https://demous-demo.instana.io"
+                          href="https://demous-instana.instana.io"
                           external
                           description={t('in-internal:components.landing.demousDescUs')}
                         />
                         <LinkListItem
-                          label={t('in-internal:components.landing.demous')}
-                          href="https://demoeu-demo.instana.io"
+                          label={t('in-internal:components.landing.demoeu')}
+                          href="https://demoeu-instana.instana.io"
                           external
                           description={t('in-internal:components.landing.demousDescEu')}
                         />
