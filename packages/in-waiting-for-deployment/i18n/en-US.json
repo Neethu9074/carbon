@@ -29,6 +29,7 @@
     "eclipseOpenJ911": "Eclipse OpenJ9 11",
     "theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "The cluster name must be a combination of letters, dashes and underscores, up to 64 characters long",
     "aws": "AWS",
+    "serverless": "Serverless",
     "amazonWebServices": "Amazon Web Services",
     "platform": "Platform",
     "instanaAwsSensor": "Instana AWS Sensor",

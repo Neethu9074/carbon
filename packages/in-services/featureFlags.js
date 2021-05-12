@@ -62,6 +62,8 @@ export const applicationSmartAlertTitlePlaceholdersEnabled = isFeatureFlagEnable
   false
 );
 
+export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

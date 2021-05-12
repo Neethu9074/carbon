@@ -30,15 +30,18 @@ import {
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import instanaAgentOpenShiftYaml from 'in-waiting-for-deployment/components/OnboardingWidget/instana-agent-openshift.yaml';
 import instanaAgentYaml from 'in-waiting-for-deployment/components/OnboardingWidget/instana-agent.yaml';
+import { agentInstallViewRestrictedToIBMSaas } from 'in-services/featureFlags';
 import createObservable from 'in-services/http/observableHttpResult';
 import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import config from 'in-services/config';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
 const maxClusterNameRegex = new RegExp(/^[\w-_]{1,64}$/);
 
-const lambdaLayerVersionApiBaseUrl = 'https://lambda-layers.instana.io';
+const instanaDomain = config.agentInstallDomain ?? 'io';
+const lambdaLayerVersionApiBaseUrl = `https://lambda-layers.instana.${instanaDomain}`;
 
 function validateClusterName(clusterName) {
   return maxClusterNameRegex.test(clusterName);
@@ -85,6 +88,53 @@ function validateNotEmpty(value, message) {
 }
 
 export default function getEntries({ disableAwsSensorDocumentation }) {
+  if (agentInstallViewRestrictedToIBMSaas) {
+    return [
+      {
+        label: t('in-waiting-for-deployment:content.serverless'),
+        fullLabel: t('in-waiting-for-deployment:content.serverless'),
+        category: t('in-waiting-for-deployment:content.platform'),
+        Content: IBMServerlessContent
+      },
+      {
+        label: t('in-waiting-for-deployment:content.kubernetes'),
+        icon: 'lib_kubernetes',
+        category: t('in-waiting-for-deployment:content.platform'),
+        subTechnologies: [
+          {
+            label: t('in-waiting-for-deployment:content.yaml'),
+            keyWords: 'kubernetesdeamonsetk8s',
+            Content: K8sDaemonSetContent
+          }
+        ]
+      },
+      {
+        label: t('in-waiting-for-deployment:content.openShift'),
+        icon: 'lib_openshift',
+        category: t('in-waiting-for-deployment:content.platform'),
+        subTechnologies: [
+          {
+            label: t('in-waiting-for-deployment:content.yaml'),
+            keyWords: 'kubernetesdeamonsetk8s',
+            Content: OpenShiftDaemonSetContent
+          }
+        ]
+      },
+      {
+        label: t('in-waiting-for-deployment:content.linux'),
+        icon: 'lib_linux',
+        category: t('in-waiting-for-deployment:content.os'),
+        subTechnologies: [
+          {
+            label: t('in-waiting-for-deployment:content.automaticInstallationOneLiner'),
+            keyWords: 'linuxautomaticoneliner',
+            Content: props => OneLinerContent({ ...props, azulDisabled: true })
+          }
+        ]
+      }
+    ];
+  }
+
   return [
     {
       label: t('in-waiting-for-deployment:content.aws'),
@@ -415,7 +465,7 @@ function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
         <Description lines={[t('in-waiting-for-deployment:aws.description')]} />
         <Bash
           lines={[
-            'curl -o setup_agent.sh https://setup.instana.io/agent',
+            `curl -o setup_agent.sh https://setup.instana.${instanaDomain}/agent`,
             'chmod 700 ./setup_agent.sh',
             `sudo ./setup_agent.sh -y -a ${agentKey} -m aws -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s`
           ]}
@@ -602,7 +652,7 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
           lines={[
             'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
             '',
-            'COPY --from=containers.instana.io/instana/release/aws/fargate/jvm /instana /instana',
+            `COPY --from=containers.instana.${instanaDomain}/instana/release/aws/fargate/jvm /instana /instana`,
             'ENV JAVA_TOOL_OPTIONS="-javaagent:/instana/instana-fargate-collector.jar"',
             '',
             '# Other stuff in your Docker image'
@@ -618,7 +668,7 @@ function AWSFargateContent({ agentKey, serverlessEndpoint }) {
             )
           ]}
         />
-        <Bash lines={[`docker login containers.instana.io --username _ --password ${agentKey}`]} />
+        <Bash lines={[`docker login containers.instana.${instanaDomain} --username _ --password ${agentKey}`]} />
 
         <Spacer />
 
@@ -1427,7 +1477,7 @@ function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpoint
       <Description lines={[t('in-waiting-for-deployment:content.useTheFollowingScriptAsUserDataForTheEc2Instance')]} />
       <PowershellEC2
         lines={[
-          `Invoke-WebRequest -OutFile "$env:TEMP\\AgentBootstrap.exe" -Uri "https://instana.io/assets/agent/${tenant}/${tenantUnit}?agentKey=${agentKey}&type=exe64${
+          `Invoke-WebRequest -OutFile "$env:TEMP\\AgentBootstrap.exe" -Uri "https://instana.${instanaDomain}/assets/agent/${tenant}/${tenantUnit}?agentKey=${agentKey}&type=exe64${
             agentMode === agentModeOptions[0] ? '' : 'offline'
           }"`,
           `Invoke-Expression -Command "$env:TEMP\\AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} /quiet"`
@@ -1511,7 +1561,7 @@ function ElasticComputingLinuxContent({ agentKey, agentEndpoint, agentEndpointPo
       <Description lines={[t('in-waiting-for-deployment:content.useTheFollowingScriptAsUserDataForTheEc2Instance')]} />
       <Bash
         lines={[
-          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t ${
+          `curl -o setup_agent.sh https://setup.instana.${instanaDomain}/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t ${
             agentMode === 'dynamic' ? 'dynamic' : 'static'
           } -e ${agentEndpoint}:${agentEndpointPort} -s -y ${jvmVendor === jvmVendorOptions[0] ? '' : '-j'}`
         ]}
@@ -1566,12 +1616,12 @@ function DockerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
   );
 }
 
-function OneLinerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+function OneLinerContent({ agentKey, agentEndpoint, agentEndpointPort, azulDisabled = false }) {
   const agentModeOptions = ['dynamic', 'static'];
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
 
   const jvmVendorOptions = ['azul', 'eclipse'];
-  const [jvmVendor, setJVMVendor] = useState(jvmVendorOptions[0]);
+  const [jvmVendor, setJVMVendor] = useState(jvmVendorOptions[azulDisabled ? 1 : 0]);
 
   const installModeOptions = ['interactive', 'silent'];
   const [installMode, setInstallMode] = useState(installModeOptions[0]);
@@ -1612,6 +1662,7 @@ function OneLinerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
               onChange={() => setJVMVendor(jvmVendorOptions[0])}
               size="default"
               asRadioButton
+              disabled={azulDisabled}
             />
           </p>
           <p>
@@ -1654,7 +1705,7 @@ function OneLinerContent({ agentKey, agentEndpoint, agentEndpointPort }) {
       />
       <Bash
         lines={[
-          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t ${
+          `curl -o setup_agent.sh https://setup.instana.${instanaDomain}/agent && chmod 700 ./setup_agent.sh && sudo ./setup_agent.sh -a ${agentKey} -t ${
             agentMode === 'dynamic' ? 'dynamic' : 'static'
           } -e ${agentEndpoint}:${agentEndpointPort} ${jvmVendor === jvmVendorOptions[0] ? '' : '-j'} ${
             installMode === installModeOptions[0] ? '' : '-y'
@@ -1738,7 +1789,7 @@ function GoogleComputeEngineContent({ agentKey, agentEndpoint, agentEndpointPort
       />
       <Bash
         lines={[
-          `curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t ${
+          `curl -o setup_agent.sh https://setup.instana.${instanaDomain}/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t ${
             agentMode === 'dynamic' ? 'dynamic' : 'static'
           } -e ${agentEndpoint}:${agentEndpointPort} -s -y ${jvmVendor === jvmVendorOptions[0] ? '' : '-j'}`
         ]}
@@ -1847,8 +1898,8 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
         <Bash
           lines={[
-            `echo '${agentKey}' | docker login --username "_" --password-stdin containers.instana.io`,
-            'pack build <image-name> --buildpack from=builder --buildpack containers.instana.io/instana/release/google/buildpack --builder gcr.io/buildpacks/builder'
+            `echo '${agentKey}' | docker login --username "_" --password-stdin containers.instana.${instanaDomain}`,
+            `pack build <image-name> --buildpack from=builder --buildpack containers.instana.${instanaDomain}/instana/release/google/buildpack --builder gcr.io/buildpacks/builder`
           ]}
         />
         <Spacer />
@@ -1985,7 +2036,7 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
           lines={[
             'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
             '',
-            'COPY --from=containers.instana.io/instana/release/google/cloud-run/jvm /instana /instana',
+            `COPY --from=containers.instana.${instanaDomain}/instana/release/google/cloud-run/jvm /instana /instana`,
             'ENV JAVA_TOOL_OPTIONS="-javaagent:/instana/instana-standalone-collector.jar"',
             '',
             '# Other stuff in your Docker image'
@@ -2001,7 +2052,7 @@ function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) {
             )
           ]}
         />
-        <Bash lines={[`docker login containers.instana.io --username _ --password ${agentKey}`]} />
+        <Bash lines={[`docker login containers.instana.${instanaDomain} --username _ --password ${agentKey}`]} />
 
         <Spacer />
 
@@ -2158,7 +2209,7 @@ function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndpointPort }) {
             disabledErrorMessage={clusterNameValidationMessage}
             lines={[
               'helm install instana-agent \\',
-              '--repo https://agents.instana.io/helm \\',
+              `--repo https://agents.instana.${instanaDomain}/helm \\`,
               '--namespace instana-agent \\',
               '--create-namespace \\',
               `--set agent.key=${agentKey} \\`,
@@ -2306,7 +2357,7 @@ function OpenShiftHelmContent({ agentKey, agentEndpoint, agentEndpointPort }) {
             disabledErrorMessage={clusterNameValidationMessage}
             lines={[
               'helm install instana-agent \\',
-              '--repo https://agents.instana.io/helm \\',
+              `--repo https://agents.instana.${instanaDomain}/helm \\`,
               '--namespace instana-agent \\',
               '--create-namespace \\',
               '--set openshift=true \\',
@@ -2482,11 +2533,11 @@ function CfAndBoshContent({ agentKey, agentEndpoint }) {
               <Description lines={[t('in-waiting-for-deployment:content.downloadTheFollowingBoshReleases')]} />
               <DownloadButton
                 title={t('in-waiting-for-deployment:content.downloadInstanaAgentRelease')}
-                href={`https://_:${agentKey}@artifact-public.instana.io/artifactory/shared/com/instana/bosh/agent-bosh/${agentReleaseVersion}/agent-bosh-${agentReleaseVersion}.tar.gz`}
+                href={`https://_:${agentKey}@artifact-public.instana.${instanaDomain}/artifactory/shared/com/instana/bosh/agent-bosh/${agentReleaseVersion}/agent-bosh-${agentReleaseVersion}.tar.gz`}
               />
               <DownloadButton
                 title={t('in-waiting-for-deployment:content.downloadInstanaLeadershipElectionRelease')}
-                href={`https://_:${agentKey}@artifact-public.instana.io/artifactory/shared/com/instana/bosh/leadership-election/${agentReleaseVersion}/leadership-election-${agentReleaseVersion}.tar.gz`}
+                href={`https://_:${agentKey}@artifact-public.instana.${instanaDomain}/artifactory/shared/com/instana/bosh/leadership-election/${agentReleaseVersion}/leadership-election-${agentReleaseVersion}.tar.gz`}
               />
               <Spacer />
               <Description
@@ -2707,7 +2758,7 @@ function PackagesContent({ agentKey }) {
           t('in-waiting-for-deployment:content.weMakeAvailableRegularlyUpdatedRpmAndDebPackagesAtTheFollowingAddress')
         ]}
       />
-      <Script lines={[`https://_:${agentKey}@packages.instana.io/agent/download`]} />
+      <Script lines={[`https://_:${agentKey}@packages.instana.${instanaDomain}/agent/download`]} />
     </>
   );
 }
@@ -3054,4 +3105,19 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clu
     .replace('${agentEndpointPort}', agentEndpointPort)
     .replace('${clusterName}', clusterName)
     .replace('${zoneName}', zoneName);
+}
+
+function IBMServerlessContent({ agentKey, serverlessEndpoint }) {
+  return (
+    <GridRow>
+      <Col xs={6}>
+        <Description lines={['INSTANA_ENDPOINT_URL']} />
+        <Script lines={[serverlessEndpoint]} />
+      </Col>
+      <Col xs={6}>
+        <Description lines={['INSTANA_AGENT_KEY']} />
+        <Script lines={[agentKey]} />
+      </Col>
+    </GridRow>
+  );
 }
