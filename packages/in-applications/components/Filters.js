@@ -36,11 +36,7 @@ export default function Filters({
 }) {
   let queryFilter = [];
   if (query) {
-    if (applicationName || (!applicationName && !serviceName)) {
-      queryFilter = [
-        { type: tagFilterType, name: 'service.name', value: query, operator: CONTAINS, entity: entityTypes.DESTINATION }
-      ];
-    } else if (serviceName) {
+    if (serviceName) {
       queryFilter = [
         {
           type: tagFilterType,
@@ -49,6 +45,10 @@ export default function Filters({
           operator: CONTAINS,
           entity: entityTypes.DESTINATION
         }
+      ];
+    } else {
+      queryFilter = [
+        { type: tagFilterType, name: 'service.name', value: query, operator: CONTAINS, entity: entityTypes.DESTINATION }
       ];
     }
   }
