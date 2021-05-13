@@ -6350,7 +6350,10 @@
       },
       "instanceId": "Instance ID",
       "type": "Type",
-      "availabilityZone": "Availability Zone"
+      "availabilityZone": "Availability Zone",
+      "labels": "Labels",
+      "computeInstanceGetPermissionMissing": "Permission compute.instances.get needs to be added to the service account for displaying labels.",
+      "troubleshootingDocs": "Troubleshooting docs"
     },
     "genericHardware": {
       "dashboard": {

@@ -6,10 +6,13 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
+import { emptyMap } from 'in-services/fixedImmutables';
 import { t } from 'in-i18n';
 
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
+  const labels = data.get('labels', emptyMap);
 
   return (
     <div>
@@ -22,6 +25,8 @@ export default function Info({ snapshot }) {
           {data.get('availability-zone')}
         </DescriptionItem>
       </DescriptionList>
+
+      {labels.size > 0 && <KeyValueOverlay header={t('in-forge:plugins.gce.labels')} data={labels} />}
     </div>
   );
 }
