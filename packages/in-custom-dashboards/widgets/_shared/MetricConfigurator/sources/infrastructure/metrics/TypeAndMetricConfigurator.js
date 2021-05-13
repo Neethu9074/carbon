@@ -9,6 +9,8 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
+import getMetricMetadata from 'in-infrastructure/subscriptions/getMetricMetadata';
+import useMetricMetadata from 'in-infrastructure/hooks/useMetricMetadata';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import Overlay from 'in-new-components/overlays/Overlay';
 import Message from 'in-new-components/Message';
@@ -83,10 +85,12 @@ function Errors({ errors }) {
 
 function TypeAndMetricLabel({ type, metric, label }) {
   if (type && metric) {
-    return (
-      <>
-        {type} <SvgIcon className={locals.icon} type="lib_arrow_drop_right" /> {metric}
-      </>
+    const metricMetadata = useMetricMetadata({ getMetricMetadata, type, metric });
+    const elements = [metricMetadata.ownerType, metricMetadata.category, metricMetadata.label].filter(Boolean);
+    return elements.reduce(
+      (prev, current) =>
+        prev == null ? current : [prev, <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />, current],
+      null
     );
   }
   return label;
