@@ -9,14 +9,14 @@ import classNames from 'classnames';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
-import ChildrenDistributionTimeLine from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/ChildrenDistributionTimeLine';
-import ServiceEndpointInformation from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/ServiceEndpointInformation';
 import {
   isFakeRootCall,
   isUnknownTypeSpan,
   isInternalCall,
   isLog
 } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
+import ChildrenDistributionTimeLine from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/ChildrenDistributionTimeLine';
+import ServiceEndpointInformation from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/ServiceEndpointInformation';
 import ErrorIndicator from 'in-applications/analyze/components/TraceDetails/components/ErrorIndicator';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { shorten } from 'in-services/util/string';

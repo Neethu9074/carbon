@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React from 'react';
+
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
-import React from 'react';
 
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';

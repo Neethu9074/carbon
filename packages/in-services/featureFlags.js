@@ -47,6 +47,7 @@ export const applicationSmartAlertsPerEndpointsEnabled = isFeatureFlagEnabled(
   'applicationSmartAlertsPerEndpointsEnabled'
 );
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
+export const containerLogsEnabled = isFeatureFlagEnabled('containerLogsEnabled');
 export const loggingEnabledOnTrace = isFeatureFlagEnabled('loggingEnabledOnTrace');
 
 export const showUserSettingInternalTagsInUA = isFeatureFlagEnabled('showUserSettingInternalTagsInUA', false);

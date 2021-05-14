@@ -166,6 +166,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'containerLogsEnabled',
+    instanaCtlKey: 'feature.container.logs.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'loggingEnabledOnTrace',
     instanaCtlKey: 'feature.logging.enabled.on.trace',
     defaultValue: false

@@ -28,3 +28,23 @@ export function isWithinKubernetes(snapshot) {
     (value, key) => key.indexOf('io.kubernetes.') !== -1 || key.indexOf('annotation.io.kubernetes') === 0
   );
 }
+
+export function getAnalyzeLogsHref$({ snapshot, timeConfig }) {
+  const tagFilterExpression = getValueMatchTagFilter('log.dockerSnapshotId', snapshot.get('id'));
+  return getLogs({
+    timeConfig,
+    retrievalSize: 1,
+    tagFilterExpression
+  }).flatMap(result => {
+    if (result.data?.items.length > 0) {
+      return getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression] });
+    }
+    return just(null);
+  });
+}
+
+import { just } from '@instana/observables';
+
+import { getValueMatchTagFilter } from 'in-logging/queryBuilder';
+import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import getLogs from 'in-logging/subscriptions/getLogs';

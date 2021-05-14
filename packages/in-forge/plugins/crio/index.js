@@ -8,6 +8,7 @@ import { Map } from 'immutable';
 import containerInfoButtonConfig from 'in-forge/plugins/crio/containerInfoButtonConfig';
 import metricDefinitions from 'in-forge/plugins/crio/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/crio/tableDefinition';
+import { getAnalyzeLogsHref$ } from 'in-forge/plugins/docker/util';
 import kpiDefinitions from 'in-forge/plugins/crio/kpiDefinitions';
 import { containerInfoEnabled } from 'in-services/featureFlags';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -29,5 +30,7 @@ registerSnapshotDefinition({
 
   getDashboardHeaderActions() {
     return containerInfoEnabled && !hasRestrictedAccess ? [containerInfoButtonConfig] : [];
-  }
+  },
+
+  getAnalyzeLogsHref$
 });

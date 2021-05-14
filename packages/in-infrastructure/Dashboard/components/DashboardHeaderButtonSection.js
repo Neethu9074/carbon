@@ -3,16 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just } from '@instana/observables';
 import React from 'react';
+
+import { just } from '@instana/observables';
 
 import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import getProfilesAvailable from 'in-new-components/Profiling/subscriptions/getProfilesAvailable';
 import EntityVersionDialog from 'in-infrastructure/Dashboard/components/EntityVersionDialog';
 import { getLinkToProfiles } from 'in-new-components/Profiling/navigation/paths';
+import { getDashboardHeaderActions, getAnalyzeLogsHref$ } from 'in-sdk/snapshot';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { containerLogsEnabled } from 'in-services/featureFlags';
 import { MoreMenuCollapser } from 'in-new-components/MoreMenu';
-import { getDashboardHeaderActions } from 'in-sdk/snapshot';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { getSnapshots } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';
@@ -26,6 +28,7 @@ export default connectTo(
     return {
       processSnapshotId: processSnapshotId$,
       isInternalVisible: isInternalVisible$,
+      analyzeLogsHref: containerLogsEnabled && getAnalyzeLogsHref$({ snapshot, timeConfig }),
       profilesAvailable: processSnapshotId$.flatMap(processSnapshotId =>
         getProfilesAvailable({
           processSnapshotId,
@@ -35,7 +38,15 @@ export default connectTo(
     };
   },
   function DashboardHeaderButtonSection(props) {
-    const { isInternalVisible, snapshot, snapshotId, processSnapshotId, timeConfig, profilesAvailable } = props;
+    const {
+      isInternalVisible,
+      snapshot,
+      snapshotId,
+      processSnapshotId,
+      analyzeLogsHref,
+      timeConfig,
+      profilesAvailable
+    } = props;
 
     return (
       <MoreMenuCollapser
@@ -51,6 +62,11 @@ export default connectTo(
             label: t('in-infrastructure:dashboard.analyzeProfiles'),
             icon: 'lib_profiling',
             href$: getLinkToProfiles({ processSnapshotId })
+          },
+          analyzeLogsHref && {
+            label: t('in-infrastructure:dashboard.analyzeLogs'),
+            icon: 'lib_analyze',
+            href: analyzeLogsHref
           }
         ].filter(Boolean)}
         snapshot={snapshot}

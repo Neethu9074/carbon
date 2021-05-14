@@ -45,6 +45,7 @@
     "infrastructure": "Infrastructure",
     "snapshotVersions": "Snapshot versions",
     "analyzeProfiles": "Analyze Profiles",
+    "analyzeLogs": "Analyze Logs",
     "entityVersions": "Entity Versions",
     "loadingData": "Loading data",
     "namespace": "Namespace",

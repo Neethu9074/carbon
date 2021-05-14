@@ -9,3 +9,7 @@ export function getTraceIdTagFilter(traceId) {
   traceId = traceId.slice(-16);
   return { type: 'TAG_FILTER', name: 'log.traceId', value: traceId, operator: 'ENDS_WITH' };
 }
+
+export function getValueMatchTagFilter(name, value) {
+  return { type: 'TAG_FILTER', operator: 'EQUALS', name, value };
+}

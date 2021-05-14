@@ -34,7 +34,18 @@ export default function MoreMenuCollapserWrapper(props) {
 
 const ComponentResolver = connectTo(props => (props.getObservables ? props.getObservables(props) : {}))(
   function MoreMenuCollapser(props) {
-    const { Renderer, label, props: componentProps, render, icon, href$, onClick, getTooltip, isDisabled } = props;
+    const {
+      Renderer,
+      label,
+      props: componentProps,
+      render,
+      icon,
+      href$,
+      href,
+      onClick,
+      getTooltip,
+      isDisabled
+    } = props;
     if (render) {
       return render({ ...props, ...componentProps });
     }
@@ -45,6 +56,7 @@ const ComponentResolver = connectTo(props => (props.getObservables ? props.getOb
         icon={icon}
         onClick={onClick ? () => onClick(props) : undefined}
         href$={href$}
+        href={href}
         disabled={isDisabled && isDisabled(props)}
       >
         {label}
