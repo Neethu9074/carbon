@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import { Link } from '@instana/components';
 
 import Pill from 'in-new-components/Pill/Pill';
 import { t } from 'in-i18n';
@@ -14,7 +15,6 @@ import locals from './FeatureFeedback.mless';
 
 export default function FeatureFeedback({
   href,
-  text = t('in-new-components:featureFeedback.labelThisFeatureIsInBeta'),
   labelText = t('in-new-components:featureFeedback.labelBETA'),
   styles = {}
 }) {
@@ -23,7 +23,6 @@ export default function FeatureFeedback({
       <Pill kind="primary" className={locals.betaPill}>
         {labelText}
       </Pill>
-      {text}
       <Link className={locals.betaLink} external href={href}>
         {t('in-new-components:featureFeedback.linkLabelYouCanSendUsFeedback')}
       </Link>
@@ -34,7 +33,6 @@ export default function FeatureFeedback({
 
 FeatureFeedback.propTypes = {
   href: PropTypes.string.isRequired,
-  text: PropTypes.string,
   labelText: PropTypes.string,
   styles: PropTypes.object
 };
