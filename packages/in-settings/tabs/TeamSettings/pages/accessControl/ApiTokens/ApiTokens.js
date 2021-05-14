@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import React from 'react';
+
 import { createLogger } from '@instana/logger';
 import { Link } from '@instana/components';
-import React from 'react';
 
 import {
   getApiTokens,
@@ -25,6 +26,8 @@ import { t } from 'in-i18n';
 import locals from './ApiTokens.mless';
 
 const logger = createLogger('ApiTokens');
+
+const tokenSuffix = '********************';
 
 export default function ApiTokens() {
   return (
@@ -68,7 +71,7 @@ const columnDefinitions = [
       const accessGrantingToken = apiToken.accessGrantingToken || apiToken.id;
       return (
         <div className={locals.apiTokenColContainer}>
-          <div>{accessGrantingToken}</div>
+          <div>{accessGrantingToken.substring(0, 4) + tokenSuffix}</div>
           <Tooltip align="topRight" content={t('in-settings:tabs.copyApiTokenToClipboard')}>
             <CopyToClipboard getText={() => accessGrantingToken}>
               {refSetter => (
