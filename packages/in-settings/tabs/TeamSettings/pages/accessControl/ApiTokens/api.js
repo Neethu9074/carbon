@@ -37,8 +37,7 @@ export function saveApiToken(apiToken) {
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
-    url: `/api/settings/api-tokens/${encodeURIComponent(apiToken.internalId || apiToken.id)}`,
+    url: `/api/settings/api-tokens/${encodeURIComponent(apiToken.internalId)}`,
     data: apiToken
   }).map(response => response.body);
 }
