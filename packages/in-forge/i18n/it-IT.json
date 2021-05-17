@@ -483,6 +483,16 @@
   "pluginName_ibmCloudEtcd_1": "IBM Cloud Databases per etcds",
   "pluginName_ibmCloudEtcd_2": "IBM Cloud Databases per etcds",
   "pluginName_ibmCloudEtcd": "IBM Cloud Databases per etcd",
+  "pluginName_ibmCloudEventStream_plural": "IBM Event Streams",
+  "pluginName_ibmCloudEventStream_0": "IBM Event Streams",
+  "pluginName_ibmCloudEventStream_1": "IBM Event Streams",
+  "pluginName_ibmCloudEventStream_2": "IBM Event Streams",
+  "pluginName_ibmCloudEventStream": "IBM Event Streams",
+  "pluginName_ibmCloudFoundry_plural": "IBM Cloud Foundrys",
+  "pluginName_ibmCloudFoundry_0": "IBM Cloud Foundrys",
+  "pluginName_ibmCloudFoundry_1": "IBM Cloud Foundrys",
+  "pluginName_ibmCloudFoundry_2": "IBM Cloud Foundrys",
+  "pluginName_ibmCloudFoundry": "IBM Cloud Foundry",
   "pluginName_ibmCloudFunctions_plural": "IBM Cloud Functions",
   "pluginName_ibmCloudFunctions_0": "IBM Cloud Functions",
   "pluginName_ibmCloudFunctions_1": "IBM Cloud Functions",
@@ -2376,7 +2386,7 @@
       "topicsNumber": "Argomenti {{len}}",
       "topic": "Argomento",
       "queue": "Coda",
-      "dlQueue": "Coda DL "
+      "dlQueue": "Coda DL"
     },
     "activeMQArtemis": {
       "jmxIsNotEnabledYouCanEnableItInActivemqConfigBySettingTheBrokerPropertyUseJmxToTrue": "Jmx non è abilitato. È possibile abilitarlo nella configurazione activemq impostando su true la proprietà del broker useJmx.",
@@ -3773,7 +3783,7 @@
         "labelCPULimit": "Limite CPU",
         "labelCPUUsed": "CPU utilizzata"
       },
-      "elasticPool": "Pool elastico "
+      "elasticPool": "Pool elastico"
     },
     "azureSqlServer": {
       "infoName": "Nome",
@@ -4897,9 +4907,9 @@
         "total": "Totale",
         "kernel": "Kernel",
         "user": "Utente",
-        "totalNormalized": "Totale normalizzato ",
-        "kernelNormalized": "Kernel normalizzato ",
-        "userNormalized": "Utente normalizzato ",
+        "totalNormalized": "Totale normalizzato",
+        "kernelNormalized": "Kernel normalizzato",
+        "userNormalized": "Utente normalizzato",
         "throttlingCount": "Numero limitazioni",
         "throttlingTime": "Tempo limitazione",
         "usage": "Utilizzo",
@@ -5470,7 +5480,7 @@
       "numberOfModifyRequests": "Numero di richieste di modifica",
       "numberOfSearchRequests": "Numero di richieste di ricerca",
       "database": "Database",
-      "ldapConnector": "Connettore LDAP "
+      "ldapConnector": "Connettore LDAP"
     },
     "postgreSqlDatabase": {
       "troubleshootingDocs": "Documentazione per la risoluzione dei problemi",
@@ -6276,7 +6286,7 @@
       "totalInputBytes": "Byte di input totali",
       "totalShuffleRead": "Totale letture shuffle",
       "totalShuffleWrite": "Totale scritture shuffle",
-      "executorId": "ID esecutore "
+      "executorId": "ID esecutore"
     },
     "garden": {
       "cloudFoundry": "Cloud Foundry",
@@ -7280,7 +7290,7 @@
       "esXiHost": "Host ESXi",
       "datacenter": "Datacenter",
       "device": "Dispositivo",
-      "gpuUuid": "UUID GPU "
+      "gpuUuid": "UUID GPU"
     },
     "httpd": {
       "dashboard": {
@@ -7345,9 +7355,9 @@
       "ibmCloudClinicalData": "IBM Cloud Clinical Data",
       "kind": "Tipologia",
       "name": "Nome",
-      "labelApiCalls": "Chiamate API ",
+      "labelApiCalls": "Chiamate API",
       "labelCallsCount": "Chiamate",
-      "labelRequestSizeBytes": "Dimensione richiesta ",
+      "labelRequestSizeBytes": "Dimensione richiesta",
       "labelTimeSeconds": "Tempo di risposta",
       "labelZone": "Zona"
     },
@@ -7409,6 +7419,73 @@
       "labelZone": "Zona",
       "labelDisk": "Disco",
       "labelMemory": "Memoria"
+    },
+    "ibmCloudEventStream": {
+      "instance": "Istanza",
+      "topic": "Argomento",
+      "enterprise": "Enterprise",
+      "kind": "Tipologia",
+      "instanceBytesIn": "Byte dell'istanza in entrata al secondo ",
+      "instanceBytesOut": "Byte dell'istanza in uscita al secondo ",
+      "instanceBytes": "Byte dell'istanza al secondo",
+      "in": "In",
+      "out": "In uscita",
+      "topicBytesIn": "Byte dell'argomento in entrata al secondo ",
+      "topicBytesOut": "Byte dell'argomento in uscita al secondo ",
+      "topicBytes": "Byte dell'argomento al secondo ",
+      "instanceInactiveConsumerGroups": "Gruppi di consumatori inattivi ",
+      "instanceRebalancingConsumerGroups": "Gruppi di consumatori in ribilanciamento ",
+      "instanceStableConsumerGroups": "Gruppi di consumatori stabili",
+      "consumerGroups": "Gruppi di consumatori",
+      "stable": "Stabile",
+      "inactive": "Inattivo",
+      "rebalancing": "Ribilanciamento in corso",
+      "instanceReservedDiskSpacePercent": "Percentuale di spazio disco riservato ",
+      "instanceUtilisedDiskSpacePercent": "Percentuale di spazio disco utilizzato ",
+      "diskSpace": "Spazio su disco",
+      "reserved": "Riservato",
+      "utilized": "Utilizzato",
+      "instanceTopics": "Numero di argomenti",
+      "instancePartitions": "Numero di partizioni",
+      "instanceSchemaRegistrySchemaVersionsGreatestPercentage": "Utilizzo capacità delle versioni dello schema con la maggior parte delle Versioni",
+      "instanceSchemaRegistrySchemasUsedPercentage": "Utilizzo capacità schema",
+      "kafkaAuthenticationFailureTotal": "Errori di autenticazione",
+      "kafkaMissingSniHostTotal": "Connessioni SNI mancanti ",
+      "kafkaRecommendedMaxConnectedClientsPercent": "Percentuale di client connessi stimata ",
+      "instanceConsumeConversionsTimeQuantile": "Tempo di conversione del messaggio di utilizzo ",
+      "instanceProduceConversionsTimeQuantile": "Tempo di conversione del messaggio di produzione ",
+      "quantile5": ">0,5",
+      "quantile75": ">0,75",
+      "quantile95": ">0,95",
+      "quantile98": ">0,98",
+      "quantile99": ">0,99",
+      "quantile999": ">0,999",
+      "instanceSchemaRegistrySchemaVersionsGreatestPercentage": "Utilizzo capacità delle versioni dello schema con la maggior parte delle Versioni",
+      "instanceSchemaRegistrySchemasUsedPercentage": "Utilizzo capacità schema",
+      "schemaRegistry": "Schema di registro",
+      "zone": "Zona",
+      "count": "Conteggio"
+    },
+    "ibmCloudFoundry": {
+      "startedAt": "Avviato alle",
+      "age": "Permanenza",
+      "diskUsed": "Disco utilizzato",
+      "diskTotal": "Totale disco ",
+      "memoryUsed": "Memoria utilizzata",
+      "memoryTotal": "Memoria totale",
+      "cpuEntitlement": "Titolarità CPU",
+      "cpuUsage": "Uso della CPU",
+      "percentCpuUtilization": "Utilizzo della CPU",
+      "appName": "Nome Applicazione",
+      "zone": "Zona",
+      "instanceCount": "Conteggio istanze",
+      "titleContainer": "Contenitore",
+      "instanceID": "Id istanza",
+      "titleCpu": "CPU",
+      "used": "Utilizzato",
+      "total": "Totale",
+      "titleMemory": "Memoria",
+      "titleDisk": "Disco"
     },
     "ibmCloudFunctions": {
       "labelConcurrentInvocations": "Richiami simultanei",
@@ -7578,7 +7655,7 @@
         }
       },
       "name": "Db2 su i",
-      "memoryPool": "Pool di memoria "
+      "memoryPool": "Pool di memoria"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -7596,6 +7673,7 @@
         "ibmMqChannel": "Canale IBM MQ"
       },
       "name": "Nome",
+      "type": "Tipo",
       "status": "Stato",
       "inDoubt": "Incerto",
       "substate": "Sottostato",
@@ -7872,7 +7950,7 @@
       "labelCPU": "CPU",
       "labelMemory": "Memoria",
       "labelNetwork": "Rete",
-      "labelVolume": "Volume "
+      "labelVolume": "Volume"
     },
     "instanaAgent": {
       "dashboard": {
@@ -8064,7 +8142,7 @@
       "labelCoresTotal": "Core totali",
       "labelNumberFailedDrivers": "Numero di driver con errori",
       "labelNumberFailedApplications": "Numero di applicazioni con errori",
-      "workerId": "ID operatore "
+      "workerId": "ID operatore"
     },
     "kafka": {
       "kafkaMonitoringRequiresSslTruststoreLocation": "Per le istanze Kafka protette con TLS, il monitoraggio Kafka richiede la configurazione di <code>sslTruststoreLocation</code> e <code>sslTruststorePassword</code> nell'agent di Instana <code>configuration.yaml</code>.",
@@ -8207,7 +8285,7 @@
       "brokersMsgIn": "Messaggi in ingresso dei broker",
       "brokersPartitions": "Partizioni Broker",
       "prodLatency": "Prod. Latenza",
-      "producer": "Produttore ",
+      "producer": "Produttore",
       "consumer": "Consumatore"
     },
     "kubernetesCluster": {
@@ -8524,7 +8602,7 @@
       "connectionsUsedPercentage": "Percentuale di connessioni utilizzate",
       "threadPools": "Pool di thread",
       "threadsUsedPercentage": "Percentuale di thread utilizzati",
-      "datasourceJndi": "JNDI origine dati "
+      "datasourceJndi": "JNDI origine dati"
     },
     "jbossDataGrid": {
       "cacheName": "Cache [{{cacheName}}]",
@@ -8752,7 +8830,7 @@
       "maxHeap": "Heap massima",
       "heapUsed": "Heap utilizzata",
       "threadDump": "Dump del thread",
-      "garbageCollector": "Raccoglitore dati inutilizzati "
+      "garbageCollector": "Raccoglitore dati inutilizzati"
     },
     "springbootAppContainer": {
       "titleRequests": "Richieste",
@@ -10051,7 +10129,7 @@
       "backgroundSessions": "Sessioni in background",
       "tablespaces": "Spazi tabella",
       "dbCpuTime": "Tempo CPU DB",
-      "tablespace": "Spazio di tabella "
+      "tablespace": "Spazio di tabella"
     },
     "azureCosmosDb": {
       "totalRequests": "Richieste totali",

@@ -135,6 +135,11 @@
             "inboundOverrideDefault": "이 애플리케이션의 기본 범위는 인바운드 호출만 해당합니다. 구성에서 변경할 수 있습니다.",
             "allDashboard": "대시보드는 이용자뿐만 아니라 내부적으로 이 애플리케이션 내에서 수행하는 모든 호출을 기반으로 정보를 표시합니다.",
             "allOverrideDefault": "이 애플리케이션의 기본 범위는 모든 호출입니다. 구성에서 변경할 수 있습니다."
+          },
+          "confirmationDialog": {
+            "pleaseConfirm": "확인하시기 바랍니다.",
+            "description": "경계 범위를 수정하면 애플리케이션 선택사항이 재설정됩니다.",
+            "confirmButtonLabel": "확인"
           }
         },
         "includeInternalOrSynthethicCalls": {
@@ -172,6 +177,7 @@
         }
       },
       "chart": {
+        "noDataWithoutEndpointSelection": "미리보기를 표시할 엔드포인트를 선택하십시오.",
         "noDataAvailable": "미리보기를 표시할 서비스를 선택하십시오."
       },
       "logMessages": {
@@ -415,6 +421,7 @@
         "ruleStatusCodeValueOption510": "510(확장되지 않음)",
         "ruleStatusCodeValueOption511": "511(네트워크 인증 필수)",
         "ruleStatusCodeValueOption599": "599(네트워크 연결 제한시간 오류)",
+        "ruleStatusCodeValueOptionCustom": "사용자 정의 범위",
         "ruleMetricNameOptionSpecificJsErrorErrors": "오류 개수",
         "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "오류 비율",
         "ruleMetricNameOptionStatusCodeHttpxxx": "상태 코드 개수",
@@ -422,19 +429,10 @@
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad 시간",
         "ruleMetricNameOptionThroughputPageLoads": "페이지 로드",
         "ruleMetricNameOptionThroughputPageTransitions": "페이지 전환",
-        "ruleAggregationOptionMEAN": "평균",
-        "ruleAggregationOptionMIN": "최소",
-        "ruleAggregationOptionP25": "25번째",
-        "ruleAggregationOptionP50": "50번째",
-        "ruleAggregationOptionP75": "75번째",
-        "ruleAggregationOptionP90": "90번째(권장)",
-        "ruleAggregationOptionP95": "95번째",
-        "ruleAggregationOptionP98": "98번째",
-        "ruleAggregationOptionP99": "99번째",
-        "ruleAggregationOptionMAX": "최대",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "평균",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50번째",
+        "ruleFormErrorStatusCodeStartGTEnd": "시작 HTTP 상태 코드보다 크거나 같은 종료 HTTP 상태 코드를 선택하십시오. ",
         "ruleFormPleaseProvideALogMessage": "로그 메시지를 제공하십시오.",
+        "ruleFormPleaseProvideAStartStatusCode": "시작 HTTP 상태 코드를 제공하십시오.",
+        "ruleFormPleaseProvideAEndStatusCode": "종료 HTTP 상태 코드를 제공하십시오.",
         "smartAlertFormNoEntitiesSelected": "엔티티를 선택하지 않음",
         "thresholdFormPleaseProvideANumber0": "0 이상인 수를 제공하십시오.",
         "thresholdFormBaselineIsEmpty": "기준선이 비어 있음"
@@ -473,6 +471,20 @@
         "numberOfApplicationsSelected": "{{count}}개 애플리케이션이 선택됨",
         "numberOfApplicationsSelected_plural": "{{count}}개 애플리케이션이 선택됨"
       }
+    },
+    "form": {
+      "ruleAggregationOptionMEAN": "평균",
+      "ruleAggregationOptionMIN": "최소",
+      "ruleAggregationOptionP25": "25번째",
+      "ruleAggregationOptionP50": "50번째",
+      "ruleAggregationOptionP75": "75번째",
+      "ruleAggregationOptionP90": "90번째(권장)",
+      "ruleAggregationOptionP95": "95번째",
+      "ruleAggregationOptionP98": "98번째",
+      "ruleAggregationOptionP99": "99번째",
+      "ruleAggregationOptionMAX": "최대",
+      "ruleAggregationForWeeklySeasonalityOptionMEAN": "평균",
+      "ruleAggregationForWeeklySeasonalityOptionP50": "50번째"
     },
     "components": {
       "smartAlertDialog": {
@@ -559,8 +571,10 @@
         "thresholdTypeOptionHistoricBaselineDaily": "기준선(일별 계절성)",
         "thresholdTypeOptionHistoricBaselineWeekly": "기준선(주별 계절성)",
         "useSuggestedvalue": "제안된 값 사용",
-        "alertConfigDialogPresenterTitleEditAlert": "경보 편집",
-        "alertConfigDialogPresenterTitleCreateNewAlert": "새 경보 작성",
+        "alertConfigDialogPresenterTitleEditAlertLocal": "스마트 경보 편집",
+        "alertConfigDialogPresenterTitleEditAlertGlobal": "글로벌 스마트 경보 편집",
+        "alertConfigDialogPresenterTitleCreateNewAlertLocal": "새 스마트 경보 작성",
+        "alertConfigDialogPresenterTitleCreateNewAlertGlobal": "새 글로벌 스마트 경보 작성",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "고급 모드로 전환",
         "alertConfigDialogPresenterButtonSwitchToSimpleMode": "단순 모드로 전환",
         "simpleAlertConfigDialogStep3Headline": "경보 수신 대상",
@@ -568,6 +582,7 @@
         "LoadingServices": "서비스 로드 중…",
         "NoServiceInScope": "범위에 해당하는 서비스 없음",
         "PreviewForAP": "애플리케이션 퍼스펙티브에 대한 미리보기:",
+        "PreviewForEndpoint": "엔드포인트에 대한 미리보기:",
         "PreviewForService": "서비스에 대한 미리보기:"
       },
       "alertsHub": {
@@ -796,19 +811,7 @@
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "상태 코드 비율",
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad 시간",
         "ruleMetricNameOptionThroughputPageLoads": "페이지 로드",
-        "ruleMetricNameOptionThroughputPageTransitions": "페이지 전환",
-        "ruleAggregationOptionMEAN": "평균",
-        "ruleAggregationOptionMIN": "최소",
-        "ruleAggregationOptionP25": "25번째",
-        "ruleAggregationOptionP50": "50번째",
-        "ruleAggregationOptionP75": "75번째",
-        "ruleAggregationOptionP90": "90번째(권장)",
-        "ruleAggregationOptionP95": "95번째",
-        "ruleAggregationOptionP98": "98번째",
-        "ruleAggregationOptionP99": "99번째",
-        "ruleAggregationOptionMAX": "최대",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "평균",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50번째"
+        "ruleMetricNameOptionThroughputPageTransitions": "페이지 전환"
       },
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "경보를 수신하려는 항목",

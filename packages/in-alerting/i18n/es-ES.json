@@ -135,6 +135,11 @@
             "inboundOverrideDefault": "El ámbito predeterminado para esta aplicación es de sólo llamadas entrantes. Puede cambiar esto en la Configuración.",
             "allDashboard": "El panel de control muestra información basada en todas las llamadas realizadas en esta aplicación, tanto por los consumidores como internamente.",
             "allOverrideDefault": "El ámbito predeterminado para esta aplicación es Todas las llamadas. Puede cambiar esto en la Configuración."
+          },
+          "confirmationDialog": {
+            "pleaseConfirm": "Confírmelo",
+            "description": "Al modificar el ámbito de límite se puede restaurar la selección de aplicación.",
+            "confirmButtonLabel": "Confirmar"
           }
         },
         "includeInternalOrSynthethicCalls": {
@@ -172,6 +177,7 @@
         }
       },
       "chart": {
+        "noDataWithoutEndpointSelection": "Seleccione un punto final para ver la vista previa",
         "noDataAvailable": "Seleccione un servicio para ver la vista previa"
       },
       "logMessages": {
@@ -415,6 +421,7 @@
         "ruleStatusCodeValueOption510": "510 (No ampliado)",
         "ruleStatusCodeValueOption511": "511 (Autenticación de red necesaria)",
         "ruleStatusCodeValueOption599": "599 (Error de tiempo de espera de conexión de red)",
+        "ruleStatusCodeValueOptionCustom": "Rango personalizado",
         "ruleMetricNameOptionSpecificJsErrorErrors": "Número de errores",
         "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "Tasa de errores",
         "ruleMetricNameOptionStatusCodeHttpxxx": "Número de códigos de estado",
@@ -422,19 +429,10 @@
         "ruleMetricNameOptionSlownessOnLoadTime": "Tiempo de carga",
         "ruleMetricNameOptionThroughputPageLoads": "Cargas de páginas",
         "ruleMetricNameOptionThroughputPageTransitions": "Transiciones de página",
-        "ruleAggregationOptionMEAN": "media",
-        "ruleAggregationOptionMIN": "mín",
-        "ruleAggregationOptionP25": "25º",
-        "ruleAggregationOptionP50": "50º",
-        "ruleAggregationOptionP75": "75º",
-        "ruleAggregationOptionP90": "90º (recomendado)",
-        "ruleAggregationOptionP95": "95º",
-        "ruleAggregationOptionP98": "98º",
-        "ruleAggregationOptionP99": "99º",
-        "ruleAggregationOptionMAX": "máx",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "media",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50º",
+        "ruleFormErrorStatusCodeStartGTEnd": "Seleccione un código de estado http final que sea mayor o igual que el código de estado http de inicio",
         "ruleFormPleaseProvideALogMessage": "Proporcione un mensaje de registro",
+        "ruleFormPleaseProvideAStartStatusCode": "Proporcione un código de estado http de inicio",
+        "ruleFormPleaseProvideAEndStatusCode": "Proporcione un código de estado http final",
         "smartAlertFormNoEntitiesSelected": "No se ha seleccionado ninguna entidad",
         "thresholdFormPleaseProvideANumber0": "Proporcione un número >= 0",
         "thresholdFormBaselineIsEmpty": "la línea base está vacía"
@@ -473,6 +471,20 @@
         "numberOfApplicationsSelected": "{{count}} aplicación seleccionada",
         "numberOfApplicationsSelected_plural": "{{count}} aplicaciones seleccionadas"
       }
+    },
+    "form": {
+      "ruleAggregationOptionMEAN": "media",
+      "ruleAggregationOptionMIN": "mín",
+      "ruleAggregationOptionP25": "25º",
+      "ruleAggregationOptionP50": "50º",
+      "ruleAggregationOptionP75": "75º",
+      "ruleAggregationOptionP90": "90º (recomendado)",
+      "ruleAggregationOptionP95": "95º",
+      "ruleAggregationOptionP98": "98º",
+      "ruleAggregationOptionP99": "99º",
+      "ruleAggregationOptionMAX": "máx",
+      "ruleAggregationForWeeklySeasonalityOptionMEAN": "media",
+      "ruleAggregationForWeeklySeasonalityOptionP50": "50º"
     },
     "components": {
       "smartAlertDialog": {
@@ -559,8 +571,10 @@
         "thresholdTypeOptionHistoricBaselineDaily": "Línea base (Temporalidad diaria)",
         "thresholdTypeOptionHistoricBaselineWeekly": "Línea base (Temporalidad semanal)",
         "useSuggestedvalue": "Utilizar valor sugerido",
-        "alertConfigDialogPresenterTitleEditAlert": "Editar alerta",
-        "alertConfigDialogPresenterTitleCreateNewAlert": "Crear nueva alerta",
+        "alertConfigDialogPresenterTitleEditAlertLocal": "Editar alerta inteligente",
+        "alertConfigDialogPresenterTitleEditAlertGlobal": "Editar alerta inteligente global",
+        "alertConfigDialogPresenterTitleCreateNewAlertLocal": "Crear nueva alerta inteligente",
+        "alertConfigDialogPresenterTitleCreateNewAlertGlobal": "Crear nueva alerta inteligente global",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Cambiar a modalidad avanzada",
         "alertConfigDialogPresenterButtonSwitchToSimpleMode": "Cambiar a modalidad simple",
         "simpleAlertConfigDialogStep3Headline": "¿Quién debe recibir las alertas?",
@@ -568,6 +582,7 @@
         "LoadingServices": "Cargando servicios...",
         "NoServiceInScope": "No hay ningún servicio en el ámbito",
         "PreviewForAP": "Vista previa de la perspectiva de aplicación:",
+        "PreviewForEndpoint": "Vista previa para punto final:",
         "PreviewForService": "Vista previa para el servicio:"
       },
       "alertsHub": {
@@ -796,19 +811,7 @@
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Tasa de códigos de estado",
         "ruleMetricNameOptionSlownessOnLoadTime": "Tiempo de carga",
         "ruleMetricNameOptionThroughputPageLoads": "Cargas de páginas",
-        "ruleMetricNameOptionThroughputPageTransitions": "Transiciones de página",
-        "ruleAggregationOptionMEAN": "media",
-        "ruleAggregationOptionMIN": "mín",
-        "ruleAggregationOptionP25": "25º",
-        "ruleAggregationOptionP50": "50º",
-        "ruleAggregationOptionP75": "75º",
-        "ruleAggregationOptionP90": "90º (recomendado)",
-        "ruleAggregationOptionP95": "95º",
-        "ruleAggregationOptionP98": "98º",
-        "ruleAggregationOptionP99": "99º",
-        "ruleAggregationOptionMAX": "máx",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "media",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50º"
+        "ruleMetricNameOptionThroughputPageTransitions": "Transiciones de página"
       },
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "¿Sobre qué desea que se le alerte?",

@@ -1,10 +1,10 @@
 {
   "storeStoreExists": "ストア {{storeSpecName}} は既に存在します",
   "storeObservableMustBeProvided": "監視可能な項目を指定してください",
-  "storeUnsupportedActionType": "アクション・タイプ {{storeActionType}} はサポートされていません。リデューサーの指定を忘れていませんか。",
+  "storeUnsupportedActionType": "アクション・タイプ {{storeActionType}} はサポートされていません。 リデューサーの指定を忘れていませんか。",
 
   "permissionAccessWebsitesLabel": "Web サイト",
-  "permissionAccessMobileAppsLabel": "モバイル・アプリケーション ",
+  "permissionAccessMobileAppsLabel": "モバイル・アプリケーション",
   "permissionAccessApplicationsLabel": "アプリケーション",
   "permissionAccessKubernetesLabel": "Kubernetes",
   "permissionCanConfigureEumApplicationsLabel": "Web サイト・モニタリング構成",
@@ -41,10 +41,10 @@
   "permissionCanConfigureGlobalAlertConfigsDescription": "グローバル・スマート・アラートの作成および構成を許可します。",
   "permissionCanConfigureGlobalAlertConfigsCategory": "イベント",
   "permissionCanCreatePublicCustomDashboardsLabel": "パブリック・カスタム・ダッシュボードの作成",
-  "permissionCanCreatePublicCustomDashboardsDescription": "この権限がない場合は、ユーザーおよび API トークンで作成できるカスタム・ダッシュボードが、自身のみに表示されるダッシュボードに限定されます。この権限を付与すると、ユーザーおよび API トークンが、この Instana 環境のすべてのユーザーおよび API トークンに表示されるカスタム・ダッシュボードを作成できます。さらに、カスタム・ダッシュボードにエディターを追加することもできます。その場合、この Instana 環境のすべてのユーザーの名前と E メール・アドレスのリスト全体を表示できます。さらに、すべての API トークンの ID と名前のリスト全体も表示できます。",
+  "permissionCanCreatePublicCustomDashboardsDescription": "この権限がない場合は、ユーザーおよび API トークンで作成できるカスタム・ダッシュボードが、自身のみに表示されるダッシュボードに限定されます。 この権限を付与すると、ユーザーおよび API トークンが、この Instana 環境のすべてのユーザーおよび API トークンに表示されるカスタム・ダッシュボードを作成できます。 さらに、カスタム・ダッシュボードにエディターを追加することもできます。その場合、この Instana 環境のすべてのユーザーの名前と E メール・アドレスのリスト全体を表示できます。 さらに、すべての API トークンの ID と名前のリスト全体も表示できます。",
   "permissionCanCreatePublicCustomDashboardsCategory": "カスタム・ダッシュボード",
   "permissionCanEditAllAccessibleCustomDashboardsLabel": "アクセス可能なすべてのカスタム・ダッシュボードの管理",
-  "permissionCanEditAllAccessibleCustomDashboardsDescription": "この権限は、アクセス可能なカスタム・ダッシュボードを編集および削除する権限を付与します。かつての同僚によって作成されたカスタム・ダッシュボードや、構成の誤りが原因で誤ってアクセス権限を失ったカスタム・ダッシュボードの編集や削除に便利です。",
+  "permissionCanEditAllAccessibleCustomDashboardsDescription": "この権限は、アクセス可能なカスタム・ダッシュボードを編集および削除する権限を付与します。 かつての同僚によって作成されたカスタム・ダッシュボードや、構成の誤りが原因で誤ってアクセス権限を失ったカスタム・ダッシュボードの編集や削除に便利です。",
   "permissionCanEditAllAccessibleCustomDashboardsCategory": "カスタム・ダッシュボード",
   "permissionCanConfigureLogManagementLabel": "ログ管理の構成",
   "permissionCanConfigureLogManagementDescription": "ログ管理の構成を許可します。",
@@ -112,6 +112,7 @@
     "formatterLabelPercentage": "パーセンテージ。例: {{example}}",
     "formatterLabelBytes": "バイト数。例: {{example}}",
     "formatterLabelMilliseconds": "ミリ秒数。例: {{example}}",
+    "formatterLabelLatency": "待ち時間。例: {{example}}",
     "formatterLabelSIPrefix": "SI 接頭辞。例: {{example}}",
 
     "rendererLabelArea": "面",

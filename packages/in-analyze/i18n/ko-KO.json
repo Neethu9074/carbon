@@ -159,7 +159,18 @@
         "sourceMonitoredByAnotherProvider": "이 호출의 소스는 분배된 다른 추적 제공자에 의해 추적됩니다. ID가 {{foreignParentId}}인 해당 제공자 내의 상위 범위를 검색하여 소스에 대한 자세한 정보를 찾을 수 있습니다.",
         "notMonitored": "Instana에서 모니터하지 않음",
         "source": "소스",
-        "destination": "대상"
+        "destination": "대상",
+        "logs": "로그( {{errors}}{{warnings}} )",
+        "errors": "{{count}}개 오류",
+        "errors_plural": "{{count}}개 오류",
+        "errors_0": "{{count}}개 오류",
+        "errors_1": "{{count}}개 오류",
+        "errors_2": "{{count}}개 오류",
+        "warnings": "{{count}}개 경고",
+        "warnings_plural": "{{count}}개 경고",
+        "warnings_0": "{{count}}개 경고",
+        "warnings_1": "{{count}}개 경고",
+        "warnings_2": "{{count}}개 경고"
       }
     },
     "tabs": {
@@ -247,6 +258,13 @@
       "logTooltipContent": {
         "errorLog": "오류 로그",
         "warningLog": "경고 로그"
+      },
+      "callTooltipContent": {
+        "numbersOfErrors": "{{count}}개 오류",
+        "numbersOfErrors_plural": "{{count}}개 오류",
+        "numbersOfErrors_0": "{{count}}개 오류",
+        "numbersOfErrors_1": "{{count}}개 오류",
+        "numbersOfErrors_2": "{{count}}개 오류"
       }
     },
     "applications": "애플리케이션",

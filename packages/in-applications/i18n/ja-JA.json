@@ -5,6 +5,7 @@
   "labelApplications": "アプリケーション",
   "labelApplicationWithNum": "アプリケーション ({{numApplications}} 個)",
   "labelAnalytic": "分析",
+  "labelCall": "呼び出し",
   "labelTrace": "トレース",
   "linkDownload": "ダウンロード",
   "labelCalls": "呼び出し",
@@ -251,6 +252,7 @@
       "erroneous_false": "false",
       "erroneous_Erroneous": "エラー"
     },
+    "latency": "待ち時間",
     "applications": "アプリケーション",
     "services": "サービス",
     "endpoints": "エンドポイント",
@@ -272,9 +274,9 @@
       "sortingMetricLabelTh": "{{sortingMetricLabel}} ({{num}} 番目)",
       "sortingMetricLabelRate": "{{sortingMetricLabel}} (率)",
       "sortingMetricLabelCount": "{{sortingMetricLabel}} (数)",
-      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})",
-      "preview": "プレビュー"
+      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})"
     },
+    "preview": "プレビュー",
     "listLoadMore": "さらに {{retrievalSize}} 件をロード",
     "listBatchTypeTooltip": "この {{type}} はバッチ処理され、{{batchCount}} 個の個別の {{types}} を表します。",
     "listBatchLatencyTooltip": "{{batchCount}} 個のバッチ処理された {{types}} の合計待ち時間。",
@@ -317,7 +319,11 @@
     "service": "サービス",
     "trace": "トレース",
     "calls": "呼び出し",
-    "none": "なし"
+    "none": "なし",
+    "dataSource_calls": "{{formattedCount}} 回の呼び出し",
+    "dataSource_calls_plural": "{{formattedCount}} 回の呼び出し",
+    "dataSource_traces": "{{formattedCount}} 個のトレース",
+    "dataSource_traces_plural": "{{formattedCount}} 個のトレース"
   },
   "creation": {
     "newAP": "新規アプリケーション・パースペクティブ",
@@ -511,10 +517,10 @@
     "unknownTime": "{{entityTime}} に不明",
     "infrastructure": {
       "inEntity": "in<icon /><entityLink>{{entityLabel}}</entityLink>",
-      "ofEntity": "of<icon /><entityLink>{{entityLabel}}</entityLink>",
-      "instanceIndexOfEntity": "インスタンス {{cfInstanceIndex}}/<icon /><entityLink>{{entityLabel}}</entityLink>",
-      "instanceOfEntity": "<icon /> のインスタンス<entityLink>{{entityLabel}}</entityLink>",
-      "tooltipUnmonitored": "実行中のエージェントの範囲外の情報が原因で、モニター対象外のインフラストラクチャー"
+      "ofEntity": "<icon /><entityLink>{{entityLabel}}</entityLink>",
+      "instanceIndexOfEntity": "<icon /><entityLink>{{entityLabel}}</entityLink> のインスタンス {{cfInstanceIndex}}",
+      "instanceOfEntity": "<icon /><entityLink>{{entityLabel}}</entityLink> のインスタンス",
+"tooltipUnmonitored": "実行中のエージェントの範囲外の情報が原因で、モニター対象外のインフラストラクチャー"
     },
     "errorMessages": "エラー・メッセージ",
     "errorCallWithoutMessage": "エラーのある呼び出し (エラー・メッセージなし)",
@@ -528,9 +534,9 @@
     "buttonLoadMore": "さらに {{remainNumber}} 件をロード"
   },
   "forms": {
-    "stepTitleWithNumber": "<num>{{stepNumber}}. </num>{{stepTitle}}",
+    "stepTitleWithNumber": "<num>{{stepNumber}}。</num>{{stepTitle}}",
     "helpSpecifyPathToMatch": "突き合わせるパスを指定します (例: /api/{version}/*)",
-    "helpAddTestCaseToWork": "オプションで、以下にテスト・ケースを追加して、ルールが予期されたとおりに機能することを確認します (例: /api/v2/anything)。",
+    "helpAddTestCaseToWork": "オプションで、以下にテスト・ケースを追加して、ルールが予期されたとおりに機能することを確認します (例: /api/v2/anything)",
     "errorBlankValue": "値をブランクにすることはできません。",
     "earlyRuleResultWithQuery": "以前のルール「{{query}}」が渡されました",
     "earlyRuleResult": "以前のルールが渡されました",
@@ -550,25 +556,25 @@
     "tooltipExtractsEndpointsOnRouteId": "経路 ID に基づいてエンドポイントを抽出します",
     "tooltipEndpointCallsNotMatch": "先行するルールに一致しない呼び出しは、このエンドポイントに割り当てられます",
     "titleConfigureEndpointsExtract": "基礎となる呼び出しからこのサービスにエンドポイントを抽出する方法を構成します。",
-    "descriptionConfigureEndpointsExtract": "エンドポイント・ルールは上から順番に評価され、一致する最初のルールに呼び出しが割り当てられます。 構成が完了すると、更新されたルールに従って新規呼び出しが割り当てられます。",
-    "descriptionResetToDefaultRule": "デフォルトの抽出ルールにリセットする場合は、下のボタンを使用してください。 リセットには最大で数分の登録時間がかかることがあります。",
-    "understandCheckboxResetToDefaultRule": " このアクションは元に戻せないことを理解しています。",
+    "descriptionConfigureEndpointsExtract": "エンドポイント・ルールは上から順番に評価され、一致する最初のルールに呼び出しが割り当てられます。構成が完了すると、更新されたルールに従って新規呼び出しが割り当てられます。",
+    "descriptionResetToDefaultRule": "デフォルトの抽出ルールにリセットする場合は、下のボタンを使用してください。リセットには最大で数分の登録時間がかかることがあります。",
+    "understandCheckboxResetToDefaultRule": "このアクションは元に戻せないことを理解しています。",
     "customService": {
       "stepTitle": "カスタム・サービス・ルールを追加して、自動サービス・マッピングを拡張します。",
-      "descriptionTextFirstLine": "Instana では、事前定義ルールの広範なセットに基づいて、サービスが自動的にマップされます。 例えば、タグ nodejs.app.name が見つかり、<bold>「nodejs.app.name=user service」</bold>および<bold>「nodejs.app.name=cart service」</bold>というタグが付けられた呼び出しがある場合は、<bold>「user service」</bold>および<bold>「cart service」</bold>がサービスとして表示されます。",
+      "descriptionTextFirstLine": "Instana では、事前定義ルールの広範なセットに基づいて、サービスが自動的にマップされます。例えば、タグ nodejs.app.name が見つかり、<bold>「nodejs.app.name=user service」</bold>および<bold>「nodejs.app.name=cart service」</bold>というタグが付けられた呼び出しがある場合は、<bold>「user service」</bold>および<bold>「cart service」</bold>がサービスとして表示されます。",
       "descriptionVisit": "事前定義ルールについて詳しくは、<bold><linkToDoc>アプリケーションおよびサービス管理の資料</linkToDoc></bold>を参照してください。",
-      "descriptionCustomServiceRule": "以下の一連のタグを選択して、カスタム・ルールを定義します。 1 つの呼び出しにすべてのタグが存在する場合、その呼び出しはそのサービスにマップされます。",
+      "descriptionCustomServiceRule": "以下の一連のタグを選択して、カスタム・ルールを定義します。1 つの呼び出しにすべてのタグが存在する場合、その呼び出しはそのサービスにマップされます。",
       "tooltipRemoveCondition": "この突き合わせ条件の削除"
     },
     "newApplication": {
       "helpApplicationPerspectives": "アプリケーション・パースペクティブは、環境、サービスのセット、テナント、その他ほとんどすべての対象をモデル化する手段を提供します。",
-      "helpRenameApplication": "アプリケーションの名前変更は、Instana システム内で最終的には一貫性のあるアクションです。 そのため、アプリケーション名への変更がシステム全体で取り込まれるまでには、<italic>最大で数分の時間</italic> がかかることがあります。",
-      "descriptionApplicationName": "アプリケーション・パースペクティブ名は、組織内で明確に定義されている必要があります。 例えば、環境をモデル化する場合は「Production Blue」、一連のサービスをモデル化する場合は「Payment」、テナントをモデル化する場合は「ACME Customer」。",
-      "descriptionTags": "例えば、キーが「docker.label」で値が「environment=Production Blue」、またはキーが「call.http.params」で値が「tenant=ACMECustomer」などです。 この定義に一致するサービスから <pillDatabase>DATABASE</pillDatabase> サービスまたは <pillMessage>MESSAGING</pillMessage> サービスへのすべての呼び出しが自動的に組み込まれることに注意してください。",
+      "helpRenameApplication": "アプリケーションの名前変更は、Instana システム内で最終的には一貫性のあるアクションです。そのため、アプリケーション名への変更がシステム全体で取り込まれるまでには、<italic>最大で数分の時間</italic> がかかることがあります。",
+      "descriptionApplicationName": "アプリケーション・パースペクティブ名は、組織内で明確に定義されている必要があります。例えば、環境をモデル化する場合は「Production Blue」、一連のサービスをモデル化する場合は「Payment」、テナントをモデル化する場合は「ACME Customer」。",
+      "descriptionTags": "例えば、キーが「docker.label」で値が「environment=Production Blue」、またはキーが「call.http.params」で値が「tenant=ACMECustomer」などです。この定義に一致するサービスから <pillDatabase>DATABASE</pillDatabase> サービスまたは <pillMessage>MESSAGING</pillMessage> サービスへのすべての呼び出しが自動的に組み込まれることに注意してください。",
       "descriptionOperators": "AND 演算子が優先され、OR 演算子の前に評価されます。",
       "descriptionOperatorsCreationEnabled": "大括弧でグループ化されていない場合は、AND 演算子が優先され、OR 演算子の前に評価されます。",
       "descriptionPrepareToMonitor": "アプリケーション・パースペクティブ <bold>{{decodedLabel}}</bold> をモニターするための準備をしています。",
-      "descriptionRemoveApplicationPerspective": "アプリケーション・パースペクティブ <strong>{{application}}</strong> をこれ以上モニターしない場合は、下のボタンを使用して削除してください。 アプリケーション・パースペクティブの削除には最大で数分の時間がかかることがあります。",
+      "descriptionRemoveApplicationPerspective": "アプリケーション・パースペクティブ <strong>{{application}}</strong> をこれ以上モニターしない場合は、下のボタンを使用して削除してください。アプリケーション・パースペクティブの削除には最大で数分の時間がかかることがあります。",
       "stepTitleDefineApplicationName": "アプリケーション・パースペクティブの名前を定義します。",
       "stepTitleDefineTags": "1 つ以上のタグを使用してアプリケーション・パースペクティブを定義します。",
       "stepTitleDownstreamServices": "ダウンストリーム・サービス。",
@@ -578,7 +584,7 @@
       "optionAllDownstreamServices": "すべてのダウンストリーム・サービス",
       "errorApplicationNameBlank": "アプリケーション・パースペクティブ名はブランクにできません。",
       "errorNameLengthExceeded": "アプリケーション・パースペクティブ名は 128 文字を超えることはできません。",
-      "errorInvalidQuery": "クエリーが無効です",
+      "errorInvalidQuery": "照会が無効です。",
       "titleApplicationCreating": "アプリケーション・パースペクティブを作成しています…"
     },
     "customSyntheticRule": {
@@ -588,7 +594,7 @@
       "messageNoMatchRule": "このルールに一致するエンドポイントはありません。",
       "messageNoRule": "ルールが指定されていません。",
       "stepTitleConfigureSyntheticEndpoints": "合成エンドポイントへの呼び出しがサービスおよびアプリケーションの KPI で無視されるように構成します",
-      "descriptionConfigureSyntheticEndpoints": "合成エンドポイントへの呼び出しは、引き続き取り込まれますが、サービスおよびアプリケーションの KPI には反映されません。 この組み込みルールはヘルス・チェックを自動検出して無視しますが、新規ルールを指定して追加のエンドポイントを手動で追加することができます",
+      "descriptionConfigureSyntheticEndpoints": "合成エンドポイントへの呼び出しは、引き続き取り込まれますが、サービスおよびアプリケーションの KPI には反映されません。この組み込みルールはヘルス・チェックを自動検出して無視しますが、新規ルールを指定して追加のエンドポイントを手動で追加することができます",
       "descriptionEndpointsRule": "この自動生成ルールに一致するエンドポイントへの呼び出しは、Instana 内のアプリケーションまたはサービスの KPI には反映されず、無視されます。",
       "errorConditionRequired": "少なくとも 1 つの突き合わせ条件が必要です。"
     },
@@ -596,12 +602,12 @@
   },
   "list": {
     "textNewApplicationPerspective": "アカウント管理者が作成すると、ここに表示されます。",
-    "showApplicationsScope": "アプリケーション (<bold>{{contextScope}}</bold>/<linkToEntity>) を表示しています{{entityLabel}}</linkToEntity>",
-    "showServicesScope": "サービス (<bold>{{contextScope}}</bold>/<linkToEntity>) を表示しています{{entityLabel}}</linkToEntity>",
-    "showApplicationsScopeWithApplicationLabel": "アプリケーション (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity><span> (コンテキスト </span><linkToApplication>{{applicationLabel}}</linkToApplication>)) を表示しています",
+    "showApplicationsScope": "アプリケーション (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity>) を表示しています",
+"showServicesScope": "サービス (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity>) を表示しています",
+"showApplicationsScopeWithApplicationLabel": "アプリケーション (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity><span> (コンテキスト </span><linkToApplication>{{applicationLabel}}</linkToApplication>)) を表示しています",
     "showServicesScopeWithServiceLabel": "サービス (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity><span> (コンテキスト </span><linkToApplication>{{applicationLabel}}</linkToApplication>)) を表示しています",
     "titleNoService": "サービスがまだありません",
-    "servicesNoData": "選択された時刻範囲に使用可能なサービス呼び出しがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "選択された時刻範囲に使用可能なサービス呼び出しがありません。トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "バッチ",
@@ -628,5 +634,52 @@
   "lists": {
     "noSpecificApplication": " - 特定のアプリケーションなし - ",
     "services": "サービス"
+  },
+  "containsErrors": "エラーが含まれています",
+  "noErrors": "エラーはありません",
+  "traceDetail": {
+    "tabs": {
+      "summary": {
+        "duplicateCalls": "重複した呼び出し",
+        "duplicateCallsDesc": "このトレースは、1 つ以上の重複した呼び出し (スパン) で構成されます。固有の呼び出し: {{traceCallCountIgnoringBatchSize}} - レコード: {{traceCallRecordCount}}。 これにより、呼び出し数 (バッチを含む) およびエラー件数が正しくない値になり、その他の不規則性が生じる可能性があります。",
+        "batchedIngestion": "バッチ取り込み",
+        "traceIngestionBatchCount": "このトレースは {{traceIngestionBatchesCount}} 件のバッチで処理されました。 これにより、スパンが単一の呼び出しにマージされない、サービス・マッピングが部分的になる、データ表示が不完全になるなどのその他の不規則性が生じる可能性があります。",
+        "subCalls": "サブ呼び出し",
+        "erroneousCalls": "エラーのある呼び出し数",
+        "errorLogs": "エラー・ログ",
+        "warnLogs": "警告ログ",
+        "latency": "待ち時間",
+        "timeline": "タイムライン",
+        "serviceEndpointList": "サービス・エンドポイント・リスト",
+        "largeTrace": "大きなトレース",
+        "largeTraceLink": "このトレースはサイズが大きいため、このトレースをレンダリングすると、ブラウザーにパフォーマンス上の問題が生じる可能性があります。 <linkToDocs>トレースをダウンロード</linkToDocs>して手動で検査するか、ブラウザー内でトレース・レンダリングを試行することができます。 この試行では、パフォーマンスを向上させるために、コンポーネントのサブセットのみがレンダリングされます。",
+        "calls": "呼び出し",
+        "logs": "ログ",
+        "analyzeLogs": "分析で表示",
+        "correspondingMobileAppActivity": "対応するモバイル・アプリケーション・アクティビティー",
+        "hideMobileAppInformation": "モバイル・アプリケーション情報を隠す",
+        "showMobileAppInformation": "モバイル・アプリケーション情報を表示",
+        "viewMobileAppActivity": "モバイル・アプリケーション・アクティビティーを表示",
+        "erroneousTrace": "エラーのあるトレース",
+        "attemptToRenderTrace": "トレース・レンダリングの試行",
+        "hideWebsiteInformation": "Web サイト情報を隠す",
+        "showWebsiteInformation": "Web サイト情報を表示",
+        "viewWebsiteActivity": "Web サイト・アクティビティーを表示"
+      }
+    }
+  },
+  "tabs": {
+    "labelDetail": "詳細"
+  },
+  "metrics": {
+    "calls_calls": "呼び出し",
+    "calls_latency": "待ち時間",
+    "calls_erroneousCalls": "エラーのある呼び出し数",
+    "calls_errors": "エラーのある呼び出し率",
+    "traces_calls": "トレース",
+    "traces_traces": "トレース",
+    "traces_latency": "待ち時間",
+    "traces_erroneousCalls": "エラーのあるトレース数",
+    "traces_errors": "エラーのあるトレース率"
   }
 }

@@ -135,6 +135,11 @@
             "inboundOverrideDefault": "La portée par défaut de cette application est Appels entrants uniquement. Vous pouvez modifier cela dans Configuration.",
             "allDashboard": "Le tableau de bord affiche des informations en fonction de tous les appels effectués dans cette application par les consommateurs et en interne.",
             "allOverrideDefault": "La portée par défaut de cette application est Tous les appels. Vous pouvez modifier cela dans Configuration."
+          },
+          "confirmationDialog": {
+            "pleaseConfirm": "Veuillez confirmer.",
+            "description": "La modification de l'étendue des limites réinitialise la sélection des applications.",
+            "confirmButtonLabel": "Confirmer"
           }
         },
         "includeInternalOrSynthethicCalls": {
@@ -172,6 +177,7 @@
         }
       },
       "chart": {
+        "noDataWithoutEndpointSelection": "Veuillez sélectionner un service pour afficher l'aperçu.",
         "noDataAvailable": "Sélectionner un service pour afficher l'aperçu"
       },
       "logMessages": {
@@ -415,6 +421,7 @@
         "ruleStatusCodeValueOption510": "510 (Non étendu)",
         "ruleStatusCodeValueOption511": "511 (Authentification réseau requise)",
         "ruleStatusCodeValueOption599": "599 (Erreur de délai de connexion réseau)",
+        "ruleStatusCodeValueOptionCustom": "Plage personnalisée",
         "ruleMetricNameOptionSpecificJsErrorErrors": "Nombre d'erreurs",
         "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "Taux d'erreurs",
         "ruleMetricNameOptionStatusCodeHttpxxx": "Nombre de codes de statut",
@@ -422,19 +429,10 @@
         "ruleMetricNameOptionSlownessOnLoadTime": "Durée onLoad",
         "ruleMetricNameOptionThroughputPageLoads": "Chargements de pages",
         "ruleMetricNameOptionThroughputPageTransitions": "Transitions de pages",
-        "ruleAggregationOptionMEAN": "moyen",
-        "ruleAggregationOptionMIN": "min",
-        "ruleAggregationOptionP25": "25e",
-        "ruleAggregationOptionP50": "50e",
-        "ruleAggregationOptionP75": "75e",
-        "ruleAggregationOptionP90": "90e (recommandé)",
-        "ruleAggregationOptionP95": "95e",
-        "ruleAggregationOptionP98": "98e",
-        "ruleAggregationOptionP99": "99e",
-        "ruleAggregationOptionMAX": "max",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "moyen",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50e",
+        "ruleFormErrorStatusCodeStartGTEnd": "Veuillez sélectionner un code d'état http de fin supérieur ou égal au code d'état http de début.",
         "ruleFormPleaseProvideALogMessage": "Veuillez fournir un message de journal.",
+        "ruleFormPleaseProvideAStartStatusCode": "Veuillez fournir un code d'état http de départ.",
+        "ruleFormPleaseProvideAEndStatusCode": "Veuillez fournir un code de statut http final.",
         "smartAlertFormNoEntitiesSelected": "Aucune entité sélectionnée",
         "thresholdFormPleaseProvideANumber0": "Veuillez indiquer un nombre >= 0",
         "thresholdFormBaselineIsEmpty": "la référence est vide"
@@ -473,6 +471,20 @@
         "numberOfApplicationsSelected": "{{count}} application sélectionnée",
         "numberOfApplicationsSelected_plural": "{{count}} applications sélectionnées"
       }
+    },
+    "form": {
+      "ruleAggregationOptionMEAN": "moyen",
+      "ruleAggregationOptionMIN": "min",
+      "ruleAggregationOptionP25": "25e",
+      "ruleAggregationOptionP50": "50e",
+      "ruleAggregationOptionP75": "75e",
+      "ruleAggregationOptionP90": "90e (recommandé)",
+      "ruleAggregationOptionP95": "95e",
+      "ruleAggregationOptionP98": "98e",
+      "ruleAggregationOptionP99": "99e",
+      "ruleAggregationOptionMAX": "max",
+      "ruleAggregationForWeeklySeasonalityOptionMEAN": "moyen",
+      "ruleAggregationForWeeklySeasonalityOptionP50": "50e"
     },
     "components": {
       "smartAlertDialog": {
@@ -559,8 +571,10 @@
         "thresholdTypeOptionHistoricBaselineDaily": "Référence (saisonnalité quotidienne)",
         "thresholdTypeOptionHistoricBaselineWeekly": "Référence (saisonnalité hebdomadaire)",
         "useSuggestedvalue": "Utiliser la valeur suggérée",
-        "alertConfigDialogPresenterTitleEditAlert": "Modifier l'alerte",
-        "alertConfigDialogPresenterTitleCreateNewAlert": "Créer une alerte",
+        "alertConfigDialogPresenterTitleEditAlertLocal": "Ajouter une Smart Alert",
+        "alertConfigDialogPresenterTitleEditAlertGlobal": "Modifier une Smart Alert globale",
+        "alertConfigDialogPresenterTitleCreateNewAlertLocal": "Créer une Smart Alert",
+        "alertConfigDialogPresenterTitleCreateNewAlertGlobal": "Créer une Smart Alert globale",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Passer en mode avancé",
         "alertConfigDialogPresenterButtonSwitchToSimpleMode": "Passer en mode simple",
         "simpleAlertConfigDialogStep3Headline": "Qui doit recevoir les alertes ?",
@@ -568,6 +582,7 @@
         "LoadingServices": "Chargement des services en cours...",
         "NoServiceInScope": "Aucun service dans la portée",
         "PreviewForAP": "Aperçu de la perspective d'application :",
+        "PreviewForEndpoint": "Aperçu pour le nœud final :",
         "PreviewForService": "Aperçu du service :"
       },
       "alertsHub": {
@@ -796,19 +811,7 @@
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Taux de codes de statut",
         "ruleMetricNameOptionSlownessOnLoadTime": "Durée onLoad",
         "ruleMetricNameOptionThroughputPageLoads": "Chargements de pages",
-        "ruleMetricNameOptionThroughputPageTransitions": "Transitions de pages",
-        "ruleAggregationOptionMEAN": "moyen",
-        "ruleAggregationOptionMIN": "min",
-        "ruleAggregationOptionP25": "25e",
-        "ruleAggregationOptionP50": "50e",
-        "ruleAggregationOptionP75": "75e",
-        "ruleAggregationOptionP90": "90e (recommandé)",
-        "ruleAggregationOptionP95": "95e",
-        "ruleAggregationOptionP98": "98e",
-        "ruleAggregationOptionP99": "99e",
-        "ruleAggregationOptionMAX": "max",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "moyen",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50e"
+        "ruleMetricNameOptionThroughputPageTransitions": "Transitions de pages"
       },
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "Sur quoi voulez être alerté ?",

@@ -159,7 +159,18 @@
         "sourceMonitoredByAnotherProvider": "この呼び出しのソースは、別の分散トレース・プロバイダーによってトレースされています。 ID {{foreignParentId}} のプロバイダー内の親スパンを検索することで、ソースに関する詳細情報を見つけることができます。",
         "notMonitored": "Instana によってモニターされていません",
         "source": "ソース",
-        "destination": "宛先"
+        "destination": "宛先",
+        "logs": "ログ ({{errors}}{{warnings}})",
+        "errors": "{{count}} 個のエラー",
+        "errors_plural": "{{count}} 個のエラー",
+        "errors_0": "{{count}} 個のエラー",
+        "errors_1": "{{count}} 個のエラー",
+        "errors_2": "{{count}} 個のエラー",
+        "warnings": "{{count}} 個の警告",
+        "warnings_plural": "{{count}} 個の警告",
+        "warnings_0": "{{count}} 個の警告",
+        "warnings_1": "{{count}} 個の警告",
+        "warnings_2": "{{count}} 個の警告"
       }
     },
     "tabs": {
@@ -247,6 +258,13 @@
       "logTooltipContent": {
         "errorLog": "エラー・ログ",
         "warningLog": "警告ログ"
+      },
+      "callTooltipContent": {
+        "numbersOfErrors": "{{count}} 個のエラー",
+        "numbersOfErrors_plural": "{{count}} 個のエラー",
+        "numbersOfErrors_0": "{{count}} 個のエラー",
+        "numbersOfErrors_1": "{{count}} 個のエラー",
+        "numbersOfErrors_2": "{{count}} 個のエラー"
       }
     },
     "applications": "アプリケーション",

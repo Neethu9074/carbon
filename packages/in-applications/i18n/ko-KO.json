@@ -5,6 +5,7 @@
   "labelApplications": "애플리케이션",
   "labelApplicationWithNum": "애플리케이션({{numApplications}})",
   "labelAnalytic": "분석",
+  "labelCall": "호출",
   "labelTrace": "추적",
   "linkDownload": "다운로드",
   "labelCalls": "호출",
@@ -251,6 +252,7 @@
       "erroneous_false": "false",
       "erroneous_Erroneous": "잘못된"
     },
+    "latency": "대기 시간",
     "applications": "애플리케이션",
     "services": "서비스",
     "endpoints": "엔드포인트",
@@ -272,9 +274,9 @@
       "sortingMetricLabelTh": "{{sortingMetricLabel}}({{num}}번째)",
       "sortingMetricLabelRate": "{{sortingMetricLabel}}(비율)",
       "sortingMetricLabelCount": "{{sortingMetricLabel}}(개수)",
-      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})",
-      "preview": "미리보기"
+      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})"
     },
+    "preview": "미리보기",
     "listLoadMore": "{{retrievalSize}}개 추가 로드",
     "listBatchTypeTooltip": "이 {{type}}은(는) 일괄처리되며 {{batchCount}}개 개별 {{types}}을(를) 나타냅니다.",
     "listBatchLatencyTooltip": "일괄처리된 {{batchCount}}개 {{types}}의 총 대기 시간입니다.",
@@ -317,7 +319,11 @@
     "service": "서비스",
     "trace": "추적",
     "calls": "호출",
-    "none": "없음"
+    "none": "없음",
+    "dataSource_calls": "{{formattedCount}}개 호출",
+    "dataSource_calls_plural": "{{formattedCount}}개 호출",
+    "dataSource_traces": "{{formattedCount}}개 추적",
+    "dataSource_traces_plural": "{{formattedCount}}개 추적"
   },
   "creation": {
     "newAP": "새 애플리케이션 퍼스펙티브",
@@ -511,7 +517,7 @@
     "unknownTime": "{{entityTime}}에서 알 수 없음",
     "infrastructure": {
       "inEntity": "위치<icon /><entityLink>{{entityLabel}}</entityLink>",
-      "ofEntity": " -<icon /><entityLink>{{entityLabel}}</entityLink>",
+      "ofEntity": "<entityLink>{{entityLabel}}</entityLink>의 인스턴스<icon />",
       "instanceIndexOfEntity": "<entityLink>{{entityLabel}}</entityLink>의 인스턴스 {{cfInstanceIndex}}<icon />",
       "instanceOfEntity": "<entityLink>{{entityLabel}}</entityLink>의 인스턴스<icon />",
       "tooltipUnmonitored": "실행 중인 에이전트의 범위를 벗어나는 정보로 인해 모니터되지 않은 인프라"
@@ -539,7 +545,7 @@
     "noTestDefined": "테스트가 정의되지 않음",
     "allTestsPassed": "모든 테스트 패스",
     "allTestsFailed": "모든 테스트 실패",
-    "testResultWithNumber": "<failTag>테스트 실패: {{numFailedTests}}개</failTag><passTag>, 성공: {{resultLength}}개 중 {{numSucceededTests}}개</passTag>",
+    "testResultWithNumber": "<failTag>테스트 실패: {{numFailedTests}}</failTag><passTag>, 패스: {{resultLength}}개 중 {{numSucceededTests}}</passTag>",
     "rulePathTemplate": "경로 템플리트",
     "ruleFirstPathSegment": "첫 번째 경로 세그먼트",
     "ruleRouteId": "라우트 ID",
@@ -555,7 +561,7 @@
     "understandCheckboxResetToDefaultRule": " 이 조치는 실행 취소할 수 없음을 이해합니다.",
     "customService": {
       "stepTitle": "사용자 정의 서비스 규칙을 추가하여 자동 서비스 맵핑을 확장합니다.",
-      "descriptionTextFirstLine": "Instana는 사전 정의된 규칙의 확장 세트를 기반으로 서비스를 맵핑합니다. 예를 들어, 태그 nodejs.app.name이 있는 경우 <bold>\"nodejs.app.name=user service\"</bold> 및 <bold>\"nodejs.app.name=cart service\"</bold>로 태그가 지정된 호출이 있고 그런 다음 <bold>\"사용자 서비스\"</bold> 및 <bold>\"카트 서비스\"</bold>가 서비스로 표시됩니다.",
+      "descriptionTextFirstLine": "Instana는 사전 정의된 규칙의 확장 세트를 기반으로 서비스를 맵핑합니다. 예를 들어, 태그 nodejs.app.name이 있고 <bold>\"nodejs.app.name=user service\"</bold> 및 <bold>\"nodejs.app.name=cart service\"</bold> 태그가 지정된 호출이 있으면 <bold>\"user service\"</bold> 및 <bold>\"cart service\"</bold>가 서비스로 표시됩니다.",
       "descriptionVisit": "<bold><linkToDoc>애플리케이션 및 서비스 관리에 대한 문서</linkToDoc></bold>를 방문하여 사전 정의된 규칙에 대해 자세히 알아보십시오.",
       "descriptionCustomServiceRule": "아래 태그 시리즈를 선택하여 사용자 정의 규칙을 정의하십시오. 모든 태그가 호출에 있으면 해당 서비스로 맵핑됩니다.",
       "tooltipRemoveCondition": "이 일치 조건 제거"
@@ -578,7 +584,7 @@
       "optionAllDownstreamServices": "모든 다운스트림 서비스",
       "errorApplicationNameBlank": "애플리케이션 퍼스펙티브 이름은 공백이 아니어야 합니다.",
       "errorNameLengthExceeded": "애플리케이션 퍼스펙티브 이름은 128자 미만이어야 합니다.",
-      "errorInvalidQuery": "조회 구성이 올바르지 않음",
+      "errorInvalidQuery": "조회가 올바르지 않음",
       "titleApplicationCreating": "애플리케이션 퍼스펙티브가 작성되고 있습니다."
     },
     "customSyntheticRule": {
@@ -587,7 +593,7 @@
       "helpSpecifyRule": "일치시킬 규칙을 지정하십시오(예: endpoint.name contains health).",
       "messageNoMatchRule": "이 규칙과 일치하는 엔드포인트가 없습니다.",
       "messageNoRule": "규칙이 지정되지 않았습니다.",
-      "stepTitleConfigureSyntheticEndpoints": "서비스 및 애플리케이션 KPI에서 엔드포인트에 대한 호출을 무시하도록 합성 엔드포인트를 구성하십시오.",
+      "stepTitleConfigureSyntheticEndpoints": "서비스 및 애플리케이션 KPI에서 엔드포인트에 대한 호출을 무시하도록 합성 엔드포인트를 구성하십시오",
       "descriptionConfigureSyntheticEndpoints": "합성 엔드포인트에 대한 호출이 계속 캡처되지만 서비스 및 애플리케이션 KPI에 기여하지 않습니다. 기본 제공 규칙은 자동 검색하며 상태 점검을 무시하지만 새 규칙을 사용하여 추가 엔드포인트를 수동으로 추가할 수 있습니다.",
       "descriptionEndpointsRule": "이 자동 생성된 규칙과 일치하는 엔드포인트에 대한 호출은 애플리케이션 또는 Instana 내의 서비스 KPI에 기여하지 않으며 무시됩니다.",
       "errorConditionRequired": "하나 이상의 일치 조건이 필요합니다."
@@ -601,7 +607,7 @@
     "showApplicationsScopeWithApplicationLabel": "<linkToApplication>{{applicationLabel}}</linkToApplication><span>의 컨텍스트에서</span> <linkToEntity>{{entityLabel}}</linkToEntity>의 애플리케이션 <bold>{{contextScope}}</bold> 표시",
     "showServicesScopeWithServiceLabel": "<linkToApplication>{{applicationLabel}}</linkToApplication><span>의 컨텍스트에서</span> <linkToEntity>{{entityLabel}}</linkToEntity>의 서비스 <bold>{{contextScope}}</bold> 표시",
     "titleNoService": "아직 서비스 없음",
-    "servicesNoData": "선택한 시간 범위에 사용 가능한 서비스 호출이 없습니다. 문제점 해결 정보는 [문서][문서]를 참조하십시오.\n\n[문서]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "선택한 시간 범위에 사용할 수 있는 서비스 호출이 없습니다. 문제점 해결 정보는 [문서][문서]를 참조하십시오.\n\n[문서]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "일괄처리",
@@ -628,5 +634,52 @@
   "lists": {
     "noSpecificApplication": " - 특정 애플리케이션 없음 - ",
     "services": "서비스"
+  },
+  "containsErrors": "오류 포함",
+  "noErrors": "오류 없음",
+  "traceDetail": {
+    "tabs": {
+      "summary": {
+        "duplicateCalls": "중복 호출",
+        "duplicateCallsDesc": "이 추적은 하나 이상의 중복 호출로 구성되어 있습니다(범위). 고유 호출: {{traceCallCountIgnoringBatchSize}} - 레코드: {{traceCallRecordCount}}. 이로 인해 호출 개수(일괄처리 포함) 및 오류 개수 값이 잘못되거나 기타 불규칙성이 발생할 수 있습니다.",
+        "batchedIngestion": "일괄처리된 수집",
+        "traceIngestionBatchCount": "이 추적은 {{traceIngestionBatchesCount}} 배치에서 처리되었습니다. 단일 호출로 병합되지 않은 범위, 부분 서비스 맵핑 또는 기타 불완전 데이터 표시와 같은 불규칙성이 발생할 수 있습니다.",
+        "subCalls": "하위 호출",
+        "erroneousCalls": "잘못된 호출",
+        "errorLogs": "오류 로그",
+        "warnLogs": "경고 로그",
+        "latency": "대기 시간",
+        "timeline": "타임라인",
+        "serviceEndpointList": "서비스 엔드포인트 목록",
+        "largeTrace": "대형 추적",
+        "largeTraceLink": "이 추적은 대형이며 이 추적을 렌더링하면 브라우저 내의 성능에 문제가 발생할 수 있습니다. 수동으로 조사하려는 경우 <linkToDocs>추적을 다운로드</linkToDocs>하거나 브라우저 내에서 추적 렌더링을 시도할 수 있습니다. 이 시도의 성능을 높이기 위해 컴포넌트의 서브세트만 렌더링합니다.",
+        "calls": "호출",
+        "logs": "로그",
+        "analyzeLogs": "분석으로 보기",
+        "correspondingMobileAppActivity": "해당하는 모바일 앱 활동",
+        "hideMobileAppInformation": "모바일 앱 정보 숨기기",
+        "showMobileAppInformation": "모바일 앱 정보 표시",
+        "viewMobileAppActivity": "모바일 앱 활동 보기",
+        "erroneousTrace": "잘못된 추적",
+        "attemptToRenderTrace": "추적을 렌더링하는 시도",
+        "hideWebsiteInformation": "웹 사이트 정보 숨기기",
+        "showWebsiteInformation": "웹 사이트 정보 표시",
+        "viewWebsiteActivity": "웹 사이트 활동 보기"
+      }
+    }
+  },
+  "tabs": {
+    "labelDetail": "세부사항"
+  },
+  "metrics": {
+    "calls_calls": "호출",
+    "calls_latency": "대기 시간",
+    "calls_erroneousCalls": "잘못된 호출",
+    "calls_errors": "잘못된 호출 비율",
+    "traces_calls": "추적",
+    "traces_traces": "추적",
+    "traces_latency": "대기 시간",
+    "traces_erroneousCalls": "잘못된 추적",
+    "traces_errors": "잘못된 추적 비율"
   }
 }

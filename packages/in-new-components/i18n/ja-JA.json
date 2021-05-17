@@ -102,6 +102,7 @@
     "labelExpandButtonForContent": "コンテンツの展開ボタン"
   },
   "featureFeedback": {
+    "labelThisFeatureIsInBeta": "この機能はベータ版です。",
     "labelBETA": "BETA",
     "linkLabelYouCanSendUsFeedback": "フィードバックをお送りください"
   },
@@ -166,6 +167,9 @@
     "sideNavigationAndContentRouteNotFound": "未検出"
   },
   "list": {
+    "labelLoadMore": "さらにロード",
+    "labelInitiateDefaultAction": "デフォルト・アクションの開始",
+    "labelToggleExtraContent": "追加コンテンツの切り替え",
     "labelMoreItems": "残り {{numMoreItems}} 件..."
   },
   "loading": {
@@ -354,8 +358,6 @@
     "buttonReloadToUpdate": "再ロードして更新"
   },
   "upstreamDownstream": {
-    "buttonGoToDashboard": "ダッシュボードに移動",
-    "buttonGoToAnalytics": "分析に移動",
     "companionMetricLabelErroneousCallRate": "エラーのある呼び出し率: ",
     "metricLabelCallsAndErroneousCalls": "呼び出し数およびエラーのある呼び出し数",
     "metricLabelCallsAndLatency": "呼び出しおよび待ち時間",

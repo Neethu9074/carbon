@@ -159,7 +159,18 @@
         "sourceMonitoredByAnotherProvider": "Die Quelle für diesen Aufruf wird von einem anderen verteilten Trace-Provider verfolgt. Weitere Informationen zu der Quelle finden Sie, indem Sie die übergeordnete Spanne innerhalb des jeweiligen Providers mit der ID {{foreignParentId}} durchsuchen.",
         "notMonitored": "Nicht von Instana überwacht",
         "source": "Quelle",
-        "destination": "Ziel"
+        "destination": "Ziel",
+        "logs": "Protokolle ( {{errors}}{{warnings}} )",
+        "errors": "{{count}} Fehler",
+        "errors_plural": "{{count}} Fehler",
+        "errors_0": "{{count}} Fehler",
+        "errors_1": "{{count}} Fehler",
+        "errors_2": "{{count}} Fehler",
+        "warnings": "{{count}} Warnung",
+        "warnings_plural": "{{count}} Warnungen",
+        "warnings_0": "{{count}} Warnungen",
+        "warnings_1": "{{count}} Warnungen",
+        "warnings_2": "{{count}} Warnungen"
       }
     },
     "tabs": {
@@ -247,6 +258,13 @@
       "logTooltipContent": {
         "errorLog": "Fehlerprotokoll",
         "warningLog": "Warnprotokoll"
+      },
+      "callTooltipContent": {
+        "numbersOfErrors": "{{count}} Fehler",
+        "numbersOfErrors_plural": "{{count}} Fehler",
+        "numbersOfErrors_0": "{{count}} Fehler",
+        "numbersOfErrors_1": "{{count}} Fehler",
+        "numbersOfErrors_2": "{{count}} Fehler"
       }
     },
     "applications": "Anwendungen",

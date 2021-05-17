@@ -102,6 +102,7 @@
     "labelExpandButtonForContent": "Bouton Développer pour le contenu"
   },
   "featureFeedback": {
+    "labelThisFeatureIsInBeta": "Cette fonction est en version bêta.",
     "labelBETA": "BÊTA",
     "linkLabelYouCanSendUsFeedback": "Vous pouvez nous faire part de vos commentaires"
   },
@@ -166,6 +167,9 @@
     "sideNavigationAndContentRouteNotFound": "Non trouvé"
   },
   "list": {
+    "labelLoadMore": "Charger plus",
+    "labelInitiateDefaultAction": "Lancer l'action par défaut",
+    "labelToggleExtraContent": "Basculer le contenu supplémentaire",
     "labelMoreItems": "+{{numMoreItems}} de plus..."
   },
   "loading": {
@@ -354,8 +358,6 @@
     "buttonReloadToUpdate": "Recharger pour mettre à jour"
   },
   "upstreamDownstream": {
-    "buttonGoToDashboard": "Accéder au tableau de bord",
-    "buttonGoToAnalytics": "Accéder Analyse",
     "companionMetricLabelErroneousCallRate": "Taux d'appels erronés : ",
     "metricLabelCallsAndErroneousCalls": "Appels et appels erronés",
     "metricLabelCallsAndLatency": "Appels et latence",

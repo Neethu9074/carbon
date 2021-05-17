@@ -135,6 +135,11 @@
             "inboundOverrideDefault": "Der Standardbereich für diese Anwendung ist 'Nur eingehende Aufrufe'. Sie können dies in der Konfiguration ändern. ",
             "allDashboard": "Das Dashboard zeigt Informationen auf der Basis aller Aufrufe an, die in dieser Anwendung ausgeführt werden, sowohl von den Konsumenten als auch intern.",
             "allOverrideDefault": "Der Standardbereich für diese Anwendung ist 'Alle Aufrufe'. Sie können dies in der Konfiguration ändern. "
+          },
+          "confirmationDialog": {
+            "pleaseConfirm": "Bitte bestätigen",
+            "description": "Das Ändern des Grenzbereichs würde die Anwendungsauswahl zurücksetzen.",
+            "confirmButtonLabel": "Bestätigen"
           }
         },
         "includeInternalOrSynthethicCalls": {
@@ -172,6 +177,7 @@
         }
       },
       "chart": {
+        "noDataWithoutEndpointSelection": "Wählen Sie einen Endpunkt aus, um die Vorschau anzuzeigen",
         "noDataAvailable": "Wählen Sie einen Service zum Anzeigen der Vorschau aus"
       },
       "logMessages": {
@@ -415,6 +421,7 @@
         "ruleStatusCodeValueOption510": "510 (Nicht erweitert)",
         "ruleStatusCodeValueOption511": "511 (Netzauthentifizierung erforderlich)",
         "ruleStatusCodeValueOption599": "599 (Zeitüberschreitung für Netzverbindung)",
+        "ruleStatusCodeValueOptionCustom": "Angepasster Bereich",
         "ruleMetricNameOptionSpecificJsErrorErrors": "Fehleranzahl",
         "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "Fehlerrate",
         "ruleMetricNameOptionStatusCodeHttpxxx": "Statuscodeanzahl",
@@ -422,19 +429,10 @@
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad-Zeit",
         "ruleMetricNameOptionThroughputPageLoads": "Seitenladevorgänge",
         "ruleMetricNameOptionThroughputPageTransitions": "Seitenwechsel",
-        "ruleAggregationOptionMEAN": "Mittelwert",
-        "ruleAggregationOptionMIN": "Min.",
-        "ruleAggregationOptionP25": "25.",
-        "ruleAggregationOptionP50": "50.",
-        "ruleAggregationOptionP75": "75.",
-        "ruleAggregationOptionP90": "90. (empfohlen)",
-        "ruleAggregationOptionP95": "95.",
-        "ruleAggregationOptionP98": "98.",
-        "ruleAggregationOptionP99": "99.",
-        "ruleAggregationOptionMAX": "Max.",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "Mittelwert",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50.",
+        "ruleFormErrorStatusCodeStartGTEnd": "Wählen Sie einen HTTP-Endstatuscode aus, der größer oder gleich dem HTTP-Startstatuscode ist.",
         "ruleFormPleaseProvideALogMessage": "Geben Sie eine Protokollnachricht an",
+        "ruleFormPleaseProvideAStartStatusCode": "Geben Sie einen HTTP-Startstatuscode an.",
+        "ruleFormPleaseProvideAEndStatusCode": "Geben Sie einen HTTP-Endstatuscode an.",
         "smartAlertFormNoEntitiesSelected": "Keine Entitäten ausgewählt",
         "thresholdFormPleaseProvideANumber0": "Geben Sie eine Zahl >= 0 an",
         "thresholdFormBaselineIsEmpty": "Vergleichsdaten sind leer"
@@ -473,6 +471,20 @@
         "numberOfApplicationsSelected": "{{count}} Anwendung ausgewählt",
         "numberOfApplicationsSelected_plural": "{{count}} Anwendungen ausgewählt"
       }
+    },
+    "form": {
+      "ruleAggregationOptionMEAN": "Mittelwert",
+      "ruleAggregationOptionMIN": "Min.",
+      "ruleAggregationOptionP25": "25.",
+      "ruleAggregationOptionP50": "50.",
+      "ruleAggregationOptionP75": "75.",
+      "ruleAggregationOptionP90": "90. (empfohlen)",
+      "ruleAggregationOptionP95": "95.",
+      "ruleAggregationOptionP98": "98.",
+      "ruleAggregationOptionP99": "99.",
+      "ruleAggregationOptionMAX": "Max.",
+      "ruleAggregationForWeeklySeasonalityOptionMEAN": "Mittelwert",
+      "ruleAggregationForWeeklySeasonalityOptionP50": "50."
     },
     "components": {
       "smartAlertDialog": {
@@ -559,8 +571,10 @@
         "thresholdTypeOptionHistoricBaselineDaily": "Grundlinie (tägliche Saisonalität)",
         "thresholdTypeOptionHistoricBaselineWeekly": "Grundlinie (wöchentliche Saisonalität)",
         "useSuggestedvalue": "Vorgeschlagenen Wert verwenden",
-        "alertConfigDialogPresenterTitleEditAlert": "Alert bearbeiten",
-        "alertConfigDialogPresenterTitleCreateNewAlert": "Neuen Alert erstellen",
+        "alertConfigDialogPresenterTitleEditAlertLocal": "Smart Alert bearbeiten",
+        "alertConfigDialogPresenterTitleEditAlertGlobal": "Globalen Smart Alert bearbeiten",
+        "alertConfigDialogPresenterTitleCreateNewAlertLocal": "Neuen Smart Alert erstellen",
+        "alertConfigDialogPresenterTitleCreateNewAlertGlobal": "Neuen globalen Smart Alert erstellen",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Zum erweiterten Modus wechseln",
         "alertConfigDialogPresenterButtonSwitchToSimpleMode": "Zum einfachen Modus wechseln",
         "simpleAlertConfigDialogStep3Headline": "Wer sollte die Alerts bekommen?",
@@ -568,6 +582,7 @@
         "LoadingServices": "Services werden geladen...",
         "NoServiceInScope": "Kein Service im Bereich",
         "PreviewForAP": "Vorschau für Anwendungsperspektive:",
+        "PreviewForEndpoint": "Vorschau für Endpunkt:",
         "PreviewForService": "Vorschau für Service:"
       },
       "alertsHub": {
@@ -796,19 +811,7 @@
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Statuscoderate",
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad-Zeit",
         "ruleMetricNameOptionThroughputPageLoads": "Seitenladevorgänge",
-        "ruleMetricNameOptionThroughputPageTransitions": "Seitenwechsel",
-        "ruleAggregationOptionMEAN": "Mittelwert",
-        "ruleAggregationOptionMIN": "Min.",
-        "ruleAggregationOptionP25": "25.",
-        "ruleAggregationOptionP50": "50.",
-        "ruleAggregationOptionP75": "75.",
-        "ruleAggregationOptionP90": "90. (empfohlen)",
-        "ruleAggregationOptionP95": "95.",
-        "ruleAggregationOptionP98": "98.",
-        "ruleAggregationOptionP99": "99.",
-        "ruleAggregationOptionMAX": "Max.",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "Mittelwert",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50."
+        "ruleMetricNameOptionThroughputPageTransitions": "Seitenwechsel"
       },
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "Worüber möchten Sie benachrichtigt werden?",

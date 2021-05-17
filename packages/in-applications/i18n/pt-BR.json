@@ -5,6 +5,7 @@
   "labelApplications": "Aplicativos",
   "labelApplicationWithNum": "Aplicativo ({{numApplications}})",
   "labelAnalytic": "Analytics",
+  "labelCall": "Chamada",
   "labelTrace": "Rastreio",
   "linkDownload": "Download",
   "labelCalls": "Chamadas",
@@ -251,6 +252,7 @@
       "erroneous_false": "false",
       "erroneous_Erroneous": "Errôneo"
     },
+    "latency": "Latência",
     "applications": "Aplicativos",
     "services": "Serviços",
     "endpoints": "Terminais",
@@ -272,9 +274,9 @@
       "sortingMetricLabelTh": "{{sortingMetricLabel}} ({{num}}º)",
       "sortingMetricLabelRate": "{{sortingMetricLabel}} (taxa)",
       "sortingMetricLabelCount": "{{sortingMetricLabel}} (contagem)",
-      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})",
-      "preview": "Visualização"
+      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})"
     },
+    "preview": "Visualização",
     "listLoadMore": "Carregar mais {{retrievalSize}}",
     "listBatchTypeTooltip": "Este {{type}} está em lote e representa {{batchCount}} {{types}} individuais.",
     "listBatchLatencyTooltip": "Latência total de {{batchCount}} {{types}} em lote.",
@@ -317,7 +319,11 @@
     "service": "Serviço",
     "trace": "Rastreio",
     "calls": "Chamadas",
-    "none": "Nenhum"
+    "none": "Nenhum",
+    "dataSource_calls": "{{formattedCount}} Chamada",
+    "dataSource_calls_plural": "{{formattedCount}} Chamadas",
+    "dataSource_traces": "{{formattedCount}} Rastreio",
+    "dataSource_traces_plural": "{{formattedCount}} Rastreios"
   },
   "creation": {
     "newAP": "Nova perspectiva de aplicativo",
@@ -511,97 +517,97 @@
     "unknownTime": "Desconhecido em {{entityTime}}",
     "infrastructure": {
       "inEntity": "entrada<icon /><entityLink>{{entityLabel}}</entityLink>",
-      "ofEntity": "de<icon /><entityLink>{{entityLabel}}</entityLink>",
-      "instanceIndexOfEntity": "instância {{cfInstanceIndex}} de<icon /><entityLink>{{entityLabel}}</entityLink>",
+      "ofEntity": "of<icon /><entityLink>{{entityLabel}}</entityLink>",
+      "instanceIndexOfEntity": "instância {{cfInstanceIndex}} of<icon /><entityLink>{{entityLabel}}</entityLink>",
       "instanceOfEntity": "instância de<icon /><entityLink>{{entityLabel}}</entityLink>",
-      "tooltipUnmonitored": "Infraestrutura não monitorada devido a informações fora da visualização de agentes em execução"
+      "tooltipUnmonitored": "Infraestrutura não monitorada devido a informações fora do alcance dos agentes em execução"
     },
     "errorMessages": "mensagens de erro",
-    "errorCallWithoutMessage": "Chamada errônea sem mensagem de erro",
+    "errorCallWithoutMessage": "Chamada errada sem mensagem de erro",
     "logMessages": "mensagens de log",
     "noLogMessage": "Nenhuma mensagem de log disponível",
     "endpoints": "terminais"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "O serviço não está no aplicativo atual.",
-    "buttonLoadMoreWithRemain": "Carregar mais {{remainNumber}}<totalSpan>(total: {{nodeNumber}})</totalSpan>",
-    "buttonLoadMore": "Carregar mais {{remainNumber}}"
+    "buttonLoadMoreWithRemain": "Load {{remainNumber}} mais<totalSpan>(total: {{nodeNumber}})</totalSpan>",
+    "buttonLoadMore": "Load {{remainNumber}} mais"
   },
   "forms": {
     "stepTitleWithNumber": "<num>{{stepNumber}}. </num>{{stepTitle}}",
-    "helpSpecifyPathToMatch": "Especifique o caminho para correspondência, por exemplo, /api/{version}/*",
-    "helpAddTestCaseToWork": "Opcionalmente, inclua casos de teste abaixo para assegurar que a regra funcione como esperado, por exemplo, /api/v2/anything",
-    "errorBlankValue": "O valor não deve estar em branco.",
-    "earlyRuleResultWithQuery": "Foi transmitida uma regra anterior \"{{query}}\"",
-    "earlyRuleResult": "Foi transmitida uma regra anterior",
-    "testFailed": "Teste com falha",
-    "testPassed": "Teste com aprovação",
+    "helpSpecifyPathToMatch": "Especifique o caminho para corresponder, por exemplo. /api/{version}/*",
+    "helpAddTestCaseToWork": "Opcionalmente, inclua casos de teste abaixo para assegurar que a regra funcione conforme o esperado, por exemplo. /api/v2/anything",
+    "errorBlankValue": "O valor não deve ficar em branco.",
+    "earlyRuleResultWithQuery": "Aprovou uma regra anterior \"{{query}}\"",
+    "earlyRuleResult": "Aprovou uma regra anterior",
+    "testFailed": "Falha no teste",
+    "testPassed": "Teste aprovado",
     "noTestDefined": "Nenhum teste definido",
-    "allTestsPassed": "Todos os testes com aprovação",
-    "allTestsFailed": "Todos os testes falharam",
-    "testResultWithNumber": "<failTag>Os testes falharam: {{numFailedTests}}</failTag><passTag>, aprovados: {{numSucceededTests}} de {{resultLength}}</passTag>",
+    "allTestsPassed": "Todos os testes aprovados",
+    "allTestsFailed": "Todos os testes com falha",
+    "testResultWithNumber": "<failTag>Testes com falha: {{numFailedTests}}</failTag><passTag>, aprovado: {{numSucceededTests}} de {{resultLength}}</passTag>",
     "rulePathTemplate": "Modelo de caminho",
-    "ruleFirstPathSegment": "Primeiro segmento do caminho",
+    "ruleFirstPathSegment": "Primeiro segmento de caminho",
     "ruleRouteId": "ID de rota",
     "unspecified": "Não especificado",
     "titleConfigureEndpointExtraction": "Configurar extração de terminal",
-    "tooltipExtractsEndpointsAsSpecified": "Extrai terminais, conforme especificado na estrutura detectada (quando acessível)",
+    "tooltipExtractsEndpointsAsSpecified": "Extrai terminais conforme especificado na estrutura detectada (se acessível)",
     "tooltipExtractsEndpointsOnFirstPath": "Extrai terminais com base no primeiro parâmetro de caminho",
     "tooltipExtractsEndpointsOnRouteId": "Extrai terminais com base no ID de rota",
-    "tooltipEndpointCallsNotMatch": "Chamadas que não correspondem a uma regra anterior são designadas a este terminal",
+    "tooltipEndpointCallsNotMatch": "As chamadas que não correspondem a uma regra anterior são designadas a este terminal",
     "titleConfigureEndpointsExtract": "Configure como os terminais são extraídos das chamadas subjacentes para este serviço.",
-    "descriptionConfigureEndpointsExtract": "As regras do terminal são avaliadas sequencialmente, de cima para baixo, e uma chamada é designada à primeira regra à qual corresponde. Uma vez configuradas, as novas chamadas serão designadas de acordo com as regras atualizadas.",
-    "descriptionResetToDefaultRule": "Para retornar à configuração padrão das regras de extrações, use o botão abaixo. A reconfiguração pode levar alguns minutos para ser registrada.",
-    "understandCheckboxResetToDefaultRule": " Eu entendo que não é possível desfazer essa ação.",
+    "descriptionConfigureEndpointsExtract": "As regras de terminal são avaliadas sequencialmente, de cima para baixo, e uma chamada é designada à primeira regra correspondente. Depois de configuradas, novas chamadas serão designadas de acordo com as regras atualizadas.",
+    "descriptionResetToDefaultRule": "Se desejar reconfigurar as regras de extração padrão, use o botão abaixo. A reconfiguração pode levar alguns minutos para registrar.",
+    "understandCheckboxResetToDefaultRule": " Eu entendo que esta ação não pode ser desfeita.",
     "customService": {
-      "stepTitle": "Amplie o mapeamento de serviço automático incluindo uma regra de serviço customizado.",
-      "descriptionTextFirstLine": "O Instana mapeia os serviços automaticamente com base em um conjunto extensivo de regras predefinidas. Por exemplo, se a tag nodejs.app.name for localizada e houver chamadas identificadas com <bold>\"nodejs.app.name=user service\"</bold> e com <bold>\"nodejs.app.name=cart service\"</bold>, <bold>\"serviço de usuário\"</bold> e <bold>\"serviço de carrinho\"</bold> aparecerão como serviços.",
-      "descriptionVisit": "Visite <bold><linkToDoc>Docs sobre gerenciamento de aplicativo e serviço</linkToDoc></bold> para saber mais sobre as regras predefinidas.",
-      "descriptionCustomServiceRule": "Defina uma regra customizada selecionando uma série de tags abaixo. Se todas as tags estiverem presentes em uma chamada, elas serão mapeadas para esse serviço.",
-      "tooltipRemoveCondition": "Remover esta condição de correspondência"
+      "stepTitle": "Estenda o mapeamento de serviço automático incluindo uma regra de serviço customizado.",
+      "descriptionTextFirstLine": "A Instana mapeia automaticamente os serviços com base em um amplo conjunto de regras predefinidas. Por exemplo, se a tag nodejs.app.name for localizada e houver chamadas marcadas com <bold>\"nodejs.app.name=user service\"</bold> e com <bold>\"nodejs.app.name=cart service\"</bold>, então <bold>\"user service\"</bold> e <bold>\"cart service\"</bold> aparecerão como serviços.",
+      "descriptionVisit": "Visite o <bold><linkToDoc>Documentos sobre gerenciamento de aplicativos e serviços</linkToDoc></bold> para saber mais sobre as regras predefinidas.",
+      "descriptionCustomServiceRule": "Defina uma regra customizada selecionando uma série de tags abaixo. Se todas as tags estiverem presentes em uma chamada, ela será mapeada para esse serviço.",
+      "tooltipRemoveCondition": "Remova esta condição de correspondência"
     },
     "newApplication": {
-      "helpApplicationPerspectives": "As perspectivas de aplicativo fornecem um meio para modelar ambientes, conjuntos de serviços, locatários ou praticamente qualquer coisa.",
-      "helpRenameApplication": "Renomear um aplicativo é uma ação eventualmente consistente dentro do sistema Instana. Por essa razão, uma mudança em um nome de aplicativo pode levar <italic>alguns minutos</italic> para preencher o sistema inteiro.",
-      "descriptionApplicationName": "Os nomes de perspectiva de aplicativo devem ter uma definição bem estabelecida dentro de uma organização. Por exemplo, para modelar um ambiente: \"Produção azul\", para modelar um conjunto de serviços: \"Pagamento\" ou para modelar um locatário: \"Cliente ACME\".",
-      "descriptionTags": "Por exemplo, quando a chave for \"docker.label\" e o valor for \"environment=Production Blue\" ou quando a chave for \"call.http.params\" e o valor for \"tenant=ACMECustomer\". Observe que qualquer chamada para um <pillDatabase>BANCO DE DADOS</pillDatabase> serviço ou <pillMessage>SISTEMA DE MENSAGENS</pillMessage> serviço de serviços que correspondem a esta definição serão incluídos automaticamente.",
+      "helpApplicationPerspectives": "As perspectivas do aplicativo fornecem um meio de modelar ambientes, conjuntos de serviços, locatários ou praticamente qualquer coisa.",
+      "helpRenameApplication": "Renomear um aplicativo é uma ação eventualmente consistente dentro do sistema Instana. Por esse motivo, uma mudança no nome de um aplicativo pode levar <italic>alguns minutos</italic> até que seja preenchido em todo o sistema.",
+      "descriptionApplicationName": "Os nomes de perspectiva de aplicativo devem ter uma definição bem estabelecida dentro de uma organização. Por exemplo, para modelar um ambiente: \"Production Blue\", para modelar um conjunto de serviços: \"Payment\" ou para modelar um locatário: \"ACME Customer\".",
+      "descriptionTags": "Por exemplo, onde a chave é \"docker.label\" e o valor é \"environment=Production Blue\" ou a chave é \"call.http.params\" e o valor é \"tenant=ACMECustomer\". Observe que qualquer chamada para um serviço <pillDatabase>DATABASE</pillDatabase> ou serviço <pillMessage>MESSAGING</pillMessage> de serviços que correspondem a esta definição serão incluídos automaticamente.",
       "descriptionOperators": "Os operadores AND têm precedência e são avaliados antes dos operadores OR",
-      "descriptionOperatorsCreationEnabled": "Os operadores AND terão precedência e serão avaliados antes dos operadores OR se não agrupados entre colchetes",
-      "descriptionPrepareToMonitor": "Estamos preparando tudo para monitorar sua perspectiva de aplicativo <bold>{{decodedLabel}}</bold>.",
-      "descriptionRemoveApplicationPerspective": "Para não monitorar mais a perspectiva de aplicativo <strong>{{application}}</strong>, use o botão abaixo para removê-la. A remoção de uma perspectiva de aplicativo pode levar alguns minutos.",
+      "descriptionOperatorsCreationEnabled": "Os operadores AND têm precedência e são avaliados antes dos operadores OR se não estiverem agrupados entre colchetes",
+      "descriptionPrepareToMonitor": "Estamos preparando tudo para monitorar a perspectiva de seu aplicativo <bold>{{decodedLabel}}</bold>.",
+      "descriptionRemoveApplicationPerspective": "Se não desejar mais monitorar a perspectiva de aplicativo <strong>{{application}}</strong>, use o botão abaixo para removê-la. A remoção de uma perspectiva de aplicativo pode levar alguns minutos.",
       "stepTitleDefineApplicationName": "Defina um nome para a sua perspectiva de aplicativo.",
       "stepTitleDefineTags": "Defina a perspectiva de aplicativo usando uma ou mais tags.",
       "stepTitleDownstreamServices": "Serviços de recebimento de dados.",
       "stepTitleApplicationScope": "Escopo do aplicativo.",
       "optionNoDownstreamServices": "Nenhum serviço de recebimento de dados",
-      "optionImmediateDownstreamServices": "Banco de dados de recebimento de dados imediato e serviços de sistema de mensagens",
+      "optionImmediateDownstreamServices": "Serviços de recebimento imediato de dados do banco de dados e de sistema de mensagens",
       "optionAllDownstreamServices": "Todos os serviços de recebimento de dados",
-      "errorApplicationNameBlank": "O nome da perspectiva de aplicativo não deve estar em branco.",
-      "errorNameLengthExceeded": "O nome da perspectiva de aplicativo não deve ter mais de 128 caracteres.",
+      "errorApplicationNameBlank": "O nome da perspectiva de aplicativo não deve ficar em branco.",
+      "errorNameLengthExceeded": "O nome da perspectiva de aplicativo não deve ser maior que 128 caracteres.",
       "errorInvalidQuery": "A consulta não é válida",
       "titleApplicationCreating": "A perspectiva de aplicativo está sendo criada…"
     },
     "customSyntheticRule": {
-      "placeholderNameRule": "Nomeia sua regra",
+      "placeholderNameRule": "Dê um nome à sua regra",
       "placeholderAddDescriptionForRule": "Inclua uma descrição para sua regra",
-      "helpSpecifyRule": "Especifique as regras para correspondência, por exemplo, endpoint.name contém funcionamento",
+"helpSpecifyRule": "Especifique as regras para corresponder, por exemplo. endpoint.name contém funcionamento",
       "messageNoMatchRule": "Nenhum terminal corresponde a esta regra.",
-      "messageNoRule": "Nenhuma regra é especificada.",
-      "stepTitleConfigureSyntheticEndpoints": "Configure terminais sintéticos para ignorar as chamadas feitas para eles por meio de KPIs de serviço e aplicativo",
-      "descriptionConfigureSyntheticEndpoints": "As chamadas para terminais sintéticos continuarão sendo capturadas, mas não contribuirão para os KPIs de serviço e aplicativo. Nossa regra integrada irá detectar automaticamente e ignorar suas verificações de funcionamento, mas terminais adicionais poderão ser incluídos manualmente com novas regras",
-      "descriptionEndpointsRule": "As chamadas para os terminais correspondentes a esta regra gerada automaticamente não contribuem para seus KPIs de aplicativo ou serviço dentro do Instana e são desconsideradas.",
-      "errorConditionRequired": "Pelo menos uma condição de correspondência é necessária."
+      "messageNoRule": "Nenhuma regra especificada.",
+      "stepTitleConfigureSyntheticEndpoints": "Configure terminais sintéticos para ignorar chamadas para eles de KPIs de serviço e de aplicativo",
+      "descriptionConfigureSyntheticEndpoints": "As chamadas para terminais sintéticos continuarão a ser capturadas, mas não contribuirão para KPIs de serviço e de aplicativo. Nossa regra integrada irá detectar automaticamente e ignorar suas verificações de funcionamento, mas terminais adicionais podem ser incluídos manualmente com novas regras",
+      "descriptionEndpointsRule": "Chamadas para os terminais que correspondem a esta regra gerada automaticamente não contribuem para o seu aplicativo ou KPIs de serviço dentro da Instana e são desconsiderados.",
+      "errorConditionRequired": "É necessária pelo menos uma condição de correspondência."
     },
-    "and": "E"
+    "AND": "E"
   },
   "list": {
-    "textNewApplicationPerspective": "Elas aparecerão aqui uma vez que um administrador de conta criá-las.",
+    "textNewApplicationPerspective": "Elas aparecerão aqui assim que um administrador de conta criá-las.",
     "showApplicationsScope": "Mostrando aplicativos <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity>",
     "showServicesScope": "Mostrando serviços <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity>",
     "showApplicationsScopeWithApplicationLabel": "Mostrando aplicativos <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity><span> no contexto de </span><linkToApplication>{{applicationLabel}}</linkToApplication>",
     "showServicesScopeWithServiceLabel": "Mostrando serviços <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity><span> no contexto de </span><linkToApplication>{{applicationLabel}}</linkToApplication>",
-    "titleNoService": "Ainda sem serviços",
-    "servicesNoData": "Nenhuma chamada de serviço disponível para o intervalo de tempo selecionado. Para obter informações de resolução de problemas, consulte [documentação][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "titleNoService": "Nenhum serviço ainda",
+    "servicesNoData": "Nenhuma chamada de serviço está disponível para o intervalo de tempo selecionado. Para obter informações de resolução de problemas, consulte a [documentação][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "Lote",
@@ -614,19 +620,66 @@
     "graphQL": "GraphQL",
     "internal": "Interno",
     "undefined": "Indefinido",
-    "self": "Si mesmo",
+    "self": "Próprio",
     "sdk": "SDK"
   },
   "constants": {
     "exclude": "Excluir",
-    "syntheticCallsAreExcludedFromTheMetrics": "As chamadas sintéticas são excluídas das métricas.",
+    "syntheticCallsAreExcludedFromTheMetrics": "Chamadas sintéticas são excluídas das métricas.",
     "include": "Incluir",
-    "syntheticCallsAreIncludedInTheMetrics": "As chamadas sintéticas são incluídas nas métricas.",
+    "syntheticCallsAreIncludedInTheMetrics": "Chamadas sintéticas são incluídas nas métricas.",
     "only": "Apenas",
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Apenas chamadas sintéticas são mostradas e incluídas nas métricas"
   },
   "lists": {
     "noSpecificApplication": " - nenhum aplicativo específico - ",
     "services": "Serviços"
+  },
+  "containsErrors": "Contém erros",
+  "noErrors": "Nenhum erro",
+  "traceDetail": {
+    "tabs": {
+      "summary": {
+        "duplicateCalls": "Chamadas duplicadas",
+        "duplicateCallsDesc": "Este rastreamento consiste em uma ou mais chamadas duplicadas (spans). Chamadas exclusivas: {{traceCallCountIgnoringBatchSize}}- Registros: {{traceCallRecordCount}}. Isso leva a valores incorretos de contagem de chamadas (com lotes) e contagem de erros, além de possíveis irregularidades adicionais.",
+        "batchedIngestion": "Ingestão em lote",
+        "traceIngestionBatchCount": "Este rastreio foi processado em {{traceIngestionBatchesCount}} lotes. Isso pode causar irregularidades, tais como spans que não são mesclados em uma única Chamada, mapeamento parcial de Serviço ou exibição de outros dados incompletos.",
+        "subCalls": "Subchamadas",
+        "erroneousCalls": "Chamadas errôneas",
+        "errorLogs": "Logs de erro",
+        "warnLogs": "Logs de aviso",
+        "latency": "Latência",
+        "timeline": "Linha de tempo",
+        "serviceEndpointList": "Lista de terminais em serviço",
+        "largeTrace": "Rastreio grande",
+        "largeTraceLink": "Este rastreio é grande e sua renderização pode resultar em problemas de desempenho dentro do seu navegador. Também é possível <linkToDocs>fazer download do rastreio</linkToDocs> para inspeção manual ou tentar a renderização do rastreio dentro do seu navegador. Renderizaremos somente um subconjunto dos componentes a fim de aumentar o desempenho dessa tentativa.",
+        "calls": "Chamadas",
+        "logs": "Logs",
+        "analyzeLogs": "Visualização em análise",
+        "correspondingMobileAppActivity": "Atividade do aplicativo móvel correspondente",
+        "hideMobileAppInformation": "Ocultar informações do aplicativo móvel",
+        "showMobileAppInformation": "Mostrar informações do aplicativo móvel",
+        "viewMobileAppActivity": "Visualizar atividade do aplicativo móvel",
+        "erroneousTrace": "Rastreio errôneo",
+        "attemptToRenderTrace": "Tentativa de renderização de rastreio",
+        "hideWebsiteInformation": "Ocultar informações do website",
+        "showWebsiteInformation": "Mostrar informações do website",
+        "viewWebsiteActivity": "Visualizar atividade do website"
+      }
+    }
+  },
+  "tabs": {
+    "labelDetail": "Detalhe"
+  },
+  "metrics": {
+    "calls_calls": "Chamadas",
+    "calls_latency": "Latência",
+    "calls_erroneousCalls": "Chamadas errôneas",
+    "calls_errors": "Taxa de chamadas errôneas",
+    "traces_calls": "Rastreios",
+    "traces_traces": "Rastreios",
+    "traces_latency": "Latência",
+    "traces_erroneousCalls": "Rastreios errôneos",
+    "traces_errors": "Taxa de rastreios errôneos"
   }
 }

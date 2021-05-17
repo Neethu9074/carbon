@@ -115,9 +115,9 @@
       "demousDescEu": "Un'unità demo SaaS in esecuzione nella UE.",
       "serverlessAcceptor": "ServerlessAcceptor",
       "hubforce": "Hubforce",
-      "clickhouse": "Clickhouse",
-      "clickhouseApplication": "ClickHouse Application",
-      "clickhouseLogs": "ClickHouse Logs",
+      "clickhouse": "ClickHouse",
+      "clickhouseApplication": "Applicazione ClickHouse",
+      "clickhouseLogs": "Log ClickHouse",
       "elasticsearch": "Elasticsearch",
       "elasticsearchNg": "ElasticsearchNG",
       "kafka": "Kafka",
@@ -393,11 +393,11 @@
         "host": "Host",
         "garbageCollection": "Garbage Collection",
         "instances": "log-readers ({{length}})",
-        "gRPCCalls": "Chiamate gRPC in entrata ",
-        "gRPCErrors": "Errori gRPC in entrata ",
+        "gRPCCalls": "Chiamate gRPC in entrata",
+        "gRPCErrors": "Errori gRPC in entrata",
         "tagReaderClient": {
-          "gRPCCalls": "Chiamate gRPC tag-reader in entrata ",
-          "gRPCErrors": "Errori gRPC tag-reader in entrata "
+          "gRPCCalls": "Chiamate gRPC tag-reader in entrata",
+          "gRPCErrors": "Errori gRPC tag-reader in entrata"
         },
         "clickHouse": {
           "select": "Selezioni ClickHouse",

@@ -5,6 +5,7 @@
   "labelApplications": "Applicazioni",
   "labelApplicationWithNum": "Applicazione ({{numApplications}})",
   "labelAnalytic": "Dati analitici",
+  "labelCall": "Chiamata",
   "labelTrace": "Traccia",
   "linkDownload": "Download",
   "labelCalls": "Chiamate",
@@ -251,6 +252,7 @@
       "erroneous_false": "false",
       "erroneous_Erroneous": "Errato"
     },
+    "latency": "Latenza",
     "applications": "Applicazioni",
     "services": "Servizi",
     "endpoints": "Endpoint",
@@ -272,9 +274,9 @@
       "sortingMetricLabelTh": "{{sortingMetricLabel}} ({{num}}mo)",
       "sortingMetricLabelRate": "{{sortingMetricLabel}} (tasso)",
       "sortingMetricLabelCount": "{{sortingMetricLabel}} (conteggio)",
-      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})",
-      "preview": "Anteprima"
+      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})"
     },
+    "preview": "Anteprima",
     "listLoadMore": "Carica altri {{retrievalSize}}",
     "listBatchTypeTooltip": "Questo {{type}} è stato eseguito in batch e rappresenta {{batchCount}} {{types}} singoli.",
     "listBatchLatencyTooltip": "Latenza totale di {{batchCount}} {{types}} eseguiti in batch.",
@@ -317,7 +319,11 @@
     "service": "Servizio",
     "trace": "Traccia",
     "calls": "Chiamate",
-    "none": "Nessuno"
+    "none": "Nessuno",
+    "dataSource_calls": "{{formattedCount}} di chiamate",
+    "dataSource_calls_plural": "{{formattedCount}} di chiamate",
+    "dataSource_traces": "{{formattedCount}} di tracce",
+    "dataSource_traces_plural": "{{formattedCount}} di tracce"
   },
   "creation": {
     "newAP": "Nuova prospettiva applicazione",
@@ -477,7 +483,7 @@
       "apName": "Nome prospettiva applicazione",
       "apNameDescription": "Il nome della Prospettiva applicazione deve avere una definizione ben consolidata all'interno di un'organizzazione. Ad esempio, per modellare un ambiente: \"Production Blue\", per modellare un insieme di servizi: \"Payment\" oppure per modellare un tenant: \"ACME Customer\".",
       "defineUsingTags": "2. Definire la Prospettiva applicazione utilizzando uno o più tag.",
-      "defineUsingTagsDescription": "Ad esempio, dove la chiave è \"docker.label\" ed il valore è \"environment=Production Blue\" o la chiave è \"call.http.params\" ed il valore è \"tenant=ACMECustomer\". Considerare che qualsiasi chiamata a <pill-database>DATABASE</pill-database> servizio o <pill-messaging>MESSAGGISTICA</pill-messaging> servizio dai servizi corrispondenti a questa definizione verrà automaticamente incluso. ",
+      "defineUsingTagsDescription": "Ad esempio, dove la chiave è \"docker.label\" ed il valore è \"environment=Production Blue\" o la chiave è \"call.http.params\" ed il valore è \"tenant=ACMECustomer\". Considerare che qualsiasi chiamata a <pill-database>DATABASE</pill-database> servizio o <pill-messaging>MESSAGGISTICA</pill-messaging> servizio dai servizi corrispondenti a questa definizione verrà automaticamente incluso.",
       "andOperatorsPrecedence": "Gli operatori AND hanno precedenza e vengono valutati prima degli operatori OR",
       "andOperatorsPrecedenceBrackets": "Gli operatori AND hanno precedenza e vengono valutati prima degli operatori OR se non racchiusi tra parentesi",
       "downstreamCalls": "3. Archiviare le chiamate dei servizi a valle",
@@ -511,12 +517,12 @@
     "unknownTime": "Sconosciuto a {{entityTime}}",
     "infrastructure": {
       "inEntity": "in<icon /><entityLink>{{entityLabel}}</entityLink>",
-      "ofEntity": "di<icon /><entityLink>{{entityLabel}}</entityLink>",
-      "instanceIndexOfEntity": "istanza {{cfInstanceIndex}} di<icon /><entityLink>{{entityLabel}}</entityLink>",
+      "ofEntity": "di <icon /><entityLink>{{entityLabel}}</entityLink>",
+      "instanceIndexOfEntity": "istanza {{cfInstanceIndex}} di <icon /><entityLink>{{entityLabel}}</entityLink>",
       "instanceOfEntity": "istanza di<icon /><entityLink>{{entityLabel}}</entityLink>",
       "tooltipUnmonitored": "Infrastruttura non monitorata a causa di informazioni al di fuori dell'ambito degli agent in esecuzione"
     },
-    "errorMessages": "Messaggi di errore",
+    "errorMessages": "messaggi di errore",
     "errorCallWithoutMessage": "Chiamate errate senza messaggio di errore",
     "logMessages": "messaggi di log",
     "noLogMessage": "Nessun messaggio di log disponibile",
@@ -539,7 +545,7 @@
     "noTestDefined": "Nessun test definito",
     "allTestsPassed": "Tutti i test superati",
     "allTestsFailed": "Tutti i test non riusciti",
-    "testResultWithNumber": "<failTag>Test non riusciti: {{numFailedTests}}</failTag><passTag>, superati: {{numSucceededTests}} di {{resultLength}}</passTag>",
+    "testResultWithNumber": "<failTag>Test non riusciti: {{numFailedTests}}</failTag><passTag>, superati: {{numSucceededTests}} su {{resultLength}}</passTag>",
     "rulePathTemplate": "Modello percorso",
     "ruleFirstPathSegment": "Primo segmento percorso",
     "ruleRouteId": "ID instradamento",
@@ -551,12 +557,12 @@
     "tooltipEndpointCallsNotMatch": "Le chiamate che non corrispondono ad una regola precedente vengono assegnate a questo endpoint",
     "titleConfigureEndpointsExtract": "Configurare il modo in cui gli endpoint vengono estratti dalla chiamate sottostanti a questo servizio.",
     "descriptionConfigureEndpointsExtract": "Le regole dell'endpoint vengono valutate in ordine sequenziale, dall'alto al basso, e la chiamata viene assegnata alla prima regola a cui corrisponde. Una volta effettuata la configurazione, le nuove chiamate verranno assegnata in base alle regole aggiornate.",
-    "descriptionResetToDefaultRule": "Se si desidera reimpostare le regole di estrazione predefinite, utilizzare il pulsante riportato di seguito. Per registrare la reimpostazione potrebbero essere necessari alcuni minuti.",
+    "descriptionResetToDefaultRule": "If you wish to reset to default extractions rules, please use the button below. Resetting may take up to a few minutes to register.",
     "understandCheckboxResetToDefaultRule": " Comprendo che questa azione non può essere annullata.",
     "customService": {
       "stepTitle": "Estendere l'associazione del servizio automatico aggiungendo una regola di servizio personalizzata.",
-      "descriptionTextFirstLine": "Instana associa automaticamente i servizi in base ad un insieme esteso di regole predefinite. Ad esempio, se viene trovato il tag nodejs.app.name e sono presenti chiamate a cui è applicato con il tag <bold>\"nodejs.app.name=user service\"</bold> e con <bold>\"nodejs.app.name=cart service\"</bold>, <bold>\"user service\"</bold> e <bold>\"cart service\"</bold> verranno visualizzati come servizi.",
-      "descriptionVisit": "Consultare la <bold><linkToDoc>documentazione sulla gestione di applicazione e servizi</linkToDoc></bold> per ulteriori informazioni sulle regole predefinite.",
+      "descriptionTextFirstLine": "Instana associa automaticamente i servizi in base ad un insieme esteso di regole predefinite. Ad esempio, se viene trovato il tag nodejs.app.name e sono presenti chiamate a cui è applicato con il tag <bold>\"nodejs.app.name=user service\"</bold> e con <bold>\"nodejs.app.name=cart service\"</bold>, quindi <bold>\"user service\"</bold> e <bold>\"cart service\"</bold> verranno visualizzati come servizi.",
+      "descriptionVisit": "Please visit the <bold><linkToDoc>Docs on Application and Service Management</linkToDoc></bold> to learn more on the predefined rules.",
       "descriptionCustomServiceRule": "Definire una regola personalizzata selezionando una serie di tag di seguito. Se sono presenti tutti i tag in una chiamata, questa verrà associata a tale servizio.",
       "tooltipRemoveCondition": "Rimuovi questa condizione di corrispondenza"
     },
@@ -564,10 +570,10 @@
       "helpApplicationPerspectives": "Le prospettive applicazione forniscono uno strumento per modellare ambienti, insiemi di servizi, tenant o altro.",
       "helpRenameApplication": "La ridenominazione di un'applicazione è un'azione congruente nel sistema Instana. Per questo motivo, la modifica del nome di un'applicazione può richiedere <italic>fino ad alcuni minuti</italic> fino a quando nn ha popolato l'intero sistema.",
       "descriptionApplicationName": "Il nome della Prospettiva applicazione deve avere una definizione ben consolidata all'interno di un'organizzazione. Ad esempio, per modellare un ambiente: \"Production Blue\", per modellare un insieme di servizi: \"Payment\" oppure per modellare un tenant: \"ACME Customer\".",
-      "descriptionTags": "Ad esempio, dove la chiave è \"docker.label\" ed il valore è \"environment=Production Blue\" o la chiave è \"call.http.params\" ed il valore è \"tenant=ACMECustomer\". Considerare che qualsiasi chiamata a <pillDatabase>DATABASE</pillDatabase> servizio o <pillMessage>MESSAGGISTICA</pillMessage> servizio dai servizi corrispondenti a questa definizione verrà automaticamente incluso. ",
+      "descriptionTags": "Ad esempio, dove la chiave è \"docker.label\" ed il valore è \"environment=Production Blue\" o la chiave è \"call.http.params\" ed il valore è \"tenant=ACMECustomer\". Considerare che qualsiasi chiamata al servizio <pillDatabase>DATABASE</pillDatabase> o al servizio <pillMessage>MESSAGGISTICA</pillMessage> dai servizi corrispondenti a questa definizione verrà automaticamente incluso.",
       "descriptionOperators": "Gli operatori AND hanno precedenza e vengono valutati prima degli operatori OR",
       "descriptionOperatorsCreationEnabled": "Gli operatori AND hanno precedenza e vengono valutati prima degli operatori OR se non racchiusi tra parentesi",
-      "descriptionPrepareToMonitor": "È in preparazione tutto il necessario per monitorare la prospettiva applicazione <bold>{{decodedLabel}}</bold>.",
+      "descriptionPrepareToMonitor": "È in preparazione tutto il necessario per monitorare la prospettiva dell'applicazione <bold>{{decodedLabel}}</bold>.",
       "descriptionRemoveApplicationPerspective": "Se non si desidera più monitorare la prospettiva applicazione <strong>{{application}}</strong>, utilizzare il pulsante riportato di seguito per rimuoverla. La rimozione di una prospettiva applicazione può richiedere alcuni minuti.",
       "stepTitleDefineApplicationName": "Definire un nome per la prospettiva applicazione.",
       "stepTitleDefineTags": "Definire la prospettiva applicazione utilizzando uno o più tag.",
@@ -598,10 +604,10 @@
     "textNewApplicationPerspective": "Verranno visualizzate qui una volta create dall'amministratore dell'account.",
     "showApplicationsScope": "Visualizzazione di applicazioni <bold>{{contextScope}}</bold> di <linkToEntity>{{entityLabel}}</linkToEntity>",
     "showServicesScope": "Visualizzazione di servizi <bold>{{contextScope}}</bold> di <linkToEntity>{{entityLabel}}</linkToEntity>",
-    "showApplicationsScopeWithApplicationLabel": "Visualizzazione di applicazioni <bold>{{contextScope}}</bold> di <linkToEntity>{{entityLabel}}</linkToEntity><span> nel contesto di </span><linkToApplication>{{applicationLabel}}</linkToApplication>",
-    "showServicesScopeWithServiceLabel": "Visualizzazione di servizi <bold>{{contextScope}}</bold> di <linkToEntity>{{entityLabel}}</linkToEntity><span> nel contesto di </span><linkToApplication>{{applicationLabel}}</linkToApplication>",
+    "showApplicationsScopeWithApplicationLabel": "Visualizzazione applicazioni <bold>{{contextScope}}</bold> di <linkToEntity>{{entityLabel}}</linkToEntity><span> nel contesto di </span><linkToApplication>{{applicationLabel}}</linkToApplication>",
+    "showServicesScopeWithServiceLabel": "Visualizzazione servizi <bold>{{contextScope}}</bold> di <linkToEntity>{{entityLabel}}</linkToEntity><span> nel contesto di </span><linkToApplication>{{applicationLabel}}</linkToApplication>",
     "titleNoService": "Ancora nessun servizio",
-    "servicesNoData": "Nessuna chiamata di servizio disponibile per l'intervallo di tempo selezionato. Per informazioni sulla risoluzione dei problemi consultare [la documentazione][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "Nessuna chiamata di servizio disponibile per l'intervallo di tempo selezionato. Per informazioni sulla risoluzione dei problemi consultare la [documentazione][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "Batch",
@@ -621,12 +627,59 @@
     "exclude": "Escludi",
     "syntheticCallsAreExcludedFromTheMetrics": "Le chiamate sintetiche sono escluse dalle metriche.",
     "include": "Includi",
-    "syntheticCallsAreIncludedInTheMetrics": "Le chiamate sintetiche sono incluse nelle metriche.",
+    "syntheticCallsAreIncludedInTheMetrics": "Le chiamate sintetiche sono escluse dalle metriche.",
     "only": "Solo",
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Solo le chiamate sintetiche vengono visualizzate e incluse nelle metriche"
   },
   "lists": {
     "noSpecificApplication": " - nessuna applicazione specifica - ",
     "services": "Servizi"
+  },
+  "containsErrors": "Contiene errori",
+  "noErrors": "Nessun errore",
+  "traceDetail": {
+    "tabs": {
+      "summary": {
+        "duplicateCalls": "Chiamate duplicate",
+        "duplicateCallsDesc": "Questa traccia è composta da una o più chiamate duplicate (estensioni). Chiamate univoche: {{traceCallCountIgnoringBatchSize}} - Record: {{traceCallRecordCount}}. Questo comporta un conteggio di chiamate (con batch) e valori di conteggio degli errori non corretti e probabilmente altri valori non corretti.",
+        "batchedIngestion": "Inserimento in batch",
+        "traceIngestionBatchCount": "Questa traccia è stata elaborata in {{traceIngestionBatchesCount}} batch. Questo può causare irregolarità come estensioni non unite in una singola chiamata, associazioni di servizi parziali o altre visualizzazioni di dati non complete.",
+        "subCalls": "Chiamate secondarie",
+        "erroneousCalls": "Chiamate errate",
+        "errorLogs": "Log di errore",
+        "warnLogs": "Log di avvertenza",
+        "latency": "Latenza",
+        "timeline": "Sequenza temporale",
+        "serviceEndpointList": "Elenco endpoint di servizio",
+        "largeTrace": "Traccia di grande dimensioni",
+        "largeTraceLink": "Questa traccia è di grandi dimensioni ed il rendering di questa traccia può causare problemi di prestazioni all'interno del browser. È possibile <linkToDocs>scaricare la trace</linkToDocs> per l'ispezione manuale oppure provare il rendering della traccia all'interno del proprio browser. Verrà eseguito il rendering di un sottoinsieme dei componenti per incrementare le prestazioni di questo tentativo.",
+        "calls": "Chiamate",
+        "logs": "Log",
+        "analyzeLogs": "Visualizza in Analizza",
+        "correspondingMobileAppActivity": "Attività app mobile corrispondente",
+        "hideMobileAppInformation": "Nascondi informazioni sull'app mobile",
+        "showMobileAppInformation": "Mostra informazioni sull'app mobile",
+        "viewMobileAppActivity": "Visualizza attività app mobile",
+        "erroneousTrace": "Traccia errata",
+        "attemptToRenderTrace": "Tentativo di rendering della traccia",
+        "hideWebsiteInformation": "Nascondi informazioni sul sito Web",
+        "showWebsiteInformation": "Mostra informazioni sul sito Web",
+        "viewWebsiteActivity": "Visualizza attività del sito Web"
+      }
+    }
+  },
+  "tabs": {
+    "labelDetail": "Dettaglio"
+  },
+  "metrics": {
+    "calls_calls": "Chiamate",
+    "calls_latency": "Latenza",
+    "calls_erroneousCalls": "Chiamate errate",
+    "calls_errors": "Tasso di chiamate errate",
+    "traces_calls": "Tracce",
+    "traces_traces": "Tracce",
+    "traces_latency": "Latenza",
+    "traces_erroneousCalls": "Tracce errate",
+    "traces_errors": "Tasso di tracce errate"
   }
 }

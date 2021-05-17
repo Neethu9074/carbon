@@ -102,6 +102,7 @@
     "labelExpandButtonForContent": "展开内容按钮"
   },
   "featureFeedback": {
+    "labelThisFeatureIsInBeta": "此功能处于测试阶段。",
     "labelBETA": "BETA",
     "linkLabelYouCanSendUsFeedback": "您可以向我们发送反馈"
   },
@@ -166,6 +167,9 @@
     "sideNavigationAndContentRouteNotFound": "未找到"
   },
   "list": {
+    "labelLoadMore": "加载更多",
+    "labelInitiateDefaultAction": "启动缺省操作",
+    "labelToggleExtraContent": "切换其他内容",
     "labelMoreItems": "+ 另外 {{numMoreItems}} 项..."
   },
   "loading": {
@@ -354,8 +358,6 @@
     "buttonReloadToUpdate": "重新加载以更新"
   },
   "upstreamDownstream": {
-    "buttonGoToDashboard": "转至仪表板",
-    "buttonGoToAnalytics": "转至分析",
     "companionMetricLabelErroneousCallRate": "错误调用率：",
     "metricLabelCallsAndErroneousCalls": "调用数和错误调用数",
     "metricLabelCallsAndLatency": "调用数和等待时间",

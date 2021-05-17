@@ -159,7 +159,18 @@
         "sourceMonitoredByAnotherProvider": "La source de cet appel est tracée par un autre fournisseur de trace distribuée. Pour trouver plus d'informations sur la source, recherchez le span parent dans la portée parente de ce fournisseur avec l'ID {{foreignParentId}}.",
         "notMonitored": "Non surveillé par Instana",
         "source": "source",
-        "destination": "destination"
+        "destination": "destination",
+        "logs": "Journaux ( {{errors}}{{warnings}} )",
+        "errors": "{{count}} erreur",
+        "errors_plural": "{{count}} erreurs",
+        "errors_0": "{{count}} erreurs",
+        "errors_1": "{{count}} erreurs",
+        "errors_2": "{{count}} erreurs",
+        "warnings": "{{count}} avertissement",
+        "warnings_plural": "{{count}} avertissements",
+        "warnings_0": "{{count}} avertissements",
+        "warnings_1": "{{count}} avertissements",
+        "warnings_2": "{{count}} avertissements"
       }
     },
     "tabs": {
@@ -247,6 +258,13 @@
       "logTooltipContent": {
         "errorLog": "Journal des erreurs",
         "warningLog": "Journal des avertissements"
+      },
+      "callTooltipContent": {
+        "numbersOfErrors": "{{count}} erreur",
+        "numbersOfErrors_plural": "{{count}} erreurs",
+        "numbersOfErrors_0": "{{count}} erreurs",
+        "numbersOfErrors_1": "{{count}} erreurs",
+        "numbersOfErrors_2": "{{count}} erreurs"
       }
     },
     "applications": "Applications",

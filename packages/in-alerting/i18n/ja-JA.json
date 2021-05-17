@@ -135,6 +135,11 @@
             "inboundOverrideDefault": "このアプリケーションのデフォルトのスコープは「インバウンド呼び出し」のみです。 これは「構成」で変更できます。",
             "allDashboard": "ダッシュボードには、このアプリケーション内で実行されたすべての呼び出し (コンシューマーと内部の両方) に基づいて情報が表示されます。",
             "allOverrideDefault": "このアプリケーションのデフォルトのスコープは「すべての呼び出し」です。 これは「構成」で変更できます。"
+          },
+          "confirmationDialog": {
+            "pleaseConfirm": "ご確認ください",
+            "description": "バウンダリー・スコープを変更すると、アプリケーションの選択がリセットされます。",
+            "confirmButtonLabel": "確認"
           }
         },
         "includeInternalOrSynthethicCalls": {
@@ -172,6 +177,7 @@
         }
       },
       "chart": {
+        "noDataWithoutEndpointSelection": "プレビューを表示するエンドポイントを選択してください",
         "noDataAvailable": "プレビューを表示するサービスを選択してください"
       },
       "logMessages": {
@@ -415,6 +421,7 @@
         "ruleStatusCodeValueOption510": "510 (Not Extended)",
         "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
         "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
+        "ruleStatusCodeValueOptionCustom": "カスタム範囲",
         "ruleMetricNameOptionSpecificJsErrorErrors": "エラー件数",
         "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "エラー率",
         "ruleMetricNameOptionStatusCodeHttpxxx": "状況コード数",
@@ -422,19 +429,10 @@
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad 時間",
         "ruleMetricNameOptionThroughputPageLoads": "ページ・ロード",
         "ruleMetricNameOptionThroughputPageTransitions": "ページ遷移",
-        "ruleAggregationOptionMEAN": "平均",
-        "ruleAggregationOptionMIN": "最小",
-        "ruleAggregationOptionP25": "25 番目",
-        "ruleAggregationOptionP50": "50 番目",
-        "ruleAggregationOptionP75": "75 番目",
-        "ruleAggregationOptionP90": "90 番目 (推奨)",
-        "ruleAggregationOptionP95": "95 番目",
-        "ruleAggregationOptionP98": "98 番目",
-        "ruleAggregationOptionP99": "99 番目",
-        "ruleAggregationOptionMAX": "最大",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "平均",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50 番目",
+        "ruleFormErrorStatusCodeStartGTEnd": "開始 HTTP 状況コード以上の終了 HTTP 状況コードを選択してください",
         "ruleFormPleaseProvideALogMessage": "ログ・メッセージを指定してください",
+        "ruleFormPleaseProvideAStartStatusCode": "開始 HTTP 状況コードを指定してください",
+        "ruleFormPleaseProvideAEndStatusCode": "終了 HTTP 状況コードを指定してください",
         "smartAlertFormNoEntitiesSelected": "エンティティーが選択されていません",
         "thresholdFormPleaseProvideANumber0": "0 以上の数値を指定してください",
         "thresholdFormBaselineIsEmpty": "ベースラインが空です"
@@ -473,6 +471,20 @@
         "numberOfApplicationsSelected": "{{count}} 個のアプリケーションが選択されています",
         "numberOfApplicationsSelected_plural": "{{count}} 個のアプリケーションが選択されています"
       }
+    },
+    "form": {
+      "ruleAggregationOptionMEAN": "平均",
+      "ruleAggregationOptionMIN": "最小",
+      "ruleAggregationOptionP25": "25 番目",
+      "ruleAggregationOptionP50": "50 番目",
+      "ruleAggregationOptionP75": "75 番目",
+      "ruleAggregationOptionP90": "90 番目 (推奨)",
+      "ruleAggregationOptionP95": "95 番目",
+      "ruleAggregationOptionP98": "98 番目",
+      "ruleAggregationOptionP99": "99 番目",
+      "ruleAggregationOptionMAX": "最大",
+      "ruleAggregationForWeeklySeasonalityOptionMEAN": "平均",
+      "ruleAggregationForWeeklySeasonalityOptionP50": "50 番目"
     },
     "components": {
       "smartAlertDialog": {
@@ -538,7 +550,7 @@
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "違反数の経時変化",
         "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "ユーザーへの影響",
         "timeThresholdConfigTimeThresholdTitleRequestImpact": "要求への影響",
-        "timeThresholdConfigNoUserSessionDetected": "検出された<linkToIdentifyingUsers>ユーザー</linkToIdentifyingUsers>や<linkToSessionTracking>セッション</linkToSessionTracking>はありません",
+        "timeThresholdConfigNoUserSessionDetected": "検出された<linkToIdentifyingUsers>ユーザー</linkToIdentifyingUsers>や<linkToSessionTracking>セッション</linkToSessionTracking>はありません。",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "このオプションを使用する前に Web サイト・モニタリングを構成してください。",
         "alertPropertiesWarning": "警告",
         "alertPropertiesCritical": "クリティカル",
@@ -559,8 +571,10 @@
         "thresholdTypeOptionHistoricBaselineDaily": "ベースライン (毎日の季節性)",
         "thresholdTypeOptionHistoricBaselineWeekly": "ベースライン (毎週の季節性)",
         "useSuggestedvalue": "推奨値を使用",
-        "alertConfigDialogPresenterTitleEditAlert": "アラートの編集",
-        "alertConfigDialogPresenterTitleCreateNewAlert": "新規アラートの作成",
+        "alertConfigDialogPresenterTitleEditAlertLocal": "スマート・アラートの編集",
+        "alertConfigDialogPresenterTitleEditAlertGlobal": "グローバル・スマート・アラートの編集",
+        "alertConfigDialogPresenterTitleCreateNewAlertLocal": "新規スマート・アラートの作成",
+        "alertConfigDialogPresenterTitleCreateNewAlertGlobal": "新規グローバル・スマート・アラートの作成",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "拡張モードに切り替える",
         "alertConfigDialogPresenterButtonSwitchToSimpleMode": "簡易モードに切り替える",
         "simpleAlertConfigDialogStep3Headline": "アラートを受け取るユーザー",
@@ -568,6 +582,7 @@
         "LoadingServices": "サービスのロード中…",
         "NoServiceInScope": "スコープ内にサービスがありません",
         "PreviewForAP": "アプリケーション・パースペクティブのプレビュー:",
+        "PreviewForEndpoint": "エンドポイントのプレビュー:",
         "PreviewForService": "サービスのプレビュー:"
       },
       "alertsHub": {
@@ -796,19 +811,7 @@
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "状況コード率",
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad 時間",
         "ruleMetricNameOptionThroughputPageLoads": "ページ・ロード",
-        "ruleMetricNameOptionThroughputPageTransitions": "ページ遷移",
-        "ruleAggregationOptionMEAN": "平均",
-        "ruleAggregationOptionMIN": "最小",
-        "ruleAggregationOptionP25": "25 番目",
-        "ruleAggregationOptionP50": "50 番目",
-        "ruleAggregationOptionP75": "75 番目",
-        "ruleAggregationOptionP90": "90 番目 (推奨)",
-        "ruleAggregationOptionP95": "95 番目",
-        "ruleAggregationOptionP98": "98 番目",
-        "ruleAggregationOptionP99": "99 番目",
-        "ruleAggregationOptionMAX": "最大",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "平均",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50 番目"
+        "ruleMetricNameOptionThroughputPageTransitions": "ページ遷移"
       },
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "何についてアラートを出しますか?",

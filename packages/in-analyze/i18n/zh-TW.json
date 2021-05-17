@@ -159,7 +159,18 @@
         "sourceMonitoredByAnotherProvider": "此呼叫的來源是由另一個分散式追蹤提供者所追蹤。您可以在該提供者內利用 ID {{foreignParentId}} 搜尋母 span，以尋找來源的其他相關資訊。",
         "notMonitored": "未受 Instana 監視",
         "source": "來源",
-        "destination": "目的地"
+        "destination": "目的地",
+        "logs": "日誌 ( {{errors}}{{warnings}} )",
+        "errors": "{{count}} 個錯誤",
+        "errors_plural": "{{count}} 個錯誤",
+        "errors_0": "{{count}} 個錯誤",
+        "errors_1": "{{count}} 個錯誤",
+        "errors_2": "{{count}} 個錯誤",
+        "warnings": "{{count}} 則警告",
+        "warnings_plural": "{{count}} 則警告",
+        "warnings_0": "{{count}} 則警告",
+        "warnings_1": "{{count}} 則警告",
+        "warnings_2": "{{count}} 則警告"
       }
     },
     "tabs": {
@@ -247,6 +258,13 @@
       "logTooltipContent": {
         "errorLog": "錯誤日誌",
         "warningLog": "警告日誌"
+      },
+      "callTooltipContent": {
+        "numbersOfErrors": "{{count}} 個錯誤",
+        "numbersOfErrors_plural": "{{count}} 個錯誤",
+        "numbersOfErrors_0": "{{count}} 個錯誤",
+        "numbersOfErrors_1": "{{count}} 個錯誤",
+        "numbersOfErrors_2": "{{count}} 個錯誤"
       }
     },
     "applications": "應用程式",

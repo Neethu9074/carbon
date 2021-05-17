@@ -159,7 +159,18 @@
         "sourceMonitoredByAnotherProvider": "A origem desta chamada é rastreada por outro provedor de rastreio distribuído. É possível localizar mais informações sobre a origem procurando o span pai dentro desse provedor com o id {{foreignParentId}}.",
         "notMonitored": "Não monitorado pelo Instana",
         "source": "origem",
-        "destination": "destino"
+        "destination": "destino",
+        "logs": "Logs ( {{errors}}{{warnings}} )",
+        "errors": "{{count}} Erro",
+        "errors_plural": "{{count}} Erros",
+        "errors_0": "{{count}} Erros",
+        "errors_1": "{{count}} Erros",
+        "errors_2": "{{count}} Erros",
+        "warnings": "{{count}} Aviso",
+        "warnings_plural": "{{count}} Avisos",
+        "warnings_0": "{{count}} Avisos",
+        "warnings_1": "{{count}} Avisos",
+        "warnings_2": "{{count}} Avisos"
       }
     },
     "tabs": {
@@ -247,6 +258,13 @@
       "logTooltipContent": {
         "errorLog": "Log de erro",
         "warningLog": "Log de aviso"
+      },
+      "callTooltipContent": {
+        "numbersOfErrors": "{{count}} Erro",
+        "numbersOfErrors_plural": "{{count}} Erros",
+        "numbersOfErrors_0": "{{count}} Erros",
+        "numbersOfErrors_1": "{{count}} Erros",
+        "numbersOfErrors_2": "{{count}} Erros"
       }
     },
     "applications": "Aplicativos",

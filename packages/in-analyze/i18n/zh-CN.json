@@ -159,7 +159,18 @@
         "sourceMonitoredByAnotherProvider": "此调用的源由其他分布式跟踪提供程序跟踪。通过在标识为 {{foreignParentId}} 的提供程序中搜索父跨度，您可以找到有关源的更多信息。",
         "notMonitored": "未受 Instana 监视",
         "source": "来源",
-        "destination": "目标"
+        "destination": "目标",
+        "logs": "日志数 ( {{errors}}{{warnings}} )",
+        "errors": "{{count}} 个错误",
+        "errors_plural": "{{count}} 个错误",
+        "errors_0": "{{count}} 个错误",
+        "errors_1": "{{count}} 个错误",
+        "errors_2": "{{count}} 个错误",
+        "warnings": "{{count}} 个警告",
+        "warnings_plural": "{{count}} 个警告",
+        "warnings_0": "{{count}} 个警告",
+        "warnings_1": "{{count}} 个警告",
+        "warnings_2": "{{count}} 个警告"
       }
     },
     "tabs": {
@@ -247,6 +258,13 @@
       "logTooltipContent": {
         "errorLog": "错误日志",
         "warningLog": "警告日志"
+      },
+      "callTooltipContent": {
+        "numbersOfErrors": "{{count}} 个错误",
+        "numbersOfErrors_plural": "{{count}} 个错误",
+        "numbersOfErrors_0": "{{count}} 个错误",
+        "numbersOfErrors_1": "{{count}} 个错误",
+        "numbersOfErrors_2": "{{count}} 个错误"
       }
     },
     "applications": "应用程序",

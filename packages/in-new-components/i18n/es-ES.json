@@ -102,6 +102,7 @@
     "labelExpandButtonForContent": "Ampliar botón para contenido"
   },
   "featureFeedback": {
+    "labelThisFeatureIsInBeta": "Esta característica está en versión beta.",
     "labelBETA": "BETA",
     "linkLabelYouCanSendUsFeedback": "Usted puede enviarnos sus comentarios"
   },
@@ -166,6 +167,9 @@
     "sideNavigationAndContentRouteNotFound": "No encontrado"
   },
   "list": {
+    "labelLoadMore": "Cargar más",
+    "labelInitiateDefaultAction": "Iniciar acción predeterminada",
+    "labelToggleExtraContent": "Conmutar contenido adicional",
     "labelMoreItems": "+{{numMoreItems}} más..."
   },
   "loading": {
@@ -354,8 +358,6 @@
     "buttonReloadToUpdate": "Volver a cargar para actualizar"
   },
   "upstreamDownstream": {
-    "buttonGoToDashboard": "Ir al panel de control",
-    "buttonGoToAnalytics": "Ir a Analíticas",
     "companionMetricLabelErroneousCallRate": "Tasa de llamadas erróneas: ",
     "metricLabelCallsAndErroneousCalls": "Llamadas y llamadas erróneas",
     "metricLabelCallsAndLatency": "Llamadas y Latencia",
@@ -372,7 +374,7 @@
     "linkSeeAllServices_2": "Ver todos los {{count}} {{activeTab}} servicios",
     "linkSeeService": "Ver servicio",
     "labelMetric": "Métrica:",
-    "upstreamText_Service": "Llamado directamente por {{count}} servicio ",
+    "upstreamText_Service": "Llamado directamente por {{count}} servicio",
     "upstreamText_Service_plural": "Llamado directamente por {{count}} servicios",
     "upstreamText_Service_0": "Llamado directamente por {{count}} servicios",
     "upstreamText_Service_1": "Llamado directamente por {{count}} servicios",
@@ -387,10 +389,10 @@
     "upstreamMessage_application": "Esta aplicación no ha recibido ninguna llamada",
     "upstreamMessage_entity": "Esta entidad no ha recibido ninguna llamada",
     "downstreamText_Service": "Llamando directamente a {{count}} servicio",
-    "downstreamText_Service_plural": "Llamando directamente a {{count}} servicios ",
-    "downstreamText_Service_0": "Llamando directamente a {{count}} servicios ",
-    "downstreamText_Service_1": "Llamando directamente a {{count}} servicios ",
-    "downstreamText_Service_2": "Llamando directamente a {{count}} servicios ",
+    "downstreamText_Service_plural": "Llamando directamente a {{count}} servicios",
+    "downstreamText_Service_0": "Llamando directamente a {{count}} servicios",
+    "downstreamText_Service_1": "Llamando directamente a {{count}} servicios",
+    "downstreamText_Service_2": "Llamando directamente a {{count}} servicios",
     "downstreamText_Application": "Llamar directamente a los servicios en {{count}} aplicación",
     "downstreamText_Application_plural": "Llamar directamente a los servicios en {{count}} aplicaciones",
     "downstreamText_Application_0": "Llamar directamente a los servicios en {{count}} aplicaciones",

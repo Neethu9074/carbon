@@ -102,6 +102,7 @@
     "labelExpandButtonForContent": "Botão Expandir para conteúdo"
   },
   "featureFeedback": {
+    "labelThisFeatureIsInBeta": "Este recurso está em beta.",
     "labelBETA": "BETA",
     "linkLabelYouCanSendUsFeedback": "É possível nos enviar um feedback"
   },
@@ -166,6 +167,9 @@
     "sideNavigationAndContentRouteNotFound": "Não localizado"
   },
   "list": {
+    "labelLoadMore": "Carregar mais",
+    "labelInitiateDefaultAction": "Iniciar ação padrão",
+    "labelToggleExtraContent": "Alternar conteúdo adicional",
     "labelMoreItems": "+{{numMoreItems}} mais..."
   },
   "loading": {
@@ -354,8 +358,6 @@
     "buttonReloadToUpdate": "Recarregue para atualizar"
   },
   "upstreamDownstream": {
-    "buttonGoToDashboard": "Acessar o painel",
-    "buttonGoToAnalytics": "Acessar o Analytics",
     "companionMetricLabelErroneousCallRate": "Taxa de chamada errônea: ",
     "metricLabelCallsAndErroneousCalls": "Chamadas e chamadas errôneas",
     "metricLabelCallsAndLatency": "Chamadas e latência",

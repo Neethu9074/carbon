@@ -112,6 +112,7 @@
     "formatterLabelPercentage": "Pourcentage, par exemple, {{example}}",
     "formatterLabelBytes": "Octets, par exemple, {{example}}",
     "formatterLabelMilliseconds": "Millisecondes, par exemple, {{example}}",
+    "formatterLabelLatency": "Latence, par exemple, {{example}}",
     "formatterLabelSIPrefix": "Préfixe SI, par exemple {{example}}",
 
     "rendererLabelArea": "Zone",
@@ -147,7 +148,7 @@
     "fieldsEntityAzureService": "Services Microsoft Azure",
     "fieldsEntityAzureServiceApim": "Azure API Management",
     "fieldsEntityAzureServiceApimApi": "Azure API Management Service API",
-    "fieldsEntityAzureServiceAppservice": "Azure App Service",
+    "fieldsEntityAzureServiceAppservice": "Azure AppService",
     "fieldsEntityAzureServiceCosmosdb": "Azure CosmosDB",
     "fieldsEntityAzureServiceRediscache": "Cache Azure Redis",
     "fieldsEntityAzureServiceSqldb": "Base de données SQL Azure",

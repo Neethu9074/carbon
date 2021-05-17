@@ -92,28 +92,28 @@
     "applications": {
       "newGlobalAlert": "Avviso smart globale",
       "advanced": {
-        "alertPropertyInsertPlaceholderLabel": "Inserisci segnaposto ",
+        "alertPropertyInsertPlaceholderLabel": "Inserisci segnaposto",
         "evaluationSwitch": {
           "individual": "Avvisi singoli",
           "evaluationTypePERAP": {
-            "selectionText": "per questa prospettiva applicazione ",
-            "globalSelectionText": "Per prospettiva applicazione ",
+            "selectionText": "per questa prospettiva applicazione",
+            "globalSelectionText": "Per prospettiva applicazione",
             "columnText": "aggregati",
-            "description": "Avvisa individualmente per questa prospettiva applicazione ",
-            "globalDescription": "Avvisa individualmente per questa prospettiva applicazione "
+            "description": "Avvisa individualmente per questa prospettiva applicazione",
+            "globalDescription": "Avvisa individualmente per questa prospettiva applicazione"
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "per servizio per questa prospettiva applicazione ",
-            "globalSelectionText": "per servizio nel contesto di ogni prospettiva applicazione ",
+            "selectionText": "per servizio per questa prospettiva applicazione",
+            "globalSelectionText": "per servizio nel contesto di ogni prospettiva applicazione",
             "columnText": "per servizio",
-            "description": "Avvisa individualmente per questa prospettiva applicazione ",
-            "globalDescription": "Avvisa individualmente per questa prospettiva applicazione "
+            "description": "Avvisa individualmente per questa prospettiva applicazione",
+            "globalDescription": "Avvisa individualmente per questa prospettiva applicazione"
           },
           "evaluationTypePERAPENDPOINT": {
-            "selectionText": "per endpoint per questa prospettiva applicazione ",
-            "globalSelectionText": "per endpoint nel contesto di ogni prospettiva applicazione ",
-            "columnText": "per endpoint ",
-            "description": "Avvisa individualmente per endpoint per questa prospettiva applicazione ",
+            "selectionText": "per endpoint per questa prospettiva applicazione",
+            "globalSelectionText": "per endpoint nel contesto di ogni prospettiva applicazione",
+            "columnText": "per endpoint",
+            "description": "Avvisa individualmente per endpoint per questa prospettiva applicazione",
             "globalDescription": "Avvisa individualmente per endpoint nel contesto di ogni prospettiva applicazione."
           }
         },
@@ -135,6 +135,11 @@
             "inboundOverrideDefault": "L'ambito predefinito per questa applicazione è solo Chiamate in entrata. È possibile modificare questa impostazione nella configurazione.",
             "allDashboard": "Il dashboard visualizza le informazioni in base a tutte le chiamate eseguite all'interno di questa applicazione, dai consumer ed internamente.",
             "allOverrideDefault": "L'ambito predefinito per questa applicazione è Tutte le chiamate. È possibile modificare questa impostazione nella configurazione."
+          },
+          "confirmationDialog": {
+            "pleaseConfirm": "Confermare",
+            "description": "La modifica dell'ambito limite determina la reimpostazione della selezione dell'applicazione.",
+            "confirmButtonLabel": "Conferma"
           }
         },
         "includeInternalOrSynthethicCalls": {
@@ -172,6 +177,7 @@
         }
       },
       "chart": {
+        "noDataWithoutEndpointSelection": "Selezionare un endpoint per visualizzare l'anteprima",
         "noDataAvailable": "Selezionare un servizio per visualizzare l'anteprima"
       },
       "logMessages": {
@@ -415,6 +421,7 @@
         "ruleStatusCodeValueOption510": "510 (Not Extended)",
         "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
         "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
+        "ruleStatusCodeValueOptionCustom": "Intervallo personalizzato",
         "ruleMetricNameOptionSpecificJsErrorErrors": "Conteggio errori",
         "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "Tasso di errore",
         "ruleMetricNameOptionStatusCodeHttpxxx": "Conteggio codici di stato",
@@ -422,19 +429,10 @@
         "ruleMetricNameOptionSlownessOnLoadTime": "Tempo onLoad",
         "ruleMetricNameOptionThroughputPageLoads": "Caricamenti pagina",
         "ruleMetricNameOptionThroughputPageTransitions": "Transizioni pagina",
-        "ruleAggregationOptionMEAN": "media",
-        "ruleAggregationOptionMIN": "min",
-        "ruleAggregationOptionP25": "25esimo",
-        "ruleAggregationOptionP50": "50esimo",
-        "ruleAggregationOptionP75": "75esimo",
-        "ruleAggregationOptionP90": "90esimo (consigliato)",
-        "ruleAggregationOptionP95": "95esimo",
-        "ruleAggregationOptionP98": "98esimo",
-        "ruleAggregationOptionP99": "99esimo",
-        "ruleAggregationOptionMAX": "max",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "media",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50esimo",
+        "ruleFormErrorStatusCodeStartGTEnd": "Selezionare un codice di stato end http superiore o uguale al codice di stato start http",
         "ruleFormPleaseProvideALogMessage": "Fornire un messaggio di log",
+        "ruleFormPleaseProvideAStartStatusCode": "Fornire un codice di stato start http",
+        "ruleFormPleaseProvideAEndStatusCode": "Fornire un codice di stato end http",
         "smartAlertFormNoEntitiesSelected": "Nessuna entità selezionata",
         "thresholdFormPleaseProvideANumber0": "Fornire un numero >= 0",
         "thresholdFormBaselineIsEmpty": "baseline vuota"
@@ -473,6 +471,20 @@
         "numberOfApplicationsSelected": "{{count}} applicazioni selezionate",
         "numberOfApplicationsSelected_plural": "{{count}}applicazioni selezionate"
       }
+    },
+    "form": {
+      "ruleAggregationOptionMEAN": "media",
+      "ruleAggregationOptionMIN": "min",
+      "ruleAggregationOptionP25": "25esimo",
+      "ruleAggregationOptionP50": "50esimo",
+      "ruleAggregationOptionP75": "75esimo",
+      "ruleAggregationOptionP90": "90esimo (consigliato)",
+      "ruleAggregationOptionP95": "95esimo",
+      "ruleAggregationOptionP98": "98esimo",
+      "ruleAggregationOptionP99": "99esimo",
+      "ruleAggregationOptionMAX": "max",
+      "ruleAggregationForWeeklySeasonalityOptionMEAN": "media",
+      "ruleAggregationForWeeklySeasonalityOptionP50": "50esimo"
     },
     "components": {
       "smartAlertDialog": {
@@ -529,7 +541,7 @@
         "timeThresholdConfigOff": "disattivo",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Fornire un numero >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Fornire un numero compreso tra 1% e 100%",
-        "alertPropertiesInsertPlaceholderTooltip": "Inserisci segnaposto ",
+        "alertPropertiesInsertPlaceholderTooltip": "Inserisci segnaposto",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "Quando la condizione persiste per un periodo di tempo specificato",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Ogni volta che la condizione viene attivata per un numero di volte specificato in un intervallo di tempo definito",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "Quando è interessata una certa quantità di utenti",
@@ -559,8 +571,10 @@
         "thresholdTypeOptionHistoricBaselineDaily": "Baseline (stagionalità giornaliera)",
         "thresholdTypeOptionHistoricBaselineWeekly": "Baseline (stagionalità settimanale)",
         "useSuggestedvalue": "Utilizza valore suggerito",
-        "alertConfigDialogPresenterTitleEditAlert": "Modifica avviso",
-        "alertConfigDialogPresenterTitleCreateNewAlert": "Crea nuovo avviso",
+        "alertConfigDialogPresenterTitleEditAlertLocal": "Modifica avviso Smart",
+        "alertConfigDialogPresenterTitleEditAlertGlobal": "Modifica avviso Smart globale",
+        "alertConfigDialogPresenterTitleCreateNewAlertLocal": "Crea nuovo avviso Smart",
+        "alertConfigDialogPresenterTitleCreateNewAlertGlobal": "Crea nuovo avviso Smart globale",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Passa alla modalità avanzata",
         "alertConfigDialogPresenterButtonSwitchToSimpleMode": "Passa alla modalità semplice",
         "simpleAlertConfigDialogStep3Headline": "Chi deve ricevere gli avvisi?",
@@ -568,6 +582,7 @@
         "LoadingServices": "Caricamento dei servizi…",
         "NoServiceInScope": "Nessun servizio nell'ambito",
         "PreviewForAP": "Anteprima per la prospettiva applicazione",
+        "PreviewForEndpoint": "Anteprima dell'Endpoint:",
         "PreviewForService": "Anteprima per il servizio:"
       },
       "alertsHub": {
@@ -796,19 +811,7 @@
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Tasso codici di stato",
         "ruleMetricNameOptionSlownessOnLoadTime": "Tempo onLoad",
         "ruleMetricNameOptionThroughputPageLoads": "Caricamenti pagina",
-        "ruleMetricNameOptionThroughputPageTransitions": "Transizioni pagina",
-        "ruleAggregationOptionMEAN": "media",
-        "ruleAggregationOptionMIN": "min",
-        "ruleAggregationOptionP25": "25esimo",
-        "ruleAggregationOptionP50": "50esimo",
-        "ruleAggregationOptionP75": "75esimo",
-        "ruleAggregationOptionP90": "90esimo (consigliato)",
-        "ruleAggregationOptionP95": "95esimo",
-        "ruleAggregationOptionP98": "98esimo",
-        "ruleAggregationOptionP99": "99esimo",
-        "ruleAggregationOptionMAX": "max",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "media",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50esimo"
+        "ruleMetricNameOptionThroughputPageTransitions": "Transizioni pagina"
       },
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "Per cosa si desidera ricevere l'avviso?",

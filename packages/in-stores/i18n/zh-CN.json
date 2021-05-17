@@ -112,6 +112,7 @@
     "formatterLabelPercentage": "百分比，例如 {{example}}",
     "formatterLabelBytes": "字节，例如 {{example}}",
     "formatterLabelMilliseconds": "毫秒，例如 {{example}}",
+    "formatterLabelLatency": "等待时间，例如 {{example}}",
     "formatterLabelSIPrefix": "SI 前缀，例如 {{example}}",
 
     "rendererLabelArea": "面积图",

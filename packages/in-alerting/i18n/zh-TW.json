@@ -135,6 +135,11 @@
             "inboundOverrideDefault": "此應用程式的預設範圍只有「入埠呼叫」。您可以在「配置」中變更此項。",
             "allDashboard": "儀表板會根據此應用程式內所執行的所有呼叫（包括消費者及內部的呼叫都是）來顯示資訊。",
             "allOverrideDefault": "此應用程式的預設範圍是「所有呼叫」。您可以在「配置」中變更此項。"
+          },
+          "confirmationDialog": {
+            "pleaseConfirm": "請確認",
+            "description": "如果修改界限範圍，將會重設應用程式選擇。",
+            "confirmButtonLabel": "確認"
           }
         },
         "includeInternalOrSynthethicCalls": {
@@ -172,6 +177,7 @@
         }
       },
       "chart": {
+        "noDataWithoutEndpointSelection": "請選取端點，以查看預覽",
         "noDataAvailable": "請選取服務以查看預覽"
       },
       "logMessages": {
@@ -415,6 +421,7 @@
         "ruleStatusCodeValueOption510": "510（未延伸）",
         "ruleStatusCodeValueOption511": "511（需要網路鑑別）",
         "ruleStatusCodeValueOption599": "599（網路連接逾時錯誤）",
+        "ruleStatusCodeValueOptionCustom": "自訂範圍",
         "ruleMetricNameOptionSpecificJsErrorErrors": "錯誤計數",
         "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "錯誤率",
         "ruleMetricNameOptionStatusCodeHttpxxx": "狀態碼計數",
@@ -422,19 +429,10 @@
         "ruleMetricNameOptionSlownessOnLoadTime": "載入時間",
         "ruleMetricNameOptionThroughputPageLoads": "頁面載入",
         "ruleMetricNameOptionThroughputPageTransitions": "頁面轉移",
-        "ruleAggregationOptionMEAN": "平均值",
-        "ruleAggregationOptionMIN": "最小值",
-        "ruleAggregationOptionP25": "第 25 個",
-        "ruleAggregationOptionP50": "第 50 個",
-        "ruleAggregationOptionP75": "第 75 個",
-        "ruleAggregationOptionP90": "第 90 個（建議）",
-        "ruleAggregationOptionP95": "第 95 個",
-        "ruleAggregationOptionP98": "第 98 個",
-        "ruleAggregationOptionP99": "第 99 個",
-        "ruleAggregationOptionMAX": "最大值",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "平均值",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "第 50 個",
+        "ruleFormErrorStatusCodeStartGTEnd": "請選取一個結束 HTTP 狀態碼，且其大於或等於開始 HTTP 狀態碼",
         "ruleFormPleaseProvideALogMessage": "請提供日誌訊息",
+        "ruleFormPleaseProvideAStartStatusCode": "請提供一個開始 HTTP 狀態碼",
+        "ruleFormPleaseProvideAEndStatusCode": "請提供一個結束 HTTP 狀態碼",
         "smartAlertFormNoEntitiesSelected": "未選取實體",
         "thresholdFormPleaseProvideANumber0": "請提供大於等於 0 的數字",
         "thresholdFormBaselineIsEmpty": "基準線是空的"
@@ -473,6 +471,20 @@
         "numberOfApplicationsSelected": "已選取 {{count}} 個應用程式",
         "numberOfApplicationsSelected_plural": "已選取 {{count}} 個應用程式"
       }
+    },
+    "form": {
+      "ruleAggregationOptionMEAN": "平均值",
+      "ruleAggregationOptionMIN": "最小值",
+      "ruleAggregationOptionP25": "第 25 個",
+      "ruleAggregationOptionP50": "第 50 個",
+      "ruleAggregationOptionP75": "第 75 個",
+      "ruleAggregationOptionP90": "第 90 個（建議）",
+      "ruleAggregationOptionP95": "第 95 個",
+      "ruleAggregationOptionP98": "第 98 個",
+      "ruleAggregationOptionP99": "第 99 個",
+      "ruleAggregationOptionMAX": "最大值",
+      "ruleAggregationForWeeklySeasonalityOptionMEAN": "平均值",
+      "ruleAggregationForWeeklySeasonalityOptionP50": "第 50 個"
     },
     "components": {
       "smartAlertDialog": {
@@ -559,8 +571,10 @@
         "thresholdTypeOptionHistoricBaselineDaily": "基準線（每日季節性）",
         "thresholdTypeOptionHistoricBaselineWeekly": "基準線（每週季節性）",
         "useSuggestedvalue": "使用建議值",
-        "alertConfigDialogPresenterTitleEditAlert": "編輯警示",
-        "alertConfigDialogPresenterTitleCreateNewAlert": "建立新的警示",
+        "alertConfigDialogPresenterTitleEditAlertLocal": "編輯智慧型警示",
+        "alertConfigDialogPresenterTitleEditAlertGlobal": "編輯廣域智慧型警示",
+        "alertConfigDialogPresenterTitleCreateNewAlertLocal": "建立新的智慧型警示",
+        "alertConfigDialogPresenterTitleCreateNewAlertGlobal": "建立新的廣域智慧型警示",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "切換至進階模式",
         "alertConfigDialogPresenterButtonSwitchToSimpleMode": "切換至簡式模式",
         "simpleAlertConfigDialogStep3Headline": "誰應該取得警示？",
@@ -568,6 +582,7 @@
         "LoadingServices": "正在載入服務...",
         "NoServiceInScope": "範圍中沒有服務",
         "PreviewForAP": "應用程式視景預覽：",
+        "PreviewForEndpoint": "端點的預覽：",
         "PreviewForService": "服務的預覽："
       },
       "alertsHub": {
@@ -796,19 +811,7 @@
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "狀態碼比率",
         "ruleMetricNameOptionSlownessOnLoadTime": "載入時間",
         "ruleMetricNameOptionThroughputPageLoads": "頁面載入",
-        "ruleMetricNameOptionThroughputPageTransitions": "頁面轉移",
-        "ruleAggregationOptionMEAN": "平均值",
-        "ruleAggregationOptionMIN": "最小值",
-        "ruleAggregationOptionP25": "第 25 個",
-        "ruleAggregationOptionP50": "第 50 個",
-        "ruleAggregationOptionP75": "第 75 個",
-        "ruleAggregationOptionP90": "第 90 個（建議）",
-        "ruleAggregationOptionP95": "第 95 個",
-        "ruleAggregationOptionP98": "第 98 個",
-        "ruleAggregationOptionP99": "第 99 個",
-        "ruleAggregationOptionMAX": "最大值",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "平均值",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "第 50 個"
+        "ruleMetricNameOptionThroughputPageTransitions": "頁面轉移"
       },
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "您想針對什麼產生警示？",

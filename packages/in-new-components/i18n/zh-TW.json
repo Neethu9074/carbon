@@ -102,6 +102,7 @@
     "labelExpandButtonForContent": "內容的展開按鈕"
   },
   "featureFeedback": {
+    "labelThisFeatureIsInBeta": "此特性在測試版中。",
     "labelBETA": "測試版",
     "linkLabelYouCanSendUsFeedback": "您可以傳送意見給我們"
   },
@@ -166,6 +167,9 @@
     "sideNavigationAndContentRouteNotFound": "找不到"
   },
   "list": {
+    "labelLoadMore": "載入更多",
+    "labelInitiateDefaultAction": "起始預設動作",
+    "labelToggleExtraContent": "切換額外內容",
     "labelMoreItems": "再多 +{{numMoreItems}} 個..."
   },
   "loading": {
@@ -354,8 +358,6 @@
     "buttonReloadToUpdate": "重新載入以更新"
   },
   "upstreamDownstream": {
-    "buttonGoToDashboard": "移至儀表板",
-    "buttonGoToAnalytics": "移至分析",
     "companionMetricLabelErroneousCallRate": "錯誤呼叫率：",
     "metricLabelCallsAndErroneousCalls": "呼叫和錯誤呼叫",
     "metricLabelCallsAndLatency": "呼叫和延遲時間",

@@ -67,10 +67,10 @@
       "resultHeader": {
         "result": "Resultado",
         "counter_sessionStart": "{{number}} inicio de sesión",
-        "counter_sessionStart_plural": "{{number}} inicios de sesiones ",
-        "counter_sessionStart_0": "{{number}} inicios de sesiones ",
-        "counter_sessionStart_1": "{{number}} inicio de sesiones ",
-        "counter_sessionStart_2": "{{number}} inicios de sesiones ",
+        "counter_sessionStart_plural": "{{number}} inicios de sesiones",
+        "counter_sessionStart_0": "{{number}} inicios de sesiones",
+        "counter_sessionStart_1": "{{number}} inicio de sesiones",
+        "counter_sessionStart_2": "{{number}} inicios de sesiones",
         "counter_viewChange": "{{number}} transición de vista",
         "counter_viewChange_plural": "{{number}} transiciones de vista",
         "counter_viewChange_0": "{{number}} transiciones de vista",
@@ -86,7 +86,7 @@
         "counter_custom_0": "{{number}} sucesos personalizados",
         "counter_custom_1": "{{number}} sucesos personalizados",
         "counter_custom_2": "{{number}} sucesos personalizados",
-        "counter_Row": "{{number}} Fila ",
+        "counter_Row": "{{number}} Fila",
         "counter_Row_plural": "{{number}} filas",
         "counter_Row_0": "{{number}} filas",
         "counter_Row_1": "{{number}} filas",
@@ -107,10 +107,10 @@
         "counter_Call_1": "{{number}} llamadas",
         "counter_Call_2": "{{number}} llamadas",
         "counter_Trace": "{{number}} rastreo",
-        "counter_Trace_plural": "{{number}} rastreos ",
-        "counter_Trace_0": "{{number}} rastreos ",
-        "counter_Trace_1": "{{number}} rastreos ",
-        "counter_Trace_2": "{{number}} rastreos ",
+        "counter_Trace_plural": "{{number}} rastreos",
+        "counter_Trace_0": "{{number}} rastreos",
+        "counter_Trace_1": "{{number}} rastreos",
+        "counter_Trace_2": "{{number}} rastreos",
         "loading": "Cargando…"
       }
     },
@@ -159,7 +159,18 @@
         "sourceMonitoredByAnotherProvider": "Otro proveedor de rastreo distribuido ha rastreado el origen de esta llamada. Puede encontrar más información sobre el origen realizando una búsqueda en el espacio padre de este proveedor con el ID {{foreignParentId}}.",
         "notMonitored": "No supervisado por Instana",
         "source": "origen",
-        "destination": "destino"
+        "destination": "destino",
+        "logs": "Registros ( {{errors}}{{warnings}} )",
+        "errors": "{{count}} error",
+        "errors_plural": "{{count}} errores",
+        "errors_0": "{{count}} errores",
+        "errors_1": "{{count}} errores",
+        "errors_2": "{{count}} errores",
+        "warnings": "{{count}} aviso",
+        "warnings_plural": "{{count}} avisos",
+        "warnings_0": "{{count}} avisos",
+        "warnings_1": "{{count}} avisos",
+        "warnings_2": "{{count}} avisos"
       }
     },
     "tabs": {
@@ -232,7 +243,7 @@
         "windowLocation": "Ubicación de ventana",
         "resourceUri": "URI de recurso",
         "cacheInteraction": "Interacción de memoria caché",
-        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana no supervisa la {{location}} de esta llamada ",
+        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana no supervisa la {{location}} de esta llamada",
         "tags": "Códigos"
       },
       "callTree": {
@@ -247,6 +258,13 @@
       "logTooltipContent": {
         "errorLog": "Registro de errores",
         "warningLog": "Registro de avisos"
+      },
+      "callTooltipContent": {
+        "numbersOfErrors": "{{count}} error",
+        "numbersOfErrors_plural": "{{count}} errores",
+        "numbersOfErrors_0": "{{count}} errores",
+        "numbersOfErrors_1": "{{count}} errores",
+        "numbersOfErrors_2": "{{count}} errores"
       }
     },
     "applications": "Aplicaciones",
