@@ -3616,10 +3616,10 @@ code-point-at@^1.0.0:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-codemirror@5.20.2:
-  version "5.20.2"
-  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.20.2.tgz#918e0ece96d57a99030b2f8b33011284bed5217a"
-  integrity sha1-kY4OzpbVepkDCy+LMwEShL7VIXo=
+codemirror@^5.58.2:
+  version "5.61.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/codemirror/-/codemirror-5.61.0.tgz#318e5b034a707207948b92ffc2862195e8fdb08e"
+  integrity sha1-MY5bA0pwcgeUi5L/woYhlej9sI4=
 
 collection-map@^1.0.0:
   version "1.0.0"

@@ -59,7 +59,7 @@
     "ansi-to-html": "^0.6.2",
     "classnames": "^2.2.6",
     "clipboard": "^1.7.1",
-    "codemirror": "5.20.2",
+    "codemirror": "^5.58.2",
     "core-js": "^3.6.5",
     "d3-format": "^1.0.2",
     "d3-hierarchy": "^1.1.8",
