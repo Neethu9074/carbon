@@ -12,47 +12,58 @@ export default {
   component: AlertHistoryListPresenter
 };
 
-const rawEventsWhileEmpty = {
-  data: {
-    items: [],
-    totalRepresentedItemCount: 0
-  }
-};
-export const empty = () => <AlertHistoryListPresenter rawEvents={rawEventsWhileEmpty} />;
-
-const rawEventsWhileLoading = { progress: { loading: true } };
-export const Loading = () => <AlertHistoryListPresenter rawEvents={rawEventsWhileLoading} />;
-
-const severities = [0, 5, 6, 10];
-const events = severities.map(s => ({
-  type: 'issue',
-  entityId: 'XkLX4CD7RfKLYa70wqZSdQ',
-  severity: s,
-  start: 1587074400000 + 1000 * s
-}));
-
-function withType(type) {
-  return event => ({ ...event, type });
+export function empty() {
+  return (
+    <AlertHistoryListPresenter
+      tableProps={{
+        items: [],
+        totalRepresentedItemCount: 0
+      }}
+    />
+  );
 }
 
-export const issues = () => (
-  <AlertHistoryListPresenter
-    rawEvents={{
-      data: {
-        items: events.map(withType('issue')),
-        totalRepresentedItemCount: events.length
-      }
-    }}
-  />
-);
+export function Loading() {
+  return (
+    <AlertHistoryListPresenter
+      tableProps={{
+        progress: {
+          loading: true
+        }
+      }}
+    />
+  );
+}
 
-export const incidents = () => (
-  <AlertHistoryListPresenter
-    rawEvents={{
-      data: {
-        items: events.map(withType('incident')),
-        totalRepresentedItemCount: incidents.length
-      }
-    }}
-  />
-);
+export function issues() {
+  const events = eventsWithType('issue');
+  return (
+    <AlertHistoryListPresenter
+      tableProps={{
+        items: events,
+        totalRepresentedItemCount: events.length
+      }}
+    />
+  );
+}
+
+export function incidents() {
+  const events = eventsWithType('incident');
+  return (
+    <AlertHistoryListPresenter
+      tableProps={{
+        items: events,
+        totalRepresentedItemCount: events.length
+      }}
+    />
+  );
+}
+
+const eventsWithType = type => {
+  return [0, 5, 6, 10].map(severity => ({
+    type,
+    entityId: 'XkLX4CD7RfKLYa70wqZSdQ',
+    severity,
+    start: 1587074400000 + 1000 * severity
+  }));
+};

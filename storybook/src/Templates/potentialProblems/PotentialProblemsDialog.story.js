@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import PotentialProblemsDialogPresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
+import PotentialProblemsDialogPresenter from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { potentialProblemsCluster, alertRules as clusterAlertRules } from './potentialProblemsStorySharedData';
 import { close } from 'in-components/DialogPresenter/store';
@@ -23,6 +23,11 @@ const props = {
   serviceLabel: 'acceptor',
   endpointLabel: 'POST /metrics',
   applicationId: '98234iuhsqitrb8xn',
+  applications: {
+    '98234iuhsqitrb8xn': {
+      applicationId: '98234iuhsqitrb8xn'
+    }
+  },
   boundaryScope: 'INBOUND',
   tagFilters: [
     {
