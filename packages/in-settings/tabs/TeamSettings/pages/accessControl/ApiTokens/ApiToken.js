@@ -4,8 +4,9 @@
  */
 
 import { createMapForm, createField } from 'formalistic';
-import { createLogger } from '@instana/logger';
 import React from 'react';
+
+import { createLogger } from '@instana/logger';
 
 import { addPermissionFields } from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/permissionsForm';
 import { getApiToken, saveApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
@@ -171,8 +172,7 @@ export default class extends React.Component {
 
 function createForm(apiToken) {
   let form = createMapForm()
-    // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
-    .put('accessGrantingToken', createField({ value: apiToken.accessGrantingToken || apiToken.id }))
+    .put('accessGrantingToken', createField({ value: apiToken.accessGrantingToken }))
     .put(
       'name',
       createField({
@@ -181,12 +181,7 @@ function createForm(apiToken) {
       })
     );
 
-  // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
-  if (apiToken.internalId) {
-    form = form.put('internalId', createField({ value: apiToken.internalId }));
-  } else {
-    form = form.put('id', createField({ value: apiToken.id }));
-  }
+  form = form.put('internalId', createField({ value: apiToken.internalId }));
 
   return addPermissionFields(form, apiToken, apiTokenPermissions, permission => permission.keyForApiTokenApi);
 }

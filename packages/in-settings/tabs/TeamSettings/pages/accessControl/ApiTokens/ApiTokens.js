@@ -14,6 +14,7 @@ import {
   createApiToken
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { getEntityHref, getEntityIdView, teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
+import { buildMaskedToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/tokenSuffix';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { generateUniqueShortId } from 'in-services/util/id';
@@ -26,8 +27,6 @@ import { t } from 'in-i18n';
 import locals from './ApiTokens.mless';
 
 const logger = createLogger('ApiTokens');
-
-const tokenSuffix = '********************';
 
 export default function ApiTokens() {
   return (
@@ -42,8 +41,7 @@ export default function ApiTokens() {
       onCreateNew={onCreateNew}
       labelNew={t('in-settings:tabs.addApiToken')}
       searchAttributes={['name', 'id', 'internalId', 'accessGrantingToken']}
-      // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
-      getDetailsHref={entity => getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId || entity.id)}
+      getDetailsHref={entity => getEntityHref(teamSettingsAccessControlApiTokens, entity.internalId)}
     />
   );
 }
@@ -54,9 +52,8 @@ const columnDefinitions = [
     label: t('in-settings:tabs.name'),
     width: 60,
     getContent(entity) {
-      // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
       return (
-        <Link href$={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId || entity.id)} ellipsis>
+        <Link href$={getEntityIdView(teamSettingsAccessControlApiTokens, entity.internalId)} ellipsis>
           {entity.name}
         </Link>
       );
@@ -67,13 +64,11 @@ const columnDefinitions = [
     label: t('in-settings:tabs.token'),
     ellipsis: true,
     getContent(apiToken) {
-      // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
-      const accessGrantingToken = apiToken.accessGrantingToken || apiToken.id;
       return (
         <div className={locals.apiTokenColContainer}>
-          <div>{accessGrantingToken.substring(0, 4) + tokenSuffix}</div>
+          <div>{buildMaskedToken(apiToken.accessGrantingToken)}</div>
           <Tooltip align="topRight" content={t('in-settings:tabs.copyApiTokenToClipboard')}>
-            <CopyToClipboard getText={() => accessGrantingToken}>
+            <CopyToClipboard getText={() => apiToken.accessGrantingToken}>
               {refSetter => (
                 <span ref={refSetter}>
                   <IconButton
@@ -94,8 +89,7 @@ const columnDefinitions = [
 
 const tableActions = {
   delete: {
-    // Deprecated: Fallback can be safely removed after release-195. Also see backend type ApiToken.
-    deleteEntity: entity => deleteApiToken(entity.internalId || entity.id)
+    deleteEntity: entity => deleteApiToken(entity.internalId)
   }
 };
 
@@ -106,8 +100,6 @@ function getEntityName(entity) {
 function onCreateNew() {
   const accessGrantingToken = generateUniqueShortId();
   const saveResult$ = createApiToken({
-    // Deprecated: ID can be safely removed after release-195. Also see backend type ApiToken.
-    id: accessGrantingToken,
     accessGrantingToken,
     internalId: generateUniqueShortId(),
     name: t('in-settings:tabs.newApiToken')

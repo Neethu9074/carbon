@@ -8,6 +8,7 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
+import { buildMaskedToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/tokenSuffix';
 import { apiTokenPermissions, productOwnerPermissions } from 'in-stores/permission';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -29,15 +30,13 @@ import locals from './ApiTokens.mless';
 
 const permissionsForList = apiTokenPermissions.filter(permission => !permission.isOwnerPermission);
 
-const tokenSuffix = '********************';
-
 export default function ApiTokenForm({ form, onChange, disabled }) {
   return (
     <fieldset disabled={disabled}>
       {form.get('accessGrantingToken').map(field => (
         <FormGroup noFlex>
           <Label className={locals.apiTokenLabel} id="api-token-accessGrantingToken">
-            {field.value.substring(0, 4) + tokenSuffix}
+            {buildMaskedToken(field.value)}
           </Label>
           <Tooltip align="topRight" content={t('in-settings:tabs.copyApiTokenToClipboard')}>
             <CopyToClipboard getText={() => field.value}>
