@@ -3,12 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
+import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
 import { CALLS } from 'in-applications/analyze/metrics';
 
 const { QueryBuilder: SliEventsQueryBuilder, isQueryValid, getTagCatalog } = createQueryBuilder({
+  maxExpressionDepth: DEFAULT_MAX_EXPRESSION_DEPTH,
   getTagCatalog: props => getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SLI_MANAGEMENT' })(props),
   getSuggestions: args => {
     return getTagSuggestions({

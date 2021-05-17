@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
@@ -15,6 +16,7 @@ export const custom = create('custom');
 
 function create(beaconType) {
   return createQueryBuilder({
+    maxExpressionDepth: DEFAULT_MAX_EXPRESSION_DEPTH,
     getTagCatalog: () => getTagCatalog({ beaconType, useCase: 'FILTERING' }),
     getSuggestions: args => getSuggestions({ ...args, beaconType })
   });

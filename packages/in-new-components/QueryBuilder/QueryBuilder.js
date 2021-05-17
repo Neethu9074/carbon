@@ -18,17 +18,13 @@ import {
   CLOSE_BRACKET,
   EXPRESSION
 } from 'in-new-components/QueryBuilder/transformation/renderModel';
-import {
-  getMaximumExpressionDepth,
-  toBackendQueryModel
-} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilderDragAndDropBehaviour from 'in-new-components/QueryBuilder/QueryBuilderDragAndDropBehaviour';
 import { onKeyDown, onClickQueryBuilderContent } from 'in-new-components/QueryBuilder/keyboardInteraction';
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { validateFormModel } from 'in-new-components/QueryBuilder/validation/formModel';
 import DragAndDropBehaviour from 'in-new-components/QueryBuilder/DragAndDropBehaviour';
 import LoadingIndicator from 'in-new-components/GroupingConfigurator/LoadingIndicator';
 import QueryBuilderReadOnly from 'in-new-components/QueryBuilder/QueryBuilderReadOnly';
-import { isFormModelValid } from 'in-new-components/QueryBuilder/validation/formModel';
 import { createTagForm } from 'in-new-components/QueryBuilder/validation/tagForm';
 import FilterButton from 'in-new-components/QueryBuilder/components/FilterButton';
 import Conjunction from 'in-new-components/QueryBuilder/components/Conjunction';
@@ -37,9 +33,7 @@ import Expression from 'in-new-components/QueryBuilder/components/Expression';
 import Bracket from 'in-new-components/QueryBuilder/components/Bracket';
 import Tag from 'in-new-components/QueryBuilder/components/Tag/Tag';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { t } from 'in-i18n';
 
 import locals from './QueryBuilder.mless';
 
@@ -82,25 +76,26 @@ function QueryBuilder({
 
   // Keep the fromMode state internally and notify the parent only about valid changes
   const [currentFormModel, setCurrentFormModel] = useState(formModel);
-  const onChange = formModel => {
-    setCurrentFormModel(formModel);
-    let formValid = false;
-    let errors = emptyArray;
-    if (useLastValidStateWhenErroneous) {
-      formValid = tagCatalog?.data && isFormModelValid({ tagCatalog: tagCatalog.data, formModel: formModel });
+
+  const onChange = _formModel => {
+    setCurrentFormModel(_formModel);
+
+    if (!useLastValidStateWhenErroneous) {
+      tracking?.onQueryChanged?.(_formModel);
+      onValidChange(_formModel);
+      return;
     }
-    if (formValid && maxExpressionDepth != null) {
-      const maxDepthExceeded = getMaximumExpressionDepth(toBackendQueryModel(formModel)) > maxExpressionDepth;
-      if (maxDepthExceeded) {
-        formValid = false;
-        errors = [t('in-new-components:queryBuilder.errorWithDataYourDefinedQueryIsTooComplex')];
-      }
-    }
-    if (!useLastValidStateWhenErroneous || formValid) {
-      tracking?.onQueryChanged?.(formModel);
-      onValidChange(formModel);
+
+    const { isValid, errors } = validateFormModel({
+      tagCatalog: tagCatalog?.data,
+      formModel: _formModel,
+      maxExpressionDepth
+    });
+    if (isValid) {
+      tracking?.onQueryChanged?.(_formModel);
+      onValidChange(_formModel);
     } else {
-      onError({ hasError: true, errors });
+      onError({ hasError: true, errors: errors });
     }
   };
 

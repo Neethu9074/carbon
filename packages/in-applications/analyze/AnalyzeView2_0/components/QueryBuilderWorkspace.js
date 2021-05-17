@@ -17,15 +17,13 @@ import {
   getMaximumExpressionDepth,
   EMPTY_EXPRESSION
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import QueryBuilderSection, {
-  DEFAULT_MAX_EXPRESSION_DEPTH
-} from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import LatencyDistributionChart from 'in-applications/analyze/components/ChartingPresenter/LatencyDistributionChart';
 import { joinExpressions, removeTopLevelFilters } from 'in-new-components/QueryBuilder/transformation/formModel';
 import TraceGroupingConfigurator from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
+import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import TraceQueryBuilder from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import CallQueryBuilder from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
@@ -62,7 +60,8 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
     formModel,
     backendQueryModel,
     isGrouped,
-    isInvalid,
+    isValid,
+    isLoading,
     children,
     dataSource,
     groupBy,
@@ -86,7 +85,6 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
               onChange={onFormModelChange}
               QueryBuilder={queryBuilderPerDataSource[dataSource]}
               useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
-              maxExpressionDepth={DEFAULT_MAX_EXPRESSION_DEPTH}
               tracking={{
                 onTagAdded: tagFilter => ua2QueryBuilderFilterAddedTracker({ dataSource, tagName: tagFilter.name }),
                 onQueryChanged: formModel =>
@@ -162,7 +160,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
               }
             />
           </Sections>
-          {isInvalid && (
+          {!isValid && !isLoading && (
             <Message type={error} withIcon small>
               {t('in-applications:analyze.invalidQueryConfig')}
             </Message>

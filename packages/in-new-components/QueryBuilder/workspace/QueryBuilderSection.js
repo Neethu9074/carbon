@@ -27,7 +27,6 @@ export default function QueryBuilderSection({
   withoutIcon,
   actions,
   useLastValidStateWhenErroneous = false,
-  maxExpressionDepth,
   hasError: hasExteralError,
   errors: exteralErrors,
   getSuggestionsProps = {},
@@ -71,7 +70,6 @@ export default function QueryBuilderSection({
               setInternalError(emptyObject);
               onChange(tagFilterExpression);
             }}
-            maxExpressionDepth={maxExpressionDepth}
             onError={setInternalError}
             tracking={tracking}
             useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}

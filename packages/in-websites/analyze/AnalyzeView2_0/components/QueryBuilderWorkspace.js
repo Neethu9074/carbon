@@ -16,11 +16,9 @@ import {
   toBackendQueryModel,
   getMaximumExpressionDepth
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import QueryBuilderSection, {
-  DEFAULT_MAX_EXPRESSION_DEPTH
-} from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
+import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import * as groupingConfiguratorsByDataSource from 'in-websites/groupingConfigurators';
@@ -43,7 +41,8 @@ export default function WebsiteQueryBuilderWorkspace(props) {
     formModel,
     backendQueryModel,
     isGrouped,
-    isInvalid,
+    isValid,
+    isLoading,
     children,
     dataSource,
     groupBy,
@@ -65,7 +64,6 @@ export default function WebsiteQueryBuilderWorkspace(props) {
               onChange={onFormModelChange}
               QueryBuilder={queryBuildersByDataSource[dataSource].QueryBuilder}
               useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
-              maxExpressionDepth={DEFAULT_MAX_EXPRESSION_DEPTH}
               tracking={{
                 onTagAdded: tagFilter => ua2QueryBuilderFilterAddedTracker({ dataSource, tagName: tagFilter.name }),
                 onQueryChanged: formModel =>
@@ -112,7 +110,7 @@ export default function WebsiteQueryBuilderWorkspace(props) {
               }
             />
           </Sections>
-          {isInvalid && (
+          {!isValid && !isLoading && (
             <Message type={error} withIcon small>
               The query configuration is invalid. Please address the validation failures before continuing.
             </Message>

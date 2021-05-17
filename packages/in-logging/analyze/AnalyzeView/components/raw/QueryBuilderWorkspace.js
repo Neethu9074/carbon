@@ -5,9 +5,7 @@
 
 import React from 'react';
 
-import QueryBuilderSection, {
-  DEFAULT_MAX_EXPRESSION_DEPTH
-} from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
+import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
@@ -20,7 +18,7 @@ import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 
 export default function LoggingQueryBuilderWorkspace(props) {
-  const { onFormModelChange, formModel, isGrouped, isInvalid, tracking, children } = props;
+  const { onFormModelChange, formModel, isGrouped, isValid, isLoading, tracking, children } = props;
 
   return (
     <Sticky header={<AnalyzeHeader isGrouped={isGrouped} withoutShadow />}>
@@ -31,17 +29,17 @@ export default function LoggingQueryBuilderWorkspace(props) {
             onChange={onFormModelChange}
             QueryBuilder={LogsQueryBuilder}
             useLastValidStateWhenErroneous
-            maxExpressionDepth={DEFAULT_MAX_EXPRESSION_DEPTH}
             tracking={tracking}
             actions={<TagSelector {...props} compact maxSelectableTags={3} />}
-            hasError={isInvalid}
+            hasError={!isValid}
           />
         </Sections>
-        {isInvalid && (
-          <Message type={error} withIcon small>
-            {t('in-logging:theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing')}
-          </Message>
-        )}
+        {!isValid &&
+          !isLoading && (
+            <Message type={error} withIcon small>
+              {t('in-logging:theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing')}
+            </Message>
+          )}
         {children}
       </Stack>
       <Footer />

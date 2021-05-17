@@ -26,10 +26,30 @@ import {
   isPreviousTagSiblingValid,
   isNextTagSiblingValid
 } from 'in-new-components/QueryBuilder/validation/tagForm';
+import {
+  getMaximumExpressionDepth,
+  toBackendQueryModel
+} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { isAndOr, isNot } from 'in-new-components/QueryBuilder/validation/elementIdentificationHelpers';
+import { emptyArray } from 'in-services/fixedObjects';
+import { t } from 'in-i18n';
 
-export function isFormModelValid({ tagCatalog, formModel }) {
-  if (!(formModel instanceof Array)) {
+export function validateFormModel({ tagCatalog, formModel, maxExpressionDepth }) {
+  if (!isFormModelSyntacticallyValid({ tagCatalog, formModel })) {
+    return { isValid: false, errors: emptyArray };
+  }
+  if (maxExpressionDepth > 0 && getMaximumExpressionDepth(toBackendQueryModel(formModel)) > maxExpressionDepth) {
+    return {
+      isValid: false,
+      errors: [t('in-new-components:queryBuilder.errorWithDataYourDefinedQueryIsTooComplex')]
+    };
+  }
+
+  return { isValid: true };
+}
+
+function isFormModelSyntacticallyValid({ tagCatalog, formModel }) {
+  if (!(formModel instanceof Array) || !tagCatalog) {
     return false;
   }
 

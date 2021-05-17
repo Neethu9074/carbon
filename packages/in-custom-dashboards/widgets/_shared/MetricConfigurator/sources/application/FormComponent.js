@@ -14,12 +14,10 @@ import {
   isRequiringGroupingConfiguration,
   onChangeGrouping
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
-import QueryBuilderSection, {
-  DEFAULT_MAX_EXPRESSION_DEPTH
-} from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import QueryBuilder, { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { availableMetrics } from 'in-applications/analyze/metrics';
@@ -184,7 +182,6 @@ export default function FormComponent({
             onChange={setTagFilterExpression}
             QueryBuilder={QueryBuilder}
             useLastValidStateWhenErroneous
-            maxExpressionDepth={DEFAULT_MAX_EXPRESSION_DEPTH}
             withoutIcon
             getSuggestionsProps={{
               includeInternal: includeInternalField.value,

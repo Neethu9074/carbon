@@ -9,9 +9,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
-import QueryBuilderSection, {
-  DEFAULT_MAX_EXPRESSION_DEPTH
-} from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
+import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import { availableMetrics } from 'in-mobile-apps/analyze/AnalyzeView/metrics';
 import * as queryBuildersPerDataSource from 'in-mobile-apps/queryBuilder';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -159,7 +157,6 @@ export default function FormComponent({
             QueryBuilder={QueryBuilder}
             withoutIcon
             useLastValidStateWhenErroneous
-            maxExpressionDepth={DEFAULT_MAX_EXPRESSION_DEPTH}
           />
         </Sections>
       )}

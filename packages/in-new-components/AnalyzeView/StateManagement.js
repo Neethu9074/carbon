@@ -10,7 +10,6 @@ import { useObservable } from '@instana/hooks';
 
 import { TAG, CONJUNCTION, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS, IS_EMPTY, NOT_EMPTY, IS_BLANK } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { isFormModelValid as isFilterValid } from 'in-new-components/QueryBuilder/validation/formModel';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { metric as metricType, custom as customType } from 'in-new-components/AnalyzeView/fieldTypes';
@@ -19,6 +18,7 @@ import { ua2OrderByChangedTracker, ua2OrderByGroupChangedTracker } from 'in-new-
 import { NUMBER, KEY_VALUE_PAIR, BOOLEAN } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { isValid as isValidGrouping } from 'in-new-components/GroupingConfigurator/validation';
 import { sanitizeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { validateFormModel } from 'in-new-components/QueryBuilder/validation/formModel';
 import { UNSPECIFIED, NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { emptyArray, emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { getSingleNumberMetricId } from 'in-new-components/AnalyzeView/metrics';
@@ -252,10 +252,10 @@ function AnalyzeStateManagement({
     filteringTagCatalogResult.data == null || groupingTagCatalogResult.data == null || metricCatalogResult.data == null;
   const isValid = Boolean(
     !isLoading &&
-      isFilterValid({
+      validateFormModel({
         tagCatalog: filteringTagCatalogResult.data,
         formModel
-      }) &&
+      }).isValid &&
       isValidGrouping(groupBy, groupingTagCatalogResult.data)
   );
 

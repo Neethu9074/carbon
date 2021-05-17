@@ -18,7 +18,7 @@ import {
   OPERATOR_AND,
   OPERATOR_NOT
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { isFormModelValid } from 'in-new-components/QueryBuilder/validation/formModel';
+import { validateFormModel } from 'in-new-components/QueryBuilder/validation/formModel';
 
 const openBracket = {
   type: OPEN_BRACKET_TYPE
@@ -65,7 +65,7 @@ const validBooleanTag = {
   operator: 'EQUALS'
 };
 
-describe('in-new-components/QueryBuilder/validation/formModel#isFormModelValid', () => {
+describe('in-new-components/QueryBuilder/validation/formModel#validateFormModel', () => {
   let tagCatalog;
 
   beforeEach(() => {
@@ -220,10 +220,10 @@ describe('in-new-components/QueryBuilder/validation/formModel#isFormModelValid',
 
   function checkValidationResult(formModel, validExpected) {
     expect(
-      isFormModelValid({
+      validateFormModel({
         tagCatalog,
         formModel
-      })
+      }).isValid
     ).to.equal(validExpected);
   }
 });
