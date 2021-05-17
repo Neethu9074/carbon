@@ -28,10 +28,12 @@ import Logs from 'in-applications/analyze/components/TraceDetails/components/Log
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
+import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { loggingEnabledOnTrace } from 'in-services/featureFlags';
 import { number, latency } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import { callDetailClickedTracker } from 'in-analyze/tracker';
+import { isLoading, hasError } from 'in-services/util/result';
 import { warning } from 'in-new-components/Message/types';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -131,7 +133,7 @@ export default function Summary({
   const hasWebsiteCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'web';
   const hasMobileCorrelationId = trace.eumCorrelationId != null && trace.eumCorrelationType === 'mobile';
   const missingEumCorrelation = !hasWebsiteCorrelationId && !hasMobileCorrelationId;
-  const totalNumberOfLogs = trace.totalErrorLogCount + trace.totalWarnLogCount;
+  const totalNumberOfLogs = countLogs(callTreeResult);
 
   const timeWindowExtend = minutes.toMillis(10);
   const timeConfigForLogs = {
@@ -360,6 +362,7 @@ export default function Summary({
                         ],
                         timeConfig: timeConfigForLogs
                       })}
+                      onClick={() => jumpToLogs({ source: 'analyze logs' })}
                     >
                       {t('in-analyze:traceDetail.tabs.summary.analyzeLogs')}
                     </Button>
@@ -427,4 +430,21 @@ export default function Summary({
       expandedSide$={effectiveCallId || logId ? just(null) : just('left')}
     />
   );
+}
+
+function countLogs(callTreeResult) {
+  if (isLoading(callTreeResult) || hasError(callTreeResult)) {
+    return 0;
+  }
+  return countLogsForCall(callTreeResult.data);
+}
+
+function countLogsForCall(call, counter = 0) {
+  if (call.model === 'LOG') {
+    counter++;
+  }
+  if (call.children) {
+    call.children.forEach(subCall => (counter += countLogsForCall(subCall)));
+  }
+  return counter;
 }

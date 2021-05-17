@@ -56,8 +56,8 @@ export default function LoggingQueryBuilderWorkspace(props) {
               maxExpressionDepth={DEFAULT_MAX_EXPRESSION_DEPTH}
               getSuggestionLabel={({ item }) => item}
               tracking={{
-                onTagAdded: filterAdded,
-                onQueryChanged: () => queryChanged(backendQueryModel)
+                onTagAdded: tagFilterExpression => filterAdded({ tagFilterExpression }),
+                onQueryChanged: fm => queryChanged({ formModel: fm })
               }}
             />
 
@@ -71,7 +71,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
               }}
             />
 
-            {isValid && (
+            {isValid && !isLoading && (
               <LogsDistributionChartSection
                 chartedMetrics={chartedMetrics}
                 onChartedMetricsChange={onChartedMetricsChange}

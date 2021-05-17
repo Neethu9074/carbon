@@ -14,7 +14,7 @@ import theme from 'in-themes';
 import locals from './LogIndicator.mless';
 
 export default forwardRef(function LogIndicator(props, ref) {
-  if (loggingEnabledOnTrace) {
+  if (loggingEnabledOnTrace && props.totalNumberOfLogs > 0) {
     return <LogV2Indicator {...props} ref={ref} />;
   }
   return <LogV1Indicator {...props} ref={ref} />;
