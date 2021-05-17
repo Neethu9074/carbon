@@ -4,14 +4,14 @@
  */
 
 import { createMapForm, createField } from 'formalistic';
-/* eslint-env mocha */
+/* eslint-env jest */
 import { expect } from 'chai';
 import sinon from 'sinon';
 
 import useFormSideEffects from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
 
 describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
-  context('when updating with the identical form', () => {
+  describe('when updating with the identical form', () => {
     const form = createMapForm().put('foo', createField({ value: 'bar' }));
     it('does not update the state', () => {
       const setForm = sinon.fake();
@@ -22,7 +22,7 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
     });
   });
 
-  context('when updating the form', () => {
+  describe('when updating the form', () => {
     const form = createMapForm()
       .put(
         'logins',

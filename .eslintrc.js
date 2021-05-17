@@ -11,7 +11,7 @@ module.exports = {
     sourceType: 'module'
   },
 
-  plugins: ['react', 'mocha', 'babel', 'header'],
+  plugins: ['react', 'jest', 'babel', 'header'],
 
   settings: {
     react: {
@@ -71,12 +71,7 @@ module.exports = {
     'no-useless-escape': 'error',
     // prevent from throwing no-unused-expression error when using optional chaining
     'no-unused-expressions': 'off',
-    'babel/no-unused-expressions': 'error',
-
-    // ###########################################################
-    // ### Mocha
-    // ###########################################################
-    'mocha/no-exclusive-tests': 'error',
+    'babel/no-unused-expressions': ['error'],
 
     // ###########################################################
     // ### React

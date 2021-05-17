@@ -3,11 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 
 import { create } from '@instana/observables';
 import { fromJS, List } from 'immutable';
-import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -30,6 +29,7 @@ describe('in-stores/events', () => {
   let getTotalEventsCount;
 
   beforeEach(() => {
+    jest.resetModules();
     resetStoreRegistry();
 
     subscriber = sinon.stub();
@@ -48,20 +48,24 @@ describe('in-stores/events', () => {
     getEventUpdates = sinon.stub();
     getEventUpdatesResult = create();
     getEventUpdates.returns(getEventUpdatesResult);
-    mod = proxyquire('in-stores/events', {
-      'in-subscription/event': { default: () => getEvent$ },
-      'in-stores/time/config': {
-        timeConfig$
-      },
-      'in-subscription/totalRawEventsCount': { default: () => getTotalEventsCount },
-      'in-subscription/events': { default: getEvents },
-      'in-subscription/healthInfo': { default: () => healthInfo$ },
-      'in-stores/serverTime': { serverTime$ },
-      'in-map/stores/highlightedEntityId': {
-        setHighlightedEntityId() {},
-        clearHighlightedEntityId() {}
-      }
-    });
+
+    jest.doMock('in-subscription/event', () => ({
+      __esModule: true,
+      default: () => getEvent$
+    }));
+    jest.doMock('in-stores/time/config', () => ({ timeConfig$ }));
+    jest.doMock('in-subscription/totalRawEventsCount', () => ({
+      __esModule: true,
+      default: () => getTotalEventsCount
+    }));
+    jest.doMock('in-subscription/healthInfo', () => ({
+      __esModule: true,
+      default: () => healthInfo$
+    }));
+    jest.doMock('in-stores/serverTime', () => ({ serverTime$ }));
+    jest.doMock('in-map/stores/highlightedEntityId');
+
+    mod = require('in-stores/events');
     mod.init();
   });
 

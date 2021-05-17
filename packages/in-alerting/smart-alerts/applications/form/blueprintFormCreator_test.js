@@ -23,8 +23,8 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
     });
   }
 
-  context('when alertType is slowness', () => {
-    context('when thresholdType is staticThreshold', () => {
+  describe('when alertType is slowness', () => {
+    describe('when thresholdType is staticThreshold', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
           .put('tagFilterExpression', createTagFilterExpressionForm())
@@ -41,7 +41,7 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
         expect(blueprintForm.get('threshold').get('type').value).to.equal('staticThreshold');
       });
     });
-    context('when thresholdType is historicBaseline', () => {
+    describe('when thresholdType is historicBaseline', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
           .put('tagFilterExpression', createTagFilterExpressionForm())
@@ -93,7 +93,7 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
     });
   });
 
-  context('when alertType is errorRate', () => {
+  describe('when alertType is errorRate', () => {
     const blueprintForm = createBlueprintForm(
       createMapForm()
         .put('tagFilterExpression', createTagFilterExpressionForm())
@@ -119,7 +119,7 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
     });
   });
 
-  context('when alertType is logs', () => {
+  describe('when alertType is logs', () => {
     const blueprintForm = createBlueprintForm(
       createMapForm()
         .put('tagFilterExpression', createTagFilterExpressionForm())

@@ -9,15 +9,15 @@ import { expect } from 'chai';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 
 describe('in-websites/alerting/form/thresholdForm', () => {
-  context('when alertType is slowness', () => {
-    context('when thresholdType is staticThreshold', () => {
+  describe('when alertType is slowness', () => {
+    describe('when thresholdType is staticThreshold', () => {
       it('should contain fields: type, operator, lastUpdated, value', () => {
         const thresholdForm = createThresholdForm({ type: 'staticThreshold' }, 'slowness').toJS();
         expect(thresholdForm).to.have.keys('type', 'operator', 'lastUpdated', 'value');
       });
     });
 
-    context('when thresholdType includes historicBaseline', () => {
+    describe('when thresholdType includes historicBaseline', () => {
       it('should contain fields: type, operator, lastUpdated, seasonality, baseline, deviationFactor', () => {
         const thresholdForm = createThresholdForm({ type: 'historicBaseline' }, 'slowness').toJS();
         expect(thresholdForm).to.have.keys(
@@ -32,14 +32,14 @@ describe('in-websites/alerting/form/thresholdForm', () => {
     });
   });
 
-  context('when alertType is specificJsError', () => {
+  describe('when alertType is specificJsError', () => {
     it('should contain fields: type, operator, lastUpdated, value', () => {
       const thresholdForm = createThresholdForm({}, 'specificJsError').toJS();
       expect(thresholdForm).to.have.keys('type', 'operator', 'lastUpdated', 'value');
     });
   });
 
-  context('when alertType is statusCode', () => {
+  describe('when alertType is statusCode', () => {
     it('should contain fields: type, operator, lastUpdated, value', () => {
       const thresholdForm = createThresholdForm({}, 'statusCode').toJS();
       expect(thresholdForm).to.have.keys('type', 'operator', 'lastUpdated', 'value');

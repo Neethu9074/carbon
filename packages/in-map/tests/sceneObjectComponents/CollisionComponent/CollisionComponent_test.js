@@ -3,39 +3,39 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha, node */
-import proxyquire from 'proxyquire';
+/* eslint-env jest, node */
 import { expect } from 'chai';
-import sinon from 'sinon';
+import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 
 import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceLocator/physics/physicsConstants';
 import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
+import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
+
+jest.mock('in-map/misc/serviceLocator/physics/PhysicsServiceLocator', () => {
+  const sinon = jest.requireActual('sinon');
+  return {
+    __esModule: true,
+    default: {
+      removeCollisionObject: sinon.stub(),
+      addCollisionObject: sinon.stub(),
+      updateCollisionObject: sinon.stub()
+    }
+  };
+});
 
 describe('in-map', () => {
   describe('sceneObjectComponents/CollisionComponent', () => {
     let component;
     let sceneObject;
-    let addCollisionObject;
-    let removeCollisionObject;
-    let updateCollisionObject;
 
     beforeEach(() => {
-      removeCollisionObject = sinon.stub();
-      addCollisionObject = sinon.stub();
-      updateCollisionObject = sinon.stub();
+      PhysicsServiceLocator.removeCollisionObject.resetHistory();
+      PhysicsServiceLocator.addCollisionObject.resetHistory();
+      PhysicsServiceLocator.updateCollisionObject.resetHistory();
+
       sceneObject = createSceneObject();
 
-      const Component = proxyquire('in-map/sceneObjectComponents/CollisionComponent/CollisionComponent', {
-        'in-map/misc/serviceLocator/physics/PhysicsServiceLocator': {
-          default: {
-            removeCollisionObject,
-            addCollisionObject,
-            updateCollisionObject
-          }
-        }
-      }).default;
-
-      component = new Component(sceneObject, PREDEFINED_COLLISION_OBJECTS.BOX, OCTREE_LAYER.NODES);
+      component = new CollisionComponent(sceneObject, PREDEFINED_COLLISION_OBJECTS.BOX, OCTREE_LAYER.NODES);
       component.initEvents();
     });
 
@@ -46,16 +46,16 @@ describe('in-map', () => {
     });
 
     it('should add the collision geometry to physics when position and scale are available', () => {
-      expect(addCollisionObject).to.have.callCount(1);
+      expect(PhysicsServiceLocator.addCollisionObject).to.have.callCount(1);
 
       sceneObject.eventEmitter.emit('transformationChanged', {
         position: { x: 1, y: 0, z: 2 },
         scale: { x: 1, y: 2, z: 1 }
       });
 
-      expect(updateCollisionObject).to.have.callCount(1);
-      const mesh = updateCollisionObject.getCall(0).args[0];
-      expect(updateCollisionObject.getCall(0).args[1]).to.equal(OCTREE_LAYER.NODES);
+      expect(PhysicsServiceLocator.updateCollisionObject).to.have.callCount(1);
+      const mesh = PhysicsServiceLocator.updateCollisionObject.getCall(0).args[0];
+      expect(PhysicsServiceLocator.updateCollisionObject.getCall(0).args[1]).to.equal(OCTREE_LAYER.NODES);
 
       expect(mesh.position.x).to.equal(1);
       expect(mesh.position.y).to.equal(1);
@@ -67,19 +67,19 @@ describe('in-map', () => {
     });
 
     it('should refresh the collision mesh each time position or scale changes', () => {
-      expect(updateCollisionObject).to.have.callCount(0);
+      expect(PhysicsServiceLocator.updateCollisionObject).to.have.callCount(0);
 
       sceneObject.eventEmitter.emit('transformationChanged', {
         position: { x: 1, y: 0, z: 2 },
         scale: { x: 1, y: 2, z: 1 }
       });
-      expect(updateCollisionObject).to.have.callCount(1);
+      expect(PhysicsServiceLocator.updateCollisionObject).to.have.callCount(1);
 
       sceneObject.eventEmitter.emit('transformationChanged', {
         position: { x: 1, y: 0, z: 2 },
         scale: { x: 1, y: 2, z: 1 }
       });
-      expect(updateCollisionObject).to.have.callCount(2);
+      expect(PhysicsServiceLocator.updateCollisionObject).to.have.callCount(2);
     });
   });
 });
