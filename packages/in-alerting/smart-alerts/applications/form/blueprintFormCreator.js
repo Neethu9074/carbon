@@ -16,9 +16,7 @@ export default function createBlueprintForm(form, alertType, alertThreshold = {}
     {
       ...threshold,
       ...alertThreshold,
-      type: blueprintConfig.baselineEnabled ? threshold.type : 'staticThreshold',
-      value: null, // reset the "old" value if present
-      baseline: null // reset the "old" value if present
+      type: blueprintConfig.baselineEnabled ? threshold.type : 'staticThreshold'
     },
     alertType
   );
