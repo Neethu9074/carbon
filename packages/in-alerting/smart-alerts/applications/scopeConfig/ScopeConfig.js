@@ -36,11 +36,7 @@ export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, edit
   const [filterBySelectionState, setFilterBySelectionState] = useState(Boolean(editMode));
 
   const AlertQueryBuilder = useMemo(() => {
-    return createBoundedAlertQueryBuilder(
-      Object.values(applications)?.map(a => a.applicationId),
-      boundaryScope,
-      timeConfig
-    );
+    return createBoundedAlertQueryBuilder(applications, boundaryScope, timeConfig);
   }, [applications, boundaryScope]);
 
   return (

@@ -6,9 +6,9 @@
 import {
   createTagFilterExpression,
   OPERATOR_AND,
-  OPERATOR_OR
+  toBackendQueryModel
 } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { getApplicationIdTagFilter } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { createQueryBuilder } from 'in-new-components/QueryBuilder';
@@ -32,7 +32,7 @@ export const isAlertQueryValid = ([tagFilterFormModel, timeConfig]) => isQueryVa
  * @param boundaryScope The applications boundary-scope this alert is bound to.
  * @returns A QueryBuilder where the scope is bound to a single application.
  */
-export function createBoundedAlertQueryBuilder(applicationIds, boundaryScope, customTimeConfig) {
+export function createBoundedAlertQueryBuilder(applications, boundaryScope, customTimeConfig) {
   const { QueryBuilder } = createQueryBuilder({
     getTagCatalog: props => getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SMART_ALERTS' })(props),
     getSuggestions: args =>
@@ -41,14 +41,12 @@ export function createBoundedAlertQueryBuilder(applicationIds, boundaryScope, cu
         : getTagSuggestions({
             ...tagSuggestionArgs(args, customTimeConfig),
             tagFilterExpression: createTagFilterExpression(OPERATOR_AND, [
-              createTagFilterExpression(
-                OPERATOR_OR,
-                applicationIds.map(id => getApplicationIdTagFilter(boundaryScope, id)) // The backend handles cases with less than two applicationIds just fine.
-              ),
+              toBackendQueryModel(getEntitySelectionAsTagFilterFormModel(applications, boundaryScope)),
               args.tagFilterExpression
             ])
           })
   });
+
   return QueryBuilder;
 }
 
