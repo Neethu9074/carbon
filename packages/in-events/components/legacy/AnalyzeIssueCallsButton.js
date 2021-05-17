@@ -24,6 +24,7 @@ import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths'
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { containsIgnoreCase } from 'in-services/util/string';
+import { boundaryScopes } from 'in-applications/constants';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -63,6 +64,7 @@ export default connectTo(
     }
 
     const isErroneous = isErrorEvent(event);
+    const boundaryScope = getBoundaryScope(event);
     const isSynthetic = endpointEntity && isSyntheticEndpoint(endpointEntity);
     const formModel = getFormModel(isErroneous, isSynthetic);
     const hiddenCalls = isSynthetic ? { includeSynthetic: true } : null;
@@ -81,6 +83,7 @@ export default connectTo(
           applicationName,
           serviceName,
           endpointName,
+          boundaryScope,
           dataSource,
           formModel,
           hiddenCalls,
@@ -145,17 +148,26 @@ function getChartedMetrics(event, groupBy) {
 }
 
 function isErrorEvent(event) {
-  return containsMetricInEvent(event, 'error');
+  return matchInEventMetricName(event, containsIgnoreCase, 'error');
 }
 
 function isLatencyEvent(event) {
-  return containsMetricInEvent(event, 'duration');
+  return matchInEventMetricName(event, containsIgnoreCase, 'duration');
 }
 
-function containsMetricInEvent(event, metricNamePart) {
+/**
+ * The boundary scope information is not contained in the event metadata; thus it is derived from the metric name.
+ */
+function getBoundaryScope(event) {
+  return matchInEventMetricName(event, (metricName, value) => metricName.startsWith(value), 'inbound_')
+    ? boundaryScopes.inbound
+    : boundaryScopes.all;
+}
+
+function matchInEventMetricName(event, matcher, value) {
   const metricsList = event.getIn(['metadata', 'metrics'], []);
   if (metricsList) {
-    return metricsList.filter(item => containsIgnoreCase(item.get('metricName', ''), metricNamePart)).size > 0;
+    return metricsList.filter(item => matcher(item.get('metricName', ''), value)).size > 0;
   }
 
   return false;
