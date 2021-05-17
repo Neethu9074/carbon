@@ -81,7 +81,7 @@ export default function FormComponent({
             }
             query={catalogQuery.value}
             onQueryChange={catalogQuery.onChange}
-            label={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.selectMetric')}
+            selectMetric={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.selectMetric')}
           />
           <TouchedMessages field={metricField} />
         </Section>

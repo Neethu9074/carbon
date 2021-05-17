@@ -4,9 +4,17 @@
  */
 
 import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
 
-import { pendingResult } from 'in-services/fixedObjects';
+import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 
 export default function useMetricMetadata({ getMetricMetadata, type, metric }) {
-  return useObservable(() => getMetricMetadata({ type, metric }), [getMetricMetadata, type, metric]) ?? pendingResult;
+  return (
+    useObservable(() => {
+      if (!type || !metric) {
+        return just(emptyObject);
+      }
+      return getMetricMetadata({ type, metric });
+    }, [getMetricMetadata, type, metric]) ?? pendingResult
+  );
 }

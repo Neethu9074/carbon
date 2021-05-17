@@ -13,6 +13,7 @@ import getMetricMetadata from 'in-infrastructure/subscriptions/getMetricMetadata
 import useMetricMetadata from 'in-infrastructure/hooks/useMetricMetadata';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import Overlay from 'in-new-components/overlays/Overlay';
+import { emptyObject } from 'in-services/fixedObjects';
 import Message from 'in-new-components/Message';
 import { t } from 'in-i18n';
 
@@ -25,7 +26,7 @@ export default function TypeAndMetricConfigurator({
   onChange,
   query,
   onQueryChange,
-  label = t('in-custom-dashboards:widgets.srcInfrastructure.typeAndMetricConfigurator.pleaseSelectMetric')
+  selectMetric = t('in-custom-dashboards:widgets.srcInfrastructure.typeAndMetricConfigurator.pleaseSelectMetric')
 }) {
   if (metricCatalog?.errors.length > 0) {
     return <Errors errors={metricCatalog?.errors} />;
@@ -53,7 +54,7 @@ export default function TypeAndMetricConfigurator({
             refSetter={refSetter}
             className={locals.configurator}
           >
-            <TypeAndMetricLabel type={type} metric={metric} label={label} />
+            <TypeAndMetricLabel type={type} metric={metric} selectMetric={selectMetric} />
           </DropdownButton>
         )}
       </Overlay>
@@ -68,7 +69,7 @@ TypeAndMetricConfigurator.propTypes = {
   onChange: rpt.func.isRequired,
   query: rpt.string.isRequired,
   onQueryChange: rpt.func.isRequired,
-  label: rpt.string
+  selectMetric: rpt.string
 };
 
 function Errors({ errors }) {
@@ -83,15 +84,25 @@ function Errors({ errors }) {
   );
 }
 
-function TypeAndMetricLabel({ type, metric, label }) {
-  if (type && metric) {
-    const metricMetadata = useMetricMetadata({ getMetricMetadata, type, metric });
-    const elements = [metricMetadata.ownerType, metricMetadata.category, metricMetadata.label].filter(Boolean);
-    return elements.reduce(
-      (prev, current) =>
-        prev == null ? current : [prev, <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />, current],
-      null
-    );
+function TypeAndMetricLabel({ type, metric, selectMetric }) {
+  const metricMetadata = useMetricMetadata({ getMetricMetadata, type, metric });
+  if (metricMetadata?.progress?.loading) {
+    return null;
   }
-  return label;
+  if (metricMetadata === emptyObject) {
+    return selectMetric;
+  }
+  return (
+    <>
+      {metricMetadata.ownerType}
+      {metricMetadata.category && (
+        <>
+          <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
+          {metricMetadata.category}
+        </>
+      )}
+      <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
+      {metricMetadata.label}
+    </>
+  );
 }
