@@ -189,15 +189,20 @@ function getLogLevelFormModel(alertRule) {
 }
 
 function getStatusCodeFormModel(alertRule) {
-  if (alertRule.statusCode?.statusCodeStart === alertRule.statusCode?.statusCodeEnd) {
-    return [tagFilter('call.http.status', 'EQUALS', alertRule.statusCode?.statusCodeStart)];
+  // This fix is a workaround because we do not exactly distinguish between form model and backend model
+  // for alert configurations. To fix this, we need a bigger refactoring which will be tackled separately
+  const start = alertRule.statusCode?.statusCodeStart ?? alertRule.statusCodeStart;
+  const end = alertRule.statusCode?.statusCodeEnd ?? alertRule?.statusCodeEnd;
+
+  if (start === end) {
+    return [tagFilter('call.http.status', 'EQUALS', start)];
   }
 
   return joinExpressions({
     logicalOperator: and,
     expressions: [
-      tagFilter('call.http.status', 'GREATER_OR_EQUAL_THAN', alertRule.statusCode?.statusCodeStart),
-      tagFilter('call.http.status', 'LESS_OR_EQUAL_THAN', alertRule.statusCode?.statusCodeEnd)
+      tagFilter('call.http.status', 'GREATER_OR_EQUAL_THAN', start),
+      tagFilter('call.http.status', 'LESS_OR_EQUAL_THAN', end)
     ]
   });
 }
