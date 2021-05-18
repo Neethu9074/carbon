@@ -29,7 +29,7 @@ COMPONENT_OPT_INSTANA_DIR="${OPT_INSTANA_DIR}/${COMPONENT_NAME}"
 COMPONENT_ETC_INSTANA_DIR="${COMPONENT_BUILD_DIR}/etc/instana/${COMPONENT_NAME}"
 COMPONENT_CONTAINER_FILE="${COMPONENTS_HOME_DIR}/container"
 COMPONENT_RUN_SCRIPT="${COMPONENTS_HOME_DIR}/run.sh"
-ARTIFACTORY_BASE_REPO_URL="https://artifact.instana.io/artifactory/backend-releases/com/instana"
+ARTIFACTORY_BASE_REPO_URL="https://artifact-rnd.instana.io/artifactory/backend-releases/com/instana"
 COMPONENT_TAR_GZ_URL="${ARTIFACTORY_BASE_REPO_URL}/${COMPONENT_NAME}/${VERSION}/${COMPONENT_NAME}-${VERSION}-${BRANCH_NAME}.tar.gz"
 
 function _log_info {

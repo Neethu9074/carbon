@@ -4,7 +4,7 @@ This directory contains all code necessary to build Instana `ui-client` componen
 
 ## Base Image
 
-All Instana component images use one of the [Instana runtime images](https://github.com/instana/backend/blob/develop/containers/runtimes) as its base. The version of that base image is controlled by the value in the [BASE_VERSION](BASE_VERSION) file.
+All Instana component images use one of the [Instana runtime images](https://github.com/instana/backend/blob/develop/containers/runtimes) as its base. The version of that base image is controlled by the value in the [`BASE_VERSION`](BASE_VERSION) file.
 
 ## Usage
 
@@ -27,7 +27,7 @@ from source (be patient), extract the required files, and then build a container
 
 Images that are built on CI download the component's `tar.gz` file from Artifactory instead of building it from source, and need
 proper values to be provided for `BRANCH_NAME` and `VERSION`. Additionally, the following env variables need to be provided as well:
-  - `ARTIFACT_INSTANA_IO_USER` and `ARTIFACT_INSTANA_IO_PASSWORD` to download `tar.gz` files from Artifactory.
+  - `ARTIFACT_RND_INSTANA_IO_USER` and `ARTIFACT_RND_INSTANA_IO_PASSWORD` to download `tar.gz` files from Artifactory.
   - `CONTAINERS_INSTANA_IO_USER` and `CONTAINERS_INSTANA_IO_PASSWORD` to interact with `containers.instana.io`
 
 #### About the `VERSION` env var
@@ -44,8 +44,8 @@ For example:
 
     BRANCH_NAME=develop \
     VERSION=1.198.755 \
-    ARTIFACT_INSTANA_IO_USER=<artifactory-user> \
-    ARTIFACT_INSTANA_IO_PASSWORD=<artifactory-pswd> \
+    ARTIFACT_RND_INSTANA_IO_USER=<artifactory-user> \
+    ARTIFACT_RND_INSTANA_IO_PASSWORD=<artifactory-pswd> \
     CONTAINERS_INSTANA_IO_USER=<containers-user> \
     CONTAINERS_INSTANA_IO_PASSWORD=<containers-pswd> \
     ./scripts/build.sh ui-client
@@ -67,8 +67,8 @@ To build an image for a component on CI:
 
     BRANCH_NAME=develop \
     VERSION=1.198.755 \
-    ARTIFACT_INSTANA_IO_USER=<artifactory-user> \
-    ARTIFACT_INSTANA_IO_PASSWORD=<artifactory-pswd> \
+    ARTIFACT_RND_INSTANA_IO_USER=<artifactory-user> \
+    ARTIFACT_RND_INSTANA_IO_PASSWORD=<artifactory-pswd> \
     CONTAINERS_INSTANA_IO_USER=<containers-user> \
     CONTAINERS_INSTANA_IO_PASSWORD=<containers-pswd> \
     ./scripts/build-and-publish.sh ui-client
