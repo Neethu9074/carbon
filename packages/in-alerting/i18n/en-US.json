@@ -174,7 +174,7 @@
       "logMessages": {
         "messageColumn": "Log Message",
         "levelColumn": "Log Level",
-        "noDataMessage": "No alert configured.",
+        "noDataMessage": "No messages found.",
         "selectLogMessageText": "Select log message as template (optional)",
         "selectLogMessageTitle": "Select Log Message"
       },

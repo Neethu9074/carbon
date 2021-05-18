@@ -6,7 +6,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import getLogMessages from 'in-applications/subscriptions/getLogMessages';
+import { combineLatest } from '@instana/observables';
+
+import { createApplicationIdTagFilter } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
+import { and, or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import getCallGroups from 'in-subscription/application/getCallGroups';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import List from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
@@ -34,8 +41,11 @@ const columnDefinitions = [
 ];
 
 export default function LogMessagesList({
-  applicationId,
+  applications,
+  tagFilterExpression,
   applicationBoundaryScope,
+  includeInternal = false,
+  includeSynthetic = false,
   timeConfig,
   onLogMessageSelect,
   slideOut
@@ -49,12 +59,13 @@ export default function LogMessagesList({
       columnDefinitions={columnDefinitions}
       loadEntities={() =>
         getTableData({
-          applicationId,
+          applicationIds: Object.keys(applications),
           applicationBoundaryScope,
+          includeInternal,
+          includeSynthetic,
+          tagFilterExpression,
           timeConfig
         })
-          .filter(tableData => tableData.data)
-          .map(tableData => tableData.data.items)
       }
       pageSize={10}
       noDataMessage={t('in-alerting:smartAlerts.applications.logMessages.noDataMessage')}
@@ -67,36 +78,105 @@ export default function LogMessagesList({
 }
 
 LogMessagesList.propTypes = {
-  applicationId: PropTypes.string.isRequired,
+  applications: PropTypes.object.isRequired,
+  tagFilterExpression: PropTypes.array,
   applicationBoundaryScope: PropTypes.string.isRequired,
+  includeInternal: PropTypes.bool,
+  includeSynthetic: PropTypes.bool,
   onLogMessageSelect: PropTypes.func.isRequired,
   slideOut: PropTypes.func.isRequired,
   timeConfig: propTypeTimeConfig.isRequired
 };
 
-function getTableData({ applicationId, applicationBoundaryScope, timeConfig }) {
-  return getLogMessages({
-    pagination: {
-      page: 1,
-      pageSize: 200
+function getTableData(kvArgs) {
+  const warnMessages = getLogMessages({
+    logLevel: 'WARN',
+    ...kvArgs
+  });
+
+  const errorMessages = getLogMessages({
+    logLevel: 'ERROR',
+    ...kvArgs
+  });
+
+  return (
+    // Individually filter out loading states here,
+    // because List determines its loading state by the absence of an observable emission and combineLatest will always emit
+    // if any of the combined observables emits, at which point its impossible to distinguish a loading state from an empty result
+    combineLatest([
+      warnMessages.filter(({ progress }) => !progress.loading),
+      errorMessages.filter(({ progress }) => !progress.loading)
+    ])
+      .map(result => result.flatMap(r => r.data?.items).filter(Boolean))
+      // sort messages by amount of calls, this is done client side because the order is lost when combining the observables
+      .map(r => r.sort((l, r) => r.metrics['calls_SUM'][0][1] - l.metrics['calls_SUM'][0][1]))
+  );
+}
+
+function getLogMessages({
+  applicationIds,
+  tagFilterExpression,
+  applicationBoundaryScope,
+  includeInternal,
+  includeSynthetic,
+  timeConfig,
+  logLevel
+}) {
+  return getCallGroups({
+    tagFilterExpression: buildTagFilterExpression({
+      applicationIds,
+      logLevel,
+      tagFilterExpression,
+      applicationBoundaryScope
+    }),
+    group: {
+      groupbyTag: 'log.message'
     },
     order: {
-      by: 'logsAgg',
+      by: 'calls_SUM',
       direction: 'DESC'
     },
+    pagination: {
+      page: 1,
+      retrievalSize: 200
+    },
     filter: {
-      label: '',
-      timeConfig,
-      application: applicationId,
-      applicationBoundaryScope
+      timeConfig
     },
     metrics: {
-      logsAgg: {
-        metric: 'logs',
-        aggregation: 'SUM'
-      }
+      calls_SUM: { metric: 'calls', aggregation: 'SUM' }
+    },
+    includeSynthetic,
+    includeInternal
+  }).map(result => {
+    if (result?.data?.items?.length) {
+      return {
+        ...result,
+        data: {
+          ...result.data,
+          // Inject log level into results and restructure items to look more like the response of GetLogMessages
+          items: result.data.items.map(({ name, ...rest }) => ({ ...rest, message: name, level: logLevel }))
+        }
+      };
     }
+    return result;
   });
+}
+
+function buildTagFilterExpression({ applicationIds, logLevel, tagFilterExpression, applicationBoundaryScope }) {
+  return toBackendQueryModel(
+    joinExpressions({
+      logicalOperator: and,
+      expressions: [
+        joinExpressions({
+          logicalOperator: or,
+          expressions: applicationIds.map(id => createApplicationIdTagFilter(id, applicationBoundaryScope))
+        }),
+        tagFilter('log.level', 'EQUALS', logLevel),
+        tagFilterExpression
+      ]
+    })
+  );
 }
 
 function LogRow(item) {
