@@ -30,7 +30,6 @@ module.exports = {
   routeIdOverPathTplEnabled: false,
   samplingIndicatorEnabled: true,
   skipOnboardingDialog: false,
-  sloWidgetEnabled: true,
   tenantSwitcherEnabled: true,
   useInstanaSaasEumTrackingUrlEnabled: true,
   vsphereEnabled: true,

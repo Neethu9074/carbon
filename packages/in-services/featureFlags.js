@@ -25,7 +25,6 @@ export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabl
 export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled');
 export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitoringIssuesEnabled');
 export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog');
-export const sloWidgetEnabled = isFeatureFlagEnabled('sloWidgetEnabled', true);
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');
 export const infraExplorePresentationEnabled = isFeatureFlagEnabled('infraExplorePresentationEnabled');
 export const infraExploreDataEnabled = isFeatureFlagEnabled('infraExploreDataEnabled');

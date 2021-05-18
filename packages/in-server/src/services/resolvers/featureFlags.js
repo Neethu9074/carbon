@@ -151,11 +151,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'sloWidgetEnabled',
-    instanaCtlKey: 'feature.slo.widget.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'persistentVolumeSupportEnabled',
     instanaCtlKey: 'feature.kubernetes.pvc.enabled',
     defaultValue: false
