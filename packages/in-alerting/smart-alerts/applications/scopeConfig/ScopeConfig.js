@@ -14,11 +14,11 @@ import ServicesAndEndpointsListPresenter, {
 import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/smart-alert-dialog/ClearTagFilterExpressionButton';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertFilterConfigurator';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import SectionLabelWithSubtext from 'in-new-components/workspace/SectionLabelWithSubtext/SectionLabelWithSubtext';
 import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewConfig';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import Stack from 'in-new-components/layout/Stack';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig.mless';
@@ -42,13 +42,15 @@ export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, edit
   return (
     <LightCard
       title={
-        <Tooltip content={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleTooltip')}>
+        <SectionLabelWithSubtext
+          subtext={t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleTooltip')}
+        >
           <div className={locals.lightCardTitle}>
             {isGlobalSmartAlert
               ? t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitleWithApplications')
               : t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigTitle')}
           </div>
-        </Tooltip>
+        </SectionLabelWithSubtext>
       }
       headerClassName={locals.lightCardHeader}
       header={
