@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
+
+import { Card } from '@instana/components';
 
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
@@ -14,6 +15,7 @@ import LoadingRows from 'in-components/tables/ServerTable/internalComponents/Loa
 import { ErrorRows, Table, Tbody, Thead } from 'in-components/tables/sharedComponents';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
+import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
@@ -57,17 +59,15 @@ export default function ServerTablePresenter(props) {
     onRowMouseEnter = () => {},
     onRowMouseLeave = () => {}
   } = props;
-  const isLoading = result.progress.loading;
-  const hasErrors = result.errors.length > 0;
-
   const { availableColumns, visibleColumns, optionalColumns, onColumnChecked } = filterColumns(props);
 
   let body = null;
-  if (isLoading) {
+
+  if (isLoading(result)) {
     body = <LoadingRows cols={visibleColumns.length} progress={result.progress} numSkeletonRows={numSkeletonRows} />;
-  } else if (hasErrors) {
+  } else if (hasError(result)) {
     body = <ErrorRows cols={visibleColumns.length} errors={result.errors} size={size} />;
-  } else if (result.data.items.length === 0) {
+  } else if (result?.data?.items?.length === 0) {
     body = (
       <EmptyContent
         cols={visibleColumns.length}

@@ -18,6 +18,7 @@ import {
   modeEventTypes,
   modeSelectedEvents
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step2';
+import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-api/alertingConfiguration';
 import AlertForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/AlertForm';
@@ -133,23 +134,9 @@ const Form = entityForm(
 );
 
 function createForm(alertEntity, isCreate) {
-  let eventTypes = alertEntity.getIn(['eventFilteringConfiguration', 'eventTypes'], List([]));
-  if (eventTypes == null) {
-    // Can be null even though we provide a fallback to getIn, when it is present as null in the back end payload.
-    eventTypes = List([]);
-  }
-  let selectedEvents = alertEntity.getIn(['eventFilteringConfiguration', 'ruleIds'], List([]));
-  if (selectedEvents == null) {
-    // Can be null even though we provide a fallback to getIn, when it is present as null in the back end payload.
-    selectedEvents = List([]);
-  }
-
-  let eventSelectionMode;
-  if (!eventTypes.isEmpty()) {
-    eventSelectionMode = modeEventTypes;
-  } else {
-    eventSelectionMode = modeSelectedEvents;
-  }
+  const eventTypes = alertEntity.getIn(['eventFilteringConfiguration', 'eventTypes'], List([])) ?? List([]);
+  const selectedEvents = alertEntity.getIn(['eventFilteringConfiguration', 'ruleIds'], List([])) ?? List([]);
+  const eventSelectionMode = eventTypes.isEmpty() ? modeSelectedEvents : modeEventTypes;
 
   const query = alertEntity.getIn(['eventFilteringConfiguration', 'query'], '');
   const { applyOn, applicationName, applicationIds } = isCreate
@@ -208,6 +195,10 @@ function createForm(alertEntity, isCreate) {
         value: applyOn,
         validator: notBlankValidator
       })
+    )
+    .put(
+      'customPayloadFields',
+      createListFormForCustomPayloads(alertEntity.get('customPayloadFields', List([])).toJS(), false)
     );
 
   if (eventSelectionMode === modeEventTypes) {
@@ -251,28 +242,28 @@ export function putSelectedEventsField(form, selectedEvents) {
 }
 
 export function putQueryFields(form, query) {
-  let updatedForm = form.put(
-    'query',
-    createField({
-      value: query,
-      validator: notBlankValidator
-    })
-  );
-  updatedForm = updatedForm.put(
-    'validationResult',
-    createField({
-      value: valid(),
-      validator: queryValidationResultValidator
-    })
-  );
-  updatedForm = updatedForm.put(
-    'queryValidationInProgress',
-    createField({
-      value: false,
-      validator: queryValidationInProgressValidator
-    })
-  );
-  return updatedForm;
+  return form
+    .put(
+      'query',
+      createField({
+        value: query,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'validationResult',
+      createField({
+        value: valid(),
+        validator: queryValidationResultValidator
+      })
+    )
+    .put(
+      'queryValidationInProgress',
+      createField({
+        value: false,
+        validator: queryValidationInProgressValidator
+      })
+    );
 }
 
 export function removeQueryFields(form) {
@@ -408,7 +399,6 @@ function save(alertEntity, form) {
     modeSelectedEvents && form.get('selectedEvents') ? form.get('selectedEvents').value.toJS() : null;
   const scopeType = form.get('applyOn').value;
 
-  let customPayload;
   submitAlertTracker({
     numOfAlertChannels: selectedAlertChannels.length,
     numOfEvents: selectedEvents ? selectedEvents.length : 0,
@@ -429,7 +419,7 @@ function save(alertEntity, form) {
         selectedEvents,
         query,
         eventSelectionMode === modeEventTypes && form.get('eventTypes') ? form.get('eventTypes').value : null,
-        customPayload
+        form.get('customPayloadFields').toJS()
       )
     )
   );

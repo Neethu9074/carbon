@@ -38,7 +38,25 @@
     },
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "You are looking at a deleted alert configuration. Modifications are not possible.",
     "alertPropertyInfosWarning": "Warning",
-    "alertPropertyInfosCritical": "Critical"
+    "alertPropertyInfosCritical": "Critical",
+    "customPayload": {
+      "deleteRow": "Delete Row",
+      "key": "Key",
+      "value": "Value",
+      "unknownTypeTypeItCanNotBeEdited": "Unknown type: {{type}} - it can not be edited.",
+      "customWithColon": "custom:",
+      "valueType": "Value type",
+      "static": "Static",
+      "dynamic": "Dynamic",
+      "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "The number of rows is restricted to {{maximumNumberOfRows}}.",
+      "addRow": "Add Row",
+      "noCustomPayloadConfigured": "No Custom Payloads Configured",
+      "keyNamesMustBeUnique": "Key names must be unique.",
+      "theValueMustNotBeBlank": "The value must not be blank.",
+      "onlyOrAnyAlphaNumericalAreAllowed": "Only '.', '-', '_' or any alpha-numerical are allowed.",
+      "aTagNeedsToBeSelected": "A tag needs to be selected.",
+      "aKeyNeedsToBeSpecified": "A key needs to be specified."
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "Erroneous call rate is higher than normal",
@@ -164,6 +182,10 @@
           "propertiesOptional": {
             "label": "Properties (optional)",
             "title": "Additional Alert Properties (optional)"
+          },
+          "payloadsOptional": {
+            "label": "Payloads (optional)",
+            "title": "Custom Payload (optional)"
           }
         }
       },
@@ -591,7 +613,9 @@
         "alertChannelsTitle": "Alert Channels: Who needs to be alerted?",
         "propertiesLabel": "Properties (optional)",
         "propertiesTitle": "Additional Alert Properties (optional)",
-        "thresholdValue": "Threshold Value"
+        "thresholdValue": "Threshold Value",
+        "payloadsLabel": "Payloads (optional)",
+        "payloadsTitle": "Custom Payloads (optional)"
       },
       "components": {
         "provideStatusCodeStatusCode": "Status Code",

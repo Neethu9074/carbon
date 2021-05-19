@@ -33,6 +33,8 @@ import { blueprintConfigs, getBlueprintConfig } from 'in-alerting/smart-alerts/w
 import SlownessInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/SlownessInteractiveChart';
 import JsErrorsInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/JsErrorsInteractiveChart';
 import SelectAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/SelectAlertChannel';
+import { validateCheckForCustomPayload } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
+import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/advanced/TimeThresholdConfig';
 import ProvideStatusCode from 'in-alerting/smart-alerts/websites/components/ProvideStatusCode';
 import { fieldNames } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
@@ -243,6 +245,14 @@ export default function AdvancedModeContainer(props) {
               )}
             />
           )
+        },
+        {
+          scrollId: '6',
+          label: t('in-alerting:smartAlerts.websites.advanced.payloadsLabel'),
+          title: t('in-alerting:smartAlerts.websites.advanced.payloadsTitle'),
+          checked: validateCheckForCustomPayload(form),
+          valid: true,
+          content: <AlertConfigCustomPayload form={form} setForm={updateForm} />
         }
       ]}
       additionalValidationCheck={() => isTagFilterFormModelValid}

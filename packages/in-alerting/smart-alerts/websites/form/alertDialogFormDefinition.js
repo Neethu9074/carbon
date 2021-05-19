@@ -6,6 +6,7 @@
 import { createMapForm, createField } from 'formalistic';
 
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
@@ -23,7 +24,8 @@ export const fieldNames = Object.freeze({
   name: 'name',
   websiteId: 'websiteId',
   id: 'id',
-  granularity: 'granularity'
+  granularity: 'granularity',
+  customPayloadFields: 'customPayloadFields'
 });
 
 export default function alertFormDefinition(alertConfig, editMode) {
@@ -104,7 +106,8 @@ export default function alertFormDefinition(alertConfig, editMode) {
     .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
     .put('threshold', createThresholdForm(alertConfig.threshold ?? {}, alertConfig.rule?.alertType))
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
-    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend));
+    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend))
+    .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
 
   return applyEditMode(form, editMode);
 }

@@ -7,13 +7,11 @@ import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import {
-  staticStringType,
-  staticBooleanType,
-  staticNumberType,
+  staticType,
   dynamicType,
   enrichedWithUniqId
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/form';
-import { CustomPayload } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/CustomPayloadPage';
+} from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
+import { CustomPayload } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
 import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
 import SectionLine from 'in-settings/components/SectionLine';
 import Code from 'in-components/Code';
@@ -86,9 +84,9 @@ export function Empty() {
 export function WithAllTypesOfData() {
   const exampleCustomPayload = {
     fields: [
-      { type: staticStringType, key: 'testString', value: 'some value' },
-      { type: staticBooleanType, key: 'testBool', value: true },
-      { type: staticNumberType, key: 'testNumber', value: 42 },
+      { type: staticType, key: 'testString', value: 'some value' },
+      { type: staticType, key: 'testBool', value: 'true' },
+      { type: staticType, key: 'testNumber', value: '42' },
       {
         type: dynamicType,
         key: 'dynamicK8sClusterName',

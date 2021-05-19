@@ -100,6 +100,7 @@ function createAlert(form, setForm, onClose, editMode, setIsSaving) {
 
 function toAlertConfig(form) {
   const tagFilterFormModel = form.get(fieldNames.tagFilterExpression).value;
+
   return Object.freeze({
     rule: form.get('rule').toJS(),
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel, false),
@@ -112,7 +113,8 @@ function toAlertConfig(form) {
     websiteId: form.get(fieldNames.websiteId).value,
     threshold: form.get('threshold').toJS(),
     timeThreshold: form.get('timeThreshold').toJS(),
-    granularity: form.get(fieldNames.granularity).value
+    granularity: form.get(fieldNames.granularity).value,
+    customPayloadFields: form.get('customPayloadFields').toJS()
   });
 }
 

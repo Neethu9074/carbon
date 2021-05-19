@@ -29,8 +29,10 @@ import { blueprintConfigs, getBlueprintConfig } from 'in-alerting/smart-alerts/a
 import ErrorRateInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/ErrorRateInteractiveChart';
 import SlownessInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/SlownessInteractiveChart';
 import BaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/BaselineErrorMessage';
+import { validateCheckForCustomPayload } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import SelectAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/SelectAlertChannel';
 import LogsInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/LogsInteractiveChart';
+import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ProvideLogMessage from 'in-alerting/smart-alerts/applications/components/ProvideLogMessage';
 import ProvideStatusCode from 'in-alerting/smart-alerts/applications/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
@@ -225,6 +227,14 @@ export default function AdvancedModeContainer(props) {
               )}
             />
           )
+        },
+        {
+          scrollId: '6',
+          label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.label'),
+          title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.title'),
+          checked: validateCheckForCustomPayload(form),
+          valid: true,
+          content: <AlertConfigCustomPayload form={form} setForm={updateForm} />
         }
       ]}
       additionalValidationCheck={() => isTagFilterFormModelValid}

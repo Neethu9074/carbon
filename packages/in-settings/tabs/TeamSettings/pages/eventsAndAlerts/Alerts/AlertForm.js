@@ -10,6 +10,7 @@ import Step1 from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/co
 import Step2 from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step2';
 import Step3 from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step3';
 import Step4 from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step4';
+import Step5 from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step5';
 
 export default function AlertForm({ form, onChange, onChangeEventSelectionMode, onChangeApplyOn, setForm }) {
   return (
@@ -24,6 +25,7 @@ export default function AlertForm({ form, onChange, onChangeEventSelectionMode, 
       />
       <Step3 form={form} onChange={onChange} onChangeApplyOn={onChangeApplyOn} setForm={setForm} />
       <Step4 form={form} setForm={setForm} />
+      <Step5 form={form} setForm={setForm} />
     </fieldset>
   );
 }

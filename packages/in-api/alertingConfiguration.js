@@ -79,7 +79,7 @@ export function createAlertingConfig(
   ruleIds = [],
   query = '',
   eventTypes = [],
-  customPayload
+  customPayloadFields = []
 ) {
   return {
     id: id || generateUniqueShortId(),
@@ -91,6 +91,6 @@ export function createAlertingConfig(
       ruleIds,
       eventTypes
     },
-    customPayload
+    customPayloadFields
   };
 }

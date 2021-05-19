@@ -6,6 +6,7 @@
 import { createField, createMapForm } from 'formalistic';
 
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { PER_AP } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
@@ -135,7 +136,8 @@ export function createSmartAlertForm(alertConfig, editMode) {
     )
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
     .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
-    .put('hiddenFields', createHiddenFieldsForm(alertConfig));
+    .put('hiddenFields', createHiddenFieldsForm(alertConfig))
+    .put('customPayloadFields', createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
 
   const alertType = alertConfig.rule?.alertType ?? 'errorRate';
   form = form.put('threshold', createThresholdForm(alertConfig.threshold, alertType));
