@@ -21,7 +21,7 @@ export default function Groups({ userId, refresh }) {
     <ApiList
       ListRenderer={ListRenderer}
       getItems={getStrippedGroupsAsResultObservable}
-      itemName={t('in-settings:teamSettings.accessControl.users.capitalGroupItemName')}
+      itemName="Group"
       orderBy="name"
       renderer={ListInsideACardRenderer}
       pageSize={5}

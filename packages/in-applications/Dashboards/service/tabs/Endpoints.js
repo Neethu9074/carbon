@@ -236,7 +236,7 @@ export default function Endpoints(props) {
         query={query}
         applicationName={applicationLabel}
         serviceName={serviceLabel}
-        buttonLabel={t('in-applications:labelEndpoints')}
+        buttonLabel={t('in-applications:buttonAnalyzeEndpoints')}
         boundaryScope={boundaryScope}
         groupBy={createGroupBy('endpoint.name', entityTypes.DESTINATION)}
       />

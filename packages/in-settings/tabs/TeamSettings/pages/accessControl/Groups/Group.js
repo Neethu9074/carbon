@@ -51,7 +51,7 @@ export default function Group({ match }) {
     <>
       <Title title={t('in-settings:tabs.group')} />
       <ApiItemView
-        parentViewName="Groups"
+        parentViewName={t('in-settings:tabs.groups')}
         parentPath={teamSettingsAccessControlGroups}
         getObservables={() => ({
           group: groupId ? getGroupAsResultObservable(groupId) : just(successResult(createNewGroup()))

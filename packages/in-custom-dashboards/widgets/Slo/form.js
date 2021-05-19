@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, notBlankValidator, createField, composeValidators } from 'formalistic';
+import { createMapForm, createField, composeValidators } from 'formalistic';
 import moment from 'moment';
 
 import { sloValidator } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/form';
@@ -13,6 +13,7 @@ import { numberValidator, stringValidator } from 'in-services/validators/jsonTyp
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { notBlankValidator } from 'in-services/validators/string';
 import { t } from 'in-i18n';
 
 // internal fields just for app-config information used internally

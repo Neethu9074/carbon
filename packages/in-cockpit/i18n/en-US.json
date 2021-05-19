@@ -86,7 +86,8 @@
       "cpuUsage": "CPU Usage",
       "created": "Created",
       "started": "Started",
-      "os": "OS"
+      "os": "OS",
+      "mean": "mean"
     },
     "topListWidget": {
       "noLabelYet": "No {{nolabel}} yet"

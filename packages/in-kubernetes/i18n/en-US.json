@@ -199,7 +199,8 @@
     "noMemoryRequestQuotaMessage": "There are no memory request quotas in this namespace",
     "noMemoryLimitQuotaMessage": "There are no memory limit quotas in this namespace",
     "completion": "Completion",
-    "placeholderPhase": "Phase…"
+    "placeholderPhase": "Phase…",
+    "events2": "events"
   },
   "viewAllEntityName_unknownEntity_plural": "all",
   "viewAllEntityName_unknownEntity_0": "all",

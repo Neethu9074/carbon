@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+
+import { Card } from '@instana/components';
 
 import {
   applicationDashboardUrlParameters,
@@ -243,7 +244,7 @@ export default function ServiceList(props) {
       technologies={technologies}
       setFilter={setFilter}
       query={query}
-      buttonLabel={t('in-applications:labelServices')}
+      buttonLabel={t('in-applications:buttonAnalyzeServices')}
       applicationName={applicationName}
       boundaryScope={boundaryScope}
       groupBy={createGroupBy('service.name', entityTypes.DESTINATION)}

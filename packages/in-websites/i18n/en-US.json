@@ -546,7 +546,8 @@
         "pageTopListLabelOccurrences": "Occurrences",
         "pageTopListLabelUsers": "Users",
         "browserTopListLabelOccurrences": "Occurrences",
-        "browserTopListLabelUsers": "Users"
+        "browserTopListLabelUsers": "Users",
+        "customEvents": "custom events"
       },
       "errors": {
         "browserTopListLabelOccurrences": "Occurrences",

@@ -89,7 +89,7 @@ export default {
             formatter={percentage}
             metric="cpu.used"
             label={t('in-cockpit:widgets.columnDefinitions.cpuUsage')}
-            aggregation="mean"
+            aggregation={t('in-cockpit:widgets.columnDefinitions.mean')}
           />
         );
       }
@@ -142,7 +142,7 @@ export default {
             formatter={percentage}
             metric="cpu.total_usage"
             label={t('in-cockpit:widgets.columnDefinitions.cpuUsage')}
-            aggregation="mean"
+            aggregation={t('in-cockpit:widgets.columnDefinitions.mean')}
           />
         );
       }
@@ -171,7 +171,7 @@ export default {
             formatter={percentage}
             metric="cpu.user"
             label={t('in-cockpit:widgets.columnDefinitions.cpuUsage')}
-            aggregation="mean"
+            aggregation={t('in-cockpit:widgets.columnDefinitions.mean')}
           />
         );
       }

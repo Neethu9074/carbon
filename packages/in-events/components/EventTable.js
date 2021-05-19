@@ -105,7 +105,7 @@ function EventTable(props) {
       {...props}
       items={items}
       navigator={<EventsList {...props} onItemClicked={onItemClicked} />}
-      typeLabel="event"
+      typeLabel={t('in-events:labelEvent')}
       openItemIndex={findIndex(items, event => event.id === selectedEventId)}
       openItem={e => onChange({ eventId: e.id })}
       resultCountLimit={eventResponseLimit}

@@ -90,7 +90,7 @@ export default function Filters({
           formModel: joinExpressions({ expressions: [queryFilter, endpointFilters, technologyFilters] })
         })}
       >
-        {t('in-applications:buttonAnalyzeWithLabel', { buttonLabel: buttonLabel })}
+        {buttonLabel}
       </Button>
       <ComboBox
         value={endpointTypes}

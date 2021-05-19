@@ -87,7 +87,12 @@ export default connectTo(
                   <>
                     <DashboardHeader
                       title={t('in-infrastructure:agentView.agents')}
-                      contextConfigurations={[{ renderContext: () => 'Agents', contextIcon: 'lib_actions_settings' }]}
+                      contextConfigurations={[
+                        {
+                          renderContext: () => t('in-infrastructure:agentView.agents'),
+                          contextIcon: 'lib_actions_settings'
+                        }
+                      ]}
                       renderButtonLine={renderButtonLine}
                       agentSnapshots={agentSnapshots}
                     />

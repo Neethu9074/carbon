@@ -26,7 +26,7 @@ export default function ApiListHeader(props) {
     <header className={locals.header}>
       {itemName ? (
         <span className={locals.itemName}>
-          {`${itemName}s `}
+          {t('in-settings:cardTitle', { context: itemName, count: 2 })}
           {!isLoading && (
             <span className={locals.itemCount}>{getItemCountPostfix(totalFilteredItems, totalItems)}</span>
           )}

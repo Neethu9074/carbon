@@ -8,6 +8,7 @@ import React from 'react';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import { syntheticCallsOptions } from 'in-applications/constants';
+import { t } from 'in-i18n';
 
 import locals from './IncludeSyntheticCallsDropdown.mless';
 
@@ -27,7 +28,12 @@ export default function IncludeSyntheticCallsDropdown(props) {
     >
       {({ elementProps, isOpen }) => (
         <DropdownButton {...elementProps} expanded={isOpen} kind="secondary" disabled={disabled}>
-          <div className={locals.buttonContent}>Synthetic Calls: {syntheticCallsOptionLabel}</div>
+          <div className={locals.buttonContent}>
+            {' '}
+            {t('in-applications:dashboards.includeSyntheticCallsDropDownSyntheticCalls', {
+              syntheticCallsOptionLabel: syntheticCallsOptionLabel
+            })}
+          </div>
         </DropdownButton>
       )}
     </ComboBoxBehavior>

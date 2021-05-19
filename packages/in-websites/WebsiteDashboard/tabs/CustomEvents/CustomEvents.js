@@ -93,7 +93,7 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'custom events',
+    entityName: t('in-websites:websiteDashboard.tabs.customEvents.customEvents'),
     changeExplanation
   }),
   paginationResettingUrlParameters: [

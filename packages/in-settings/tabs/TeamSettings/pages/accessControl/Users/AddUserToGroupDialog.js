@@ -37,7 +37,7 @@ export default withSelectableItems(function AddUserToGroupDialog({
         <ApiList
           ListRenderer={ListRenderer}
           getItems={getGroupsAsResultObservable}
-          itemName={t('in-settings:teamSettings.accessControl.users.groupItemName')}
+          itemName="group"
           orderBy="name"
           userId={userId}
           checkIfSelected={checkIfSelected}

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField, notBlankValidator, createListForm } from 'formalistic';
+import { createMapForm, createField, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { List } from 'immutable';
 
@@ -12,6 +12,7 @@ import { Button } from '@instana/components';
 
 import { DescriptionList, DescriptionItem } from 'in-components/DescriptionList';
 import SectionHeading from 'in-settings/components/SectionHeading';
+import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import SectionHelp from 'in-settings/components/SectionHelp';

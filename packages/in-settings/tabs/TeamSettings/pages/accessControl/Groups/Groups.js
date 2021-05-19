@@ -32,7 +32,7 @@ export default function Groups() {
         ListRenderer={ListRenderer}
         getItems={getGroupsAsResultObservable}
         deleteItem={deleteGroup}
-        itemName={t('in-settings:teamSettings.accessControl.groups.itemName')}
+        itemName="group"
         searchFields={['name']}
         orderBy="name"
         renderAdditionalHeaderContent={renderAdditionalHeaderContent}

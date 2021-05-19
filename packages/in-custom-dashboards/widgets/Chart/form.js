@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, notBlankValidator, createField, createListForm } from 'formalistic';
+import { createMapForm, createField, createListForm } from 'formalistic';
+
 import { just, combineLatest } from '@instana/observables';
 
 import {
@@ -16,6 +17,7 @@ import { defaultFormatter, allFormatterIds } from 'in-stores/metric/formatters';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { emptyArray, finishedProgress } from 'in-services/fixedObjects';
+import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { merge } from 'in-services/util/resultMerger';
 import { identity } from 'in-services/util/function';

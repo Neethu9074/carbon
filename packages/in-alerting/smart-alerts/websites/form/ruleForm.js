@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator, createMapForm } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 
+import { notBlankValidator } from 'in-services/validators/string';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
 

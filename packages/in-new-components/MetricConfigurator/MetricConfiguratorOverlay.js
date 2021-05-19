@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator, createMapForm, createListForm } from 'formalistic';
+import { createField, createMapForm, createListForm } from 'formalistic';
 import React, { useEffect, useState, useMemo } from 'react';
 
 import MetricConfiguratorOverlayPresenter from 'in-new-components/MetricConfigurator/MetricConfiguratorOverlayPresenter';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { stringValidator } from 'in-services/validators/jsonType';
+import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { t } from 'in-i18n';
 

@@ -64,7 +64,9 @@ export default connectTo(
                   iconType="lib_actions_edit"
                   onClick={() => addActiveDialog(<ConfigurationManagementDialog snapshot={snapshot} />)}
                 >
-                  {snapshot.getIn(['data', 'git', 'initialized']) ? 'Update' : 'Initialize'}
+                  {snapshot.getIn(['data', 'git', 'initialized'])
+                    ? t('in-forge:plugins.instanaAgent.dashboard.buttonUpdate')
+                    : t('in-forge:plugins.instanaAgent.dashboard.buttonInitialize')}
                 </ImageButton>
               ) : null
             }

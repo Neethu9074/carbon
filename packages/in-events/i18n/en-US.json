@@ -82,6 +82,7 @@
   "labelIssues": "Issues",
   "labelMonitoringIssues": "Monitoring issues",
   "labelAll": "All",
+  "labelEvent": "event",
   "buttonViewCustomEvent": "View Custom Event",
   "buttonViewBuiltInEvent": "View Built-in Event",
   "buttonCollapse": "Collapse",

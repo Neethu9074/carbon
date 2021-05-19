@@ -88,7 +88,8 @@
   "buttonInspectIssue_1": "Inspect {{count}} Issue",
   "buttonInspectIssue_2": "Inspect {{count}} Issues",
   "buttonAnalyzeCalls": "Analyze Calls",
-  "buttonAnalyzeWithLabel": "Analyze {{buttonLabel}}",
+  "buttonAnalyzeServices": "Analyze Services",
+  "buttonAnalyzeEndpoints": "Analyze Endpoints",
   "buttonClear": "Clear",
   "buttonCluster": "Cluster",
   "buttonProcess": "Process",
@@ -430,7 +431,8 @@
     "errorMessages": "error messages",
     "errorCallWithoutMessage": "Erroneous call without error message",
     "logMessages": "log messages",
-    "noLogMessage": "No log message available"
+    "noLogMessage": "No log message available",
+    "includeSyntheticCallsDropDownSyntheticCalls":" Synthetic Calls: {{syntheticCallsOptionLabel}}"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "The service is not in the current application.",
@@ -533,9 +535,6 @@
     "syntheticCallsAreIncludedInTheMetrics": "Synthetic calls are included in the metrics.",
     "only": "Only",
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Only synthetic calls are shown and included in the metrics"
-  },
-  "lists": {
-    "services": "Services"
   },
   "traceDetail": {
     "tabs": {

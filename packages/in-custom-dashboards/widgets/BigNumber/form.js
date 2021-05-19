@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, notBlankValidator, createField } from 'formalistic';
+import { createMapForm, createField } from 'formalistic';
 
 import {
   createForm as createMetricConfigurationForm,
@@ -15,6 +15,7 @@ import { defaultFormatter, allFormatterIds } from 'in-stores/metric/formatters';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { stringValidator } from 'in-services/validators/jsonType';
+import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 
 const validComparisonColors = Object.values(allComparisonColors).map(c => c.id);

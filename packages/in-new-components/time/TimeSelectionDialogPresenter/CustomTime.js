@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, notBlankValidator, composeValidators } from 'formalistic';
+import { createField, createMapForm, composeValidators } from 'formalistic';
 import React, { useMemo, useState, useEffect } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -25,6 +25,7 @@ import { historicDataMessage, LARGE_DATA_MESSAGE } from 'in-new-components/time/
 import Section from 'in-new-components/time/TimeSelectionDialogPresenter/Section';
 import DistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
+import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { days, hours, minutes } from 'in-services/time';
 import { emptyObject } from 'in-services/fixedObjects';

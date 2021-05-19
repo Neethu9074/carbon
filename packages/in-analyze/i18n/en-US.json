@@ -50,6 +50,11 @@
         "counter_Trace_0": "{{number}} Traces",
         "counter_Trace_1": "{{number}} Traces",
         "counter_Trace_2": "{{number}} Traces",
+        "counter_Traces": "{{number}} Trace",
+        "counter_Traces_plural": "{{number}} Traces",
+        "counter_Traces_0": "{{number}} Traces",
+        "counter_Traces_1": "{{number}} Traces",
+        "counter_Traces_2": "{{number}} Traces",
         "loading": "Loading…"
       }
     },

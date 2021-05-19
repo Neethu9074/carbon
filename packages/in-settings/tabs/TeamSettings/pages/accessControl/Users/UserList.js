@@ -20,7 +20,7 @@ export default function Users(props) {
       {...props}
       getItems={getUsersAsResultObservable}
       deleteItem={removeUserFromTenant}
-      itemName={t('in-settings:teamSettings.accessControl.users.userItemName')}
+      itemName="User"
       searchFields={['fullName', 'email']}
       orderBy="fullName"
       boundedPath="/users"

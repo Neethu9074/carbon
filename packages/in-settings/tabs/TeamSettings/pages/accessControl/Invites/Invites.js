@@ -24,7 +24,7 @@ export default function Invites() {
         ListRenderer={ListRenderer}
         getItems={getInvitations$}
         deleteItem={revokeInvitation}
-        itemName={t('in-settings:tabs.pendingInvitation')}
+        itemName="PendingInvitation"
         searchFields={['email']}
         renderAdditionalHeaderContent={renderAdditionalHeaderContent}
         searchPlaceholder={t('in-settings:tabs.filterInvites')}

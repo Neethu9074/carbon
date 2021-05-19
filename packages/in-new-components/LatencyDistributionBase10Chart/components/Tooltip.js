@@ -9,6 +9,7 @@ import React from 'react';
 import { millis, number, latency } from 'in-services/formatters/number';
 import AggregationSymbol from 'in-components/AggregationSymbol';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
+import { t } from 'in-i18n';
 
 import locals from './Tooltip.mless';
 
@@ -100,7 +101,10 @@ function latencyRangeLabel(buckets) {
   } else if (from == null || from === 0) {
     latencyRangeLabel = `< ${to}`;
   } else {
-    latencyRangeLabel = `${from} to ${to}`;
+    latencyRangeLabel = t('in-new-components:latencyDistributionBase10Chart.latencyRangeLabelFromTimeToTime', {
+      from: from,
+      to: to
+    });
   }
   return latencyRangeLabel;
 }

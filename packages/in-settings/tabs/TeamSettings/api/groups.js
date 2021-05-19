@@ -9,6 +9,7 @@ import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import http from 'in-services/http';
+import { t } from 'in-i18n';
 
 const basePath = '/api/settings/rbac/groups';
 
@@ -123,7 +124,7 @@ function mapAndRefresh(response) {
 export function createNewGroup() {
   return {
     id: null,
-    name: 'New Group',
+    name: t('in-settings:teamSettings.newGroup'),
     members: [],
     permissionSet: createPermissionSet()
   };

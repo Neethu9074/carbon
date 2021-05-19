@@ -45,8 +45,7 @@ function SettingsContent({
           value={t('in-profiling:threshold')}
           label={
             <div>
-              <div>{t('in-profiling:onlyShowMethod')}</div>
-              <div>{t('in-profiling:aboveThisThreshold')}</div>
+              <div>{t('in-profiling:onlyShowMethodAboveThisThreshold')}</div>
             </div>
           }
           accentuated

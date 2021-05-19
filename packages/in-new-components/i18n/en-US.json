@@ -153,7 +153,8 @@
     "percentileMenuLabelAll": "All",
     "presenterLabelNoDataToDisplay": "No data to display",
     "presenterLabelTraces": "Traces",
-    "presenterLabelCalls": "Calls"
+    "presenterLabelCalls": "Calls",
+    "latencyRangeLabelFromTimeToTime": "{{from}} to {{to}}"
   },
   "layout": {
     "sideNavigationAndContentRouteNotFound": "Not Found"
@@ -345,6 +346,9 @@
     "buttonReloadToUpdate": "Reload to update"
   },
   "upstreamDownstream": {
+    "companionMetricLabelCalls" : "Calls",
+    "companionMetricLabelLatency" : "Latency",
+    "companionMetricLabelErroneousCalls" : "Erroneous Calls",
     "companionMetricLabelErroneousCallRate": "Erroneous Call Rate: ",
     "metricLabelCallsAndErroneousCalls": "Calls and Erroneous Calls",
     "metricLabelCallsAndLatency": "Calls and Latency",
@@ -360,6 +364,8 @@
     "linkSeeAllServices_1": "See all {{count}} {{activeTab}} Service",
     "linkSeeAllServices_2": "See all {{count}} {{activeTab}} Services",
     "linkSeeService": "See Service",
+    "activeTab_upstream": "Upstream",
+    "activeTab_downstream": "Downstream",
     "labelMetric": "Metric:",
     "upstreamText_Service": "Directly Called by {{count}} Service",
     "upstreamText_Service_plural": "Directly Called by {{count}} Services",

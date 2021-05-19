@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator, createMapForm } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { LoadingSkeleton } from '@instana/components';
@@ -18,6 +18,7 @@ import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { updateUser } from 'in-settings/tabs/UserSettings/api/user';
 import { refresh } from 'in-settings/tabs/TeamSettings/api/groups';
+import { notBlankValidator } from 'in-services/validators/string';
 import { isLoading, hasError } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { getUsersAsResultObservable } from 'in-api/users';
@@ -36,7 +37,7 @@ export default function User({ match }) {
     <>
       <Title title={t('in-settings:tabs.user')} />
       <ApiItemView
-        parentViewName="Users"
+        parentViewName={t('in-settings:tabs.users')}
         parentPath={teamSettingsAccessControlUsers}
         getObservables={() => ({
           user: getUsersAsResultObservable().map(usersResult => {

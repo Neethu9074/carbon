@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField, createListForm, notBlankValidator, composeValidators } from 'formalistic';
+import { createMapForm, createField, createListForm, composeValidators } from 'formalistic';
 import { compose, withProps, withState } from 'recompose';
 
 import FileDownloadConfigurationDialogPresenter from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileDownloadConfigurationDialogPresenter';
 import { addSourceMapConfiguration, updateSourceMapConfiguration } from 'in-websites/api/websites';
+import { notBlankValidator } from 'in-services/validators/string';
 import { isBlank, isNotBlank } from 'in-services/util/string';
 import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';

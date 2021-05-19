@@ -44,7 +44,7 @@ export default class extends React.Component {
         <p>
           <Trans
             i18nKey="in-forge:plugins.instanaAgent.dashboard.changeTheLoggingLevelOfThisAgent"
-            values={{ currentLevel: currentLevel }}
+            values={{ currentLevel: t('in-forge:plugins.instanaAgent.dashboard.logLevel', { context: currentLevel }) }}
           />
         </p>
 
@@ -57,10 +57,12 @@ export default class extends React.Component {
             onChange={e => this.setState({ level: e.target.value })}
             autoFocus
           >
-            <option value="INFO">{t('in-forge:plugins.instanaAgent.dashboard.info2')}</option>
-            <option value="DEBUG">{t('in-forge:plugins.instanaAgent.dashboard.debug')}</option>
+            <option value="INFO">{t('in-forge:plugins.instanaAgent.dashboard.logLevel', { context: 'INFO' })}</option>
+            <option value="DEBUG">{t('in-forge:plugins.instanaAgent.dashboard.logLevel', { context: 'DEBUG' })}</option>
             {role.canSetAgentTraceLogLevel ? (
-              <option value="TRACE">{t('in-forge:plugins.instanaAgent.dashboard.trace')}</option>
+              <option value="TRACE">
+                {t('in-forge:plugins.instanaAgent.dashboard.logLevel', { context: 'TRACE' })}
+              </option>
             ) : null}
             ;
           </Select>

@@ -72,6 +72,20 @@
   "cardTitle_User_1": "Users ",
   "cardTitle_User_2": "Users ",
   "cardTitle_Group": "Group ",
+  "cardTitle_Group_plural": "Groups ",
+  "cardTitle_Group_0": "Groups ",
+  "cardTitle_Group_1": "Groups ",
+  "cardTitle_Group_2": "Groups ",
+  "cardTitle_group": "group ",
+  "cardTitle_group_plural": "groups ",
+  "cardTitle_group_0": "groups ",
+  "cardTitle_group_1": "groups ",
+  "cardTitle_group_2": "groups ",
+  "cardTitle_PendingInvitation": "Pending Invitation",
+  "cardTitle_PendingInvitation_plural": "Pending Invitations",
+  "cardTitle_PendingInvitation_0": "Pending Invitations",
+  "cardTitle_PendingInvitation_1": "Pending Invitations",
+  "cardTitle_PendingInvitation_2": "Pending Invitations",
   "components": {
     "confirmRemoveEntity": "Are you sure you want to remove the <strong>{{entity}}</strong>?",
     "removeBtn": "Remove",
@@ -136,7 +150,6 @@
     "permitsAccessToLabelMonitoringFunctionality": "Permits access to {{label}} monitoring functionality.",
     "failedToSaveGroup": "Failed to save group: {{err}}",
     "limitedAccess": "Limited Access",
-    "pendingInvitation": "pending invitation",
     "filterInvites": "Filter invites",
     "areYouSureYouWantToRevokeTheInvitationToJoinTheTenant": "Are you sure you want to revoke the invitation to join the <strong>{{tenant}}</strong> tenant for <strong>{{email}}</strong>?",
     "inviteUser": "Invite User",
@@ -250,6 +263,7 @@
     "configureEventEntityName": "Configure Event: {{entityName}}",
     "thisWillMatchAndCreateIssuesOnAllAvailableEntitiesForTheConditionsSpecified": "<strong>Caution!</strong> This will match and create issues on all available entities for the conditions specified. <strong>This might affect other users in your organization as well.</strong>",
     "aNonEmptyFilterQueryWhichDefinesForWhichEntitiesTheRuleWillBeApplied": "A <strong>non-empty</strong> filter query which defines for which entities the rule will be applied. Select <em>\"Apply on: All available entities\"</em> if you want this rule to be applied on all entities. For more information on syntax, please see our <docLink>documentation</docLink>.",
+    "offlineEventDetection": "Offline event detection",
     "hostsThatDoNotHaveMatchingEntitiesRunningOnThem": "Hosts that do not have matching entities running on them",
     "pleaseSelectASeverity": "Please select a severity",
     "pleaseEnterAValidMetric": "Please enter a valid metric.",
@@ -762,15 +776,6 @@
   "pleaseDefineAValidQuery": "Please define a valid query",
   "queryValidationStillInProgress": "Query validation still in progress",
   "teamSettings": {
-    "accessControl": {
-      "groups": {
-        "itemName": "group"
-      },
-      "users": {
-        "groupItemName": "group",
-        "capitalGroupItemName": "Group",
-        "userItemName": "User"
-      }
-    }
+    "newGroup": "New Group"
   }
 }

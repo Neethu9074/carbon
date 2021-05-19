@@ -13,7 +13,6 @@ import UpstreamDownstreamItem from 'in-new-components/UpstreamDownstream/compone
 import UpstreamDownstreamMetric from 'in-new-components/UpstreamDownstream/components/UpstreamDownstreamMetric';
 import { getApplicationList, getServiceList } from 'in-applications/navigation/paths';
 import { relationships } from 'in-new-components/UpstreamDownstream/constants';
-import { capitalize } from 'in-services/formatters/string';
 import { t } from 'in-i18n';
 
 import locals from './UpstreamDownstreamGroup.mless';
@@ -128,7 +127,7 @@ function getSeeAllApplicationsLink(
       {totalHits > 1
         ? t('in-new-components:upstreamDownstream.linkSeeAllApplications', {
             count: totalHits,
-            activeTab: capitalize(activeTab.toLowerCase())
+            activeTab: t('in-new-components:upstreamDownstream.activeTab', { context: activeTab.toLowerCase() })
           })
         : t('in-new-components:upstreamDownstream.linkSeeApplication')}
     </Link>
@@ -166,7 +165,7 @@ function getSeeAllServicesLink(
       {totalHits > 1
         ? t('in-new-components:upstreamDownstream.linkSeeAllServices', {
             count: totalHits,
-            activeTab: capitalize(activeTab.toLowerCase())
+            activeTab: t('in-new-components:upstreamDownstream.activeTab', { context: activeTab.toLowerCase() })
           })
         : t('in-new-components:upstreamDownstream.linkSeeService')}
     </Link>

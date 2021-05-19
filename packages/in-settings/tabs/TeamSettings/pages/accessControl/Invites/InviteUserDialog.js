@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, notBlankValidator, createMapForm, createListForm } from 'formalistic';
+import { createField, createMapForm, createListForm } from 'formalistic';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -11,6 +11,7 @@ import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
 import { getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
+import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { defaultRoleId, fallbackRoleId } from 'in-stores/user';
 import { submitInviteUserTracker } from 'in-settings/tracker';

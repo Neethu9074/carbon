@@ -31,7 +31,7 @@ export const dataSourceSystem = 'system';
 
 export const offlineEventDetection = Object.freeze({
   id: 'entity.offline',
-  name: 'Offline event detection'
+  name: t('in-settings:tabs.offlineEventDetection')
 });
 
 export const entityVerification = Object.freeze({

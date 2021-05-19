@@ -9,6 +9,7 @@ import { ruleTypeEntityVerification } from 'in-settings/tabs/TeamSettings/pages/
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
+import { t } from 'in-i18n';
 
 export function getEventSpecificationsMutable() {
   return http({
@@ -67,7 +68,7 @@ export function getCustomEventSpecificationMutable(eventSpecificationIds) {
 
 export function createCustomSystemRuleBasedEventSpecificationForEntityVerification(
   id,
-  name = 'New Event',
+  name = t('in-settings:tabs.newEvent'),
   entityType,
   query = '',
   triggering = false,
@@ -105,7 +106,7 @@ export function createCustomSystemRuleBasedEventSpecificationForEntityVerificati
 
 export function createCustomSystemRuleBasedEventSpecification(
   id,
-  name = 'New Event',
+  name = t('in-settings:tabs.newEvent'),
   entityType,
   query = '',
   triggering = false,
@@ -137,7 +138,7 @@ export function createCustomSystemRuleBasedEventSpecification(
 
 export function createCustomThresholdBasedEventSpecification(
   id,
-  name = 'New Event',
+  name = t('in-settings:tabs.newEvent'),
   entityType,
   query = '',
   triggering = false,
