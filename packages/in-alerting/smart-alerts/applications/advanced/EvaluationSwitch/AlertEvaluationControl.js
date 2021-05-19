@@ -52,6 +52,7 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
                     'threshold',
                     createThresholdForm(
                       {
+                        ...form.get('threshold').toJS(),
                         type: 'staticThreshold'
                       },
                       alertType
