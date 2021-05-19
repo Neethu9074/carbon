@@ -901,11 +901,11 @@ function AWSLambdaContent({ agentKey, serverlessEndpoint }) {
 
   let steps;
 
-  const nodejsLayerVersionFallback = '40';
+  const nodejsLayerVersionFallback = '71';
   const nodejsLayerArn = useLambdaLayerVersionObservable('instana-nodejs', nodejsLayerVersionFallback);
-  const pythonLayerVersion = '20';
+  const pythonLayerVersion = '27';
   const pythonLayerArn = useLambdaLayerVersionObservable('instana-python', pythonLayerVersion);
-  const javaLayerVersion = '21';
+  const javaLayerVersion = '25';
   const javaLayerArn = useLambdaLayerVersionObservable('instana-java', javaLayerVersion);
 
   if (selectedRuntime === runtimeOptions[0]) {
