@@ -211,11 +211,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'applicationSmartAlertTitlePlaceholdersEnabled',
-    instanaCtlKey: 'feature.application.smart.alert.title.placeholders.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'agentInstallViewRestrictedToIBMSaas',
     instanaCtlKey: 'feature.agent.install.view.restricted.to.ibm.saas',
     defaultValue: false

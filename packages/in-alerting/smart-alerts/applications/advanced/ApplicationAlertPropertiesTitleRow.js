@@ -16,7 +16,6 @@ import {
 import { applicationsAlertingAdditionalPropsTitleChanged } from 'in-alerting/smart-alerts/applications/tracker';
 import { placeholders, placeholderTypes } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
-import { applicationSmartAlertTitlePlaceholdersEnabled } from 'in-services/featureFlags';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import AlertSection from 'in-alerting/components/AlertSection';
@@ -36,33 +35,31 @@ export default function ApplicationAlertPropertiesTitleRow({ form, onChange }) {
       title={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesTitle')}
     >
       <Stack space="xsmall">
-        {applicationSmartAlertTitlePlaceholdersEnabled && (
-          <HorizontalFlexWrapper className={locals.placeholderMenuButtonWrapper}>
-            <MoreMenu
-              renderInteractiveElement={({ ref, toggle }) => (
-                <Button
-                  kind="action"
-                  className={locals.placeholderMenu}
-                  ref={ref}
-                  onClick={e => {
-                    stopPropagation(e);
-                    toggle();
-                  }}
-                >
-                  {t('in-alerting:smartAlerts.applications.advanced.alertPropertyInsertPlaceholderLabel')}
-                </Button>
-              )}
-            >
-              {placeholders.filter(placeholderSuggestionsFilter(alertEvaluationType)).map(({ template }) => {
-                return (
-                  <MoreMenuButton onClick={insertPlaceholderText(titleTextareaRef, template, onChange)} key={template}>
-                    {template}
-                  </MoreMenuButton>
-                );
-              })}
-            </MoreMenu>
-          </HorizontalFlexWrapper>
-        )}
+        <HorizontalFlexWrapper className={locals.placeholderMenuButtonWrapper}>
+          <MoreMenu
+            renderInteractiveElement={({ ref, toggle }) => (
+              <Button
+                kind="action"
+                className={locals.placeholderMenu}
+                ref={ref}
+                onClick={e => {
+                  stopPropagation(e);
+                  toggle();
+                }}
+              >
+                {t('in-alerting:smartAlerts.applications.advanced.alertPropertyInsertPlaceholderLabel')}
+              </Button>
+            )}
+          >
+            {placeholders.filter(placeholderSuggestionsFilter(alertEvaluationType)).map(({ template }) => {
+              return (
+                <MoreMenuButton onClick={insertPlaceholderText(titleTextareaRef, template, onChange)} key={template}>
+                  {template}
+                </MoreMenuButton>
+              );
+            })}
+          </MoreMenu>
+        </HorizontalFlexWrapper>
         <AlertPropertiesTextarea
           ref={titleTextareaRef}
           name="name"
