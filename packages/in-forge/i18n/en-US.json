@@ -1139,6 +1139,7 @@
   "tracingTypeName_aspnetmvccontroller_0": "ASP.Net MVC-Controllers",
   "tracingTypeName_aspnetmvccontroller_1": "ASP.Net MVC-Controller",
   "tracingTypeName_aspnetmvccontroller_2": "ASP.Net MVC-Controllers",
+  "tracingTypeName_awslambdainvoke": "AWS Lambda Invoke",
   "tracingTypeName_awslambdaentry": "AWS Lambda Execution",
   "tracingTypeName_awslambdaentry_plural": "AWS Lambda Executions",
   "tracingTypeName_awslambdaentry_0": "AWS Lambda Executions",
@@ -10183,6 +10184,10 @@
       "bodyAWSEvent": "AWS Event",
       "bodyAWSEventDetail": "An API Gateway call that does not use the Lambda Proxy option or an unidentified Lambda trigger.",
       "titleLambdaAttributes": "Lambda Attributes"
+    },
+    "LambdaInvoke": {
+      "titleARN": "ARN",
+      "titleInvokeType": "Invoke type"
     },
     "batchSynthetic": {
       "indexReturn": "Internal trigger",
