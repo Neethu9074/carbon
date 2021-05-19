@@ -9,6 +9,7 @@ import { Button, SvgIcon } from '@instana/components';
 import { Li, Ul } from '@instana/components';
 
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
+import { LOG_CUSTOM, LOG_MESSAGE } from 'in-logging/queryBuilder';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { t } from 'in-i18n';
@@ -24,7 +25,7 @@ export default function AnalyzeLogsButton({ log }) {
       content={() => (
         <Ul>
           <Li
-            href$={getLinkToTagFilterExpression({ name: 'log.message', value: log.message })}
+            href$={getLinkToTagFilterExpression({ name: LOG_MESSAGE, value: log.message })}
             onDefaultHrefInteractionSideEffect={() => jumpToLogs({ source: 'similar logs' })}
           >
             {t('in-analyze:logDetails.similarLogs')}
@@ -32,7 +33,7 @@ export default function AnalyzeLogsButton({ log }) {
           {serviceId && (
             <Li
               href$={getLinkToTagFilterExpression({
-                name: 'log.custom',
+                name: LOG_CUSTOM,
                 key: 'service_id',
                 value: serviceId
               })}
@@ -63,6 +64,6 @@ function getLinkToTagFilterExpression(tagFilterExpression) {
 
 function getServiceId(tags) {
   return tags
-    .filter(({ name, key }) => name === 'log.custom' && key === 'service_id')
+    .filter(({ name, key }) => name === LOG_CUSTOM && key === 'service_id')
     .map(({ stringValue }) => stringValue)[0];
 }

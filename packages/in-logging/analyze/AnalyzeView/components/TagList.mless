@@ -18,6 +18,19 @@
     margin-right: 0.25rem;
   }
 
+  .button {
+    padding: 0.1875rem 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .icon {
+    padding-bottom: 0.25rem;
+  }
+
+  .loadingIcon {
+    fill: @lib__colors__light-blue800;
+  }
+
   .link {
     overflow: hidden;
 

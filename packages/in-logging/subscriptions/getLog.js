@@ -4,7 +4,9 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { minutes } from 'in-services/time';
 
 export default createResultSubscriptionFactory({
-  eventId: 'logsV2.getLog'
+  eventId: 'logsV2.getLog',
+  memoizeFor: minutes.toMillis(5)
 });

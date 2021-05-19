@@ -26,7 +26,6 @@ export default function FeatureFeedback({
       <Link className={locals.betaLink} external href={href}>
         {t('in-new-components:featureFeedback.linkLabelYouCanSendUsFeedback')}
       </Link>
-      .
     </div>
   );
 }

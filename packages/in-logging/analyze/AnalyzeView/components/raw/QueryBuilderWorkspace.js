@@ -30,16 +30,15 @@ export default function LoggingQueryBuilderWorkspace(props) {
             QueryBuilder={LogsQueryBuilder}
             useLastValidStateWhenErroneous
             tracking={tracking}
-            actions={<TagSelector {...props} compact maxSelectableTags={3} />}
+            actions={<TagSelector {...props} />}
             hasError={!isValid}
           />
         </Sections>
-        {!isValid &&
-          !isLoading && (
-            <Message type={error} withIcon small>
-              {t('in-logging:theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing')}
-            </Message>
-          )}
+        {!isValid && !isLoading && (
+          <Message type={error} withIcon small>
+            {t('in-logging:theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing')}
+          </Message>
+        )}
         {children}
       </Stack>
       <Footer />

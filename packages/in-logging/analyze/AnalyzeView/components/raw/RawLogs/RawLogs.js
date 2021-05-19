@@ -45,7 +45,7 @@ export default function RawLogs(props) {
       getData={getTableData}
       getId={item => item.itemId}
       withoutListItemLinkToDetails
-      getDetailData={detailId => getLog({ id: detailId })}
+      getDetailData={detailId => getLog({ itemId: detailId })}
       DetailView={DetailView}
       withCountHeader={false}
       Presenter={Presenter}
@@ -102,7 +102,8 @@ function getTableData({ timeConfig, afterKey, backendQueryModel, loadAfterCount 
     retrievalSize: 20,
     afterKey,
     loadAfterCount,
-    tagFilterExpression: backendQueryModel
+    tagFilterExpression: backendQueryModel,
+    tags: []
   });
 }
 

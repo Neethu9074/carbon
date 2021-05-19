@@ -34,6 +34,7 @@ import { number, latency } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import { callDetailClickedTracker } from 'in-analyze/tracker';
 import { isLoading, hasError } from 'in-services/util/result';
+import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { warning } from 'in-new-components/Message/types';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -55,12 +56,18 @@ export default function Summary({
   getColor,
   callId,
   traceId,
-  logId,
+  logId: logIdPair,
   setCallId,
   setLogId,
   colorCodeType,
   setColorCodeMechanism
 }) {
+  // backward compatibility for old links.
+  // TODO: Remove after once released
+  if (typeof logIdPair === 'string') {
+    logIdPair = { logId: logIdPair, spanId: undefined };
+  }
+
   const isInternalVisible = useObservable(isInternalVisible$, []) || false;
   const callTreeResult = useObservable(() => getTraceActivityTree({ id: traceId }), [traceId]) ?? pendingResult;
 
@@ -120,8 +127,8 @@ export default function Summary({
     callDetailClickedTracker();
   };
 
-  const selectLogId = id => {
-    setLogId(id);
+  const selectLogId = ids => {
+    setLogId(ids);
   };
 
   const clearSelectedLogId = () => {
@@ -357,9 +364,7 @@ export default function Summary({
                       kind="secondary"
                       icon="lib_analyze"
                       href$={getLinkToAnalyze({
-                        tagFilterExpression: [
-                          { type: 'TAG_FILTER', operator: 'EQUALS', name: 'log.traceId', value: traceId }
-                        ],
+                        tagFilterExpression: [getTraceIdTagFilter(traceId)],
                         timeConfig: timeConfigForLogs
                       })}
                       onClick={() => jumpToLogs({ source: 'analyze logs' })}
@@ -372,7 +377,7 @@ export default function Summary({
                     traceId={traceId}
                     selectLogId={selectLogId}
                     clearSelectedLogId={clearSelectedLogId}
-                    selectedLogId={logId}
+                    selectedLogIdPair={logIdPair}
                     timeConfigForLogs={timeConfigForLogs}
                     totalNumberOfLogs={totalNumberOfLogs}
                   />
@@ -403,8 +408,8 @@ export default function Summary({
   const logDetails = (
     <ErrorBoundary name="log tree sidebar">
       <LogDetails
-        logId={logId}
-        traceId={traceId}
+        selectedLogIdPair={logIdPair}
+        callId={callId}
         onClose={clearSelectedLogId}
         timeConfigForLogs={timeConfigForLogs}
         totalNumberOfLogs={totalNumberOfLogs}
@@ -415,10 +420,10 @@ export default function Summary({
   const leftContent = <HeightRestrictedView render={() => traceDetails} />;
   const rightContent = (
     <HeightRestrictedView
-      render={() => (logId ? logDetails : callDetails)}
-      scrollResetProps={logId ? ['callId'] : ['logId']}
+      render={() => (logIdPair ? logDetails : callDetails)}
+      scrollResetProps={logIdPair ? ['callId'] : ['logId']}
       callId={effectiveCallId}
-      logId={logId}
+      selectedLogIdPair={logIdPair}
     />
   );
 
@@ -427,7 +432,7 @@ export default function Summary({
       leftContent={leftContent}
       rightContent={rightContent}
       leftWidth="65%"
-      expandedSide$={effectiveCallId || logId ? just(null) : just('left')}
+      expandedSide$={effectiveCallId || logIdPair ? just(null) : just('left')}
     />
   );
 }
@@ -448,3 +453,4 @@ function countLogsForCall(call, counter = 0) {
   }
   return counter;
 }
+

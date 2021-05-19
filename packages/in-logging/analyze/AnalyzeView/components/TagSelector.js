@@ -3,81 +3,102 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { Button } from '@instana/components';
-import { Ul, Li } from '@instana/components';
+import { ColumnizedContent, Ul, Li } from '@instana/components';
 
-import DraggableItemSelector from 'in-new-components/DraggableItemSelector';
+import { compareIgnoreCase, containsIgnoreCase } from 'in-services/util/string';
 import { selectedChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Overlay from 'in-new-components/overlays/Overlay';
-import { compare } from 'in-services/util/string';
+import SearchInput from 'in-new-components/SearchInput';
+import { LOG_MESSAGE } from 'in-logging/queryBuilder';
 import { t } from 'in-i18n';
 
 import locals from './TagSelector.mless';
 
+const columnDefinitions = [
+  {
+    id: 'check',
+    width: '2.25rem',
+    sortable: false,
+    getContent({ isSelected }) {
+      return <CheckboxFancy checked={isSelected} onChange={() => {}} />;
+    }
+  },
+  {
+    id: 'label',
+    sortable: false,
+    getContent({ tag, tagCatalog, tagTree }) {
+      return <div className={locals.label}> {getLabelFromTreeOrCatalog(tag, tagCatalog, tagTree)}</div>;
+    }
+  }
+];
+
 export default function TagSelector(props) {
-  const {
-    maxSelectableTags = Number.MAX_VALUE,
-    onSelectedTagsChange,
-    filteringTagCatalog,
-    selectedTags,
-    compact
-  } = props;
+  const { onSelectedTagsChange, filteringTagCatalog, selectedTags: initialSelectedTags } = props;
+  const [selectedTags, setSelectedTags] = useState(initialSelectedTags);
 
   const tagCatalog = filteringTagCatalog?.tags ?? [];
   const tagTree = filteringTagCatalog?.tagTree ?? [];
 
-  useEffect(() => {
-    selectedChanged({ selectedTags });
-  }, [
-    selectedTags
-      .slice()
-      .sort()
-      .join()
-  ]);
+  useTracking(selectedTags);
 
   return (
     <Overlay
       content={TagSelectorOverlay}
-      props={{ selectedTags, maxSelectableTags, onSelectedTagsChange, tagCatalog, tagTree }}
+      props={{ selectedTags, setSelectedTags, tagCatalog, tagTree }}
       withoutWrapper
+      onCloseSideEffect={() => onSelectedTagsChange(selectedTags)}
     >
-      {({ toggle, refSetter }) =>
-        compact ? (
-          <Button size="compact" kind="secondary" icon="lib_actions_settings" refSetter={refSetter} onClick={toggle} />
-        ) : (
-          <DropdownButton kind="secondary" icon="lib_actions_settings" refSetter={refSetter} onClick={toggle}>
-            {t('in-logging:selectTags')}
-          </DropdownButton>
-        )
-      }
+      {({ toggle, refSetter }) => (
+        <DropdownButton kind="secondary" icon="lib_actions_settings" refSetter={refSetter} onClick={toggle}>
+          {t('in-logging:selectTags')}
+        </DropdownButton>
+      )}
     </Overlay>
   );
 }
 
-function TagSelectorOverlay({ selectedTags, onSelectedTagsChange, maxSelectableTags, tagCatalog, tagTree }) {
-  selectedTags = selectedTags.slice();
-  selectedTags.sort(compare);
+function TagSelectorOverlay({ selectedTags, setSelectedTags, tagCatalog, tagTree }) {
+  const [query, setQuery] = useState('');
 
-  const allAvailableTags = tagCatalog.filter(isAllowedLogTag).map(mapToName);
-  const remainingTags = allAvailableTags.filter(tag => selectedTags.indexOf(tag) === -1);
+  const allAvailableTags = tagCatalog
+    .filter(isAllowedLogTag)
+    .filter(({ name }) => containsIgnoreCase(name, query))
+    .map(mapToName)
+    .sort(compareIgnoreCase);
 
   return (
-    <DraggableItemSelector
-      items={selectedTags.map(name => ({ name }))}
-      Content={Content}
-      tagCatalog={tagCatalog}
-      tagTree={tagTree}
-      onRemove={({ name }) => onSelectedTagsChange(selectedTags.filter(_tag => _tag !== name))}
-      SlideInContent={TagList}
-      slideInContentTitle={t('in-logging:addATag')}
-      disabled={remainingTags.length === 0 || selectedTags.length >= maxSelectableTags}
-      onSelectedTagsChange={onSelectedTagsChange}
-      remainingTags={remainingTags}
-      selectedTags={selectedTags}
-    />
+    <div>
+      <div className={locals.header}>
+        <SearchInput className={locals.searchInput} onChange={setQuery} query={query} autoFocus />
+      </div>
+
+      <Ul className={locals.list}>
+        {allAvailableTags.map(tag => {
+          const isSelected = selectedTags.includes(tag);
+          return (
+            <Li
+              key={tag}
+              onClick={() => {
+                setSelectedTags(isSelected ? selectedTags.filter(t => t !== tag) : [...selectedTags, tag]);
+              }}
+            >
+              <ColumnizedContent
+                columnDefinitions={columnDefinitions}
+                tag={tag}
+                tagCatalog={tagCatalog}
+                tagTree={tagTree}
+                selectedTags={selectedTags}
+                isSelected={isSelected}
+              />
+            </Li>
+          );
+        })}
+      </Ul>
+    </div>
   );
 }
 
@@ -86,36 +107,7 @@ function mapToName({ name }) {
 }
 
 function isAllowedLogTag({ name }) {
-  return name !== 'log.message';
-}
-
-function TagList({
-  remainingTags,
-  selectedTags,
-  onSelectedTagsChange,
-  onShowSlideInContentChange,
-  tagCatalog,
-  tagTree
-}) {
-  return (
-    <Ul>
-      {remainingTags.map(tag => (
-        <Li
-          key={tag}
-          onClick={() => {
-            onSelectedTagsChange(selectedTags.concat(tag));
-            onShowSlideInContentChange(false);
-          }}
-        >
-          {getLabelFromTreeOrCatalog(tag, tagCatalog, tagTree)}
-        </Li>
-      ))}
-    </Ul>
-  );
-}
-
-function Content({ item, tagCatalog, tagTree }) {
-  return <span className={locals.label}>{getLabelFromTreeOrCatalog(item.name, tagCatalog, tagTree)}</span>;
+  return name !== LOG_MESSAGE;
 }
 
 function getLabelFromTreeOrCatalog(name, tagCatalog, tagTree) {
@@ -146,4 +138,8 @@ function getLabelFromTree(name, tagTree, path) {
       }
     }
   }
+}
+
+function useTracking(sortedTags) {
+  useEffect(() => selectedChanged({ sortedTags }), [sortedTags.join()]);
 }

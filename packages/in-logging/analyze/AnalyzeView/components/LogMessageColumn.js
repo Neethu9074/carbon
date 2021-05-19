@@ -14,20 +14,18 @@ import TagList from 'in-logging/analyze/AnalyzeView/components/TagList';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import useResizeObserver from 'in-hooks/useResizeObserver';
+import { LOG_TRACE_ID } from 'in-logging/queryBuilder';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './LogMessageColumn.mless';
 
-export default function LogMessageColumn({
-  tags,
-  message,
-  selectedTags,
-  getHrefToGroupedView,
-  getHrefWithAdditionalTagFilter
-}) {
-  const onSelectTagHref = tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag));
+export default function LogMessageColumn(props) {
+  const { itemId, tags, message, selectedTags, getHrefToGroupedView, getHrefWithAdditionalTagFilter } = props;
+
   const tagListTags = tags.filter(({ name }) => selectedTags.indexOf(name) >= 0);
+
+  const onSelectTagHref = tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag));
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
@@ -42,8 +40,10 @@ export default function LogMessageColumn({
     setIsExpanded(false);
   }, [wrapperWidth]);
 
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <div className={locals.wrapper}>
+    <div className={locals.wrapper} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <div className={locals.messageWrapper} ref={ref}>
         <span
           className={classNames({
@@ -75,7 +75,12 @@ export default function LogMessageColumn({
 
       {tagListTags.length > 0 && (
         <HorizontalFlexWrapper className={locals.tagsWrapper}>
-          <TagList tags={tagListTags} onSelectTagHref={onSelectTagHref} />
+          <TagList
+            itemId={itemId}
+            tags={tagListTags}
+            onSelectTagHref={onSelectTagHref}
+            showLoadMoreAction={isHovered}
+          />
         </HorizontalFlexWrapper>
       )}
     </div>
@@ -91,7 +96,7 @@ function getTagExpressionWithTag(tag) {
 }
 
 function TraceIcon({ tags }) {
-  const traceId = tags.filter(({ name }) => name === 'log.traceId')[0]?.stringValue;
+  const traceId = tags.filter(({ name }) => name === LOG_TRACE_ID)[0]?.stringValue;
   return traceId ? (
     <Tooltip content={t('in-logging:goToTrace')}>
       <IconButton type="lib_application_trace" href$={getLinkToTraceDetail(traceId)} />

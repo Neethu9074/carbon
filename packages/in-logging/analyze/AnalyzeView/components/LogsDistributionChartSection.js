@@ -7,6 +7,7 @@ import React from 'react';
 
 import ChartingConfiguratorSection from 'in-new-components/ChartingConfigurator/ChartingConfiguratorSection';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { LOG_LEVEL, getValueMatchTagFilter } from 'in-logging/queryBuilder';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -91,7 +92,7 @@ function getMetricConfig(backendQueryModel, metric, logLevel, label) {
 
 function addLogLevelFilterTagToQueryModel(logLevel, backendQueryModel) {
   return {
-    elements: [{ type: 'TAG_FILTER', name: 'log.level', value: logLevel, operator: 'EQUALS' }, backendQueryModel],
+    elements: [getValueMatchTagFilter(LOG_LEVEL, logLevel), backendQueryModel],
     logicalOperator: 'AND',
     type: 'EXPRESSION'
   };

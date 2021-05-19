@@ -3,6 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { just } from '@instana/observables';
+
+import { getValueMatchTagFilter } from 'in-logging/queryBuilder';
+import { LOG_DOCKER_SNAPSHOT_ID } from 'in-logging/queryBuilder';
+import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import getLogs from 'in-logging/subscriptions/getLogs';
+
 export function hasNetworkMetrics(snapshot) {
   // See https://docs.docker.com/engine/reference/run/#network-settings for info on possible network modes.
   // In network modes host and container, we never get any network metrics. In network mode bridge we usually get some.
@@ -30,11 +37,12 @@ export function isWithinKubernetes(snapshot) {
 }
 
 export function getAnalyzeLogsHref$({ snapshot, timeConfig }) {
-  const tagFilterExpression = getValueMatchTagFilter('log.dockerSnapshotId', snapshot.get('id'));
+  const tagFilterExpression = getValueMatchTagFilter(LOG_DOCKER_SNAPSHOT_ID, snapshot.get('id'));
   return getLogs({
     timeConfig,
     retrievalSize: 1,
-    tagFilterExpression
+    tagFilterExpression,
+    tags: []
   }).flatMap(result => {
     if (result.data?.items.length > 0) {
       return getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression] });
@@ -42,9 +50,3 @@ export function getAnalyzeLogsHref$({ snapshot, timeConfig }) {
     return just(null);
   });
 }
-
-import { just } from '@instana/observables';
-
-import { getValueMatchTagFilter } from 'in-logging/queryBuilder';
-import { getLinkToAnalyze } from 'in-logging/navigation/paths';
-import getLogs from 'in-logging/subscriptions/getLogs';

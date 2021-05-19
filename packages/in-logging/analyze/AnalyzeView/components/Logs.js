@@ -11,6 +11,7 @@ import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessa
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import UngroupedViewList from 'in-new-components/AnalyzeView/UngroupedViewList';
+import { LOG_CUSTOM, LOG_LEVEL, LOG_TRACE_ID } from 'in-logging/queryBuilder';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { formatDateTime } from 'in-services/formatters/date';
 import HealthDot from 'in-new-components/health/HealthDot';
@@ -58,14 +59,15 @@ export default function Logs(props) {
     <UngroupedViewList
       {...props}
       useCursorPaginationStrategy={useLogsCursorPagination}
+      additionalGetDataDependencies={[props.selectedTags]}
       classNames={{ listItem: locals.listItem }}
       withoutSorting
       columnDefinitions={columnDefinitions}
-      getData={getTableData}
+      getData={params => getTableData({ ...params, selectedTags: props.selectedTags })}
       getId={item => item.itemId}
       withoutListItemLinkToDetails
       DetailView={DetailView}
-      getDetailData={detailId => getLog({ id: detailId })}
+      getDetailData={detailId => getLog({ itemId: detailId })}
       CustomHeaderActions={TagSelector}
       withCountHeader={false}
       tracker={tracker}
@@ -83,12 +85,15 @@ function DetailView() {
   return null;
 }
 
-function getTableData({ timeConfig, afterKey, backendQueryModel, loadAfterCount }) {
+function getTableData(props) {
+  const { timeConfig, afterKey, backendQueryModel, loadAfterCount, selectedTags } = props;
+
   return getLogs({
     timeConfig,
     retrievalSize: 20,
     afterKey,
     loadAfterCount,
-    tagFilterExpression: backendQueryModel
+    tagFilterExpression: backendQueryModel,
+    tags: [...selectedTags, LOG_TRACE_ID, LOG_CUSTOM, LOG_LEVEL]
   });
 }

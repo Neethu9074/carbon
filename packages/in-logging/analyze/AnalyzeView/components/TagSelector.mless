@@ -6,11 +6,28 @@
 @import '~in-themes/active.less';
 
 :local {
-  .label {
-    width: 100%;
-    margin: 0 1rem;
+  .list {
+    max-height: 20rem;
+    width: 22rem;
 
-    color: @lib__colors__N700Medium;
-    font-size: 0.875rem;
+    overflow-y: scroll;
+  }
+
+  .label {
+    margin-bottom: 0.1875rem;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 0.5rem;
+
+    background: @lib__colors__N050;
+  }
+
+  .searchInput {
+    width: 100%;
   }
 }

@@ -3,4 +3,5 @@
  * (c) Copyright Instana Inc.
  */
 
-export const initSelectedTags = ['log.level', 'log.streamName'];
+import { LOG_LEVEL, LOG_STREAM_NAME } from 'in-logging/queryBuilder';
+export const initSelectedTags = [LOG_LEVEL, LOG_STREAM_NAME];

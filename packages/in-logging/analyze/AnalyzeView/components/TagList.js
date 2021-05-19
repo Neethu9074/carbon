@@ -3,16 +3,43 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
+import React, { useState } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+import { SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
+import { Link } from '@instana/components';
+
+import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import { hasError, isLoading } from 'in-services/util/result';
+import { pendingResult } from 'in-services/fixedObjects';
+import getLog from 'in-logging/subscriptions/getLog';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './TagList.mless';
 
-export default function TagList({ tags, onSelectTagHref }) {
+export default function TagList({ itemId, tags, onSelectTagHref, showLoadMoreAction }) {
+  const [showAllTags, setShowAllTags] = useState(false);
+
+  if (showAllTags) {
+    return <AllTags itemId={itemId} tags={tags} onSelectTagHref={onSelectTagHref} />;
+  }
+
+  return (
+    <>
+      <List tags={tags} onSelectTagHref={onSelectTagHref} />
+      {showLoadMoreAction && (
+        <Button className={locals.button} size="compact" kind="action" onClick={() => setShowAllTags(true)}>
+          show all
+        </Button>
+      )}
+    </>
+  );
+}
+
+function List({ tags, onSelectTagHref }) {
   return (
     <>
       {tags.map((tag, i) => (
@@ -49,6 +76,38 @@ function Tag({ tag, onSelectTagHref }) {
   }
 
   return tagComponent;
+}
+
+function AllTags({ itemId, tags, onSelectTagHref }) {
+  const logResult =
+    useObservable(() => getLog({ itemId: itemId, tagFilterExpression: emptyTagFilterExpression }), [itemId]) ??
+    pendingResult;
+
+  if (isLoading(logResult)) {
+    return (
+      <>
+        <List tags={tags} onSelectTagHref={onSelectTagHref} />
+        <Button className={locals.button} size="compact" kind="action" icon="lib_actions_loading" iconSpinning>
+          loading
+        </Button>
+      </>
+    );
+  }
+
+  if (hasError(logResult)) {
+    return (
+      <>
+        <List tags={tags} onSelectTagHref={onSelectTagHref} />
+        <Tooltip content={logResult.errors[0].message}>
+          <div className={locals.tag}>
+            <SvgIcon size="xs" type="lib_help_error_warning" />
+          </div>
+        </Tooltip>
+      </>
+    );
+  }
+
+  return <List tags={logResult.data.tags} onSelectTagHref={onSelectTagHref} />;
 }
 
 function getTagKey({ label, name, key }) {

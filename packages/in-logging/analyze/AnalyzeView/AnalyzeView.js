@@ -17,6 +17,7 @@ import { logIdMatrixParameter, selectedTags } from 'in-logging/navigation/matrix
 import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
 import useTimeSpentInsideComponent from 'in-hooks/useTimeSpentInsideComponent';
 import StateManagement from 'in-new-components/AnalyzeView/StateManagement';
+import { LOG_LEVEL, LOG_STREAM_NAME } from 'in-logging/queryBuilder';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import { getTagCatalog } from 'in-logging/api/catalog';
@@ -33,13 +34,13 @@ const facetedSearchItems = [
   {
     renderer: FacetedFilterRenderer,
     title: 'Log levels',
-    tag: 'log.level',
+    tag: LOG_LEVEL,
     getSuggestionName: getLabel
   },
   {
     renderer: FacetedFilterRenderer,
     title: 'Stream',
-    tag: 'log.streamName',
+    tag: LOG_STREAM_NAME,
     getSuggestionName: getLabel
   }
 ];

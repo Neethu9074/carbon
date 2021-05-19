@@ -44,7 +44,7 @@
     var req = new XMLHttpRequest();
     req.open("GET", "/csrf/token");
     req.send();
-    req.onloadend = () => window.instana.csrf = req.getResponseHeader("x-csrf-token");
+    req.onload = () => window.instana.csrf = req.getResponseHeader("x-csrf-token");
   </script>
   <script>
   if (!window.instana.user || window.instana.user.errors) {

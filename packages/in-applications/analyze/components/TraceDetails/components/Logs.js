@@ -9,11 +9,11 @@ import React from 'react';
 import { ColumnizedContent, Ul, Li } from '@instana/components';
 
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
+import { LOG_SPAN_ID, LOG_CUSTOM, getTraceIdTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
-import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { formatDateTime } from 'in-services/formatters/date';
 import HealthDot from 'in-new-components/health/HealthDot';
 import getLogs from 'in-logging/subscriptions/getLogs';
@@ -51,7 +51,7 @@ const columnDefinitions = [
 ];
 
 export default function Logs(props) {
-  const { traceId, totalNumberOfLogs, selectedLogId, clearSelectedLogId, selectLogId, timeConfigForLogs } = props;
+  const { traceId, totalNumberOfLogs, selectedLogIdPair, clearSelectedLogId, selectLogId, timeConfigForLogs } = props;
   const { items, errors, progress } = useLogsCursorPagination(
     params => getData({ traceId, totalNumberOfLogs, timeConfigForLogs, ...params }),
     [traceId]
@@ -70,14 +70,17 @@ export default function Logs(props) {
     <Ul space="disabled">
       {items.map(log => {
         const id = log.itemId;
-        const isSelected = selectedLogId === id;
+        const spanId = getSpanIdFromTags(log.tags);
+        const isSelected = selectedLogIdPair
+          ? selectedLogIdPair.logId === id && spanId === selectedLogIdPair.spanId
+          : false;
         return (
           <Li
             key={id}
             className={classNames({
               [locals.selectedRow]: isSelected
             })}
-            onClick={() => (isSelected ? clearSelectedLogId() : selectLogId(id))}
+            onClick={() => (isSelected ? clearSelectedLogId() : selectLogId({ logId: id, spanId }))}
           >
             <ColumnizedContent columnDefinitions={columnDefinitions} {...log} />
           </Li>
@@ -91,6 +94,11 @@ function getData({ traceId, totalNumberOfLogs, timeConfigForLogs }) {
   return getLogs({
     timeConfig: timeConfigForLogs,
     retrievalSize: totalNumberOfLogs,
-    tagFilterExpression: getTraceIdTagFilter(traceId)
+    tagFilterExpression: getTraceIdTagFilter(traceId),
+    tags: [LOG_SPAN_ID, LOG_LEVEL, LOG_CUSTOM]
   });
+}
+
+function getSpanIdFromTags(tags) {
+  return tags.filter(({ name }) => name === LOG_SPAN_ID)[0]?.stringValue;
 }

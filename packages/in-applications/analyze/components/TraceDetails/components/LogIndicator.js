@@ -6,8 +6,8 @@
 import React, { forwardRef } from 'react';
 
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
+import { getTraceIdTagFilter, LOG_CUSTOM, LOG_SPAN_ID } from 'in-logging/queryBuilder';
 import { loggingEnabledOnTrace } from 'in-services/featureFlags';
-import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import theme from 'in-themes';
 
@@ -36,7 +36,9 @@ const LogV2Indicator = forwardRef(function LogV2IndicatorFn(props, ref) {
     <div
       ref={ref}
       {...getStyleProps(props)}
-      onClick={() => (logId ? selectLogId(logId) : onCallClicked != null ? () => onCallClicked(parentCall) : null)}
+      onClick={() =>
+        logId ? selectLogId({ logId, spanId: log.id }) : onCallClicked != null ? () => onCallClicked(parentCall) : null
+      }
     />
   );
 });
@@ -60,7 +62,7 @@ function useLogId(props) {
   );
 
   return items.filter(({ tags }) =>
-    tags.some(({ name, stringValue }) => name === 'log.spanId' && stringValue === spanId)
+    tags.some(({ name, stringValue }) => name === LOG_SPAN_ID && stringValue === spanId)
   )[0]?.itemId;
 }
 
@@ -68,6 +70,7 @@ function getData({ traceId, timeConfigForLogs, totalNumberOfLogs }) {
   return getLogs({
     timeConfig: timeConfigForLogs,
     retrievalSize: totalNumberOfLogs,
-    tagFilterExpression: getTraceIdTagFilter(traceId)
+    tagFilterExpression: getTraceIdTagFilter(traceId),
+    tags: [LOG_SPAN_ID, LOG_CUSTOM]
   });
 }
