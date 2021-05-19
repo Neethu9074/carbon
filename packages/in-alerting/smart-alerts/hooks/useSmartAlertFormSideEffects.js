@@ -4,7 +4,7 @@
  */
 
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleForm';
-import useFormSideEffects from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
+import useFormSideEffects, { CHANGE_TYPES } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
 
 export default function useSmartAlertFormSideEffects(form, setForm) {
   const effects = [
@@ -50,7 +50,7 @@ export default function useSmartAlertFormSideEffects(form, setForm) {
     }
   ];
 
-  return useFormSideEffects(form, setForm, effects);
+  return useFormSideEffects({ form, setForm, effects, changesToTrack: [CHANGE_TYPES.EDIT, CHANGE_TYPES.LIST_UPDATE] });
 }
 
 function resetBaseline(form) {

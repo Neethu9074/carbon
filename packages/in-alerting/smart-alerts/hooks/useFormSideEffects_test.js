@@ -15,7 +15,7 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
     const form = createMapForm().put('foo', createField({ value: 'bar' }));
     it('does not update the state', () => {
       const setForm = sinon.fake();
-      const updateForm = useFormSideEffects(form, setForm);
+      const updateForm = useFormSideEffects({ form, setForm });
 
       updateForm(form);
       expect(setForm.callCount).to.equal(0);
@@ -46,7 +46,7 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
         }
       ];
 
-      const updateForm = useFormSideEffects(form, sinon.fake(), effects);
+      const updateForm = useFormSideEffects({ form, setForm: sinon.fake(), effects });
 
       updateForm(form.updateIn(['logins', 'stan'], f => f.setValue(101)));
 
@@ -63,7 +63,7 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
         }
       ];
 
-      const updateForm = useFormSideEffects(form, sinon.fake(), effects);
+      const updateForm = useFormSideEffects({ form, setForm: sinon.fake(), effects });
 
       updateForm(form.updateIn(['logins', 'stan'], f => f.setValue(101)));
 
@@ -80,7 +80,7 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
         }
       ];
 
-      const updateForm = useFormSideEffects(form, sinon.fake(), effects);
+      const updateForm = useFormSideEffects({ form, setForm: sinon.fake(), effects });
 
       updateForm(form.updateIn(['logins', 'stan'], f => f.setValue(101)));
 
@@ -97,7 +97,7 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
       ];
 
       const setForm = sinon.fake();
-      const updateForm = useFormSideEffects(form, setForm, effects);
+      const updateForm = useFormSideEffects({ form, setForm, effects });
 
       updateForm(form.updateIn(['logins', 'stan'], f => f.setValue(11)));
 
@@ -119,7 +119,7 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
         }
       ];
 
-      const updateForm = useFormSideEffects(form, sinon.fake(), effects);
+      const updateForm = useFormSideEffects({ form, setForm: sinon.fake(), effects });
 
       updateForm(form.updateIn(['logins', 'stan'], f => f.setValue(11)));
 
@@ -140,7 +140,7 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
         }
       ];
 
-      const updateForm = useFormSideEffects(form, sinon.fake(), effects);
+      const updateForm = useFormSideEffects({ form, setForm: sinon.fake(), effects });
 
       updateForm(form.updateIn(['logins', 'stan'], f => f.setValue(101)));
 
@@ -160,7 +160,7 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
         }
       ];
 
-      const updateForm = useFormSideEffects(form, sinon.fake(), effects);
+      const updateForm = useFormSideEffects({ form, setForm: sinon.fake(), effects });
 
       updateForm(form.updateIn(['logins', 'stan'], f => f.setValue(101)));
 
@@ -180,7 +180,7 @@ describe('in-alerting/smart-alerts/hooks/useFormSideEffects', () => {
         }
       ];
 
-      const updateForm = useFormSideEffects(form, setForm, effects);
+      const updateForm = useFormSideEffects({ form, setForm, effects });
 
       const updatedForm = form.updateIn(['logins', 'stan'], f => f.setValue(101));
       updateForm(updatedForm);
