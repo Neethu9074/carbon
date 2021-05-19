@@ -11,5 +11,6 @@
   "addATag": "Add a tag",
   "goToTrace": "Go to trace",
   "addAsFilter": "Add as filter",
-  "addAsGroup": "Add as group"
+  "addAsGroup": "Add as group",
+  "numberOfLogs": "Number of logs"
 }

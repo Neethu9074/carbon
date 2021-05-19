@@ -5,18 +5,32 @@
 
 import React, { useMemo } from 'react';
 
+import { KeyValue } from '@instana/components';
+
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
+import { t } from 'in-i18n';
 
 const tracker = {
   loadMoreClicked: () => {
     loadMoreClicked({ view: 'Grouped logs view' });
   }
 };
+
+const columnDefinitions = [
+  {
+    id: 'numberOfLogs',
+    width: '8rem',
+    widthInAbsoluteUnit: true,
+    getContent({ item }) {
+      return <KeyValue label={t('in-logging:numberOfLogs')} value={item.numberOfLogs} accentuated />;
+    }
+  }
+];
 
 export default function GroupedLogs(props) {
   const { filteringTagCatalog } = props;
@@ -27,6 +41,7 @@ export default function GroupedLogs(props) {
     <QueryBuilderWorkspace {...props}>
       <GroupedView
         {...props}
+        columnDefinitions={columnDefinitions}
         itemlabelColumnId="label"
         getData={getTableData}
         iconMap={iconMap}
