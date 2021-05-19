@@ -6,8 +6,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { ListGroup } from '@instana/components';
-
 import {
   badgeColumnDefinition,
   breadcrumbAndLabelColumnDefinition,
@@ -16,46 +14,23 @@ import {
   labelColumnDefinition,
   rightArrowColumnDefinition
 } from 'in-new-components/SelectorOverlay/Node';
-import { DynamicNode } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/DynamicNode';
 import { node as nodePropType } from 'in-new-components/SelectorOverlay/props';
 
-export default function NodeWithDynoChildren({
-  node,
-  focusNode,
-  onChange,
-  withIcons,
-  withBreadcrumbs,
-  asListGroup,
-  height
-}) {
+export default function NodeWithDynoChildren({ node, focusNode, onChange, withIcons, withBreadcrumbs }) {
   const noChildren = !node.children || node.children.length === 0;
+
+  const columnDefinitions = [withBreadcrumbs ? breadcrumbAndLabelColumnDefinition : labelColumnDefinition];
+  columnDefinitions.push(badgeColumnDefinition);
+
   if (noChildren) {
-    let columnDefinitions = [withBreadcrumbs ? breadcrumbAndLabelColumnDefinition : labelColumnDefinition];
-    columnDefinitions.push(badgeColumnDefinition);
     if (withIcons) {
       columnDefinitions.unshift(iconColumnDefinition);
     }
     return <Item node={node} onClick={() => onChange(node)} columnDefinitions={columnDefinitions} />;
   }
 
-  if (asListGroup) {
-    return (
-      <ListGroup label={node.label} height={height} sticky>
-        {node.children?.map((node, i) => (
-          <DynamicNode
-            key={i}
-            node={node}
-            focusNode={focusNode}
-            onChange={onChange}
-            withIcons={withIcons}
-            asListGroup={false}
-          />
-        ))}
-      </ListGroup>
-    );
-  }
+  columnDefinitions.push(rightArrowColumnDefinition);
 
-  let columnDefinitions = [labelColumnDefinition, badgeColumnDefinition, rightArrowColumnDefinition];
   if (withIcons) {
     columnDefinitions.unshift(iconColumnDefinition);
   }
@@ -65,9 +40,7 @@ export default function NodeWithDynoChildren({
 NodeWithDynoChildren.propTypes = {
   node: nodePropType.isRequired,
   withBreadcrumbs: PropTypes.bool,
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   focusNode: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  withIcons: PropTypes.bool.isRequired,
-  asListGroup: PropTypes.bool.isRequired
+  withIcons: PropTypes.bool.isRequired
 };

@@ -63,6 +63,8 @@ export default function ChartSubEntitySelection({
     setServiceId(null);
     setEndpointName(null);
     setEndpointId(null);
+    // ignore any change to the setter functions
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSelectApLevel, isSelectServiceLevel]);
 
   const applicationIds = Object.keys(applications);

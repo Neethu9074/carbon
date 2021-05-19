@@ -6,6 +6,8 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { ListGroup } from '@instana/components';
+
 import { DynamicNode } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/DynamicNode';
 import SlideInView, { ListHeader, NoHeader } from 'in-new-components/SlideInView/SlideInView';
 import { nodeArray as nodeArrayPropType } from 'in-new-components/SelectorOverlay/props';
@@ -182,18 +184,34 @@ export default function ThreeLevelsSelectorOverlay({
               ref={staticContentWrapperRef}
               onKeyDown={onKeyDown}
             >
-              {options.slice(0, maxResults).map((node, i) => (
-                <DynamicNode
-                  key={i}
-                  node={node}
-                  focusNode={focusNode}
-                  onChange={onChange}
-                  asListGroup
-                  withIcons={isBlank(query) && withIcons}
-                  withBreadcrumbs={isNotBlank(query)}
-                  height={`${categoryHeight}px`}
-                />
-              ))}
+              {options.slice(0, maxResults).map((node, i) => {
+                const noChildren = !node.children || node.children.length === 0;
+                if (noChildren)
+                  return (
+                    <DynamicNode
+                      key={i}
+                      node={node}
+                      focusNode={focusNode}
+                      onChange={onChange}
+                      withIcons={isBlank(query) && withIcons}
+                      withBreadcrumbs={isNotBlank(query)}
+                    />
+                  );
+
+                return (
+                  <ListGroup label={node.label} height={`${categoryHeight}px`} sticky>
+                    {node.children?.map((node, i) => (
+                      <DynamicNode
+                        key={i}
+                        node={node}
+                        focusNode={focusNode}
+                        onChange={onChange}
+                        withIcons={withIcons}
+                      />
+                    ))}
+                  </ListGroup>
+                );
+              })}
             </div>
           }
           enforceMaxHeightForStaticContent

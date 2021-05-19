@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { ListGroup } from '@instana/components';
+import { SvgIconSizes } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -18,14 +18,13 @@ import {
 } from 'in-new-components/SelectorOverlay/Node';
 import NodeWithDynoChildren from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/NodeWithDynoChildren';
 import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
-import { LoadingIndicator } from 'in-new-components/LoadingIndicators';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 
 const loadingColumnDefinition = {
   width: '2rem',
   getContent() {
-    return <IndeterminateLoadingIndicator size={32} />;
+    return <IndeterminateLoadingIndicator size={SvgIconSizes.l} />;
   }
 };
 
@@ -36,10 +35,10 @@ export function DynamicNode(props) {
   return <NodeWithDynoChildren {...props} />;
 }
 
-function FetchingChildrenNode({ node, focusNode, onChange, withIcons, withBreadcrumbs, asListGroup, height }) {
-  const { loadChildren, label } = node;
+function FetchingChildrenNode({ node, focusNode, onChange, withIcons, withBreadcrumbs }) {
+  const { loadChildren } = node;
 
-  const result = useObservable(loadChildren && loadChildren, [loadChildren]) ?? pendingResult;
+  const result = useObservable(loadChildren, [loadChildren]) ?? pendingResult;
 
   const loading = isLoading(result);
   const resolvedChildren = result?.data?.items;
@@ -49,10 +48,11 @@ function FetchingChildrenNode({ node, focusNode, onChange, withIcons, withBreadc
     node.loadChildren = undefined;
   }
 
+  const columnDefinitions = [withBreadcrumbs ? breadcrumbAndLabelColumnDefinition : labelColumnDefinition];
+  columnDefinitions.push(badgeColumnDefinition);
+
   if (resolvedChildren?.length === 0 || loading) {
     // empty
-    let columnDefinitions = [withBreadcrumbs ? breadcrumbAndLabelColumnDefinition : labelColumnDefinition];
-    columnDefinitions.push(badgeColumnDefinition);
     if (withIcons) {
       columnDefinitions.unshift(iconColumnDefinition);
     }
@@ -64,31 +64,8 @@ function FetchingChildrenNode({ node, focusNode, onChange, withIcons, withBreadc
     );
   }
 
-  if (asListGroup) {
-    return (
-      <ListGroup label={label} height={height} sticky>
-        {loading && <LoadingIndicator />}
-        {!loading &&
-          resolvedChildren?.map((node, i) => (
-            <DynamicNode
-              key={i}
-              node={node}
-              focusNode={focusNode}
-              onChange={onChange}
-              withIcons={withIcons}
-              asListGroup={false}
-            />
-          ))}
-      </ListGroup>
-    );
-  }
+  columnDefinitions.push(rightArrowColumnDefinition);
 
-  let columnDefinitions = [labelColumnDefinition, badgeColumnDefinition];
-  if (loading) {
-    columnDefinitions.push(loadingColumnDefinition);
-  } else {
-    columnDefinitions.push(rightArrowColumnDefinition);
-  }
   if (withIcons) {
     columnDefinitions.unshift(iconColumnDefinition);
   }
