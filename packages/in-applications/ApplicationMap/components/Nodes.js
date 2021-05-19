@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
+
 import { useObservable } from '@instana/hooks';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
@@ -19,7 +20,7 @@ export default function Nodes(props) {
       .nodesServiceLocator.getNodes()
       .stream.debounce(100)
       .map(nodes => {
-        if (!nodes || !nodes.size === 0) {
+        if (!nodes || nodes.size === 0) {
           return null;
         }
 
