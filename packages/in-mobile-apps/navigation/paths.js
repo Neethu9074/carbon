@@ -20,10 +20,12 @@ import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navi
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
+import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 
 export const mobileAppMonitoringPath = '/mobileAppMonitoring';
+export const isMobileAppsView = getRootPathPredicate(mobileAppMonitoringPath);
 
 export const mobileAppsPath = '/mobileApps';
 export const mobileAppsPathFullyQualified = `${mobileAppMonitoringPath}${mobileAppsPath}`;

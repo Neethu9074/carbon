@@ -47,7 +47,7 @@ module.exports = exports = [
   {
     uiClientKey: 'samplingIndicatorEnabled',
     instanaCtlKey: 'feature.sampling.indicator.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'pcfEnabled',

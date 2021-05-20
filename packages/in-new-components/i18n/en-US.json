@@ -302,6 +302,7 @@
     "previousWeek": "Previous week",
     "dashboardHeaderButtonLive": "Live",
     "customTimeTitleTimeRange": "Time Range",
+    "customTimeHistoricDataMessage": "You will be viewing approximate data with the selected time range. Precise data is available within the last {{retention}} days.",
     "to": "to",
     "customTimeButtonSetTime": "Set Time",
     "customTimeLabelYesterday": "Yesterday",

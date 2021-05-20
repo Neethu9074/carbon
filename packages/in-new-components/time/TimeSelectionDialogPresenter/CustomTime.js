@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
 
+import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
@@ -19,12 +20,13 @@ import {
   parseDateTime,
   formatTimeWithoutSeconds
 } from 'in-services/formatters/date';
+import { getHistoricOrLargeDataResult } from 'in-new-components/time/TimeSelection/TimeSelection';
 import DateTimeInput from 'in-new-components/time/TimeSelectionDialogPresenter/DateTimeInput';
 import HorizontalFlexWrapper from '../../layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { historicDataMessage, LARGE_DATA_MESSAGE } from 'in-new-components/time/TimeIcon';
 import Section from 'in-new-components/time/TimeSelectionDialogPresenter/Section';
 import DistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
+import { LARGE_DATA_MESSAGE } from 'in-new-components/time/TimeIcon';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { days, hours, minutes } from 'in-services/time';
@@ -37,9 +39,10 @@ import locals from './CustomTime.mless';
 const oneHour = hours.toMillis(1);
 const maximumWindow = days.toMillis(32);
 
-export default function CustomTime({ timeConfig, onChange, historicOrLargeDataResult }) {
-  const { containsHistoricData, retention, samplingLevel } = historicOrLargeDataResult || emptyObject;
-  const largeData = samplingLevel && samplingLevel.samplingRatio < 1;
+const historicDataMessage = retention =>
+  t('in-new-components:time.customTimeHistoricDataMessage', { retention: retention });
+
+export default function CustomTime({ timeConfig, onChange }) {
   const [form, setForm] = useState(createForm(timeConfig));
   useEffect(() => setForm(createForm(timeConfig)), [timeConfig]);
 
@@ -54,6 +57,10 @@ export default function CustomTime({ timeConfig, onChange, historicOrLargeDataRe
 
   const from = getTime(form.get('from'));
   const to = getTime(form.get('to'));
+  const updatedTimeConfig = { to, windowSize: to - from, focusedMoment: to };
+
+  const historicOrLargeDataResult = useObservable(getHistoricOrLargeDataResult(updatedTimeConfig), [form]);
+  const { containsHistoricData, retention } = historicOrLargeDataResult || emptyObject;
 
   return (
     <Section title={t('in-new-components:time.customTimeTitleTimeRange')} light>
@@ -75,11 +82,7 @@ export default function CustomTime({ timeConfig, onChange, historicOrLargeDataRe
           {form.touched && form.messages.length > 0 ? (
             <TouchedMessages className={locals.error} field={form} />
           ) : (
-            <HistoricOrLargeDataMessage
-              largeData={largeData}
-              containsHistoricData={containsHistoricData}
-              retention={retention}
-            />
+            <HistoricOrLargeDataMessage containsHistoricData={containsHistoricData} retention={retention} />
           )}
         </div>
       </form>

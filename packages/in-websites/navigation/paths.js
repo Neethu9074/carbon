@@ -26,11 +26,13 @@ import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navi
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
+import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { mutateUrl } from 'in-stores/navigation/navigation';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 
 export const websiteMonitoringPath = '/websiteMonitoring';
+export const isWebsitesView = getRootPathPredicate(websiteMonitoringPath);
 
 export const websitesPath = '/websites';
 export const websitesPathFullyQualified = `${websiteMonitoringPath}${websitesPath}`;

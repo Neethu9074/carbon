@@ -3,20 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just } from '@instana/observables';
 import React, { useState } from 'react';
+
+import { just } from '@instana/observables';
 
 import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
 import DashboardHeaderButton from 'in-new-components/DashboardHeader/DashboardHeaderButton';
+import { isAnalyzeView as isAnalyzeApplicationsView } from 'in-analyze/navigation/paths';
 import { track, TIME_WINDOW_SIZE_VIA_PICKER } from 'in-services/tracking/tracking';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
-import getSamplingLevel from 'in-subscription/application/getSamplingLevel';
 import { isApplicationsView } from 'in-applications/navigation/paths';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
 import getRetention from 'in-subscription/application/getRetention';
+import { isMobileAppsView } from 'in-mobile-apps/navigation/paths';
 import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
 import TimePresenter from 'in-new-components/time/TimePresenter';
-import { isAnalyzeView } from 'in-analyze/navigation/paths';
+import { isWebsitesView } from 'in-websites/navigation/paths';
 import { isView } from 'in-stores/navigation/navigation';
 import Overlay from 'in-new-components/overlays/Overlay';
 import ErrorBoundary from 'in-components/ErrorBoundary';
@@ -26,34 +28,29 @@ import { t } from 'in-i18n';
 
 import locals from './TimeSelection.mless';
 
-export const historicOrLargeDataResult$ = timeConfig$.flatMap(timeConfig =>
-  getRetention({ timeConfig })
-    .map(result => result?.data)
-    .filter(Boolean)
-    .flatMap(data => {
-      if (data.containsHistoricData) {
-        // if the selected timeframe contains historic data,
-        // there's no need to query for the sampling level
-        return just(data);
+export function getHistoricOrLargeDataResult(timeConfig) {
+  if (!samplingIndicatorEnabled) {
+    return just({});
+  }
+
+  return isView(isApplicationsView, isAnalyzeApplicationsView, isWebsitesView, isMobileAppsView).flatMap(
+    supportsHistoricData => {
+      if (!supportsHistoricData) {
+        return just({});
       }
 
-      // if not, query the sampling level on large data supported views
-      return isView(isApplicationsView, isAnalyzeView).flatMap(supportsLargeData => {
-        if (!supportsLargeData) {
-          return just(data);
-        }
+      return getRetention({ timeConfig })
+        .map(result => result?.data)
+        .filter(Boolean);
+    }
+  );
+}
 
-        return getSamplingLevel({ timeConfig }).map(result => ({
-          ...data,
-          samplingLevel: result?.data
-        }));
-      });
-    })
-);
+export const historicOrLargeDataResult$ = timeConfig$.flatMap(timeConfig => getHistoricOrLargeDataResult(timeConfig));
 
 export default connect({
   timeConfig: timeConfig$,
-  historicOrLargeDataResult: samplingIndicatorEnabled ? historicOrLargeDataResult$ : just({})
+  historicOrLargeDataResult: historicOrLargeDataResult$
 })(TimeSelection);
 
 function TimeSelection({ timeConfig, historicOrLargeDataResult, isHidden, darkTheme }) {
