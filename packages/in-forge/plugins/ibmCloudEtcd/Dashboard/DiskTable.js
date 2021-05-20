@@ -5,21 +5,16 @@
 
 import React from 'react';
 
-import {
-  bytesZeroDecimalPlaces,
-  percentageTwoDecimalPlaces,
-  zeroDecimalPlaces,
-  percentage
-} from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { bytes, percentage } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.ibmCloudEtcd.titleMemberID'),
+    title: t('in-forge:plugins.ibmCloudEtcd.memberID'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -28,8 +23,8 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmCloudEtcd.titleUsed'),
-    type: 'metric',
+    title: t('in-forge:plugins.ibmCloudEtcd.used'),
+    type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
@@ -37,14 +32,14 @@ const cols = [
       getMetricName(row) {
         return `members.${row.name}.disk_used_bytes`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytes.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
     }
   },
   {
-    title: t('in-forge:plugins.ibmCloudEtcd.titleTotal'),
+    title: t('in-forge:plugins.ibmCloudEtcd.total'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
@@ -53,15 +48,15 @@ const cols = [
       getMetricName(row) {
         return `members.${row.name}.disk_total_bytes`;
       },
-      getContent: bytesZeroDecimalPlaces,
+      getContent: bytes.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
     }
   },
   {
-    title: t('in-forge:plugins.ibmCloudEtcd.titleUsedPercent'),
-    type: 'metric',
+    title: t('in-forge:plugins.ibmCloudEtcd.usedPercent'),
+    type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
@@ -69,39 +64,7 @@ const cols = [
       getMetricName(row) {
         return `members.${row.name}.disk_used_percent`;
       },
-      getContent: percentageTwoDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmCloudEtcd.titleIOPercent'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `members.${row.name}.disk_io_utilization_percent_average_5m`;
-      },
-      getContent: percentageTwoDecimalPlaces,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmCloudEtcd.titleIOPSTotal'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `members.${row.name}.disk_iops_read_write_total`;
-      },
-      getContent: zeroDecimalPlaces,
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -146,15 +109,16 @@ function getDetails(row) {
       timeConfig={row.timeConfig}
       y1={{
         min: 0,
+        formatter: bytes.detailed,
+        metrics: ['members.' + row.name + '.disk_used_bytes'],
+        labels: [t('in-forge:plugins.ibmCloudEtcd.used')],
+        type: 'line'
+      }}
+      y2={{
+        min: 0,
         formatter: percentage.detailed,
-        metrics: [
-          'members.' + row.name + '.disk_used_percent',
-          'members.' + row.name + '.disk_io_utilization_percent_average_5m'
-        ],
-        labels: [
-          t('in-forge:plugins.ibmCloudEtcd.labelDiskUsedPercent'),
-          t('in-forge:plugins.ibmCloudEtcd.labelDiskIOPercent')
-        ],
+        metrics: ['members.' + row.name + '.disk_used_percent'],
+        labels: [t('in-forge:plugins.ibmCloudEtcd.usedPercent')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

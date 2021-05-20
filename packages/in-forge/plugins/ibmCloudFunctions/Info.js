@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
+import { emptyList } from 'in-services/fixedImmutables';
 import { t } from 'in-i18n';
 
 export default function IbmCloudFunctionsInfo({ snapshot }) {
@@ -15,7 +16,7 @@ export default function IbmCloudFunctionsInfo({ snapshot }) {
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.ibmCloudFunctions.labelZone')}>{data.get('zone')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmCloudFunctions.labelPackageCount')}>
-        {data.get('packages').size}
+        {data.get('packages', emptyList).size}
       </DescriptionItem>
     </DescriptionList>
   );

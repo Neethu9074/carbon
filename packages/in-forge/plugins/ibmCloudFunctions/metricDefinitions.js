@@ -9,6 +9,18 @@ import { t } from 'in-i18n';
 
 export default [
   {
+    metrics: ['concurrent-invocations'],
+    labels: [t('in-forge:plugins.ibmCloudFunctions.concurrentInvocations')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['concurrent-rate-limit'],
+    labels: [t('in-forge:plugins.ibmCloudFunctions.concurrentRateLimit')],
+    min: 0,
+    formatter: number
+  },
+  {
     metric: getDynamicMetricMatch('packages', 'activation', t('in-forge:plugins.ibmCloudFunctions.function')),
     label: t('in-forge:plugins.ibmCloudFunctions.labelActivationCount'),
     category: [t('in-forge:plugins.ibmCloudFunctions.labelFunction')],
@@ -25,6 +37,13 @@ export default [
   {
     metric: getDynamicMetricMatch('packages', 'status-success', t('in-forge:plugins.ibmCloudFunctions.function')),
     label: t('in-forge:plugins.ibmCloudFunctions.labelStatusSuccess'),
+    category: [t('in-forge:plugins.ibmCloudFunctions.labelFunction')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch('packages', 'timed-rate-limit', t('in-forge:plugins.ibmCloudFunctions.function')),
+    label: t('in-forge:plugins.ibmCloudFunctions.timedRateLimit'),
     category: [t('in-forge:plugins.ibmCloudFunctions.labelFunction')],
     min: 0,
     formatter: number

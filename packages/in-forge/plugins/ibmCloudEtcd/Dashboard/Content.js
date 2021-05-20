@@ -6,6 +6,7 @@
 import React from 'react';
 
 import MemoryTable from 'in-forge/plugins/ibmCloudEtcd/Dashboard/MemoryTable';
+import DiskIOTable from 'in-forge/plugins/ibmCloudEtcd/Dashboard/DiskIOTable';
 import DiskTable from 'in-forge/plugins/ibmCloudEtcd/Dashboard/DiskTable';
 
 export default function IbmEtcdDashboard({ snapshot, timeConfig }) {
@@ -13,6 +14,7 @@ export default function IbmEtcdDashboard({ snapshot, timeConfig }) {
     <div>
       <MemoryTable snapshot={snapshot} timeConfig={timeConfig} />
       <DiskTable snapshot={snapshot} timeConfig={timeConfig} />
+      <DiskIOTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

@@ -8,8 +8,13 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:plugins.ibmCloudFunctions.labelConcurrentInvocations'),
-    metric: 'ibm_functions_concurrent-invocations',
+    label: t('in-forge:plugins.ibmCloudFunctions.concurrentInvocations'),
+    metric: 'concurrent-invocations',
+    formatter: zeroDecimalPlaces
+  },
+  {
+    label: t('in-forge:plugins.ibmCloudFunctions.concurrentRateLimit'),
+    metric: 'concurrent-rate-limit',
     formatter: zeroDecimalPlaces
   }
 ];
