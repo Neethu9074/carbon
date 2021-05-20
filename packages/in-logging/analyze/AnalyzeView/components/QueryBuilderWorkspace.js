@@ -49,7 +49,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
               value={formModel}
               onChange={onFormModelChange}
               QueryBuilder={LogsQueryBuilder}
-              hasError={!isValid}
+              hasError={!isValid && !isLoading}
               useLastValidStateWhenErroneous
               getSuggestionLabel={({ item }) => item}
               tracking={{
