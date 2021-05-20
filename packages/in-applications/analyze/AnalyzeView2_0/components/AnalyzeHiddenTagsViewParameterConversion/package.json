@@ -1,0 +1,6 @@
+{
+ "name": "AnalyzeHiddenTagsViewParameterConversion",
+ "version": "0.0.0",
+ "private": true,
+ "main": "./AnalyzeHiddenTagsViewParameterConversion.js"
+}

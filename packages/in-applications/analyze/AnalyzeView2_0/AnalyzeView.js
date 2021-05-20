@@ -4,21 +4,29 @@
  */
 
 import { useLocation } from 'react-router';
-import React from 'react';
+import React, { useState } from 'react';
 
+import AnalyzeHiddenTagsViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/AnalyzeHiddenTagsViewParameterConversion';
 import AnalyzeOneToTwoViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/AnalyzeOneToTwoViewParameterConversion';
 import AnalyzeTwoBetaViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0//components/AnalyzeTwoBetaViewParameterConversion/AnalyzeTwoBetaViewParameterConversion';
+import { isAnalyticsWithHiddenTagsLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/transformHelper';
 import { isAnalyticsTwoBetaLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeTwoBetaViewParameterConversion/transformHelper';
 import { isAnalyticsOneLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
+import {
+  dataSourceMatrixParameter,
+  hiddenCallsMatrixParameter,
+  previewEnabledMatrixParameter
+} from 'in-applications/navigation/matrix';
 import {
   ungroupedChartingOptions,
   groupedChartingOptions
 } from 'in-applications/analyze/components/ChartingPresenter/chartingOptions';
+import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED, UNSPECIFIED_LABEL } from 'in-analyze/components/GroupedTraces/Group';
+import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { createTableTimestampColumnDefinition } from 'in-new-components/AnalyzeView/commonTableColumnDefinitions';
 import FacetedFilterHiddenCalls from 'in-applications/analyze/components/FacetedSearch/FacetedFilterHiddenCalls';
 import { createListTimestampColumnDefinition } from 'in-new-components/AnalyzeView/commonListColumnDefinitions';
-import { hiddenCallsMatrixParameter, previewEnabledMatrixParameter } from 'in-applications/navigation/matrix';
 import FacetedFilterRangeInput from 'in-new-components/AnalyzeView/FacetedFilters/FacetedFilterRangeInput';
 import FacetedFilterRangeList from 'in-new-components/AnalyzeView/FacetedFilters/FacetedFilterRangeList';
 import { custom as customType, metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
@@ -32,9 +40,11 @@ import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import StateManagement from 'in-new-components/AnalyzeView/StateManagement';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { analyzePath } from 'in-applications/navigation/paths';
 import { getTagCatalog } from 'in-applications/api/tagCatalog';
 import { latencyFixed } from 'in-services/formatters/number';
+import { emptyArray } from 'in-services/fixedObjects';
 import { getPluginName } from 'in-sdk/pluginName';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
@@ -89,9 +99,14 @@ const callsChartableMetricCatalogTransformer = createChartableMetricCatalogTrans
 const tracesChartableMetricCatalogTransformer = createChartableMetricCatalogTransformer('traces');
 
 export default function ApplicationsAnalyzeView() {
-  const [{ hiddenCalls, previewEnabled }, onChange] = useUrlState({
-    bind: [hiddenCallsMatrixParameter, previewEnabledMatrixParameter],
+  const [{ dataSource, hiddenCalls, previewEnabled }, onChange] = useUrlState({
+    bind: [dataSourceMatrixParameter, hiddenCallsMatrixParameter, previewEnabledMatrixParameter],
     replaceHistory: false
+  });
+
+  const [lastHiddenTagConversionResult, setLastHiddenTagConversionResult] = useState({
+    unresolvedServiceIds: emptyArray,
+    unresolvedEndpointIds: emptyArray
   });
 
   const onChangeHiddenCalls = hiddenCalls => {
@@ -104,6 +119,8 @@ export default function ApplicationsAnalyzeView() {
 
   const dataSourceConfigurations = getDataSourceConfigurations({ hiddenCalls, onChangeHiddenCalls });
 
+  const tagCatalog = useTagCatalog(dataSource === 'traces' ? getTracesTagCatalog : getCallsTagCatalog);
+
   const location = useLocation();
   if (isAnalyticsOneLocation(location)) {
     return <AnalyzeOneToTwoViewParameterConversion dataSourceConfigurations={dataSourceConfigurations} />;
@@ -111,6 +128,24 @@ export default function ApplicationsAnalyzeView() {
 
   if (isAnalyticsTwoBetaLocation(location)) {
     return <AnalyzeTwoBetaViewParameterConversion />;
+  }
+
+  // we have to avoid repeating failing conversion attempts
+  if (
+    isAnalyticsWithHiddenTagsLocation(
+      location,
+      tagCatalog,
+      lastHiddenTagConversionResult.unresolvedServiceIds,
+      lastHiddenTagConversionResult.unresolvedEndpointIds
+    )
+  ) {
+    const isLoading = tagCatalog == null;
+    return (
+      <AnalyzeHiddenTagsViewParameterConversion
+        isLoading={isLoading}
+        onConversionCompleted={setLastHiddenTagConversionResult}
+      />
+    );
   }
 
   return (
