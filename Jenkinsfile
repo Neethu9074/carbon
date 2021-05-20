@@ -99,37 +99,6 @@ pipeline {
       }
     }
 
-    // This stage is deprecated for the 'develop' branch and will eventually be deprecated entirely
-    // Please see the following 'Build & Push Images' and 'Deploy' stages
-    stage('K8s Deploy') {
-      steps {
-        milestone(label: "K8s Deploy", ordinal: null)
-        timeout(time: 30, unit: 'MINUTES') {
-          timestamps {
-            script {
-              if ( env.BRANCH_NAME == latestReleaseBranch) {
-                // retag artifacts, build k8s containers and deploy
-                build job: '/retag-artifacts', parameters: [
-                    string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true),
-                    string(name: 'ENVIRONMENT', value: 'magenta', trim: true)
-                ]
-              } else if (env.BRANCH_NAME ==~ /release-\d{3,}/ && env.BRANCH_NAME != latestReleaseBranch ) {
-                // retag artifacts and build k8s containers only
-                build job: '/retag-artifacts', parameters: [
-                    string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true)
-                ]
-              } else if (env.BRANCH_NAME ==~ /hotfix-\d{3,}(-.+)?/ ) {
-                // retag artifacts and build k8s containers only
-                build job: '/retag-artifacts', parameters: [
-                    string(name: 'BRANCH', value: env.BRANCH_NAME, trim: true)
-                ]
-              }
-            }
-          }
-        }
-      }
-    }
-
     stage('Build & Push Images') {
       steps {
         // Only allow 1 concurrent build is allowed to build images at a time and newer
@@ -141,12 +110,8 @@ pipeline {
           timeout(time: 15, unit: 'MINUTES') {
             timestamps {
               script {
-                if (env.BRANCH_NAME == 'develop') {
-                  // Enable only for the develop branch for now
-                  // Other delivery branches will use 'K8s Deploy'
-                  //   || env.BRANCH_NAME == latestReleaseBranch
-                  //   || env.BRANCH_NAME ==~ /release-\d{3,}/
-                  //   || env.BRANCH_NAME ==~ /hotfix-\d{3,}(-.+)?/) {
+                // TODO: Use isDeliveryBranch instead
+                if (env.BRANCH_NAME == 'develop' || env.BRANCH_NAME ==~ /release-\d{3,}/   || env.BRANCH_NAME ==~ /hotfix-\d{3,}(-.+)?/) {
                   buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, env.BRANCH_NAME, instanaVersion, instanaImageVersion)
                 }
               }
@@ -169,6 +134,8 @@ pipeline {
                 // Other delivery branches will use 'K8s Deploy'
                 if (env.BRANCH_NAME == 'develop') {
                   deployInstana(env.BRANCH_NAME, instanaImageVersion, null, 'pink', 'instana', 'test')
+                } else if (env.BRANCH_NAME == latestReleaseBranch) {
+                  deployInstana(env.BRANCH_NAME, instanaImageVersion, null, 'magenta', 'instana', 'release')
                 }
               }
             }
@@ -188,7 +155,7 @@ pipeline {
                   || env.BRANCH_NAME.startsWith('chromatic-')) {
 
                   try {
-                    def RUN_UI_TEST_ON_DELIVERY = 
+                    def RUN_UI_TEST_ON_DELIVERY =
                       (env.BRANCH_NAME.startsWith('storybook-') || env.BRANCH_NAME.startsWith('chromatic-')) ? "true" : "false"
 
                     awsCodeBuild credentialsType: 'jenkins',
