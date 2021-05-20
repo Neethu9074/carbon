@@ -93,6 +93,7 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
       {
         label: t('in-waiting-for-deployment:content.serverless'),
         fullLabel: t('in-waiting-for-deployment:content.serverless'),
+        icon: 'lib_actions_force_layout',
         category: t('in-waiting-for-deployment:content.platform'),
         Content: IBMServerlessContent
       },
@@ -3104,7 +3105,8 @@ function getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clu
     .replace('${agentEndpoint}', agentEndpoint)
     .replace('${agentEndpointPort}', agentEndpointPort)
     .replace('${clusterName}', clusterName)
-    .replace('${zoneName}', zoneName);
+    .replace('${zoneName}', zoneName)
+    .replace('${instanaMvnRepoUrl}', `https://artifact-public.instana.${instanaDomain}`);
 }
 
 function IBMServerlessContent({ agentKey, serverlessEndpoint }) {
