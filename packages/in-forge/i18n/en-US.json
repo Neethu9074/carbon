@@ -7606,7 +7606,6 @@
       "diskUsedPercent": "Disk Used Percent",
       "diskUtilization": "Disk Utilization",
       "labelDiskIOPercent": "Avg IO Utilization",
-      "titleIOPSTotal": "IOPS R/W Total",
       "titleMemory": "Memory",
       "memory": "Memory",
       "memoryUsedPercent": "Memory Used Percent",
