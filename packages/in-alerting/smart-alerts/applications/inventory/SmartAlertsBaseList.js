@@ -17,6 +17,7 @@ import EvaluationTypeColumn from 'in-alerting/smart-alerts/applications/inventor
 import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/inventory/ListEntityNameColumn';
 import ListActionsColumn from 'in-alerting/smart-alerts/applications/inventory/ListActionsColumn';
 import ListFilterColumn from 'in-alerting/smart-alerts/applications/inventory/ListFiltersColumn';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { ListNameColumn } from 'in-alerting/smart-alerts/applications/inventory/ListNameColumn';
 import SortingConfigurator from 'in-new-components/SortingConfigurator/SortingConfigurator';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
@@ -333,14 +334,35 @@ function sortBy(orderBy, orderDirection) {
 }
 
 function getResultsToDisplay(configs, query) {
-  return configs.filter(config => {
-    if (query.trim()) {
-      return config.name
-        .trim()
-        .toLowerCase()
-        .includes(query.trim().toLowerCase());
+  const trimmedQuery = query.trim();
+
+  if (!trimmedQuery) {
+    return configs;
+  }
+
+  const lowerCaseQuery = trimmedQuery.toLowerCase();
+
+  return configs.filter(({ name, description, rule }) => {
+    const configName = name.trim().toLowerCase();
+    if (configName.includes(lowerCaseQuery)) {
+      return true;
     }
-    return true;
+
+    const configDescription = description.trim().toLowerCase();
+    if (configDescription.includes(lowerCaseQuery)) {
+      return true;
+    }
+
+    // Allows us to search text in configured language in client because this is the value from the language file
+    const metricLabel = getBlueprintConfig(rule.alertType)
+      .getMetricLabel(rule.metricName)
+      .toLowerCase();
+
+    if (metricLabel.includes(lowerCaseQuery)) {
+      return true;
+    }
+
+    return false;
   });
 }
 
