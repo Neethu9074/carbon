@@ -7,8 +7,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router';
 import { isEmpty } from 'lodash';
 
-import { combineLatest } from '@instana/observables/lib';
-import { create } from '@instana/observables/lib';
+import { combineLatest, timeout } from '@instana/observables/lib';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -125,33 +124,16 @@ function getObservables(ids, timeConfig, getData) {
 
 // exported for tests
 export function withTimeout(observable, millis, onTimeout) {
-  const newObservable = create({ start, stop });
+  const timeoutSignal = 'signal';
 
-  let subscription;
-  let timeoutHandle;
-
-  return newObservable;
-
-  function start() {
-    timeoutHandle = setTimeout(() => {
-      subscription.dispose();
-      subscription = null;
-      newObservable.emit(onTimeout());
-    }, millis);
-
-    subscription = observable.subscribe(
-      data => {
-        if (!isLoading(data)) {
-          clearTimeout(timeoutHandle);
-        }
-        newObservable.emit(data);
-      },
-      () => clearTimeout(timeoutHandle)
-    );
-  }
-
-  function stop() {
-    clearTimeout(timeoutHandle);
-    subscription?.dispose();
-  }
+  return combineLatest([
+    observable.startWith(pendingResult),
+    timeout(millis)
+      .map(() => timeoutSignal)
+      .startWith(null)
+  ])
+    .map(([observable, signal]) =>
+      observable === pendingResult && signal === timeoutSignal ? onTimeout() : observable
+    )
+    .distinct();
 }
