@@ -26,7 +26,7 @@ export default function Info({ snapshot }) {
         </DescriptionItem>
       </DescriptionList>
 
-      {labels.size > 0 && <KeyValueOverlay header={t('in-forge:plugins.gce.labels')} data={labels} />}
+      {labels.size > 0 && <KeyValueOverlay header={t('in-forge:plugins.gce.tags')} data={labels} />}
     </div>
   );
 }
