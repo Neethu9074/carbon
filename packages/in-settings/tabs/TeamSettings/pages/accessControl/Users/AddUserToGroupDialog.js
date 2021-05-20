@@ -39,6 +39,7 @@ export default withSelectableItems(function AddUserToGroupDialog({
           getItems={getGroupsAsResultObservable}
           itemName="group"
           orderBy="name"
+          searchFields={['name']}
           userId={userId}
           checkIfSelected={checkIfSelected}
           toggleItem={toggleItem}
