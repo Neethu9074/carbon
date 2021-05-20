@@ -40,18 +40,18 @@ metadata:
 data:
   cluster_name: "${clusterName}"
   configuration.yaml: |
-  
+
     # Manual a-priori configuration. Configuration will be only used when the sensor
     # is actually installed by the agent.
     # The commented out example values represent example configuration and are not
     # necessarily defaults. Defaults are usually 'absent' or mentioned separately.
     # Changes are hot reloaded unless otherwise mentioned.
-    
+
     # It is possible to create files called 'configuration-abc.yaml' which are
     # merged with this file in file system order. So 'configuration-cde.yaml' comes
     # after 'configuration-abc.yaml'. Only nested structures are merged, values are
     # overwritten by subsequent configurations.
-    
+
     # Secrets
     # To filter sensitive data from collection by the agent, all sensors respect
     # the following secrets configuration. If a key collected by a sensor matches
@@ -62,13 +62,13 @@ data:
     #    - 'key'
     #    - 'password'
     #    - 'secret'
-    
+
     # Host
     #com.instana.plugin.host:
     #  tags:
     #    - 'dev'
     #    - 'app1'
-    
+
     # Hardware & Zone
     #com.instana.plugin.generic.hardware:
     #  enabled: true # disabled by default
@@ -119,6 +119,8 @@ spec:
                   key: cluster_name
             - name: INSTANA_AGENT_ENDPOINT
               value: "${agentEndpoint}"
+            - name: INSTANA_MVN_REPOSITORY_URL
+              value: '${instanaMvnRepoUrl}'
             - name: INSTANA_AGENT_ENDPOINT_PORT
               value: "${agentEndpointPort}"
             - name: INSTANA_AGENT_KEY
