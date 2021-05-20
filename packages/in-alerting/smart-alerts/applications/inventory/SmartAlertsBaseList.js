@@ -8,8 +8,8 @@ import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { ColumnizedContent, Li, Ul } from '@instana/components';
-import { create, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { create } from '@instana/observables';
 
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/applications/inventory/constants';
@@ -164,24 +164,46 @@ export default function SmartAlertsBaseList({
   additionalMatrixKeys
 }) {
   const [{ orderBy, orderDirection, configsCategory, page }, setUrlState] = useUrlState(urlStateDefinition);
+
   const [query, setQuery] = useState('');
 
-  const {
-    configs,
-    globalConfigsSelected: isGlobalSmartAlertConfig,
-    loading,
-    errors,
-    numberGlobalSmartAlertConfigs,
-    numberLocalSmartAlertConfigs
-  } = useConfigsByCategory(getGlobalAlertConfigFetchFunction, getLocalAlertConfigsFetchFunction, configsCategory);
+  const { globalConfigs, isLoadingGlobalConfigs, errorsGlobalConfigs } = useGlobalSmartAlertConfigs(
+    getGlobalAlertConfigFetchFunction
+  );
 
-  useOnNoData(numberGlobalSmartAlertConfigs, numberLocalSmartAlertConfigs, onNoData);
+  const { localConfigs, isLoadingLocalConfigs, errorsLocalConfigs } = useLocalSmartAlertConfigs(
+    getLocalAlertConfigsFetchFunction
+  );
+
+  const { configsSelected, loading, errors } = getConfigByCategory({
+    configsCategory,
+    globalConfigs,
+    isLoadingGlobalConfigs,
+    errorsGlobalConfigs,
+    localConfigs,
+    isLoadingLocalConfigs,
+    errorsLocalConfigs
+  });
+
+  useOnNoData({
+    numberGlobalSmartAlertConfigs: globalConfigs.length,
+    numberLocalSmartAlertConfigs: localConfigs.length,
+    isLoadingGlobalConfigs,
+    isLoadingLocalConfigs,
+    onNoData
+  });
+
+  const { globalSearchResults, localSearchResults, searchResultsSelected } = getSearchResults({
+    query,
+    globalConfigs,
+    localConfigs,
+    configsSelected,
+    configsCategory
+  });
 
   const location = useLocation();
-
   const offset = (page - 1) * pageSize;
   const until = offset + pageSize;
-  const resultsToDisplay = getResultsToDisplay(configs, query);
 
   return (
     <Stack>
@@ -191,7 +213,7 @@ export default function SmartAlertsBaseList({
           buttonPropsList={[
             {
               text: t('in-alerting:smartAlerts.applications.inventory.labelGlobalSmartAlertsList', {
-                numberOfAlerts: numberGlobalSmartAlertConfigs || 0
+                numberOfAlerts: globalSearchResults.length || 0
               }),
               key: categoryGlobal,
               onClick() {
@@ -200,7 +222,7 @@ export default function SmartAlertsBaseList({
             },
             {
               text: t('in-alerting:smartAlerts.applications.inventory.labelSmartAlertsList', {
-                numberOfAlerts: numberLocalSmartAlertConfigs || 0
+                numberOfAlerts: localSearchResults.length || 0
               }),
               key: categoryLocal,
               onClick() {
@@ -230,7 +252,7 @@ export default function SmartAlertsBaseList({
         </HorizontalFlexWrapper>
       </HorizontalFlexWrapper>
       <Ul framed>
-        {resultsToDisplay
+        {searchResultsSelected
           .sort(sortBy(orderBy, orderDirection))
           .slice(offset, until)
           .map(config => (
@@ -241,71 +263,138 @@ export default function SmartAlertsBaseList({
                 config={config}
                 configsCategory={configsCategory}
                 loading={loading}
-                isGlobalSmartAlertConfig={isGlobalSmartAlertConfig}
+                isGlobalSmartAlertConfig={isCategoryGlobal(configsCategory)}
                 location={location}
               />
             </Li>
           ))}
-        {loading && configs.length === 0 && <LoadingList numSkeletonRows="3" />}
-        {!loading && !configs?.length && (
-          <SmartAlertsNoDataAvailable text={t('in-alerting:smartAlerts.titleNoSmartAlertsConfigured')} />
-        )}
+        {configsSelected.length === 0 ? (
+          loading ? (
+            <LoadingList numSkeletonRows="3" />
+          ) : (
+            <SmartAlertsNoDataAvailable text={t('in-alerting:smartAlerts.titleNoSmartAlertsConfigured')} />
+          )
+        ) : null}
         {hasError({ errors }) && <ErrorList className={locals.list} errors={errors} />}
       </Ul>
       <Pagination
         currentPage={page}
-        numPages={Math.ceil(resultsToDisplay.length / pageSize)}
+        numPages={Math.ceil(searchResultsSelected.length / pageSize)}
         onChange={newPage => setUrlState({ page: newPage })}
       />
     </Stack>
   );
 }
 
-function useConfigsByCategory(getGlobalAlertConfigFetchFunction, getLocalAlertConfigsFetchFunction, configsCategory) {
-  const globalSmartAlertsConfigsResult = useObservable(() => {
-    return refreshSignal.flatMap(getGlobalAlertConfigFetchFunction);
-  }, []);
+function getSearchResults({ globalConfigs, query, localConfigs, configsSelected, configsCategory }) {
+  const globalSearchResults = getResultsToDisplay(globalConfigs, query);
+  const localSearchResults = getResultsToDisplay(localConfigs, query);
 
-  const localSmartAlertsConfigsResult = useObservable(() => {
-    return refreshSignal
-      .flatMap(getLocalAlertConfigsFetchFunction)
-      .startWith(localSmartAlertsConfigsResult ?? pendingResult);
-  }, []);
-
-  const globalConfigsSelected = configsCategory === categoryGlobal;
-
-  let smartAlertConfigsResult = just({ data: [] });
-  if (globalConfigsSelected) {
-    smartAlertConfigsResult = globalSmartAlertsConfigsResult;
-  } else if (configsCategory === categoryLocal) {
-    smartAlertConfigsResult = localSmartAlertsConfigsResult;
+  let searchResultsSelected = configsSelected;
+  if (isCategoryGlobal(configsCategory)) {
+    searchResultsSelected = globalSearchResults;
   }
 
+  if (isCategoryLocal(configsCategory)) {
+    searchResultsSelected = localSearchResults;
+  }
+
+  return { globalSearchResults, localSearchResults, searchResultsSelected };
+}
+
+function getConfigByCategory({
+  configsCategory,
+  globalConfigs,
+  isLoadingGlobalConfigs,
+  errorsGlobalConfigs,
+  localConfigs,
+  isLoadingLocalConfigs,
+  errorsLocalConfigs
+}) {
+  let configsSelected = [];
+  let errors = [];
+  let loading = true;
+
+  if (isCategoryGlobal(configsCategory)) {
+    configsSelected = globalConfigs;
+    loading = isLoadingGlobalConfigs;
+    errors = errorsGlobalConfigs;
+  }
+
+  if (isCategoryLocal(configsCategory)) {
+    configsSelected = localConfigs;
+    loading = isLoadingLocalConfigs;
+    errors = errorsLocalConfigs;
+  }
+
+  return { configsSelected, loading, errors };
+}
+
+function isCategoryGlobal(categorySelected) {
+  return categorySelected === categoryGlobal;
+}
+function isCategoryLocal(categorySelected) {
+  return categorySelected === categoryLocal;
+}
+
+function useGlobalSmartAlertConfigs(getGlobalAlertConfigFetchFunction) {
+  const result = useObservable(() => {
+    return refreshSignal.flatMap(getGlobalAlertConfigFetchFunction).startWith(pendingResult);
+  }, []);
+
   // Only render the List when smartAlertConfigsResult?.data changes
-  const [configs, setConfigs] = useState([]);
+  const [globalConfigs, setGlobalConfigs] = useState([]);
   useEffect(() => {
-    const resultData = smartAlertConfigsResult?.data;
+    const resultData = result?.data;
     if (resultData) {
-      setConfigs([...resultData]);
+      setGlobalConfigs([...resultData]);
     }
-  }, [smartAlertConfigsResult?.data]);
+  }, [result?.data]);
 
   return {
-    configs,
-    globalConfigsSelected,
-    loading: isLoading(smartAlertConfigsResult),
-    errors: smartAlertConfigsResult?.errors,
-    numberGlobalSmartAlertConfigs: globalSmartAlertsConfigsResult?.data?.length ?? null,
-    numberLocalSmartAlertConfigs: localSmartAlertsConfigsResult?.data?.length ?? null
+    globalConfigs,
+    isLoadingGlobalConfigs: isLoading(result),
+    errorsGlobalConfigs: result?.errors
   };
 }
 
-function useOnNoData(numberGlobalSmartAlertConfigs, numberLocalSmartAlertConfigs, onNoData) {
+function useLocalSmartAlertConfigs(getLocalAlertConfigsFetchFunction) {
+  const result =
+    useObservable(() => {
+      return refreshSignal.flatMap(getLocalAlertConfigsFetchFunction);
+    }, []) ?? pendingResult;
+
+  const [localConfigs, setLocalConfigs] = useState([]);
   useEffect(() => {
-    if (numberGlobalSmartAlertConfigs === 0 && numberLocalSmartAlertConfigs === 0) {
+    const resultData = result?.data;
+
+    if (resultData) {
+      setLocalConfigs([...resultData]);
+    }
+  }, [result?.data]);
+
+  return {
+    localConfigs,
+    isLoadingLocalConfigs: isLoading(result),
+    errorsLocalConfigs: result?.errors
+  };
+}
+
+function useOnNoData({
+  numberGlobalSmartAlertConfigs,
+  numberLocalSmartAlertConfigs,
+  isLoadingGlobalConfigs,
+  isLoadingLocalConfigs,
+  onNoData
+}) {
+  const loadingFinished = !isLoadingGlobalConfigs && !isLoadingLocalConfigs;
+  const hasConfigsForEveryCategory = numberGlobalSmartAlertConfigs === 0 && numberLocalSmartAlertConfigs === 0;
+
+  useEffect(() => {
+    if (loadingFinished && hasConfigsForEveryCategory) {
       onNoData?.();
     }
-  }, [numberGlobalSmartAlertConfigs, numberLocalSmartAlertConfigs, onNoData]);
+  }, [loadingFinished, hasConfigsForEveryCategory, onNoData]);
 }
 
 function sortBy(orderBy, orderDirection) {
@@ -333,16 +422,16 @@ function sortBy(orderBy, orderDirection) {
   };
 }
 
-function getResultsToDisplay(configs, query) {
+function getResultsToDisplay(configsSelected, query) {
   const trimmedQuery = query.trim();
 
   if (!trimmedQuery) {
-    return configs;
+    return configsSelected;
   }
 
   const lowerCaseQuery = trimmedQuery.toLowerCase();
 
-  return configs.filter(({ name, description, rule }) => {
+  return configsSelected.filter(({ name, description, rule }) => {
     const configName = name.trim().toLowerCase();
     if (configName.includes(lowerCaseQuery)) {
       return true;
@@ -369,14 +458,14 @@ function getResultsToDisplay(configs, query) {
 SmartAlertsBaseList.propTypes = {
   /**
    * A function which returns the function which return an observable subscription! which does the api call for
-   * local smart alert configs.Please wrap http() calls in createObservable()
+   * local smart alert configsSelected. Please wrap http() calls in createObservable()
    * This is done so that it is possible to configure the respective fetcher function from teh outside
    * aka.injecting params etc.
    */
   getGlobalAlertConfigFetchFunction: PropTypes.func,
   /**
    * A function which returns the function which return an observable subscription! which does the api call for
-   * local smart alert configs.Please wrap http() calls in createObservable()
+   * local smart alert configsSelected. Please wrap http() calls in createObservable()
    * This is done so that it is possible to configure the respective fetcher function from the outside
    * aka.injecting params etc.
    */
