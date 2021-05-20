@@ -13,6 +13,7 @@
     border: 1px solid @lib__colors__N400;
     background: @lib__colors__N050;
     padding: 2px;
+    position: relative;
   }
 
   .wrapperDisabled {
@@ -21,12 +22,16 @@
 
   .icon {
     fill: @lib__colors__N500;
-    margin-right: 0.5rem;
-    margin-left: auto;
+    position: absolute;
+    right: 0.5rem;
   }
 
-  .withoutIcon {
+  .iconDisabled {
     fill: @lib__colors__N400;
+  }
+
+  .iconHidden {
+    display: none;
   }
 
   .searchInput {

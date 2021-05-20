@@ -83,16 +83,16 @@ export default function SearchInput({
           onBlur?.();
         }}
       />
-      {!withoutIcon && !isDirty && (
-        <SvgIcon
-          className={classNames({
-            [locals.icon]: true,
-            [locals.withoutIcon]: disabled
-          })}
-          type="lib_actions_search"
-          onClick={disabled ? undefined : () => inputRef?.current?.focus()}
-        />
-      )}
+      <SvgIcon
+        className={classNames({
+          [locals.icon]: true,
+          [locals.iconDisabled]: disabled,
+          [locals.iconHidden]: withoutIcon || isDirty
+        })}
+        type="lib_actions_search"
+        onClick={disabled ? undefined : () => inputRef?.current?.focus()}
+        area-hidden="true"
+      />
     </div>
   );
 }
