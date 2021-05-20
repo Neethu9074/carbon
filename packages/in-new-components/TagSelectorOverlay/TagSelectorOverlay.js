@@ -52,7 +52,7 @@ function toOptions(tagCatalog, tagTreeNodes, parentLabels = [], showTypeBadge, q
   const joinedParentLabels = parentLabels.join(' ');
   return tagTreeNodes
     .filter(tagTreeNode => {
-      return !queryableOnly || tagTreeNode.type === 'LEVEL' || tagTreeNode.queryable !== false;
+      return (!queryableOnly || tagTreeNode.type === 'LEVEL' || tagTreeNode.queryable !== false) && tagTreeNode.hidden !== true
     })
     .map(tagTreeNode => {
       const filteredChildren = tagTreeNode.children
