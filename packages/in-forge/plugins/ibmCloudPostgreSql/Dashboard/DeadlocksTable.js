@@ -26,62 +26,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmCloudPostgreSql.tuplesInsertedRate'),
+    title: t('in-forge:plugins.ibmCloudPostgreSql.deadlocksRate'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `members.${row.name}.tuples_inserted_rate`;
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmCloudPostgreSql.tuplesDeletedRate'),
-    type: 'sparkChart',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `members.${row.name}.tuples_deleted_rate`;
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmCloudPostgreSql.tuplesFetchedRate'),
-    type: 'sparkChart',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `members.${row.name}.tuples_fetched_rate`;
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmCloudPostgreSql.tuplesReturnedRate'),
-    type: 'sparkChart',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `members.${row.name}.tuples_returned_rate`;
+        return `members.${row.name}.deadlocks_rate`;
       },
       getContent: number.detailed,
       getTimeWindowAggregation() {
@@ -97,7 +49,7 @@ export default connectTo(
       member_ids: getRawPayload(props.snapshot.get('id'), 'member_ids')
     };
   },
-  function TuplesTable({ snapshot, timeConfig, member_ids }) {
+  function DeadlocksTable({ snapshot, timeConfig, member_ids }) {
     if (!member_ids || member_ids.isEmpty()) {
       return null;
     }
@@ -118,7 +70,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.ibmCloudPostgreSql.tuples')}
+        cardTitle={t('in-forge:plugins.ibmCloudPostgreSql.deadlocks')}
         cols={cols}
         rows={rows}
         getRowDetails={getDetails}
@@ -138,16 +90,8 @@ function getDetails(row) {
           y1={{
             min: 0,
             formatter: number,
-            metrics: [
-              'members.' + row.name + '.tuples_inserted_count',
-              'members.' + row.name + '.tuples_deleted_count',
-              'members.' + row.name + '.tuples_fetched_count'
-            ],
-            labels: [
-              t('in-forge:plugins.ibmCloudPostgreSql.inserted'),
-              t('in-forge:plugins.ibmCloudPostgreSql.deleted'),
-              t('in-forge:plugins.ibmCloudPostgreSql.fetched')
-            ],
+            metrics: ['members.' + row.name + '.deadlocks_count'],
+            labels: [t('in-forge:plugins.ibmCloudPostgreSql.deadlocks')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -160,18 +104,8 @@ function getDetails(row) {
           y1={{
             min: 0,
             formatter: number,
-            metrics: [
-              'members.' + row.name + '.tuples_inserted_rate',
-              'members.' + row.name + '.tuples_deleted_rate',
-              'members.' + row.name + '.tuples_fetched_rate',
-              'members.' + row.name + '.tuples_returned_rate'
-            ],
-            labels: [
-              t('in-forge:plugins.ibmCloudPostgreSql.inserted'),
-              t('in-forge:plugins.ibmCloudPostgreSql.deleted'),
-              t('in-forge:plugins.ibmCloudPostgreSql.fetched'),
-              t('in-forge:plugins.ibmCloudPostgreSql.returned')
-            ],
+            metrics: ['members.' + row.name + '.deadlocks_rate'],
+            labels: [t('in-forge:plugins.ibmCloudPostgreSql.deadlocks')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

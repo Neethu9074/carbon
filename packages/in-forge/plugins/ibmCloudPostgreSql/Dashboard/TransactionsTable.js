@@ -5,11 +5,11 @@
 
 import React from 'react';
 
-import { bytes, percentage, zeroDecimalPlaces, millis } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -26,32 +26,32 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmCloudPostgreSql.diskReadLatencyMean'),
+    title: t('in-forge:plugins.ibmCloudPostgreSql.transactionCommitRate'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `members.${row.name}.disk_read_latency_mean`;
+        return `members.${row.name}.transaction_commit_rate`;
       },
-      getContent: millis.detailed,
+      getContent: number.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
     }
   },
   {
-    title: t('in-forge:plugins.ibmCloudPostgreSql.diskWriteLatencyMean'),
+    title: t('in-forge:plugins.ibmCloudPostgreSql.transactionRollbackRate'),
     type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `members.${row.name}.disk_write_latency_mean`;
+        return `members.${row.name}.transaction_rollback_rate`;
       },
-      getContent: millis.detailed,
+      getContent: number.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -65,7 +65,7 @@ export default connectTo(
       member_ids: getRawPayload(props.snapshot.get('id'), 'member_ids')
     };
   },
-  function DiskTable({ snapshot, timeConfig, member_ids }) {
+  function TransactionsTable({ snapshot, timeConfig, member_ids }) {
     if (!member_ids || member_ids.isEmpty()) {
       return null;
     }
@@ -86,7 +86,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.ibmCloudPostgreSql.titleDisk')}
+        cardTitle={t('in-forge:plugins.ibmCloudPostgreSql.transactions')}
         cols={cols}
         rows={rows}
         getRowDetails={getDetails}
@@ -99,60 +99,41 @@ export default connectTo(
 function getDetails(row) {
   return (
     <Columize>
-      <DashboardSection title={t('in-forge:plugins.ibmCloudPostgreSql.latency')}>
+      <DashboardSection title={t('in-forge:plugins.ibmCloudPostgreSql.count')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             min: 0,
-            formatter: millis.detailed,
+            formatter: number,
             metrics: [
-              'members.' + row.name + '.disk_read_latency_mean',
-              'members.' + row.name + '.disk_write_latency_mean'
+              'members.' + row.name + '.transaction_commit_count',
+              'members.' + row.name + '.transaction_rollback_count'
             ],
-            labels: [t('in-forge:plugins.ibmCloudPostgreSql.read'), t('in-forge:plugins.ibmCloudPostgreSql.write')],
+            labels: [
+              t('in-forge:plugins.ibmCloudPostgreSql.commit'),
+              t('in-forge:plugins.ibmCloudPostgreSql.rollback')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.ibmCloudPostgreSql.rate')}>
         <Chart
           snapshotId={row.snapshotId}
           timeConfig={row.timeConfig}
           y1={{
             min: 0,
-            formatter: bytes.detailed,
-            metrics: ['members.' + row.name + '.disk_used_bytes'],
-            labels: [t('in-forge:plugins.ibmCloudPostgreSql.usedBytes')],
-            type: 'line'
-          }}
-          y2={{
-            min: 0,
-            formatter: percentage.detailed,
-            metrics: ['members.' + row.name + '.disk_used_percent'],
-            labels: [t('in-forge:plugins.ibmCloudPostgreSql.diskUtilization')],
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
-      <DashboardSection>
-        <Chart
-          snapshotId={row.snapshotId}
-          timeConfig={row.timeConfig}
-          y1={{
-            min: 0,
-            formatter: percentage.detailed,
-            metrics: ['members.' + row.name + '.disk_io_utilization_percent_average_5m'],
-            labels: [t('in-forge:plugins.ibmCloudPostgreSql.labelDiskIOPercent')],
-            type: 'line'
-          }}
-          y2={{
-            min: 0,
-            formatter: zeroDecimalPlaces,
-            metrics: ['members.' + row.name + '.disk_iops_read_write_total'],
-            labels: [t('in-forge:plugins.ibmCloudPostgreSql.diskIopsReadWriteTotal')],
+            formatter: number,
+            metrics: [
+              'members.' + row.name + '.transaction_commit_rate',
+              'members.' + row.name + '.transaction_rollback_rate'
+            ],
+            labels: [
+              t('in-forge:plugins.ibmCloudPostgreSql.commit'),
+              t('in-forge:plugins.ibmCloudPostgreSql.rollback')
+            ],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
