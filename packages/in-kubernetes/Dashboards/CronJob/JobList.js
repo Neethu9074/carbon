@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import { clusterIdUrlParameter, namespaceIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -15,6 +16,8 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getKubernetesJobs from 'in-subscription/kubernetes/getKubernetesJobs';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
+import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { getMetricForFocusedMoment } from 'in-stores/metric';
 import { formatDuration } from 'in-services/formatters/date';
@@ -30,7 +33,20 @@ const columnDefinitions = [
     id: 'label',
     label: t('in-kubernetes:dashboards.name'),
     getContent(item) {
-      return <SeverityAwareEntityLink label={item.job.label} severity={item.entityHealthInfo.maxSeverity} />;
+      return (
+        <>
+          <SeverityAwareEntityLink label={item.job.label} severity={item.entityHealthInfo.maxSeverity} />
+          {item?.podIds?.map(v => {
+            return (
+              <EntityLink
+                label="pod"
+                href$={getDashboardLink(v, { pathname: '/physical/dashboard' })}
+                icon="lib_kubernetes_pod"
+              />
+            );
+          })}
+        </>
+      );
     }
   },
   {
