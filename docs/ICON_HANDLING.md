@@ -33,6 +33,15 @@ lib_my_new_awesome_icon: {
 }
 ```
 
+To test your change locally, you can start the documentation locally through which you can inspect the list of all registered icons.
+
+```sh
+cd packages/components
+yarn build
+cd ../documentation
+yarn start
+```
+
 Please open a pull request with the new icon and ping the UI community within `#tech-ui-dev` to get this change merged and released.
 
 # (Old) Infrastructure icons
