@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import { isOverlappedWith } from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/TimeRangeHelper';
 import OverviewChartTooltip from 'in-websites/analyze/PageLoadView/tabs/Summary/OverviewChartTooltip';
@@ -11,7 +11,7 @@ import { getType, types } from 'in-websites/analyze/PageLoadView/tabs/Summary/fi
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
-import getElementDimensions from 'in-hoc/getElementDimensions';
+import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-services/scale';
@@ -21,7 +21,9 @@ import locals from './OverviewChart.mless';
 
 const barHeight = 8;
 
-export default getElementDimensions(function OverviewChart({ beacons, earliestTimestamp, width, endTimestamp }) {
+export default function OverviewChart({ beacons, earliestTimestamp, endTimestamp }) {
+  const { width, ref } = useResizeObserverCustom();
+
   const scale = createScale();
   const beaconsStacked = applyLayout(beacons);
 
@@ -34,7 +36,7 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
   const chartHeight = (maxDepth + 1) * barHeight;
 
   return (
-    <Fragment>
+    <div ref={ref}>
       {width && beacons.length > 0 && (
         <HorizontalAxis
           align="top"
@@ -80,9 +82,9 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
           );
         })}
       </div>
-    </Fragment>
+    </div>
   );
-});
+}
 
 function applyLayout(beacons) {
   const occupiedTimeRangesByDepth = [];

@@ -9,17 +9,15 @@ import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { getNextValidRollup } from 'in-events/components/eventChartRollups';
-import getElementDimensions from 'in-hoc/getElementDimensions';
+import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { number } from 'in-services/formatters/number';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-export default getElementDimensions(function EventsChartWidthWrapper(props) {
-  return <div>{props.width && <EventsChart {...props} />}</div>;
-});
+export default function EventsChart({ timeConfig, query, eventType }) {
+  const { width, ref } = useResizeObserverCustom();
 
-function EventsChart({ width, timeConfig, query, eventType }) {
   const blockSizeMillis = getPredefinedBlockSizeMillisForBlockSize(
     getBlockSizeMillis({
       windowSize: timeConfig.windowSize,
@@ -49,25 +47,29 @@ function EventsChart({ width, timeConfig, query, eventType }) {
   }
 
   return (
-    <OpenEventsCountChartWrapper
-      cardTitle={t('in-events:titleOpenEvents')}
-      timeConfig={timeConfig}
-      granularity={granularity}
-      includeFirstDataPoint
-      y1={{
-        renderer: Renderer.stackedBar,
-        formatter: number.forcedCompact,
-        labels,
-        metricIds,
-        colors
-      }}
-      metricsConfiguration={{
-        timeConfig: timeConfig,
-        metrics: metricsConfiguration
-      }}
-      primaryContextMenuAction={globalHighlightAction.name}
-      riginalTimeConfig={timeConfig}
-    />
+    <div ref={ref}>
+      {width && (
+        <OpenEventsCountChartWrapper
+          cardTitle={t('in-events:titleOpenEvents')}
+          timeConfig={timeConfig}
+          granularity={granularity}
+          includeFirstDataPoint
+          y1={{
+            renderer: Renderer.stackedBar,
+            formatter: number.forcedCompact,
+            labels,
+            metricIds,
+            colors
+          }}
+          metricsConfiguration={{
+            timeConfig: timeConfig,
+            metrics: metricsConfiguration
+          }}
+          primaryContextMenuAction={globalHighlightAction.name}
+          riginalTimeConfig={timeConfig}
+        />
+      )}
+    </div>
   );
 }
 

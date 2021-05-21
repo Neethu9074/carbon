@@ -8,39 +8,39 @@ import React from 'react';
 import CallStartLabel from 'in-applications/analyze/components/TraceDetails/components/CallTimeAxis/CallStartLabel';
 import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetails/components/callStartAndEndTime';
 import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
-import getElementDimensions from 'in-hoc/getElementDimensions';
+import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import { millis } from 'in-services/formatters/number';
 import theme from 'in-themes';
 
 import locals from './CallTimeAxis.mless';
 
-export default getElementDimensions(function CallTimeAxis({ width, call, showStartLabel }) {
-  if (!width) {
-    return <div />;
-  }
+export default function CallTimeAxis({ call, showStartLabel }) {
+  const { width, ref } = useResizeObserverCustom();
 
   const startTime = getStart(call);
   const endTime = getEnd(call);
   const duration = endTime - startTime;
 
   return (
-    <div className={locals.timeAxis}>
-      {showStartLabel && <CallStartLabel startTime={startTime} />}
-      <HorizontalAxis
-        align="top"
-        width={width}
-        formatter={millis.forcedCompactOnMs}
-        detailedFormatting
-        roundTickPositions
-        tickLength={8}
-        tickColor={theme.lib.colors.N400}
-        tickLabelColor={theme.lib.colors.N800Dark}
-        scale={{ from: 0, to: duration }}
-        fixedTickPositions={calculateTickPositions(duration)}
-      />
+    <div className={locals.timeAxis} ref={ref}>
+      {width && showStartLabel && <CallStartLabel startTime={startTime} />}
+      {width && (
+        <HorizontalAxis
+          align="top"
+          width={width}
+          formatter={millis.forcedCompactOnMs}
+          detailedFormatting
+          roundTickPositions
+          tickLength={8}
+          tickColor={theme.lib.colors.N400}
+          tickLabelColor={theme.lib.colors.N800Dark}
+          scale={{ from: 0, to: duration }}
+          fixedTickPositions={calculateTickPositions(duration)}
+        />
+      )}
     </div>
   );
-});
+}
 
 function calculateTickPositions(duration) {
   if (duration < 1) {
