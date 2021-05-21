@@ -22,6 +22,14 @@ export function getApiToken(id) {
   }).map(response => response.body);
 }
 
+export function unmaskApiToken(id) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/settings/api-tokens/unmask/${encodeURIComponent(id)}`
+  }).map(response => response);
+}
+
 export function createApiToken(apiToken) {
   return http({
     method: 'POST',
