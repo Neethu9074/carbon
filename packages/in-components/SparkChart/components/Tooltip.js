@@ -3,8 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { on } from '@instana/observables';
+import { isEqual } from 'lodash';
 import React from 'react';
+
+import { on } from '@instana/observables';
 
 import createScale from 'in-services/scale';
 
@@ -19,17 +21,16 @@ export default class Tooltip extends React.Component {
     highlightedMoment: null
   };
 
-  UNSAFE_componentWillMount() {
-    this.updateScaleFromProps(this.props);
-  }
-
   componentDidMount() {
+    this.updateScaleFromProps(this.props);
     this.onMouseMoveSubscription = on(this.glassPane, 'mousemove').subscribe(this.onMouseMove);
     this.onMouseLeaveSubscription = on(this.glassPane, 'mouseleave').subscribe(this.onMouseLeave);
   }
 
-  UNSAFE_componentWillUpdate(nextProps) {
-    this.updateScaleFromProps(nextProps);
+  componentDidUpdate(prevProps) {
+    if (!isEqual(prevProps, this.props)) {
+      this.updateScaleFromProps(this.props);
+    }
   }
 
   componentWillUnmount() {
