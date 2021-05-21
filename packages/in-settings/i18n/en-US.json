@@ -727,7 +727,8 @@
     "privacy": "Privacy",
     "communication": "Communication",
     "default": "Default",
-    "identityProviderType": "Identity Provider Type"
+    "identityProviderType": "Identity Provider Type",
+    "copyApiTokenToClipboardError": "Could not copy API token to clipboard."
   },
   "languageSelection": {
     "language": "Language"

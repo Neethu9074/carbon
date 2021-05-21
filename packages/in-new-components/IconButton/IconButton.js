@@ -39,6 +39,7 @@ const IconButton = forwardRef(function IconButton(
     type,
     size = 'normal',
     iconSize,
+    iconSpinning,
     kind = 'action',
     onClick,
     disabled,
@@ -63,6 +64,7 @@ const IconButton = forwardRef(function IconButton(
         [locals.disabled]: disabled
       })}
       tabIndex={-1}
+      spinning={iconSpinning}
     />
   );
   const classes = classNames({
@@ -103,6 +105,7 @@ IconButton.propTypes = {
   kind: PropTypes.oneOf(kinds),
   onClick: PropTypes.func,
   iconSize: PropTypes.oneOf(Object.keys(SvgIconSizes)),
+  iconSpinning: PropTypes.bool,
   size: PropTypes.oneOf(Object.keys(iconDimensions)),
   type: PropTypes.string.isRequired,
   leftAligned: PropTypes.bool,
