@@ -5,7 +5,7 @@
 
 import React, { forwardRef, useState } from 'react';
 
-import { unMaskApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
+import { unmaskApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addCopiedToClipboardMessage } from 'in-components/CopyToClipboard';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -23,7 +23,7 @@ export default forwardRef(function AsyncTokenCopyButton({ internalId }, ref) {
       onClick={e => {
         stopPropagationAndPreventDefault(e);
         setIsLoading(true);
-        const unMaskToken$ = unMaskApiToken(internalId);
+        const unMaskToken$ = unmaskApiToken(internalId);
         unMaskToken$.errors().once(() => {
           setIsLoading(false);
           addErrorMessage();

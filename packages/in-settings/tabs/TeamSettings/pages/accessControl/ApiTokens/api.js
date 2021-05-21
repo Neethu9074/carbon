@@ -22,7 +22,7 @@ export function getApiToken(id) {
   }).map(response => response.body);
 }
 
-export function unMaskApiToken(id) {
+export function unmaskApiToken(id) {
   return http({
     method: 'GET',
     maxRetries: 3,

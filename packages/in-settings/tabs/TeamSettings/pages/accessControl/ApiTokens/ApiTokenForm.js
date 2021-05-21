@@ -7,12 +7,12 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
 import { apiTokenPermissions, productOwnerPermissions } from 'in-stores/permission';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import AsyncTokenCopyButton from './AsyncTokenCopyButton';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-new-components/layout/Grid';
 import Dialog from 'in-new-components/Dialog/Dialog';
