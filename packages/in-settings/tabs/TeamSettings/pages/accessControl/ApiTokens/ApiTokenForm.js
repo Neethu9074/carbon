@@ -8,16 +8,13 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
-import { buildMaskedToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/tokenSuffix';
 import { apiTokenPermissions, productOwnerPermissions } from 'in-stores/permission';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import CopyToClipboard from 'in-components/CopyToClipboard';
+import AsyncTokenCopyButton from './AsyncTokenCopyButton';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-new-components/layout/Grid';
-import IconButton from 'in-new-components/IconButton';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
@@ -36,21 +33,10 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
       {form.get('accessGrantingToken').map(field => (
         <FormGroup noFlex>
           <Label className={locals.apiTokenLabel} id="api-token-accessGrantingToken">
-            {buildMaskedToken(field.value)}
+            {field.value}
           </Label>
           <Tooltip align="topRight" content={t('in-settings:tabs.copyApiTokenToClipboard')}>
-            <CopyToClipboard getText={() => field.value}>
-              {refSetter => (
-                <span ref={refSetter}>
-                  <IconButton
-                    onClick={e => {
-                      stopPropagationAndPreventDefault(e);
-                    }}
-                    type="lib_actions_copy"
-                  />
-                </span>
-              )}
-            </CopyToClipboard>
+            <AsyncTokenCopyButton internalId={form.get('internalId').value} />
           </Tooltip>
         </FormGroup>
       ))}

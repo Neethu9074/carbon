@@ -13,15 +13,11 @@ import {
   deleteApiToken,
   createApiToken
 } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
+import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
 import { getEntityHref, getEntityIdView, teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
-import { buildMaskedToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/tokenSuffix';
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { generateUniqueShortId } from 'in-services/util/id';
-import CopyToClipboard from 'in-components/CopyToClipboard';
-import IconButton from 'in-new-components/IconButton';
 import { goToPath } from 'in-stores/navigation';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './ApiTokens.mless';
@@ -66,21 +62,8 @@ const columnDefinitions = [
     getContent(apiToken) {
       return (
         <div className={locals.apiTokenColContainer}>
-          <div>{buildMaskedToken(apiToken.accessGrantingToken)}</div>
-          <Tooltip align="topRight" content={t('in-settings:tabs.copyApiTokenToClipboard')}>
-            <CopyToClipboard getText={() => apiToken.accessGrantingToken}>
-              {refSetter => (
-                <span ref={refSetter}>
-                  <IconButton
-                    onClick={e => {
-                      stopPropagationAndPreventDefault(e);
-                    }}
-                    type="lib_actions_copy"
-                  />
-                </span>
-              )}
-            </CopyToClipboard>
-          </Tooltip>
+          <div>{apiToken.accessGrantingToken}</div>
+          <AsyncTokenCopyButton internalId={apiToken.internalId} />
         </div>
       );
     }
