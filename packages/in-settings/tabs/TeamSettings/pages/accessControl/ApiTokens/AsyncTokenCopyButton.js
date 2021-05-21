@@ -5,6 +5,8 @@
 
 import React, { forwardRef, useState } from 'react';
 
+import { fromPromise } from '@instana/observables';
+
 import { unmaskApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addCopiedToClipboardMessage } from 'in-components/CopyToClipboard';
@@ -23,22 +25,16 @@ export default forwardRef(function AsyncTokenCopyButton({ internalId }, ref) {
       onClick={e => {
         stopPropagationAndPreventDefault(e);
         setIsLoading(true);
-        const unMaskToken$ = unmaskApiToken(internalId);
+        const unMaskToken$ = unmaskApiToken(internalId).flatMap(response =>
+          fromPromise(navigator.clipboard.writeText(response.body))
+        );
         unMaskToken$.errors().once(() => {
           setIsLoading(false);
           addErrorMessage();
         });
-        unMaskToken$.once(response => {
-          navigator.clipboard.writeText(response.body).then(
-            () => {
-              setIsLoading(false);
-              addCopiedToClipboardMessage();
-            },
-            () => {
-              setIsLoading(false);
-              addErrorMessage();
-            }
-          );
+        unMaskToken$.once(() => {
+          setIsLoading(false);
+          addCopiedToClipboardMessage();
         });
       }}
     />
