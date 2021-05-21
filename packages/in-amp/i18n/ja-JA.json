@@ -5,12 +5,12 @@
       "billingAddress": "請求先住所",
       "shippingAddress": "配送先住所",
       "country": "国",
-      "state": "都道府県",
+      "state": "都道府県/州",
       "zip": "郵便番号",
       "city": "市区町村",
       "address": "住所",
       "additionalAddress": "追加住所",
-      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "このページの情報に訂正が必要である場合は、<linkToMail>{{salesopsEmail}}</linkToMail> に連絡してください"
+      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "このページの情報を訂正する必要がある場合は、<linkToMail>{{salesopsEmail}}</linkToMail> にご連絡ください"
     },
     "activeLicenses": {
       "name": "名前",

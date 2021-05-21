@@ -1,5 +1,4 @@
 {
-  "time": "时间",
   "logs": "日志",
   "sum": "总和",
   "bar": "条形图",
@@ -8,20 +7,9 @@
   "logsOverTime_WARN": "一段时间内的警告日志数",
   "logsOverTime_INFO": "一段时间内的参考日志数",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "查询配置无效。请在继续之前处理验证失败。",
-  "log": "日志",
   "selectTags": "选择标记",
-  "addATag": "添加标记",
-  "download": "下载",
-  "analytics": "分析",
-  "closeLogDetails": "关闭日志详细信息",
-  "detail": "详细信息",
-  "logTime": "记录时间",
-  "type": "类型",
-  "message": "消息",
-  "tags": "标记",
-  "logCount": "{{formattedCount}} 个日志",
-  "logCount_plural": "{{formattedCount}} 个日志",
-  "logCount_0": "{{formattedCount}} 个日志",
-  "logCount_1": "{{formattedCount}} 个日志",
-  "logCount_2": "{{formattedCount}} 个日志"
+  "goToTrace": "转至跟踪",
+  "addAsFilter": "添加为过滤器",
+  "addAsGroup": "添加为组",
+  "numberOfLogs": "日志数"
 }

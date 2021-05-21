@@ -1,0 +1,60 @@
+{
+  "components": {
+    "accountSettings": {
+      "accountSettings": "帐户设置",
+      "billingAddress": "帐单地址",
+      "shippingAddress": "运送地址",
+      "country": "国家或地区",
+      "state": "省/直辖市/自治区",
+      "zip": "邮政编码",
+      "city": "市/县/区",
+      "address": "地址",
+      "additionalAddress": "其他地址",
+      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "如果此页面上的任何信息需要修正，请联系 <linkToMail>{{salesopsEmail}}</linkToMail>"
+    },
+    "activeLicenses": {
+      "name": "名称",
+      "tenant": "租户",
+      "type": "类型",
+      "licenseStartData": "许可证开始数据",
+      "licenseEndData": "许可证结束数据",
+      "licensedApmHosts": "获得许可的 APM 主机",
+      "licensedIqmHosts": "获得许可的 IQM 主机"
+    },
+    "ampInformationModifier": {
+      "allPaidUnitsAggregated": "所有付费单元（汇总）",
+      "customerUsageIsReportedAcrossAllUnitsOfYourAccountWithAPaidLicense": "客户使用情况的报告涉及您具有付费许可证的帐户下的所有单元。"
+    },
+    "noLicenseAvailableMessage": {
+      "thereHasBeenNoActivePaidLicenseInThePast30Days": "在过去 30 天内没有活动的付费许可证。"
+    },
+    "restrictedUsage": {
+      "accountUsage": "帐户使用情况"
+    },
+    "technologiesReportingTable": {
+      "name": "名称",
+      "min": "最小值",
+      "max": "最大值",
+      "average": "平均值"
+    },
+    "timePresets": {
+      "last7Days": "过去 7 天",
+      "last30Days": "过去 30 天",
+      "last365Days": "过去 365 天"
+    },
+    "usages": {
+      "allPaidUnitsAggregated": "所有付费单元（汇总）",
+      "accountUsage": "帐户使用情况",
+      "activeLicenses": "活动许可证",
+      "expiredLicenses": "到期的许可证",
+      "queuedLicenses": "已排队的许可证"
+    },
+    "usageCharts": {
+      "apmUsage": "APM 使用情况",
+      "apmHosts": "APM 主机",
+      "purchased": "已购买",
+      "infrastructureUsage": "基础架构使用情况",
+      "iqmHosts": "IQM 主机"
+    }
+  }
+}

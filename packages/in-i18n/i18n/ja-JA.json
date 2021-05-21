@@ -34,7 +34,7 @@
   "aggregation_MEAN": "平均",
   "aggregation_MIN": "最小",
   "aggregation_MAX": "最大",
-  "aggregation_DISTINCT_COUNT": "個別の度数",
+  "aggregation_DISTINCT_COUNT": "個別の数",
   "aggregation_SUM": "合計",
   "aggregation_DISTRIBUTION": "分布"
 }

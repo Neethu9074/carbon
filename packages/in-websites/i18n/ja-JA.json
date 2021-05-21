@@ -2,25 +2,13 @@
   "analyze": {
     "analyzeView": {
       "beacons": {
-        "perBeaconTypeConfigEventName": "イベント名",
-        "perBeaconTypeConfigWebsite": "Web サイト",
-        "perBeaconTypeConfigLabelTimestamp": "タイム・スタンプ",
-        "perBeaconTypeConfigEventTooltip": "このイベントはバッチにまとめられており、{{batchSize}} 件の個々のイベントを表します。",
-        "perBeaconTypeConfigErrorMessage": "エラー・メッセージ",
-        "perBeaconTypeConfigErrorTooltip": "このエラーはバッチにまとめられており、{{batchSize}} 件の個々のイベントを表します。",
-        "perBeaconTypeConfigAccess": "アクセス",
-        "perBeaconTypeConfigHTTPRequestTooltip": "この HTTP 要求はバッチにまとめられており、{{batchSize}} 件の個々の HTTP 要求を表します。",
-        "perBeaconTypeConfigPage": "ページ",
-        "perBeaconTypeConfigPageTransitionTooltip": "このページ遷移はバッチにまとめられており、{{batchSize}} 件の個々のページ遷移を表します。",
-        "perBeaconTypeConfigPath": "パス",
-        "perBeaconTypeConfigPageLoadTooltip": "このページ・ロードはバッチにまとめられており、{{batchSize}} 件の個々のページ・ロードを表します。",
-        "perBeaconTypeConfigURI": "URI",
-        "perBeaconTypeConfigResourceRetrievalsTooltip": "このリソース取得はバッチにまとめられており、{{batchSize}} 件の個々のリソース取得を表します。"
+        "perBeaconTypeConfigEventTooltip": "このイベントはバッチ処理されました。{{batchSize}} 件の個々のイベントを表しています。",
+        "perBeaconTypeConfigErrorTooltip": "このエラーはバッチ処理されました。{{batchSize}} 件の個々のイベントを表しています。",
+        "perBeaconTypeConfigHTTPRequestTooltip": "この HTTP 要求はバッチ処理され、{{batchSize}} 個の個別の HTTP 要求を表します。",
+        "perBeaconTypeConfigPageTransitionTooltip": "このページ遷移はバッチ処理され、{{batchSize}} 件の個々のページ遷移を表します。",
+        "perBeaconTypeConfigPageLoadTooltip": "このページ・ロードはバッチ処理され、{{batchSize}} 件の個々のページ・ロードを表します。",
+        "perBeaconTypeConfigResourceRetrievalsTooltip": "このリソース取得はバッチ処理され、{{batchSize}} 件の個々のリソース取得を表します。"
       },
-      "metricsSelectorTitle": "メトリックの選択",
-      "metricsSelectorHelp": "表内の列として使用可能にするメトリックを選択します。 これにより、グラフとして表示できるメトリックも定義されます。",
-      "noData": "選択された時刻範囲に使用可能なビーコンがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
-      "emptyAnalyzeViewTitle": "{{entityName}} が見つかりません",
       "resourceTimingMetricsLabelRedirectTime": "リダイレクト時間",
       "resourceTimingMetricsLabelAppCacheTime": "AppCache 時間",
       "resourceTimingMetricsLabelDNSTime": "DNS 時間",
@@ -111,9 +99,7 @@
       "quickFilterBarLabelSubdivision_1": "サブディビジョン",
       "quickFilterBarLabelSubdivision_2": "サブディビジョン",
       "quickFilterBarLabelMeta": "メタ",
-      "quickFilterBarLabelWindowWidth": "ウィンドウ幅",
-      "websiteEditGroupDialogHelp": "ビーコンをグループ化するための基準とするタグを選択します。",
-      "WebsiteGroupMetricsChartLabelCount": "カウント",
+      "quickFilterBarLabelWindowWidth": "範囲の幅",
       "beaconUserSummary": {
         "titleUserInformation": "ユーザー情報",
         "titleBrowser": "ブラウザー",
@@ -135,7 +121,7 @@
       "pageLoadView": {
         "backendDiTitleBackend": "バックエンド",
         "backendDiOpenBackendTrace": "バックエンド・トレースを開く",
-        "backendDiLinkLabel": "{{duration}}、対象: {{callCount}}、件数: {{errorCount}}",
+        "backendDiLinkLabel": "{{duration}} / {{callCount}} / {{errorCount}}",
         "backendDiSummaryCallCount": "{{callCount}} 回の呼び出し",
         "backendDiSummaryCallCount_plural": "{{callCount}} 回の呼び出し",
         "backendDiSummaryCallCount_0": "{{callCount}} 回の呼び出し",
@@ -178,8 +164,8 @@
         "httpRequestBeaconHeaderMeta": "メタ",
         "httpRequestBeaconHeaderGraphQL": "GraphQL",
         "httpRequestBeaconHeaderResourceTiming": "リソース・タイミング",
-        "httpRequestBeaconHeaderNetworkInsights": "Network Insight",
-        "httpRequestBeaconLabelStartTime": "開始時刻",
+        "httpRequestBeaconHeaderNetworkInsights": "ネットワークの洞察",
+        "httpRequestBeaconLabelStartTime": "開始時間",
         "httpRequestBeaconLabelRetrievalTime": "取得時間",
         "httpRequestBeaconLabelRedirect": "リダイレクト",
         "httpRequestBeaconLabelAppCache": "アプリケーション・キャッシュ",
@@ -227,16 +213,15 @@
         "pageLoadBeaconTitleFirstInputDelay": "最初の入力遅延",
         "pageLoadBeaconTitleCumulativeLayoutShift": "累積レイアウト・シフト",
         "pageLoadBeaconTitleTimeToFirstByte": "最初のバイトまでの時間",
-        "pageLoadBeaconTitleInitiator": "イニシエーター",
         "pageLoadBeaconTitleWindowLocation": "ウィンドウの位置",
         "pageLoadBeaconTitleFirstPaint": "最初の描画",
         "pageLoadBeaconTotalDurationNameRetrievalTime": "onLoad 時間",
-        "resourceLoadBeaconHeaderAsset": "資産",
+        "resourceLoadBeaconHeaderAsset": "アセット",
         "resourceLoadBeaconHeaderMeta": "メタ",
         "resourceLoadBeaconHeaderResourceTiming": "リソース・タイミング",
-        "resourceLoadBeaconHeaderNetworkInsights": "Network Insight",
+        "resourceLoadBeaconHeaderNetworkInsights": "ネットワークの洞察",
         "resourceLoadBeaconLabelPageResource": "ページ・リソース",
-        "resourceLoadBeaconLabelStartTime": "開始時刻",
+        "resourceLoadBeaconLabelStartTime": "開始時間",
         "resourceLoadBeaconLabelRetrievalTime": "取得時間",
         "resourceLoadBeaconLabelRedirect": "リダイレクト",
         "resourceLoadBeaconLabelAppCache": "アプリケーション・キャッシュ",
@@ -337,15 +322,15 @@
   },
   "newWebsiteFlow": {
     "inputStepTitleAddWebsite": "Web サイトの追加",
-    "inputStepParagraphGetStarted": "Web サイトのパフォーマンスがユーザー・エクスペリエンスに与える影響を十分に把握するために、Web サイト・モニタリングを開始します。  構成はシンプルです。",
+    "inputStepParagraphGetStarted": "Web サイト・モニタリングを行うことで、Web サイトのパフォーマンスがユーザー・エクスペリエンスに与える影響を十分に把握できるようになります。  構成はシンプルです。",
     "inputStepLabelWebsiteName": "Web サイト名",
     "inputStepButtonAddWebsite": "Web サイトの追加",
     "readyStepTitleEverythingsReady": "すべての準備が完了しました。",
-    "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "Web サイト <strong>{{websiteName}}</strong> をモニターする準備がすべて完了しました。 このスクリプトを HTML 文書の <code>{{httpHeadTag}}</code> にコピーしてください。 Web サイト・モニタリングおよびトラッキング・スクリプトの全機能に関する情報は<linkToDocs>この文書</linkToDocs>にあります。",
+    "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "Web サイト <strong>{{websiteName}}</strong> をモニターする準備がすべて完了しました。 このスクリプトを HTML 文書の <code>{{httpHeadTag}}</code> にコピーしてください。 Web サイト・モニタリングおよびトラッキング・スクリプトの全機能に関する情報は<linkToDocs>こちらの資料</linkToDocs>をご覧ください。",
     "readyStepButtonGoToWebsiteDashboard": "Web サイト・ダッシュボードに移動",
     "readyStepButtonCopyToClipboard": "クリップボードにコピー",
     "waitStepTitleWorking": "処理中…",
-    "waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite": "Web サイト <strong>{{websiteName}}</strong> をモニターするための準備を進めています。 処理を進めている間に、以下のスクリプトを HTML 文書の <code>{{httpHeadTag}}</code> に追加してください。 Web サイト・モニタリングおよびトラッキング・スクリプトの全機能に関する情報は<linkToDocs>この文書</linkToDocs>にあります。",
+    "waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite": "Web サイト <strong>{{websiteName}}</strong> をモニターするための準備を進めています。 処理を進めている間に、以下のスクリプトを HTML 文書の <code>{{httpHeadTag}}</code> に追加してください。 Web サイト・モニタリングおよびトラッキング・スクリプトの全機能に関する情報は<linkToDocs>こちらの資料</linkToDocs>をご覧ください。",
     "waitStepButtonCopyToClipboard": "クリップボードにコピー",
     "waitStepButtonEnablingMonitoring": "モニタリングを有効化しています…"
   },
@@ -368,7 +353,6 @@
   },
   "websiteDashboard": {
     "components": {
-      "deprecationHeaderSupportEnds": "サポートは {{supportedUntil}} に終了します",
       "overlaysTooltipToogleHeatMap": "ヒート・マップの切り替え",
       "overlaysTooltipPanLeft": "左に移動",
       "overlaysTooltipPanUp": "上に移動",
@@ -412,7 +396,6 @@
         "graphqlOperationsTopListLabelLatency": "待ち時間",
         "graphqlOperationsTopListLabelErrors": "エラー",
         "graphqlOperationsTopListTitle": "GraphQL 操作名",
-        "graphqlOperationsTopListLinkLabel": "すべての GraphQL 操作名を表示",
         "locationsTopListLabelCalls": "呼び出し",
         "locationsTopListLabelLatency": "待ち時間",
         "locationsTopListLabelErrors": "エラー",
@@ -484,16 +467,11 @@
         "alertsLabelName": "名前",
         "alertsLabelFilters": "フィルター",
         "alertsHeaderConfiguredAlerts": "構成済みアラート",
-        "alertsNoDataMessage": "アラートが構成されていません。",
-        "alertsNumberOfFilters": "{{count}} 個のフィルター",
-        "alertsNumberOfFilters_plural": "{{count}} 個のフィルター",
-        "alertsNumberOfFilters_0": "{{count}} 個のフィルター",
-        "alertsNumberOfFilters_1": "{{count}} 個のフィルター",
-        "alertsNumberOfFilters_2": "{{count}} 個のフィルター"
+        "alertsNoDataMessage": "アラートが構成されていません。"
       },
       "configuration": {
         "configurationRemoveTitle": "Web サイトの削除",
-        "configurationRemoveHelpParagraph": "お客様も Instana サポートもこのアクションを元に戻すことはできませんので、ご注意ください。",
+        "configurationRemoveHelpParagraph": "ご自身でも Instana サポートでもこのアクションを元に戻すことはできませんので、ご注意ください。",
         "configurationRemoveInput": "このアクションは元に戻せないことを理解しています。",
         "configurationRemoveButton": "Web サイトの削除",
         "configurationRenameTitle": "Web サイトの名前変更",
@@ -510,7 +488,7 @@
         "fileDownloadConfigurationDialogTitleEdit": "ファイル・ダウンロード構成の編集",
         "fileDownloadConfigurationDialogTitleNew": "新規ファイル・ダウンロード構成",
         "fileDownloadConfigurationDialogHeadingMatchingRules": "突き合わせルール",
-        "fileDownloadConfigurationDialogMatchingRuleHelp1": "HTTP 要求に構成を含めるタイミングを記述するために、複数の突き合わせルールを定義できます。  少なくとも 1 つの突き合わせルールがファイルの URL と一致する場合は、構成されている HTTP 基本認証ヘッダーおよびカスタム HTTP ヘッダーを使用します。",
+        "fileDownloadConfigurationDialogMatchingRuleHelp1": "HTTP 要求に構成を含めるタイミングを記述するために、複数の突き合わせルールを定義できます。  少なくとも 1 つの突き合わせルールがファイルの URL と一致する場合は、構成済みの HTTP 基本認証ヘッダーおよびカスタム HTTP ヘッダーが使用されます。",
         "fileDownloadConfigurationDialogMatchingRuleHelp2": "<code>{{http}}</code> スキームのファイルのみを突き合わせることをお勧めします。そうしないと、構成はプレーン・テキストで送信されるためです。",
         "fileDownloadConfigurationDialogLabelScheme": "スキーム",
         "fileDownloadConfigurationDialogLabelHTTPSOrHTTP": "https:// または http://",
@@ -529,7 +507,7 @@
         "fileDownloadConfigurationDialogLabelValue": "値",
         "fileDownloadConfigurationDialogButtonAddHeader": "ヘッダーの追加",
         "stackTraceTranslationLabelConfiguration": "構成",
-        "stackTraceTranslationExplanation": "JavaScript スタック・トレースを読みやすくする (例えば、縮小されていないファイルや行への参照を表示する) には、Instana が JavaScript ファイルおよびソース・マップ・ファイルにアクセスする必要があります。 ここに構成を追加すると、Instana のサーバーがこれらのファイルを認証およびダウンロードして、JavaScript エラーについてさらに詳しい洞察が得られます。",
+        "stackTraceTranslationExplanation": "JavaScript スタック・トレースを読みやすくする (例えば、縮小されていないファイルや行への参照を表示する) には、Instana が JavaScript ファイルおよびソース・マップ・ファイルにアクセスする必要があります。 ここに構成を追加すると、Instana のサーバーがこれらのファイルを認証してダウンロードすることが可能になり、JavaScript エラーについてさらに詳しい洞察が得られます。",
         "stackTraceTranslationTitleJavaScriptStackTraceTranslation": "JavaScript スタック・トレース変換",
         "stackTraceTranslationLearnMoreLabel": "JavaScript スタック・トレース変換の詳細",
         "stackTraceTranslationTitleJSStackTraceTranslationConfigurations": "JS スタック・トレース変換構成",
@@ -568,7 +546,8 @@
         "pageTopListLabelOccurrences": "発生回数",
         "pageTopListLabelUsers": "ユーザー",
         "browserTopListLabelOccurrences": "発生回数",
-        "browserTopListLabelUsers": "ユーザー"
+        "browserTopListLabelUsers": "ユーザー",
+        "customEvents": "カスタム・イベント"
       },
       "errors": {
         "browserTopListLabelOccurrences": "発生回数",
@@ -675,12 +654,12 @@
       "summary": {
         "errorTopListLabelOccurrences": "発生回数",
         "errorTopListLabelAffectedUsers": "影響を受けたユーザー",
-        "errorTopListTitleTopJSErrors": "JS エラーの上位",
+        "errorTopListTitleTopJSErrors": "上位 JS エラー",
         "errorTopListLinkLabelViewAllJSErrors": "すべての JS エラーを表示",
         "pagesTopListLabelPageViews": "ページ・ビュー",
         "pagesTopListLabelOnLoadTime": "onLoad 時間",
         "pagesTopListLabelErrors": "エラー",
-        "pagesTopListTitleTopPages": "トップ・ページ",
+        "pagesTopListTitleTopPages": "上位ページ",
         "pagesTopListLinkLabel": "すべてのページを表示",
         "summaryTitlePageLoads": "ページ・ロード",
         "summaryTitlePageTransitions": "ページ遷移",
@@ -774,13 +753,13 @@
     "websiteDashboardButtonAnalyzePageTransitions": "ページ遷移の分析"
   },
   "rename": {
-    "help": "Web サイトの名前変更は、Instana システム内で最終的な一貫性が確保される操作です。 そのため、Web サイト名を変更すると、システム全体に変更が浸透するまでに<strong>最大で数分</strong>かかる場合があります。"
+    "help": "Web サイトの名前変更は、結果的に Instana システム内で整合性が確保される操作です。 そのため、Web サイト名を変更すると、システム全体に変更が反映されるまでに<strong>最大で数分</strong>かかる場合があります。"
   },
   "trackingScript": {
-    "help": "以下のトラッキング・スクリプトだけで Web サイト・モニタリングを開始できます。 このスクリプトを HTML 文書の <code>{{htmlElementName}}</code> にコピーしてください。 Web サイト・モニタリングおよびトラッキング・スクリプトの全機能に関する情報は<linkToDocs>この文書</linkToDocs>にあります。"
+    "help": "以下のトラッキング・スクリプトだけで Web サイト・モニタリングを開始できます。 このスクリプトを HTML 文書の <code>{{htmlElementName}}</code> にコピーしてください。 Web サイト・モニタリングおよびトラッキング・スクリプトの全機能に関する情報は<linkToDocs>こちらの資料</linkToDocs>をご覧ください。"
   },
   "delete": {
-    "disclaimer": "Instana を使用して Web サイト <strong>{{websiteName}}</strong> をモニターすることがなくなった場合は、このフォームを使用して削除してください。 Web サイトの削除は、最終的な一貫性が確保されるアクションです。 そのため、Web サイトを削除するときは、完全に削除されるまでに<strong>最大で数分</strong>かかる場合があります。"
+    "disclaimer": "Instana を使用して Web サイト <strong>{{websiteName}}</strong> をモニターすることがなくなった場合は、このフォームを使用して削除してください。 Web サイトの削除は、最終的な一貫性が確保されるアクションです。 そのため、Web サイトは完全に削除されるまでに<strong>最大で数分</strong>かかる場合があります。"
   },
   "dataSource_pageLoad": "{{formattedCount}} 件のページ・ロード",
   "dataSource_pageLoad_plural": "{{formattedCount}} 件のページ・ロード",
@@ -832,7 +811,7 @@
     "os": "OS",
     "country": "国",
     "subdivision": "サブディビジョン",
-    "windowWidth": "ウィンドウ幅"
+    "windowWidth": "範囲の幅"
   },
   "beacons": {
     "website": "Web サイト",

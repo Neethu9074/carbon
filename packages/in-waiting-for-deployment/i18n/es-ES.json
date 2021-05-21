@@ -29,6 +29,7 @@
     "eclipseOpenJ911": "Eclipse OpenJ9 11",
     "theClusterNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "El nombre de clúster debe ser una combinación de letras, guiones y signos de subrayado, de hasta 64 caracteres",
     "aws": "AWS",
+    "serverless": "Sin servidor",
     "amazonWebServices": "Amazon Web Services",
     "platform": "Plataforma",
     "instanaAwsSensor": "Sensor AWS de Instana",
@@ -195,7 +196,6 @@
     "placeholderReleaseVersionEG001": "Versión del release, por ejemplo, '0.0.1'",
     "theAgentReleaseVersionMustBeAValidSemanticVersion": "La versión de release del agente debe ser una versión semántica válida",
     "placeholderFoundationNameEGProd": "El nombre de la instalación, por ejemplo, 'prod'",
-    "theFoundationNameMustBeACombinationOfLettersDashesAndUnderscoresUpTo64CharactersLong": "El nombre base debe ser una combinación de letras, guiones y signos de subrayado, de hasta 64 caracteres",
     "placeholderUaaClientIdEGMyClientId": "El ID del cliente de UAA, por ejemplo, 'my-client-id'",
     "theUaaClientIdCannotBeBlank": "El ID del cliente de UAA no puede estar en blanco",
     "placeholderUaaClientSecretEGMyClientSecret": "El secreto del cliente de UAA, por ejemplo, 'my-client-secret'",
@@ -214,7 +214,7 @@
     "createInTheFoundationSUserAccountAndAuthenticationUaaAClientWithCloudControllerAdminReadOnlyAuthority": "En UAA (User Account and Authentication) cree un cliente con la autorización 'cloud_controller.admin_read_only':",
     "theEasiestWayToCreateTheRequiredUaaClientIsToUseThe": "La forma más fácil de crear el cliente UAA necesario, es utilizar la ",
     "uaacTool": "herramienta uaac.",
-    "replaceInTheCommandsBelowUaaApiEndpointWithYourUaaApiEndpointAndClientsAdminSecretWithYourUaaClientWithClientsAdminOrClientsWriteAuthority": "En los mandatos siguientes sustituya '<uaa-api-endpoint>' por su punto final de API UAA y '<clients.admin-secret>' con su cliente de UAA con la autorización 'clients.admin' o 'clients.write'",
+    "replaceInTheCommandsBelowUaaApiEndpointWithYourUaaApiEndpointAndClientsAdminSecretWithYourUaaClientWithClientsAdminOrClientsWriteAuthority": "En los mandatos siguientes sustituya '<uaa-api-endpoint>' por su punto final de API UAA y '<clients.admin-secret>' por su cliente UAA con autorización 'clients.admin' o 'clients.write'",
     "instanaBoshAddon": "Complemento de Instana BOSH",
     "boshAddonsAreRuntimeConfigurationsForBoshThatAllowYouToDeclareAdditionalJobsToBeRunInYourDeploymentsForMoreInformationOnBoshRuntimeConfigurationsAndAddonsReferToThe": "Los complementos BOSH son configuraciones del entorno de ejecución para BOSH que permiten declarar trabajos adicionales para que se ejecuten en los despliegues. Para obtener más información sobre las configuraciones de entorno de ejecución de BOSH y los complementos, consulte la ",
     "boshRuntimeConfigurationsDocumentation": "documentación de \"Configuraciones de entorno de ejecución de BOSH\".",
@@ -314,6 +314,5 @@
   "yourInstanaInstanceIsReadyAndWorksBestWithLotsOfData": "Prácticamente está terminado, hemos creado una instancia de Instana para usted.",
   "whileWeArePreparingYourInstanaInstance": "Mientras se prepara su instancia de Instana,",
   "getReadyToDeployAgentsInYourEnvironment": "prepárese para desplegar los agentes en su entorno...",
-  "letSGetSomeAgentsRunning": "Estamos a la espera de que instale el agente de Instana.",
-  "theFieldCannotBeBlank": "El campo '{{fieldName}}' no puede estar en blanco"
+  "letSGetSomeAgentsRunning": "Estamos a la espera de que instale el agente de Instana."
 }

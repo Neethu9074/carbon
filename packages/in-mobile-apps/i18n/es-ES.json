@@ -6,10 +6,7 @@
     "custom": "Suceso personalizado"
   },
   "analyzeView": {
-    "noData": "No hay balizas disponibles para el rango de tiempo seleccionado. Para obtener información sobre resolución de problemas, consulte [documentation][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
-    "MetricSelectorTitle": "Seleccionar métricas",
-    "MetricSelectorHelp": "Seleccione qué métricas deben estar disponibles como columnas en la tabla. También define qué métricas se pueden visualizar como gráficos.",
-    "EntityPageMainNotificationTitle": "No se ha encontrado {{entityName}}",
+    "uniqueUsers": "Usuarios únicos",
     "metrics": {
       "timestampMetricName": "indicación de fecha y hora",
       "groupNameMetricName": "nombre",
@@ -54,55 +51,52 @@
       "customBeaconCountLabel": "Apariciones",
       "customBeaconDurationLabel": "Duración"
     },
-    "editGroupDialog": {
-      "help": "Seleccione un código por el que se agruparán las balizas."
-    },
-    "groupMetricsChart": {
-      "countChartDefinitionLabel": "Número"
-    },
     "quickFilterBar": {
       "mobileAppLabel": "Aplicación móvil",
       "mobileAppLabel_plural": "Aplicaciones móviles",
+      "mobileAppLabel_0": "Aplicaciones móviles",
+      "mobileAppLabel_1": "Aplicaciones móviles",
+      "mobileAppLabel_2": "Aplicaciones móviles",
       "viewsLabel": "Vista",
       "viewsLabel_plural": "Vistas",
+      "viewsLabel_0": "Vistas",
+      "viewsLabel_1": "Vistas",
+      "viewsLabel_2": "Vistas",
       "platformLabel": "Plataforma",
       "platformLabel_plural": "Plataformas",
+      "platformLabel_0": "Plataformas",
+      "platformLabel_1": "Plataformas",
+      "platformLabel_2": "Plataformas",
       "osLabel": "SO",
       "osLabel_plural": "SO",
+      "osLabel_0": "SO",
+      "osLabel_1": "SO",
+      "osLabel_2": "SO",
       "bundleLabel": "Paquete",
       "bundleLabel_plural": "Paquetes",
+      "bundleLabel_0": "Paquetes",
+      "bundleLabel_1": "Paquetes",
+      "bundleLabel_2": "Paquetes",
       "versionLabel": "Versión",
       "versionLabel_plural": "Versiones",
+      "versionLabel_0": "Versiones",
+      "versionLabel_1": "Versiones",
+      "versionLabel_2": "Versiones",
       "countryLabel": "país",
       "countryLabel_plural": "países",
+      "countryLabel_0": "países",
+      "countryLabel_1": "países",
+      "countryLabel_2": "países",
       "subdivisionLabel": "subdivisión",
       "subdivisionLabel_plural": "subdivisiones",
+      "subdivisionLabel_0": "subdivisiones",
+      "subdivisionLabel_1": "subdivisiones",
+      "subdivisionLabel_2": "subdivisiones",
       "metaLabel": "Meta"
     },
     "perBeaconTypeConfigs": {
-      "customTH1": "Nombre de suceso",
-      "customTH2": "Aplicación móvil",
-      "customTimestampLabel": "Indicación de fecha y hora",
       "customBatchingIndicatorTooltipContent": "Este suceso se ha agrupado en lote y representa sucesos individuales de {{size}}.",
-      "customListItemHeader": "Nombre de suceso",
-      "httpRequestTH1": "Acceso",
-      "httpRequestTH2": "Aplicación móvil",
-      "httpRequestTimestampLabel": "Indicación de fecha y hora",
-      "httpRequestBatchingIndicatorTooltipContent": "Esta solicitud HTTP se ha agrupado en un lote y representa solicitudes HTTP individuales de {{size}}.",
-      "httpRequestListItemHeader": "Acceso",
-      "sessionStartTH1": "ID de sesión",
-      "sessionStartTH2": "Aplicación móvil",
-      "sessionStartTimestampLabel": "Indicación de fecha y hora",
-      "sessionStartListItemHeader": "ID de sesión",
-      "viewChangeTH1": "Nombre de vista",
-      "viewChangeTH2": "Aplicación móvil",
-      "viewChangeTimestampLabel": "Indicación de fecha y hora",
-      "viewChangeListItemHeader": "Nombre de vista"
-    },
-    "groupedBeaconsTable": {
-      "groupLabel": "Grupo",
-      "countLabel": "Número",
-      "timestampLabel": "Primera indicación de fecha y hora"
+      "httpRequestBatchingIndicatorTooltipContent": "Esta solicitud HTTP se ha agrupado en un lote y representa solicitudes HTTP individuales de {{size}}."
     }
   },
   "beaconUserSum": {
@@ -239,6 +233,7 @@
     "mobileAppViewTitle": "Aplicación móvil",
     "mobileAppTitle": "Vista",
     "analyzeSessions": "Analizar sesiones",
+    "analyzeViewTransitions": "Analizar transiciones de vistas",
     "numSessionStarts": "{{num}} inicios de sesión",
     "tabs": {
       "summaryLabel": "Resumen",
@@ -304,7 +299,8 @@
       "sessionStartsLabel": "Inicios de sesión",
       "viewTransitionsLabel": "Ver transiciones",
       "geographyTitle": "Geografía",
-      "topViewsTitle": "Vistas principales"
+      "topViewsTitle": "Vistas principales",
+      "globViewFootertext": "Imágenes proporcionadas por la NASA"
     }
   },
   "appsList": {
@@ -341,12 +337,24 @@
   },
   "dataSource_sessionStart": "{{formattedCount}} inicio de sesión",
   "dataSource_sessionStart_plural": "{{formattedCount}} inicios de sesión",
+  "dataSource_sessionStart_0": "{{formattedCount}} inicios de sesión",
+  "dataSource_sessionStart_1": "{{formattedCount}} inicios de sesión",
+  "dataSource_sessionStart_2": "{{formattedCount}} inicios de sesión",
   "dataSource_viewChange": "{{formattedCount}} transición de vista",
   "dataSource_viewChange_plural": "{{formattedCount}} transiciones de vista",
+  "dataSource_viewChange_0": "{{formattedCount}} transiciones de vista",
+  "dataSource_viewChange_1": "{{formattedCount}} transiciones de vista",
+  "dataSource_viewChange_2": "{{formattedCount}} transiciones de vista",
   "dataSource_httpRequest": "{{formattedCount}} solicitud HTTP",
   "dataSource_httpRequest_plural": "{{formattedCount}} solicitudes HTTP",
+  "dataSource_httpRequest_0": "{{formattedCount}} solicitudes HTTP",
+  "dataSource_httpRequest_1": "{{formattedCount}} solicitudes HTTP",
+  "dataSource_httpRequest_2": "{{formattedCount}} solicitudes HTTP",
   "dataSource_custom": "{{formattedCount}} suceso personalizado",
   "dataSource_custom_plural": "{{formattedCount}} sucesos personalizados",
+  "dataSource_custom_0": "{{formattedCount}} sucesos personalizados",
+  "dataSource_custom_1": "{{formattedCount}} sucesos personalizados",
+  "dataSource_custom_2": "{{formattedCount}} sucesos personalizados",
   "facetedSearch": {
     "mobileApp": "Aplicación móvil",
     "view": "Vista",

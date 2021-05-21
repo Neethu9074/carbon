@@ -1,5 +1,4 @@
 {
-  "time": "時間",
   "logs": "日誌",
   "sum": "總和",
   "bar": "列",
@@ -8,20 +7,9 @@
   "logsOverTime_WARN": "一段時間的警告日誌",
   "logsOverTime_INFO": "一段時間的資訊日誌",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
-  "log": "日誌",
   "selectTags": "選取標籤",
-  "addATag": "新增標籤",
-  "download": "下載",
-  "analytics": "分析",
-  "closeLogDetails": "關閉日誌詳細資料",
-  "detail": "詳細資料",
-  "logTime": "記載時間",
-  "type": "類型",
-  "message": "訊息",
-  "tags": "標籤",
-  "logCount": "{{formattedCount}} 份日誌",
-  "logCount_plural": "{{formattedCount}} 份日誌",
-  "logCount_0": "{{formattedCount}} 份日誌",
-  "logCount_1": "{{formattedCount}} 份日誌",
-  "logCount_2": "{{formattedCount}} 份日誌"
+  "goToTrace": "移至追蹤",
+  "addAsFilter": "新增為過濾器",
+  "addAsGroup": "新增為群組",
+  "numberOfLogs": "日誌數"
 }

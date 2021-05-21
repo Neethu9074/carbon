@@ -52,7 +52,7 @@
       "allWebsites": "Alle Websites",
       "allMobileApps": "Alle mobilen Apps",
       "allWebsitesMobileApps": "Alle Websites und mobilen Apps",
-      "pageViews": "Seitenansichten",
+      "pageViews": "Seitenaufrufe",
       "sessions": "Sitzungen",
       "onLoadTime": "onLoad-Zeit",
       "views": "Ansichten",
@@ -86,7 +86,8 @@
       "cpuUsage": "CPU-Nutzung",
       "created": "Erstellt",
       "started": "Gestartet",
-      "os": "Betriebssystem"
+      "os": "Betriebssystem",
+      "mean": "Mittelwert"
     },
     "topListWidget": {
       "noLabelYet": "Noch keine {{nolabel}} "

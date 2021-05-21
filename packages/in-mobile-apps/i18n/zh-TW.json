@@ -6,10 +6,6 @@
     "custom": "自訂事件"
   },
   "analyzeView": {
-    "noData": "在選取的時間範圍內沒有任何可用的引標。如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
-    "MetricSelectorTitle": "選取度量",
-    "MetricSelectorHelp": "選取哪些度量應當成直欄提供於表格中。它也會定義哪些度量可採圖形方式來檢視。",
-    "EntityPageMainNotificationTitle": "找不到 {{entityName}}",
     "uniqueUsers": "唯一使用者",
     "metrics": {
       "timestampMetricName": "時間戳記",
@@ -52,14 +48,8 @@
       "httpRequestHttpPutRawDataLabel": "HTTP 方法",
       "httpRequestHttpDeleteLabel": "HTTP DELETE 計數",
       "httpRequestHttpDeleteRawDataLabel": "HTTP 方法",
-      "customBeaconCountLabel": "出現項目",
+      "customBeaconCountLabel": "出現次數",
       "customBeaconDurationLabel": "持續時間"
-    },
-    "editGroupDialog": {
-      "help": "選取標籤以作為引標的分組依據。"
-    },
-    "groupMetricsChart": {
-      "countChartDefinitionLabel": "計數"
     },
     "quickFilterBar": {
       "mobileAppLabel": "行動式應用程式",
@@ -105,29 +95,8 @@
       "metaLabel": "Meta"
     },
     "perBeaconTypeConfigs": {
-      "customTH1": "事件名稱",
-      "customTH2": "行動式應用程式",
-      "customTimestampLabel": "時間戳記",
       "customBatchingIndicatorTooltipContent": "此事件已批次處理，代表 {{size}} 個個別的事件。",
-      "customListItemHeader": "事件名稱",
-      "httpRequestTH1": "存取",
-      "httpRequestTH2": "行動式應用程式",
-      "httpRequestTimestampLabel": "時間戳記",
-      "httpRequestBatchingIndicatorTooltipContent": "此 HTTP 要求已批次處理，代表 {{size}} 項個別的 HTTP 要求。",
-      "httpRequestListItemHeader": "存取",
-      "sessionStartTH1": "階段作業 ID",
-      "sessionStartTH2": "行動式應用程式",
-      "sessionStartTimestampLabel": "時間戳記",
-      "sessionStartListItemHeader": "階段作業 ID",
-      "viewChangeTH1": "視圖名稱",
-      "viewChangeTH2": "行動式應用程式",
-      "viewChangeTimestampLabel": "時間戳記",
-      "viewChangeListItemHeader": "視圖名稱"
-    },
-    "groupedBeaconsTable": {
-      "groupLabel": "群組",
-      "countLabel": "計數",
-      "timestampLabel": "最早時間戳記"
+      "httpRequestBatchingIndicatorTooltipContent": "此 HTTP 要求已批次處理，代表 {{size}} 項個別的 HTTP 要求。"
     }
   },
   "beaconUserSum": {
@@ -140,7 +109,7 @@
     "viewportResolutionTitle": "檢視區解析度",
     "preferredLanguagesTitle": "偏好的語言",
     "ipTitle": "IP 位址",
-    "carrierTitle": "載波",
+    "carrierTitle": "電信業者",
     "connectionTypeTitle": "連線類型",
     "effectiveConnectionTypeTitle": "有效連線類型",
     "userLocationTitle": "使用者位置",
@@ -216,7 +185,7 @@
       "backendTooltipError_0": "錯誤",
       "backendTooltipError_1": "錯誤",
       "backendTooltipError_2": "錯誤",
-      "backendTooltipLink": "在 {{duration}} 期間有 {{callCount}} 個 {{call}}，出現 {{totalErrorCount}} 個 {{error}}。"
+      "backendTooltipLink": "在 {{duration}}內有 {{callCount}} 個 {{call}}，出現 {{totalErrorCount}} 個 {{error}}。"
     },
     "tabsSumBackendTraceButton": {
       "viewTraceBtn": "檢視後端追蹤",
@@ -273,19 +242,19 @@
       "viewsLabel": "視圖",
       "configurationLabel": "配置",
       "nameLabel": "名稱",
-      "occurrencesLabel": "出現項目",
+      "occurrencesLabel": "出現次數",
       "configurationTitle": "配置",
       "optionsLabel": "選項",
       "installationInstructionsBtn": "安裝指示",
-      "keyLabel": "索引鍵",
+      "keyLabel": "金鑰",
       "reportingURLLabel": "報告 URL",
       "removeAppTitle": "移除行動式應用程式",
-      "removeAppHelp1": "如果您再也不想使用 Instana 來監視行動式應用程式 <strong>{{label}}</strong>，請使用此表單來移除它。「移除行動式應用程式」是最終一致的動作。因此，移除行動式應用程式可能<strong>需要數分鐘</strong>，才能完全移除。",
+      "removeAppHelp1": "如果您再也不想使用 Instana 來監視行動式應用程式 <strong>{{label}}</strong>，請使用此表單來移除它。「移除行動式應用程式」是最終執行的一致性動作。因此，移除行動式應用程式可能<strong>需要數分鐘</strong>，才能完全移除。",
       "removeAppHelp2": "請注意，您或 Instana 支援人員都無法復原此動作！",
       "confirmUndone": "我瞭解此動作無法復原。",
       "removeAppBtn": "移除行動式應用程式",
       "renameAppTitle": "重新命名行動式應用程式",
-      "renameAppHelp": "「重新命名行動式應用程式」是 Instana 系統中最終的一致動作。因此，對行動式應用程式名稱的變更可能<strong>需要數分鐘</strong>，才能移入至整個系統。",
+      "renameAppHelp": "「重新命名行動式應用程式」是 Instana 系統中最終執行的一致性動作。因此，對行動式應用程式名稱的變更可能<strong>需要數分鐘</strong>，才能移入至整個系統。",
       "renameAppBtn": "重新命名",
       "renameSaved": "已儲存",
       "noSessionTitle": "沒有可用的階段作業",
@@ -295,7 +264,7 @@
       "3DBtn": "3D",
       "errorTypesTitle": "錯誤類型",
       "viewAllErrorTypesLink": "檢視所有錯誤類型",
-      "originTitle": "原端",
+      "originTitle": "來源",
       "callsCardTitle": "呼叫",
       "callsLabel": "呼叫",
       "erroneousCallsLabel": "錯誤呼叫",
@@ -311,9 +280,9 @@
       "HTTPStatusCodeBreakdownTitle": "HTTP 狀態碼分類",
       "HTTPMethodBreakdownTitle": "HTTP 方法分類",
       "MobileAppHTTPRequestDetailsTitle": "行動式應用程式 HTTP 要求詳細資料",
-      "BackToListOfHTTPRequestOriginsLabel": "回到 HTTP 要求原端清單",
-      "AnalyzeHTTPRequestOriginBtn": "分析 HTTP 要求原端",
-      "originLabel": "原端",
+      "BackToListOfHTTPRequestOriginsLabel": "回到 HTTP 要求來源清單",
+      "AnalyzeHTTPRequestOriginBtn": "分析 HTTP 要求來源",
+      "originLabel": "來源",
       "latencyLabel": "延遲時間",
       "errorsLabel": "錯誤",
       "analyzeHTTPRequestsBtn": "分析 HTTP 要求",
@@ -321,8 +290,8 @@
       "viewAllPathsLink": "檢視所有路徑",
       "viewsTitle": "視圖",
       "viewAllViewsLink": "檢視所有視圖",
-      "topHTTPRequestOriginsTitle": "排名居前的 HTTP 要求原端",
-      "viewAllOriginsLink": "檢視所有原端",
+      "topHTTPRequestOriginsTitle": "排名居前的 HTTP 要求來源",
+      "viewAllOriginsLink": "檢視所有來源",
       "sessionStartsTitle": "階段作業啟動",
       "viewInAnalyzeIconAction": "在分析中檢視",
       "viewTransitionsTitle": "視圖轉移",
@@ -351,7 +320,7 @@
     "newMobileAppTitle": "新建行動式應用程式",
     "everythingIsReadyTitle": "一切就緒！",
     "everythingIsReadyMsg": "一切都就緒，可開始監視您的行動式應用程式 <strong>{{mobileAppName}}</strong>。<linkToInstallation>將代理程式新增至行動式應用程式</linkToInstallation>，以追蹤實際使用者，或移至儀表板。",
-    "keyLabel": "索引鍵",
+    "keyLabel": "金鑰",
     "reportingURLLabel": "報告 URL",
     "installationInstructionsBtn": "安裝指示",
     "GoToMobileAppDashboardBtn": "移至行動式應用程式儀表板",

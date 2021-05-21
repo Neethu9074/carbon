@@ -33,7 +33,7 @@
       "batchingWriting": "Creazione batch & scrittura",
       "writingReading": "Scrittura & lettura",
       "readingRrealTime": "Lettura (tempo reale)",
-      "healthProcessing": "Elaborazione condizione",
+      "healthProcessing": "Elaborazione integrità",
       "queryPerformance": "Prestazioni query",
       "callExtraction": "Estrazione chiamata",
       "resilientMapping": "Associazione resiliente",
@@ -58,7 +58,7 @@
       "jsStackTraceTranslatorDesc": "xAnalizza e prova a rendere più leggibili le tracce di stack JavaScript mediante le associazioni di origine JavaScript.xx",
       "eumProcessor": "eum-processor (elaborazione beacon)",
       "eumProcessorDesc": "eum-processor arricchisce i beacon ricevuti e li inoltra a Kafka per la persistenza.",
-      "eumHealthHrocessor": "eum-health-processor (esecuzione regola condizione)",
+      "eumHealthHrocessor": "eum-health-processor (esecuzione regola integrità)",
       "eumHealthHrocessorDesc": "eum-health-processor legge i beacon elaborati da Kafka ed esegue le regole su bucket di beacon.",
       "appdataWriter": "appdata-writer (inserimento beacon)",
       "appdataWriterDesc": "appdata-writer rende persistenti i beacon arricchiti in ClickHouse.",
@@ -115,13 +115,14 @@
       "demousDescEu": "Un'unità demo SaaS in esecuzione nella UE.",
       "serverlessAcceptor": "ServerlessAcceptor",
       "hubforce": "Hubforce",
-      "clickhouse": "Clickhouse",
-      "clickhouseApplication": "ClickHouse Application",
-      "clickhouseLogs": "ClickHouse Logs",
+      "clickhouse": "ClickHouse",
+      "clickhouseApplication": "Applicazione ClickHouse",
+      "clickhouseLogs": "Log ClickHouse",
       "elasticsearch": "Elasticsearch",
       "elasticsearchNg": "ElasticsearchNG",
       "kafka": "Kafka",
-      "demous": "demous"
+      "demous": "demous",
+      "demoeu": "demoeu"
     },
     "internalViewWrapper": {
       "internal": "Interno"
@@ -164,7 +165,7 @@
         "hostLoad": "Carico host",
         "processesCount": "processi ({{length}})",
         "hostCpuLoadLabel": "Carico CPU host",
-        "garbageCollection": "Garbage Collection"
+        "garbageCollection": "Raccolta dati inutilizzati"
       },
       "appDataAggregator": {
         "host": "Host",
@@ -182,7 +183,7 @@
         "getMetricsRetriever": "Metriche richieste da GetMetricsRetriever",
         "getMetricsRetrieverMetricReq": "Richieste metrica risposte da GetMetricsRetriever",
         "hostLoad": "Carico host",
-        "garbageCollection": "Garbage Collection"
+        "garbageCollection": "Raccolta dati inutilizzati"
       },
       "appDataLiveAggreValid": {
         "validMetrics": "Metriche convalidate",
@@ -223,7 +224,7 @@
         "hostLoad": "Carico host",
         "clickHouseQueryQueueing": "Accodamento query ClickHouse",
         "clickHouseQueryLatency": "Latenza query ClickHouse",
-        "garbageCollection": "Garbage Collection",
+        "garbageCollection": "Raccolta dati inutilizzati",
         "calls": "Chiamate",
         "mean": "media",
         "50th": "50esimo",
@@ -244,7 +245,7 @@
         "newlyQueuedClickHouseCalls": "Chiamate ClickHouse appena accodate",
         "queuedClickHouseCalls": "Chiamate ClickHouse accodate",
         "clickHouseQueryLatency": "Latenza query ClickHouse",
-        "garbageCollection": "Garbage Collection",
+        "garbageCollection": "Raccolta dati inutilizzati",
         "calls": "Chiamate",
         "mean": "media",
         "50th": "50esimo",
@@ -260,7 +261,7 @@
         "logs": "Log",
         "profileInfosClickHouse": "Informazioni profilo (ClickHouse)",
         "hostCpuLoad": "Carico CPU host",
-        "garbageCollectionAct": "Attività Garbage Collection",
+        "garbageCollectionAct": "Attività di raccolta dati inutilizzati",
         "kafkaReads": "Letture Kafka",
         "dropped": "Ignorato",
         "batchAdditions": "Aggiunte batch",
@@ -331,7 +332,7 @@
         "hostCpuLoad": "Carico CPU host",
         "hostLoad": "Carico host",
         "host": "Host",
-        "garbageCollection": "Garbage Collection",
+        "garbageCollection": "Raccolta dati inutilizzati",
         "instances": "log-processor({{length}})",
         "common": {
           "incoming": "Log comuni in entrata",
@@ -339,9 +340,9 @@
           "processing": "Elaborazione log comuni",
           "failProcessing": "Log comuni di elaborazione non riusciti",
           "kafkaConsumer": {
-            "availableCapacity": "Capacità disponibile log comuni Kafka consumer",
-            "emptyPolls": "Pool vuoti log comuni Kafka consumer",
-            "tooOld": "Log comuni  Kafka Consumer troppo vecchi"
+            "availableCapacity": "Capacità disponibile log comuni Kafka Consumer",
+            "emptyPolls": "Pool vuoti log comuni Kafka Consumer",
+            "tooOld": "Log comuni Kafka Consumer troppo vecchi"
           }
         },
         "trace": {
@@ -363,7 +364,7 @@
         "hostCpuLoad": "Carico CPU host",
         "hostLoad": "Carico host",
         "host": "Host",
-        "garbageCollection": "Garbage Collection",
+        "garbageCollection": "Raccolta dati inutilizzati",
         "instances": "log-writers ({{length}})",
         "incoming": "Log in entrata elaborati",
         "failIncoming": "Log in entrata elaborati non riusciti",
@@ -391,13 +392,13 @@
         "hostCpuLoad": "Carico CPU host",
         "hostLoad": "Carico host",
         "host": "Host",
-        "garbageCollection": "Garbage Collection",
+        "garbageCollection": "Raccolta dati inutilizzati",
         "instances": "log-readers ({{length}})",
-        "gRPCCalls": "Chiamate gRPC in entrata ",
-        "gRPCErrors": "Errori gRPC in entrata ",
+        "gRPCCalls": "Chiamate gRPC in entrata",
+        "gRPCErrors": "Errori gRPC in entrata",
         "tagReaderClient": {
-          "gRPCCalls": "Chiamate gRPC tag-reader in entrata ",
-          "gRPCErrors": "Errori gRPC tag-reader in entrata "
+          "gRPCCalls": "Chiamate gRPC tag-reader in entrata",
+          "gRPCErrors": "Errori gRPC tag-reader in entrata"
         },
         "clickHouse": {
           "select": "Selezioni ClickHouse",
@@ -436,7 +437,7 @@
       "eumAcceptor": {
         "load": "Carica",
         "hostCpuLoad": "Carico CPU host",
-        "garbageCollectionActivity": "Attività Garbage Collection",
+        "garbageCollectionActivity": "Attività di raccolta dati inutilizzati",
         "requests": "Richieste",
         "dropDueLoadBackpressure": "Ignorato a causa di caricamento / congestione",
         "dropDueRateLimit": "Ignorato a causa dei limite del tasso",
@@ -582,7 +583,7 @@
       "system": "Sistema",
       "wait": "Attesa",
       "free": "Libero",
-      "leaked": "Perse",
+      "leaked": "Perduto",
       "readPerSec": "Letture/s",
       "writePerSec": "Scritture/s",
       "bytesReadPerSec": "Byte letti/s",
@@ -614,7 +615,7 @@
         "beeInstanaIngest": "Inseritori BeeInstana ({{ingestorsLen}})",
         "metrics": "Metriche",
         "messages": "Messaggi",
-        "kafkaConsumerErrors": "Errori consumer Kafka",
+        "kafkaConsumerErrors": "Errori Kafka Consumer",
         "messageDelay": "Ritardo messaggio",
         "queueWorkerMaxQueueSize": "Coda e worker - MaxQueueSize",
         "queueWorkerTaskQueueSize": "Coda e worker - TaskQueueSize",
@@ -714,11 +715,11 @@
         "backendSpanDropSumAInstance": "Ignoramento estensione backend (somma tra le istanze)",
         "spanDropSumChartExplanation_1": "Mostra se le estensioni sono state ignorate e perché.",
         "spanDropSumChartExplanation_2": "<strong>Elaborate:</strong> quante estensioni sono state elaborate correttamente.",
-        "spanDropSumChartExplanation_3": "<strong>Ignorate a causa del throttler globale:</strong> ignorate a causa di limitatore di tasso globale (<i>config.hard.spans.rate.drop.threshold</i>)",
+        "spanDropSumChartExplanation_3": "<strong>Ignorate a causa del throttler globale:</strong> ignorate a causa di limitatore di tasso globale (<em>config.hard.spans.rate.drop.threshold</em>)",
         "spanDropSumChartExplanation_4": "<strong>Ignorate per congruenza:</strong> ignorate perché altre estensioni della stessa traccia sono state precedentemente ignorate, ad esempio a causa di congestione (garantisce che vengano ignorate tutte le estensioni di una traccia o nessuna).",
         "spanDropSumChartExplanation_5": "<strong>Ignorate a causa di congestione:</strong> ignorate a causa dell'esaurimento delle risorse (ad esempio, utilizzo elevato della CPU o un collo di bottiglia di un passo della pipeline).",
         "spanDropSumChartExplanation_6": "<strong>Ignorate in modo rigido a causa di congestione (ignoramento casuale):</strong> ignorate perché il record Kafka è più vecchio di 5 secondi.",
-        "spanDropSumChartExplanation_7": "<strong>Ignorate a causa del throttler della traccia:</strong> ignorate a causa di un limitatore di tasso per traccia (<i>config.hard.spans.per.trace.rate.drop.threshold</i>)",
+        "spanDropSumChartExplanation_7": "<strong>Ignorate a causa del throttler della traccia:</strong> ignorate a causa di un limitatore di tasso per traccia (<em>config.hard.spans.per.trace.rate.drop.threshold</em>)",
         "droppingRate": "Tasso di ignoramento",
         "processed": "Elaborate",
         "dropGlobalThrottler": "Ignorate a causa del throttler globale",
@@ -730,13 +731,13 @@
         "backendSpanDropInstChartExplanation_1": "Quando le estensioni vengono ignorate, è importante osservare le singole istanze.",
         "backendSpanDropInstChartExplanation_2": "Tutte le istanze vengono ignorate: scalabilità orizzontale.",
         "backendSpanDropInstChartExplanation_3": "Una o diverse istanze vengono ignorate (ma non tutte): la scalabilità orizzontale non ha effetto.",
-        "backendSpanDropInstChartExplanation_4": "Le tracce con un'elevata velocità di trasmissione sono in fase di elaborazione (la chiave di partizionamento è l'ID traccia): regolare <i>config.hard.spans.per.trace.rate.drop.threshold</i>.",
+        "backendSpanDropInstChartExplanation_4": "Le tracce con un'elevata velocità di trasmissione sono in fase di elaborazione (la chiave di partizionamento è l'ID traccia): regolare <em>config.hard.spans.per.trace.rate.drop.threshold</em>.",
         "backendSpanDropInstChartExplanation_5": "Il carico della CPU è troppo elevato sugli host sottostanti: assegnare l'istanza ad un host con un carico inferiore.",
         "srvlessAcceptorRateLimitSpanMsg": "Messaggi estensione limitati dal tasso accettante serverless",
         "spanLatencyMeanInstance": "Latenza estensione (media tra le istanze)",
         "spanLatencyMeanInstChartExplanation": "Ritardo nell'agent: ritardo tra il completamento di un'estensione ed il relativo invio dall'agent all'accettante.",
         "acceptorRateLimitSpanMsg": "Messaggi estensione limitati dal tasso accettante",
-        "acceptorRateLimitSpanhartExplan": "Numero di messaggi estensione (un messaggio contiene più estensioni) ignorati a causa di un limitatore di tasso di unità per tenant. Consultare <i>config.span.publish.rate.limit</i> (valore predefinito: 25000).",
+        "acceptorRateLimitSpanhartExplan": "Numero di messaggi estensione (un messaggio contiene più estensioni) ignorati a causa di un limitatore di tasso di unità per tenant. Consultare <em>config.span.publish.rate.limit</em> (valore predefinito: 25000).",
         "acceptorDropSpanMsg": "Messaggi estensione ignorati accettante",
         "srvlessAcceptorDropSpanMsg": "Messaggi estensione ignorati accettante serverless",
         "appDataProcessorInst": "Istanze processore AppData-Processor",
@@ -793,11 +794,11 @@
     "units": {
       "api": {
         "apiCallBlockRateLimitRate": "Tasso blocco chiamata API (limitazione tasso)",
-        "apiChartExplanation_1": "Le chiamate API sono state bloccate quando hanno raggiunto il limite definito nella sezione di configurazione di <i>rateLimit</i> di <i>ui-backend</i>.",
+        "apiChartExplanation_1": "Le chiamate API sono state bloccate quando hanno raggiunto il limite definito nella sezione di configurazione di <em>rateLimit</em> di <em>ui-backend</em>.",
         "apiChartExplanation_2": "Nella risposta viene fornito il codice di stato HTTP 429, insieme alle seguenti intestazioni (vedere <linkToDocs>riferimento</linkToDocs>):",
-        "apiChartExplanation_3": "Esiste un limite <i>predefinito</i> ma anche limiti più specifici per <i>zona</i>: <i>search</i>, <i>settings</i>, <i>appdata</i> e <i>snapshots</i>.",
-        "apiChartExplanation_4": "Il grafico riportato di seguito indica solo che le chiamate vengono bloccate ma non indica quale limite è stato raggiunto. Per questo, è possibile esaminare la metrica <i>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distinct-client-key-ZONE</i> in <i>ui-backend</i> che fornisce il tasso di chiamate per zona, oppure esaminare più attentamente le tracce e più in particolare le intestazioni ed i codici di stato.",
-        "apiChartExplanation_5": "<strong>Importante:</strong> le chiamate con codice di stato HTTP 429 non sono necessariamente bloccate dai limitatori di tasso API, ma possono essere bloccate anche da uno dei limitatori utilizzati per proteggere <i>appdata-reader</i> (vedere le metriche corrispondenti in <i>ui-backend</i> con il formato <i>appDataReaderXXXLimiter</i>). È possibile distinguere i 2 casi tramite la presenza delle intestazioni <i>X-RateLimit-XXX</i> nelle tracce."
+        "apiChartExplanation_3": "Esiste un limite <em>predefinito</em> ma anche limiti più specifici per <em>zona</em>: <em>search</em>, <em>settings</em>, <em>appdata</em> e <em>snapshots</em>.",
+        "apiChartExplanation_4": "Il grafico riportato di seguito indica solo che le chiamate vengono bloccate ma non indica quale limite è stato raggiunto. Per questo, è possibile esaminare la metrica <em>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distinct-client-key-ZONE</em> in <em>ui-backend</em> che fornisce il tasso di chiamate per zona, oppure esaminare più attentamente le tracce e più in particolare le intestazioni ed i codici di stato.",
+        "apiChartExplanation_5": "<strong>Importante:</strong> le chiamate con codice di stato HTTP 429 non sono necessariamente bloccate dai limitatori di tasso API, ma possono essere bloccate anche da uno dei limitatori utilizzati per proteggere <em>appdata-reader</em> (vedere le metriche corrispondenti in <em>ui-backend</em> con il formato <em>appDataReaderXXXLimiter</em>). È possibile distinguere i 2 casi tramite la presenza delle intestazioni <em>X-RateLimit-XXX</em> nelle tracce."
       },
       "application": {
         "appdataProcessorInstance": "Istanze Appdata-processor",

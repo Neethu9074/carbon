@@ -115,13 +115,14 @@
       "demousDescEu": "在歐盟執行的 SaaS 展示單元。",
       "serverlessAcceptor": "ServerlessAcceptor",
       "hubforce": "Hubforce",
-      "clickhouse": "Clickhouse",
-      "clickhouseApplication": "ClickHouse Application",
-      "clickhouseLogs": "ClickHouse Logs",
+      "clickhouse": "ClickHouse",
+      "clickhouseApplication": "ClickHouse 應用程式",
+      "clickhouseLogs": "ClickHouse 日誌",
       "elasticsearch": "Elasticsearch",
       "elasticsearchNg": "ElasticsearchNG",
       "kafka": "Kafka",
-      "demous": "demous"
+      "demous": "demous",
+      "demoeu": "demoeu"
     },
     "internalViewWrapper": {
       "internal": "內部"
@@ -714,11 +715,11 @@
         "backendSpanDropSumAInstance": "後端跨距的捨棄（實例之間的總和）",
         "spanDropSumChartExplanation_1": "顯示是否正在捨棄跨距及其原因：",
         "spanDropSumChartExplanation_2": "<strong>已處理：</strong>已順利處理的跨距數目。",
-        "spanDropSumChartExplanation_3": "<strong>因廣域節流控制器而捨棄：</strong>因比率限制器而捨棄 (<i>config.hard.spans.rate.drop.threshold</i>)",
+        "spanDropSumChartExplanation_3": "<strong>因廣域節流控制器而捨棄：</strong>因比率限制器而捨棄 (<em>config.hard.spans.rate.drop.threshold</em>)",
         "spanDropSumChartExplanation_4": "<strong>因一致捨棄而捨棄：</strong>因同一追蹤的其他跨距已在過去捨棄（例如：由於反壓力之故）而捨棄（以確保追蹤的所有跨距都已捨棄或都沒有捨棄）。",
         "spanDropSumChartExplanation_5": "<strong>因反壓力而捨棄：</strong>因資源耗盡而捨棄（例如：CPU 使用率偏高，或管線中有一個步驟是瓶頸）。",
         "spanDropSumChartExplanation_6": "<strong>因反壓力而強制捨棄（隨機捨棄）：</strong>因 Kafka 記錄久於 5 秒而捨棄。",
-        "spanDropSumChartExplanation_7": "<strong>因追蹤節流控制器而捨棄：</strong>基於每項追蹤的比率限制器而捨棄 (<i>config.hard.spans.per.trace.rate.drop.threshold</i>)",
+        "spanDropSumChartExplanation_7": "<strong>因追蹤節流控制器而捨棄：</strong>基於每項追蹤的比率限制器而捨棄 (<em>config.hard.spans.per.trace.rate.drop.threshold</em>)",
         "droppingRate": "捨棄率",
         "processed": "已處理",
         "dropGlobalThrottler": "因廣域節流控制器而捨棄",
@@ -730,13 +731,13 @@
         "backendSpanDropInstChartExplanation_1": "當捨棄跨距時，請務必查看個別的實例。",
         "backendSpanDropInstChartExplanation_2": "所有實例都在捨棄：請橫向擴充。",
         "backendSpanDropInstChartExplanation_3": "一或數個實例正在捨棄（並非全部）：橫向擴充沒有幫助。",
-        "backendSpanDropInstChartExplanation_4": "正在處理傳輸量偏高的追蹤（Shard 索引鍵是追蹤 ID）：請調整 <i>config.hard.spans.per.trace.rate.drop.threshold</i>。",
+        "backendSpanDropInstChartExplanation_4": "正在處理傳輸量偏高的追蹤（Shard 索引鍵是追蹤 ID）：請調整 <em>config.hard.spans.per.trace.rate.drop.threshold</em>。",
         "backendSpanDropInstChartExplanation_5": "基礎主機上的 CPU 負載太高：請指派實例給超載較低的主機。",
         "srvlessAcceptorRateLimitSpanMsg": "無伺服器接收器受比率限制的跨距訊息",
         "spanLatencyMeanInstance": "跨距延遲時間（實例之間的平均值）",
         "spanLatencyMeanInstChartExplanation": "代理程式中的延遲：在跨距結束後要延遲多久，才從代理程式將它傳送給接收器。",
         "acceptorRateLimitSpanMsg": "接收器受比率限制的跨距訊息",
-        "acceptorRateLimitSpanhartExplan": "基於每個租戶單元的比率限制器，而捨棄的跨距訊息（一則訊息會包含多個跨距）數。請參閱 <i>config.span.publish.rate.limit</i>（預設值：25,000）。",
+        "acceptorRateLimitSpanhartExplan": "基於每個租戶單元的比率限制器，而捨棄的跨距訊息（一則訊息會包含多個跨距）數。請參閱 <em>config.span.publish.rate.limit</em>（預設值：25,000）。",
         "acceptorDropSpanMsg": "接收器捨棄的跨距訊息",
         "srvlessAcceptorDropSpanMsg": "無伺服器接收器捨棄的跨距訊息",
         "appDataProcessorInst": "應用程式資料處理器的處理器實例",
@@ -793,11 +794,11 @@
     "units": {
       "api": {
         "apiCallBlockRateLimitRate": "API 呼叫封鎖率（比率限制）",
-        "apiChartExplanation_1": "當 API 呼叫達到 <i>ui-backend</i> 之 <i>rateLimit</i> 配置區段中所定義的比率限制，就會封鎖 API 呼叫。",
+        "apiChartExplanation_1": "當 API 呼叫達到 <em>ui-backend</em> 之 <em>rateLimit</em> 配置區段中所定義的比率限制，就會封鎖 API 呼叫。",
         "apiChartExplanation_2": "回應中提供了 HTTP 狀態碼 429，以及下列標頭（請參閱<linkToDocs>參照</linkToDocs>):",
-        "apiChartExplanation_3": "會提供<i>預設</i>限制，但是下列每一個<i>區域</i>也會有更具體的限制：<i>search</i>、<i>settings</i>、<i>appdata</i> 和 <i>snapshots</i>。",
-        "apiChartExplanation_4": "下圖只是告訴您正在封鎖呼叫，但是我們不知道已達到哪些限制。為此，您可以查看 <i>ui-backend</i> 中的 <i>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distinct-client-key-ZONE</i> 度量，其中會提供每個區域的呼叫率，或者您可以更密切查看追蹤資料和更具體的狀態碼與標頭。",
-        "apiChartExplanation_5": "<strong>重要事項：</strong>HTTP 狀態碼為 429 的呼叫未必會被 API 比率限制器封鎖，但也有可能被用來保護 <i>appdata-reader</i> 的其中一個限制器封鎖（請參閱 <i>ui-backend</i> 中格式為 <i>appDataReaderXXXLimiter</i> 的對應度量）。您可以查看追蹤資料中是否存在 <i>X-RateLimit-XXX</i> 標頭，即可區別這兩種情況。"
+        "apiChartExplanation_3": "會提供<em>預設</em>限制，但是下列每一個<em>區域</em>也會有更具體的限制：<em>search</em>、<em>settings</em>、<em>appdata</em> 和 <em>snapshots</em>。",
+        "apiChartExplanation_4": "下圖只是告訴您正在封鎖呼叫，但是我們不知道已達到哪些限制。為此，您可以查看 <em>ui-backend</em> 中的 <em>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distinct-client-key-ZONE</em> 度量，其中會提供每個區域的呼叫率，或者您可以更密切查看追蹤資料和更具體的狀態碼與標頭。",
+        "apiChartExplanation_5": "<strong>重要事項：</strong>HTTP 狀態碼為 429 的呼叫未必會被 API 比率限制器封鎖，但也有可能被用來保護 <em>appdata-reader</em> 的其中一個限制器封鎖（請參閱 <em>ui-backend</em> 中格式為 <em>appDataReaderXXXLimiter</em> 的對應度量）。您可以查看追蹤資料中是否存在 <em>X-RateLimit-XXX</em> 標頭，即可區別這兩種情況。"
       },
       "application": {
         "appdataProcessorInstance": "應用程式資料處理器實例",

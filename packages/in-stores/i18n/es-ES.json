@@ -1,8 +1,4 @@
 {
-  "storeStoreExists": "El almacén {{storeSpecName}} ya existe",
-  "storeObservableMustBeProvided": "Se debe proporcionar observable",
-  "storeUnsupportedActionType": "Tipo de acción {{storeActionType}} no soportado. ¿Ha olvidado especificar un reductor?",
-
   "permissionAccessWebsitesLabel": "Sitios web",
   "permissionAccessMobileAppsLabel": "Aplicaciones móviles",
   "permissionAccessApplicationsLabel": "Aplicaciones",
@@ -92,27 +88,26 @@
   "permissionRestrictedHelp": "Habilitar rol basado en el control de acceso.",
 
   "metric": {
-    "metric": {
-      "MEAN": "media",
-      "MIN": "mín",
-      "P25": "25º",
-      "P50": "50º",
-      "P75": "75º",
-      "P90": "90º",
-      "P95": "95º",
-      "P98": "98º",
-      "P99": "99º",
-      "MAX": "máx",
-      "DISTINCT_COUNT": "recuento distinto",
-      "SUM": "suma",
-      "DISTRIBUTION": "distribución"
-    },
+    "metric_MEAN": "media",
+    "metric_MIN": "mín",
+    "metric_P25": "25º",
+    "metric_P50": "50º",
+    "metric_P75": "75º",
+    "metric_P90": "90º",
+    "metric_P95": "95º",
+    "metric_P98": "98º",
+    "metric_P99": "99º",
+    "metric_MAX": "máx",
+    "metric_DISTINCT_COUNT": "recuento distinto",
+    "metric_SUM": "suma",
+    "metric_DISTRIBUTION": "distribución",
 
     "formatterLabelNumber": "Número, por ejemplo {{example}}",
     "formatterLabelPercentage": "Porcentaje, por ejemplo {{example}}",
     "formatterLabelBytes": "Bytes, por ejemplo {{example}}",
     "formatterLabelMilliseconds": "Milisegundos, por ejemplo {{example}}",
-    "formatterLabelSIPrefix": "Prefijo SI, por ejemplo{{example}}",
+    "formatterLabelLatency": "Latencia, por ejemplo {{example}}",
+    "formatterLabelSIPrefix": "Prefijo SI, por ejemplo {{example}}",
 
     "rendererLabelArea": "Área",
     "rendererLabelAreaStacked": "Área (apilada)",

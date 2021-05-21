@@ -115,13 +115,14 @@
       "demousDescEu": "EU 内で稼働する SaaS デモ・ユニット。",
       "serverlessAcceptor": "ServerlessAcceptor",
       "hubforce": "Hubforce",
-      "clickhouse": "Clickhouse",
-      "clickhouseApplication": "ClickHouse Application",
-      "clickhouseLogs": "ClickHouse Logs",
+      "clickhouse": "ClickHouse",
+      "clickhouseApplication": "ClickHouse アプリケーション",
+      "clickhouseLogs": "ClickHouse ログ",
       "elasticsearch": "Elasticsearch",
       "elasticsearchNg": "ElasticsearchNG",
       "kafka": "Kafka",
-      "demous": "demous"
+      "demous": "demous",
+      "demoeu": "demoeu"
     },
     "internalViewWrapper": {
       "internal": "内部"
@@ -215,8 +216,8 @@
         "hostCpuLoad": "ホスト CPU 負荷",
         "clickHouseErrRate": "ClickHouse エラー率",
         "clickHouseCalls": "ClickHouse 呼び出し",
-        "clickHouseQueryLatency50": "ClickHouse 照会の待ち時間 (50 番目)",
-        "clickHouseQueryLatency99": "ClickHouse 照会の待ち時間 (99 番目)",
+        "clickHouseQueryLatency50": "ClickHouse 照会の待ち時間 (50 パーセンタイル)",
+        "clickHouseQueryLatency99": "ClickHouse 照会の待ち時間 (99 パーセンタイル)",
         "clickHouseErrorRate": "ClickHouse エラー率",
         "queuedClickHouseCalls": "キューに入れられた ClickHouse 呼び出し",
         "newlyQueuedClickHouseCalls": "新規にキューに入れられた ClickHouse 呼び出し",
@@ -226,16 +227,16 @@
         "garbageCollection": "ガーベッジ・コレクション",
         "calls": "呼び出し",
         "mean": "平均",
-        "50th": "50 番目",
-        "99th": "99 番目"
+        "50th": "50 パーセンタイル",
+        "99th": "99 パーセンタイル"
       },
       "appdataWriterStatistics": {
         "host": "ホスト",
         "hostCpuLoad": "ホスト CPU 負荷",
         "clickHouseErrorRate": "ClickHouse エラー率",
         "clickHouseCalls": "ClickHouse 呼び出し",
-        "clickHouseQueryLatency50": "ClickHouse 照会の待ち時間 (50 番目)",
-        "clickHouseQueryLatency99": "ClickHouse 照会の待ち時間 (99 番目)",
+        "clickHouseQueryLatency50": "ClickHouse 照会の待ち時間 (50 パーセンタイル)",
+        "clickHouseQueryLatency99": "ClickHouse 照会の待ち時間 (99 パーセンタイル)",
         "clickHouseErrRate": "ClickHouse エラー率",
         "callsPipelineErrRate": "呼び出し処理パイプラインのエラー率",
         "callsDropTooOld": "「古すぎる」ために除去された呼び出し",
@@ -247,8 +248,8 @@
         "garbageCollection": "ガーベッジ・コレクション",
         "calls": "呼び出し",
         "mean": "平均",
-        "50th": "50 番目",
-        "99th": "99 番目"
+        "50th": "50 パーセンタイル",
+        "99th": "99 パーセンタイル"
       },
       "batchingInsights": {
         "calls": "呼び出し",
@@ -308,9 +309,9 @@
       "consumedCashierReports": "消費された Cashier レポート",
       "fwdPayloadAcceptorTimeRate": "アクセプター・タイマーへのペイロードの転送 (率)",
       "fwdPayloadAcceptorTimerMean": "アクセプター・タイマーへのペイロードの転送 (平均)",
-      "fwdPayloadAcceptorTimer50": "アクセプター・タイマーへのペイロードの転送 (50 番目)",
-      "fwdPayloadAcceptorTimer99": "アクセプター・タイマーへのペイロードの転送 (99 番目)",
-      "kafkaLagTimer99th": "Kafka ラグ・タイマー (99 番目)",
+      "fwdPayloadAcceptorTimer50": "アクセプター・タイマーへのペイロードの転送 (50 パーセンタイル)",
+      "fwdPayloadAcceptorTimer99": "アクセプター・タイマーへのペイロードの転送 (99 パーセンタイル)",
+      "kafkaLagTimer99th": "Kafka ラグ・タイマー (99 パーセンタイル)",
       "kafkaLagTimerMean": "Kafka ラグ・タイマー (平均)",
       "cashierRollups": "Cashier ロールアップ",
       "genReactorKafkaConsumerAvailCapacity": "GenericReactorKafkaConsumer の使用可能容量",
@@ -318,12 +319,12 @@
       "consumedCashierReport": "消費された Cashier レポート",
       "addRollupDataRate": "ロールアップ・データの追加 (率)",
       "addRollupDataMean": "ロールアップ・データの追加 (平均)",
-      "addRollupData50th": "ロールアップ・データの追加 (50 番目)",
-      "addRollupData99th": "ロールアップ・データの追加 (99 番目)",
+      "addRollupData50th": "ロールアップ・データの追加 (50 パーセンタイル)",
+      "addRollupData99th": "ロールアップ・データの追加 (99 パーセンタイル)",
       "createInsertHourlyPayloadRollupsRate": "毎時ペイロード・ロールアップの作成および挿入 (率)",
       "createInsertHourlyPayloadRollupsMean": "毎時ペイロード・ロールアップの作成および挿入 (平均)",
-      "createInsertHourlyPayloadRollups50": "毎時ペイロード・ロールアップの作成および挿入 (50 番目)",
-      "createInsertHourlyPayloadRollups99": "毎時ペイロード・ロールアップの作成および挿入 (99 番目)"
+      "createInsertHourlyPayloadRollups50": "毎時ペイロード・ロールアップの作成および挿入 (50 パーセンタイル)",
+      "createInsertHourlyPayloadRollups99": "毎時ペイロード・ロールアップの作成および挿入 (99 パーセンタイル)"
     },
     "log": {
       "processor": {
@@ -377,13 +378,13 @@
           "queuedCalls": "キューに入れられた ClickHouse 呼び出し",
           "queryLatency": "ClickHouse 照会の待ち時間",
           "queryCalls": "ClickHouse 呼び出し",
-          "queryLatency50": "ClickHouse 照会の待ち時間 (50 番目)",
-          "queryLatency99": "ClickHouse 照会の待ち時間 (99 番目)",
+          "queryLatency50": "ClickHouse 照会の待ち時間 (50 パーセンタイル)",
+          "queryLatency99": "ClickHouse 照会の待ち時間 (99 パーセンタイル)",
           "queryErrorRate": "ClickHouse エラー率",
           "calls": "呼び出し",
           "mean": "平均",
-          "50th": "50 番目",
-          "99th": "99 番目"
+          "50th": "50 パーセンタイル",
+          "99th": "99 パーセンタイル"
         }
       },
       "reader": {
@@ -407,13 +408,13 @@
           "queuedCalls": "キューに入れられた ClickHouse 呼び出し",
           "queryLatency": "ClickHouse 照会の待ち時間",
           "queryCalls": "ClickHouse 呼び出し",
-          "queryLatency50": "ClickHouse 照会の待ち時間 (50 番目)",
-          "queryLatency99": "ClickHouse 照会の待ち時間 (99 番目)",
+          "queryLatency50": "ClickHouse 照会の待ち時間 (50 パーセンタイル)",
+          "queryLatency99": "ClickHouse 照会の待ち時間 (99 パーセンタイル)",
           "queryErrorRate": "ClickHouse エラー率",
           "calls": "呼び出し",
           "mean": "平均",
-          "50th": "50 番目",
-          "99th": "99 番目"
+          "50th": "50 パーセンタイル",
+          "99th": "99 パーセンタイル"
         }
       }
     },
@@ -449,7 +450,7 @@
         "customEvent": "カスタム・イベント",
         "pageChange": "ページ変更",
         "websiteBeaconWrites": "Web サイト・ビーコンの書き込み",
-        "mobileAppBeaconWrites": "モバイル・アプリ・ビーコンの書き込み",
+        "mobileAppBeaconWrites": "モバイル・アプリケーション・ビーコンの書き込み",
         "kafka": "Kafka"
       },
       "eumHealthProcessor": {
@@ -553,9 +554,9 @@
         "host": "ホスト",
         "user": "ユーザー",
         "system": "システム",
-        "wait": "待機",
-        "nice": "良好",
-        "steal": "スチール",
+        "wait": "wait",
+        "nice": "nice",
+        "steal": "steal",
         "messages": "メッセージ",
         "dropDeniedMsg": "除去/拒否されたメッセージ",
         "ipFilterMsgBe0": "IP フィルタリング済みメッセージ (0 でなければなりません)",
@@ -577,10 +578,10 @@
     "sre": {
       "host": "ホスト",
       "user": "ユーザー",
-      "nice": "良好",
-      "steal": "スチール",
+      "nice": "nice",
+      "steal": "steal",
       "system": "システム",
-      "wait": "待機",
+      "wait": "wait",
       "free": "空き",
       "leaked": "リーク",
       "readPerSec": "読み取り数/秒",
@@ -714,11 +715,11 @@
         "backendSpanDropSumAInstance": "バックエンド・スパンの除去 (インスタンス間の合計)",
         "spanDropSumChartExplanation_1": "スパンが除去されているかどうか、およびその理由を示します。",
         "spanDropSumChartExplanation_2": "<strong>処理済み:</strong> 正常に処理されたスパンの数。",
-        "spanDropSumChartExplanation_3": "<strong>グローバル・スロットラーによる除去:</strong> グローバル・レート・リミッターにより除去されました (<i>config.hard.spans.rate.drop.threshold</i>)",
+        "spanDropSumChartExplanation_3": "<strong>グローバル・スロットラーによる除去:</strong> グローバル・レート・リミッターにより除去されました (<em>config.hard.spans.rate.drop.threshold</em>)",
         "spanDropSumChartExplanation_4": "<strong>整合性のある除去による除去:</strong> バック・プレッシャーなどが原因で同じトレースの他のスパンが過去に除去されたため、除去されました (トレースのすべてのスパンを除去するか、あるいは何も除去しないようにします)。",
         "spanDropSumChartExplanation_5": "<strong>バック・プレッシャーによる除去:</strong> リソースの枯渇により除去されました (例えば、CPU 使用率が大きい、パイプラインの 1 ステップがボトルネックになっているなど)。",
         "spanDropSumChartExplanation_6": "<strong>バック・プレッシャーによるハード除去 (ランダム除去):</strong> Kafka レコードが 5 秒より古いため、除去されました。",
-        "spanDropSumChartExplanation_7": "<strong>トレース・スロットラーによる除去:</strong> トレース当たりのレート・リミッターが原因で除去されました (<i>config.hard.spans.per.trace.rate.drop.threshold</i>)。",
+        "spanDropSumChartExplanation_7": "<strong>トレース・スロットラーによる除去:</strong> トレース当たりのレート・リミッターが原因で除去されました (<em>config.hard.spans.per.trace.rate.drop.threshold</em>)。",
         "droppingRate": "除去率",
         "processed": "処理済み",
         "dropGlobalThrottler": "グローバル・スロットラーによる除去",
@@ -730,19 +731,19 @@
         "backendSpanDropInstChartExplanation_1": "スパンが除去されている場合は、個々のインスタンスを調べることが重要です。",
         "backendSpanDropInstChartExplanation_2": "すべてのインスタンスで除去が行われています: スケールアウトしてください。",
         "backendSpanDropInstChartExplanation_3": "すべてではなく 1 つ以上のインスタンスで除去が行われています: スケールアウトは効果がありません。",
-        "backendSpanDropInstChartExplanation_4": "高スループットのトレースを処理中です (シャーディング・キーはトレース ID です)。<i>config.hard.spans.per.trace.rate.drop.threshold</i> を調整してください。",
+        "backendSpanDropInstChartExplanation_4": "高スループットのトレースを処理中です (シャーディング・キーはトレース ID です)。<em>config.hard.spans.per.trace.rate.drop.threshold</em> を調整してください。",
         "backendSpanDropInstChartExplanation_5": "基礎となるホストで CPU 負荷が高すぎます: より負荷が少ないホストにインスタンスを割り当ててください。",
         "srvlessAcceptorRateLimitSpanMsg": "サーバーレス・アクセプターのレートが制限されたことを示すスパン・メッセージ",
         "spanLatencyMeanInstance": "スパン待ち時間 (インスタンス間の平均)",
         "spanLatencyMeanInstChartExplanation": "エージェントの遅延: スパンが終了してから、エージェントからアクセプターに送信されるまでの遅延。",
         "acceptorRateLimitSpanMsg": "アクセプターのレートが制限されたことを示すスパン・メッセージ",
-        "acceptorRateLimitSpanhartExplan": "テナント・ユニット当たりのレート・リミッターにより除去されたスパン・メッセージ (複数のスパンを含むメッセージ) の数。<i>config.span.publish.rate.limit</i> を参照 (デフォルト: 25,000)。",
+        "acceptorRateLimitSpanhartExplan": "テナント・ユニット当たりのレート・リミッターにより除去されたスパン・メッセージ (複数のスパンを含むメッセージ) の数。<em>config.span.publish.rate.limit</em> を参照 (デフォルト: 25,000)。",
         "acceptorDropSpanMsg": "アクセプターが除去したスパン・メッセージ",
         "srvlessAcceptorDropSpanMsg": "サーバーレス・アクセプターによって除去されたスパン・メッセージ",
         "appDataProcessorInst": "AppData-Processor プロセッサー・インスタンス",
         "mean": "平均",
-        "50th": "50 番目",
-        "99th": "99 番目"
+        "50th": "50 パーセンタイル",
+        "99th": "99 パーセンタイル"
       },
       "entityStatistics": {
         "plugin": "プラグイン",
@@ -793,11 +794,11 @@
     "units": {
       "api": {
         "apiCallBlockRateLimitRate": "API 呼び出しブロック (レート制限) 率",
-        "apiChartExplanation_1": "API 呼び出しは、<i>ui-backend</i> の <i>rateLimit</i> 構成セクションで定義されているレート制限に達するとブロックされます。",
+        "apiChartExplanation_1": "API 呼び出しは、<em>ui-backend</em> の <em>rateLimit</em> 構成セクションで定義されているレート制限に達するとブロックされます。",
         "apiChartExplanation_2": "HTTP 状況コード 429 が、次のヘッダーと共に応答で示されます (参照先: <linkToDocs>リファレンス</linkToDocs>):",
-        "apiChartExplanation_3": "<i>デフォルト</i> の制限がありますが、<i>ゾーン</i> (<i>検索</i>、<i>設定</i>、<i>appdata</i>、および <i>スナップショット</i>) ごとにさらに固有の制限もあります。",
-        "apiChartExplanation_4": "以下のグラフでは、呼び出しがブロックされていることが示されているだけで、どの制限に達したかはわかりません。 この場合、<i>ui-backend</i> の <i>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distinct-client-key-ZONE</i> メトリックを調べて、ゾーン当たりの呼び出し率を確認できます。または、トレース、さらに具体的には状況コードやヘッダーを詳しく調べることができます。",
-        "apiChartExplanation_5": "<strong>重要:</strong> HTTP 状況コード 429 の呼び出しは、必ずしも API レート・リミッターでブロックされるわけではありません。<i>appdata-reader</i> を保護するために使用するリミッターの 1 つによってブロックされることもあります (<i>ui-backend</i> 内の <i>appDataReaderXXXLimiter</i> 形式を持つ対応するメトリックを参照)。 この 2 つのケースを区別するには、トレースに <i>X-RateLimit-XXX</i> ヘッダーが存在することを確認します。"
+        "apiChartExplanation_3": "<em>デフォルト</em> の制限がありますが、<em>ゾーン</em> (<em>検索</em>、<em>設定</em>、<em>appdata</em>、および <em>スナップショット</em>) ごとにさらに固有の制限もあります。",
+        "apiChartExplanation_4": "以下のグラフでは、呼び出しがブロックされていることが示されているだけで、どの制限に達したかはわかりません。 この場合、<em>ui-backend</em> の <em>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distinct-client-key-ZONE</em> メトリックを調べて、ゾーン当たりの呼び出し率を確認できます。または、トレース、さらに具体的には状況コードやヘッダーを詳しく調べることができます。",
+        "apiChartExplanation_5": "<strong>重要:</strong> HTTP 状況コード 429 の呼び出しは、必ずしも API レート・リミッターでブロックされるわけではありません。<em>appdata-reader</em> を保護するために使用するリミッターの 1 つによってブロックされることもあります (<em>ui-backend</em> 内の <em>appDataReaderXXXLimiter</em> 形式を持つ対応するメトリックを参照)。 この 2 つのケースを区別するには、トレースに <em>X-RateLimit-XXX</em> ヘッダーが存在することを確認します。"
       },
       "application": {
         "appdataProcessorInstance": "Appdata-processor インスタンス",
@@ -806,10 +807,10 @@
         "dropSpansConfig": "構成により除去されたスパン",
         "dropSpansDConsistentDrop": "整合性のある除去により除去されたスパン",
         "spanLatencyMean": "スパン待ち時間 (平均)",
-        "spanLatency99": "スパン待ち時間 (99 番目)",
+        "spanLatency99": "スパン待ち時間 (99 パーセンタイル)",
         "acceptorDropSpanMsgRateLimit": "アクセプターにより除去されたスパン・メッセージ (レート制限)",
         "srvlessAcceptorDropSpanMsgRateLimit": "サーバーレス・アクセプターにより除去されたスパン・メッセージ (レート制限)",
-        "spanLatency50t": "スパン待ち時間 (50 番目)",
+        "spanLatency50t": "スパン待ち時間 (50 パーセンタイル)",
         "dropSpansBackpressure": "バック・プレッシャーにより除去されたスパン",
         "dropSpansBackpressureLagHardDrop": "バック・プレッシャーにより除去されたスパン (ラグ・ハード除去)",
         "processed": "処理済み",
@@ -861,7 +862,7 @@
     "agents": {
       "unit": "ユニット",
       "maxSensorTimeConsume": "消費した最大センサー時間",
-      "maxSlowSensorsCount": "最大低速センサー数",
+      "maxSlowSensorsCount": "最大低速センサー・カウント",
       "maxCpuLoad": "最大 CPU 負荷",
       "errorCount": "エラー件数",
       "spansOpened": "オープンされたスパン",
@@ -925,7 +926,7 @@
       },
       "agent": {
         "agentTitle": "エージェント",
-        "slowSensorsCount": "低速センサー数",
+        "slowSensorsCount": "低速センサー・カウント",
         "cpuLoad": "CPU 負荷",
         "spansOpened": "オープンされたスパン",
         "spansClosed": "クローズされたスパン",
@@ -954,7 +955,7 @@
     },
     "snapshotVersions": {
       "snapshotId": "snapshotId...",
-      "refresh": "最新表示"
+      "refresh": "リフレッシュ"
     }
   }
 }

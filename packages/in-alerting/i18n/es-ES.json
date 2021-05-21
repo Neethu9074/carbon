@@ -19,9 +19,6 @@
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "¿Está seguro de que desea eliminar la <strong>\" alerta {{alertConfigName}} \"</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Eliminar",
     "alertHeaderIsNotLatestRevisionMessage": "Está viendo la revisión {{alertRevision}} de esta configuración de alertas. Seleccione <latestRevisionButton>última revisión<latestRevisionButton> si desea realizar cambios.",
-    "alertHeaderThisConfigIsStoredWithQueryBuilder2Expressions": "Esta configuración se almacena con expresiones del creador de consultas 2.",
-    "alertHeaderYouCanOnlyStartOrPause": "Sólo puede iniciar o pausar, pero no puede editar estas configuraciones cuando se está en modalidad de creador de consultas 1",
-    "alertHistoryListTitle": "Alertas creadas",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alertas creadas ({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "Título",
     "alertPropertyInfosLabelAlertLevel": "Nivel de alerta",
@@ -41,7 +38,25 @@
     },
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "Está viendo una configuración de alerta suprimida. No es posible realizar modificaciones.",
     "alertPropertyInfosWarning": "Aviso",
-    "alertPropertyInfosCritical": "Crítico"
+    "alertPropertyInfosCritical": "Crítico",
+    "customPayload": {
+      "deleteRow": "Suprimir fila",
+      "key": "Clave",
+      "value": "Valor",
+      "unknownTypeTypeItCanNotBeEdited": "Tipo desconocido. {{type}} - no se puede editar.",
+      "customWithColon": "personalizar:",
+      "valueType": "Tipo de valor",
+      "static": "Estático",
+      "dynamic": "Dinámico",
+      "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "El número de filas está restringido a {{maximumNumberOfRows}}.",
+      "addRow": "Añadir fila",
+      "noCustomPayloadConfigured": "No se han configurado cargas útiles personalizadas",
+      "keyNamesMustBeUnique": "Los nombres de clave deben ser únicos.",
+      "theValueMustNotBeBlank": "El valor no debe estar en blanco.",
+      "onlyOrAnyAlphaNumericalAreAllowed": "Solo se permiten los caracteres '.', '-', '_' o cualquier carácter alfanumérico.",
+      "aTagNeedsToBeSelected": "Es necesario seleccionar un código.",
+      "aKeyNeedsToBeSpecified": "Es necesario especificar una clave."
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "La tasa de llamadas erróneas es superior a la normal",
@@ -90,7 +105,7 @@
     "titleNoSmartAlertsCreated": "No se han creado alertas inteligentes",
     "titleCopyOf": "(Copia de) {{smartAlertTitle}}",
     "applications": {
-      "newGlobalAlert": "Alerta inteligente global",
+      "alertConfiguration": "Configuración de alertas",
       "advanced": {
         "alertPropertyInsertPlaceholderLabel": "Insertar marcador",
         "evaluationSwitch": {
@@ -130,11 +145,10 @@
               "overrideDefault": "El ámbito predeterminado para esta aplicación es Todas las llamadas. Puede cambiar esto en la Configuración."
             }
           },
-          "constants": {
-            "inboundDashboard": "El panel de control muestra información basada sólo en las llamadas realizadas por los consumidores de esta aplicación.",
-            "inboundOverrideDefault": "El ámbito predeterminado para esta aplicación es de sólo llamadas entrantes. Puede cambiar esto en la Configuración.",
-            "allDashboard": "El panel de control muestra información basada en todas las llamadas realizadas en esta aplicación, tanto por los consumidores como internamente.",
-            "allOverrideDefault": "El ámbito predeterminado para esta aplicación es Todas las llamadas. Puede cambiar esto en la Configuración."
+          "confirmationDialog": {
+            "pleaseConfirm": "Confírmelo",
+            "description": "Al modificar el ámbito de límite se puede restaurar la selección de aplicación.",
+            "confirmButtonLabel": "Confirmar"
           }
         },
         "includeInternalOrSynthethicCalls": {
@@ -168,16 +182,21 @@
           "propertiesOptional": {
             "label": "Propiedades (opcional)",
             "title": "Propiedades de alerta adicionales (opcional)"
+          },
+          "payloadsOptional": {
+            "label": "Cargas útiles (opcional)",
+            "title": "Carga útil personalizada (opcional)"
           }
         }
       },
       "chart": {
+        "noDataWithoutEndpointSelection": "Seleccione un punto final para ver la vista previa",
         "noDataAvailable": "Seleccione un servicio para ver la vista previa"
       },
       "logMessages": {
         "messageColumn": "Mensaje de registro",
         "levelColumn": "Nivel de registro",
-        "noDataMessage": "No hay ninguna alerta configurada.",
+        "noDataMessage": "No se han encontrado mensajes.",
         "selectLogMessageText": "Seleccionar mensaje de registro como plantilla (opcional)",
         "selectLogMessageTitle": "Seleccionar mensaje de registro"
       },
@@ -233,7 +252,7 @@
           "logs": {
             "notEmptyWithANY": "Demasiados mensajes de registro de llamadas",
             "notEmptyWithoutANY": "Demasiados mensajes de registro de llamadas {{operatorLabel}}",
-            "withANY": "Demasiados mensajes de registro de llamadas: {{message}}\"",
+            "withANY": "Demasiados mensajes de registro de llamadas: \"{{message}}\"",
             "default": "Demasiados mensajes de registro de llamadas {{operatorLabel}}: \"{{message}}\""
           },
           "statusCode": "Demasiadas llamadas con el código de estado HTTP {{statusCodeShortText}}",
@@ -307,44 +326,6 @@
         }
       },
       "form": {
-        "anyJSErrors": "Cualquier error JS",
-        "JSErrors": "Error(es) JS: {{errorMessage}}",
-        "HTTPStatusCodes": "Código(s) de estado HTTP: {{statusCode}}",
-        "unsupportedAlertType": "Tipo de alerta no soportado: {{alertType}}",
-        "JSErrorsHaveBeenDetected": "Se han detectado errores JS.",
-        "unsupportedOperator": "Operador no soportado: {{operator}}",
-        "JSErrorTextEquals": "Se han detectado errores JS iguales a \"{{ruleValue}}\".",
-        "JSErrorTextContains": "Se han detectado errores JS que contienen \"{{ruleValue}}\".",
-        "JSErrorTextStartsWith": "Se han detectado errores JS que comienzan por \"{{ruleValue}}\".",
-        "JSErrorTextEndsWith": "Se han detectado errores JS que acaban por \"{{ruleValue}}\".",
-        "slownessSimpleHighOperatorText": "El tiempo de carga ({{aggregationText}}) es demasiado alto",
-        "slownessSimpleLowOperatorText": "El tiempo de carga ({{aggregationText}}) es demasiado bajo",
-        "throughputSimpleHighOperatorText": "El número de {{metricLabel}} es anormalmente alto",
-        "throughputSimpleLowOperatorText": "El número de {{metricLabel}} es anormalmente bajo",
-        "statusCodeSimpleAboveOperatorText": "El número de apariciones del código de estado HTTP {{statusCodeLabel}} está por encima de lo previsto.",
-        "statusCodeSimpleBelowOperatorText": "El número de apariciones del código de estado HTTP {{statusCodeLabel}} está por debajo de lo previsto.",
-        "slownessSimpleAboveOperatorText": "El tiempo de carga ({{aggregationText}}) está por encima de la expectativa.",
-        "slownessSimpleBelowOperatorText": "El tiempo de carga ({{aggregationText}}) está por debajo de la expectativa.",
-        "slownessGreaterOperatorText": "El tiempo de carga ({{aggregationText}}) es superior a {{thresholdValue}}.",
-        "slownessGreaterEqualsOperatorText": "El tiempo de carga ({{aggregationText}}) es superior o igual a {{thresholdValue}}.",
-        "slownessLessOperatorText": "El tiempo de carga ({{aggregationText}}) es inferior a {{thresholdValue}}.",
-        "slownessLessEqualsOperatorText": "El tiempo de carga ({{aggregationText}}) es inferior o igual a {{thresholdValue}}.",
-        "staticThresholdHigherOperatorText": "El número de {{metricLabel}} es superior a {{thresholdValue}}.",
-        "staticThresholdHigherEqualsOperatorText": "El número de {{metricLabel}} es superior o igual a {{thresholdValue}}.",
-        "staticThresholdLowerOperatorText": "El número de {{metricLabel}} es menor que {{thresholdValue}}.",
-        "staticThresholdLowerEqualsOperatorText": "El número de {{metricLabel}} es inferior o igual a {{thresholdValue}}.",
-        "thresholdHigherOperatorText": "El número de {{metricLabel}} es superior a lo previsto.",
-        "thresholdHigherEqualsOperatorText": "El número de {{metricLabel}} es superior o igual a lo previsto.",
-        "thresholdLowerOperatorText": "El número de {{metricLabel}} es inferior a lo previsto.",
-        "thresholdLowerEqualsOperatorText": "El número de {{metricLabel}} es inferior o igual a lo previsto.",
-        "errorPleaseProvideAnErrorMessage": "Proporcione un mensaje de error",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Proporcione un número >= 0",
-        "errorBaselineIsEmpty": "la línea base está vacía",
-        "ruleJsErrorsOperatorOptionAny": "Cualquiera",
-        "ruleJsErrorsOperatorOptionEquals": "Igual a",
-        "ruleJsErrorsOperatorOptionContains": "Contiene",
-        "ruleJsErrorsOperatorOptionStartsWith": "Comienza por",
-        "ruleJsErrorsOperatorOptionEndWith": "Acaba en",
         "ruleStatusCodeValueOption1": "1XX (Informativo)",
         "ruleStatusCodeValueOption100": "100 (Continuar)",
         "ruleStatusCodeValueOption101": "101 (Conmutación de protocolos)",
@@ -415,26 +396,11 @@
         "ruleStatusCodeValueOption510": "510 (No ampliado)",
         "ruleStatusCodeValueOption511": "511 (Autenticación de red necesaria)",
         "ruleStatusCodeValueOption599": "599 (Error de tiempo de espera de conexión de red)",
-        "ruleMetricNameOptionSpecificJsErrorErrors": "Número de errores",
-        "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "Tasa de errores",
-        "ruleMetricNameOptionStatusCodeHttpxxx": "Número de códigos de estado",
-        "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Tasa de códigos de estado",
-        "ruleMetricNameOptionSlownessOnLoadTime": "Tiempo de carga",
-        "ruleMetricNameOptionThroughputPageLoads": "Cargas de páginas",
-        "ruleMetricNameOptionThroughputPageTransitions": "Transiciones de página",
-        "ruleAggregationOptionMEAN": "media",
-        "ruleAggregationOptionMIN": "mín",
-        "ruleAggregationOptionP25": "25º",
-        "ruleAggregationOptionP50": "50º",
-        "ruleAggregationOptionP75": "75º",
-        "ruleAggregationOptionP90": "90º (recomendado)",
-        "ruleAggregationOptionP95": "95º",
-        "ruleAggregationOptionP98": "98º",
-        "ruleAggregationOptionP99": "99º",
-        "ruleAggregationOptionMAX": "máx",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "media",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50º",
+        "ruleStatusCodeValueOptionCustom": "Rango personalizado",
+        "ruleFormErrorStatusCodeStartGTEnd": "Seleccione un código de estado http final que sea mayor o igual que el código de estado http de inicio",
         "ruleFormPleaseProvideALogMessage": "Proporcione un mensaje de registro",
+        "ruleFormPleaseProvideAStartStatusCode": "Proporcione un código de estado http de inicio",
+        "ruleFormPleaseProvideAEndStatusCode": "Proporcione un código de estado http final",
         "smartAlertFormNoEntitiesSelected": "No se ha seleccionado ninguna entidad",
         "thresholdFormPleaseProvideANumber0": "Proporcione un número >= 0",
         "thresholdFormBaselineIsEmpty": "la línea base está vacía"
@@ -460,25 +426,40 @@
         "labelGlobalSmartAlertsList": "Alertas inteligentes de aplicación global ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Alertas inteligentes de aplicación ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
-        "labelName": "Nombre",
         "labelActionButtonEdit": "Editar",
         "labelActionButtonDuplicate": "Duplicar",
         "labelActionButtonDelete": "Suprimir",
-        "noAlertConfigured": "No hay ninguna alerta configurada.",
-        "alertEntityName": "alerta \"{{entityName}}\"",
         "labelAlertFilters": "Filtros",
         "labelConfirm": "Confírmelo",
         "labelConfirmRemoveConfig": "¿Está seguro de que desea eliminar la configuración <strong>{{configName}}</strong>?",
         "labelRemove": "Eliminar",
         "numberOfApplicationsSelected": "{{count}} aplicación seleccionada",
         "numberOfApplicationsSelected_plural": "{{count}} aplicaciones seleccionadas"
+      },
+      "details": {
+        "title": "Detalles de alerta",
+        "titleAlertProperties": "Propiedades de alerta"
       }
+    },
+    "form": {
+      "ruleAggregationOptionMEAN": "media",
+      "ruleAggregationOptionMIN": "mín",
+      "ruleAggregationOptionP25": "25º",
+      "ruleAggregationOptionP50": "50º",
+      "ruleAggregationOptionP75": "75º",
+      "ruleAggregationOptionP90": "90º (recomendado)",
+      "ruleAggregationOptionP95": "95º",
+      "ruleAggregationOptionP98": "98º",
+      "ruleAggregationOptionP99": "99º",
+      "ruleAggregationOptionMAX": "máx",
+      "ruleAggregationForWeeklySeasonalityOptionMEAN": "media",
+      "ruleAggregationForWeeklySeasonalityOptionP50": "50º"
     },
     "components": {
       "smartAlertDialog": {
         "sharedListTooltip": "El {{typeName}} seleccionado ya no está disponible",
         "clearTagFilterExpressionButton": "Borrar",
-        "baselineErrorMessageInsufficientDataToCompute": "Los datos son insuficientes para calcular la línea base seleccionada. En su lugar, seleccione <i>Umbral estático</i>.",
+        "baselineErrorMessageInsufficientDataToCompute": "Los datos son insuficientes para calcular la línea base seleccionada. En su lugar, seleccione <em>Umbral estático</em>.",
         "baselineErrorMessageReason": "Razón:",
         "blueprintDescriptionButtonSelect": "Seleccionar",
         "selectAlertChannelButtonTitle": "Seleccionar canales de alerta",
@@ -529,7 +510,6 @@
         "timeThresholdConfigOff": "inactivo",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Proporcione un número >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Proporcione un número entre 1% y 100%",
-        "alertPropertiesInsertPlaceholderTooltip": "Insertar marcador",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "Cuando la condición persiste durante un periodo de tiempo especificado",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Cada vez que la condición se desencadena un número de veces especificado durante un intervalo de tiempo definido",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "Cuando una determinada cantidad de mis usuarios resultan afectados",
@@ -559,15 +539,15 @@
         "thresholdTypeOptionHistoricBaselineDaily": "Línea base (Temporalidad diaria)",
         "thresholdTypeOptionHistoricBaselineWeekly": "Línea base (Temporalidad semanal)",
         "useSuggestedvalue": "Utilizar valor sugerido",
-        "alertConfigDialogPresenterTitleEditAlert": "Editar alerta",
-        "alertConfigDialogPresenterTitleCreateNewAlert": "Crear nueva alerta",
+        "alertConfigDialogPresenterTitleEditAlert_Local": "Editar alerta inteligente",
+        "alertConfigDialogPresenterTitleEditAlert_Global": "Editar alerta inteligente global",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Crear nueva alerta inteligente",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Crear nueva alerta inteligente global",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Cambiar a modalidad avanzada",
-        "alertConfigDialogPresenterButtonSwitchToSimpleMode": "Cambiar a modalidad simple",
         "simpleAlertConfigDialogStep3Headline": "¿Quién debe recibir las alertas?",
         "Loading": "Cargando…",
-        "LoadingServices": "Cargando servicios...",
-        "NoServiceInScope": "No hay ningún servicio en el ámbito",
         "PreviewForAP": "Vista previa de la perspectiva de aplicación:",
+        "PreviewForEndpoint": "Vista previa para punto final:",
         "PreviewForService": "Vista previa para el servicio:"
       },
       "alertsHub": {
@@ -633,15 +613,12 @@
         "alertChannelsTitle": "Canales de alertas: ¿Quién necesita ser alertado?",
         "propertiesLabel": "Propiedades (opcional)",
         "propertiesTitle": "Propiedades de alerta adicionales (opcional)",
-        "thresholdValue": "Valor de umbral"
-      },
-      "alertConfigDialogWithThreshold": {
-        "alertText": "Esta es una nueva característica.",
-        "alertLabelText": "NUEVA"
+        "thresholdValue": "Valor de umbral",
+        "payloadsLabel": "Cargas útiles (opcional)",
+        "payloadsTitle": "Cargas útiles personalizadas (opcional)"
       },
       "components": {
         "provideStatusCodeStatusCode": "Código de estado",
-        "tagSuggestions": "Sugerencias de códigos no definidas para el tipo de alerta {{alertType}} ",
         "errorMessage": "Mensaje de error",
         "noDataMessage": "No hay ninguna alerta configurada.",
         "selectJSErrorHelpText": "Seleccione el mensaje de error JS como plantilla (opcional)",
@@ -796,19 +773,7 @@
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Tasa de códigos de estado",
         "ruleMetricNameOptionSlownessOnLoadTime": "Tiempo de carga",
         "ruleMetricNameOptionThroughputPageLoads": "Cargas de páginas",
-        "ruleMetricNameOptionThroughputPageTransitions": "Transiciones de página",
-        "ruleAggregationOptionMEAN": "media",
-        "ruleAggregationOptionMIN": "mín",
-        "ruleAggregationOptionP25": "25º",
-        "ruleAggregationOptionP50": "50º",
-        "ruleAggregationOptionP75": "75º",
-        "ruleAggregationOptionP90": "90º (recomendado)",
-        "ruleAggregationOptionP95": "95º",
-        "ruleAggregationOptionP98": "98º",
-        "ruleAggregationOptionP99": "99º",
-        "ruleAggregationOptionMAX": "máx",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "media",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50º"
+        "ruleMetricNameOptionThroughputPageTransitions": "Transiciones de página"
       },
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "¿Sobre qué desea que se le alerte?",

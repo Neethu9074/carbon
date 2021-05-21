@@ -1,10 +1,10 @@
 {
   "labelLatency": "Latencia",
-  "labelTimestamp": "Indicación de fecha y hora",
   "labelApplication": "Aplicación",
   "labelApplications": "Aplicaciones",
   "labelApplicationWithNum": "Aplicación ({{numApplications}})",
   "labelAnalytic": "Analíticas",
+  "labelCall": "Llamada",
   "labelTrace": "Rastreo",
   "linkDownload": "Descargar",
   "labelCalls": "Llamadas",
@@ -16,7 +16,6 @@
   "labelMaxLatency": "Latencia máxima",
   "labelService": "Servicio",
   "labelName": "Nombre",
-  "labelFilters": "Filtros",
   "labelSummary": "Resumen",
   "labelDependencies": "Dependencias",
   "labelServices": "Servicios",
@@ -60,7 +59,6 @@
   "labelScope": "Ámbito",
   "labelCustomServiceRules": "Reglas de servicio personalizadas",
   "labelSyntheticEndpoints": "Puntos finales sintéticos",
-  "titleAlertDetails": "Detalles de alerta",
   "titleTopServices": "Servicios principales",
   "titleMeanLatency": "Latencia media",
   "titleErroneousCallRate": "Tasa de llamadas erróneas",
@@ -90,7 +88,8 @@
   "buttonInspectIssue_1": "Inspeccionar {{count}} problema",
   "buttonInspectIssue_2": "Inspeccionar {{count}} problemas",
   "buttonAnalyzeCalls": "Analizar llamadas",
-  "buttonAnalyzeWithLabel": "Analizar {{buttonLabel}}",
+  "buttonAnalyzeServices": "Analizar servicios",
+  "buttonAnalyzeEndpoints": "Analizar puntos finales",
   "buttonClear": "Borrar",
   "buttonCluster": "Clúster",
   "buttonProcess": "Proceso",
@@ -146,63 +145,22 @@
   "applications": {
     "noData": "Las perspectivas de aplicación proporcionan un medio para modelar entornos, conjuntos de servicios, arrendatarios o prácticamente cualquier cosa."
   },
-  "services": {
-    "noData": "No hay llamadas de servicio disponibles para el rango de tiempo seleccionado."
-  },
   "alert": {
-    "advancedModeContainer": {
-      "scope": {
-        "label": "Ámbito",
-        "title": "Ámbito: ¿Dónde se está produciendo la condición?"
-      },
-      "trigger": {
-        "label": "Activador",
-        "title": "Activador: ¿Sobre qué desea que se le alerte?",
-        "logMessageCardTitle": "Mensaje de registro",
-        "httpStatusCodesCardTitle": "Códigos de estado HTTP"
-      },
-      "timeThreshold": {
-        "label": "Umbral de tiempo",
-        "title": "Umbral de tiempo: ¿Cuándo desea ser alertado?"
-      },
-      "alertChannel": {
-        "label": "Canales de alertas",
-        "title": "Canales de alertas: ¿Quién necesita ser alertado?"
-      }
-    },
     "thresholdLabel": "Valor de umbral",
-    "titleAlertProperties": "Propiedades de alerta",
     "applicationSmartAlert": "Añadir alerta inteligente",
-    "noAlertConfigured": "No hay ninguna alerta configurada.",
-    "getEntityName": "alerta \"{{entityName}}\"",
-    "descriptionMessage": "{{description}}: \"{{message}}\"",
-    "tooltipFilter": "{{count}} filtro",
-    "tooltipFilter_plural": "{{count}} filtros",
-    "tooltipFilter_0": "{{count}} filtros",
-    "tooltipFilter_1": "{{count}} filtro",
-    "tooltipFilter_2": "{{count}} filtros",
     "tooltipMoreFilter": "+{{moreFilterCount}} filtro más",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} filtros más",
     "tooltipMoreFilter_0": "+{{moreFilterCount}} filtros más",
     "tooltipMoreFilter_1": "+{{moreFilterCount}} filtros más",
-    "tooltipMoreFilter_2": "+{{moreFilterCount}} filtros más",
-    "filter": "filtro",
-    "filter_plural": "filtros",
-    "filter_0": "filtros",
-    "filter_1": "filtro",
-    "filter_2": "filtros"
+    "tooltipMoreFilter_2": "+{{moreFilterCount}} filtros más"
   },
   "inboundOutboundCalls": {
     "config": {
       "inbound": {
-        "text": "Llamadas entrantes",
-        "dashboard": "Sólo las llamadas realizadas por los consumidores de esta aplicación.",
-        "overrideDefault": "El ámbito predeterminado para esta aplicación es de sólo llamadas entrantes. Puede cambiar esto en la Configuración."
+        "text": "Llamadas entrantes"
       },
       "all": {
-        "text": "Todas las llamadas",
-        "dashboard": "Llamadas realizadas en esta aplicación, tanto por los consumidores como internamente.",
-        "overrideDefault": "El ámbito predeterminado para esta aplicación es Todas las llamadas. Puede cambiar esto en la Configuración."
+        "text": "Todas las llamadas"
       }
     },
     "constants": {
@@ -214,34 +172,10 @@
   },
   "analyze": {
     "quickFilter": {
-      "labelService": "Servicio",
-      "labelService_plural": "Servicios",
-      "labelService_0": "Servicios",
-      "labelService_1": "Servicio",
-      "labelService_2": "Servicios",
-      "labelEndpoint": "Punto final",
-      "labelEndpoint_plural": "Puntos finales",
-      "labelEndpoint_0": "Puntos finales",
-      "labelEndpoint_1": "Punto final",
-      "labelEndpoint_2": "Puntos finales",
-      "labelType": "Tipo",
-      "labelType_plural": "Tipos",
-      "labelType_0": "Tipos",
-      "labelType_1": "Tipo",
-      "labelType_2": "Tipos",
-      "labelTechnology": "Tecnología",
-      "labelTechnology_plural": "Tecnologías",
-      "labelTechnology_0": "Tecnologías",
-      "labelTechnology_1": "Tecnología",
-      "labelTechnology_2": "Tecnologías",
-      "labelLatency": "Latencia",
-      "labelErroneous": "Erróneo",
-      "preconditionFailedTooltip": "Seleccione un servicio antes de seleccionar un punto final."
-    },
-    "chartingPresenter": {
-      "noData": "No hay datos para visualizar"
+      "labelLatency": "Latencia"
     },
     "erroneous": "Erróneo",
+    "resetUnsupportedTracesFilterContainingOrConjunction": "El filtro se ha borrado porque el operador lógico OR no se admite en Analizar rastreos.",
     "facetedSearch": {
       "showSyntheticCalls": "Mostrar llamadas sintéticas",
       "showInternalCalls": "Mostrar llamadas internas",
@@ -251,6 +185,7 @@
       "erroneous_false": "false",
       "erroneous_Erroneous": "Erróneo"
     },
+    "latency": "Latencia",
     "applications": "Aplicaciones",
     "services": "Servicios",
     "endpoints": "Puntos finales",
@@ -260,25 +195,9 @@
     "hiddenCalls": "Llamadas ocultas",
     "noResults": "No hay resultados",
     "loadMore": "Cargar más",
-    "callBatchCountTooltip": "Esta llamada está incluida en un lote y representa {{callBatchCount}} llamada individual.",
-    "callBatchCountTooltip_plural": "Esta llamada está incluida en un lote y representa {{callBatchCount}} llamadas individuales.",
-    "callBatchCountTooltip_0": "Esta llamada está incluida en un lote y representa {{callBatchCount}} llamadas individuales.",
-    "callBatchCountTooltip_1": "Esta llamada está incluida en un lote y representa {{callBatchCount}} llamada individual.",
-    "callBatchCountTooltip_2": "Esta llamada está incluida en un lote y representa {{callBatchCount}} llamadas individuales.",
-    "groupedList": {
-      "earliestTimestamp": "Primera indicación de fecha y hora",
-      "focusGroupTooltip": "Focalizar este grupo",
-      "groupName": "Nombre del grupo",
-      "sortingMetricLabelTh": "{{sortingMetricLabel}} ({{num}}º)",
-      "sortingMetricLabelRate": "{{sortingMetricLabel}} (tasa)",
-      "sortingMetricLabelCount": "{{sortingMetricLabel}} (número)",
-      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})",
-      "preview": "Vista previa"
-    },
-    "listLoadMore": "Cargar {{retrievalSize}} más",
+    "preview": "Vista previa",
     "listBatchTypeTooltip": "Este {{type}} está en un lote y representa {{batchCount}} {{types}} individuales.",
     "listBatchLatencyTooltip": "Latencia total de {{batchCount}} {{types}} por lotes.",
-    "traceId": "ID de rastreo: ",
     "traceIdTooltip": "Algunos datos relacionados con este rastreo se retrasan, por lo tanto, vuelva a cargar la página más adelante. Por ejemplo, esto puede suceder cuando se visualiza un rastreo muy reciente y algunos de sus datos todavía se están procesando.",
     "closeTraceDetail": "Cerrar detalle de rastreo",
     "invalidQueryConfig": "La configuración de la consulta no es válida. Solucione las anomalías de validación antes de continuar.",
@@ -311,13 +230,12 @@
     "typeTrace_2": "rastreos",
     "containsErrors": "Contiene errores",
     "noErrors": "Sin errores",
-    "fromMs": "Desde (ms)",
-    "toMs": "Hasta (ms)",
-    "theLatencyRangeHasToBeInAscendingOrder": "El rango de latencia debe estar en orden ascendente.",
-    "service": "Servicio",
-    "trace": "Rastreo",
     "calls": "Llamadas",
-    "none": "Ninguno"
+    "none": "Ninguno",
+    "dataSource_calls": "{{formattedCount}} llamada",
+    "dataSource_calls_plural": "{{formattedCount}} llamadas",
+    "dataSource_traces": "{{formattedCount}} rastreo",
+    "dataSource_traces_plural": "{{formattedCount}} rastreos"
   },
   "creation": {
     "newAP": "Nueva perspectiva de aplicación",
@@ -478,13 +396,11 @@
       "apNameDescription": "Los nombres de la perspectiva de aplicación deben tener una definición establecida correctamente en una organización. Por ejemplo, para modelar un entorno: \"Azul de producción\", para modelar un conjunto de servicios: \"Pago\", o para modelar un arrendatario: \"Cliente de ACME\".",
       "defineUsingTags": "2. Defina la perspectiva de la aplicación utilizando uno o más códigos.",
       "defineUsingTagsDescription": "Por ejemplo, cuando la clave es \"docker.label\" y el valor es \"environment=Production Blue\", o la clave es \"call.http.params\" y el valor es \"tenant=ACMECustomer\". Tenga en cuenta que cualquier llamada a un servicio <pill-database>DATABASE</pill-database> o servicio <pill-messaging>MESSAGING</pill-messaging> desde los servicios que coinciden con esta definición se incluirá automáticamente.",
-      "andOperatorsPrecedence": "Los operadores AND tiene prioridad y se evalúan antes que los operadores OR",
       "andOperatorsPrecedenceBrackets": "Los operadores AND tiene prioridad y se evalúan antes que los operadores OR si no están agrupados en corchetes",
       "downstreamCalls": "3. Almacenar llamadas de los servicios en sentido descendente",
       "downstreamCallsDescription": "Elija qué servicios en sentido descendente se han de incluir en la perspectiva de la aplicación.",
       "defaultDashboardView": "4. Seleccione la vista predeterminada del panel de control",
       "clear": "Borrar",
-      "addTag": "Añadir código",
       "create": "Crear",
       "database": "DATABASE",
       "messaging": "MESSAGING"
@@ -494,7 +410,6 @@
       "optionImmediateDownstreamServices": "Servicios de mensajería y base de datos en sentido descendente inmediato",
       "optionAllDownstreamServices": "Todos los servicios en sentido descendente"
     },
-    "tooltipEndpointBar": "Seleccione un único servicio antes de seleccionar los puntos finales.",
     "form": {
       "theApplicationPerspectiveNameMustNotBeBlank": "El nombre de la perspectiva de aplicación no debe estar en blanco.",
       "theApplicationPerspectiveNameMustNotBeLargerThan128Characters": "El nombre de la perspectiva de aplicación no debe tener más de 128 caracteres.",
@@ -504,33 +419,30 @@
   "dashboards": {
     "percentOfCalls": "{{percentage}} de todas las llamadas",
     "meanLatencyFor90th": "{{meanLatencyDetail}} para 90º",
-    "selectInboundCalls": "Seleccionar sólo llamadas entrantes o todas las llamadas",
-    "calculateInboundCalls": "Calculando las llamadas entrantes de {{applicationName}}, para ver este {{entityType}} en su conmutador completo para <linkToCalls>Todas las llamadas</linkToCalls>.",
-    "calculateAllCalls": "Calculando <bold>Todas las llamadas</bold> de {{applicationName}}, para ver sólo la parte de este {{entityType}} en el conmutador de límite de aplicación para <linkToCalls>Llamadas entrantes</linkToCalls>.",
     "infrastructureIssuesChanges": "Problemas de la infraestructura y cambios",
     "unknownTime": "Desconocido a las {{entityTime}}",
     "infrastructure": {
       "inEntity": "en<icon /><entityLink>{{entityLabel}}</entityLink>",
-      "ofEntity": "de<icon /><entityLink>{{entityLabel}}</entityLink>",
-      "instanceIndexOfEntity": "instancia {{cfInstanceIndex}} de<icon /><entityLink>{{entityLabel}}</entityLink>",
-      "instanceOfEntity": "instancia de<icon /><entityLink>{{entityLabel}}</entityLink>",
+      "ofEntity": "de <icon /><entityLink>{{entityLabel}}</entityLink>",
+      "instanceIndexOfEntity": "instancia {{cfInstanceIndex}} de <icon /><entityLink>{{entityLabel}}</entityLink>",
+      "instanceOfEntity": "instancia de <icon /><entityLink>{{entityLabel}}</entityLink>",
       "tooltipUnmonitored": "Infraestructura no supervisada debido a que la información está fuera de la vista de los agentes en ejecución"
     },
     "errorMessages": "mensajes de error",
     "errorCallWithoutMessage": "Llamada errónea sin mensaje de error",
     "logMessages": "mensajes de registro",
-    "noLogMessage": "No hay mensajes de registro disponibles",
-    "endpoints": "puntos finales"
+    "noLogMessage": "No hay ningún mensaje de registro disponible",
+    "includeSyntheticCallsDropDownSyntheticCalls":"Llamadas sintéticas: {{syntheticCallsOptionLabel}}"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "El servicio no está en la aplicación actual.",
-    "buttonLoadMoreWithRemain": "Cargar {{remainNumber}} más<totalSpan>(total: {{nodeNumber}})</totalSpan>",
+    "buttonLoadMoreWithRemain": "Cargar {{remainNumber}} más <totalSpan>(total: {{nodeNumber}})</totalSpan>",
     "buttonLoadMore": "Cargar {{remainNumber}} más"
   },
   "forms": {
     "stepTitleWithNumber": "<num>{{stepNumber}}. </num>{{stepTitle}}",
-    "helpSpecifyPathToMatch": "Especifique la vía de acceso para la coincidencia, por ejemplo, /api/{version}/*",
-    "helpAddTestCaseToWork": "Opcionalmente, añada casos de prueba abajo para asegurarse de que la regla funciona como estaba previsto, por ejemplo, /api/v2/anything",
+    "helpSpecifyPathToMatch": "Especifique la vía de acceso que ha de coincidir, por ejemplo, /api/{version}/*",
+    "helpAddTestCaseToWork": "Opcionalmente, añada casos de prueba abajo para asegurarse de que la regla funciona como está previsto, por ejemplo, /api/v2/anything",
     "errorBlankValue": "El valor no debe estar en blanco.",
     "earlyRuleResultWithQuery": "Se ha pasado una regla anterior \"{{query}}\"",
     "earlyRuleResult": "Se ha pasado una regla anterior",
@@ -539,34 +451,33 @@
     "noTestDefined": "No se han definido pruebas",
     "allTestsPassed": "Se han superado todas las pruebas",
     "allTestsFailed": "Todas las pruebas han fallado",
-    "testResultWithNumber": "<failTag>Pruebas fallidas: {{numFailedTests}}</failTag><passTag>, se han superado: {{numSucceededTests}} de {{resultLength}}</passTag>",
+    "testResultWithNumber": "<failTag>Todas las pruebas han fallado: {{numFailedTests}}</failTag><passTag>, se han superado{{numSucceededTests}} de {{resultLength}}</passTag>",
     "rulePathTemplate": "Plantilla de vía de acceso",
     "ruleFirstPathSegment": "Segmento de primera vía de acceso",
     "ruleRouteId": "ID de ruta",
     "unspecified": "No especificado",
     "titleConfigureEndpointExtraction": "Configurar extracción de punto final",
-    "tooltipExtractsEndpointsAsSpecified": "Extrae los puntos finales tal como se especifica en el entorno de trabajo detectado (si está accesible)",
+    "tooltipExtractsEndpointsAsSpecified": "Extrae los puntos finales como se ha especificado en la infraestructura detectada (si está accesible)",
     "tooltipExtractsEndpointsOnFirstPath": "Extrae los puntos finales basados en el parámetro de primera vía de acceso",
     "tooltipExtractsEndpointsOnRouteId": "Extrae los puntos finales basándose en el ID de ruta",
     "tooltipEndpointCallsNotMatch": "Las llamadas que no coinciden con una regla anterior se asignan a este punto final",
     "titleConfigureEndpointsExtract": "Configurar cómo se extraen los puntos finales de las llamadas subyacentes a este servicio.",
     "descriptionConfigureEndpointsExtract": "Las reglas de punto final se evalúan secuencialmente, de arriba abajo, y se asigna una llamada a la primera regla coincidente. Una vez configuradas, las nuevas llamadas nuevas se asignarán en función de las reglas actualizadas.",
-    "descriptionResetToDefaultRule": "Si desea restablecer las reglas de extracciones predeterminadas, utilice el botón de abajo. El restablecimiento puede algunos unos minutos en registrarse.",
+  "descriptionResetToDefaultRule": "Si desea restablecer las reglas de extracciones predeterminadas, utilice el botón de abajo. El restablecimiento puede tardar algunos unos minutos en registrarse.",
     "understandCheckboxResetToDefaultRule": " Entiendo que esta acción no se puede deshacer.",
     "customService": {
       "stepTitle": "Ampliar la correlación de servicios automática añadiendo una regla de servicio personalizada.",
-      "descriptionTextFirstLine": "Instana correlaciona automáticamente los servicios basándose en un amplio conjunto de reglas predefinidas. Por ejemplo, si se encuentra el código nodejs.app.name, y hay llamadas codificadas con <bold>\"nodejs.app.name=user service\"</bold> y con <bold>\"nodejs.app.name=cart service\"</bold>, entonces el <bold>\"servicio de usuario\"</bold> y el <bold>\"servicio del carro\"</bold> se muestran como servicios.",
-      "descriptionVisit": "Vaya a la <bold><linkToDoc>documentación sobre gestión de aplicaciones y servicios</linkToDoc></bold> para obtener más información sobre las reglas predefinidas.",
-      "descriptionCustomServiceRule": "Defina una regla personalizada seleccionando una serie de códigos abajo. Si todos los códigos están presentes en una llamada, se correlacionará con este servicio.",
-      "tooltipRemoveCondition": "Eliminar esta condición de coincidencia"
+      "descriptionTextFirstLine": "Instana correlaciona automáticamente los servicios basándose en un amplio conjunto de reglas predefinidas. Por ejemplo, si se encuentra el código nodejs.app.name, y hay llamadas codificadas con <bold>\"nodejs.app.name=user service\"</bold> y con <bold>\"nodejs.app.name=cart service\"</bold>, entonces <bold>\"user service\"</bold> y <bold>\"cart service\"</bold> se mostrarán como servicios.",
+      "descriptionVisit": "Vaya a la <bold><linkToDoc>Documentación de gestión de aplicaciones y servicios</linkToDoc></bold> para obtener más información sobre las reglas predefinidas.",
+      "descriptionCustomServiceRule": "Defina una regla personalizada seleccionando una serie de etiquetas a continuación. Si todas las etiquetas están presentes en una llamada, se correlacionará con ese servicio.",
+     "tooltipRemoveCondition": "Eliminar esta condición de coincidencia"
     },
     "newApplication": {
       "helpApplicationPerspectives": "Las perspectivas de aplicación proporcionan un medio para modelar entornos, conjuntos de servicios, arrendatarios o prácticamente cualquier cosa.",
-      "helpRenameApplication": "Cambiar el nombre de una aplicación es una acción coherente en el sistema Instana. Por este motivo, el cambio de un nombre de aplicación puede tardar <italic>algunos minutos</italic> en rellenarse en todo el sistema.",
-      "descriptionApplicationName": "Los nombres de la perspectiva de la aplicación deben tener una definición correctamente establecida en una organización. Por ejemplo, para modelar un entorno: \"Azul de producción\", para modelar un conjunto de servicios: \"Pago\", o para modelar un arrendatario: \"Cliente de ACME\".",
-      "descriptionTags": "Por ejemplo, cuando la clave es \" docker.label \" y el valor es \" environment=Production Blue \" o la clave es \" call.http.params \" y el valor es \" tenant=ACMECustomer \". Tenga en cuenta que cualquier llamada a un servicio <pillDatabase>DATABASE</pillDatabase> o servicio <pillMessage>MESSAGING</pillMessage> desde los servicios que coinciden con esta definición se incluirá automáticamente.",
-      "descriptionOperators": "Los operadores AND tiene prioridad y se evalúan antes que los operadores OR",
-      "descriptionOperatorsCreationEnabled": "Los operadores AND tiene prioridad y se evalúan antes que los operadores OR si no están agrupados en corchetes",
+      "helpRenameApplication": "Cambiar el nombre de una aplicación es una acción coherente en el sistema Instana. Por este motivo, el cambio de un nombre de aplicación puede tardar <italic>algunos minutos</italic> hasta que se haya rellenado en todo el sistema. ",
+      "descriptionApplicationName": "Los nombres de la perspectiva de la aplicación deben tener una definición correctamente establecida en una organización. Por ejemplo, para modelar un entorno: \"Production Blue\", para modelar un conjunto de servicios: \"Payment\", o para modelar un arrendatario: \"ACME Customer\".",
+      "descriptionTags": "Por ejemplo, cuando la clave es \"docker.label\" y el valor es \"environment=Production Blue\" o la clave es \"call.http.params\" y el valor es \"tenant=ACMECustomer\". Tenga en cuenta que cualquier llamada a un servicio <pillDatabase>DATABASE</pillDatabase> o <pillMessage>MESSAGING</pillMessage> desde los servicios que coinciden con esta definición se incluirá automáticamente.",
+      "descriptionOperatorsCreationEnabled": "Los operadores AND tienen prioridad y se evalúan antes que los operadores OR si no están agrupados entre corchetes",
       "descriptionPrepareToMonitor": "Se está preparando todo para supervisar su perspectiva de aplicación <bold>{{decodedLabel}}</bold>.",
       "descriptionRemoveApplicationPerspective": "Si ya no desea supervisar la perspectiva de aplicación <strong>{{application}}</strong>, utilice el botón de abajo para eliminarla. Eliminar una perspectiva de aplicación puede tardar algunos minutos.",
       "stepTitleDefineApplicationName": "Defina un nombre para su perspectiva de aplicación.",
@@ -598,10 +509,10 @@
     "textNewApplicationPerspective": "Aquí se mostrarán cuando los haya creado un administrador de cuentas.",
     "showApplicationsScope": "Mostrando aplicaciones <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity>",
     "showServicesScope": "Mostrando servicios <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity>",
-    "showApplicationsScopeWithApplicationLabel": "Mostrando aplicaciones <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity><span> en el contexto de </span><linkToApplication>{{applicationLabel}}</linkToApplication>",
-    "showServicesScopeWithServiceLabel": "Mostrando servicios <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity><span> en el contexto de </span><linkToApplication>{{applicationLabel}}</linkToApplication>",
+    "showApplicationsScopeWithApplicationLabel": "Mostrando aplicaciones <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity> en el contexto de <linkToApplication>{{applicationLabel}}</linkToApplication>",
+    "showServicesScopeWithServiceLabel": "Mostrando servicios <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity> en el contexto de <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "titleNoService": "Sin servicios todavía",
-    "servicesNoData": "No hay llamadas de servicio disponibles para el rango de tiempo seleccionado. Para obtener información sobre la resolución de problemas, consulte [documentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "No hay llamadas de servicio disponibles para el rango de tiempo seleccionado. Para obtener información sobre resolución de problemas, consulte [documentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "Lote",
@@ -620,13 +531,45 @@
   "constants": {
     "exclude": "Excluir",
     "syntheticCallsAreExcludedFromTheMetrics": "Las llamadas sintéticas se excluyen de las métricas.",
-    "include": "Incluir",
+"include": "Incluir",
     "syntheticCallsAreIncludedInTheMetrics": "Las llamadas sintéticas se incluyen en las métricas.",
     "only": "Solo",
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Sólo se muestran y se incluyen las llamadas sintéticas en las métricas"
   },
-  "lists": {
-    "noSpecificApplication": " - ninguna aplicación específica - ",
-    "services": "Servicios"
+  "traceDetail": {
+    "tabs": {
+      "summary": {
+        "duplicateCalls": "Llamadas duplicadas",
+        "duplicateCallsDesc": "Este rastreo consta de una o varias llamadas duplicadas (spans). Llamadas exclusivas: {{traceCallCountIgnoringBatchSize}} - Registros: {{traceCallRecordCount}}. Esto genera un número de llamadas incorrecto (con lotes) y valores de recuento de errores, y quizás a otras irregularidades.",
+        "batchedIngestion": "Ingestión por lotes",
+        "traceIngestionBatchCount": "Este rastreo se ha procesado en {{traceIngestionBatchesCount}} lotes. Esto puede generar irregularidades, por ejemplo, spans no fusionados con una única llamada, una correlación de servicios parcial o que se muestren otros datos incompletos.",
+        "subCalls": "Subllamadas",
+        "erroneousCalls": "Llamadas erróneas",
+        "errorLogs": "Registros de errores",
+        "warnLogs": "Registros de avisos",
+        "latency": "Latencia",
+        "timeline": "Línea temporal",
+        "serviceEndpointList": "Lista puntos finales de servicio",
+        "largeTrace": "Rastreo de gran tamaño",
+        "largeTraceLink": "Este es un rastreo de gran tamaño y la representación de este rastreo puede generar problemas de rendimiento en su navegador. Puede <linkToDocs>descargar el rastreo</linkToDocs> para realizar una inspección manual o para intentar visualizar el rastreo en el navegador. Sólo se visualizará un subconjunto de los componentes para mejorar el rendimiento durante este intento.",
+        "calls": "Llamadas",
+        "erroneousTrace": "Rastreo erróneo",
+        "attemptToRenderTrace": "Intento de visualización del rastreo"
+      }
+    }
+  },
+  "tabs": {
+    "labelDetail": "Detalle"
+  },
+  "metrics": {
+    "calls_calls": "Llamadas",
+    "calls_latency": "Latencia",
+    "calls_erroneousCalls": "Llamadas erróneas",
+    "calls_errors": "Tasa de llamadas erróneas",
+    "traces_calls": "Rastreos",
+    "traces_traces": "Rastreos",
+    "traces_latency": "Latencia",
+    "traces_erroneousCalls": "Rastreos erróneos",
+    "traces_errors": "Tasa de rastreos erróneos"
   }
 }

@@ -86,7 +86,8 @@
       "cpuUsage": "CPU 사용량",
       "created": "작성됨",
       "started": "시작됨",
-      "os": "OS"
+      "os": "OS",
+      "mean": "평균"
     },
     "topListWidget": {
       "noLabelYet": "아직 {{nolabel}} 없음"

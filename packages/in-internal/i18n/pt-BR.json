@@ -3,7 +3,7 @@
     "landing": {
       "sharedCompSLOViolate": "Violações de SLO de componente compartilhado",
       "tUSLOViolate": "Violações de SLO de TU",
-      "instanaInstallMonitor": "Monitoramento de instalação do Instana",
+      "instanaInstallMonitor": "Monitoramento de instalação da Instana",
       "serviceLevelObj": "Objetivos de nível de serviço (SLOs)",
       "sloCheckCompDatastoresExpectedBounds": "SLOs são usados para verificar se nossos componentes e armazenamentos de dados estão operando dentro de limites esperados.",
       "violations": "Violações",
@@ -23,7 +23,7 @@
       "pipelines": "Pipelines",
       "acceptor": "Aceitador",
       "acceptorDesc": "Os agentes transmitem dados a aceitadores. Os aceitadores são, portanto, a primeira etapa da maioria dos dados transmitidos ao Instana.",
-      "serverlessAcceptorDesc": "Os aceitadores sem servidor são a primeira etapa do rastreio e do monitoramento sem servidor, quando os dados são transmitidos diretamente de uma entidade sem servidor para o nosso back-end sem um agente do Instana entre eles.",
+      "serverlessAcceptorDesc": "Os aceitadores sem servidor são a primeira etapa do rastreio e do monitoramento sem servidor, quando os dados são transmitidos diretamente de uma entidade sem servidor para o nosso back-end sem um agente da Instana entre eles.",
       "cashiers": "Caixas",
       "cashiersDesc": "Os componentes de caixa são usados para geração de estatísticas de uso para clientes e contabilidade interna.",
       "hubforceDesc": "Hubforce (ou seja, Portal) ",
@@ -84,7 +84,7 @@
       "infrastructureEntityVerDesc": "Inspeciona versões para uma única entidade de infraestrutura e visualiza quando elas foram criadas e por quanto tempo foram válidas/",
       "internalEvents": "Eventos internos",
       "internalEventsDesc": "Solicite uma lista de eventos internos, como Relatórios de travamento do agente",
-      "availInstanaUnits": "Unidades disponíveis do Instana",
+      "availInstanaUnits": "Unidades disponíveis da Instana",
       "saaSMonitoringUnits": "Unidades de monitoramento do SaaS",
       "saaSMonitoringUnitsDesc": "Estas unidades existem para monitorar nossas próprias instalações do SaaS. Eles são as próprias unidades do SaaS.",
       "unitMonitoringWhite": "Branco",
@@ -98,7 +98,7 @@
       "internal": "Interno",
       "internalDesc": "Uma unidade SaaS monitorando as unidades de desenvolvimento interno.",
       "devUnits": "Unidades de desenvolvimento",
-      "devUnitsDesc": "Estas unidades são projetadas para serem usadas principalmente pela organização de produtos do Instana para continuar desenvolvendo o próprio Instana.",
+      "devUnitsDesc": "Estas unidades são projetadas para serem usadas principalmente pela organização de produtos da Instana para continuar desenvolvendo o próprio Instana.",
       "test": "Teste",
       "testDesc": "Implementado automaticamente por meio de ramificações de desenvolvimento a cada hora.",
       "nightly": "Noturno",
@@ -115,13 +115,14 @@
       "demousDescEu": "Uma unidade demo SaaS em execução na UE.",
       "serverlessAcceptor": "ServerlessAcceptor",
       "hubforce": "Hubforce",
-      "clickhouse": "Clickhouse",
-      "clickhouseApplication": "ClickHouse Application",
-      "clickhouseLogs": "ClickHouse Logs",
+      "clickhouse": "ClickHouse",
+      "clickhouseApplication": "Aplicativo ClickHouse",
+      "clickhouseLogs": "Logs ClickHouse",
       "elasticsearch": "Elasticsearch",
       "elasticsearchNg": "ElasticsearchNG",
       "kafka": "Kafka",
-      "demous": "demous"
+      "demous": "demous",
+      "demoeu": "demoeu"
     },
     "internalViewWrapper": {
       "internal": "Interno"
@@ -146,7 +147,7 @@
     "appdata": {
       "appdataHealthProcessor": {
         "host": "Host",
-        "hostCpuLoad": "Carregamento de CPU do host",
+        "hostCpuLoad": "Carga da CPU do host",
         "processedIntervals": "Intervalos processados",
         "skippedIntervals": "Intervalos ignorados",
         "failedProcessedInterval": "Intervalos processados com falha",
@@ -163,12 +164,12 @@
         "appReaderCallGroupsReq": "Solicitações GetCallGroups do Appdata Reader",
         "hostLoad": "Carregamento do host",
         "processesCount": "processos ({{length}})",
-        "hostCpuLoadLabel": "Carregamento de CPU do host",
+        "hostCpuLoadLabel": "Carga da CPU do host",
         "garbageCollection": "Coleta de lixo"
       },
       "appDataAggregator": {
         "host": "Host",
-        "hostCpuLoad": "Carregamento de CPU do host",
+        "hostCpuLoad": "Carga da CPU do host",
         "activeReg": "Registros ativos",
         "stateStoreSyncTime": "Tempo de sincronização do armazenamento de estado (média)",
         "incomingCalls": "Chamadas recebidas",
@@ -191,7 +192,7 @@
       },
       "appDataProcStatistic": {
         "customer": "Cliente",
-        "hostCPULoad": "Carregamento de CPU do host",
+        "hostCPULoad": "Carga da CPU do host",
         "incomingSpanMsg": "Mensagens de span recebidas (KPI.incoming.span_messages)",
         "droppSpanMsg": "Mensagens de span descartadas (KPI.incoming.span_messages)",
         "timeDiffAcceptor": "Diferença de tempo com aceitador (ms)",
@@ -212,7 +213,7 @@
       },
       "appdataReaderStatistics": {
         "host": "Host",
-        "hostCpuLoad": "Carregamento de CPU do host",
+        "hostCpuLoad": "Carga da CPU do host",
         "clickHouseErrRate": "Taxa de erro do ClickHouse",
         "clickHouseCalls": "Chamadas do ClickHouse",
         "clickHouseQueryLatency50": "Latência de consulta do ClickHouse (50º)",
@@ -231,7 +232,7 @@
       },
       "appdataWriterStatistics": {
         "host": "Host",
-        "hostCpuLoad": "Carregamento de CPU do host",
+        "hostCpuLoad": "Carga da CPU do host",
         "clickHouseErrorRate": "Taxa de erro do ClickHouse",
         "clickHouseCalls": "Chamadas do ClickHouse",
         "clickHouseQueryLatency50": "Latência de consulta do ClickHouse (50º)",
@@ -259,7 +260,7 @@
         "chains": "Cadeias",
         "logs": "Logs",
         "profileInfosClickHouse": "Informações do perfil (ClickHouse)",
-        "hostCpuLoad": "Carregamento de CPU do host",
+        "hostCpuLoad": "Carga da CPU do host",
         "garbageCollectionAct": "Atividade de coleta de lixo",
         "kafkaReads": "Leituras do Kafka",
         "dropped": "Descartado",
@@ -308,8 +309,8 @@
       "consumedCashierReports": "Relatórios de caixa consumidos",
       "fwdPayloadAcceptorTimeRate": "Encaminhar carga útil ao cronômetro do aceitador (taxa)",
       "fwdPayloadAcceptorTimerMean": "Encaminhar carga útil ao cronômetro do aceitador (média)",
-      "fwdPayloadAcceptorTimer50": "Encaminhar carga útil para ao cronômetro do aceitador (50º)",
-      "fwdPayloadAcceptorTimer99": "Encaminhar carga útil para cronômetro do aceitador (99º)",
+      "fwdPayloadAcceptorTimer50": "Encaminhar carga útil ao cronômetro do aceitador (50º)",
+      "fwdPayloadAcceptorTimer99": "Encaminhar carga útil ao cronômetro do aceitador (99º)",
       "kafkaLagTimer99th": "Cronômetro de atraso do Kafka (99º)",
       "kafkaLagTimerMean": "Cronômetro de atraso do Kafka (média)",
       "cashierRollups": "Acumulações de caixa",
@@ -328,7 +329,7 @@
     "log": {
       "processor": {
         "title": "log-processor",
-        "hostCpuLoad": "Carregamento de CPU do host",
+        "hostCpuLoad": "Carga da CPU do host",
         "hostLoad": "Carregamento do host",
         "host": "Host",
         "garbageCollection": "Coleta de lixo",
@@ -360,7 +361,7 @@
       },
       "writer": {
         "title": "log-writer",
-        "hostCpuLoad": "Carregamento de CPU do host",
+        "hostCpuLoad": "Carga da CPU do host",
         "hostLoad": "Carregamento do host",
         "host": "Host",
         "garbageCollection": "Coleta de lixo",
@@ -388,7 +389,7 @@
       },
       "reader": {
         "title": "log-reader",
-        "hostCpuLoad": "Carregamento de CPU do host",
+        "hostCpuLoad": "Carga da CPU do host",
         "hostLoad": "Carregamento do host",
         "host": "Host",
         "garbageCollection": "Coleta de lixo",
@@ -419,7 +420,7 @@
     },
     "eum": {
       "appDataWriter": {
-        "hostCpuLoad": "Carregamento de CPU do host",
+        "hostCpuLoad": "Carga da CPU do host",
         "incomingProcessWebsiteBeacon": "Indicadores do website processados recebidos",
         "failIncomingProcessWebsiteBeacon": "Indicadores do website processados recebidos com falha",
         "shortTermBeaconBatchWrite": "Gravações em lote do indicador de curto prazo",
@@ -435,7 +436,7 @@
       },
       "eumAcceptor": {
         "load": "Carregar",
-        "hostCpuLoad": "Carregamento de CPU do host",
+        "hostCpuLoad": "Carga da CPU do host",
         "garbageCollectionActivity": "Atividade de coleta de lixo",
         "requests": "Solicitações",
         "dropDueLoadBackpressure": "Eliminado devido à carga/contrapressão",
@@ -463,7 +464,7 @@
         "failOutgoingEvent": "Eventos de saída com falha"
       },
       "eumProcessor": {
-        "hostCpuLoad": "Carregamento de CPU do host",
+        "hostCpuLoad": "Carga da CPU do host",
         "incomingWebsiteBeacon": "Indicadores do website recebidos",
         "failIncomingWebsiteBeacon": "Indicadores do website recebidos com falha",
         "outgoingProcessWebsiteBeacon": "Indicadores do website processados de saída",
@@ -565,7 +566,7 @@
         "bundleDropDeniedMsg": "Empacotar mensagens eliminadas/negadas",
         "networkDataReceive": "Rede - Dados recebidos",
         "networkDataTransmit": "Rede - Dados transmitidos",
-        "cpuLoad": "Carregamento de CPU",
+        "cpuLoad": "Carga da CPU",
         "cpuUsage": "Uso de CPU",
         "hostsLength": "Hosts ({{length}})"
       }
@@ -578,7 +579,7 @@
       "host": "Host",
       "user": "Usuário",
       "nice": "Bom",
-      "steal": "Roubar",
+      "steal": "Deturpado",
       "system": "Sistema",
       "wait": "Espera",
       "free": "Livre",
@@ -586,7 +587,7 @@
       "readPerSec": "Leituras/s",
       "writePerSec": "Gravações/s",
       "bytesReadPerSec": "Leitura de bytes/s",
-      "bytesWritePerSec": "Gravação de bytes/s",
+      "bytesWritePerSec": "Bytes gravados/s",
       "acceptors": {
         "messages": "Mensagens",
         "ipFilterMsg0": "Mensagens filtradas por IP (deve ser 0)",
@@ -594,7 +595,7 @@
         "kafkaSpanMsgErr": "Kafka - nº de erros de mensagens de span",
         "networkDataReceived": "Rede - Dados recebidos",
         "networkDataTransmit": "Rede - Dados transmitidos",
-        "cpuLoad": "Carregamento de CPU",
+        "cpuLoad": "Carga da CPU",
         "hostsAcceptorsLen": "Hosts ({{acceptorLen}})",
         "cpuUsage": "Uso de CPU",
         "droppedDeniedMsg": "Mensagens descartadas/negadas"
@@ -622,7 +623,7 @@
         "cpuUsage": "Uso de CPU"
       },
       "clickhouse": {
-        "cpuLoad": "Carregamento de CPU",
+        "cpuLoad": "Carga da CPU",
         "numQueryThreads": "Nº de encadeamentos de consulta",
         "networkDataReceive": "Rede - Dados recebidos",
         "networkDataTransmit": "Rede - Dados transmitidos",
@@ -676,7 +677,7 @@
         "addDoc": "Documentos incluídos",
         "networkDataReceived": "Rede - Dados recebidos",
         "networkDataTransmit": "Rede - Dados transmitidos",
-        "cpuLoad": "Carregamento de CPU",
+        "cpuLoad": "Carga da CPU",
         "suspension": "Suspensão",
         "suspensionChartExplanation": "A suspensão é uma indicação de quanto a execução do aplicativo pode ter sido atrasada pela JVM, pelo S.O. ou pela CPU durante o último segundo. Isso é causado predominantemente por ativações do GC.",
         "dataMount": "Montagens de dados",
@@ -703,7 +704,7 @@
         "pendingCompactions": "Compactações pendentes",
         "networkDataRecv": "Rede - Dados recebidos",
         "networkDataTransmit": "Rede - Dados transmitidos",
-        "cpuLoad": "Carregamento de CPU",
+        "cpuLoad": "Carga da CPU",
         "cpuUsage": "Uso de CPU",
         "dataMount": "Montagens de dados"
       }
@@ -714,11 +715,11 @@
         "backendSpanDropSumAInstance": "Descarte de span de back-end (soma em instâncias)",
         "spanDropSumChartExplanation_1": "Mostra se os spans estão sendo eliminados e por que:",
         "spanDropSumChartExplanation_2": "<strong>Processado:</strong> quantos spans foram processados com sucesso.",
-        "spanDropSumChartExplanation_3": "<strong>Eliminado devido ao regulador global:</strong> eliminado devido a um limitador de taxa global (<i>config.hard.spans.rate.drop.threshold</i>)",
+        "spanDropSumChartExplanation_3": "<strong>Eliminado devido ao regulador global:</strong> eliminado devido a um limitador de taxa global (<em>config.hard.spans.rate.drop.threshold</em>)",
         "spanDropSumChartExplanation_4": "<strong>Eliminado devido ao descarte consistente:</strong> eliminado porque outros spans do mesmo rastreio foram eliminados antes, por exemplo, devido à contrapressão (assegure que eliminamos todos os spans de um rastreio ou nenhum).",
         "spanDropSumChartExplanation_5": "<strong>Eliminado devido à contrapressão:</strong> eliminado devido ao esgotamento de recursos (por exemplo, o alto uso de CPU ou uma etapa do pipeline é um gargalo).",
         "spanDropSumChartExplanation_6": "<strong>Eliminado permanentemente devido à contrapressão (descarte aleatório):</strong> eliminado porque o registro do Kafka é mais antigo que 5 segundos.",
-        "spanDropSumChartExplanation_7": "<strong>Eliminado devido ao regulador de rastreio:</strong> eliminado devido a um limitador de taxa por rastreio (<i>config.hard.spans.per.trace.rate.drop.threshold</i>)",
+        "spanDropSumChartExplanation_7": "<strong>Eliminado devido ao regulador de rastreio:</strong> eliminado devido a um limitador de taxa por rastreio (<em>config.hard.spans.per.trace.rate.drop.threshold</em>)",
         "droppingRate": "Taxa de descarte",
         "processed": "Processado",
         "dropGlobalThrottler": "Descartado devido ao regulador global",
@@ -730,13 +731,13 @@
         "backendSpanDropInstChartExplanation_1": "Quando os spans são eliminados, é importante olhar para instâncias individuais.",
         "backendSpanDropInstChartExplanation_2": "Todas as instâncias estão sendo eliminadas: ampliação.",
         "backendSpanDropInstChartExplanation_3": "Uma ou várias instâncias estão sendo eliminadas (mas não todas): ampliação não ajudará.",
-        "backendSpanDropInstChartExplanation_4": "Rastreios com um alto rendimento estão sendo processados (a chave de shard é o id de rastreio): ajustar <i>config.hard.spans.per.trace.rate.drop.threshold</i>.",
+        "backendSpanDropInstChartExplanation_4": "Rastreios com um alto rendimento estão sendo processados (a chave de shard é o id de rastreio): ajustar <em>config.hard.spans.per.trace.rate.drop.threshold</em>.",
         "backendSpanDropInstChartExplanation_5": "A carga da CPU está muito alta nos hosts subjacentes: designe uma instância a um host menos sobrecarregado.",
         "srvlessAcceptorRateLimitSpanMsg": "Taxa de aceitador sem servidor - mensagens de span limitadas",
         "spanLatencyMeanInstance": "Latência de span (média nas instâncias)",
         "spanLatencyMeanInstChartExplanation": "Atraso no agente: atraso entre o momento em que um span foi terminado e o momento em que foi enviado do agente para o aceitador.",
         "acceptorRateLimitSpanMsg": "Taxa de aceitador - mensagens de span limitadas",
-        "acceptorRateLimitSpanhartExplan": "Número de mensagens de span (uma mensagem contém diversos spans) eliminadas devido a uma taxa do limitador por-unidade-de-locatário. Consulte <i>config.span.publish.rate.limit</i> (padrão: 25.000).",
+        "acceptorRateLimitSpanhartExplan": "Número de mensagens de span (uma mensagem contém diversos spans) eliminadas devido a uma taxa do limitador por-unidade-de-locatário. Consulte <em>config.span.publish.rate.limit</em> (padrão: 25.000).",
         "acceptorDropSpanMsg": "Mensagens de span eliminadas do aceitador",
         "srvlessAcceptorDropSpanMsg": "Mensagens de span eliminadas do aceitador sem servidor",
         "appDataProcessorInst": "Instâncias do processador AppData-Processor",
@@ -793,11 +794,11 @@
     "units": {
       "api": {
         "apiCallBlockRateLimitRate": "Taxa de bloqueio de chamadas da API (limitação de taxa)",
-        "apiChartExplanation_1": "As chamadas da API são bloqueadas quando atingem o limite de taxa, conforme definido na seção de configuração <i>rateLimit</i> de <i>ui-backend</i>.",
+        "apiChartExplanation_1": "As chamadas da API são bloqueadas quando atingem o limite de taxa, conforme definido na seção de configuração <em>rateLimit</em> de <em>ui-backend</em>.",
         "apiChartExplanation_2": "O código de status HTTP 429 é fornecido na resposta com os cabeçalhos a seguir (consulte a <linkToDocs>referência</linkToDocs>):",
-        "apiChartExplanation_3": "Há um limite <i>padrão</i>, mas também outros mais específicos por <i>zone</i>: <i>search</i>, <i>settings</i>, <i>appdata</i> e <i>snapshots</i>.",
-        "apiChartExplanation_4": "O gráfico abaixo diz somente que as chamadas estão sendo bloqueadas, mas não sabemos qual dos limites foi atingido. Para isso, é possível consultar as métricas <i>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distint-client-key-ZONE</i> em <i>ui-backend</i>, que fornecem a taxa de chamada por zona, ou examinar melhor os rastreios e, mais especificamente, os códigos de status e os cabeçalhos.",
-        "apiChartExplanation_5": "<strong>Importante:</strong> as chamadas com código de status HTTP 429 não são necessariamente bloqueadas pelos limitadores de taxa de API, mas também podem ser bloqueadas por um dos limitadores usados para proteger o <i>appdata-reader</i> (consulte as métricas correspondentes em <i>ui-backend</i> com o formato <i>appDataReaderXXXLimiter</i>). É possível distinguir os dois casos examinando a presença dos cabeçalhos <i>X-RateLimit-XXX</i> nos rastreios."
+        "apiChartExplanation_3": "Há um limite <em>padrão</em>, mas também outros mais específicos por <em>zone</em>: <em>search</em>, <em>settings</em>, <em>appdata</em> e <em>snapshots</em>.",
+        "apiChartExplanation_4": "O gráfico abaixo diz somente que as chamadas estão sendo bloqueadas, mas não sabemos qual dos limites foi atingido. Para isso, é possível consultar as métricas <em>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distint-client-key-ZONE</em> em <em>ui-backend</em>, que fornecem a taxa de chamada por zona, ou examinar melhor os rastreios e, mais especificamente, os códigos de status e os cabeçalhos.",
+        "apiChartExplanation_5": "<strong>Importante:</strong> as chamadas com código de status HTTP 429 não são necessariamente bloqueadas pelos limitadores de taxa de API, mas também podem ser bloqueadas por um dos limitadores usados para proteger o <em>appdata-reader</em> (consulte as métricas correspondentes em <em>ui-backend</em> com o formato <em>appDataReaderXXXLimiter</em>). É possível distinguir os dois casos examinando a presença dos cabeçalhos <em>X-RateLimit-XXX</em> nos rastreios."
       },
       "application": {
         "appdataProcessorInstance": "Instâncias do AppData-Processor",
@@ -926,7 +927,7 @@
       "agent": {
         "agentTitle": "Agente",
         "slowSensorsCount": "Contagem de sensores lentos",
-        "cpuLoad": "Carregamento de CPU",
+        "cpuLoad": "Carga da CPU",
         "spansOpened": "Spans abertos",
         "spansClosed": "Spans encerrados",
         "spansFilter": "Spans filtrados",

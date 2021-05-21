@@ -37,17 +37,10 @@
   "zoomOut": "축소",
   "selectThisEntity": "이 엔티티를 선택하십시오.",
   "openDashboard": "대시보드 열기",
-  "tooltip": "도구 설명",
   "infraMap": "인프라 맵",
   "infrastructureContainerMap": "인프라 컨테이너 맵",
   "infrastructureHostMap": "인프라 호스트 맵",
   "unknownView": "알 수 없는 보기",
-  "CPU": "CPU",
-  "Usage": "사용",
-  "Memory": "메모리",
-  "MemUsage": "MemUsage",
-  "Load": "로드",
-  "Used": "사용됨",
   "chooseMetric": "메트릭 선택",
   "reset": "재설정"
 }

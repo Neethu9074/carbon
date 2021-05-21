@@ -19,9 +19,6 @@
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "是否确定要移除<strong>“警报 {{alertConfigName}}”</strong>？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
     "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警报配置的修订版 {{alertRevision}}。如果要进行更改，请选择<latestRevisionButton>最新修订版<latestRevisionButton>。",
-    "alertHeaderThisConfigIsStoredWithQueryBuilder2Expressions": "将使用查询构建器 2 表达式存储此配置。",
-    "alertHeaderYouCanOnlyStartOrPause": "在查询构建器 1 方式下，您只能启动或暂停，但不能编辑这些配置",
-    "alertHistoryListTitle": "已创建警报",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "已创建警报（{{totalRepresentedItemCount}} 个）",
     "alertPropertyInfosLabelTitle": "标题",
     "alertPropertyInfosLabelAlertLevel": "警报级别",
@@ -41,7 +38,25 @@
     },
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "您正在查看已删除的警报配置。不能修改。",
     "alertPropertyInfosWarning": "警告",
-    "alertPropertyInfosCritical": "严重"
+    "alertPropertyInfosCritical": "严重",
+    "customPayload": {
+      "deleteRow": "删除行",
+      "key": "密钥",
+      "value": "值",
+      "unknownTypeTypeItCanNotBeEdited": "未知类型：{{type}} - 无法编辑。",
+      "customWithColon": "定制",
+      "valueType": "值类型",
+      "static": "静态",
+      "dynamic": "动态",
+      "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "行数限制为 {{maximumNumberOfRows}}。",
+      "addRow": "添加行",
+      "noCustomPayloadConfigured": "未配置定制有效内容",
+      "keyNamesMustBeUnique": "键名称必须唯一。",
+      "theValueMustNotBeBlank": "值不能为空。",
+      "onlyOrAnyAlphaNumericalAreAllowed": "只允许使用“.”、“-”、“_” 或任何字母数字字符。",
+      "aTagNeedsToBeSelected": "需要选择标记。",
+      "aKeyNeedsToBeSpecified": "需要指定键。"
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "错误调用率高于正常值",
@@ -90,7 +105,7 @@
     "titleNoSmartAlertsCreated": "未创建智能警报",
     "titleCopyOf": "{{smartAlertTitle}}（的副本）",
     "applications": {
-      "newGlobalAlert": "全局智能警报",
+      "alertConfiguration": "警报配置",
       "advanced": {
         "alertPropertyInsertPlaceholderLabel": "插入占位符",
         "evaluationSwitch": {
@@ -120,9 +135,9 @@
         "inboundOutboundCalls": {
           "config": {
             "inbound": {
-              "text": "入站调用数",
+              "text": "入站调用",
               "dashboard": "仅限此应用程序的使用者执行的调用。",
-              "overrideDefault": "此应用程序的缺省作用域仅限于“入站调用数”。您可以在配置中更改此项。"
+              "overrideDefault": "此应用程序的缺省作用域仅限于“入站调用”。您可以在配置中更改此项。"
             },
             "all": {
               "text": "所有调用",
@@ -130,11 +145,10 @@
               "overrideDefault": "此应用程序的缺省作用域为“所有调用”。您可以在配置中更改此项。"
             }
           },
-          "constants": {
-            "inboundDashboard": "仪表板仅显示基于此应用程序的使用者所执行调用的信息。",
-            "inboundOverrideDefault": "此应用程序的缺省作用域仅限于“入站调用数”。您可以在配置中更改此项。",
-            "allDashboard": "仪表板正在显示基于此应用程序中的所有调用（由使用者执行和内部执行）的信息。",
-            "allOverrideDefault": "此应用程序的缺省作用域为“所有调用”。您可以在配置中更改此项。"
+          "confirmationDialog": {
+            "pleaseConfirm": "请确认",
+            "description": "修改边界范围将重置应用程序选择。",
+            "confirmButtonLabel": "确认"
           }
         },
         "includeInternalOrSynthethicCalls": {
@@ -168,16 +182,21 @@
           "propertiesOptional": {
             "label": "属性（可选）",
             "title": "其他警报属性（可选）"
+          },
+          "payloadsOptional": {
+            "label": "有效内容（可选）",
+            "title": "定制有效内容（可选）"
           }
         }
       },
       "chart": {
+        "noDataWithoutEndpointSelection": "请选择一个端点以查看预览",
         "noDataAvailable": "请选择服务以查看预览"
       },
       "logMessages": {
         "messageColumn": "日志消息",
         "levelColumn": "日志级别",
-        "noDataMessage": "未配置任何警报。",
+        "noDataMessage": "未找到任何消息。",
         "selectLogMessageText": "选择日志消息作为模板（可选）",
         "selectLogMessageTitle": "选择日志消息"
       },
@@ -211,7 +230,7 @@
           "name": "吞吐量",
           "headline": "调用计数的自动警报",
           "text": "此应用程序透视图的所选服务和端点的调用数异常低或异常高时自动发出警报。",
-          "metricLabel": "调用数"
+          "metricLabel": "调用"
         },
         "simpleMode": {
           "unexpectedDrop": {
@@ -307,44 +326,6 @@
         }
       },
       "form": {
-        "anyJSErrors": "任何 JS 错误",
-        "JSErrors": "JS 错误：{{errorMessage}}",
-        "HTTPStatusCodes": "HTTP 状态码：{{statusCode}}",
-        "unsupportedAlertType": "不受支持的报警类型：{{alertType}}",
-        "JSErrorsHaveBeenDetected": "检测到 JS 错误。",
-        "unsupportedOperator": "不受支持的运算符：{{operator}}",
-        "JSErrorTextEquals": "检测到等于“{{ruleValue}}”的 JS 错误。",
-        "JSErrorTextContains": "检测到包含“{{ruleValue}}”的 JS 错误。",
-        "JSErrorTextStartsWith": "检测到以“{{ruleValue}}”开头的 JS 错误。",
-        "JSErrorTextEndsWith": "检测到以“{{ruleValue}}”结尾的 JS 错误。",
-        "slownessSimpleHighOperatorText": "onLoad 时间 ({{aggregationText}}) 太长",
-        "slownessSimpleLowOperatorText": "onLoad 时间 ({{aggregationText}}) 太短",
-        "throughputSimpleHighOperatorText": "{{metricLabel}} 数异常高",
-        "throughputSimpleLowOperatorText": "{{metricLabel}} 数异常低",
-        "statusCodeSimpleAboveOperatorText": "HTTP 状态码 {{statusCodeLabel}} 的出现次数高于预期。",
-        "statusCodeSimpleBelowOperatorText": "HTTP 状态码 {{statusCodeLabel}} 的出现次数低于预期。",
-        "slownessSimpleAboveOperatorText": "onLoad 时间 ({{aggregationText}}) 高于预期。",
-        "slownessSimpleBelowOperatorText": "onLoad 时间 ({{aggregationText}}) 低于预期。",
-        "slownessGreaterOperatorText": "onLoad 时间 ({{aggregationText}}) 大于 {{thresholdValue}} 毫秒。",
-        "slownessGreaterEqualsOperatorText": "onLoad 时间 ({{aggregationText}}) 大于或等于 {{thresholdValue}} 毫秒。",
-        "slownessLessOperatorText": "onLoad 时间 ({{aggregationText}}) 小于 {{thresholdValue}} 毫秒。",
-        "slownessLessEqualsOperatorText": "onLoad 时间 ({{aggregationText}}) 小于或等于 {{thresholdValue}} 毫秒。",
-        "staticThresholdHigherOperatorText": "{{metricLabel}} 数大于 {{thresholdValue}}。",
-        "staticThresholdHigherEqualsOperatorText": "{{metricLabel}} 数大于或等于 {{thresholdValue}}。",
-        "staticThresholdLowerOperatorText": "{{metricLabel}} 数小于 {{thresholdValue}}。",
-        "staticThresholdLowerEqualsOperatorText": "{{metricLabel}} 数小于或等于 {{thresholdValue}}。",
-        "thresholdHigherOperatorText": "{{metricLabel}} 数大于预期。",
-        "thresholdHigherEqualsOperatorText": "{{metricLabel}} 数大于或等于预期。",
-        "thresholdLowerOperatorText": "{{metricLabel}} 数小于预期。",
-        "thresholdLowerEqualsOperatorText": "{{metricLabel}} 数小于或等于预期。",
-        "errorPleaseProvideAnErrorMessage": "请提供错误消息",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "请提供大于或等于 0 的数字",
-        "errorBaselineIsEmpty": "基线为空",
-        "ruleJsErrorsOperatorOptionAny": "任意",
-        "ruleJsErrorsOperatorOptionEquals": "等于",
-        "ruleJsErrorsOperatorOptionContains": "包含",
-        "ruleJsErrorsOperatorOptionStartsWith": "开头为",
-        "ruleJsErrorsOperatorOptionEndWith": "结尾为",
         "ruleStatusCodeValueOption1": "1XX (Informational)",
         "ruleStatusCodeValueOption100": "100 (Continue)",
         "ruleStatusCodeValueOption101": "101 (Switching Protocols)",
@@ -415,26 +396,11 @@
         "ruleStatusCodeValueOption510": "510 (Not Extended)",
         "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
         "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
-        "ruleMetricNameOptionSpecificJsErrorErrors": "错误计数",
-        "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "错误率",
-        "ruleMetricNameOptionStatusCodeHttpxxx": "状态码计数",
-        "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "状态码比率",
-        "ruleMetricNameOptionSlownessOnLoadTime": "onLoad 时间",
-        "ruleMetricNameOptionThroughputPageLoads": "页面加载数",
-        "ruleMetricNameOptionThroughputPageTransitions": "页面转换数",
-        "ruleAggregationOptionMEAN": "平均值",
-        "ruleAggregationOptionMIN": "最小值",
-        "ruleAggregationOptionP25": "第 25 个",
-        "ruleAggregationOptionP50": "第 50 个",
-        "ruleAggregationOptionP75": "第 75 个",
-        "ruleAggregationOptionP90": "第 90 个（推荐）",
-        "ruleAggregationOptionP95": "第 95 个",
-        "ruleAggregationOptionP98": "第 98 个",
-        "ruleAggregationOptionP99": "第 99 个",
-        "ruleAggregationOptionMAX": "最大值",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "平均值",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "第 50 个",
+        "ruleStatusCodeValueOptionCustom": "定制范围",
+        "ruleFormErrorStatusCodeStartGTEnd": "请选择大于或等于起始 HTTP 状态码的结束 HTTP 状态码",
         "ruleFormPleaseProvideALogMessage": "请提供日志消息",
+        "ruleFormPleaseProvideAStartStatusCode": "请提供启动 HTTP 状态码",
+        "ruleFormPleaseProvideAEndStatusCode": "请提供结束 HTTP 状态码",
         "smartAlertFormNoEntitiesSelected": "未选择任何实体",
         "thresholdFormPleaseProvideANumber0": "请提供大于或等于 0 的数字",
         "thresholdFormBaselineIsEmpty": "基线为空"
@@ -460,25 +426,40 @@
         "labelGlobalSmartAlertsList": "全局应用程序智能警报数（{{numberOfAlerts}} 个）",
         "labelSmartAlertsList": "应用程序智能警报数（{{numberOfAlerts}} 个）",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
-        "labelName": "名称",
         "labelActionButtonEdit": "编辑 ",
         "labelActionButtonDuplicate": "复制",
         "labelActionButtonDelete": "删除",
-        "noAlertConfigured": "未配置任何警报。",
-        "alertEntityName": "警报“{{entityName}}”",
         "labelAlertFilters": "过滤器",
         "labelConfirm": "请确认",
         "labelConfirmRemoveConfig": "确定要移除配置 <strong>{{configName}}</strong> 吗？",
         "labelRemove": "移除",
         "numberOfApplicationsSelected": "已选择 {{count}} 个应用程序",
         "numberOfApplicationsSelected_plural": "已选定 {{count}} 个应用程序"
+      },
+      "details": {
+        "title": "警报详细信息",
+        "titleAlertProperties": "警报属性"
       }
+    },
+    "form": {
+      "ruleAggregationOptionMEAN": "平均值",
+      "ruleAggregationOptionMIN": "最小值",
+      "ruleAggregationOptionP25": "第 25 个",
+      "ruleAggregationOptionP50": "第 50 个",
+      "ruleAggregationOptionP75": "第 75 个",
+      "ruleAggregationOptionP90": "第 90 个（推荐）",
+      "ruleAggregationOptionP95": "第 95 个",
+      "ruleAggregationOptionP98": "第 98 个",
+      "ruleAggregationOptionP99": "第 99 个",
+      "ruleAggregationOptionMAX": "最大值",
+      "ruleAggregationForWeeklySeasonalityOptionMEAN": "平均值",
+      "ruleAggregationForWeeklySeasonalityOptionP50": "第 50 个"
     },
     "components": {
       "smartAlertDialog": {
         "sharedListTooltip": "选定的 {{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
-        "baselineErrorMessageInsufficientDataToCompute": "数据不足，无法计算所选基线。请改为选择<i>静态阈值</i>。",
+        "baselineErrorMessageInsufficientDataToCompute": "数据不足，无法计算所选基线。请改为选择<em>静态阈值</em>。",
         "baselineErrorMessageReason": "原因：",
         "blueprintDescriptionButtonSelect": "选择",
         "selectAlertChannelButtonTitle": "选择警报通道",
@@ -529,7 +510,6 @@
         "timeThresholdConfigOff": "关闭",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "请提供大于或等于 1 的数字",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "请提供 1% 到 100% 之间的数字",
-        "alertPropertiesInsertPlaceholderTooltip": "插入占位符",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "当条件在指定时长后持续存在时",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "每次条件在定义的时间范围内触发指定的次数",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "当特定数量的用户受到影响时",
@@ -538,7 +518,7 @@
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "一段时间内的违例数",
         "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "用户影响",
         "timeThresholdConfigTimeThresholdTitleRequestImpact": "请求影响",
-        "timeThresholdConfigNoUserSessionDetected": "否<linkToIdentifyingUsers>用户数</linkToIdentifyingUsers> 或<linkToSessionTracking>会话数</linkToSessionTracking> detected. ",
+        "timeThresholdConfigNoUserSessionDetected": "否<linkToIdentifyingUsers>用户</linkToIdentifyingUsers> 或<linkToSessionTracking>会话数</linkToSessionTracking> detected. ",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "请在使用此选项之前先配置 Web 站点监视。",
         "alertPropertiesWarning": "警告",
         "alertPropertiesCritical": "严重",
@@ -559,15 +539,15 @@
         "thresholdTypeOptionHistoricBaselineDaily": "基线（每日季节性）",
         "thresholdTypeOptionHistoricBaselineWeekly": "基线（每周季节性）",
         "useSuggestedvalue": "使用建议值",
-        "alertConfigDialogPresenterTitleEditAlert": "编辑警报",
-        "alertConfigDialogPresenterTitleCreateNewAlert": "新建警报",
+        "alertConfigDialogPresenterTitleEditAlert_Local": "编辑智能警报",
+        "alertConfigDialogPresenterTitleEditAlert_Global": "编辑全局智能警报",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "新建智能警报",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "新建全局智能警报",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "切换到高级模式",
-        "alertConfigDialogPresenterButtonSwitchToSimpleMode": "切换到简单模式",
         "simpleAlertConfigDialogStep3Headline": "谁应该接收警报？",
         "Loading": "正在加载...",
-        "LoadingServices": "正在加载服务...",
-        "NoServiceInScope": "作用域内无服务",
         "PreviewForAP": "应用程序透视图的预览：",
+        "PreviewForEndpoint": "端点预览：",
         "PreviewForService": "服务预览："
       },
       "alertsHub": {
@@ -601,7 +581,7 @@
           "description2": "2) 然后，在发生特定事件时警报会向您发出提醒。",
           "stats": "目前，您具有 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.events, {\"count\": {{events}} }) 和 $t(in-alerting:smartAlerts.components.alertsHub.infrastructure.alerts, {\"count\": {{alerts}} })。",
           "events": "{{count}} 个定制事件",
-          "events_plural": "{{count}} 个定制事件数",
+          "events_plural": "{{count}} 个定制事件",
           "alerts": "{{count}} 个警报",
           "alerts_plural": "{{count}} 个警报",
           "button0": "警报",
@@ -633,15 +613,12 @@
         "alertChannelsTitle": "警报通道：需要向谁发出警报？",
         "propertiesLabel": "属性（可选）",
         "propertiesTitle": "其他警报属性（可选）",
-        "thresholdValue": "阈值"
-      },
-      "alertConfigDialogWithThreshold": {
-        "alertText": "这是一个新功能。",
-        "alertLabelText": "新建"
+        "thresholdValue": "阈值",
+        "payloadsLabel": "有效内容（可选）",
+        "payloadsTitle": "定制有效内容（可选）"
       },
       "components": {
         "provideStatusCodeStatusCode": "状态码",
-        "tagSuggestions": "没有为警报类型 {{alertType}} 定义标记建议",
         "errorMessage": "错误消息",
         "noDataMessage": "未配置任何警报。",
         "selectJSErrorHelpText": "选择 JS 错误消息作为模板（可选）",
@@ -658,12 +635,12 @@
         "slownessBlueprintConfigHeadline": "onLoad 时间的自动警报",
         "slownessBlueprintConfigTextP": "OnLoad 时间可度量从用户导航至 Web 站点到能够与 Web 站点进行交互所经过的时间。",
         "slownessBlueprintConfigTextli1": "从服务器获取所有标记、替换元素内容和嵌入内容",
-        "slownessBlueprintConfigTextli2": "正在解析标记",
-        "slownessBlueprintConfigTextli3": "正在应用 CSS 级联",
-        "slownessBlueprintConfigTextli4": "正在呈现页面",
-        "slownessBlueprintConfigTextli5": "正在运行页面加载时需要运行的所有脚本",
+        "slownessBlueprintConfigTextli2": "解析标记",
+        "slownessBlueprintConfigTextli3": "应用 CSS 级联",
+        "slownessBlueprintConfigTextli4": "呈现页面",
+        "slownessBlueprintConfigTextli5": "运行在页面加载时运行所需的所有脚本",
         "slownessBlueprintConfigMetricLabel": "onLoad 时间",
-        "jsErrorsBlueprintConfigName": "JS 错误数",
+        "jsErrorsBlueprintConfigName": "JS 错误",
         "jsErrorsBlueprintConfigHeadline": "JS 错误的自动警报",
         "jsErrorsBlueprintConfigText": "每当匹配 JS 错误消息的出现频率超过正常值时，接收警报。",
         "jsErrorsBlueprintConfigIncompleteRuleMessage": "请选择“JS 错误”以查看此警报的触发时间",
@@ -796,19 +773,7 @@
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "状态码比率",
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad 时间",
         "ruleMetricNameOptionThroughputPageLoads": "页面加载数",
-        "ruleMetricNameOptionThroughputPageTransitions": "页面转换数",
-        "ruleAggregationOptionMEAN": "平均值",
-        "ruleAggregationOptionMIN": "最小值",
-        "ruleAggregationOptionP25": "第 25 个",
-        "ruleAggregationOptionP50": "第 50 个",
-        "ruleAggregationOptionP75": "第 75 个",
-        "ruleAggregationOptionP90": "第 90 个（推荐）",
-        "ruleAggregationOptionP95": "第 95 个",
-        "ruleAggregationOptionP98": "第 98 个",
-        "ruleAggregationOptionP99": "第 99 个",
-        "ruleAggregationOptionMAX": "最大值",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "平均值",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "第 50 个"
+        "ruleMetricNameOptionThroughputPageTransitions": "页面转换数"
       },
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "您希望收到关于何种内容的警报？",

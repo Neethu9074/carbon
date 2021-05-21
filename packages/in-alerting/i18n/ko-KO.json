@@ -19,9 +19,6 @@
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "<strong>\"{{alertConfigName}} 경보\"</strong>를 제거하시겠습니까?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "제거",
     "alertHeaderIsNotLatestRevisionMessage": "이 경보 구성의 {{alertRevision}} 개정을 보고 계십니다. 변경하려는 경우 <latestRevisionButton>최신 개정<latestRevisionButton>을 선택하십시오.",
-    "alertHeaderThisConfigIsStoredWithQueryBuilder2Expressions": "이 구성은 Query Builder 2 표현식으로 저장됩니다.",
-    "alertHeaderYouCanOnlyStartOrPause": "시작 또는 일시정지만 할 수 있습니다. Query Builder 1 모드인 경우에는 이러한 구성을 편집할 수 없습니다.",
-    "alertHistoryListTitle": "경보 작성됨",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "경보 작성됨({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "제목",
     "alertPropertyInfosLabelAlertLevel": "경보 레벨",
@@ -41,7 +38,25 @@
     },
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "삭제된 경보 구성을 보고 계십니다. 수정할 수 없습니다.",
     "alertPropertyInfosWarning": "경고",
-    "alertPropertyInfosCritical": "심각"
+    "alertPropertyInfosCritical": "심각",
+    "customPayload": {
+      "deleteRow": "행 삭제",
+      "key": "키",
+      "value": "값",
+      "unknownTypeTypeItCanNotBeEdited": "알 수 없는 유형: {{type}} - 편집할 수 없습니다.",
+      "customWithColon": "사용자 정의:",
+      "valueType": "값 유형",
+      "static": "정적",
+      "dynamic": "동적",
+      "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "행 수가 {{maximumNumberOfRows}}개로 제한됩니다.",
+      "addRow": "행 추가",
+      "noCustomPayloadConfigured": "구성된 사용자 정의 페이로드가 없음",
+      "keyNamesMustBeUnique": "키 이름은 고유해야 합니다.",
+      "theValueMustNotBeBlank": "값은 공백이 아니어야 합니다.",
+      "onlyOrAnyAlphaNumericalAreAllowed": "'.', '-', '_' 또는 영숫자만 허용됩니다.",
+      "aTagNeedsToBeSelected": "태그를 선택해야 합니다.",
+      "aKeyNeedsToBeSpecified": "키를 지정해야 합니다."
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "잘못된 호출 비율이 정상보다 높음",
@@ -90,7 +105,7 @@
     "titleNoSmartAlertsCreated": "스마트 경보가 작성되지 않음",
     "titleCopyOf": "{{smartAlertTitle}} (사본)",
     "applications": {
-      "newGlobalAlert": "글로벌 스마트 경보",
+      "alertConfiguration": "경보 구성",
       "advanced": {
         "alertPropertyInsertPlaceholderLabel": "플레이스홀더 삽입",
         "evaluationSwitch": {
@@ -130,11 +145,10 @@
               "overrideDefault": "이 애플리케이션의 기본 범위는 모든 호출입니다. 구성에서 변경할 수 있습니다."
             }
           },
-          "constants": {
-            "inboundDashboard": "대시보드는 이 애플리케이션의 이용자가 수행하는 호출에 대해서만 정보를 표시합니다.",
-            "inboundOverrideDefault": "이 애플리케이션의 기본 범위는 인바운드 호출만 해당합니다. 구성에서 변경할 수 있습니다.",
-            "allDashboard": "대시보드는 이용자뿐만 아니라 내부적으로 이 애플리케이션 내에서 수행하는 모든 호출을 기반으로 정보를 표시합니다.",
-            "allOverrideDefault": "이 애플리케이션의 기본 범위는 모든 호출입니다. 구성에서 변경할 수 있습니다."
+          "confirmationDialog": {
+            "pleaseConfirm": "확인하시기 바랍니다.",
+            "description": "경계 범위를 수정하면 애플리케이션 선택사항이 재설정됩니다.",
+            "confirmButtonLabel": "확인"
           }
         },
         "includeInternalOrSynthethicCalls": {
@@ -168,16 +182,21 @@
           "propertiesOptional": {
             "label": "특성(선택사항)",
             "title": "추가 경보 특성(선택사항)"
+          },
+          "payloadsOptional": {
+            "label": "페이로드(선택사항)",
+            "title": "사용자 정의 페이로드(선택사항)"
           }
         }
       },
       "chart": {
+        "noDataWithoutEndpointSelection": "미리보기를 표시할 엔드포인트를 선택하십시오.",
         "noDataAvailable": "미리보기를 표시할 서비스를 선택하십시오."
       },
       "logMessages": {
         "messageColumn": "로그 메시지",
         "levelColumn": "로그 레벨",
-        "noDataMessage": "경보가 구성되어 있지 않습니다.",
+        "noDataMessage": "메시지를 찾을 수 없습니다. ",
         "selectLogMessageText": "템플리트로 로그 메시지 선택(선택사항)",
         "selectLogMessageTitle": "로그 메시지 선택"
       },
@@ -307,44 +326,6 @@
         }
       },
       "form": {
-        "anyJSErrors": "JS 오류",
-        "JSErrors": "JS 오류: {{errorMessage}}",
-        "HTTPStatusCodes": "HTTP 상태 코드: {{statusCode}}",
-        "unsupportedAlertType": "지원되지 않는 경보 유형: {{alertType}}",
-        "JSErrorsHaveBeenDetected": "JS 오류가 발견되었습니다.",
-        "unsupportedOperator": "지원되지 않는 연산자: {{operator}}",
-        "JSErrorTextEquals": "\"{{ruleValue}}\"과(와) 일치하는 JS 오류가 발견되었습니다.",
-        "JSErrorTextContains": "\"{{ruleValue}}\"을(를) 포함하는 JS 오류가 발견되었습니다.",
-        "JSErrorTextStartsWith": "\"{{ruleValue}}\"(으)로 시작하는 JS 오류가 발견되었습니다.",
-        "JSErrorTextEndsWith": "\"{{ruleValue}}\"(으)로 끝나는 JS 오류가 발견되었습니다.",
-        "slownessSimpleHighOperatorText": "onLoad 시간({{aggregationText}})이 너무 높음",
-        "slownessSimpleLowOperatorText": "onLoad 시간({{aggregationText}})이 너무 낮음",
-        "throughputSimpleHighOperatorText": "{{metricLabel}} 수가 비정상적으로 높음",
-        "throughputSimpleLowOperatorText": "{{metricLabel}} 수가 비정상적으로 낮음",
-        "statusCodeSimpleAboveOperatorText": "HTTP 상태 코드 {{statusCodeLabel}}의 발생이 예상보다 많습니다.",
-        "statusCodeSimpleBelowOperatorText": "HTTP 상태 코드 {{statusCodeLabel}}의 발생이 예상보다 적습니다.",
-        "slownessSimpleAboveOperatorText": "onLoad 시간({{aggregationText}})이 예상보다 높습니다.",
-        "slownessSimpleBelowOperatorText": "onLoad 시간({{aggregationText}})이 예상보다 낮습니다.",
-        "slownessGreaterOperatorText": "onLoad 시간({{aggregationText}})이 {{thresholdValue}}밀리초보다 큽니다.",
-        "slownessGreaterEqualsOperatorText": "onLoad 시간({{aggregationText}})이 {{thresholdValue}}밀리초보다 크거나 같습니다.",
-        "slownessLessOperatorText": "onLoad 시간({{aggregationText}})이 {{thresholdValue}}밀리초보다 작습니다.",
-        "slownessLessEqualsOperatorText": "onLoad 시간({{aggregationText}})이 {{thresholdValue}}밀리초보다 작거나 같습니다.",
-        "staticThresholdHigherOperatorText": "{{metricLabel}} 수가 {{thresholdValue}}보다 높습니다.",
-        "staticThresholdHigherEqualsOperatorText": "{{metricLabel}} 수가 {{thresholdValue}}보다 높거나 같습니다.",
-        "staticThresholdLowerOperatorText": "{{metricLabel}} 수가 {{thresholdValue}}보다 낮습니다.",
-        "staticThresholdLowerEqualsOperatorText": "{{metricLabel}} 수가 {{thresholdValue}}보다 낮거나 같습니다.",
-        "thresholdHigherOperatorText": "{{metricLabel}} 수가 예상보다 높습니다.",
-        "thresholdHigherEqualsOperatorText": "{{metricLabel}} 수가 예상보다 높거나 같습니다.",
-        "thresholdLowerOperatorText": "{{metricLabel}} 수가 예상보다 낮습니다.",
-        "thresholdLowerEqualsOperatorText": "{{metricLabel}} 수가 예상보다 낮거나 같습니다.",
-        "errorPleaseProvideAnErrorMessage": "오류 메시지를 제공하십시오.",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "0 이상인 수를 제공하십시오.",
-        "errorBaselineIsEmpty": "기준선이 비어 있음",
-        "ruleJsErrorsOperatorOptionAny": "임의",
-        "ruleJsErrorsOperatorOptionEquals": "같음",
-        "ruleJsErrorsOperatorOptionContains": "포함",
-        "ruleJsErrorsOperatorOptionStartsWith": "다음으로 시작",
-        "ruleJsErrorsOperatorOptionEndWith": "다음으로 끝남",
         "ruleStatusCodeValueOption1": "1XX (정보)",
         "ruleStatusCodeValueOption100": "100(계속)",
         "ruleStatusCodeValueOption101": "101(프로토콜 전환)",
@@ -415,26 +396,11 @@
         "ruleStatusCodeValueOption510": "510(확장되지 않음)",
         "ruleStatusCodeValueOption511": "511(네트워크 인증 필수)",
         "ruleStatusCodeValueOption599": "599(네트워크 연결 제한시간 오류)",
-        "ruleMetricNameOptionSpecificJsErrorErrors": "오류 개수",
-        "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "오류 비율",
-        "ruleMetricNameOptionStatusCodeHttpxxx": "상태 코드 개수",
-        "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "상태 코드 비율",
-        "ruleMetricNameOptionSlownessOnLoadTime": "onLoad 시간",
-        "ruleMetricNameOptionThroughputPageLoads": "페이지 로드",
-        "ruleMetricNameOptionThroughputPageTransitions": "페이지 전환",
-        "ruleAggregationOptionMEAN": "평균",
-        "ruleAggregationOptionMIN": "최소",
-        "ruleAggregationOptionP25": "25번째",
-        "ruleAggregationOptionP50": "50번째",
-        "ruleAggregationOptionP75": "75번째",
-        "ruleAggregationOptionP90": "90번째(권장)",
-        "ruleAggregationOptionP95": "95번째",
-        "ruleAggregationOptionP98": "98번째",
-        "ruleAggregationOptionP99": "99번째",
-        "ruleAggregationOptionMAX": "최대",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "평균",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50번째",
+        "ruleStatusCodeValueOptionCustom": "사용자 정의 범위",
+        "ruleFormErrorStatusCodeStartGTEnd": "시작 HTTP 상태 코드보다 크거나 같은 종료 HTTP 상태 코드를 선택하십시오.",
         "ruleFormPleaseProvideALogMessage": "로그 메시지를 제공하십시오.",
+        "ruleFormPleaseProvideAStartStatusCode": "시작 HTTP 상태 코드를 제공하십시오.",
+        "ruleFormPleaseProvideAEndStatusCode": "종료 HTTP 상태 코드를 제공하십시오.",
         "smartAlertFormNoEntitiesSelected": "엔티티를 선택하지 않음",
         "thresholdFormPleaseProvideANumber0": "0 이상인 수를 제공하십시오.",
         "thresholdFormBaselineIsEmpty": "기준선이 비어 있음"
@@ -460,25 +426,40 @@
         "labelGlobalSmartAlertsList": "글로벌 애플리케이션 스마트 경보({{numberOfAlerts}})",
         "labelSmartAlertsList": "애플리케이션 스마트 경보({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
-        "labelName": "이름",
         "labelActionButtonEdit": "편집",
         "labelActionButtonDuplicate": "복제",
         "labelActionButtonDelete": "삭제",
-        "noAlertConfigured": "경보가 구성되어 있지 않습니다.",
-        "alertEntityName": "경보 \"{{entityName}}\"",
         "labelAlertFilters": "필터",
         "labelConfirm": "확인하시기 바랍니다.",
         "labelConfirmRemoveConfig": "<strong>{{configName}}</strong> 구성을 제거하시겠습니까?",
         "labelRemove": "제거",
         "numberOfApplicationsSelected": "{{count}}개 애플리케이션이 선택됨",
         "numberOfApplicationsSelected_plural": "{{count}}개 애플리케이션이 선택됨"
+      },
+      "details": {
+        "title": "경보 세부사항",
+        "titleAlertProperties": "경보 특성"
       }
+    },
+    "form": {
+      "ruleAggregationOptionMEAN": "평균",
+      "ruleAggregationOptionMIN": "최소",
+      "ruleAggregationOptionP25": "25번째",
+      "ruleAggregationOptionP50": "50번째",
+      "ruleAggregationOptionP75": "75번째",
+      "ruleAggregationOptionP90": "90번째(권장)",
+      "ruleAggregationOptionP95": "95번째",
+      "ruleAggregationOptionP98": "98번째",
+      "ruleAggregationOptionP99": "99번째",
+      "ruleAggregationOptionMAX": "최대",
+      "ruleAggregationForWeeklySeasonalityOptionMEAN": "평균",
+      "ruleAggregationForWeeklySeasonalityOptionP50": "50번째"
     },
     "components": {
       "smartAlertDialog": {
         "sharedListTooltip": "선택한 {{typeName}}을(를) 더 이상 사용할 수 없음",
         "clearTagFilterExpressionButton": "지우기",
-        "baselineErrorMessageInsufficientDataToCompute": "선택한 기준선을 컴퓨팅하기에 데이터가 충분하지 않습니다. 대신 <i>정적 임계값</i>을 선택하십시오.",
+        "baselineErrorMessageInsufficientDataToCompute": "선택한 기준선을 컴퓨팅하기에 데이터가 충분하지 않습니다. 대신 <em>정적 임계값</em>을 선택하십시오.",
         "baselineErrorMessageReason": "이유:",
         "blueprintDescriptionButtonSelect": "선택",
         "selectAlertChannelButtonTitle": "경보 채널 선택",
@@ -529,7 +510,6 @@
         "timeThresholdConfigOff": "해제",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "1 이상인 수를 제공하십시오.",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "1% - 100% 사이의 수를 제공하십시오.",
-        "alertPropertiesInsertPlaceholderTooltip": "플레이스홀더 삽입",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "조건이 지정된 시간 동안 지속되는 경우",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "조건이 정의된 시간 범위 동안 지정된 시간을 트리거할 때마다",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "내 사용자의 특정 수가 영향을 받는 경우",
@@ -559,15 +539,15 @@
         "thresholdTypeOptionHistoricBaselineDaily": "기준선(일별 계절성)",
         "thresholdTypeOptionHistoricBaselineWeekly": "기준선(주별 계절성)",
         "useSuggestedvalue": "제안된 값 사용",
-        "alertConfigDialogPresenterTitleEditAlert": "경보 편집",
-        "alertConfigDialogPresenterTitleCreateNewAlert": "새 경보 작성",
+        "alertConfigDialogPresenterTitleEditAlert_Local": "스마트 경보 편집",
+        "alertConfigDialogPresenterTitleEditAlert_Global": "글로벌 스마트 경보 편집",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "새 스마트 경보 작성",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "새 글로벌 스마트 경보 작성",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "고급 모드로 전환",
-        "alertConfigDialogPresenterButtonSwitchToSimpleMode": "단순 모드로 전환",
         "simpleAlertConfigDialogStep3Headline": "경보 수신 대상",
         "Loading": "로드 중…",
-        "LoadingServices": "서비스 로드 중…",
-        "NoServiceInScope": "범위에 해당하는 서비스 없음",
         "PreviewForAP": "애플리케이션 퍼스펙티브에 대한 미리보기:",
+        "PreviewForEndpoint": "엔드포인트에 대한 미리보기:",
         "PreviewForService": "서비스에 대한 미리보기:"
       },
       "alertsHub": {
@@ -633,15 +613,12 @@
         "alertChannelsTitle": "경보 채널: 경보 수신 대상",
         "propertiesLabel": "특성(선택사항)",
         "propertiesTitle": "추가 경보 특성(선택사항)",
-        "thresholdValue": "임계값"
-      },
-      "alertConfigDialogWithThreshold": {
-        "alertText": "새로운 기능입니다.",
-        "alertLabelText": "NEW"
+        "thresholdValue": "임계값",
+        "payloadsLabel": "페이로드(선택사항)",
+        "payloadsTitle": "사용자 정의 페이로드(선택사항)"
       },
       "components": {
         "provideStatusCodeStatusCode": "상태 코드",
-        "tagSuggestions": "경보 유형 {{alertType}}에 정의되지 않은 제안에 태그 지정 ",
         "errorMessage": "오류 메시지",
         "noDataMessage": "경보가 구성되어 있지 않습니다.",
         "selectJSErrorHelpText": "JS 오류 메시지를 템플리트로 선택(선택사항)",
@@ -796,19 +773,7 @@
         "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "상태 코드 비율",
         "ruleMetricNameOptionSlownessOnLoadTime": "onLoad 시간",
         "ruleMetricNameOptionThroughputPageLoads": "페이지 로드",
-        "ruleMetricNameOptionThroughputPageTransitions": "페이지 전환",
-        "ruleAggregationOptionMEAN": "평균",
-        "ruleAggregationOptionMIN": "최소",
-        "ruleAggregationOptionP25": "25번째",
-        "ruleAggregationOptionP50": "50번째",
-        "ruleAggregationOptionP75": "75번째",
-        "ruleAggregationOptionP90": "90번째(권장)",
-        "ruleAggregationOptionP95": "95번째",
-        "ruleAggregationOptionP98": "98번째",
-        "ruleAggregationOptionP99": "99번째",
-        "ruleAggregationOptionMAX": "최대",
-        "ruleAggregationForWeeklySeasonalityOptionMEAN": "평균",
-        "ruleAggregationForWeeklySeasonalityOptionP50": "50번째"
+        "ruleMetricNameOptionThroughputPageTransitions": "페이지 전환"
       },
       "simple": {
         "simpleAlertConfigDialogStep1Headline": "경보를 수신하려는 항목",

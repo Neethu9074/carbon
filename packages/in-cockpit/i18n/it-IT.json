@@ -86,7 +86,8 @@
       "cpuUsage": "Utilizzo CPU",
       "created": "Creato",
       "started": "Avviato",
-      "os": "Sistema operativo"
+      "os": "Sistema operativo",
+      "mean": "medio"
     },
     "topListWidget": {
       "noLabelYet": "Ancora nessuna {{nolabel}}"

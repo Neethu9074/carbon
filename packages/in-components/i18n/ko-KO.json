@@ -19,7 +19,7 @@
       "countIncident_0": "인시던트",
       "countIncident_1": "인시던트",
       "countIncident_2": "인시던트",
-      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "msg": "{{smartAlertsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert, { \"count\": {{smartAlertsCount}} }) & {{incidentsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countIncident, { \"count\": {{incidentsCount}} })",
       "itemMsg": "+{{leftCount}}개 {{moreMsg}} 추가"
     },
     "chartAlertsPreviewLanePresenterAlertsLabel": "경보",
@@ -51,7 +51,7 @@
     "explanationHeader": "동적 그래프 쇼케이스",
     "explanationP1": "코어 기술 기반 Instana는 동적 그래프라고 하는 솔루션입니다. 그래프는 컴포넌트의 모든 물리적 및 논리적 종속 항목을 이해하는 애플리케이션 모델입니다. 오른쪽에 현재 환경의 동적 그래프가 표시됩니다!",
     "explanationP2": "그래프에는 물리적 컴포넌트가 더 많습니다. 추적, 애플리케이션, 서비스, 클러스터 또는 테이블스페이스와 같은 논리적 컴포넌트도 포함됩니다. 컴포넌트 및 해당 종속 항목은 Instana 에이전트 및 센서에 의해 자동으로 검색되며 그래프는 지속적으로 최신 상태로 유지됩니다. 그래프의 모든 노드도 의미적 지식 및 기계 학습 접근 방식을 기반으로 메트릭, 구성 데이터 및 계산된 상태 값과 같은 상태 정보로 지속적으로 업데이트됩니다. 이 지식도 해당 레벨의 영향을 이해하기 위해 그래프의 종속 항목을 분석하여 서비스 및 애플리케이션과 같은 논리적 그룹화를 찾고 문제의 중요도를 이끌어 낼 수 있습니다. 전체 그래프는 지속적이며 시간 사이를 이동하여 많은 운영 유스 케이스에 대한 그래프의 지식을 활용할 수 있습니다.",
-    "explanationLink": "자세한 정보는 <linkToBlog>블로그를 방문</linkToBlog>하십시오.",
+    "explanationLink": "<linkToBlog>블로그를 방문</linkToBlog> 하십시오.",
     "closeBtn": "그래프 닫기"
   },
   "gravatar": {
@@ -103,9 +103,6 @@
     "filterConfirmButtonLabel": "필터 제거",
     "filterConfirmRemoveMsg": "<strong>{{filterName}}</strong> 필터를 제거하시겠습니까?",
     "helpDialogTitleUsingTheSearchBar": "검색 표시줄 사용"
-  },
-  "svgIcon": {
-    "pluginIcon": "{{pluginName}} 아이콘"
   },
   "tables": {
     "serverTable": {

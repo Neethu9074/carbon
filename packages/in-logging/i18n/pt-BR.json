@@ -1,5 +1,4 @@
 {
-  "time": "Horário",
   "logs": "Logs",
   "sum": "soma",
   "bar": "Barra",
@@ -8,20 +7,9 @@
   "logsOverTime_WARN": "Logs de aviso ao longo do tempo",
   "logsOverTime_INFO": "Logs de informações ao longo do tempo",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "A configuração da consulta é inválida. Trate as falhas de validação antes de continuar.",
-  "log": "Log",
   "selectTags": "Selecionar tags",
-  "addATag": "Incluir uma tag",
-  "download": "Download",
-  "analytics": "Analytics",
-  "closeLogDetails": "Fechar detalhes do log",
-  "detail": "Detalhe",
-  "logTime": "Horário do log",
-  "type": "Tipo",
-  "message": "Mensagem",
-  "tags": "Tags",
-  "logCount": "{{formattedCount}} Log",
-  "logCount_plural": "{{formattedCount}} Logs",
-  "logCount_0": "{{formattedCount}} Logs",
-  "logCount_1": "{{formattedCount}} Log",
-  "logCount_2": "{{formattedCount}} Logs"
+  "goToTrace": "Acessar o rastreio",
+  "addAsFilter": "Incluir como filtro",
+  "addAsGroup": "Incluir como grupo",
+  "numberOfLogs": "Número de logs"
 }

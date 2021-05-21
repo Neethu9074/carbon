@@ -22,16 +22,15 @@
   "analyzeProfiles": "Profile analysieren",
   "settings": "Einstellungen",
   "threshold": "Schwellenwert",
-  "onlyShowMethod": "Nur Methode anzeigen",
-  "aboveThisThreshold": "oberhalb dieser Schwelle",
+  "onlyShowMethodAboveThisThreshold": "Nur Methode oberhalb dieses Schwellenwerts anzeigen",
   "on": "am",
-  "highlightSelfCpu": "Gleichgeordnete CPU hervorheben",
-  "onFlameGraphHighlightTimeSpentOnMethodsThemselves": "Im Flame-Diagramm die Zeit hervorheben, die mit den Methoden selbst verbracht wurde",
+  "highlightSelfCpu": "Eigene CPU hervorheben",
+  "onFlameGraphHighlightTimeSpentOnMethodsThemselves": "Im Flame-Diagramm die Zeit der Methode selbst hervorheben",
   "cpuGraph": "CPU-Diagramm",
   "showCpuOverTime": "CPU im Laufe der Zeit anzeigen",
   "summary": "Zusammenfassung",
   "thereAreNoProfilesInTheSelectedTimeframeshowingAllInstead": "Es sind keine Profile im ausgewählten Zeitrahmen vorhanden ({{startTime}}-{{endTime}}). Stattdessen werden alle angezeigt. ",
-  "showingProfilesForSelection": "Profile für Auswahl werden angezeigt ({{startTime}} - {{endTime}})",
+  "showingProfilesForSelection": "Profile für Auswahl ({{startTime}} - {{endTime}}) werden angezeigt",
   "statisticalConfidenceInPercentageDistributionIsLowBecauseNotEnoughSamplesWereCollectedSamplesInTheSelectedTimeframe": "Das statistische Vertrauen in die prozentuale Verteilung ist gering, weil nicht genügend Stichproben ({{totalNumSamples}} Beispiele) im ausgewählten Zeitrahmen gesammelt wurden.",
   "numberdOfProfiles": "{{count}} Profil",
   "numberdOfProfiles_plural": "{{count}} Profile",
@@ -45,5 +44,5 @@
   "numbersOfProfilesCollected_2": "{{count}} Profile erfasst",
   "profilesOfProcessDeepestTechSnapshot": "Profile von Prozess {{deepestTechSnapshot}}",
   "noEntityFound": "Kein(e) {{entityName}} gefunden",
-  "hotspots": "{{title}} Hotspots"
+  "hotspots": "{{title}}-Hotspots"
 }

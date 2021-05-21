@@ -19,12 +19,12 @@
       "countIncident_0": "突发事件",
       "countIncident_1": "突发事件",
       "countIncident_2": "突发事件",
-      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "msg": "{{smartAlertsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert, { \"count\": {{smartAlertsCount}} }) & {{incidentsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countIncident, { \"count\": {{incidentsCount}} })",
       "itemMsg": "+ 另外 {{leftCount}} 条{{moreMsg}}"
     },
     "chartAlertsPreviewLanePresenterAlertsLabel": "警报",
-    "chartReleasesLanePresenterReleasesLabel": "发布",
-    "chartReleasesLanePresenterTooltip": "+ 另外 {{len}} 个发布",
+    "chartReleasesLanePresenterReleasesLabel": "版本",
+    "chartReleasesLanePresenterTooltip": "+ 另外 {{len}} 个版本",
     "highlightedTimeframeCloseButtonClearHighlight": "清除突出显示",
     "resultAwareChartSomethingWentWrong": "出错...",
     "resultAwareChartPleaseTryAgainLater": "请稍后重试。",
@@ -87,7 +87,7 @@
     "formStateLabel": "省/直辖市/自治区"
   },
   "searchBar": {
-    "usingTheSearchBar": "Instana 的 Dynamic Focus 搜索功能可用于过滤 3D 图、比较表和突发事件视图。搜索栏中提供了\n可使用模糊搜索和通配符搜索以及布尔运算符进行搜索的各种功能。例如，以下\n查询将视图限制为 CPU 数量少于 4 个的生产主机：\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 语法\nDynamic Focus 采用与 Lucene 标准存在以下差异的 [lucene 查询语法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)：\n- **缺省运算符：** `AND`\n- **语法约束：**都在 [文档](https://instana.com/docs/dynamic_focus/#syntax-constraints) 中列出\n## 搜索栏交互\n搜索栏支持自动填写搜索字段，并在您输入时突出显示 lucene 查询的语法。\n一旦输入内容，搜索栏将建议与当前输入匹配的搜索字段。可通过点击“RETURN”\n来接受建议的字段。点击“CTRL+SPACE”可打开自动填写弹出框。\n## Lucene 查询语法备忘单\n - **字段型搜索：** `entity.host.cpu.count:>4`\n - **布尔运算符：** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **分组：** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **通配符搜索：** `entity.type:container*`\n\n请参阅[文档](https://instana.com/docs/dynamic_focus/) 以获取更多信息。",
+    "usingTheSearchBar": "Instana 的 Dynamic Focus 搜索功能可用于过滤 3D 图、比较表和突发事件视图。搜索栏中提供了\n可使用模糊搜索和通配符搜索以及布尔运算符进行搜索的各种功能。例如，以下\n查询将视图限制为 CPU 数量少于 4 个的生产主机：\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 语法\nDynamic Focus 采用与 Lucene 标准存在以下差异的 [lucene 查询语法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)：\n- **缺省运算符：** `AND`\n- **语法约束：** 都在[文档](https://instana.com/docs/dynamic_focus/#syntax-constraints)中列出\n## 搜索栏交互\n搜索栏支持自动填写搜索字段，并在您输入时突出显示 lucene 查询的语法。\n一旦输入内容，搜索栏将建议与当前输入匹配的搜索字段。可通过点击“RETURN”\n来接受建议的字段。点击“CTRL+SPACE”可打开自动填写弹出框。\n## Lucene 查询语法备忘单\n - **字段型搜索：** `entity.host.cpu.count:>4`\n - **布尔运算符：** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **分组：** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **通配符搜索：** `entity.type:container*`\n\n请参阅[文档](https://instana.com/docs/dynamic_focus/)以获取更多信息。",
     "filtersBtn": "过滤器",
     "filterPresetsMenuHeading": "过滤器",
     "filterPresetsSaveFilters": "保存过滤器以便在此处轻松访问",
@@ -104,16 +104,13 @@
     "filterConfirmRemoveMsg": "是否确定要移除过滤器 <strong>{{filterName}}</strong>？",
     "helpDialogTitleUsingTheSearchBar": "使用搜索栏"
   },
-  "svgIcon": {
-    "pluginIcon": "{{pluginName}} 图标"
-  },
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "分析此组",
       "cursorPaginatedTableLoadMoreRowLabel": "加载更多",
       "withEmptyTableStateEntitiesName": "实体",
-      "withEmptyTableStateEntityPageMainNotificationTitle": "无可用 {{name}}",
-      "withEmptyTableStateEntityPageMainNotificationExplanation": "针对所选时间范围未检索到任何 {{name}}。"
+      "withEmptyTableStateEntityPageMainNotificationTitle": "无可用的“{{name}}”",
+      "withEmptyTableStateEntityPageMainNotificationExplanation": "针对所选时间范围未检索到任何“{{name}}”。"
     },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "搜索 {{len}} 项",

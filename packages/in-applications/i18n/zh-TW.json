@@ -1,10 +1,10 @@
 {
   "labelLatency": "延遲時間",
-  "labelTimestamp": "時間戳記",
   "labelApplication": "應用程式",
   "labelApplications": "應用程式",
   "labelApplicationWithNum": "應用程式 ({{numApplications}})",
   "labelAnalytic": "分析",
+  "labelCall": "呼叫",
   "labelTrace": "追蹤",
   "linkDownload": "下載",
   "labelCalls": "呼叫",
@@ -16,7 +16,6 @@
   "labelMaxLatency": "延遲時間上限",
   "labelService": "服務",
   "labelName": "名稱",
-  "labelFilters": "過濾器",
   "labelSummary": "摘要",
   "labelDependencies": "相依關係",
   "labelServices": "服務",
@@ -40,7 +39,7 @@
   "labelOnline": "線上",
   "labelChanges": "變更",
   "labelViewEvents": "檢視事件",
-  "labelOverTime": "一段時間的",
+  "labelOverTime": "超時",
   "labelErrors": "錯誤",
   "labelDistribution": "分佈",
   "labelUnmonitored": "未受監視",
@@ -60,7 +59,6 @@
   "labelScope": "範圍",
   "labelCustomServiceRules": "自訂服務規則",
   "labelSyntheticEndpoints": "綜合端點",
-  "titleAlertDetails": "警示詳細資料",
   "titleTopServices": "排名居前的服務",
   "titleMeanLatency": "延遲時間平均值",
   "titleErroneousCallRate": "錯誤呼叫率",
@@ -90,7 +88,8 @@
   "buttonInspectIssue_1": "檢驗 {{count}} 個問題",
   "buttonInspectIssue_2": "檢驗 {{count}} 個問題",
   "buttonAnalyzeCalls": "分析呼叫",
-  "buttonAnalyzeWithLabel": "分析 {{buttonLabel}}",
+  "buttonAnalyzeServices": "分析服務",
+  "buttonAnalyzeEndpoints": "分析端點",
   "buttonClear": "清除",
   "buttonCluster": "叢集",
   "buttonProcess": "程序",
@@ -146,63 +145,22 @@
   "applications": {
     "noData": "藉由應用程式視景，可針對環境、服務集、租戶或任何事物建模。"
   },
-  "services": {
-    "noData": "在選取的時間範圍內沒有任何可用的服務呼叫。"
-  },
   "alert": {
-    "advancedModeContainer": {
-      "scope": {
-        "label": "範圍",
-        "title": "範圍：該狀況發生在何處？"
-      },
-      "trigger": {
-        "label": "觸發",
-        "title": "觸發：您想針對什麼產生警示？",
-        "logMessageCardTitle": "日誌訊息",
-        "httpStatusCodesCardTitle": "HTTP 狀態碼"
-      },
-      "timeThreshold": {
-        "label": "時間臨界值",
-        "title": "時間臨界值：您希望何時收到警示？"
-      },
-      "alertChannel": {
-        "label": "警示通道",
-        "title": "警示通道：誰需要收到警示？"
-      }
-    },
     "thresholdLabel": "臨界值",
-    "titleAlertProperties": "警示內容",
     "applicationSmartAlert": "應用程式智慧型警示",
-    "noAlertConfigured": "未配置警示。",
-    "getEntityName": "警示 \"{{entityName}}\"",
-    "descriptionMessage": "{{description}}: \"{{message}}\"",
-    "tooltipFilter": "{{count}} 個過濾器",
-    "tooltipFilter_plural": "{{count}} 個過濾器",
-    "tooltipFilter_0": "{{count}} 個過濾器",
-    "tooltipFilter_1": "{{count}} 個過濾器",
-    "tooltipFilter_2": "{{count}} 個過濾器",
     "tooltipMoreFilter": "+{{moreFilterCount}} 個以上的過濾器",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} 個以上的過濾器",
     "tooltipMoreFilter_0": "+{{moreFilterCount}} 個以上的過濾器",
     "tooltipMoreFilter_1": "+{{moreFilterCount}} 個以上的過濾器",
-    "tooltipMoreFilter_2": "+{{moreFilterCount}} 個以上的過濾器",
-    "filter": "過濾器",
-    "filter_plural": "過濾器",
-    "filter_0": "過濾器",
-    "filter_1": "過濾器",
-    "filter_2": "過濾器"
+    "tooltipMoreFilter_2": "+{{moreFilterCount}} 個以上的過濾器"
   },
   "inboundOutboundCalls": {
     "config": {
       "inbound": {
-        "text": "入埠呼叫",
-        "dashboard": "只有此應用程式的消費者所執行的呼叫。",
-        "overrideDefault": "此應用程式的預設範圍只有「入埠呼叫」。您可以在「配置」中變更此項。"
+        "text": "入埠呼叫"
       },
       "all": {
-        "text": "所有呼叫",
-        "dashboard": "此應用程式內所執行的呼叫，包括消費者及內部的呼叫都是。",
-        "overrideDefault": "此應用程式的預設範圍是「所有呼叫」。您可以在「配置」中變更此項。"
+        "text": "所有呼叫"
       }
     },
     "constants": {
@@ -214,34 +172,10 @@
   },
   "analyze": {
     "quickFilter": {
-      "labelService": "服務",
-      "labelService_plural": "服務",
-      "labelService_0": "服務",
-      "labelService_1": "服務",
-      "labelService_2": "服務",
-      "labelEndpoint": "端點",
-      "labelEndpoint_plural": "端點",
-      "labelEndpoint_0": "端點",
-      "labelEndpoint_1": "端點",
-      "labelEndpoint_2": "端點",
-      "labelType": "類型",
-      "labelType_plural": "類型",
-      "labelType_0": "類型",
-      "labelType_1": "類型",
-      "labelType_2": "類型",
-      "labelTechnology": "技術",
-      "labelTechnology_plural": "技術",
-      "labelTechnology_0": "技術",
-      "labelTechnology_1": "技術",
-      "labelTechnology_2": "技術",
-      "labelLatency": "延遲時間",
-      "labelErroneous": "錯誤",
-      "preconditionFailedTooltip": "請先選取服務，再選取端點。"
-    },
-    "chartingPresenter": {
-      "noData": "無資料可顯示"
+      "labelLatency": "延遲時間"
     },
     "erroneous": "錯誤",
+    "resetUnsupportedTracesFilterContainingOrConjunction": "已清除過濾器，因為「分析追蹤」中不支援邏輯運算子 OR。",
     "facetedSearch": {
       "showSyntheticCalls": "顯示綜合呼叫",
       "showInternalCalls": "顯示內部呼叫",
@@ -251,6 +185,7 @@
       "erroneous_false": "false",
       "erroneous_Erroneous": "錯誤"
     },
+    "latency": "延遲時間",
     "applications": "應用程式",
     "services": "服務",
     "endpoints": "端點",
@@ -260,25 +195,9 @@
     "hiddenCalls": "隱藏的呼叫",
     "noResults": "無結果",
     "loadMore": "載入更多",
-    "callBatchCountTooltip": "此呼叫已批次處理，且代表 {{callBatchCount}} 個個別的呼叫。",
-    "callBatchCountTooltip_plural": "此呼叫已批次處理，且代表 {{callBatchCount}} 個個別的呼叫。",
-    "callBatchCountTooltip_0": "此呼叫已批次處理，且代表 {{callBatchCount}} 個個別的呼叫。",
-    "callBatchCountTooltip_1": "此呼叫已批次處理，且代表 {{callBatchCount}} 個個別的呼叫。",
-    "callBatchCountTooltip_2": "此呼叫已批次處理，且代表 {{callBatchCount}} 個個別的呼叫。",
-    "groupedList": {
-      "earliestTimestamp": "最早時間戳記",
-      "focusGroupTooltip": "聚焦於此群組",
-      "groupName": "群組名稱",
-      "sortingMetricLabelTh": "{{sortingMetricLabel}}（第 {{num}} 個）",
-      "sortingMetricLabelRate": "{{sortingMetricLabel}}（比率）",
-      "sortingMetricLabelCount": "{{sortingMetricLabel}}（計數）",
-      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})",
-      "preview": "預覽"
-    },
-    "listLoadMore": "載入更多 {{retrievalSize}}",
+    "preview": "預覽",
     "listBatchTypeTooltip": "此 {{type}} 已批次處理，代表 {{batchCount}} 個個別的 {{types}}。",
     "listBatchLatencyTooltip": "{{batchCount}} 個批次處理 {{types}} 的延遲時間總計。",
-    "traceId": "追蹤 ID：",
     "traceIdTooltip": "此追蹤的某些相關資料有所延遲，請稍後再重新載入頁面。舉例來說，當正在檢視最近的追蹤時，若其某些資料仍在處理中，就可能發生此情況。",
     "closeTraceDetail": "關閉追蹤明細",
     "invalidQueryConfig": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
@@ -311,13 +230,12 @@
     "typeTrace_2": "追蹤",
     "containsErrors": "包含錯誤",
     "noErrors": "無錯誤",
-    "fromMs": "從（毫秒）",
-    "toMs": "到（毫秒）",
-    "theLatencyRangeHasToBeInAscendingOrder": "延遲範圍必須是升冪。",
-    "service": "服務",
-    "trace": "追蹤",
     "calls": "呼叫",
-    "none": "無"
+    "none": "無",
+    "dataSource_calls": "{{formattedCount}} 個呼叫",
+    "dataSource_calls_plural": "{{formattedCount}} 個呼叫",
+    "dataSource_traces": "{{formattedCount}} 個追蹤",
+    "dataSource_traces_plural": "{{formattedCount}} 個追蹤"
   },
   "creation": {
     "newAP": "新建應用程式視景",
@@ -478,13 +396,11 @@
       "apNameDescription": "「應用程式視景」名稱應具有組織內明確建立的一個定義。例如，為環境建模：\"Production Blue\"、為服務集建模：\"Payment\"，或是為租戶建模：\"ACME Customer\"。",
       "defineUsingTags": "2. 使用一或多個標籤來定義「應用程式視景」。",
       "defineUsingTagsDescription": "例如，其中的索引鍵是 \"docker.label\"，值為 \"environment=Production Blue\"，或索引鍵是 \"call.http.params\"，值為 \"tenant=ACMECustomer\"。請注意，會自動包含從符合此定義的服務對 <pill-database>DATABASE</pill-database> 服務或 <pill-messaging>MESSAGING</pill-messaging> 服務的任何呼叫。",
-      "andOperatorsPrecedence": "AND 運算子會優先採用，並在 OR 運算子之前先評估",
       "andOperatorsPrecedenceBrackets": "AND 運算子會優先採用，並在 OR 運算子之前先評估（前提是未以方括弧分組）",
       "downstreamCalls": "3. 儲存下游服務的呼叫",
       "downstreamCallsDescription": "選擇哪些下游服務要包含在「應用程式視景」中。",
       "defaultDashboardView": "4. 選取預設儀表板視圖",
       "clear": "清除",
-      "addTag": "新增標籤",
       "create": "建立",
       "database": "資料庫",
       "messaging": "傳訊"
@@ -494,7 +410,6 @@
       "optionImmediateDownstreamServices": "直接下游資料庫和傳訊服務",
       "optionAllDownstreamServices": "所有下游服務"
     },
-    "tooltipEndpointBar": "請先選取單一服務，再選取端點。",
     "form": {
       "theApplicationPerspectiveNameMustNotBeBlank": "應用程式視景名稱不得空白。",
       "theApplicationPerspectiveNameMustNotBeLargerThan128Characters": "應用程式視景名稱的長度不得超過 128 個字元。",
@@ -504,23 +419,20 @@
   "dashboards": {
     "percentOfCalls": "所有呼叫的 {{percentage}}",
     "meanLatencyFor90th": "第 90 個的 {{meanLatencyDetail}}",
-    "selectInboundCalls": "僅選取入埠呼叫或所有呼叫",
-    "calculateInboundCalls": "計算 {{applicationName}} 的「入埠呼叫」時，如果要全面查看此 {{entityType}}，請切換至<linkToCalls>所有呼叫</linkToCalls>.",
-    "calculateAllCalls": "計算 {{applicationName}} 的<bold>所有呼叫</bold>時，如果只想在應用程式界限內查看此 {{entityType}} 的一部分，請切換至<linkToCalls>入埠呼叫</linkToCalls>。",
     "infrastructureIssuesChanges": "基礎架構問題和變更",
     "unknownTime": "{{entityTime}} 時不明",
     "infrastructure": {
       "inEntity": "位於<icon /><entityLink>{{entityLabel}}</entityLink>",
-      "ofEntity": "的<icon /><entityLink>{{entityLabel}}</entityLink>",
+      "ofEntity": "屬於<icon /><entityLink>{{entityLabel}}</entityLink>",
       "instanceIndexOfEntity": "實例 {{cfInstanceIndex}} 屬於<icon /><entityLink>{{entityLabel}}</entityLink>",
-      "instanceOfEntity": "實例屬於 <icon /><entityLink>{{entityLabel}}</entityLink>",
-      "tooltipUnmonitored": "未受監視的基礎架構，因為資訊位於執行中代理程式的權限範圍外"
+      "instanceOfEntity": "實例屬於<icon /><entityLink>{{entityLabel}}</entityLink>",
+      "tooltipUnmonitored": "未受監視的基礎架構，因為資訊位於執行中代理程式的權限外"
     },
     "errorMessages": "錯誤訊息",
     "errorCallWithoutMessage": "沒有錯誤訊息的錯誤呼叫",
     "logMessages": "日誌訊息",
     "noLogMessage": "沒有可用的日誌訊息",
-    "endpoints": "端點"
+    "includeSyntheticCallsDropDownSyntheticCalls":" 合成呼叫：{{syntheticCallsOptionLabel}}"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "服務不在現行應用程式中。",
@@ -528,7 +440,7 @@
     "buttonLoadMore": "載入 {{remainNumber}} 個以上"
   },
   "forms": {
-    "stepTitleWithNumber": "<num>{{stepNumber}}. </num>{{stepTitle}}",
+    "stepTitleWithNumber": "<num>{{stepNumber}}。</num>{{stepTitle}}",
     "helpSpecifyPathToMatch": "指定要比對的路徑，例如 /api/{version}/*",
     "helpAddTestCaseToWork": "選擇性地在以下新增測試案例，以確保規則的運作如預期，例如 /api/v2/anything",
     "errorBlankValue": "值不得空白。",
@@ -536,38 +448,37 @@
     "earlyRuleResult": "已通過先前的規則",
     "testFailed": "測試失敗",
     "testPassed": "測試通過",
-    "noTestDefined": "未定義測試",
-    "allTestsPassed": "已通過所有測試",
+    "noTestDefined": "已定義任何測試",
+    "allTestsPassed": "通過所有測試",
     "allTestsFailed": "所有測試都失敗",
-    "testResultWithNumber": "<failTag>失敗的測試：{{numFailedTests}}</failTag><passTag>，已通過：{{numSucceededTests}}，總共 {{resultLength}}</passTag>",
+    "testResultWithNumber": "<failTag>測試失敗：{{numFailedTests}}</failTag><passTag>，通過：{{numSucceededTests}}，共有：{{resultLength}}</passTag>",
     "rulePathTemplate": "路徑範本",
     "ruleFirstPathSegment": "第一個路徑區段",
     "ruleRouteId": "路由 ID",
     "unspecified": "未指定",
     "titleConfigureEndpointExtraction": "配置端點的擷取",
-    "tooltipExtractsEndpointsAsSpecified": "依偵測到之架構中的指定來擷取端點（如果可存取的話）",
+    "tooltipExtractsEndpointsAsSpecified": "依偵測到架構中的指定來擷取端點（如果可存取的話）",
     "tooltipExtractsEndpointsOnFirstPath": "根據第一個路徑參數來擷取端點",
     "tooltipExtractsEndpointsOnRouteId": "根據路由 ID 來擷取端點",
-    "tooltipEndpointCallsNotMatch": "將不符合前述規則的呼叫指派給此端點",
+    "tooltipEndpointCallsNotMatch": "將不符合前述規則的呼叫指派給這個端點",
     "titleConfigureEndpointsExtract": "配置如何從對此服務的基礎呼叫來擷取端點。",
-    "descriptionConfigureEndpointsExtract": "端點規則會從上到下循序評估，並將呼叫指派給它所符合的第一個規則。配置之後，會根據已更新的規則來指派新的呼叫。",
+    "descriptionConfigureEndpointsExtract": "端點規則會從上到下循序評估，並將呼叫指派給它所符合的第一項規則。配置之後，會根據已更新的規則來指派新的呼叫。",
     "descriptionResetToDefaultRule": "如果您想重設為預設擷取規則，請使用下方的按鈕。重設可能需要數分鐘來登錄。",
-    "understandCheckboxResetToDefaultRule": " 我瞭解此動作無法復原。",
+    "understandCheckboxResetToDefaultRule": "我瞭解這個動作無法復原。",
     "customService": {
-      "stepTitle": "新增自訂服務規則來擴充自動服務對映。",
+      "stepTitle": "新增自訂服務規則來延伸自動服務對映。",
       "descriptionTextFirstLine": "Instana 會根據廣泛的一組預先定義規則來自動對映服務。例如，如果找到 nodejs.app.name 標籤，且有呼叫的標籤是 <bold>\"nodejs.app.name=user service\"</bold> 和 <bold>\"nodejs.app.name=cart service\"</bold>，則 <bold>\"user service\"</bold> 和 <bold>\"cart service\"</bold> 會以服務形式出現。",
       "descriptionVisit": "請造訪<bold><linkToDoc>應用程式和服務管理的說明文件</linkToDoc></bold>，以進一步瞭解預先定義的規則。",
       "descriptionCustomServiceRule": "請在下方選取一系列標籤，來定義自訂規則。如果所有標籤都存在於呼叫上，就會對映至該服務。",
-      "tooltipRemoveCondition": "移除此比對條件"
+      "tooltipRemoveCondition": "移除這項比對條件"
     },
     "newApplication": {
       "helpApplicationPerspectives": "藉由應用程式視景，可針對環境、服務集、租戶或任何事物建模。",
-      "helpRenameApplication": "「重新命名應用程式」是 Instana 系統中最終的一致動作。因此，對應用程式名稱的變更可能<italic>需要數分鐘</italic>，才能移入至整個系統。",
-      "descriptionApplicationName": "應用程式視景名稱應具有組織內明確建立的一個定義。例如，為環境建模：\"Production Blue\"、為服務集建模：\"Payment\"，或是為租戶建模：\"ACME Customer\"。",
-      "descriptionTags": "例如，其中的索引鍵是 \"docker.label\"，值為 \"environment=Production Blue\"，或索引鍵是 \"call.http.params\"，值為 \"tenant=ACMECustomer\"。 請注意，會自動包含從符合此定義的服務對 <pillDatabase>DATABASE</pillDatabase> 服務或 <pillMessage>MESSAGING</pillMessage> 服務的任何呼叫。",
-      "descriptionOperators": "AND 運算子會優先採用，並在 OR 運算子之前先評估",
+      "helpRenameApplication": "「重新命名應用程式」終究仍是 Instana 系統中的一致動作。因此，對應用程式名稱的變更可能<italic>需要數分鐘</italic>，才能移入至整個系統。",
+      "descriptionApplicationName": "應用程式視景名稱應具有組織內已確立的一項定義。例如，為環境建模：\"Production Blue\"、為服務集建模：\"Payment\"，或是為租戶建模：\"ACME Customer\"。",
+      "descriptionTags": "例如，其中的索引鍵是 \"docker.label\"，值為 \"environment=Production Blue\"，或索引鍵是 \"call.http.params\"，值為 \"tenant=ACMECustomer\"。請注意，會自動包含從符合這項定義的服務對 <pillDatabase>DATABASE</pillDatabase> 服務或 <pillMessage>MESSAGING</pillMessage> 服務的任何呼叫。",
       "descriptionOperatorsCreationEnabled": "AND 運算子會優先採用，並在 OR 運算子之前先評估（前提是未以方括弧分組）",
-      "descriptionPrepareToMonitor": "我們正在準備一切，以監視您的應用程式視景<bold>{{decodedLabel}}</bold>.",
+      "descriptionPrepareToMonitor": "我們正在準備一切，以監視您的應用程式視景 <bold>{{decodedLabel}}</bold>。",
       "descriptionRemoveApplicationPerspective": "如果您再也不想監視應用程式視景 <strong>{{application}}</strong>，請使用下方的按鈕來移除它。移除應用程式視景可能需要幾分鐘。",
       "stepTitleDefineApplicationName": "定義應用程式視景的名稱。",
       "stepTitleDefineTags": "使用一或多個標籤來定義應用程式視景。",
@@ -585,21 +496,21 @@
       "placeholderNameRule": "為規則命名",
       "placeholderAddDescriptionForRule": "新增規則的說明",
       "helpSpecifyRule": "指定要比對的規則，例如 endpoint.name 包含 health",
-      "messageNoMatchRule": "沒有任何端點符合此規則。",
-      "messageNoRule": "未指定規則。",
-      "stepTitleConfigureSyntheticEndpoints": "配置綜合端點，以忽略服務和應用程式 KPI 對它們的呼叫",
-      "descriptionConfigureSyntheticEndpoints": "將繼續擷取綜合端點的呼叫，但這些呼叫不會算進服務和應用程式 KPI 中。我們的內建規則會自動偵測及忽略您的性能檢查，但可以利用新規則來手動新增其他的端點",
+      "messageNoMatchRule": "沒有端點符合此規則。",
+      "messageNoRule": "未指定任何規則。",
+      "stepTitleConfigureSyntheticEndpoints": "配置合成端點，以忽略服務和應用程式 KPI 對它們的呼叫",
+      "descriptionConfigureSyntheticEndpoints": "將繼續擷取合成端點的呼叫，但這些呼叫不會算進服務和應用程式 KPI 中。我們的內建規則會自動偵測及忽略您的性能檢查，但可以利用新規則來手動新增其他的端點",
       "descriptionEndpointsRule": "當呼叫符合此自動產生規則的端點時，這些呼叫並不會算進您的應用程式或 Instana 內的服務 KPI 中，且不予處理。",
-      "errorConditionRequired": "至少需要一個比對條件。"
+      "errorConditionRequired": "至少需要一項比對條件。"
     },
-    "and": "和"
+    "and": "AND"
   },
   "list": {
     "textNewApplicationPerspective": "一旦帳戶管理者建立它們，它們會出現在這裡。",
     "showApplicationsScope": "顯示 <linkToEntity>{{entityLabel}}</linkToEntity> 的應用程式 <bold>{{contextScope}}</bold>",
     "showServicesScope": "顯示 <linkToEntity>{{entityLabel}}</linkToEntity> 的服務 <bold>{{contextScope}}</bold>",
-    "showApplicationsScopeWithApplicationLabel": "顯示 <linkToApplication>{{applicationLabel}}</linkToApplication><span>環境定義中</span>之 <linkToEntity>{{entityLabel}}</linkToEntity> 的應用程式 <bold>{{contextScope}}</bold>",
-    "showServicesScopeWithServiceLabel": "顯示 <linkToApplication>{{applicationLabel}}</linkToApplication><span>環境定義中</span>之 <linkToEntity>{{entityLabel}}</linkToEntity> 的服務 <bold>{{contextScope}}</bold>",
+    "showApplicationsScopeWithApplicationLabel": "顯示環境定義 <linkToApplication>{{applicationLabel}}</linkToApplication> 中之 <linkToEntity>{{entityLabel}}</linkToEntity> 的應用程式 <bold>{{contextScope}}</bold>",
+    "showServicesScopeWithServiceLabel": "顯示環境定義 <linkToApplication>{{applicationLabel}}</linkToApplication> 中之 <linkToEntity>{{entityLabel}}</linkToEntity> 的服務 <bold>{{contextScope}}</bold>",
     "titleNoService": "尚無服務",
     "servicesNoData": "在選取的時間範圍內沒有任何可用的服務呼叫。如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
   },
@@ -619,14 +530,46 @@
   },
   "constants": {
     "exclude": "排除",
-    "syntheticCallsAreExcludedFromTheMetrics": "度量排除合成呼叫。",
-    "include": "包含",
-    "syntheticCallsAreIncludedInTheMetrics": "度量包含合成呼叫。",
-    "only": "僅限",
-    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "僅顯示合成呼叫並包含在度量中"
+    "syntheticCallsAreExcludedFromTheMetrics": "合成呼叫會從度量中排除。",
+    "include": "Include",
+    "syntheticCallsAreIncludedInTheMetrics": "合成呼叫會包含在度量中。",
+    "only": "唯有",
+    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "唯有合成呼叫會顯示及包含在度量中"
   },
-  "lists": {
-    "noSpecificApplication": " - 無特定應用程式 - ",
-    "services": "服務"
+  "traceDetail": {
+    "tabs": {
+      "summary": {
+        "duplicateCalls": "重複的呼叫",
+        "duplicateCallsDesc": "此追蹤由一或多個重複的呼叫 (span) 組成。唯一的呼叫：{{traceCallCountIgnoringBatchSize}} - 記錄：{{traceCallRecordCount}}。這會導致呼叫計數（含批次）值和錯誤計數值不正確，並且可能導致其他異常情況。",
+        "batchedIngestion": "已批次處理的汲取",
+        "traceIngestionBatchCount": "已在 {{traceIngestionBatchesCount}} 個批次中處理此追蹤。這可能導致異常情況，例如：span 未能合併至單一呼叫、局部的服務對映，或是顯示其他不完整的資料。",
+        "subCalls": "子呼叫",
+        "erroneousCalls": "錯誤呼叫",
+        "errorLogs": "錯誤日誌",
+        "warnLogs": "警告日誌",
+        "latency": "延遲時間",
+        "timeline": "時間表",
+        "serviceEndpointList": "服務端點清單",
+        "largeTrace": "大型追蹤",
+        "largeTraceLink": "此追蹤很大，在呈現此追蹤時可能導致您瀏覽器內出現效能問題。您可以<linkToDocs>下載追蹤</linkToDocs>以手動檢驗，或在您的瀏覽器內嘗試呈現追蹤。為了在此嘗試期間提高效能，我們只會呈現一部分的元件。",
+        "calls": "呼叫",
+        "erroneousTrace": "錯誤追蹤",
+        "attemptToRenderTrace": "嘗試呈現追蹤"
+      }
+    }
+  },
+  "tabs": {
+    "labelDetail": "詳細資料"
+  },
+  "metrics": {
+    "calls_calls": "呼叫",
+    "calls_latency": "延遲時間",
+    "calls_erroneousCalls": "錯誤呼叫",
+    "calls_errors": "錯誤呼叫率",
+    "traces_calls": "追蹤",
+    "traces_traces": "追蹤",
+    "traces_latency": "延遲時間",
+    "traces_erroneousCalls": "錯誤追蹤",
+    "traces_errors": "錯誤追蹤率"
   }
 }

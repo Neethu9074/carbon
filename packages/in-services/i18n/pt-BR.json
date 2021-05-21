@@ -1,22 +1,20 @@
 {
   "shortcuts": {
-    "help": "Algumas funções importantes do Instana podem ser ativadas usando atalhos de teclado.\n\n - `c` : centralizando o mapa\n - `f` : aberto e focando na barra de procura\n - `esc` : fechar a barra lateral/painel atualmente visível\n - `shift + ?` : abrir o diálogo de ajuda para atalhos",
+    "help": "Algumas funções importantes da Instana podem ser ativadas usando atalhos de teclado.\n\n - `c` : centralizando o mapa\n - `f` : aberto e focando na barra de procura\n - `esc` : fechar a barra lateral/painel atualmente visível\n - `shift + ?` : abrir o diálogo de ajuda para atalhos",
     "shortcuts": "Atalhos"
   },
   "formatters": {
     "yes": "Sim",
     "no": "Não",
-    "byteUnits": {
-      "B": "{{num}} B",
-      "kiB": "{{num}} kiB",
-      "MiB": "{{num}} MiB",
-      "GiB": "{{num}} GiB",
-      "TiB": "{{num}} TiB",
-      "PiB": "{{num}} PiB",
-      "EiB": "{{num}} EiB",
-      "ZiB": "{{num}} ZiB",
-      "YiB": "{{num}} YiB"
-    },
+    "byteUnits_B": "{{num}} B",
+    "byteUnits_kiB": "{{num}} kiB",
+    "byteUnits_MiB": "{{num}} MiB",
+    "byteUnits_GiB": "{{num}} GiB",
+    "byteUnits_TiB": "{{num}} TiB",
+    "byteUnits_PiB": "{{num}} PiB",
+    "byteUnits_EiB": "{{num}} EiB",
+    "byteUnits_ZiB": "{{num}} ZiB",
+    "byteUnits_YiB": "{{num}} YiB",
     "perSec": "{{num}}/s",
     "perSec2": "{{num}}/s",
     "noActivity": "Sem atividade",
@@ -24,16 +22,14 @@
     "detailedBytes": "{{bytesTwoDecimalPlaces}} ({{numCompact}} B)",
     "healthy": "Funcional",
     "unhealthy": "Inoperante",
-    "timeUnits": {
-      "µs": "{{num}}µs",
-      "ns": "{{num}}ns",
-      "us": "{{num}}µs",
-      "ms": "{{num}}ms",
-      "s": "{{num}}s",
-      "min": "{{num}}min",
-      "h": "{{num}}h",
-      "d": "{{num}}d"
-    },
+    "timeUnits_µs": "{{num}}µs",
+    "timeUnits_ns": "{{num}}ns",
+    "timeUnits_us": "{{num}}µs",
+    "timeUnits_ms": "{{num}}ms",
+    "timeUnits_s": "{{num}}s",
+    "timeUnits_min": "{{num}}min",
+    "timeUnits_h": "{{num}}h",
+    "timeUnits_d": "{{num}}d",
     "temperature": "{{num}}°C",
     "lt1ms": "< 1ms",
     "date": {
@@ -92,7 +88,6 @@
     "timeDoesNotHaveTheFormat": "O horário não tem o formato {{timeFormat}}",
     "dateDoesNotHaveTheFormat": "A data não tem o formato {{dateFormat}}",
     "valueIsNotOneOfTheSupportedValuesExpectedOneOf": "O valor '{{v}}' não é um dos valores suportados. Esperado um destes: {{allowedValues}}",
-    "commaJoin": ", ",
     "aValueOfTypeExpectedTypeIsRequired": "É necessário um valor do tipo '{{expectedType}}'.",
     "msgGotActualType": "{{msg}} Obteve '{{actualType}}'.",
     "valueMustBeLargerOrEqualToMinInclusive": "O valor deve ser maior ou igual a {{minInclusive}}.",
@@ -103,7 +98,7 @@
     "pleaseTypeInANumber": "Digite um número.",
     "pleaseTypeInAPositiveNumber": "Digite um número positivo.",
     "theProvidedNumberIsInvalid": "O número fornecido é inválido.",
-    "theValueMustNotBeBlank": "O valor não deve estar em branco.",
+    "theValueMustNotBeBlank": "O valor não deve ficar em branco.",
     "theValueMustNotBeUndefined": "O valor não deve ser indefinido."
   }
 }

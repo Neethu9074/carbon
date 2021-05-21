@@ -12,7 +12,7 @@
     },
     "grid": {
       "grid": {
-        "edit": "Editer",
+        "edit": "Éditer",
         "duplicate": "Dupliquer",
         "delete": "Supprimer",
         "customDashboardWidgetTitle": "Widget de tableau de bord personnalisé : {{title}}"
@@ -20,18 +20,18 @@
     },
     "sharingDialog": {
       "individualEditRightSelect": {
-        "removeEditRightUserName": "Supprimez les droits de modification de {{fullName}}.",
+        "removeEditRightUserName": "Retirez les droits de modification de {{fullName}}.",
         "add": "Ajouter",
         "addEditors": "Ajouter des éditeurs",
-        "pleaseSelect": "Veuillez sélectionner"
+        "pleaseSelect": "Sélectionnez"
       },
       "sharingDialogPresenter": {
         "share": "Partager",
         "shareMsg": "Ce tableau de bord personnalisé a des règles d'accès avancées qui ne peuvent pas être représentées par cette boîte de dialogue. Vous pouvez utiliser la fonction \"Modifier en tant que JSON \" pour modifier ces règles d'accès.",
         "privateDashboardDefault": "Tableau de bord privé (par défaut)",
-        "privateDashboardDefaultExplain": "Seul vous pouvez voir ce tableau de bord.",
+        "privateDashboardDefaultExplain": "Vous seul pouvez voir ce tableau de bord.",
         "publicDashboard": "Tableau de bord public",
-        "publicDashboardExplain": "Ce tableau de bord est visible de tous les membres de votre organisation. Seul vous pouvez effectuer des modifications, mais vous pouvez pas ajouter des éditeurs.",
+        "publicDashboardExplain": "Ce tableau de bord est visible de tous les membres de votre organisation. Vous seul pouvez effectuer des modifications ; vous pouvez ajouter des éditeurs.",
         "done": "Terminé"
       }
     },
@@ -54,7 +54,7 @@
         "back": "Précédent"
       },
       "widgetPreview": {
-        "previewNotAvailWidgetConfigIncomplete": "La prévisualisation n'est pas disponible, car la configuration du widget est incomplète.",
+        "previewNotAvailWidgetConfigIncomplete": "L'aperçu n'est pas disponible, car la configuration du widget est incomplète.",
         "highlightMissingConfig": "Mettre en évidence la configuration manquante",
         "preview": "Aperçu",
         "customDashboardPreviewTitle": "Aperçu du widget de tableau de bord personnalisé : {{title}}"
@@ -63,7 +63,7 @@
     "customDashboard": {
       "confirmDashboardDel": "Confirmer la suppression du tableau de bord",
       "delDashboard": "Supprimer le tableau de bord",
-      "uWantDelDashboardConfig": "Êtes-vous sûr de vouloir supprimer le tableau de bord <strong>{{title}}</strong> ?",
+      "uWantDelDashboardConfig": "Voulez-vous vraiment supprimer le tableau de bord <strong>{{title}}</strong> ?",
       "failDelDashboard": "Échec de la suppression du tableau de bord.",
       "renameDashboard": "Renommer le tableau de bord",
       "dashboardName": "Nom du tableau de bord",
@@ -120,19 +120,13 @@
     },
     "srcApp": {
       "formComponent": {
-        "pleaseSelect": "Veuillez sélectionner",
-        "pleaseSelectMetric": "Veuillez sélectionner une métrique.",
+        "pleaseSelect": "Sélectionnez",
+        "pleaseSelectMetric": "Sélectionnez une métrique.",
         "aggregation": "Agrégation",
         "metric": "Métrique"
       },
       "index": {
-        "applicationsTracesAndCalls": "Applications (Traces et Appels)"
-      },
-      "oldFormComponent": {
-        "metric": "Métrique",
-        "pleaseSelect": "Veuillez sélectionner",
-        "aggregation": "Agrégation",
-        "pleaseSelectMetric": "Veuillez sélectionner une métrique."
+        "applicationsTracesAndCalls": "Applications (Traces et appels)"
       }
     },
     "srcEvent": {
@@ -143,8 +137,8 @@
         "metric": "Métrique",
         "eventCount": "Nombre d'événements",
         "aggregation": "Agrégation",
-        "pleaseSelectMetric": "Veuillez sélectionner une métrique.",
-        "pleaseSelect": "Veuillez sélectionner",
+        "pleaseSelectMetric": "Sélectionnez une métrique.",
+        "pleaseSelect": "Sélectionnez",
         "helpAction": "Une requête Dynamic Focus Query (DFQ)  comme vous l'utiliseriez dans la vue des événements.",
         "query": "Requête"
       }
@@ -159,52 +153,39 @@
         "metric": "Métrique",
         "count": "Nombre",
         "aggregation": "Agrégation",
-        "pleaseSelect": "Veuillez sélectionner",
-        "pleaseSelectMetric": "Veuillez sélectionner une métrique."
+        "pleaseSelect": "Sélectionnez",
+        "pleaseSelectMetric": "Sélectionnez une métrique."
       },
       "metricsFormComponent": {
         "metric": "Métrique",
         "selectMetric": "Sélectionner une métrique",
-        "aggregation": "Agrégation",
-        "pleaseSelect": "Veuillez sélectionner",
-        "pleaseSelectMetric": "Veuillez sélectionner une métrique."
-      },
-      "metricsLoadIndicator": {
-        "loadingMetrics": "Chargement des métriques en cours..."
+        "aggregation": "Agrégation"
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastructure et plateformes",
         "comingSoon": "(bientôt disponible)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "Veuillez sélectionner une métrique."
+        "pleaseSelectMetric": "Sélectionnez une métrique."
       }
     },
     "srcMobileApp": {
       "formComp": {
         "beaconType": "Type de balise",
-        "pleaseSelect": "Veuillez sélectionner",
-        "pleaseSelectDs": "Veuillez sélectionner une source de données.",
+        "pleaseSelect": "Sélectionnez",
+        "pleaseSelectDs": "Sélectionnez une source de données.",
         "metric": "Métrique",
         "aggregation": "Agrégation",
-        "pleaseSelectMetric": "Veuillez sélectionner une métrique."
+        "pleaseSelectMetric": "Sélectionnez une métrique."
       },
       "index": {
         "mobileAppsBeacon": "Applications mobiles (balises)"
-      },
-      "oldFormComp": {
-        "beaconType": "Type de balise",
-        "pleaseSelect": "Veuillez sélectionner",
-        "pleaseSelectDs": "Veuillez sélectionner une source de données.",
-        "aggregation": "Agrégation",
-        "pleaseSelectMetric": "Veuillez sélectionner une métrique.",
-        "metric": "Métrique"
       }
     },
     "srcSli": {
       "formComp": {
         "configSli": "SLI configuré",
-        "pleaseSelect": "Veuillez sélectionner",
+        "pleaseSelect": "Sélectionnez",
         "sliConfigComputeErrBudgetSliVal": "Configuration SLI utilisée pour calculer le budget d'erreurs et les valeurs SLI",
         "typeSloThreshold": "Entrez le seuil SLO de votre choix entre <code>{{compact}}</code> et <code>{{detailed}}</code>.",
         "valType": "Type de valeur"
@@ -219,29 +200,21 @@
     "srcWebSite": {
       "formComp": {
         "beaconType": "Type de balise",
-        "pleaseSelect": "Veuillez sélectionner",
+        "pleaseSelect": "Sélectionnez",
         "metric": "Métrique",
-        "selectDs": "Veuillez sélectionner une source de données.",
-        "selectMetric": "Veuillez sélectionner une métrique.",
+        "selectDs": "Sélectionnez une source de données.",
+        "selectMetric": "Sélectionnez une métrique.",
         "aggregation": "Agrégation"
       },
       "index": {
         "websitesBeacons": "Sites Web (balises)"
-      },
-      "oldFormComp": {
-        "beaconType": "Type de balise",
-        "pleaseSelect": "Veuillez sélectionner",
-        "selectDs": "Veuillez sélectionner une source de données.",
-        "metric": "Métrique",
-        "aggregation": "Agrégation",
-        "selectMetric": "Veuillez sélectionner une métrique."
       }
     },
     "metricConfigurator": {
       "ds": "Source de donnée",
-      "pleaseSelect": "Veuillez sélectionner",
+      "pleaseSelect": "Sélectionnez",
       "name": "Nom",
-      "pleaseSelectATimeShiftingConfiguration": "Veuillez sélectionner une configuration de rétrospective",
+      "pleaseSelectATimeShiftingConfiguration": "Sélectionnez une configuration de rétrospective",
       "pleaseProvideAGroup": "Fournissez un groupe.",
       "optional": "Facultatif",
       "theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999": "Le nombre indiqué n'est pas valide. La valeur doit être comprise entre 0 et 99,99."
@@ -273,7 +246,7 @@
         "chart": "Graphique",
         "formatter": "Formateur",
         "addSecondary": "Ajouter un axe Y secondaire",
-        "removeSecondary": "Supprimer",
+        "removeSecondary": "Retirer",
         "min": "Min",
         "max": "Max",
         "sharemaxValue": "Partager les valeurs maximum entre les axes",
@@ -294,9 +267,7 @@
         "lightBlue": "Bleu clair",
         "green": "Vert",
         "red": "Rouge",
-        "yellow": "Jaune",
         "orange": "Orange",
-        "blue": "Bleu",
         "deepPurple": "Violet foncé",
         "cyan": "Cyan",
         "lime": "Citron vert",
@@ -325,14 +296,14 @@
       },
       "timeShiftingFormChart": {
         "timeShift": "Rétrospective",
-        "applyTimeShiftDs": "Appliquer un décalage de temps à cette série de données",
+        "applyTimeShiftDs": "Appliquer une rétrospective à cette série de données",
         "timeShiftHelpAction": "Si vous sélectionnez <strong>Afficher les valeurs en cours</strong> , vous dupliquez automatiquement cette série de données sur le même axe. La rétrospective de la première série de données sera désactivée et elle sera activée pour la seconde.",
         "displayCurrentValues": "Afficher les valeurs actuelles"
       }
     },
     "demo": {
-      "pageLoads": "Chargements de pages",
-      "onLoadTime": "Délai OnLoad"
+      "pageLoads": "Chargements de page",
+      "onLoadTime": "Durée de chargement"
     },
     "index": {
       "chartTimeSeries": "Graphique : série chronologique"
@@ -366,18 +337,18 @@
         "selectAppPerspect": "Sélectionnez une perspective d'application.",
         "appPerspectHelpAction": "Configurez des processus utilisateur/offres en les modélisant en tant que perspective d'application dans la zone Applications du produit.",
         "noAppPerspect": "Aucune perspective d'application.",
-        "pleaseSelect": "Veuillez sélectionner"
+        "pleaseSelect": "Sélectionnez"
       },
       "sliSelectionFormComp": {
         "srvLevelIndicator": "Indicateur de niveau de service (SLI)",
         "selectASli": "Sélectionnez un SLI.",
-        "noneAvailCreateOne": "Aucun disponible. Veuillez en créer un.",
-        "pleaseSelect": "Veuillez sélectionner"
+        "noneAvailCreateOne": "Aucun disponible. Créez-en un.",
+        "pleaseSelect": "Sélectionnez"
       },
       "createSliForm": {
         "sliCreateSuccess": "SLI créé avec succès",
         "failCreateSli": "Échec de la création du SLI.",
-        "problemCreateSli": "Ue erreur s'est produite lors de la création du SLI : \"{{sliName}}\"",
+        "problemCreateSli": "Une erreur s'est produite lors de la création du SLI : \"{{sliName}}\"",
         "cloning": "Clonage en cours...",
         "creating": "Création en cours...",
         "clone": "Cloner",
@@ -392,17 +363,17 @@
       },
       "goodBadEventsForm": {
         "goodEvents": "Événements corrects",
-        "badEvents": "Evénements incorrects"
+        "badEvents": "Événements incorrects"
       },
       "metricFormData": {
         "latency": "Latence",
         "callCount": "Nombre d'appels",
         "errorRate": "Taux d'erreurs",
         "erroneousCalls": "Appels erronés",
-        "mean": "moyen",
+        "mean": "moyenne",
         "min": "min",
         "max": "max",
-        "sum": "sum",
+        "sum": "somme",
         "25th": "25e",
         "50th": "50e",
         "75th": "75e",
@@ -431,8 +402,7 @@
         "sliNameNotEmpty": "Vous devez définir un nom de SLI.",
         "sliCustomHelpAction": "Les informations relatives à la personnalisation de SLI et aux types de SLI figurent dans nos documentations.",
         "sliTimeBasedOrAnEventBasedSli": "Le type de SLI doit être basé sur le temps ou sur des événements.",
-        "pleaseSelect": "Veuillez sélectionner",
-        "appPerspective": "Perspective d'application",
+        "pleaseSelect": "Sélectionnez",
         "boundary": "Limite",
         "hiddenCalls": "Appels masqués",
         "includeInternalCalls": "Inclure les appels internes",
@@ -448,11 +418,11 @@
         "viewCloneSliConfig": "Afficher/Cloner la configuration SLI",
         "delSliConfig": "Supprimer la configuration SLI",
         "pleaseConfirm": "Veuillez confirmer.",
-        "pleaseConfirmMsg": "Êtes-vous sûr de vouloir supprimer <strong>{{sliName}}</strong> ?",
+        "pleaseConfirmMsg": "Voulez-vous vraiment supprimer <strong>{{sliName}}</strong> ?",
         "delete": "Supprimer"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "Vous ne disposez pas de l'autorisation <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> requise pour créer ou modifier les SLI.",
+        "configSrvLevelIndicatorsMsg": "Vous ne disposez pas de l'autorisation <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> requise pour créer ou modifier les SLI.",
         "sliList": "Liste des SLI",
         "createSli": "Créer un SLI"
       },
@@ -487,8 +457,8 @@
         "weeks": "semaines",
         "months": "mois",
         "pleaseSpecifyTheNumber": "Veuillez indiquer le nombre de {{timeValue}}.",
-        "start": "Démarrage",
-        "enterDateFormatYyyyMmDd": "Entrez une date au format AAAA-MM-JJ.",
+        "start": "Début",
+        "enterDateFormatYyyyMmDd": "Entrez une date au format JJ/MM/AAAA.",
         "enterTimeInFormatHhMmSs": "Entrez une heure au format HH:mm:ss."
       },
       "widgetHeader": {
@@ -545,7 +515,7 @@
       "widget": {
         "aggregOtherGroup": "Agrégation d'autres groupes",
         "other": "Autre",
-        "tagNoValue": "Balise '{{labelname}}' présente sans valeur"
+        "tagNoValue": "Étiquette '{{labelname}}' présente sans valeur"
       }
     },
     "applicationHealth": {

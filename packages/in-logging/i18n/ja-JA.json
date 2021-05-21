@@ -1,5 +1,4 @@
 {
-  "time": "時刻",
   "logs": "ログ",
   "sum": "合計",
   "bar": "バー",
@@ -8,20 +7,9 @@
   "logsOverTime_WARN": "時系列に沿った警告ログ",
   "logsOverTime_INFO": "時系列に沿った情報ログ",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "照会構成が無効です。 続行する前に検証の失敗に対処してください。",
-  "log": "ログ",
   "selectTags": "タグの選択",
-  "addATag": "タグの追加",
-  "download": "ダウンロード",
-  "analytics": "分析",
-  "closeLogDetails": "ログ詳細を閉じる",
-  "detail": "詳細",
-  "logTime": "ログ時刻",
-  "type": "タイプ",
-  "message": "メッセージ",
-  "tags": "タグ",
-  "logCount": "{{formattedCount}} 件のログ",
-  "logCount_plural": "{{formattedCount}} 件のログ",
-  "logCount_0": "{{formattedCount}} 件のログ",
-  "logCount_1": "{{formattedCount}} 件のログ",
-  "logCount_2": "{{formattedCount}} 件のログ"
+  "goToTrace": "トレースに移動",
+  "addAsFilter": "フィルターとして追加",
+  "addAsGroup": "グループとして追加",
+  "numberOfLogs": "ログの数"
 }

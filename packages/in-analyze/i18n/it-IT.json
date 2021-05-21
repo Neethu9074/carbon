@@ -1,76 +1,15 @@
 {
   "analyzeView": {
-    "noData": "Nessuna chiamata disponibile per l'intervallo di tempo selezionato. Per informazioni sulla risoluzione dei problemi consultare [la documentazione][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
     "traces": "Tracce",
     "calls": "Chiamate",
-    "emptyAnalyzeViewTitle": "Nessun {{emptyEntityName}} trovato",
-    "analyzeEditGroupHelp": "Selezionare un tag mediante il quale devono essere raggruppate le chiamate e le tracce",
-    "notAvailable": "Non disponibile",
-    "quickFilterBarLabel": {
-      "application": "Applicazione",
-      "application_plural": "Applicazioni",
-      "application_0": "Applicazioni",
-      "application_1": "Applicazioni",
-      "application_2": "Applicazioni",
-      "service": "Servizio",
-      "service_plural": "Servizi",
-      "service_0": "Servizi",
-      "service_1": "Servizi",
-      "service_2": "Servizi",
-      "endpoint": "Endpoint",
-      "endpoint_plural": "Endpoint",
-      "type": "Tipo",
-      "type_plural": "Tipi",
-      "type_0": "Tipi",
-      "type_1": "Tipi",
-      "type_2": "Tipi",
-      "technology": "Tecnologia",
-      "technology_plural": "Tecnologie",
-      "technology_0": "Tecnologie",
-      "technology_1": "Tecnologie",
-      "technology_2": "Tecnologie",
-      "latency": "Latenza",
-      "erroneous": "Errato",
-      "hiddenCalls": "Chiamate nascoste"
-    },
-    "quickGroupBarLabelApplication": "Applicazione",
-    "quickGroupBarLabelService": "Servizio",
-    "quickGroupBarLabelEndpoint": "Endpoint",
-    "quickGroupBarLabelType": "Tipo",
-    "quickGroupBarLabelTechnology": "Tecnologia",
-    "quickGroupBarLabelAllGroups": "Tutti i gruppi",
-    "tagGroupEmptyMessage": "Nessun gruppo definito.",
     "components": {
-      "loadingStates": {
-        "preparing": "Preparazione…",
-        "instanaIsProcessingALargeAmountOfTracingData": "Instana sta elaborando una quantità elevata di dati di tracciamento.",
-        "pleaseDontReloadThisPageWillUpdateAutomatically": "Non ricaricare - questa pagina verrà aggiornata automaticamente.",
-        "runningQuery": "Esecuzione query…",
-        "thisQueryHasTimedOut": "Questa query è scaduta.",
-        "theQueryTookTooLongToRunAndHasBeenCancelled": "La query ha impiegato troppo tempo per essere eseguita ed è stata annullata.",
-        "selectAShorterTimeframeOrIssueAMoreSpecificQueryByApplyingMoreFilters": "Selezionare un intervallo di tempo più breve oppure immettere una query più specifica applicando ulteriori filtri.",
-        "thereWasAnInputError": "Si è verificato un errore di input.",
-        "tooManyRequests": "Troppe richieste",
-        "ourSystemIsCurrentlyBusyPleaseTryAgainLater": "Il nostro sistema è attualmente occupato. Riprovare successivamente.",
-        "serverError": "Errore del server",
-        "anUnexpectedErrorOccurredPleaseTryAgainLaterOrContactSupportToReportTheError": "Si è verificato un errore non previsto. Riprovare successivamente oppure contattare il supporto per segnalare l'errore."
-      },
-      "tagFilterConfiguration": {
-        "noFiltersDefined": "Nessun filtro definito."
-      },
-      "tagGroupConfiguration": {
-        "select": "Seleziona",
-        "top5": "Primi 5",
-        "bottom5": "Ultimi 5",
-        "showRemainingGroupsAggregatedAsOther": "Mostra i gruppi rimanenti aggregati come “Altro“."
-      },
       "resultHeader": {
         "result": "Risultato",
         "counter_sessionStart": "{{number}} avvio sessione",
-        "counter_sessionStart_plural": "{{number}} di avvii sessione ",
-        "counter_sessionStart_0": "{{number}} di avvii sessione ",
-        "counter_sessionStart_1": "{{number}} di avvii sessione ",
-        "counter_sessionStart_2": "{{number}} di avvii sessione ",
+        "counter_sessionStart_plural": "{{number}} di avvii sessione",
+        "counter_sessionStart_0": "{{number}} di avvii sessione",
+        "counter_sessionStart_1": "{{number}} di avvii sessione",
+        "counter_sessionStart_2": "{{number}} di avvii sessione",
         "counter_viewChange": "{{number}} transizione vista",
         "counter_viewChange_plural": "{{number}} transizioni vista",
         "counter_viewChange_0": "{{number}} transizioni vista",
@@ -86,38 +25,43 @@
         "counter_custom_0": "{{number}} eventi personalizzati",
         "counter_custom_1": "{{number}} eventi personalizzati",
         "counter_custom_2": "{{number}} eventi personalizzati",
-        "counter_Row": "{{number}} di righe ",
-        "counter_Row_plural": "{{number}} di righe ",
-        "counter_Row_0": "{{number}} di righe ",
-        "counter_Row_1": "{{number}} di righe ",
-        "counter_Row_2": "{{number}} di righe ",
+        "counter_Row": "{{number}} di righe",
+        "counter_Row_plural": "{{number}} di righe",
+        "counter_Row_0": "{{number}} di righe",
+        "counter_Row_1": "{{number}} di righe",
+        "counter_Row_2": "{{number}} di righe",
         "counter_Group": "{{number}} gruppo",
         "counter_Group_plural": "{{number}} gruppi",
         "counter_Group_0": "{{number}} gruppi",
         "counter_Group_1": "{{number}} gruppi",
         "counter_Group_2": "{{number}} gruppi",
-        "counter_event": "{{number}} di eventi ",
-        "counter_event_plural": "{{number}} di eventi ",
-        "counter_event_0": "{{number}} di eventi ",
-        "counter_event_1": "{{number}} di eventi ",
-        "counter_event_2": "{{number}} di eventi ",
-        "counter_Call": "{{number}} di chiamate ",
-        "counter_Call_plural": "{{number}} di chiamate ",
-        "counter_Call_0": "{{number}} di chiamate ",
-        "counter_Call_1": "{{number}} di chiamate ",
-        "counter_Call_2": "{{number}} di chiamate ",
-        "counter_Trace": "{{number}} di tracce ",
-        "counter_Trace_plural": "{{number}} di tracce ",
-        "counter_Trace_0": "{{number}} di tracce ",
-        "counter_Trace_1": "{{number}} di tracce ",
-        "counter_Trace_2": "{{number}} di tracce ",
+        "counter_event": "{{number}} di eventi",
+        "counter_event_plural": "{{number}} di eventi",
+        "counter_event_0": "{{number}} di eventi",
+        "counter_event_1": "{{number}} di eventi",
+        "counter_event_2": "{{number}} di eventi",
+        "counter_Call": "{{number}} di chiamate",
+        "counter_Call_plural": "{{number}} di chiamate",
+        "counter_Call_0": "{{number}} di chiamate",
+        "counter_Call_1": "{{number}} di chiamate",
+        "counter_Call_2": "{{number}} di chiamate",
+        "counter_Trace": "{{number}} di tracce",
+        "counter_Trace_plural": "{{number}} di tracce",
+        "counter_Trace_0": "{{number}} di tracce",
+        "counter_Trace_1": "{{number}} di tracce",
+        "counter_Trace_2": "{{number}} di tracce",
+        "counter_Traces": "{{number}} di tracce",
+        "counter_Traces_plural": "{{number}} di tracce",
+        "counter_Traces_0": "{{number}} di tracce",
+        "counter_Traces_1": "{{number}} di tracce",
+        "counter_Traces_2": "{{number}} di tracce",
         "loading": "Caricamento…"
       }
     },
     "dataSources": {
-      "traceAnalytics": "Dati analitici di traccia",
+      "traceAnalytics": "Analitica delle tracce",
       "trace": "Traccia",
-      "callAnalytics": "Dati analitici di chiamata",
+      "callAnalytics": "Analitica delle chiamate",
       "call": "Chiamata",
       "applications": "Applicazioni",
       "websites": "Siti Web",
@@ -145,9 +89,6 @@
       "console": "Console"
     }
   },
-  "services": {
-    "noData": "Nessuna chiamata di servizio disponibile per l'intervallo di tempo selezionato. Per informazioni sulla risoluzione dei problemi consultare [la documentazione][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
-  },
   "traceDetail": {
     "callDetails": {
       "serviceComponent": {
@@ -158,34 +99,29 @@
         "sourceUnmonitored": "L'origine di questa chiamata non è stata tracciata e di conseguenza non è possibile fornire informazioni sull'origine. Tutte le informazioni relative a questa chiamata visualizzate vengono fornite dalla destinazione.",
         "sourceMonitoredByAnotherProvider": "L'origine di questa chiamata è tracciata da un altro provider di tracciamento distribuito. È possibile trovare ulteriori informazioni sull'origine effettuando una ricerca nell'estensione principale all'interno di tale provider con ID {{foreignParentId}}.",
         "notMonitored": "Non monitorato da Instana",
-        "source": "origine ",
-        "destination": "destinazione "
+        "source": "origine",
+        "destination": "destinazione",
+        "logs": "Log ( {{errors}}{{warnings}} )",
+        "errors": "{{count}} Errore",
+        "errors_plural": "{{count}} Errori",
+        "errors_0": "{{count}} Errori",
+        "errors_1": "{{count}} Errori",
+        "errors_2": "{{count}} Errori",
+        "warnings": "{{count}} Avvertenza",
+        "warnings_plural": "{{count}} Avvertenze",
+        "warnings_0": "{{count}} Avvertenze",
+        "warnings_1": "{{count}} Avvertenze",
+        "warnings_2": "{{count}} Avvertenze"
       }
     },
     "tabs": {
       "summary": {
-        "duplicateCalls": "Chiamate duplicate",
-        "duplicateCallsDesc": "Questa traccia è composta da una o più chiamate duplicate (estensioni). Chiamate univoche: {{traceCallCountIgnoringBatchSize}} - Record: {{traceCallRecordCount}}. Questo comporta un conteggio di chiamate (con batch) e valori di conteggio degli errori non corretti e probabilmente altri valori non corretti.",
-        "batchedIngestion": "Inserimento in batch",
-        "traceIngestionBatchCount": "Questa traccia è stata elaborata in {{traceIngestionBatchesCount}} batch. Questo può causare irregolarità come estensioni non unite in una singola chiamata, associazioni di servizi parziali o altre visualizzazioni di dati non complete.",
-        "subCalls": "Chiamate secondarie",
-        "erroneousCalls": "Chiamate errate",
-        "errorLogs": "Log di errore",
-        "warnLogs": "Log di avvertenza",
-        "latency": "Latenza",
-        "timeline": "Sequenza temporale",
-        "serviceEndpointList": "Elenco endpoint di servizio",
-        "largeTrace": "Traccia di grande dimensioni",
-        "largeTraceLink": "Questa traccia è di grandi dimensioni ed il rendering di questa traccia può causare problemi di prestazioni all'interno del browser. È possibile <linkToDocs>scaricare la trace</linkToDocs> per l'ispezione manuale oppure provare il rendering della traccia all'interno del proprio browser. Verrà eseguito il rendering di un sottoinsieme dei componenti per incrementare le prestazioni di questo tentativo.",
-        "calls": "Chiamate",
         "logs": "Log",
         "analyzeLogs": "Visualizza in Analizza",
         "correspondingMobileAppActivity": "Attività app mobile corrispondente",
         "hideMobileAppInformation": "Nascondi informazioni sull'app mobile",
         "showMobileAppInformation": "Mostra informazioni sull'app mobile",
         "viewMobileAppActivity": "Visualizza attività app mobile",
-        "erroneousTrace": "Traccia errata",
-        "attemptToRenderTrace": "Tentativo di rendering della traccia",
         "hideWebsiteInformation": "Nascondi informazioni sul sito Web",
         "showWebsiteInformation": "Mostra informazioni sul sito Web",
         "viewWebsiteActivity": "Visualizza attività del sito Web"
@@ -232,7 +168,7 @@
         "windowLocation": "Posizione finestra",
         "resourceUri": "URI risorsa",
         "cacheInteraction": "Interazione cache",
-        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana non monitora la {{location}} di questa chiamata ",
+        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana non monitora la {{location}} di questa chiamata",
         "tags": "Tag"
       },
       "callTree": {
@@ -247,13 +183,15 @@
       "logTooltipContent": {
         "errorLog": "Log di errore",
         "warningLog": "Log di avvertenza"
+      },
+      "callTooltipContent": {
+        "numbersOfErrors": "{{count}} Errore",
+        "numbersOfErrors_plural": "{{count}} Errori",
+        "numbersOfErrors_0": "{{count}} Errori",
+        "numbersOfErrors_1": "{{count}} Errori",
+        "numbersOfErrors_2": "{{count}} Errori"
       }
-    },
-    "applications": "Applicazioni",
-    "analytics": "Dati analitici",
-    "download": "Download",
-    "traceId": "ID traccia:",
-    "closeTraceDetail": "Chiudi dettagli traccia"
+    }
   },
   "applicationFilter": {
     "labelApplication": "Applicazione",
@@ -301,7 +239,7 @@
     "labelKeyPairENDS_WITH": "termina con"
   },
   "analyzeHeader": {
-    "title": "Dati analitici"
+    "title": "Analitica"
   },
   "editTagFilterDialog": {
     "dialogTitleEdit": "Modifica filtro",
@@ -312,20 +250,8 @@
     "addFilter": "Aggiungi filtro"
   },
   "filterBar": {
-    "checkboxBarOverlay": {
-      "labelSynthetic": "Mostra chiamate sintetiche",
-      "labelInternal": "Mostra chiamate interne"
-    },
     "keyValueBarItem": {
       "tooltip": "Rimuovi filtro"
-    },
-    "multiSelectBarItem": {
-      "moreDataMessage": "Altri {{pluralLabel}} disponibili. Sono visualizzati solo i primi 200 {{pluralLabel}}. Utilizzare il filtro per ulteriore drill down."
-    },
-    "multiSelectBarOverlay": {
-      "loadingFilters": "Caricamento delle opzioni del filtro.",
-      "noFiltersFound": "Nessuna opzione del filtro trovata.",
-      "clickToFilter": "Fare clic per filtrare per {{itemLabel}}"
     },
     "selectBarItem": {
       "moreDataMessage": "Altri {{pluralLabel}} disponibili. Sono visualizzati solo i primi 200 {{pluralLabel}}. Utilizzare il filtro per ulteriore drill down."
@@ -338,42 +264,11 @@
     },
     "allFilters": "Tutti i filtri"
   },
-  "groupedTraces": {
-    "labelGroup": "Gruppo",
-    "labelCount": "Conteggio",
-    "labelEarliestTimestamp": "Data/ora meno recente",
-    "groupedTracesTitle": "Seleziona metriche",
-    "groupedTracesHelp": "Selezionare le metriche che devono essere disponibili come colonne all'interno della tabella. Definisce anche le metriche che possono essere visualizzate come grafici."
-  },
-  "groupingInfo": {
-    "removeGrouping": "Rimuovi raggruppamento"
-  },
-  "metricsChart": {
-    "count": "Conteggio"
-  },
-  "metricSelector": {
-    "tooltipGroups": "Metrica disponibile solo durante l'analisi dei gruppi.",
-    "tooltipRemove": "Rimuovi metrica"
-  },
   "radioButtons": {
     "messageFilering": "Il filtro ed il raggruppamento sull'origine non è disponibile per l'intervallo di tempo selezionato",
     "messageIndependent": "Questo tag è indipendente da origine e destinazione",
     "fragmentSource": "Si applica solo all'origine della chiamata",
     "fragmentCall": "Applica all'origine o alla destinazione della chiamata"
-  },
-  "rawCalls": {
-    "callAnalytics": "Dati analitici di chiamata",
-    "labelTimestamp": "Data/Ora",
-    "labelLatency": "Latenza",
-    "tooltipBatched": "Questa chiamata è stata eseguita in batch e rappresenta {{batchCount}} singole chiamate.",
-    "tooltipLatency": "Latenza totale di {{batchCount}} chiamate eseguite in batch."
-  },
-  "rawTraces": {
-    "labelTimestamp": "Data/Ora",
-    "labelLatency": "Latenza"
-  },
-  "tagFilterList": {
-    "tooltipRemoveFilter": "Rimuovi filtro"
   },
   "dialogs": {
     "tooltip": "Suggerimenti attualmente non disponibili, immettere il valore",
@@ -394,10 +289,6 @@
     "similarServiceLogs": "Nel contesto del servizio"
   },
   "traceDetails": {
-    "titleAnalytics": "Dati analitici",
-    "titleTrace": "Traccia",
-    "tooltipData": "Alcuni dati correlati a questa traccia sono ritardati, pertanto ricaricare la pagina tra qualche minuto. Un esempio di questa situazione è la visualizzazione di una traccia molto recente con alcuni di tali dati ancora in fase di elaborazione.",
-    "tooltipClose": "Chiudi dettagli traccia",
     "labelTotal": "Totale",
     "labelNetwork": "Rete",
     "labelSelf": "Automatico",
@@ -407,12 +298,6 @@
     "labelAggregatedTime": "Tempo aggregato",
     "labelErroneousCalls": "Chiamate errate",
     "buttonTechnology": "Tecnologia",
-    "appNavigatorSplitScreen": {
-      "tooltipViewPrevious": "Visualizza {{viewType}} precedente (tasto di scelta rapida: freccia sinistra)",
-      "tooltipViewNext": "Visualizza successivo {{viewType}} (tasto di scelta rapida: tasto freccia destra)",
-      "tooltipCloseSidebar": "Chiudi barra laterale",
-      "tooltipOpenSidebar": "Apri barra laterale"
-    },
     "callDetails": {
       "tooltipCloseCallDetails": "Chiudi dettagli chiamata"
     },
@@ -428,7 +313,6 @@
     }
   },
   "tabs": {
-    "labelDetail": "Dettaglio",
     "summary": {
       "websiteMonitoringDataTitle": "Attività sito Web corrispondente",
       "messageMultiple_root_spans": "La traccia è in formato non corretto e contiene più chiamate root",
@@ -445,18 +329,8 @@
   "resultHeaderTooltip": "L'intervallo di tempo della query è stato arrotondato al minuto intero più vicino per consentire di caricare questa vista più rapidamente.",
   "components": {
     "analyzeHeader": {
-      "application": "applicazione",
-      "website": "sito web",
-      "mobileApp": "mobileApp",
-      "profiles": "profili",
       "beta": "BETA",
-      "analytics": "Dati analitici"
-    },
-    "editGroupDialog": {
-      "group": "Gruppo",
-      "tag": "Tag",
-      "loadingSuggestions": "Caricamento dei suggerimenti…",
-      "save": "Salva"
+      "analytics": "Analitica"
     },
     "editTagFilterDialog": {
       "tag": "Tag",
@@ -488,45 +362,9 @@
       "tagPresentWithNoValue": "Tag presente senza valore",
       "tagNotPresent": "Tag non presente"
     },
-    "groupingInfo": {
-      "groupedBy": "Raggruppati per",
-      "removeGrouping": "Rimuovi raggruppamento"
-    },
-    "groupingTableHeader": {
-      "preview": "Anteprima",
-      "groupBy": "Raggruppa per",
-      "selectMetrics": "Seleziona metriche",
-      "hideGraph": "Nascondi grafico",
-      "showGraph": "Mostra grafico"
-    },
-    "metricsChart": {
-      "latencyDistribution": "Latenza (distribuzione)",
-      "noDataToDisplay": "Nessun dato da visualizzare."
-    },
-    "metricsSelector": {
-      "pleaseSelectAtMostNumberOfmetrics": "Selezionare al massimo {{maximumNumberOfMetrics}} metriche.",
-      "addMetric": "Aggiungi metrica",
-      "metric": "Metrica",
-      "pleaseSelect": "Selezionare",
-      "aggregation": "Aggregazione",
-      "selectedMetrics": "Metriche selezionate",
-      "save": "Salva"
-    },
     "radioButtons": {
       "source": "Origine",
       "destination": "Destinazione"
-    },
-    "rawCalls": {
-      "call": "Chiamata",
-      "service": "Servizio"
-    },
-    "rawTraces": {
-      "trace": "Traccia",
-      "traceAnalytics": "Dati analitici di traccia",
-      "service": "Servizio"
-    },
-    "tagFilterList": {
-      "and": "e"
     }
   }
 }

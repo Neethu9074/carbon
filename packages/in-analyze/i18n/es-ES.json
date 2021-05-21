@@ -1,76 +1,15 @@
 {
   "analyzeView": {
-    "noData": "No hay llamadas disponibles para el rango de tiempo seleccionado. Para obtener información sobre resolución de problemas, consulte [documentation][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
     "traces": "Rastreos",
     "calls": "Llamadas",
-    "emptyAnalyzeViewTitle": "No se ha encontrado {{emptyEntityName}}",
-    "analyzeEditGroupHelp": "Seleccione un código por el que se deben agrupar las llamadas y rastreos.",
-    "notAvailable": "No está disponible",
-    "quickFilterBarLabel": {
-      "application": "Aplicación",
-      "application_plural": "Aplicaciones",
-      "application_0": "Aplicaciones",
-      "application_1": "Aplicaciones",
-      "application_2": "Aplicaciones",
-      "service": "Servicio",
-      "service_plural": "Servicios",
-      "service_0": "Servicios",
-      "service_1": "Servicios",
-      "service_2": "Servicios",
-      "endpoint": "Punto final",
-      "endpoint_plural": "Puntos finales",
-      "type": "Tipo",
-      "type_plural": "Tipos",
-      "type_0": "Tipos",
-      "type_1": "Tipos",
-      "type_2": "Tipos",
-      "technology": "Tecnología",
-      "technology_plural": "Tecnologías",
-      "technology_0": "Tecnologías",
-      "technology_1": "Tecnologías",
-      "technology_2": "Tecnologías",
-      "latency": "Latencia",
-      "erroneous": "Errónea",
-      "hiddenCalls": "Llamadas ocultas"
-    },
-    "quickGroupBarLabelApplication": "Aplicación",
-    "quickGroupBarLabelService": "Servicio",
-    "quickGroupBarLabelEndpoint": "Punto final",
-    "quickGroupBarLabelType": "Tipo",
-    "quickGroupBarLabelTechnology": "Tecnología",
-    "quickGroupBarLabelAllGroups": "Todos los grupos",
-    "tagGroupEmptyMessage": "No se ha definido ningún grupo.",
     "components": {
-      "loadingStates": {
-        "preparing": "Preparando...",
-        "instanaIsProcessingALargeAmountOfTracingData": "Instana está procesando una gran cantidad de datos de rastreo.",
-        "pleaseDontReloadThisPageWillUpdateAutomatically": "No vuelva a cargar esta página; se actualizará automáticamente.",
-        "runningQuery": "Ejecutando consulta...",
-        "thisQueryHasTimedOut": "Esta consulta ha superado el tiempo de espera.",
-        "theQueryTookTooLongToRunAndHasBeenCancelled": "La consulta ha tardado demasiado tiempo en ejecutarse y se ha cancelado.",
-        "selectAShorterTimeframeOrIssueAMoreSpecificQueryByApplyingMoreFilters": "Seleccione un periodo de tiempo más corto o emita una consulta más específica aplicando más filtros.",
-        "thereWasAnInputError": "Se ha producido un error de entrada.",
-        "tooManyRequests": "Demasiadas solicitudes",
-        "ourSystemIsCurrentlyBusyPleaseTryAgainLater": "Nuestro sistema está ocupado actualmente. Vuelva a intentarlo más adelante.",
-        "serverError": "Error del servidor",
-        "anUnexpectedErrorOccurredPleaseTryAgainLaterOrContactSupportToReportTheError": "Se ha producido un error inesperado. Vuelva a intentarlo más tarde o póngase en contacto con el soporte para notificar el error."
-      },
-      "tagFilterConfiguration": {
-        "noFiltersDefined": "No se han definido filtros."
-      },
-      "tagGroupConfiguration": {
-        "select": "Seleccionar",
-        "top5": "5 principales",
-        "bottom5": "Los últimos 5",
-        "showRemainingGroupsAggregatedAsOther": "Mostrar los grupos agregados restantes como \"Otros\"."
-      },
       "resultHeader": {
         "result": "Resultado",
         "counter_sessionStart": "{{number}} inicio de sesión",
-        "counter_sessionStart_plural": "{{number}} inicios de sesiones ",
-        "counter_sessionStart_0": "{{number}} inicios de sesiones ",
-        "counter_sessionStart_1": "{{number}} inicio de sesiones ",
-        "counter_sessionStart_2": "{{number}} inicios de sesiones ",
+        "counter_sessionStart_plural": "{{number}} inicios de sesiones",
+        "counter_sessionStart_0": "{{number}} inicios de sesiones",
+        "counter_sessionStart_1": "{{number}} inicio de sesiones",
+        "counter_sessionStart_2": "{{number}} inicios de sesiones",
         "counter_viewChange": "{{number}} transición de vista",
         "counter_viewChange_plural": "{{number}} transiciones de vista",
         "counter_viewChange_0": "{{number}} transiciones de vista",
@@ -86,7 +25,7 @@
         "counter_custom_0": "{{number}} sucesos personalizados",
         "counter_custom_1": "{{number}} sucesos personalizados",
         "counter_custom_2": "{{number}} sucesos personalizados",
-        "counter_Row": "{{number}} Fila ",
+        "counter_Row": "{{number}} Fila",
         "counter_Row_plural": "{{number}} filas",
         "counter_Row_0": "{{number}} filas",
         "counter_Row_1": "{{number}} filas",
@@ -107,10 +46,15 @@
         "counter_Call_1": "{{number}} llamadas",
         "counter_Call_2": "{{number}} llamadas",
         "counter_Trace": "{{number}} rastreo",
-        "counter_Trace_plural": "{{number}} rastreos ",
-        "counter_Trace_0": "{{number}} rastreos ",
-        "counter_Trace_1": "{{number}} rastreos ",
-        "counter_Trace_2": "{{number}} rastreos ",
+        "counter_Trace_plural": "{{number}} rastreos",
+        "counter_Trace_0": "{{number}} rastreos",
+        "counter_Trace_1": "{{number}} rastreos",
+        "counter_Trace_2": "{{number}} rastreos",
+        "counter_Traces": "{{number}} rastreo",
+        "counter_Traces_plural": "{{number}} rastreos",
+        "counter_Traces_0": "{{number}} rastreos",
+        "counter_Traces_1": "{{number}} rastreos",
+        "counter_Traces_2": "{{number}} rastreos",
         "loading": "Cargando…"
       }
     },
@@ -145,9 +89,6 @@
       "console": "Consola"
     }
   },
-  "services": {
-    "noData": "No hay llamadas de servicio disponibles para el rango de tiempo seleccionado. Para obtener información sobre resolución de problemas, consulte [documentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
-  },
   "traceDetail": {
     "callDetails": {
       "serviceComponent": {
@@ -159,33 +100,28 @@
         "sourceMonitoredByAnotherProvider": "Otro proveedor de rastreo distribuido ha rastreado el origen de esta llamada. Puede encontrar más información sobre el origen realizando una búsqueda en el espacio padre de este proveedor con el ID {{foreignParentId}}.",
         "notMonitored": "No supervisado por Instana",
         "source": "origen",
-        "destination": "destino"
+        "destination": "destino",
+        "logs": "Registros ( {{errors}}{{warnings}} )",
+        "errors": "{{count}} error",
+        "errors_plural": "{{count}} errores",
+        "errors_0": "{{count}} errores",
+        "errors_1": "{{count}} errores",
+        "errors_2": "{{count}} errores",
+        "warnings": "{{count}} aviso",
+        "warnings_plural": "{{count}} avisos",
+        "warnings_0": "{{count}} avisos",
+        "warnings_1": "{{count}} avisos",
+        "warnings_2": "{{count}} avisos"
       }
     },
     "tabs": {
       "summary": {
-        "duplicateCalls": "Llamadas duplicadas",
-        "duplicateCallsDesc": "Este rastreo consta de una o varias llamadas duplicadas (spans). Llamadas exclusivas: {{traceCallCountIgnoringBatchSize}} - Registros: {{traceCallRecordCount}}. Esto genera un número de llamadas incorrecto (con lotes) y valores de recuento de errores, y quizás a otras irregularidades.",
-        "batchedIngestion": "Ingesta por lotes",
-        "traceIngestionBatchCount": "Este rastreo se ha procesado en {{traceIngestionBatchesCount}} lotes. Esto puede generar irregularidades, por ejemplo, spans no fusionados con una única llamada, una correlación de servicios parcial o que se muestren otros datos incompletos.",
-        "subCalls": "Subllamadas",
-        "erroneousCalls": "Llamadas erróneas",
-        "errorLogs": "Registros de errores",
-        "warnLogs": "Registros de avisos",
-        "latency": "Latencia",
-        "timeline": "Línea temporal",
-        "serviceEndpointList": "Lista puntos finales de servicio",
-        "largeTrace": "Rastreo de gran tamaño",
-        "largeTraceLink": "Este es un rastreo de gran tamaño y la representación de este rastreo puede generar problemas de rendimiento en su navegador. Puede <linkToDocs>descargar el rastreo</linkToDocs> para realizar una inspección manual o para intentar visualizar el rastreo en el navegador. Sólo se visualizará un subconjunto de los componentes para mejorar el rendimiento durante este intento.",
-        "calls": "Llamadas",
         "logs": "Registros",
         "analyzeLogs": "Ver en análisis",
         "correspondingMobileAppActivity": "Actividad de aplicación móvil correspondiente",
         "hideMobileAppInformation": "Ocultar información de aplicación móvil",
         "showMobileAppInformation": "Mostrar información de aplicación móvil",
         "viewMobileAppActivity": "Ver actividad de aplicación móvil",
-        "erroneousTrace": "Rastreo erróneo",
-        "attemptToRenderTrace": "Intento de visualización del rastreo",
         "hideWebsiteInformation": "Ocultar información del sitio web",
         "showWebsiteInformation": "Mostrar información del sitio web",
         "viewWebsiteActivity": "Ver actividad del sitio web"
@@ -232,7 +168,7 @@
         "windowLocation": "Ubicación de ventana",
         "resourceUri": "URI de recurso",
         "cacheInteraction": "Interacción de memoria caché",
-        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana no supervisa la {{location}} de esta llamada ",
+        "instanaDoesNotMonitorTheLocationOfThisCall": "Instana no supervisa la {{location}} de esta llamada",
         "tags": "Códigos"
       },
       "callTree": {
@@ -247,13 +183,15 @@
       "logTooltipContent": {
         "errorLog": "Registro de errores",
         "warningLog": "Registro de avisos"
+      },
+      "callTooltipContent": {
+        "numbersOfErrors": "{{count}} error",
+        "numbersOfErrors_plural": "{{count}} errores",
+        "numbersOfErrors_0": "{{count}} errores",
+        "numbersOfErrors_1": "{{count}} errores",
+        "numbersOfErrors_2": "{{count}} errores"
       }
-    },
-    "applications": "Aplicaciones",
-    "analytics": "Analíticas",
-    "download": "Descargar",
-    "traceId": "ID de rastreo:",
-    "closeTraceDetail": "Cerrar detalles de rastreo"
+    }
   },
   "applicationFilter": {
     "labelApplication": "Aplicación",
@@ -312,20 +250,8 @@
     "addFilter": "Añadir filtro"
   },
   "filterBar": {
-    "checkboxBarOverlay": {
-      "labelSynthetic": "Mostrar llamadas sintéticas",
-      "labelInternal": "Mostrar llamadas internas"
-    },
     "keyValueBarItem": {
       "tooltip": "Eliminar filtro"
-    },
-    "multiSelectBarItem": {
-      "moreDataMessage": "Más {{pluralLabel}} disponibles. Sólo se muestran los 200 {{pluralLabel}} principales. Utilice el filtro para obtener más detalles."
-    },
-    "multiSelectBarOverlay": {
-      "loadingFilters": "Cargando opciones de filtro.",
-      "noFiltersFound": "No se han encontrado opciones de filtro.",
-      "clickToFilter": "Pulsar para filtrar por {{itemLabel}}"
     },
     "selectBarItem": {
       "moreDataMessage": "Más {{pluralLabel}} disponibles. Sólo se muestran los 200 {{pluralLabel}} principales. Utilice el filtro para obtener más detalles."
@@ -338,42 +264,11 @@
     },
     "allFilters": "Todos los filtros"
   },
-  "groupedTraces": {
-    "labelGroup": "Agrupar",
-    "labelCount": "Número",
-    "labelEarliestTimestamp": "Primera indicación de fecha y hora",
-    "groupedTracesTitle": "Seleccionar métricas",
-    "groupedTracesHelp": "Seleccione qué métricas deben estar disponibles como columnas en la tabla. También define qué métricas se pueden visualizar como gráficos."
-  },
-  "groupingInfo": {
-    "removeGrouping": "Eliminar agrupación"
-  },
-  "metricsChart": {
-    "count": "Número"
-  },
-  "metricSelector": {
-    "tooltipGroups": "La métrica sólo está disponible cuando se analizan grupos.",
-    "tooltipRemove": "Eliminar métrica"
-  },
   "radioButtons": {
     "messageFilering": "El filtrado y la agrupación en origen no está disponible para el periodo de tiempo seleccionado",
     "messageIndependent": "Este código es independiente del origen y el destino",
     "fragmentSource": "Sólo se aplica al origen de la llamada",
     "fragmentCall": "Aplicar para llamar al origen o destino"
-  },
-  "rawCalls": {
-    "callAnalytics": "Análisis de llamadas",
-    "labelTimestamp": "Indicación de fecha y hora",
-    "labelLatency": "Latencia",
-    "tooltipBatched": "Esta llamada está incluida en un lote y representa {{batchCount}} llamadas individuales.",
-    "tooltipLatency": "Latencia total de {{batchCount}} llamadas por lotes."
-  },
-  "rawTraces": {
-    "labelTimestamp": "Indicación de fecha y hora",
-    "labelLatency": "Latencia"
-  },
-  "tagFilterList": {
-    "tooltipRemoveFilter": "Eliminar filtro"
   },
   "dialogs": {
     "tooltip": "Las sugerencias no están disponibles, escriba el valor",
@@ -394,10 +289,6 @@
     "similarServiceLogs": "En el contexto del servicio"
   },
   "traceDetails": {
-    "titleAnalytics": "Analíticas",
-    "titleTrace": "Rastreo",
-    "tooltipData": "Algunos datos relacionados con este rastreo se retrasan, por lo tanto, vuelva a cargar la página más adelante. Por ejemplo, esto puede suceder cuando se visualiza un rastreo muy reciente y algunos de sus datos todavía se están procesando.",
-    "tooltipClose": "Cerrar detalles de rastreo",
     "labelTotal": "Total",
     "labelNetwork": "Red",
     "labelSelf": "Propio",
@@ -407,12 +298,6 @@
     "labelAggregatedTime": "Tiempo agregado",
     "labelErroneousCalls": "Llamadas erróneas",
     "buttonTechnology": "Tecnología",
-    "appNavigatorSplitScreen": {
-      "tooltipViewPrevious": "Ver {{viewType}} anterior (acceso directo: tecla de flecha izquierda)",
-      "tooltipViewNext": "Ver siguiente {{viewType}} (acceso directo: flecha derecha)",
-      "tooltipCloseSidebar": "Cerrar barra lateral",
-      "tooltipOpenSidebar": "Abrir barra lateral"
-    },
     "callDetails": {
       "tooltipCloseCallDetails": "Cerrar detalles de llamada"
     },
@@ -428,7 +313,6 @@
     }
   },
   "tabs": {
-    "labelDetail": "Detalle",
     "summary": {
       "websiteMonitoringDataTitle": "Actividad del sitio web correspondiente",
       "messageMultiple_root_spans": "El formato del rastreo es erróneo y contiene varias llamadas raíz",
@@ -445,18 +329,8 @@
   "resultHeaderTooltip": "El rango de tiempo de la consulta se ha redondeado hasta el minuto completo más próximo para permitir que esta vista se cargue más rápidamente.",
   "components": {
     "analyzeHeader": {
-      "application": "aplicación",
-      "website": "sitio web",
-      "mobileApp": "mobileApp",
-      "profiles": "perfiles",
       "beta": "BETA",
       "analytics": "Analíticas"
-    },
-    "editGroupDialog": {
-      "group": "Agrupar",
-      "tag": "Código",
-      "loadingSuggestions": "Cargando sugerencias...",
-      "save": "Guardar"
     },
     "editTagFilterDialog": {
       "tag": "Código",
@@ -488,45 +362,9 @@
       "tagPresentWithNoValue": "Código presente sin valor",
       "tagNotPresent": "Código no presente"
     },
-    "groupingInfo": {
-      "groupedBy": "Agrupado por",
-      "removeGrouping": "Eliminar agrupación"
-    },
-    "groupingTableHeader": {
-      "preview": "Vista previa",
-      "groupBy": "Agrupar por",
-      "selectMetrics": "Seleccionar métricas",
-      "hideGraph": "Ocultar gráfico",
-      "showGraph": "Mostrar gráfico"
-    },
-    "metricsChart": {
-      "latencyDistribution": "Latencia (distribución)",
-      "noDataToDisplay": "No hay datos para visualizar"
-    },
-    "metricsSelector": {
-      "pleaseSelectAtMostNumberOfmetrics": "Seleccione como máximo {{maximumNumberOfMetrics}} métricas.",
-      "addMetric": "Añadir métrica",
-      "metric": "Métrica",
-      "pleaseSelect": "Seleccione",
-      "aggregation": "Agregación",
-      "selectedMetrics": "Métricas seleccionadas",
-      "save": "Guardar"
-    },
     "radioButtons": {
       "source": "Origen",
       "destination": "Destino"
-    },
-    "rawCalls": {
-      "call": "Llamada",
-      "service": "Servicio"
-    },
-    "rawTraces": {
-      "trace": "Rastreo",
-      "traceAnalytics": "Análisis de rastreo",
-      "service": "Servicio"
-    },
-    "tagFilterList": {
-      "and": "y"
     }
   }
 }
