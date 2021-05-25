@@ -49,7 +49,7 @@
     "registryHealth": "Funcionamento",
 
     "runtimeLabelNet": ".NET Core",
-    "runtimeLabelGo": "Ir",
+    "runtimeLabelGo": "Go",
     "runtimeLabelJava": "Java",
     "runtimeLabelNodeJS": "Node.js",
     "runtimeLabelPython": "Python",

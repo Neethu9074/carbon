@@ -10,7 +10,7 @@
       "city": "Città",
       "address": "Indirizzo",
       "additionalAddress": "Indirizzo aggiuntivo",
-      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "Se qualcuna delle informazioni contenute in questa pagina deve essere corretta, contattaci.<linkToMail>{{salesopsEmail}}</linkToMail>"
+      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "Se è necessario correggere qualcuna delle informazioni contenute in questa pagina, contattare <linkToMail>{{salesopsEmail}}</linkToMail>"
     },
     "activeLicenses": {
       "name": "Nome",

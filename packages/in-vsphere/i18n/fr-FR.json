@@ -1,7 +1,7 @@
 {
     "breadcrumbs": {
-      "vSphereDatacenter": "vSphere Datacenter",
-      "vSphereDatacenters": "VSphere Datacenters",
+      "vSphereDatacenter": "Centre de données vSphere",
+      "vSphereDatacenters": "Centres de données vSphere",
       "esXiHost": "Hôte ESXi",
       "vSphereVm": "Machine virtuelle vSphere"
     },
@@ -11,7 +11,7 @@
     "memoryUsage": "Utilisation de la mémoire",
     "memoryResources": "Ressources mémoire",
     "dashboards": {
-      "vSphereDatacenter": "vSphere Datacenter",
+      "vSphereDatacenter": "Centre de données vSphere",
       "summary": "Récapitulatif",
       "esXiHosts": "Hôtes ESXi",
       "virtualMachines": "Machines virtuelles",
@@ -24,9 +24,9 @@
       "memoryResources": "Ressources mémoire",
       "vmBalloonMemory": "Mémoire de gonflage VM",
       "network": "Réseau",
-      "netUsage": "Utilisation nette",
+      "netUsage": "Utilisation du réseau",
       "cpu": "UC",
-      "wait": "Wait",
+      "wait": "Attente",
       "system": "Système",
       "name": "Nom",
       "vSphereEsXiHost": "Hôte vSphere ESXi",
@@ -80,7 +80,7 @@
       },
       "vSphereVm": "Machine virtuelle vSphere"
     },
-    "vSphereDatacenters": "VSphere Datacenters",
+    "vSphereDatacenters": "Centres de données vSphere",
     "noMonitoringDataFound": "Aucune donnée de surveillance trouvée",
     "noData": "Aucune donnée vSphere n'est disponible.",
     "esXiHosts": "Hôtes ESXi",

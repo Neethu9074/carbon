@@ -31,10 +31,10 @@
   "aggregation_P95": "95e",
   "aggregation_P98": "98e",
   "aggregation_P99": "99e",
-  "aggregation_MEAN": "moyen",
+  "aggregation_MEAN": "moyenne",
   "aggregation_MIN": "min",
   "aggregation_MAX": "max",
   "aggregation_DISTINCT_COUNT": "nombre distinct",
-  "aggregation_SUM": "sum",
+  "aggregation_SUM": "somme",
   "aggregation_DISTRIBUTION": "distribution"
 }

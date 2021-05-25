@@ -22,7 +22,7 @@
   "analyzeProfiles": "Analizar perfiles",
   "settings": "Valores",
   "threshold": "Umbral",
-  "onlyShowMethodAboveThisThreshold": "Sólo mostrar método por encima de este umbral",
+  "onlyShowMethodAboveThisThreshold": "Sólo mostrar método por encima del umbral",
   "on": "en",
   "highlightSelfCpu": "Resaltar CPU propia",
   "onFlameGraphHighlightTimeSpentOnMethodsThemselves": "En el gráfico de llama, el tiempo empleado en los propios métodos",

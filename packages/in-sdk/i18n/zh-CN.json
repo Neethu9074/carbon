@@ -37,7 +37,7 @@
         "classpathHide": "隐藏类路径",
         "classpathShow": "显示类路径"
       },
-      "processStartedTitle": "启动时间",
+      "processStartedTitle": "开始",
       "tags": "标记 ({{size}})"
   },
 
@@ -49,7 +49,7 @@
     "registryHealth": "运行状况",
 
     "runtimeLabelNet": ".NET Core",
-    "runtimeLabelGo": "执行",
+    "runtimeLabelGo": "Go",
     "runtimeLabelJava": "Java",
     "runtimeLabelNodeJS": "Node.js",
     "runtimeLabelPython": "Python",
@@ -59,7 +59,7 @@
 
   "tracing": {
     "registryCall": "调用",
-    "registryCall_plural": "调用数",
+    "registryCall_plural": "调用",
     "registryCall_0": "调用次数",
     "registryCall_1": "调用次数",
     "registryCall_2": "调用次数"
