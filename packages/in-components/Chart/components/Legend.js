@@ -17,7 +17,7 @@ import { t } from 'in-i18n';
 
 import locals from './Legend.mless';
 
-export const HEIGHT = 32;
+export const HEIGHT = 16;
 
 export default function Legend(props) {
   const [isExpanded, setIsExpanded] = useState(false);

@@ -51,9 +51,12 @@ function ChartReactWrapper(props) {
   } = props;
 
   const [preAndPostContentConfig, setPreAndPostContentConfig] = useState();
+
   const { ref: legendRef, height: calculatedLegendHeight } = useResizeObserver();
   const actualLegendHeight = calculatedLegendHeight ?? commonLegendHeight;
+
   const chartHeight = heightOfWrapper - actualLegendHeight;
+
   const chartProps = {
     ...props,
     height: chartHeight
