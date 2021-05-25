@@ -1,5 +1,5 @@
 {
-  "name": "in-stores",
+  "name": "in-hoc",
   "version": "1.0.0",
   "description": "Higher-order components",
   "main": "index.js",

@@ -1,5 +1,5 @@
 {
- "name": "AnalyzeOneToTwoViewParameterConversion",
+ "name": "webAnalyzeOneToTwoViewParameterConversion",
  "version": "0.0.0",
  "private": true,
  "main": "./AnalyzeOneToTwoViewParameterConversion.js"

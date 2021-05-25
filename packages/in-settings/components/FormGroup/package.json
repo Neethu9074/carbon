@@ -1,5 +1,5 @@
 {
-  "name": "FormGroup",
+  "name": "settings-formgroup",
   "version": "0.0.0",
   "private": true,
   "main": "./FormGroup.js"

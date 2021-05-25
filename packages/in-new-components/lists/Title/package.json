@@ -1,5 +1,5 @@
 {
-  "name": "Title",
+  "name": "list-title",
   "version": "0.0.0",
   "private": true,
   "main": "./Title.js"

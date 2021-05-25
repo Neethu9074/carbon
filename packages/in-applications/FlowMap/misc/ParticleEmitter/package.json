@@ -1,5 +1,5 @@
 {
-  "name": "ParticleEmitter",
+  "name": "flowMap-ParticleEmitter",
   "version": "0.0.0",
   "private": true,
   "main": "./ParticleEmitter.js"

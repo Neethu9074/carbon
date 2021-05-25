@@ -1,5 +1,5 @@
 {
-  "name": "Beacon",
+  "name": "sessionview-beacon",
   "version": "0.0.0",
   "private": true,
   "main": "./Beacon.js"

@@ -1,5 +1,5 @@
 {
-  "name": "Grid",
+  "name": "customdashboard-grid",
   "version": "0.0.0",
   "private": true,
   "main": "./Grid.js"
