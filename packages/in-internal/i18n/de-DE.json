@@ -121,7 +121,8 @@
       "elasticsearch": "Elasticsearch",
       "elasticsearchNg": "ElasticsearchNG",
       "kafka": "Kafka",
-      "demous": "demous"
+      "demous": "demous",
+      "demoeu": "demoeu"
     },
     "internalViewWrapper": {
       "internal": "Intern"
@@ -582,7 +583,7 @@
       "system": "System",
       "wait": "Warten",
       "free": "Frei",
-      "leaked": "Leck",
+      "leaked": "Leaked",
       "readPerSec": "Lesevorgänge/s",
       "writePerSec": "Schreibvorgänge/s",
       "bytesReadPerSec": "Gelesene Byte/s",
@@ -714,11 +715,11 @@
         "backendSpanDropSumAInstance": "Back-End-Spanne löschen (instanzenübergreifende Summe)",
         "spanDropSumChartExplanation_1": "Zeigt, ob Spannen gelöscht werden und warum:",
         "spanDropSumChartExplanation_2": "<strong>Verarbeitet:</strong> Zeigt, wie viele Spannweiten erfolgreich verarbeitet wurden.",
-        "spanDropSumChartExplanation_3": "<strong>Aufgrund globaler Drosselungsfunktion gelöscht:</strong> aufgrund einer globalen Ratenbegrenzung (<i>config.hard.spans.rate.drop.threshold</i>) gelöscht",
+        "spanDropSumChartExplanation_3": "<strong>Aufgrund globaler Drosselungsfunktion gelöscht:</strong> aufgrund einer globalen Ratenbegrenzung (<em>config.hard.spans.rate.drop.threshold</em>) gelöscht",
         "spanDropSumChartExplanation_4": "<strong>Aufgrund konsistenter Löschvorgänge gelöscht:</strong> gelöscht, weil andere Spannen desselben Trace in der Vergangenheit gelöscht wurden, z. B. wegen Rückstau (stellt sicher, dass entweder alle Spannen eines Trace oder keine gelöscht werden)",
         "spanDropSumChartExplanation_5": "<strong>Aufgrund von Rückstau gelöscht:</strong> aufgrund von Nichtverfügbarkeit von Ressourcen gelöscht (d. h. hohe CPU-Nutzung oder ein Schritt der Pipeline befindet sich in einem Engpass)",
         "spanDropSumChartExplanation_6": "<strong>Aufgrund von Rückstau gelöscht (willkürliche Löschung):</strong> gelöscht, weil der Kafka-Datensatz älter als 5 Sekunden ist. ",
-        "spanDropSumChartExplanation_7": "<strong>Aufgrund von Trace-Drosselungsfunktion gelöscht:</strong> aufgrund einer Ratenbegrenzung pro Trace (<i>config.hard.spans.per.trace.rate.drop.threshold</i>) gelöscht",
+        "spanDropSumChartExplanation_7": "<strong>Aufgrund von Trace-Drosselungsfunktion gelöscht:</strong> aufgrund einer Ratenbegrenzung pro Trace (<em>config.hard.spans.per.trace.rate.drop.threshold</em>) gelöscht",
         "droppingRate": "Löschrate",
         "processed": "Verarbeitet",
         "dropGlobalThrottler": "Gelöscht aufgrund der globalen Drosselungsfunktion",
@@ -730,13 +731,13 @@
         "backendSpanDropInstChartExplanation_1": "Wenn Spannen gelöscht werden, ist es wichtig, auf einzelne Instanzen zu achten.",
         "backendSpanDropInstChartExplanation_2": "Alle Instanzen werden gelöscht: Scale-out.",
         "backendSpanDropInstChartExplanation_3": "Eine oder mehrere Instanzen (aber nicht alle) werden gelöscht: Scale-out ist nicht hilfreich.",
-        "backendSpanDropInstChartExplanation_4": "Traces mit einem hohen Durchsatz werden verarbeitet (Sharding-Schlüssel ist die Trace-ID): passen Sie <i>config.hard.spans.per.trace.rate.drop.threshold</i> an.",
+        "backendSpanDropInstChartExplanation_4": "Traces mit einem hohen Durchsatz werden verarbeitet (Sharding-Schlüssel ist die Trace-ID): passen Sie <em>config.hard.spans.per.trace.rate.drop.threshold</em> an.",
         "backendSpanDropInstChartExplanation_5": "Die CPU-Belastung ist auf dem/den zugrunde liegenden Host(s) zu hoch: Instanz einem weniger überlasteten Host zuordnen.",
         "srvlessAcceptorRateLimitSpanMsg": "Ratenbegrenzte Spannennachrichten des serverlosen Akzeptors",
         "spanLatencyMeanInstance": "Spannenlatenzzeit (Instanzenmittelwert)",
         "spanLatencyMeanInstChartExplanation": "Verzögerung im Agenten: Verzögerung zwischen dem Zeitpunkt, zu dem eine Spanne beendet wurde, und dem Zeitpunkt, zu dem sie vom Agenten an den Akzeptor gesendet wurde.",
         "acceptorRateLimitSpanMsg": "Ratenbegrenzte Spannennachrichten des Akzeptors",
-        "acceptorRateLimitSpanhartExplan": "Anzahl der Spannennachrichten (eine Nachricht enthält mehrere Bereiche), die aufgrund einer Ratenbegrenzung pro Tenant-Einheit gelöscht werden. Siehe <i>config.span.publish.rate.limit</i> (Standardwert: 25.000).",
+        "acceptorRateLimitSpanhartExplan": "Anzahl der Spannennachrichten (eine Nachricht enthält mehrere Bereiche), die aufgrund einer Ratenbegrenzung pro Tenant-Einheit gelöscht werden. Siehe <em>config.span.publish.rate.limit</em> (Standardwert: 25.000).",
         "acceptorDropSpanMsg": "Gelöschte Spannennachrichten des Akzeptors",
         "srvlessAcceptorDropSpanMsg": "Gelöschte Spannennachrichten des serverlosen Akzeptors",
         "appDataProcessorInst": "Prozessoreinstanzen des AppData-Prozessors",
@@ -793,11 +794,11 @@
     "units": {
       "api": {
         "apiCallBlockRateLimitRate": "Rate für API-Aufrufblock (Ratenbegrenzung)",
-        "apiChartExplanation_1": "API-Aufrufe werden blockiert, wenn sie den Grenzwert für die Rate erreicht haben, der im Konfigurationsabschnitt <i>rateLimit</i> von <i>ui-backend</i> definiert ist.",
+        "apiChartExplanation_1": "API-Aufrufe werden blockiert, wenn sie den Grenzwert für die Rate erreicht haben, der im Konfigurationsabschnitt <em>rateLimit</em> von <em>ui-backend</em> definiert ist.",
         "apiChartExplanation_2": "Der HTTP-Statuscode 429 wird zusammen mit den folgenden Headern (siehe <linkToDocs>reference</linkToDocs>) in der Antwort angegeben:",
-        "apiChartExplanation_3": "Es gibt einen <i>Standard</i>-Grenzwert, aber auch spezifischere Grenzwerte pro <i>Zone</i>: <i>Suche</i>, <i>Einstellungen</i>, <i>Appdata</i> und <i>Momentaufnahmen</i>.",
-        "apiChartExplanation_4": "Das folgende Diagramm zeigt nur, dass Aufrufe blockiert werden, es ist aber nicht bekannt, welche der Grenzwerte erreicht wurden. Dazu können Sie sich die Messdaten für <i>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distinct-client-key-ZONE</i> in <i>ui-backend</i> ansehen, die die Aufrufrate pro Zone angeben, oder sich die Traces und insbesondere die Statuscodes und Header ansehen. ",
-        "apiChartExplanation_5": "<strong>Wichtig:</strong> Aufrufe mit dem HTTP-Statuscode 429 werden nicht unbedingt durch die API-Ratenbegrenzungen blockiert, können aber auch durch einen der zum Schutz von <i>appdata-reader</i> verwendeten Begrenzer blockiert werden (siehe entsprechende Messdaten im <i>ui-backend</i> mit dem Format <i>appDataReaderXXXLimiter</i>). Sie können die beiden Fälle unterscheiden, indem Sie suchen, ob <i>X-RateLimit-XXX</i>-Header in den Traces vorhanden sind."
+        "apiChartExplanation_3": "Es gibt einen <em>Standard</em>-Grenzwert, aber auch spezifischere Grenzwerte pro <em>Zone</em>: <em>Suche</em>, <em>Einstellungen</em>, <em>Appdata</em> und <em>Momentaufnahmen</em>.",
+        "apiChartExplanation_4": "Das folgende Diagramm zeigt nur, dass Aufrufe blockiert werden, es ist aber nicht bekannt, welche der Grenzwerte erreicht wurden. Dazu können Sie sich die Messdaten für <em>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distinct-client-key-ZONE</em> in <em>ui-backend</em> ansehen, die die Aufrufrate pro Zone angeben, oder sich die Traces und insbesondere die Statuscodes und Header ansehen. ",
+        "apiChartExplanation_5": "<strong>Wichtig:</strong> Aufrufe mit dem HTTP-Statuscode 429 werden nicht unbedingt durch die API-Ratenbegrenzungen blockiert, können aber auch durch einen der zum Schutz von <em>appdata-reader</em> verwendeten Begrenzer blockiert werden (siehe entsprechende Messdaten im <em>ui-backend</em> mit dem Format <em>appDataReaderXXXLimiter</em>). Sie können die beiden Fälle unterscheiden, indem Sie suchen, ob <em>X-RateLimit-XXX</em>-Header in den Traces vorhanden sind."
       },
       "application": {
         "appdataProcessorInstance": "Appdata-Prozessorinstanzen",

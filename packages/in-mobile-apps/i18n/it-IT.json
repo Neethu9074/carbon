@@ -6,10 +6,6 @@
     "custom": "Evento personalizzato"
   },
   "analyzeView": {
-    "noData": "Nessun beacon disponibile per l'intervallo di tempo selezionato. Per informazioni sulla risoluzione dei problemi, consultare la [documentazione][Doc].\n\n[Doc]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
-    "MetricSelectorTitle": "Selezionare metriche",
-    "MetricSelectorHelp": "Selezionare quali metriche devono essere disponibili come colonne all'interno della tabella. Inoltre definisce quali metriche possono essere visualizzate come grafici.",
-    "EntityPageMainNotificationTitle": "Nessuna {{entityName}} rilevata",
     "uniqueUsers": "Utenti univoci",
     "metrics": {
       "timestampMetricName": "data/ora",
@@ -33,7 +29,7 @@
       "viewChangeBeaconCountLabel": "Transizioni vista",
       "httpRequestBeaconCountLabel": "Chiamate",
       "httpRequestBeaconErrorCountLabel": "Chiamate errate",
-      "httpRequestBeaconDurationLabel": "Ora richiamo",
+      "httpRequestBeaconDurationLabel": "Tempo richiamo",
       "httpRequestHttp1xxLabel": "Numero di HTTP 1XX",
       "httpRequestHttp1xxRawDataLabel": "Stato HTTP",
       "httpRequestHttp2xxLabel": "Numero di HTTP 2XX",
@@ -55,12 +51,6 @@
       "customBeaconCountLabel": "Ricorrenze",
       "customBeaconDurationLabel": "Durata"
     },
-    "editGroupDialog": {
-      "help": "Selezionare un tag in base al quale raggruppare i beacon."
-    },
-    "groupMetricsChart": {
-      "countChartDefinitionLabel": "Numero"
-    },
     "quickFilterBar": {
       "mobileAppLabel": "App Mobile",
       "mobileAppLabel_plural": "App mobili",
@@ -77,8 +67,8 @@
       "platformLabel_0": "Piattaforme",
       "platformLabel_1": "Piattaforme",
       "platformLabel_2": "Piattaforme",
-      "osLabel": "OS",
-      "osLabel_plural": "OS",
+      "osLabel": "Sistema operativo",
+      "osLabel_plural": "Sistemi operativi",
       "osLabel_0": "Sistema operativo",
       "osLabel_1": "Sistema operativo",
       "osLabel_2": "Sistema operativo",
@@ -105,29 +95,8 @@
       "metaLabel": "Meta"
     },
     "perBeaconTypeConfigs": {
-      "customTH1": "Nome evento",
-      "customTH2": "App Mobile",
-      "customTimestampLabel": "Data/Ora",
       "customBatchingIndicatorTooltipContent": "Questo evento è stato eseguito in batch e rappresenta {{size}} eventi individuali.",
-      "customListItemHeader": "Nome evento",
-      "httpRequestTH1": "Accesso",
-      "httpRequestTH2": "App Mobile",
-      "httpRequestTimestampLabel": "Data/Ora",
-      "httpRequestBatchingIndicatorTooltipContent": "Questa richiesta HTTP è stata eseguita in batch e rappresenta {{size}} richieste HTTP individuali.",
-      "httpRequestListItemHeader": "Accesso",
-      "sessionStartTH1": "ID sessione",
-      "sessionStartTH2": "App Mobile",
-      "sessionStartTimestampLabel": "Data/Ora",
-      "sessionStartListItemHeader": "ID sessione",
-      "viewChangeTH1": "Nome vista",
-      "viewChangeTH2": "App Mobile",
-      "viewChangeTimestampLabel": "Data/Ora",
-      "viewChangeListItemHeader": "Nome vista"
-    },
-    "groupedBeaconsTable": {
-      "groupLabel": "Gruppo",
-      "countLabel": "Numero",
-      "timestampLabel": "Prima data/ora"
+      "httpRequestBatchingIndicatorTooltipContent": "Questa richiesta HTTP è stata eseguita in batch e rappresenta {{size}} richieste HTTP individuali."
     }
   },
   "beaconUserSum": {
@@ -153,11 +122,11 @@
     "userTooltipContent": "Solo un sottoinsieme dei beacon di questa sessione ha associati i dati degli utenti. Ciò può dare luogo a statistiche e analisi dei risultati sorprendenti."
   },
   "sessionView": {
-    "analyticsTitle": "Dati analitici",
-    "analyticsBreadscrumbLabel": "Dati analitici {{prefix}}}",
+    "analyticsTitle": "Analitica",
+    "analyticsBreadscrumbLabel": "Analitica {{prefix}}}",
     "sessionBreadscrumbLabel": "Sessione",
     "sessionTitle": "Sessione",
-    "analyticsLink": "Dati analitici",
+    "analyticsLink": "Analitica",
     "downloadBtn": "Scarica",
     "closeSessionDetailsTooltip": "Chiudi dettagli di sessione",
     "closeSessionDetailsArialabel": "Chiudi dettagli di sessione",
@@ -189,9 +158,9 @@
       "cusBadgeLabel": "Cus",
       "cusLong": "Eventi personalizzati"
     },
-    "tabsSumOverviewChartTooltipStartTime": "Ora di inizio",
+    "tabsSumOverviewChartTooltipStartTime": "Data/ora di inizio",
     "tabsSummary": {
-      "startTimeTitle": "Ora di inizio",
+      "startTimeTitle": "Data/ora di inizio",
       "httpRequestTitle": "Richieste HTTP",
       "mobileAppTitle": "App Mobile",
       "clockProblemTitle": "Rilevati problemi di sfasamento dell'orologio",
@@ -225,7 +194,7 @@
     "tabsSumBatchIndicatorTooltip": "{{number}} ricorrenze",
     "tabsSumCustomEventBeacon": {
       "customEventLabel": "Evento personalizzato",
-      "startTimeLabel": "Ora di inizio",
+      "startTimeLabel": "Data/ora di inizio",
       "durationLabel": "Durata",
       "customEventHeader": "Evento personalizzato",
       "eventNameTitle": "Nome evento",
@@ -233,10 +202,10 @@
       "metaHeader": "Meta"
     },
     "tabsSumHttpRequestBeacon": {
-      "retrievalTimeTooltip": "Ora richiamo",
+      "retrievalTimeTooltip": "Tempo richiamo",
       "requestLabel": "Richiesta",
-      "startTimeLabel": "Ora di inizio",
-      "retrievalTimeLabel": "Ora richiamo",
+      "startTimeLabel": "Data/ora di inizio",
+      "retrievalTimeLabel": "Tempo richiamo",
       "callDetailsHeader": "Dettagli chiamata",
       "httpCallURITitle": "URI chiamata HTTP",
       "httpMethodTitle": "Metodo HTTP",
@@ -254,7 +223,7 @@
     },
     "tabsSumViewChangeBeacon": {
       "viewTransitionLabel": "Transizione vista",
-      "startTimeLabel": "Ora di inizio"
+      "startTimeLabel": "Data/ora di inizio"
     }
   },
   "dashboard": {
@@ -264,7 +233,7 @@
     "mobileAppViewTitle": "App Mobile",
     "mobileAppTitle": "Vista",
     "analyzeSessions": "Analizza sessioni",
-    "analyzeViewTransitions": "Analizza transizioni vista ",
+    "analyzeViewTransitions": "Analizza transizioni vista",
     "numSessionStarts": "{{num}} di avvii di sessione",
     "tabs": {
       "summaryLabel": "Riepilogo",
@@ -280,12 +249,12 @@
       "keyLabel": "Chiave",
       "reportingURLLabel": "URL di reporting",
       "removeAppTitle": "Rimuovi App Mobile",
-      "removeAppHelp1": "Se non si desidera più monitorare l'app mobile <strong>{{label}}</strong> utilizzando Instana, utilizzare questo modulo per rimuoverla. La rimozione di un'app mobile è un'azione coerente. Per questo motivo, la rimozione di un'app mobile potrebbe richiedere <strong>fino a pochi minuti</strong> per essere completata.",
+      "removeAppHelp1": "Se non si desidera più monitorare l'app mobile <strong>{{label}}</strong> utilizzando Instana, utilizzare questo modulo per rimuoverla. La rimozione di un'app mobile è un'azione congruente. Per questo motivo, la rimozione di un'app mobile potrebbe richiedere <strong>fino a pochi minuti</strong> per essere completata.",
       "removeAppHelp2": "Né l'utente né il supporto Instana possono annullare questa azione.",
       "confirmUndone": "Comprendo che questa azione non può essere annullata.",
       "removeAppBtn": "Rimuovi App Mobile",
       "renameAppTitle": "Rinomina App Mobile",
-      "renameAppHelp": "Rinominare un'app mobile è un'azione coerente all'interno del sistema Instana. Per questo motivo, una modifica ad un nome di app mobile potrebbe richiedere <strong>fino a pochi minuti</strong> per essere replicata nell'intero sistema.",
+      "renameAppHelp": "Rinominare un'app mobile è un'azione congruente all'interno del sistema Instana. Per questo motivo, una modifica ad un nome di app mobile potrebbe richiedere <strong>fino a pochi minuti</strong> per essere replicata nell'intero sistema.",
       "renameAppBtn": "Rinomina",
       "renameSaved": "Salvato",
       "noSessionTitle": "Nessuna sessione disponibile",
@@ -345,7 +314,7 @@
   },
   "newAppFlow": {
     "addMobileAppTitle": "Aggiungi App Mobile",
-    "addMobileAppDesc": "Introduzione al monitoraggio delle app mobili per comprendere meglio come le prestazioni dell'app mobile impattino sull'esperienza utente. La configurazione è semplice!",
+    "addMobileAppDesc": "Inizia a monitorare le app mobili per comprendere meglio come le prestazioni dell'app mobile impattino sull'esperienza utente. La configurazione è semplice!",
     "mobileAppNameLabel": "Nome App Mobile",
     "addMobileAppBtn": "Aggiungi App Mobile",
     "newMobileAppTitle": "Nuova App Mobile",
@@ -390,7 +359,7 @@
     "mobileApp": "App Mobile",
     "view": "Vista",
     "platform": "Piattaforma",
-    "os": "OS",
+    "os": "Sistema operativo",
     "bundle": "Bundle",
     "version": "Versione",
     "country": "Paese",

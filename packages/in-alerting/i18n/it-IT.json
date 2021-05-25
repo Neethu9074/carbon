@@ -19,9 +19,6 @@
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Si è sicuri di voler rimuovere l'<strong>\"avviso {{alertConfigName}}\"</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Rimuovi",
     "alertHeaderIsNotLatestRevisionMessage": "Si sta esaminando la revisione {{alertRevision}} di questa configurazione dell'avviso. Selezionare la <latestRevisionButton>revisione più recente<latestRevisionButton> se si desidera apportare modifiche.",
-    "alertHeaderThisConfigIsStoredWithQueryBuilder2Expressions": "Questa configurazione è archiviata con espressioni Query Builder 2.",
-    "alertHeaderYouCanOnlyStartOrPause": "È possibile solo avviare o mettere in pausa, ma non modificare tali configurazioni quando è attiva la modalità Query Builder 1",
-    "alertHistoryListTitle": "Avvisi creati",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Avvisi creati ({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "Titolo",
     "alertPropertyInfosLabelAlertLevel": "Livello avviso",
@@ -41,7 +38,25 @@
     },
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "Si sta esaminando una configurazione dell'avviso eliminata. Non sono possibili modifiche.",
     "alertPropertyInfosWarning": "Avvertenza",
-    "alertPropertyInfosCritical": "Critico"
+    "alertPropertyInfosCritical": "Critico",
+    "customPayload": {
+      "deleteRow": "Elimina riga",
+      "key": "Chiave",
+      "value": "Valore",
+      "unknownTypeTypeItCanNotBeEdited": "Tipo sconosciuto: {{type}} - impossibile modificare.",
+      "customWithColon": "personalizzato:",
+      "valueType": "Tipo di valore",
+      "static": "Statico",
+      "dynamic": "Dinamico",
+      "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "Il numero di righe è limitato a {{maximumNumberOfRows}}.",
+      "addRow": "Aggiungi riga",
+      "noCustomPayloadConfigured": "Nessun payload personalizzato configurato",
+      "keyNamesMustBeUnique": "I nomi delle chiavi devono essere univoci.",
+      "theValueMustNotBeBlank": "Il valore non deve essere vuoto.",
+      "onlyOrAnyAlphaNumericalAreAllowed": "Sono consentiti solo i caratteri '.', '-', '_' o alfanumerici.",
+      "aTagNeedsToBeSelected": "È necessario selezionare un tag.",
+      "aKeyNeedsToBeSpecified": "È necessario specificare una chiave."
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "Il tasso di chiamate errate è più alto del normale",
@@ -90,7 +105,7 @@
     "titleNoSmartAlertsCreated": "Non è stato creato nessun avviso smart",
     "titleCopyOf": "(Copia di) {{smartAlertTitle}}",
     "applications": {
-      "newGlobalAlert": "Avviso smart globale",
+      "alertConfiguration": "Configurazione avviso",
       "advanced": {
         "alertPropertyInsertPlaceholderLabel": "Inserisci segnaposto",
         "evaluationSwitch": {
@@ -121,20 +136,14 @@
           "config": {
             "inbound": {
               "text": "Chiamate in entrata",
-              "dashboard": "Solo le chiamate eseguite dai consumer di questa applicazione.",
+              "dashboard": "Solo le chiamate eseguite dai consumatori di questa applicazione.",
               "overrideDefault": "L'ambito predefinito per questa applicazione è solo Chiamate in entrata. È possibile modificare questa impostazione nella configurazione."
             },
             "all": {
               "text": "Tutte le chiamate",
-              "dashboard": "Chiamate eseguite all'interno di questa applicazione, dai consumer ed internamente.",
+              "dashboard": "Chiamate eseguite all'interno di questa applicazione, dai consumatori ed internamente.",
               "overrideDefault": "L'ambito predefinito per questa applicazione è Tutte le chiamate. È possibile modificare questa impostazione nella configurazione."
             }
-          },
-          "constants": {
-            "inboundDashboard": "Il dashboard visualizza le informazioni in base solo alle chiamate eseguite dai consumer di questa applicazione.",
-            "inboundOverrideDefault": "L'ambito predefinito per questa applicazione è solo Chiamate in entrata. È possibile modificare questa impostazione nella configurazione.",
-            "allDashboard": "Il dashboard visualizza le informazioni in base a tutte le chiamate eseguite all'interno di questa applicazione, dai consumer ed internamente.",
-            "allOverrideDefault": "L'ambito predefinito per questa applicazione è Tutte le chiamate. È possibile modificare questa impostazione nella configurazione."
           },
           "confirmationDialog": {
             "pleaseConfirm": "Confermare",
@@ -173,6 +182,10 @@
           "propertiesOptional": {
             "label": "Proprietà (facoltativo)",
             "title": "Proprietà dell'avviso aggiuntive (facoltativo)"
+          },
+          "payloadsOptional": {
+            "label": "Payload (facoltativo)",
+            "title": "Payload personalizzato (facoltativo)"
           }
         }
       },
@@ -183,7 +196,7 @@
       "logMessages": {
         "messageColumn": "Messaggio di log",
         "levelColumn": "Livello di log",
-        "noDataMessage": "Nessun avviso configurato.",
+        "noDataMessage": "Nessun messaggio trovato.",
         "selectLogMessageText": "Selezionare il messaggio di log come modello (facoltativo)",
         "selectLogMessageTitle": "Selezionare il messaggio di logo"
       },
@@ -313,44 +326,6 @@
         }
       },
       "form": {
-        "anyJSErrors": "Qualsiasi errore JS",
-        "JSErrors": "Errore(i) JS: {{errorMessage}}",
-        "HTTPStatusCodes": "Codice(i) di stato HTTP:{{statusCode}}",
-        "unsupportedAlertType": "Tipo di avviso non supportato: {{alertType}}",
-        "JSErrorsHaveBeenDetected": "Sono stati rilevati errori JS.",
-        "unsupportedOperator": "Operatore non supportato: {{operator}}",
-        "JSErrorTextEquals": "Sono stati rilevati errori JS uguali a \"{{ruleValue}}\".",
-        "JSErrorTextContains": "Sono stati rilevati errori JS che contengono \"{{ruleValue}}\".",
-        "JSErrorTextStartsWith": "Sono stati rilevati errori JS che iniziano con \"{{ruleValue}}\".",
-        "JSErrorTextEndsWith": "Sono stati rilevati errori JS che terminano con \"{{ruleValue}}\".",
-        "slownessSimpleHighOperatorText": "Il tempo onLoad ({{aggregationText}}) è troppo alto",
-        "slownessSimpleLowOperatorText": "Il tempo onLoad ({{aggregationText}}) è troppo basso",
-        "throughputSimpleHighOperatorText": "Il numero di {{metricLabel}} è stranamente alto",
-        "throughputSimpleLowOperatorText": "Il numero di {{metricLabel}} è stranamente basso",
-        "statusCodeSimpleAboveOperatorText": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeLabel}} è superiore al previsto.",
-        "statusCodeSimpleBelowOperatorText": "Il numero di ricorrenze del codice di stato HTTP {{statusCodeLabel}} è inferiore al previsto.",
-        "slownessSimpleAboveOperatorText": "Il tempo onLoad ({{aggregationText}}) è superiore al previsto.",
-        "slownessSimpleBelowOperatorText": "Il tempo onLoad ({{aggregationText}}) è inferiore al previsto.",
-        "slownessGreaterOperatorText": "Il tempo onLoad ({{aggregationText}}) è maggiore di {{thresholdValue}} ms.",
-        "slownessGreaterEqualsOperatorText": "Il tempo onLoad ({{aggregationText}}) è maggiore o uguale a {{thresholdValue}} ms.",
-        "slownessLessOperatorText": "Il tempo onLoad ({{aggregationText}}) è minore di {{thresholdValue}} ms.",
-        "slownessLessEqualsOperatorText": "Il tempo onLoad ({{aggregationText}}) è minore o uguale a {{thresholdValue}} ms.",
-        "staticThresholdHigherOperatorText": "Il numero di {{metricLabel}} è maggiore di {{thresholdValue}}.",
-        "staticThresholdHigherEqualsOperatorText": "Il numero di {{metricLabel}} è maggiore o uguale a {{thresholdValue}}.",
-        "staticThresholdLowerOperatorText": "Il numero di {{metricLabel}} è minore di {{thresholdValue}}.",
-        "staticThresholdLowerEqualsOperatorText": "Il numero di {{metricLabel}} è minore o uguale a {{thresholdValue}}.",
-        "thresholdHigherOperatorText": "Il numero di {{metricLabel}} è maggiore del previsto.",
-        "thresholdHigherEqualsOperatorText": "Il numero di {{metricLabel}} è maggiore o uguale al previsto.",
-        "thresholdLowerOperatorText": "Il numero di {{metricLabel}} è minore del previsto.",
-        "thresholdLowerEqualsOperatorText": "Il numero di {{metricLabel}} è minore o uguale al previsto.",
-        "errorPleaseProvideAnErrorMessage": "Fornire un messaggio di errore",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Fornire un numero >= 0",
-        "errorBaselineIsEmpty": "baseline vuota",
-        "ruleJsErrorsOperatorOptionAny": "Qualsiasi",
-        "ruleJsErrorsOperatorOptionEquals": "È uguale a",
-        "ruleJsErrorsOperatorOptionContains": "Contiene",
-        "ruleJsErrorsOperatorOptionStartsWith": "Inizia con",
-        "ruleJsErrorsOperatorOptionEndWith": "Termina con",
         "ruleStatusCodeValueOption1": "1XX (Informational)",
         "ruleStatusCodeValueOption100": "100 (Continue)",
         "ruleStatusCodeValueOption101": "101 (Switching Protocols)",
@@ -422,13 +397,6 @@
         "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
         "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
         "ruleStatusCodeValueOptionCustom": "Intervallo personalizzato",
-        "ruleMetricNameOptionSpecificJsErrorErrors": "Conteggio errori",
-        "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "Tasso di errore",
-        "ruleMetricNameOptionStatusCodeHttpxxx": "Conteggio codici di stato",
-        "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Tasso codici di stato",
-        "ruleMetricNameOptionSlownessOnLoadTime": "Tempo onLoad",
-        "ruleMetricNameOptionThroughputPageLoads": "Caricamenti pagina",
-        "ruleMetricNameOptionThroughputPageTransitions": "Transizioni pagina",
         "ruleFormErrorStatusCodeStartGTEnd": "Selezionare un codice di stato end http superiore o uguale al codice di stato start http",
         "ruleFormPleaseProvideALogMessage": "Fornire un messaggio di log",
         "ruleFormPleaseProvideAStartStatusCode": "Fornire un codice di stato start http",
@@ -455,21 +423,22 @@
       "inventory": {
         "noData": "Non è stato configurato nessun avviso smart. Fare clic sul pulsante indicato di seguito per configurare il primo avviso smart.",
         "noPersmissionToCreateGlobalSmartAlert": "Non si dispone dell'autorizzazione per configurare gli avvisi smart. Rivolgersi all'amministratore.",
-        "labelGlobalSmartAlertsList": "Avvisi smart applicazione globali {{numberOfAlerts}}",
+        "labelGlobalSmartAlertsList": "Avvisi smart applicazione globali ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Avvisi smart applicazione ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
-        "labelName": "Nome",
         "labelActionButtonEdit": "Modifica",
         "labelActionButtonDuplicate": "Duplica",
         "labelActionButtonDelete": "Elimina",
-        "noAlertConfigured": "Nessun avviso configurato.",
-        "alertEntityName": "avviso \"{{entityName}}\"",
         "labelAlertFilters": "Filtri",
         "labelConfirm": "Confermare",
         "labelConfirmRemoveConfig": "Si è sicuri di voler rimuovere la configurazione <strong>{{configName}}</strong>?",
         "labelRemove": "Rimuovi",
         "numberOfApplicationsSelected": "{{count}} applicazioni selezionate",
         "numberOfApplicationsSelected_plural": "{{count}}applicazioni selezionate"
+      },
+      "details": {
+        "title": "Dettagli avviso",
+        "titleAlertProperties": "Proprietà avviso"
       }
     },
     "form": {
@@ -490,7 +459,7 @@
       "smartAlertDialog": {
         "sharedListTooltip": "{{typeName}} selezionato non più disponibile",
         "clearTagFilterExpressionButton": "Ripulisci",
-        "baselineErrorMessageInsufficientDataToCompute": "Dati insufficienti per calcolare la baseline selezionata. Selezionare <i>Soglia statica</i>.",
+        "baselineErrorMessageInsufficientDataToCompute": "Dati insufficienti per calcolare la baseline selezionata. Selezionare <em>Soglia statica</em>.",
         "baselineErrorMessageReason": "Motivo:",
         "blueprintDescriptionButtonSelect": "Seleziona",
         "selectAlertChannelButtonTitle": "Seleziona canali di avviso",
@@ -541,7 +510,6 @@
         "timeThresholdConfigOff": "disattivo",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Fornire un numero >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Fornire un numero compreso tra 1% e 100%",
-        "alertPropertiesInsertPlaceholderTooltip": "Inserisci segnaposto",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "Quando la condizione persiste per un periodo di tempo specificato",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Ogni volta che la condizione viene attivata per un numero di volte specificato in un intervallo di tempo definito",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "Quando è interessata una certa quantità di utenti",
@@ -571,16 +539,13 @@
         "thresholdTypeOptionHistoricBaselineDaily": "Baseline (stagionalità giornaliera)",
         "thresholdTypeOptionHistoricBaselineWeekly": "Baseline (stagionalità settimanale)",
         "useSuggestedvalue": "Utilizza valore suggerito",
-        "alertConfigDialogPresenterTitleEditAlertLocal": "Modifica avviso Smart",
-        "alertConfigDialogPresenterTitleEditAlertGlobal": "Modifica avviso Smart globale",
-        "alertConfigDialogPresenterTitleCreateNewAlertLocal": "Crea nuovo avviso Smart",
-        "alertConfigDialogPresenterTitleCreateNewAlertGlobal": "Crea nuovo avviso Smart globale",
+        "alertConfigDialogPresenterTitleEditAlert_Local": "Modifica avviso Smart",
+        "alertConfigDialogPresenterTitleEditAlert_Global": "Modifica avviso Smart globale",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Crea nuovo avviso Smart",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Crea nuovo avviso Smart globale",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Passa alla modalità avanzata",
-        "alertConfigDialogPresenterButtonSwitchToSimpleMode": "Passa alla modalità semplice",
         "simpleAlertConfigDialogStep3Headline": "Chi deve ricevere gli avvisi?",
         "Loading": "Caricamento…",
-        "LoadingServices": "Caricamento dei servizi…",
-        "NoServiceInScope": "Nessun servizio nell'ambito",
         "PreviewForAP": "Anteprima per la prospettiva applicazione",
         "PreviewForEndpoint": "Anteprima dell'Endpoint:",
         "PreviewForService": "Anteprima per il servizio:"
@@ -648,15 +613,12 @@
         "alertChannelsTitle": "Canali di avviso: Chi deve ricevere l'avviso?",
         "propertiesLabel": "Proprietà (facoltativo)",
         "propertiesTitle": "Proprietà dell'avviso aggiuntive (facoltativo)",
-        "thresholdValue": "Valore soglia"
-      },
-      "alertConfigDialogWithThreshold": {
-        "alertText": "Questa è una nuova funzione.",
-        "alertLabelText": "NUOVO"
+        "thresholdValue": "Valore soglia",
+        "payloadsLabel": "Payload (facoltativo)",
+        "payloadsTitle": "Payload personalizzati (facoltativi)"
       },
       "components": {
         "provideStatusCodeStatusCode": "Codice di stato",
-        "tagSuggestions": "Suggerimenti tag non definiti per il tipo di avviso {{alertType}} ",
         "errorMessage": "Messaggio di errore",
         "noDataMessage": "Nessun avviso configurato.",
         "selectJSErrorHelpText": "Seleziona il messaggio di errore JS come modello (facoltativo)",
@@ -824,10 +786,10 @@
     },
     "sortOptions": {
       "name": "Nome",
-      "blueprint": "Blueprint",
+      "blueprint": "Progetto iniziale",
       "enabled": "Abilitato",
       "disabled": "Disabilitato",
-      "severity": "Gravità",
+      "severity": "Severità",
       "created": "Data di creazione"
     }
   }

@@ -3,7 +3,7 @@
     "accountSettings": {
       "accountSettings": "帐户设置",
       "billingAddress": "帐单地址",
-      "shippingAddress": "装运地址",
+      "shippingAddress": "运送地址",
       "country": "国家或地区",
       "state": "省/直辖市/自治区",
       "zip": "邮政编码",

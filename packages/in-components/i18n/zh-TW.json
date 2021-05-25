@@ -19,7 +19,7 @@
       "countIncident_0": "事故",
       "countIncident_1": "事故",
       "countIncident_2": "事故",
-      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "msg": "{{smartAlertsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert, { \"count\": {{smartAlertsCount}} }) & {{incidentsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countIncident, { \"count\": {{incidentsCount}} })",
       "itemMsg": "+{{leftCount}} 個以上的 {{moreMsg}}"
     },
     "chartAlertsPreviewLanePresenterAlertsLabel": "警示",
@@ -87,7 +87,7 @@
     "formStateLabel": "州/省（縣/市）"
   },
   "searchBar": {
-    "usingTheSearchBar": "「Instana 動態焦點」搜尋功能可用來過濾3D 地圖、對照表和事故視圖。搜尋列\n具有廣泛的功能，可使用模糊和萬用字元搜尋以及布林運算子來搜尋。例如，下列\n查詢會限制視圖只顯示其 CPU 少於 4 個的正式作業主機：\n\n'entity.host.cpu.count:<4 AND entity.zone:production'。\n## 語法\n「Dynamic Focus 動態焦點」會運用 [lucene 查詢語法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)，只是不同於 Lucene 標準之處如下：\n- **預設運算子：** 'AND'\n- **語法限制項：** 列於 [說明文件] 中(https://instana.com/docs/dynamic_focus/#syntax-constraints)\n## 搜尋列互動\n搜尋列支援自動補全搜尋欄位，且在您鍵入期間會對 lucene 查詢採用語法強調顯示。\n在鍵入後，搜尋列會提議符合現行輸入的搜尋欄位。您可以按 'RETURN' 鍵，\n接受提議的欄位。按 'CTRL+SPACE'，可開啟自動補全蹦現畫面。\n## Lucene 查詢語法提要\n - **欄位搜尋：** 'entity.host.cpu.count:>4'\n - **布林運算子：** 'entity.host.cpu.count:<4 AND entity.zone:production'\n - **分組：** '(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4'\n - **萬用字元搜尋：** 'entity.type:container*'\n\n請參閱 [說明文件](https://instana.com/docs/dynamic_focus/)，取得相關資訊。",
+    "usingTheSearchBar": "「Instana 動態焦點」搜尋功能可用來過濾 3D 地圖、對照表和事故視圖。搜尋列\n具有廣泛的功能，可使用模糊和萬用字元搜尋以及布林運算子來搜尋。例如，下列\n查詢會限制視圖只顯示其 CPU 少於 4 個的正式作業主機：\n\n'entity.host.cpu.count:<4 AND entity.zone:production'。\n## 語法\n「Dynamic Focus 動態焦點」會運用 [lucene 查詢語法](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)，只是不同於 Lucene 標準之處如下：\n- **預設運算子：** 'AND'\n- **語法限制項：** 列於 [說明文件] 中(https://instana.com/docs/dynamic_focus/#syntax-constraints)\n## 搜尋列互動\n搜尋列支援自動補全搜尋欄位，且在您鍵入期間會對 lucene 查詢採用語法強調顯示。\n在鍵入後，搜尋列會提議符合現行輸入的搜尋欄位。您可以按 'RETURN' 鍵，\n接受提議的欄位。按 'CTRL+SPACE'，可開啟自動補全蹦現畫面。\n## Lucene 查詢語法提要\n - **欄位搜尋：** 'entity.host.cpu.count:>4'\n - **布林運算子：** 'entity.host.cpu.count:<4 AND entity.zone:production'\n - **分組：** '(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4'\n - **萬用字元搜尋：** 'entity.type:container*'\n\n請參閱[說明文件](https://instana.com/docs/dynamic_focus/)，取得相關資訊。",
     "filtersBtn": "過濾器",
     "filterPresetsMenuHeading": "過濾器",
     "filterPresetsSaveFilters": "儲存過濾器以便可在這裡輕鬆存取",
@@ -104,15 +104,12 @@
     "filterConfirmRemoveMsg": "您確定要移除過濾器 <strong>{{filterName}}</strong> 嗎？",
     "helpDialogTitleUsingTheSearchBar": "使用搜尋列"
   },
-  "svgIcon": {
-    "pluginIcon": "{{pluginName}} 圖示"
-  },
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "分析此群組",
       "cursorPaginatedTableLoadMoreRowLabel": "載入更多",
       "withEmptyTableStateEntitiesName": "實體",
-      "withEmptyTableStateEntityPageMainNotificationTitle": "沒有可用的 {{name}}",
+      "withEmptyTableStateEntityPageMainNotificationTitle": "沒有可用的{{name}}",
       "withEmptyTableStateEntityPageMainNotificationExplanation": "在選取的時間範圍內未擷取任何 {{name}}。"
     },
     "sharedComponents": {

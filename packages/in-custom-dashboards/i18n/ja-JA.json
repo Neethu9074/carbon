@@ -115,7 +115,7 @@
       },
       "hiddenCalls": {
         "includeInternalCalls": "内部呼び出しを含める",
-        "includeSyntheticCalls": "合成呼び出しを含める"
+        "includeSyntheticCalls": "シンセティック呼び出しを含める"
       }
     },
     "srcApp": {
@@ -127,12 +127,6 @@
       },
       "index": {
         "applicationsTracesAndCalls": "アプリケーション (トレースと呼び出し)"
-      },
-      "oldFormComponent": {
-        "metric": "メトリック",
-        "pleaseSelect": "選択してください",
-        "aggregation": "集約",
-        "pleaseSelectMetric": "メトリックを選択してください"
       }
     },
     "srcEvent": {
@@ -165,12 +159,7 @@
       "metricsFormComponent": {
         "metric": "メトリック",
         "selectMetric": "メトリックの選択",
-        "aggregation": "集約",
-        "pleaseSelect": "選択してください",
-        "pleaseSelectMetric": "メトリックを選択してください"
-      },
-      "metricsLoadIndicator": {
-        "loadingMetrics": "メトリックのロード中…"
+        "aggregation": "集約"
       },
       "metrics": {
         "infrastructurePlatforms": "インフラストラクチャーとプラットフォーム",
@@ -190,15 +179,7 @@
         "pleaseSelectMetric": "メトリックを選択してください"
       },
       "index": {
-        "mobileAppsBeacon": "モバイル・アプリ (ビーコン)"
-      },
-      "oldFormComp": {
-        "beaconType": "ビーコン・タイプ",
-        "pleaseSelect": "選択してください",
-        "pleaseSelectDs": "データ・ソースを選択してください",
-        "aggregation": "集約",
-        "pleaseSelectMetric": "メトリックを選択してください",
-        "metric": "メトリック"
+        "mobileAppsBeacon": "モバイル・アプリケーション (ビーコン)"
       }
     },
     "srcSli": {
@@ -227,14 +208,6 @@
       },
       "index": {
         "websitesBeacons": "Web サイト (ビーコン)"
-      },
-      "oldFormComp": {
-        "beaconType": "ビーコン・タイプ",
-        "pleaseSelect": "選択してください",
-        "selectDs": "データ・ソースを選択してください",
-        "metric": "メトリック",
-        "aggregation": "集約",
-        "selectMetric": "メトリックを選択してください"
       }
     },
     "metricConfigurator": {
@@ -264,7 +237,7 @@
         "decreaseColor": "減少の色",
         "timeShift": "タイムシフト"
       },
-      "bigNumber": "大きな数"
+      "bigNumber": "重要な数値"
     },
     "chart": {
       "axesConfigurator": {
@@ -294,9 +267,7 @@
         "lightBlue": "薄い青",
         "green": "緑",
         "red": "赤",
-        "yellow": "黄色",
         "orange": "オレンジ",
-        "blue": "青",
         "deepPurple": "ディープ・パープル",
         "cyan": "シアン",
         "lime": "ライム",
@@ -403,13 +374,13 @@
         "min": "最小",
         "max": "最大",
         "sum": "合計",
-        "25th": "25 番目",
-        "50th": "50 番目",
-        "75th": "75 番目",
-        "90th": "90 番目",
-        "95th": "95 番目",
-        "98th": "98 番目",
-        "99th": "99 番目"
+        "25th": "25 パーセンタイル",
+        "50th": "50 パーセンタイル",
+        "75th": "75 パーセンタイル",
+        "90th": "90 パーセンタイル",
+        "95th": "95 パーセンタイル",
+        "98th": "98 パーセンタイル",
+        "99th": "99 パーセンタイル"
       },
       "metricsForm": {
         "metricThreshold": "メトリックおよびしきい値",
@@ -429,14 +400,13 @@
         "sliCustomization": "SLI カスタマイズ",
         "name": "名前",
         "sliNameNotEmpty": "SLI 名は空にできません。",
-        "sliCustomHelpAction": "SLI カスタマイズおよび SLI タイプに関する情報は、資料内にあります。",
+        "sliCustomHelpAction": "SLI カスタマイズおよび SLI タイプに関する情報は、資料をご覧ください。",
         "sliTimeBasedOrAnEventBasedSli": "SLI タイプは、時刻ベースまたはイベント・ベースのいずれかの SLI である必要があります。",
         "pleaseSelect": "選択してください",
-        "appPerspective": "アプリケーション・パースペクティブ",
         "boundary": "境界",
         "hiddenCalls": "非表示の呼び出し",
         "includeInternalCalls": "内部呼び出しを含める",
-        "includeSyntheticCalls": "合成呼び出しを含める",
+        "includeSyntheticCalls": "シンセティック呼び出しを含める",
         "type": "タイプ",
         "sliEntity": "SLI エンティティー"
       },
@@ -452,7 +422,7 @@
         "delete": "削除"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "SLI を作成または編集するために必要な <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> 権限がありません。",
+        "configSrvLevelIndicatorsMsg": "SLI を作成または編集するために必要な <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> 権限がありません。",
         "sliList": "SLI リスト",
         "createSli": "SLI の作成"
       },
@@ -484,8 +454,8 @@
         "dynamicTimeWindow": "動的時間枠",
         "length": "長さ",
         "days": "日",
-        "weeks": "週",
-        "months": "月",
+        "weeks": "週間",
+        "months": "カ月",
         "pleaseSpecifyTheNumber": "{{timeValue}} の数を指定してください。",
         "start": "開始",
         "enterDateFormatYyyyMmDd": "YYYY-MM-DD の形式で日付を入力してください。",

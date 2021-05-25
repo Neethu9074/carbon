@@ -109,8 +109,8 @@
   "widgets": {
     "metricConfig": {
       "groupingConfig": {
-        "top": "상위 {{number}}개",
-        "bottom": "하위 {{number}}개",
+        "top": "최상위 {{number}}",
+        "bottom": "최하위 {{number}}",
         "showRemainingGroupsAggregOther": "\"기타\"로 집계된 나머지 그룹 표시"
       },
       "hiddenCalls": {
@@ -127,12 +127,6 @@
       },
       "index": {
         "applicationsTracesAndCalls": "애플리케이션(추적 및 호출)"
-      },
-      "oldFormComponent": {
-        "metric": "메트릭",
-        "pleaseSelect": "선택하십시오.",
-        "aggregation": "집계",
-        "pleaseSelectMetric": "메트릭을 선택하십시오."
       }
     },
     "srcEvent": {
@@ -165,12 +159,7 @@
       "metricsFormComponent": {
         "metric": "메트릭",
         "selectMetric": "메트릭 선택",
-        "aggregation": "집계",
-        "pleaseSelect": "선택하십시오.",
-        "pleaseSelectMetric": "메트릭을 선택하십시오."
-      },
-      "metricsLoadIndicator": {
-        "loadingMetrics": "메트릭 로드 중…"
+        "aggregation": "집계"
       },
       "metrics": {
         "infrastructurePlatforms": "인프라 및 플랫폼",
@@ -191,14 +180,6 @@
       },
       "index": {
         "mobileAppsBeacon": "모바일 앱(비콘)"
-      },
-      "oldFormComp": {
-        "beaconType": "비콘 유형",
-        "pleaseSelect": "선택하십시오.",
-        "pleaseSelectDs": "데이터 소스를 선택하십시오.",
-        "aggregation": "집계",
-        "pleaseSelectMetric": "메트릭을 선택하십시오.",
-        "metric": "메트릭"
       }
     },
     "srcSli": {
@@ -227,14 +208,6 @@
       },
       "index": {
         "websitesBeacons": "웹 사이트(비콘)"
-      },
-      "oldFormComp": {
-        "beaconType": "비콘 유형",
-        "pleaseSelect": "선택하십시오.",
-        "selectDs": "데이터 소스를 선택하십시오.",
-        "metric": "메트릭",
-        "aggregation": "집계",
-        "selectMetric": "메트릭을 선택하십시오."
       }
     },
     "metricConfigurator": {
@@ -294,9 +267,7 @@
         "lightBlue": "연한 파란색",
         "green": "녹색",
         "red": "빨간색",
-        "yellow": "노란색",
         "orange": "주황색",
-        "blue": "파란색",
         "deepPurple": "진보라색",
         "cyan": "청록색",
         "lime": "라임색",
@@ -432,7 +403,6 @@
         "sliCustomHelpAction": "SLI 사용자 정의 및 SLI 유형에 대한 정보는 문서 내에 있습니다.",
         "sliTimeBasedOrAnEventBasedSli": "SLI 유형은 시간 기준 또는 이벤트 기준 SLI여야 합니다.",
         "pleaseSelect": "선택하십시오.",
-        "appPerspective": "애플리케이션 퍼스펙티브",
         "boundary": "경계",
         "hiddenCalls": "숨겨진 호출",
         "includeInternalCalls": "내부 호출 포함",
@@ -452,7 +422,7 @@
         "delete": "삭제"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "SLI를 작성하거나 편집하기 위한 필수 <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> 권한이 없습니다.",
+        "configSrvLevelIndicatorsMsg": "SLI를 작성하거나 편집하기 위한 필수 <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> 권한이 없습니다.",
         "sliList": "SLI 목록",
         "createSli": "SLI 작성"
       },

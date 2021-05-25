@@ -52,7 +52,7 @@
       "allWebsites": "所有網站",
       "allMobileApps": "所有行動式應用程式",
       "allWebsitesMobileApps": "所有網站和行動式應用程式",
-      "pageViews": "頁面視圖",
+      "pageViews": "頁面檢視數",
       "sessions": "階段作業",
       "onLoadTime": "載入時間",
       "views": "視圖",
@@ -86,7 +86,8 @@
       "cpuUsage": "CPU 使用率",
       "created": "建立日期",
       "started": "開始日期",
-      "os": "作業系統"
+      "os": "作業系統",
+      "mean": "平均值"
     },
     "topListWidget": {
       "noLabelYet": "尚無 {{nolabel}}"

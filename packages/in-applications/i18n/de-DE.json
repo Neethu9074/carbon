@@ -1,6 +1,5 @@
 {
   "labelLatency": "Latenzzeit",
-  "labelTimestamp": "Zeitmarke",
   "labelApplication": "Anwendung",
   "labelApplications": "Anwendungen",
   "labelApplicationWithNum": "Anwendung ({{numApplications}})",
@@ -17,7 +16,6 @@
   "labelMaxLatency": "Maximale Latenzzeit",
   "labelService": "Service",
   "labelName": "Name",
-  "labelFilters": "Filter",
   "labelSummary": "Zusammenfassung",
   "labelDependencies": "Abhängigkeiten",
   "labelServices": "Services",
@@ -61,14 +59,13 @@
   "labelScope": "Bereich",
   "labelCustomServiceRules": "Angepasste Serviceregeln",
   "labelSyntheticEndpoints": "Synthetische Endpunkte",
-  "titleAlertDetails": "Alertdetails",
-  "titleTopServices": "Oberste Services",
+  "titleTopServices": "Wichtigste Services",
   "titleMeanLatency": "Durchschnittliche Latenzzeit",
   "titleErroneousCallRate": "Rate fehlerhafter Aufrufe",
-  "titleTopStatements": "Höchste Anweisungen",
+  "titleTopStatements": "Wichtigste Anweisungen",
   "titleProcessingTime": "Verarbeitungszeit",
   "titleCustomHTTPRule": "Angepasste HTTP-Regel",
-  "titleTopEndpoints": "Oberste Endpunkte",
+  "titleTopEndpoints": "Wichtigste Endpunkte",
   "titleRuleTester": "Regeltester",
   "titleTotalCalls": " Gesamtzahl der Aufrufe            ",
   "titleErroneousCalls": "Fehlerhafte Aufrufe",
@@ -91,7 +88,8 @@
   "buttonInspectIssue_1": "{{count}} Problem untersuchen",
   "buttonInspectIssue_2": "{{count}} Probleme untersuchen",
   "buttonAnalyzeCalls": "Aufrufe analysieren",
-  "buttonAnalyzeWithLabel": "{{buttonLabel}} analysieren",
+  "buttonAnalyzeServices": "Services analysieren",
+  "buttonAnalyzeEndpoints": "Endpunkte analysieren",
   "buttonClear": "Löschen",
   "buttonCluster": "Cluster",
   "buttonProcess": "Prozess",
@@ -101,7 +99,7 @@
   "buttonAnalyzeMessages": "Nachrichten analysieren",
   "buttonSave": "Speichern",
   "buttonAdd": "Hinzufügen",
-  "buttonDeleteRule": "Löschregel",
+  "buttonDeleteRule": "Regel löschen",
   "buttonAddTest": "Test hinzufügen",
   "buttonAddCustomHTTPRule": "Angepasste HTTP-Regel hinzufügen",
   "buttonResetToDefault": "Auf Standardwert zurücksetzen",
@@ -147,63 +145,22 @@
   "applications": {
     "noData": "Anwendungsperspektiven bieten eine Möglichkeit zum Modellieren von Umgebungen, Leistungsgruppen, Tenants und mehr. "
   },
-  "services": {
-    "noData": "Für den ausgewählten Zeitraum sind keine Serviceaufrufe verfügbar. "
-  },
   "alert": {
-    "advancedModeContainer": {
-      "scope": {
-        "label": "Bereich",
-        "title": "Bereich: Wo geschieht die Bedingung?"
-      },
-      "trigger": {
-        "label": "Trigger",
-        "title": "Trigger: Worüber möchten Sie benachrichtigt werden?",
-        "logMessageCardTitle": "Protokollnachricht",
-        "httpStatusCodesCardTitle": "HTTP-Statuscodes"
-      },
-      "timeThreshold": {
-        "label": "Zeitschwellenwert",
-        "title": "Zeitschwellenwert: Wann möchten Sie alarmiert werden?"
-      },
-      "alertChannel": {
-        "label": "Alertkanäle",
-        "title": "Alertkanäle: Wer muss alarmiert werden?"
-      }
-    },
     "thresholdLabel": "Schwellenwert",
-    "titleAlertProperties": "Alerteigenschaften",
     "applicationSmartAlert": "Smart Alert für Anwendung",
-    "noAlertConfigured": "Kein Alert konfiguriert.",
-    "getEntityName": "Alert \"{{entityName}}\"",
-    "descriptionMessage": "{{description}}: \"{{message}}\"",
-    "tooltipFilter": "{{count}} Filter",
-    "tooltipFilter_plural": "{{count}} Filter",
-    "tooltipFilter_0": "{{count}} Filter",
-    "tooltipFilter_1": "{{count}} Filter",
-    "tooltipFilter_2": "{{count}} Filter",
     "tooltipMoreFilter": "+{{moreFilterCount}} weiterer Filter",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} weitere Filter",
     "tooltipMoreFilter_0": "+{{moreFilterCount}} weitere Filter",
     "tooltipMoreFilter_1": "+{{moreFilterCount}} weiterer Filter",
-    "tooltipMoreFilter_2": "+{{moreFilterCount}} weitere Filter",
-    "filter": "Filtern",
-    "filter_plural": "Filter",
-    "filter_0": "Filter",
-    "filter_1": "Filter",
-    "filter_2": "Filter"
+    "tooltipMoreFilter_2": "+{{moreFilterCount}} weitere Filter"
   },
   "inboundOutboundCalls": {
     "config": {
       "inbound": {
-        "text": "Eingehende Aufrufe",
-        "dashboard": "Nur Aufrufe, die von den Konsumenten dieser Anwendung ausgeführt werden.",
-        "overrideDefault": "Der Standardbereich für diese Anwendung ist 'Nur eingehende Aufrufe'. Sie können dies in der Konfiguration ändern. "
+        "text": "Eingehende Aufrufe"
       },
       "all": {
-        "text": "Alle Aufrufe",
-        "dashboard": "Aufrufe, die sowohl von den Konsumenten als auch intern durchgeführt werden.",
-        "overrideDefault": "Der Standardbereich für diese Anwendung ist 'Alle Aufrufe'. Sie können dies in der Konfiguration ändern. "
+        "text": "Alle Aufrufe"
       }
     },
     "constants": {
@@ -215,34 +172,10 @@
   },
   "analyze": {
     "quickFilter": {
-      "labelService": "Service",
-      "labelService_plural": "Services",
-      "labelService_0": "Services",
-      "labelService_1": "Service",
-      "labelService_2": "Services",
-      "labelEndpoint": "Endpunkt",
-      "labelEndpoint_plural": "Endpunkte",
-      "labelEndpoint_0": "Endpunkte",
-      "labelEndpoint_1": "Endpunkt",
-      "labelEndpoint_2": "Endpunkte",
-      "labelType": "Typ",
-      "labelType_plural": "Typen",
-      "labelType_0": "Typen",
-      "labelType_1": "Typ",
-      "labelType_2": "Typen",
-      "labelTechnology": "Technologie",
-      "labelTechnology_plural": "Technologien",
-      "labelTechnology_0": "Technologien",
-      "labelTechnology_1": "Technologie",
-      "labelTechnology_2": "Technologien",
-      "labelLatency": "Latenzzeit",
-      "labelErroneous": "Fehlerhaft",
-      "preconditionFailedTooltip": "Wählen Sie einen Service aus, bevor Sie einen Endpunkt auswählen."
-    },
-    "chartingPresenter": {
-      "noData": "Keine anzuzeigenden Daten"
+      "labelLatency": "Latenzzeit"
     },
     "erroneous": "Fehlerhaft",
+    "resetUnsupportedTracesFilterContainingOrConjunction": "Der Filter wurde gelöscht, weil der logische Operator ODER in Analyze Traces nicht unterstützt wird.",
     "facetedSearch": {
       "showSyntheticCalls": "Synthetische Aufrufe anzeigen",
       "showInternalCalls": "Interne Aufrufe anzeigen",
@@ -261,26 +194,10 @@
     "httpStatusCode": "HTTP-Statuscode",
     "hiddenCalls": "Verborgene Aufrufe",
     "noResults": "Keine Ergebnisse",
-    "loadMore": "Weitere laden",
-    "callBatchCountTooltip": "Dieser Aufruf wurde gebündelt und stellt {{callBatchCount}} einzelnen Aufruf dar. ",
-    "callBatchCountTooltip_plural": "Dieser Aufruf wurde gebündelt und stellt {{callBatchCount}} einzelne Aufrufe dar. ",
-    "callBatchCountTooltip_0": "Dieser Aufruf wurde gebündelt und stellt {{callBatchCount}} einzelne Aufrufe dar. ",
-    "callBatchCountTooltip_1": "Dieser Aufruf wurde gebündelt und stellt {{callBatchCount}} einzelnen Aufruf dar. ",
-    "callBatchCountTooltip_2": "Dieser Aufruf wurde gebündelt und stellt {{callBatchCount}} einzelne Aufrufe dar. ",
-    "groupedList": {
-      "earliestTimestamp": "Älteste Zeitmarke",
-      "focusGroupTooltip": "Auf diese Gruppe konzentrieren",
-      "groupName": "Gruppenname ",
-      "sortingMetricLabelTh": "{{sortingMetricLabel}} ({{num}}.)",
-      "sortingMetricLabelRate": "{{sortingMetricLabel}} (Rate)",
-      "sortingMetricLabelCount": "{{sortingMetricLabel}} (Anzahl)",
-      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})"
-    },
+    "loadMore": "Mehr laden",
     "preview": "Vorschau",
-    "listLoadMore": "{{retrievalSize}} weitere laden",
     "listBatchTypeTooltip": "Dieser {{type}} wurde gebündelt und stellt {{batchCount}} einzelne {{types}} dar.",
     "listBatchLatencyTooltip": "Gesmatlatenz von {{batchCount}} gebündelten {{types}}.",
-    "traceId": "Trace-ID: ",
     "traceIdTooltip": "Einige Daten, die sich auf diesen Trace beziehen, sind verzögert. Bitte laden Sie die Seite etwas später erneut. Ein Beispiel, bei dem dies vorkommen kann, ist die Anzeige eines sehr aktuellen Trace, bei dem ein Teil der Daten noch verarbeitet wird.",
     "closeTraceDetail": "Details zum Trace schließen",
     "invalidQueryConfig": "Die Abfragekonfiguration ist ungültig. Beheben Sie die Gültigkeitsfehler, bevor Sie fortfahren.",
@@ -313,11 +230,6 @@
     "typeTrace_2": "Traces",
     "containsErrors": "Enthält Fehler",
     "noErrors": "Keine Fehler",
-    "fromMs": "Von (ms)",
-    "toMs": "Zu (ms)",
-    "theLatencyRangeHasToBeInAscendingOrder": "Der Latzenzbereich muss in aufsteigender Reihenfolge geordnet sein.",
-    "service": "Service",
-    "trace": "Trace",
     "calls": "Aufrufe",
     "none": "Keine",
     "dataSource_calls": "{{formattedCount}} Aufruf",
@@ -484,23 +396,20 @@
       "apNameDescription": "Namen von Anwendungsperspektiven sollten in einem Unternehmen eine Definition aufweisen, die allgemein etabliert ist. Beispiel: zum Modellieren einer Umgebung: \"Production Blue\", zum Modellieren einer Gruppe von Services: \"Payment\" oder zum Modellieren eines Tenants: \"ACME Customer\".",
       "defineUsingTags": "2. Definieren Sie die Anwendungsperspektive mit einem oder mehreren Tags.",
       "defineUsingTagsDescription": "Beispiel: Der Schlüssel ist \"docker.label\" und der Wert lautet \"environment=Production Blue\", oder der Schlüssel ist \"call.http.params\" und der Wert lautet \"tenant=ACMECustomer\". Beachten Sie, dass alle Aufrufe eines <pill-database>DATENBANK</pill-database> oder <pill-messaging>MESSAGING</pill-messaging>-Service von Services, die dieser Definition entsprechen, automatisch eingeschlossen werden. ",
-      "andOperatorsPrecedence": "UND-Operatoren haben Vorrang und werden vor ODER-Operatoren ausgewertet",
       "andOperatorsPrecedenceBrackets": "UND-Operatoren haben Vorrang und werden vor ODER-Operatoren ausgewertet, wenn diese nicht in eckigen Klammern gruppiert sind.",
       "downstreamCalls": "3. Speichern Sie Aufrufe von nachgeordneten Services",
       "downstreamCallsDescription": "Wählen Sie aus, welche nachgeordneten Services in die Anwendungsperspektive aufgenommen werden sollen.",
       "defaultDashboardView": "4. Wählen Sie die Standard-Dashboardansicht aus",
       "clear": "Löschen",
-      "addTag": "Tag hinzufügen",
       "create": "Erstellen",
       "database": "DATENBANK",
-      "messaging": "MESSAGING"
+      "messaging": "NACHRICHTENÜBERTRAGUNG"
     },
     "scope": {
       "optionNoDownStreamServices": "Keine nachgeordneten Services",
       "optionImmediateDownstreamServices": "Unmittelbar nachgeordnete Datenbank- und Messaging-Services",
       "optionAllDownstreamServices": "Alle nachgeordneten Services"
     },
-    "tooltipEndpointBar": "Wählen Sie einen einzelnen Service aus, bevor Sie Endpunkte auswählen.",
     "form": {
       "theApplicationPerspectiveNameMustNotBeBlank": "Der Name der Anwendungsperspektive darf nicht leer sein.",
       "theApplicationPerspectiveNameMustNotBeLargerThan128Characters": "Der Name der Anwendungsperspektive darf nicht größer als 128 Zeichen sein.",
@@ -510,9 +419,6 @@
   "dashboards": {
     "percentOfCalls": "{{percentage}} aller Aufrufe",
     "meanLatencyFor90th": "{{meanLatencyDetail}} für 90.",
-    "selectInboundCalls": "Nur eingehende Aufrufe oder alle Aufrufe auswählen",
-    "calculateInboundCalls": "Berechnung läuft für eingehende Aufrufe von {{applicationName}}, um diesen {{entityType}} vollständig anzuzeigen, wechseln Sie zu <linkToCalls>Alle Aufrufe</linkToCalls>.",
-    "calculateAllCalls": "Berechnung läuft für <bold>Alle Aufrufe</bold> von {{applicationName}}, um nur den Teil dieses {{entityType}} am logischen Anwendungsabschnitt anzuzeigen, wechseln Sie zu <linkToCalls>Eingehende Aufrufe</linkToCalls>.",
     "infrastructureIssuesChanges": "Infrastrukturprobleme und -änderungen",
     "unknownTime": "Unbekannt um {{entityTime}}",
     "infrastructure": {
@@ -526,7 +432,7 @@
     "errorCallWithoutMessage": "Fehlerhafter Aufruf ohne Fehlernachricht",
     "logMessages": "Protokollnachrichten",
     "noLogMessage": "Keine Protokollnachricht verfügbar",
-    "endpoints": "Endpunkte"
+    "includeSyntheticCallsDropDownSyntheticCalls":"Synthetische Aufrufe: {{syntheticCallsOptionLabel}}"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "Der Service befindet sich nicht in der aktuellen Anwendung.",
@@ -557,7 +463,7 @@
     "tooltipEndpointCallsNotMatch": "Aufrufe, die nicht mit einer vorherigen Regel übereinstimmen, werden diesem Endpunkt zugeordnet.",
     "titleConfigureEndpointsExtract": "Konfigurieren Sie, wie Endpunkte aus den zugrunde liegenden Aufrufen für diesen Service extrahiert werden.",
     "descriptionConfigureEndpointsExtract": "Endpunktregeln werden sequenziell von oben nach unten ausgewertet und ein Aufruf wird der ersten Regel zugeordnet, der er entspricht. Nach der Konfiguration werden neue Aufrufe entsprechend den aktualisierten Regeln zugewiesen.",
-    "descriptionResetToDefaultRule": "Wenn Sie auf die Standardextraktionsregeln zurücksetzen möchten, verwenden Sie die unten stehende Schaltfläche. Das Zurücksetzen kann bis zu einigen Minuten dauern.",
+    "descriptionResetToDefaultRule": "Wenn Sie auf die Standardextraktionsregeln zurücksetzen möchten, verwenden Sie die unten stehende Schaltfläche. Das Zurücksetzen kann einige Minuten dauern.",
     "understandCheckboxResetToDefaultRule": "Ich verstehe, dass diese Aktion nicht rückgängig gemacht werden kann.",
     "customService": {
       "stepTitle": "Erweitern Sie die automatische Servicezuordnung, indem Sie eine angepasste Serviceregel hinzufügen.",
@@ -568,13 +474,12 @@
     },
     "newApplication": {
       "helpApplicationPerspectives": "Anwendungsperspektiven bieten eine Möglichkeit zum Modellieren von Umgebungen, Leistungsgruppen, Tenants und mehr.",
-      "helpRenameApplication": "Die Umbenennung einer Anwendung ist eine nach einiger Zeit konsistente Aktion innerhalb des Instana-Systems. Aus diesem Grund kann eine Änderung an einem Anwendungsnamen <italic>bis zu einige Minuten</italic> dauern, bis sie im gesamten System nachvollzogen wurde.",
+      "helpRenameApplication": "Die Umbenennung einer Anwendung ist eine letztendlich konsistente Aktion innerhalb des Instana-Systems. Aus diesem Grund kann das Ändern eines Anwendungsnamens <italic>einige Minuten</italic> in Anspruch nehmen, bis es im gesamten System ausgeführt ist.",
       "descriptionApplicationName": "Namen der Anwendungsperspektive sollten über eine gut etablierte Definition in einer Organisation verfügen. Beispiel: zum Modellieren einer Umgebung: \"Production Blue\", zum Modellieren einer Gruppe von Services: \"Payment\" oder zum Modellieren eines Tenants: \"ACME Customer\".",
       "descriptionTags": "Beispiel: Der Schlüssel ist \"docker.label\" und der Wert lautet \"environment=Production Blue\" oder der Schlüssel ist \"call.http.params\" und der Wert lautet \"tenant=ACMECustomer\". Beachten Sie, dass alle Aufrufe eines <pillDatabase>DATENBANK</pillDatabase>- oder <pillMessage>NACHRICHTENÜBERTRAGUNGS</pillMessage>-Service von Services, die dieser Definition entsprechen, automatisch eingeschlossen werden.",
-      "descriptionOperators": "UND-Operatoren haben Vorrang und werden vor ODER-Operatoren ausgewertet",
       "descriptionOperatorsCreationEnabled": "UND-Operatoren haben Vorrang und werden vor ODER-Operatoren ausgewertet, wenn diese nicht in eckigen Klammern gruppiert sind.",
       "descriptionPrepareToMonitor": "Wir bereiten alles für die Überwachung Ihrer Anwendungsperspektive <bold>{{decodedLabel}}</bold> vor.",
-      "descriptionRemoveApplicationPerspective": "Wenn Sie die Anwendungsperspektive <strong>{{application}}</strong> nicht mehr überwachen möchten, verwenden Sie die Schaltfläche unten, um sie zu entfernen. Das Entfernen einer Anwendungsperspektive kann bis zu ein paar Minuten dauern.",
+      "descriptionRemoveApplicationPerspective": "Wenn Sie die Anwendungsperspektive <strong>{{application}}</strong> nicht mehr überwachen möchten, verwenden Sie die Schaltfläche unten, um sie zu entfernen. Das Entfernen einer Anwendungsperspektive kann einige Minuten dauern.",
       "stepTitleDefineApplicationName": "Definieren Sie einen Namen für Ihre Anwendungsperspektive.",
       "stepTitleDefineTags": "Definieren Sie die Anwendungsperspektive mit einem oder mehreren Tags.",
       "stepTitleDownstreamServices": "Nachgeordnete Services.",
@@ -595,7 +500,7 @@
       "messageNoRule": "Es sind keine Regeln angegeben.",
       "stepTitleConfigureSyntheticEndpoints": "Synthetische Endpunkte so konfigurieren, dass sie Aufrufe von Service- und Anwendungskennzahlen ignorieren",
       "descriptionConfigureSyntheticEndpoints": "Aufrufe an synthetische Endpunkte werden weiterhin erfasst, tragen aber nicht zu Service- und Anwendungs-KPIs bei. Unsere integrierte Regel erkennt Ihre Zustandsprüfungen automatisch und ignoriert sie, es können aber zusätzliche Endpunkte mit neuen Regeln manuell hinzugefügt werden.",
-      "descriptionEndpointsRule": "Aufrufe an die Endpunkte, die mit dieser automatisch generierten Regel übereinstimmen, tragen nicht zu Ihrer Anwendung bei oder Service-KPIs innerhalb von Instana werden nicht berücksichtigt.",
+      "descriptionEndpointsRule": "Aufrufe an die Endpunkte, die mit dieser automatisch generierten Regel übereinstimmen, tragen nicht zu Ihrer Anwendung oder Service-KPIs innerhalb von Instana bei und werden nicht berücksichtigt.",
       "errorConditionRequired": "Es ist mindestens eine übereinstimmende Bedingung erforderlich."
     },
     "and": "UND"
@@ -604,8 +509,8 @@
     "textNewApplicationPerspective": "Sie werden hier angezeigt, sobald ein Accountadministrator sie erstellt.",
     "showApplicationsScope": "<bold>{{contextScope}}</bold> von <linkToEntity>{{entityLabel}}</linkToEntity> Anwendungen werden angezeigt",
     "showServicesScope": "<bold>{{contextScope}}</bold> von <linkToEntity>{{entityLabel}}</linkToEntity> Services werden angezeigt",
-    "showApplicationsScopeWithApplicationLabel": "<bold>{{contextScope}}</bold> von <linkToEntity>{{entityLabel}}</linkToEntity><span> Anwendungen werden im Kontext von </span><linkToApplication>{{applicationLabel}}</linkToApplication> angezeigt",
-    "showServicesScopeWithServiceLabel": "<bold>{{contextScope}}</bold> von <linkToEntity>{{entityLabel}}</linkToEntity><span> Services werden im Kontext von </span><linkToApplication>{{applicationLabel}}</linkToApplication> angezeigt",
+    "showApplicationsScopeWithApplicationLabel": "<bold>{{contextScope}}</bold> von <linkToEntity>{{entityLabel}}</linkToEntity> Anwendungen werden im Kontext von <linkToApplication>{{applicationLabel}}</linkToApplication> angezeigt",
+    "showServicesScopeWithServiceLabel": "<bold>{{contextScope}}</bold> von <linkToEntity>{{entityLabel}}</linkToEntity> Services werden im Kontext von <linkToApplication>{{applicationLabel}}</linkToApplication> angezeigt",
     "titleNoService": "Noch keine Services",
     "servicesNoData": "Für den ausgewählten Zeitraum sind keine Serviceaufrufe verfügbar. Informationen zur Fehlerbehebung finden Sie in der [Dokumentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
   },
@@ -614,13 +519,13 @@
     "shell": "Shell",
     "database": "Datenbank",
     "http": "Http",
-    "messaging": "Messaging",
+    "messaging": "Nachrichtenübertragung",
     "rpc": "RPC",
     "event": "Ereignis",
     "graphQL": "GraphQL",
     "internal": "Intern",
     "undefined": "Nicht definiert",
-    "self": "Gleichgeordnet",
+    "self": "Selbst",
     "sdk": "SDK"
   },
   "constants": {
@@ -631,19 +536,13 @@
     "only": "Nur",
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Nur synthetische Aufrufe werden angezeigt und sind in den Messdaten enthalten."
   },
-  "lists": {
-    "noSpecificApplication": " - keine bestimmte Anwendung - ",
-    "services": "Services"
-  },
-  "containsErrors": "Enthält Fehler",
-  "noErrors": "Keine Fehler",
   "traceDetail": {
     "tabs": {
       "summary": {
         "duplicateCalls": "Doppelte Aufrufe",
-        "duplicateCallsDesc": "Dieser Trace besteht aus einem oder mehreren doppelten Aufrufen (Spannen). Eindeutige Aufrufe: {{traceCallCountIgnoringBatchSize}} - Datensätze: {{traceCallRecordCount}}. Dies führt zu einer falschen Aufrufanzahl (mit Batches) und falschen Fehlerzählerwerten sowie möglicherweise zu anderen Unregelmäßigkeiten.",
+        "duplicateCallsDesc": "Dieser Trace besteht aus einem oder mehreren doppelten Aufrufen (Spannen). Eindeutige Aufrufe: {{traceCallCountIgnoringBatchSize}} - Datensätze: {{traceCallRecordCount}}. Dies führt zu einer falschen Aufrufanzahl (bei Batches) und falschen Fehlerzahlwerten sowie möglicherweise weiteren Unregelmäßigkeiten.",
         "batchedIngestion": "Stapelorientierte Aufnahme",
-        "traceIngestionBatchCount": "Dieser Trace wurde in {{traceIngestionBatchesCount}} Batches verarbeitet. Dies kann zu Unregelmäßigkeiten führen, z. B. dazu, dass Spannen nicht zu einem einzelnen Aufruf zusammengeführt werden, zu einer partiellen Servicezuordnung oder zu anderen unvollständigen Daten.",
+        "traceIngestionBatchCount": "Dieser Trace wurde in {{traceIngestionBatchesCount}} verarbeitet. Dies kann zu Unregelmäßigkeiten führen, z. B. dazu, dass Spannen nicht zu einem einzelnen Aufruf zusammengeführt werden, zu einer partiellen Servicezuordnung oder zu anderen unvollständigen Daten.",
         "subCalls": "Untergeordnete Aufrufe",
         "erroneousCalls": "Fehlerhafte Aufrufe",
         "errorLogs": "Fehlerprotokolle",
@@ -654,17 +553,8 @@
         "largeTrace": "Großer Trace",
         "largeTraceLink": "Dieser Trace ist groß und die Wiedergabe dieses Trace kann zu Leistungsproblemen in Ihrem Browser führen. Sie können entweder den <linkToDocs>Trace herunterladen</linkToDocs>, um ihn manuell zu überprüfen, oder versuchen, den Trace im Browser wiederzugeben. Es wird nur eine Teilmenge der Komponenten wiedergegeben, um die Leistung bei diesem Versuch zu steigern. ",
         "calls": "Aufrufe",
-        "logs": "Protokolle",
-        "analyzeLogs": "In Analyse anzeigen",
-        "correspondingMobileAppActivity": "Entsprechende Aktivität in der mobilen App ",
-        "hideMobileAppInformation": "Informationen der mobilen App ausblenden",
-        "showMobileAppInformation": "Informationen der mobilen App anzeigen",
-        "viewMobileAppActivity": "Aktivität in der mobilen App anzeigen ",
         "erroneousTrace": "Fehlerhafter Trace",
-        "attemptToRenderTrace": "Versuch, Trace wiederzugeben",
-        "hideWebsiteInformation": "Website-Informationen ausblenden",
-        "showWebsiteInformation": "Website-Informationen anzeigen",
-        "viewWebsiteActivity": "Website-Aktivität anzeigen"
+        "attemptToRenderTrace": "Versuch, Trace wiederzugeben"
       }
     }
   },

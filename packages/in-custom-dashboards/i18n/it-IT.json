@@ -31,7 +31,7 @@
         "privateDashboardDefault": "Dashboard privato (predefinito)",
         "privateDashboardDefaultExplain": "Questo dashboard è visibile solo all'utente corrente.",
         "publicDashboard": "Dashboard pubblico",
-        "publicDashboardExplain": "Questo dashboard è visibile a tutti gli utenti dell'organizzazione. Ma solo l'utente corrente potrà apportarvi modifiche, ma è possibile aggiungervi editor.",
+        "publicDashboardExplain": "Questo dashboard è visibile a tutti gli utenti dell'organizzazione. Solo l'utente corrente potrà apportarvi modifiche, ma è possibile aggiungervi editor.",
         "done": "Fine"
       }
     },
@@ -98,7 +98,7 @@
     },
     "dashboardSwitcherOverlayPresenter": {
       "createDashboard": "Crea dashboard",
-      "builtIn": "incorporati",
+      "builtIn": "integrato",
       "default": "impostazione predefinita",
       "search": "Ricerca"
     },
@@ -109,8 +109,8 @@
   "widgets": {
     "metricConfig": {
       "groupingConfig": {
-        "top": "I primi {{number}}",
-        "bottom": "Gli ultimi {{number}}",
+        "top": "Primi {{number}}",
+        "bottom": "Ultimi {{number}}",
         "showRemainingGroupsAggregOther": "Mostra i restanti gruppi aggregati come \"Altro\""
       },
       "hiddenCalls": {
@@ -127,12 +127,6 @@
       },
       "index": {
         "applicationsTracesAndCalls": "Applicazioni (Tracce e Chiamate)"
-      },
-      "oldFormComponent": {
-        "metric": "Metrica",
-        "pleaseSelect": "Selezionare",
-        "aggregation": "Aggregazione",
-        "pleaseSelectMetric": "Selezionare una metrica"
       }
     },
     "srcEvent": {
@@ -165,12 +159,7 @@
       "metricsFormComponent": {
         "metric": "Metrica",
         "selectMetric": "Selezionare metrica",
-        "aggregation": "Aggregazione",
-        "pleaseSelect": "Selezionare",
-        "pleaseSelectMetric": "Selezionare una metrica"
-      },
-      "metricsLoadIndicator": {
-        "loadingMetrics": "Caricamento delle metriche..."
+        "aggregation": "Aggregazione"
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastruttura & Piattaforme",
@@ -191,14 +180,6 @@
       },
       "index": {
         "mobileAppsBeacon": "App mobili (Beacon)"
-      },
-      "oldFormComp": {
-        "beaconType": "Tipo di beacon",
-        "pleaseSelect": "Selezionare",
-        "pleaseSelectDs": "Selezionare un'origine dati",
-        "aggregation": "Aggregazione",
-        "pleaseSelectMetric": "Selezionare una metrica",
-        "metric": "Metrica"
       }
     },
     "srcSli": {
@@ -227,14 +208,6 @@
       },
       "index": {
         "websitesBeacons": "Siti web (Beacon)"
-      },
-      "oldFormComp": {
-        "beaconType": "Tipo di beacon",
-        "pleaseSelect": "Selezionare",
-        "selectDs": "Selezionare un'origine dati",
-        "metric": "Metrica",
-        "aggregation": "Aggregazione",
-        "selectMetric": "Selezionare una metrica"
       }
     },
     "metricConfigurator": {
@@ -264,7 +237,7 @@
         "decreaseColor": "Diminuisci Colore",
         "timeShift": "Spostamento temporale"
       },
-      "bigNumber": "Numero grande"
+      "bigNumber": "Numero elevato"
     },
     "chart": {
       "axesConfigurator": {
@@ -280,8 +253,8 @@
         "auto": "Auto"
       },
       "atLeastOneDatasetIsRequired": "È necessario almeno un dataset.",
-      "errorTitleForConfiguredSliDeletion": "SLI configurato è stato eliminato ",
-      "errorDescriptionToConfigureOtherSLI": "Aggiornare il widget SLO selezionando un altro SLI "
+      "errorTitleForConfiguredSliDeletion": "SLI configurato è stato eliminato",
+      "errorDescriptionToConfigureOtherSLI": "Aggiornare il widget SLO selezionando un altro SLI"
     },
     "formCompChart": {
       "colorConfiguratorChart": {
@@ -294,9 +267,7 @@
         "lightBlue": "Azzurro",
         "green": "Verde",
         "red": "Rosso",
-        "yellow": "Giallo",
         "orange": "Arancione",
-        "blue": "Blu",
         "deepPurple": "Viola scuro",
         "cyan": "Ciano",
         "lime": "Verde limone",
@@ -371,7 +342,7 @@
       "sliSelectionFormComp": {
         "srvLevelIndicator": "Indicatore livello di servizio (SLI)",
         "selectASli": "Selezionare uno SLI.",
-        "noneAvailCreateOne": "Nessuno disponibile, si prega di crearne uno.",
+        "noneAvailCreateOne": "Nessuno disponibile, crearne uno.",
         "pleaseSelect": "Selezionare"
       },
       "createSliForm": {
@@ -432,7 +403,6 @@
         "sliCustomHelpAction": "Le informazioni relative alla personalizzazione dello SLI e ai tipi SLI si trovano all'interno delle nostre documentazioni.",
         "sliTimeBasedOrAnEventBasedSli": "Il tipo SLI deve essere un SLI basato sul tempo o su un evento.",
         "pleaseSelect": "Selezionare",
-        "appPerspective": "Prospettiva Applicazione",
         "boundary": "Limite",
         "hiddenCalls": "Chiamate Nascoste",
         "includeInternalCalls": "Include Chiamate interne",
@@ -452,7 +422,7 @@
         "delete": "Elimina"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "Non si dispone delle autorizzazioni <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> necessarie per creare o modificare gli SLI.",
+        "configSrvLevelIndicatorsMsg": "Non si dispone delle autorizzazioni <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> necessarie per creare o modificare gli SLI.",
         "sliList": "Elenco SLI",
         "createSli": "Crea SLI"
       },
@@ -473,7 +443,7 @@
         "createSli": "Crea SLI",
         "sloConfig": "Configurazione SLO",
         "manageSlIs": "Gestisci gli SLA",
-        "sloTarget": "Destinazione SLO",
+        "sloTarget": "Obiettivo SLO",
         "enterVal0to100": "Inserire un valore compreso tra 0 e 100.",
         "timeWindow": "Finestra temporale",
         "helpActionMsg1": "<strong>Intervallo di tempo fisso:</strong> Una finestra temporale con inizio e durata definiti. Ad es. mensile a partire dal 2020-01-01. Verrà visualizzato l'ultimo intervallo di tempo parziale per la selezione proveniente dal selezionatore di tempo globale.",
@@ -488,7 +458,7 @@
         "months": "mesi",
         "pleaseSpecifyTheNumber": "Specificare il numero di {{timeValue}}.",
         "start": "Inizio",
-        "enterDateFormatYyyyMmDd": "Inserire una data nel formato YYYY-MM-DD.",
+        "enterDateFormatYyyyMmDd": "Inserire una data nel formato AAAA-MM-GG.",
         "enterTimeInFormatHhMmSs": "Inserire un'ora nel formato HH:mm:ss."
       },
       "widgetHeader": {
@@ -557,7 +527,7 @@
         "header": "Selezionare le applicazioni che si desidera monitorare.",
         "addApplication": "Aggiungi applicazione",
         "selectApplication": "Seleziona applicazione",
-        "secondaryHeadingText": "Le applicazioni selezionate verranno ordinate in base alla maggiore gravità.",
+        "secondaryHeadingText": "Le applicazioni selezionate verranno ordinate in base alla maggiore severità.",
         "applicationLabel": "Applicazione",
         "atLeastOneApplicationMustBeSelected": "È necessario selezionare almeno un'applicazione."
       }

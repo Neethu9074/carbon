@@ -6,7 +6,7 @@
     "chartLendMetricTimeShifted": "A métrica é o tempo deslocado para: {{timeShiftedLabel}}",
     "chartDownloadLabel": "Fazer download do JSON",
     "chartGlobalHighlightLabel": "Destacar em todos os gráficos",
-    "chartZoomInLabel": "Aplicar zoom no intervalo de tempo",
+    "chartZoomInLabel": "Zoom para intervalo de tempo",
     "chartAlertsLanePresenterAlertsLabel": "Alertas",
     "chartAlertsLaneTooltipContent": {
       "countSmartAlert": "Alerta inteligente",
@@ -19,7 +19,7 @@
       "countIncident_0": "Incidentes",
       "countIncident_1": "Incidentes",
       "countIncident_2": "Incidentes",
-      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "msg": "{{smartAlertsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert, { \"count\": {{smartAlertsCount}} }) & {{incidentsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countIncident, { \"count\": {{incidentsCount}} })",
       "itemMsg": "+{{leftCount}} mais {{moreMsg}}"
     },
     "chartAlertsPreviewLanePresenterAlertsLabel": "Alertas",
@@ -30,7 +30,7 @@
     "resultAwareChartPleaseTryAgainLater": "Tente novamente mais tarde.",
     "tooltip": {
       "scrollHint": "Role usando as setas <upArrow /><downArrow />",
-      "rollup": "sobre {{rollup}}",
+      "rollup": "acima de {{rollup}}",
       "more": "Mais {{number}}"
     }
   },
@@ -39,9 +39,9 @@
   },
   "downloadBtn": {
     "downloadViewDownloadAsJsonLabel": "Fazer download como JSON",
-    "downloadViewDownloadCSVLabel": "Download (*.csv)",
-    "downloadViewDownloadJsonLabel": "Download (*.json)",
-    "eventMetricDownloadViewDownloadJsonLabel": "Download (*.json)"
+    "downloadViewDownloadCSVLabel": "Fazer download (*.csv)",
+    "downloadViewDownloadJsonLabel": "Fazer download (*.json)",
+    "eventMetricDownloadViewDownloadJsonLabel": "Fazer download (*.json)"
   },
   "touchedMessages": {
     "withPath": "{{message}} (em <codeWithClass>{{path}}</codeWithClass>)"
@@ -49,8 +49,8 @@
   "graphView": {
     "graphTitle": "Gráfico",
     "explanationHeader": "Showcase de gráfico dinâmico",
-    "explanationP1": "A principal tecnologia de desenvolvimento do Instana consiste nos gráficos dinâmicos. Eles representam um modelo do seu aplicativo que compreende todas as dependências físicas e lógicas de componentes. À direita, você vê o gráfico dinâmico do seu ambiente atual.",
-    "explanationP2": "O gráfico tem mais do que componentes físicos, contendo também componentes lógicos, como rastreios, aplicativos, serviços, clusters ou espaços de tabela. Os componentes e suas dependências são descobertos automaticamente pelo agente e pelos sensores do Instana, de modo que o gráfico esteja sempre atualizado. Cada nó no gráfico também é atualizado continuamente com informações de estado, tais como métricas, dados de configuração e um valor de funcionamento calculado com base em conhecimento semântico e em uma abordagem de aprendizado de máquina. Esse conhecimento também analisa as dependências no gráfico para localizar agrupamentos lógicos, como serviços e aplicativos, para entender o impacto nesse nível e derivar a criticalidade dos problemas. Além de o gráfico inteiro ser persistente, é possível avançar e voltar no tempo para usar o conhecimento do gráfico em muitos casos de uso operacional.",
+    "explanationP1": "A principal tecnologia de desenvolvimento da Instana consiste nos gráficos dinâmicos. Eles representam um modelo do seu aplicativo que compreende todas as dependências físicas e lógicas de componentes. À direita, você vê o gráfico dinâmico do seu ambiente atual.",
+    "explanationP2": "O gráfico tem mais do que componentes físicos, contendo também componentes lógicos, como rastreios, aplicativos, serviços, clusters ou espaços de tabela. Os componentes e suas dependências são descobertos automaticamente pelo agente e pelos sensores da Instana, de modo que o gráfico esteja sempre atualizado. Cada nó no gráfico também é atualizado continuamente com informações de estado, tais como métricas, dados de configuração e um valor de funcionamento calculado com base em conhecimento semântico e em uma abordagem de aprendizado de máquina. Esse conhecimento também analisa as dependências no gráfico para localizar agrupamentos lógicos, como serviços e aplicativos, para entender o impacto nesse nível e derivar a criticalidade dos problemas. Além de o gráfico inteiro ser persistente, é possível avançar e voltar no tempo para usar o conhecimento do gráfico em muitos casos de uso operacional.",
     "explanationLink": "<linkToBlog>Visite nosso blog</linkToBlog> para obter mais informações.",
     "closeBtn": "Fechar Gráfico"
   },
@@ -87,7 +87,7 @@
     "formStateLabel": "Estado"
   },
   "searchBar": {
-    "usingTheSearchBar": "A funcionalidade de procura Dynamic Focus do Instana pode ser usada para filtrar mapas 3D, tabelas de comparação e visualizações de incidentes. A barra de procura conta com\ncapacidade extensiva por meio de procuras difusas e de caracteres curinga, bem como de operadores booleanos. Por exemplo, a\nconsulta a seguir restringe as visualizações aos hosts de produção com menos de quatro CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Sintaxe\nO Dynamic Focus utiliza a [sintaxe de consulta Lucene](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) com as diferenças a seguir do padrão Lucene:\n- **Operador padrão:** `AND`\n- **Restrições de sintaxe:** são listadas na [documentação](https://instana.com/docs/dynamic_focus/#syntax-constraints)\n## Interação da barra de procura\nA barra de procura suporta o preenchimento automático de campos de procura e irá destacar a sintaxe da consulta Lucene enquanto você digita.\nDurante a digitação, a barra de procura irá propor campos de procura que correspondam à entrada atual. É possível aceitar os campos propostos\npressionando `RETURN`. Pressione `CTRL+ESPAÇO` para abrir o pop-up de conclusão automática.\n## Folha de dicas da sintaxe de consulta Lucene\n - **Procura por campo:** `entity.host.cpu.count:>4`\n - **Operadores booleanos:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Agrupamento:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Procuras de caracteres curinga:** `entity.type:container*`\n\nConsulte [documentação](https://instana.com/docs/dynamic_focus/) para obter mais informações.",
+    "usingTheSearchBar": "A funcionalidade de procura Dynamic Focus da Instana pode ser usada para filtrar mapas 3D, tabelas de comparação e visualizações de incidentes. A barra de procura conta com\ncapacidade extensiva por meio de procuras difusas e de caracteres curinga, bem como de operadores booleanos. Por exemplo, a\nconsulta a seguir restringe as visualizações aos hosts de produção com menos de quatro CPUs:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Sintaxe\nO Dynamic Focus utiliza a [sintaxe de consulta Lucene](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) com as diferenças a seguir do padrão Lucene:\n- **Operador padrão:** `AND`\n- **Restrições de sintaxe:** são listadas na [documentação](https://instana.com/docs/dynamic_focus/#syntax-constraints)\n## Interação da barra de procura\nA barra de procura suporta o preenchimento automático de campos de procura e irá destacar a sintaxe da consulta Lucene enquanto você digita.\nDurante a digitação, a barra de procura irá propor campos de procura que correspondam à entrada atual. É possível aceitar os campos propostos\npressionando `RETURN`. Pressione `CTRL+ESPAÇO` para abrir o pop-up de conclusão automática.\n## Folha de dicas da sintaxe de consulta Lucene\n - **Procura por campo:** `entity.host.cpu.count:>4`\n - **Operadores booleanos:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Agrupamento:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Procuras de caracteres curinga:** `entity.type:container*`\n\nConsulte a [documentação](https://instana.com/docs/dynamic_focus/) para obter mais informações.",
     "filtersBtn": "Filtros",
     "filterPresetsMenuHeading": "Filtros",
     "filterPresetsSaveFilters": "Salvar filtros para fácil acesso aqui",
@@ -103,9 +103,6 @@
     "filterConfirmButtonLabel": "Remover filtro",
     "filterConfirmRemoveMsg": "Tem certeza de que deseja remover o filtro <strong>{{filterName}}</strong>?",
     "helpDialogTitleUsingTheSearchBar": "Usando a barra de procura"
-  },
-  "svgIcon": {
-    "pluginIcon": "Ícone {{pluginName}}"
   },
   "tables": {
     "serverTable": {
@@ -137,7 +134,7 @@
   "errorBoundary": {
     "message": {
       "title": "Ocorreu um erro",
-      "content": "<p>Uma parte da IU do Instana não pôde ser ativada devido a um erro inesperado. Tente recarregar a página.</p><p>ID do erro: <code>{{errorId}}</code></p>"
+      "content": "<p>Uma parte da IU da Instana não pôde ser ativada devido a um erro inesperado. Tente recarregar a página.</p><p>ID do erro: <code>{{errorId}}</code></p>"
     }
   }
 }

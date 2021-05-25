@@ -55,7 +55,7 @@
       "landingEumAcceptor": "eum-acceptor (aceptación de baliza)",
       "landingEumAcceptorDesc": "eum-acceptor acepta las solicitudes del usuario final, las valida, correlaciona y transmite mediante Kafka para procesarlas.",
       "jsStackTraceTranslator": "js-stack-trace-translator (preproceso de baliza)",
-      "jsStackTraceTranslatorDesc": "xPasses e intentos de mejorar la legibilidad de los rastreos de la pila de JavaScript mediante maps.xx del origen de JavaScript",
+      "jsStackTraceTranslatorDesc": "Analiza e intenta de mejorar la legibilidad de los rastreos de la pila de JavaScript mediante maps.xx del origen de JavaScript",
       "eumProcessor": "eum-processor (proceso de baliza)",
       "eumProcessorDesc": "eum-procesador mejora las balizas recibidas y las reenvía a Kafka para su persistencia.",
       "eumHealthHrocessor": "eum-health-processor (ejecución de reglas de salud)",
@@ -121,7 +121,8 @@
       "elasticsearch": "Elasticsearch",
       "elasticsearchNg": "ElasticsearchNG",
       "kafka": "Kafka",
-      "demous": "demous"
+      "demous": "demous",
+      "demoeu": "demoeu"
     },
     "internalViewWrapper": {
       "internal": "Interno"
@@ -714,11 +715,11 @@
         "backendSpanDropSumAInstance": "Descarte de spans de programa de fondo (suma entre instancias)",
         "spanDropSumChartExplanation_1": "Muestra si se están descartando spans y por qué:",
         "spanDropSumChartExplanation_2": "<strong>Procesado:</strong> El número de spans que se han procesado correctamente.",
-        "spanDropSumChartExplanation_3": "<strong>Descartado debido al regulador global:</strong> Se han descartado debido a un limitador de tasa global (<i>config.hard.spans.rate.drop.threshold</i>)",
+        "spanDropSumChartExplanation_3": "<strong>Descartado debido al regulador global:</strong> Se han descartado debido a un limitador de tasa global (<em>config.hard.spans.rate.drop.threshold</em>)",
         "spanDropSumChartExplanation_4": "<strong>Descartado debido a descarte coherente:</strong> Se ha descartado debido a que otros spans del mismo rastreo se han descartado en el pasado, por ejemplo, debido a la contrapresión (asegúrese de que se descartan todos los spans o ninguno).",
         "spanDropSumChartExplanation_5": "<strong>Descartado debido a la contrapresión:</strong> Se ha descartado debido a que se han agotado los recursos (por ejemplo, un uso elevado de CPU o un paso de la interconexión genera un cuello de botella).",
         "spanDropSumChartExplanation_6": "<strong>Descartado debido a la contrapresión (descarte aleatorio):</strong> Se ha descartado debido a que la antigüedad del registro de Kafka supera los 5 segundos.",
-        "spanDropSumChartExplanation_7": "<strong>Descartado debido al regulador de rastreo:</strong> Se ha descartado debido a un limitador de tasa por rastreo (<i>config.hard.spans.per.trace.rate.drop.threshold</i>)",
+        "spanDropSumChartExplanation_7": "<strong>Descartado debido al regulador de rastreo:</strong> Se ha descartado debido a un limitador de tasa por rastreo (<em>config.hard.spans.per.trace.rate.drop.threshold</em>)",
         "droppingRate": "Tasa de descarte",
         "processed": "Procesado",
         "dropGlobalThrottler": "Descartado debido al regulador global",
@@ -730,13 +731,13 @@
         "backendSpanDropInstChartExplanation_1": "Cuando se descartan los spans, es importante examinar las instancias individuales.",
         "backendSpanDropInstChartExplanation_2": "Todas las instancias se están descartando: reducción.",
         "backendSpanDropInstChartExplanation_3": "Una o varias instancias se están descartando (pero no todas): la reducción no ayudará.",
-        "backendSpanDropInstChartExplanation_4": "Se están procesando rastreos con un alto rendimiento (la clave de fragmentación es el ID de rastreo): Ajuste <i>config.hard.sans.per.trace.rate.drop.threshold</i>.",
+        "backendSpanDropInstChartExplanation_4": "Se están procesando rastreos con un alto rendimiento (la clave de fragmentación es el ID de rastreo): Ajuste <em>config.hard.sans.per.trace.rate.drop.threshold</em>.",
         "backendSpanDropInstChartExplanation_5": "La carga de CPU es demasiado alta en los hosts subyacentes: Asigne la instancia a un host menos sobrecargado.",
         "srvlessAcceptorRateLimitSpanMsg": "Mensajes de spans de tasa limitada del aceptador sin servidor",
         "spanLatencyMeanInstance": "Latencia de spans (media entre instancias)",
         "spanLatencyMeanInstChartExplanation": "Retardo en el agente: Retardo entre el tiempo de finalización de un span y el tiempo en que se ha enviado desde el agente al aceptador.",
         "acceptorRateLimitSpanMsg": "Mensajes de spans de tasa limitada del aceptador",
-        "acceptorRateLimitSpanhartExplan": "El número de mensajes de spans (un mensaje contiene varios spans) descartados debido a un limitador de tasa por unidad de arrendatario. Consulte <i>config.span.publish.rate.limit</i> (valor predeterminado: 25.000).",
+        "acceptorRateLimitSpanhartExplan": "El número de mensajes de spans (un mensaje contiene varios spans) descartados debido a un limitador de tasa por unidad de arrendatario. Consulte <em>config.span.publish.rate.limit</em> (valor predeterminado: 25.000).",
         "acceptorDropSpanMsg": "Mensajes de span descartados del aceptador",
         "srvlessAcceptorDropSpanMsg": "Mensajes de span descartados del aceptador sin servidor",
         "appDataProcessorInst": "Instancias del proceso de AppData-Processor",
@@ -763,7 +764,7 @@
         "entityMsgDropRate": "Tasa de descarte de mensajes de entidad"
       },
       "landing": {
-        "sloViolations": "Infracciones de SLO para ({{sloTenant}}-{{sloUnit}}"
+        "sloViolations": "Infracciones de SLO para {{sloTenant}}-{{sloUnit}}"
       },
       "processComp": {
         "processingComp": "Componentes de proceso"
@@ -793,11 +794,11 @@
     "units": {
       "api": {
         "apiCallBlockRateLimitRate": "Tasa de bloqueo de llamadas de API (Limitación de tasa)",
-        "apiChartExplanation_1": "Las llamadas de API se bloquean cuando alcanzan el límite de tasa, tal como se define en la sección de configuración <i>rateLimit</i> de <i>ui-backend</i>.",
+        "apiChartExplanation_1": "Las llamadas de API se bloquean cuando alcanzan el límite de tasa, tal como se define en la sección de configuración <em>rateLimit</em> de <em>ui-backend</em>.",
         "apiChartExplanation_2": "El código de estado HTTP 429 se proporciona en la respuesta, junto con las cabeceras siguientes (consulte <linkToDocs>referencia</linkToDocs>):",
-        "apiChartExplanation_3": "Hay un límite <i>predeterminado</i>, pero también hay otros más específicos por <i>zone</i>: <i>search</i>, <i>settings</i>, <i>appdata</i> y <i>snapshots</i>.",
-        "apiChartExplanation_4": "El siguiente gráfico sólo indica que las llamadas se están bloqueando, pero no se sabe qué límite se ha alcanzado. Para ello, puede consultar las métricas <i>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distint-client-key-ZONE</i> en <i>ui-backend</i> que le proporcionan la tasa de llamadas por zona, o puede observar detenidamente los rastreos y específicamente los códigos de estado y las cabeceras.",
-        "apiChartExplanation_5": "<strong>Importante:</strong> Las llamadas con el código de estado HTTP 429 no están necesariamente bloqueadas por los limitadores de tasa de la API, pero también las puede bloquear uno de los limitadores utilizados para proteger <i>appdata-reader</i> (consulte las métricas correspondientes en <i>ui-backend</i> con el formato <i>appDataReaderXXXLimiter</i>). Puede diferenciar los 2 casos buscando la presencia de las cabeceras <i>X-RateLimit-XXX</i> en los rastreos."
+        "apiChartExplanation_3": "Hay un límite <em>predeterminado</em>, pero también hay otros más específicos por <em>zone</em>: <em>search</em>, <em>settings</em>, <em>appdata</em> y <em>snapshots</em>.",
+        "apiChartExplanation_4": "El siguiente gráfico sólo indica que las llamadas se están bloqueando, pero no se sabe qué límite se ha alcanzado. Para ello, puede consultar las métricas <em>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distint-client-key-ZONE</em> en <em>ui-backend</em> que le proporcionan la tasa de llamadas por zona, o puede observar detenidamente los rastreos y específicamente los códigos de estado y las cabeceras.",
+        "apiChartExplanation_5": "<strong>Importante:</strong> Las llamadas con el código de estado HTTP 429 no están necesariamente bloqueadas por los limitadores de tasa de la API, pero también las puede bloquear uno de los limitadores utilizados para proteger <em>appdata-reader</em> (consulte las métricas correspondientes en <em>ui-backend</em> con el formato <em>appDataReaderXXXLimiter</em>). Puede diferenciar los 2 casos buscando la presencia de las cabeceras <em>X-RateLimit-XXX</em> en los rastreos."
       },
       "application": {
         "appdataProcessorInstance": "Instancias de AppData-Procesador",

@@ -10,7 +10,7 @@
       "city": "Cidade",
       "address": "Endereço",
       "additionalAddress": "Endereço adicional",
-      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "Se qualquer uma das informações desta página precisar de correções, entre em contato <linkToMail>{{salesopsEmail}}</linkToMail>"
+      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "Se qualquer uma das informações desta página precisar de correções, entre em contato por e-mail para <linkToMail>{{salesopsEmail}}</linkToMail>"
     },
     "activeLicenses": {
       "name": "Nome",
@@ -38,7 +38,7 @@
       "average": "Média"
     },
     "timePresets": {
-      "last7Days": "Últimos sete dias",
+      "last7Days": "Últimos 7 dias",
       "last30Days": "Últimos 30 dias",
       "last365Days": "Últimos 365 dias"
     },

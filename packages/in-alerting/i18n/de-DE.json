@@ -19,9 +19,6 @@
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Sind Sie sicher, dass Sie <strong>\"Alert {{alertConfigName}}\"</strong> entfernen möchten?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Entfernen",
     "alertHeaderIsNotLatestRevisionMessage": "Dies ist die Überarbeitung {{alertRevision}} dieser Alertkonfiguration. Wählen Sie die <latestRevisionButton>neueste Überarbeitung<latestRevisionButton> aus, wenn Sie Änderungen vornehmen möchten. ",
-    "alertHeaderThisConfigIsStoredWithQueryBuilder2Expressions": "Diese Konfiguration wird mit Query Builder 2-Ausdrücken gespeichert.",
-    "alertHeaderYouCanOnlyStartOrPause": "Sie können diese Konfigurationen im Query Builder 1-Modus nur starten oder anhalten, aber nicht bearbeiten",
-    "alertHistoryListTitle": "Erstellte Alerts",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Erstellte Alerts ({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "Titel",
     "alertPropertyInfosLabelAlertLevel": "Alertstufe",
@@ -41,7 +38,25 @@
     },
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "Sie sehen eine gelöschte Alertkonfiguration. Es sind keine Änderungen möglich. ",
     "alertPropertyInfosWarning": "Warnung",
-    "alertPropertyInfosCritical": "Kritisch"
+    "alertPropertyInfosCritical": "Kritisch",
+    "customPayload": {
+      "deleteRow": "Zeile löschen",
+      "key": "Schlüssel",
+      "value": "Wert",
+      "unknownTypeTypeItCanNotBeEdited": "Unbekannter Typ: {{type}} - Typ kann nicht bearbeitet werden. ",
+      "customWithColon": "angepasst:",
+      "valueType": "Wertetyp",
+      "static": "Statisch",
+      "dynamic": "Dynamisch",
+      "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "Die Anzahl der Zeilen ist auf {{maximumNumberOfRows}} beschränkt.",
+      "addRow": "Zeile hinzufügen",
+      "noCustomPayloadConfigured": "Keine angepassten Nutzdaten konfiguriert",
+      "keyNamesMustBeUnique": "Schlüsselnamen müssen eindeutig sein.",
+      "theValueMustNotBeBlank": "Der Wert darf nicht leer sein.",
+      "onlyOrAnyAlphaNumericalAreAllowed": "Nur die Zeichen '.', '-', '_' sowie alphanumerische Zeichen sind zulässig. ",
+      "aTagNeedsToBeSelected": "Es muss ein Tag ausgewählt werden.",
+      "aKeyNeedsToBeSpecified": "Es muss ein Schlüssel angegeben werden."
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "Rate fehlerhafter Aufrufe ist höher als üblich",
@@ -90,7 +105,7 @@
     "titleNoSmartAlertsCreated": "Keine Smart Alerts erstellt",
     "titleCopyOf": "(Kopie von) {{smartAlertTitle}}",
     "applications": {
-      "newGlobalAlert": "Globaler Smart Alert",
+      "alertConfiguration": "Alertkonfiguration",
       "advanced": {
         "alertPropertyInsertPlaceholderLabel": "Platzhalter einfügen",
         "evaluationSwitch": {
@@ -130,12 +145,6 @@
               "overrideDefault": "Der Standardbereich für diese Anwendung ist 'Alle Aufrufe'. Sie können dies in der Konfiguration ändern. "
             }
           },
-          "constants": {
-            "inboundDashboard": "Das Dashboard zeigt Informationen nur auf der Basis der Aufrufe an, die von den Konsumenten dieser Anwendung ausgeführt werden.",
-            "inboundOverrideDefault": "Der Standardbereich für diese Anwendung ist 'Nur eingehende Aufrufe'. Sie können dies in der Konfiguration ändern. ",
-            "allDashboard": "Das Dashboard zeigt Informationen auf der Basis aller Aufrufe an, die in dieser Anwendung ausgeführt werden, sowohl von den Konsumenten als auch intern.",
-            "allOverrideDefault": "Der Standardbereich für diese Anwendung ist 'Alle Aufrufe'. Sie können dies in der Konfiguration ändern. "
-          },
           "confirmationDialog": {
             "pleaseConfirm": "Bitte bestätigen",
             "description": "Das Ändern des Grenzbereichs würde die Anwendungsauswahl zurücksetzen.",
@@ -173,6 +182,10 @@
           "propertiesOptional": {
             "label": "Eigenschaften (optional)",
             "title": "Zusätzliche Alerteigenschaften (optional)"
+          },
+          "payloadsOptional": {
+            "label": "Nutzdaten (optional)",
+            "title": "Angepasste Nutzdaten (optional)"
           }
         }
       },
@@ -183,7 +196,7 @@
       "logMessages": {
         "messageColumn": "Protokollnachricht",
         "levelColumn": "Protokollebene",
-        "noDataMessage": "Kein Alert konfiguriert.",
+        "noDataMessage": "Keine Nachrichten gefunden.",
         "selectLogMessageText": "Protokollnachricht als Vorlage auswählen (optional)",
         "selectLogMessageTitle": "Protokollnachricht auswählen"
       },
@@ -313,44 +326,6 @@
         }
       },
       "form": {
-        "anyJSErrors": "Beliebige JS-Fehler",
-        "JSErrors": "JS-Fehler: {{errorMessage}}",
-        "HTTPStatusCodes": "HTTP-Statuscode(s): {{statusCode}}",
-        "unsupportedAlertType": "Nicht unterstützter Alerttyp: {{alertType}}",
-        "JSErrorsHaveBeenDetected": "JS-Fehler wurden erkannt.",
-        "unsupportedOperator": "Nicht unterstützter Operator: {{operator}}",
-        "JSErrorTextEquals": "JS-Fehler, die gleich \"{{ruleValue}}\" sind, wurden erkannt. ",
-        "JSErrorTextContains": "JS-Fehler, die \" {{ruleValue}}\" enthalten, wurden erkannt.",
-        "JSErrorTextStartsWith": "JS-Fehler, die mit \" {{ruleValue}}\" beginnen, wurden erkannt.",
-        "JSErrorTextEndsWith": "JS-Fehler, die mit \" {{ruleValue}}\" enden, wurden erkannt.",
-        "slownessSimpleHighOperatorText": "onLoad-Zeit ({{aggregationText}}) ist zu hoch",
-        "slownessSimpleLowOperatorText": "onLoad-Zeit ({{aggregationText}}) ist zu gering",
-        "throughputSimpleHighOperatorText": "Anzahl der {{metricLabel}} ist anomal hoch",
-        "throughputSimpleLowOperatorText": "Anzahl der {{metricLabel}} ist anomal gering",
-        "statusCodeSimpleAboveOperatorText": "Vorkommen von HTTP-Statuscode {{statusCodeLabel}} sind höher als erwartet. ",
-        "statusCodeSimpleBelowOperatorText": "Vorkommen von HTTP-Statuscode {{statusCodeLabel}} sind geringer als erwartet. ",
-        "slownessSimpleAboveOperatorText": "onLoad-Zeit ({{aggregationText}}) ist höher als erwartet. ",
-        "slownessSimpleBelowOperatorText": "onLoad-Zeit ({{aggregationText}}) ist geringer als erwartet. ",
-        "slownessGreaterOperatorText": "onLoad-Zeit ({{aggregationText}}) ist größer als {{thresholdValue}} ms.",
-        "slownessGreaterEqualsOperatorText": "onLoad-Zeit ({{aggregationText}}) ist größer als oder gleich {{thresholdValue}} ms.",
-        "slownessLessOperatorText": "onLoad-Zeit ({{aggregationText}}) ist kleiner als {{thresholdValue}} ms.",
-        "slownessLessEqualsOperatorText": "onLoad-Zeit ({{aggregationText}}) ist kleiner als oder gleich {{thresholdValue}} ms.",
-        "staticThresholdHigherOperatorText": "Die Anzahl der {{metricLabel}} ist größer als {{thresholdValue}} Aufrufe. ",
-        "staticThresholdHigherEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist größer oder gleich {{thresholdValue}}.",
-        "staticThresholdLowerOperatorText": "Die Anzahl der {{metricLabel}} ist kleiner als {{thresholdValue}}.",
-        "staticThresholdLowerEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist kleiner oder gleich {{thresholdValue}}.",
-        "thresholdHigherOperatorText": "Die Anzahl der {{metricLabel}} ist höher als erwartet.",
-        "thresholdHigherEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist höher als erwartet oder wie erwartet. ",
-        "thresholdLowerOperatorText": "Die Anzahl der {{metricLabel}} ist niedriger als erwartet.",
-        "thresholdLowerEqualsOperatorText": "Die Anzahl der {{metricLabel}} ist kleiner als erwartet oder wie erwartet. ",
-        "errorPleaseProvideAnErrorMessage": "Geben Sie eine Fehlernachricht an.",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Geben Sie eine Zahl >= 0 an",
-        "errorBaselineIsEmpty": "Vergleichsdaten sind leer",
-        "ruleJsErrorsOperatorOptionAny": "Beliebig(e)",
-        "ruleJsErrorsOperatorOptionEquals": "Ist gleich",
-        "ruleJsErrorsOperatorOptionContains": "Enthält",
-        "ruleJsErrorsOperatorOptionStartsWith": "Beginnt mit",
-        "ruleJsErrorsOperatorOptionEndWith": "Endet mit",
         "ruleStatusCodeValueOption1": "1XX (Information)",
         "ruleStatusCodeValueOption100": "100 (Weiter)",
         "ruleStatusCodeValueOption101": "101 (Protokollwechsel)",
@@ -422,13 +397,6 @@
         "ruleStatusCodeValueOption511": "511 (Netzauthentifizierung erforderlich)",
         "ruleStatusCodeValueOption599": "599 (Zeitüberschreitung für Netzverbindung)",
         "ruleStatusCodeValueOptionCustom": "Angepasster Bereich",
-        "ruleMetricNameOptionSpecificJsErrorErrors": "Fehleranzahl",
-        "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "Fehlerrate",
-        "ruleMetricNameOptionStatusCodeHttpxxx": "Statuscodeanzahl",
-        "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Statuscoderate",
-        "ruleMetricNameOptionSlownessOnLoadTime": "onLoad-Zeit",
-        "ruleMetricNameOptionThroughputPageLoads": "Seitenladevorgänge",
-        "ruleMetricNameOptionThroughputPageTransitions": "Seitenwechsel",
         "ruleFormErrorStatusCodeStartGTEnd": "Wählen Sie einen HTTP-Endstatuscode aus, der größer oder gleich dem HTTP-Startstatuscode ist.",
         "ruleFormPleaseProvideALogMessage": "Geben Sie eine Protokollnachricht an",
         "ruleFormPleaseProvideAStartStatusCode": "Geben Sie einen HTTP-Startstatuscode an.",
@@ -456,20 +424,21 @@
         "noData": "Keine Smart Alerts konfiguriert. Klicken Sie auf die Schaltfläche unten, um den ersten Smart Alert zu konfigurieren.",
         "noPersmissionToCreateGlobalSmartAlert": "Sie verfügen nicht über die Berechtigung zum Konfigurieren von Smart Alerts. Wenden Sie sich an Ihren Administrator.",
         "labelGlobalSmartAlertsList": "Smart Alerts für globale Anwendungen ({{numberOfAlerts}})",
-        "labelSmartAlertsList": "Smart Alerts für globale Anwendungen ({{numberOfAlerts}})",
+        "labelSmartAlertsList": "Smart Alerts für individuelle Anwendungen ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
-        "labelName": "Name",
         "labelActionButtonEdit": "Bearbeiten",
         "labelActionButtonDuplicate": "Duplizieren",
         "labelActionButtonDelete": "Löschen",
-        "noAlertConfigured": "Kein Alert konfiguriert.",
-        "alertEntityName": "Alert \"{{entityName}}\"",
         "labelAlertFilters": "Filter",
         "labelConfirm": "Bitte bestätigen",
         "labelConfirmRemoveConfig": "Sind Sie sicher, dass Sie die Konfiguration <strong>{{configName}}</strong> entfernen möchten?",
         "labelRemove": "Entfernen",
         "numberOfApplicationsSelected": "{{count}} Anwendung ausgewählt",
         "numberOfApplicationsSelected_plural": "{{count}} Anwendungen ausgewählt"
+      },
+      "details": {
+        "title": "Alertdetails",
+        "titleAlertProperties": "Alerteigenschaften"
       }
     },
     "form": {
@@ -490,7 +459,7 @@
       "smartAlertDialog": {
         "sharedListTooltip": "Der ausgewählte {{typeName}} ist nicht mehr verfügbar",
         "clearTagFilterExpressionButton": "Löschen",
-        "baselineErrorMessageInsufficientDataToCompute": "Unzureichende Daten zur Berechnung der ausgewählten Referenzversion. Wählen Sie stattdessen <i>Statischer Schwellenwert</i> aus.",
+        "baselineErrorMessageInsufficientDataToCompute": "Unzureichende Daten zur Berechnung der ausgewählten Referenzversion. Wählen Sie stattdessen <em>Statischer Schwellenwert</em> aus.",
         "baselineErrorMessageReason": "Ursache:",
         "blueprintDescriptionButtonSelect": "Auswählen",
         "selectAlertChannelButtonTitle": "Alertkanäle auswählen",
@@ -541,7 +510,6 @@
         "timeThresholdConfigOff": "aus",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Geben Sie eine Zahl >= 1 ein",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Geben Sie eine Zahl zwischen 1 und 100 % an",
-        "alertPropertiesInsertPlaceholderTooltip": "Platzhalter einfügen",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "Wenn die Bedingung über einen angegebenen Zeitraum bestehen bleibt",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Jedes Mal, wenn die Bedingung eine bestimmte Anzahl von Malen in einem definierten Zeitrahmen ausgelöst wird",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "Wenn eine bestimmte Menge meiner Benutzer betroffen ist",
@@ -571,16 +539,13 @@
         "thresholdTypeOptionHistoricBaselineDaily": "Grundlinie (tägliche Saisonalität)",
         "thresholdTypeOptionHistoricBaselineWeekly": "Grundlinie (wöchentliche Saisonalität)",
         "useSuggestedvalue": "Vorgeschlagenen Wert verwenden",
-        "alertConfigDialogPresenterTitleEditAlertLocal": "Smart Alert bearbeiten",
-        "alertConfigDialogPresenterTitleEditAlertGlobal": "Globalen Smart Alert bearbeiten",
-        "alertConfigDialogPresenterTitleCreateNewAlertLocal": "Neuen Smart Alert erstellen",
-        "alertConfigDialogPresenterTitleCreateNewAlertGlobal": "Neuen globalen Smart Alert erstellen",
+        "alertConfigDialogPresenterTitleEditAlert_Local": "Smart Alert bearbeiten",
+        "alertConfigDialogPresenterTitleEditAlert_Global": "Globalen Smart Alert bearbeiten",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Neuen Smart Alert erstellen",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Neuen globalen Smart Alert erstellen",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Zum erweiterten Modus wechseln",
-        "alertConfigDialogPresenterButtonSwitchToSimpleMode": "Zum einfachen Modus wechseln",
         "simpleAlertConfigDialogStep3Headline": "Wer sollte die Alerts bekommen?",
-        "Loading": "Laden...",
-        "LoadingServices": "Services werden geladen...",
-        "NoServiceInScope": "Kein Service im Bereich",
+        "Loading": "Ladevorgang läuft...",
         "PreviewForAP": "Vorschau für Anwendungsperspektive:",
         "PreviewForEndpoint": "Vorschau für Endpunkt:",
         "PreviewForService": "Vorschau für Service:"
@@ -648,15 +613,12 @@
         "alertChannelsTitle": "Alertkanäle: Wer muss alarmiert werden?",
         "propertiesLabel": "Eigenschaften (optional)",
         "propertiesTitle": "Zusätzliche Alerteigenschaften (optional)",
-        "thresholdValue": "Schwellenwert"
-      },
-      "alertConfigDialogWithThreshold": {
-        "alertText": "Dies ist eine neue Funktion. ",
-        "alertLabelText": "NEU"
+        "thresholdValue": "Schwellenwert",
+        "payloadsLabel": "Nutzdaten (optional)",
+        "payloadsTitle": "Angepasste Nutzdaten (optional)"
       },
       "components": {
         "provideStatusCodeStatusCode": "Statuscode",
-        "tagSuggestions": "Tagvorschläge nicht für Alerttyp {{alertType}} definiert",
         "errorMessage": "Fehlernachricht",
         "noDataMessage": "Kein Alert konfiguriert.",
         "selectJSErrorHelpText": "JS-Fehlernachricht als Vorlage auswählen (optional)",
@@ -670,12 +632,12 @@
         "pageLoads": "Seitenladevorgänge",
         "pageTransitions": "Seitenwechsel",
         "slownessBlueprintConfigName": "Langsamkeit",
-        "slownessBlueprintConfigHeadline": "Automatische Alerts für die Ladezeit",
-        "slownessBlueprintConfigTextP": "Die OnLoad-Zeit misst die Zeit, die zwischen der Navigation des Benutzers zu einer Website und der Möglichkeit, mit der Website zu interagieren, vergeht.",
-        "slownessBlueprintConfigTextli1": "Alle Markups, ersetzte Elementinhalte und Einbettungen vom Server abrufen",
-        "slownessBlueprintConfigTextli2": "Markup wird analysiert",
-        "slownessBlueprintConfigTextli3": "CSS-Kaskade wird angewendet",
-        "slownessBlueprintConfigTextli4": "Seite wird wiedergegeben",
+        "slownessBlueprintConfigHeadline": "Automatische Alerts für die onLoad-Zeit",
+        "slownessBlueprintConfigTextP": "Die onLoad-Zeit misst die Zeit, die zwischen der Navigation des Benutzers zu einer Website und der Möglichkeit, mit der Website zu interagieren, vergeht.",
+        "slownessBlueprintConfigTextli1": "Abrufen aller Markups, ersetzten Elementinhalte und Einbettungen vom Server",
+        "slownessBlueprintConfigTextli2": "Parsing der Markup",
+        "slownessBlueprintConfigTextli3": "Anwenden der CSS-Kaskade",
+        "slownessBlueprintConfigTextli4": "Rendering der Seite",
         "slownessBlueprintConfigTextli5": "Ausführen aller Scripts, die beim Laden der Seite ausgeführt werden müssen",
         "slownessBlueprintConfigMetricLabel": "onLoad-Zeit",
         "jsErrorsBlueprintConfigName": "JS-Fehler",

@@ -2,25 +2,13 @@
   "analyze": {
     "analyzeView": {
       "beacons": {
-        "perBeaconTypeConfigEventName": "Ereignisname",
-        "perBeaconTypeConfigWebsite": "Website",
-        "perBeaconTypeConfigLabelTimestamp": "Zeitmarke",
-        "perBeaconTypeConfigEventTooltip": "Dieses Ereignis wurde gebündelt und stellt {{batchSize}} einzelne Ergeignisse dar. ",
-        "perBeaconTypeConfigErrorMessage": "Fehlernachricht",
-        "perBeaconTypeConfigErrorTooltip": "Dieser Fehler wurde gebündelt und stellt {{batchSize}} einzelne Ergeignisse dar. ",
-        "perBeaconTypeConfigAccess": "Zugriff",
+        "perBeaconTypeConfigEventTooltip": "Dieses Ereignis wurde gebündelt und stellt {{batchSize}} einzelne Ereignisse dar. ",
+        "perBeaconTypeConfigErrorTooltip": "Dieser Fehler wurde gebündelt und stellt {{batchSize}} einzelne Ereignisse dar. ",
         "perBeaconTypeConfigHTTPRequestTooltip": "Diese HTTP-Anforderung wurde gebündelt und stellt {{batchSize}} einzelne HTTP-Anforderungen dar. ",
-        "perBeaconTypeConfigPage": "Seite",
-        "perBeaconTypeConfigPageTransitionTooltip": "Dieser Seitenübergang wurde gebündelt und stellt {{batchSize}} einzelne Seitenübergänge dar.",
-        "perBeaconTypeConfigPath": "Pfad",
+        "perBeaconTypeConfigPageTransitionTooltip": "Dieser Seitenwechsel wurde gebündelt und stellt {{batchSize}} einzelne Seitenwechsel dar.",
         "perBeaconTypeConfigPageLoadTooltip": "Dieser Seitenladevorgang wurde gebündelt und stellt {{batchSize}} einzelne Seitenladevorgänge dar.",
-        "perBeaconTypeConfigURI": "URI",
         "perBeaconTypeConfigResourceRetrievalsTooltip": "Dieser Ressourcenabruf wurde gebündelt und stellt {{batchSize}} einzelne Ressourcenabrufe dar. "
       },
-      "metricsSelectorTitle": "Messdaten auswählen",
-      "metricsSelectorHelp": "Wählen Sie aus, welche Messdaten als Spalten in der Tabelle verfügbar sein sollten. Die Tabelle definiert auch, welche Messdaten als Diagramme angezeigt werden können.",
-      "noData": "Für den ausgewählten Zeitraum sind keine Beacons verfügbar. Fehlerbehebungsinformationen finden Sie in der [Dokumentation] [Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
-      "emptyAnalyzeViewTitle": "Kein(e) {{entityName}} gefunden",
       "resourceTimingMetricsLabelRedirectTime": "Umleitungszeit",
       "resourceTimingMetricsLabelAppCacheTime": "AppCache-Zeit",
       "resourceTimingMetricsLabelDNSTime": "DNS-Zeit",
@@ -112,8 +100,6 @@
       "quickFilterBarLabelSubdivision_2": "Unterteilungen",
       "quickFilterBarLabelMeta": "Meta",
       "quickFilterBarLabelWindowWidth": "Fensterbreite",
-      "websiteEditGroupDialogHelp": "Wählen Sie einen Tag aus, nach dem Ihre Beacons gruppiert werden sollen.",
-      "WebsiteGroupMetricsChartLabelCount": " Anzahl   ",
       "beaconUserSummary": {
         "titleUserInformation": "Benutzerinformationen",
         "titleBrowser": "Browser",
@@ -124,10 +110,10 @@
         "titleEffectiveConnectionType": "Effektiver Verbindungstyp",
         "titleSessionID": "Sitzungs-ID",
         "titleSeeAllPageLoadsHavingThisSessionID": "Alle Seitenladevorgänge mit dieser Sitzungs-ID anzeigen",
-        "titleUserLocation": "Benutzerposition",
+        "titleUserLocation": "Benutzerstandort",
         "explanationGeolocationCouldNotBeDeterminedFromIPAddress": "Die Geoortung konnte nicht aus IP-Adresse ermittelt werden.",
         "titleMeta": "Meta",
-        "explanationNoMetaDataDefined": "Keine Metadaten definiert. Metadaten können zum Transportieren von Informationen zur Implementierung oder von Einstellungen verwendet werden. Metadaten sind als Filter und Gruppierung innerhalb des Analysebereichs verfügbar.",
+        "explanationNoMetaDataDefined": "Keine Metadaten definiert. Metadaten können zum Transportieren von Informationen zur Implementierung oder von Einstellungen verwendet werden. Metadaten sind als Filter und Gruppierung innerhalb des Produktbereichs Analyse verfügbar.",
         "labelLearnHowToAddMetaData": "Erfahren Sie, wie Metadaten hinzugefügt werden",
         "noUserDataDefined": "Keine Benutzerdaten definiert",
         "learnHowToAddUserData": "Erfahren Sie, wie Benutzerdaten hinzugefügt werden"
@@ -227,7 +213,6 @@
         "pageLoadBeaconTitleFirstInputDelay": "Verzögerung bei erster Eingabe",
         "pageLoadBeaconTitleCumulativeLayoutShift": "Kumulative Layoutverschiebung",
         "pageLoadBeaconTitleTimeToFirstByte": "Zeit bis zum ersten Byte",
-        "pageLoadBeaconTitleInitiator": "Initiator",
         "pageLoadBeaconTitleWindowLocation": "Fensterposition",
         "pageLoadBeaconTitleFirstPaint": "First Paint",
         "pageLoadBeaconTotalDurationNameRetrievalTime": "onLoad-Zeit",
@@ -311,7 +296,7 @@
   },
   "definitions": {
     "missingResourceTimingsLearnMoreLabel": "Erfahren Sie, wie COR (Cross-Origin Ressources) sichtbar gemacht werden können",
-    "missingResourceTimingsExplanation": "Die Erfassung von Ressourcenzeitdaten unterliegt den Einschränkungen der Same-Origin-Policy. Dies bedeutet, dass die Erfassung von Ressourcentimings auf Ressourcen, die vom dem Ursprung des HTML-Dokuments abgerufen wurden, soswie Ressourcen, die von Ursprüngen bereitgestellt werden, die dies explizit zulassen, beschränkt ist.",
+    "missingResourceTimingsExplanation": "Die Erfassung von Ressourcenzeitdaten unterliegt den Einschränkungen der Same-Origin-Policy. Dies bedeutet, dass die Erfassung von Ressourcentimings auf Ressourcen, die vom dem Ursprung des HTML-Dokuments abgerufen wurden, sowie Ressourcen, die von Ursprüngen bereitgestellt werden, die dies explizit zulassen, beschränkt ist.",
     "scriptErrorLearnMoreLabel": "Erfahren Sie, wie diese Fehler sichtbar gemacht werden können",
     "scriptErrorExplanation": "Fehlertyp, Nachricht und Stack-Trace sind aufgrund des Browser-Sicherheitsmechanismus, z. B. die Same-Origin-Policy, nicht zugänglich. Dies bedeutet normalerweise, dass der Fehler durch ein Script verursacht wurde, das auf einem anderen Ursprung als dem Ursprung des HTML-Dokuments gehostet wird. JavaScript-Dateien, die von Content-Delivery-Netzen und Anzeigenservices abgerufen wurden, sind am häufigsten für diese Dateien verantwortlich.",
     "stackTraceExplanation01SuccessfullyTranslated": "Erfolgreich übersetzt",
@@ -341,11 +326,11 @@
     "inputStepLabelWebsiteName": "Name der Website",
     "inputStepButtonAddWebsite": "Website hinzufügen",
     "readyStepTitleEverythingsReady": "Alles ist bereit!",
-    "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "Alles Erforderliche zum Überwachen Ihrer Website <strong>{{websiteName}}</strong> ist bereit. Kopieren Sie dieses Script in das HTML-Dokument <code>{{{httpHeadTag}}</code>. Informationen zur Website-Überwachung und zu den vollständigen Funktionen des Tracking-Scripts <linkToDocs>innerhalb unserer Dokumente</linkToDocs>.",
-    "readyStepButtonGoToWebsiteDashboard": "Zum Website-Dashboard wechseln",
+    "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "Alles Erforderliche zum Überwachen Ihrer Website <strong>{{websiteName}}</strong> ist bereit. Fügen Sie dieses Script zum <code>{{httpHeadTag}}</code> des HTML-Dokuments hinzu. Informationen zur Website-Überwachung und zu den vollständigen Funktionen des Tracking-Scripts finden Sie <linkToDocs>in unseren Dokumenten</linkToDocs>.",
+    "readyStepButtonGoToWebsiteDashboard": "Zu Website-Dashboard wechseln",
     "readyStepButtonCopyToClipboard": "In Zwischenablage kopieren",
     "waitStepTitleWorking": "Vorgang wird ausgeführt...",
-    "waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite": "Es wird alles für die Überwachung Ihrer Website <strong>{{websiteName}}</strong> vorbereitet. Fügen Sie inzwischen das folgende Script zum <code>{{httpHeadTag}}</code> des HTML-Dokuments hinzu. Informationen zur Website-Überwachung und zu den vollständigen Funktionen des Tracking-Scripts <linkToDocs>innerhalb unserer Dokumente</linkToDocs>.",
+    "waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite": "Es wird alles für die Überwachung Ihrer Website <strong>{{websiteName}}</strong> vorbereitet. Fügen Sie inzwischen das folgende Script zum <code>{{httpHeadTag}}</code> des HTML-Dokuments hinzu. Informationen zur Website-Überwachung und zu den vollständigen Funktionen des Tracking-Scripts finden Sie <linkToDocs>in unseren Dokumenten</linkToDocs>.",
     "waitStepButtonCopyToClipboard": "In Zwischenablage kopieren",
     "waitStepButtonEnablingMonitoring": "Überwachung wird aktiviert..."
   },
@@ -358,7 +343,7 @@
     "viewSwitcherLabelWebsites": "Websites",
     "viewSwitcherLabelMobileApps": "Mobile Apps",
     "websitesListLabelName": "Name",
-    "websitesListLabelPageViews": "Seitenansichten",
+    "websitesListLabelPageViews": "Seitenaufrufe",
     "websitesListLabelOnLoadTime": "onLoad-Zeit",
     "websitesListLabelHealth": "Allgemeinzustand",
     "websitesListButtonAddWebsite": "Website hinzufügen",
@@ -368,7 +353,6 @@
   },
   "websiteDashboard": {
     "components": {
-      "deprecationHeaderSupportEnds": "Support endet am {{supportedUntil}}",
       "overlaysTooltipToogleHeatMap": "Heat-Map ein-/ausschalten",
       "overlaysTooltipPanLeft": "Nach links schwenken",
       "overlaysTooltipPanUp": "Nach oben schwenken",
@@ -412,7 +396,6 @@
         "graphqlOperationsTopListLabelLatency": "Latenzzeit",
         "graphqlOperationsTopListLabelErrors": "Fehler",
         "graphqlOperationsTopListTitle": "GraphQL-Operationsnamen",
-        "graphqlOperationsTopListLinkLabel": "Alle GraphQL-Operationsnamen anzeigen",
         "locationsTopListLabelCalls": "Aufrufe",
         "locationsTopListLabelLatency": "Latenzzeit",
         "locationsTopListLabelErrors": "Fehler",
@@ -464,7 +447,7 @@
         "xhrRequestLabelDecodedBodySize": "Größe des decodierten Nachrichtentexts",
         "xhrRequestTitle": "Website-HTTP-Anforderungsdetails",
         "xhrRequestBackButton": "Zurück zur Liste der Ursprünge von HTTP-Anforderungen",
-        "xhrRequestButton": "HTTP-Anforderungsursprung analysieren",
+        "xhrRequestButton": "Ursprung von HTTP-Anforderung analysieren",
         "xhrRequestsLabelOrigin": "Ursprung",
         "xhrRequestsLabelCalls": "Aufrufe",
         "xhrRequestsLabelLatency": "Latenzzeit",
@@ -484,12 +467,7 @@
         "alertsLabelName": "Name",
         "alertsLabelFilters": "Filter",
         "alertsHeaderConfiguredAlerts": "Konfigurierte Alerts",
-        "alertsNoDataMessage": "Kein Alert konfiguriert.",
-        "alertsNumberOfFilters": "{{count}} Filter",
-        "alertsNumberOfFilters_plural": "{{count}} Filter",
-        "alertsNumberOfFilters_0": "{{count}} Filter",
-        "alertsNumberOfFilters_1": "{{count}} Filter",
-        "alertsNumberOfFilters_2": "{{count}} Filter"
+        "alertsNoDataMessage": "Kein Alert konfiguriert."
       },
       "configuration": {
         "configurationRemoveTitle": "Website entfernen",
@@ -568,7 +546,8 @@
         "pageTopListLabelOccurrences": "Vorkommen",
         "pageTopListLabelUsers": "Benutzer",
         "browserTopListLabelOccurrences": "Vorkommen",
-        "browserTopListLabelUsers": "Benutzer"
+        "browserTopListLabelUsers": "Benutzer",
+        "customEvents": "angepasste Ereignisse"
       },
       "errors": {
         "browserTopListLabelOccurrences": "Vorkommen",
@@ -581,7 +560,7 @@
         "errorTitleStackTrace": "Stack-Trace",
         "errorTitleScriptError": "Scriptfehler",
         "errorTitleComponentStack": "Komponentenstack",
-        "errorCardTitlePageViews": "Seitenansichten",
+        "errorCardTitlePageViews": "Seitenaufrufe",
         "errorCardTitleOccurrences": "Vorkommen",
         "errorCardTitleAffectedUsers": "Betroffene Benutzer",
         "errorLabelViewInAnalyze": "In Analyse anzeigen",
@@ -675,12 +654,12 @@
       "summary": {
         "errorTopListLabelOccurrences": "Vorkommen",
         "errorTopListLabelAffectedUsers": "Betroffene Benutzer",
-        "errorTopListTitleTopJSErrors": "Oberste JS-Fehler",
+        "errorTopListTitleTopJSErrors": "Wichtigste JS-Fehler",
         "errorTopListLinkLabelViewAllJSErrors": "Alle JS-Fehler anzeigen",
-        "pagesTopListLabelPageViews": "Seitenansichten",
+        "pagesTopListLabelPageViews": "Seitenaufrufe",
         "pagesTopListLabelOnLoadTime": "onLoad-Zeit",
         "pagesTopListLabelErrors": "Fehler",
-        "pagesTopListTitleTopPages": "Höchste Seiten",
+        "pagesTopListTitleTopPages": "Wichtigste Seiten",
         "pagesTopListLinkLabel": "Alle Seiten anzeigen",
         "summaryTitlePageLoads": "Seitenladevorgänge",
         "summaryTitlePageTransitions": "Seitenwechsel",
@@ -688,7 +667,7 @@
         "summaryTitleOnLoadTime90th": "onLoad-Zeit (90.)",
         "summaryTitleOnLoadTime95th": "onLoad-Zeit (95.)",
         "summaryTitleGeography": "Geographie",
-        "summaryCardTitlePageViews": "Seitenansichten",
+        "summaryCardTitlePageViews": "Seitenaufrufe",
         "summaryCardTitleJSErrors": "JS-Fehler",
         "summaryCardTitleOnLoadTime": "onLoad-Zeit",
         "summaryIconTextViewInAnalyze": "In Analyse anzeigen",
@@ -734,7 +713,7 @@
       "indexLabelAlerts": "Alerts",
       "indexLabelConfiguration": "Konfiguration",
       "pagesLabelName": "Name",
-      "pagesLabelPageViews": "Seitenansichten",
+      "pagesLabelPageViews": "Seitenaufrufe",
       "pagesLabelOnLoadTime": "onLoad-Zeit",
       "pagesLabelJSErrors": "JS-Fehler",
       "speedCardTitlePageLoadsVSOnLoadTime": "Seitenladevorgänge im Vergleich zur onLoad-Zeit",
@@ -774,24 +753,24 @@
     "websiteDashboardButtonAnalyzePageTransitions": "Seitenwechsel analysieren"
   },
   "rename": {
-    "help": "Die Umbenennung einer Website ist eine nach einiger Zeit konsistente Aktion innerhalb des Instana-Systems. Aus diesem Grund kann eine Änderung a einem Websitenamen <strong>bis zu einige Minuten</strong> dauern, bis sie im gesamten System nachvollzogen wurde. "
+    "help": "Die Umbenennung einer Website ist eine letztendlich konsistente Aktion innerhalb des Instana-Systems. Aus diesem Grund kann das Ändern eines Websitenamens <strong>einige Minuten</strong> in Anspruch nehmen, bis es im gesamten System ausgeführt ist. "
   },
   "trackingScript": {
-    "help": "Das folgende Tracking-Script ist alles, was Sie benötigen, um mit der Website-Überwachung beginnen zu können. Kopieren Sie dieses Script in das HTML-Dokument <code>{{htmlElementName}}</code>. Informationen zur Website-Überwachung und zu den vollständigen Funktionen des Tracking-Scripts <linkToDocs>innerhalb unserer Dokumente</linkToDocs>."
+    "help": "Das folgende Tracking-Script ist alles, was Sie benötigen, um mit der Website-Überwachung beginnen zu können. Fügen Sie dieses Script zum <code>{{htmlElementName}}</code> des HTML-Dokuments hinzu. Informationen zur Website-Überwachung und zu den vollständigen Funktionen des Tracking-Scripts finden Sie <linkToDocs>in unseren Dokumenten</linkToDocs>."
   },
   "delete": {
-    "disclaimer": "Wenn Sie die Website <strong>{{websiteName}}</strong> nicht mehr mit Instana überwachen möchten, verwenden Sie dieses Formular, um sie zu entfernen. Das Entfernen einer Website ist eine im Laufe der Zeit konsistente Aktion. Aus diesem Grund kann das vollständige Entfernen einer Website <strong>bis zu ein paar Minuten</strong> dauern. "
+    "disclaimer": "Wenn Sie die Website <strong>{{websiteName}}</strong> nicht mehr mit Instana überwachen möchten, verwenden Sie dieses Formular, um sie zu entfernen. Das Entfernen einer Website ist eine letztendlich konsistente Aktion. Aus diesem Grund kann das vollständige Entfernen einer Website <strong>einige Minuten</strong> dauern. "
   },
   "dataSource_pageLoad": "{{formattedCount}} Seitenladevorgang",
   "dataSource_pageLoad_plural": "{{formattedCount}} Seitenladevorgänge",
   "dataSource_pageLoad_0": "{{formattedCount}} Seitenladevorgänge",
   "dataSource_pageLoad_1": "{{formattedCount}} Seitenladevorgänge",
   "dataSource_pageLoad_2": "{{formattedCount}} Seitenladevorgänge",
-  "dataSource_pageChange": "{{formattedCount}} Seitenübergang",
-  "dataSource_pageChange_plural": "{{formattedCount}} Seitenübergänge",
-  "dataSource_pageChange_0": "{{formattedCount}} Seitenübergänge",
-  "dataSource_pageChange_1": "{{formattedCount}} Seitenübergänge",
-  "dataSource_pageChange_2": "{{formattedCount}} Seitenübergänge",
+  "dataSource_pageChange": "{{formattedCount}} Seitenwechsel",
+  "dataSource_pageChange_plural": "{{formattedCount}} Seitenwechsel",
+  "dataSource_pageChange_0": "{{formattedCount}} Seitenwechsel",
+  "dataSource_pageChange_1": "{{formattedCount}} Seitenwechsel",
+  "dataSource_pageChange_2": "{{formattedCount}} Seitenwechsel",
   "dataSource_resourceLoad": "{{formattedCount}} Ressource",
   "dataSource_resourceLoad_plural": "{{formattedCount}} Ressourcen",
   "dataSource_resourceLoad_0": "{{formattedCount}} Ressourcen",

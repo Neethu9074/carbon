@@ -1,5 +1,4 @@
 {
-  "time": "Orario",
   "logs": "Log",
   "sum": "somma",
   "bar": "Barra",
@@ -8,23 +7,9 @@
   "logsOverTime_WARN": "Log delle avvertenze nel tempo",
   "logsOverTime_INFO": "Log informativo nel tempo",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "La configurazione della query non è valida. Risolvere gli errori di convalida prima di proseguire.",
-  "log": "Log",
   "selectTags": "Seleziona tag",
-  "addATag": "Aggiungi un tag",
-  "download": "Scarica",
-  "analytics": "Dati analitici",
-  "closeLogDetails": "Chiudi dettagli log",
-  "detail": "Dettaglio",
-  "logTime": "Ora log",
-  "type": "Tipo",
-  "message": "Messaggio",
-  "tags": "Tag",
   "goToTrace": "Vai alla traccia",
   "addAsFilter": "Aggiungi come filtro",
   "addAsGroup": "Aggiungi come gruppo",
-  "logCount": "{{formattedCount}} Log",
-  "logCount_plural": "{{formattedCount}} Log",
-  "logCount_0": "{{formattedCount}} Log",
-  "logCount_1": "{{formattedCount}} Log",
-  "logCount_2": "{{formattedCount}} Log"
+  "numberOfLogs": "Numero di log"
 }

@@ -13,7 +13,7 @@
     "grid": {
       "grid": {
         "edit": "Editar",
-        "duplicate": "Duplicata",
+        "duplicate": "Duplicar",
         "delete": "Excluir",
         "customDashboardWidgetTitle": "Widget do painel customizado: {{title}}"
       }
@@ -26,7 +26,7 @@
         "pleaseSelect": "Selecione"
       },
       "sharingDialogPresenter": {
-        "share": "Compartilhar",
+        "share": "Compartilhamento",
         "shareMsg": "Este painel customizado tem regras avançadas de acesso que não podem ser representadas por este diálogo. É possível usar o recurso \"Editar como JSON\" para editar essas regras de acesso.",
         "privateDashboardDefault": "Painel privado (padrão)",
         "privateDashboardDefaultExplain": "Este painel está visível somente para você.",
@@ -82,9 +82,9 @@
       "editName": "Editar nome",
       "editAsJson": "Editar como JSON",
       "viewAsJson": "Visualizar como JSON",
-      "duplicate": "Duplicata",
+      "duplicate": "Duplicar",
       "delete": "Excluir",
-      "share": "Compartilhar",
+      "share": "Compartilhamento",
       "shareButtonTooltip": "Sua conta de usuário não tem permissões para compartilhar painéis."
     },
     "editAsJsonDialog": {
@@ -109,8 +109,8 @@
   "widgets": {
     "metricConfig": {
       "groupingConfig": {
-        "top": "Os {{number}} principais",
-        "bottom": "Parte inferior {{number}}",
+        "top": "{{number}} superiores ",
+        "bottom": "{{number}} inferiores",
         "showRemainingGroupsAggregOther": "Mostrar grupos restantes agregados como \"Outros\""
       },
       "hiddenCalls": {
@@ -127,12 +127,6 @@
       },
       "index": {
         "applicationsTracesAndCalls": "Aplicativos (rastreios e chamadas)"
-      },
-      "oldFormComponent": {
-        "metric": "Métrica",
-        "pleaseSelect": "Selecione",
-        "aggregation": "Agregação",
-        "pleaseSelectMetric": "Selecione uma métrica"
       }
     },
     "srcEvent": {
@@ -165,12 +159,7 @@
       "metricsFormComponent": {
         "metric": "Métrica",
         "selectMetric": "Selecionar métrica",
-        "aggregation": "Agregação",
-        "pleaseSelect": "Selecione",
-        "pleaseSelectMetric": "Selecione uma métrica"
-      },
-      "metricsLoadIndicator": {
-        "loadingMetrics": "Carregando métricas…"
+        "aggregation": "Agregação"
       },
       "metrics": {
         "infrastructurePlatforms": "Infraestrutura e plataformas",
@@ -191,14 +180,6 @@
       },
       "index": {
         "mobileAppsBeacon": "Aplicativos móveis (indicadores)"
-      },
-      "oldFormComp": {
-        "beaconType": "Tipo de indicador",
-        "pleaseSelect": "Selecione",
-        "pleaseSelectDs": "Selecione uma origem de dados",
-        "aggregation": "Agregação",
-        "pleaseSelectMetric": "Selecione uma métrica",
-        "metric": "Métrica"
       }
     },
     "srcSli": {
@@ -213,7 +194,7 @@
         "srvLevelIndicator": "Indicadores de nível de serviço"
       },
       "serviceLevelIndicators": {
-        "remainErrBudget": "Orçamento de erro restante"
+        "remainErrBudget": "Margem de erro restante"
       }
     },
     "srcWebSite": {
@@ -227,14 +208,6 @@
       },
       "index": {
         "websitesBeacons": "Websites (indicadores)"
-      },
-      "oldFormComp": {
-        "beaconType": "Tipo de indicador",
-        "pleaseSelect": "Selecione",
-        "selectDs": "Selecione uma origem de dados",
-        "metric": "Métrica",
-        "aggregation": "Agregação",
-        "selectMetric": "Selecione uma métrica"
       }
     },
     "metricConfigurator": {
@@ -294,9 +267,7 @@
         "lightBlue": "Azul claro",
         "green": "Verde",
         "red": "Vermelho",
-        "yellow": "Amarelo",
         "orange": "Laranja",
-        "blue": "Azul",
         "deepPurple": "Roxo escuro",
         "cyan": "Ciano",
         "lime": "Lima",
@@ -315,7 +286,7 @@
       "metricConfigChart": {
         "datasetTimeShift": "O conjunto de dados está com deslocamento de tempo",
         "removeDataset": "Remover conjunto de dados",
-        "duplicate": "Duplicata"
+        "duplicate": "Duplicar"
       },
       "metricReorderingChart": {
         "jumpConfigDataset": "Ir para configuração deste conjunto de dados",
@@ -343,10 +314,10 @@
     "markdown": {
       "formComp": {
         "whatULikeShow": "O que você gostaria de mostrar?",
-        "markdown": "Redução de preço",
-        "markdownHelpAction": "É possível usar a sintaxe Redução de preço padrão para definir o conteúdo de texto arbitrário para o seu painel."
+        "markdown": "Markdown",
+        "markdownHelpAction": "É possível usar um Markdown Syntax padrão para definir o conteúdo de texto arbitrário para o seu painel."
       },
-      "markdown": "Redução de preço"
+      "markdown": "Markdown"
     },
     "pie": {
       "formComponent": {
@@ -361,7 +332,7 @@
     },
     "slo": {
       "apConfigFormComp": {
-        "userJourneyOffering": "Jornada/Oferta do usuário",
+        "userJourneyOffering": "Jornada do usuário/Oferta",
         "appnPerspective": "Perspectiva de aplicativo",
         "selectAppPerspect": "Selecione uma Perspectiva de aplicativo.",
         "appPerspectHelpAction": "Configure jornadas/ofertas do usuário modelando-as como uma Perspectiva de aplicativo na área Aplicativos do produto.",
@@ -400,8 +371,8 @@
         "errorRate": "Taxa de erro",
         "erroneousCalls": "Chamadas errôneas",
         "mean": "média",
-        "min": "mínimo",
-        "max": "máximo",
+        "min": "mínima",
+        "max": "máxima",
         "sum": "soma",
         "25th": "25º",
         "50th": "50º",
@@ -432,7 +403,6 @@
         "sliCustomHelpAction": "As informações sobre customização de SLI e tipos de SLI estão localizadas em nossos docs.",
         "sliTimeBasedOrAnEventBasedSli": "O tipo de SLI deve ser um baseado em tempo ou baseado em evento.",
         "pleaseSelect": "Selecione",
-        "appPerspective": "Perspectiva de aplicativo",
         "boundary": "Limite",
         "hiddenCalls": "Chamadas ocultas",
         "includeInternalCalls": "Incluir chamadas internas",
@@ -452,7 +422,7 @@
         "delete": "Excluir"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "Você não tem a permissão necessária <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> para criar ou editar SLIs.",
+        "configSrvLevelIndicatorsMsg": "Você não tem a permissão necessária <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> para criar ou editar SLIs.",
         "sliList": "Lista da SLI",
         "createSli": "Criar SLI"
       },
@@ -460,7 +430,7 @@
         "clear": "Limpar"
       },
       "sloTimeTile": {
-        "sloTime": "de <datetime-from /><br />para <datetime-to />"
+        "sloTime": "de <datetime-from /><br />até <datetime-to />"
       },
       "chart": {
         "spent": "Gasto",
@@ -570,7 +540,7 @@
   "duplicateDashboardDialog": {
     "duplicateDashboard": "Painel duplicado",
     "dashboardName": "Nome do painel",
-    "duplicate": "Duplicata",
+    "duplicate": "Duplicar",
     "copyShareConfig": "Copiar configuração de compartilhamento",
     "failedToCreateDashboard": "Falha ao criar painel."
   },

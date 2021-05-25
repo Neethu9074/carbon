@@ -9,11 +9,10 @@
   "cfApplicationsWithCount_1": "CF アプリケーション数 ({{count}})",
   "cfApplicationsWithCount_2": "CF アプリケーション数 ({{count}})",
   "dashboards": {
-    "cfApplication": "CF アプリケーション",
     "cloudFoundryApplication": "Cloud Foundry アプリケーション",
     "name": "名前",
     "instanceIndex": "インスタンス・インデックス",
-    "cpuTotal": "CPU 合計",
+    "cpuTotal": "合計 CPU",
     "memoryTotal": "合計メモリー",
     "health": "正常性",
     "containers": "コンテナー",
@@ -21,7 +20,7 @@
     "requestedState": "要求状態",
     "instances": "インスタンス",
     "memoryLimit": "メモリー制限",
-    "lastUpdated": "最終更新",
+    "lastUpdated": "最終更新日時",
     "buildpack": "ビルドパック",
     "routes": "経路",
     "diskLimit": "ディスク制限",
@@ -38,7 +37,6 @@
   "routes": "経路",
   "health": "正常性",
   "cloudFoundryApplications": "Cloud Foundry アプリケーション",
-  "cfApplications": "CF アプリケーション",
   "noMonitoringDataFound": "モニタリング・データが見つかりません",
   "cloudfoundry": {
     "noData": "アプリケーション・パースペクティブは、環境、サービスのセット、テナント、その他ほとんどすべての対象をモデル化する手段を提供します。"

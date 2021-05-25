@@ -9,7 +9,6 @@
   "cfApplicationsWithCount_1": "Applications CF ({{count}})",
   "cfApplicationsWithCount_2": "Applications CF ({{count}})",
   "dashboards": {
-    "cfApplication": "Application CF",
     "cloudFoundryApplication": "Application Cloud Foundry",
     "name": "Nom",
     "instanceIndex": "Index d'instance",
@@ -22,10 +21,10 @@
     "instances": "Instances",
     "memoryLimit": "Limite de mémoire",
     "lastUpdated": "Dernière mise à jour",
-    "buildpack": "Pack de génération",
+    "buildpack": "Pack de construction",
     "routes": "Routes",
     "diskLimit": "Limite de disque",
-    "createdAt": "Créé à",
+    "createdAt": "Création",
     "analyzeCalls": "Analyser les appels"
   },
   "name": "Nom",
@@ -38,9 +37,8 @@
   "routes": "Routes",
   "health": "Intégrité",
   "cloudFoundryApplications": "Applications Cloud Foundry",
-  "cfApplications": "Applications CF",
   "noMonitoringDataFound": "Aucune donnée de surveillance trouvée",
   "cloudfoundry": {
-    "noData": "Les perspectives d'application permettent de modéliser les environnements, les ensembles de services, les locataires, ou simplement n'importe quoi."
+    "noData": "Les perspectives d'application permettent de modéliser les environnements, les ensembles de services, les locataires, ou simplement n'importe quel élément."
   }
 }
