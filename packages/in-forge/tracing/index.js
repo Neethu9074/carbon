@@ -9,6 +9,7 @@ import './aspnetmvccontroller';
 import './distributeme.client';
 import './spring-webflux-exit';
 import './haskell.wai.server';
+import './aws.lambda.invoke';
 import './akka-remote-entry';
 import './actioncontroller';
 import './akka-remote-exit';
