@@ -9,6 +9,10 @@ import useFormSideEffects, { CHANGE_TYPES } from 'in-alerting/smart-alerts/hooks
 export default function useSmartAlertFormSideEffects(form, setForm) {
   const effects = [
     {
+      path: ['evaluationType'],
+      effects: [requestThresholdSuggestion]
+    },
+    {
       path: ['boundaryScope'],
       effects: [requestThresholdSuggestion]
     },
