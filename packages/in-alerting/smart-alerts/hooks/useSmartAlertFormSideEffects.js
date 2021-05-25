@@ -45,6 +45,10 @@ export default function useSmartAlertFormSideEffects(form, setForm) {
       effects: [requestThresholdSuggestion, validateAggregation]
     },
     {
+      path: ['threshold', 'type'],
+      effects: [requestThresholdSuggestion]
+    },
+    {
       path: ['granularity'],
       effects: [requestThresholdSuggestion]
     }
