@@ -1,6 +1,5 @@
 {
   "labelLatency": "대기 시간",
-  "labelTimestamp": "시간소인",
   "labelApplication": "애플리케이션",
   "labelApplications": "애플리케이션",
   "labelApplicationWithNum": "애플리케이션({{numApplications}})",
@@ -17,7 +16,6 @@
   "labelMaxLatency": "최대 대기 시간",
   "labelService": "서비스",
   "labelName": "이름",
-  "labelFilters": "필터",
   "labelSummary": "요약",
   "labelDependencies": "종속 항목",
   "labelServices": "서비스",
@@ -61,7 +59,6 @@
   "labelScope": "범위",
   "labelCustomServiceRules": "사용자 정의 서비스 규칙",
   "labelSyntheticEndpoints": "합성 엔드포인트",
-  "titleAlertDetails": "경보 세부사항",
   "titleTopServices": "상위 서비스",
   "titleMeanLatency": "평균 대기 시간",
   "titleErroneousCallRate": "잘못된 호출 비율",
@@ -91,7 +88,8 @@
   "buttonInspectIssue_1": "{{count}}개 문제 검사",
   "buttonInspectIssue_2": "{{count}}개 문제 검사",
   "buttonAnalyzeCalls": "호출 분석",
-  "buttonAnalyzeWithLabel": "{{buttonLabel}} 분석",
+  "buttonAnalyzeServices": "서비스 분석",
+  "buttonAnalyzeEndpoints": "엔드포인트 분석",
   "buttonClear": "지우기",
   "buttonCluster": "클러스터",
   "buttonProcess": "프로세스",
@@ -147,63 +145,22 @@
   "applications": {
     "noData": "애플리케이션 퍼스펙티브에서 환경, 서비스 세트, 테넌트 또는 거의 모든 것을 모델링하는 수단을 제공합니다."
   },
-  "services": {
-    "noData": "선택한 시간 범위에 사용할 수 있는 서비스 호출이 없습니다."
-  },
   "alert": {
-    "advancedModeContainer": {
-      "scope": {
-        "label": "범위",
-        "title": "범위: 조건이 발생하는 위치"
-      },
-      "trigger": {
-        "label": "트리거",
-        "title": "트리거: 경보를 수신하려는 항목",
-        "logMessageCardTitle": "로그 메시지",
-        "httpStatusCodesCardTitle": "HTTP 상태 코드"
-      },
-      "timeThreshold": {
-        "label": "시간 임계값",
-        "title": "시간 임계값: 경보를 수신하려는 항목"
-      },
-      "alertChannel": {
-        "label": "경보 채널",
-        "title": "경보 채널: 경보 수신 대상"
-      }
-    },
     "thresholdLabel": "임계값",
-    "titleAlertProperties": "경보 특성",
     "applicationSmartAlert": "애플리케이션 스마트 경보",
-    "noAlertConfigured": "경보가 구성되어 있지 않습니다.",
-    "getEntityName": "경보 \"{{entityName}}\"",
-    "descriptionMessage": "{{description}}: \"{{message}}\"",
-    "tooltipFilter": "{{count}}개 필터",
-    "tooltipFilter_plural": "{{count}}개 필터",
-    "tooltipFilter_0": "{{count}}개 필터",
-    "tooltipFilter_1": "{{count}}개 필터",
-    "tooltipFilter_2": "{{count}}개 필터",
     "tooltipMoreFilter": "{{moreFilterCount}}개 추가 필터",
     "tooltipMoreFilter_plural": "{{moreFilterCount}}개 추가 필터",
     "tooltipMoreFilter_0": "{{moreFilterCount}}개 추가 필터",
     "tooltipMoreFilter_1": "{{moreFilterCount}}개 추가 필터",
-    "tooltipMoreFilter_2": "{{moreFilterCount}}개 추가 필터",
-    "filter": "필터",
-    "filter_plural": "필터",
-    "filter_0": "필터",
-    "filter_1": "필터",
-    "filter_2": "필터"
+    "tooltipMoreFilter_2": "{{moreFilterCount}}개 추가 필터"
   },
   "inboundOutboundCalls": {
     "config": {
       "inbound": {
-        "text": "인바운드 호출",
-        "dashboard": "이 애플리케이션의 이용자가 수행하는 호출만 해당합니다.",
-        "overrideDefault": "이 애플리케이션의 기본 범위는 인바운드 호출만 해당합니다. 구성에서 변경할 수 있습니다."
+        "text": "인바운드 호출"
       },
       "all": {
-        "text": "모든 호출",
-        "dashboard": "이용자뿐만 아니라 내부적으로 이 애플리케이션 내에서 수행하는 호출.",
-        "overrideDefault": "이 애플리케이션의 기본 범위는 모든 호출입니다. 구성에서 변경할 수 있습니다."
+        "text": "모든 호출"
       }
     },
     "constants": {
@@ -215,34 +172,10 @@
   },
   "analyze": {
     "quickFilter": {
-      "labelService": "서비스",
-      "labelService_plural": "서비스",
-      "labelService_0": "서비스",
-      "labelService_1": "서비스",
-      "labelService_2": "서비스",
-      "labelEndpoint": "엔드포인트",
-      "labelEndpoint_plural": "엔드포인트",
-      "labelEndpoint_0": "엔드포인트",
-      "labelEndpoint_1": "엔드포인트",
-      "labelEndpoint_2": "엔드포인트",
-      "labelType": "유형",
-      "labelType_plural": "유형",
-      "labelType_0": "유형",
-      "labelType_1": "유형",
-      "labelType_2": "유형",
-      "labelTechnology": "기술",
-      "labelTechnology_plural": "기술",
-      "labelTechnology_0": "기술",
-      "labelTechnology_1": "기술",
-      "labelTechnology_2": "기술",
-      "labelLatency": "대기 시간",
-      "labelErroneous": "잘못된",
-      "preconditionFailedTooltip": "엔드포인트를 선택하기 전에 서비스를 선택하십시오."
-    },
-    "chartingPresenter": {
-      "noData": "표시할 데이터 없음"
+      "labelLatency": "대기 시간"
     },
     "erroneous": "잘못된",
+    "resetUnsupportedTracesFilterContainingOrConjunction": "추적 분석에서는 논리 연산자 OR이 지원되지 않으므로 필터가 해제되었습니다. ",
     "facetedSearch": {
       "showSyntheticCalls": "합성 호출 표시",
       "showInternalCalls": "내부 호출 표시",
@@ -262,25 +195,9 @@
     "hiddenCalls": "숨겨진 호출",
     "noResults": "결과 없음",
     "loadMore": "추가 로드",
-    "callBatchCountTooltip": "이 호출은 일괄처리되며 {{callBatchCount}}개 개별 호출을 나타냅니다.",
-    "callBatchCountTooltip_plural": "이 호출은 일괄처리되며 {{callBatchCount}}개 개별 호출을 나타냅니다.",
-    "callBatchCountTooltip_0": "이 호출은 일괄처리되며 {{callBatchCount}}개 개별 호출을 나타냅니다.",
-    "callBatchCountTooltip_1": "이 호출은 일괄처리되며 {{callBatchCount}}개 개별 호출을 나타냅니다.",
-    "callBatchCountTooltip_2": "이 호출은 일괄처리되며 {{callBatchCount}}개 개별 호출을 나타냅니다.",
-    "groupedList": {
-      "earliestTimestamp": "최초 시간소인",
-      "focusGroupTooltip": "이 그룹에 초점 지정",
-      "groupName": "그룹 이름",
-      "sortingMetricLabelTh": "{{sortingMetricLabel}}({{num}}번째)",
-      "sortingMetricLabelRate": "{{sortingMetricLabel}}(비율)",
-      "sortingMetricLabelCount": "{{sortingMetricLabel}}(개수)",
-      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})"
-    },
     "preview": "미리보기",
-    "listLoadMore": "{{retrievalSize}}개 추가 로드",
     "listBatchTypeTooltip": "이 {{type}}은(는) 일괄처리되며 {{batchCount}}개 개별 {{types}}을(를) 나타냅니다.",
     "listBatchLatencyTooltip": "일괄처리된 {{batchCount}}개 {{types}}의 총 대기 시간입니다.",
-    "traceId": "추적 ID: ",
     "traceIdTooltip": "이 추적과 관련된 일부 데이터가 지연되므로 잠시 후에 페이지를 다시 로드하십시오. 이러한 경우가 발생할 수 있는 예제는 해당 데이터의 일부가 처리 중인 매우 최근 추적에서 나타나고 있습니다.",
     "closeTraceDetail": "추적 세부사항 닫기",
     "invalidQueryConfig": "조회 구성이 올바르지 않습니다. 계속하기 전에 유효성 검증 실패를 해결하십시오.",
@@ -313,11 +230,6 @@
     "typeTrace_2": "추적",
     "containsErrors": "오류 포함",
     "noErrors": "오류 없음",
-    "fromMs": "시작(밀리초)",
-    "toMs": "종료(밀리초)",
-    "theLatencyRangeHasToBeInAscendingOrder": "대기 시간 범위는 오름차순이어야 합니다.",
-    "service": "서비스",
-    "trace": "추적",
     "calls": "호출",
     "none": "없음",
     "dataSource_calls": "{{formattedCount}}개 호출",
@@ -483,14 +395,12 @@
       "apName": "애플리케이션 퍼스펙티브 이름",
       "apNameDescription": "애플리케이션 퍼스펙티브 이름에는 조직 내에서 올바르게 설정된 정의가 있어야 합니다. 예를 들어, 환경을 모델링하려면: \"프로덕션 블루\", 서비스 세트를 모델링하려면: \"지불\" 또는 테넌트를 모델링하려면: \"ACME 고객\".",
       "defineUsingTags": "2. 하나 이상의 태그를 사용하여 애플리케이션 퍼스펙티브를 정의하십시오.",
-      "defineUsingTagsDescription": "예를 들어, 키가 \"docker.label\"이고 값이 \"environment=Production Blue\"이거나 키가 \"call.http.params\"이고 값이 \"tenant=ACMECustomer\"인 경우입니다. 이 정의와 일치하는 서비스의 <pill-database>DATABASE</pill-database> 서비스 또는 <pill-messaging>MESSAGING</pill-messaging> 서비스에 대한 호출이 자동으로 포함됩니다.",
-      "andOperatorsPrecedence": "AND 연산자는 우선권을 가지며 OR 연산자 전에 평가됩니다.",
+      "defineUsingTagsDescription": "예를 들어, 키가 \"docker.label\"이고 값이 \"environment=Production Blue\"이거나 키가 \"call.http.params\"이고 값이 \"tenant=ACMECustomer\"인 경우입니다. 이 정의와 일치하는 서비스의 <pill-database>데이터베이스</pill-database> 서비스 또는 <pill-messaging>메시징</pill-messaging> 서비스에 대한 호출은 자동으로 포함된다는 점을 참고하십시오. ",
       "andOperatorsPrecedenceBrackets": "AND 연산자는 우선권을 가지며 대괄호로 그룹화되지 않은 경우 OR 연산자 전에 평가됩니다.",
       "downstreamCalls": "3. 다운스트림 서비스의 호출 저장",
       "downstreamCallsDescription": "애플리케이션 퍼스펙티브에 포함할 다운스트림 서비스를 선택하십시오.",
       "defaultDashboardView": "4. 기본 대시보드 보기 선택",
       "clear": "지우기",
-      "addTag": "태그 추가",
       "create": "작성",
       "database": "데이터베이스",
       "messaging": "메시징"
@@ -500,7 +410,6 @@
       "optionImmediateDownstreamServices": "즉각적 다운스트림 데이터베이스 및 메시지 전달 서비스",
       "optionAllDownstreamServices": "모든 다운스트림 서비스"
     },
-    "tooltipEndpointBar": "엔드포인트를 선택하기 전에 단일 서비스를 선택하십시오.",
     "form": {
       "theApplicationPerspectiveNameMustNotBeBlank": "애플리케이션 퍼스펙티브 이름은 공백이 아니어야 합니다.",
       "theApplicationPerspectiveNameMustNotBeLargerThan128Characters": "애플리케이션 퍼스펙티브 이름은 128자 미만이어야 합니다.",
@@ -510,9 +419,6 @@
   "dashboards": {
     "percentOfCalls": "모든 호출의 {{percentage}}",
     "meanLatencyFor90th": "90번째에 대한 {{meanLatencyDetail}}",
-    "selectInboundCalls": "인바운드 호출만 또는 모든 호출 선택",
-    "calculateInboundCalls": "{{applicationName}}의 인바운드 호출 계산. 이 {{entityType}} 전체가 다음으로 전환되는 것을 확인 - <linkToCalls>모든 호출</linkToCalls>.",
-    "calculateAllCalls": "{{applicationName}}의 <bold>모든 호출</bold> 계산. 애플리케이션 경계에서 이 {{entityType}}의 일부만 다음으로 전환되는 것을 확인 - <linkToCalls>인바운드 호출</linkToCalls>.",
     "infrastructureIssuesChanges": "인프라 문제 및 변경사항",
     "unknownTime": "{{entityTime}}에서 알 수 없음",
     "infrastructure": {
@@ -525,8 +431,8 @@
     "errorMessages": "오류 메시지",
     "errorCallWithoutMessage": "오류 메시지가 없는 잘못된 호출",
     "logMessages": "로그 메시지",
-    "noLogMessage": "로그 메시지를 사용할 수 없음",
-    "endpoints": "엔드포인트"
+    "noLogMessage": "사용 가능한 로그 메시지가 없음",
+    "includeSyntheticCallsDropDownSyntheticCalls":" 합성 호출: {{syntheticCallsOptionLabel}}"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "현재 애플리케이션에 서비스가 없습니다.",
@@ -570,10 +476,9 @@
       "helpApplicationPerspectives": "애플리케이션 퍼스펙티브에서 환경, 서비스 세트, 테넌트 또는 거의 모든 것을 모델링하는 수단을 제공합니다.",
       "helpRenameApplication": "애플리케이션의 이름을 바꾸는 것은 결국 Instana 시스템 내에서 일관된 조치입니다. 이러한 이유로 전체 시스템을 통해 채워질 때까지 애플리케이션에 대한 변경사항은 <italic>최대 몇 분</italic>이 걸릴 수 있습니다.",
       "descriptionApplicationName": "애플리케이션 퍼스펙티브 이름에는 조직 내에서 올바르게 설정된 정의가 있어야 합니다. 예를 들어, 환경을 모델링하려면: \"프로덕션 블루\", 서비스 세트를 모델링하려면: \"지불\" 또는 테넌트를 모델링하려면: \"ACME 고객\".",
-      "descriptionTags": "예를 들어, 키가 \"docker.label\"이고 값이 \"environment=Production Blue\"이거나 키가 \"call.http.params\"이고 값이 \"tenant=ACMECustomer\"인 경우입니다. 이 정의와 일치하는 서비스의 <pillDatabase>DATABASE</pillDatabase> 서비스 또는 <pillMessage>MESSAGING</pillMessage> 서비스에 대한 호출이 자동으로 포함됩니다.",
-      "descriptionOperators": "AND 연산자는 우선권을 가지며 OR 연산자 전에 평가됩니다.",
+      "descriptionTags": "예를 들어, 키가 \"docker.label\"이고 값이 \"environment=Production Blue\"이거나 키가 \"call.http.params\"이고 값이 \"tenant=ACMECustomer\"인 경우입니다. 이 정의와 일치하는 서비스의 <pillDatabase>DATABASE</pillDatabase> 서비스 또는 <pillMessage>MESSAGING</pillMessage> 서비스에 대한 호출은 자동으로 포함된다는 점을 참고하십시오. ",
       "descriptionOperatorsCreationEnabled": "AND 연산자는 우선권을 가지며 대괄호로 그룹화되지 않은 경우 OR 연산자 전에 평가됩니다.",
-      "descriptionPrepareToMonitor": "애플리케이션 퍼스펙티브 <bold>{{decodedLabel}}</bold>을(를) 모니터할 모든 항목을 준비하고 있습니다.",
+      "descriptionPrepareToMonitor": "애플리케이션 퍼스펙티브 <bold>{{decodedLabel}}</bold>을(를) 모니터하는 데 필요한 모든 항목을 준비하고 있습니다.",
       "descriptionRemoveApplicationPerspective": "더 이상 애플리케이션 퍼스펙티브 <strong>{{application}}</strong>을(를) 모니터하지 않으려는 경우 아래 단추를 사용하여 제거하십시오. 애플리케이션 퍼스펙티브 제거는 최대 몇 분이 소요될 수 있습니다.",
       "stepTitleDefineApplicationName": "애플리케이션 퍼스펙티브에 대한 이름을 정의하십시오.",
       "stepTitleDefineTags": "하나 이상의 태그를 사용하여 애플리케이션 퍼스펙티브를 정의하십시오.",
@@ -604,8 +509,8 @@
     "textNewApplicationPerspective": "계정 관리자가 작성하면 여기에 표시됩니다.",
     "showApplicationsScope": "<linkToEntity>{{entityLabel}}</linkToEntity>의 애플리케이션 <bold>{{contextScope}}</bold> 표시",
     "showServicesScope": "<linkToEntity>{{entityLabel}}</linkToEntity>의 서비스 <bold>{{contextScope}}</bold> 표시",
-    "showApplicationsScopeWithApplicationLabel": "<linkToApplication>{{applicationLabel}}</linkToApplication><span>의 컨텍스트에서</span> <linkToEntity>{{entityLabel}}</linkToEntity>의 애플리케이션 <bold>{{contextScope}}</bold> 표시",
-    "showServicesScopeWithServiceLabel": "<linkToApplication>{{applicationLabel}}</linkToApplication><span>의 컨텍스트에서</span> <linkToEntity>{{entityLabel}}</linkToEntity>의 서비스 <bold>{{contextScope}}</bold> 표시",
+    "showApplicationsScopeWithApplicationLabel": "<linkToApplication>{{applicationLabel}}</linkToApplication>의 컨텍스트에서 <linkToEntity>{{entityLabel}}</linkToEntity>의 애플리케이션 <bold>{{contextScope}}</bold> 표시",
+    "showServicesScopeWithServiceLabel": "<linkToApplication>{{applicationLabel}}</linkToApplication>의 컨텍스트에서 <linkToEntity>{{entityLabel}}</linkToEntity>의 서비스 <bold>{{contextScope}}</bold> 표시",
     "titleNoService": "아직 서비스 없음",
     "servicesNoData": "선택한 시간 범위에 사용할 수 있는 서비스 호출이 없습니다. 문제점 해결 정보는 [문서][문서]를 참조하십시오.\n\n[문서]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
   },
@@ -631,19 +536,13 @@
     "only": "전용",
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "합성 호출만 표시되고 메트릭에 포함됩니다."
   },
-  "lists": {
-    "noSpecificApplication": " - 특정 애플리케이션 없음 - ",
-    "services": "서비스"
-  },
-  "containsErrors": "오류 포함",
-  "noErrors": "오류 없음",
   "traceDetail": {
     "tabs": {
       "summary": {
         "duplicateCalls": "중복 호출",
-        "duplicateCallsDesc": "이 추적은 하나 이상의 중복 호출로 구성되어 있습니다(범위). 고유 호출: {{traceCallCountIgnoringBatchSize}} - 레코드: {{traceCallRecordCount}}. 이로 인해 호출 개수(일괄처리 포함) 및 오류 개수 값이 잘못되거나 기타 불규칙성이 발생할 수 있습니다.",
+        "duplicateCallsDesc": "이 추적은 하나 이상의 중복 호출로 구성되어 있습니다(범위). 고유 호출: {{traceCallCountIgnoringBatchSize}} - 레코드: {{traceCallRecordCount}}. 이로 인해 호출 개수(일괄처리 포함) 및 오류 개수 값이 잘못되거나 기타 이상이 발생할 수 있습니다.",
         "batchedIngestion": "일괄처리된 수집",
-        "traceIngestionBatchCount": "이 추적은 {{traceIngestionBatchesCount}} 배치에서 처리되었습니다. 단일 호출로 병합되지 않은 범위, 부분 서비스 맵핑 또는 기타 불완전 데이터 표시와 같은 불규칙성이 발생할 수 있습니다.",
+        "traceIngestionBatchCount": "이 추적은 {{traceIngestionBatchesCount}} 일괄처리에서 처리되었습니다. 단일 호출로 병합되지 않은 범위, 부분 서비스 맵핑 또는 기타 불완전 데이터 표시와 같은 불규칙성이 발생할 수 있습니다.",
         "subCalls": "하위 호출",
         "erroneousCalls": "잘못된 호출",
         "errorLogs": "오류 로그",
@@ -654,17 +553,8 @@
         "largeTrace": "대형 추적",
         "largeTraceLink": "이 추적은 대형이며 이 추적을 렌더링하면 브라우저 내의 성능에 문제가 발생할 수 있습니다. 수동으로 조사하려는 경우 <linkToDocs>추적을 다운로드</linkToDocs>하거나 브라우저 내에서 추적 렌더링을 시도할 수 있습니다. 이 시도의 성능을 높이기 위해 컴포넌트의 서브세트만 렌더링합니다.",
         "calls": "호출",
-        "logs": "로그",
-        "analyzeLogs": "분석으로 보기",
-        "correspondingMobileAppActivity": "해당하는 모바일 앱 활동",
-        "hideMobileAppInformation": "모바일 앱 정보 숨기기",
-        "showMobileAppInformation": "모바일 앱 정보 표시",
-        "viewMobileAppActivity": "모바일 앱 활동 보기",
         "erroneousTrace": "잘못된 추적",
-        "attemptToRenderTrace": "추적을 렌더링하는 시도",
-        "hideWebsiteInformation": "웹 사이트 정보 숨기기",
-        "showWebsiteInformation": "웹 사이트 정보 표시",
-        "viewWebsiteActivity": "웹 사이트 활동 보기"
+        "attemptToRenderTrace": "추적을 렌더링하는 시도"
       }
     }
   },

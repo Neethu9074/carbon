@@ -6,10 +6,6 @@
     "custom": "カスタム・イベント"
   },
   "analyzeView": {
-    "noData": "選択された時刻範囲に使用可能なビーコンがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
-    "MetricSelectorTitle": "メトリックの選択",
-    "MetricSelectorHelp": "表内の列として使用可能にするメトリックを選択します。 これにより、グラフとして表示できるメトリックも定義されます。",
-    "EntityPageMainNotificationTitle": "{{entityName}} が見つかりません",
     "uniqueUsers": "固有ユーザー",
     "metrics": {
       "timestampMetricName": "タイム・スタンプ",
@@ -55,12 +51,6 @@
       "customBeaconCountLabel": "発生回数",
       "customBeaconDurationLabel": "期間"
     },
-    "editGroupDialog": {
-      "help": "ビーコンをグループ化するための基準とするタグを選択します。"
-    },
-    "groupMetricsChart": {
-      "countChartDefinitionLabel": "数"
-    },
     "quickFilterBar": {
       "mobileAppLabel": "モバイル・アプリケーション",
       "mobileAppLabel_plural": "モバイル・アプリケーション",
@@ -105,29 +95,8 @@
       "metaLabel": "メタ"
     },
     "perBeaconTypeConfigs": {
-      "customTH1": "イベント名",
-      "customTH2": "モバイル・アプリケーション",
-      "customTimestampLabel": "タイム・スタンプ",
       "customBatchingIndicatorTooltipContent": "このイベントはバッチ処理されました。{{size}} の個別のイベントを表しています。",
-      "customListItemHeader": "イベント名",
-      "httpRequestTH1": "アクセス",
-      "httpRequestTH2": "モバイル・アプリケーション",
-      "httpRequestTimestampLabel": "タイム・スタンプ",
-      "httpRequestBatchingIndicatorTooltipContent": "この HTTP 要求はバッチ処理されます。{{size}} 個の個別の HTTP 要求を表しています。",
-      "httpRequestListItemHeader": "アクセス",
-      "sessionStartTH1": "セッション ID",
-      "sessionStartTH2": "モバイル・アプリケーション",
-      "sessionStartTimestampLabel": "タイム・スタンプ",
-      "sessionStartListItemHeader": "セッション ID",
-      "viewChangeTH1": "ビュー名",
-      "viewChangeTH2": "モバイル・アプリケーション",
-      "viewChangeTimestampLabel": "タイム・スタンプ",
-      "viewChangeListItemHeader": "ビュー名"
-    },
-    "groupedBeaconsTable": {
-      "groupLabel": "グループ",
-      "countLabel": "数",
-      "timestampLabel": "最初のタイム・スタンプ"
+      "httpRequestBatchingIndicatorTooltipContent": "この HTTP 要求はバッチ処理され、{{size}} 個の個別の HTTP 要求を表します。"
     }
   },
   "beaconUserSum": {
@@ -159,8 +128,8 @@
     "sessionTitle": "セッション",
     "analyticsLink": "分析",
     "downloadBtn": "ダウンロード",
-    "closeSessionDetailsTooltip": "セッション詳細を閉じる",
-    "closeSessionDetailsArialabel": "セッション詳細を閉じる",
+    "closeSessionDetailsTooltip": "セッションの詳細を閉じる",
+    "closeSessionDetailsArialabel": "セッションの詳細を閉じる",
     "tabsDetailLabel": "詳細",
     "tabsSumActivityTitle": "アクティビティー",
     "tabsSumBeaconViewGroup": {
@@ -235,7 +204,7 @@
     "tabsSumHttpRequestBeacon": {
       "retrievalTimeTooltip": "取得時間",
       "requestLabel": "要求",
-      "startTimeLabel": "開始時刻",
+      "startTimeLabel": "開始時間",
       "retrievalTimeLabel": "取得時間",
       "callDetailsHeader": "呼び出しの詳細",
       "httpCallURITitle": "HTTP 呼び出しの URI",
@@ -243,7 +212,7 @@
       "httpStatusTitle": "HTTP 状況",
       "errMsgTitle": "エラー・メッセージ",
       "metaHeader": "メタ",
-      "networkInsightsHeader": "Network Insights",
+      "networkInsightsHeader": "ネットワークの洞察",
       "transferSizeTitle": "転送サイズ",
       "encodedBodySizeTitle": "エンコード状態の本文のサイズ",
       "decodedBodySizeTitle": "デコード状態の本文のサイズ"
@@ -280,12 +249,12 @@
       "keyLabel": "キー",
       "reportingURLLabel": "レポート URL",
       "removeAppTitle": "モバイル・アプリケーションの削除",
-      "removeAppHelp1": "Instana を使用したモバイル・アプリケーション <strong>{{label}}</strong> のモニターを行わなくなった場合は、このフォームを使用して削除してください。 モバイル・アプリケーションの削除は、最終的に整合性を確保するアクションです。 そのため、モバイル・アプリケーションを削除すると、完全に削除されるまでに<strong>数分</strong>かかる場合があります。",
-      "removeAppHelp2": "お客様も Instana サポートもこのアクションを元に戻すことはできませんので、ご注意ください。",
+      "removeAppHelp1": "Instana を使用してモバイル・アプリケーション <strong>{{label}}</strong> をモニターすることがなくなった場合は、このフォームを使用して削除してください。 モバイル・アプリケーションの削除は、最終的に整合性を確保するアクションです。 そのため、モバイル・アプリケーションは完全に削除されるまでに<strong>数分</strong>かかる場合があります。",
+      "removeAppHelp2": "ご自身でも Instana サポートでもこのアクションを元に戻すことはできませんので、ご注意ください。",
       "confirmUndone": "このアクションは元に戻せないことを理解しています。",
       "removeAppBtn": "モバイル・アプリケーションを削除する",
       "renameAppTitle": "モバイル・アプリケーションを名前変更する",
-      "renameAppHelp": "モバイル・アプリケーションの名前変更は、Instana システム内で最終的に整合性を確保するアクションです。 そのため、モバイル・アプリケーション名を変更すると、システム全体にデータが設定されるまでに<strong>数分</strong>かかる場合があります。",
+      "renameAppHelp": "モバイル・アプリケーションの名前変更は、結果的に Instana システム内で整合性が確保されるアクションです。 そのため、モバイル・アプリケーション名を変更すると、システム全体に反映されるまでに<strong>数分</strong>かかる場合があります。",
       "renameAppBtn": "名前を変更",
       "renameSaved": "保存しました",
       "noSessionTitle": "使用可能なセッションがありません",
@@ -302,10 +271,10 @@
       "erroneousCallRateTitle": "エラーのある呼び出し率",
       "erroneousCallRateLabel": "エラーのある呼び出し率",
       "latencyCardTitle": "待ち時間",
-      "50thLabel": "50 番目",
-      "90thLabel": "90 番目",
-      "95thLabel": "95 番目",
-      "99thLabel": "99 番目",
+      "50thLabel": "50 パーセンタイル",
+      "90thLabel": "90 パーセンタイル",
+      "95thLabel": "95 パーセンタイル",
+      "99thLabel": "99 パーセンタイル",
       "maxLabel": "最大",
       "meanLabel": "平均",
       "HTTPStatusCodeBreakdownTitle": "HTTP 状況コードの明細",
@@ -321,7 +290,7 @@
       "viewAllPathsLink": "すべてのパスを表示",
       "viewsTitle": "ビュー",
       "viewAllViewsLink": "すべてのビューを表示",
-      "topHTTPRequestOriginsTitle": "上位の HTTP 要求発信元",
+      "topHTTPRequestOriginsTitle": "上位 HTTP 要求発信元",
       "viewAllOriginsLink": "すべての発信元を表示",
       "sessionStartsTitle": "セッション開始",
       "viewInAnalyzeIconAction": "分析に表示",
@@ -345,12 +314,12 @@
   },
   "newAppFlow": {
     "addMobileAppTitle": "モバイル・アプリケーションの追加",
-    "addMobileAppDesc": "モバイル・アプリケーションのパフォーマンスがユーザー・エクスペリエンスに与える影響をさらによく理解するために、モバイル・アプリケーションのモニターを開始します。 構成はシンプルです。",
+    "addMobileAppDesc": "モバイル・アプリケーションのモニターを行うことで、モバイル・アプリケーションのパフォーマンスがユーザー・エクスペリエンスに与える影響を十分に把握できるようになります。 構成はシンプルです。",
     "mobileAppNameLabel": "モバイル・アプリケーション名",
     "addMobileAppBtn": "モバイル・アプリケーションの追加",
     "newMobileAppTitle": "新規モバイル・アプリケーション",
     "everythingIsReadyTitle": "すべての準備が完了しました。",
-    "everythingIsReadyMsg": "モバイル・アプリケーション <strong>{{mobileAppName}}</strong> をモニターする準備がすべて完了しました。 <linkToInstallation>エージェントをモバイル・アプリケーションに追加</linkToInstallation>して実ユーザーを追跡するか、ダッシュボードに移動します。",
+    "everythingIsReadyMsg": "モバイル・アプリケーション <strong>{{mobileAppName}}</strong> をモニターする準備がすべて完了しました。 <linkToInstallation>エージェントをモバイル・アプリケーションに追加</linkToInstallation>して実ユーザーを追跡できます。または、ダッシュボードに移動してください。",
     "keyLabel": "キー",
     "reportingURLLabel": "レポート URL",
     "installationInstructionsBtn": "インストールの説明",

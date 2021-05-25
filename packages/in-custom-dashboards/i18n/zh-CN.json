@@ -43,7 +43,7 @@
         "widgetName": "窗口小部件名称",
         "name": "名称",
         "helpAction": "选择此窗口小部件的可选名称（将在窗口小部件内容上方显示）。",
-        "optional": "可选的"
+        "optional": "可选"
       },
       "widgetEditorDialogPresenter": {
         "editWidget": "编辑窗口小部件",
@@ -109,8 +109,8 @@
   "widgets": {
     "metricConfig": {
       "groupingConfig": {
-        "top": "前 {{number}} 个",
-        "bottom": "后 {{number}} 个",
+        "top": "顶部 {{number}}",
+        "bottom": "底部 {{number}}",
         "showRemainingGroupsAggregOther": "显示汇总为“其他”的其余组"
       },
       "hiddenCalls": {
@@ -127,12 +127,6 @@
       },
       "index": {
         "applicationsTracesAndCalls": "应用程序（跟踪和调用）"
-      },
-      "oldFormComponent": {
-        "metric": "指标",
-        "pleaseSelect": "请选择",
-        "aggregation": "汇总",
-        "pleaseSelectMetric": "请选择指标"
       }
     },
     "srcEvent": {
@@ -165,12 +159,7 @@
       "metricsFormComponent": {
         "metric": "指标",
         "selectMetric": "选择指标",
-        "aggregation": "汇总",
-        "pleaseSelect": "请选择",
-        "pleaseSelectMetric": "请选择指标"
-      },
-      "metricsLoadIndicator": {
-        "loadingMetrics": "正在加载指标..."
+        "aggregation": "汇总"
       },
       "metrics": {
         "infrastructurePlatforms": "基础架构和平台",
@@ -191,14 +180,6 @@
       },
       "index": {
         "mobileAppsBeacon": "移动应用程序（信标）"
-      },
-      "oldFormComp": {
-        "beaconType": "信标类型",
-        "pleaseSelect": "请选择",
-        "pleaseSelectDs": "请选择数据源",
-        "aggregation": "汇总",
-        "pleaseSelectMetric": "请选择指标",
-        "metric": "指标"
       }
     },
     "srcSli": {
@@ -227,14 +208,6 @@
       },
       "index": {
         "websitesBeacons": "Web 站点（信标）"
-      },
-      "oldFormComp": {
-        "beaconType": "信标类型",
-        "pleaseSelect": "请选择",
-        "selectDs": "请选择数据源",
-        "metric": "指标",
-        "aggregation": "汇总",
-        "selectMetric": "请选择指标"
       }
     },
     "metricConfigurator": {
@@ -243,7 +216,7 @@
       "name": "名称",
       "pleaseSelectATimeShiftingConfiguration": "请选择一个时移配置",
       "pleaseProvideAGroup": "请提供一个组。",
-      "optional": "可选的",
+      "optional": "可选",
       "theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999": "提供的数字无效。该值必须在 0 到 99.99 之间。"
     },
     "bigNumber": {
@@ -256,7 +229,7 @@
       },
       "formComponent": {
         "whatULikeShow": "您想要显示什么？",
-        "formatter": "格式化程序"
+        "formatter": "格式化"
       },
       "timeShiftingForm": {
         "addTimeShiftComparBadge": "添加时移比较徽章",
@@ -271,7 +244,7 @@
         "primaryYAxis": "主 Y 轴",
         "secondaryYAxis": "辅助 Y 轴",
         "chart": "图表",
-        "formatter": "格式化程序",
+        "formatter": "格式化",
         "addSecondary": "添加辅助 Y 轴",
         "removeSecondary": "移除",
         "min": "最小值",
@@ -294,9 +267,7 @@
         "lightBlue": "浅蓝色",
         "green": "绿色",
         "red": "红色",
-        "yellow": "黄色",
         "orange": "橙色",
-        "blue": "Blue",
         "deepPurple": "深紫色",
         "cyan": "蓝绿色",
         "lime": "淡黄绿色",
@@ -353,7 +324,7 @@
         "datasets": "数据集",
         "dragDropDatasetsReorder": "拖放数据集以对其进行重新排序。",
         "dataPresentation": "数据表示",
-        "formatter": "格式化程序"
+        "formatter": "格式化"
       },
       "index": {
         "chartPie": "图表：饼图"
@@ -432,11 +403,10 @@
         "sliCustomHelpAction": "可在我们的文档中找到有关 SLI 定制和 SLI 类型的信息。",
         "sliTimeBasedOrAnEventBasedSli": "SLI 类型必须是基于时间或基于事件的 SLI。",
         "pleaseSelect": "请选择",
-        "appPerspective": "应用程序透视图",
         "boundary": "边界",
-        "hiddenCalls": "隐藏的调用数",
-        "includeInternalCalls": "包含内部调用数",
-        "includeSyntheticCalls": "包含合成调用数",
+        "hiddenCalls": "隐藏的调用",
+        "includeInternalCalls": "包含内部调用",
+        "includeSyntheticCalls": "包含合成调用",
         "type": "类型",
         "sliEntity": "SLI 实体"
       },
@@ -452,7 +422,7 @@
         "delete": "删除"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "您没有创建或编辑 SLI 所需的 <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> 许可权。",
+        "configSrvLevelIndicatorsMsg": "您没有创建或编辑 SLI 所需的 <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> 许可权。",
         "sliList": "SLI 列表",
         "createSli": "创建 SLI"
       },
@@ -537,7 +507,7 @@
     "topList": {
       "formComp": {
         "whatULikeShow": "您想要显示什么？",
-        "formatter": "格式化程序"
+        "formatter": "格式化"
       },
       "index": {
         "topListLb": "最上层列表"

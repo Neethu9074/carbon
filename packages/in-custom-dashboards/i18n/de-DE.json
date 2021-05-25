@@ -127,12 +127,6 @@
       },
       "index": {
         "applicationsTracesAndCalls": "Anwendungen (Traces und Aufrufe)"
-      },
-      "oldFormComponent": {
-        "metric": "Messwert",
-        "pleaseSelect": "Bitte auswählen",
-        "aggregation": "Aggregation ",
-        "pleaseSelectMetric": "Wählen Sie einen Messwert aus"
       }
     },
     "srcEvent": {
@@ -165,12 +159,7 @@
       "metricsFormComponent": {
         "metric": "Messwert",
         "selectMetric": "Messwert auswählen",
-        "aggregation": "Aggregation ",
-        "pleaseSelect": "Bitte auswählen",
-        "pleaseSelectMetric": "Wählen Sie einen Messwert aus"
-      },
-      "metricsLoadIndicator": {
-        "loadingMetrics": "Messdaten werden geladen..."
+        "aggregation": "Aggregation "
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastruktur und Plattformen",
@@ -191,14 +180,6 @@
       },
       "index": {
         "mobileAppsBeacon": "Mobile Apps (Beacons)"
-      },
-      "oldFormComp": {
-        "beaconType": "Beacon-Typ",
-        "pleaseSelect": "Bitte auswählen",
-        "pleaseSelectDs": "Wählen Sie eine Datenquelle aus.",
-        "aggregation": "Aggregation ",
-        "pleaseSelectMetric": "Wählen Sie einen Messwert aus",
-        "metric": "Messwert"
       }
     },
     "srcSli": {
@@ -227,14 +208,6 @@
       },
       "index": {
         "websitesBeacons": "Websites (Beacons)"
-      },
-      "oldFormComp": {
-        "beaconType": "Beacon-Typ",
-        "pleaseSelect": "Bitte auswählen",
-        "selectDs": "Wählen Sie eine Datenquelle aus.",
-        "metric": "Messwert",
-        "aggregation": "Aggregation ",
-        "selectMetric": "Wählen Sie einen Messwert aus"
       }
     },
     "metricConfigurator": {
@@ -256,7 +229,7 @@
       },
       "formComponent": {
         "whatULikeShow": "Was möchten Sie anzeigen?",
-        "formatter": "Formatierungsprogramm"
+        "formatter": "Formatierung"
       },
       "timeShiftingForm": {
         "addTimeShiftComparBadge": "Zeitverschobene Vergleichsmarkierung hinzufügen",
@@ -271,7 +244,7 @@
         "primaryYAxis": "Primäre Y-Achse",
         "secondaryYAxis": "Sekundäre Y-Achse",
         "chart": "Diagramm",
-        "formatter": "Formatierungsprogramm",
+        "formatter": "Formatierung",
         "addSecondary": "Sekundäre Y-Achse hinzufügen",
         "removeSecondary": "Entfernen",
         "min": "Min.",
@@ -294,9 +267,7 @@
         "lightBlue": "Hellblau",
         "green": "Grün",
         "red": "Rot",
-        "yellow": "Gelb",
         "orange": "Orange",
-        "blue": "Blau",
         "deepPurple": "Dunkles Purpurrot",
         "cyan": "Zyan",
         "lime": "Limone",
@@ -343,17 +314,17 @@
     "markdown": {
       "formComp": {
         "whatULikeShow": "Was möchten Sie anzeigen?",
-        "markdown": "Preisabschlag",
-        "markdownHelpAction": "Sie können die Standard-Preisabschlagssyntax verwenden, um beliebigen Textinhalt für Ihr Dashboard zu definieren."
+        "markdown": "Markdown",
+        "markdownHelpAction": "Sie können die gewöhnliche Markdown-Syntax verwenden, um beliebigen Textinhalt für Ihr Dashboard zu definieren."
       },
-      "markdown": "Preisabschlag"
+      "markdown": "Markdown"
     },
     "pie": {
       "formComponent": {
         "datasets": "Datensätze",
         "dragDropDatasetsReorder": "Ziehen Sie Datensätze per Drag and Drop, um sie neu zu ordnen.",
         "dataPresentation": "Datendarstellung",
-        "formatter": "Formatierungsprogramm"
+        "formatter": "Formatierung"
       },
       "index": {
         "chartPie": "Diagramm: Kreis"
@@ -364,7 +335,7 @@
         "userJourneyOffering": "User Journey/Angebot",
         "appnPerspective": "Anwendungsperspektive",
         "selectAppPerspect": "Wählen Sie eine Anwendungsperspektive aus.",
-        "appPerspectHelpAction": "Konfigurieren Sie User Journeys/Angebote, indem Sie sie als Anwendungsperspektive im Bereich 'Anwendungen' des Produkts modellieren.",
+        "appPerspectHelpAction": "Konfigurieren Sie User Journeys/Angebote, indem Sie sie als Anwendungsperspektive im Produktbereich 'Anwendungen' modellieren.",
         "noAppPerspect": "Keine Anwendungsperspektiven!",
         "pleaseSelect": "Bitte auswählen"
       },
@@ -432,7 +403,6 @@
         "sliCustomHelpAction": "Informationen zur SLI-Anpassung und zu SLI-Typen finden Sie in unseren Dokumenten.",
         "sliTimeBasedOrAnEventBasedSli": "Der SLI-Typ muss entweder zeitbasiert oder ereignisbasiert sein.",
         "pleaseSelect": "Bitte auswählen",
-        "appPerspective": "Anwendungsperspektive",
         "boundary": "Grenzwert",
         "hiddenCalls": "Verborgene Aufrufe",
         "includeInternalCalls": "Interne Aufrufe einschließen",
@@ -452,7 +422,7 @@
         "delete": "Löschen"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "Sie verfügen nicht über die Berechtigung <i>CAN_CONFIGURE_SERVICE_LEVEL_INDIKATOREN</i>, um SLIs zu erstellen oder zu bearbeiten.",
+        "configSrvLevelIndicatorsMsg": "Sie verfügen nicht über die Berechtigung <em>CAN_CONFIGURE_SERVICE_LEVEL_INDIKATOREN</em>, um SLIs zu erstellen oder zu bearbeiten.",
         "sliList": "SLI-Liste",
         "createSli": "SLI erstellen"
       },
@@ -537,10 +507,10 @@
     "topList": {
       "formComp": {
         "whatULikeShow": "Was möchten Sie anzeigen?",
-        "formatter": "Formatierungsprogramm"
+        "formatter": "Formatierung"
       },
       "index": {
-        "topListLb": "Liste der obersten"
+        "topListLb": "Spitzenliste"
       },
       "widget": {
         "aggregOtherGroup": "Zusammenfassung anderer Gruppen",

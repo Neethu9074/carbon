@@ -1,6 +1,6 @@
 {
   "chart": {
-    "chartWrapperMetricNotfound": "Id metrica {{metricId}} non trovato.",
+    "chartWrapperMetricNotfound": "ID metrica {{metricId}} non trovato.",
     "chartWrapperSameAxisSameValue": "Tutti i tipi di aggregazione di un asse devono avere lo stesso valore.",
     "viewInAnalyticsBtnLabel": "Visualizza in Analisi",
     "chartLendMetricTimeShifted": "L'orario della metrica è spostato alle: {{timeShiftedLabel}}",
@@ -19,7 +19,7 @@
       "countIncident_0": "Incidenti",
       "countIncident_1": "Incidenti",
       "countIncident_2": "Incidenti",
-      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "msg": "{{smartAlertsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert, { \"count\": {{smartAlertsCount}} }) & {{incidentsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countIncident, { \"count\": {{incidentsCount}} })",
       "itemMsg": "+{{leftCount}} altri {{moreMsg}}"
     },
     "chartAlertsPreviewLanePresenterAlertsLabel": "Avvisi",
@@ -50,7 +50,7 @@
     "graphTitle": "Grafico",
     "explanationHeader": "Showcase dei Grafici Dinamici",
     "explanationP1": "La tecnologia principale su cui si basa Instana è quella definita Grafici Dinamici. Il Grafico è un modello dell'applicazione che risale a tutte le dipendenze fisiche e logiche dei componenti. Sulla destra si vede il Grafico Dinamico del proprio ambiente attuale!",
-    "explanationP2": "Il Grafico non ha solo i componenti fisici, include infatti anche componenti logici quali tracce, applicazioni, servizi, cluster o spazi tabella. I componenti e le relative dipendenze vengono rilevati in modo automatico dall'agent e dai sensori Instana per da assicurare il costante aggiornamento del Grafico. Ogni nodo del grafico viene inoltre costantemente aggiornato con informazioni di stato quali metriche, dati di configurazione e un valore di condizione calcolato in base alla conoscenza semantica e ad un approccio di apprendimento automatico. Vengono inol tre analizzare le dipendenze presenti nel grafico per trovare raggruppamenti logici quali servizi e applicazioni per determinare l'impatto su tale livello e risalire alla criticità delle problematiche. L'intero grafico è persistente ed è possibile spostarsi avanti e indietro nel tempo per sfruttare i dati del grafico per molti casi di utilizzo operativo.",
+    "explanationP2": "Il Grafico non ha solo i componenti fisici, include infatti anche componenti logici quali tracce, applicazioni, servizi, cluster o spazi tabella. I componenti e le relative dipendenze vengono rilevati in modo automatico dall'agent e dai sensori Instana per da assicurare il costante aggiornamento del Grafico. Ogni nodo del grafico viene inoltre costantemente aggiornato con informazioni di stato quali metriche, dati di configurazione e un valore di integrità calcolato in base alla conoscenza semantica e ad un approccio di apprendimento automatico. Vengono inol tre analizzare le dipendenze presenti nel grafico per trovare raggruppamenti logici quali servizi e applicazioni per determinare l'impatto su tale livello e risalire alla criticità delle problematiche. L'intero grafico è persistente ed è possibile spostarsi avanti e indietro nel tempo per sfruttare i dati del grafico per molti casi di utilizzo operativo.",
     "explanationLink": "<linkToBlog>Visita il nostro blog</linkToBlog> per ulteriori informazioni.",
     "closeBtn": "Chiudi Grafico"
   },
@@ -77,7 +77,7 @@
     "formAccountInfoSecrHeader": "Informazioni sull'account",
     "formCompanyNameLabel": "Nome azienda",
     "formNumberofAPMHostsLabel": "Numero di host APM",
-    "formNumberofIQMHostsLabel": "Numero di host IQM ",
+    "formNumberofIQMHostsLabel": "Numero di host IQM",
     "formNumberofYearsLabel": "Numero di anni",
     "formBillingInforSecHeader": "Informazioni di fatturazione",
     "formStreetLabel": "Via",
@@ -87,7 +87,7 @@
     "formStateLabel": "Stato"
   },
   "searchBar": {
-    "usingTheSearchBar": "La funzionalità di ricerca Instana Dynamic Focus può essere utilizzata per filtrare le mappe 3D, le tabelle di confronto e le viste degli incidenti. La barra di ricerca dispone di capacità \nestese per effettuare ricerche non esatte e con caratteri jolly nonché con operatori booleani. Per esempio la seguente\nquery limita le viste ai soli host in produzione con meno di 4 CPU:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\nDynamic Focus utilizza [lucene query syntax](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) con le seguenti differenze rispetto allo standard di Lucene:\n- **Operatore predefinito:** `AND`\n- **Limitazioni di sintassi:** sono elencate nella [documentazione](https://instana.com/docs/dynamic_focus/#syntax-constraints)\n## Interazione con la Barra di ricerca\nLa barra di ricerca supporta l'autocompletamento dei campi di ricerca ed evidenzierà la sintassi della query Lucene mentre si digita.\nMentre si digitando, la barra di ricerca proporrà campi di ricerca che corrispondono all'input corrente. È possibile accettare i campi proposti \npremendo ` INVIO `. Premere `CTRL+SPAZIO` per aprire la finestra a comparsa di completamento automatico.\n## Sommario della Sintassi della query Lucene\n - **Ricerca di campi:** `entity.host.cpu.count:>4`\n - **Operatori Booleani:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Raggruppamento:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Ricerche con caratteri jolly:** `entity.type:container*`\n\nFare riferimento alla [documentazione](https://instana.com/docs/dynamic_focus/) per ulteriori informazioni.",
+    "usingTheSearchBar": "La funzionalità di ricerca Instana Dynamic Focus può essere utilizzata per filtrare le mappe 3D, le tabelle di confronto e le viste degli incidenti. La barra di ricerca dispone di capacità \nestese per effettuare ricerche non esatte e con caratteri jolly nonché con operatori booleani. Per esempio la seguente\nquery limita le viste ai soli host in produzione con meno di 4 CPU:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Sintassi\nDynamic Focus utilizza [la sintassi di query Lucene](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html) con le seguenti differenze rispetto allo standard di Lucene:\n- **Operatore predefinito:** `AND`\n- **Limitazioni di sintassi:** sono elencate nella [documentazione](https://instana.com/docs/dynamic_focus/#syntax-constraints)\n## Interazione con la Barra di ricerca\nLa barra di ricerca supporta l'autocompletamento dei campi di ricerca ed evidenzierà la sintassi della query Lucene mentre si digita.\nMentre si digita, la barra di ricerca proporrà campi di ricerca che corrispondono all'input corrente. È possibile accettare i campi proposti \npremendo ` INVIO `. Premere `CTRL+SPAZIO` per aprire la finestra a comparsa di completamento automatico.\n## Sommario della Sintassi della query Lucene\n - **Ricerca di campi:** `entity.host.cpu.count:>4`\n - **Operatori Booleani:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Raggruppamento:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **Ricerche con caratteri jolly:** `entity.type:container*`\n\nFare riferimento alla [documentazione](https://instana.com/docs/dynamic_focus/) per ulteriori informazioni.",
     "filtersBtn": "Filtri",
     "filterPresetsMenuHeading": "Filtri",
     "filterPresetsSaveFilters": "Salva filtri qui per un semplice accesso",
@@ -103,9 +103,6 @@
     "filterConfirmButtonLabel": "Rimuovi filtro",
     "filterConfirmRemoveMsg": "Si è certi di voler rimuovere il filtro <strong>{{filterName}}</strong>?",
     "helpDialogTitleUsingTheSearchBar": "Utilizzo della barra di ricerca"
-  },
-  "svgIcon": {
-    "pluginIcon": "Icona {{pluginName}}"
   },
   "tables": {
     "serverTable": {

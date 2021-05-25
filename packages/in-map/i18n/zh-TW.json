@@ -37,17 +37,10 @@
   "zoomOut": "縮小",
   "selectThisEntity": "選取此實體。",
   "openDashboard": "開啟儀表板",
-  "tooltip": "工具提示",
   "infraMap": "基礎架構圖",
   "infrastructureContainerMap": "基礎架構儲存器圖",
   "infrastructureHostMap": "基礎架構主機圖",
   "unknownView": "不明視圖",
-  "CPU": "CPU",
-  "Usage": "用量",
-  "Memory": "記憶體",
-  "MemUsage": "記憶體用量",
-  "Load": "負載",
-  "Used": "已用",
   "chooseMetric": "選擇度量",
   "reset": "重設"
 }

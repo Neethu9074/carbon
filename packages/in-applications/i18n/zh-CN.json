@@ -1,6 +1,5 @@
 {
   "labelLatency": "等待时间",
-  "labelTimestamp": "时间戳记",
   "labelApplication": "应用程序",
   "labelApplications": "应用程序",
   "labelApplicationWithNum": "应用程序 ({{numApplications}})",
@@ -8,8 +7,8 @@
   "labelCall": "调用",
   "labelTrace": "跟踪",
   "linkDownload": "下载",
-  "labelCalls": "调用数",
-  "labelTraces": "跟踪数",
+  "labelCalls": "调用",
+  "labelTraces": "跟踪",
   "labelErrorRate": "错误率",
   "labelDisableSizing": "禁用缩放大小",
   "labelIncomingCalling": "入局呼叫数",
@@ -17,14 +16,13 @@
   "labelMaxLatency": "最大等待时间",
   "labelService": "服务",
   "labelName": "名称",
-  "labelFilters": "过滤器",
   "labelSummary": "摘要",
   "labelDependencies": "依赖性",
   "labelServices": "服务",
   "labelSmartAlerts": "智能警报",
-  "labelErrorMessages": "错误消息数",
+  "labelErrorMessages": "错误消息",
   "labelErrorMessage": "错误消息",
-  "labelLogMessages": "日志消息数",
+  "labelLogMessages": "日志消息",
   "labelLogMessage": "日志消息",
   "labelInfrastructure": "基础架构",
   "labelAlerts": "警报",
@@ -61,8 +59,7 @@
   "labelScope": "作用域",
   "labelCustomServiceRules": "定制服务规则",
   "labelSyntheticEndpoints": "合成端点",
-  "titleAlertDetails": "警报详细信息",
-  "titleTopServices": "顶级服务",
+  "titleTopServices": "排名靠前的服务",
   "titleMeanLatency": "平均等待时间",
   "titleErroneousCallRate": "错误调用率",
   "titleTopStatements": "排名靠前的语句",
@@ -91,10 +88,11 @@
   "buttonInspectIssue_1": "检查 {{count}} 个问题",
   "buttonInspectIssue_2": "检查 {{count}} 个问题",
   "buttonAnalyzeCalls": "分析调用",
-  "buttonAnalyzeWithLabel": "分析 {{buttonLabel}}",
+  "buttonAnalyzeServices": "分析服务",
+  "buttonAnalyzeEndpoints": "分析端点",
   "buttonClear": "清除",
   "buttonCluster": "集群",
-  "buttonProcess": "处理",
+  "buttonProcess": "进程",
   "buttonContainer": "容器",
   "buttonHost": "主机",
   "buttonConfigureEndpoints": "配置端点",
@@ -147,102 +145,37 @@
   "applications": {
     "noData": "应用程序透视图提供了对环境、服务集、租户或几乎所有内容进行建模的方法。"
   },
-  "services": {
-    "noData": "没有任何服务调用可用于所选时间范围。"
-  },
   "alert": {
-    "advancedModeContainer": {
-      "scope": {
-        "label": "作用域",
-        "title": "作用域：这种情况在哪里发生？"
-      },
-      "trigger": {
-        "label": "触发器",
-        "title": "触发器：您希望收到关于何种内容的警报？",
-        "logMessageCardTitle": "日志消息",
-        "httpStatusCodesCardTitle": "HTTP 状态码"
-      },
-      "timeThreshold": {
-        "label": "时间阈值",
-        "title": "时间阈值：您希望何时收到警报？"
-      },
-      "alertChannel": {
-        "label": "警报通道",
-        "title": "警报通道：需要向谁发出警报？"
-      }
-    },
     "thresholdLabel": "阈值",
-    "titleAlertProperties": "警报属性",
     "applicationSmartAlert": "应用程序智能警报",
-    "noAlertConfigured": "未配置任何警报。",
-    "getEntityName": "警报“{{entityName}}”",
-    "descriptionMessage": "{{description}}: \"{{message}}\"",
-    "tooltipFilter": "{{count}} 个过滤器",
-    "tooltipFilter_plural": "{{count}} 个过滤器",
-    "tooltipFilter_0": "{{count}} 个过滤器",
-    "tooltipFilter_1": "{{count}} 个过滤器",
-    "tooltipFilter_2": "{{count}} 个过滤器",
     "tooltipMoreFilter": "额外 {{moreFilterCount}} 个过滤器",
     "tooltipMoreFilter_plural": "额外 {{moreFilterCount}} 个过滤器",
     "tooltipMoreFilter_0": "额外 {{moreFilterCount}} 个过滤器",
     "tooltipMoreFilter_1": "额外 {{moreFilterCount}} 个过滤器",
-    "tooltipMoreFilter_2": "额外 {{moreFilterCount}} 个过滤器",
-    "filter": "过滤器",
-    "filter_plural": "过滤器",
-    "filter_0": "过滤器",
-    "filter_1": "过滤器",
-    "filter_2": "过滤器"
+    "tooltipMoreFilter_2": "额外 {{moreFilterCount}} 个过滤器"
   },
   "inboundOutboundCalls": {
     "config": {
       "inbound": {
-        "text": "入站调用数",
-        "dashboard": "仅限此应用程序的使用者执行的调用。",
-        "overrideDefault": "此应用程序的缺省作用域仅限于“入站调用数”。您可以在配置中更改此项。"
+        "text": "入站调用"
       },
       "all": {
-        "text": "所有调用",
-        "dashboard": "在此应用程序中执行的调用（由使用者执行和内部执行）。",
-        "overrideDefault": "此应用程序的缺省作用域为“所有调用”。您可以在配置中更改此项。"
+        "text": "所有调用"
       }
     },
     "constants": {
       "inboundDashboard": "仪表板仅显示基于此应用程序的使用者所执行调用的信息。",
-      "inboundOverrideDefault": "此应用程序的缺省作用域仅限于“入站调用数”。您可以在配置中更改此项。",
+      "inboundOverrideDefault": "此应用程序的缺省作用域仅限于“入站调用”。您可以在配置中更改此项。",
       "allDashboard": "仪表板正在显示基于此应用程序中的所有调用（由使用者执行和内部执行）的信息。",
       "allOverrideDefault": "此应用程序的缺省作用域为“所有调用”。您可以在配置中更改此项。"
     }
   },
   "analyze": {
     "quickFilter": {
-      "labelService": "服务",
-      "labelService_plural": "服务",
-      "labelService_0": "服务",
-      "labelService_1": "服务",
-      "labelService_2": "服务",
-      "labelEndpoint": "端点",
-      "labelEndpoint_plural": "端点",
-      "labelEndpoint_0": "端点",
-      "labelEndpoint_1": "端点",
-      "labelEndpoint_2": "端点",
-      "labelType": "类型",
-      "labelType_plural": "类型",
-      "labelType_0": "类型",
-      "labelType_1": "类型",
-      "labelType_2": "类型",
-      "labelTechnology": "技术",
-      "labelTechnology_plural": "技术",
-      "labelTechnology_0": "技术",
-      "labelTechnology_1": "技术",
-      "labelTechnology_2": "技术",
-      "labelLatency": "等待时间",
-      "labelErroneous": "错误",
-      "preconditionFailedTooltip": "请在选择端点之前先选择服务。"
-    },
-    "chartingPresenter": {
-      "noData": "没有可显示的数据"
+      "labelLatency": "等待时间"
     },
     "erroneous": "错误",
+    "resetUnsupportedTracesFilterContainingOrConjunction": "已清除过滤器，因为“分析跟踪”中不支持逻辑运算符 OR。",
     "facetedSearch": {
       "showSyntheticCalls": "显示合成调用",
       "showInternalCalls": "显示内部调用",
@@ -259,28 +192,12 @@
     "types": "类型",
     "technologies": "技术",
     "httpStatusCode": "HTTP 状态码",
-    "hiddenCalls": "隐藏的调用数",
+    "hiddenCalls": "隐藏的调用",
     "noResults": "无结果",
     "loadMore": "加载更多",
-    "callBatchCountTooltip": "此调用已批处理，且表示 {{callBatchCount}} 个个别调用。",
-    "callBatchCountTooltip_plural": "此调用已批处理，且表示 {{callBatchCount}} 个个别调用。",
-    "callBatchCountTooltip_0": "此调用已批处理，且表示 {{callBatchCount}} 个个别调用。",
-    "callBatchCountTooltip_1": "此调用已批处理，且表示 {{callBatchCount}} 个个别调用。",
-    "callBatchCountTooltip_2": "此调用已批处理，且表示 {{callBatchCount}} 个个别调用。",
-    "groupedList": {
-      "earliestTimestamp": "最早时间戳记",
-      "focusGroupTooltip": "关注此组",
-      "groupName": "组名称",
-      "sortingMetricLabelTh": "{{sortingMetricLabel}}（第 {{num}} 个）",
-      "sortingMetricLabelRate": "{{sortingMetricLabel}}（速率）",
-      "sortingMetricLabelCount": "{{sortingMetricLabel}} （计数）",
-      "sortingMetricLabelTime": "{{sortingMetricLabel}} ({{time}})"
-    },
     "preview": "预览",
-    "listLoadMore": "额外装入 {{retrievalSize}}",
     "listBatchTypeTooltip": "此 {{type}} 已批处理，且表示 {{batchCount}} 个个别 {{types}}。",
     "listBatchLatencyTooltip": "{{batchCount}} 个批处理的 {{types}} 的总等待时间。",
-    "traceId": "跟踪标识：",
     "traceIdTooltip": "与此跟踪相关的一些数据发生延迟，请稍后重新装入页面。可能发生此情况的一个示例如下：正在查看最近跟踪，而其部分数据仍在处理中。",
     "closeTraceDetail": "关闭跟踪详细信息",
     "invalidQueryConfig": "查询配置无效。请在继续之前处理验证失败。",
@@ -292,32 +209,27 @@
     "erroneousTraceRate": "错误跟踪率",
     "erroneousTrace": "错误跟踪数",
     "metricLabel": "调用",
-    "metricLabel_plural": "调用数",
-    "metricLabel_0": "调用数",
+    "metricLabel_plural": "调用",
+    "metricLabel_0": "调用",
     "metricLabel_1": "调用",
-    "metricLabel_2": "调用数",
+    "metricLabel_2": "调用",
     "traceLabel": "跟踪",
-    "traceLabel_plural": "跟踪数",
-    "traceLabel_0": "跟踪数",
+    "traceLabel_plural": "跟踪",
+    "traceLabel_0": "跟踪",
     "traceLabel_1": "跟踪",
-    "traceLabel_2": "跟踪数",
+    "traceLabel_2": "跟踪",
     "typeCall": "调用",
-    "typeCall_plural": "调用数",
-    "typeCall_0": "调用数",
+    "typeCall_plural": "调用",
+    "typeCall_0": "调用",
     "typeCall_1": "调用",
-    "typeCall_2": "调用数",
+    "typeCall_2": "调用",
     "typeTrace": "跟踪",
-    "typeTrace_plural": "跟踪数",
-    "typeTrace_0": "跟踪数",
+    "typeTrace_plural": "跟踪",
+    "typeTrace_0": "跟踪",
     "typeTrace_1": "跟踪",
-    "typeTrace_2": "跟踪数",
+    "typeTrace_2": "跟踪",
     "containsErrors": "包含错误数",
     "noErrors": "无错误",
-    "fromMs": "自 (ms)",
-    "toMs": "至 (ms)",
-    "theLatencyRangeHasToBeInAscendingOrder": "等待时间范围必须以升序排列。",
-    "service": "服务",
-    "trace": "跟踪",
     "calls": "调用次数",
     "none": "无",
     "dataSource_calls": "{{formattedCount}} 个调用",
@@ -442,7 +354,7 @@
           "whoShouldUse": "DevOps、开发人员、QA"
         },
         "tipsForUsingItems": {
-          "sourcePerspective": "对于源透视图，请使用“无下游服务”和“入站调用数”。",
+          "sourcePerspective": "对于源透视图，请使用“无下游服务”和“入站调用”。",
           "endToEndView": "对于端到端视图，请使用“所有下游服务”和“所有调用”。",
           "directServices": "使用“紧接的下游服务”来包含直接数据库或消息传递服务。",
           "useOperatorsServices": "使用字符串运算符（例如，类似“包含”、“开始于”）来选择带有一个过滤器的多个服务。",
@@ -450,7 +362,7 @@
           "useOperators": "使用字符串运算符（例如，类似“包含”、“开始于”）来简化过滤器。",
           "narrowScope": "添加设置、环境或定制标记以缩小范围。",
           "specifyAp": "使用请求参数或定制标记来指定应用程序。",
-          "preselected": "已预先选择“入站调用数”和“所有下游服务”。",
+          "preselected": "已预先选择“入站调用”和“所有下游服务”。",
           "switchMode": "切换到高级模式以通过来自多个服务的端点创建查询。",
           "allFilters": "单击“所有过滤器”以添加其他标记。"
         },
@@ -484,13 +396,11 @@
       "apNameDescription": "应用程序透视图名称应在组织中具有明确的定义。例如，要对环境建模：“Production Blue”；要对一组服务建模：“Payment”，或要对租户建模：“ACME Customer”。",
       "defineUsingTags": "2. 使用一个或多个标记定义应用程序透视图。",
       "defineUsingTagsDescription": "例如，关键字为“docker.label”，值为“environment=Production Blue”，或关键字为“call.http.params”，值为“tenant=ACMECustomer”。请注意：来自匹配此定义的服务的 <pill-database>DATABASE</pill-database> 服务或 <pill-messaging>MESSAGING</pill-messaging> 服务的任何调用都将自动包含在内。",
-      "andOperatorsPrecedence": "AND 运算符优先，并先于 OR 运算符进行求值",
       "andOperatorsPrecedenceBrackets": "AND 运算符优先，并先于 OR 运算符进行求值（如果未分组到方括号中）",
       "downstreamCalls": "3. 存储下游服务的调用",
       "downstreamCallsDescription": "选择要包含在应用程序透视图中的下游服务。",
       "defaultDashboardView": "4. 选择缺省仪表板视图",
       "clear": "清除",
-      "addTag": "添加标记",
       "create": "创建",
       "database": "DATABASE",
       "messaging": "MESSAGING"
@@ -500,7 +410,6 @@
       "optionImmediateDownstreamServices": "紧接的下游数据库和消息传递服务",
       "optionAllDownstreamServices": "所有下游服务"
     },
-    "tooltipEndpointBar": "请在选择端点之前先选择一个服务。",
     "form": {
       "theApplicationPerspectiveNameMustNotBeBlank": "应用程序透视图名称不能为空。",
       "theApplicationPerspectiveNameMustNotBeLargerThan128Characters": "应用程序透视图名称不能大于 128 个字符。",
@@ -510,9 +419,6 @@
   "dashboards": {
     "percentOfCalls": "所有调用的 {{percentage}}",
     "meanLatencyFor90th": "第 90 个的 {{meanLatencyDetail}}",
-    "selectInboundCalls": "仅选择入站调用数或选择所有调用",
-    "calculateInboundCalls": "正在计算 {{applicationName}} 的入站调用数，以查看整体切换到<linkToCalls>所有调用</linkToCalls>的此 {{entityType}}。",
-    "calculateAllCalls": "正在计算 {{applicationName}} 的<bold>所有调用数</bold>，以仅查看在应用程序边界切换到<linkToCalls>入站调用</linkToCalls>时的此 {{entityType}} 的一部分。",
     "infrastructureIssuesChanges": "基础架构问题与更改",
     "unknownTime": "在 {{entityTime}} 中未知",
     "infrastructure": {
@@ -526,11 +432,11 @@
     "errorCallWithoutMessage": "无错误消息的错误调用",
     "logMessages": "日志消息",
     "noLogMessage": "未提供日志消息",
-    "endpoints": "端点"
-  },
+    "includeSyntheticCallsDropDownSyntheticCalls": " 合成调用：{{syntheticCallsOptionLabel}}"
+},
   "flowMap": {
     "tooltipServiceNotInApplication": "该服务不在当前应用程序中。",
-    "buttonLoadMoreWithRemain": "再加载 {{remainNumber}} 个<totalSpan>（共 {{nodeNumber}} 个）</totalSpan>",
+    "buttonLoadMoreWithRemain": "再加载 {{remainNumber}} 个<totalSpan>（总计 {{nodeNumber}} 个）</totalSpan>",
     "buttonLoadMore": "再加载 {{remainNumber}} 个"
   },
   "forms": {
@@ -571,7 +477,6 @@
       "helpRenameApplication": "重命名应用程序是 Instana 系统中最终的一致性操作。因此，更改应用程序名称可能需要花费<italic>几分钟</italic>时间，直到在整个系统中完成更改。",
       "descriptionApplicationName": "应用程序透视图名称应在组织中具有明确的定义。例如，要对环境建模：“Production Blue”；要对一组服务建模：“Payment”，或要对租户建模：“ACME Customer”。",
       "descriptionTags": "例如，关键字为“docker.label”，值为“environment=Production Blue”，或关键字为“call.http.params”，值为“tenant=ACMECustomer”。请注意：来自匹配此定义的服务的 <pillDatabase>DATABASE</pillDatabase> 服务或 <pillMessage>MESSAGING</pillMessage> 服务的任何调用都将自动包含在内。",
-      "descriptionOperators": "AND 运算符优先，并先于 OR 运算符进行求值",
       "descriptionOperatorsCreationEnabled": "AND 运算符优先，并先于 OR 运算符进行求值（如果未分组到方括号中）",
       "descriptionPrepareToMonitor": "一切准备就绪，可监视应用程序透视图 <bold>{{decodedLabel}}</bold>。",
       "descriptionRemoveApplicationPerspective": "如果您不再希望监视应用程序透视图 <strong>{{application}}</strong>，请使用下面的按钮将其删除。删除应用程序透视图可能需要花费几分钟时间。",
@@ -604,8 +509,8 @@
     "textNewApplicationPerspective": "帐户管理员创建后，它们将显示在此处。",
     "showApplicationsScope": "显示 <linkToEntity>{{entityLabel}}</linkToEntity> 的应用程序 <bold>{{contextScope}}</bold>",
     "showServicesScope": "显示 <linkToEntity>{{entityLabel}}</linkToEntity> 的服务 <bold>{{contextScope}}</bold>",
-    "showApplicationsScopeWithApplicationLabel": "显示上下文 <linkToApplication>{{applicationLabel}}</linkToApplication> 中 <linkToEntity>{{entityLabel}}</linkToEntity> 的应用程序 <bold>{{contextScope}}</bold><span></span>",
-    "showServicesScopeWithServiceLabel": "显示上下文 <linkToApplication>{{applicationLabel}}</linkToApplication> 中 <linkToEntity>{{entityLabel}}</linkToEntity> 的服务 <bold>{{contextScope}}</bold><span></span>",
+    "showApplicationsScopeWithApplicationLabel": "显示上下文 <linkToApplication>{{applicationLabel}}</linkToApplication> 中 <linkToEntity>{{entityLabel}}</linkToEntity> 的应用程序 <bold>{{contextScope}}</bold>",
+    "showServicesScopeWithServiceLabel": "显示上下文 <linkToApplication>{{applicationLabel}}</linkToApplication> 中 <linkToEntity>{{entityLabel}}</linkToEntity> 的服务 <bold>{{contextScope}}</bold>",
     "titleNoService": "尚无服务",
     "servicesNoData": "未针对所选的时间范围提供任何服务调用。有关故障诊断信息，请参阅[文档]。\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
   },
@@ -631,12 +536,6 @@
     "only": "仅",
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "指标中仅显示且仅包含合成调用"
   },
-  "lists": {
-    "noSpecificApplication": " - 无特定应用程序 - ",
-    "services": "服务"
-  },
-  "containsErrors": "包含错误",
-  "noErrors": "无错误",
   "traceDetail": {
     "tabs": {
       "summary": {
@@ -653,18 +552,9 @@
         "serviceEndpointList": "服务端点列表",
         "largeTrace": "大跟踪",
         "largeTraceLink": "此跟踪很大，且呈现此跟踪可能会导致浏览器出现性能问题。您可以<linkToDocs>下载跟踪</linkToDocs>以进行手动检查，或者尝试在浏览器中呈现跟踪。我们将仅呈现组件的一个子集，以提高本次尝试的性能。",
-        "calls": "调用数",
-        "logs": "日志",
-        "analyzeLogs": "查看分析",
-        "correspondingMobileAppActivity": "相应的移动应用程序活动",
-        "hideMobileAppInformation": "隐藏移动应用程序信息",
-        "showMobileAppInformation": "显示移动应用程序信息",
-        "viewMobileAppActivity": "查看移动应用程序活动",
+        "calls": "调用",
         "erroneousTrace": "错误跟踪",
-        "attemptToRenderTrace": "尝试呈现跟踪",
-        "hideWebsiteInformation": "隐藏 Web 站点信息",
-        "showWebsiteInformation": "显示 Web 站点信息",
-        "viewWebsiteActivity": "查看 Web 站点活动"
+        "attemptToRenderTrace": "尝试呈现跟踪"
       }
     }
   },
@@ -676,8 +566,8 @@
     "calls_latency": "等待时间",
     "calls_erroneousCalls": "错误调用数",
     "calls_errors": "错误调用率",
-    "traces_calls": "跟踪数",
-    "traces_traces": "跟踪数",
+    "traces_calls": "跟踪",
+    "traces_traces": "跟踪",
     "traces_latency": "等待时间",
     "traces_erroneousCalls": "错误跟踪数",
     "traces_errors": "错误跟踪率"

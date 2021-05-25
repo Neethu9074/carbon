@@ -19,13 +19,13 @@
       "countIncident_0": "Vorfälle",
       "countIncident_1": "Vorfälle",
       "countIncident_2": "Vorfälle",
-      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "msg": "{{smartAlertsCount}} $t(in-components: chart.chartAlertsLaneTooltipContent.countSmartAlert, {\" count \": {{smartAlertsCount}}}) & {{incidentsCount}} $t(in-components: chart.chartAlertsLaneTooltipContent.countIncident, {\" Anzahl\": {{incidentsCount}}}})",
       "itemMsg": "+{{leftCount}} weitere {{moreMsg}}"
     },
     "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
     "chartReleasesLanePresenterReleasesLabel": "Releases",
     "chartReleasesLanePresenterTooltip": "+{{len}} weitere Releases",
-    "highlightedTimeframeCloseButtonClearHighlight": "Hervorhebung löschen",
+    "highlightedTimeframeCloseButtonClearHighlight": "Hervorhebung aufheben",
     "resultAwareChartSomethingWentWrong": "Ein Fehler ist aufgetreten...",
     "resultAwareChartPleaseTryAgainLater": "Versuchen Sie es später erneut.",
     "tooltip": {
@@ -51,7 +51,7 @@
     "explanationHeader": "Showcase für dynamisches Diagramm",
     "explanationP1": "Die Kerntechnologie, die Instana antreibt, ist das dynamische Diagramm. Das Diagramm ist ein Modell für Ihre Anwendung, das alle physischen und logischen Abhängigkeiten von Komponenten abbildet. Auf der rechten Seite sehen Sie das dynamische Diagramm Ihrer aktuellen Umgebung!",
     "explanationP2": "Das Diagramm enthält mehr als die physischen Komponenten. Es enthält auch logische Komponenten wie Traces, Anwendungen, Services, Cluster oder Tabellenbereiche. Komponenten und ihre Abhängigkeiten werden vom Instana-Agenten und den Sensoren automatisch erkannt, sodass das Diagramm kontinuierlich auf dem neuesten Stand gehalten wird. Jeder Knoten im Diagramm wird außerdem kontinuierlich mit Statusinformationen wie Messdaten, Konfigurationsdaten und einem berechneten Wert für den Allgemeinzustand auf Basis semantischer Kenntnisse und eines maschinellen Lernansatzes aktualisiert. Mit diesem Wissen werden auch die Abhängigkeiten im Diagramm analysiert, um logische Gruppierungen wie Services und Anwendungen zu finden, Auswirkungen auf diese Ebene zu verstehen und den Schweregrad von Problemen abzuleiten. Das gesamte Diagramm ist persistent und Sie können im Zeitablauf hin- und herblättern, um die Aussagen des Diagramms für viele Anwendungsfälle zu nutzen.",
-    "explanationLink": "Weitere Informationen finden Sie in unserem <linkToBlog>Blog</linkToBlog>.",
+    "explanationLink": "<linkToBlog>Rufen Sie unseren Blog auf</linkToBlog>, um weitere Informationen zu erhalten. ",
     "closeBtn": "Diagramm schließen"
   },
   "gravatar": {
@@ -87,7 +87,7 @@
     "formStateLabel": "Bundesstaat"
   },
   "searchBar": {
-    "usingTheSearchBar": "Die Instana-Suchfunktion 'Dynamischer Fokus' kann verwendet werden, um die 3D-Karten, Vergleichstabellen und Ereignisansichten zu filtern. Die Suchleiste\n verfügt über umfangreiche Möglichkeiten zur Suche mit Unschärfe- und Platzhaltersuche sowie booleschen Operatoren. Die folgende Abfrage\n schränkt beispielsweise die Ansichten auf Produktionshosts mit weniger als vier CPUs ein:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\nDie Funktion 'Dynamischer Fokus' nutzt die [Lucene-Abfragesyntax](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html), wobei die folgenden Abweichungen vom Lucene-Standard bestehen:\n- **Standardoperator:** `UND`\n- **Syntaxbedingungen:** sind in der [Dokumentation] aufgeführt (https://instana.com/docs/dynamic_focus/#syntax-constraints)\n## Interaktion mit der Suchleiste\nDie Suchleiste unterstützt die automatische Vervollständigung bei Suchfeldern und hebt die Syntax der Lucene-Abfrage hervor, während getippt wird. \nBei der Eingabe schlägt die Suchleiste Suchfelder vor, die mit der aktuellen Eingabe übereinstimmen. Sie können vorgeschlagene Felder akzeptieren,\nindem Sie die Eingabetaste drücken. Drücken Sie die Tastenkombination Strg+Leertaste, um das Dialogfenster für automatische Vervollständigung zu öffnen. \n## Spickzettel für die Lucene-Abfragesyntax\n - **Feldsuche:** `entity.host.cpu.count:>4`\n - **Boolesche Operatoren:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Gruppierung:** `(entity.host.cpu. count:<4 AND entity.zone:production) ODER entity.host.cpu.count:>4`\n - **Platzhaltersuche:** `entity.type:container*`\n\nWeitere Informationen entnehmen Sie bitte der [Dokumentation](https://instana.com/docs/dynamic_focus/). ",
+    "usingTheSearchBar": "Die Instana-Suchfunktion 'Dynamischer Fokus' kann verwendet werden, um die 3D-Karten, Vergleichstabellen und Ereignisansichten zu filtern. Die Suchleiste\n verfügt über umfangreiche Möglichkeiten zur Suche mit Unschärfe- und Platzhaltersuche sowie booleschen Operatoren. Die folgende Abfrage\n schränkt beispielsweise die Ansichten auf Produktionshosts mit weniger als vier CPUs ein:\n\n`entity.host.cpu.count:<4 AND entity.zone:production`.\n## Syntax\nDie Funktion 'Dynamischer Fokus' nutzt die [Lucene-Abfragesyntax](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html), wobei die folgenden Abweichungen vom Lucene-Standard bestehen:\n- **Standardoperator:** `AND`\n- **Syntaxbedingungen:** sind in der [Dokumentation](https://instana.com/docs/dynamic_focus/#syntax-constraints) aufgeführt\n## Interaktion mit der Suchleiste\nDie Suchleiste unterstützt die automatische Vervollständigung bei Suchfeldern und hebt die Syntax der Lucene-Abfrage hervor, während getippt wird. \nBei der Eingabe schlägt die Suchleiste Suchfelder vor, die mit der aktuellen Eingabe übereinstimmen. Sie können vorgeschlagene Felder akzeptieren,\nindem Sie die Eingabetaste drücken. Drücken Sie die Tastenkombination Strg+Leertaste, um das Dialogfenster für automatische Vervollständigung zu öffnen. \n## Spickzettel für die Lucene-Abfragesyntax\n - **Feldsuche:** `entity.host.cpu.count:>4`\n - **Boolesche Operatoren:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **Gruppierung:** `(entity.host.cpu. count:<4 AND entity.zone:production) ODER entity.host.cpu.count:>4`\n - **Platzhaltersuche:** `entity.type:container*`\n\nWeitere Informationen entnehmen Sie bitte der [Dokumentation](https://instana.com/docs/dynamic_focus/). ",
     "filtersBtn": "Filter",
     "filterPresetsMenuHeading": "Filter",
     "filterPresetsSaveFilters": "Speichern Sie hier Filter für einfachen Zugriff",
@@ -104,15 +104,12 @@
     "filterConfirmRemoveMsg": "Sind Sie sicher, dass Sie den Filter <strong>{{filterName}}</strong> entfernen möchten? ",
     "helpDialogTitleUsingTheSearchBar": "Suchleiste verwenden"
   },
-  "svgIcon": {
-    "pluginIcon": "{{pluginName}}-Symbol"
-  },
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "Diese Gruppe analysieren",
       "cursorPaginatedTableLoadMoreRowLabel": "Mehr laden",
       "withEmptyTableStateEntitiesName": "Entitäten",
-      "withEmptyTableStateEntityPageMainNotificationTitle": "Kein {{name}} verfügbar",
+      "withEmptyTableStateEntityPageMainNotificationTitle": "Keine {{name}} verfügbar",
       "withEmptyTableStateEntityPageMainNotificationExplanation": "Es wurden keine {{name}} für den ausgewählten Zeitraum abgerufen."
     },
     "sharedComponents": {

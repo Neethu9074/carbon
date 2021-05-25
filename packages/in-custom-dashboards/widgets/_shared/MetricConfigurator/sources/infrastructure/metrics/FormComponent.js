@@ -14,6 +14,8 @@ import {
   isRequiringGroupingConfiguration
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
+import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
+import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilder, { getTagCatalog } from 'in-infrastructure/Explore/components/QueryBuilder';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
@@ -58,7 +60,12 @@ export default function FormComponent({
   });
 
   const catalogQuery = useDebouncedValue('', noop, 800);
-  const metricCatalog = useMetricCatalog({ getMetricCatalog, tagFilterExpression, query: catalogQuery.debouncedValue });
+  const metricCatalog = useMetricCatalog({
+    getMetricCatalog,
+    tagFilterExpression:
+      tagFilterExpressionField.value != invalidMarker ? tagFilterExpressionField.value : EMPTY_EXPRESSION,
+    query: catalogQuery.debouncedValue
+  });
 
   return (
     <Stack space="xsmall">

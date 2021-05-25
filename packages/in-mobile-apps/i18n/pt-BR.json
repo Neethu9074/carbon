@@ -1,15 +1,11 @@
 {
   "tags": {
     "sessionStart": "Início da sessão",
-    "viewChange": "Visualizar transição",
+    "viewChange": "Transição de visualização",
     "httpRequest": "Solicitação de HTTP",
     "custom": "Evento customizado"
   },
   "analyzeView": {
-    "noData": "Nenhum indicador disponível para o intervalo de tempo selecionado. Para obter informações de resolução de problemas, consulte [documentação][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
-    "MetricSelectorTitle": "Selecionar métricas",
-    "MetricSelectorHelp": "Selecione quais métricas devem estar disponíveis como colunas na tabela. Ele também define quais métricas poderiam ser visualizadas como gráficos.",
-    "EntityPageMainNotificationTitle": "Nenhum {{entityName}} localizado",
     "uniqueUsers": "Usuários exclusivos",
     "metrics": {
       "timestampMetricName": "registro de data e hora",
@@ -29,8 +25,8 @@
       "rawDataLabel": "Contagem de erros"
     },
     "availableMetrics": {
-      "sessionStartBeaconCountLabel": "A sessão começa",
-      "viewChangeBeaconCountLabel": "Visualizar transições",
+      "sessionStartBeaconCountLabel": "Inícios de sessão",
+      "viewChangeBeaconCountLabel": "Transições de visualização",
       "httpRequestBeaconCountLabel": "Chamadas",
       "httpRequestBeaconErrorCountLabel": "Chamadas errôneas",
       "httpRequestBeaconDurationLabel": "Tempo de recuperação",
@@ -55,19 +51,13 @@
       "customBeaconCountLabel": "Ocorrências",
       "customBeaconDurationLabel": "Duração"
     },
-    "editGroupDialog": {
-      "help": "Selecione uma tag pela qual seus indicadores devem ser agrupados."
-    },
-    "groupMetricsChart": {
-      "countChartDefinitionLabel": "Contagem"
-    },
     "quickFilterBar": {
       "mobileAppLabel": "Aplicativo móvel",
       "mobileAppLabel_plural": "Aplicativos móveis",
       "mobileAppLabel_0": "Aplicativos móveis",
       "mobileAppLabel_1": "Aplicativos móveis",
       "mobileAppLabel_2": "Aplicativos móveis",
-      "viewsLabel": "Visualizar",
+      "viewsLabel": "Visualização",
       "viewsLabel_plural": "Visualizações",
       "viewsLabel_0": "Visualizações",
       "viewsLabel_1": "Visualizações",
@@ -105,29 +95,8 @@
       "metaLabel": "Meta"
     },
     "perBeaconTypeConfigs": {
-      "customTH1": "Nome do evento",
-      "customTH2": "Aplicativo móvel",
-      "customTimestampLabel": "Registro de data e hora",
       "customBatchingIndicatorTooltipContent": "Este evento foi em lote e representa {{size}} eventos individuais.",
-      "customListItemHeader": "Nome do evento",
-      "httpRequestTH1": "Acesso",
-      "httpRequestTH2": "Aplicativo móvel",
-      "httpRequestTimestampLabel": "Registro de data e hora",
-      "httpRequestBatchingIndicatorTooltipContent": "Esta solicitação de HTTP está em lote representa {{size}} solicitações de HTTP individuais.",
-      "httpRequestListItemHeader": "Acesso",
-      "sessionStartTH1": "ID de sessão",
-      "sessionStartTH2": "Aplicativo móvel",
-      "sessionStartTimestampLabel": "Registro de data e hora",
-      "sessionStartListItemHeader": "ID de sessão",
-      "viewChangeTH1": "Nome da visualização",
-      "viewChangeTH2": "Aplicativo móvel",
-      "viewChangeTimestampLabel": "Registro de data e hora",
-      "viewChangeListItemHeader": "Nome da visualização"
-    },
-    "groupedBeaconsTable": {
-      "groupLabel": "Grupo",
-      "countLabel": "Contagem",
-      "timestampLabel": "Registro de data e hora mais antigo"
+      "httpRequestBatchingIndicatorTooltipContent": "Esta solicitação de HTTP está em lote representa {{size}} solicitações de HTTP individuais."
     }
   },
   "beaconUserSum": {
@@ -153,12 +122,12 @@
     "userTooltipContent": "Somente um subconjunto dos indicadores desta sessão tem dados do usuário associado. Isso pode levar a resultados de análises e estatísticas surpreendentes."
   },
   "sessionView": {
-    "analyticsTitle": "Analytics",
+    "analyticsTitle": "Análise de dados",
     "analyticsBreadscrumbLabel": "{{prefix}}} Análise de dados",
     "sessionBreadscrumbLabel": "Sessão",
     "sessionTitle": "Sessão",
-    "analyticsLink": "Analytics",
-    "downloadBtn": "Download",
+    "analyticsLink": "Análise de dados",
+    "downloadBtn": "Fazer download",
     "closeSessionDetailsTooltip": "Fechar detalhes da sessão",
     "closeSessionDetailsArialabel": "Fechar detalhes da sessão",
     "tabsDetailLabel": "Detalhe",
@@ -181,10 +150,10 @@
       "HTTPLong": "Solicitações de HTTP",
       "sesShort": "Ses",
       "sesBadgeLabel": "Ses",
-      "sesLong": "Início da sessão",
+      "sesLong": "Início de sessão",
       "traShort": "Tra",
       "traBadgeLabel": "Tra",
-      "traLong": "Visualizar transições",
+      "traLong": "Transições de visualização",
       "cusShort": "Cus",
       "cusBadgeLabel": "Cus",
       "cusLong": "Eventos customizados"
@@ -195,7 +164,7 @@
       "httpRequestTitle": "Solicitações de HTTP",
       "mobileAppTitle": "Aplicativo móvel",
       "clockProblemTitle": "Problemas de clock skew detectado",
-      "clockProblemDesc": "Os indicadores enviados para o Instana por meio do dispositivo do usuário final chegaram com atrasos significativos, muito provavelmente devido a uma rede de cliente precária. Para evitar inconsistências, os registros de data e hora mostrados nesta visualização foram adaptados para restaurar uma linha de tempo de atividade significativa."
+      "clockProblemDesc": "Os indicadores enviados para a Instana por meio do dispositivo do usuário final chegaram com atrasos significativos, muito provavelmente devido a uma rede de cliente precária. Para evitar inconsistências, os registros de data e hora mostrados nesta visualização foram adaptados para restaurar uma linha de tempo de atividade significativa."
     },
     "tabsSumBeacon": {
       "showlessTooltip": "Mostrar menos",
@@ -249,11 +218,11 @@
       "decodedBodySizeTitle": "Tamanho do corpo decodificado"
     },
     "tabsSumSessionStartBeacon": {
-      "sessionStartLabel": "Início da sessão",
+      "sessionStartLabel": "Início de sessão",
       "metaHeader": "Meta"
     },
     "tabsSumViewChangeBeacon": {
-      "viewTransitionLabel": "Visualizar transição",
+      "viewTransitionLabel": "Transição de visualização",
       "startTimeLabel": "Horário de início"
     }
   },
@@ -262,7 +231,7 @@
     "mobileAppViewPageRootName": "Visualização do aplicativo móvel",
     "mobileAppPageRootName": "Aplicativo móvel",
     "mobileAppViewTitle": "Aplicativo móvel",
-    "mobileAppTitle": "Visualizar",
+    "mobileAppTitle": "Visualização",
     "analyzeSessions": "Analisar sessões",
     "analyzeViewTransitions": "Analisar transições de visualização",
     "numSessionStarts": "{{num}} inícios de sessão",
@@ -280,8 +249,8 @@
       "keyLabel": "Chave",
       "reportingURLLabel": "URL de relatório",
       "removeAppTitle": "Remover aplicativo móvel",
-      "removeAppHelp1": "Para não monitorar mais o aplicativo móvel <strong>{{label}}</strong> usando o Instana, use este formulário para removê-lo. A remoção de um aplicativo móvel é uma ação eventualmente consistente. Por essa razão, a remoção de um aplicativo móvel pode levar <strong>até alguns minutos</strong> até ser completamente concluída.",
-      "removeAppHelp2": "Observe que nem você nem o suporte Instana podem desfazer essa ação.",
+      "removeAppHelp1": "Para não monitorar mais o aplicativo móvel <strong>{{label}}</strong> usando a Instana, use este formulário para removê-lo. A remoção de um aplicativo móvel é uma ação eventualmente consistente. Por essa razão, a remoção de um aplicativo móvel pode levar <strong>até alguns minutos</strong> até ser completamente concluída.",
+      "removeAppHelp2": "Observe que nem você nem o suporte da Instana podem desfazer essa ação.",
       "confirmUndone": "Eu entendo que não é possível desfazer essa ação.",
       "removeAppBtn": "Remover aplicativo móvel",
       "renameAppTitle": "Renomear aplicativo móvel",
@@ -323,12 +292,12 @@
       "viewAllViewsLink": "Ver todas as visualizações",
       "topHTTPRequestOriginsTitle": "Principais origens de solicitação de HTTP",
       "viewAllOriginsLink": "Visualizar todas as origens",
-      "sessionStartsTitle": "A sessão começa",
+      "sessionStartsTitle": "Inícios de sessão",
       "viewInAnalyzeIconAction": "Visualizar na análise",
-      "viewTransitionsTitle": "Visualizar transições",
+      "viewTransitionsTitle": "Transições de visualização",
       "activityCardTitle": "Atividade",
-      "sessionStartsLabel": "A sessão começa",
-      "viewTransitionsLabel": "Visualizar transições",
+      "sessionStartsLabel": "Inícios de sessão",
+      "viewTransitionsLabel": "Transições de visualização",
       "geographyTitle": "Geografia",
       "topViewsTitle": "Principais visualizações",
       "globViewFootertext": "Imagens fornecidas pela NASA"
@@ -336,8 +305,8 @@
   },
   "appsList": {
     "nameLabel": "Nome",
-    "sessionStartsLabel": "A sessão começa",
-    "viewTransitionsLabel": "Visualizar transições",
+    "sessionStartsLabel": "Inícios de sessão",
+    "viewTransitionsLabel": "Transições de visualização",
     "addMobileAppBtn": "Incluir aplicativo móvel",
     "mobileAppsTitle": "Aplicativos móveis",
     "mobileAppProductArea": "EUM: aplicativos móveis",
@@ -350,11 +319,11 @@
     "addMobileAppBtn": "Incluir aplicativo móvel",
     "newMobileAppTitle": "Novo aplicativo móvel",
     "everythingIsReadyTitle": "Está tudo pronto.",
-    "everythingIsReadyMsg": "Tudo está pronto para monitorar seu aplicativo móvel <strong>{{mobileAppName}}</strong>. <linkToInstallation>Inclua o agente em seu aplicativo móvel</linkToInstallation> para rastrear usuários reais ou ir para o painel.",
+    "everythingIsReadyMsg": "Tudo está pronto para monitorar seu aplicativo móvel <strong>{{mobileAppName}}</strong>. <linkToInstallation>Inclua o agente em seu aplicativo móvel</linkToInstallation> para rastrear usuários reais ou acesse o painel.",
     "keyLabel": "Chave",
     "reportingURLLabel": "URL de relatório",
     "installationInstructionsBtn": "Instruções de instalação",
-    "GoToMobileAppDashboardBtn": "Ir para o painel do aplicativo móvel",
+    "GoToMobileAppDashboardBtn": "Acessar o painel do aplicativo móvel",
     "workingTitle": "Trabalhando…",
     "workingMsg": "Estamos preparando tudo para monitorar o seu aplicativo móvel <strong>{{mobileAppName}}</strong>. Enquanto fazemos isso, <linkToInstallation>inclua o agente em seu aplicativo móvel</linkToInstallation>.",
     "enablingMonitoringBtn": "Ativando o monitoramento…"
@@ -366,16 +335,16 @@
     "access": "Acesso",
     "eventName": "Nome do evento"
   },
-  "dataSource_sessionStart": "{{formattedCount}} Início da sessão",
+  "dataSource_sessionStart": "{{formattedCount}} Início de sessão",
   "dataSource_sessionStart_plural": "{{formattedCount}} Inícios de sessão",
   "dataSource_sessionStart_0": "{{formattedCount}} Inícios de sessão",
   "dataSource_sessionStart_1": "{{formattedCount}} Inícios de sessão",
   "dataSource_sessionStart_2": "{{formattedCount}} Inícios de sessão",
-  "dataSource_viewChange": "{{formattedCount}} Visualizar transição",
-  "dataSource_viewChange_plural": "{{formattedCount}} Visualizar transições",
-  "dataSource_viewChange_0": "{{formattedCount}} Visualizar transições",
-  "dataSource_viewChange_1": "{{formattedCount}} Visualizar transições",
-  "dataSource_viewChange_2": "{{formattedCount}} Visualizar transições",
+  "dataSource_viewChange": "{{formattedCount}} Transição de visualização",
+  "dataSource_viewChange_plural": "{{formattedCount}} Transições de visualização",
+  "dataSource_viewChange_0": "{{formattedCount}} Transições de visualização",
+  "dataSource_viewChange_1": "{{formattedCount}} Transições de visualização",
+  "dataSource_viewChange_2": "{{formattedCount}} Transições de visualização",
   "dataSource_httpRequest": "{{formattedCount}} solicitação de HTTP",
   "dataSource_httpRequest_plural": "{{formattedCount}} solicitações de HTTP",
   "dataSource_httpRequest_0": "{{formattedCount}} solicitações de HTTP",
@@ -388,7 +357,7 @@
   "dataSource_custom_2": "{{formattedCount}} eventos customizados",
   "facetedSearch": {
     "mobileApp": "Aplicativo móvel",
-    "view": "Visualizar",
+    "view": "Visualização",
     "platform": "Plataforma",
     "os": "S.O.",
     "bundle": "Pacote configurável",

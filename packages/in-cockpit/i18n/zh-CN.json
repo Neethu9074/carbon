@@ -5,7 +5,7 @@
       "allApps": "所有应用程序",
       "errCallRate": "错误调用率",
       "latency": "等待时间",
-      "calls": "调用数",
+      "calls": "调用",
       "newAppPerspect": "新建应用程序透视图"
     },
     "eventChartCard": {
@@ -25,14 +25,14 @@
     },
     "platformsTopList": {
       "esXiHosts": "ESXi 主机",
-      "nodes": "节点数",
+      "nodes": "节点",
       "vMs": "虚拟机",
       "instances": "实例数",
       "namespaces": "名称空间",
       "cpuUsage": "CPU 使用率",
       "memoryLimit": "内存限制",
       "pods": "Pod",
-      "memoryUsage": "内存使用量",
+      "memoryUsage": "内存使用率",
       "cloudFoundryApplication": "Cloud Foundry 应用程序",
       "vSphereDatacenter": "vSphere 数据中心",
       "clusterSubTitle": "{{clusterDistribution}} 集群，{{count}} 个节点，{{numberOfPods}}",
@@ -85,8 +85,9 @@
       "numCpU": "CPU 数",
       "cpuUsage": "CPU 使用率",
       "created": "创建时间",
-      "started": "启动时间",
-      "os": "操作系统"
+      "started": "开始",
+      "os": "操作系统",
+      "mean": "平均值"
     },
     "topListWidget": {
       "noLabelYet": "尚无 {{nolabel}}"

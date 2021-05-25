@@ -82,6 +82,7 @@
   "labelIssues": "문제",
   "labelMonitoringIssues": "모니터링 문제",
   "labelAll": "모두",
+  "labelEvent": "이벤트",
   "buttonViewCustomEvent": "사용자 정의 이벤트 보기",
   "buttonViewBuiltInEvent": "기본 제공 이벤트 보기",
   "buttonCollapse": "접기",

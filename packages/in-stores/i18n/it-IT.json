@@ -1,8 +1,4 @@
 {
-  "storeStoreExists": "Lo store {{storeSpecName}} già esiste",
-  "storeObservableMustBeProvided": "È necessario fornire l'oggetto observable",
-  "storeUnsupportedActionType": "Tipo di azione non supportata {{storeActionType}}. Non è stato specificato un riduttore?",
-
   "permissionAccessWebsitesLabel": "Siti Web",
   "permissionAccessMobileAppsLabel": "App mobili",
   "permissionAccessApplicationsLabel": "Applicazioni",
@@ -92,21 +88,19 @@
   "permissionRestrictedHelp": "Abilita il controllo degli accessi basato sui ruoli.",
 
   "metric": {
-    "metric": {
-      "MEAN": "media",
-      "MIN": "min",
-      "P25": "25esimo",
-      "P50": "50esimo",
-      "P75": "75esimo",
-      "P90": "90esimo",
-      "P95": "95esimo",
-      "P98": "98esimo",
-      "P99": "99esimo",
-      "MAX": "max",
-      "DISTINCT_COUNT": "conteggio distinto",
-      "SUM": "somma",
-      "DISTRIBUTION": "distribuzione"
-    },
+    "metric_MEAN": "medio",
+    "metric_MIN": "min",
+    "metric_P25": "25°",
+    "metric_P50": "50°",
+    "metric_P75": "75°",
+    "metric_P90": "90°",
+    "metric_P95": "95°",
+    "metric_P98": "98°",
+    "metric_P99": "99°",
+    "metric_MAX": "max",
+    "metric_DISTINCT_COUNT": "conteggio distinto",
+    "metric_SUM": "somma",
+    "metric_DISTRIBUTION": "distribuzione",
 
     "formatterLabelNumber": "Numero, ad esempio {{example}}",
     "formatterLabelPercentage": "Percentuale, ad esempio {{example}}",
@@ -154,7 +148,7 @@
     "fieldsEntityAzureServiceSqldb": "Database SQL Azure",
     "fieldsEntityAzureServiceSqlelasticpool": "Pool elastico SQL Azure",
     "fieldsEntityAzureServiceSqlserver": "SQL Server Azure",
-    "fieldsEntityAzureServiceStorage": "Archiviazione azure",
+    "fieldsEntityAzureServiceStorage": "Storage azure",
     "fieldsEntityHost": "Host infrastruttura",
     "fieldsEntityHostOs": "Sistema operativo",
     "fieldsEntityIbmMq": "IBM MQ",
@@ -236,11 +230,11 @@
     "viewGroupingsNomad": "Nome attività Nomad",
 
     "viewGroupingsInfraZone": "Zona",
-    "viewGroupingsInstanceType": "tipo di istanza",
+    "viewGroupingsInstanceType": "Tipo di istanza",
 
     "viewGroupingsCpuCount": "Conteggio CPU",
     "viewGroupingsCpuModel": "Modello CPU",
     "viewGroupingsOsArc": "Architettura del sistema operativo",
-    "viewGroupingsOsName": "Nome sistema operativo"
+    "viewGroupingsOsName": "Nome del sistema operativo"
   }
 }

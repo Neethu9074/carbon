@@ -2,25 +2,13 @@
   "analyze": {
     "analyzeView": {
       "beacons": {
-        "perBeaconTypeConfigEventName": "Nombre de suceso",
-        "perBeaconTypeConfigWebsite": "Sitio web",
-        "perBeaconTypeConfigLabelTimestamp": "Indicación de fecha y hora",
         "perBeaconTypeConfigEventTooltip": "Este suceso se ha agrupado en lote y representa sucesos individuales de {{batchSize}}.",
-        "perBeaconTypeConfigErrorMessage": "Mensaje de error",
         "perBeaconTypeConfigErrorTooltip": "Este error se ha agrupado en lote y representa sucesos individuales de {{batchSize}}.",
-        "perBeaconTypeConfigAccess": "Acceso",
         "perBeaconTypeConfigHTTPRequestTooltip": "Esta solicitud HTTP se ha agrupado en un lote y representa solicitudes HTTP individuales de {{batchSize}}.",
-        "perBeaconTypeConfigPage": "Página",
         "perBeaconTypeConfigPageTransitionTooltip": "Esta solicitud HTTP se ha agrupado en un lote y representa solicitudes HTTP individuales de {{batchSize}}.",
-        "perBeaconTypeConfigPath": "Vía de acceso",
         "perBeaconTypeConfigPageLoadTooltip": "Esta carga de página se ha agrupado en un lote y representa cargas de páginas individuales de {{batchSize}}.",
-        "perBeaconTypeConfigURI": "URI",
         "perBeaconTypeConfigResourceRetrievalsTooltip": "Estas recuperaciones de recursos se han agrupado en lotes y representan recuperaciones de recursos individuales de {{batchSize}}."
       },
-      "metricsSelectorTitle": "Seleccionar métricas",
-      "metricsSelectorHelp": "Seleccione qué métricas deben estar disponibles como columnas en la tabla. También define qué métricas se pueden visualizar como gráficos.",
-      "noData": "No hay balizas disponibles para el rango de tiempo seleccionado. Para obtener información sobre la resolución de problemas, consulte [documentation][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
-      "emptyAnalyzeViewTitle": "Ningún {{entityName}} encontrado",
       "resourceTimingMetricsLabelRedirectTime": "Tiempo de redirección",
       "resourceTimingMetricsLabelAppCacheTime": "Tiempo de AppCache",
       "resourceTimingMetricsLabelDNSTime": "Tiempo de DNS",
@@ -112,8 +100,6 @@
       "quickFilterBarLabelSubdivision_2": "subdivisiones",
       "quickFilterBarLabelMeta": "Meta",
       "quickFilterBarLabelWindowWidth": "Ancho de ventana",
-      "websiteEditGroupDialogHelp": "Seleccione un código por el que se agruparán las balizas.",
-      "WebsiteGroupMetricsChartLabelCount": "Número",
       "beaconUserSummary": {
         "titleUserInformation": "Información de usuario",
         "titleBrowser": "Navegador",
@@ -227,7 +213,6 @@
         "pageLoadBeaconTitleFirstInputDelay": "Retardo de primera entrada",
         "pageLoadBeaconTitleCumulativeLayoutShift": "Desplazamiento de diseño acumulativo",
         "pageLoadBeaconTitleTimeToFirstByte": "Tiempo hasta primer byte",
-        "pageLoadBeaconTitleInitiator": "Iniciador",
         "pageLoadBeaconTitleWindowLocation": "Ubicación de ventana",
         "pageLoadBeaconTitleFirstPaint": "First Paint",
         "pageLoadBeaconTotalDurationNameRetrievalTime": "Tiempo de carga",
@@ -368,7 +353,6 @@
   },
   "websiteDashboard": {
     "components": {
-      "deprecationHeaderSupportEnds": "El soporte finaliza {{supportedUntil}}",
       "overlaysTooltipToogleHeatMap": "Conmutar mapa de uso crítico",
       "overlaysTooltipPanLeft": "Girar a la izquierda",
       "overlaysTooltipPanUp": "Girar hacia arriba",
@@ -412,7 +396,6 @@
         "graphqlOperationsTopListLabelLatency": "Latencia",
         "graphqlOperationsTopListLabelErrors": "Errores",
         "graphqlOperationsTopListTitle": "Nombres de operaciones GrapQL",
-        "graphqlOperationsTopListLinkLabel": "Ver todos los nombres de operaciones GraphQL",
         "locationsTopListLabelCalls": "Llamadas",
         "locationsTopListLabelLatency": "Latencia",
         "locationsTopListLabelErrors": "Errores",
@@ -484,12 +467,7 @@
         "alertsLabelName": "Nombre",
         "alertsLabelFilters": "Filtros",
         "alertsHeaderConfiguredAlerts": "Alertas configuradas",
-        "alertsNoDataMessage": "No hay ninguna alerta configurada.",
-        "alertsNumberOfFilters": "{{count}} filtro",
-        "alertsNumberOfFilters_plural": "{{count}} filtros",
-        "alertsNumberOfFilters_0": "{{count}} filtros",
-        "alertsNumberOfFilters_1": "{{count}} filtro",
-        "alertsNumberOfFilters_2": "{{count}} filtros"
+        "alertsNoDataMessage": "No hay ninguna alerta configurada."
       },
       "configuration": {
         "configurationRemoveTitle": "Eliminar sitio web",
@@ -568,7 +546,8 @@
         "pageTopListLabelOccurrences": "Apariciones",
         "pageTopListLabelUsers": "Usuarios",
         "browserTopListLabelOccurrences": "Apariciones",
-        "browserTopListLabelUsers": "Usuarios"
+        "browserTopListLabelUsers": "Usuarios",
+        "customEvents": "sucesos personalizados"
       },
       "errors": {
         "browserTopListLabelOccurrences": "Apariciones",

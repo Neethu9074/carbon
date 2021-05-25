@@ -22,10 +22,9 @@
   "analyzeProfiles": "プロファイルの分析",
   "settings": "設定",
   "threshold": "しきい値",
-  "onlyShowMethod": "メソッドのみ表示",
-  "aboveThisThreshold": "このしきい値より上",
-  "on": "オン",
-  "highlightSelfCpu": "自分の CPU を強調表示する",
+  "onlyShowMethodAboveThisThreshold": "このしきい値より上のメソッドのみを表示",
+  "on": "場所",
+  "highlightSelfCpu": "セルフ CPU を強調表示する",
   "onFlameGraphHighlightTimeSpentOnMethodsThemselves": "フレーム・グラフで、メソッド自体に費やされた時間を強調表示する",
   "cpuGraph": "CPU グラフ",
   "showCpuOverTime": "経時的に CPU を表示する",
@@ -45,5 +44,5 @@
   "numbersOfProfilesCollected_2": "収集された {{count}} 個のプロファイル",
   "profilesOfProcessDeepestTechSnapshot": "プロセス {{deepestTechSnapshot}} のプロファイル",
   "noEntityFound": "{{entityName}} が見つかりません",
-  "hotspots": "{{title}} 個のホット・スポット"
+  "hotspots": "{{title}} ホット・スポット"
 }

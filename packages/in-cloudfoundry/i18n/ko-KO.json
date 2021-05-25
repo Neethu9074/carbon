@@ -9,7 +9,6 @@
   "cfApplicationsWithCount_1": "CF 애플리케이션({{count}})",
   "cfApplicationsWithCount_2": "CF 애플리케이션({{count}})",
   "dashboards": {
-    "cfApplication": "CF 애플리케이션",
     "cloudFoundryApplication": "Cloud Foundry 애플리케이션",
     "name": "이름",
     "instanceIndex": "인스턴스 색인",
@@ -33,14 +32,13 @@
   "instances": "인스턴스",
   "memoryLimit": "메모리 한계",
   "foundation": "기반",
-  "organization": "조직 ",
+  "organization": "조직",
   "space": "영역",
   "routes": "라우트",
   "health": "상태",
   "cloudFoundryApplications": "Cloud Foundry 애플리케이션",
-  "cfApplications": "CF 애플리케이션",
   "noMonitoringDataFound": "모니터링 데이터를 찾을 수 없음",
   "cloudfoundry": {
-    "noData": "애플리케이션 퍼스펙티브에서 환경, 서비스 세트, 테넌트 또는 거의 모든 것을 모델링하는 수단을 제공합니다. "
+    "noData": "애플리케이션 퍼스펙티브에서 환경, 서비스 세트, 테넌트 또는 거의 모든 것을 모델링하는 수단을 제공합니다."
   }
 }

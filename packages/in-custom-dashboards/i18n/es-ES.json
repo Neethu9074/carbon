@@ -109,8 +109,8 @@
   "widgets": {
     "metricConfig": {
       "groupingConfig": {
-        "top": "{{number}} principales",
-        "bottom": "Los últimos {{number}}",
+        "top": "Primeros {{number}}",
+        "bottom": "Últimos {{number}}",
         "showRemainingGroupsAggregOther": "Mostrar grupos restantes agregados como \"Otros\""
       },
       "hiddenCalls": {
@@ -127,12 +127,6 @@
       },
       "index": {
         "applicationsTracesAndCalls": "Aplicaciones (rastreos y llamadas)"
-      },
-      "oldFormComponent": {
-        "metric": "Métrica",
-        "pleaseSelect": "Seleccione",
-        "aggregation": "Agregación",
-        "pleaseSelectMetric": "Seleccione una métrica"
       }
     },
     "srcEvent": {
@@ -165,12 +159,7 @@
       "metricsFormComponent": {
         "metric": "Métrica",
         "selectMetric": "Seleccionar métrica",
-        "aggregation": "Agregación",
-        "pleaseSelect": "Seleccione",
-        "pleaseSelectMetric": "Seleccione una métrica"
-      },
-      "metricsLoadIndicator": {
-        "loadingMetrics": "Cargando métricas..."
+        "aggregation": "Agregación"
       },
       "metrics": {
         "infrastructurePlatforms": "Infraestructura y plataformas",
@@ -191,14 +180,6 @@
       },
       "index": {
         "mobileAppsBeacon": "Aplicaciones móviles (Balizas)"
-      },
-      "oldFormComp": {
-        "beaconType": "Tipo de baliza",
-        "pleaseSelect": "Seleccione",
-        "pleaseSelectDs": "Seleccione un origen de datos",
-        "aggregation": "Agregación",
-        "pleaseSelectMetric": "Seleccione una métrica",
-        "metric": "Métrica"
       }
     },
     "srcSli": {
@@ -227,14 +208,6 @@
       },
       "index": {
         "websitesBeacons": "Sitios web (Balizas)"
-      },
-      "oldFormComp": {
-        "beaconType": "Tipo de baliza",
-        "pleaseSelect": "Seleccione",
-        "selectDs": "Seleccione un origen de datos",
-        "metric": "Métrica",
-        "aggregation": "Agregación",
-        "selectMetric": "Seleccione una métrica"
       }
     },
     "metricConfigurator": {
@@ -294,9 +267,7 @@
         "lightBlue": "Azul claro",
         "green": "Verde",
         "red": "Rojo",
-        "yellow": "Amarillo",
         "orange": "Naranja",
-        "blue": "Azul",
         "deepPurple": "Púrpura",
         "cyan": "Cián",
         "lime": "Lima",
@@ -432,7 +403,6 @@
         "sliCustomHelpAction": "Puede encontrar información sobre la personalización de SLI y los tipos de SLI en la documentación.",
         "sliTimeBasedOrAnEventBasedSli": "El tipo SLI debe ser un SLI basado en tiempo o basado en sucesos.",
         "pleaseSelect": "Seleccione",
-        "appPerspective": "Perspectiva de aplicación",
         "boundary": "Límite",
         "hiddenCalls": "Llamadas ocultas",
         "includeInternalCalls": "Incluir llamadas internas",
@@ -452,7 +422,7 @@
         "delete": "Suprimir"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "No tiene el permiso necesario <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> necesario para crear o editar los SLI.",
+        "configSrvLevelIndicatorsMsg": "No tiene el permiso necesario <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> necesario para crear o editar los SLI.",
         "sliList": "Lista de SLI",
         "createSli": "Crear SLI"
       },
