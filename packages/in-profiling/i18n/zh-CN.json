@@ -1,6 +1,6 @@
 {
   "noProfilesAreAvailableForTheSelectedTimeRange": "所选时间范围内没有可用概要文件。",
-  "process": "处理",
+  "process": "进程",
   "host": "主机",
   "reset": "重置",
   "cpu": "CPU",
@@ -22,8 +22,7 @@
   "analyzeProfiles": "分析概要文件",
   "settings": "设置",
   "threshold": "阈值",
-  "onlyShowMethod": "仅显示方法",
-  "aboveThisThreshold": "高于此阈值",
+  "onlyShowMethodAboveThisThreshold": "仅显示高于此阈值的方法",
   "on": "于",
   "highlightSelfCpu": "突出显示自 CPU",
   "onFlameGraphHighlightTimeSpentOnMethodsThemselves": "在火焰图上，突出显示方法本身所用的时间",

@@ -29,7 +29,7 @@
         "share": "共用",
         "shareMsg": "此自訂儀表板具有進階存取規則，但此對話框無法呈現這些規則。您可以使用「以 JSON 型式編輯」特性來編輯這些存取規則。",
         "privateDashboardDefault": "專用儀表板（預設值）",
-        "privateDashboardDefaultExplain": "此儀表板只有您看得見。",
+        "privateDashboardDefaultExplain": "只有您可看見此儀表板。",
         "publicDashboard": "公用儀表板",
         "publicDashboardExplain": "您組織中的每個人都可看見此儀表板。只有您能夠進行變更，但您可以新增編輯者。",
         "done": "完成"
@@ -54,7 +54,7 @@
         "back": "上一步"
       },
       "widgetPreview": {
-        "previewNotAvailWidgetConfigIncomplete": "預覽無法使用，因為小組件配置不完整。",
+        "previewNotAvailWidgetConfigIncomplete": "小組件配置不完整，因此無法使用預覽。",
         "highlightMissingConfig": "強調顯示遺漏的配置",
         "preview": "預覽",
         "customDashboardPreviewTitle": "自訂儀表板小組件預覽：{{title}}"
@@ -109,8 +109,8 @@
   "widgets": {
     "metricConfig": {
       "groupingConfig": {
-        "top": "前 {{number}} 名",
-        "bottom": "末 {{number}} 名",
+        "top": "前 {{number}}",
+        "bottom": "倒數 {{number}}",
         "showRemainingGroupsAggregOther": "顯示聚集成「其他」的其餘群組。"
       },
       "hiddenCalls": {
@@ -127,12 +127,6 @@
       },
       "index": {
         "applicationsTracesAndCalls": "應用程式（追蹤和呼叫）"
-      },
-      "oldFormComponent": {
-        "metric": "度量",
-        "pleaseSelect": "請選取",
-        "aggregation": "聚集",
-        "pleaseSelectMetric": "請選取度量"
       }
     },
     "srcEvent": {
@@ -165,12 +159,7 @@
       "metricsFormComponent": {
         "metric": "度量",
         "selectMetric": "選取度量",
-        "aggregation": "聚集",
-        "pleaseSelect": "請選取",
-        "pleaseSelectMetric": "請選取度量"
-      },
-      "metricsLoadIndicator": {
-        "loadingMetrics": "正在載入度量..."
+        "aggregation": "聚集"
       },
       "metrics": {
         "infrastructurePlatforms": "基礎架構和平台",
@@ -191,14 +180,6 @@
       },
       "index": {
         "mobileAppsBeacon": "行動式應用程式（引標）"
-      },
-      "oldFormComp": {
-        "beaconType": "引標類型",
-        "pleaseSelect": "請選取",
-        "pleaseSelectDs": "請選取資料來源",
-        "aggregation": "聚集",
-        "pleaseSelectMetric": "請選取度量",
-        "metric": "度量"
       }
     },
     "srcSli": {
@@ -227,14 +208,6 @@
       },
       "index": {
         "websitesBeacons": "網站（引標）"
-      },
-      "oldFormComp": {
-        "beaconType": "引標類型",
-        "pleaseSelect": "請選取",
-        "selectDs": "請選取資料來源",
-        "metric": "度量",
-        "aggregation": "聚集",
-        "selectMetric": "請選取度量"
       }
     },
     "metricConfigurator": {
@@ -294,9 +267,7 @@
         "lightBlue": "淺藍色",
         "green": "綠色",
         "red": "紅色",
-        "yellow": "黃色",
         "orange": "橙色",
-        "blue": "藍色",
         "deepPurple": "深紫色",
         "cyan": "青藍色",
         "lime": "萊姆色",
@@ -432,7 +403,6 @@
         "sliCustomHelpAction": "SLI 自訂作業和 SLI 類型的相關資訊可在我們的文件內找到。",
         "sliTimeBasedOrAnEventBasedSli": "SLI 類型必須是時間型或事件型 SLI。",
         "pleaseSelect": "請選取",
-        "appPerspective": "應用程式視景",
         "boundary": "界限",
         "hiddenCalls": "隱藏的呼叫",
         "includeInternalCalls": "包含內部呼叫",
@@ -452,7 +422,7 @@
         "delete": "刪除"
       },
       "sliManageList": {
-        "configSrvLevelIndicatorsMsg": "您沒有必要的 <i>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</i> 許可權來建立或編輯 SLI。",
+        "configSrvLevelIndicatorsMsg": "您沒有必要的 <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> 權限來建立或編輯 SLI。",
         "sliList": "SLI 清單",
         "createSli": "建立 SLI"
       },
@@ -577,7 +547,7 @@
   "newDashboardDialog": {
     "createNewDashboard": "建立新儀表板",
     "dashboardName": "儀表板名稱",
-    "additionalFields": "此儀表板將只有您看得見。在建立之後，您可以選擇分享給同事",
+    "additionalFields": "只有您可看見此儀表板。在建立之後，您可以選擇分享給同事",
     "create": "建立",
     "failedToCreateDashboard": "無法建立儀表板。"
   }

@@ -1,5 +1,4 @@
 {
-  "time": "Tiempo",
   "logs": "Registros",
   "sum": "suma",
   "bar": "Barra",
@@ -8,23 +7,9 @@
   "logsOverTime_WARN": "Registros de avisos a lo largo del tiempo",
   "logsOverTime_INFO": "Registros de información a lo largo del tiempo",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "La configuración de la consulta no es válida. Solucione las anomalías de validación antes de continuar.",
-  "log": "Registro",
   "selectTags": "Seleccionar códigos",
-  "addATag": "Añadir un código",
-  "download": "Descargar",
-  "analytics": "Analíticas",
-  "closeLogDetails": "Cerrar detalles del registro",
-  "detail": "Detalle",
-  "logTime": "Hora de registro",
-  "type": "Tipo",
-  "message": "Mensaje",
-  "tags": "Códigos",
   "goToTrace": "Ir a rastrear",
   "addAsFilter": "Añadir como filtro",
   "addAsGroup": "Añadir como grupo",
-  "logCount": "{{formattedCount}} registro",
-  "logCount_plural": "{{formattedCount}} registros",
-  "logCount_0": "{{formattedCount}} registros",
-  "logCount_1": "{{formattedCount}} registro",
-  "logCount_2": "{{formattedCount}} registros"
+  "numberOfLogs": "Número de registros"
 }

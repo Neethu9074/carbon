@@ -9,7 +9,6 @@
   "cfApplicationsWithCount_1": "CF 应用程序 ({{count}})",
   "cfApplicationsWithCount_2": "CF 应用程序 ({{count}})",
   "dashboards": {
-    "cfApplication": "CF 应用程序",
     "cloudFoundryApplication": "Cloud Foundry 应用程序",
     "name": "名称",
     "instanceIndex": "实例索引",
@@ -32,13 +31,12 @@
   "requestedState": "请求的状态",
   "instances": "实例数",
   "memoryLimit": "内存限制",
-  "foundation": "Foundation",
+  "foundation": "基础",
   "organization": "组织",
   "space": "空间",
   "routes": "路由",
   "health": "运行状况",
   "cloudFoundryApplications": "Cloud Foundry 应用程序",
-  "cfApplications": "CF 应用程序",
   "noMonitoringDataFound": "找不到监视数据",
   "cloudfoundry": {
     "noData": "应用程序透视图提供了对环境、服务集、租户或几乎所有内容进行建模的方法。"

@@ -34,7 +34,7 @@
       "pods": "Pods",
       "memoryUsage": "Utilisation de la mémoire",
       "cloudFoundryApplication": "Application Cloud Foundry",
-      "vSphereDatacenter": "vSphere Datacenter",
+      "vSphereDatacenter": "Centre de données vSphere",
       "clusterSubTitle": "Cluster {{clusterDistribution}}, {{count}} nœud, {{numberOfPods}}",
       "clusterSubTitle_plural": "Cluster {{clusterDistribution}}, {{count}} nœuds, {{numberOfPods}}",
       "clusterSubTitle_0": "Cluster {{clusterDistribution}}, {{count}} nœuds, {{numberOfPods}}",
@@ -42,8 +42,8 @@
       "clusterSubTitle_2": "Cluster {{clusterDistribution}}, {{count}} nœuds, {{numberOfPods}}",
       "numberOfPods": "{{count}} pod",
       "numberOfPods_plural": "{{count}} pods",
-      "numberOfPods_0": "{{count}} pods",
-      "numberOfPods_1": "{{count}} pods",
+      "numberOfPods_0": "{{count}} pod",
+      "numberOfPods_1": "{{count}} pod",
       "numberOfPods_2": "{{count}} pods"
     },
     "websiteMobileTopList": {
@@ -52,9 +52,9 @@
       "allWebsites": "Tous les sites Web",
       "allMobileApps": "Toutes les applications mobiles",
       "allWebsitesMobileApps": "Tous les sites Web et toutes les applications mobiles",
-      "pageViews": "Vues de pages",
+      "pageViews": "Vues de page",
       "sessions": "Sessions",
-      "onLoadTime": "Durée onLoad",
+      "onLoadTime": "Durée de chargement",
       "views": "Vues",
       "website": "Site Web",
       "mobileApp": "Application mobile"
@@ -86,7 +86,8 @@
       "cpuUsage": "Utilisation de l'UC",
       "created": "Créé",
       "started": "Démarré",
-      "os": "OS"
+      "os": "OS",
+      "mean": "moyenne"
     },
     "topListWidget": {
       "noLabelYet": "Pas de {{nolabel}} pour le moment"

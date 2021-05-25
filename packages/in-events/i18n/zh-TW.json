@@ -82,6 +82,7 @@
   "labelIssues": "問題",
   "labelMonitoringIssues": "監視問題",
   "labelAll": "全部",
+  "labelEvent": "event",
   "buttonViewCustomEvent": "檢視自訂事件",
   "buttonViewBuiltInEvent": "檢視內建事件",
   "buttonCollapse": "收合",

@@ -21,8 +21,8 @@
       "customMetricsLableCount": "数",
       "customMetricsLableValue": "値",
       "customMetricsLableMean": "平均",
-      "customMetricsLableP50": "50 番目",
-      "customMetricsLableP99": "99 番目",
+      "customMetricsLableP50": "50 パーセンタイル",
+      "customMetricsLableP99": "99 パーセンタイル",
       "customMetricsLableRate": "レート"
     },
     "table": {
@@ -37,7 +37,7 @@
         "classpathHide": "クラスパスの非表示",
         "classpathShow": "クラスパスの表示"
       },
-      "processStartedTitle": "開始時刻",
+      "processStartedTitle": "開始日時",
       "tags": "タグ ({{size}})"
   },
 

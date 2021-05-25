@@ -82,6 +82,7 @@
   "labelIssues": "Problemas",
   "labelMonitoringIssues": "Problemas de supervisión",
   "labelAll": "Todos",
+  "labelEvent": "suceso",
   "buttonViewCustomEvent": "Ver suceso personalizado",
   "buttonViewBuiltInEvent": "Ver suceso incorporado",
   "buttonCollapse": "Contraer",

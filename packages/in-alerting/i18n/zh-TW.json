@@ -19,9 +19,6 @@
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "您確定要移除<strong>「警示 {{alertConfigName}}」</strong>嗎？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
     "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警示配置的修訂 {{alertRevision}}。如果您想進行變更，請選取<latestRevisionButton>最新修訂<latestRevisionButton>。",
-    "alertHeaderThisConfigIsStoredWithQueryBuilder2Expressions": "此配置會隨「查詢建置器 2」表示式儲存。",
-    "alertHeaderYouCanOnlyStartOrPause": "在「查詢建置器 1」模式下，您只能啟動或暫停這些配置，但無法編輯它們",
-    "alertHistoryListTitle": "已建立的警示",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "已建立的警示 ({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "標題",
     "alertPropertyInfosLabelAlertLevel": "警示層次",
@@ -41,7 +38,25 @@
     },
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "您正在查看已刪除的警示配置。不可能修改。",
     "alertPropertyInfosWarning": "警告",
-    "alertPropertyInfosCritical": "重大"
+    "alertPropertyInfosCritical": "重大",
+    "customPayload": {
+      "deleteRow": "刪除列",
+      "key": "金鑰",
+      "value": "值",
+      "unknownTypeTypeItCanNotBeEdited": "不明類型：{{type}} - 無法編輯。",
+      "customWithColon": "自訂：",
+      "valueType": "值類型",
+      "static": "靜態",
+      "dynamic": "動態",
+      "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "列數限制為 {{maximumNumberOfRows}}。",
+      "addRow": "新增列",
+      "noCustomPayloadConfigured": "未配置自訂有效負載",
+      "keyNamesMustBeUnique": "索引鍵名稱必須是唯一的。",
+      "theValueMustNotBeBlank": "值不得空白。",
+      "onlyOrAnyAlphaNumericalAreAllowed": "只接受 '.'、'-'、'_' 或任何英數字元。",
+      "aTagNeedsToBeSelected": "需要選取標籤。",
+      "aKeyNeedsToBeSpecified": "需要指定索引鍵。"
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "錯誤呼叫率高於正常",
@@ -90,7 +105,7 @@
     "titleNoSmartAlertsCreated": "未建立任何智慧型警示",
     "titleCopyOf": "{{smartAlertTitle}}（的副本）",
     "applications": {
-      "newGlobalAlert": "廣域智慧型警示",
+      "alertConfiguration": "警示配置",
       "advanced": {
         "alertPropertyInsertPlaceholderLabel": "插入位置保留",
         "evaluationSwitch": {
@@ -130,12 +145,6 @@
               "overrideDefault": "此應用程式的預設範圍是「所有呼叫」。您可以在「配置」中變更此項。"
             }
           },
-          "constants": {
-            "inboundDashboard": "儀表板只會根據此應用程式的消費者所執行的呼叫來顯示資訊。",
-            "inboundOverrideDefault": "此應用程式的預設範圍只有「入埠呼叫」。您可以在「配置」中變更此項。",
-            "allDashboard": "儀表板會根據此應用程式內所執行的所有呼叫（包括消費者及內部的呼叫都是）來顯示資訊。",
-            "allOverrideDefault": "此應用程式的預設範圍是「所有呼叫」。您可以在「配置」中變更此項。"
-          },
           "confirmationDialog": {
             "pleaseConfirm": "請確認",
             "description": "如果修改界限範圍，將會重設應用程式選擇。",
@@ -173,6 +182,10 @@
           "propertiesOptional": {
             "label": "內容（選用）",
             "title": "其他警示內容（選用）"
+          },
+          "payloadsOptional": {
+            "label": "有效負載（選用）",
+            "title": "自訂有效負載（選用）"
           }
         }
       },
@@ -183,7 +196,7 @@
       "logMessages": {
         "messageColumn": "日誌訊息",
         "levelColumn": "記載層次",
-        "noDataMessage": "未配置警示。",
+        "noDataMessage": "找不到訊息。",
         "selectLogMessageText": "選取日誌訊息作為範本（選用）",
         "selectLogMessageTitle": "選取日誌訊息"
       },
@@ -313,44 +326,6 @@
         }
       },
       "form": {
-        "anyJSErrors": "任何 JS 錯誤",
-        "JSErrors": "JS 錯誤：{{errorMessage}}",
-        "HTTPStatusCodes": "HTTP 狀態碼：{{statusCode}}",
-        "unsupportedAlertType": "不受支援的警示類型：{{alertType}}",
-        "JSErrorsHaveBeenDetected": "偵測到 JS 錯誤。",
-        "unsupportedOperator": "不支援的運算子：{{operator}}",
-        "JSErrorTextEquals": "偵測到等於 \"{{ruleValue}}\" 的 JS 錯誤。",
-        "JSErrorTextContains": "偵測到包含 \"{{ruleValue}}\" 的 JS 錯誤。",
-        "JSErrorTextStartsWith": "偵測到開頭是 \"{{ruleValue}}\" 的 JS 錯誤。",
-        "JSErrorTextEndsWith": "偵測到結尾是 \"{{ruleValue}}\" 的 JS 錯誤。",
-        "slownessSimpleHighOperatorText": "載入時間 ({{aggregationText}}) 太高",
-        "slownessSimpleLowOperatorText": "載入時間 ({{aggregationText}}) 太低",
-        "throughputSimpleHighOperatorText": "{{metricLabel}} 數目異常高",
-        "throughputSimpleLowOperatorText": "{{metricLabel}} 數目異常低",
-        "statusCodeSimpleAboveOperatorText": "HTTP 狀態碼 {{statusCodeLabel}} 的出現次數高於預期。",
-        "statusCodeSimpleBelowOperatorText": "HTTP 狀態碼 {{statusCodeLabel}} 的出現次數低於預期。",
-        "slownessSimpleAboveOperatorText": "載入時間 ({{aggregationText}}) 高於預期。",
-        "slownessSimpleBelowOperatorText": "載入時間 ({{aggregationText}}) 低於預期。",
-        "slownessGreaterOperatorText": "載入時間 ({{aggregationText}}) 大於 {{thresholdValue}} 毫秒。",
-        "slownessGreaterEqualsOperatorText": "載入時間 ({{aggregationText}}) 大於或等於 {{thresholdValue}} 毫秒。",
-        "slownessLessOperatorText": "載入時間 ({{aggregationText}}) 小於 {{thresholdValue}} 毫秒。",
-        "slownessLessEqualsOperatorText": "載入時間 ({{aggregationText}}) 小於或等於 {{thresholdValue}} 毫秒。",
-        "staticThresholdHigherOperatorText": "{{metricLabel}} 數目大於 {{thresholdValue}}。",
-        "staticThresholdHigherEqualsOperatorText": "{{metricLabel}} 數目高於或等於 {{thresholdValue}}。",
-        "staticThresholdLowerOperatorText": "{{metricLabel}} 數目低於 {{thresholdValue}}。",
-        "staticThresholdLowerEqualsOperatorText": "{{metricLabel}} 數目低於或等於 {{thresholdValue}}。",
-        "thresholdHigherOperatorText": "{{metricLabel}} 數目高於預期。",
-        "thresholdHigherEqualsOperatorText": "{{metricLabel}} 數目高於或等於預期。",
-        "thresholdLowerOperatorText": "{{metricLabel}} 數目低於預期。",
-        "thresholdLowerEqualsOperatorText": "{{metricLabel}} 數目低於或等於預期。",
-        "errorPleaseProvideAnErrorMessage": "請提供錯誤訊息",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "請提供大於等於 0 的數字",
-        "errorBaselineIsEmpty": "基準線是空的",
-        "ruleJsErrorsOperatorOptionAny": "任何",
-        "ruleJsErrorsOperatorOptionEquals": "等於",
-        "ruleJsErrorsOperatorOptionContains": "包含",
-        "ruleJsErrorsOperatorOptionStartsWith": "開頭是",
-        "ruleJsErrorsOperatorOptionEndWith": "結尾是",
         "ruleStatusCodeValueOption1": "1XX（參考資訊）",
         "ruleStatusCodeValueOption100": "100（繼續）",
         "ruleStatusCodeValueOption101": "101（切換通訊協定）",
@@ -422,13 +397,6 @@
         "ruleStatusCodeValueOption511": "511（需要網路鑑別）",
         "ruleStatusCodeValueOption599": "599（網路連接逾時錯誤）",
         "ruleStatusCodeValueOptionCustom": "自訂範圍",
-        "ruleMetricNameOptionSpecificJsErrorErrors": "錯誤計數",
-        "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "錯誤率",
-        "ruleMetricNameOptionStatusCodeHttpxxx": "狀態碼計數",
-        "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "狀態碼比率",
-        "ruleMetricNameOptionSlownessOnLoadTime": "載入時間",
-        "ruleMetricNameOptionThroughputPageLoads": "頁面載入",
-        "ruleMetricNameOptionThroughputPageTransitions": "頁面轉移",
         "ruleFormErrorStatusCodeStartGTEnd": "請選取一個結束 HTTP 狀態碼，且其大於或等於開始 HTTP 狀態碼",
         "ruleFormPleaseProvideALogMessage": "請提供日誌訊息",
         "ruleFormPleaseProvideAStartStatusCode": "請提供一個開始 HTTP 狀態碼",
@@ -458,18 +426,19 @@
         "labelGlobalSmartAlertsList": "廣域智慧型警示 ({{numberOfAlerts}})",
         "labelSmartAlertsList": "應用程式智慧型警示 ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
-        "labelName": "名稱",
         "labelActionButtonEdit": "編輯",
         "labelActionButtonDuplicate": "複製",
-        "labelActionButtonDelete": "Delete",
-        "noAlertConfigured": "未配置警示。",
-        "alertEntityName": "警示 \"{{entityName}}\"",
+        "labelActionButtonDelete": "刪除",
         "labelAlertFilters": "過濾器",
         "labelConfirm": "請確認",
         "labelConfirmRemoveConfig": "您確定要移除配置 <strong>{{configName}}</strong> 嗎？",
         "labelRemove": "移除",
         "numberOfApplicationsSelected": "已選取 {{count}} 個應用程式",
         "numberOfApplicationsSelected_plural": "已選取 {{count}} 個應用程式"
+      },
+      "details": {
+        "title": "警示詳細資料",
+        "titleAlertProperties": "警示內容"
       }
     },
     "form": {
@@ -490,7 +459,7 @@
       "smartAlertDialog": {
         "sharedListTooltip": "選取的 {{typeName}} 再也無法使用",
         "clearTagFilterExpressionButton": "清除",
-        "baselineErrorMessageInsufficientDataToCompute": "資料不足而無法計算選取的基準線。請改為選取<i>靜態臨界值</i>。",
+        "baselineErrorMessageInsufficientDataToCompute": "資料不足而無法計算選取的基準線。請改為選取<em>靜態臨界值</em>。",
         "baselineErrorMessageReason": "原因：",
         "blueprintDescriptionButtonSelect": "選取",
         "selectAlertChannelButtonTitle": "選取警示通道",
@@ -541,7 +510,6 @@
         "timeThresholdConfigOff": "關閉",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "請提供大於等於 1 的數字",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "請提供 1% 到 100% 之間的數字",
-        "alertPropertiesInsertPlaceholderTooltip": "插入位置保留",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "當條件持續存在超過指定的時間量時",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "每當條件在定義的時間範圍內觸發次數達到指定的次數時",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "當有特定的使用者數量受到影響時",
@@ -571,16 +539,13 @@
         "thresholdTypeOptionHistoricBaselineDaily": "基準線（每日季節性）",
         "thresholdTypeOptionHistoricBaselineWeekly": "基準線（每週季節性）",
         "useSuggestedvalue": "使用建議值",
-        "alertConfigDialogPresenterTitleEditAlertLocal": "編輯智慧型警示",
-        "alertConfigDialogPresenterTitleEditAlertGlobal": "編輯廣域智慧型警示",
-        "alertConfigDialogPresenterTitleCreateNewAlertLocal": "建立新的智慧型警示",
-        "alertConfigDialogPresenterTitleCreateNewAlertGlobal": "建立新的廣域智慧型警示",
+        "alertConfigDialogPresenterTitleEditAlert_Local": "編輯智慧型警示",
+        "alertConfigDialogPresenterTitleEditAlert_Global": "編輯廣域智慧型警示",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "建立新的智慧型警示",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "建立新的廣域智慧型警示",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "切換至進階模式",
-        "alertConfigDialogPresenterButtonSwitchToSimpleMode": "切換至簡式模式",
         "simpleAlertConfigDialogStep3Headline": "誰應該取得警示？",
         "Loading": "載入中...",
-        "LoadingServices": "正在載入服務...",
-        "NoServiceInScope": "範圍中沒有服務",
         "PreviewForAP": "應用程式視景預覽：",
         "PreviewForEndpoint": "端點的預覽：",
         "PreviewForService": "服務的預覽："
@@ -648,15 +613,12 @@
         "alertChannelsTitle": "警示通道：誰需要收到警示？",
         "propertiesLabel": "內容（選用）",
         "propertiesTitle": "其他警示內容（選用）",
-        "thresholdValue": "臨界值"
-      },
-      "alertConfigDialogWithThreshold": {
-        "alertText": "這是新特性。",
-        "alertLabelText": "新建"
+        "thresholdValue": "臨界值",
+        "payloadsLabel": "有效負載（選用）",
+        "payloadsTitle": "自訂有效負載（選用）"
       },
       "components": {
         "provideStatusCodeStatusCode": "狀態碼",
-        "tagSuggestions": "未定義警示類型 {{alertType}} 的標籤建議",
         "errorMessage": "錯誤訊息",
         "noDataMessage": "未配置警示。",
         "selectJSErrorHelpText": "選取 JS 錯誤訊息作為範本（選用）",

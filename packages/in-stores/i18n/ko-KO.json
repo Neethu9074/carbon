@@ -1,8 +1,4 @@
 {
-  "storeStoreExists": "{{storeSpecName}} 저장소가 이미 있음",
-  "storeObservableMustBeProvided": "관찰 가능을 제공해야 함",
-  "storeUnsupportedActionType": "지원되지 않는 조치 유형 {{storeActionType}}입니다. 감속기 지정하는 것을 잊으셨습니까?",
-
   "permissionAccessWebsitesLabel": "웹 사이트",
   "permissionAccessMobileAppsLabel": "모바일 앱",
   "permissionAccessApplicationsLabel": "애플리케이션",
@@ -92,21 +88,19 @@
   "permissionRestrictedHelp": "역할 기반 액세스 제어를 사용으로 설정합니다.",
 
   "metric": {
-    "metric": {
-      "MEAN": "평균",
-      "MIN": "최소",
-      "P25": "25번째",
-      "P50": "50번째",
-      "P75": "75번째",
-      "P90": "90번째",
-      "P95": "95번째",
-      "P98": "98번째",
-      "P99": "99번째",
-      "MAX": "최대",
-      "DISTINCT_COUNT": "고유 개수",
-      "SUM": "합계",
-      "DISTRIBUTION": "분포"
-    },
+    "metric_MEAN": "평균",
+    "metric_MIN": "최소",
+    "metric_P25": "25번째",
+    "metric_P50": "50번째",
+    "metric_P75": "75번째",
+    "metric_P90": "90번째",
+    "metric_P95": "95번째",
+    "metric_P98": "98번째",
+    "metric_P99": "99번째",
+    "metric_MAX": "최대",
+    "metric_DISTINCT_COUNT": "고유 개수",
+    "metric_SUM": "합계",
+    "metric_DISTRIBUTION": "분포",
 
     "formatterLabelNumber": "숫자(예: {{example}})",
     "formatterLabelPercentage": "백분율(예: {{example}})",

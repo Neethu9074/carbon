@@ -37,7 +37,7 @@
         "classpathHide": "Nascondi Classpath",
         "classpathShow": "Mostra Classpath"
       },
-      "processStartedTitle": "Avviato alle",
+      "processStartedTitle": "Avviato il",
       "tags": "Tag ({{size}})"
   },
 
@@ -46,7 +46,7 @@
   },
 
   "snapshot": {
-    "registryHealth": "Condizione",
+    "registryHealth": "Integrità",
 
     "runtimeLabelNet": ".NET Core",
     "runtimeLabelGo": "Go",

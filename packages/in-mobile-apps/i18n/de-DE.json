@@ -1,15 +1,11 @@
 {
   "tags": {
     "sessionStart": "Sitzungsstart",
-    "viewChange": "Übergang anzeigen",
+    "viewChange": "Anzeigewechsel ",
     "httpRequest": "HTTP-Anforderung",
     "custom": "Angepasstes Ereignis"
   },
   "analyzeView": {
-    "noData": "Für den ausgewählten Zeitraum sind keine Beacons verfügbar. Informationen zur Fehlerbehebung finden Sie in [documentation][Docs].\n\n[Docs]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
-    "MetricSelectorTitle": "Messdaten auswählen",
-    "MetricSelectorHelp": "Wählen Sie aus, welche Messdaten als Spalten in der Tabelle verfügbar sein sollten. Hier wird auch definiert, welche Messdaten als Diagramme angezeigt werden können.",
-    "EntityPageMainNotificationTitle": "Kein(e) {{entityName}} gefunden",
     "uniqueUsers": "Eindeutige Benutzer",
     "metrics": {
       "timestampMetricName": "Zeitmarke",
@@ -17,9 +13,9 @@
       "groupCountMetricName": "Anzahl"
     },
     "resourceSizeMetrics": {
-      "encodedBodySizeLabel": "Größe des verschlüsselten Nachrichtentexts",
+      "encodedBodySizeLabel": "Größe des codierten Nachrichtentexts",
       "encodedBodySizeCategory": "Ressourcendimensionierung",
-      "decodedBodySizeLabel": "Größe des entschlüsselten Nachrichtentexts",
+      "decodedBodySizeLabel": "Größe des decodierten Nachrichtentexts",
       "decodedBodySizeCategory": "Ressourcendimensionierung",
       "transferSizeLabel": "Übertragungsvolumen",
       "transferSizeCategory": "Ressourcendimensionierung"
@@ -29,8 +25,8 @@
       "rawDataLabel": "Fehleranzahl"
     },
     "availableMetrics": {
-      "sessionStartBeaconCountLabel": "Sitzungsstart",
-      "viewChangeBeaconCountLabel": "Übergänge anzeigen",
+      "sessionStartBeaconCountLabel": "Sitzungsstarts",
+      "viewChangeBeaconCountLabel": "Anzeigewechsel ",
       "httpRequestBeaconCountLabel": "Aufrufe",
       "httpRequestBeaconErrorCountLabel": "Fehlerhafte Aufrufe",
       "httpRequestBeaconDurationLabel": "Abrufzeit",
@@ -54,12 +50,6 @@
       "httpRequestHttpDeleteRawDataLabel": "HTTP-Methode",
       "customBeaconCountLabel": "Vorkommen",
       "customBeaconDurationLabel": "Dauer"
-    },
-    "editGroupDialog": {
-      "help": "Wählen Sie einen Tag aus, nach dem Ihre Beacons gruppiert werden sollen."
-    },
-    "groupMetricsChart": {
-      "countChartDefinitionLabel": "Anzahl"
     },
     "quickFilterBar": {
       "mobileAppLabel": "Mobile App",
@@ -105,29 +95,8 @@
       "metaLabel": "Meta"
     },
     "perBeaconTypeConfigs": {
-      "customTH1": "Ereignisname",
-      "customTH2": "Mobile App",
-      "customTimestampLabel": "Zeitmarke",
       "customBatchingIndicatorTooltipContent": "Dieses Ereignis wurde gebündelt und stellt {{size}} einzelne Ereignisse dar.",
-      "customListItemHeader": "Ereignisname",
-      "httpRequestTH1": "Zugriff",
-      "httpRequestTH2": "Mobile App",
-      "httpRequestTimestampLabel": "Zeitmarke",
-      "httpRequestBatchingIndicatorTooltipContent": "Diese HTTP-Anforderung wurde gebündelt und stellt {{size}} einzelne HTTP-Anforderungen dar.",
-      "httpRequestListItemHeader": "Zugriff",
-      "sessionStartTH1": "Sitzungs-ID",
-      "sessionStartTH2": "Mobile App",
-      "sessionStartTimestampLabel": "Zeitmarke",
-      "sessionStartListItemHeader": "Sitzungs-ID",
-      "viewChangeTH1": "Anzeigename",
-      "viewChangeTH2": "Mobile App",
-      "viewChangeTimestampLabel": "Zeitmarke",
-      "viewChangeListItemHeader": "Anzeigename"
-    },
-    "groupedBeaconsTable": {
-      "groupLabel": "Gruppe",
-      "countLabel": "Anzahl",
-      "timestampLabel": "Älteste Zeitmarke"
+      "httpRequestBatchingIndicatorTooltipContent": "Diese HTTP-Anforderung wurde gebündelt und stellt {{size}} einzelne HTTP-Anforderungen dar."
     }
   },
   "beaconUserSum": {
@@ -143,10 +112,10 @@
     "carrierTitle": "Träger",
     "connectionTypeTitle": "Verbindungstyp",
     "effectiveConnectionTypeTitle": "Effektiver Verbindungstyp",
-    "userLocationTitle": "Benutzerposition",
+    "userLocationTitle": "Benutzerstandort",
     "noGeoAvailableExplain": "Die Geoortung konnte nicht über die IP-Adresse ermittelt werden.",
     "metaTitle": "Meta",
-    "notDefinedExplain": "Keine Metadaten definiert. Metadaten können zum Transportieren von Informationen über die Implementierung oder zum Transportieren von Einstellungen verwendet werden. Metadaten sind als Filter und Gruppierung innerhalb des Analysebereichs verfügbar.",
+    "notDefinedExplain": "Keine Metadaten definiert. Metadaten können zum Transportieren von Informationen über die Implementierung oder zum Transportieren von Einstellungen verwendet werden. Metadaten sind als Filter und Gruppierung innerhalb des Produktbereichs Analyse verfügbar.",
     "learnMoreLabel": "Erfahren Sie, wie Metadaten hinzugefügt werden",
     "noUserData": "Keine Benutzerdaten definiert",
     "noUserDataGuide": "Erfahren Sie, wie Benutzerdaten hinzugefügt werden",
@@ -184,7 +153,7 @@
       "sesLong": "Sitzungsstart",
       "traShort": "Wechsel",
       "traBadgeLabel": "Wechsel",
-      "traLong": "Übergänge anzeigen",
+      "traLong": "Anzeigewechsel ",
       "cusShort": "Angep.",
       "cusBadgeLabel": "Angep.",
       "cusLong": "Angepasste Ereignisse"
@@ -245,15 +214,15 @@
       "metaHeader": "Meta",
       "networkInsightsHeader": "Netzeinblicke",
       "transferSizeTitle": "Übertragungsvolumen",
-      "encodedBodySizeTitle": "Größe des verschlüsselten Nachrichtentexts",
-      "decodedBodySizeTitle": "Größe des entschlüsselten Nachrichtentexts"
+      "encodedBodySizeTitle": "Größe des codierten Nachrichtentexts",
+      "decodedBodySizeTitle": "Größe des decodierten Nachrichtentexts"
     },
     "tabsSumSessionStartBeacon": {
       "sessionStartLabel": "Sitzungsstart",
       "metaHeader": "Meta"
     },
     "tabsSumViewChangeBeacon": {
-      "viewTransitionLabel": "Übergang anzeigen",
+      "viewTransitionLabel": "Anzeigewechsel ",
       "startTimeLabel": "Startzeit"
     }
   },
@@ -265,7 +234,7 @@
     "mobileAppTitle": "Ansicht",
     "analyzeSessions": "Sitzungen analysieren",
     "analyzeViewTransitions": "Anzeigewechsel analysieren",
-    "numSessionStarts": "{{num}} Sitzung wird gestartet",
+    "numSessionStarts": "{{num}} Sitzungstarts",
     "tabs": {
       "summaryLabel": "Zusammenfassung",
       "httpRequestLabel": "HTTP-Anforderungen",
@@ -299,8 +268,8 @@
       "callsCardTitle": "Aufrufe",
       "callsLabel": "Aufrufe",
       "erroneousCallsLabel": "Fehlerhafte Aufrufe",
-      "erroneousCallRateTitle": "Quote für fehlerhafte Aufrufe",
-      "erroneousCallRateLabel": "Quote für fehlerhafte Aufrufe",
+      "erroneousCallRateTitle": "Rate fehlerhafter Aufrufe",
+      "erroneousCallRateLabel": "Rate fehlerhafter Aufrufe",
       "latencyCardTitle": "Latenzzeit",
       "50thLabel": "50.",
       "90thLabel": "90.",
@@ -325,10 +294,10 @@
       "viewAllOriginsLink": "Alle Ursprünge anzeigen",
       "sessionStartsTitle": "Sitzungsstarts",
       "viewInAnalyzeIconAction": "In Analyse anzeigen",
-      "viewTransitionsTitle": "Übergänge anzeigen",
+      "viewTransitionsTitle": "Anzeigewechsel ",
       "activityCardTitle": "Aktivität",
       "sessionStartsLabel": "Sitzungsstarts",
-      "viewTransitionsLabel": "Übergänge anzeigen",
+      "viewTransitionsLabel": "Anzeigewechsel ",
       "geographyTitle": "Geographie",
       "topViewsTitle": "Wichtigste Ansichten",
       "globViewFootertext": "Abbildungen von NASA bereitgestellt"
@@ -337,7 +306,7 @@
   "appsList": {
     "nameLabel": "Name",
     "sessionStartsLabel": "Sitzungsstarts",
-    "viewTransitionsLabel": "Übergänge anzeigen",
+    "viewTransitionsLabel": "Anzeigewechsel ",
     "addMobileAppBtn": "Mobile App hinzufügen",
     "mobileAppsTitle": "Mobile Apps",
     "mobileAppProductArea": "EUM: Mobile Apps",
@@ -350,11 +319,11 @@
     "addMobileAppBtn": "Mobile App hinzufügen",
     "newMobileAppTitle": "Neue mobile App",
     "everythingIsReadyTitle": "Alles ist bereit!",
-    "everythingIsReadyMsg": "Für die Überwachung Ihrer mobilen App <strong>{{mobileAppName}}</strong> ist alles bereit. <linkToInstallation>Fügen Sie den Agenten zu Ihrer mobilen App hinzu,</linkToInstallation> um reale Benutzer zu überwachen oder zum Dashboard zu wechseln.",
+    "everythingIsReadyMsg": "Für die Überwachung Ihrer mobilen App <strong>{{mobileAppName}}</strong> ist alles bereit. <linkToInstallation>Fügen Sie den Agenten zu Ihrer mobilen App hinzu,</linkToInstallation> um reale Benutzer zu überwachen oder wechseln Sie zum Dashboard.",
     "keyLabel": "Schlüssel",
     "reportingURLLabel": "Berichts-URL",
     "installationInstructionsBtn": "Installationsanweisungen",
-    "GoToMobileAppDashboardBtn": "Wechseln Sie zum Dashboard für mobile Apps",
+    "GoToMobileAppDashboardBtn": "Zu Dashboard für mobile Apps wechseln",
     "workingTitle": "Vorgang wird ausgeführt…",
     "workingMsg": "Wir bereiten alles für die Überwachung Ihrer mobilen App <strong>{{mobileAppName}}</strong> vor. Fügen Sie währenddessen <linkToInstallation>den Agenten zu Ihrer mobilen App hinzu</linkToInstallation>.",
     "enablingMonitoringBtn": "Überwachung wird aktiviert…"
@@ -371,11 +340,11 @@
   "dataSource_sessionStart_0": "{{formattedCount}} Sitzungsstarts",
   "dataSource_sessionStart_1": "{{formattedCount}} Sitzungsstarts",
   "dataSource_sessionStart_2": "{{formattedCount}} Sitzungsstarts",
-  "dataSource_viewChange": "{{formattedCount}} Übergang anzeigen",
-  "dataSource_viewChange_plural": "{{formattedCount}} Übergänge anzeigen",
-  "dataSource_viewChange_0": "{{formattedCount}} Übergänge anzeigen",
-  "dataSource_viewChange_1": "{{formattedCount}} Übergänge anzeigen",
-  "dataSource_viewChange_2": "{{formattedCount}} Übergänge anzeigen",
+  "dataSource_viewChange": "{{formattedCount}} Anzeigewechsel ",
+  "dataSource_viewChange_plural": "{{formattedCount}} Anzeigewechsel ",
+  "dataSource_viewChange_0": "{{formattedCount}} Anzeigewechsel ",
+  "dataSource_viewChange_1": "{{formattedCount}} Anzeigewechsel ",
+  "dataSource_viewChange_2": "{{formattedCount}} Anzeigewechsel ",
   "dataSource_httpRequest": "{{formattedCount}} HTTP-Anforderung",
   "dataSource_httpRequest_plural": "{{formattedCount}} HTTP-Anforderungen",
   "dataSource_httpRequest_0": "{{formattedCount}} HTTP-Anforderungen",

@@ -4,17 +4,17 @@
       "accountSettings": "Paramètres du compte",
       "billingAddress": "Adresse de facturation",
       "shippingAddress": "Adresse d'expédition",
-      "country": "Pays",
-      "state": "État",
-      "zip": "Code postal",
-      "city": "Ville",
-      "address": "Adresse",
-      "additionalAddress": "Adresse supplémentaire",
+      "country": "Pays ",
+      "state": "État ",
+      "zip": "Code postal ",
+      "city": "Ville ",
+      "address": "Adresse ",
+      "additionalAddress": "Adresse complémentaire ",
       "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "Si les informations contenues dans cette page doivent être corrigées, veuillez contacter <linkToMail>{{salesopsEmail}}</linkToMail>"
     },
     "activeLicenses": {
       "name": "Nom",
-      "tenant": "Titulaire",
+      "tenant": "Locataire",
       "type": "Type",
       "licenseStartData": "Données de début de licence",
       "licenseEndData": "Données de fin de licence",
@@ -38,8 +38,8 @@
       "average": "Moyenne"
     },
     "timePresets": {
-      "last7Days": "Les 7 derniers jours",
-      "last30Days": "Les 30 derniers jours",
+      "last7Days": "7 derniers jours",
+      "last30Days": "30 derniers jours",
       "last365Days": "365 derniers jours"
     },
     "usages": {

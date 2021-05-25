@@ -2,5 +2,5 @@
   "entityFormSaving": "Enregistrement...",
   "entityFormLoading": "Chargement...",
   "entityFormFailedToLoadData": "Échec du chargement de données.",
-  "entityFormFailedToSave": "Échec de la sauvegarde : {{SaveFailureMessage}}"
+  "entityFormFailedToSave": "Échec de l'enregistrement : {{SaveFailureMessage}}"
 }

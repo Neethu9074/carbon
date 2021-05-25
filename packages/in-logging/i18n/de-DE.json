@@ -1,5 +1,4 @@
 {
-  "time": "Zeit",
   "logs": "Protokolle",
   "sum": "Summe",
   "bar": "Leiste",
@@ -8,23 +7,9 @@
   "logsOverTime_WARN": "Warnprotokolle im Laufe der Zeit",
   "logsOverTime_INFO": "Informationsprotokolle im Laufe der Zeit",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "Die Abfragekonfiguration ist ungültig. Beheben Sie die Gültigkeitsfehler, bevor Sie fortfahren.",
-  "log": "Protokoll",
   "selectTags": "Tags auswählen",
-  "addATag": "Tag hinzufügen",
-  "download": "Herunterladen",
-  "analytics": "Analyse",
-  "closeLogDetails": "Protokolldetails schließen",
-  "detail": "Details",
-  "logTime": "Protokollzeit",
-  "type": "Typ",
-  "message": "Nachricht",
-  "tags": "Tags",
-  "goToTrace": "Zum Trace wechseln",
+  "goToTrace": "Zu Trace wechseln",
   "addAsFilter": "Als Filter hinzufügen",
   "addAsGroup": "Als Gruppe hinzufügen",
-  "logCount": "{{formattedCount}} Protokoll",
-  "logCount_plural": "{{formattedCount}} Protokolle",
-  "logCount_0": "{{formattedCount}} Protokolle",
-  "logCount_1": "{{formattedCount}} Protokoll",
-  "logCount_2": "{{formattedCount}} Protokolle"
+  "numberOfLogs": "Anzahl der Protokolle"
 }

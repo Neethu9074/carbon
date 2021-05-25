@@ -19,10 +19,7 @@
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "<strong>「アラート {{alertConfigName}}」</strong>を削除しますか?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "削除",
     "alertHeaderIsNotLatestRevisionMessage": "このアラート構成の改訂 {{alertRevision}} を表示しています。 変更する場合は、<latestRevisionButton>「最新の改訂」<latestRevisionButton>を選択してください。",
-    "alertHeaderThisConfigIsStoredWithQueryBuilder2Expressions": "この構成は、クエリー・ビルダー 2 の式で保管されます。",
-    "alertHeaderYouCanOnlyStartOrPause": "クエリー・ビルダー 1 モードでは、これらの構成の開始または一時停止のみが可能です。編集することはできません。",
-    "alertHistoryListTitle": "作成されたアラート",
-    "alertHistoryListTitleWithTotalRepresentedItemCount": "作成されたアラート ({{totalRepresentedItemCount}})",
+    "alertHistoryListTitleWithTotalRepresentedItemCount": "作成済みのアラート ({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "タイトル",
     "alertPropertyInfosLabelAlertLevel": "アラート・レベル",
     "alertPropertyInfosLabelTriggersIncident": "インシデントのトリガー",
@@ -41,7 +38,25 @@
     },
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "削除されたアラート構成を表示しています。 変更はできません。",
     "alertPropertyInfosWarning": "警告",
-    "alertPropertyInfosCritical": "クリティカル"
+    "alertPropertyInfosCritical": "クリティカル",
+    "customPayload": {
+      "deleteRow": "行の削除",
+      "key": "キー",
+      "value": "値",
+      "unknownTypeTypeItCanNotBeEdited": "タイプ {{type}} は不明なため、編集できません。",
+      "customWithColon": "カスタム:",
+      "valueType": "値のタイプ",
+      "static": "静的",
+      "dynamic": "動的",
+      "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "行の数は {{maximumNumberOfRows}} 個に制限されています。",
+      "addRow": "行の追加",
+      "noCustomPayloadConfigured": "カスタム・ペイロードが構成されていません",
+      "keyNamesMustBeUnique": "キー名は固有でなければなりません。",
+      "theValueMustNotBeBlank": "値をブランクにすることはできません。",
+      "onlyOrAnyAlphaNumericalAreAllowed": "「.」、「-」、「_」、または英数字のみを使用できます。",
+      "aTagNeedsToBeSelected": "タグを選択する必要があります。",
+      "aKeyNeedsToBeSpecified": "キーを指定する必要があります。"
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "エラーのある呼び出し率が通常より高い",
@@ -90,7 +105,7 @@
     "titleNoSmartAlertsCreated": "スマート・アラートが作成されていません",
     "titleCopyOf": "{{smartAlertTitle}} (のコピー)",
     "applications": {
-      "newGlobalAlert": "グローバル・スマート・アラート",
+      "alertConfiguration": "アラートの構成",
       "advanced": {
         "alertPropertyInsertPlaceholderLabel": "プレースホルダーの挿入",
         "evaluationSwitch": {
@@ -130,12 +145,6 @@
               "overrideDefault": "このアプリケーションのデフォルトのスコープは「すべての呼び出し」です。 これは「構成」で変更できます。"
             }
           },
-          "constants": {
-            "inboundDashboard": "ダッシュボードには、このアプリケーションのコンシューマーによって実行された呼び出しのみに基づいて情報が表示されます。",
-            "inboundOverrideDefault": "このアプリケーションのデフォルトのスコープは「インバウンド呼び出し」のみです。 これは「構成」で変更できます。",
-            "allDashboard": "ダッシュボードには、このアプリケーション内で実行されたすべての呼び出し (コンシューマーと内部の両方) に基づいて情報が表示されます。",
-            "allOverrideDefault": "このアプリケーションのデフォルトのスコープは「すべての呼び出し」です。 これは「構成」で変更できます。"
-          },
           "confirmationDialog": {
             "pleaseConfirm": "ご確認ください",
             "description": "バウンダリー・スコープを変更すると、アプリケーションの選択がリセットされます。",
@@ -144,12 +153,12 @@
         },
         "includeInternalOrSynthethicCalls": {
           "includeInternalCalls": "内部呼び出しを含める",
-          "includeSyntethicCalls": "合成呼び出しを含める"
+          "includeSyntethicCalls": "シンセティック呼び出しを含める"
         },
         "includeInternalOrSyntheticCallsInfo": {
           "includeOnlyInternal": "内部呼び出しを含める",
-          "includeInternalAndSynthetic": "内部呼び出しと合成呼び出しを含める",
-          "includeOnlySynthetic": "合成呼び出しを含める"
+          "includeInternalAndSynthetic": "内部呼び出しとシンセティック呼び出しを含める",
+          "includeOnlySynthetic": "シンセティック呼び出しを含める"
         },
         "advancedModeContainer": {
           "scope": {
@@ -173,6 +182,10 @@
           "propertiesOptional": {
             "label": "プロパティー (オプション)",
             "title": "追加のアラート・プロパティー (オプション)"
+          },
+          "payloadsOptional": {
+            "label": "ペイロード (オプション)",
+            "title": "カスタム・ペイロード (オプション)"
           }
         }
       },
@@ -183,7 +196,7 @@
       "logMessages": {
         "messageColumn": "ログ・メッセージ",
         "levelColumn": "ログ・レベル",
-        "noDataMessage": "アラートが構成されていません。",
+        "noDataMessage": "メッセージが見つかりません。",
         "selectLogMessageText": "ログ・メッセージをテンプレートとして選択します (オプション)",
         "selectLogMessageTitle": "ログ・メッセージの選択"
       },
@@ -313,44 +326,6 @@
         }
       },
       "form": {
-        "anyJSErrors": "すべての JS エラー",
-        "JSErrors": "JS エラー: {{errorMessage}}",
-        "HTTPStatusCodes": "HTTP 状況コード: {{statusCode}}",
-        "unsupportedAlertType": "サポートされないアラート・タイプ: {{alertType}}",
-        "JSErrorsHaveBeenDetected": "JS エラーが検出されました。",
-        "unsupportedOperator": "サポートされない演算子: {{operator}}",
-        "JSErrorTextEquals": "「{{ruleValue}}」と等しい JS エラーが検出されました。",
-        "JSErrorTextContains": "「{{ruleValue}}」を含む JS エラーが検出されました。",
-        "JSErrorTextStartsWith": "「{{ruleValue}}」で始まる JS エラーが検出されました。",
-        "JSErrorTextEndsWith": "「{{ruleValue}}」で終わる JS エラーが検出されました。",
-        "slownessSimpleHighOperatorText": "onLoad 時間 ({{aggregationText}}) が大きすぎます",
-        "slownessSimpleLowOperatorText": "onLoad 時間 ({{aggregationText}}) が小さすぎます",
-        "throughputSimpleHighOperatorText": "{{metricLabel}} の数が異常に多くなっています",
-        "throughputSimpleLowOperatorText": "{{metricLabel}} の数が異常に少なくなっています",
-        "statusCodeSimpleAboveOperatorText": "HTTP 状況コード {{statusCodeLabel}} の発生回数が予期される値を上回っています。",
-        "statusCodeSimpleBelowOperatorText": "HTTP 状況コード {{statusCodeLabel}} の発生回数が予期される値を下回っています。",
-        "slownessSimpleAboveOperatorText": "onLoad 時間 ({{aggregationText}}) が予期される値を上回っています。",
-        "slownessSimpleBelowOperatorText": "onLoad 時間 ({{aggregationText}}) が予期される値を下回っています。",
-        "slownessGreaterOperatorText": "onLoad 時間 ({{aggregationText}}) が {{thresholdValue}} ミリ秒を超えています。",
-        "slownessGreaterEqualsOperatorText": "onLoad 時間 ({{aggregationText}}) が {{thresholdValue}} ミリ秒以上です。",
-        "slownessLessOperatorText": "onLoad 時間 ({{aggregationText}}) が {{thresholdValue}} ミリ秒を下回っています。",
-        "slownessLessEqualsOperatorText": "onLoad 時間 ({{aggregationText}}) が {{thresholdValue}} ミリ秒以下です。",
-        "staticThresholdHigherOperatorText": "{{metricLabel}} の数が {{thresholdValue}} を上回っています。",
-        "staticThresholdHigherEqualsOperatorText": "{{metricLabel}} の数が {{thresholdValue}} 以上です。",
-        "staticThresholdLowerOperatorText": "{{metricLabel}} の数が {{thresholdValue}} を下回っています。",
-        "staticThresholdLowerEqualsOperatorText": "{{metricLabel}} の数が {{thresholdValue}} 以下です。",
-        "thresholdHigherOperatorText": "{{metricLabel}} の数が予期される値を上回っています。",
-        "thresholdHigherEqualsOperatorText": "{{metricLabel}} の数が予期される値以上です。",
-        "thresholdLowerOperatorText": "{{metricLabel}} の数が予期される値を下回っています。",
-        "thresholdLowerEqualsOperatorText": "{{metricLabel}} の数が予期される値以下です。",
-        "errorPleaseProvideAnErrorMessage": "エラー・メッセージを指定してください",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "0 以上の数値を指定してください",
-        "errorBaselineIsEmpty": "ベースラインが空です",
-        "ruleJsErrorsOperatorOptionAny": "すべて",
-        "ruleJsErrorsOperatorOptionEquals": "等しい",
-        "ruleJsErrorsOperatorOptionContains": "次を含む",
-        "ruleJsErrorsOperatorOptionStartsWith": "次で始まる",
-        "ruleJsErrorsOperatorOptionEndWith": "次で終わる",
         "ruleStatusCodeValueOption1": "1XX (Informational)",
         "ruleStatusCodeValueOption100": "100 (Continue)",
         "ruleStatusCodeValueOption101": "101 (Switching Protocols)",
@@ -422,13 +397,6 @@
         "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
         "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
         "ruleStatusCodeValueOptionCustom": "カスタム範囲",
-        "ruleMetricNameOptionSpecificJsErrorErrors": "エラー件数",
-        "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "エラー率",
-        "ruleMetricNameOptionStatusCodeHttpxxx": "状況コード数",
-        "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "状況コード率",
-        "ruleMetricNameOptionSlownessOnLoadTime": "onLoad 時間",
-        "ruleMetricNameOptionThroughputPageLoads": "ページ・ロード",
-        "ruleMetricNameOptionThroughputPageTransitions": "ページ遷移",
         "ruleFormErrorStatusCodeStartGTEnd": "開始 HTTP 状況コード以上の終了 HTTP 状況コードを選択してください",
         "ruleFormPleaseProvideALogMessage": "ログ・メッセージを指定してください",
         "ruleFormPleaseProvideAStartStatusCode": "開始 HTTP 状況コードを指定してください",
@@ -442,7 +410,7 @@
         "simpleAlertStep2Headline": "どこでアラートをトリガーしますか?",
         "step1Title": "ステップ 1: アラートの選択",
         "step2Title": "ステップ 2: スコープの選択",
-        "step3Title": "ステップ 3: アラート・チャネルの指定"
+        "step3Title": "ステップ 3: アラート・チャネルの選択"
       },
       "components": {
         "createSmartAlert": "スマート・アラートの追加",
@@ -458,39 +426,40 @@
         "labelGlobalSmartAlertsList": "グローバル・アプリケーション・スマート・アラート ({{numberOfAlerts}} 個)",
         "labelSmartAlertsList": "アプリケーション・スマート・アラート ({{numberOfAlerts}} 個)",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
-        "labelName": "名前",
         "labelActionButtonEdit": "編集",
         "labelActionButtonDuplicate": "複製",
         "labelActionButtonDelete": "削除",
-        "noAlertConfigured": "アラートが構成されていません。",
-        "alertEntityName": "アラート「{{entityName}}」",
         "labelAlertFilters": "フィルター",
         "labelConfirm": "ご確認ください",
         "labelConfirmRemoveConfig": "構成 <strong>{{configName}}</strong> を削除しますか?",
         "labelRemove": "削除",
         "numberOfApplicationsSelected": "{{count}} 個のアプリケーションが選択されています",
         "numberOfApplicationsSelected_plural": "{{count}} 個のアプリケーションが選択されています"
+      },
+      "details": {
+        "title": "アラート詳細",
+        "titleAlertProperties": "アラートのプロパティー"
       }
     },
     "form": {
       "ruleAggregationOptionMEAN": "平均",
       "ruleAggregationOptionMIN": "最小",
-      "ruleAggregationOptionP25": "25 番目",
-      "ruleAggregationOptionP50": "50 番目",
-      "ruleAggregationOptionP75": "75 番目",
-      "ruleAggregationOptionP90": "90 番目 (推奨)",
-      "ruleAggregationOptionP95": "95 番目",
-      "ruleAggregationOptionP98": "98 番目",
-      "ruleAggregationOptionP99": "99 番目",
+      "ruleAggregationOptionP25": "25 パーセンタイル",
+      "ruleAggregationOptionP50": "50 パーセンタイル",
+      "ruleAggregationOptionP75": "75 パーセンタイル",
+      "ruleAggregationOptionP90": "90 パーセンタイル (推奨)",
+      "ruleAggregationOptionP95": "95 パーセンタイル",
+      "ruleAggregationOptionP98": "98 パーセンタイル",
+      "ruleAggregationOptionP99": "99 パーセンタイル",
       "ruleAggregationOptionMAX": "最大",
       "ruleAggregationForWeeklySeasonalityOptionMEAN": "平均",
-      "ruleAggregationForWeeklySeasonalityOptionP50": "50 番目"
+      "ruleAggregationForWeeklySeasonalityOptionP50": "50 パーセンタイル"
     },
     "components": {
       "smartAlertDialog": {
         "sharedListTooltip": "選択された {{typeName}} は使用できなくなりました",
         "clearTagFilterExpressionButton": "クリア",
-        "baselineErrorMessageInsufficientDataToCompute": "選択したベースラインを計算するにはデータが不十分です。 代わりに<i>静的しきい値</i> を選択してください。",
+        "baselineErrorMessageInsufficientDataToCompute": "選択したベースラインを計算するにはデータが不十分です。 代わりに<em>静的しきい値</em> を選択してください。",
         "baselineErrorMessageReason": "理由:",
         "blueprintDescriptionButtonSelect": "選択",
         "selectAlertChannelButtonTitle": "アラート・チャネルの選択",
@@ -541,7 +510,6 @@
         "timeThresholdConfigOff": "オフ",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "1 以上の数値を指定してください",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "1% から 100% までの数値を指定してください",
-        "alertPropertiesInsertPlaceholderTooltip": "プレースホルダーの挿入",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "状態が指定された時間以上続く場合",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "定義された時間フレーム内で指定された回数だけ条件がトリガーされるたび",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "特定の数のユーザーが影響を受ける場合",
@@ -550,7 +518,7 @@
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "違反数の経時変化",
         "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "ユーザーへの影響",
         "timeThresholdConfigTimeThresholdTitleRequestImpact": "要求への影響",
-        "timeThresholdConfigNoUserSessionDetected": "検出された<linkToIdentifyingUsers>ユーザー</linkToIdentifyingUsers>や<linkToSessionTracking>セッション</linkToSessionTracking>はありません。",
+        "timeThresholdConfigNoUserSessionDetected": "<linkToIdentifyingUsers>ユーザー</linkToIdentifyingUsers>や<linkToSessionTracking>セッション</linkToSessionTracking>が検出されません。",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "このオプションを使用する前に Web サイト・モニタリングを構成してください。",
         "alertPropertiesWarning": "警告",
         "alertPropertiesCritical": "クリティカル",
@@ -571,16 +539,13 @@
         "thresholdTypeOptionHistoricBaselineDaily": "ベースライン (毎日の季節性)",
         "thresholdTypeOptionHistoricBaselineWeekly": "ベースライン (毎週の季節性)",
         "useSuggestedvalue": "推奨値を使用",
-        "alertConfigDialogPresenterTitleEditAlertLocal": "スマート・アラートの編集",
-        "alertConfigDialogPresenterTitleEditAlertGlobal": "グローバル・スマート・アラートの編集",
-        "alertConfigDialogPresenterTitleCreateNewAlertLocal": "新規スマート・アラートの作成",
-        "alertConfigDialogPresenterTitleCreateNewAlertGlobal": "新規グローバル・スマート・アラートの作成",
+        "alertConfigDialogPresenterTitleEditAlert_Local": "スマート・アラートの編集",
+        "alertConfigDialogPresenterTitleEditAlert_Global": "グローバル・スマート・アラートの編集",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "新規スマート・アラートの作成",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "新規グローバル・スマート・アラートの作成",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "拡張モードに切り替える",
-        "alertConfigDialogPresenterButtonSwitchToSimpleMode": "簡易モードに切り替える",
-        "simpleAlertConfigDialogStep3Headline": "アラートを受け取るユーザー",
+        "simpleAlertConfigDialogStep3Headline": "だれがアラートを受け取りますか?",
         "Loading": "ロード中…",
-        "LoadingServices": "サービスのロード中…",
-        "NoServiceInScope": "スコープ内にサービスがありません",
         "PreviewForAP": "アプリケーション・パースペクティブのプレビュー:",
         "PreviewForEndpoint": "エンドポイントのプレビュー:",
         "PreviewForService": "サービスのプレビュー:"
@@ -624,13 +589,13 @@
         }
       },
       "utils": {
-        "aggregationTextP25": "25 番目",
-        "aggregationTextP50": "50 番目",
-        "aggregationTextP75": "75 番目",
-        "aggregationTextP90": "90 番目",
-        "aggregationTextP95": "95 番目",
-        "aggregationTextP98": "98 番目",
-        "aggregationTextP99": "99 番目"
+        "aggregationTextP25": "25 パーセンタイル",
+        "aggregationTextP50": "50 パーセンタイル",
+        "aggregationTextP75": "75 パーセンタイル",
+        "aggregationTextP90": "90 パーセンタイル",
+        "aggregationTextP95": "95 パーセンタイル",
+        "aggregationTextP98": "98 パーセンタイル",
+        "aggregationTextP99": "99 パーセンタイル"
       }
     },
     "websites": {
@@ -648,15 +613,12 @@
         "alertChannelsTitle": "アラート・チャネル: アラートを受け取るユーザー",
         "propertiesLabel": "プロパティー (オプション)",
         "propertiesTitle": "追加のアラート・プロパティー (オプション)",
-        "thresholdValue": "しきい値"
-      },
-      "alertConfigDialogWithThreshold": {
-        "alertText": "これは新機能です。",
-        "alertLabelText": "NEW"
+        "thresholdValue": "しきい値",
+        "payloadsLabel": "ペイロード (オプション)",
+        "payloadsTitle": "カスタム・ペイロード (オプション)"
       },
       "components": {
         "provideStatusCodeStatusCode": "状況コード",
-        "tagSuggestions": "アラート・タイプ {{alertType}} のタグ提案が定義されていません ",
         "errorMessage": "エラー・メッセージ",
         "noDataMessage": "アラートが構成されていません。",
         "selectJSErrorHelpText": "JS エラー・メッセージをテンプレートとして選択します (オプション)",
@@ -671,7 +633,7 @@
         "pageTransitions": "ページ遷移",
         "slownessBlueprintConfigName": "低速",
         "slownessBlueprintConfigHeadline": "onLoad 時間に対する自動アラート",
-        "slownessBlueprintConfigTextP": "OnLoad 時間は、ユーザーがある Web サイトに移動してから、その Web サイトと対話できるようになるまでの経過時間を測定します。",
+        "slownessBlueprintConfigTextP": "OnLoad 時間は、ユーザーがある Web サイトに移動してから、その Web サイトと情報をやりとりできるようになるまでの経過時間を測定します。",
         "slownessBlueprintConfigTextli1": "すべてのマークアップ、置き換えられたエレメントの内容、組み込みをサーバーから取得",
         "slownessBlueprintConfigTextli2": "マークアップの構文解析",
         "slownessBlueprintConfigTextli3": "CSS カスケードの適用",
@@ -818,7 +780,7 @@
         "simpleAlertConfigDialogStep2Headline": "どこでアラートをトリガーしますか?",
         "stepConfigsStep1Title": "ステップ 1: アラートの選択",
         "stepConfigsStep2Title": "ステップ 2: スコープの選択",
-        "stepConfigsStep3Title": "ステップ 3: アラート・チャネルの指定"
+        "stepConfigsStep3Title": "ステップ 3: アラート・チャネルの選択"
       },
       "addAlert": "アラートの追加"
     },

@@ -2,25 +2,13 @@
   "analyze": {
     "analyzeView": {
       "beacons": {
-        "perBeaconTypeConfigEventName": "이벤트 이름",
-        "perBeaconTypeConfigWebsite": "웹 사이트",
-        "perBeaconTypeConfigLabelTimestamp": "시간소인",
         "perBeaconTypeConfigEventTooltip": "이 이벤트는 일괄처리되었으며 {{batchSize}}의 개별 이벤트를 나타냅니다.",
-        "perBeaconTypeConfigErrorMessage": "오류 메시지",
         "perBeaconTypeConfigErrorTooltip": "이 오류는 일괄처리되었으며 {{batchSize}}의 개별 이벤트를 나타냅니다.",
-        "perBeaconTypeConfigAccess": "액세스",
         "perBeaconTypeConfigHTTPRequestTooltip": "이 HTTP 요청은 일괄처리되며 {{batchSize}} 개별 HTTP 요청을 나타냅니다.",
-        "perBeaconTypeConfigPage": "페이지",
         "perBeaconTypeConfigPageTransitionTooltip": "이 페이지 전환은 일괄처리되며 {{batchSize}}의 개별 페이지 전환을 나타냅니다.",
-        "perBeaconTypeConfigPath": "경로",
         "perBeaconTypeConfigPageLoadTooltip": "이 페이지 로드는 일괄처리되며 {{batchSize}}의 개별 페이지 로드를 나타냅니다.",
-        "perBeaconTypeConfigURI": "URI",
         "perBeaconTypeConfigResourceRetrievalsTooltip": "이 리소스 검색은 일괄처리되며 {{batchSize}}의 개별 리소스 검색을 나타냅니다."
       },
-      "metricsSelectorTitle": "메트릭 선택",
-      "metricsSelectorHelp": "테이블 내에서 열로 사용할 수 있는 메트릭을 선택하십시오. 그래프로 표시할 수 있는 메트릭도 정의합니다.",
-      "noData": "선택한 시간 범위에 사용 가능한 비콘이 없습니다. 문제점 해결 정보는 [문서][문서]를 참조하십시오.\n\n[문서]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
-      "emptyAnalyzeViewTitle": "{{entityName}}을(를) 찾을 수 없음",
       "resourceTimingMetricsLabelRedirectTime": "경로 재지정 시간",
       "resourceTimingMetricsLabelAppCacheTime": "AppCache 시간",
       "resourceTimingMetricsLabelDNSTime": "DNS 시간",
@@ -112,8 +100,6 @@
       "quickFilterBarLabelSubdivision_2": "세분",
       "quickFilterBarLabelMeta": "메타",
       "quickFilterBarLabelWindowWidth": "창 너비",
-      "websiteEditGroupDialogHelp": "비콘을 그룹화할 태그를 선택하십시오.",
-      "WebsiteGroupMetricsChartLabelCount": "개수",
       "beaconUserSummary": {
         "titleUserInformation": "사용자 정보",
         "titleBrowser": "브라우저",
@@ -227,7 +213,6 @@
         "pageLoadBeaconTitleFirstInputDelay": "FID(First Input Delay)",
         "pageLoadBeaconTitleCumulativeLayoutShift": "CLS(Cumulative Layout Shift)",
         "pageLoadBeaconTitleTimeToFirstByte": "첫 번째 바이트까지 남은 시간",
-        "pageLoadBeaconTitleInitiator": "이니시에이터",
         "pageLoadBeaconTitleWindowLocation": "창 위치",
         "pageLoadBeaconTitleFirstPaint": "FP(First Paint)",
         "pageLoadBeaconTotalDurationNameRetrievalTime": "onLoad 시간",
@@ -368,7 +353,6 @@
   },
   "websiteDashboard": {
     "components": {
-      "deprecationHeaderSupportEnds": "{{supportedUntil}}에 지원 종료",
       "overlaysTooltipToogleHeatMap": "히트 맵 토글",
       "overlaysTooltipPanLeft": "왼쪽으로 이동",
       "overlaysTooltipPanUp": "위로 이동",
@@ -412,7 +396,6 @@
         "graphqlOperationsTopListLabelLatency": "대기 시간",
         "graphqlOperationsTopListLabelErrors": "오류",
         "graphqlOperationsTopListTitle": "GraphQL 오퍼레이션 이름",
-        "graphqlOperationsTopListLinkLabel": "모든 GraphQL 오퍼레이션 이름 보기",
         "locationsTopListLabelCalls": "호출",
         "locationsTopListLabelLatency": "대기 시간",
         "locationsTopListLabelErrors": "오류",
@@ -484,12 +467,7 @@
         "alertsLabelName": "이름",
         "alertsLabelFilters": "필터",
         "alertsHeaderConfiguredAlerts": "구성된 경보",
-        "alertsNoDataMessage": "경보가 구성되어 있지 않습니다.",
-        "alertsNumberOfFilters": "{{count}}개 필터",
-        "alertsNumberOfFilters_plural": "{{count}}개 필터",
-        "alertsNumberOfFilters_0": "{{count}}개 필터",
-        "alertsNumberOfFilters_1": "{{count}}개 필터",
-        "alertsNumberOfFilters_2": "{{count}}개 필터"
+        "alertsNoDataMessage": "경보가 구성되어 있지 않습니다."
       },
       "configuration": {
         "configurationRemoveTitle": "웹 사이트 제거",
@@ -568,7 +546,8 @@
         "pageTopListLabelOccurrences": "발생 횟수",
         "pageTopListLabelUsers": "사용자",
         "browserTopListLabelOccurrences": "발생 횟수",
-        "browserTopListLabelUsers": "사용자"
+        "browserTopListLabelUsers": "사용자",
+        "customEvents": "사용자 정의 이벤트"
       },
       "errors": {
         "browserTopListLabelOccurrences": "발생 횟수",

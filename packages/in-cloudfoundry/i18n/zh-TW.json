@@ -9,7 +9,6 @@
   "cfApplicationsWithCount_1": "CF 應用程式 ({{count}})",
   "cfApplicationsWithCount_2": "CF 應用程式 ({{count}})",
   "dashboards": {
-    "cfApplication": "CF 應用程式",
     "cloudFoundryApplication": "Cloud Foundry 應用程式",
     "name": "名稱",
     "instanceIndex": "實例索引",
@@ -38,7 +37,6 @@
   "routes": "路徑",
   "health": "性能",
   "cloudFoundryApplications": "Cloud Foundry 應用程式",
-  "cfApplications": "CF 應用程式",
   "noMonitoringDataFound": "找不到監視資料",
   "cloudfoundry": {
     "noData": "藉由應用程式視景，可針對環境、服務集、租戶或任何事物建模。"

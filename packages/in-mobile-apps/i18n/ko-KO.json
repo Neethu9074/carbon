@@ -6,10 +6,6 @@
     "custom": "사용자 정의 이벤트"
   },
   "analyzeView": {
-    "noData": "선택한 시간 범위에 사용 가능한 비콘이 없습니다. 문제점 해결 정보는 [문서][문서]를 참조하십시오.\n\n[문서]:https://instana.com/docs/unbounded_analytics/#why-is-there-no-data-displayed-on-the-analytics-page",
-    "MetricSelectorTitle": "메트릭 선택",
-    "MetricSelectorHelp": "테이블 내에서 열로 사용할 수 있는 메트릭을 선택하십시오. 그래프로 표시할 수 있는 메트릭도 정의합니다.",
-    "EntityPageMainNotificationTitle": "{{entityName}}을(를) 찾을 수 없음",
     "uniqueUsers": "고유 사용자",
     "metrics": {
       "timestampMetricName": "시간소인",
@@ -55,12 +51,6 @@
       "customBeaconCountLabel": "발생 횟수",
       "customBeaconDurationLabel": "기간"
     },
-    "editGroupDialog": {
-      "help": "비콘을 그룹화할 태그를 선택하십시오."
-    },
-    "groupMetricsChart": {
-      "countChartDefinitionLabel": "개수"
-    },
     "quickFilterBar": {
       "mobileAppLabel": "모바일 앱",
       "mobileAppLabel_plural": "모바일 앱",
@@ -105,29 +95,8 @@
       "metaLabel": "메타"
     },
     "perBeaconTypeConfigs": {
-      "customTH1": "이벤트 이름",
-      "customTH2": "모바일 앱",
-      "customTimestampLabel": "시간소인",
       "customBatchingIndicatorTooltipContent": "이 이벤트는 일괄처리되었으며 {{size}} 개별 이벤트를 나타냅니다.",
-      "customListItemHeader": "이벤트 이름",
-      "httpRequestTH1": "액세스",
-      "httpRequestTH2": "모바일 앱",
-      "httpRequestTimestampLabel": "시간소인",
-      "httpRequestBatchingIndicatorTooltipContent": "이 HTTP 요청은 일괄처리되며 {{size}} 개별 HTTP 요청을 나타냅니다.",
-      "httpRequestListItemHeader": "액세스",
-      "sessionStartTH1": "세션 ID",
-      "sessionStartTH2": "모바일 앱",
-      "sessionStartTimestampLabel": "시간소인",
-      "sessionStartListItemHeader": "세션 ID",
-      "viewChangeTH1": "보기 이름",
-      "viewChangeTH2": "모바일 앱",
-      "viewChangeTimestampLabel": "시간소인",
-      "viewChangeListItemHeader": "보기 이름"
-    },
-    "groupedBeaconsTable": {
-      "groupLabel": "그룹",
-      "countLabel": "개수",
-      "timestampLabel": "최초 시간소인"
+      "httpRequestBatchingIndicatorTooltipContent": "이 HTTP 요청은 일괄처리되며 {{size}} 개별 HTTP 요청을 나타냅니다."
     }
   },
   "beaconUserSum": {

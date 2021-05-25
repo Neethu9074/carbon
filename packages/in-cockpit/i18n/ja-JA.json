@@ -86,13 +86,14 @@
       "cpuUsage": "CPU 使用率",
       "created": "作成済み",
       "started": "開始済み",
-      "os": "OS"
+      "os": "OS",
+      "mean": "平均"
     },
     "topListWidget": {
       "noLabelYet": "{{nolabel}} がまだありません"
     },
     "websites": {
-      "noData": "Web サイトのパフォーマンスがユーザー・エクスペリエンスに与える影響を十分に把握するために、Web サイト・モニタリングを開始します。 構成はシンプルです。",
+      "noData": "Web サイト・モニタリングを行うことで、Web サイトのパフォーマンスがユーザー・エクスペリエンスに与える影響を十分に把握できるようになります。 構成はシンプルです。",
       "createWebsite": "Web サイトの作成",
       "createMobileApp": "モバイル・アプリケーションの作成",
       "noLabelYet": "{{nolabel}} がまだありません"

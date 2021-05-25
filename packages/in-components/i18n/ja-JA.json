@@ -19,7 +19,7 @@
       "countIncident_0": "インシデント",
       "countIncident_1": "インシデント",
       "countIncident_2": "インシデント",
-      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "msg": "{{smartAlertsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert, { \"count\": {{smartAlertsCount}} }) & {{incidentsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countIncident, { \"count\": {{incidentsCount}} })",
       "itemMsg": "さらに {{leftCount}} 件の {{moreMsg}}"
     },
     "chartAlertsPreviewLanePresenterAlertsLabel": "アラート",
@@ -30,7 +30,7 @@
     "resultAwareChartPleaseTryAgainLater": "後で再試行してください。",
     "tooltip": {
       "scrollHint": "<upArrow /><downArrow /> キーを使用してスクロール",
-      "rollup": "{{rollup}} 上",
+      "rollup": "{{rollup}} 以上",
       "more": "さらに {{number}} 件"
     }
   },
@@ -84,10 +84,10 @@
     "formCityLabel": "市区町村",
     "formZipLabel": "郵便番号",
     "formCountryLabel": "国",
-    "formStateLabel": "都道府県"
+    "formStateLabel": "都道府県/州"
   },
   "searchBar": {
-    "usingTheSearchBar": "Instana ダイナミック・フォーカス検索機能を使用して、3D マップ、比較表、およびインシデント・ビューをフィルタリングできます。 \n検索バーには、ファジー検索とワイルドカード検索およびブール演算子を使用して検索するための拡張機能があります。 \n例えば、以下のクエリーは、CPU の数が 4 未満の実動ホストにビューを制限します。\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 構文\nダイナミック・フォーカスでは、[lucene クエリー構文](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)を活用します。Lucene 標準との違いは以下のとおりです。\n- **デフォルト演算子:** `AND`\n- **構文の制約:** は、[こちらの資料](https://instana.com/docs/dynamic_focus/#syntax-constraints)にリストされています。\n## 検索バーの対話\n検索バーは検索フィールドのオートコンプリートをサポートし、入力中に lucene クエリーの構文が強調表示されます。\n入力中に、現在の入力に一致する検索フィールドが検索バーに提案として表示されます。 \n「Return」を押すと、提案されたフィールドを受け入れることができます。 Ctrl + スペース・バーを押すと、オートコンプリートのポップアップが開きます。\n## Lucene クエリー構文の虎の巻\n - **フィールド検索:** `entity.host.cpu.count:>4`\n - **ブール演算子:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **グループ化:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **ワイルドカード検索:** `entity.type:container*`\n\n詳しくは、[こちらの資料](https://instana.com/docs/dynamic_focus/)を参照してください。",
+    "usingTheSearchBar": "Instana ダイナミック・フォーカス検索機能を使用して、3D マップ、比較表、インシデント・ビューをフィルタリングできます。 \n検索バーには拡張機能があり、ファジー検索、ワイルドカード検索、ブール演算子を使用した検索が可能です。 \n例えば、以下のクエリーは、CPU の数が 4 未満の実動ホストを表示するように制限します。\n\n`entity.host.cpu.count:<4 AND entity.zone:production`。\n## 構文\nダイナミック・フォーカスでは、[lucene クエリー構文](https://lucene.apache.org/core/2_9_4/queryparsersyntax.html)を利用しています。Lucene 標準との違いは以下のとおりです。\n- **デフォルト演算子:** `AND`\n- **構文の制約:** [こちらの資料](https://instana.com/docs/dynamic_focus/#syntax-constraints)にリストされています。\n## 検索バーの相互作用\n検索バーは検索フィールドのオートコンプリートをサポートしており、入力中に lucene クエリーの構文が強調表示されます。\n入力を始めると、現在の入力に一致する検索フィールドが検索バーに提案として表示されます。 \n「Return」を押すと、提案されたフィールドを受け入れることができます。 Ctrl + スペース・バーを押すと、オートコンプリートのポップアップが開きます。\n## Lucene クエリー構文の虎の巻\n - **フィールド検索:** `entity.host.cpu.count:>4`\n - **ブール演算子:** `entity.host.cpu.count:<4 AND entity.zone:production`\n - **グループ化:** `(entity.host.cpu.count:<4 AND entity.zone:production) OR entity.host.cpu.count:>4`\n - **ワイルドカード検索:** `entity.type:container*`\n\n詳しくは、[こちらの資料](https://instana.com/docs/dynamic_focus/)を参照してください。",
     "filtersBtn": "フィルター",
     "filterPresetsMenuHeading": "フィルター",
     "filterPresetsSaveFilters": "ここで簡単にアクセスできるようにフィルターを保存",
@@ -104,16 +104,13 @@
     "filterConfirmRemoveMsg": "フィルター <strong>{{filterName}}</strong> を削除しますか?",
     "helpDialogTitleUsingTheSearchBar": "検索バーの使用"
   },
-  "svgIcon": {
-    "pluginIcon": "{{pluginName}} アイコン"
-  },
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "このグループの分析",
       "cursorPaginatedTableLoadMoreRowLabel": "さらにロード",
       "withEmptyTableStateEntitiesName": "エンティティー",
       "withEmptyTableStateEntityPageMainNotificationTitle": "{{name}} がありません",
-      "withEmptyTableStateEntityPageMainNotificationExplanation": "選択された時刻範囲の {{name}} が取得されませんでした。"
+      "withEmptyTableStateEntityPageMainNotificationExplanation": "選択された時刻範囲で取得された {{name}} はありません。"
     },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "{{len}} 項目の検索",

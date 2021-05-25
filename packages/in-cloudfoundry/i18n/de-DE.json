@@ -9,11 +9,10 @@
   "cfApplicationsWithCount_1": "CF-Anwendungen ({{count}})",
   "cfApplicationsWithCount_2": "CF-Anwendungen ({{count}})",
   "dashboards": {
-    "cfApplication": "CF-Anwendung",
     "cloudFoundryApplication": "Cloud Foundry-Anwendung",
     "name": "Name",
     "instanceIndex": "Instanzindex",
-    "cpuTotal": "Gesamt-CPU",
+    "cpuTotal": "CPU insgesamt",
     "memoryTotal": "Speicher insgesamt",
     "health": "Allgemeinzustand",
     "containers": "Container",
@@ -32,13 +31,12 @@
   "requestedState": "Angeforderter Status",
   "instances": "Instanzen",
   "memoryLimit": "Speicherlimit",
-  "foundation": "Basis",
+  "foundation": "Foundation",
   "organization": "Organisation",
-  "space": "Speicherplatz",
+  "space": "Bereich",
   "routes": "Routen",
   "health": "Allgemeinzustand",
   "cloudFoundryApplications": "Cloud Foundry-Anwendungen",
-  "cfApplications": "CF-Anwendungen",
   "noMonitoringDataFound": "Keine Überwachungsdaten gefunden",
   "cloudfoundry": {
     "noData": "Anwendungsperspektiven bieten eine Möglichkeit zum Modellieren von Umgebungen, Leistungsgruppen, Tenants und mehr. "

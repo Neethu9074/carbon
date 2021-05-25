@@ -4,7 +4,6 @@
     "chartWrapperSameAxisSameValue": "Todos los tipos de agregaciones para un eje deben tener el mismo valor.",
     "viewInAnalyticsBtnLabel": "Ver en Analizar",
     "chartLendMetricTimeShifted": "El tiempo de la métrica se ha desplazado a: {{timeShiftedLabel}}",
-    "chartTooltipContentMore": "{{number}} más",
     "chartDownloadLabel": "Descargar JSON",
     "chartGlobalHighlightLabel": "Resaltar en todos los gráficos",
     "chartZoomInLabel": "Ampliar el rango de tiempo",
@@ -20,7 +19,7 @@
       "countIncident_0": "Incidencias",
       "countIncident_1": "Incidencias",
       "countIncident_2": "Incidencias",
-      "msg": "{{smartAlertsCount}} {{smartAlerts}} & {{incidentsCount}} {{incidents}}",
+      "msg": "{{smartAlertsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert, { \"count\": {{smartAlertsCount}} }) & {{incidentsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countIncident, { \"count\": {{incidentsCount}} })",
       "itemMsg": "+{{leftCount}} más {{moreMsg}}"
     },
     "chartAlertsPreviewLanePresenterAlertsLabel": "Alertas",
@@ -28,7 +27,15 @@
     "chartReleasesLanePresenterTooltip": "+{{len}} más releases",
     "highlightedTimeframeCloseButtonClearHighlight": "Borrar resaltado",
     "resultAwareChartSomethingWentWrong": "Algo no ha ido bien…",
-    "resultAwareChartPleaseTryAgainLater": "Vuelva a intentarlo más adelante."
+    "resultAwareChartPleaseTryAgainLater": "Vuelva a intentarlo más adelante.",
+    "tooltip": {
+      "scrollHint": "Desplácese utilizando <upArrow /><downArrow /> teclas",
+      "rollup": "sobre{{rollup}}",
+      "more": "{{number}} más"
+    }
+  },
+  "comboBox": {
+    "placeholderSelect": "Seleccionar..."
   },
   "downloadBtn": {
     "downloadViewDownloadAsJsonLabel": "Descargar como JSON",
@@ -53,7 +60,7 @@
   },
   "loadMoreRow": {
     "loadMore": "Cargar más"
-  },
+},
   "messageFlyout": {
     "infrastructurePageName": "Infraestructura",
     "eumPageName": "EUM",
@@ -70,7 +77,7 @@
     "formAccountInfoSecrHeader": "Información de cuenta",
     "formCompanyNameLabel": "Nombre de empresa",
     "formNumberofAPMHostsLabel": "Número de hosts APM",
-    "formNumberofIMHostsLabel": "Número de hosts IM",
+    "formNumberofIQMHostsLabel": "Número de hosts IQM",
     "formNumberofYearsLabel": "Número de años",
     "formBillingInforSecHeader": "Información de facturación",
     "formStreetLabel": "Calle",
@@ -97,9 +104,6 @@
     "filterConfirmRemoveMsg": "¿Está seguro de que desea eliminar el filtro <strong>{{filterName}}</strong>?",
     "helpDialogTitleUsingTheSearchBar": "Utilizar la barra de búsqueda"
   },
-  "svgIcon": {
-    "pluginIcon": "Icono {{pluginName}}"
-  },
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "Analizar este grupo",
@@ -125,9 +129,6 @@
   "reloadUiDialogP2": "Vuelva a cargar la ventana del navegador para obtener la versión más reciente y continuar.",
   "reloadUiDialogReloadBtn": "Volver a cargar",
   "sparkChart": {
-    "mean": "Media",
-    "sum": "Suma",
-    "distinctCount": "Recuento distinto",
     "notAvailable": "N/D"
   },
   "errorBoundary": {

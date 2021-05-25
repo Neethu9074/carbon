@@ -1,7 +1,7 @@
 {
   "breadcrumbs": {
     "cloudFoundryApplication": "Applicazione Cloud Foundry",
-    "cloudFoundryApplications": "Applicazioni Cloud Foundry "
+    "cloudFoundryApplications": "Applicazioni Cloud Foundry"
   },
   "cfApplicationsWithCount": "Applicazioni CF ({{count}})",
   "cfApplicationsWithCount_plural": "Applicazioni CF ({{count}})",
@@ -9,38 +9,36 @@
   "cfApplicationsWithCount_1": "Applicazioni CF ({{count}})",
   "cfApplicationsWithCount_2": "Applicazioni CF ({{count}})",
   "dashboards": {
-    "cfApplication": "Applicazione CF ",
     "cloudFoundryApplication": "Applicazione Cloud Foundry",
-    "name": "Nome ",
-    "instanceIndex": "Indice istanza ",
-    "cpuTotal": "Totale CPU ",
+    "name": "Nome",
+    "instanceIndex": "Indice istanza",
+    "cpuTotal": "Totale CPU",
     "memoryTotal": "Totale memoria",
-    "health": "Condizione ",
+    "health": "Integrità",
     "containers": "Contenitori",
-    "summary": "Riepilogo ",
+    "summary": "Riepilogo",
     "requestedState": "Stato richiesto",
     "instances": "Istanze",
-    "memoryLimit": "Limite di memoria ",
+    "memoryLimit": "Limite di memoria",
     "lastUpdated": "Ultimo aggiornamento",
     "buildpack": "Pacchetto di build",
-    "routes": "Instradamenti ",
+    "routes": "Instradamenti",
     "diskLimit": "Limite disco",
     "createdAt": "Ora di creazione",
-    "analyzeCalls": "Analizza chiamate "
+    "analyzeCalls": "Analizza chiamate"
   },
-  "name": "Nome ",
+  "name": "Nome",
   "requestedState": "Stato richiesto",
   "instances": "Istanze",
-  "memoryLimit": "Limite di memoria ",
-  "foundation": "Fondazione ",
+  "memoryLimit": "Limite di memoria",
+  "foundation": "Fondazione",
   "organization": "Organizzazione",
-  "space": "Spazio  ",
-  "routes": "Instradamenti ",
-  "health": "Condizione ",
-  "cloudFoundryApplications": "Applicazioni Cloud Foundry ",
-  "cfApplications": "Applicazioni CF",
-  "noMonitoringDataFound": "Nessun dato di monitoraggio trovato ",
+  "space": "Spazio",
+  "routes": "Instradamenti",
+  "health": "Integrità",
+  "cloudFoundryApplications": "Applicazioni Cloud Foundry",
+  "noMonitoringDataFound": "Nessun dato di monitoraggio trovato",
   "cloudfoundry": {
-    "noData": "Le prospettive applicazione forniscono uno strumento per modellare ambienti, insiemi di servizi, tenant o altro. "
+    "noData": "Le prospettive applicazione forniscono uno strumento per modellare ambienti, insiemi di servizi, tenant o altro."
   }
 }

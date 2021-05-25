@@ -9,7 +9,6 @@
   "cfApplicationsWithCount_1": "Aplicaciones CF ({{count}})",
   "cfApplicationsWithCount_2": "Aplicaciones CF ({{count}})",
   "dashboards": {
-    "cfApplication": "Aplicación CF",
     "cloudFoundryApplication": "Aplicación Cloud Foundry",
     "name": "Nombre",
     "instanceIndex": "Índice de instancia",
@@ -38,7 +37,6 @@
   "routes": "Rutas",
   "health": "Salud",
   "cloudFoundryApplications": "Aplicaciones Cloud Foundry",
-  "cfApplications": "Aplicaciones CF",
   "noMonitoringDataFound": "No se han encontrado datos de supervisión",
   "cloudfoundry": {
     "noData": "Las perspectivas de aplicación proporcionan un medio para modelar entornos, conjuntos de servicios, arrendatarios o prácticamente cualquier cosa."

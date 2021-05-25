@@ -19,9 +19,6 @@
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Tem certeza de que deseja remover o <strong>\"alerta {{alertConfigName}}\"</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remover",
     "alertHeaderIsNotLatestRevisionMessage": "Você está consultando a revisão {{alertRevision}} desta configuração de alerta. Selecione a <latestRevisionButton>revisão mais recente<latestRevisionButton> se quiser fazer mudanças.",
-    "alertHeaderThisConfigIsStoredWithQueryBuilder2Expressions": "Esta configuração é armazenada com expressões do Query Builder 2.",
-    "alertHeaderYouCanOnlyStartOrPause": "Só é possível iniciar ou pausar, mas não editar, essas configurações quando no modo Query Builder 1",
-    "alertHistoryListTitle": "Alertas Criados",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alertas Criados ({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "Título",
     "alertPropertyInfosLabelAlertLevel": "Nível de alerta",
@@ -41,7 +38,25 @@
     },
     "alertHeaderYouAreLookingAtADeletedAlertConfigurationModificationsAreNotPossible": "Você está consultando uma configuração de alerta excluída. Não é possível fazer modificações.",
     "alertPropertyInfosWarning": "Aviso",
-    "alertPropertyInfosCritical": "Crítico"
+    "alertPropertyInfosCritical": "Crítico",
+    "customPayload": {
+      "deleteRow": "Excluir linha",
+      "key": "Chave",
+      "value": "Valor",
+      "unknownTypeTypeItCanNotBeEdited": "Tipo desconhecido: {{type}} - isso não pode ser editado.",
+      "customWithColon": "customizado:",
+      "valueType": "Tipo de valor",
+      "static": "Estático",
+      "dynamic": "Dinâmico",
+      "theNumberOfRowsIsRestrictedToMaximumNumberOfRows": "O número de linhas é restrito a {{maximumNumberOfRows}}.",
+      "addRow": "Incluir linha",
+      "noCustomPayloadConfigured": "Nenhuma carga útil customizada configurada",
+      "keyNamesMustBeUnique": "Os nomes de chave devem ser exclusivos.",
+      "theValueMustNotBeBlank": "O valor não deve ficar em branco.",
+      "onlyOrAnyAlphaNumericalAreAllowed": "Somente '.', '-', '_' ou qualquer alfanumérico são permitidos.",
+      "aTagNeedsToBeSelected": "Uma tag precisa ser selecionada.",
+      "aKeyNeedsToBeSpecified": "Uma chave precisa ser especificada."
+    }
   },
   "potentialProblems": {
     "titleErrorRate": "A taxa de chamada errônea é maior que o normal",
@@ -90,7 +105,7 @@
     "titleNoSmartAlertsCreated": "Nenhum Alerta inteligente criado",
     "titleCopyOf": "(Cópia de) {{smartAlertTitle}}",
     "applications": {
-      "newGlobalAlert": "Alerta inteligente global",
+      "alertConfiguration": "Configuração de alerta",
       "advanced": {
         "alertPropertyInsertPlaceholderLabel": "Inserir item temporário",
         "evaluationSwitch": {
@@ -103,11 +118,11 @@
             "globalDescription": "Alertar individualmente por Perspectiva de aplicativo"
           },
           "evaluationTypePERAPSERVICE": {
-            "selectionText": "por Serviço para esta Perspectiva de aplicativo",
-            "globalSelectionText": "por Serviço no contexto de cada Perspectiva de aplicativo",
-            "columnText": "por Serviço",
-            "description": "Alertar individualmente por Serviço para esta Perspectiva de aplicativo",
-            "globalDescription": "Alertar individualmente por Serviço no contexto de cada Perspectiva de aplicativo"
+            "selectionText": "por serviço para esta Perspectiva de aplicativo",
+            "globalSelectionText": "por serviço no contexto de cada Perspectiva de aplicativo",
+            "columnText": "por serviço",
+            "description": "Alertar individualmente por serviço para esta Perspectiva de aplicativo",
+            "globalDescription": "Alertar individualmente por serviço no contexto de cada Perspectiva de aplicativo"
           },
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "por Terminal para esta Perspectiva de aplicativo",
@@ -129,12 +144,6 @@
               "dashboard": "Chamadas executadas neste aplicativo, tanto por consumidores quanto internamente.",
               "overrideDefault": "O escopo padrão para esse aplicativo é Todas as chamadas. É possível mudar isso na configuração."
             }
-          },
-          "constants": {
-            "inboundDashboard": "O painel está exibindo informações com base apenas nas chamadas executadas pelos consumidores deste aplicativo.",
-            "inboundOverrideDefault": "O escopo padrão para esse aplicativo é apenas Chamadas de entrada. É possível mudar isso na configuração.",
-            "allDashboard": "O painel está exibindo informações baseadas em todas as chamadas executadas neste aplicativo, tanto por consumidores quanto internamente.",
-            "allOverrideDefault": "O escopo padrão para esse aplicativo é Todas as chamadas. É possível mudar isso na configuração."
           },
           "confirmationDialog": {
             "pleaseConfirm": "Confirme",
@@ -173,6 +182,10 @@
           "propertiesOptional": {
             "label": "Propriedades (opcional)",
             "title": "Propriedades adicionais de alerta (opcional)"
+          },
+          "payloadsOptional": {
+            "label": "Cargas úteis (opcional)",
+            "title": "Carga útil customizada (opcional)"
           }
         }
       },
@@ -183,7 +196,7 @@
       "logMessages": {
         "messageColumn": "Mensagem de log",
         "levelColumn": "Nível de log",
-        "noDataMessage": "Nenhum alerta configurado.",
+        "noDataMessage": "Nenhuma mensagem localizada.",
         "selectLogMessageText": "Selecionar mensagem de log como modelo (opcional)",
         "selectLogMessageTitle": "Selecionar mensagem de log"
       },
@@ -306,51 +319,13 @@
         },
         "ruleLogMessageOperationOptions": {
           "notEmpty": "Qualquer",
-          "equals": "Equivale a",
+          "equals": "Igual a",
           "contains": "Contém",
           "startsWith": "Começa com",
           "endsWith": "Termina com"
         }
       },
       "form": {
-        "anyJSErrors": "Qualquer erro de JS",
-        "JSErrors": "Erro(s) de JS: {{errorMessage}}",
-        "HTTPStatusCodes": "Códigos de status HTTP: {{statusCode}}",
-        "unsupportedAlertType": "Tipo de alerta não suportado: {{alertType}}",
-        "JSErrorsHaveBeenDetected": "Foram detectados erros do JS.",
-        "unsupportedOperator": "Operador não suportado: {{operator}}",
-        "JSErrorTextEquals": "Erros de JS iguais a \"{{ruleValue}}\" foram detectados.",
-        "JSErrorTextContains": "Erros de JS que contêm \"{{ruleValue}}\" foram detectados.",
-        "JSErrorTextStartsWith": "Erros de JS que começam com \"{{ruleValue}}\" foram detectados.",
-        "JSErrorTextEndsWith": "Erros de JS que terminam com \"{{ruleValue}}\" foram detectados.",
-        "slownessSimpleHighOperatorText": "O tempo de onLoad ({{aggregationText}}) é muito alto",
-        "slownessSimpleLowOperatorText": "O tempo de onLoad ({{aggregationText}}) é muito baixo",
-        "throughputSimpleHighOperatorText": "O número de {{metricLabel}} é anormalmente alto",
-        "throughputSimpleLowOperatorText": "O número de {{metricLabel}} é anormalmente baixo",
-        "statusCodeSimpleAboveOperatorText": "As ocorrências de Código de status HTTP {{statusCodeLabel}} estão acima do esperado.",
-        "statusCodeSimpleBelowOperatorText": "As ocorrências de Código de status HTTP {{statusCodeLabel}} estão abaixo do esperado.",
-        "slownessSimpleAboveOperatorText": "O tempo de onLoad ({{aggregationText}}) está acima do esperado.",
-        "slownessSimpleBelowOperatorText": "O tempo de onLoad ({{aggregationText}}) está abaixo do esperado.",
-        "slownessGreaterOperatorText": "O tempo de onLoad ({{aggregationText}}) é maior que {{thresholdValue}} ms.",
-        "slownessGreaterEqualsOperatorText": "O tempo de onLoad ({{aggregationText}}) é maior ou igual a {{thresholdValue}} ms.",
-        "slownessLessOperatorText": "O tempo de onLoad ({{aggregationText}}) é menor que {{thresholdValue}} ms.",
-        "slownessLessEqualsOperatorText": "O tempo de onLoad ({{aggregationText}}) é menor ou igual a {{thresholdValue}} ms.",
-        "staticThresholdHigherOperatorText": "O número de {{metricLabel}} é maior que {{thresholdValue}}.",
-        "staticThresholdHigherEqualsOperatorText": "O número de {{metricLabel}} é maior ou igual a {{thresholdValue}}.",
-        "staticThresholdLowerOperatorText": "O número de {{metricLabel}} é menor que {{thresholdValue}}.",
-        "staticThresholdLowerEqualsOperatorText": "O número de {{metricLabel}} é menor ou igual a {{thresholdValue}}.",
-        "thresholdHigherOperatorText": "O número de {{metricLabel}} é maior que o esperado.",
-        "thresholdHigherEqualsOperatorText": "O número de {{metricLabel}} é maior ou igual ao esperado.",
-        "thresholdLowerOperatorText": "O número de {{metricLabel}} é menor que o esperado.",
-        "thresholdLowerEqualsOperatorText": "O número de {{metricLabel}} é menor ou igual ao esperado.",
-        "errorPleaseProvideAnErrorMessage": "Forneça uma mensagem de erro",
-        "errorPleaseProvideANumberGreaterEqualsToZero": "Forneça um número >= 0",
-        "errorBaselineIsEmpty": "a linha de base está vazia",
-        "ruleJsErrorsOperatorOptionAny": "Qualquer",
-        "ruleJsErrorsOperatorOptionEquals": "Equivale a",
-        "ruleJsErrorsOperatorOptionContains": "Contém",
-        "ruleJsErrorsOperatorOptionStartsWith": "Começa com",
-        "ruleJsErrorsOperatorOptionEndWith": "Termina com",
         "ruleStatusCodeValueOption1": "1XX (Informativo)",
         "ruleStatusCodeValueOption100": "100 (Continuar)",
         "ruleStatusCodeValueOption101": "101 (Protocolos de comutação)",
@@ -422,13 +397,6 @@
         "ruleStatusCodeValueOption511": "511 (Autenticação de rede necessária)",
         "ruleStatusCodeValueOption599": "599 (Erro de tempo limite de conexão de rede)",
         "ruleStatusCodeValueOptionCustom": "Intervalo customizado",
-        "ruleMetricNameOptionSpecificJsErrorErrors": "Contagem de erros",
-        "ruleMetricNameOptionSpecificJsErrorSpecificJsErrorRate": "Taxa de erro",
-        "ruleMetricNameOptionStatusCodeHttpxxx": "Contagem de códigos de status",
-        "ruleMetricNameOptionStatusCodeSpecificStatusCodeRate": "Taxa de código de status",
-        "ruleMetricNameOptionSlownessOnLoadTime": "Tempo de onLoad",
-        "ruleMetricNameOptionThroughputPageLoads": "Carregamentos de página",
-        "ruleMetricNameOptionThroughputPageTransitions": "Transições de página",
         "ruleFormErrorStatusCodeStartGTEnd": "Selecione um código de status HTTP final que seja maior ou igual que o código de status HTTP inicial",
         "ruleFormPleaseProvideALogMessage": "Forneça uma mensagem de log",
         "ruleFormPleaseProvideAStartStatusCode": "Forneça um código de status HTTP inicial",
@@ -455,26 +423,27 @@
       "inventory": {
         "noData": "Nenhum Alerta inteligente configurado. Clique no botão abaixo para configurar seu primeiro alerta inteligente.",
         "noPersmissionToCreateGlobalSmartAlert": "Você não tem a permissão para configurar alertas inteligentes. Entre em contato com seu administrador.",
-        "labelGlobalSmartAlertsList": "Alertas inteligentes do aplicativo global ({{numberOfAlerts}})",
-        "labelSmartAlertsList": "Alertas inteligentes do aplicativo ({{numberOfAlerts}})",
+        "labelGlobalSmartAlertsList": "Alertas inteligentes de aplicativos globais ({{numberOfAlerts}})",
+        "labelSmartAlertsList": "Alertas inteligentes de aplicativos ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
-        "labelName": "Nome",
         "labelActionButtonEdit": "Editar",
         "labelActionButtonDuplicate": "Duplicata",
         "labelActionButtonDelete": "Excluir",
-        "noAlertConfigured": "Nenhum alerta configurado.",
-        "alertEntityName": "alerta \"{{entityName}}\"",
         "labelAlertFilters": "Filtros",
         "labelConfirm": "Confirme",
         "labelConfirmRemoveConfig": "Tem certeza de que deseja remover a configuração <strong>{{configName}}</strong>?",
         "labelRemove": "Remover",
         "numberOfApplicationsSelected": "{{count}} aplicativo selecionado",
         "numberOfApplicationsSelected_plural": "{{count}} aplicativos selecionados"
+      },
+      "details": {
+        "title": "Detalhes do alerta",
+        "titleAlertProperties": "Propriedades de alerta"
       }
     },
     "form": {
       "ruleAggregationOptionMEAN": "média",
-      "ruleAggregationOptionMIN": "mínimo",
+      "ruleAggregationOptionMIN": "mínima",
       "ruleAggregationOptionP25": "25º",
       "ruleAggregationOptionP50": "50º",
       "ruleAggregationOptionP75": "75º",
@@ -482,7 +451,7 @@
       "ruleAggregationOptionP95": "95º",
       "ruleAggregationOptionP98": "98º",
       "ruleAggregationOptionP99": "99º",
-      "ruleAggregationOptionMAX": "máximo",
+      "ruleAggregationOptionMAX": "máxima",
       "ruleAggregationForWeeklySeasonalityOptionMEAN": "média",
       "ruleAggregationForWeeklySeasonalityOptionP50": "50º"
     },
@@ -490,7 +459,7 @@
       "smartAlertDialog": {
         "sharedListTooltip": "O {{typeName}} selecionado não está mais disponível",
         "clearTagFilterExpressionButton": "Limpar",
-        "baselineErrorMessageInsufficientDataToCompute": "Dados insuficientes para computar a linha de base selecionada. Selecione <i>Limite estático</i> como alternativa.",
+        "baselineErrorMessageInsufficientDataToCompute": "Dados insuficientes para computar a linha de base selecionada. Selecione <em>Limite estático</em> como alternativa.",
         "baselineErrorMessageReason": "Razão:",
         "blueprintDescriptionButtonSelect": "Selecionar",
         "selectAlertChannelButtonTitle": "Selecionar canais de alerta",
@@ -503,7 +472,7 @@
         "add": "Incluir",
         "scopeConfigTitleWithApplications": "Selecionar Aplicativos/Serviços/Terminais",
         "scopeConfigTitle": "Selecionar serviços/terminais",
-        "scopeConfigTitleTooltip": "Mostrando entidades disponíveis para os últimos sete dias",
+        "scopeConfigTitleTooltip": "Mostrando entidades disponíveis para os últimos 7 dias",
         "sortByUserSelectionLabel": "Classificar por seleção de usuário",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Pelo menos {{count}} usuário e {{userPercentage}} dos usuários impactados dentro de {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Pelo menos {{count}} usuários e {{userPercentage}} dos usuários impactados dentro de {{formattedTimeWindow}}",
@@ -541,7 +510,6 @@
         "timeThresholdConfigOff": "desligado",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Forneça um número >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Forneça um número entre 1% e 100%",
-        "alertPropertiesInsertPlaceholderTooltip": "Inserir item temporário",
         "timeThresholdConfigTimeThresholdLabelViolationsInSequence": "Quando a condição persistir por uma quantidade especificada de tempo",
         "timeThresholdConfigTimeThresholdLabelViolationsInPeriod": "Toda vez que a condição for acionada uma quantidade especificada de vezes em um intervalo de tempo definido",
         "timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence": "Quando uma determinada quantidade dos meus usuários for impactada",
@@ -571,16 +539,13 @@
         "thresholdTypeOptionHistoricBaselineDaily": "Linha de base (sazonalidade diária)",
         "thresholdTypeOptionHistoricBaselineWeekly": "Linha de base (sazonalidade semanal)",
         "useSuggestedvalue": "Usar valor sugerido",
-        "alertConfigDialogPresenterTitleEditAlertLocal": "Editar alerta inteligente",
-        "alertConfigDialogPresenterTitleEditAlertGlobal": "Editar alerta inteligente global",
-        "alertConfigDialogPresenterTitleCreateNewAlertLocal": "Criar novo alerta inteligente",
-        "alertConfigDialogPresenterTitleCreateNewAlertGlobal": "Criar novo alerta inteligente global",
+        "alertConfigDialogPresenterTitleEditAlert_Local": "Editar alerta inteligente",
+        "alertConfigDialogPresenterTitleEditAlert_Global": "Editar alerta inteligente global",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Criar novo alerta inteligente",
+        "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Criar novo alerta inteligente global",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Alternar para o modo avançado",
-        "alertConfigDialogPresenterButtonSwitchToSimpleMode": "Alternar para o modo simples",
         "simpleAlertConfigDialogStep3Headline": "Quem deve receber os alertas?",
         "Loading": "Carregando…",
-        "LoadingServices": "Carregando serviços...",
-        "NoServiceInScope": "Nenhum serviço no escopo",
         "PreviewForAP": "Visualização para Perspectiva de aplicativo:",
         "PreviewForEndpoint": "Visualização para terminal:",
         "PreviewForService": "Visualização para serviço:"
@@ -648,15 +613,12 @@
         "alertChannelsTitle": "Canais de alerta: quem precisa ser alertado?",
         "propertiesLabel": "Propriedades (opcional)",
         "propertiesTitle": "Propriedades adicionais de alerta (opcional)",
-        "thresholdValue": "Valor do limite"
-      },
-      "alertConfigDialogWithThreshold": {
-        "alertText": "Este é um novo recurso.",
-        "alertLabelText": "NOVO"
+        "thresholdValue": "Valor do limite",
+        "payloadsLabel": "Cargas úteis (opcional)",
+        "payloadsTitle": "Cargas úteis customizadas (opcional)"
       },
       "components": {
         "provideStatusCodeStatusCode": "Código de status",
-        "tagSuggestions": "Sugestões de tag não definidas para o tipo de alerta {{alertType}} ",
         "errorMessage": "Mensagem de erro",
         "noDataMessage": "Nenhum alerta configurado.",
         "selectJSErrorHelpText": "Selecionar mensagem de erro de JS como modelo (opcional)",
@@ -731,7 +693,7 @@
         "errorPleaseProvideANumberGreaterEqualsToZero": "Forneça um número >= 0",
         "errorBaselineIsEmpty": "a linha de base está vazia",
         "ruleJsErrorsOperatorOptionAny": "Qualquer",
-        "ruleJsErrorsOperatorOptionEquals": "Equivale a",
+        "ruleJsErrorsOperatorOptionEquals": "Igual a",
         "ruleJsErrorsOperatorOptionContains": "Contém",
         "ruleJsErrorsOperatorOptionStartsWith": "Começa com",
         "ruleJsErrorsOperatorOptionEndWith": "Termina com",
