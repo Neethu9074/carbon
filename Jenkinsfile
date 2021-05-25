@@ -195,7 +195,7 @@ def buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, br
     }
     parallel buildAndPublish
 
-    retagBackend(backendComponents, branchName, instanaVersion, instanaImageVersion)
+    rebuildBackend(backendComponents, branchName, instanaVersion, instanaImageVersion)
     notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully built K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
   } catch (e) {
     notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Failed to build K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
@@ -216,18 +216,25 @@ def buildAndPublishImage(gitCommitId, componentName, version, branchName) {
 
 // Keep image tags for backend and ui-client in-sync as instanactl only accepts a single version
 // and expects all components to have an image with that version
-def retagBackend(backendComponents, branchName, instanaVersion, instanaImageVersion) {
+def rebuildBackend(backendComponents, branchName, instanaVersion, instanaImageVersion) {
   def backendStableVersion =
       sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js backend ${branchName}").trim()
   def backendStableImageVersion = "3." + backendStableVersion.tokenize('.').drop(1).join('.') + "-0"
 
-  def retagBackendComponents = [:]
+  def rebuildBackendComponents = [:]
   backendComponents.each {
-      retagBackendComponents[it] = {
-        sh "./build/ci-shared-tools/scripts/docker/retagImage.js containers.instana.io/instana/${branchName}/product/${it}:${backendStableImageVersion} containers.instana.io/instana/${branchName}/product/${it}:${instanaImageVersion}"
+      def currentBackendFullyQualifiedTag = "containers.instana.io/instana/${branchName}/product/${it}:${backendStableImageVersion}"
+      def newBackendFullyQualifiedTag = "containers.instana.io/instana/${branchName}/product/${it}:${instanaImageVersion}"
+      rebuildBackendComponents[it] = {
+        sh """
+        ./build/ci-shared-tools/scripts/docker/containerOverride.js \
+        ${currentBackendFullyQualifiedTag} \
+        ${newBackendFullyQualifiedTag} \
+        "--build-arg current_fully_qualified_tag=${currentBackendFullyQualifiedTag} --label com.instana.image.tag=${instanaImageVersion}"
+        """
     }
   }
-  parallel retagBackendComponents
+  parallel rebuildBackendComponents
 
   sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client ${branchName} ${instanaVersion}"
   sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client-saas ${branchName} ${instanaVersion}"
