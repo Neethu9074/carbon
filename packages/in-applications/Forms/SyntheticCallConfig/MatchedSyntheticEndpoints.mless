@@ -32,6 +32,7 @@
 
   .alignRight {
     text-align: right;
+    padding-right: 1rem;
   }
 
   .loadMore {

@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import classNames from 'classnames';
 import { get } from 'lodash';
 import React from 'react';
+
+import { Link } from '@instana/components';
 
 import {
   Table,
@@ -26,13 +27,13 @@ import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/f
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { createGroupBy } from 'in-analyze/navigation/paths';
-import { tagFilter } from 'in-analyze/navigation/matrix';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
