@@ -47,15 +47,23 @@ function ChartReactWrapper(props) {
     reverseTooltipOrder,
     renderPostChartContent,
     renderPreChartContent,
-    nonInteractive
+    nonInteractive,
+    automaticallySize
   } = props;
 
   const [preAndPostContentConfig, setPreAndPostContentConfig] = useState();
 
   const { ref: legendRef, height: calculatedLegendHeight } = useResizeObserver();
+  const { ref: preContentRef, height: calculatedPreContentHeight = 0 } = useResizeObserver();
+  const { ref: postContentRef, height: calculatedPostContentHeight = 0 } = useResizeObserver();
+
   const actualLegendHeight = calculatedLegendHeight ?? commonLegendHeight;
 
-  const chartHeight = heightOfWrapper - actualLegendHeight;
+  let chartHeight = heightOfWrapper - actualLegendHeight;
+
+  if (automaticallySize) {
+    chartHeight = chartHeight - calculatedPreContentHeight - calculatedPostContentHeight;
+  }
 
   const chartProps = {
     ...props,
@@ -112,11 +120,15 @@ function ChartReactWrapper(props) {
       </div>
 
       <div className={locals.markerLanesWrapper}>
-        {preAndPostContentConfig &&
-          renderPreChartContent?.({
-            ...preAndPostContentConfig,
-            chartContentPosition: 'pre'
-          })}
+        {typeof renderPreChartContent === 'function' && (
+          <div ref={preContentRef}>
+            {preAndPostContentConfig &&
+              renderPreChartContent({
+                ...preAndPostContentConfig,
+                chartContentPosition: 'pre'
+              })}
+          </div>
+        )}
 
         <div className={locals.chartAxisWrapper}>
           {chart?.config.y1 && (
@@ -141,12 +153,15 @@ function ChartReactWrapper(props) {
             <MetricAwareAxis chart={chart} axisName="y2" height={heightOfDrawableCanvas} align="right" />
           )}
         </div>
-
-        {preAndPostContentConfig &&
-          renderPostChartContent?.({
-            ...preAndPostContentConfig,
-            chartContentPosition: 'post'
-          })}
+        {typeof renderPostChartContent === 'function' && (
+          <div ref={postContentRef}>
+            {preAndPostContentConfig &&
+              renderPostChartContent({
+                ...preAndPostContentConfig,
+                chartContentPosition: 'post'
+              })}
+          </div>
+        )}
       </div>
     </div>
   );
