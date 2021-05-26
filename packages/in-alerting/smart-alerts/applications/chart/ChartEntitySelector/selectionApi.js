@@ -61,6 +61,7 @@ export function fetchEndpoints({
   applicationId,
   boundaryScope,
   serviceId,
+  scopeDownTagFilterFormModel,
   timeConfig,
   includeSynthetic
 }) {
@@ -84,7 +85,7 @@ export function fetchEndpoints({
     tagFilterExpression: toBackendQueryModel(
       joinExpressions({
         logicalOperator: and,
-        expressions: [applicationIdTagFilter, serviceIdTagFilter]
+        expressions: [applicationIdTagFilter, serviceIdTagFilter, scopeDownTagFilterFormModel]
       })
     ),
     metrics: {}

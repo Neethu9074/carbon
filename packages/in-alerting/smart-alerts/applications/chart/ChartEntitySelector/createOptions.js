@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { fetchEndpoints } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/selectionApi';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 
@@ -15,7 +16,8 @@ export function createOptionsList(
   isSelectServiceLevel,
   timeConfig,
   boundaryScope,
-  includeSynthetic
+  includeSynthetic,
+  applications
 ) {
   if (applicationIds.length === 0) return [];
 
@@ -35,12 +37,22 @@ export function createOptionsList(
       });
   }
 
+  const scopeDownTagFilterFormModel = getEntitySelectionAsTagFilterFormModel(applications, boundaryScope);
+
   if (applicationIds.length === 1) {
     const { app, services } = applicationList.map(({ data }) => data)[0];
     return [
       {
         label: 'Services:',
-        children: mapServicesToOptions(app, services, isSelectServiceLevel, timeConfig, boundaryScope, includeSynthetic)
+        children: mapServicesToOptions(
+          app,
+          services,
+          isSelectServiceLevel,
+          timeConfig,
+          boundaryScope,
+          includeSynthetic,
+          scopeDownTagFilterFormModel
+        )
       }
     ];
   }
@@ -62,7 +74,8 @@ export function createOptionsList(
             isSelectServiceLevel,
             timeConfig,
             boundaryScope,
-            includeSynthetic
+            includeSynthetic,
+            scopeDownTagFilterFormModel
           )
         }))
     }
@@ -71,7 +84,15 @@ export function createOptionsList(
 
 const hasNoEndpoints = metrics => metrics?.endpoints?.[0]?.[1] === 0;
 
-function mapServicesToOptions(app, services, isSelectServiceLevel, timeConfig, boundaryScope, includeSynthetic) {
+function mapServicesToOptions(
+  app,
+  services,
+  isSelectServiceLevel,
+  timeConfig,
+  boundaryScope,
+  includeSynthetic,
+  scopeDownTagFilterFormModel
+) {
   return (services ?? []) //
     .map(({ service, metrics }) => ({
       appId: app.id,
@@ -90,6 +111,7 @@ function mapServicesToOptions(app, services, isSelectServiceLevel, timeConfig, b
                 applicationId: app.id,
                 serviceId: service.id,
                 boundaryScope,
+                scopeDownTagFilterFormModel,
                 timeConfig,
                 includeSynthetic
               }) //

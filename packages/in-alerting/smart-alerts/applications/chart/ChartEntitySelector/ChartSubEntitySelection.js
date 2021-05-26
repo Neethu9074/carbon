@@ -90,7 +90,8 @@ export default function ChartSubEntitySelection({
             /* derived from/based on queryWindowSize */
             timeConfig,
             boundaryScope,
-            includeSynthetic
+            includeSynthetic,
+            applications
           ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
