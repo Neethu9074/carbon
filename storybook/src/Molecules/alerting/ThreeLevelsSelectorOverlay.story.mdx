@@ -19,22 +19,22 @@ import {options, optionsWithBreadCrumbLabels, firstLevelChildren} from './treeSe
 <Preview>
   <Story name="default">
     <PermanentlyVisibleOverlay>
-      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={options()} />
+      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={options} />
     </PermanentlyVisibleOverlay>
   </Story>
   <Story name="only two levels">
     <PermanentlyVisibleOverlay>
-      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={firstLevelChildren()} />
+      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={firstLevelChildren} />
     </PermanentlyVisibleOverlay>
   </Story>
   <Story name="without icons">
     <PermanentlyVisibleOverlay>
-      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={options()} withIcons={false} />
+      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={options} withIcons={false} />
     </PermanentlyVisibleOverlay>
   </Story>
   <Story name="with search">
     <PermanentlyVisibleOverlay>
-      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={options()} query={"a"} />
+      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={options} query={"a"} />
     </PermanentlyVisibleOverlay>
   </Story>
   <Story name="with search and enriched nodes">

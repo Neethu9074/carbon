@@ -548,7 +548,8 @@
         "Loading": "Loading…",
         "PreviewForAP": "Preview for Application Perspective:",
         "PreviewForEndpoint": "Preview for Endpoint:",
-        "PreviewForService": "Preview for Service:"
+        "PreviewForService": "Preview for Service:",
+        "PreviewSelectLoadingEndpoints": "Loading Endpoints List"
       },
       "alertsHub": {
         "title": "Alerts Hub",

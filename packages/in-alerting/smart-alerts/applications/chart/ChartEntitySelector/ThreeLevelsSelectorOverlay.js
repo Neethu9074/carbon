@@ -6,17 +6,20 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { ListGroup } from '@instana/components';
+import { ListGroup, Li } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import { DynamicNode } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/DynamicNode';
 import SlideInView, { ListHeader, NoHeader } from 'in-new-components/SlideInView/SlideInView';
 import { nodeArray as nodeArrayPropType } from 'in-new-components/SelectorOverlay/props';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
+import { LoadingIndicator } from 'in-new-components/LoadingIndicators';
 import { search } from 'in-new-components/SelectorOverlay/search';
 import { isNotBlank, isBlank } from 'in-services/util/string';
 import { getInteractiveElements } from 'in-services/util/dom';
 import SearchInput from 'in-new-components/SearchInput';
+import { isLoading } from 'in-services/util/result';
 import keyCodes from 'in-components/keyCodes';
 import { t } from 'in-i18n';
 
@@ -49,7 +52,7 @@ export default function ThreeLevelsSelectorOverlay({
   onQueryChange
 }) {
   const [
-    { focusedNode, showFocusedNode: showFocusedNode, secondFocusedNode, showSecondFocusedNode },
+    { focusedNode, showFocusedNode, secondFocusedNode, showSecondFocusedNode, loading, loading2ndLevel },
     setState
   ] = useState(initialState);
 
@@ -72,7 +75,6 @@ export default function ThreeLevelsSelectorOverlay({
   // which received focus. This information is used when sliding out to restore
   // focus to whatever was focused beforehand.
   const lastFocusedElementRef = useRef();
-  const lastFocusedElementLevel2Ref = useRef();
 
   // Keep a reference to search input
   const searchElementRef = useRef();
@@ -82,60 +84,26 @@ export default function ThreeLevelsSelectorOverlay({
     groups[0]?.focus();
   };
 
-  const innerSlideInContent = focusedNode?.children && (
-    <SlideInView
-      showSlideInContent={showSecondFocusedNode}
-      onShowSlideInContentChange={() =>
-        // slide out / close
-        // from 3rd to 2nd level
-        setState({
-          focusedNode,
-          secondFocusedNode,
-          showFocusedNode,
-          showSecondFocusedNode: false
-        })
-      }
-      onAfterSlideOut={() => {
-        lastFocusedElementLevel2Ref.current?.focus();
-      }}
-      HeaderComponent={ListHeader}
-      slideTransitionDurationMillis={250}
-      slideInContentTitle={secondFocusedNode?.label}
-      slideInContent={
-        <div onKeyDown={onKeyDown3}>
-          {secondFocusedNode?.children.slice(0, maxResults).map((node, i) => (
-            <DynamicNode
-              key={i}
-              node={node}
-              onChange={onChange}
-              asListGroup={false}
-              withIcons={withIcons}
-              focusNode={focus2ndLevelNode}
-            />
-          ))}
-        </div>
-      }
-      staticContent={
-        <div
-          onFocus={e => {
-            lastFocusedElementLevel2Ref.current = e.target;
-          }}
-          onKeyDown={onKeyDown2}
-        >
-          {focusedNode?.children.slice(0, maxResults).map((node, i) => (
-            <DynamicNode
-              key={i}
-              node={node}
-              focusNode={focus2ndLevelNode}
-              onChange={onChange}
-              asListGroup={false}
-              withIcons={withIcons}
-            />
-          ))}
-        </div>
-      }
-      enforceMaxHeightForStaticContent
-    />
+  useObservable(
+    focusedNode?.loadChildren &&
+      (() =>
+        focusedNode.loadChildren().map(result => {
+          const loading = isLoading(result);
+          const resolvedChildren = result?.data?.items;
+          if (!loading && resolvedChildren) {
+            focusedNode.children = resolvedChildren;
+            focusedNode.loadChildren = undefined;
+
+            setState({
+              focusedNode,
+              secondFocusedNode,
+              showFocusedNode,
+              showSecondFocusedNode
+            });
+          }
+          return result;
+        })),
+    [focusedNode?.loadChildren]
   );
 
   return (
@@ -161,67 +129,39 @@ export default function ThreeLevelsSelectorOverlay({
         </div>
       )}
       <div className={locals.overlay}>
-        <SlideInView
-          showSlideInContent={showFocusedNode}
-          onShowSlideInContentChange={() =>
-            setState({
-              focusedNode,
-              showFocusedNode: false
-            })
-          }
-          onAfterSlideOut={() => {
-            lastFocusedElementRef.current?.focus();
-          }}
-          HeaderComponent={showSecondFocusedNode ? NoHeader : ListHeader}
-          slideTransitionDurationMillis={250}
-          slideInContentTitle={focusedNode?.label}
-          slideInContent={innerSlideInContent}
-          staticContent={
-            <div
-              onFocus={e => {
-                lastFocusedElementRef.current = e.target;
-              }}
-              ref={staticContentWrapperRef}
-              onKeyDown={onKeyDown}
-            >
-              {options.slice(0, maxResults).map((node, i) => {
-                const noChildren = !node.children || node.children.length === 0;
-                if (noChildren)
-                  return (
-                    <DynamicNode
-                      key={i}
-                      node={node}
-                      focusNode={focusNode}
-                      onChange={onChange}
-                      withIcons={isBlank(query) && withIcons}
-                      withBreadcrumbs={isNotBlank(query)}
-                    />
-                  );
-
-                return (
-                  <ListGroup label={node.label} height={`${categoryHeight}px`} sticky>
-                    {node.children?.map((node, i) => (
-                      <DynamicNode
-                        key={i}
-                        node={node}
-                        focusNode={focusNode}
-                        onChange={onChange}
-                        withIcons={withIcons}
-                      />
-                    ))}
-                  </ListGroup>
-                );
-              })}
-            </div>
-          }
-          enforceMaxHeightForStaticContent
-        />
+        {MainSlideInView({
+          showFocusedNode,
+          showSecondFocusedNode,
+          focusedNode,
+          setState,
+          onKeyDown,
+          lastFocusedElementRef,
+          staticContentWrapperRef,
+          innerSlideInView: (
+            <InnerSlideInView
+              showFocusedNode={showFocusedNode}
+              showSecondFocusedNode={showSecondFocusedNode}
+              focusedNode={focusedNode}
+              focus2ndLevelNode={focus2ndLevelNode}
+              secondFocusedNode={secondFocusedNode}
+              setState={setState}
+              onKeyDown2={onKeyDown2}
+              onKeyDown3={onKeyDown3}
+              onChange={onChange}
+              withIcons={withIcons}
+              loading={loading}
+              loading2ndLevel={loading2ndLevel}
+            />
+          ),
+          level1StaticContent: <MainStaticContent {...{ options, focusNode, onChange, query, withIcons }} />
+        })}
       </div>
     </>
   );
 
   function focusNode(focusedNode) {
     setState({
+      loading: focusedNode.loadChildren && !focusedNode.children,
       focusedNode,
       secondLvlFocusedNode: null,
       showFocusedNode: true
@@ -230,6 +170,7 @@ export default function ThreeLevelsSelectorOverlay({
 
   function focus2ndLevelNode(secondFocusedNode) {
     setState({
+      loading2ndLevel: secondFocusedNode.loadChildren && !secondFocusedNode.children,
       secondFocusedNode,
       showSecondFocusedNode: true,
       focusedNode,
@@ -288,6 +229,208 @@ export default function ThreeLevelsSelectorOverlay({
       }
     }
   }
+}
+
+function MainStaticContent({ options, focusNode, onChange, query, withIcons }) {
+  return options.slice(0, maxResults).map((node, i) => {
+    const noChildren = !node.children || node.children.length === 0;
+    if (noChildren && !node.loadChildren)
+      return (
+        <DynamicNode
+          key={i}
+          node={node}
+          focusNode={focusNode}
+          onChange={onChange}
+          withIcons={isBlank(query) && withIcons}
+          withBreadcrumbs={isNotBlank(query)}
+        />
+      );
+
+    return (
+      <ListGroup key={i} label={node.label} height={`${categoryHeight}px`} sticky>
+        {node.children?.map((node, j) => (
+          <DynamicNode key={j} node={node} focusNode={focusNode} onChange={onChange} withIcons={withIcons} />
+        ))}
+      </ListGroup>
+    );
+  });
+}
+
+function InnerSlideInView({
+  focusedNode,
+  showSecondFocusedNode,
+  setState,
+  secondFocusedNode,
+  showFocusedNode,
+  onKeyDown3,
+  onChange,
+  withIcons,
+  loading,
+  loading2ndLevel,
+  focus2ndLevelNode,
+  onKeyDown2
+}) {
+  const innerStaticRef = useRef();
+  const innerSlideInRef = useRef();
+  const lastFocusedElementLevel2Ref = useRef();
+
+  useObservable(
+    secondFocusedNode?.loadChildren &&
+      (() =>
+        secondFocusedNode.loadChildren().map(result => {
+          const loading = isLoading(result);
+          const resolvedChildren = result?.data?.items;
+          if (!loading && resolvedChildren) {
+            secondFocusedNode.children = resolvedChildren;
+            //secondFocusedNode.loadChildren = undefined;
+
+            setState({
+              focusedNode,
+              secondFocusedNode,
+              showFocusedNode,
+              showSecondFocusedNode
+            });
+          }
+          return result;
+        })),
+    [secondFocusedNode?.loadChildren]
+  );
+
+  useEffect(() => {
+    if (showSecondFocusedNode && !loading2ndLevel && secondFocusedNode?.children) {
+      const groups = getInteractiveElements(innerSlideInRef.current);
+      groups[0]?.focus();
+    }
+  }, [showSecondFocusedNode, loading2ndLevel, secondFocusedNode?.children]);
+
+  useEffect(() => {
+    if (!showSecondFocusedNode && !loading && focusedNode?.children) {
+      getInteractiveElements(innerStaticRef.current)[0]?.focus();
+    }
+  }, [showSecondFocusedNode, loading, focusedNode?.children]);
+
+  return (
+    ((focusedNode?.children || focusedNode?.loadChildren) && (
+      <SlideInView
+        showSlideInContent={showSecondFocusedNode}
+        onShowSlideInContentChange={() =>
+          // slide out / close
+          // from 3rd to 2nd level
+          setState({
+            focusedNode,
+            secondFocusedNode,
+            showFocusedNode,
+            showSecondFocusedNode: false
+          })
+        }
+        onAfterSlideOut={() => {
+          lastFocusedElementLevel2Ref.current?.focus();
+        }}
+        HeaderComponent={ListHeader}
+        slideTransitionDurationMillis={250}
+        slideInContentTitle={secondFocusedNode?.label}
+        slideInContent={
+          <div onKeyDown={onKeyDown3} ref={innerSlideInRef}>
+            {loading2ndLevel && (
+              <div className={locals.loading}>
+                <Li noAlternatingBg className={locals.option}>
+                  <LoadingIndicator
+                    text={t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewSelectLoadingEndpoints')}
+                    className={locals.loading}
+                  />
+                </Li>
+              </div>
+            )}
+            {secondFocusedNode?.children?.slice(0, maxResults).map((node, i) => (
+              <DynamicNode
+                key={i}
+                node={node}
+                onChange={onChange}
+                withIcons={withIcons}
+                focusNode={focus2ndLevelNode}
+              />
+            ))}
+          </div>
+        }
+        staticContent={
+          <div
+            onFocus={e => {
+              lastFocusedElementLevel2Ref.current = e.target;
+            }}
+            onKeyDown={onKeyDown2}
+            ref={innerStaticRef}
+          >
+            {loading && (
+              <div className={locals.loading}>
+                <Li noAlternatingBg className={locals.option}>
+                  <LoadingIndicator
+                    text={t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewSelectLoadingEndpoints')}
+                    className={locals.loading}
+                  />
+                </Li>
+              </div>
+            )}
+            {focusedNode?.children?.slice(0, maxResults).map((node, i) => (
+              <DynamicNode
+                key={i}
+                node={node}
+                focusNode={focus2ndLevelNode}
+                onChange={onChange}
+                withIcons={withIcons}
+              />
+            ))}
+          </div>
+        }
+        enforceMaxHeightForStaticContent
+      />
+    )) ??
+    null
+  );
+}
+
+function MainSlideInView({
+  showFocusedNode,
+  setState,
+  focusedNode,
+  lastFocusedElementRef,
+  showSecondFocusedNode,
+  innerSlideInView,
+  staticContentWrapperRef,
+  onKeyDown,
+  level1StaticContent
+}) {
+  return (
+    <SlideInView
+      showSlideInContent={showFocusedNode}
+      onShowSlideInContentChange={() =>
+        // slide out / close
+        // from 2nd to 1st level
+        setState({
+          focusedNode,
+          showFocusedNode: false
+        })
+      }
+      onAfterSlideOut={() => {
+        lastFocusedElementRef.current?.focus();
+      }}
+      HeaderComponent={showSecondFocusedNode ? NoHeader : ListHeader}
+      slideTransitionDurationMillis={250}
+      slideInContentTitle={focusedNode?.label}
+      slideInContent={innerSlideInView}
+      staticContent={
+        <div
+          onFocus={e => {
+            lastFocusedElementRef.current = e.target;
+          }}
+          ref={staticContentWrapperRef}
+          onKeyDown={onKeyDown}
+        >
+          {level1StaticContent}
+        </div>
+      }
+      enforceMaxHeightForStaticContent
+    />
+  );
 }
 
 ThreeLevelsSelectorOverlay.propTypes = {

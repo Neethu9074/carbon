@@ -69,31 +69,36 @@ export function createOptionsList(
   ];
 }
 
+const hasNoEndpoints = metrics => metrics?.endpoints?.[0]?.[1] === 0;
+
 function mapServicesToOptions(app, services, isSelectServiceLevel, timeConfig, boundaryScope, includeSynthetic) {
   return (services ?? []) //
-    .map(({ service }) => ({
+    .map(({ service, metrics }) => ({
       appId: app.id,
       id: service.id,
       breadcrumbAndLabel: service.id, // used as a header above endpoints-list
       icon: 'lib_application_service',
       label: service.label,
       type: 'SERVICE',
-      loadChildren: isSelectServiceLevel
-        ? undefined
-        : () =>
-            fetchEndpoints({
-              applicationId: app.id,
-              serviceId: service.id,
-              boundaryScope,
-              timeConfig,
-              includeSynthetic
-            }) //
-              .map(({ data, progress }) => ({
-                data: {
-                  items: mapEndpointsToOptions(app, service, data?.items)
-                },
-                progress
-              }))
+      children: hasNoEndpoints(metrics) ? [] : undefined, // undefined will be replaced in case list will have been fetched
+      loadChildren:
+        isSelectServiceLevel || hasNoEndpoints(metrics) // ignore if only showing services (or APs) or
+          ? // if we already know it has no endpoints
+            undefined
+          : () =>
+              fetchEndpoints({
+                applicationId: app.id,
+                serviceId: service.id,
+                boundaryScope,
+                timeConfig,
+                includeSynthetic
+              }) //
+                .map(({ data, progress }) => ({
+                  data: {
+                    items: mapEndpointsToOptions(app, service, data?.items)
+                  },
+                  progress
+                }))
     }));
 }
 

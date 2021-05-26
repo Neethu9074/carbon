@@ -3,63 +3,58 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { just } from '@instana/observables';
+import { just, timeout } from '@instana/observables';
+
+const convertToNormalChildren = items => items;
 
 const loadingItems = items => () =>
-  just({
+  timeout(2000).map(() => ({
     data: {
       items
     }
-  });
+  }));
 
-export const firstLevelChildren = () => [
+export const firstLevelChildren = [
   {
     label: 'First Level Leaf',
-    description: 'Some description',
     icon: 'lib_infra_docker'
   },
   {
-    label: 'First Level Node',
-    description: 'Some description',
-    icon: 'lib_infra_kubernetesService',
+    label: 'First Level Node (app)',
+    icon: 'lib_application',
     // for testing, swap next two lines to get static case
-    // children: ([
     loadChildren: loadingItems([
       {
-        icon: 'lib_infra_httpd',
-        label: 'Second Level Leaf'
+        icon: 'lib_application_service',
+        label: 'Second Level Leaf (svc)'
       },
       {
-        label: 'Second Level Node',
-        description: 'Some description',
-        icon: 'lib_infra_mule',
-        children: [
+        label: 'Second Level Node (svc)',
+        icon: 'lib_application_service',
+        loadChildren: loadingItems([
           {
-            label: 'Third Level Leaf',
-            icon: 'lib_infra_endpoint',
-            description: 'Some description'
+            label: 'Third Level Leaf (endpoint)',
+            icon: 'lib_application_endpoint'
           }
-        ]
+        ])
       }
     ])
   }
 ];
 
-export const nodeWithKids = () => ({
+export const nodeWithKids = {
   label: 'Root Level Node',
-  description: 'Some description, hidden',
   icon: 'lib_infra_kubernetesNode',
-  loadChildren: loadingItems(firstLevelChildren())
-});
+  children: [...firstLevelChildren]
+};
 
-export const leafNode = () => ({
+export const leafNode = {
   label: 'Root Level Leaf',
-  description: 'Some description',
   icon: 'lib_infra_host'
-});
+};
 
-export const options = () => [leafNode(), nodeWithKids()];
+export const options = [{ ...leafNode }, { ...nodeWithKids }];
 
 export function optionsWithBreadCrumbLabels() {
-  return options().map(o => ({ ...o, breadcrumbAndLabel: 'breadcrumbAndLabel' }));
+  return options.map(o => ({ ...o, breadcrumbAndLabel: 'breadcrumbAndLabel' }));
 }
