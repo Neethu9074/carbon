@@ -16,6 +16,6 @@ registerSpanDefinition({
     let jobName = span.getIn(['data', 'activejob', 'job']);
     let jobAction = span.getIn(['data', 'activejob', 'action']);
 
-    return `${jobName} (${jobAction})`;
+    return `${jobAction} ${jobName}`;
   }
 });
