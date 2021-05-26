@@ -92,6 +92,7 @@ import './rpc-server';
 import './spring-web';
 import './sqlalchemy';
 import './webmethods';
+import './activejob';
 import './aerospike';
 import './cassandra';
 import './couchbase';

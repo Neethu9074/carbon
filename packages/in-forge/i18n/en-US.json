@@ -1079,6 +1079,11 @@
   "tracingTypeName_actioncontroller_0": "ActionController Calls",
   "tracingTypeName_actioncontroller_1": "ActionController",
   "tracingTypeName_actioncontroller_2": "ActionController Calls",
+  "tracingTypeName_activejob": "ActiveJob",
+  "tracingTypeName_activejob_plural": "ActiveJob Calls",
+  "tracingTypeName_activejob_0": "ActiveJob Calls",
+  "tracingTypeName_activejob_1": "ActiveJob Call",
+  "tracingTypeName_activejob_2": "ActiveJob Calls",
   "tracingTypeName_actionview": "ActionView",
   "tracingTypeName_actionview_plural": "ActionView Calls",
   "tracingTypeName_actionview_0": "ActionView Calls",
@@ -10182,6 +10187,11 @@
       "action": "Action",
       "errorMessage": "Error Message",
       "errorType": "Error Type"
+    },
+    "activejob": {
+      "job": "Job",
+      "queue": "Queue",
+      "jobId": "Job ID"
     },
     "actionview": {
       "errorMessage": "Error Message",
