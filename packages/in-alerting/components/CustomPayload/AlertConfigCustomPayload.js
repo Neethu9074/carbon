@@ -46,7 +46,7 @@ export default function AlertConfigCustomPayload({ form, setForm }) {
   }
 
   function updateIn(paths, changeField) {
-    setForm(form.updateIn(['customPayloadFields', ...paths], f => changeField(f).setTouched(true)).setTouched(true));
+    setForm(form.updateIn(['customPayloadFields', ...paths], f => changeField(f).setTouched(true)));
   }
 
   function deleteRow(payloadField) {
