@@ -13,6 +13,9 @@ registerSpanDefinition({
   detailView: 'ActiveJobSpanDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'activejob', 'job']);
+    let jobName = span.getIn(['data', 'activejob', 'job']);
+    let jobAction = span.getIn(['data', 'activejob', 'action']);
+
+    return `${jobName} (${jobAction})`;
   }
 });
