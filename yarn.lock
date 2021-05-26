@@ -11746,10 +11746,10 @@ proto-list@~1.2.1:
   resolved "https://registry.yarnpkg.com/proto-list/-/proto-list-1.2.4.tgz#212d5bfe1318306a420f6402b8e26ff39647a849"
   integrity sha1-IS1b/hMYMGpCD2QCuOJv85ZHqEk=
 
-proxrox@1.17.0:
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/proxrox/-/proxrox-1.17.0.tgz#b67357363e6841b8d99611a8e117d151c27425af"
-  integrity sha512-JK+V3AXYgtaSu6swwIwxV4oa2vNomtaj1ySyBKZ/Tsbk4jAp67frbv4tDhUPLrgiZcFV0FttJxhzmOGfd2YksQ==
+proxrox@^1.18.0:
+  version "1.18.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/proxrox/-/proxrox-1.18.0.tgz#ac38a947fe78d14d3e53c69c89f5bc4404ce4109"
+  integrity sha1-rDipR/540U0+U8acifW8RATOQQk=
   dependencies:
     bluebird "^3.1.1"
     colors "^1.0.3"
