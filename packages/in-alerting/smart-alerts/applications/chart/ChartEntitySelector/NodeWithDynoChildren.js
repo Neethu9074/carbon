@@ -22,7 +22,7 @@ export default function NodeWithDynoChildren({ node, focusNode, onChange, withIc
   const columnDefinitions = [withBreadcrumbs ? breadcrumbAndLabelColumnDefinition : labelColumnDefinition];
   columnDefinitions.push(badgeColumnDefinition);
 
-  if (noChildren) {
+  if (noChildren && !node.loadChildren) {
     if (withIcons) {
       columnDefinitions.unshift(iconColumnDefinition);
     }

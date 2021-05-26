@@ -38,7 +38,12 @@ export function getServiceList(queryWindowSize, enrichedTagFilterFormModel, incl
       by: 'serviceLabel',
       direction: 'ASC'
     },
-    metrics: {},
+    metrics: {
+      endpoints: {
+        metric: 'endpoints',
+        aggregation: 'DISTINCT_COUNT'
+      }
+    },
     filter: {
       includeSyntheticCalls,
       timeConfig: {
