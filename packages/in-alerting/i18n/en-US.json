@@ -422,7 +422,7 @@
       },
       "inventory": {
         "noData": "No Smart Alerts configured. Click the button below to configure you first smart alert.",
-        "noPersmissionToCreateGlobalSmartAlert": "You don't have the permission to configure smart alerts. Please comtact your administrator.",
+        "noPersmissionToCreateGlobalSmartAlert": "You don't have the permission to configure smart alerts. Please contact your administrator.",
         "labelGlobalSmartAlertsList": "Global Application Smart Alerts ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Application Smart Alerts ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
