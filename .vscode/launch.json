@@ -23,18 +23,12 @@
       "name": "Client: Unit Tests",
       "args": [
         "--max-old-space-size=4096",
-        "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-        "--timeout",
-        "999999",
-        "--require",
-        "${workspaceFolder}/packages/in-test/testHarness",
-        "--colors",
-        "--reporter",
-        "dot",
-        "--exclude",
-        "**/node_modules/**",
-        "--exit",
-        "${workspaceFolder}/packages/**/*_test.js"
+        "${workspaceFolder}/node_modules/jest/bin/jest",
+        "--testTimeout",
+        "6000",
+        "packages",
+        "--reporters",
+        "jest-simple-dot-reporter"
       ],
       "internalConsoleOptions": "openOnSessionStart",
       "env": {
@@ -49,18 +43,13 @@
       "name": "Client: Unit Tests (watch (sub-) dir of file active in editor)",
       "args": [
         "--max-old-space-size=4096",
-        "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-        "--timeout",
-        "999999",
-        "--require",
-        "${workspaceFolder}/packages/in-test/testHarness",
-        "--colors",
-        "--reporter",
-        "dot",
-        "--exclude",
-        "**/node_modules/**",
+        "${workspaceFolder}/node_modules/.bin/jest",
+        "--testTimeout",
+        "6000",
+        "--reporters",
+        "jest-simple-dot-reporter",
         "--watch",
-        "${workspaceFolder}/${relativeFileDirname}/**/*_test.js"
+        "${relativeFileDirname}"
       ],
       "internalConsoleOptions": "openOnSessionStart",
       "env": {
