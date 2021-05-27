@@ -14,9 +14,6 @@ export default function IbmCloudEtcdIInfo({ snapshot }) {
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.ibmCloudEtcd.zone')}>{data.get('zone')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.ibmCloudEtcd.members')}>
-        {data.get('member_ids').length}
-      </DescriptionItem>
     </DescriptionList>
   );
 }

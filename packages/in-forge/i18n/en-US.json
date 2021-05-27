@@ -7408,7 +7408,6 @@
       "diskIOPercent": "Avg IO Utilization",
       "disk": "Disk",
       "memory": "Memory",
-      "members": "Member Count",
       "zone": "Zone"
     },
     "ibmCloudEventStream": {

@@ -8,8 +8,9 @@ import React from 'react';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { bytes, percentage } from 'in-services/formatters/number';
-import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { getRawPayload } from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -72,35 +73,42 @@ const cols = [
   }
 ];
 
-export default function MemoryTable({ snapshot, timeConfig }) {
-  const snapshotId = snapshot.get('id');
-  const rows = snapshot
-    .getIn(['data', 'member_ids'], emptyList)
-    .toArray()
-    .map(name => {
+export default connectTo(
+  props => {
+    return {
+      memberIds: getRawPayload(props.snapshot.get('id'), 'member_ids')
+    };
+  },
+  function MemoryTable({ snapshot, timeConfig, memberIds }) {
+    if (!memberIds || memberIds.isEmpty()) {
+      return null;
+    }
+
+    const rows = memberIds.toArray().map(member => {
       return {
-        key: name,
-        name,
-        snapshotId,
+        key: member,
+        name: member,
+        snapshotId: snapshot.get('id'),
         timeConfig
       };
     });
 
-  if (rows.length === 0) {
-    return null;
-  }
+    if (rows.length === 0) {
+      return null;
+    }
 
-  return (
-    <Table
-      withoutPadding
-      cardTitle={t('in-forge:plugins.ibmCloudEtcd.titleMemory')}
-      cols={cols}
-      rows={rows}
-      getRowDetails={getDetails}
-      maxItemsPerPage={10}
-    />
-  );
-}
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.ibmCloudEtcd.titleMemory')}
+        cols={cols}
+        rows={rows}
+        getRowDetails={getDetails}
+        maxItemsPerPage={10}
+      />
+    );
+  }
+);
 
 function getDetails(row) {
   return (
