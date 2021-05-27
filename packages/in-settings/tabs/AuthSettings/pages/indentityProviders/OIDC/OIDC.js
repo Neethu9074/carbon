@@ -314,7 +314,7 @@ function saveItem({ setMessage, idpMetadata, spEntityId, ownerEmail, discoveryUr
 
 function enrichForm(form, { setCanDeleteItem, result: { config } }) {
   const { oidcSignInCallbackUrl, oidcSignOutCallbackUrl, spEntityId, discoveryUri, activated, idpType } = config;
-  const mappedIdpType = idpTypes.filter(({ key }) => key === idpType)[0] ?? defaultIdpType;
+  const mappedIdpType = idpTypes.filter(({ key }) => key === idpType)[0] ?? defaultIdpType.key;
 
   setCanDeleteItem(!!activated);
   return form
