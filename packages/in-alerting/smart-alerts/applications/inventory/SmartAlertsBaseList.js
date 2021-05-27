@@ -128,6 +128,12 @@ const urlStateDefinition = {
       as: 'page',
       initialState: 1,
       parser: intParser
+    },
+    {
+      path: alertsTab,
+      name: 'query',
+      as: 'query',
+      initialState: ''
     }
   ],
   resets: [
@@ -163,9 +169,7 @@ export default function SmartAlertsBaseList({
   getLocalAlertConfigsFetchFunction,
   additionalMatrixKeys
 }) {
-  const [{ orderBy, orderDirection, configsCategory, page }, setUrlState] = useUrlState(urlStateDefinition);
-
-  const [query, setQuery] = useState('');
+  const [{ orderBy, orderDirection, configsCategory, page, query }, setUrlState] = useUrlState(urlStateDefinition);
 
   const { globalConfigs, isLoadingGlobalConfigs, errorsGlobalConfigs } = useGlobalSmartAlertConfigs(
     getGlobalAlertConfigFetchFunction
@@ -248,7 +252,7 @@ export default function SmartAlertsBaseList({
               }
             />
           </div>
-          <SearchInput query={query} onChange={setQuery} />
+          <SearchInput query={query} onChange={updatedQuery => setUrlState({ query: updatedQuery, page: 1 })} />
         </HorizontalFlexWrapper>
       </HorizontalFlexWrapper>
       <Ul framed>
