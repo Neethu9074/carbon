@@ -11,7 +11,7 @@ function _remove_from_local_registry {
 }
 
 function push_image {
-  if [[ ${VERSION} == 'local' ]]; then
+  if [[ ${ARTIFACT_VERSION} == 'local' ]]; then
     _log_info "Images built locally will not be pushed to the remote registry"
     exit 0
   else

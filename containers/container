@@ -4,8 +4,7 @@ FROM containers.instana.io/instana/product/nodejs:${base_version}
 
 ADD build/ /
 
-ARG version
-ARG iteration
+ARG image_version
 ARG branch
 ARG commit_id
 
@@ -13,11 +12,11 @@ ENV COMPONENT_ID=""
 
 ENV COM_INSTANA_COMMIT_ID="${commit_id}" \
     COM_INSTANA_BRANCH="${branch}" \
-    COM_INSTANA_IMAGE_TAG="${version}-${iteration}"
+    COM_INSTANA_IMAGE_TAG="${image_version}"
 
 LABEL com.instana.commit.id="${commit_id}" \
       com.instana.branch="${branch}" \
-      com.instana.image.tag="${version}-${iteration}"
+      com.instana.image.tag="${image_version}"
 
 USER instana:instana
 
