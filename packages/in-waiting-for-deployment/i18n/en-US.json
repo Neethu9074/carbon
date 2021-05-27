@@ -278,7 +278,13 @@
     "agentRuntimeLabel": "Agent runtime",
     "agentInstallationModeLabel": "Installation mode",
     "agentInstallationModeInteractive": "Interactive",
-    "agentInstallationModeSilent": "Silent"
+    "agentInstallationModeSilent": "Silent",
+    "ibmapmproxy": "IBM APM V8 Instana Integration Proxy",
+    "ibmapmmineba": "IBM APM V8 Min server dropins eba",
+    "requiresRuntimeDropin": "The Instana Integration support for IBM APM V8 requires an additional runtime dropin.",
+    "copyToApmMinDropins": "The downloaded package must be unzipped and the resulting eba file copied into dropins directory of the IBM APM V8 Min server.",
+    "integrations": "Integrations",
+    "IBM": "IBM"
   },
   "runtime": {
     "go": "Go",

@@ -369,6 +369,13 @@ export default function getEntries({ disableAwsSensorDocumentation }) {
           Content: ElasticComputingWindowsContent
         }
       ]
+    },
+    {
+      label: t('in-waiting-for-deployment:content.IBM'),
+      category: t('in-waiting-for-deployment:content.integrations'),
+      keyWords: 'ibmapm',
+      icon: 'lib_infra_apmproxy',
+      Content: ManualIBMApmContent
     }
   ];
 }
@@ -3094,6 +3101,25 @@ function ManualWindowsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
             t('in-waiting-for-deployment:content.weRecommendToUseAJdkFromTheSameVendorAsMonitoredJvMsOnTheSameHost')
           ]}
         />
+      </HelpBox>
+    </>
+  );
+}
+
+function ManualIBMApmContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
+  const agentOptions = [{ key: 'ibmapm-proxy', label: t('in-waiting-for-deployment:content.ibmapmproxy') }];
+  const [option, setOption] = useState(agentOptions[0].key);
+
+  return (
+    <>
+      <Row>
+        <DropDown value={option} options={agentOptions} onChange={setOption} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain)} />
+      </Row>
+      <HelpBox title={t('in-waiting-for-deployment:content.requiresRuntimeDropin')}>
+        <Listing items={[t('in-waiting-for-deployment:content.ibmapmmineba')]} />
+        <Spacer />
+        <Description lines={[t('in-waiting-for-deployment:content.copyToApmMinDropins')]} />
       </HelpBox>
     </>
   );
