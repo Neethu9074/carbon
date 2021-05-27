@@ -145,7 +145,7 @@ export default [
     label: t('in-kubernetes:dashboards.infrastructure'),
     path: `${clusterDashboardFullyQualified}/hosts`,
     component: Infrastructure,
-    header: props => getCounterComponent(props, v => v.nodes)
+    header: props => getCounterComponent(props, v => v.hosts)
   }
 ].filter(Boolean);
 
