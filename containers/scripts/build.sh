@@ -56,7 +56,7 @@ function _get_run_sh {
 }
 
 function _get_component_tar_gz {
-  if [[ ${VERSION} == 'local' ]]; then
+  if [[ ${ARTIFACT_VERSION} == 'local' ]]; then
       _log_info "Building ${COMPONENT_NAME} tar.gz locally"
       pushd "${UI_CLIENT_ROOT_DIR}"
       cd packages/in-server && yarn --prod && cd ../..
@@ -79,7 +79,7 @@ function _extract_component_tar_gz {
 
     _log_info "Extracting ${COMPONENT_NAME}.tar.gz"
     tar xfz "${COMPONENT_WORK_DIR}/${COMPONENT_NAME}.tar.gz" -C "${COMPONENT_OPT_INSTANA_DIR}"
-    if [[ ${VERSION} != 'local' ]]; then
+    if [[ ${ARTIFACT_VERSION} != 'local' ]]; then
       COMMIT_ID=$(cat "${COMPONENT_OPT_INSTANA_DIR}/target/assets/build.json" | jq -r '.revision')
     fi
   else
@@ -138,8 +138,7 @@ function build_image {
   docker build \
     --build-arg base_version=${BASE_VERSION} \
     --build-arg component_name=${COMPONENT_NAME} \
-    --build-arg version=${CONTAINER_VERSION} \
-    --build-arg iteration=${ITERATION} \
+    --build-arg image_version=${IMAGE_VERSION} \
     --build-arg branch=${BRANCH_NAME} \
     --build-arg commit_id=${COMMIT_ID} \
     -f ${CONTAINER_FILE} \

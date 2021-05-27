@@ -10,14 +10,13 @@ COLOR_NONE='\033[0m' # No Color
 
 COMPONENT_NAME='ui-client'
 CONTAINER_IMAGE_NAME=${CONTAINER_IMAGE_NAME:-$1}
-VERSION=${VERSION:-local}
-CONTAINER_VERSION="3.${VERSION#*.}"
-ITERATION=${ITERATION:-0}
+ARTIFACT_VERSION=${ARTIFACT_VERSION:-local}
+IMAGE_VERSION=${IMAGE_VERSION:-'3.local-0'}
 BRANCH_NAME=${BRANCH_NAME:-`git rev-parse --abbrev-ref HEAD`}
 COMMIT_ID=${COMMIT_ID:-replace-me-commit-id}
 
 IMAGE_URI="containers.instana.io/instana/${BRANCH_NAME}/product/${CONTAINER_IMAGE_NAME}"
-FULLY_QUALIFIED_TAG="${IMAGE_URI}:${CONTAINER_VERSION}-${ITERATION}"
+FULLY_QUALIFIED_TAG="${IMAGE_URI}:${IMAGE_VERSION}"
 UI_CLIENT_ROOT_DIR="${SCRIPTPATH}/../.."
 COMPONENTS_HOME_DIR="${SCRIPTPATH}/.."
 COMPONENT_CONTAINER_DIR="${COMPONENTS_HOME_DIR}/.container.${CONTAINER_IMAGE_NAME}"
@@ -41,7 +40,7 @@ function _log_error {
 }
 
 function _docker_login() {
-  if [[ ${VERSION} == 'local' ]]; then
+  if [[ ${ARTIFACT_VERSION} == 'local' ]]; then
     _log_info "Skipping docker login for local builds"
   else
     _log_info "Login to containers.instana.io"
@@ -50,7 +49,7 @@ function _docker_login() {
 }
 
 function _check_branch_name {
-  if [[ ${VERSION} == 'local' ]]; then
+  if [[ ${ARTIFACT_VERSION} == 'local' ]]; then
     _log_info "Skipping branch name check for local builds"
   else
     IS_DELIVERY_BRANCH=$(${UI_CLIENT_ROOT_DIR}/build/ci-shared-tools/scripts/isDeliveryBranch.js)
