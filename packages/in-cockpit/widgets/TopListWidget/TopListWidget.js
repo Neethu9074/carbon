@@ -10,6 +10,7 @@ import React from 'react';
 import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
 import DraggableLightCard from 'in-cockpit/widgets/TopListWidget/DraggableLightCard';
 import StarredItemList from 'in-cockpit/widgets/TopListWidget/StarredItemList';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import ItemList from 'in-cockpit/widgets/TopListWidget/ItemList';
 import Star from 'in-cockpit/widgets/TopListWidget/Star';
 import SearchInput from 'in-new-components/SearchInput';
@@ -165,8 +166,7 @@ function TopListWidget(props) {
 
       {!hasContent && <EmptyStateComponent {...props} />}
 
-      {/* render an empty div to keep the link at the bottom of the card */}
-      {hasContent && numberOfRegularItemsToShow === 0 && numberOfPinnedItems === 0 && <div />}
+      {hasContent && numberOfRegularItemsToShow === 0 && numberOfPinnedItems === 0 && <NoDataAvailable height={230} />}
     </DraggableLightCard>
   );
 }
