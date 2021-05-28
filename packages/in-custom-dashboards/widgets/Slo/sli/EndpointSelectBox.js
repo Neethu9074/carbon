@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
@@ -30,7 +31,7 @@ export default function EndpointSelectBox({ applicationId, field, serviceId, bou
       {isLoading(result) ? (
         <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.loading')}</option>
       ) : (
-        <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.allServices')}</option>
+        <option value="">{t('in-custom-dashboards:widgets.slo.endpointSelectBox.allEndpoints')}</option>
       )}
       {result.data?.items?.map(({ endpoint }) => (
         <option value={endpoint.id} key={endpoint.id}>

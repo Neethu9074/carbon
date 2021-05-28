@@ -358,7 +358,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Endpunkt",
-        "allServices": "Alle Services",
+        "allEndpoints": "Alle Services",
         "loading": "<loading>"
       },
       "goodBadEventsForm": {
