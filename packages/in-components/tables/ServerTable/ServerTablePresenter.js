@@ -93,22 +93,24 @@ export default function ServerTablePresenter(props) {
   }
 
   const tableElement = (
-    <Table fixedLayout={fixedLayout} tableInCard={tableInCard || cardTitle != null}>
-      <Thead>
-        <Columns
-          setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
-          columnDefinitions={visibleColumns}
-          orderBy={orderBy}
-          orderDirection={orderDirection}
-          allRowsAreSelected={allRowsAreSelected}
-          setSelectedStateForRows={setSelectedStateForRows}
-          optionalColumns={optionalColumns}
-          availableColumnDefinitions={availableColumns}
-          onColumnChecked={onColumnChecked}
-        />
-      </Thead>
-      <Tbody>{body}</Tbody>
-    </Table>
+    <div className={locals.scrollableTable}>
+      <Table fixedLayout={fixedLayout} tableInCard={tableInCard || cardTitle != null}>
+        <Thead>
+          <Columns
+            setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
+            columnDefinitions={visibleColumns}
+            orderBy={orderBy}
+            orderDirection={orderDirection}
+            allRowsAreSelected={allRowsAreSelected}
+            setSelectedStateForRows={setSelectedStateForRows}
+            optionalColumns={optionalColumns}
+            availableColumnDefinitions={availableColumns}
+            onColumnChecked={onColumnChecked}
+          />
+        </Thead>
+        <Tbody>{body}</Tbody>
+      </Table>
+    </div>
   );
 
   let header;

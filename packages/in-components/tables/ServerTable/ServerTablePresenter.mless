@@ -26,4 +26,8 @@
 
     margin: 1rem 0;
   }
+
+  .scrollableTable {
+    overflow-x: auto;
+  }
 }
