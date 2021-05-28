@@ -41,14 +41,14 @@ export default function InboundAllCallsDropdown(props) {
           <div className={locals.buttonContent}>
             <SvgIcon className={locals.icon} type={boundaryScopes.info[boundaryScope.toUpperCase()].icon} />
             {boundaryScopeLabel}
-            {defaultBoundaryScope && (
+            {defaultBoundaryScope && !disabled ? (
               <Tooltip
                 content={boundaryScopes.info[defaultBoundaryScope.toUpperCase()].overrideDefault}
-                align="rightMiddle"
+                align="leftMiddle"
               >
                 <SvgIcon className={locals.tooltipIcon} type="lib_help_error_info_outline" size="xs" />
               </Tooltip>
-            )}
+            ) : null}
           </div>
         </DropdownButton>
       )}

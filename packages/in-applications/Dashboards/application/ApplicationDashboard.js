@@ -11,6 +11,7 @@ import { useObservable } from '@instana/hooks';
 import {
   alertsList,
   applicationDashboard,
+  dependencyMapTab,
   errorMessagesTab,
   logMessagesTab,
   summaryTab
@@ -192,7 +193,7 @@ function renderButtonLineSecondary({
         data={result.data}
         boundaryScope={boundaryScope}
         onBoundaryStateChange={onBoundaryStateChange}
-        disabled={location.pathname === '/application/map'}
+        disabled={currentTab === dependencyMapTab}
       />
       {syntheticCallsEnabled && (
         <IncludeSyntheticCallsDropdown

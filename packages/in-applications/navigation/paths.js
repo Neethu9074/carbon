@@ -68,6 +68,7 @@ export const endpointDashboard = '/endpoint';
 export const configureEndpointsView = '/service/endpoints/configure';
 
 export const summaryTab = '/summary';
+export const dependencyMapTab = '/map';
 export const errorMessagesTab = '/errorMessages';
 export const logMessagesTab = '/logMessages';
 
