@@ -8,6 +8,7 @@ import rpt from 'prop-types';
 
 import { enrichAxisWithColors } from 'in-components/Chart/strokeColors';
 import TooltipContent from 'in-new-components/PieChart/TooltipContent';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import PieLegend from 'in-new-components/PieChart/PieLegend';
 import { defaultTimeShift } from 'in-stores/time/shifting';
@@ -79,6 +80,14 @@ const PieChartWrapper = props => {
   const renderableSlicesCount = slices.filter(slice => slice?.percentage).length;
   const sliceValueSumWithGap = renderableSlicesCount > 1 ? sum + renderableSlicesCount * sliceGap * sum : sum;
 
+  if (!renderableSlicesCount) {
+    return (
+      <div className={locals.chartContainer}>
+        <PieLegend {...props} updateHiddenMetrics={setHiddenMetrics} hiddenMetrics={hiddenMetrics} />
+        <NoDataAvailable />
+      </div>
+    );
+  }
   return (
     <div className={locals.chartContainer}>
       <PieLegend {...props} updateHiddenMetrics={setHiddenMetrics} hiddenMetrics={hiddenMetrics} />
