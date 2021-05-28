@@ -358,7 +358,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "エンドポイント",
-        "allEndpoints": "すべてのサービス",
+        "allServices": "すべてのサービス",
         "loading": "<loading>"
       },
       "goodBadEventsForm": {

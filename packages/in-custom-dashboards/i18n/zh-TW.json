@@ -358,7 +358,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "端點",
-        "allEndpoints": "所有服務",
+        "allServices": "所有服務",
         "loading": "<loading>"
       },
       "goodBadEventsForm": {

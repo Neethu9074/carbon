@@ -358,7 +358,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "엔드포인트",
-        "allEndpoints": "모든 서비스",
+        "allServices": "모든 서비스",
         "loading": "<loading>"
       },
       "goodBadEventsForm": {
