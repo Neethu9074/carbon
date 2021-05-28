@@ -127,6 +127,15 @@ function getRowDetails(row) {
           labels: [t('in-forge:plugins.webSphereAppContainer.labelSessions')],
           type: 'line'
         }}
+        y2={{
+          formatter: zeroDecimalPlaces,
+          metrics: ['sessionManagers.' + row.key + '.createCount', 'sessionManagers.' + row.key + '.invalidateCount'],
+          labels: [
+            t('in-forge:plugins.webSphereAppContainer.labelSessionsCreateCount'),
+            t('in-forge:plugins.webSphereAppContainer.labelSessionsInvalidateCount')
+          ],
+          type: 'line'
+        }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
       />
       <Chart

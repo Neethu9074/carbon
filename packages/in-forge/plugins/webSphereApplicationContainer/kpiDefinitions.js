@@ -16,5 +16,15 @@ export default [
     label: t('in-forge:plugins.webSphereAppContainer.labelPoolSize'),
     metric: 'threadPools.webContainer.poolSize',
     formatter: zeroDecimalPlaces
+  },
+  {
+    label: t('in-forge:plugins.webSphereAppContainer.labelConcurrentlyHungThreads'),
+    metric: 'threadPools.webContainer.concurrentHungThreadCount',
+    formatter: zeroDecimalPlaces
+  },
+  {
+    label: t('in-forge:plugins.webSphereAppContainer.labelDeclaredThreadHung'),
+    metric: 'threadPools.webContainer.declaredthreadHungCount',
+    formatter: zeroDecimalPlaces
   }
 ];

@@ -14,6 +14,7 @@ export default function WebSphereInfo({ snapshot }) {
   const data = snapshot.get('data');
   const webModules = snapshot.getIn(['data', 'webModules'], emptyList);
   const datasources = snapshot.getIn(['data', 'datasourceNames'], emptyList);
+  const ejbModules = snapshot.getIn(['data', 'ejbModules'], emptyList);
 
   return (
     <DescriptionList>
@@ -24,6 +25,7 @@ export default function WebSphereInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.infoTitle.state')}>{data.get('state')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.infoTitle.webModules')}>{webModules.size}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.infoTitle.datasources')}>{datasources.size}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.infoTitle.ejbModules')}>{ejbModules.size}</DescriptionItem>
       <ProcessStartedAtDescriptionItem snapshotId={snapshot.get('id')} />
     </DescriptionList>
   );

@@ -9,10 +9,17 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    metrics: ['threadPools.webContainer.activeThreads', 'threadPools.webContainer.poolSize'],
+    metrics: [
+      'threadPools.webContainer.activeThreads',
+      'threadPools.webContainer.poolSize',
+      'threadPools.webContainer.concurrentlyHungThreads',
+      'threadPools.webContainer.declaredThreadHung'
+    ],
     labels: [
       t('in-forge:plugins.webSphereAppContainer.labelActiveThreads'),
-      t('in-forge:plugins.webSphereAppContainer.labelPoolSize')
+      t('in-forge:plugins.webSphereAppContainer.labelPoolSize'),
+      t('in-forge:plugins.webSphereAppContainer.labelConcurrentlyHungThreads'),
+      t('in-forge:plugins.webSphereAppContainer.labelDeclaredThreadHung')
     ],
     min: 0,
     category: [t('in-forge:plugins.webSphereAppContainer.categoryThreadPool')],
@@ -22,6 +29,28 @@ export default [
     metric: getDynamicMetricMatch(
       'sessionManagers',
       'activeCount',
+      t('in-forge:plugins.webSphereAppContainer.labelWebModule')
+    ),
+    label: t('in-forge:plugins.webSphereApplicationContainer.sessions'),
+    category: [t('in-forge:plugins.webSphereAppContainer.labelWebModule')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'sessionManagers',
+      'createCount',
+      t('in-forge:plugins.webSphereAppContainer.labelWebModule')
+    ),
+    label: t('in-forge:plugins.webSphereApplicationContainer.sessions'),
+    category: [t('in-forge:plugins.webSphereAppContainer.labelWebModule')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'sessionManagers',
+      'invalidateCount',
       t('in-forge:plugins.webSphereAppContainer.labelWebModule')
     ),
     label: t('in-forge:plugins.webSphereApplicationContainer.sessions'),
@@ -41,7 +70,7 @@ export default [
     formatter: millis
   },
   {
-    metric: getDynamicMetricMatch('servlets', 'requests', t('in-forge:plugins.webSphereAppContainer.labelServlets')),
+    metric: getDynamicMetricMatch('servlets', 'requests', t('in-forge:plugins.webSphereAppContainer.labelServlet')),
     label: t('in-forge:plugins.webSphereAppContainer.labelRequestCount'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelServlets')],
     min: 0,
@@ -97,5 +126,19 @@ export default [
     category: [t('in-forge:plugins.webSphereAppContainer.labelDatasources')],
     min: 0,
     formatter: millis
+  },
+  {
+    metric: getDynamicMetricMatch('ejbs', 'responseTime', t('in-forge:plugins.webSphereAppContainer.labelEJB')),
+    label: t('in-forge:plugins.webSphereAppContainer.titleResponseTime'),
+    category: [t('in-forge:plugins.webSphereAppContainer.labelEJBs')],
+    min: 0,
+    formatter: millis
+  },
+  {
+    metric: getDynamicMetricMatch('ejbs', 'reponseCount', t('in-forge:plugins.webSphereAppContainer.labelEJB')),
+    label: t('in-forge:plugins.webSphereAppContainer.titleResponseCount'),
+    category: [t('in-forge:plugins.webSphereAppContainer.labelEJBs')],
+    min: 0,
+    formatter: number
   }
 ];
