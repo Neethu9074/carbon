@@ -238,10 +238,15 @@ def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instan
   }
   parallel rebuildBackendComponents
 
+  markStableVersions(branchName, instanaUiClientVersion, instanaImageVersion)
+  currentBuild.description = "backend: ${backendStableVersion}, ui-client: ${instanaUiClientVersion}, Instana image version: ${instanaImageVersion}"
+}
+
+def markStableVersions(branchName, instanaUiClientVersion, instanaImageVersion) {
   sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client ${branchName} ${instanaUiClientVersion}"
   sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client-saas ${branchName} ${instanaUiClientVersion}"
-  sh "./build/ci-shared-tools/scripts/markStableVersion.bash instana-image-from-ui-client ${branchName} ${instanaImageVersion}"
-  currentBuild.description = "backend: ${backendStableVersion}, ui-client: ${instanaUiClientVersion}, Instana image version: ${instanaImageVersion}"
+  sh "./build/ci-shared-tools/scripts/markStableVersion.bash instana-image-from-ui-client ${branchName} ${instanaImageVersion}" // so the backend pipeline can lookup the latest version built by the ui-client pipeline
+  sh "./build/ci-shared-tools/scripts/markStableVersion.bash instana-image ${branchName} ${instanaImageVersion}" // single source of latest stable Instana image version
 }
 
 def deployInstana(branchName, version, globalEnvironment, environment, tenant, unit) {
