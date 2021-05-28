@@ -9,7 +9,7 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import { applicationsAlertingEventDetailsViewEditConfig } from 'in-alerting/smart-alerts/applications/tracker';
-import { goToAlertConfig, goToGlobalAlertConfig } from 'in-applications/navigation/paths';
+import { getLinkToAlertConfig, getLinkToGlobalAlertConfig } from 'in-applications/navigation/paths';
 import { t } from 'in-i18n';
 
 export default function ApplicationAlertConfigButton({ applicationId, alertConfig, isGlobalSmartAlert }) {
@@ -18,12 +18,12 @@ export default function ApplicationAlertConfigButton({ applicationId, alertConfi
       kind="secondary"
       onClick={() => {
         applicationsAlertingEventDetailsViewEditConfig({ id: alertConfig.id });
-        if (isGlobalSmartAlert) {
-          goToGlobalAlertConfig(alertConfig.id, alertConfig.created, applicationId);
-        } else {
-          goToAlertConfig(alertConfig.id, alertConfig.created, applicationId);
-        }
       }}
+      href$={(isGlobalSmartAlert ? getLinkToGlobalAlertConfig : getLinkToAlertConfig)(
+        alertConfig.id,
+        alertConfig.created,
+        applicationId
+      )}
     >
       {t('in-events:buttonViewAlertConfig')}
     </Button>

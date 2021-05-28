@@ -4,40 +4,46 @@
  */
 
 import {
-  applicationId as matrixApplicationId,
-  serviceId as matrixServiceId,
-  endpointId as matrixEndpointId,
-  boundaryScope as matrixBoundaryScope,
-  syntheticCalls as matrixSyntheticCalls,
-  contextScope as matrixContextScope,
-  applicationId as applicationIdMatrixParam,
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam,
-  serviceListPrefix as serviceListMatrixPrefix,
-  applicationListPrefix as applicationListMatrixPrefix,
-  tagFilters as tagFiltersMatrixParam,
-  snapshotId as matrixSnapshotId,
-  plugin as matrixPlugin,
   alertsCategory as alertsCategoryMatrixParam,
+  applicationId as applicationIdMatrixParam,
+  applicationId as matrixApplicationId,
+  applicationListPrefix as applicationListMatrixPrefix,
+  boundaryScope as matrixBoundaryScope,
+  contextScope as matrixContextScope,
   dataSourceMatrixParameter,
+  endpointId as matrixEndpointId,
+  hiddenCallsMatrixParameter,
+  plugin as matrixPlugin,
   previewEnabledMatrixParameter,
-  hiddenCallsMatrixParameter
+  serviceId as matrixServiceId,
+  serviceListPrefix as serviceListMatrixPrefix,
+  snapshotId as matrixSnapshotId,
+  syntheticCalls as matrixSyntheticCalls,
+  tagFilters as tagFiltersMatrixParam
 } from 'in-applications/navigation/matrix';
 import {
-  TAG as TAG_FILTER,
-  OPEN_BRACKET as OPEN_BRACKET_TYPE,
   CLOSE_BRACKET as CLOSE_BRACKET_TYPE,
-  CONJUNCTION as CONJUNCTION_TYPE
+  CONJUNCTION as CONJUNCTION_TYPE,
+  joinExpressions,
+  OPEN_BRACKET as OPEN_BRACKET_TYPE,
+  TAG as TAG_FILTER
 } from 'in-new-components/QueryBuilder/transformation/formModel';
+import {
+  APPLICATION,
+  APPLICATION_INBOUND,
+  ENDPOINT,
+  entityTypes,
+  operators,
+  SERVICE
+} from 'in-analyze/applicationFilter';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/applications/inventory/constants';
 import { or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { APPLICATION, APPLICATION_INBOUND, SERVICE, ENDPOINT } from 'in-analyze/applicationFilter';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { sanitizeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
-import { entityTypes, operators } from 'in-analyze/applicationFilter';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getTagFilterToUrlString } from 'in-analyze/filterBuilder';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
@@ -407,17 +413,19 @@ function getDashboard({
   });
 }
 
-export function goToAlertConfig(alertConfigId, alertConfigVersion, applicationId) {
-  mutateUrl(location => {
+export function getLinkToAlertConfig(alertConfigId, alertConfigVersion, applicationId) {
+  return getModifiedUrlStream(location => {
     fillAlertTabSpecificValues(location, applicationId, alertConfigId, alertConfigVersion);
     setOrDeleteMatrixKey(location, alertsTab, alertsCategoryMatrixParam, categoryLocal);
+    return location;
   });
 }
 
-export function goToGlobalAlertConfig(alertConfigId, alertConfigVersion, applicationId) {
-  mutateUrl(location => {
+export function getLinkToGlobalAlertConfig(alertConfigId, alertConfigVersion, applicationId) {
+  return getModifiedUrlStream(location => {
     fillAlertTabSpecificValues(location, applicationId, alertConfigId, alertConfigVersion);
     setOrDeleteMatrixKey(location, alertsTab, alertsCategoryMatrixParam, categoryGlobal);
+    return location;
   });
 }
 

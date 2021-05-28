@@ -9,7 +9,7 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import { websitesAlertingEventDetailsViewEditConfig } from 'in-alerting/smart-alerts/websites/tracker';
-import { goToAlertConfig } from 'in-websites/navigation/paths';
+import { getLinkToAlertConfig } from 'in-websites/navigation/paths';
 import { t } from 'in-i18n';
 
 export default function WebsiteAlertConfigButton({ alertConfig }) {
@@ -18,8 +18,8 @@ export default function WebsiteAlertConfigButton({ alertConfig }) {
       kind="secondary"
       onClick={() => {
         websitesAlertingEventDetailsViewEditConfig({ id: alertConfig.id });
-        goToAlertConfig(alertConfig.id, alertConfig.created, alertConfig.websiteId);
       }}
+      href$={getLinkToAlertConfig(alertConfig.id, alertConfig.created, alertConfig.websiteId)}
     >
       {t('in-events:buttonViewAlertConfig')}
     </Button>

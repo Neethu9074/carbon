@@ -6,28 +6,27 @@
 import invariant from 'invariant';
 
 import {
-  websiteId as websiteIdMatrixParameter,
-  pageId as pageIdMatrixParameter,
-  errorId as errorIdMatrixParameter,
-  resourceId as resourceIdMatrixParameter,
-  xhrId as xhrIdMatrixParameter,
-  customEventId as customEventIdMatrixParameter,
-  group as groupMatrixParameter,
-  serializeGroup,
-  beaconType as beaconTypeMatrixParameter,
-  pageLoadId as pageLoadIdMatrixParameter,
+  alertCreated as alertCreatedMatrixParam,
+  alertId as alertIdMatrixParam,
   beaconId as beaconIdMatrixParameter,
   beaconTimestamp as beaconTimestampMatrixParameter,
+  beaconType as beaconTypeMatrixParameter,
+  customEventId as customEventIdMatrixParameter,
+  errorId as errorIdMatrixParameter,
+  group as groupMatrixParameter,
+  pageId as pageIdMatrixParameter,
+  pageLoadId as pageLoadIdMatrixParameter,
+  resourceId as resourceIdMatrixParameter,
+  serializeGroup,
   websiteId as websiteIdMatrixParam,
-  alertId as alertIdMatrixParam,
-  alertCreated as alertCreatedMatrixParam
+  websiteId as websiteIdMatrixParameter,
+  xhrId as xhrIdMatrixParameter
 } from 'in-websites/navigation/matrix';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { createParameters } from 'in-new-components/AnalyzeView/parameters';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
-import { mutateUrl } from 'in-stores/navigation/navigation';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 
@@ -215,9 +214,10 @@ export function getLinkToPageLoad({ pageLoadId, beaconId, beaconTimestamp }) {
   });
 }
 
-export function goToAlertConfig(alertConfigId, alertConfigVersion, websiteId) {
-  mutateUrl(location => {
+export function getLinkToAlertConfig(alertConfigId, alertConfigVersion, websiteId) {
+  return getModifiedUrlStream(location => {
     fillAlertTabSpecificValues(location, websiteId, alertConfigId, alertConfigVersion);
+    return location;
   });
 }
 
