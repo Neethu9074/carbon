@@ -102,6 +102,7 @@
   },
   "smartAlerts": {
     "titleNoSmartAlertsConfigured": "No Smart Alerts configured",
+    "titleNoSmartAlertsConfiguredForSearchQuery": "No Smart Alert configurations found for a given search",
     "titleNoSmartAlertsCreated": "No Smart Alerts created",
     "titleCopyOf": "(Copy of) {{smartAlertTitle}}",
     "applications": {

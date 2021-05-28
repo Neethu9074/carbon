@@ -276,7 +276,7 @@ export default function SmartAlertsBaseList({
           loading ? (
             <LoadingList numSkeletonRows="3" />
           ) : (
-            <SmartAlertsNoDataAvailable text={t('in-alerting:smartAlerts.titleNoSmartAlertsConfigured')} />
+            <SmartAlertsNoDataAvailable text={getNoAlertConfiguredLabel(query)} />
           )
         ) : null}
         {hasError({ errors }) && <ErrorList className={locals.list} errors={errors} />}
@@ -457,6 +457,12 @@ function getResultsToDisplay(configsSelected, query) {
 
     return false;
   });
+}
+
+function getNoAlertConfiguredLabel(query) {
+  return query
+    ? t('in-alerting:smartAlerts.titleNoSmartAlertsConfiguredForSearchQuery')
+    : t('in-alerting:smartAlerts.titleNoSmartAlertsConfigured');
 }
 
 SmartAlertsBaseList.propTypes = {
