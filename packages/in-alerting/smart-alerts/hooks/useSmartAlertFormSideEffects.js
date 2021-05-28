@@ -45,12 +45,16 @@ export default function useSmartAlertFormSideEffects(form, setForm) {
       effects: [requestThresholdSuggestion]
     },
     {
-      path: ['threshold', 'seasonality'],
-      effects: [requestThresholdSuggestion, validateAggregation]
-    },
-    {
       path: ['threshold', 'type'],
       effects: [requestThresholdSuggestion]
+    },
+    {
+      path: ['threshold', 'operator'],
+      effects: [requestThresholdOnOperatorChange]
+    },
+    {
+      path: ['threshold', 'seasonality'],
+      effects: [requestThresholdSuggestion, validateAggregation]
     },
     {
       path: ['granularity'],
@@ -67,6 +71,16 @@ function resetBaseline(form) {
   if (type === 'historicBaseline') {
     return form.updateIn(['threshold', 'baseline'], f => f.setValue([]).setTouched(false));
   }
+  return form;
+}
+
+function requestThresholdOnOperatorChange(form) {
+  const type = form.get('threshold').get('type').value;
+
+  if (type === 'staticThreshold') {
+    return requestThresholdSuggestion(form);
+  }
+
   return form;
 }
 
