@@ -272,7 +272,7 @@ export default function SmartAlertsBaseList({
               />
             </Li>
           ))}
-        {configsSelected.length === 0 ? (
+        {searchResultsSelected.length === 0 ? (
           loading ? (
             <LoadingList numSkeletonRows="3" />
           ) : (
