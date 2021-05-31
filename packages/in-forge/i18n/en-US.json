@@ -573,11 +573,11 @@
   "pluginName_ibmDataPowerSqlDatasource_1": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource_2": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource": "IBM DataPower SQL Data Source",
-  "pluginName_ibmIOs_plural": "Db2s on i",
-  "pluginName_ibmIOs_0": "Db2s on i",
-  "pluginName_ibmIOs_1": "Db2s on i",
-  "pluginName_ibmIOs_2": "Db2s on i",
-  "pluginName_ibmIOs": "Db2 on i",
+  "pluginName_ibmIOs_plural": "IBM i Series",
+  "pluginName_ibmIOs_0": "IBM i Series",
+  "pluginName_ibmIOs_1": "IBM i Series",
+  "pluginName_ibmIOs_2": "IBM i Series",
+  "pluginName_ibmIOs": "IBM i Series",
   "pluginName_ibmIDb2_plural": "Db2s on i",
   "pluginName_ibmIDb2_0": "Db2s on i",
   "pluginName_ibmIDb2_1": "Db2s on i",
@@ -7648,9 +7648,63 @@
       "labelZone": "Zone",
       "labelMemory": "Memory"
     },
+    "ibmIDb2": {
+      "troubleshootingDocs": "Troubleshooting docs",
+      "collectionServicesNotEnabledDescription": "Agent could not obtain Db2 on i metrics. Please turn on Collection Services in order to monitor Db2 on i.",
+      "name": "Db2 on i",
+      "sidebar": {
+        "ibmIDb2Info": "Db2 on i Info",
+        "collectionServicesRunning": "Collection Services",
+        "collectionLibraryName": "Collection Services Library name"
+      },
+      "dashboard":  {
+        "charts": {
+          "activeQueries": {
+            "name": "Active Queries",
+            "count": "Count"
+          },
+          "logicalOperations": {
+            "name": "Logical Operations",
+            "reads": "Reads",
+            "writes": "Writes"
+          },
+          "asynchronousOperations": {
+            "name": "Asynchronous Operations",
+            "reads": "Reads",
+            "writes": "Writes"
+          },
+          "synchronousOperations": {
+            "name": "Synchronous Operations",
+            "reads": "Reads",
+            "writes": "Writes"
+          },
+          "databaseOperations": {
+            "name": "Database Operations",
+            "commits": "Commits",
+            "rollbacks": "Rollbacks",
+            "miscellaneous": "Miscellaneous"
+          },
+          "planCachePlans": {
+            "name": "Plan Cache Plans",
+            "count": "Count"
+          },
+          "planCache": {
+            "name": "Plan Cache",
+            "size": "Size",
+            "limit": "Limit",
+            "threshold": "Threshold"
+          },
+          "sqlCursor": {
+            "name": "SQL Cursor",
+            "count": "Count",
+            "reuse": "Reuse"
+          }
+        }
+      }
+    },
     "ibmIOs": {
       "sidebar": {
-        "ibmIOSInfo": "Db2 on i Info",
+        "ibmIOSInfo": "IBM i Series Info",
         "hostName": "Host Name",
         "partitionId": "Partition ID",
         "numberOfPartitions": "Number of Partitions",
@@ -7715,7 +7769,7 @@
           }
         }
       },
-      "name": "Db2 on i",
+      "name": "IBM i Series",
       "memoryPool": "Memory Pool"
     },
     "ibmMqChannel": {

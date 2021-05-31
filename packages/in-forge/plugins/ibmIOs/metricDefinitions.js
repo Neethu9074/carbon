@@ -9,8 +9,8 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    metric: 'avgCPURate',
-    label: t('in-forge:plugins.ibmIOs.dashboard.charts.cpu.rate'),
+    metrics: ['avgCPURate'],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.charts.cpu.rate')],
     min: 0,
     formatter: percentage,
     category: [t('in-forge:plugins.ibmIOs.dashboard.charts.cpu.name')]

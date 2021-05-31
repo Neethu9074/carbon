@@ -5,6 +5,23 @@
 
 import React from 'react';
 
-export default function IbmIDb2Sidebar() {
-  return <div />;
+import ServiceInstancesList from '../../../../in-sdk/components/sidebar/ServiceInstancesList';
+import DeployedUnitList from 'in-sdk/components/sidebar/DeployedUnitList';
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import { t } from '../../../../in-i18n';
+import Info from '../../ibmIDb2/Info';
+
+export default function IbmIDb2Sidebar({ snapshot }) {
+  return (
+    <div>
+      <Collapsible initiallyOpen>
+        <Collapsible.Header>{t('in-forge:plugins.ibmIDb2.sidebar.ibmIDb2Info')}</Collapsible.Header>
+        <Collapsible.Content>
+          <Info snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
+      <DeployedUnitList snapshotId={snapshot.get('id')} />
+      <ServiceInstancesList snapshot={snapshot} />
+    </div>
+  );
 }
