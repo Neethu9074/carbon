@@ -140,6 +140,10 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
           return selectEndpoint(state, itemTreeIds)?.inclusive === undefined;
         },
         getBadgeElement({ type }) {
+          if (!type) {
+            return null;
+          }
+
           return <EndpointTypeBadgeList types={[type]} />;
         },
         getStaleEntity$: getEndpoint

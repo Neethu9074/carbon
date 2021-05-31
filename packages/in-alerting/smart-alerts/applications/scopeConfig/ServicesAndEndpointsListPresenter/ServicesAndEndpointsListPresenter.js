@@ -55,7 +55,11 @@ export default function ServicesAndEndpointsListPresenter({
   }, [state]);
 
   useEffect(() => {
-    if (boundaryScope === boundaryScopes.inbound && Object.values(state).some(({ services }) => !isEmpty(services))) {
+    if (
+      !isEmpty(initialConfiguredApplications) &&
+      boundaryScope === boundaryScopes.inbound &&
+      Object.values(state).some(({ services }) => !isEmpty(services))
+    ) {
       const getInitialStateForIndividualSmartAlert = () => {
         const applicationId = Object.keys(initialConfiguredApplications)[0];
 
