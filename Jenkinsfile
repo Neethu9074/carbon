@@ -253,6 +253,8 @@ def deployInstana(branchName, version, globalEnvironment, environment, tenant, u
   try {
     if (globalEnvironment != null) {
       println "Updating global environment ${globalEnvironment}"
+      sh "sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' /mnt/efs/data/instanactl/dev-jenkins-config/${globalEnvironment}.hcl"
+      sh "sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' /mnt/efs/data/instanactl/dev-jenkins-config/${globalEnvironment}.hcl"
       sh "instanactl --deployment ${globalEnvironment} global migrate --branch=${branchName}"
       sh "instanactl --deployment ${globalEnvironment} global update --version=${version} --branch=${branchName}"
     }
@@ -264,6 +266,8 @@ def deployInstana(branchName, version, globalEnvironment, environment, tenant, u
       sh "instanactl --deployment ${environment} tenantunit update ${tenant} ${unit} --version ${version} --branch ${branchName}"
     } else {
       println "Updating all tenant units in ${environment}"
+      sh "sed -i 's/^  branch\\s*=.*\$/  branch         = \"${branchName}\"/g' /mnt/efs/data/instanactl/dev-jenkins-config/${environment}.hcl"
+      sh "sed -i 's/^  version\\s*=.*\$/  version        = \"${version}\"/g' /mnt/efs/data/instanactl/dev-jenkins-config/${environment}.hcl"
       sh "instanactl --deployment ${environment} tenantunit list"
       sh "instanactl --deployment ${environment} upgrade --version=${version} --branch=${branchName}"
     }
