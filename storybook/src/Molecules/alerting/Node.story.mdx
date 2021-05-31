@@ -8,7 +8,7 @@ import { Meta, Preview, Story } from '@storybook/addon-docs/blocks';
 
 import { just } from '@instana/observables';
 
-import { DynamicNode } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/DynamicNode';
+import { EntityItemNode } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntityItemNode';
 import {options, firstLevelChildren, leafNode, nodeWithKids} from './treeSelectionData';
 import PermanentlyVisibleOverlay from '../../util/PermanentlyVisibleOverlay';
 import Node from 'in-new-components/SelectorOverlay/Node';
@@ -18,35 +18,35 @@ import { pendingResult } from 'in-services/fixedObjects';
 
 # Auto-Loading Nodes: On-demand loading children
 <Preview>
-  <DynamicNode node={nodeWithKids()} asListGroup withIcons />
+  <EntityItemNode node={nodeWithKids()} asListGroup withIcons />
 </Preview>
 
 ## Nodes, with children
 ### single row
   <Story name="auto loading children, single row">
-    <DynamicNode node={nodeWithKids()} asListGroup={false} withIcons />
+    <EntityItemNode node={nodeWithKids()} asListGroup={false} withIcons />
   </Story>
 
-  <DynamicNode node={nodeWithKids()} asListGroup={false} />
+  <EntityItemNode node={nodeWithKids()} asListGroup={false} />
 
 ### list group
 
-  <DynamicNode node={nodeWithKids()} asListGroup withIcons />
-  <DynamicNode node={nodeWithKids()} asListGroup  />
+  <EntityItemNode node={nodeWithKids()} asListGroup withIcons />
+  <EntityItemNode node={nodeWithKids()} asListGroup  />
 
 ## Leaves
 ### single row
 
   <Story name="auto loading leaf, single row">
-    <DynamicNode node={leafNode()} asListGroup={false} withIcons />
+    <EntityItemNode node={leafNode()} asListGroup={false} withIcons />
   </Story>
 
-  <DynamicNode node={leafNode()} asListGroup={false} />
+  <EntityItemNode node={leafNode()} asListGroup={false} />
 
 ### List group
 
-  <DynamicNode node={leafNode()} asListGroup withIcons />
-  <DynamicNode node={leafNode()} asListGroup  />
+  <EntityItemNode node={leafNode()} asListGroup withIcons />
+  <EntityItemNode node={leafNode()} asListGroup  />
 
 # Regular Nodes, with children
 ### single row item

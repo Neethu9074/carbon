@@ -12,6 +12,7 @@ import {
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import PropTypes from 'prop-types';
 import { t } from 'in-i18n';
 
 export default function ApplicationAlertingChartWithErrorMessage(props) {
@@ -57,3 +58,19 @@ function getErrorMessage(isQB2Error, isServicesAndEndpointsSelectionError) {
     return t('in-alerting:components.chart.alertingChartMessageEntitySelectionInvalid');
   }
 }
+
+ApplicationAlertingChartWithErrorMessage.propTypes = {
+  ...AlertingChartWithErrorMessage.propTypes,
+
+  /**
+   * Optional serviceId, used
+   * to scope down the metric in the chart to a single application config
+   **/
+  serviceId: PropTypes.string,
+
+  /**
+   * Optional endpointId
+   * to scope down the metric in the chart to a single entity
+   **/
+  endpointId: PropTypes.string
+};

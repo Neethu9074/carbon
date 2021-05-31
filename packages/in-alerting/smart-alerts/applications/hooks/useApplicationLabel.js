@@ -12,7 +12,7 @@ import getApplication from 'in-subscription/application/getApplication';
  * Returns the name of an application for a given applicationId.
  *
  * @param {string} applicationId
- * @param {string} isGlobalSmartAlert
+ * @param {boolean} isGlobalSmartAlert
  * @returns the label for the application with the given application or undefined if applicationId or isGlobalSmartAlert param is absent.
  */
 export default function useApplicationLabel(applicationId, isGlobalSmartAlert) {

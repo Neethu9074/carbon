@@ -9,15 +9,17 @@ import PropTypes from 'prop-types';
 import { ListGroup, Li } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { DynamicNode } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/DynamicNode';
+import EntityItemNode from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntityItemNode';
 import SlideInView, { ListHeader, NoHeader } from 'in-new-components/SlideInView/SlideInView';
 import { nodeArray as nodeArrayPropType } from 'in-new-components/SelectorOverlay/props';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { LoadingIndicator } from 'in-new-components/LoadingIndicators';
+import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import { search } from 'in-new-components/SelectorOverlay/search';
 import { isNotBlank, isBlank } from 'in-services/util/string';
 import { getInteractiveElements } from 'in-services/util/dom';
+import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import SearchInput from 'in-new-components/SearchInput';
 import { isLoading } from 'in-services/util/result';
 import keyCodes from 'in-components/keyCodes';
@@ -30,7 +32,7 @@ import locals from 'in-new-components/SelectorOverlay/SelectorOverlay.mless';
  * There is this follow-up task to implement it in a different way:
  * https://instana.kanbanize.com/ctrl_board/37/cards/57241
  */
-const searchEnabled = false;
+const searchEnabled = true;
 
 const initialState = {
   focusedNode: null,
@@ -42,6 +44,25 @@ const initialState = {
 const categoryHeight = 40;
 // for performance reasons limit number of results shown as rendering is slow for high number of results
 const maxResults = 100;
+
+function useLazyLoadChildrenForNode(node, triggerRenderingAfterUpdated) {
+  const loadChildren = node?.loadChildren;
+  useObservable(
+    loadChildren &&
+      (() =>
+        loadChildren().map(result => {
+          const loading = isLoading(result);
+          const resolvedChildren = result?.data?.items;
+          if (!loading && resolvedChildren) {
+            node.children = resolvedChildren;
+            node.loadChildren = undefined;
+            triggerRenderingAfterUpdated(node);
+          }
+          return result;
+        })),
+    [loadChildren]
+  );
+}
 
 export default function ThreeLevelsSelectorOverlay({
   options,
@@ -57,12 +78,12 @@ export default function ThreeLevelsSelectorOverlay({
   ] = useState(initialState);
 
   useEffect(() => {
-    focusOnFirstResult();
+    if (!searchEnabled) focusOnFirstResult();
   });
 
   options = useMemo(() => {
     if (isNotBlank(query)) {
-      return searchNodes(options, query);
+      return searchNodes(options, query, []);
     }
     return options;
     // changing searchNodes should not trigger a new result-calculation
@@ -84,33 +105,26 @@ export default function ThreeLevelsSelectorOverlay({
     groups[0]?.focus();
   };
 
-  useObservable(
-    focusedNode?.loadChildren &&
-      (() =>
-        focusedNode.loadChildren().map(result => {
-          const loading = isLoading(result);
-          const resolvedChildren = result?.data?.items;
-          if (!loading && resolvedChildren) {
-            focusedNode.children = resolvedChildren;
-            focusedNode.loadChildren = undefined;
+  function triggerRenderingAfterUpdated(updatedNode) {
+    // only re-render if currently in focus:
+    if (updatedNode === focusedNode || updatedNode === secondFocusedNode)
+      setState({
+        focusedNode,
+        secondFocusedNode,
+        showFocusedNode,
+        showSecondFocusedNode,
+        loading: updatedNode === focusedNode ? false : loading,
+        loading2ndLevel: updatedNode === secondFocusedNode ? false : loading2ndLevel
+      });
+  }
 
-            setState({
-              focusedNode,
-              secondFocusedNode,
-              showFocusedNode,
-              showSecondFocusedNode
-            });
-          }
-          return result;
-        })),
-    [focusedNode?.loadChildren]
-  );
+  useLazyLoadChildrenForNode(focusedNode, triggerRenderingAfterUpdated);
 
   return (
     <>
       {searchEnabled && (
         <div className={locals.searchInputWrapper}>
-          <SearchInput
+          <EntitiesSearchInput
             placeholder={t('in-new-components:selectorOverlay.placeholderSearch')}
             onChange={_query => {
               onQueryChange(_query);
@@ -129,32 +143,36 @@ export default function ThreeLevelsSelectorOverlay({
         </div>
       )}
       <div className={locals.overlay}>
-        {MainSlideInView({
-          showFocusedNode,
-          showSecondFocusedNode,
-          focusedNode,
-          setState,
-          onKeyDown,
-          lastFocusedElementRef,
-          staticContentWrapperRef,
-          innerSlideInView: (
-            <InnerSlideInView
-              showFocusedNode={showFocusedNode}
-              showSecondFocusedNode={showSecondFocusedNode}
-              focusedNode={focusedNode}
-              focus2ndLevelNode={focus2ndLevelNode}
-              secondFocusedNode={secondFocusedNode}
-              setState={setState}
-              onKeyDown2={onKeyDown2}
-              onKeyDown3={onKeyDown3}
-              onChange={onChange}
-              withIcons={withIcons}
-              loading={loading}
-              loading2ndLevel={loading2ndLevel}
-            />
-          ),
-          level1StaticContent: <MainStaticContent {...{ options, focusNode, onChange, query, withIcons }} />
-        })}
+        <MainSlideInView
+          {...{
+            showFocusedNode,
+            showSecondFocusedNode,
+            focusedNode,
+            setState,
+            onKeyDown,
+            lastFocusedElementRef,
+            staticContentWrapperRef,
+            innerSlideInView: (
+              <InnerSlideInView
+                showFocusedNode={showFocusedNode}
+                showSecondFocusedNode={showSecondFocusedNode}
+                focusedNode={focusedNode}
+                focusNode={focusNode}
+                focus2ndLevelNode={focus2ndLevelNode}
+                secondFocusedNode={secondFocusedNode}
+                setState={setState}
+                onKeyDown2={onKeyDown2}
+                onKeyDown3={onKeyDown3}
+                onChange={onChange}
+                triggerRenderingAfterUpdated={triggerRenderingAfterUpdated}
+                withIcons={withIcons}
+                loading={loading}
+                loading2ndLevel={loading2ndLevel}
+              />
+            ),
+            mainStaticContent: <MainStaticContent {...{ options, focusNode, onChange, query, withIcons }} />
+          }}
+        />
       </div>
     </>
   );
@@ -232,24 +250,37 @@ export default function ThreeLevelsSelectorOverlay({
 }
 
 function MainStaticContent({ options, focusNode, onChange, query, withIcons }) {
+  const asSearchResult = isNotBlank(query);
+
+  if (options.length === 0) {
+    return <NoDataAvailable />;
+  }
+
   return options.slice(0, maxResults).map((node, i) => {
     const noChildren = !node.children || node.children.length === 0;
     if (noChildren && !node.loadChildren)
       return (
-        <DynamicNode
+        <EntityItemNode
           key={i}
           node={node}
           focusNode={focusNode}
           onChange={onChange}
           withIcons={isBlank(query) && withIcons}
-          withBreadcrumbs={isNotBlank(query)}
+          asSearchResult={asSearchResult}
         />
       );
 
     return (
       <ListGroup key={i} label={node.label} height={`${categoryHeight}px`} sticky>
         {node.children?.map((node, j) => (
-          <DynamicNode key={j} node={node} focusNode={focusNode} onChange={onChange} withIcons={withIcons} />
+          <EntityItemNode
+            key={j}
+            node={node}
+            focusNode={focusNode}
+            onChange={onChange}
+            withIcons={withIcons}
+            asSearchResult={asSearchResult}
+          />
         ))}
       </ListGroup>
     );
@@ -264,9 +295,11 @@ function InnerSlideInView({
   showFocusedNode,
   onKeyDown3,
   onChange,
+  triggerRenderingAfterUpdated,
   withIcons,
   loading,
   loading2ndLevel,
+  focusNode,
   focus2ndLevelNode,
   onKeyDown2
 }) {
@@ -274,32 +307,11 @@ function InnerSlideInView({
   const innerSlideInRef = useRef();
   const lastFocusedElementLevel2Ref = useRef();
 
-  useObservable(
-    secondFocusedNode?.loadChildren &&
-      (() =>
-        secondFocusedNode.loadChildren().map(result => {
-          const loading = isLoading(result);
-          const resolvedChildren = result?.data?.items;
-          if (!loading && resolvedChildren) {
-            secondFocusedNode.children = resolvedChildren;
-            //secondFocusedNode.loadChildren = undefined;
-
-            setState({
-              focusedNode,
-              secondFocusedNode,
-              showFocusedNode,
-              showSecondFocusedNode
-            });
-          }
-          return result;
-        })),
-    [secondFocusedNode?.loadChildren]
-  );
+  useLazyLoadChildrenForNode(secondFocusedNode, triggerRenderingAfterUpdated);
 
   useEffect(() => {
     if (showSecondFocusedNode && !loading2ndLevel && secondFocusedNode?.children) {
-      const groups = getInteractiveElements(innerSlideInRef.current);
-      groups[0]?.focus();
+      getInteractiveElements(innerSlideInRef.current)[0]?.focus();
     }
   }, [showSecondFocusedNode, loading2ndLevel, secondFocusedNode?.children]);
 
@@ -309,8 +321,9 @@ function InnerSlideInView({
     }
   }, [showSecondFocusedNode, loading, focusedNode?.children]);
 
+  const hasChildren = focusedNode?.children || focusedNode?.loadChildren;
   return (
-    ((focusedNode?.children || focusedNode?.loadChildren) && (
+    (hasChildren && (
       <SlideInView
         showSlideInContent={showSecondFocusedNode}
         onShowSlideInContentChange={() =>
@@ -331,18 +344,9 @@ function InnerSlideInView({
         slideInContentTitle={secondFocusedNode?.label}
         slideInContent={
           <div onKeyDown={onKeyDown3} ref={innerSlideInRef}>
-            {loading2ndLevel && (
-              <div className={locals.loading}>
-                <Li noAlternatingBg className={locals.option}>
-                  <LoadingIndicator
-                    text={t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewSelectLoadingEndpoints')}
-                    className={locals.loading}
-                  />
-                </Li>
-              </div>
-            )}
+            <Loading loading={loading2ndLevel} />
             {secondFocusedNode?.children?.slice(0, maxResults).map((node, i) => (
-              <DynamicNode
+              <EntityItemNode
                 key={i}
                 node={node}
                 onChange={onChange}
@@ -360,24 +364,9 @@ function InnerSlideInView({
             onKeyDown={onKeyDown2}
             ref={innerStaticRef}
           >
-            {loading && (
-              <div className={locals.loading}>
-                <Li noAlternatingBg className={locals.option}>
-                  <LoadingIndicator
-                    text={t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewSelectLoadingEndpoints')}
-                    className={locals.loading}
-                  />
-                </Li>
-              </div>
-            )}
+            <Loading loading={loading} />
             {focusedNode?.children?.slice(0, maxResults).map((node, i) => (
-              <DynamicNode
-                key={i}
-                node={node}
-                focusNode={focus2ndLevelNode}
-                onChange={onChange}
-                withIcons={withIcons}
-              />
+              <EntityItemNode key={i} node={node} focusNode={focusNode} onChange={onChange} withIcons={withIcons} />
             ))}
           </div>
         }
@@ -397,7 +386,7 @@ function MainSlideInView({
   innerSlideInView,
   staticContentWrapperRef,
   onKeyDown,
-  level1StaticContent
+  mainStaticContent
 }) {
   return (
     <SlideInView
@@ -425,11 +414,38 @@ function MainSlideInView({
           ref={staticContentWrapperRef}
           onKeyDown={onKeyDown}
         >
-          {level1StaticContent}
+          {mainStaticContent}
         </div>
       }
       enforceMaxHeightForStaticContent
     />
+  );
+}
+
+function EntitiesSearchInput({ query = '', onChange, ...props }) {
+  const { value, onChange: debouncedOnChange } = useDebouncedValue(
+    query,
+    value => {
+      onChange?.(value);
+    },
+    500
+  );
+  return <SearchInput onChange={debouncedOnChange} query={value} {...props} />;
+}
+
+function Loading({ loading }) {
+  if (!loading) {
+    return null;
+  }
+  return (
+    <div className={locals.loading}>
+      <Li noAlternatingBg className={locals.option}>
+        <LoadingIndicator
+          text={t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewSelectLoadingEndpoints')}
+          className={locals.loading}
+        />
+      </Li>
+    </div>
   );
 }
 

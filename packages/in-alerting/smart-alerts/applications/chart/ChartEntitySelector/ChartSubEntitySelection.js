@@ -14,18 +14,34 @@ import {
   PER_AP,
   PER_AP_SERVICE
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import getAppDataEntityChainsPaginated from 'in-alerting/smart-alerts/applications/subscriptions/getAppDataEntityChainsPaginated';
+import {
+  getLevel,
+  searchResultsToListItems
+} from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/search';
 import { createOptionsList } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/createOptions';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import getApplication from 'in-subscription/application/getApplication';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
+import useCursorPagination from 'in-hooks/useCursorPagination';
 import Overlay from 'in-new-components/overlays/Overlay';
+import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
+import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator.mless';
 
-const loadingOptions = [{ label: t('in-alerting:smartAlerts.components.smartAlertDialog.Loading') }];
+const loadingOptions = [
+  { label: t('in-alerting:smartAlerts.components.smartAlertDialog.Loading'), loadChildren: () => pendingResult }
+];
+
+/*
+  This could be adjusted when needed, short discussion we had, see this comment
+ https://github.com/instana/ui-client/pull/6425/files#r641383176
+ */
+const maxSearchRetrievalSize = 200;
 
 export default function ChartSubEntitySelection({
   applicationId,
@@ -45,6 +61,8 @@ export default function ChartSubEntitySelection({
   const { applications, boundaryScope, evaluationType, includeSynthetic } = alertConfigWithFormModel;
 
   const [query, onQueryChange] = useState('');
+
+  const isQuery = !isBlank(query);
   const isSelectApLevel = evaluationType === PER_AP;
   const isSelectServiceLevel = evaluationType === PER_AP_SERVICE;
 
@@ -60,9 +78,9 @@ export default function ChartSubEntitySelection({
     // reset on first rendering or evaluation type change
     // apId is currently set automatically in parent
     setServiceName(null);
-    setServiceId(null);
+    setServiceId?.(null);
     setEndpointName(null);
-    setEndpointId(null);
+    setEndpointId?.(null);
     // ignore any change to the setter functions
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSelectApLevel, isSelectServiceLevel]);
@@ -78,23 +96,25 @@ export default function ChartSubEntitySelection({
   const loading = !applicationAndServicesList || applicationAndServicesList.some(result => isLoading(result));
 
   const options = useMemo(
-    () =>
-      loading
+    () => {
+      return loading || query
         ? loadingOptions
         : createOptionsList(
             applicationAndServicesList,
-            /* derived from/based on applications */
+            // derived from/based on applications:
             applicationIds,
             isSelectApLevel,
             isSelectServiceLevel,
-            /* derived from/based on queryWindowSize */
+            // derived from/based on queryWindowSize:
             timeConfig,
             boundaryScope,
             includeSynthetic,
             applications
-          ),
+          );
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
+      query,
       loading,
       applicationAndServicesList,
       queryWindowSize,
@@ -106,6 +126,36 @@ export default function ChartSubEntitySelection({
     ]
     // do not watch loadingOptions intentionally, because it is constant
   );
+
+  const queryEntity = ({ cursor }) => {
+    return getAppDataEntityChainsPaginated({
+      level: getLevel(evaluationType),
+      pagination: {
+        cursor,
+        retrievalSize: maxSearchRetrievalSize
+      },
+      includeSynthetic,
+      //includeInternal // TODO add
+      //tagFilterExpression  // TODO add
+      searchTerm: query,
+      timeConfig,
+      order: {
+        by: 'applicationName',
+        direction: 'DESC'
+      }
+    });
+  };
+
+  const searchResult = useCursorPagination(queryEntity, [query]);
+
+  // currently this is the only way how to figure out if it is still loading, until the
+  // backend will be fixed, so that we could use isLoading(searchResult)  again,
+  // see https://github.com/instana/ui-client/pull/6425/files#r641320862
+  // TODO: after adapting backend, replace it with this line:
+  //    const isSearchLoading = !searchResult || isLoading(searchResult);
+  const isSearchLoading = !searchResult || (!searchResult.totalHits && searchResult?.totalHits !== 0);
+
+  const queryOptions = isSearchLoading ? loadingOptions : searchResultsToListItems(searchResult, evaluationType);
 
   return (
     <Overlay
@@ -120,7 +170,7 @@ export default function ChartSubEntitySelection({
         setEndpointName,
         isSelectServiceLevel,
         isSelectApLevel,
-        options
+        options: isQuery ? queryOptions : options
       }}
       align="bottomLeft"
       withoutWrapper
@@ -133,6 +183,7 @@ export default function ChartSubEntitySelection({
             refSetter={refSetter}
             onClick={toggle}
             className={locals.labelWithGap}
+            disabled={applicationIds.length === 0}
           >
             <DropDownButtonLabel isApLevel={isSelectApLevel} isServiceLevel={isSelectServiceLevel} />
           </DropdownButton>
@@ -158,7 +209,7 @@ function DropDownButtonLabel({ isApLevel, isServiceLevel }) {
   return t('in-alerting:smartAlerts.components.smartAlertDialog.PreviewForEndpoint');
 }
 
-function EntitySelectionOverlay({
+export function EntitySelectionOverlay({
   setEndpointId,
   setEndpointName,
   setServiceId,
@@ -171,6 +222,7 @@ function EntitySelectionOverlay({
   return (
     <ThreeLevelsSelectorOverlay
       {...props}
+      searchNodes={options => options /* override default search */}
       onChange={node => {
         if (node.type === 'ENDPOINT') {
           setEndpointId(node.id);

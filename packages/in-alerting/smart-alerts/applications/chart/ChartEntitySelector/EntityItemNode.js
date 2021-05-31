@@ -6,9 +6,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { KeyValue } from '@instana/components';
+
 import {
   badgeColumnDefinition,
-  breadcrumbAndLabelColumnDefinition,
   iconColumnDefinition,
   Item,
   labelColumnDefinition,
@@ -16,31 +17,35 @@ import {
 } from 'in-new-components/SelectorOverlay/Node';
 import { node as nodePropType } from 'in-new-components/SelectorOverlay/props';
 
-export default function NodeWithDynoChildren({ node, focusNode, onChange, withIcons, withBreadcrumbs }) {
+import locals from './ScopeSelectorItem.mless';
+
+export default function EntityItemNode({ node, focusNode, onChange, withIcons, asSearchResult }) {
   const noChildren = !node.children || node.children.length === 0;
 
-  const columnDefinitions = [withBreadcrumbs ? breadcrumbAndLabelColumnDefinition : labelColumnDefinition];
+  const columnDefinitions = [asSearchResult ? searchResultColumnDefinition : labelColumnDefinition];
   columnDefinitions.push(badgeColumnDefinition);
+  if (withIcons) {
+    columnDefinitions.unshift(iconColumnDefinition);
+  }
 
   if (noChildren && !node.loadChildren) {
-    if (withIcons) {
-      columnDefinitions.unshift(iconColumnDefinition);
-    }
     return <Item node={node} onClick={() => onChange(node)} columnDefinitions={columnDefinitions} />;
   }
 
   columnDefinitions.push(rightArrowColumnDefinition);
-
-  if (withIcons) {
-    columnDefinitions.unshift(iconColumnDefinition);
-  }
   return <Item node={node} onClick={() => focusNode(node)} columnDefinitions={columnDefinitions} />;
 }
 
-NodeWithDynoChildren.propTypes = {
+EntityItemNode.propTypes = {
   node: nodePropType.isRequired,
-  withBreadcrumbs: PropTypes.bool,
+  asSearchResult: PropTypes.bool,
   focusNode: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   withIcons: PropTypes.bool.isRequired
+};
+
+const searchResultColumnDefinition = {
+  getContent({ node }) {
+    return <KeyValue label={node.path} className={locals.keyValue} accentuated />;
+  }
 };

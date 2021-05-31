@@ -1,0 +1,60 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+@gap: 0.25rem;
+
+:local {
+  .selectorItem {
+    flex-wrap: wrap;
+  }
+
+  .separator {
+    margin: 0 @gap;
+    fill: @lib__colors__N600Light;
+  }
+
+  .smallColumn {
+    min-width: 15%;
+    max-width: 40%;
+    flex-shrink: 1;
+    .ellipsis();
+    gap: @gap; // between icon and label
+  }
+  .normalColumn {
+    min-width: 20%;
+    max-width: 60%;
+    flex-shrink: 1;
+    .ellipsis();
+    gap: @gap; // between icon and label
+  }
+
+  .entityIcon {
+    vertical-align: middle;
+    margin-right: @gap;
+  }
+
+  .fullColumn {
+    display: inline-flex;
+    flex-flow: row wrap;
+    gap: @gap;
+    white-space: normal; // enable line-break
+    font-size: @lib__typography__body__font-size;
+    color: @lib__colors__N900Primary;
+
+    word-break: break-word;
+    .in-browser-ff & {
+      overflow-wrap: anywhere;
+    }
+
+    & > svg {
+      fill: @lib__colors__N900Primary;
+      align-self: flex-start; // icon at top
+      margin-top: (@lib__typography__body__font-size - @lib__typography__body-small__font-size) / 2; // adjust to also have the icon properly aligned when in all fits in one row
+    }
+  }
+}

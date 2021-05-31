@@ -5,19 +5,12 @@
 
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
-import { just } from '@instana/observables';
-
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
+import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
-import getApplication from 'in-subscription/application/getApplication';
 
-export function ShowApplicationSelection(props) {
-  const { applicationId } = props;
-  const applicationName = useObservable(
-    applicationId ? getApplication({ id: applicationId }).map(({ data }) => data && data.label) : just(null),
-    [applicationId]
-  );
+export function ShowApplicationSelection({ applicationId }) {
+  const applicationName = useApplicationLabel(applicationId, false);
   return (
     <HorizontalFlexWrapper>
       <ApplicationScopePath applicationName={applicationName} applicationId={applicationId} noBottomMargin />
