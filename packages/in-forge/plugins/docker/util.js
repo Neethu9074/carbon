@@ -8,7 +8,7 @@ import { just } from '@instana/observables';
 import { getValueMatchTagFilter } from 'in-logging/queryBuilder';
 import { LOG_DOCKER_SNAPSHOT_ID } from 'in-logging/queryBuilder';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
-import getLogs from 'in-logging/subscriptions/getLogs';
+import hasLogs from 'in-logging/subscriptions/hasLogs';
 
 export function hasNetworkMetrics(snapshot) {
   // See https://docs.docker.com/engine/reference/run/#network-settings for info on possible network modes.
@@ -38,15 +38,10 @@ export function isWithinKubernetes(snapshot) {
 
 export function getAnalyzeLogsHref$({ snapshot, timeConfig }) {
   const tagFilterExpression = getValueMatchTagFilter(LOG_DOCKER_SNAPSHOT_ID, snapshot.get('id'));
-  return getLogs({
+  return hasLogs({
     timeConfig,
-    retrievalSize: 1,
-    tagFilterExpression,
-    tags: []
-  }).flatMap(result => {
-    if (result.data?.items.length > 0) {
-      return getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression] });
-    }
-    return just(null);
-  });
+    tagFilterExpression
+  }).flatMap(result =>
+    result.data?.hasLogs ? getLinkToAnalyze({ tagFilterExpression: [tagFilterExpression] }) : just(null)
+  );
 }
