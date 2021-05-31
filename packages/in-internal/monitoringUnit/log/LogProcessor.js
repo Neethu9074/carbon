@@ -7,8 +7,8 @@ import React, { Fragment } from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { millis, number } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
@@ -300,6 +300,42 @@ export default connectTo(
                 metrics: rows.map(
                   () =>
                     `metrics.meters.com.instana.backend.common.kafka.GenericReactorKafkaConsumer.trace-log-ingestion.too-old`
+                ),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={t('in-internal:monitoringUnit.log.processor.droppedPast')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(
+                  () =>
+                    `metrics.meters.com.instana.logging.processor.stream.LogBatchProcessingStandaloneInitializer.dropped-past-logs.calls`
+                ),
+                labels,
+                type: 'stackedArea'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={t('in-internal:monitoringUnit.log.processor.droppedFuture')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(
+                  () =>
+                    `metrics.meters.com.instana.logging.processor.stream.LogBatchProcessingStandaloneInitializer.dropped-future-logs.calls`
                 ),
                 labels,
                 type: 'stackedArea'
