@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import { compose } from 'recompose';
 import React from 'react';
+
+import { combineLatest } from '@instana/observables';
 
 import GraphExplorerMap from 'in-internal/thisUnit/GraphExplorer/GraphExplorerMap';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -61,12 +62,12 @@ function GraphExplorer({ snapshotId, setSnapshotId, connected }) {
   );
 }
 
-function getConnectedEntities(snapshotId, graph) {
+function getConnectedEntities(snapshotId, { edges }) {
   const incoming = [];
   const outgoing = [];
 
-  for (let i = 0; i < graph.length; i++) {
-    const item = graph[i];
+  for (let i = 0; i < edges.length; i++) {
+    const item = edges[i];
     if (item.from === snapshotId) {
       outgoing.push({ id: item.to, relation: item.relation });
     } else if (item.to === snapshotId) {

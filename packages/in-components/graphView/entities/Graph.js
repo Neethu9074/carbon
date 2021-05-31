@@ -29,16 +29,16 @@ export default class Graph {
       .once(this.processEdgeModifications.bind(this));
   }
 
-  processEdgeModifications(edgeModifications) {
+  processEdgeModifications({ edges, idsToPlugins }) {
     // maps node id => node instance
     // used to remove unused nodes from the graph
     const modifiedNodes = {};
 
-    edgeModifications.forEach(edgeModification => {
+    edges.forEach(edgeModification => {
       const edgeId = edgeModification.id;
-      const fromNode = this.getOrCreateNode(edgeModification.from);
+      const fromNode = this.getOrCreateNode(edgeModification.from, idsToPlugins[edgeModification.from]);
       modifiedNodes[fromNode.snapshotId] = fromNode;
-      const toNode = this.getOrCreateNode(edgeModification.to);
+      const toNode = this.getOrCreateNode(edgeModification.to, idsToPlugins[edgeModification.to]);
       modifiedNodes[toNode.snapshotId] = toNode;
 
       if (edgeModification.modificationType === 'ADD') {
@@ -100,53 +100,14 @@ export default class Graph {
     this.springyLayout.start(3, () => {}, markAsFinished);
   }
 
-  processGraphRetrieval(graph) {
-    const edgesToRemove = Object.keys(this.edges).reduce((agg, edgeId) => {
-      agg[edgeId] = true;
-      return agg;
-    }, {});
-
-    graph.forEach(newEdge => {
-      const edgeId = newEdge.id;
-      edgesToRemove[edgeId] = false;
-
-      if (this.edges[edgeId]) {
-        // nothing to do, edge already exists
-        return;
-      }
-
-      const fromNode = this.getOrCreateNode(newEdge.from);
-      const toNode = this.getOrCreateNode(newEdge.to);
-      const springyEdge = this.springyGraph.newEdge(fromNode.springyNode, toNode.springyNode);
-
-      this.edges[edgeId] = new Edge(edgeId, fromNode, toNode, newEdge.relation, this.springyGraph, springyEdge);
-      fromNode.increaseEdgeCount();
-      toNode.increaseEdgeCount();
-    });
-
-    Object.keys(edgesToRemove).forEach(edgeId => {
-      if (edgesToRemove[edgeId] === true && this.edges[edgeId]) {
-        const edge = this.edges[edgeId];
-        edge.from.decreaseEdgeCount();
-        edge.to.decreaseEdgeCount();
-        edge.remove();
-        edge.dispose();
-        delete this.edges[edgeId];
-      }
-    });
-
-    this.removeUnusedNodes();
-    this.restartLayoutProcess();
-  }
-
-  getOrCreateNode(snapshotId) {
+  getOrCreateNode(snapshotId, pluginId) {
     let existingNode = this.nodes[snapshotId];
     if (existingNode) {
       return existingNode;
     }
 
     const springyNode = this.springyGraph.newNode({ label: snapshotId });
-    existingNode = this.nodes[snapshotId] = new Node(snapshotId, this.springyGraph, springyNode);
+    existingNode = this.nodes[snapshotId] = new Node(snapshotId, pluginId, this.springyGraph, springyNode);
     return existingNode;
   }
 
