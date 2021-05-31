@@ -282,6 +282,50 @@ export default connectTo(
           </DashboardSection>
         </Columize>
 
+        <Columize>
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.logCleanup.success')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: rows.map(() => `metrics.meters.logCleanUpService.number-old-partitions-dropped-success.calls`),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.logCleanup.failure')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: rows.map(() => `metrics.meters.logCleanUpService.number-old-partitions-dropped-failure.calls`),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.logCleanup.duration')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: millis.fixedCompact,
+                metrics: rows.map(() => `metrics.timers.logCleanUpService.log-clean-up-timer.99th`),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
         <DashboardSection
           title={t('in-internal:monitoringUnit.log.writer.instances', {
             length: rows.length

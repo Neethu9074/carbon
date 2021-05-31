@@ -356,6 +356,8 @@
             "tooOld": "Trace Logs Kafka Consumer Too Old"
           }
         },
+        "droppedPast": "Dropped Logs with timestamp in the past",
+        "droppedFuture": "Dropped Logs with timestamp in the future",
         "outgoing": "Outgoing Logs",
         "failOutgoing": "Failed Outgoing Logs"
       },
@@ -385,6 +387,11 @@
           "mean": "mean",
           "50th": "50th",
           "99th": "99th"
+        },
+        "logCleanup" : {
+          "success": "Log clean-up success",
+          "failure": "Log clean-up failure",
+          "duration": "Log clean-up duration (99th)"
         }
       },
       "reader": {

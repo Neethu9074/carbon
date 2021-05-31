@@ -133,7 +133,7 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
         shouldAdd(itemTreeIds) {
           return selectService(state, itemTreeIds)?.inclusive === undefined;
         },
-        getBadgeElement({ types }) {
+        getBadgeElement({ types = [] }) {
           return <EndpointTypeBadgeList types={types} />;
         },
         getStaleEntity$: getService
