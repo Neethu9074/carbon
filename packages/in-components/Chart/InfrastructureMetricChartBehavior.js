@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
 import { isEqual, omit } from 'lodash';
 import React from 'react';
+
+import { create } from '@instana/observables';
 
 import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in-services/util/dynamicAggregation';
 import { getMetricsForTimeframe, getInfraGranularity } from 'in-stores/metric';
@@ -165,12 +166,13 @@ export default getElementDimensions(
             })
           );
         }
+
         this.subscriptions.push(
           getMetricsForTimeframe({
             snapshotId,
             metric: metrics[i],
             timeConfig: this.props.timeConfig,
-            rollup: rollup.rollup,
+            rollup: rollup,
             aggregation: axis.aggregation,
             blockSizeMillis: blockSizeMillis,
             metricBaseMillis: axis.metricBaseMillis,
