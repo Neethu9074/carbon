@@ -30,14 +30,12 @@ export default function LoggingQueryBuilderWorkspace(props) {
     formModel,
     backendQueryModel,
     onGroupByChange,
-    onChartedMetricsChange,
     isGrouped,
     isValid,
     validationError,
     children,
     isLoading,
-    groupBy,
-    chartedMetrics
+    groupBy
   } = props;
 
   return (
@@ -68,11 +66,9 @@ export default function LoggingQueryBuilderWorkspace(props) {
               }}
             />
 
-            {isValid && !isLoading && (
+            {isValid && (
               <LogsDistributionChartSection
-                chartedMetrics={chartedMetrics}
-                onChartedMetricsChange={onChartedMetricsChange}
-                backendQueryModel={backendQueryModel}
+                {...props}
                 tracking={{
                   onChartChanged: chartConfig => chartConfig && chartChanged(chartConfig)
                 }}

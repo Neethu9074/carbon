@@ -7,7 +7,13 @@ import React from 'react';
 
 import ChartingConfiguratorSection from 'in-new-components/ChartingConfigurator/ChartingConfiguratorSection';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import { LOG_LEVEL, getValueMatchTagFilter } from 'in-logging/queryBuilder';
+import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
+import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+import getLogGroups from 'in-logging/subscriptions/getLogGroups';
+import useCursorPagination from 'in-hooks/useCursorPagination';
+import { pendingResult } from 'in-services/fixedObjects';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import { error } from 'in-services/util/result';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -28,13 +34,8 @@ const options = [
   }
 ];
 
-export default function LogsDistributionChartSection({
-  chartedMetrics,
-  onChartedMetricsChange,
-  backendQueryModel,
-  tracking
-}) {
-  const metric = chartedMetrics && chartedMetrics[0];
+export default function LogsDistributionChartSection(props) {
+  const { chartedMetrics, onChartedMetricsChange, tracking } = props;
 
   return (
     <div className={locals.wrapper}>
@@ -47,53 +48,133 @@ export default function LogsDistributionChartSection({
         disableClose
       />
 
-      {metric && (
-        <div className={locals.chartWrapper}>
-          <UnifiedMetricsChart
-            automaticallySize={false}
-            renderLegend={false}
-            config={{
-              y1: {
-                metrics: [
-                  getMetricConfig(
-                    backendQueryModel,
-                    metric,
-                    'ERROR',
-                    t('in-logging:logsOverTime', { context: 'ERROR' })
-                  ),
-                  getMetricConfig(backendQueryModel, metric, 'WARN', t('in-logging:logsOverTime', { context: 'WARN' })),
-                  getMetricConfig(backendQueryModel, metric, 'INFO', t('in-logging:logsOverTime', { context: 'INFO' }))
-                ],
-                colors: [theme.lib.colors.failure, theme.lib.colors.warning, theme.lib.colors.lightBlue800],
-                formatter: 'number.compact',
-                renderer: 'stackedBar'
-              },
-              y2: { metrics: [] },
-              type: 'TIME_SERIES'
-            }}
-          />
-        </div>
-      )}
+      <div className={locals.chartWrapper}>
+        <Chart {...props} metric={chartedMetrics && chartedMetrics[0]} />
+      </div>
     </div>
   );
 }
 
-function getMetricConfig(backendQueryModel, metric, logLevel, label) {
+function Chart(props) {
+  const { isLoading, isGrouped, metric } = props;
+
+  if (!metric) {
+    return null;
+  }
+
+  if (isLoading) {
+    return <ResultAwareChart result={pendingResult} config={{ customHeight: 215 }} />;
+  }
+
+  if (isGrouped) {
+    return <GroupedLogsChart {...props} />;
+  }
+
+  return <LogsChart {...props} />;
+}
+
+function LogsChart({ backendQueryModel, metric }) {
+  return (
+    <UnifiedMetricsChart
+      automaticallySize={false}
+      renderLegend={false}
+      config={{
+        y1: {
+          metrics: [
+            getMetricConfig(
+              backendQueryModel,
+              metric,
+              LOG_LEVEL,
+              'ERROR',
+              t('in-logging:logsOverTime', { context: 'ERROR' })
+            ),
+            getMetricConfig(
+              backendQueryModel,
+              metric,
+              LOG_LEVEL,
+              'WARN',
+              t('in-logging:logsOverTime', { context: 'WARN' })
+            ),
+            getMetricConfig(
+              backendQueryModel,
+              metric,
+              LOG_LEVEL,
+              'INFO',
+              t('in-logging:logsOverTime', { context: 'INFO' })
+            )
+          ],
+          colors: [theme.lib.colors.failure, theme.lib.colors.warning, theme.lib.colors.lightBlue800],
+          formatter: 'number.compact',
+          renderer: 'stackedBar'
+        },
+        y2: { metrics: [] },
+        type: 'TIME_SERIES'
+      }}
+    />
+  );
+}
+
+function GroupedLogsChart({ metric, groupBy, backendQueryModel }) {
+  const timeConfig = useTimeConfig();
+  const { items, progress, errors } = useCursorPagination(
+    params => getData({ timeConfig, groupBy, backendQueryModel, ...params }),
+    [timeConfig.to, timeConfig.windowSize, timeConfig.autoRefresh, backendQueryModel, groupBy]
+  );
+
+  if (progress.loading) {
+    return <ResultAwareChart result={pendingResult} config={{ customHeight: 215 }} />;
+  } else if (errors && errors.length > 0) {
+    return <ResultAwareChart result={error(errors)} config={{ customHeight: 215 }} />;
+  }
+
+  const topGroups = items.slice(0, 5).map(({ label }) => label);
+  const tag = groupBy.groupbyTag;
+
+  return (
+    <UnifiedMetricsChart
+      automaticallySize={false}
+      renderLegend={false}
+      config={{
+        y1: {
+          metrics: topGroups.map(label => getMetricConfig(backendQueryModel, metric, tag, label)),
+          formatter: 'number.compact',
+          renderer: 'stackedBar'
+        },
+        y2: { metrics: [] },
+        type: 'TIME_SERIES'
+      }}
+    />
+  );
+}
+
+function getMetricConfig(backendQueryModel, metric, tag, value, label) {
   return {
     metric: metric.metricId,
     aggregation: metric.aggregationId,
-    label,
+    label: label ?? value,
     source: 'DISTRIBUTED_LOGS_V2',
-    tagFilterExpression: addLogLevelFilterTagToQueryModel(logLevel, backendQueryModel)
+    tagFilterExpression: addLogLevelFilterTagToQueryModel(tag, value, backendQueryModel)
 
     // granularity and timeConfig are send automatically by the chart impl
   };
 }
 
-function addLogLevelFilterTagToQueryModel(logLevel, backendQueryModel) {
+function addLogLevelFilterTagToQueryModel(tag, value, backendQueryModel) {
   return {
-    elements: [getValueMatchTagFilter(LOG_LEVEL, logLevel), backendQueryModel],
+    elements: [getValueMatchTagFilter(tag, value), backendQueryModel],
     logicalOperator: 'AND',
     type: 'EXPRESSION'
   };
+}
+
+function getData({ timeConfig, cursor, backendQueryModel, groupBy }) {
+  return getLogGroups({
+    timeConfig,
+    group: groupBy,
+    tagFilterExpression: backendQueryModel,
+    pagination: {
+      cursor,
+      retrievalSize: 20
+    }
+  });
 }

@@ -47,7 +47,6 @@ export default function GroupedLogs(props) {
         iconMap={iconMap}
         UngroupedView={Logs}
         CustomHeaderActions={TagSelector}
-        withoutChartGroupMarkers
         withoutSorting
         getItemLabel={({ label }) => label}
         tracker={tracker}
