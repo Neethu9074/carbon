@@ -14,6 +14,10 @@ export function getMetricLabel(metric) {
     return metric.label;
   }
 
+  if (metric.metricLabel) {
+    return metric.metricLabel;
+  }
+
   if (metric.metric) {
     return metric.metric;
   }

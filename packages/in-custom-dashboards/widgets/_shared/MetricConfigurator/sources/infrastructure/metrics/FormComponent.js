@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -19,7 +19,9 @@ import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/
 import QueryBuilder, { getTagCatalog } from 'in-infrastructure/Explore/components/QueryBuilder';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
+import getMetricMetadata from 'in-infrastructure/subscriptions/getMetricMetadata';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
+import useMetricMetadata from 'in-infrastructure/hooks/useMetricMetadata';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -66,6 +68,19 @@ export default function FormComponent({
       tagFilterExpressionField.value != invalidMarker ? tagFilterExpressionField.value : EMPTY_EXPRESSION,
     query: catalogQuery.debouncedValue
   });
+  const metricMetadata = useMetricMetadata({ getMetricMetadata, type: typeField.value, metric: metricField.value });
+
+  useEffect(
+    () =>
+      onChange([], form => {
+        if (form.get('metricLabel')) {
+          return form.updateIn(['metricLabel'], field => field.setValue(metricMetadata.label).setTouched(true));
+        }
+        return form;
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [metricMetadata]
+  );
 
   return (
     <Stack space="xsmall">
@@ -73,8 +88,7 @@ export default function FormComponent({
       <Sections>
         <Section title={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.metric')}>
           <TypeAndMetricConfigurator
-            type={typeField.value}
-            metric={metricField.value}
+            metricMetadata={metricMetadata}
             metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
             onChange={({ metric, type }) =>
               onChange([], form =>

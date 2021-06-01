@@ -10,6 +10,7 @@ import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { stringValidator } from 'in-services/validators/jsonType';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
+import { t } from 'in-i18n';
 
 export function createForm(form, savedState) {
   return form
@@ -32,6 +33,15 @@ export function createForm(form, savedState) {
           notBlankValidator,
           buildEnumValidator(['eventCount'])
         )
+      })
+    )
+    .put(
+      'metricLabel',
+      createField({
+        // Metric label not necessary because there is only one metric.
+        // Therefore hard coded
+        value: t('in-custom-dashboards:widgets.srcEvent.formComponent.eventCount'),
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
       })
     )
     .put(

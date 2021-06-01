@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
@@ -25,6 +25,22 @@ export default function FormComponent({
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
   const dynamicFocusQueryField = form.get('dynamicFocusQuery');
+
+  useEffect(
+    () =>
+      onChange([], form => {
+        if (form.get('metricLabel')) {
+          return form.updateIn(['metricLabel'], field =>
+            field
+              .setValue(t('in-custom-dashboards:widgets.srcInfrastructure.entityCountFormComponent.count'))
+              .setTouched(true)
+          );
+        }
+        return form;
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [metricField]
+  );
 
   return (
     <Stack space="xsmall">

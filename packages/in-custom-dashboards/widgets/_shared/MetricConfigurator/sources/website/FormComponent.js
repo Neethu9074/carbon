@@ -80,14 +80,20 @@ export default function FormComponent({
           id="metic-configurator-website-metric"
           value={metricField.value}
           onChange={e =>
-            onChange([], form =>
-              form
+            onChange([], form => {
+              let updatedForm = form;
+              if (updatedForm.get('metricLabel')) {
+                updatedForm = updatedForm.updateIn(['metricLabel'], field =>
+                  field.setValue(getMetricLabel(beaconTypeField.value, e.target.value)).setTouched(true)
+                );
+              }
+              return updatedForm
                 .updateIn(['metric'], field => field.setValue(e.target.value).setTouched(true))
                 .updateIn(['aggregation'], field => {
                   const aggregations = getAggregations(beaconTypeField.value, e.target.value);
                   return field.setValue(aggregations.length > 1 ? '' : aggregations[0]);
-                })
-            )
+                });
+            })
           }
           hasError={!metricField.valid && metricField.touched}
           disabled={!beaconTypeField.valid}
@@ -171,4 +177,10 @@ export default function FormComponent({
 function getAggregations(beaconType, metric) {
   const metricDefinition = find(availableMetrics[beaconType], ({ metric: m }) => m === metric);
   return metricDefinition?.supportedAggregations ?? [];
+}
+
+function getMetricLabel(beaconType, metricId) {
+  const beacon = dataSourceTitles[beaconType];
+  const metric = find(availableMetrics[beaconType], ({ metric: m }) => m === metricId)?.label;
+  return `${beacon} - ${metric}`;
 }

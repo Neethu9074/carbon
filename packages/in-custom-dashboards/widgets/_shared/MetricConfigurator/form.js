@@ -80,13 +80,21 @@ export function createForm(
   }
 
   if (withLabelConfiguration) {
-    form = form.put(
-      'label',
-      createField({
-        value: (savedState && savedState.label) || '',
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
-      })
-    );
+    form = form
+      .put(
+        'label',
+        createField({
+          value: (savedState && savedState.label) || '',
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
+        })
+      )
+      .put(
+        'metricLabel',
+        createField({
+          value: (savedState && savedState.metricLabel) || '',
+          validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator)
+        })
+      );
   }
 
   if (withColorConfiguration) {

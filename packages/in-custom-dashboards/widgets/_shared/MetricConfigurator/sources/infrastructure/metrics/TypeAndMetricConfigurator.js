@@ -9,8 +9,6 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
-import getMetricMetadata from 'in-infrastructure/subscriptions/getMetricMetadata';
-import useMetricMetadata from 'in-infrastructure/hooks/useMetricMetadata';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -20,8 +18,7 @@ import { t } from 'in-i18n';
 import locals from './TypeAndMetricConfigurator.mless';
 
 export default function TypeAndMetricConfigurator({
-  metric,
-  type,
+  metricMetadata,
   metricCatalog,
   onChange,
   query,
@@ -54,7 +51,7 @@ export default function TypeAndMetricConfigurator({
             refSetter={refSetter}
             className={locals.configurator}
           >
-            <TypeAndMetricLabel type={type} metric={metric} selectMetric={selectMetric} />
+            <TypeAndMetricLabel selectMetric={selectMetric} metricMetadata={metricMetadata} />
           </DropdownButton>
         )}
       </Overlay>
@@ -63,8 +60,7 @@ export default function TypeAndMetricConfigurator({
 }
 
 TypeAndMetricConfigurator.propTypes = {
-  metric: rpt.string,
-  type: rpt.string,
+  metricMetadata: rpt.object.isRequired,
   metricCatalog: rpt.object.isRequired,
   onChange: rpt.func.isRequired,
   query: rpt.string.isRequired,
@@ -84,8 +80,7 @@ function Errors({ errors }) {
   );
 }
 
-function TypeAndMetricLabel({ type, metric, selectMetric }) {
-  const metricMetadata = useMetricMetadata({ getMetricMetadata, type, metric });
+function TypeAndMetricLabel({ selectMetric, metricMetadata }) {
   if (metricMetadata?.progress?.loading) {
     return null;
   }

@@ -109,14 +109,20 @@ export default function FormComponent({
           id="metic-configurator-application-metric"
           value={metricField.value}
           onChange={e =>
-            onChange([], form =>
-              form
+            onChange([], form => {
+              let updatedForm = form;
+              if (updatedForm.get('metricLabel')) {
+                updatedForm = updatedForm.updateIn(['metricLabel'], field =>
+                  field.setValue(getMetricLabel(e.target.value)).setTouched(true)
+                );
+              }
+              return updatedForm
                 .updateIn(['metric'], field => field.setValue(e.target.value).setTouched(true))
                 .updateIn(['aggregation'], field => {
                   const aggregations = getAggregations(e.target.value);
                   return field.setValue(aggregations.length > 1 ? '' : aggregations[0]);
-                })
-            )
+                });
+            })
           }
           hasError={!metricField.valid && metricField.touched}
           additionalContent={<TouchedMessages field={metricField} />}
@@ -235,4 +241,8 @@ function getGetTagCatalogObservable([timeConfig]) {
 
 function getAggregations(metric) {
   return find(availableMetrics, ({ metric: m }) => m === metric)?.supportedAggregations ?? [];
+}
+
+function getMetricLabel(metricId) {
+  return find(availableMetrics, ({ metric: m }) => m === metricId)?.label;
 }
