@@ -31,7 +31,6 @@ export default function ibmCloudPostgreSqlDashboard({ snapshot, timeConfig }) {
       <CacheTable snapshot={snapshot} timeConfig={timeConfig} />
       <FilesTable snapshot={snapshot} timeConfig={timeConfig} />
       <DeadlocksTable snapshot={snapshot} timeConfig={timeConfig} />
-      <TuplesTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }

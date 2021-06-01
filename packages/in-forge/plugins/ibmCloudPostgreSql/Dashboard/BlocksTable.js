@@ -62,15 +62,15 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      memberIds : getRawPayload(props.snapshot.get('id'), 'member_ids')
+      memberIds: getRawPayload(props.snapshot.get('id'), 'member_ids')
     };
   },
-  function BlocksTable({ snapshot, timeConfig, memberIds  }) {
-    if (!memberIds  || memberIds .isEmpty()) {
+  function BlocksTable({ snapshot, timeConfig, memberIds }) {
+    if (!memberIds || memberIds.isEmpty()) {
       return null;
     }
 
-    const rows = memberIds .toArray().map(member => {
+    const rows = memberIds.toArray().map(member => {
       return {
         key: member,
         name: member,

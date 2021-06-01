@@ -98,6 +98,7 @@ import './cockroachDBNode';
 import './defaultEntity20';
 import './genericHardware';
 import './ibmCloudFoundry';
+import './ibmCloudMongoDb';
 import './ibmMqQueueUsage';
 import './jiraApplication';
 import './mariaDbDatabase';
