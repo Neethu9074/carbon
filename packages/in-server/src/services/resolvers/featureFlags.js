@@ -178,7 +178,7 @@ module.exports = exports = [
   {
     uiClientKey: 'languageSelectorEnabled',
     instanaCtlKey: 'feature.language.selector.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'pseudoLanguageEnabled',
