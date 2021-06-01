@@ -159,6 +159,7 @@ function ListWithMore({ title, span, pathToItems, itemMapper = identity, pathToM
 }
 
 function CommonFaasDescriptionItems({ span }) {
+  const millisecondsLeftBeforeTimeout = span.getIn(['data', 'lambda', 'msleft']);
   return (
     <AdditionalAttributesSection title={t('in-forge:tracing.aspLambdaEntry.titleLambdaAttributes')}>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleARN')}>{span.getIn(['data', 'lambda', 'arn'])}</Di>
@@ -168,7 +169,18 @@ function CommonFaasDescriptionItems({ span }) {
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleVersion')}>
         {span.getIn(['data', 'lambda', 'functionVersion'])}
       </Di>
+      <Di title={t('in-forge:tracing.aspLambdaEntry.requestId')}>{span.getIn(['data', 'lambda', 'reqId'])}</Di>
       <Di title={t('in-forge:tracing.aspLambdaEntry.titleTrigger')}>{span.getIn(['data', 'lambda', 'trigger'])}</Di>
+      <Di title={t('in-forge:tracing.aspLambdaEntry.coldStart')}>
+        {span.getIn(['data', 'lambda', 'coldStart'])
+          ? t('in-forge:tracing.aspLambdaEntry.yes')
+          : t('in-forge:tracing.aspLambdaEntry.no')}
+      </Di>
+      {millisecondsLeftBeforeTimeout && (
+        <Di title={t('in-forge:tracing.aspLambdaEntry.suspectedTimeout')}>
+          {t('in-forge:tracing.aspLambdaEntry.timeoutMessage', { milliseconds: millisecondsLeftBeforeTimeout })}
+        </Di>
+      )}
       <ErrorDescriptionItem error={span.getIn(['data', 'lambda', 'error'])} />
     </AdditionalAttributesSection>
   );

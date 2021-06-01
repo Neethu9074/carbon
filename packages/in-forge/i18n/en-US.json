@@ -10381,7 +10381,13 @@
       "bodyAWSMessages": "AWS SQS Message(s)",
       "bodyAWSEvent": "AWS Event",
       "bodyAWSEventDetail": "An API Gateway call that does not use the Lambda Proxy option or an unidentified Lambda trigger.",
-      "titleLambdaAttributes": "Lambda Attributes"
+      "titleLambdaAttributes": "Lambda Attributes",
+      "coldStart": "Cold Start",
+      "requestId": "AWS Request ID",
+      "suspectedTimeout": "Suspected Timeout",
+      "timeoutMessage": "The Lambda function was still running when only {{milliseconds}} ms were left, it might have ended in a timeout.",
+      "yes": "Yes",
+      "no": "No"
     },
     "LambdaInvoke": {
       "titleARN": "ARN",
