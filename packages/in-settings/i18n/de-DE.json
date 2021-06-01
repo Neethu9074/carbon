@@ -727,7 +727,8 @@
     "privacy": "Datenschutz",
     "communication": "Kommunikation",
     "default": "Standard",
-    "identityProviderType": "Identitätsprovidertyp"
+    "identityProviderType": "Identitätsprovidertyp",
+    "copyApiTokenToClipboardError": "API-Token konnte nicht in die Zwischenablage kopiert werden."
   },
   "languageSelection": {
     "language": "Sprache"

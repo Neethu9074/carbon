@@ -548,7 +548,8 @@
         "Loading": "ロード中…",
         "PreviewForAP": "アプリケーション・パースペクティブのプレビュー:",
         "PreviewForEndpoint": "エンドポイントのプレビュー:",
-        "PreviewForService": "サービスのプレビュー:"
+        "PreviewForService": "サービスのプレビュー:",
+        "PreviewSelectLoadingEndpoints": "エンドポイント・リストをロード中"
       },
       "alertsHub": {
         "title": "アラート・ハブ",

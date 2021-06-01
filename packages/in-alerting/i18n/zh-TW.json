@@ -422,7 +422,7 @@
       },
       "inventory": {
         "noData": "未配置任何智慧型警示。按一下下面的按鈕以配置您的第一個智慧型警示。",
-        "noPersmissionToCreateGlobalSmartAlert": "您沒有配置智慧型警示的權限。請聯絡您的管理者。",
+        "noPersmissionToCreateGlobalSmartAlert": "您沒有配置智慧型警示的權限。請與管理者聯絡。",
         "labelGlobalSmartAlertsList": "廣域智慧型警示 ({{numberOfAlerts}})",
         "labelSmartAlertsList": "應用程式智慧型警示 ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -548,7 +548,8 @@
         "Loading": "載入中...",
         "PreviewForAP": "應用程式視景預覽：",
         "PreviewForEndpoint": "端點的預覽：",
-        "PreviewForService": "服務的預覽："
+        "PreviewForService": "服務的預覽：",
+        "PreviewSelectLoadingEndpoints": "載入端點清單"
       },
       "alertsHub": {
         "title": "警示中心",

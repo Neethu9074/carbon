@@ -727,7 +727,8 @@
     "privacy": "Privacidade",
     "communication": "Comunicação",
     "default": "Padrão",
-    "identityProviderType": "Tipo de provedor de identidade"
+    "identityProviderType": "Tipo de provedor de identidade",
+    "copyApiTokenToClipboardError": "Não foi possível copiar o token da API para a área de transferência."
   },
   "languageSelection": {
     "language": "Idioma"

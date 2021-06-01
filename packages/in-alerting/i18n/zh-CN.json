@@ -422,7 +422,7 @@
       },
       "inventory": {
         "noData": "未配置智能警报。单击以下按钮来配置首个智能警报。",
-        "noPersmissionToCreateGlobalSmartAlert": "您无权配置智能警报。请与您的管理员联系。",
+        "noPersmissionToCreateGlobalSmartAlert": "您无权配置智能警报。请联系您的管理员。",
         "labelGlobalSmartAlertsList": "全局应用程序智能警报数（{{numberOfAlerts}} 个）",
         "labelSmartAlertsList": "应用程序智能警报数（{{numberOfAlerts}} 个）",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -548,7 +548,8 @@
         "Loading": "正在加载...",
         "PreviewForAP": "应用程序透视图的预览：",
         "PreviewForEndpoint": "端点预览：",
-        "PreviewForService": "服务预览："
+        "PreviewForService": "服务预览：",
+        "PreviewSelectLoadingEndpoints": "正在加载端点列表"
       },
       "alertsHub": {
         "title": "警报中心",

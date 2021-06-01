@@ -727,7 +727,8 @@
     "privacy": "隱私權",
     "communication": "通訊",
     "default": "預設值",
-    "identityProviderType": "身分提供者類型"
+    "identityProviderType": "身分提供者類型",
+    "copyApiTokenToClipboardError": "無法將 API 記號複製到剪貼簿。"
   },
   "languageSelection": {
     "language": "語言"

@@ -302,6 +302,7 @@
     "previousWeek": "前一週",
     "dashboardHeaderButtonLive": "即時",
     "customTimeTitleTimeRange": "時間範圍",
+    "customTimeHistoricDataMessage": "您將檢視具有所選時間範圍的大約資料。可提供過去 {{retention}} 天的精確資料。",
     "to": "到 ",
     "customTimeButtonSetTime": "設定時間",
     "customTimeLabelYesterday": "昨天",

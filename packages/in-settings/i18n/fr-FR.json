@@ -72,7 +72,7 @@
   "cardTitle_User_1": "Utilisateur ",
   "cardTitle_User_2": "Utilisateurs ",
   "cardTitle_Group": "Groupe ",
-  "cardTitle_Group_plural": "Groupes",
+  "cardTitle_Group_plural": "Groupes ",
   "cardTitle_Group_0": "Groupe ",
   "cardTitle_Group_1": "Groupe ",
   "cardTitle_Group_2": "Groupes ",
@@ -727,7 +727,8 @@
     "privacy": "Confidentialité",
     "communication": "Communication",
     "default": "Par défaut",
-    "identityProviderType": "Type de fournisseur d'identité"
+    "identityProviderType": "Type de fournisseur d'identité",
+    "copyApiTokenToClipboardError": "Impossible de copier le jeton API dans le presse-papiers."
   },
   "languageSelection": {
     "language": "Langue"

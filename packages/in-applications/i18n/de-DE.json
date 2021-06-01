@@ -395,7 +395,7 @@
       "apName": "Name der Anwendungsperspektive",
       "apNameDescription": "Namen von Anwendungsperspektiven sollten in einem Unternehmen eine Definition aufweisen, die allgemein etabliert ist. Beispiel: zum Modellieren einer Umgebung: \"Production Blue\", zum Modellieren einer Gruppe von Services: \"Payment\" oder zum Modellieren eines Tenants: \"ACME Customer\".",
       "defineUsingTags": "2. Definieren Sie die Anwendungsperspektive mit einem oder mehreren Tags.",
-      "defineUsingTagsDescription": "Beispiel: Der Schlüssel ist \"docker.label\" und der Wert lautet \"environment=Production Blue\", oder der Schlüssel ist \"call.http.params\" und der Wert lautet \"tenant=ACMECustomer\". Beachten Sie, dass alle Aufrufe eines <pill-database>DATENBANK</pill-database> oder <pill-messaging>MESSAGING</pill-messaging>-Service von Services, die dieser Definition entsprechen, automatisch eingeschlossen werden. ",
+      "defineUsingTagsDescription": "Beispiel: Der Schlüssel ist \"docker.label\" und der Wert lautet \"environment=Production Blue\", oder der Schlüssel ist \"call.http.params\" und der Wert lautet \"tenant=ACMECustomer\". Beachten Sie, dass alle Aufrufe eines <pill-database>DATENBANK</pill-database>- oder <pill-messaging>MESSAGING</pill-messaging>-Service von Services, die dieser Definition entsprechen, automatisch eingeschlossen werden.",
       "andOperatorsPrecedenceBrackets": "UND-Operatoren haben Vorrang und werden vor ODER-Operatoren ausgewertet, wenn diese nicht in eckigen Klammern gruppiert sind.",
       "downstreamCalls": "3. Speichern Sie Aufrufe von nachgeordneten Services",
       "downstreamCallsDescription": "Wählen Sie aus, welche nachgeordneten Services in die Anwendungsperspektive aufgenommen werden sollen.",

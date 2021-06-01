@@ -432,8 +432,8 @@
     "errorCallWithoutMessage": "无错误消息的错误调用",
     "logMessages": "日志消息",
     "noLogMessage": "未提供日志消息",
-    "includeSyntheticCallsDropDownSyntheticCalls": " 合成调用：{{syntheticCallsOptionLabel}}"
-},
+    "includeSyntheticCallsDropDownSyntheticCalls":" 合成调用：{{syntheticCallsOptionLabel}}"
+  },
   "flowMap": {
     "tooltipServiceNotInApplication": "该服务不在当前应用程序中。",
     "buttonLoadMoreWithRemain": "再加载 {{remainNumber}} 个<totalSpan>（总计 {{nodeNumber}} 个）</totalSpan>",

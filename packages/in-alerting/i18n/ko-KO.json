@@ -196,7 +196,7 @@
       "logMessages": {
         "messageColumn": "로그 메시지",
         "levelColumn": "로그 레벨",
-        "noDataMessage": "메시지를 찾을 수 없습니다. ",
+        "noDataMessage": "메시지를 찾을 수 없습니다.",
         "selectLogMessageText": "템플리트로 로그 메시지 선택(선택사항)",
         "selectLogMessageTitle": "로그 메시지 선택"
       },
@@ -548,7 +548,8 @@
         "Loading": "로드 중…",
         "PreviewForAP": "애플리케이션 퍼스펙티브에 대한 미리보기:",
         "PreviewForEndpoint": "엔드포인트에 대한 미리보기:",
-        "PreviewForService": "서비스에 대한 미리보기:"
+        "PreviewForService": "서비스에 대한 미리보기:",
+        "PreviewSelectLoadingEndpoints": "엔드포인트 목록 로드"
       },
       "alertsHub": {
         "title": "경보 허브",

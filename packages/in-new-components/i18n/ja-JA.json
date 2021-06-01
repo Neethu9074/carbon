@@ -302,6 +302,7 @@
     "previousWeek": "先週",
     "dashboardHeaderButtonLive": "稼働中",
     "customTimeTitleTimeRange": "時刻範囲",
+    "customTimeHistoricDataMessage": "選択した時刻範囲の概算データが表示されます。正確なデータは、過去 {{retention}} 日間使用可能です。",
     "to": "から",
     "customTimeButtonSetTime": "時刻の設定",
     "customTimeLabelYesterday": "昨日",

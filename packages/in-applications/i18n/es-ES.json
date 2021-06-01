@@ -541,7 +541,7 @@
       "summary": {
         "duplicateCalls": "Llamadas duplicadas",
         "duplicateCallsDesc": "Este rastreo consta de una o varias llamadas duplicadas (spans). Llamadas exclusivas: {{traceCallCountIgnoringBatchSize}} - Registros: {{traceCallRecordCount}}. Esto genera un número de llamadas incorrecto (con lotes) y valores de recuento de errores, y quizás a otras irregularidades.",
-        "batchedIngestion": "Ingestión por lotes",
+        "batchedIngestion": "Ingesta por lotes",
         "traceIngestionBatchCount": "Este rastreo se ha procesado en {{traceIngestionBatchesCount}} lotes. Esto puede generar irregularidades, por ejemplo, spans no fusionados con una única llamada, una correlación de servicios parcial o que se muestren otros datos incompletos.",
         "subCalls": "Subllamadas",
         "erroneousCalls": "Llamadas erróneas",

@@ -117,7 +117,7 @@
     "annotationsWithNumber": "Annotationen ({{num}})",
     "spec": "Spezifikation",
     "viewEntity": "{{entityName}} anzeigen",
-    "missingPermissionMessage": "Der Instana-Agent hat keine Berechtigungen für {{target}}. Aktualisieren Sie die YAML, das Helm-Chart oder den Operator des Instana-Agenten auf die neueste Version, um sicherzustellen, dass er/sie über die richtigen Berechtigungen verfügt. Weitere Informationen finden Sie in unserer <linkK8s>Kubernetes</linkK8s>- oder <linkOpenShift>OpenShift</linkOpenShift>-Dokumentation. ",
+    "missingPermissionMessage": "Der Instana-Agent hat keine Berechtigungen für {{target}}. Aktualisieren Sie die YAML, das Helm-Chart oder den Operator des Instana-Agenten auf die neueste Version, um sicherzustellen, dass er/sie über die richtigen Berechtigungen verfügt. Weitere Informationen finden Sie in unserer <linkK8s>Kubernetes</linkK8s>- oder <linkOpenShift>OpenShift</linkOpenShift>-Dokumentation.",
     "ports": "Ports",
     "port": "Port",
     "protocol": "Protokoll",

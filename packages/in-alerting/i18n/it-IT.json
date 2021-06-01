@@ -422,7 +422,7 @@
       },
       "inventory": {
         "noData": "Non è stato configurato nessun avviso smart. Fare clic sul pulsante indicato di seguito per configurare il primo avviso smart.",
-        "noPersmissionToCreateGlobalSmartAlert": "Non si dispone dell'autorizzazione per configurare gli avvisi smart. Rivolgersi all'amministratore.",
+        "noPersmissionToCreateGlobalSmartAlert": "Non si dispone dell'autorizzazione per configurare gli avvisi smart. Contattare l'amministratore.",
         "labelGlobalSmartAlertsList": "Avvisi smart applicazione globali ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Avvisi smart applicazione ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -548,7 +548,8 @@
         "Loading": "Caricamento…",
         "PreviewForAP": "Anteprima per la prospettiva applicazione",
         "PreviewForEndpoint": "Anteprima dell'Endpoint:",
-        "PreviewForService": "Anteprima per il servizio:"
+        "PreviewForService": "Anteprima per il servizio:",
+        "PreviewSelectLoadingEndpoints": "Caricamento dell'elenco di endpoint"
       },
       "alertsHub": {
         "title": "Hub avvisi",
@@ -615,7 +616,7 @@
         "propertiesTitle": "Proprietà dell'avviso aggiuntive (facoltativo)",
         "thresholdValue": "Valore soglia",
         "payloadsLabel": "Payload (facoltativo)",
-        "payloadsTitle": "Payload personalizzati (facoltativi)"
+        "payloadsTitle": "Payload personalizzati (facoltativo)"
       },
       "components": {
         "provideStatusCodeStatusCode": "Codice di stato",

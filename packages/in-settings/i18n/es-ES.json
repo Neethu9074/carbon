@@ -727,7 +727,8 @@
     "privacy": "Privacidad",
     "communication": "Comunicación",
     "default": "Valor predeterminado",
-    "identityProviderType": "Tipo de proveedor de identidad"
+    "identityProviderType": "Tipo de proveedor de identidad",
+    "copyApiTokenToClipboardError": "No se ha podido copiar la señal API en el portapapeles."
   },
   "languageSelection": {
     "language": "Idioma"

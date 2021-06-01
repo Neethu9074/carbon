@@ -175,7 +175,7 @@
       "labelLatency": "대기 시간"
     },
     "erroneous": "잘못된",
-    "resetUnsupportedTracesFilterContainingOrConjunction": "추적 분석에서는 논리 연산자 OR이 지원되지 않으므로 필터가 해제되었습니다. ",
+    "resetUnsupportedTracesFilterContainingOrConjunction": "추적 분석에서는 논리 연산자 OR이 지원되지 않으므로 필터가 해제되었습니다.",
     "facetedSearch": {
       "showSyntheticCalls": "합성 호출 표시",
       "showInternalCalls": "내부 호출 표시",
@@ -395,7 +395,7 @@
       "apName": "애플리케이션 퍼스펙티브 이름",
       "apNameDescription": "애플리케이션 퍼스펙티브 이름에는 조직 내에서 올바르게 설정된 정의가 있어야 합니다. 예를 들어, 환경을 모델링하려면: \"프로덕션 블루\", 서비스 세트를 모델링하려면: \"지불\" 또는 테넌트를 모델링하려면: \"ACME 고객\".",
       "defineUsingTags": "2. 하나 이상의 태그를 사용하여 애플리케이션 퍼스펙티브를 정의하십시오.",
-      "defineUsingTagsDescription": "예를 들어, 키가 \"docker.label\"이고 값이 \"environment=Production Blue\"이거나 키가 \"call.http.params\"이고 값이 \"tenant=ACMECustomer\"인 경우입니다. 이 정의와 일치하는 서비스의 <pill-database>데이터베이스</pill-database> 서비스 또는 <pill-messaging>메시징</pill-messaging> 서비스에 대한 호출은 자동으로 포함된다는 점을 참고하십시오. ",
+      "defineUsingTagsDescription": "예를 들어, 키가 \"docker.label\"이고 값이 \"environment=Production Blue\"이거나 키가 \"call.http.params\"이고 값이 \"tenant=ACMECustomer\"인 경우입니다. 이 정의와 일치하는 서비스의 <pill-database>데이터베이스</pill-database> 서비스 또는 <pill-messaging>메시징</pill-messaging> 서비스에 대한 호출은 자동으로 포함된다는 점을 참고하십시오.",
       "andOperatorsPrecedenceBrackets": "AND 연산자는 우선권을 가지며 대괄호로 그룹화되지 않은 경우 OR 연산자 전에 평가됩니다.",
       "downstreamCalls": "3. 다운스트림 서비스의 호출 저장",
       "downstreamCallsDescription": "애플리케이션 퍼스펙티브에 포함할 다운스트림 서비스를 선택하십시오.",

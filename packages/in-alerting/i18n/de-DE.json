@@ -548,7 +548,8 @@
         "Loading": "Ladevorgang läuft...",
         "PreviewForAP": "Vorschau für Anwendungsperspektive:",
         "PreviewForEndpoint": "Vorschau für Endpunkt:",
-        "PreviewForService": "Vorschau für Service:"
+        "PreviewForService": "Vorschau für Service:",
+        "PreviewSelectLoadingEndpoints": "Endpunktliste wird geladen"
       },
       "alertsHub": {
         "title": "Alerts-Hub",

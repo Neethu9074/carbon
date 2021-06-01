@@ -302,6 +302,7 @@
     "previousWeek": "Settimana precedente",
     "dashboardHeaderButtonLive": "Tempo reale",
     "customTimeTitleTimeRange": "Intervallo di tempo",
+    "customTimeHistoricDataMessage": "Con l'intervallo di tempo selezionato, verranno visualizzati dati approssimativi. I dati precisi sono disponibili per gli ultimi {{retention}} giorni.",
     "to": "a",
     "customTimeButtonSetTime": "Imposta ora",
     "customTimeLabelYesterday": "Ieri",

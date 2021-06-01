@@ -255,7 +255,7 @@
     "configureEventEntityName": "Configura evento: {{entityName}}",
     "thisWillMatchAndCreateIssuesOnAllAvailableEntitiesForTheConditionsSpecified": "<strong>Attenzione!</strong> Verranno associati e creati problemi su tutte le entità disponibili per le condizioni specificate. <strong>Questo potrebbe avere effetto su altri utenti nell'organizzazione.</strong>",
     "aNonEmptyFilterQueryWhichDefinesForWhichEntitiesTheRuleWillBeApplied": "Una query di filtro <strong>non vuota</strong> che definisce le entità per cui verrà applicata la regola. Selezionare <em>\"Applica a: Tutte le entità disponibili\"</em> se si desidera che questa regola venga applicata a tutte le entità. Per ulteriori informazioni sulla sintassi, consultare la <docLink>documentazione</docLink>.",
-    "offlineEventDetection": "Rilevamento di eventi offline",
+    "offlineEventDetection": "Rilevamento degli eventi offline",
     "hostsThatDoNotHaveMatchingEntitiesRunningOnThem": "Host senza entità corrispondenti in esecuzione",
     "pleaseSelectASeverity": "Selezionare una severità",
     "pleaseEnterAValidMetric": "Immettere una metrica valida.",
@@ -558,7 +558,7 @@
     "noAlertChannelsSelected": "Nessun canale di avviso selezionato",
     "addAlertChannels": "Aggiungi canali di avviso",
     "pleaseSelectAtLeastOneAlertChannel": "Selezionare almeno un canale di avviso.",
-    "5CustomPayloadsOptional": "5. Payload personalizzati (facoltativi)",
+    "5CustomPayloadsOptional": "5. Payload personalizzati (facoltativo)",
     "CustomPayloadDescriptionText": "Ciascuna coppia chiave/valore verrà inclusa come payload aggiuntivo a ciascuna notifica di avviso di incidente o problema.",
     "savedFilters": "Filtri salvati",
     "configureCustomPayloadForAlerts": "Configura payload personalizzato per gli avvisi",
@@ -727,7 +727,8 @@
     "privacy": "Privacy",
     "communication": "Comunicazioni",
     "default": "Impostazione predefinita",
-    "identityProviderType": "Tipo provider di identità"
+    "identityProviderType": "Tipo provider di identità",
+    "copyApiTokenToClipboardError": "Impossibile copiare il token dell'API negli appunti."
   },
   "languageSelection": {
     "language": "Lingua"

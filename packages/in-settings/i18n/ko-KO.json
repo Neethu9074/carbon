@@ -368,7 +368,7 @@
     "cannotConfigureOidcIfAnotherOneIsAlreadyActive": "다른 활성 ID 제공자 구성이 있는 한 OIDC를 구성할 수 없습니다.",
     "activatingOidcEnablesInstanaToAuthenticateAUserAgainstYourIdentityProviderIdP": "OIDC을 활성화하면 Instana에서 IdP(Identity Provider)에 대해 사용자를 인증할 수 있습니다.",
     "clientID": "ClientID",
-    "youCanEitherUploadYourIdPMetadataViaFileOrUseADiscoveryUrlAndSecret": "IdP 메타데이터는 JSON 파일 업로드를 통해 업로드할 수 있으며, OIDC 구성의 검색 URL을 사용하는 경우에는 Instana가 이를 자동으로 페치합니다. ",
+    "youCanEitherUploadYourIdPMetadataViaFileOrUseADiscoveryUrlAndSecret": "IdP 메타데이터는 JSON 파일 업로드를 통해 업로드할 수 있으며, OIDC 구성의 검색 URL을 사용하는 경우에는 Instana가 이를 자동으로 페치합니다.",
     "alternativelyDefineADiscoveryUrlAndSecretHere": "또는 검색 URL을 정의하십시오.",
     "discoveryURL": "검색 URL",
     "secret": "시크릿",
@@ -727,7 +727,8 @@
     "privacy": "개인정보 보호",
     "communication": "통신",
     "default": "기본값",
-    "identityProviderType": "ID 제공자 유형"
+    "identityProviderType": "ID 제공자 유형",
+    "copyApiTokenToClipboardError": "API 토큰을 클립보드로 복사할 수 없습니다."
   },
   "languageSelection": {
     "language": "언어"

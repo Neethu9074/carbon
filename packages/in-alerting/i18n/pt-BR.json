@@ -422,7 +422,7 @@
       },
       "inventory": {
         "noData": "Nenhum Alerta inteligente configurado. Clique no botão abaixo para configurar seu primeiro alerta inteligente.",
-        "noPersmissionToCreateGlobalSmartAlert": "Você não tem a permissão para configurar alertas inteligentes. Entre em contato com seu administrador.",
+        "noPersmissionToCreateGlobalSmartAlert": "Você não tem a permissão para configurar alertas inteligentes. Entre em contato com o administrador.",
         "labelGlobalSmartAlertsList": "Alertas inteligentes de aplicativos globais ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Alertas inteligentes de aplicativos ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -548,7 +548,8 @@
         "Loading": "Carregando…",
         "PreviewForAP": "Visualização para Perspectiva de aplicativo:",
         "PreviewForEndpoint": "Visualização para terminal:",
-        "PreviewForService": "Visualização para serviço:"
+        "PreviewForService": "Visualização para serviço:",
+        "PreviewSelectLoadingEndpoints": "Carregando a lista de terminais"
       },
       "alertsHub": {
         "title": "Hub de alertas",

@@ -727,7 +727,8 @@
     "privacy": "隐私",
     "communication": "通信",
     "default": "缺省",
-    "identityProviderType": "身份提供者类型"
+    "identityProviderType": "身份提供者类型",
+    "copyApiTokenToClipboardError": "无法将 API 令牌复制到剪贴板。"
   },
   "languageSelection": {
     "language": "语言"

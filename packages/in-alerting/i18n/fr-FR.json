@@ -422,7 +422,7 @@
       },
       "inventory": {
         "noData": "Aucune Smart Alert définie Cliquez sur le bouton ci-dessous pour configurer votre première Smart Alert.",
-        "noPersmissionToCreateGlobalSmartAlert": "Vous n'êtes pas autorisé à configurer des Smart Alerts. Contactez votre administrateur.",
+        "noPersmissionToCreateGlobalSmartAlert": "Vous n'êtes pas autorisé à configurer des Smart Alerts. Veuillez contacter votre administrateur.",
         "labelGlobalSmartAlertsList": "Smart Alerts d'application globale ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Smart Alerts d'application ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -548,7 +548,8 @@
         "Loading": "Chargement en cours...",
         "PreviewForAP": "Aperçu de la perspective d'application :",
         "PreviewForEndpoint": "Aperçu pour le nœud final :",
-        "PreviewForService": "Aperçu du service :"
+        "PreviewForService": "Aperçu du service :",
+        "PreviewSelectLoadingEndpoints": "Chargement de la liste des noeuds finaux"
       },
       "alertsHub": {
         "title": "Centre d'alertes",
