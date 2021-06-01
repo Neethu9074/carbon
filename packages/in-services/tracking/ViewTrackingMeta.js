@@ -3,18 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
-import withSideEffect from 'react-side-effect';
-
+import createSideEffectHook from 'in-hooks/createSideEffectHook';
 import { setMeta } from 'in-services/tracking/tracking';
+import { emptyObject } from 'in-services/fixedObjects';
 
-function reduceProps(propsList) {
-  return propsList.reduce(
-    (result, props) => ({
-      ...result,
-      ...props.data
-    }),
-    {}
-  );
+const useSideEffect = createSideEffectHook(
+  propsList =>
+    propsList.reduce(
+      (result, props) => ({
+        ...result,
+        ...props.data
+      }),
+      emptyObject
+    ),
+  setMeta
+);
+
+export default function ViewTrackingMeta(props) {
+  useSideEffect(props);
+  return null;
 }
-
-export default withSideEffect(reduceProps, setMeta)(() => null);

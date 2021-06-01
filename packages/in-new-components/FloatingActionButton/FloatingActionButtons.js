@@ -3,27 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
-import withSideEffect from 'react-side-effect';
 import PropTypes from 'prop-types';
 
-import { replaceFloatingActionButtons } from './stores/floatingActionButtons';
+import { replaceFloatingActionButtons } from 'in-new-components/FloatingActionButton/stores/floatingActionButtons';
+import createSideEffectHook from 'in-hooks/createSideEffectHook';
+import { emptyArray } from 'in-services/fixedObjects';
 
-function reduceProps(propsList) {
-  return propsList.reduce(
-    (result, props) =>
-      result
-        .concat(props.items ?? props.children)
-        // allow false/null as items for ease of use
-        .filter(v => !!v),
-    []
-  );
+const useSideEffect = createSideEffectHook(
+  args => args.reduce((agg, items) => agg.concat(items), emptyArray).filter(Boolean),
+  replaceFloatingActionButtons
+);
+
+export default function FloatingActionButtons(props) {
+  useSideEffect(props.items || props.children);
+  return null;
 }
-
-const FloatingActionButtons = withSideEffect(reduceProps, replaceFloatingActionButtons)(() => null);
 
 FloatingActionButtons.propTypes = {
   items: PropTypes.arrayOf(PropTypes.element),
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element])
 };
-
-export default FloatingActionButtons;

@@ -104,7 +104,6 @@
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "react-select": "^1.2.1",
-    "react-side-effect": "^2.1.0",
     "react-toggle": "^4.0.1",
     "recompose": "0.30.0-INSTANA",
     "semver": "^5.3.0",

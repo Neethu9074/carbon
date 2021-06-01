@@ -3,16 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import withSideEffect from 'react-side-effect';
-
+import createSideEffectHook from 'in-hooks/createSideEffectHook';
 import { set } from 'in-new-components/overlays/overlayStore';
+import { identity } from 'in-services/util/function';
 
-function reduce(propsList) {
-  return propsList;
+const useSideEffect = createSideEffectHook(identity, set);
+
+export default function OverlayMounter(props) {
+  useSideEffect(props);
+  return null;
 }
-
-function replace(reduced) {
-  set(reduced);
-}
-
-export default withSideEffect(reduce, replace)(() => null);

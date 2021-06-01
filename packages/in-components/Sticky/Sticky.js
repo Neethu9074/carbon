@@ -3,13 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import withSideEffect from 'react-side-effect';
-import { create } from '@instana/observables';
 import invariant from 'invariant';
 import React from 'react';
 
+import { create } from '@instana/observables';
+
 import { stickyWrapperClassName } from 'in-components/Sticky/scrolling';
+import createSideEffectHook from 'in-hooks/createSideEffectHook';
 import { debouncedResize$ } from 'in-services/browser';
+import { emptyArray } from 'in-services/fixedObjects';
 import { getCoords } from 'in-services/util/dom';
 import theme from 'in-themes';
 
@@ -116,20 +118,18 @@ export default class extends React.Component {
   }
 }
 
-const Header = withSideEffect(
-  reduceProps,
-  after
-)(function Header({ children, setHeader }) {
-  return <div ref={r => setHeader(r)}>{children}</div>;
-});
-
-function after(propList) {
-  for (let i = 0, length = propList.length; i < length; i++) {
-    const header = propList[i];
-    header.setOrder(i);
+const useSideEffect = createSideEffectHook(
+  propsList => propsList.reduce((result, props) => result.concat([props]), emptyArray),
+  propList => {
+    for (let i = 0, length = propList.length; i < length; i++) {
+      const header = propList[i];
+      header.setOrder(i);
+    }
   }
-}
+);
 
-function reduceProps(propsList) {
-  return propsList.reduce((result, props) => result.concat([props]), []);
+function Header(props) {
+  useSideEffect(props);
+  const { children, setHeader } = props;
+  return <div ref={r => setHeader(r)}>{children}</div>;
 }
