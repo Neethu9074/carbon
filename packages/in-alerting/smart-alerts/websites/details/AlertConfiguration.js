@@ -11,6 +11,7 @@ import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
+import CustomPayloadCard from 'in-alerting/smart-alerts/applications/details/CustomPayloadCard';
 import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
@@ -35,7 +36,8 @@ export default function AlertConfiguration({ alertConfig }) {
     timeThreshold,
     alertChannelIds,
     tagFilterExpression,
-    websiteId
+    websiteId,
+    customPayloadFields
   } = alertConfig;
 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
@@ -136,6 +138,8 @@ export default function AlertConfiguration({ alertConfig }) {
       >
         <AlertPropertyInfos alertConfig={alertConfig} />
       </ExpandableLightCard>
+
+      <CustomPayloadCard customPayloadFields={customPayloadFields} />
     </AlertDetailsCard>
   );
 }

@@ -55,7 +55,8 @@
       "theValueMustNotBeBlank": "The value must not be blank.",
       "onlyOrAnyAlphaNumericalAreAllowed": "Only '.', '-', '_' or any alpha-numerical are allowed.",
       "aTagNeedsToBeSelected": "A tag needs to be selected.",
-      "aKeyNeedsToBeSpecified": "A key needs to be specified."
+      "aKeyNeedsToBeSpecified": "A key needs to be specified.",
+      "customPayloadTitle": "Custom Payloads"
     }
   },
   "potentialProblems": {

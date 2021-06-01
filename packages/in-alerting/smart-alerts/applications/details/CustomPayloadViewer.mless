@@ -1,0 +1,33 @@
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .listItem {
+    gap: 0 1.5rem;
+    align-items: flex-start;
+  }
+
+  .keyValueLine {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    color: @lib__colors__N900Primary;
+    line-height: 1;
+  }
+
+  .keyLine {
+    width: 35%;
+  }
+
+  .valueLine {
+    width: 65%;
+  }
+
+  .key {
+    color: @lib__colors__N600Light;
+  }
+
+  .value {
+    .breakWord();
+  }
+}
