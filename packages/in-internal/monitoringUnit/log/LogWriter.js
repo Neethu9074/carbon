@@ -290,7 +290,7 @@ export default connectTo(
               y1={{
                 min: 0,
                 formatter: number.compact,
-                metrics: rows.map(() => `metrics.meters.logCleanUpService.number-old-partitions-dropped-success.calls`),
+                metrics: rows.map(() => `metrics.meters.logCleanUpService.number-old-partitions-dropped-success`),
                 labels: labels,
                 type: 'line'
               }}
@@ -304,7 +304,7 @@ export default connectTo(
               y1={{
                 min: 0,
                 formatter: number.compact,
-                metrics: rows.map(() => `metrics.meters.logCleanUpService.number-old-partitions-dropped-failure.calls`),
+                metrics: rows.map(() => `metrics.meters.logCleanUpService.number-old-partitions-dropped-failure`),
                 labels: labels,
                 type: 'line'
               }}
