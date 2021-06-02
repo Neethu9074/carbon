@@ -148,7 +148,7 @@ function webhooks(webhooks) {
   for (let i = 0, length = webhooks.size; i < length; i++) {
     const webhook = webhooks.get(i);
     const error = notBlankValidator(webhook);
-    if (error.length > 0) {
+    if (error?.length > 0) {
       errors.push({
         urlIndex: i,
         severity: 'error',

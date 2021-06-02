@@ -318,7 +318,7 @@ export default connectTo(
                 formatter: number.perSecond.compact,
                 metrics: rows.map(
                   () =>
-                    `metrics.meters.com.instana.logging.processor.stream.LogBatchProcessingStandaloneInitializer.dropped-past-logs.calls`
+                    `metrics.meters.com.instana.logging.processor.stream.LogBatchProcessingStandaloneInitializer.dropped-past-logs`
                 ),
                 labels,
                 type: 'stackedArea'
@@ -335,7 +335,7 @@ export default connectTo(
                 formatter: number.perSecond.compact,
                 metrics: rows.map(
                   () =>
-                    `metrics.meters.com.instana.logging.processor.stream.LogBatchProcessingStandaloneInitializer.dropped-future-logs.calls`
+                    `metrics.meters.com.instana.logging.processor.stream.LogBatchProcessingStandaloneInitializer.dropped-future-logs`
                 ),
                 labels,
                 type: 'stackedArea'
