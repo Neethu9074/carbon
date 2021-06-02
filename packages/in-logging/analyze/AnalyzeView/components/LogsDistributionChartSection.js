@@ -78,6 +78,7 @@ function LogsChart({ backendQueryModel, metric }) {
     <UnifiedMetricsChart
       automaticallySize={false}
       renderLegend={false}
+      excludedContextMenuActions={['globalHighlight', 'download']}
       config={{
         y1: {
           metrics: [
