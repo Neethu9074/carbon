@@ -162,6 +162,26 @@ describe('in-new-components/QueryBuilder/transformation/tagFilter#toNewTagFilter
     });
   });
 
+  it('must support a booleanValue represented as string', () => {
+    // GIVEN
+    const tagFilter = {
+      name: 'call.erroneous',
+      operator: EQUALS,
+      booleanValue: 'true'
+    };
+
+    // WHEN
+    const result = toNewTagFilterFormat(tagFilter, tagCatalog);
+
+    // THEN
+    expect(result).to.deep.equal({
+      ...toTagFilter(tagFilter),
+      type,
+      key: undefined,
+      value: true
+    });
+  });
+
   it('must support boolean string values with a missing operator', () => {
     const tagFilter = {
       name: 'call.erroneous',
@@ -183,6 +203,27 @@ describe('in-new-components/QueryBuilder/transformation/tagFilter#toNewTagFilter
       operator: LESS_OR_EQUAL_THAN
     };
     expect(toNewTagFilterFormat(tagFilter, tagCatalog)).to.deep.equal({
+      ...toTagFilter(tagFilter),
+      type,
+      operator: LESS_OR_EQUAL_THAN,
+      key: undefined,
+      value: 15
+    });
+  });
+
+  it('must support a numberValue represented as string', () => {
+    // GIVEN
+    const tagFilter = {
+      name: 'call.latency',
+      numberValue: '15',
+      operator: LESS_OR_EQUAL_THAN
+    };
+
+    // WHEN
+    const result = toNewTagFilterFormat(tagFilter, tagCatalog);
+
+    // THEN
+    expect(result).to.deep.equal({
       ...toTagFilter(tagFilter),
       type,
       operator: LESS_OR_EQUAL_THAN,

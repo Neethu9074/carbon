@@ -63,9 +63,9 @@ export function toNewTagFilterFormat(tagFilter, tagCatalog) {
   let operator = tagFilter.operator;
 
   if (tagFilter.booleanValue != null) {
-    value = tagFilter.booleanValue;
+    value = transformBooleanValue(tagFilter.booleanValue);
   } else if (tagFilter.numberValue != null) {
-    value = tagFilter.numberValue;
+    value = transformNumberValue(tagFilter.numberValue);
   } else if (tagFilter.stringValue != null) {
     const transformationResult = transformStringValue(tagCatalog, tagFilter);
     key = transformationResult.key;
@@ -78,11 +78,18 @@ export function toNewTagFilterFormat(tagFilter, tagCatalog) {
 
   return {
     ...toTagFilter(tagFilter),
-
     key,
     value,
     operator
   };
+}
+
+function transformBooleanValue(value) {
+  return value === 'true' || value === true;
+}
+
+function transformNumberValue(value) {
+  return Number(value);
 }
 
 function transformValue(tagCatalog, tagFilter) {
@@ -95,12 +102,12 @@ function transformValue(tagCatalog, tagFilter) {
     if (tagDefinition.type === NUMBER) {
       if (value != null) {
         // In some cases the numeric value is a string
-        value = Number(value);
+        value = transformNumberValue(value);
       }
     } else if (tagDefinition.type === BOOLEAN) {
       if (value != null) {
         // In some cases the boolean value is a string
-        value = value === 'true' || value === true;
+        value = transformBooleanValue(value);
       }
     }
   }
