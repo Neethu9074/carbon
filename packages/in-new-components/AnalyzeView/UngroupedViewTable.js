@@ -121,8 +121,8 @@ function Table(props) {
           fixedLayout
           orderBy={orderBy.by}
           orderDirection={orderBy.direction}
-          filterByHref={groupLabel ? getHrefToUngroupedView(groupLabel) : null}
-          filterByOnClick={() => scrollToTop(window)}
+          filterByHref={groupLabel != null ? getHrefToUngroupedView(groupLabel) : null}
+          filterByOnClick={groupLabel != null ? () => scrollToTop(window) : null}
           loadMoreLabel={t('in-new-components:analyze.loadMoreWithCount', { count: retrievalSize })}
           renderNoDataAvailable={noDataMessage => (
             <NoDataAvailable className={locals.noData} text={noDataMessage} height={80} />
