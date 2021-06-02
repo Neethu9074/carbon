@@ -13,8 +13,8 @@ import { MetricsForAxis, Reorderer } from 'in-custom-dashboards/widgets/Chart/Fo
 import { userSelectableRenderer as availableRenderers } from 'in-custom-dashboards/widgets/Chart/renderer';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { publicFormatters } from 'in-stores/metric/formatters';
 import Sections from 'in-new-components/workspace/Sections';
-import { formatters } from 'in-stores/metric/formatters';
 import FormGroup from 'in-components/form/FormGroup';
 import Stack from 'in-new-components/layout/Stack';
 import Toggle from 'in-components/form/Toggle';
@@ -163,7 +163,7 @@ function AxisConfigurator({
                 hasError={!field.valid && field.touched}
                 additionalContent={<TouchedMessages field={field} />}
               >
-                {formatters.map(({ id, label }) => (
+                {publicFormatters.map(({ id, label }) => (
                   <option key={id} value={id}>
                     {label}
                   </option>

@@ -8,10 +8,8 @@ import React, { useEffect, useState } from 'react';
 import UngroupedView, { retrievalSize } from 'in-new-components/AnalyzeView/UngroupedView';
 import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
-import { wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
 import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import { getFormatter } from 'in-services/formatters/backendFormatter';
 import { scrollToTop } from 'in-services/util/dom';
 import { t } from 'in-i18n';
 
@@ -82,8 +80,7 @@ function Table(props) {
                 return <ColumnContent {...params} />;
               }
               const value = getColumnValue({ metricDefinition, ...params });
-              const columnFormatter = getColumnFormatter({ metricDefinition });
-              const formatter = wrapToDiscardNegativeValues(getFormatter(columnFormatter)).compact;
+              const formatter = getColumnFormatter({ metricDefinition });
               return <span>{formatter?.(value) ?? value}</span>;
             }
           };

@@ -11,7 +11,7 @@ import {
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import * as allComparisonColors from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import { green, red } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
-import { defaultFormatter, allFormatterIds } from 'in-stores/metric/formatters';
+import { defaultFormatter, publicFormatterIds } from 'in-stores/metric/formatters';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { stringValidator } from 'in-services/validators/jsonType';
@@ -33,7 +33,7 @@ export function createForm(savedState) {
           // the visual dialog. The enum validator exists when editing
           // as JSON.
           notBlankValidator,
-          buildEnumValidator(allFormatterIds)
+          buildEnumValidator(publicFormatterIds)
         )
       })
     )

@@ -13,7 +13,7 @@ import {
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import { stringValidator, numberValidator, arrayValidator, booleanValidator } from 'in-services/validators/jsonType';
 import { defaultRenderer, allRendererIds } from 'in-custom-dashboards/widgets/Chart/renderer';
-import { defaultFormatter, allFormatterIds } from 'in-stores/metric/formatters';
+import { defaultFormatter, publicFormatterIds } from 'in-stores/metric/formatters';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { emptyArray, finishedProgress } from 'in-services/fixedObjects';
@@ -69,7 +69,7 @@ function createAxisForm(savedState, requiresAtLeastOneMetric = false) {
           notUndefinedValidator,
           stringValidator,
           notBlankValidator,
-          buildEnumValidator(allFormatterIds)
+          buildEnumValidator(publicFormatterIds)
         )
       })
     )

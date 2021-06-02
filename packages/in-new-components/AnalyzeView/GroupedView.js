@@ -25,6 +25,7 @@ import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformati
 import { custom as customType, metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import { or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { addGroupingCriteriaToFormModel } from 'in-new-components/AnalyzeView/StateManagement';
+import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
 import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-new-components/tracker';
 import QueryProgressIndicator from 'in-new-components/AnalyzeView/QueryProgressIndicator';
 import { BOOLEAN, KEY_VALUE_PAIR } from 'in-new-components/QueryBuilder/tagFilter/types';
@@ -34,7 +35,6 @@ import { UNSPECIFIED, NO_VALUE } from 'in-analyze/components/GroupedTraces/Group
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import FacetedSearch from 'in-new-components/AnalyzeView/FacetedSearch';
-import { getFormatter } from 'in-services/formatters/backendFormatter';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import Header from 'in-new-components/QueryBuilder/components/Header';
 import { tagFilter } from '../QueryBuilder/transformation/tagFilter';
@@ -43,6 +43,7 @@ import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import IconButton from 'in-new-components/IconButton/IconButton';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { getFormatter } from 'in-stores/metric/formatters';
 import { aggregationLabels } from 'in-stores/metric';
 import { identity } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -76,6 +77,7 @@ export default function GroupedAnalyzeView(props) {
     onFormModelChange,
     getHrefWithTagFilterExpression,
     groupedViewConfiguration,
+    getCustomMetricUiFormatterName,
     getOrderByGroupId,
     itemlabelColumnId,
     onChartableDataSeriesChange,
@@ -119,6 +121,7 @@ export default function GroupedAnalyzeView(props) {
     columnDefinitions: props.columnDefinitions,
     fields,
     groupedViewConfiguration,
+    getCustomMetricUiFormatterName,
     metricCatalog
   });
   const actionColumnDefinitions = actionColumns();
@@ -468,7 +471,13 @@ function GroupLabelTooltip({ groupName, getCustomGroupLabel }) {
   );
 }
 
-function metricColumns({ columnDefinitions, fields, groupedViewConfiguration, metricCatalog }) {
+function metricColumns({
+  columnDefinitions,
+  fields,
+  groupedViewConfiguration,
+  getCustomMetricUiFormatterName,
+  metricCatalog
+}) {
   return [
     ...(columnDefinitions || emptyArray),
 
@@ -479,12 +488,18 @@ function metricColumns({ columnDefinitions, fields, groupedViewConfiguration, me
         }
 
         const metricDefinition = metricCatalog?.find(({ metricId }) => metricId === field.metricId);
-        // The width of metric values rendered using NUMBER formatter can vary significantly which may
-        // break column alignment, use more dense SI prefix based formatter instead.
-        const formatter =
-          metricDefinition?.formatter === 'NUMBER'
-            ? withSiPrefixOneDecimalPlace
-            : getFormatter(metricDefinition?.formatter);
+        const customFormatterId = getCustomMetricUiFormatterName?.(field.metricId);
+        let formatter;
+        if (customFormatterId != null) {
+          formatter = getFormatter(customFormatterId);
+        } else {
+          // The width of metric values rendered using NUMBER formatter can vary significantly which may
+          // break column alignment, use more dense SI prefix based formatter instead.
+          formatter =
+            metricDefinition?.formatter === 'NUMBER'
+              ? withSiPrefixOneDecimalPlace
+              : getBackendFormatter(metricDefinition?.formatter);
+        }
         return {
           shrink: false,
           width: '16rem',

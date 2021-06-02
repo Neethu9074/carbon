@@ -10,8 +10,8 @@ import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfi
 import TimeShiftingForm from 'in-custom-dashboards/widgets/BigNumber/TimeShiftingForm';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { publicFormatters } from 'in-stores/metric/formatters';
 import Sections from 'in-new-components/workspace/Sections';
-import { formatters } from 'in-stores/metric/formatters';
 import Header from 'in-new-components/workspace/Header';
 import Stack from 'in-new-components/layout/Stack';
 import { t } from 'in-i18n';
@@ -41,7 +41,7 @@ export default function BigNumberWidgetFormComponent({ form, onChange }) {
               hasError={!field.valid && field.touched}
               additionalContent={<TouchedMessages field={field} />}
             >
-              {formatters.map(({ id, label }) => (
+              {publicFormatters.map(({ id, label }) => (
                 <option key={id} value={id}>
                   {label}
                 </option>

@@ -19,6 +19,7 @@ import locals from './Chart.mless';
 export default function Chart({
   isGrouped,
   getCustomGroupLabel,
+  getCustomMetricUiFormatterName,
   chartableMetricCatalog,
   chartableDataSeries,
   chartedMetrics,
@@ -41,7 +42,7 @@ export default function Chart({
 
   const chartConfig = {
     y1: {
-      formatter: getUiInternalFormatterName(metricDescription.formatter),
+      formatter: getCustomMetricUiFormatterName?.(metricId) ?? getUiInternalFormatterName(metricDescription.formatter),
       renderer: rendererId,
       metrics: []
     }
@@ -89,5 +90,6 @@ Chart.propTypes = {
   unifiedMetricsSource: rpt.string.isRequired,
   forceLoadingIndicator: rpt.bool,
   // Allows to customize group labels
-  getCustomGroupLabel: rpt.func
+  getCustomGroupLabel: rpt.func,
+  getCustomMetricUiFormatterName: rpt.func
 };

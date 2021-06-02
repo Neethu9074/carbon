@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
+
 import { useObservable } from '@instana/hooks';
 
 import {

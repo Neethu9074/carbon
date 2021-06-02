@@ -17,7 +17,9 @@ import FacetedFilterGeneric from 'in-new-components/AnalyzeView/FacetedFilters/F
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
 import MobileBeacons from 'in-mobile-apps/analyze/AnalyzeView2_0/components/MobileBeacons';
+import { wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
 import StateManagement from 'in-new-components/AnalyzeView/StateManagement';
+import { getFormatter } from 'in-services/formatters/backendFormatter';
 import { getMetricCatalog } from 'in-mobile-apps/api/metricCatalog';
 import { analyzePath } from 'in-mobile-apps/navigation/paths';
 import { beaconType } from 'in-mobile-apps/navigation/matrix';
@@ -97,13 +99,14 @@ const ungroupedView = {
       return tagLabel ?? metricDefinition.label;
     },
     getColumnFormatter({ metricDefinition }) {
+      let formatter = metricDefinition.formatter;
       // Tag definitions in the tag catalog do not specify a formatter. For now we can use metric formatter.
-      if (metricDefinition.formatter === 'PERCENTAGE') {
+      if (formatter === 'PERCENTAGE') {
         // 'PERCENTAGE' formatter is currently used only for a calculated metric (beaconErrorRate),
         // which is based on a numeric tag.
-        return 'NUMBER';
+        formatter = 'NUMBER';
       }
-      return metricDefinition.formatter;
+      return wrapToDiscardNegativeValues(getFormatter(formatter)).compact;
     },
     hasRawValue({ metricDefinition }) {
       return metricDefinition.pathToValueInBeacon != null;

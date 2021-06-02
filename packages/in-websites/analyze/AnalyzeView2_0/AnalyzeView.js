@@ -14,11 +14,14 @@ import { createListTimestampColumnDefinition } from 'in-new-components/AnalyzeVi
 import FacetedFilterRangeInput from 'in-new-components/AnalyzeView/FacetedFilters/FacetedFilterRangeInput';
 import { custom as customType, metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
 import FacetedFilterGeneric from 'in-new-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
+import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import GroupedBeacons from 'in-websites/analyze/AnalyzeView2_0/components/GroupedBeacons';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
+import { wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
 import StateManagement from 'in-new-components/AnalyzeView/StateManagement';
 import Beacons from 'in-websites/analyze/AnalyzeView2_0/components/Beacons';
+import { clsFormatter } from 'in-websites/analyze/AnalyzeView/metrics';
 import { getMetricCatalog } from 'in-websites/api/metricCatalog';
 import { analyzePath } from 'in-websites/navigation/paths';
 import { beaconType } from 'in-websites/navigation/matrix';
@@ -91,12 +94,16 @@ const ungroupedView = {
     },
     getColumnFormatter({ metricDefinition }) {
       // Tag definitions in the tag catalog do not specify a formatter. For now we can use metric formatter.
-      if (metricDefinition.formatter === 'PERCENTAGE') {
+      if (metricDefinition.metricId === 'cumulativeLayoutShift') {
+        return wrapToDiscardNegativeValues(clsFormatter).detailed;
+      }
+      let formatter = metricDefinition.formatter;
+      if (formatter === 'PERCENTAGE') {
         // 'PERCENTAGE' formatter is currently used only for a calculated metric (beaconErrorRate),
         // which is based on a numeric tag.
-        return 'NUMBER';
+        formatter = 'NUMBER';
       }
-      return metricDefinition.formatter;
+      return wrapToDiscardNegativeValues(getBackendFormatter(formatter)).compact;
     },
     getColumnValue({ metricDefinition, beacon }) {
       return metricDefinition.pathToValueInBeacon && get(beacon, metricDefinition.pathToValueInBeacon);
@@ -128,7 +135,9 @@ const dataSourceConfigurations = {
         aggregationId: 'MEAN'
       }
     ],
-    defaultChartedMetrics
+    defaultChartedMetrics,
+    getCustomMetricUiFormatterName: metricId =>
+      metricId === 'cumulativeLayoutShift' ? 'fourDecimalPlaces.detailed' : null
   },
   pageChange: {
     metricCatalogTransformer: createMetricCatalogTransformer('pageChange'),

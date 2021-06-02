@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number, percentage, bytes, millis, siPrefix, latency } from 'in-services/formatters/number';
+import { number, percentage, bytes, millis, siPrefix, latency, fourDecimalPlaces } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export const defaultFormatter = {
@@ -19,7 +19,7 @@ export const defaultFormatter = {
 // is millis, micros, nanos, seconds, minutes…
 // Consider cleaning this up for users instead of exposing them to our
 // failure to consistently model the data.
-export const formatters = [
+export const publicFormatters = [
   {
     id: 'number.compact',
     label: t('in-stores:metric.formatterLabelNumber', { example: number.compact(42.15) }),
@@ -73,8 +73,18 @@ export const formatters = [
   }
 ];
 
-export const allFormatterIds = Object.values(formatters).map(c => c.id);
+// These formatters should not be selectable by end-users.
+const privateFormatters = [
+  {
+    id: 'fourDecimalPlaces.detailed',
+    formatter: fourDecimalPlaces
+  }
+];
+
+const allFormatters = [...publicFormatters, ...privateFormatters];
+
+export const publicFormatterIds = Object.values(publicFormatters).map(c => c.id);
 
 export function getFormatter(formatterId) {
-  return (formatters.find(({ id }) => id === formatterId) || defaultFormatter).formatter;
+  return (allFormatters.find(({ id }) => id === formatterId) || defaultFormatter).formatter;
 }

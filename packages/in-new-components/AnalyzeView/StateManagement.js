@@ -167,7 +167,8 @@ TimeFixatingAnalyzeStateManagement.propTypes = {
       ungroupedView: ungroupedViewPropType,
       fixedFields: fieldsPropTypes,
       defaultSelectableFields: fieldsPropTypes,
-      defaultChartedMetrics: chartedMetricsPropTypes
+      defaultChartedMetrics: chartedMetricsPropTypes,
+      getCustomFormatter: rpt.func
     })
   ),
 
@@ -190,6 +191,7 @@ function AnalyzeStateManagement({
     facetedSearchItems,
     groupedView,
     ungroupedView,
+    getCustomMetricUiFormatterName,
     fixedFields = emptyArray,
     defaultSelectableFields = emptyArray,
     defaultChartedMetrics = emptyArray,
@@ -313,6 +315,7 @@ function AnalyzeStateManagement({
     refreshFixatedTimeConfig,
     ungroupedViewConfiguration: ungroupedView,
     groupedViewConfiguration: groupedView,
+    getCustomMetricUiFormatterName,
     getOrderByGroupId,
     facetedSearchItems,
     fixedFields,
@@ -443,6 +446,7 @@ export const childrenArgsAsPropTypes = {
   isValid: rpt.bool.isRequired,
   groupedViewConfiguration: groupedViewPropType,
   ungroupedViewConfiguration: ungroupedViewPropType,
+  getCustomMetricUiFormatterName: rpt.func,
   getOrderByGroupId: rpt.func.isRequired,
 
   backendQueryModel: rpt.object,

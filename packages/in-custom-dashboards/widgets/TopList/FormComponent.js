@@ -15,7 +15,7 @@ import { source as sli } from 'in-custom-dashboards/widgets/_shared/MetricConfig
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { formatters } from 'in-stores/metric/formatters';
+import { publicFormatters } from 'in-stores/metric/formatters';
 import Header from 'in-new-components/workspace/Header';
 import { t } from 'in-i18n';
 
@@ -43,7 +43,7 @@ export default function ListWidgetFormComponent({ form, onChange }) {
             additionalContent={<TouchedMessages field={field} />}
             useAlternateBg
           >
-            {formatters.map(({ id, label }) => (
+            {publicFormatters.map(({ id, label }) => (
               <option key={id} value={id}>
                 {label}
               </option>
