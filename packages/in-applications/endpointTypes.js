@@ -21,7 +21,8 @@ export const endpointNameTranslations = {
   INTERNAL: t('in-applications:endpointTypes.internal'),
   UNDEFINED: t('in-applications:endpointTypes.undefined'),
   SELF: t('in-applications:endpointTypes.self'),
-  SDK: t('in-applications:endpointTypes.sdk')
+  SDK: t('in-applications:endpointTypes.sdk'),
+  OPENTELEMETRY: t('in-applications:endpointTypes.otel')
 };
 
 export const colorTranslation = {
@@ -37,7 +38,8 @@ export const colorTranslation = {
   UNDEFINED: theme.lib.colors.purple800,
   UNKNOWN: theme.lib.colors.purple800,
   SELF: theme.lib.colors.N400,
-  SDK: theme.lib.colors.N600Light
+  SDK: theme.lib.colors.N600Light,
+  OPENTELEMETRY: theme.lib.colors.N600Light
 };
 
 export function getColor(type) {

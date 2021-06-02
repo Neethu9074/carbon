@@ -526,7 +526,8 @@
     "internal": "Internal",
     "undefined": "Undefined",
     "self": "Self",
-    "sdk": "SDK"
+    "sdk": "SDK",
+    "otel": "OpenTelemetry"
   },
   "constants": {
     "exclude": "Exclude",
