@@ -106,6 +106,7 @@ export const nonServicePlugins = {
   ibmCics: 'ibmCics',
   ibmCloudClinicalData: 'ibmCloudClinicalData',
   ibmCloudCloudant: 'ibmCloudCloudant',
+  ibmCloudContainerRegistry: 'ibmCloudContainerRegistry',
   ibmCloudElasticsearch: 'ibmCloudElasticsearch',
   ibmCloudEtcd: 'ibmCloudEtcd',
   ibmCloudEventStream: 'ibmCloudEventStream',
@@ -118,6 +119,7 @@ export const nonServicePlugins = {
   ibmCloudRabbitMq: 'ibmCloudRabbitMq',
   ibmCloudRedis: 'ibmCloudRedis',
   ibmCloudSqlQuery: 'ibmCloudSqlQuery',
+  ibmCloudVpn4Vpc: 'ibmCloudVpn4Vpc',
   ibmCos: 'ibmCos',
   ibmDataPowerCluster: 'ibmDataPowerCluster',
   ibmDataPowerAppliance: 'ibmDataPowerAppliance',
@@ -350,6 +352,8 @@ export const fullyQualifiedPlugins = {
   ibmCics: 'com.instana.forge.infrastructure.application.ibmzos.IbmCics',
   ibmCloudClinicalData: 'com.instana.forge.infrastructure.machine_learning.ibmcloud.clinicaldata.IbmCloudClinicalData',
   ibmCloudCloudant: 'com.instana.forge.infrastructure.database.ibmcloud.cloudant.IbmCloudCloudant',
+  ibmCloudContainerRegistry:
+    'com.instana.forge.infrastructure.virtualization.ibmcloud.registry.IbmCloudContainerRegistry',
   ibmCloudElasticsearch: 'com.instana.forge.infrastructure.database.ibmcloud.elasticsearch.IbmCloudElasticsearch',
   ibmCloudEtcd: 'com.instana.forge.infrastructure.database.ibmcloud.etcd.IbmCloudEtcd',
   ibmCloudEventStream: 'com.instana.forge.infrastructure.messaging.ibmcloud.eventstream.IbmCloudEventStream',
@@ -362,6 +366,7 @@ export const fullyQualifiedPlugins = {
   ibmCloudRabbitMq: 'com.instana.forge.infrastructure.messaging.ibmcloud.rabbitmq.IbmCloudRabbitMq',
   ibmCloudRedis: 'com.instana.forge.infrastructure.cache.ibmcloud.redis.IbmCloudRedis',
   ibmCloudSqlQuery: 'com.instana.forge.infrastructure.database.ibmcloud.sqlquery.IbmCloudSqlQuery',
+  ibmCloudVpn4Vpc: 'com.instana.forge.infrastructure.vpn.ibmcloud.vpn4vpc.IbmCloudVpn4Vpc',
   ibmCos: 'com.instana.forge.hardware.virtual.ibm.cos.IbmCos',
   ibmDataPowerCluster: 'com.instana.forge.infrastructure.messaging.ibmdatapower.IbmDataPowerCluster',
   ibmDataPowerAppliance:
