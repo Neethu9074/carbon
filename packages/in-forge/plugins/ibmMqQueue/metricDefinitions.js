@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number, seconds, micros } from 'in-services/formatters/number';
+import { number, seconds, micros, percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -13,6 +13,13 @@ export default [
     min: 0,
     category: [t('in-forge:plugins.ibmMqQueue.depth')],
     formatter: number
+  },
+  {
+    metrics: ['queueFullPercentage'],
+    labels: [t('in-forge:plugins.ibmMqQueue.queueFullPercentage')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmMqQueue.depth')],
+    formatter: percentage
   },
   {
     metrics: ['messagesIn', 'messagesOut', 'uncommittedMessages'],

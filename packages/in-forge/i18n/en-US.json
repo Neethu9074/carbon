@@ -7940,6 +7940,7 @@
       "oldestMessage": "Oldest Message",
       "maxQueueDepth": "Max Queue Depth",
       "currentQueueDepth": "Current Queue Depth",
+      "queueFullPercentage": "Queue Depth Percentage",
       "depth": "Depth",
       "messagesIn": "Messages In",
       "messagesOut": "Messages Out",
