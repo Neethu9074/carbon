@@ -5,10 +5,19 @@
 
 import React from 'react';
 
+import TopTotalStmtsTable from 'in-forge/plugins/db2Database/Dashboard/TopTotalStmtsTable';
+import DiagLogInfoTable from 'in-forge/plugins/db2Database/Dashboard//DiagLogInfoTable';
+import LogDiskWaitTable from 'in-forge/plugins/db2Database/Dashboard/LogDiskWaitTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import TopQueriesTable from 'in-forge/plugins/db2Database/Dashboard//TopQueriesTable';
 import ContainersTable from 'in-forge/plugins/db2Database/Dashboard/ContainersTable';
+import UnitOfWorkTable from 'in-forge/plugins/db2Database/Dashboard/UnitOfWorkTable';
 import DatabasesTable from 'in-forge/plugins/db2Database/Dashboard/DatabasesTable';
+import DbmConfigTable from 'in-forge/plugins/db2Database/Dashboard/DbmConfigTable';
+import LockWaitsTable from 'in-forge/plugins/db2Database/Dashboard/LockWaitsTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import RunStatsTable from 'in-forge/plugins/db2Database/Dashboard/RunStatsTable';
+import DbConfigTable from 'in-forge/plugins/db2Database/Dashboard/DbConfigTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -312,12 +321,171 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.agentStatus')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: [
+              'agentstatus.total',
+              'agentstatus.uowWaiting',
+              'agentstatus.lockWait',
+              'agentstatus.lockEscalation'
+            ],
+            labels: [
+              t('in-forge:plugins.db2Database.total'),
+              t('in-forge:plugins.db2Database.uowWaiting'),
+              t('in-forge:plugins.db2Database.lockWait'),
+              t('in-forge:plugins.db2Database.lockEscalation')
+            ],
+            type: 'line',
+            formatter: number.compact
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.dbmConfigUsage')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['dbmconfigusage.omsCons', 'dbmconfigusage.agentHighWmark', 'dbmconfigusage.coordAgentsHighWmark'],
+            labels: [
+              t('in-forge:plugins.db2Database.omsCons'),
+              t('in-forge:plugins.db2Database.agentHighWmark'),
+              t('in-forge:plugins.db2Database.coordAgentsHighWmark')
+            ],
+            type: 'line',
+            formatter: number.compact
+          }}
+          y2={{
+            min: 0,
+            metrics: ['dbmconfigusage.agentCreatedVSReused'],
+            labels: [t('in-forge:plugins.db2Database.agentCreatedVSReused')],
+            type: 'line',
+            formatter: number.detailed
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.workloadStats')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: [
+              'workloadstats.appCommits',
+              'workloadstats.appRollback',
+              'workloadstats.lockTimeouts',
+              'workloadstats.deadlocks'
+            ],
+            labels: [
+              t('in-forge:plugins.db2Database.appCommits'),
+              t('in-forge:plugins.db2Database.appRollback'),
+              t('in-forge:plugins.db2Database.lockTimeouts'),
+              t('in-forge:plugins.db2Database.deadlocks')
+            ],
+            type: 'line',
+            formatter: number.compact
+          }}
+          y2={{
+            min: 0,
+            metrics: ['workloadstats.totalNetTime', 'workloadstats.totalRequestTime', 'workloadstats.totalWaitTime'],
+            labels: [
+              t('in-forge:plugins.db2Database.totalNetTime'),
+              t('in-forge:plugins.db2Database.totalRequestTime'),
+              t('in-forge:plugins.db2Database.totalWaitTime')
+            ],
+            type: 'line',
+            formatter: millis.detailed
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.topQueriesCount')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['topqueriesstats.topQueriesCount'],
+            labels: [t('in-forge:plugins.db2Database.topQueriesCount')],
+            type: 'line',
+            formatter: number.compact
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <TopQueriesTable snapshotId={snapshotId} />
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.totalLockWaitElapsedTime')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['elapsedTime.queryCount'],
+            labels: [t('in-forge:plugins.db2Database.queryCount')],
+            type: 'line',
+            formatter: number.compact
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <LockWaitsTable snapshotId={snapshotId} />
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.uowIdle')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['uowIdle.clientIdleTimeSec', 'uowIdle.clientIdleTimeMin', 'uowIdle.execTime'],
+            labels: [
+              t('in-forge:plugins.db2Database.dashboard.clientIdleTimeSec'),
+              t('in-forge:plugins.db2Database.dashboard.clientIdleTimeMin'),
+              t('in-forge:plugins.db2Database.dashboard.execTime')
+            ],
+            type: 'line',
+            formatter: millis.detailed
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      <UnitOfWorkTable snapshotId={snapshotId} />
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.uowLogSpace')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: ['uowIdle.logSpaceUsedKB', 'uowIdle.logSpaceUsed'],
+            labels: [
+              t('in-forge:plugins.db2Database.dashboard.logSpaceUsedKB'),
+              t('in-forge:plugins.db2Database.dashboard.logSpaceUsed')
+            ],
+            type: 'line',
+            formatter: bytes.detailed
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
       {data.get('databaseNames', emptyList).size > 0 && <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />}
 
       {data.get('containerNames', emptyList).size > 0 && (
         <ContainersTable snapshot={snapshot} timeConfig={timeConfig} />
       )}
+      {data.get('toptotalstmtsid', emptyList).size > 0 && (
+        <TopTotalStmtsTable snapshot={snapshot} timeConfig={timeConfig} />
+      )}
+      {data.get('logdiskwaitid', emptyList).size > 0 && (
+        <LogDiskWaitTable snapshot={snapshot} timeConfig={timeConfig} />
+      )}
+      <DbConfigTable snapshotId={snapshotId} />
+      <DbmConfigTable snapshotId={snapshotId} />
+      <RunStatsTable snapshotId={snapshotId} />
+      <DiagLogInfoTable snapshotId={snapshotId} />
     </div>
   );
 }

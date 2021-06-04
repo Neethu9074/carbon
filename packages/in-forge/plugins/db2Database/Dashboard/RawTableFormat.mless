@@ -1,0 +1,12 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .statement {
+    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+    line-height: 1.4;
+    font-size: 0.688rem;
+  }
+}
