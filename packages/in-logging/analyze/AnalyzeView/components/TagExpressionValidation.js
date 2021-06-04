@@ -29,10 +29,10 @@ export default function TagExpressionValidation(props) {
     if (!isValidating) {
       setIsValid(isQueryValid);
     }
-    if (isQueryValid) {
+    if (isQueryValid && props.backendQueryModel !== lastValidBackendQueryModel) {
       setLastValidBackendQueryModel(props.backendQueryModel);
     }
-  }, [isQueryValid, isValidating]);
+  }, [isQueryValid, isValidating, props.backendQueryModel, lastValidBackendQueryModel]);
 
   return props.children({
     isValid: isValid && props.isValid,
