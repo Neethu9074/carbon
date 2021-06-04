@@ -108,6 +108,7 @@ import './pCFOrganization';
 import './sparkStandalone';
 import './tanzuFoundation';
 import './unmonitoredHost';
+import './zHMCApplication';
 import './aceMessageFlow';
 import './azureSqlServer';
 import './beeInstanaNode';

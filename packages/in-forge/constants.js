@@ -228,6 +228,7 @@ export const nonServicePlugins = {
   webLogicApplicationContainer: 'webLogicApplicationContainer',
   webSphereApplicationContainer: 'webSphereApplicationContainer',
   webSphereLibertyApplicationContainer: 'webSphereLibertyApplicationContainer',
+  zHMCApplication: 'zHMCApplication',
   zooKeeper: 'zooKeeper'
 };
 
@@ -491,6 +492,7 @@ export const fullyQualifiedPlugins = {
   webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer',
   webSphereLibertyApplicationContainer:
     'com.instana.forge.infrastructure.application.websphere.WebSphereLibertyApplicationContainer',
+  zHMCApplication: 'com.instana.forge.infrastructure.paas.zhmc.ZHMCApplication',
   zooKeeper: 'com.instana.forge.infrastructure.database.zookeeper.ZooKeeper'
 };
 
