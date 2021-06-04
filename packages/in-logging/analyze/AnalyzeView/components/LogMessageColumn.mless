@@ -22,6 +22,7 @@
 
   .messageExpanded {
     white-space: break-spaces;
+    .breakWord();
   }
 
   .collapsedMessage {
