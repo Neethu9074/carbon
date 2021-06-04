@@ -8,8 +8,6 @@ import React from 'react';
 
 import { millis } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRawPayload } from 'in-stores/snapshot';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -40,39 +38,32 @@ const cols = [
   }
 ];
 
-export default connectTo(
-  props => {
-    return {
-      instanceCount: getRawPayload(props.snapshot.get('id'), 'instanceCount')
-    };
-  },
-  function ContainerTable({ snapshot, timeConfig, instanceCount }) {
-    if (!instanceCount || instanceCount < 1) {
-      return null;
-    }
-
-    const rows = Range(1, instanceCount + 1)
-      .toArray()
-      .map(instanceNumber => {
-        return {
-          key: String(instanceNumber),
-          name: String(instanceNumber),
-          instanceNumber,
-          timeConfig,
-          snapshotId: snapshot.get('id')
-        };
-      });
-
-    return (
-      <Table
-        withoutPadding
-        cardTitle={t('in-forge:plugins.ibmCloudFoundry.titleContainer')}
-        cols={cols}
-        rows={rows}
-        initialSortColumn={1}
-        initialSortDirection="desc"
-        maxItemsPerPage={10}
-      />
-    );
+export default function ContainerTable({ snapshot, timeConfig, instanceCount }) {
+  if (!instanceCount || instanceCount < 1) {
+    return null;
   }
-);
+
+  const rows = Range(1, instanceCount + 1)
+    .toArray()
+    .map(instanceNumber => {
+      return {
+        key: String(instanceNumber),
+        name: String(instanceNumber),
+        instanceNumber,
+        timeConfig,
+        snapshotId: snapshot.get('id')
+      };
+    });
+
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.ibmCloudFoundry.titleContainer')}
+      cols={cols}
+      rows={rows}
+      initialSortColumn={1}
+      initialSortDirection="desc"
+      maxItemsPerPage={10}
+    />
+  );
+}

@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import metricDefinitions from 'in-forge/plugins/ibmCloudCloudant/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/ibmCloudCloudant/kpiDefinitions';
+import metricDefinitions from 'in-forge/plugins/ibmCloudSqlQuery/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/ibmCloudSqlQuery/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 

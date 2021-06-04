@@ -142,9 +142,9 @@ function getDetails(row) {
         y1={{
           max: 1,
           min: 0,
-          formatter: number.compact,
+          formatter: statusFormatter,
           metrics: ['gateway_status'],
-          labels: [t('in-forge:plugins.ibmCloudVpn4Vpc.gatewayStatus')],
+          labels: [t('in-forge:plugins.ibmCloudVpn4Vpc.status')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -181,4 +181,8 @@ function getStatusText(state) {
     default:
       return t('in-forge:plugins.ibmCloudVpn4Vpc.inProgress');
   }
+}
+
+function statusFormatter(value) {
+  return value + ': ' + getStatusText(value);
 }

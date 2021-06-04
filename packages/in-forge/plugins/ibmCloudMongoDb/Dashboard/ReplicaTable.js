@@ -39,8 +39,8 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmCloudMongoDb.longStatus'),
-    type: 'sparkChart',
+    title: t('in-forge:plugins.ibmCloudMongoDb.status'),
+    type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
@@ -48,7 +48,9 @@ const cols = [
       getMetricName(row) {
         return `members.${row.name}.status`;
       },
-      getContent: number.compact,
+      getContent(value) {
+        return getStatusText(value);
+      },
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -104,9 +106,7 @@ function getDetails(row) {
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          min: 0,
-          max: 10,
-          formatter: number.compact,
+          formatter: statusFormatter,
           metrics: ['members.' + row.name + '.status'],
           labels: [t('in-forge:plugins.ibmCloudMongoDb.status')],
           type: 'line'
@@ -115,4 +115,32 @@ function getDetails(row) {
       />
     </Columize>
   );
+}
+
+function getStatusText(value) {
+  switch (value) {
+    case 0:
+      return t('in-forge:plugins.ibmCloudMongoDb.startup');
+    case 1:
+      return t('in-forge:plugins.ibmCloudMongoDb.primary');
+    case 2:
+      return t('in-forge:plugins.ibmCloudMongoDb.secondary');
+    case 3:
+      return t('in-forge:plugins.ibmCloudMongoDb.recovery');
+    case 4:
+      return t('in-forge:plugins.ibmCloudMongoDb.startup2');
+    case 7:
+      return t('in-forge:plugins.ibmCloudMongoDb.arbiter');
+    case 8:
+      return t('in-forge:plugins.ibmCloudMongoDb.down');
+    case 9:
+      return t('in-forge:plugins.ibmCloudMongoDb.rollback');
+    case 6:
+    default:
+      return t('in-forge:plugins.ibmCloudMongoDb.unknown');
+  }
+}
+
+function statusFormatter(value) {
+  return value + ': ' + getStatusText(value);
 }

@@ -6,14 +6,14 @@
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { percentage, zeroDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.ibmCloudElasticsearch.memberID'),
+    title: t('in-forge:plugins.ibmCloudRedis.titleMemberID'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -22,14 +22,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmCloudElasticsearch.usedHeapPercent'),
-    type: 'sparkChart',
+    title: t('in-forge:plugins.ibmCloudRedis.labelDiskIOPercent'),
+    type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `members.${row.name}.jvm_heap_percent`;
+        return `members.${row.name}.disk_io_utilization_percent_average_5m`;
       },
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
@@ -38,16 +38,16 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmCloudElasticsearch.gcTimeAvgPercent'),
+    title: t('in-forge:plugins.ibmCloudRedis.titleIOPSTotal'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `members.${row.name}.garbage_collection_percent_average_15m`;
+        return `members.${row.name}.iops_read_write_total`;
       },
-      getContent: percentage.detailed,
+      getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -55,7 +55,7 @@ const cols = [
   }
 ];
 
-export default function JavaHeapTable({ snapshot, timeConfig, memberIds }) {
+export default function DiskIOTable({ snapshot, timeConfig, memberIds }) {
   if (!memberIds || memberIds.isEmpty()) {
     return null;
   }
@@ -76,7 +76,7 @@ export default function JavaHeapTable({ snapshot, timeConfig, memberIds }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.ibmCloudElasticsearch.titleJavaHeap')}
+      cardTitle={t('in-forge:plugins.ibmCloudRedis.diskIO')}
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}
@@ -93,15 +93,15 @@ function getDetails(row) {
       y1={{
         min: 0,
         formatter: percentage.detailed,
-        metrics: ['members.' + row.name + '.jvm_heap_percent'],
-        labels: [t('in-forge:plugins.ibmCloudElasticsearch.usedHeapPercent')],
+        metrics: ['members.' + row.name + '.disk_io_utilization_percent_average_5m'],
+        labels: [t('in-forge:plugins.ibmCloudRedis.labelDiskIOPercent')],
         type: 'line'
       }}
       y2={{
         min: 0,
-        formatter: percentage.detailed,
-        metrics: ['members.' + row.name + '.garbage_collection_percent_average_15m'],
-        labels: [t('in-forge:plugins.ibmCloudElasticsearch.gcTimeAvgPercent')],
+        formatter: zeroDecimalPlaces,
+        metrics: ['members.' + row.name + '.iops_read_write_total'],
+        labels: [t('in-forge:plugins.ibmCloudRedis.titleIOPSTotal')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}

@@ -10,8 +10,6 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRawPayload } from 'in-stores/snapshot';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -42,42 +40,35 @@ const cols = [
   }
 ];
 
-export default connectTo(
-  props => {
-    return {
-      member_ids: getRawPayload(props.snapshot.get('id'), 'member_ids')
-    };
-  },
-  function CpuTable({ snapshot, timeConfig, member_ids }) {
-    if (!member_ids || member_ids.isEmpty()) {
-      return null;
-    }
-
-    const rows = member_ids.toArray().map(member => {
-      return {
-        key: member,
-        name: member,
-        snapshotId: snapshot.get('id'),
-        timeConfig
-      };
-    });
-
-    if (rows.length === 0) {
-      return null;
-    }
-
-    return (
-      <Table
-        withoutPadding
-        cardTitle={t('in-forge:plugins.ibmCloudPostgreSql.titleCPU')}
-        cols={cols}
-        rows={rows}
-        getRowDetails={getDetails}
-        maxItemsPerPage={10}
-      />
-    );
+export default function CpuTable({ snapshot, timeConfig, memberIds }) {
+  if (!memberIds || memberIds.isEmpty()) {
+    return null;
   }
-);
+
+  const rows = memberIds.toArray().map(member => {
+    return {
+      key: member,
+      name: member,
+      snapshotId: snapshot.get('id'),
+      timeConfig
+    };
+  });
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.ibmCloudPostgreSql.titleCPU')}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+      maxItemsPerPage={10}
+    />
+  );
+}
 
 function getDetails(row) {
   return (

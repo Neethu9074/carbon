@@ -11,8 +11,6 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRawPayload } from 'in-stores/snapshot';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -59,42 +57,35 @@ const cols = [
   }
 ];
 
-export default connectTo(
-  props => {
-    return {
-      memberIds: getRawPayload(props.snapshot.get('id'), 'member_ids')
-    };
-  },
-  function BlocksTable({ snapshot, timeConfig, memberIds }) {
-    if (!memberIds || memberIds.isEmpty()) {
-      return null;
-    }
-
-    const rows = memberIds.toArray().map(member => {
-      return {
-        key: member,
-        name: member,
-        snapshotId: snapshot.get('id'),
-        timeConfig
-      };
-    });
-
-    if (rows.length === 0) {
-      return null;
-    }
-
-    return (
-      <Table
-        withoutPadding
-        cardTitle={t('in-forge:plugins.ibmCloudPostgreSql.blocks')}
-        cols={cols}
-        rows={rows}
-        getRowDetails={getDetails}
-        maxItemsPerPage={10}
-      />
-    );
+export default function BlocksTable({ snapshot, timeConfig, memberIds }) {
+  if (!memberIds || memberIds.isEmpty()) {
+    return null;
   }
-);
+
+  const rows = memberIds.toArray().map(member => {
+    return {
+      key: member,
+      name: member,
+      snapshotId: snapshot.get('id'),
+      timeConfig
+    };
+  });
+
+  if (rows.length === 0) {
+    return null;
+  }
+
+  return (
+    <Table
+      withoutPadding
+      cardTitle={t('in-forge:plugins.ibmCloudPostgreSql.blocks')}
+      cols={cols}
+      rows={rows}
+      getRowDetails={getDetails}
+      maxItemsPerPage={10}
+    />
+  );
+}
 
 function getDetails(row) {
   return (
