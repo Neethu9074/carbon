@@ -185,6 +185,7 @@
     "enabled": "Enabled",
     "disabled": "Disabled",
     "invalidQuery": "Invalid Query",
+    "deprecated": "Deprecated",
     "createAlertChannelLabelAlertChannel": "Create {{alertChannelLabel}} Alert Channel",
     "modifyEntityNameAlertChannel": "Modify {{entityName}} Alert Channel",
     "alertChannels": "Alert Channels",

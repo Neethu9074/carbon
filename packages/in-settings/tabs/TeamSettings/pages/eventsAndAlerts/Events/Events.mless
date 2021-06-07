@@ -41,4 +41,8 @@
   .ellipsis {
     .ellipsis();
   }
+
+  .deprecated {
+    color: @lib__colors__red800;
+  }
 }

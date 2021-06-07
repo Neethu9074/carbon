@@ -214,5 +214,10 @@ module.exports = exports = [
     uiClientKey: 'agentInstallViewRestrictedToIBMSaas',
     instanaCtlKey: 'feature.agent.install.view.restricted.to.ibm.saas',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'deprecateAppDataLegacyEvents',
+    instanaCtlKey: 'feature.deprecated.appdata.legacy.events',
+    defaultValue: false
   }
 ];

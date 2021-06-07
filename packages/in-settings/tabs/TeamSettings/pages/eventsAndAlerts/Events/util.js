@@ -4,6 +4,7 @@
  */
 
 import { plugins, customIssuesDisabledForPlugins } from 'in-forge/constants';
+import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getPluginName } from 'in-sdk/pluginName';
 import { hasCategory } from 'in-sdk/metrics';
@@ -71,9 +72,23 @@ export function getEntityTypeOptions() {
     .map(plugin => {
       return {
         value: plugin,
-        label: getPluginName(plugin, 1)
+        label: getLabelForPlugin(plugin)
       };
     });
+}
+
+function getLabelForPlugin(plugin) {
+  return shouldDisplayDeprecatedLabel(plugin)
+    ? getPluginName(plugin, 1) + ` (${t('in-settings:tabs.deprecated')})`
+    : getPluginName(plugin, 1);
+}
+
+function shouldDisplayDeprecatedLabel(plugin) {
+  return deprecateAppDataLegacyEvents && isDeprecatedAppDataEntity(plugin);
+}
+
+function isDeprecatedAppDataEntity(plugin) {
+  return plugin === 'application' || plugin === 'service' || plugin === 'endpoint';
 }
 
 export function formatterTypeToDefinition(formatterType) {

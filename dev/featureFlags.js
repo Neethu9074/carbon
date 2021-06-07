@@ -47,5 +47,6 @@ module.exports = {
   applicationHealthOverviewEnabled: true,
   hideEventsSettings: true,
   openFacetedSearchByDefault: true,
-  agentInstallViewRestrictedToIBMSaas: false
+  agentInstallViewRestrictedToIBMSaas: false,
+  deprecateAppDataLegacyEvents: true
 };

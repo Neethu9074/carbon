@@ -60,6 +60,8 @@ export const openFacetedSearchByDefault = isFeatureFlagEnabled('openFacetedSearc
 
 export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
 
+export const deprecateAppDataLegacyEvents = isFeatureFlagEnabled('deprecateAppDataLegacyEvents');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

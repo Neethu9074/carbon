@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withState, compose } from 'recompose';
-import { Link } from '@instana/components';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import classNames from 'classnames';
+
+import { Link } from '@instana/components';
 
 import {
   getEntityHref,
@@ -30,6 +30,7 @@ import {
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { getSeverityText } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
+import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { intersperse } from 'in-services/arrayUtils';
 import WithIcon from 'in-new-components/WithIcon';
@@ -60,44 +61,25 @@ const enabledOptions = Object.freeze([
   { value: false, label: t('in-settings:tabs.disabled') }
 ]);
 
-export default compose(
-  withState('type', 'setType', null),
-  withState('severity', 'setSeverity', null),
-  withState('entityType', 'setEntityType', null),
-  withState('enabled', 'setEnabled', null)
-)(Events);
-
-function Events({
-  type,
-  setType,
-  severity,
-  setSeverity,
-  entityType,
-  setEntityType,
-  enabled,
-  setEnabled,
+export default function Events({
   setTitle = true,
   tableActions = defaultTableActions,
   loadEntities,
   noDataMessage,
   hiddenIds,
   pageSize = 20,
-  rightHeader = defaultRightHeader(
-    type,
-    setType,
-    severity,
-    setSeverity,
-    entityType,
-    setEntityType,
-    enabled,
-    setEnabled
-  ),
+  rightHeader,
   isSearchable = true,
   onRowClick,
   hasRowNavigation = true,
   inSelectListDialog = false,
   getHeader = defaultGetHeader(inSelectListDialog, tableActions)
 }) {
+  const [type, setType] = useState(null);
+  const [severity, setSeverity] = useState(null);
+  const [entityType, setEntityType] = useState(null);
+  const [enabled, setEnabled] = useState(null);
+
   return (
     <List
       title={setTitle ? t('in-settings:tabs.events') : null}
@@ -109,20 +91,7 @@ function Events({
       noDataMessage={noDataMessage}
       pageSize={pageSize}
       initialOrderBy="name"
-      rightHeader={
-        !inSelectListDialog
-          ? rightHeader
-          : inSelectListDialogRightHeader(
-              type,
-              setType,
-              severity,
-              setSeverity,
-              entityType,
-              setEntityType,
-              enabled,
-              setEnabled
-            )
-      }
+      rightHeader={getRightHeader()}
       isSearchable={isSearchable}
       searchAttributes={['name', 'description', getEntityType]}
       extraFilters={createFilters(hiddenIds, type, severity, entityType, enabled)}
@@ -135,6 +104,62 @@ function Events({
       }
     />
   );
+
+  function getRightHeader() {
+    return !inSelectListDialog ? rightHeader ?? defaultRightHeader() : inSelectListDialogRightHeader();
+  }
+
+  function defaultRightHeader() {
+    return (
+      <Fragment>
+        {createNewEntityButton({
+          labelNew: t('in-settings:tabs.newEvent'),
+          pathNew: teamSettingsAlertingEventCustomNew,
+          trackEvent: openEventSubmitFormTracker
+        })}
+        {inSelectListDialogRightHeader()}
+      </Fragment>
+    );
+  }
+
+  function inSelectListDialogRightHeader() {
+    return (
+      <Fragment>
+        <ComboBox
+          name="filter-type"
+          value={type}
+          options={typeOptions}
+          onChange={e => (e ? setType(e.value) : setType(null))}
+          placeholder={t('in-settings:tabs.type')}
+          className={locals.filterDropdown}
+        />
+        <ComboBox
+          name="filter-severity"
+          value={severity}
+          options={severityOptions}
+          onChange={e => (e ? setSeverity(e.value) : setSeverity(null))}
+          placeholder={t('in-settings:tabs.incidentsSeverity')}
+          className={classNames(locals.severityDropdown, locals.filterDropdown)}
+        />
+        <ComboBox
+          name="filter-entity-type"
+          value={entityType}
+          options={entityTypeOptions}
+          onChange={e => (e ? setEntityType(e.value) : setEntityType(null))}
+          placeholder={t('in-settings:tabs.entityType')}
+          className={classNames(locals.entityTypeDropdown, locals.filterDropdown)}
+        />
+        <ComboBox
+          name="filter-enabled"
+          value={enabled}
+          options={enabledOptions}
+          onChange={e => (e ? setEnabled(e.value) : setEnabled(null))}
+          placeholder={t('in-settings:tabs.state')}
+          className={locals.stateDropdown}
+        />
+      </Fragment>
+    );
+  }
 }
 
 function columnDefinitions(hasRowNavigation) {
@@ -145,10 +170,11 @@ function columnDefinitions(hasRowNavigation) {
       width: 40,
       getContent(entity) {
         const icon = getIcon(entity);
+
         return (
           <WithIcon icon={icon.icon} iconColor={icon.color}>
             <Tooltip content={entity.name} align="topLeft" delay={500}>
-              <WithSubscript subscript={getSubscript(entity)}>
+              <WithSubscript subscript={<Subscript entity={entity} />}>
                 {hasRowNavigation ? (
                   <Link
                     href$={getEntityIdView(getDetailsPath(entity), entity.id)}
@@ -266,95 +292,47 @@ function getEntityType(entity) {
   return getPluginName(entity.entityType, 1);
 }
 
-function getSubscript(entity) {
+function Subscript({ entity }) {
   return (
     <Fragment>
       {intersperse(
-        [
-          isBuiltInRule(entity) ? <span key="built-in">{t('in-settings:tabs.builtIn')}</span> : null,
-          entity.enabled === false ? <span key="disabled">{t('in-settings:tabs.disabled')}</span> : null,
-          entity.invalid ? (
-            <span key="invalid" className={locals.invalid}>
-              {t('in-settings:tabs.invalidQuery')}
-            </span>
-          ) : null
-        ].filter(elem => elem),
+        [showBuiltIn(), showDisabled(), showInvalid(), showDeprecated()].filter(elem => elem),
         i => (
           <span key={`comma-${i}`}>, </span>
         )
       )}
     </Fragment>
   );
-}
 
-function defaultRightHeader(type, setType, severity, setSeverity, entityType, setEntityType, enabled, setEnabled) {
-  return (
-    <Fragment>
-      {createNewEntityButton({
-        labelNew: t('in-settings:tabs.newEvent'),
-        pathNew: teamSettingsAlertingEventCustomNew,
-        trackEvent: openEventSubmitFormTracker
-      })}
-      {inSelectListDialogRightHeader(
-        type,
-        setType,
-        severity,
-        setSeverity,
-        entityType,
-        setEntityType,
-        enabled,
-        setEnabled
-      )}
-    </Fragment>
-  );
-}
+  function showBuiltIn() {
+    return isBuiltInRule(entity) ? <span key="built-in">{t('in-settings:tabs.builtIn')}</span> : null;
+  }
 
-function inSelectListDialogRightHeader(
-  type,
-  setType,
-  severity,
-  setSeverity,
-  entityType,
-  setEntityType,
-  enabled,
-  setEnabled
-) {
-  return (
-    <Fragment>
-      <ComboBox
-        name="filter-type"
-        value={type}
-        options={typeOptions}
-        onChange={e => (e ? setType(e.value) : setType(null))}
-        placeholder={t('in-settings:tabs.type')}
-        className={locals.filterDropdown}
-      />
-      <ComboBox
-        name="filter-severity"
-        value={severity}
-        options={severityOptions}
-        onChange={e => (e ? setSeverity(e.value) : setSeverity(null))}
-        placeholder={t('in-settings:tabs.incidentsSeverity')}
-        className={classNames(locals.severityDropdown, locals.filterDropdown)}
-      />
-      <ComboBox
-        name="filter-entity-type"
-        value={entityType}
-        options={entityTypeOptions}
-        onChange={e => (e ? setEntityType(e.value) : setEntityType(null))}
-        placeholder={t('in-settings:tabs.entityType')}
-        className={classNames(locals.entityTypeDropdown, locals.filterDropdown)}
-      />
-      <ComboBox
-        name="filter-enabled"
-        value={enabled}
-        options={enabledOptions}
-        onChange={e => (e ? setEnabled(e.value) : setEnabled(null))}
-        placeholder={t('in-settings:tabs.state')}
-        className={locals.stateDropdown}
-      />
-    </Fragment>
-  );
+  function showDisabled() {
+    return entity.enabled === false ? <span key="disabled">{t('in-settings:tabs.disabled')}</span> : null;
+  }
+
+  function showInvalid() {
+    return entity.invalid ? (
+      <span key="invalid" className={locals.invalid}>
+        {t('in-settings:tabs.invalidQuery')}
+      </span>
+    ) : null;
+  }
+
+  function showDeprecated() {
+    return deprecateAppDataLegacyEvents && isAppDataEntityType() ? (
+      <span key="deprecated" className={locals.deprecated}>
+        {t('in-settings:tabs.deprecated')}
+      </span>
+    ) : null;
+  }
+
+  function isAppDataEntityType() {
+    const { entityType } = entity;
+
+    return entityType === 'application' || entityType === 'service' || entityType === 'endpoint';
+  }
 }
 
 function createFilters(hiddenIds, type, severity, entityType, enabled) {
