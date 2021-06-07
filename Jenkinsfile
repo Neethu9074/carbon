@@ -219,20 +219,28 @@ def buildAndPublishImage(gitCommitId, componentName, branchName, instanaUiClient
 // Keep image tags for backend and ui-client in-sync as instanactl only accepts a single version
 // and expects all components to have an image with that version
 def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion) {
+  def instanaOpenShiftImageVersion = instanaImageVersion - "-0" + "-openshift"
   def backendStableVersion =
       sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js backend ${branchName}").trim()
   def backendStableImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js instana-image-from-backend ${branchName}").trim()
 
   def rebuildBackendComponents = [:]
   backendComponents.each {
-      def currentBackendFullyQualifiedTag = "containers.instana.io/instana/${branchName}/product/${it}:${backendStableImageVersion}"
-      def newBackendFullyQualifiedTag = "containers.instana.io/instana/${branchName}/product/${it}:${instanaImageVersion}"
+      def currentBackendTag = "containers.instana.io/instana/${branchName}/product/${it}:${backendStableImageVersion}"
+      def newBackendTag = "containers.instana.io/instana/${branchName}/product/${it}:${instanaImageVersion}"
+      def newBackendOpenShiftTag = "containers.instana.io/instana/${branchName}/product/${it}:${instanaOpenShiftImageVersion}"
       rebuildBackendComponents[it] = {
         sh """
         ./build/ci-shared-tools/scripts/docker/imageOverride.js \
-        ${currentBackendFullyQualifiedTag} \
-        ${newBackendFullyQualifiedTag} \
-        "--build-arg current_fully_qualified_tag=${currentBackendFullyQualifiedTag} --label com.instana.image.tag=${instanaImageVersion}"
+        ${currentBackendTag} \
+        ${newBackendTag} \
+        "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaImageVersion}"
+        """
+        sh """
+        ./build/ci-shared-tools/scripts/docker/imageOverride.js \
+        ${currentBackendTag} \
+        ${newBackendOpenShiftTag} \
+        "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaOpenShiftImageVersion}"
         """
     }
   }
