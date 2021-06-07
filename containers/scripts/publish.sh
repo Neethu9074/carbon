@@ -23,4 +23,5 @@ function push_image {
   fi
 }
 
-push_image "${FULLY_QUALIFIED_TAG}"
+push_image ${FULLY_QUALIFIED_TAG}
+push_image ${OPENSHIFT_FULLY_QUALIFIED_TAG}
