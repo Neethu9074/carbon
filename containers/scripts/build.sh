@@ -130,10 +130,6 @@ function _run_docker_build {
   _log_info "Building image ${TAG}"
 
   if [[ ${TARGET_OVERRIDE} == 'openshift' ]]; then
-    # Modify IMAGE_VERSION by replacing '-0' with '-openshift'
-    DESIRED_IMAGE_VERSION="${DESIRED_IMAGE_VERSION%-0}-${TARGET_OVERRIDE}"
-    TAG="${IMAGE_URI}:${DESIRED_IMAGE_VERSION}"
-
     if [[ -f ${OPENSHIFT_CONTAINER_FILE} ]]; then
       _log_info "Overriding with OpenShift container file ${OPENSHIFT_CONTAINER_FILE}"
       PATH_TO_CONTAINER_FILE=${OPENSHIFT_CONTAINER_FILE}
@@ -166,7 +162,7 @@ function build_image {
   _run_docker_build ${FULLY_QUALIFIED_TAG} ${CONTAINER_FILE} ${IMAGE_VERSION}
 
   # Create another image version that is OpenShift compatible
-  _run_docker_build ${FULLY_QUALIFIED_TAG} ${CONTAINER_FILE} ${IMAGE_VERSION} "openshift"
+  _run_docker_build ${OPENSHIFT_FULLY_QUALIFIED_TAG} ${CONTAINER_FILE} ${OPENSHIFT_IMAGE_VERSION} "openshift"
 
   _cleanup_container_dir
 }
