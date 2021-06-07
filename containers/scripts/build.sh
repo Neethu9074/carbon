@@ -122,6 +122,35 @@ function _install_production_binaries {
   docker rmi -f ui-client-centos
 }
 
+function _run_docker_build {
+  local TAG=$1
+  local PATH_TO_CONTAINER_FILE=$2
+  local DESIRED_IMAGE_VERSION=$3
+  local TARGET_OVERRIDE=${4:-'none'}
+  _log_info "Building image ${TAG}"
+
+  if [[ ${TARGET_OVERRIDE} == 'openshift' ]]; then
+    # Modify IMAGE_VERSION by replacing '-0' with '-openshift'
+    DESIRED_IMAGE_VERSION="${DESIRED_IMAGE_VERSION%-0}-${TARGET_OVERRIDE}"
+    TAG="${IMAGE_URI}:${DESIRED_IMAGE_VERSION}"
+
+    if [[ -f ${OPENSHIFT_CONTAINER_FILE} ]]; then
+      _log_info "Overriding with OpenShift container file ${OPENSHIFT_CONTAINER_FILE}"
+      PATH_TO_CONTAINER_FILE=${OPENSHIFT_CONTAINER_FILE}
+    fi
+  fi
+
+  docker build \
+    --build-arg base_version=${BASE_VERSION} \
+    --build-arg component_name=${COMPONENT_NAME} \
+    --build-arg image_version=${DESIRED_IMAGE_VERSION} \
+    --build-arg branch=${BRANCH_NAME} \
+    --build-arg commit_id=${COMMIT_ID} \
+    -f ${PATH_TO_CONTAINER_FILE} \
+    -t ${TAG} \
+    ${COMPONENT_CONTAINER_DIR}
+}
+
 function build_image {
   _check_prerequisites
   _check_branch_name
@@ -134,18 +163,12 @@ function build_image {
   _install_production_binaries
   _docker_login
 
-  TAG=$1
-  docker build \
-    --build-arg base_version=${BASE_VERSION} \
-    --build-arg component_name=${COMPONENT_NAME} \
-    --build-arg image_version=${IMAGE_VERSION} \
-    --build-arg branch=${BRANCH_NAME} \
-    --build-arg commit_id=${COMMIT_ID} \
-    -f ${CONTAINER_FILE} \
-    -t ${TAG} \
-    ${COMPONENT_CONTAINER_DIR}
+  _run_docker_build ${FULLY_QUALIFIED_TAG} ${CONTAINER_FILE} ${IMAGE_VERSION}
+
+  # Create another image version that is OpenShift compatible
+  _run_docker_build ${FULLY_QUALIFIED_TAG} ${CONTAINER_FILE} ${IMAGE_VERSION} "openshift"
 
   _cleanup_container_dir
 }
 
-build_image "${FULLY_QUALIFIED_TAG}"
+build_image
