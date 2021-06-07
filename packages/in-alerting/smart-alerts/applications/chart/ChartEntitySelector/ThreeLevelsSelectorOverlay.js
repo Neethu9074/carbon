@@ -32,7 +32,7 @@ import locals from 'in-new-components/SelectorOverlay/SelectorOverlay.mless';
  * There is this follow-up task to implement it in a different way:
  * https://instana.kanbanize.com/ctrl_board/37/cards/57241
  */
-const searchEnabled = true;
+const searchEnabled = false;
 
 const initialState = {
   focusedNode: null,
