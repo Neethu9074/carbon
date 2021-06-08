@@ -900,7 +900,6 @@
       "config": "Config",
       "version": "Version",
       "injectorBindings": "Injector Bindings",
-      "hystrix": "Hystrix",
       "agentClockSkew": "Agent Clock Skew"
     },
     "region": {

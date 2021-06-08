@@ -48,9 +48,6 @@ export default connect(({ snapshot, timeConfig }) => ({
         <Button href={`${adminUrl}/admin/injector-bindings`} target="_blank">
           {t('in-internal:monitoringUnit.dropwizardDashboardExt.injectorBindings')}
         </Button>
-        <Button href={`${adminUrl}/hystrix`} target="_blank">
-          {t('in-internal:monitoringUnit.dropwizardDashboardExt.hystrix')}
-        </Button>
 
         {containerLabelIncludes(container, 'filler') && (
           <Fragment>
