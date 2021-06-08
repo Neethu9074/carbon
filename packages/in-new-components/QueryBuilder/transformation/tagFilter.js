@@ -7,7 +7,14 @@ import { pick } from 'lodash';
 
 import { createLogger } from '@instana/logger';
 
-import { EQUALS, NOT_EQUAL, NOT_STARTS_WITH, STARTS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import {
+  EQUALS,
+  NOT_EQUAL,
+  NOT_STARTS_WITH,
+  STARTS_WITH,
+  ENDS_WITH,
+  NOT_ENDS_WITH
+} from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { KEY_VALUE_PAIR, BOOLEAN, NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
 import { STRING_MAX_LENGTH } from 'in-new-components/QueryBuilder/tagFilter/constraints';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
@@ -30,21 +37,24 @@ export function toTagFilter(tagFilterLike) {
 // A tag filter with a string value exceeding the max length is invalid, to fix that
 // shorten the value and change the operator if needed.
 export function sanitizeTagFilter(tagFilter) {
-  if (typeof tagFilter.value === 'string' && tagFilter.value.length > STRING_MAX_LENGTH) {
-    // If a string value exceeds the max length, shorten the value and change the operator if needed.
-    const value = tagFilter.value.substring(0, 512);
-    let operator = tagFilter.operator;
-    if (operator === EQUALS) {
-      operator = STARTS_WITH;
-    } else if (operator === NOT_EQUAL) {
-      operator = NOT_STARTS_WITH;
-    }
-    tagFilter = { ...tagFilter, value };
-    if (operator != null) {
-      tagFilter.operator = operator;
-    }
+  if (typeof tagFilter.value !== 'string' || tagFilter.value.length <= STRING_MAX_LENGTH) {
+    return tagFilter;
   }
-  return tagFilter;
+
+  if (tagFilter.operator === EQUALS) {
+    return { ...tagFilter, value: tagFilter.value.substring(0, STRING_MAX_LENGTH), operator: STARTS_WITH };
+  }
+  if (tagFilter.operator === NOT_EQUAL) {
+    return { ...tagFilter, value: tagFilter.value.substring(0, STRING_MAX_LENGTH), operator: NOT_STARTS_WITH };
+  }
+  if (tagFilter.operator === ENDS_WITH || tagFilter.operator === NOT_ENDS_WITH) {
+    return {
+      ...tagFilter,
+      value: tagFilter.value.substring(tagFilter.value.length - STRING_MAX_LENGTH)
+    };
+  }
+
+  return { ...tagFilter, value: tagFilter.value.substring(0, STRING_MAX_LENGTH) };
 }
 
 export function toNewTagFilterFormat(tagFilter, tagCatalog) {

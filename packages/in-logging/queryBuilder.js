@@ -4,20 +4,23 @@
  */
 
 import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
+import { sanitizeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 
 export function getTraceIdTagFilter(traceId) {
   // Until the transition to 128bit trace IDs is complete, only the ID's last 64 bits should
   // be used for finding traces by ID
   traceId = traceId.slice(-16);
-  return getValueMatchTagFilter(LOG_TRACE_ID, traceId, 'ENDS_WITH');
+  return getValueMatchTagFilter({ name: LOG_TRACE_ID, value: traceId, operator: 'ENDS_WITH' });
 }
 
 export function getSpanIdTagFilter(spanId) {
-  return spanId ? getValueMatchTagFilter(LOG_SPAN_ID, spanId) : emptyTagFilterExpression;
+  return spanId ? getValueMatchTagFilter({ name: LOG_SPAN_ID, value: spanId }) : emptyTagFilterExpression;
 }
 
-export function getValueMatchTagFilter(name, value, operator = 'EQUALS') {
-  return { type: 'TAG_FILTER', operator, name, value };
+export function getValueMatchTagFilter(tagFilter) {
+  const { name, key, value, operator = EQUALS, type = 'TAG_FILTER' } = tagFilter;
+  return sanitizeTagFilter({ type, operator, name, key, value });
 }
 
 export const LOG_LEVEL = 'log.level';

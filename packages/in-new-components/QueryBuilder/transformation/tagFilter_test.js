@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
+/* eslint-env jest, node */
 
 import { expect } from 'chai';
 
@@ -13,16 +13,21 @@ import {
   LESS_OR_EQUAL_THAN,
   NOT_EQUAL,
   NOT_STARTS_WITH,
+  ENDS_WITH,
   STARTS_WITH
 } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import {
+  sanitizeTagFilter,
   toNewTagFilterFormat,
   type,
-  toTagFilter,
-  sanitizeTagFilter
+  toTagFilter
 } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { KEY_VALUE_PAIR, STRING, BOOLEAN, NUMBER } from 'in-new-components/QueryBuilder/tagFilter/types';
-import { STRING_MAX_LENGTH } from '../tagFilter/constraints';
+
+const STRING_MAX_LENGTH = 10;
+jest.mock('in-new-components/QueryBuilder/tagFilter/constraints', () => ({
+  STRING_MAX_LENGTH
+}));
 
 describe('in-new-components/QueryBuilder/transformation/tagFilter#toNewTagFilterFormat', () => {
   let tagCatalog;
@@ -256,7 +261,7 @@ describe('in-new-components/QueryBuilder/transformation/tagFilter#sanitizeTagFil
       operator: EQUALS,
       value: 'shop'
     });
-    expect(sanitizeTagFilter(tagFilter)).to.equal(tagFilter);
+    expect(sanitizeTagFilter(tagFilter)).to.deep.equal(tagFilter);
   });
 
   it('must sanitize string values exceeding length limit', () => {
@@ -264,12 +269,12 @@ describe('in-new-components/QueryBuilder/transformation/tagFilter#sanitizeTagFil
       type,
       name: 'log.message',
       operator: EQUALS,
-      value: 'a'.repeat(STRING_MAX_LENGTH + 10)
+      value: '123456789123456789'
     });
     expect(sanitizeTagFilter(tagFilter)).to.deep.equal({
       ...tagFilter,
       operator: STARTS_WITH,
-      value: 'a'.repeat(STRING_MAX_LENGTH)
+      value: '1234567891'
     });
   });
 
@@ -297,6 +302,20 @@ describe('in-new-components/QueryBuilder/transformation/tagFilter#sanitizeTagFil
     expect(sanitizeTagFilter(tagFilter)).to.deep.equal({
       ...tagFilter,
       value: 'a'.repeat(STRING_MAX_LENGTH)
+    });
+  });
+
+  it('must sanitize string values exceeding length limit and use ends with', () => {
+    const tagFilter = Object.freeze({
+      type,
+      name: 'log.message',
+      operator: ENDS_WITH,
+      value: '123456789123456789'
+    });
+    expect(sanitizeTagFilter(tagFilter)).to.deep.equal({
+      ...tagFilter,
+      operator: ENDS_WITH,
+      value: '9123456789'
     });
   });
 });

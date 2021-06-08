@@ -3,11 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { sanitizeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { entityTypes } from 'in-analyze/applicationFilter';
-
-const VALUE_MAX_LENGTH = 512;
 
 const jsonSerializer = buildJsonSerializer();
 const jsonParser = buildJsonParser(null);
@@ -69,19 +68,14 @@ function stringifyIfTrue(value, condition) {
 export function createFilter(config = {}) {
   let value = config.value || config.stringValue || '';
   let operator = config.operator || 'EQUALS';
-  if (value.length > VALUE_MAX_LENGTH) {
-    value = value.substring(0, VALUE_MAX_LENGTH);
-    if (operator === 'EQUALS') {
-      operator = 'STARTS_WITH';
-    }
-  }
-  return {
+
+  return sanitizeTagFilter({
     name: config.name || '',
     secondLevelName: config.secondLevelName,
     value,
     operator,
     entity: config.entity || entityTypes.NOT_APPLICABLE
-  };
+  });
 }
 
 export function addGroupToTagFilter(tagFilters, groupingDefinition, subGroupName) {

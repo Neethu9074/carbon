@@ -162,7 +162,7 @@ function getMetricConfig(backendQueryModel, metric, tag, value, label) {
 
 function addLogLevelFilterTagToQueryModel(tag, value, backendQueryModel) {
   return {
-    elements: [getValueMatchTagFilter(tag, value), backendQueryModel],
+    elements: [getValueMatchTagFilter({ name: tag, value }), backendQueryModel],
     logicalOperator: 'AND',
     type: 'EXPRESSION'
   };

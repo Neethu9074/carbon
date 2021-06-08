@@ -37,7 +37,7 @@ export function isWithinKubernetes(snapshot) {
 }
 
 export function getAnalyzeLogsHref$({ snapshot, timeConfig }) {
-  const tagFilterExpression = getValueMatchTagFilter(LOG_DOCKER_SNAPSHOT_ID, snapshot.get('id'));
+  const tagFilterExpression = getValueMatchTagFilter({ name: LOG_DOCKER_SNAPSHOT_ID, value: snapshot.get('id') });
   return hasLogs({
     timeConfig,
     tagFilterExpression
