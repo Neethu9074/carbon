@@ -8,8 +8,8 @@ import React from 'react';
 import { Button, SvgIcon } from '@instana/components';
 import { Li, Ul } from '@instana/components';
 
+import { LOG_CUSTOM, LOG_MESSAGE, getValueMatchTagFilter } from 'in-logging/queryBuilder';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
-import { LOG_CUSTOM, LOG_MESSAGE } from 'in-logging/queryBuilder';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { t } from 'in-i18n';
@@ -58,7 +58,7 @@ export default function AnalyzeLogsButton({ log }) {
 
 function getLinkToTagFilterExpression(tagFilterExpression) {
   return getLinkToAnalyze({
-    tagFilterExpression: [{ type: 'TAG_FILTER', operator: 'EQUALS', ...tagFilterExpression }]
+    tagFilterExpression: [getValueMatchTagFilter(tagFilterExpression)]
   });
 }
 
