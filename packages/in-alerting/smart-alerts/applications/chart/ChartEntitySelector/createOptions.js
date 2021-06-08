@@ -5,9 +5,9 @@
 
 import React from 'react';
 
-import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { fetchEndpoints } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/selectionApi';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
+import { compareIgnoreCase } from 'in-services/util/string';
 
 export function createOptionsList(
   applicationList,
@@ -15,16 +15,18 @@ export function createOptionsList(
   isSelectApLevel,
   isSelectServiceLevel,
   timeConfig,
+  tagFilterExpression,
   boundaryScope,
   includeSynthetic,
   applications
 ) {
-  if (applicationIds.length === 0) return [];
+  if (!applicationIds || applicationIds.length === 0) return [];
 
   if (isSelectApLevel) {
     return applicationList
       .map(({ data }) => data)
       .filter(Boolean)
+      .sort((appA, appB) => compareIgnoreCase(appA.label, appB.label))
       .map(({ id, label }) => {
         return {
           label,
@@ -36,8 +38,6 @@ export function createOptionsList(
         };
       });
   }
-
-  const scopeDownTagFilterFormModel = getEntitySelectionAsTagFilterFormModel(applications, boundaryScope);
 
   if (applicationIds.length === 1) {
     const { app, services } = applicationList.map(({ data }) => data)[0];
@@ -51,7 +51,8 @@ export function createOptionsList(
           timeConfig,
           boundaryScope,
           includeSynthetic,
-          scopeDownTagFilterFormModel
+          tagFilterExpression,
+          applications
         )
       }
     ];
@@ -62,6 +63,7 @@ export function createOptionsList(
       label: 'Applications:',
       children: applicationList
         .filter(result => Boolean(result?.data?.app))
+        .sort((resultA, resultB) => compareIgnoreCase(resultA.data.app.label, resultB.data.app.label))
         .map(({ data: { app, services } }) => ({
           breadcrumbAndLabel: app.label, // used as a header on next level or in search
           id: app.id,
@@ -75,7 +77,8 @@ export function createOptionsList(
             timeConfig,
             boundaryScope,
             includeSynthetic,
-            scopeDownTagFilterFormModel
+            tagFilterExpression,
+            applications
           )
         }))
     }
@@ -91,7 +94,8 @@ function mapServicesToOptions(
   timeConfig,
   boundaryScope,
   includeSynthetic,
-  scopeDownTagFilterFormModel
+  tagFilterExpression,
+  applications
 ) {
   return (services ?? []) //
     .map(({ service, metrics }) => ({
@@ -111,7 +115,8 @@ function mapServicesToOptions(
                 applicationId: app.id,
                 serviceId: service.id,
                 boundaryScope,
-                scopeDownTagFilterFormModel,
+                tagFilterExpression,
+                applications,
                 timeConfig,
                 includeSynthetic
               }) //

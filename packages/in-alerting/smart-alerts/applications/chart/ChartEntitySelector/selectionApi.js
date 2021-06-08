@@ -3,10 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import {
-  createApplicationIdTagFilter,
-  createServiceIdTagFilter
-} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
+import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -61,12 +58,25 @@ export function fetchEndpoints({
   applicationId,
   boundaryScope,
   serviceId,
-  scopeDownTagFilterFormModel,
+  tagFilterFormModel,
+  applications,
   timeConfig,
   includeSynthetic
 }) {
-  const applicationIdTagFilter = createApplicationIdTagFilter(applicationId, boundaryScope);
-  const serviceIdTagFilter = createServiceIdTagFilter(serviceId);
+  const scopeDownTagFilter = getEntitySelectionAsTagFilterFormModel(
+    applications,
+    boundaryScope,
+    applicationId,
+    null,
+    serviceId
+  );
+
+  const tagFilterExpression = toBackendQueryModel(
+    joinExpressions({
+      logicalOperator: and,
+      expressions: tagFilterFormModel ? [scopeDownTagFilter, tagFilterFormModel] : [scopeDownTagFilter]
+    })
+  );
 
   return getEndpoints({
     pagination: {
@@ -82,12 +92,7 @@ export function fetchEndpoints({
       timeConfig
     },
     /* Part of follow-up: embed search for name as a tagFilter */
-    tagFilterExpression: toBackendQueryModel(
-      joinExpressions({
-        logicalOperator: and,
-        expressions: [applicationIdTagFilter, serviceIdTagFilter, scopeDownTagFilterFormModel]
-      })
-    ),
+    tagFilterExpression,
     metrics: {}
   });
 }

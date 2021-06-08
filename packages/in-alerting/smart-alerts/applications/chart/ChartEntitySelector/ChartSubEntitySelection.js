@@ -58,7 +58,13 @@ export default function ChartSubEntitySelection({
     focusedMoment: timeTo
   };
 
-  const { applications, boundaryScope, evaluationType, includeSynthetic } = alertConfigWithFormModel;
+  const {
+    applications,
+    boundaryScope,
+    evaluationType,
+    tagFilterExpression,
+    includeSynthetic
+  } = alertConfigWithFormModel;
 
   const [query, onQueryChange] = useState('');
 
@@ -107,6 +113,7 @@ export default function ChartSubEntitySelection({
             isSelectServiceLevel,
             // derived from/based on queryWindowSize:
             timeConfig,
+            tagFilterExpression,
             boundaryScope,
             includeSynthetic,
             applications
@@ -118,6 +125,7 @@ export default function ChartSubEntitySelection({
       loading,
       applicationAndServicesList,
       queryWindowSize,
+      tagFilterExpression,
       includeSynthetic,
       applications,
       boundaryScope,
