@@ -9,6 +9,7 @@ import TransactionsTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/Tra
 import ConnectionsTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/ConnectionsTable';
 import DeadlocksTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/DeadlocksTable';
 import BuffersTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/BuffersTable';
+import ReplicaTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/ReplicaTable';
 import TuplesTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/TuplesTable';
 import MemoryTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/MemoryTable';
 import BlocksTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/BlocksTable';
@@ -39,6 +40,7 @@ export default connectTo(
         <CacheTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
         <FilesTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
         <DeadlocksTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
+        <ReplicaTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
       </div>
     );
   }
