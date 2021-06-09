@@ -10,9 +10,11 @@ import { useObservable } from '@instana/hooks';
 
 import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
 import { alertCreated as alertCreatedMatrixParam } from 'in-applications/navigation/matrix';
+import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-new-components/Loading/DefaultLoadingDashboard';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import AlertHistoryList from 'in-alerting/components/AlertHistoryList';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import AlertHeader from 'in-alerting/components/AlertHeader';
@@ -27,6 +29,8 @@ import Footer from 'in-new-components/Footer/Footer';
 import Title from 'in-components/Title';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
+
+import locals from './Alert.mless';
 
 export default function Alert({
   location,
@@ -115,7 +119,14 @@ export default function Alert({
           }}
           onConfigDeleted={tracking.trackDeleted}
           onConfigRevisionChanged={tracking.trackRevisionChanged}
-          renderCustomTitle={() => <AlertTitleWithPlaceholderHighlighting configName={alertConfig.name} />}
+          renderCustomTitle={() => {
+            return (
+              <HorizontalFlexWrapper className={locals.titleWrapper}>
+                <AlertTitleWithPlaceholderHighlighting configName={alertConfig.name} />
+                <BuiltInIndicator builtIn={alertConfig.builtIn} />
+              </HorizontalFlexWrapper>
+            );
+          }}
         />
 
         <Row>

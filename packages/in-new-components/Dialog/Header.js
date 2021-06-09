@@ -41,7 +41,7 @@ export default function Header({ icon, onIconClick, title, renderCustomCloseBeha
   );
 }
 
-function Title({ title }) {
+export function Title({ title }) {
   if (typeof title === 'string') {
     return <h1 className={locals.title}>{title}</h1>;
   }

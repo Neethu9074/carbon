@@ -117,6 +117,23 @@ export function createSmartAlertForm(alertConfig, editMode) {
       })
     )
     .put(
+      'builtIn',
+      createField({
+        value: alertConfig.builtIn,
+        validator: value => {
+          if (value !== alertConfig.builtIn) {
+            return [
+              {
+                severity: 'error',
+                message: t('in-alerting:smartAlerts.applications.form.smartAlertFormValueIsReadOnly')
+              }
+            ];
+          }
+          return [];
+        }
+      })
+    )
+    .put(
       'applications',
       createField({
         value: alertConfig.applications ?? {},

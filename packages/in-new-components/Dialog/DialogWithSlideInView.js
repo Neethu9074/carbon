@@ -100,7 +100,7 @@ DialogWithSlideInView.propTypes = {
   onClose: PropTypes.func,
   onTitleIconClick: PropTypes.func,
   showOverflow: PropTypes.bool,
-  title: PropTypes.string,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   titleIconType: PropTypes.string,
   withoutBodyPadding: PropTypes.bool,
   removeBottomPaddingWhenFooterIsShown: PropTypes.bool,

@@ -9,7 +9,10 @@ import PropTypes from 'prop-types';
 
 import { Button } from '@instana/components';
 
+import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
+import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import { Title } from 'in-new-components/Dialog/Header';
 import { t } from 'in-i18n';
 
 import locals from './AlertConfigDialogPresenter.mless';
@@ -34,6 +37,8 @@ export default function AlertConfigDialogPresenter(props) {
   const [slideInConfig, setSlideInConfig] = useState(null);
   const [simpleModeStep, setSimpleModeStep] = useState(0);
 
+  const builtIn = form.get('builtIn').value;
+
   const setSliderState = ({ slideInConfig, isVisible }) => {
     if (slideInConfig) {
       setSlideInConfig(slideInConfig);
@@ -43,7 +48,7 @@ export default function AlertConfigDialogPresenter(props) {
 
   return (
     <DialogWithSlideInView
-      title={getDialogTitle(isGlobalSmartAlert, editMode)}
+      title={getDialogTitle(isGlobalSmartAlert, editMode, builtIn)}
       slideInViewTitle={slideInConfig && slideInConfig.title}
       onSlideInViewTitleClick={() => setSlideInViewVisible(!slideInViewVisible)}
       titleIconType="lib_alerts_create"
@@ -111,16 +116,24 @@ export default function AlertConfigDialogPresenter(props) {
   }
 }
 
-function getDialogTitle(isGlobalSmartAlert, editMode) {
+function getDialogTitle(isGlobalSmartAlert, editMode, builtIn) {
   const mode = isGlobalSmartAlert ? 'Global' : 'Local';
-
-  return editMode
-    ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert', {
-        context: mode
-      })
-    : t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert', {
-        context: mode
-      });
+  return (
+    <HorizontalFlexWrapper className={locals.titleWrapper}>
+      <Title
+        title={
+          editMode
+            ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert', {
+                context: mode
+              })
+            : t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert', {
+                context: mode
+              })
+        }
+      />
+      <BuiltInIndicator builtIn={builtIn} />
+    </HorizontalFlexWrapper>
+  );
 }
 
 AlertConfigDialogPresenter.propTypes = {

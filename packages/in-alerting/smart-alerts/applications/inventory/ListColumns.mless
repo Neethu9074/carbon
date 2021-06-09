@@ -12,8 +12,6 @@
   }
 
   .alertIcon {
-    margin-right: 1.5rem;
-
     &SeverityLow {
       fill: @lib__colors__warning;
     }
@@ -30,6 +28,7 @@
 
   .nameListColumn {
     padding-right: 1rem;
+    gap: 1.5rem;
   }
 
   .name {

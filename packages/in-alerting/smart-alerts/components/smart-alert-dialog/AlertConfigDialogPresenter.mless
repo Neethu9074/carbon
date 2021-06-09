@@ -4,6 +4,7 @@
  */
 
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .dialog {
@@ -17,5 +18,13 @@
 
   .slideInContainer {
     padding: 0 1.375rem;
+  }
+
+  .titleWrapper {
+    gap: 1rem;
+  }
+
+  .builtInIndicator {
+    line-height: 2rem;
   }
 }

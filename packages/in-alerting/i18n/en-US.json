@@ -404,6 +404,7 @@
         "ruleFormPleaseProvideAStartStatusCode": "Please provide a start http status code",
         "ruleFormPleaseProvideAEndStatusCode": "Please provide an end http status code",
         "smartAlertFormNoEntitiesSelected": "No entities selected",
+        "smartAlertFormValueIsReadOnly": "The value is read only and cannot be changed",
         "thresholdFormPleaseProvideANumber0": "Please provide a number >= 0",
         "thresholdFormBaselineIsEmpty": "baseline is empty"
       },
@@ -442,6 +443,9 @@
         "title": "Alert Details",
         "titleAlertProperties": "Alert Properties"
       }
+    },
+    "details": {
+      "titleBuiltInIndicator": "Built-in"
     },
     "form": {
       "ruleAggregationOptionMEAN": "mean",

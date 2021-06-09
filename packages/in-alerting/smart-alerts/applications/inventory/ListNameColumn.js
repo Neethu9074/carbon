@@ -22,6 +22,7 @@ import {
   alertId as alertIdMatrixParam
 } from 'in-applications/navigation/matrix';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
 import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation';
@@ -31,7 +32,7 @@ import { t } from 'in-i18n';
 import locals from './ListColumns.mless';
 
 export function ListNameColumn({ config, configsCategory, additionalMatrixKeys = () => [], goToGlobalAlertDetails }) {
-  const { description, enabled, name, severity, rule, id, created } = config;
+  const { description, enabled, name, severity, rule, id, created, builtIn } = config;
 
   return (
     <HorizontalFlexWrapper className={locals.nameListColumn}>
@@ -64,6 +65,7 @@ export function ListNameColumn({ config, configsCategory, additionalMatrixKeys =
         </Tooltip>
         <div className={locals.nameSubtext}>{getSubtitle(rule)}</div>
       </div>
+      <BuiltInIndicator builtIn={builtIn} />
     </HorizontalFlexWrapper>
   );
 }
@@ -89,7 +91,8 @@ ListNameColumn.propTypes = {
       metricName: PropTypes.string.isRequired
     }).isRequired,
     id: PropTypes.string.isRequired,
-    created: PropTypes.number.isRequired
+    created: PropTypes.number.isRequired,
+    builtIn: PropTypes.bool
   }).isRequired,
   configsCategory: PropTypes.string.isRequired,
   additionalMatrixKeys: PropTypes.func,

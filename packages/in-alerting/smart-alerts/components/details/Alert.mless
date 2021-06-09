@@ -1,0 +1,10 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+:local {
+  .titleWrapper {
+    gap: 1.5rem;
+  }
+}
