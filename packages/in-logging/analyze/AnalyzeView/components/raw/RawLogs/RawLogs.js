@@ -7,7 +7,7 @@ import React from 'react';
 
 import { ColumnizedContent, Ul, Li } from '@instana/components';
 
-import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
+import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/raw/QueryBuilderWorkspace';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
 import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
@@ -17,6 +17,8 @@ import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
 
 import locals from './RawLogs.mless';
+
+const useLogsCursorPagination = createPageSizeAwareLogsCursorPaginationHook(100);
 
 const columnDefinitions = [
   {
@@ -96,10 +98,10 @@ function ErrorListItems({ errors }) {
   );
 }
 
-function getTableData({ timeConfig, afterKey, backendQueryModel, loadAfterCount }) {
+function getTableData({ timeConfig, afterKey, backendQueryModel, loadAfterCount, retrievalSize }) {
   return getLogs({
     timeConfig,
-    retrievalSize: 20,
+    retrievalSize,
     afterKey,
     loadAfterCount,
     tagFilterExpression: backendQueryModel,

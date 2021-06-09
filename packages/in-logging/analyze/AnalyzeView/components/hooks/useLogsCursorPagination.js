@@ -19,49 +19,58 @@ const initialState = {
   loadAfterCount: 0
 };
 
-export default function useLogsCursorPagination(create, deps = []) {
-  // If 'deps' change, the 'state' will be reset to the 'initialState' value. However, this 'state' change
-  // won't be visible until the next re-render. In order to make sure that we won't use the stale value
-  // of 'state', we need to track the previous value of 'deps' and perform a shallow comparison with the
-  // current 'deps' value. If we detect a change, we will use 'initialState' instead of the stale 'state'
-  // value.
-  const [prevDeps, setPrevDeps] = useState([]);
-  useEffect(() => setPrevDeps(deps), deps);
+const defaultUseLogsCursorPaginationHook = createPageSizeAwareLogsCursorPaginationHook();
+export default defaultUseLogsCursorPaginationHook;
 
-  const [state, setState] = useState(initialState);
-  useEffect(() => setState(initialState), deps);
+export function createPageSizeAwareLogsCursorPaginationHook(retrievalSize = 20) {
+  return function useLogsCursorPagination(create, deps = []) {
+    // If 'deps' change, the 'state' will be reset to the 'initialState' value. However, this 'state' change
+    // won't be visible until the next re-render. In order to make sure that we won't use the stale value
+    // of 'state', we need to track the previous value of 'deps' and perform a shallow comparison with the
+    // current 'deps' value. If we detect a change, we will use 'initialState' instead of the stale 'state'
+    // value.
+    const [prevDeps, setPrevDeps] = useState([]);
+    useEffect(() => setPrevDeps(deps), deps);
 
-  const { loadAfterCount, progress, canLoadMore, afterKey, nextAfterKey, errors, items, time } = shallowEqual(
-    prevDeps,
-    deps
-  )
-    ? state
-    : initialState;
+    const [state, setState] = useState(initialState);
+    useEffect(() => setState(initialState), deps);
 
-  const observable = useMemo(() => create({ afterKey, loadAfterCount }), [afterKey, loadAfterCount, ...deps]);
-  useEffect(() => setState(awaitItems), [observable, ...deps]);
+    const { loadAfterCount, progress, canLoadMore, afterKey, nextAfterKey, errors, items, time } = shallowEqual(
+      prevDeps,
+      deps
+    )
+      ? state
+      : initialState;
 
-  const result = useObservable(observable, [observable, ...deps]) ?? pendingResult;
-  useEffect(() => setState(prev => updateResult(prev, result)), [result, ...deps]);
+    const observable = useMemo(() => create({ afterKey, loadAfterCount, retrievalSize }), [
+      afterKey,
+      loadAfterCount,
+      ...deps
+    ]);
+    useEffect(() => setState(awaitItems), [observable, ...deps]);
 
-  const setAfterKey = useCallback(_afterKey =>
-    setState(prev => ({
-      ...prev,
-      afterKey: _afterKey,
-      loadAfterCount: loadAfterCount + 1
-    }))
-  );
-  const loadMoreAfter = useCallback(() => setAfterKey(nextAfterKey), [nextAfterKey, loadAfterCount]);
+    const result = useObservable(observable, [observable, ...deps]) ?? pendingResult;
+    useEffect(() => setState(prev => updateResult(prev, result, retrievalSize)), [result, ...deps]);
 
-  return {
-    progress,
-    loadMore: loadMoreAfter,
-    loadAfterCount,
-    canLoadMore,
-    afterKey,
-    errors,
-    items,
-    time
+    const setAfterKey = useCallback(_afterKey =>
+      setState(prev => ({
+        ...prev,
+        afterKey: _afterKey,
+        loadAfterCount: loadAfterCount + 1
+      }))
+    );
+    const loadMoreAfter = useCallback(() => setAfterKey(nextAfterKey), [nextAfterKey, loadAfterCount]);
+
+    return {
+      progress,
+      loadMore: loadMoreAfter,
+      loadAfterCount,
+      canLoadMore,
+      afterKey,
+      errors,
+      items,
+      time
+    };
   };
 }
 
@@ -69,7 +78,7 @@ function awaitItems(prev) {
   return { ...prev, awaitingData: true, canLoadMore: false };
 }
 
-function updateResult(prev, result) {
+function updateResult(prev, result, retrievalSize) {
   if (!prev.awaitingData) {
     return prev;
   }
@@ -84,6 +93,7 @@ function updateResult(prev, result) {
   }
 
   const isStreamingData = data.percentage < 1;
+  const hasLessDataThanRequested = data.items.length < retrievalSize;
 
   return {
     ...prev,
@@ -96,7 +106,7 @@ function updateResult(prev, result) {
     awaitingData: isStreamingData,
 
     // don't provide a load more button until the streaming of the current data is done
-    canLoadMore: !isStreamingData,
+    canLoadMore: !isStreamingData && !hasLessDataThanRequested,
 
     nextAfterKey: (data.next ?? data.afterKey) || prev.afterKey,
     items: concat(prev.items, data.items)

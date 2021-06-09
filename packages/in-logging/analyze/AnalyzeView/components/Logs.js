@@ -86,11 +86,11 @@ function DetailView() {
 }
 
 function getTableData(props) {
-  const { timeConfig, afterKey, backendQueryModel, loadAfterCount, selectedTags } = props;
+  const { timeConfig, afterKey, backendQueryModel, loadAfterCount, selectedTags, retrievalSize } = props;
 
   return getLogs({
     timeConfig,
-    retrievalSize: 20,
+    retrievalSize,
     afterKey,
     loadAfterCount,
     tagFilterExpression: backendQueryModel,
