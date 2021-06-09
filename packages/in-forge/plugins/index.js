@@ -70,6 +70,7 @@ import './kafkaConnectWorker';
 import './phpRuntimePlatform';
 import './postgreSqlDatabase';
 import './ibmCloudPostgreSql';
+import './ibmCloudSchematics';
 import './ibmCloudFunctions';
 import './awsLambdaFunction';
 import './clickHouseCluster';
