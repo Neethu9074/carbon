@@ -56,6 +56,8 @@ const latency = {
 
 export const availableMetrics = [calls, latency, erroneousCalls, errorRate];
 
+export const isPotentialProblemsSupportedByMetric = metric => ['calls', 'latency', 'errors'].includes(metric);
+
 export const chartMetricKey = (metric, aggregation) => `${metric}_${aggregation}`;
 export const sparkChartMetricKey = (metric, aggregation) => `${metric}_${aggregation}_Spark`;
 export const aggregateMetricKey = (metric, aggregation) => `${metric}_${aggregation}_Agg`;

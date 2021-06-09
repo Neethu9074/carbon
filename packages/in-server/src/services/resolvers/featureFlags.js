@@ -219,5 +219,10 @@ module.exports = exports = [
     uiClientKey: 'deprecateAppDataLegacyEvents',
     instanaCtlKey: 'feature.deprecated.appdata.legacy.events',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'potentialProblemsInCustomDashboardEnabled',
+    instanaCtlKey: 'feature.potential.problems.in.customDashboard.enabled',
+    defaultValue: false
   }
 ];

@@ -116,6 +116,11 @@
       "hiddenCalls": {
         "includeInternalCalls": "Include internal calls",
         "includeSyntheticCalls": "Include synthetic calls"
+      },
+      "bluePrintForCallsMetric": {
+        "unexpectedLowNumberOfCalls": "An unexpected low number of calls",
+        "unexpectedHighNumberOfCalls": "An unexpectedly high number of calls",
+        "unexpectedLowOrHighNumberOfCalls": "Unexpected low or a high number of calls"
       }
     },
     "srcApp": {
@@ -123,7 +128,9 @@
         "pleaseSelect": "Please select",
         "pleaseSelectMetric": "Please select a metric",
         "aggregation": "Aggregation",
-        "metric": "Metric"
+        "metric": "Metric",
+        "potentialProblems": "Potential Problems",
+        "potentialProblemsDescription": "Highlights potential issues for unexpected behaviour"
       },
       "index": {
         "applicationsTracesAndCalls": "Applications (Traces and Calls)"
