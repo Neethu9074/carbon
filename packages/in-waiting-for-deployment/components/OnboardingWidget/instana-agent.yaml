@@ -5,7 +5,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.17
+    app.kubernetes.io/version: 1.2.19
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -14,7 +14,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.17
+    app.kubernetes.io/version: 1.2.19
 ---
 apiVersion: v1
 kind: Secret
@@ -23,7 +23,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.17
+    app.kubernetes.io/version: 1.2.19
 type: Opaque
 data:
   key: ${agentKey}
@@ -36,22 +36,22 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.17
+    app.kubernetes.io/version: 1.2.19
 data:
   cluster_name: "${clusterName}"
   configuration.yaml: |
-  
+
     # Manual a-priori configuration. Configuration will be only used when the sensor
     # is actually installed by the agent.
     # The commented out example values represent example configuration and are not
     # necessarily defaults. Defaults are usually 'absent' or mentioned separately.
     # Changes are hot reloaded unless otherwise mentioned.
-    
+
     # It is possible to create files called 'configuration-abc.yaml' which are
     # merged with this file in file system order. So 'configuration-cde.yaml' comes
     # after 'configuration-abc.yaml'. Only nested structures are merged, values are
     # overwritten by subsequent configurations.
-    
+
     # Secrets
     # To filter sensitive data from collection by the agent, all sensors respect
     # the following secrets configuration. If a key collected by a sensor matches
@@ -62,13 +62,13 @@ data:
     #    - 'key'
     #    - 'password'
     #    - 'secret'
-    
+
     # Host
     #com.instana.plugin.host:
     #  tags:
     #    - 'dev'
     #    - 'app1'
-    
+
     # Hardware & Zone
     #com.instana.plugin.generic.hardware:
     #  enabled: true # disabled by default
@@ -81,7 +81,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.17
+    app.kubernetes.io/version: 1.2.19
 spec:
   selector:
     matchLabels:
@@ -94,7 +94,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: instana-agent
-        app.kubernetes.io/version: 1.2.17
+        app.kubernetes.io/version: 1.2.19
         instana/agent-mode: "APM"
       annotations: {}
     spec:
@@ -131,6 +131,8 @@ spec:
                   name: instana-agent
                   key: downloadKey
                   optional: true
+            - name: INSTANA_MVN_REPOSITORY_URL
+              value: "${instanaMvnRepoUrl}"
             - name: INSTANA_AGENT_POD_NAME
               valueFrom:
                 fieldRef:
@@ -243,7 +245,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.17
+    app.kubernetes.io/version: 1.2.19
 rules:
 - nonResourceURLs:
     - "/version"
@@ -296,7 +298,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.17
+    app.kubernetes.io/version: 1.2.19
 subjects:
 - kind: ServiceAccount
   name: instana-agent
