@@ -12,7 +12,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import DialogPresenter from 'in-components/DialogPresenter';
 
 export default {
-  title: 'Templates|potentialProblems/PotentialProblemsDialogPresenter',
+  title: 'Molecules|potentialProblems/PotentialProblemsDialogPresenter',
   component: PotentialProblemsDialogPresenter
 };
 

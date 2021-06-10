@@ -12,16 +12,15 @@ import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPr
 import ReleasesLanePresenter from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLanePresenter';
 import AlertsLanePresenter from 'in-components/Chart/markerLanes/AlertsLane/AlertsLanePresenter';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
-import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compare } from 'in-services/util/number';
 import { minutes } from 'in-services/time';
 
-/* there are random data and current date is used */
+/* there are random data */
 export default {
   title: 'Molecules|MarkerLanes',
-  component: DialogWithSlideInView,
+  component: MarkerLanesPresenter,
   parameters: {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }
@@ -36,61 +35,53 @@ const timeConfig = generateTimeframe(oneMinute);
 
 export const MarkerLanesBelowChart = () => {
   return (
-    <div>
-      <h2>Marker lanes</h2>
-      <BarChart
-        renderPostChartContent={props => (
-          <MarkerLanesPresenter {...props}>
-            <ReleasesLanePresenter releases={getReleases(timeConfig)} />
-            <AlertsLanePresenter alerts={getAlertsAndIncidents(timeConfig)} />
-            <ReleasesLanePresenter releases={getReleases(timeConfig)} />
-          </MarkerLanesPresenter>
-        )}
-      />
-    </div>
+    <ChartWithSomeData
+      renderPostChartContent={props => (
+        <MarkerLanesPresenter {...props}>
+          <ReleasesLanePresenter releases={getReleases(timeConfig)} />
+          <AlertsLanePresenter alerts={getAlertsAndIncidents(timeConfig)} />
+          <ReleasesLanePresenter releases={getReleases(timeConfig)} />
+        </MarkerLanesPresenter>
+      )}
+    />
   );
 };
 
 export const MarkerLanesAboveChart = () => {
   return (
-    <div>
-      <h2>Marker lanes</h2>
-      <BarChart
-        renderPreChartContent={props => (
-          <MarkerLanesPresenter {...props}>
-            <AlertsPreviewLanePresenter alerts={getAlerts(timeConfig)} />
-          </MarkerLanesPresenter>
-        )}
-      />
-    </div>
+    <ChartWithSomeData
+      renderPreChartContent={props => (
+        <MarkerLanesPresenter {...props}>
+          <AlertsPreviewLanePresenter alerts={getAlerts(timeConfig)} />
+        </MarkerLanesPresenter>
+      )}
+    />
   );
 };
 
 export const WidthLoadingIndicator = () => {
   return (
-    <div>
-      <h2>Marker lanes</h2>
-      <BarChart
-        renderPostChartContent={props => (
-          <MarkerLanesPresenter {...props}>
-            <AlertsLanePresenter alerts={[]} isLoading />
-            <PotentialProblemsLanePresenter
-              potentialProblems={{
-                alerts: [],
-                thresholds: {}
-              }}
-              isLoading
-            />
-          </MarkerLanesPresenter>
-        )}
-      />
-    </div>
+    <ChartWithSomeData
+      renderPostChartContent={props => (
+        <MarkerLanesPresenter {...props}>
+          <AlertsLanePresenter alerts={[]} isLoading />
+          <PotentialProblemsLanePresenter
+            potentialProblems={{
+              alerts: [],
+              thresholds: {}
+            }}
+            isLoading
+          />
+        </MarkerLanesPresenter>
+      )}
+    />
   );
 };
 
-function BarChart({ renderPostChartContent, renderPreChartContent }) {
+function ChartWithSomeData({ renderPostChartContent, renderPreChartContent }) {
   return (
-    <>
+    // define a width so in storybook the whole chart fits easily without any need for scrolling
+    <div style={{ width: 500 }}>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -99,13 +90,14 @@ function BarChart({ renderPostChartContent, renderPreChartContent }) {
             renderer: Renderer.bar,
             labels: ['Calls'],
             metrics: ['calls'],
+            metricIds: [],
             aggregation: 'awesomeAggregation'
           },
           renderPostChartContent,
           renderPreChartContent
         }}
       />
-    </>
+    </div>
   );
 }
 
@@ -116,13 +108,13 @@ function generateTimeframe(windowSize) {
   };
 }
 
-function constructResult(error, isLoading) {
+function constructResult(error, isLoading, windowSize = oneMinute) {
   return {
     errors: error == null ? [] : [error],
     progress: {
       loading: isLoading
     },
-    data: { calls: generateMetrics(12, 100, oneMinute) }
+    data: { calls: generateMetrics(12, 100, windowSize) }
   };
 }
 

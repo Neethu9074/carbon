@@ -9,6 +9,7 @@ import React from 'react';
 
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
+import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import { alertRules, potentialProblemsCluster } from './potentialProblemsStorySharedData';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -18,9 +19,9 @@ import DialogPresenter from 'in-components/DialogPresenter';
 import { compare } from 'in-services/util/number';
 import { hours } from 'in-services/time';
 
-/* there are random data and current date is used */
+/* there are random data */
 export default {
-  title: 'Templates|potentialProblems/PotentialProblemsLane',
+  title: 'Molecules|potentialProblems/PotentialProblemsLane',
   component: PotentialProblemsLanePresenter,
   parameters: {
     // ignoring this story because it renders differently everytime
@@ -63,11 +64,13 @@ const laneProps = {
 export const PotentialProblemsMarkerLane = () => {
   return (
     <>
-      <BarChart
+      <ChartWithSomeData
         renderPostChartContent={props => (
           <MarkerLanesPresenter {...props}>
             <PotentialProblemsLanePresenter
               {...laneProps}
+              tagFilterExpression={EMPTY_EXPRESSION}
+              applications={{}}
               potentialProblems={potentialProblemsCluster}
               alertRules={alertRules}
               renderSmartAlertDialogComponent={() => (
@@ -86,9 +89,10 @@ export const PotentialProblemsMarkerLane = () => {
   );
 };
 
-function BarChart({ renderPostChartContent, renderPreChartContent }) {
+function ChartWithSomeData({ renderPostChartContent, renderPreChartContent }) {
   return (
-    <>
+    // define a width so in storybook the whole chart fits easily without any need for scrolling
+    <div style={{ width: 500 }}>
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
@@ -97,13 +101,14 @@ function BarChart({ renderPostChartContent, renderPreChartContent }) {
             renderer: Renderer.bar,
             labels: ['Calls'],
             metrics: ['calls'],
+            metricIds: [],
             aggregation: 'awesomeAggregation'
           },
           renderPostChartContent,
           renderPreChartContent
         }}
       />
-    </>
+    </div>
   );
 }
 
@@ -114,13 +119,13 @@ function generateTimeframe(windowSize) {
   };
 }
 
-function constructResult(error, isLoading) {
+function constructResult(error, isLoading, windowSize = halfADay) {
   return {
     errors: error == null ? [] : [error],
     progress: {
       loading: isLoading
     },
-    data: { calls: generateMetrics(12, 100, halfADay) }
+    data: { calls: generateMetrics(12, 100, windowSize) }
   };
 }
 

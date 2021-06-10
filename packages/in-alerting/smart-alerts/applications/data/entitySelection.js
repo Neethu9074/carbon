@@ -277,5 +277,5 @@ function getApplicationTagFilter(boundaryScope, applicationId, applicationName) 
 }
 
 export function firstApplicationId(applications) {
-  return Object.values(applications)[0]?.applicationId;
+  return applications && Object.values(applications)[0]?.applicationId;
 }
