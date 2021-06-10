@@ -8,9 +8,6 @@ import { find, groupBy } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
 
-import PotentialProblemsConfiguration, {
-  potentialProblemsCallsUnexpectedLowOrHighNumber
-} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/PotentialProblemsConfiguration/PotentialProblemsConfiguration';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import HiddenCallsConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/HiddenCallsConfiguration';
 import {
@@ -20,11 +17,10 @@ import {
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import QueryBuilder, { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { availableMetrics, isPotentialProblemsSupportedByMetric } from 'in-applications/analyze/metrics';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
-import { potentialProblemsInCustomDashboardEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
+import { availableMetrics } from 'in-applications/analyze/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Sections from 'in-new-components/workspace/Sections';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -125,11 +121,7 @@ export default function FormComponent({
                 .updateIn(['aggregation'], field => {
                   const aggregations = getAggregations(e.target.value);
                   return field.setValue(aggregations.length > 1 ? '' : aggregations[0]);
-                })
-                .updateIn(['potentialProblems'], field => field.setValue(false).setTouched(true))
-                .updateIn(['bluePrintForCallsMetric'], field =>
-                  field.setValue(potentialProblemsCallsUnexpectedLowOrHighNumber).setTouched(true)
-                );
+                });
             })
           }
           hasError={!metricField.valid && metricField.touched}
@@ -237,10 +229,6 @@ export default function FormComponent({
       />
 
       {timeShiftConfiguration}
-
-      {potentialProblemsInCustomDashboardEnabled && isPotentialProblemsSupportedByMetric(metricField.value) && (
-        <PotentialProblemsConfiguration form={form} onChange={onChange} />
-      )}
 
       {labelSection}
     </Stack>

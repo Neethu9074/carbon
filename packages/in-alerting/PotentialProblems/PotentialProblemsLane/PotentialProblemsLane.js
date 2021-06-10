@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
+
+import { useObservable } from '@instana/hooks';
 
 import {
   getEntitySelection,
