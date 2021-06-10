@@ -6,7 +6,7 @@
 import React from 'react';
 
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 
 export default {
   title: 'Templates|website/alerting/components/AlertChannelsViewer',

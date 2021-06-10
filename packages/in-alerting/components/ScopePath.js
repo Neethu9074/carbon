@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 
 import locals from 'in-alerting/components/ScopePath.mless';
 

@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 
 import DatabaseStatementTopList from 'in-applications/Dashboards/commonComponents/database/DatabaseStatementTopList';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(

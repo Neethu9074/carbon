@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
+
+import { Card } from '@instana/components';
 
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
@@ -21,7 +22,7 @@ import { getLinkToAnalyze, summaryTab } from 'in-websites/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import Footer from 'in-new-components/Footer';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

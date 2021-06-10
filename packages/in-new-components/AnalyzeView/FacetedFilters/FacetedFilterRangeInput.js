@@ -13,7 +13,7 @@ import {
 import FacetedExpandableCard from 'in-new-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
 import { ua2FacetedSearchFilterAddedTracker } from 'in-new-components/tracker';
 import ValidationBlock from 'in-components/form/ValidationBlock';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import keyCodes from 'in-components/keyCodes';
 import Input from 'in-components/form/Input';

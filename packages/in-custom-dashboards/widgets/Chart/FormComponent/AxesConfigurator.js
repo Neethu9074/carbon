@@ -16,7 +16,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { publicFormatters } from 'in-stores/metric/formatters';
 import Sections from 'in-new-components/workspace/Sections';
 import FormGroup from 'in-components/form/FormGroup';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 import Toggle from 'in-components/form/Toggle';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';

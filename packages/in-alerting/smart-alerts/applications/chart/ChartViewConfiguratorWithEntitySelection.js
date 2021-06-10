@@ -17,9 +17,9 @@ import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/e
 import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewConfig';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import StackItem from 'in-new-components/layout/Stack/StackItem';
+import StackItem from 'in-components/layout/Stack/StackItem';
 import ButtonGroup from 'in-new-components/ButtonGroup';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator.mless';
 

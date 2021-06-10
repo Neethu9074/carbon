@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+
+import { Card } from '@instana/components';
 
 import {
   resourceQuotaPercentage,
@@ -25,8 +26,8 @@ import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { formatDuration } from 'in-services/formatters/date';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import { Row, Col } from 'in-components/layout/Grid';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

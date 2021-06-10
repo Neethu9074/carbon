@@ -14,7 +14,7 @@ import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/com
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
 import { getLinkToPageLoad } from 'in-websites/navigation/paths';
 import { latencyFixed } from 'in-services/formatters/number';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

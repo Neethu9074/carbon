@@ -5,8 +5,9 @@
 
 import React, { useMemo, useEffect } from 'react';
 import { compose, withState } from 'recompose';
-import { Link } from '@instana/components';
 import { find, debounce } from 'lodash';
+
+import { Link } from '@instana/components';
 
 import { fixClockSkewProblems } from 'in-websites/analyze/PageLoadView/tabs/Summary/fixClockSkewProblems';
 import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
@@ -15,8 +16,8 @@ import Activity from 'in-websites/analyze/PageLoadView/tabs/Summary/Activity';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { warning } from 'in-new-components/Message/types';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
+import { Row, Col } from 'in-components/layout/Grid';
 import { openPageLoad } from 'in-websites/tracker';
 import Message from 'in-new-components/Message';
 import KpiCard from 'in-new-components/KpiCard';

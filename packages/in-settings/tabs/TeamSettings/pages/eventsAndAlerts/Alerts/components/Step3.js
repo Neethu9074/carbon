@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
+
+import { Link } from '@instana/components';
 
 import Applications, {
   getSelectedApplicationConfigsByName,
@@ -26,7 +27,7 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import { Row, Col } from 'in-new-components/layout/Grid/Grid';
+import { Row, Col } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import { isBlank } from 'in-services/util/string';
 import ComboBox from 'in-components/ComboBox';

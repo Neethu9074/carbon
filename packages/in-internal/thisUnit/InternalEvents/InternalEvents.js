@@ -16,7 +16,7 @@ import getInternalEvents from 'in-subscription/getInternalEvents';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { formatDateTime } from 'in-services/formatters/date';
-import { Col, Row } from 'in-new-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import { timeConfig$ } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip';

@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
 import React from 'react';
+
+import { create } from '@instana/observables';
 
 import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/termsFormDefinition';
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
@@ -17,7 +18,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import RolesSelector from 'in-settings/terms/RolesSelector';
-import Stack from 'in-new-components/layout/Stack/Stack';
+import Stack from 'in-components/layout/Stack/Stack';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 

@@ -22,7 +22,7 @@ import { viewTypes } from 'in-profiling/analyze/AnalyzeView/ProfilesView/Profile
 import countSamples from 'in-profiling/analyze/AnalyzeView/ProfilesView/sampleCount';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import ProfileTree from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileTree';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
 import { hasError, isLoading } from 'in-services/util/result';
 import { formatTime } from 'in-services/formatters/date';

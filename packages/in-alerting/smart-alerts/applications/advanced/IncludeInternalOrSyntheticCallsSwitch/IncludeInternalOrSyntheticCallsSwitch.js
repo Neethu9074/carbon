@@ -6,7 +6,7 @@
 import React from 'react';
 
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import { Col, Row } from 'in-new-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/InboundOrAllCallsSwitch.mless';

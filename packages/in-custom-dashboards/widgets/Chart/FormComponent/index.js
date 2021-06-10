@@ -12,7 +12,7 @@ import { potentialProblemsInCustomDashboardEnabled } from 'in-services/featureFl
 import { getShortMetricKey } from 'in-custom-dashboards/widgets/Chart/util';
 import Divider from 'in-new-components/workspace/Divider';
 import Header from 'in-new-components/workspace/Header';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function ChartWidgetFormComponent({ form, onChange }) {

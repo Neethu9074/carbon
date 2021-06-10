@@ -7,7 +7,7 @@ import React from 'react';
 
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 
 export function ShowApplicationSelection({ applicationId }) {
   const applicationName = useApplicationLabel(applicationId, false);

@@ -10,7 +10,7 @@ import { Button } from '@instana/components';
 import { showGt, showLt } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';

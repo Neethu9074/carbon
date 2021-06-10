@@ -20,9 +20,9 @@ import {
   parseDateTime,
   formatTimeWithoutSeconds
 } from 'in-services/formatters/date';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { getHistoricOrLargeDataResult } from 'in-new-components/time/TimeSelection/TimeSelection';
 import DateTimeInput from 'in-new-components/time/TimeSelectionDialogPresenter/DateTimeInput';
-import HorizontalFlexWrapper from '../../layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import Section from 'in-new-components/time/TimeSelectionDialogPresenter/Section';
 import DistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
 import { timeValidator, dateValidator } from 'in-services/validators/date';

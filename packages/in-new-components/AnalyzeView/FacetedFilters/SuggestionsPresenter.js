@@ -15,8 +15,8 @@ import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import { identity } from 'in-services/util/function';
-import Stack from 'in-new-components/layout/Stack';
 import Message from 'in-new-components/Message';
+import Stack from 'in-components/layout/Stack';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

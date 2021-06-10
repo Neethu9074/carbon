@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 
 // We currently do not have any deprecations - nice! :)
 export const presenterMapping = {};

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
+import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent';
 import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
 import Annotations from 'in-kubernetes/Dashboards/commonComponents/Annotations';
 import Spec from 'in-kubernetes/Dashboards/commonComponents/Spec';

@@ -23,7 +23,7 @@ import {
   ErroneousRowTd
 } from 'in-components/tables/sharedComponents';
 import { indeterminateProgress } from 'in-services/fixedObjects';
-import { Col, Row } from 'in-new-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 
 export default {
   title: 'Templates|table/Table',

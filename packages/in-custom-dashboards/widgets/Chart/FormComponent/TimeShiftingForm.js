@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { timeShifts, defaultTimeShift, previousHourTimeShift } from 'in-stores/time/shifting';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpAction from 'in-new-components/workspace/HelpAction';
 import Sections from 'in-new-components/workspace/Sections';

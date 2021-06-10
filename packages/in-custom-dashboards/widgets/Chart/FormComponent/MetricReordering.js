@@ -16,7 +16,7 @@ import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { generateStableHash } from 'in-services/util/id';
 import Header from 'in-new-components/workspace/Header';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-new-components/Pill';
 import { t } from 'in-i18n';

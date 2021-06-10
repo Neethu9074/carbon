@@ -15,7 +15,7 @@ import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import Message from 'in-new-components/Message';
 import Title from 'in-components/Title/Title';
 import { t, Trans } from 'in-i18n';

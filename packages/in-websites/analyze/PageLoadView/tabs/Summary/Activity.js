@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
 import BeaconPageGroup from 'in-websites/analyze/PageLoadView/tabs/Summary/BeaconPageGroup';
@@ -12,7 +13,7 @@ import OverviewChart from 'in-websites/analyze/PageLoadView/tabs/Summary/Overvie
 import { getType } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import Filter from 'in-websites/analyze/PageLoadView/tabs/Summary/Filter';
 import { generateStableHash } from 'in-services/util/id';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 import locals from './Activity.mless';

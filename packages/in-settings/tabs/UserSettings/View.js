@@ -12,7 +12,7 @@ import {
   userSettingsPrivacy,
   userSettingsCommunication
 } from 'in-settings/navigation/paths';
-import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
+import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent';
 import Communication from 'in-settings/tabs/UserSettings/pages/Communication';
 import AdvancedPage from 'in-settings/tabs/UserSettings/pages/Advanced';
 import GeneralPage from 'in-settings/tabs/UserSettings/pages/General';

@@ -8,7 +8,7 @@ import React from 'react';
 import { LoadingSkeleton } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 
 import locals from './Group.mless';
 

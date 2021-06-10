@@ -18,7 +18,7 @@ import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { explanations } from 'in-websites/cacheInteractionTypes';
 import { formatDateTime } from 'in-services/formatters/date';
 import { yesOrNo } from 'in-services/formatters/boolean';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 

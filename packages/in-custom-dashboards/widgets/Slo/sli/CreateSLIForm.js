@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState } from 'react';
+
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
-import React, { useState } from 'react';
 
 import { trackSliNewCreated, trackSLICloned, trackSLIEditAbort } from 'in-custom-dashboards/widgets/Slo/tracker';
 import { resetFormForSliType, createForm, sliFieldNames } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
@@ -18,11 +19,11 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import { generateUniqueShortId } from 'in-services/util/id';
 import { pendingResult } from 'in-services/fixedObjects';
-import Stack from 'in-new-components/layout/Stack';
 import Form from 'in-components/form/binding/Form';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import Message from 'in-new-components/Message';
+import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function CreateNewSLIForm({ apName, applicationId, apDefaultBoundaryScope, close, sliConfig }) {

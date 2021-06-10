@@ -37,7 +37,7 @@ import PercentageFormInput from 'in-custom-dashboards/widgets/Slo/components/Per
 import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/SliManageList';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -48,7 +48,7 @@ import Header from 'in-new-components/workspace/Header';
 import Select from 'in-components/form/Select/Select';
 import DateInput from 'in-components/form/DateInput';
 import Input from 'in-components/form/Input/Input';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 import { Trans, t } from 'in-i18n';
 
 import locals from './FormComponent.mless';

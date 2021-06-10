@@ -16,8 +16,8 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { pendingResult } from 'in-services/fixedObjects';
 import Header from 'in-new-components/workspace/Header';
-import Stack from 'in-new-components/layout/Stack';
 import Label from 'in-components/form/Label/Label';
+import Stack from 'in-components/layout/Stack';
 import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';

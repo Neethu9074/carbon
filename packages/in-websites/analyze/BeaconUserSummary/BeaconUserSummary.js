@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import React from 'react';
+
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
-import React from 'react';
 
 import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';
@@ -14,7 +15,7 @@ import { expandNestedSerializedJson } from 'in-services/util/json';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import User from 'in-websites/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 

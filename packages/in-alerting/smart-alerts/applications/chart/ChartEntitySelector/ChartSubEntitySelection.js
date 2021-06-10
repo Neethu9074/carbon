@@ -21,7 +21,7 @@ import {
 } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/search';
 import { createOptionsList } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/createOptions';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import getApplication from 'in-subscription/application/getApplication';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';

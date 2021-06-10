@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Card, Link } from '@instana/components';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Stack from 'in-new-components/layout/Stack';
+import { Card, Link } from '@instana/components';
+
 import Message from 'in-new-components/Message';
+import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHubElement.mless';

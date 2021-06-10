@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import NoLicenseAvailableMessage from 'in-amp/components/NoLicenseAvailableMessage';
 import AmpInformationModifier from 'in-amp/components/AmpInformationModifier';
@@ -13,8 +14,8 @@ import useAmpUrlInformation from 'in-amp/hooks/useAmpUrlInformation';
 import ExpiredLicenses from 'in-amp/components/ExpiredLicenses';
 import QueuedLicenses from 'in-amp/components/QueuedLicenses';
 import ActiveLicenses from 'in-amp/components/ActiveLicenses';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import UsageCharts from 'in-amp/components/UsageCharts';
+import { Row, Col } from 'in-components/layout/Grid';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 

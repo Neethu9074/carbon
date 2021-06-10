@@ -21,8 +21,8 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import { ListNameColumn } from 'in-alerting/smart-alerts/applications/inventory/ListNameColumn';
 import SortingConfigurator from 'in-new-components/SortingConfigurator/SortingConfigurator';
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { alertsCategory } from 'in-applications/navigation/matrix';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -32,7 +32,7 @@ import { pendingResult } from 'in-services/fixedObjects';
 import ButtonGroup from 'in-new-components/ButtonGroup';
 import SearchInput from 'in-new-components/SearchInput';
 import Pagination from 'in-new-components/Pagination';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';

@@ -6,8 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Col, Row } from 'in-new-components/layout/Grid';
-import Stack from 'in-new-components/layout/Stack';
+import { Col, Row } from 'in-components/layout/Grid';
+import Stack from 'in-components/layout/Stack';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 

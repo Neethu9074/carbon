@@ -10,8 +10,8 @@ import DetailsNavigation, {
   annotationsNavigationItem,
   specNavigationItem
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
-import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
 import { daemonSetDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
+import { singletonNavigationTree } from 'in-components/layout/SideNavigationAndContent';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import connectTo from 'in-hoc/connectTo';
 

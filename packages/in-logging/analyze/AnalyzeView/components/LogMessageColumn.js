@@ -6,7 +6,7 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import classNames from 'classnames';
 
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';

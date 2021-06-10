@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create, just, interval } from '@instana/observables';
 import React, { useState, useMemo } from 'react';
-import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
+
+import { create, just, interval } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
 import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -22,10 +23,10 @@ import RedirectWithHash from 'in-components/RedirectWithHash';
 import ViewSwitcher from 'in-events/components/ViewSwitcher';
 import * as eventTypeLabels from 'in-events/eventTypeLabels';
 import EventsChart from 'in-events/components/EventsChart';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import EventTable from 'in-events/components/EventTable';
 import { eventsPath } from 'in-events/navigation/paths';
 import getRawEvents from 'in-subscription/getRawEvents';
+import { Row, Col } from 'in-components/layout/Grid';
 import { query$ } from 'in-stores/search/query';
 import useUrlState from 'in-hooks/useUrlState';
 import { seconds } from 'in-services/time';

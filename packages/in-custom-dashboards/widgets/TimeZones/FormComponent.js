@@ -11,14 +11,14 @@ import { Button } from '@instana/components';
 import { Ul, Li } from '@instana/components';
 
 import { createTimeZoneSubForm } from 'in-custom-dashboards/widgets/TimeZones/form';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import StackItem from 'in-new-components/layout/Stack/StackItem';
+import StackItem from 'in-components/layout/Stack/StackItem';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Header from 'in-new-components/workspace/Header';
-import Stack from 'in-new-components/layout/Stack';
 import { compare } from 'in-services/util/number';
 import moment from 'in-services/moment-timezone';
+import Stack from 'in-components/layout/Stack';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';

@@ -54,13 +54,13 @@ import { applicationSmartAlertsEnabled, hideEventSettings } from 'in-services/fe
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
 import AlertPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
-import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
 import SplunkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/Splunk';
 import LogDnaPage from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDna';
 import GroupsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Groups';
 import GroupPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group';
 import HumioPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/Humio';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
+import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent';
 import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/User';
 import AlertsHub from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';

@@ -16,9 +16,9 @@ import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/smart-a
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import SectionLabelWithSubtext from 'in-new-components/workspace/SectionLabelWithSubtext/SectionLabelWithSubtext';
 import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewConfig';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig.mless';

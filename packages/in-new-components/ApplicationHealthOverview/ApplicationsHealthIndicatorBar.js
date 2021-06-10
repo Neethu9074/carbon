@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Stack from 'in-new-components/layout/Stack/Stack';
+import Stack from 'in-components/layout/Stack/Stack';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

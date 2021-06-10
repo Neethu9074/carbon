@@ -9,7 +9,7 @@
 import * as sinon from 'sinon';
 import { expect } from 'chai';
 
-import { just, timeout } from '@instana/observables/lib';
+import { just, timeout } from '@instana/observables';
 
 import { withTimeout } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/AnalyzeHiddenTagsViewParameterConversion';
 import { pendingResult } from 'in-services/fixedObjects';

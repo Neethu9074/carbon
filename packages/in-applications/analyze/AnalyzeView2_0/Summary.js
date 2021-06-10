@@ -36,11 +36,11 @@ import { callDetailClickedTracker } from 'in-analyze/tracker';
 import { isLoading, hasError } from 'in-services/util/result';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { warning } from 'in-new-components/Message/types';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { scrollIntoView } from 'in-services/util/dom';
+import { Row, Col } from 'in-components/layout/Grid';
 import Message from 'in-new-components/Message';
 import { minutes } from 'in-services/time';
 import { connection } from 'in-connection';
@@ -453,4 +453,3 @@ function countLogsForCall(call, counter = 0) {
   }
   return counter;
 }
-

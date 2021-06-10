@@ -30,8 +30,8 @@ import Sections from 'in-new-components/workspace/Sections';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import Section from 'in-new-components/workspace/Section';
 import { pendingResult } from 'in-services/fixedObjects';
-import Stack from 'in-new-components/layout/Stack';
 import { noop } from 'in-services/util/function';
+import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function FormComponent({

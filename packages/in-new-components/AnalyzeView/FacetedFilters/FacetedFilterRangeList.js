@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { Link } from '@instana/components';
 
 import {
   EXPRESSION,
@@ -18,7 +19,7 @@ import ExistingValue from 'in-new-components/AnalyzeView/FacetedFilters/Existing
 import { ua2FacetedSearchFilterAddedTracker } from 'in-new-components/tracker';
 import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { emptyArray } from 'in-services/fixedObjects';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 
 import locals from './FacetedFilterRangeList.mless';
 

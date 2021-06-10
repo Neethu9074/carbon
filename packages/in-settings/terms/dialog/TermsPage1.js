@@ -14,7 +14,7 @@ import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndica
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { TosButton } from 'in-settings/terms/dialog/DocumentLinkButtons';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 import { t, Trans } from 'in-i18n';
 
 import locals from './TermsPages.mless';

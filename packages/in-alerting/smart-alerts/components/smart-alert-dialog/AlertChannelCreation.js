@@ -16,8 +16,8 @@ import DialogFooter from 'in-new-components/BlueprintFormMultistep/DialogFooter'
 import { createAlertChannel, getAlertChannel } from 'in-api/alertChannels';
 import AlertSection from 'in-alerting/components/AlertSection';
 import Sections from 'in-new-components/workspace/Sections';
-import Stack from 'in-new-components/layout/Stack/Stack';
 import SaveButton from 'in-components/form/SaveButton';
+import Stack from 'in-components/layout/Stack/Stack';
 import Select from 'in-components/form/Select';
 import { t } from 'in-i18n';
 

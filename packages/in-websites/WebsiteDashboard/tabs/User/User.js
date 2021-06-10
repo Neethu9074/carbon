@@ -13,9 +13,9 @@ import BrowserTopList from 'in-websites/WebsiteDashboard/tabs/User/BrowserTopLis
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/User/OsTopList';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import { usersTab } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
+import { Row, Col } from 'in-components/layout/Grid';
 import Footer from 'in-new-components/Footer';
 import { t } from 'in-i18n';
 

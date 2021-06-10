@@ -6,7 +6,7 @@
 import invariant from 'invariant';
 import React from 'react';
 
-import { Col, Row } from 'in-new-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 
 export default function Columize({ children }) {
   children = React.Children.toArray(children);

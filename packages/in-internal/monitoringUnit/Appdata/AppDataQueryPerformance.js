@@ -15,7 +15,7 @@ import { createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

@@ -10,7 +10,7 @@ import { Button } from '@instana/components';
 
 import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
 import Overlay from 'in-new-components/overlays/Overlay';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 
 export default {
   title: 'Templates|layout/Overlay',

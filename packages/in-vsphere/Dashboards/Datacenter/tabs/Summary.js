@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
+
+import { Card } from '@instana/components';
 
 import {
   timeBySecondsTwoDecimalPlaces,
@@ -17,9 +18,9 @@ import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlacehold
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
+import { Row, Col } from 'in-components/layout/Grid';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

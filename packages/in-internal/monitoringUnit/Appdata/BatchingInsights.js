@@ -12,7 +12,7 @@ import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import ExpandableCard from 'in-new-components/ExpandableCard';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
 import { compare } from 'in-services/util/number';
 import connectTo from 'in-hoc/connectTo';

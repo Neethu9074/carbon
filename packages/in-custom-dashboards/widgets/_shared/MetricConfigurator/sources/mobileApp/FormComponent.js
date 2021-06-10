@@ -19,7 +19,7 @@ import Sections from 'in-new-components/workspace/Sections';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { dataSourceTitles } from 'in-mobile-apps/tags';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function FormComponent({

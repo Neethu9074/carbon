@@ -12,8 +12,8 @@ import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import { Row, Col } from 'in-components/layout/Grid';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

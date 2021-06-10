@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 import ConfigurationGuidance from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/ConfigurationGuidance';
 import Rename from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Rename';
 import Remove from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Remove';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 
 export default function Options(props) {
   return (

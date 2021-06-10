@@ -12,7 +12,7 @@ import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndica
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import MarketingMessageBox from 'in-settings/terms/MarketingMessageBox';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
-import Stack from 'in-new-components/layout/Stack/Stack';
+import Stack from 'in-components/layout/Stack/Stack';
 import { t } from 'in-i18n';
 
 import locals from './TermsPages.mless';

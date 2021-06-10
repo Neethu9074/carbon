@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 
 import ComponentStatusTable from 'in-kubernetes/Dashboards/Cluster/tabs/ComponentStatusTable';
 import Debugging from 'in-kubernetes/Dashboards/Cluster/tabs/Debugging';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 
 export default function Details({ data: cluster }) {
   return (

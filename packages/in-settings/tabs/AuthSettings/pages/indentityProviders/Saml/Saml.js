@@ -17,7 +17,7 @@ import { success, neutral, error as errorType } from 'in-new-components/Message/
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import { shorten } from 'in-services/util/string';

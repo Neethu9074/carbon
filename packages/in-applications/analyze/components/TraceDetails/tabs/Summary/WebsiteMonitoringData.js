@@ -19,7 +19,7 @@ import { getCorrelatedWebsiteBeacons } from 'in-applications/analyze/components/
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import { getLinkToWebsite, getLinkToPageLoad } from 'in-websites/navigation/paths';
 import { tryGet, trySet } from 'in-services/localStorage';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import connect from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';
 

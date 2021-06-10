@@ -22,7 +22,7 @@ import {
   staticType
 } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { getCustomPayloadTagCatalog } from 'in-settings/tabs/TeamSettings/api/customPayload';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { successObservableFactory } from 'in-services/util/result';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';

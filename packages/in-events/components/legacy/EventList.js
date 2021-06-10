@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
+import React from 'react';
+
 import { combineLatest } from '@instana/observables';
 import { Card } from '@instana/components';
-import React from 'react';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import EventListItem from 'in-events/components/legacy/EventListItem';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import { emptyList } from 'in-services/fixedImmutables';
+import { Row, Col } from 'in-components/layout/Grid';
 import { getEvent } from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

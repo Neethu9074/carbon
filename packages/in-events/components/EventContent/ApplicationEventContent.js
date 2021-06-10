@@ -26,7 +26,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import { getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
-import { Col, Row } from 'in-new-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationEventContent.mless';

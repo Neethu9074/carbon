@@ -12,7 +12,7 @@ import { CookiePolicyButton, PrivacyButton } from 'in-settings/terms/dialog/Docu
 import ExpandableCookieList from 'in-settings/terms/cookies/ExpandableCookieList';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import TermsProgressIndicator from './TermsProgressIndicator';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 import { t, Trans } from 'in-i18n';
 
 import locals from './TermsPages.mless';

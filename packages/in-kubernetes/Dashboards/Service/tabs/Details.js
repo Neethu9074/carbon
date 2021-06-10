@@ -11,7 +11,7 @@ import DetailsNavigation, {
   specNavigationItem
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
 import getKubernetesServiceItemCounters from 'in-subscription/kubernetes/getKubernetesServiceItemCounters';
-import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
+import { singletonNavigationTree } from 'in-components/layout/SideNavigationAndContent';
 import { serviceDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import SelectorsList from 'in-kubernetes/Dashboards/commonComponents/SelectorsList';
 import PortsList from 'in-kubernetes/Dashboards/commonComponents/PortsList';

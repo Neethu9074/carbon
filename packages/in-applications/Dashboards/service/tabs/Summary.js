@@ -34,7 +34,7 @@ import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { summaryTab } from 'in-applications/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { entityTypes } from 'in-analyze/applicationFilter';
-import { Col, Row } from 'in-new-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

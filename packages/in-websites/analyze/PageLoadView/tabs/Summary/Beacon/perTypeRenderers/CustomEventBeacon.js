@@ -18,7 +18,7 @@ import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/component
 import { latencyFixed, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 

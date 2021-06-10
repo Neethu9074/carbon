@@ -9,7 +9,7 @@ import React from 'react';
 import AggregationSymbol from 'in-components/AggregationSymbol';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
 import { percentage } from 'in-services/formatters/number';
-import Spacer from 'in-new-components/layout/Spacer';
+import Spacer from 'in-components/layout/Spacer';
 
 import locals from './TooltipContent.mless';
 

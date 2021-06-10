@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-new-components/Button/DropdownButton';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';

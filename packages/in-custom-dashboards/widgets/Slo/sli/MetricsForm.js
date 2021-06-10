@@ -15,7 +15,7 @@ import Divider from 'in-new-components/workspace/Divider';
 import Section from 'in-new-components/workspace/Section';
 import Header from 'in-new-components/workspace/Header';
 import Input from 'in-components/form/Input/Input';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export const MetricsForm = ({ form, onChange }) => {

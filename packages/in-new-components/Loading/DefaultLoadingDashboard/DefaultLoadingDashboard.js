@@ -9,7 +9,7 @@ import React from 'react';
 import { LoadingSkeleton } from '@instana/components';
 
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 
 import locals from './DefaultLoadingDashboard.mless';
 

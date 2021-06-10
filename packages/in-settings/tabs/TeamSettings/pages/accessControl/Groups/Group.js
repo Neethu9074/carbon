@@ -32,7 +32,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
 import FormGroup from 'in-settings/components/FormGroup';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import Dialog from 'in-new-components/Dialog/Dialog';
 import { goToPath } from 'in-stores/navigation';
 import Toggle from 'in-components/form/Toggle';

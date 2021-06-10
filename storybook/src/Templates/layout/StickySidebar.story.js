@@ -6,7 +6,7 @@
 import React, { Fragment } from 'react';
 
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
-import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
+import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 
 export default {

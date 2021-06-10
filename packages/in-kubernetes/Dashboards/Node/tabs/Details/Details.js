@@ -10,7 +10,7 @@ import DetailsNavigation, {
   annotationsNavigationItem,
   specNavigationItem
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
-import { singletonNavigationTree } from 'in-new-components/layout/SideNavigationAndContent';
+import { singletonNavigationTree } from 'in-components/layout/SideNavigationAndContent';
 import { nodeDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import IPs from 'in-kubernetes/Dashboards/Node/tabs/Details/IPs';

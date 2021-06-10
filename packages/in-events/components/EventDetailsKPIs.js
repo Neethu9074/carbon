@@ -16,9 +16,9 @@ import {
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import { formatDurationAccurately } from 'in-services/formatters/date';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import getRecentEvents$ from 'in-events/recentEvents';
 import { alwaysNull } from 'in-services/fixedStreams';
+import { Row, Col } from 'in-components/layout/Grid';
 import { serverTime$ } from 'in-stores/serverTime';
 import KpiCard from 'in-new-components/KpiCard';
 import connectTo from 'in-hoc/connectTo';

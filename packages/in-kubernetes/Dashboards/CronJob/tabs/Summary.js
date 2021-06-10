@@ -8,8 +8,8 @@ import React, { Fragment } from 'react';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import { formatDuration } from 'in-services/formatters/date';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import { Row, Col } from 'in-components/layout/Grid';
 import Jobs from '../JobList';
 import { t } from 'in-i18n';
 

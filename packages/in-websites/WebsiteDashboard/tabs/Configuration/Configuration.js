@@ -14,7 +14,7 @@ import StackTraceTranslation from 'in-websites/WebsiteDashboard/tabs/Configurati
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import Options from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Options';
-import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
+import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import Footer from 'in-new-components/Footer';
 import connectTo from 'in-hoc/connectTo';

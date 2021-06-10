@@ -12,8 +12,8 @@ import TagFilterExpressionConfigurationWrapper from 'in-analyze/AnalyzeView/comp
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import TagSelectorOverlay from 'in-new-components/TagSelectorOverlay/TagSelectorOverlay';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import QuickFilterBar from 'in-applications/creation/components/QuickFilterBar';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
 import Overlay from 'in-new-components/overlays/Overlay';
 import { t } from 'in-i18n';

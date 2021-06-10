@@ -7,8 +7,8 @@ import React, { Fragment } from 'react';
 
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
+import { Row, Col } from 'in-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
 import { ID_OF_REGION } from 'in-forge/constants';
 import connectTo from 'in-hoc/connectTo';

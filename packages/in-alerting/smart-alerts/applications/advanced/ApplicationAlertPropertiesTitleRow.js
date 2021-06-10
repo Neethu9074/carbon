@@ -16,11 +16,11 @@ import {
 import { applicationsAlertingAdditionalPropsTitleChanged } from 'in-alerting/smart-alerts/applications/tracker';
 import { placeholders, placeholderTypes } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import AlertSection from 'in-alerting/components/AlertSection';
 import { stopPropagation } from 'in-services/util/function';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationAlertPropertiesTitleRow.mless';

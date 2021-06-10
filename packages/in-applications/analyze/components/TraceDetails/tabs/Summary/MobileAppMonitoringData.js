@@ -19,7 +19,7 @@ import BeaconUserSummary from 'in-mobile-apps/analyze/BeaconUserSummary/BeaconUs
 import { getLinkToMobileApp, getLinkToSession } from 'in-mobile-apps/navigation/paths';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import { tryGet, trySet } from 'in-services/localStorage';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import { minutes } from 'in-services/time';
 import connect from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';

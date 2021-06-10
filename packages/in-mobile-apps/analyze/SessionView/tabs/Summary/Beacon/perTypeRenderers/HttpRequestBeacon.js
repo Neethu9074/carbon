@@ -13,7 +13,7 @@ import { latencyFixed, bytes, millisToTwoDecimalSeconds } from 'in-services/form
 import Meta from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/Meta';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 

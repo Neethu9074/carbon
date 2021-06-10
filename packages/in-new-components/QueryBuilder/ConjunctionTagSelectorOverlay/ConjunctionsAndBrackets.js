@@ -10,7 +10,7 @@ import { Button } from '@instana/components';
 
 import { OPEN_BRACKET, CLOSE_BRACKET, CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { and, or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { t } from 'in-i18n';
 

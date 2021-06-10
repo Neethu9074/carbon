@@ -9,7 +9,7 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import EntityLink from 'in-new-components/EntityLink/EntityLink';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getSnapshot } from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';

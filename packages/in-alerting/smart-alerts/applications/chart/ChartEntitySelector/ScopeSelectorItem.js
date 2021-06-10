@@ -8,7 +8,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/ScopeSelectorItem.mless';

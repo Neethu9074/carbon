@@ -23,7 +23,7 @@ import {
 } from 'in-applications/navigation/matrix';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import Tooltip from 'in-components/Tooltip';

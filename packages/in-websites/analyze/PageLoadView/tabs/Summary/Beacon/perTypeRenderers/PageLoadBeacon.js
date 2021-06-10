@@ -12,7 +12,7 @@ import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/compon
 import { millis, latencyFixed, fourDecimalPlaces } from 'in-services/formatters/number';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 export const getLabel = beacon => beacon.locationUrl;

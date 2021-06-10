@@ -32,7 +32,7 @@ import instanaAgentOpenShiftYaml from 'in-waiting-for-deployment/components/Onbo
 import instanaAgentYaml from 'in-waiting-for-deployment/components/OnboardingWidget/instana-agent.yaml';
 import { agentInstallViewRestrictedToIBMSaas } from 'in-services/featureFlags';
 import createObservable from 'in-services/http/observableHttpResult';
-import { Col, Row as GridRow } from 'in-new-components/layout/Grid';
+import { Col, Row as GridRow } from 'in-components/layout/Grid';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import config from 'in-services/config';
 import http from 'in-services/http';

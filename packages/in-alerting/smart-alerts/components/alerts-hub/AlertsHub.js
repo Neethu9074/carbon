@@ -16,8 +16,8 @@ import AlertsHubElement from 'in-alerting/smart-alerts/components/alerts-hub/Ale
 import { websitesPathFullyQualified } from 'in-websites/navigation/paths';
 import { alertsList } from 'in-applications/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
+import { Row, Col } from 'in-components/layout/Grid';
 import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 

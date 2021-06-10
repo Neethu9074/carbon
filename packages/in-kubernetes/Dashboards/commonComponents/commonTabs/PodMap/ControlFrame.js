@@ -13,8 +13,8 @@ import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKuber
 import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
 import MapListToggle from 'in-kubernetes/Dashboards/commonComponents/commonTabs/MapListToggle';
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
-import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
+import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { compareIgnoreCase } from 'in-services/util/string';

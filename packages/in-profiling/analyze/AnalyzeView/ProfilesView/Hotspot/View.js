@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useEffect } from 'react';
+
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
-import React, { useEffect } from 'react';
 
 import { hotspotAutoExpandRowId as hotspotAutoExpandRowIdMatrixParameter } from 'in-new-components/Profiling/navigation/matrix';
 import { cpuColorMapper, memColorMapper, timeColorMapper } from 'in-profiling/analyze/AnalyzeView/colors';
@@ -13,8 +14,8 @@ import { OverviewProfileChart } from 'in-profiling/analyze/AnalyzeView/ProfilesV
 import ResultForTimeSelectionIndicator from 'in-new-components/ResultForTimeSelectionIndicator';
 import StackTrace from 'in-profiling/analyze/AnalyzeView/ProfilesView/Hotspot/StackTrace';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
 import { getLinkToProfiles } from 'in-new-components/Profiling/navigation/paths';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import HotspotList from 'in-new-components/Profiling/components/HotspotList';
 import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
 import { serializeLine } from 'in-new-components/StackTrace/serializer';
@@ -22,9 +23,9 @@ import { getTopSelfTimeList } from 'in-new-components/Profiling/utils';
 import { buildJsonParser } from 'in-stores/navigation/matrix';
 import { percentage } from 'in-services/formatters/number';
 import { formatTime } from 'in-services/formatters/date';
-import { Col, Row } from 'in-new-components/layout/Grid';
 import { overviewOpened } from 'in-profiling/tracker';
 import SetBodyColor from 'in-components/SetBodyColor';
+import { Col, Row } from 'in-components/layout/Grid';
 import { isLoading } from 'in-services/util/result';
 import useUrlState from 'in-hooks/useUrlState';
 import Tooltip from 'in-components/Tooltip';

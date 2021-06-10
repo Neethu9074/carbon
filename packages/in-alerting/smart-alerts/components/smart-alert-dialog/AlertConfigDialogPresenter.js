@@ -11,7 +11,7 @@ import { Button } from '@instana/components';
 
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
 import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { Title } from 'in-new-components/Dialog/Header';
 import { t } from 'in-i18n';
 

@@ -4,6 +4,7 @@
  */
 
 import React, { useCallback, useMemo } from 'react';
+
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -54,9 +55,9 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { warning, error } from 'in-new-components/Message/types';
 import Sections from 'in-new-components/workspace/Sections';
 import { pendingResult } from 'in-services/fixedObjects';
-import Stack from 'in-new-components/layout/Stack';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Message from 'in-new-components/Message';
+import Stack from 'in-components/layout/Stack';
 import useUrlState from 'in-hooks/useUrlState';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';

@@ -13,8 +13,8 @@ import ScrollStep from 'in-alerting/smart-alerts/components/smart-alert-dialog/a
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import Divider from 'in-new-components/workspace/Divider';
 import Header from 'in-new-components/workspace/Header';
-import Stack from 'in-new-components/layout/Stack';
 import SideNav from 'in-new-components/SideNav';
+import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 import locals from './AdvancedModeContainer.mless';

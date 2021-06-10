@@ -23,8 +23,8 @@ import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicat
 import FormDataEnrichment from './components/FormDataEnrichment';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import { Row, Col } from 'in-new-components/layout/Grid/Grid';
 import { getSetting$ } from 'in-services/settings/settings';
+import { Row, Col } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import DateInput from 'in-components/form/DateInput';
 import HelpText from 'in-components/form/HelpText';

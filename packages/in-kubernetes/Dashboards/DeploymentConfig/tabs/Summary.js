@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
+
+import { Card } from '@instana/components';
 
 import {
   zeroDecimalPlaces,
@@ -18,7 +19,7 @@ import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarker
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import { getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

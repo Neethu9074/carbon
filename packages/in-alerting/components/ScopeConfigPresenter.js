@@ -6,8 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Stack from 'in-new-components/layout/Stack';
 import HelpText from 'in-components/form/HelpText';
+import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function ScopeConfigPresenter({ tagFilterFormModel, queryBuilder, scopePath }) {

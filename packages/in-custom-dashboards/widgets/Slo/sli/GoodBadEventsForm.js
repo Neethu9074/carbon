@@ -13,7 +13,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormBound from 'in-components/form/binding/FormBound';
 import Divider from 'in-new-components/workspace/Divider';
 import Header from 'in-new-components/workspace/Header';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm.mless';

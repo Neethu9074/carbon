@@ -6,7 +6,7 @@
 import React from 'react';
 
 import MetricAndSortingConfigurator from 'in-new-components/MetricAndSortingConfigurator/MetricAndSortingConfigurator';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import CountHeader from 'in-new-components/QueryBuilder/components/Header/CountHeader';
 
 import locals from './Header.mless';

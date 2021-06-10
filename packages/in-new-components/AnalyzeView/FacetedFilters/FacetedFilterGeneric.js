@@ -17,9 +17,9 @@ import SearchInput from 'in-new-components/SearchInput/SearchInput';
 import { pendingResult } from 'in-services/fixedObjects';
 import { identity } from 'in-services/util/function';
 import { mapDataHO } from 'in-services/util/result';
-import Stack from 'in-new-components/layout/Stack';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
+import Stack from 'in-components/layout/Stack';
 
 import locals from './FacetedFilterGeneric.mless';
 

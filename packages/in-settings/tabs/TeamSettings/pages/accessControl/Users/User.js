@@ -22,7 +22,7 @@ import { notBlankValidator } from 'in-services/validators/string';
 import { isLoading, hasError } from 'in-services/util/result';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { getUsersAsResultObservable } from 'in-api/users';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import Title from 'in-components/Title/Title';
 import Gravatar from 'in-components/Gravatar';
 import Input from 'in-components/form/Input';

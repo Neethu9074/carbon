@@ -7,7 +7,7 @@ import React from 'react';
 
 import { KeyValue } from '@instana/components';
 
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import CodeComponent from 'in-components/Code';

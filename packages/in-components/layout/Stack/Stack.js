@@ -11,7 +11,7 @@ import locals from './Stack.mless';
 
 const components = ['div', 'ul', 'ol'];
 const alignments = ['left', 'center', 'right'];
-// See in-new-components/layout/Stack/spacings.less for mappings to PX/REM
+// See in-components/layout/Stack/spacings.less for mappings to PX/REM
 export const spaces = [
   'disabled',
   'xxsmall',

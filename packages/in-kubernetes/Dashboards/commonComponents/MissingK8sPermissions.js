@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import { get } from 'lodash';
 import React from 'react';
+
+import { Link } from '@instana/components';
 
 import getKubernetesClusterByRelation$ from 'in-subscription/kubernetes/getKubernetesClusterByRelation';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { warning } from 'in-new-components/Message/types';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import Message from 'in-new-components/Message';
 import connectTo from 'in-hoc/connectTo';
 import { Trans } from 'in-i18n';

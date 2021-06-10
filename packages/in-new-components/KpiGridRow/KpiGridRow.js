@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 
 import locals from './KpiGridRow.mless';
 

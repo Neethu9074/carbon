@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
@@ -22,7 +23,7 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import { getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/EventContent/WebsiteEventContent.mless';

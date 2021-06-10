@@ -13,7 +13,7 @@ import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import InlineTabNavigation from 'in-new-components/InlineTabNavigation';
 import { timeConfig$, fixateTimeConfig } from 'in-stores/time/config';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

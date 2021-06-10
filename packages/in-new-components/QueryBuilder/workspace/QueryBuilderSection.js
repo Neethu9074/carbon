@@ -10,11 +10,11 @@ import rpt from 'prop-types';
 import { Button } from '@instana/components';
 
 import { trackingProps as queryBuilderTrackingProps } from 'in-new-components/QueryBuilder/QueryBuilder';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import Section from 'in-new-components/workspace/Section';
 import { emptyObject } from 'in-services/fixedObjects';
-import Stack from 'in-new-components/layout/Stack';
 import Message from 'in-new-components/Message';
+import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export const DEFAULT_MAX_EXPRESSION_DEPTH = 5;

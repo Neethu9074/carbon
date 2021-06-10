@@ -17,7 +17,7 @@ import {
 } from 'in-stores/events';
 import { focusEvent } from 'in-stores/navigation/paths/eventPaths';
 import { formatDateTime } from 'in-services/formatters/date';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import IncidentContent from './IncidentContent';
 import EventContent from './EventContent';
 import connectTo from 'in-hoc/connectTo';

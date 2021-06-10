@@ -7,7 +7,7 @@ import { isEmpty } from 'lodash';
 import React from 'react';
 
 import { source as applicationSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application';
-import HorizontalFlexWrapper from 'in-new-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { isPotentialProblemsSupportedByMetric } from 'in-applications/analyze/metrics';
 import { getShortMetricKey } from 'in-custom-dashboards/widgets/Chart/util';
 import Sections from 'in-new-components/workspace/Sections';

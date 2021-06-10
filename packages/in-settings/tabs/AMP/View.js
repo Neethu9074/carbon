@@ -7,7 +7,7 @@ import React from 'react';
 
 import { ampSettings, ampAccountSettings, ampUsage, ampTechnologies } from 'in-settings/navigation/paths';
 import RestrictedTechnologiesReporting from 'in-amp/components/RestrictedTechnologiesReporting';
-import SideNavigationAndContent from 'in-new-components/layout/SideNavigationAndContent';
+import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent';
 import TechnologiesReporting from 'in-amp/components/TechnologiesReporting';
 import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
 import AccountSettings from 'in-amp/components/AccountSettings';

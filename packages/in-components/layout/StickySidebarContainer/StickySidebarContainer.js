@@ -6,8 +6,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Col, Row } from 'in-new-components/layout/Grid';
 import { debouncedResize$ } from 'in-services/browser';
+import { Col, Row } from 'in-components/layout/Grid';
 
 import locals from './StickySidebarContainer.mless';
 

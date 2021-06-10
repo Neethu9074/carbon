@@ -7,8 +7,8 @@ import React from 'react';
 
 import PaginatedMetricList from 'in-new-components/MetricConfigurator/PaginatedMetricList';
 import DraggableItemSelector from 'in-new-components/DraggableItemSelector';
-import { Col } from 'in-new-components/layout/Grid';
 import { shorten } from 'in-services/util/string';
+import { Col } from 'in-components/layout/Grid';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';

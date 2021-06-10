@@ -10,7 +10,7 @@ import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNaviga
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import Options from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Options';
 import { configurationOptionsFullyQualified } from 'in-mobile-apps/navigation/paths';
-import StickySidebarContainer from 'in-new-components/layout/StickySidebarContainer';
+import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

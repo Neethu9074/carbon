@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
+
+import { Card } from '@instana/components';
 
 import HttpRequestOriginTopList from 'in-mobile-apps/MobileAppDashboard/tabs/Summary/HttpRequestOriginTopList';
 import MobileAppMetricsKpiCard from 'in-mobile-apps/MobileAppDashboard/components/MobileAppMetricsKpiCard';
@@ -16,8 +17,8 @@ import { getLinkToAnalyze, summaryTab } from 'in-mobile-apps/navigation/paths';
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import { number } from 'in-services/formatters/number';
+import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileAppLabel, viewId }) {

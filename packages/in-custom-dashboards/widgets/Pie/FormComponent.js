@@ -14,7 +14,7 @@ import { publicFormatters } from 'in-stores/metric/formatters';
 import Sections from 'in-new-components/workspace/Sections';
 import Divider from 'in-new-components/workspace/Divider';
 import Header from 'in-new-components/workspace/Header';
-import Stack from 'in-new-components/layout/Stack';
+import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function PieChartWidgetFormComponent({ form, onChange }) {

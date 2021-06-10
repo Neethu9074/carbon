@@ -3,17 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
+
+import { Card } from '@instana/components';
 
 import { number, bytes, percentage, bytesTwoDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
-import { Row, Col } from 'in-new-components/layout/Grid';
 import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import Capitalize from 'in-new-components/Capitalize';
+import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: vm }) {

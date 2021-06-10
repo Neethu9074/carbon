@@ -26,7 +26,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import { Row, Col } from 'in-new-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import { isNotBlank } from 'in-services/util/string';
