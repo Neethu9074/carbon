@@ -5,7 +5,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.14
+    app.kubernetes.io/version: 1.2.19
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -14,7 +14,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.14
+    app.kubernetes.io/version: 1.2.19
 ---
 apiVersion: v1
 kind: Secret
@@ -23,7 +23,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.14
+    app.kubernetes.io/version: 1.2.19
 type: Opaque
 data:
   key: ${agentKey}
@@ -36,7 +36,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.14
+    app.kubernetes.io/version: 1.2.19
 data:
   cluster_name: "${clusterName}"
   configuration.yaml: |
@@ -81,7 +81,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.14
+    app.kubernetes.io/version: 1.2.19
 spec:
   selector:
     matchLabels:
@@ -94,7 +94,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: instana-agent
-        app.kubernetes.io/version: 1.2.14
+        app.kubernetes.io/version: 1.2.19
         instana/agent-mode: "APM"
       annotations: {}
     spec:
@@ -134,6 +134,8 @@ spec:
                   name: instana-agent
                   key: downloadKey
                   optional: true
+            - name: INSTANA_MVN_REPOSITORY_URL
+              value: "${instanaMvnRepoUrl}"
             - name: INSTANA_AGENT_POD_NAME
               valueFrom:
                 fieldRef:
@@ -246,7 +248,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.14
+    app.kubernetes.io/version: 1.2.19
 rules:
 - nonResourceURLs:
     - "/version"
@@ -299,7 +301,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.14
+    app.kubernetes.io/version: 1.2.19
 subjects:
 - kind: ServiceAccount
   name: instana-agent
