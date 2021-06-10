@@ -4,14 +4,14 @@
  */
 
 import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
+import { EQUALS, NOT_EMPTY, ENDS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { sanitizeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 
 export function getTraceIdTagFilter(traceId) {
   // Until the transition to 128bit trace IDs is complete, only the ID's last 64 bits should
   // be used for finding traces by ID
   traceId = traceId.slice(-16);
-  return getValueMatchTagFilter({ name: LOG_TRACE_ID, value: traceId, operator: 'ENDS_WITH' });
+  return getValueMatchTagFilter({ name: LOG_TRACE_ID, value: traceId, operator: ENDS_WITH });
 }
 
 export function getSpanIdTagFilter(spanId) {
@@ -19,8 +19,12 @@ export function getSpanIdTagFilter(spanId) {
 }
 
 export function getValueMatchTagFilter(tagFilter) {
-  const { name, key, value, operator = EQUALS, type = 'TAG_FILTER' } = tagFilter;
-  return sanitizeTagFilter({ type, operator, name, key, value });
+  const { name, key, tagType, value, operator = EQUALS, type = 'TAG_FILTER' } = tagFilter;
+  return sanitizeTagFilter(
+    tagType === 'KEY_VALUE_PAIR' && !key
+      ? { type, operator: NOT_EMPTY, name, key: value }
+      : { type, operator, name, key, value }
+  );
 }
 
 export const LOG_LEVEL = 'log.level';
