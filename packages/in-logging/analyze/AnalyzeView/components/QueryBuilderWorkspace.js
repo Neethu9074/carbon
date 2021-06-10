@@ -10,10 +10,8 @@ import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/
 import { filterAdded, queryChanged, groupAdded, chartChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import LogsGroupingConfigurator from 'in-logging/analyze/AnalyzeView/workspace/LogsGroupingConfigurator';
 import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
-import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-new-components/workspace/Sections';
@@ -74,8 +72,6 @@ export default function LoggingQueryBuilderWorkspace(props) {
                 }}
               />
             )}
-
-            <ActionSection right={<ApiQueryAction backendQueryModel={backendQueryModel} />} />
           </Sections>
           {!isValid && !isLoading && (
             <Message type={error} withIcon small>
