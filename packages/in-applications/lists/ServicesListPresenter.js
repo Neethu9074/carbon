@@ -21,8 +21,8 @@ import ServicesNoDataNotification from 'in-applications/lists/components/Service
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import { serviceListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { getServiceDashboard, servicesList } from 'in-applications/navigation/paths';
 import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
 import ScopeNotification from 'in-applications/lists/components/ScopeNotification';

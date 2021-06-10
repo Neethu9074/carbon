@@ -17,7 +17,7 @@ import { relationships } from 'in-new-components/UpstreamDownstream/constants';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
-import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
+import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import EntityWithIcon from 'in-new-components/EntityWithIcon';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

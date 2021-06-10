@@ -9,8 +9,8 @@ import { KeyValue } from '@instana/components';
 
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
 import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
-import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
+import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { formatDateTime } from 'in-services/formatters/date';
 import { latencyFixed } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip/Tooltip';

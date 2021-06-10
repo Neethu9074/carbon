@@ -9,7 +9,7 @@ import { SvgIcon } from '@instana/components';
 
 import TechnologyIndicatorList from 'in-applications/components/TechnologyIndicator/TechnologyIndicatorList';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 
 import locals from './Header.mless';
 

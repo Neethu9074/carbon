@@ -15,7 +15,7 @@ import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingLi
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { formatDateTime } from 'in-services/formatters/date';
-import HealthDot from 'in-new-components/health/HealthDot';
+import HealthDot from 'in-components/health/HealthDot';
 import getLogs from 'in-logging/subscriptions/getLogs';
 
 import locals from './Logs.mless';

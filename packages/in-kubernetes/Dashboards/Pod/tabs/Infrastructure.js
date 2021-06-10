@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+
+import { Card } from '@instana/components';
 
 import {
   bytesTwoDecimalPlaces,
@@ -17,11 +18,11 @@ import InfrastructureMetricSparkChart from 'in-components/SparkChart/Infrastruct
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
 import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComponents';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';

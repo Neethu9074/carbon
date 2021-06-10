@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import ViewDashboardButton from 'in-map/components/MapSidebar/components/ViewDashboardButton';
 import SidebarHeader from 'in-map/components/MapSidebar/components/SidebarHeader';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';

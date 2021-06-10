@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
 import CloudfoundryNoDataNotification from 'in-cloudfoundry/lists/components/CloudfoundryNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import { applicationList, getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import ApplicationState from 'in-cloudfoundry/commonComponents/ApplicationState';

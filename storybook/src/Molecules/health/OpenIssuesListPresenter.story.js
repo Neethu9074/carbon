@@ -7,7 +7,7 @@ import { just } from '@instana/observables';
 import { range } from 'lodash';
 import React from 'react';
 
-import OpenIssuesListPresenter from 'in-new-components/health/OpenIssuesListPresenter';
+import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
 import { pendingResult, finishedProgress } from 'in-services/fixedObjects';
 import { success } from 'in-services/util/result';
 

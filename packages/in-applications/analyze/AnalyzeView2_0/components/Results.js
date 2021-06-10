@@ -19,7 +19,7 @@ import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import getTraces from 'in-subscription/application/getTraces';
 import getCalls from 'in-subscription/application/getCalls';
-import HealthDot from 'in-new-components/health/HealthDot';
+import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

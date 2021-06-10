@@ -8,9 +8,9 @@ import React from 'react';
 
 import getApplicationServicesForCloudfoundryApplicationService from 'in-subscription/cloudfoundry/getApplicationServicesForCloudfoundryApplicationService';
 import EntityToInstanaServiceButton from 'in-new-components/EntityToInstanaServiceButton/EntityToInstanaServiceButton';
-import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
 import AnalyzeTracesButton from 'in-cloudfoundry/Dashboards/commonComponents/AnalyzeTracesButton';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
+import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import { applicationId as matrixApplicationId } from 'in-cloudfoundry/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';

@@ -6,8 +6,8 @@
 import { range } from 'lodash';
 import React from 'react';
 
-import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 
 export default {
   title: 'Molecules|health/HealthIndicator',

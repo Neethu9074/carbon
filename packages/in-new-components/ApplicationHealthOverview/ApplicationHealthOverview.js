@@ -10,7 +10,7 @@ import { Ul, Li } from '@instana/components';
 import { Link } from '@instana/components';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Pagination from 'in-new-components/Pagination';

@@ -31,7 +31,7 @@ import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
-import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
+import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { hasError, isLoading } from 'in-services/util/result';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import { hasKubernetesAccess } from 'in-stores/permission';

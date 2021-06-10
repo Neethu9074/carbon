@@ -17,7 +17,7 @@ import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
 import SessionView from 'in-mobile-apps/analyze/SessionView/SessionView';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
-import HealthDot from 'in-new-components/health/HealthDot';
+import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

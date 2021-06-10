@@ -9,8 +9,8 @@ import { KeyValue } from '@instana/components';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
-import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';
+import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { formatDateTime } from 'in-services/formatters/date';
 import { percentage } from 'in-services/formatters/number';
 import PluginIcon from 'in-components/PluginIcon';

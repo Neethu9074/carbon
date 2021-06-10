@@ -5,9 +5,9 @@
 
 import React from 'react';
 
-import Actions from 'in-new-components/health/OpenIssuesListPresenter/internal/Actions';
-import Header from 'in-new-components/health/OpenIssuesListPresenter/internal/Header';
-import Issues from 'in-new-components/health/OpenIssuesListPresenter/internal/Issues';
+import Actions from 'in-components/health/OpenIssuesListPresenter/internal/Actions';
+import Header from 'in-components/health/OpenIssuesListPresenter/internal/Header';
+import Issues from 'in-components/health/OpenIssuesListPresenter/internal/Issues';
 import { compare } from 'in-services/util/number';
 import { mapData } from 'in-services/util/result';
 

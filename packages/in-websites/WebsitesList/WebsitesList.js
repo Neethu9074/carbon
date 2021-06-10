@@ -15,7 +15,7 @@ import WebsitesNoDataNotification from 'in-websites/WebsitesList/components/Webs
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';

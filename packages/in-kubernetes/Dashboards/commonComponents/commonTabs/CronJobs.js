@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import { clusterIdUrlParameter, namespaceIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import getKubernetesCronJobs from 'in-subscription/kubernetes/getKubernetesCronJobs';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getCronJobDashboard } from 'in-kubernetes/navigation/paths';

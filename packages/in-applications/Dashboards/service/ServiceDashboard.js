@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import InstanaServiceToCloudfoundryApplicationButton from 'in-cloudfoundry/commonComponents/InstanaServiceToCloudfoundryApplicationButton';
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -15,7 +16,7 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
 import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-services/featureFlags';

@@ -19,8 +19,8 @@ import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/i
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';

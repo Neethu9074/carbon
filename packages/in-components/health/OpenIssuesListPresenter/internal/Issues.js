@@ -9,7 +9,7 @@ import { HorizontalIndicator } from '@instana/components';
 import { LoadingSkeleton } from '@instana/components';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import Issue from 'in-new-components/health/OpenIssuesListPresenter/internal/Issue';
+import Issue from 'in-components/health/OpenIssuesListPresenter/internal/Issue';
 
 import locals from './Issues.mless';
 

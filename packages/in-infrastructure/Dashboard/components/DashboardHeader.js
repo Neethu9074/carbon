@@ -6,7 +6,7 @@
 import React from 'react';
 
 import DashboardHeaderButtonSection from 'in-infrastructure/Dashboard/components/DashboardHeaderButtonSection';
-import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import DashboardBreadcrumb from 'in-infrastructure/Dashboard/components/DashboardBreadcrumb';
 import PluginBadge from 'in-infrastructure/Dashboard/components/PluginBadge';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';

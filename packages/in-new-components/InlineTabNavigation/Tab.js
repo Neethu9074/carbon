@@ -10,7 +10,7 @@ import React from 'react';
 import { toInteractiveElement } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
-import WithHealthDot from 'in-new-components/health/WithHealthDot/WithHealthDot';
+import WithHealthDot from 'in-components/health/WithHealthDot/WithHealthDot';
 import { emptyObject } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import theme from 'in-themes';

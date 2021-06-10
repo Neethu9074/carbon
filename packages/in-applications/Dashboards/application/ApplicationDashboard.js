@@ -21,7 +21,7 @@ import CreateGlobalSmartAlertButton from 'in-alerting/smart-alerts/applications/
 import IncludeSyntheticCallsDropdown from 'in-applications/Dashboards/commonComponents/IncludeSyntheticCallsDropdown';
 import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents/InboundAllCallsDropdown';
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
 import FloatingActionButtons from 'in-new-components/FloatingActionButton/FloatingActionButtons';
 import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-services/featureFlags';

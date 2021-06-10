@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { timeConfig$ } from 'in-stores/time/config';

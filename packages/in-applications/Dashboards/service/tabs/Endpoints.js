@@ -21,8 +21,8 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { getEndpointDashboard, configureEndpointsView } from 'in-applications/navigation/paths';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';

@@ -14,7 +14,7 @@ import UngroupedViewList from 'in-new-components/AnalyzeView/UngroupedViewList';
 import { LOG_CUSTOM, LOG_LEVEL, LOG_TRACE_ID } from 'in-logging/queryBuilder';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { formatDateTime } from 'in-services/formatters/date';
-import HealthDot from 'in-new-components/health/HealthDot';
+import HealthDot from 'in-components/health/HealthDot';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
 

@@ -6,7 +6,7 @@
 import React from 'react';
 
 import getApplicationEntityHealthInfo from 'in-subscription/application/getApplicationEntityHealthInfo';
-import OpenIssuesListPresenter from 'in-new-components/health/OpenIssuesListPresenter';
+import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { mapData } from 'in-services/util/result';

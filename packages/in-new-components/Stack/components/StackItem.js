@@ -14,7 +14,7 @@ import { getDashboardForEntity as getDashboardForK8sEntity } from 'in-kubernetes
 import getProfilesAvailable from 'in-new-components/Profiling/subscriptions/getProfilesAvailable';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
+import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import SEVERITY_MAP from 'in-new-components/Stack/severity.json';
 import EntityWithIcon from 'in-new-components/EntityWithIcon';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';

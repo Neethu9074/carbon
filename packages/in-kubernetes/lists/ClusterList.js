@@ -14,7 +14,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import { getKubernetesClustersWithDefaults } from 'in-subscription/kubernetes/getKubernetesClusters';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { clusterList, getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';

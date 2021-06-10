@@ -26,7 +26,7 @@ import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/shared
 import { applicationListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { getApplicationsWithDefaults } from 'in-subscription/application/getApplications';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';

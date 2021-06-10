@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import OpenIssuesListPresenter from 'in-new-components/health/OpenIssuesListPresenter';
+import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
 import getWebsiteHealthInfo from 'in-subscription/website/getWebsiteHealthInfo';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { indeterminateProgress } from 'in-services/fixedObjects';

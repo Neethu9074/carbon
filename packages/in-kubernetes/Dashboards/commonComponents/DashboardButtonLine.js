@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import HealthIndicatorButtonPresenter from 'in-new-components/health/HealthIndicatorButtonPresenter';
+import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
 import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 

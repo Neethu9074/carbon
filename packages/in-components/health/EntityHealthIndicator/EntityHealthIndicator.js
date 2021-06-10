@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import EntityHealthIndicatorComponent from 'in-new-components/EntityHealthIndicator';
 import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 import { timeConfig$ } from 'in-stores/time/config';

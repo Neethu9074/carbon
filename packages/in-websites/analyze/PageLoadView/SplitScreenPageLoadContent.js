@@ -8,7 +8,7 @@ import React from 'react';
 import { KeyValue } from '@instana/components';
 
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
-import HealthDot from 'in-new-components/health/HealthDot/HealthDot';
+import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { formatDateTime } from 'in-services/formatters/date';
 import { latencyFixed } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip/Tooltip';

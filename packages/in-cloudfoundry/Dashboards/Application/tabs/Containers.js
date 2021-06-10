@@ -10,8 +10,8 @@ import InfrastructureMetricSparkChart from 'in-components/SparkChart/Infrastruct
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
 import getCloudfoundryContainers from 'in-cloudfoundry/subscriptions/getCloudfoundryContainers';
-import HealthIndicatorPresenter from 'in-new-components/health/HealthIndicatorPresenter';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { applicationIdUrlParameter } from 'in-cloudfoundry/navigation/urlParameters';
 import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
