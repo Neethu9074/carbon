@@ -19,7 +19,7 @@ export function timeDisplayTopFormat(timeConfig) {
     if (isOnSameDay(fromTime, currentTime)) {
       return `${formatDateShort(fromTime)}`;
     } else {
-      return t('in-new-components:time.timeFrameFormatterStarting', { fromTime: formatDateShort(fromTime) });
+      return t('in-components:time.timeFrameFormatterStarting', { fromTime: formatDateShort(fromTime) });
     }
   }
 
@@ -48,13 +48,13 @@ export function timeDisplayBottomFormat(timeConfig) {
     const result = `Last ${formatEnglishDurationAccurately(timeConfig.windowSize, 60000, false)}`;
     const match = result.match(/^Last 1 ([a-z]+)$/i);
     if (match && match[1] === 'day') {
-      return t('in-new-components:time.timeFrameFormatterLast24Hours');
+      return t('in-components:time.timeFrameFormatterLast24Hours');
     } else if (match) {
-      return t('in-new-components:time.timeFrameFormatterLast', {
-        duration: t('in-new-components:time.timeUnit', { context: match[1] })
+      return t('in-components:time.timeFrameFormatterLast', {
+        duration: t('in-components:time.timeUnit', { context: match[1] })
       });
     } else {
-      return t('in-new-components:time.timeFrameFormatterLast', {
+      return t('in-components:time.timeFrameFormatterLast', {
         duration: formatDurationAccurately(timeConfig.windowSize, 60000, false)
       });
     }
@@ -66,14 +66,14 @@ export function timeDisplayBottomFormat(timeConfig) {
     const match = result.match(/^Last 1 ([a-z]+)$/i);
     if (isOnSameDay(fromTime, currentTime)) {
       if (match) {
-        return t('in-new-components:time.timeFrameFormatterLast', {
-          duration: t('in-new-components:time.timeUnit', { context: match[1] })
+        return t('in-components:time.timeFrameFormatterLast', {
+          duration: t('in-components:time.timeUnit', { context: match[1] })
         });
       }
       return result;
     } else {
       if (match && match[1] === 'day') {
-        return t('in-new-components:time.timeFrameFormatterLast24Hours');
+        return t('in-components:time.timeFrameFormatterLast24Hours');
       }
       return `${formatDateShort(fromTime)} - ${formatDateShort(currentTime)}`;
     }

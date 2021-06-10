@@ -11,7 +11,7 @@ import { Button } from '@instana/components';
 
 import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import TemporaryMessage from 'in-components/TemporaryMessage';
+import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import { pendingResult } from 'in-services/fixedObjects';
 import { goToPath } from 'in-stores/navigation';

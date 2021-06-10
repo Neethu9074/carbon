@@ -85,7 +85,7 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
             metrics={item.metrics.calls}
             metric={item.metrics.callsAgg}
             tooltipFormatter={number.compact}
-            label={t('in-new-components:upstreamDownstream.companionMetricLabelCalls')}
+            label={t('in-components:upstreamDownstream.companionMetricLabelCalls')}
           />
           <div className={locals.chartItemWrapper}>
             {selectedMetric === 'callsAndlatency' ? (
@@ -97,7 +97,7 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
                 metrics={item.metrics.latency}
                 metric={item.metrics.latencyAgg}
                 tooltipFormatter={meanLatencyFixed.compact}
-                label={t('in-new-components:upstreamDownstream.companionMetricLabelLatency')}
+                label={t('in-components:upstreamDownstream.companionMetricLabelLatency')}
               />
             ) : (
               <SparkChart
@@ -108,9 +108,9 @@ export default connectTo(({ applicationId, serviceId, endpointId }) => {
                 metrics={item.metrics.erroneousCalls}
                 metric={item.metrics.erroneousCallsAgg}
                 tooltipFormatter={number.compact}
-                label={t('in-new-components:upstreamDownstream.companionMetricLabelErroneousCalls')}
+                label={t('in-components:upstreamDownstream.companionMetricLabelErroneousCalls')}
                 companionMetric={item.metrics.errorsAgg}
-                companionMetricLabel={t('in-new-components:upstreamDownstream.companionMetricLabelErroneousCallRate')}
+                companionMetricLabel={t('in-components:upstreamDownstream.companionMetricLabelErroneousCallRate')}
                 companionMetricFormatter={percentage.detailed}
                 companionAggregation="MEAN"
               />

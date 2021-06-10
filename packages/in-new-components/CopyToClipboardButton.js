@@ -21,7 +21,7 @@ export default forwardRef(function CopyToClipboardButton(props, ref) {
         className={props.className}
         ref={ref}
       >
-        {t('in-new-components:copyToClipboardButtonCopy')}
+        {t('in-components:copyToClipboardButtonCopy')}
       </Button>
     );
   }
@@ -35,7 +35,7 @@ export default forwardRef(function CopyToClipboardButton(props, ref) {
           kind={props.kind || 'create'}
           className={props.className}
         >
-          {props.children || t('in-new-components:copyToClipboardButtonCopy')}
+          {props.children || t('in-components:copyToClipboardButtonCopy')}
         </Button>
       )}
     </CopyToClipboard>

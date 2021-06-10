@@ -53,7 +53,7 @@ export function getUniqueErrors(errors = emptyArray) {
 
 function getMessage(error) {
   if (isTechnicalError(error.code) && !__DEV__) {
-    return t('in-new-components:error.erroneousResultPresenterMessage');
+    return t('in-components:error.erroneousResultPresenterMessage');
   }
   return error.message;
 }

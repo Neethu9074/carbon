@@ -28,10 +28,10 @@ function Options({ value, onChange, close }) {
         value={'false'}
         size="compact"
       >
-        {t('in-new-components:queryBuilder.components.tagBooleanSelectorFalse')}
+        {t('in-components:queryBuilder.components.tagBooleanSelectorFalse')}
       </OverlayOption>
       <OverlayOption onChange={onChange} autoFocus={value} close={close} value={'true'} size="compact">
-        {t('in-new-components:queryBuilder.components.tagBooleanSelectorTrue')}
+        {t('in-components:queryBuilder.components.tagBooleanSelectorTrue')}
       </OverlayOption>
     </Ul>
   );
@@ -60,8 +60,8 @@ export default React.forwardRef(function BooleanSelector({ value, onChange, focu
           ref={compositeRef(refSetter, ref)}
         >
           {value
-            ? t('in-new-components:queryBuilder.components.tagBooleanSelectorTrue')
-            : t('in-new-components:queryBuilder.components.tagBooleanSelectorFalse')}
+            ? t('in-components:queryBuilder.components.tagBooleanSelectorTrue')
+            : t('in-components:queryBuilder.components.tagBooleanSelectorFalse')}
         </div>
       )}
     </Overlay>

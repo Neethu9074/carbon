@@ -34,25 +34,25 @@ export default function CountHeader({
   let topText;
   let bottomText;
   if (withGrouping) {
-    topText = t('in-new-components:analyzeView.groupedViewHeader', {
+    topText = t('in-components:analyzeView.groupedViewHeader', {
       count: totalHits,
       formattedCount: number.compact(totalHits)
     });
     if (withResultsInGroups) {
-      bottomText = t('in-new-components:analyzeView.result', {
+      bottomText = t('in-components:analyzeView.result', {
         count: totalRepresentedItemCount,
         formattedCount: number.compact(totalRepresentedItemCount)
       });
     }
   } else {
-    topText = t('in-new-components:analyzeView.result', {
+    topText = t('in-components:analyzeView.result', {
       count: totalRepresentedItemCount,
       formattedCount: number.compact(totalRepresentedItemCount)
     });
     const showRetainedItemsCount =
       historicOrLargeDataResult.containsHistoricData && totalRepresentedItemCount > totalHits;
     if (showRetainedItemsCount) {
-      bottomText = t('in-new-components:analyzeView.resultRetained', {
+      bottomText = t('in-components:analyzeView.resultRetained', {
         count: totalHits,
         formattedCount: number.compact(totalHits)
       });
@@ -71,7 +71,7 @@ export default function CountHeader({
 }
 
 function Placeholder() {
-  return <Presenter topText={t('in-new-components:analyzeView.resultHeaderLoading')} />;
+  return <Presenter topText={t('in-components:analyzeView.resultHeaderLoading')} />;
 }
 
 function Presenter({
@@ -97,7 +97,7 @@ function Presenter({
           />
         )}
         {withAdjustedWindowSizeTooltip && (
-          <Tooltip content={t('in-new-components:analyzeView.resultHeaderTooltip')} align="rightMiddle">
+          <Tooltip content={t('in-components:analyzeView.resultHeaderTooltip')} align="rightMiddle">
             <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />
           </Tooltip>
         )}

@@ -37,12 +37,12 @@ const updateUiSection = (
     <div className={locals.headerWrapper}>
       <SvgIcon className={locals.updateIconExpanded} size="l" type="lib_help_error_info_outline" />
       <div className={locals.label}>
-        {t('in-new-components:mainNavigation.newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable')}
+        {t('in-components:mainNavigation.newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable')}
       </div>
     </div>
     <div className={locals.buttonWrapper}>
       <Button onClick={() => window.location.reload()} kind="primary">
-        {t('in-new-components:mainNavigation.newUiClientVersionAvailableButtonReloadToUpdate')}
+        {t('in-components:mainNavigation.newUiClientVersionAvailableButtonReloadToUpdate')}
       </Button>
     </div>
   </div>

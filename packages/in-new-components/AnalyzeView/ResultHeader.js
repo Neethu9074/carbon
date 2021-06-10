@@ -38,9 +38,7 @@ export default function ResultHeader({
       {label && <span className={locals.result}>{label}</span>}
       {(totalHits == null && totalRepresentedItemCount == null) || historicOrLargeDataResult == null ? (
         <span className={locals.number}>
-          {isLoading
-            ? t('in-new-components:analyzeView.resultHeaderLoading')
-            : t('in-new-components:analyze.noResults')}
+          {isLoading ? t('in-components:analyzeView.resultHeaderLoading') : t('in-components:analyze.noResults')}
         </span>
       ) : (
         <>
@@ -55,7 +53,7 @@ export default function ResultHeader({
             />
           )}
           {adjustedWindowSize && (
-            <Tooltip content={t('in-new-components:analyzeView.resultHeaderTooltip')} align="rightMiddle">
+            <Tooltip content={t('in-components:analyzeView.resultHeaderTooltip')} align="rightMiddle">
               <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />
             </Tooltip>
           )}

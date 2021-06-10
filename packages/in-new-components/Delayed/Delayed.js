@@ -8,7 +8,7 @@ import React from 'react';
 import { t } from 'in-i18n';
 
 export default class extends React.Component {
-  static displayName = t('in-new-components:delayed.displayNameDelayed');
+  static displayName = t('in-components:delayed.displayNameDelayed');
 
   state = {
     renderChildren: false

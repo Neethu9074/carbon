@@ -21,7 +21,7 @@ export default function Conjunction(props) {
     <ConjunctionOrBracketBehavior
       element={element}
       value={logicalOperator}
-      aria-label={t('in-new-components:queryBuilder.components.conjunctionLabelChosenConjunction')}
+      aria-label={t('in-components:queryBuilder.components.conjunctionLabelChosenConjunction')}
       {...props}
     >
       {({ refSetter, elementProps }) => (
@@ -34,7 +34,7 @@ export default function Conjunction(props) {
             ref={refSetter}
             {...elementProps}
           >
-            {t('in-new-components:queryBuilder.components.conjunctionLogicalOperator', { context: logicalOperator })}
+            {t('in-components:queryBuilder.components.conjunctionLogicalOperator', { context: logicalOperator })}
           </div>
         </div>
       )}

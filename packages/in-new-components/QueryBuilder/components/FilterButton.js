@@ -56,7 +56,7 @@ export default function FilterButton({
           onClick={toggle}
           refSetter={refSetter}
         >
-          {t('in-new-components:queryBuilder.components.filterButtonAddFilter')}
+          {t('in-components:queryBuilder.components.filterButtonAddFilter')}
         </Button>
       )}
     </Overlay>

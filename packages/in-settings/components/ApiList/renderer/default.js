@@ -7,10 +7,10 @@ import React from 'react';
 
 import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ResolveResult from 'in-settings/components/ApiList/renderer/ResolveResult';
+import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
 import EmptyList from 'in-new-components/lists/List/sharedComponents/EmptyList';
 import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
 import ApiListHeader from 'in-settings/components/ApiList/ApiListHeader';
-import TemporaryMessage from 'in-new-components/TemporaryMessage';
 import Pagination from 'in-new-components/Pagination';
 
 export default function renderDefaultList(props) {

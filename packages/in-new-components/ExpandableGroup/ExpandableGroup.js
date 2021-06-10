@@ -21,11 +21,11 @@ export default function ExpandableGroup({ title, expandedTitle, children, defaul
         <div className={locals.headerContent}>{isExpanded && expandedTitle ? expandedTitle : title}</div>
         {children && (
           <div className={locals.headerActions}>
-            <Tooltip content={t('in-new-components:expandableGroup.tooltipShowContent')}>
+            <Tooltip content={t('in-components:expandableGroup.tooltipShowContent')}>
               <SvgIcon
                 className={locals.expandIcon}
                 type={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-                aria-label={t('in-new-components:expandableGroup.labelExpandButtonForContent')}
+                aria-label={t('in-components:expandableGroup.labelExpandButtonForContent')}
                 tabIndex={0}
                 onClick={() => setIsExpanded(!isExpanded)}
               />

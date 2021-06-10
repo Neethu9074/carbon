@@ -32,7 +32,7 @@ export default connectTo(
     const notFoundComponent = (
       <EntityPageMainNotification
         icon="lib_missing_data"
-        title={title || t('in-new-components:withEmptyStateFallbackTitleNoDataAvailable')}
+        title={title || t('in-components:withEmptyStateFallbackTitleNoDataAvailable')}
         explanation={explanation}
         changeExplanation={changeExplanation}
       />

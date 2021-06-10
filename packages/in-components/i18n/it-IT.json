@@ -136,5 +136,504 @@
       "title": "Si è verificato un errore",
       "content": "<p>Una parte dell'interfaccia grafica di Instana non può essere abilitata a causa di un errore imprevisto. Provare a ricaricare la pagina.</p><p>ID errore: <code>{{errorId}}</code></p>"
     }
+  },
+  "analyzeView": {
+    "splitScreenListTooltipCloseSidebar": "Chiudi barra laterale",
+    "splitScreenListTooltipOpenSidebar": "Apri barra laterale",
+    "result": "{{formattedCount}} risultato",
+    "result_plural": "{{formattedCount}} risultati",
+    "result_0": "{{formattedCount}} risultati",
+    "result_1": "{{formattedCount}} risultati",
+    "result_2": "{{formattedCount}} risultati",
+    "resultRetained": "{{formattedCount}} conservato",
+    "resultRetained_plural": "{{formattedCount}} conservato",
+    "resultRetained_0": "{{formattedCount}} conservato",
+    "resultRetained_1": "{{formattedCount}} conservato",
+    "resultRetained_2": "{{formattedCount}} conservato",
+    "groupedViewHeader": "{{formattedCount}} gruppo",
+    "groupedViewHeader_plural": "{{formattedCount}} gruppi",
+    "groupedViewHeader_0": "Gruppi",
+    "groupedViewHeader_1": "Gruppo",
+    "groupedViewHeader_2": "Gruppi",
+    "resultHeaderLoading": "Caricamento…",
+    "resultHeaderTooltip": "L'intervallo di tempo della query è stato arrotondato al minuto intero più vicino per consentire di caricare questa vista più rapidamente.",
+    "queryProgress": {
+      "preparing": "Preparazione…",
+      "runningQuery": "Esecuzione query…",
+      "timeout": "Questa query è scaduta.",
+      "timeoutEstimated": "La query richiederebbe troppo tempo per essere eseguita.",
+      "timeoutInfo": "Selezionare un intervallo di tempo più breve oppure immettere una query più specifica applicando ulteriori filtri.",
+      "inputError": "Si è verificato un errore di input.",
+      "tooManyRequests": "Troppe richieste",
+      "tooManyRequestsInfo": "Il nostro sistema è attualmente occupato. Riprovare successivamente.",
+      "serverError": "Errore del server",
+      "serverErrorInfo": "Si è verificato un errore non previsto. Riprovare successivamente oppure contattare il supporto per segnalare l'errore."
+    }
+  },
+  "aboutInstanaDialog": {
+    "columnizedContentDeployment": "Distribuzione",
+    "columnizedContentUserInterface": "Interfaccia utente",
+    "columnizedContentBackend": "Backend",
+    "labelRegion": "Regione",
+    "labelTag": "Tag",
+    "labelCommit": "Esegui il commit",
+    "buttonGraphShowcase": "Showcase del grafico"
+  },
+  "blueprintFormMultistep": {
+    "buttonCancel": "Annulla",
+    "buttonBack": "Indietro",
+    "buttonCreate": "Crea",
+    "buttonNext": "Avanti"
+  },
+  "chartingConfigurator": {
+    "buttonAddChart": "Aggiungi grafico",
+    "labelChangeSelectedMetric": "Modifica metrica selezionata",
+    "labelChangeSelectedAggregation": "Modifica aggregazione selezionata",
+    "labelChangeSelectedRenderer": "Modifica renderer selezionato",
+    "titleChart": "Grafico"
+  },
+  "dashboardHeader": {
+    "urlShortenerTabListTextShortLink": "Collegamento breve",
+    "urlShortenerWaitTextGeneratingShortLink": "Generazione del collegamento breve.",
+    "urlShortenerLabelLockCurrentTimeRange": "Blocca intervallo di tempo corrente",
+    "urlShortenerLabelLive": "{{timeConfig}} (tempo reale)",
+    "copy": "Copia"
+  },
+  "delayed": {
+    "displayNameDelayed": "Ritardato"
+  },
+  "dialog": {
+    "confirmationDialogLabelConfirm": "Conferma",
+    "promptPresenterLabelConfirm": "Conferma"
+  },
+  "draggableItemSelector": {
+    "tooltipReorderMetrics": "Riordina metriche"
+  },
+  "entityHealthIndicator": {
+    "indicatorPresenterNoIssues": "Nessun problema",
+    "indicatorPresenterOpenIssues": "{{count}} problema",
+    "indicatorPresenterOpenIssues_plural": "{{count}} problemi",
+    "indicatorPresenterOpenIssues_0": "{{count}} problemi",
+    "indicatorPresenterOpenIssues_1": "{{count}} problema",
+    "indicatorPresenterOpenIssues_2": "{{count}} problemi"
+  },
+  "entityPageMainNotification": {
+    "labelEntity": "Entità",
+    "labelNotFound": "{{entity}} non trovata"
+  },
+  "entityVersionList": {
+    "headingAvailableTimeRanges": "Intervalli di tempo disponibili",
+    "explanation": "Impossibile trovare una versione di questa entità nell'intervallo di tempo selezionato. Sono state trovate altre versioni in intervalli di tempo differenti:",
+    "noDataAvailable": "Nessun dato disponibile"
+  },
+  "error": {
+    "erroneousResultPresenterMessage": "Si è verificato un errore non previsto. Aggiornare la pagina o riprovare successivamente."
+  },
+  "expandableCard": {
+    "tooltipShowLess": "Mostra meno",
+    "tooltipShowMore": "Mostra altro"
+  },
+  "expandableGroup": {
+    "tooltipShowContent": "Mostra contenuto",
+    "labelExpandButtonForContent": "Pulsante Espandi per il contenuto"
+  },
+  "featureFeedback": {
+    "labelBETA": "BETA",
+    "linkLabelYouCanSendUsFeedback": "È possibile inviare un feedback"
+  },
+  "geoHeatMap": {
+    "loadingIndicatorLoadingData": "Caricamento dei dati",
+    "tooltipResetView": "Reimposta vista",
+    "tooltipZoomIn": "Ingrandisci",
+    "tooltipZoomOut": "Riduci"
+  },
+  "groupingConfigurator": {
+    "exampleTagCatalogLabelKubernetes": "Kubernetes",
+    "exampleTagCatalogLabelCluster": "Cluster",
+    "exampleTagCatalogLabelName": "Nome",
+    "exampleTagCatalogLabelNamespace": "Spazio dei nomi",
+    "exampleTagCatalogLabelInternal": "Interno",
+    "exampleTagCatalogLabelType": "Tipo",
+    "exampleTagCatalogLabelLabel": "Etichetta",
+    "exampleTagCatalogDescriptionStringClustersLabel": "Stringa - Etichetta del cluster",
+    "exampleTagCatalogDescriptionStringNamespaceName": "Stringa - Nome spazio dei nomi",
+    "exampleTagCatalogDescriptionTypeOfEntity": "Tipo di entità",
+    "exampleTagCatalogDescriptionLabelOfEntity": "Etichetta di entità",
+    "addGroup": "Aggiungi gruppo",
+    "titleGroup": "Gruppo",
+    "loadingIndicatorLoadingTagCatalog": "Caricamento catalogo tag…",
+    "optional": "Facoltativo"
+  },
+  "health": {
+    "eventType_issue": "problema",
+    "eventType_issue_plural": "problemi",
+    "eventType_issue_0": "problemi",
+    "eventType_issue_1": "problema",
+    "eventType_issue_2": "problemi",
+    "openIssuesListPresenterActionsViewIssues": "Visualizza {{eventType}}",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "Visualizza {{openIssueCount}} {{eventType}}",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "Caricamento {{eventType}} aperto…",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "Impossibile caricare {{eventType}} aperto",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} {{eventType}} aperto",
+    "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "(visualizzazione dei {{maxIssuesToShow}} più gravi)",
+    "openIssuesListPresenterIssueDescriptionOmitted": "Descrizione del problema omessa. Ulteriori dettagli sono visibili all'interno della vista dettagli dell'evento.",
+    "openIssuesListPresenterStarted": "Avviato"
+  },
+  "inlineTabNavigation": {
+    "labelSelectTab": "Seleziona scheda"
+  },
+  "kpiCard": {
+    "tooltipComparedToTimeShift": "Rispetto a {{timeShift}}: {{comparisonValue}}"
+  },
+  "latencyDistributionBase10Chart": {
+    "latencyChartOverlayLabelRemoveLatencyFilter": "Rimuovi filtro di latenza",
+    "percentileMenuButtonPercentileView": "Vista percentile",
+    "percentileMenuLabelAll": "Tutto",
+    "presenterLabelNoDataToDisplay": "Nessun dato da visualizzare.",
+    "presenterLabelTraces": "Tracce",
+    "presenterLabelCalls": "Chiamate",
+    "latencyRangeLabelFromTimeToTime": "{{from}} a {{to}}"
+  },
+  "layout": {
+    "sideNavigationAndContentRouteNotFound": "Non trovato"
+  },
+  "list": {
+    "labelMoreItems": "+{{numMoreItems}} altro..."
+  },
+  "loading": {
+    "labelLoadingData": "Caricamento dei dati"
+  },
+  "mainNavigation": {
+    "viewSwitcherLabelSettings": "Impostazioni",
+    "viewSwitcherLabelMore": "Altro",
+    "viewSwitcherLabelTenants": "Tenant",
+    "viewSwitcherLabelAgents": "Agent",
+    "viewSwitcherLabelReleaseNotes": "Note sulla release",
+    "viewSwitcherLabelDocumentation": "Documentazione",
+    "viewSwitcherLabelSupport": "Supporto",
+    "viewSwitcherLabelAboutInstana": "Informazioni su Instana",
+    "viewSwitcherLabelInternal": "Interno",
+    "viewSwitcherLabelEvents": "Eventi",
+    "viewSwitcherlabelInfrastructure": "Infrastruttura",
+    "viewSwitcherLabelApplications": "Applicazioni",
+    "viewSwitcherLabelAnalytics": "Analitica",
+    "viewSwitcherLabelWebsitesAndMobileApps": "Siti Web & App mobili",
+    "viewSwitcherLabelWebsites": "Siti Web",
+    "viewSwitcherLabelMobileApps": "App mobili",
+    "viewSwitcherLabelKubernetes": "Kubernetes",
+    "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
+    "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherLabelPlatforms": "Piattaforme",
+    "viewSwitcherButtonSignOut": "Disconnetti",
+    "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nuova versione dell'interfaccia utente Instana disponibile",
+    "newUiClientVersionAvailableButtonReloadToUpdate": "Ricarica per aggiornare"
+  },
+  "metricConfigurator": {
+    "buttonSelectMetrics": "Seleziona metriche",
+    "messagePleaseSelectAtMostMetrics": "Selezionare al massimo {{maximumNumberOfMetrics}} metriche.",
+    "titleAddAMetric": "Aggiungi una metrica",
+    "labelPleaseSelect": "Selezionare",
+    "labelAlreadySelected": "Già selezionato",
+    "search": "Ricerca",
+    "aggregation_MEAN": "MEDIA",
+    "aggregation_MIN": "MINIMO",
+    "aggregation_P25": "P25",
+    "aggregation_P50": "P50",
+    "aggregation_P75": "P75",
+    "aggregation_P90": "P90",
+    "aggregation_P95": "P95",
+    "aggregation_P98": "P98",
+    "aggregation_P99": "P99",
+    "aggregation_MAX": "MASSIMO",
+    "aggregation_DISTINCTCOUNT": "DISTINCT_COUNT",
+    "aggregation_SUM": "SOMMA",
+    "aggregation_DISTRIBUTION": "DISTRIBUZIONE"
+  },
+  "profiling": {
+    "headerColumnDefinitionsUsed": "Utilizzato",
+    "headerColumnDefinitionsCode": "Codice"
+  },
+  "resultForTimeSelectionIndicator": {
+    "labelShowingForSelection": "Visualizzazione di {{entityName}} per la selezione",
+    "buttonClearSelection": "Cancella selezione"
+  },
+  "searchInput": {
+    "placeholderSearch": "Cerca…"
+  },
+  "selectorOverlay": {
+    "placeholderSearch": "Cerca",
+    "loadingIndicatorLoadingCatalog": "Caricamento del catalogo"
+  },
+  "sortingConfigurator": {
+    "labelNA": "N/D",
+    "buttonAscending": "Crescente",
+    "buttonDescending": "Decrescente"
+  },
+  "stack": {
+    "relationship_CONTAINS": "CONTIENE {{itemCount}} {{plugin}}",
+    "relationship_DEFINED_IN": "Definito in {{itemCount}} {{plugin}}",
+    "relationship_DEPLOYED_ON": "Distribuito su {{itemCount}} {{plugin}}",
+    "relationship_DEPLOYED_WITHIN": "Distribuito all'interno di {{itemCount}} {{plugin}}",
+    "relationship_EXECUTED_BY": "Eseguito da {{itemCount}} {{plugin}}",
+    "relationship_EXECUTING": "Esecuzione di {{itemCount}} {{plugin}}",
+    "relationship_EXPOSED_BY": "Esposto da {{itemCount}} {{plugin}}",
+    "relationship_EXPOSED_THROUGH": "Esposto tramite {{itemCount}} {{plugin}}",
+    "relationship_EXPOSES": "Espone {{itemCount}} {{plugin}}",
+    "relationship_EXPOSING": "Esposizione di {{itemCount}} {{plugin}}",
+    "relationship_ORCHESTRATED_IN": "Orchestrato in {{itemCount}} {{plugin}}",
+    "relationship_ORCHESTRATED_ON": "Orchestrato su {{itemCount}} {{plugin}}",
+    "relationship_ORCHESTRATING": "Orchestrazione di {{itemCount}} {{plugin}}",
+    "relationship_PART_OF": "Parte di {{itemCount}} {{plugin}}",
+    "relationship_PROVIDED_BY": "Fornito da {{itemCount}} {{plugin}}",
+    "relationship_PROVIDED_FROM": "Fornito da {{itemCount}} {{plugin}}",
+    "relationship_PROVIDED_ON": "Fornito su {{itemCount}} {{plugin}}",
+    "relationship_PROVIDED_WITHIN": "Fornito all'interno di {{itemCount}} {{plugin}}",
+    "relationship_PROVIDES": "Fornisce {{itemCount}} {{plugin}}",
+    "relationship_RUNS": "Esegue {{itemCount}} {{plugin}}",
+    "relationship_RUNS_IN": "In esecuzione in {{itemCount}} {{plugin}}",
+    "relationship_RUNS_ON": "In esecuzione su {{itemCount}} {{plugin}}",
+    "relationship_RUNS_WITHIN": "In esecuzione all'interno di {{itemCount}} {{plugin}}",
+    "relationship_SCHEDULED": "Pianificato {{itemCount}} {{plugin}}",
+    "relationship_SCHEDULED_BY": "Pianificato da {{itemCount}} {{plugin}}",
+    "relationship_SCHEDULED_ON": "Pianificato su {{itemCount}} {{plugin}}",
+    "relationship_SCHEDULED_WITHIN": "Pianificato all'interno di {{itemCount}} {{plugin}}",
+    "relationship_SCHEDULES": "Pianifica {{itemCount}} {{plugin}}",
+    "relationship_SCHEDULING_IN": "Pianificazione in {{itemCount}} {{plugin}}",
+    "relationship_SCHEDULING_ON": "Pianificazione su {{itemCount}} {{plugin}}",
+    "relationship_SERVED_BY": "Servito da {{itemCount}} {{plugin}}",
+    "relationship_SERVED_THROUGH": "Servito tramite {{itemCount}} {{plugin}}",
+    "relationship_SERVES": "Serve {{itemCount}} {{plugin}}",
+    "relationship_SERVES_ON": "Serve su {{itemCount}} {{plugin}}",
+    "relationship_SERVES_WITHIN": "Serve all'interno di {{itemCount}} {{plugin}}",
+    "relationship_SPANS_ACROSS": "Si estende su {{itemCount}} {{plugin}}",
+    "relationship_WITHIN": "All'interno di {{itemCount}} {{plugin}}",
+    "apkpisLabelCalls": "Chiamate",
+    "apkpisLabelErroneousCalls": "Chiamate errate",
+    "buttonStack": "Stack",
+    "stackPresenterEmptyMessage": "Instana non è stato in grado di trovare alcun elemento correlato",
+    "stackPresenterDetailMessage": "Informazioni disponibili non sufficienti per correlare questo {{itemText}} con altri elementi",
+    "tabsLabelApplication": "Applicazione",
+    "tabsEmptyMessageApplication": "Nessuna applicazione o servizio Instana correlato",
+    "tabsLabelKubernetes": "Kubernetes",
+    "tabsEmptyMessageKubernetes": "Nessuna risorsa Kubernetes correlata",
+    "tabsLabelInfrastructure": "Infrastruttura",
+    "tabsEmptyMessageInfrastructure": "Nessuna infrastruttura correlata"
+  },
+  "stackTrace": {
+    "fillerTextIn": " in ",
+    "fillerTextAt": " a "
+  },
+  "time": {
+    "lastMinute": "Ultimo minuto",
+    "lastMinute_plural": "Ultimi {{count}} minuti",
+    "lastMinute_0": "Ultimi {{count}} minuti",
+    "lastMinute_1": "Ultimi {{count}} minuti",
+    "lastMinute_2": "Ultimi {{count}} minuti",
+    "lastHour": "Ultima ora",
+    "lastHour_plural": "Ultime {{count}} ore",
+    "lastHour_0": "Ultime {{count}} ore",
+    "lastHour_1": "Ultime {{count}} ore",
+    "lastHour_2": "Ultime {{count}} ore",
+    "yesterday": "Ieri",
+    "twoDaysAgo": "Due giorni fa",
+    "lastSevenDays": "Ultimi sette giorni",
+    "previousWeek": "Settimana precedente",
+    "dashboardHeaderButtonLive": "Tempo reale",
+    "customTimeTitleTimeRange": "Intervallo di tempo",
+    "customTimeHistoricDataMessage": "Con l'intervallo di tempo selezionato, verranno visualizzati dati approssimativi. I dati precisi sono disponibili per gli ultimi {{retention}} giorni.",
+    "to": "a",
+    "customTimeButtonSetTime": "Imposta ora",
+    "customTimeLabelYesterday": "Ieri",
+    "customTimeLabelToday": "Oggi",
+    "customTimeLabelNow": "Adesso",
+    "customTimeMessageTheStartDateCannotBeGreaterThanTheEndDate": "La data di inizio non può essere successiva alla data di fine.",
+    "customTimeMessageTheLargestSelectableTimespanIsOneMonth": "L'intervallo di tempo massimo selezionabile è un mese.",
+    "presetsTitlePresets": "Preselezioni",
+    "releasesLabelName": "Nome",
+    "releasesLabelScope": "Ambito",
+    "releasesLabelGlobal": "Globale",
+    "releasesLabelShowMore": "… mostra altri {{stepSize}}",
+    "releasesLabelReleaseTime": "Ora release",
+    "releasesLabelNoDataMessage": "Nessuna release trovata",
+    "releasesLabelPlaceholderFilter": "Filtra...",
+    "timeSelectionDialogPresenterLabelTimeRange": "Intervallo di tempo",
+    "timeSelectionDialogPresenterLabelReleases": "Release",
+    "timeFrameFormatterStarting": "Avvio {{fromTime}}",
+    "timeFrameFormatterLast": "Ultima {{duration}}",
+    "timeFrameFormatterLast24Hours": "Ultime 24 ore",
+    "timeIconHistoricDataMessage": "Vengono visualizzati dati approssimativi a causa delle impostazioni di conservazione dei dati. I dati precisi sono disponibili all'interno degli ultimi {{retention}} giorni.",
+    "timeIconLargeDataMessage": "Vengono visualizzati dati approssimativi a causa di un dataset di grandi dimensioni. Ridurre l'intervallo di tempo per ottenere dati precisi.",
+    "timePresetsLast": "Ultima {{duration}}",
+    "timePresetsLast24Hours": "Ultime 24 ore",
+    "timeUnit_year": "anno",
+    "timeUnit_month": "mese",
+    "timeUnit_day": "giorno",
+    "timeUnit_hour": "ora",
+    "timeUnit_minute": "minuto",
+    "timeUnit_second": "secondo"
+  },
+  "timeShift": {
+    "changeSelectedTimeShift": "Modifica spostamento temporale selezionato",
+    "timeShiftValue": "Spostamento temporale: {{timeShiftValue}}",
+    "compareToTimeShiftTimeConfig": "Confronta con {{timeShiftTimeConfig}}"
+  },
+  "topListCard": {
+    "loadingData": "Caricamento dei dati"
+  },
+  "uiClinetUpdateMessage": {
+    "newVersionOfInstanaAvailable": "Nuova versione di Instana disponibile",
+    "buttonReloadToUpdate": "Ricarica per aggiornare"
+  },
+  "upstreamDownstream": {
+    "companionMetricLabelCalls" : "Chiamate",
+    "companionMetricLabelLatency" : "Latenza",
+    "companionMetricLabelErroneousCalls" : "Chiamate errate",
+    "companionMetricLabelErroneousCallRate": "Tasso di chiamate errate: ",
+    "metricLabelCallsAndErroneousCalls": "Chiamate e chiamate errate",
+    "metricLabelCallsAndLatency": "Chiamate e latenza",
+    "linkSeeAllApplications": "Visualizza tutto {{count}} {{activeTab}} applicazione",
+    "linkSeeAllApplications_plural": "Visualizza tutte le {{count}} {{activeTab}} applicazioni",
+    "linkSeeAllApplications_0": "Visualizza tutte le {{count}} {{activeTab}} applicazioni",
+    "linkSeeAllApplications_1": "Visualizza tutto {{count}} {{activeTab}} applicazione",
+    "linkSeeAllApplications_2": "Visualizza tutte le {{count}} {{activeTab}} applicazioni",
+    "linkSeeApplication": "Visualizza applicazione",
+    "linkSeeAllServices": "Visualizza tutto il {{count}} {{activeTab}} servizio",
+    "linkSeeAllServices_plural": "Visualizza tutti i {{count}} {{activeTab}} servizi",
+    "linkSeeAllServices_0": "Visualizza tutti i {{count}} {{activeTab}} servizi",
+    "linkSeeAllServices_1": "Visualizza tutto il {{count}} {{activeTab}} servizio",
+    "linkSeeAllServices_2": "Visualizza tutti i {{count}} {{activeTab}} servizi",
+    "linkSeeService": "Visualizza servizio",
+    "activeTab_upstream": "A monte",
+    "activeTab_downstream": "A valle",
+    "labelMetric": "Metrica:",
+    "upstreamText_Service": "Chiamato direttamente da {{count}} servizi",
+    "upstreamText_Service_plural": "Chiamato direttamente da {{count}} servizi",
+    "upstreamText_Service_0": "Chiamato direttamente da {{count}} servizi",
+    "upstreamText_Service_1": "Chiamato direttamente da {{count}} servizi",
+    "upstreamText_Service_2": "Chiamato direttamente da {{count}} servizi",
+    "upstreamText_Application": "Chiamato direttamente dall'interno di {{count}} applicazioni",
+    "upstreamText_Application_plural": "Chiamato direttamente dall'interno di {{count}} applicazioni",
+    "upstreamText_Application_0": "Chiamato direttamente dall'interno di {{count}} applicazioni",
+    "upstreamText_Application_1": "Chiamato direttamente dall'interno di {{count}} applicazioni",
+    "upstreamText_Application_2": "Chiamato direttamente dall'interno di {{count}} applicazioni",
+    "upstreamMessage_endpoint": "Questo endpoint non ha ricevuto nessuna chiamata",
+    "upstreamMessage_service": "Questo servizio non ha ricevuto nessuna chiamata",
+    "upstreamMessage_application": "Questa applicazione non ha ricevuto nessuna chiamata",
+    "upstreamMessage_entity": "Questa entità non ha ricevuto nessuna chiamata",
+    "downstreamText_Service": "Chiamante direttamente {{count}} servizi",
+    "downstreamText_Service_plural": "Chiamante direttamente {{count}} servizi",
+    "downstreamText_Service_0": "Chiamante direttamente {{count}} servizi",
+    "downstreamText_Service_1": "Chiamante direttamente {{count}} servizi",
+    "downstreamText_Service_2": "Chiamante direttamente {{count}} servizi",
+    "downstreamText_Application": "Servizi chiamanti direttamente dall'interno di {{count}} applicazioni",
+    "downstreamText_Application_plural": "Servizi chiamanti direttamente dall'interno  {{count}} applicazioni",
+    "downstreamText_Application_0": "Servizi chiamanti direttamente dall'interno  {{count}} applicazioni",
+    "downstreamText_Application_1": "Servizi chiamanti direttamente dall'interno  {{count}} applicazioni",
+    "downstreamText_Application_2": "Servizi chiamanti direttamente dall'interno  {{count}} applicazioni",
+    "downstreamMessage_endpoint": "Questo endpoint non ha iniziato nessuna chiamata downstream",
+    "downstreamMessage_service": "Questo servizio non ha iniziato nessuna chiamata downstream",
+    "downstreamMessage_application": "Questa applicazione non ha iniziato nessuna chiamata downstream",
+    "downstreamMessage_entity": "Questa entità non ha iniziato nessuna chiamata downstream",
+    "tabsUpstream": "A monte",
+    "tabsDownstream": "A valle",
+    "buttonUpstreamDownstream": "A monte/A valle"
+  },
+  "withTvMode": {
+    "setEnabledMessagePressESCToDisableTVMode": "Premere ESC per disabilitare la modalità TV."
+  },
+  "analyze": {
+    "loadMoreWithCount": "Carica altri {{count}}",
+    "loadMore": "Carica altro",
+    "addAsGroup": "Aggiungi come gruppo",
+    "noResults": "Nessun risultato",
+    "from": "Da",
+    "fromUnit": "Da ({{unit}})",
+    "to": "A",
+    "toUnit": "A ({{unit}})",
+    "rangeOrder": "L'intervallo deve essere in ordine crescente.",
+    "earliestTimestamp": "Data/ora meno recente",
+    "timestamp": "Data/Ora",
+    "focusOnGroup": "Attiva questo gruppo",
+    "splitScreen": {
+      "sidebarActions": {
+        "prev": "Visualizza {{ itemName }} precedente (tasto di scelta rapida: freccia sinistra)",
+        "next": "Visualizza successivo {{ itemName }} (tasto di scelta rapida: tasto freccia destra)"
+      }
+    },
+    "groupName": "Nome gruppo",
+    "groupedOnly": "Metrica disponibile solo durante l'analisi dei gruppi."
+  },
+  "copyToClipboardButtonCopy": "Copia",
+  "withEmptyStateFallbackTitleNoDataAvailable": "Nessun dato disponibile",
+  "queryBuilder": {
+    "components": {
+      "tagBooleanSelectorFalse": "false",
+      "tagBooleanSelectorTrue": "true",
+      "tagPlaceholderKey": "Chiave",
+      "tagPlaceholderValue": "Valore",
+      "spacingSuggestionAnd": "AND",
+      "bracketLabelChosenBracket": "Parentesi selezionata. Fare clic per modificare la parentesi, selezionare una congiunzione o rimuovere la parentesi.",
+      "conjunctionLabelChosenConjunction": "Congiunzione scelta. Fare clic per modificare la congiunzione, selezionare una parentesi o rimuovere la congiunzione.",
+      "filterButtonAddFilter": "Aggiungi filtro",
+      "conjunctionLogicalOperator_OR": "OR",
+      "conjunctionLogicalOperator_AND": "AND",
+      "conjunctionLogicalOperator_NOT": "NOT"
+    },
+    "selectorOverlayClear": "Cancella",
+    "selectorOverlayAnd": "AND",
+    "selectorOverlayOr": "OR",
+    "simpleValueSelectorMore": "Altro",
+    "workspaceAPIQuery": "Query API",
+    "workspaceUseThisExpressionToQueryOurAPI": "Utilizzare questa espressione per la query dell'API",
+    "workspaceTitleFilter": "Filtra",
+    "workspaceButtonClear": "Cancella",
+    "errorWithDataYourDefinedQueryIsTooComplex": "La query definita è troppo complessa, ridurre il numero di nidificazioni.",
+    "sanitizedTagFilterValue": "Il valore del filtro di tag è stato ridotto alla lunghezza massima consentita.",
+    "sanitizedTagFilterValueAndOperator": "IL valore del filtro di tag è stato ridotto alla lunghezza massima consentita e l'operatore è stato modificato di conseguenza.",
+    "source": "Origine",
+    "destination": "Destinazione",
+    "string": {
+      "contains": "contiene",
+      "doesNotContain": "non contiene",
+      "isPresent": "è presente",
+      "isNotPresent": "non è presente",
+      "startsWith": "inizia con",
+      "endsWith": "termina con",
+      "doesNotStartWith": "non inizia con",
+      "doesNotEndWith": "non termina con",
+      "equals": "è uguale a",
+      "doesNotEqual": "non è uguale a"
+    },
+    "number": {
+      "isPresent": "è presente",
+      "isNotPresent": "non è presente",
+      "contains": "contiene",
+      "doesNotContain": "non contiene",
+      "startsWith": "inizia con",
+      "endsWith": "termina con",
+      "doesNotStartWith": "non inizia con",
+      "doesNotEndWith": "non termina con"
+    },
+    "booleanIs": "è",
+    "keyValuePair": {
+      "equals": "è uguale a",
+      "doesNotEqual": "non è uguale a",
+      "contains": "contiene",
+      "doesNotContain": "non contiene",
+      "isPresent": "è presente",
+      "isNotPresent": "non è presente",
+      "doesNotHaveValue": "non ha il valore",
+      "hasValue": "ha il valore",
+      "startsWith": "inizia con",
+      "endsWith": "termina con"
+    }
+  },
+  "applicationHealthOverview": {
+    "indicatorBar": {
+      "label": "Stato di integrità",
+      "criticalTooltip": "{{count}} criticità",
+      "warningTooltip": "{{count}} avvertenze",
+      "healthyTooltip": "{{count}} integrità"
+    }
   }
 }

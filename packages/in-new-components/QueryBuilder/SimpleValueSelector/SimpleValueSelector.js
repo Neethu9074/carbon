@@ -139,7 +139,7 @@ function SuggestionsList({
       })}
       {totalHits > suggestions.length && (
         <Li className={locals.moreOptionsLabel} size="compact">
-          {number.compact(totalHits - suggestions.length)} {t('in-new-components:queryBuilder.simpleValueSelectorMore')}
+          {number.compact(totalHits - suggestions.length)} {t('in-components:queryBuilder.simpleValueSelectorMore')}
         </Li>
       )}
     </Ul>

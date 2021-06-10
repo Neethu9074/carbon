@@ -25,7 +25,7 @@ export default function ChartingConfiguratorSection({
   return (
     <Section
       icon="lib_bar_chart"
-      title={t('in-new-components:chartingConfigurator.titleChart')}
+      title={t('in-components:chartingConfigurator.titleChart')}
       actions={<>{additionalActions}</>}
     >
       <ChartingConfigurator

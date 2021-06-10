@@ -9,12 +9,12 @@ import { t } from 'in-i18n';
 export default [
   {
     icon: 'lib_context_guide_upstream',
-    text: t('in-new-components:upstreamDownstream.tabsUpstream'),
+    text: t('in-components:upstreamDownstream.tabsUpstream'),
     key: relationships.UPSTREAM
   },
   {
     icon: 'lib_context_guide_downstream',
-    text: t('in-new-components:upstreamDownstream.tabsDownstream'),
+    text: t('in-components:upstreamDownstream.tabsDownstream'),
     key: relationships.DOWNSTREAM
   }
 ];

@@ -78,7 +78,7 @@ function Body({ tag, formModel, updateFilter, isValid, unit, dataSource }) {
       <Col md={6}>
         <FormGroup className={locals.rangeForm}>
           <Label htmlFor="range-min" hasError={isError}>
-            {unit ? t('in-new-components:analyze.fromUnit', { unit: unit }) : t('in-new-components:analyze.from')}
+            {unit ? t('in-components:analyze.fromUnit', { unit: unit }) : t('in-components:analyze.from')}
           </Label>
           <Input
             id="range-min"
@@ -103,7 +103,7 @@ function Body({ tag, formModel, updateFilter, isValid, unit, dataSource }) {
       <Col md={6}>
         <FormGroup className={locals.rangeForm}>
           <Label htmlFor="range-max" hasError={isError}>
-            {unit ? t('in-new-components:analyze.toUnit', { unit: unit }) : t('in-new-components:analyze.to')}
+            {unit ? t('in-components:analyze.toUnit', { unit: unit }) : t('in-components:analyze.to')}
           </Label>
           <Input
             id="range-max"
@@ -125,7 +125,7 @@ function Body({ tag, formModel, updateFilter, isValid, unit, dataSource }) {
         </FormGroup>
       </Col>
       {isError && (
-        <ValidationBlock className={locals.errorMessage}>{t('in-new-components:analyze.rangeOrder')}</ValidationBlock>
+        <ValidationBlock className={locals.errorMessage}>{t('in-components:analyze.rangeOrder')}</ValidationBlock>
       )}
     </Row>
   );

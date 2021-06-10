@@ -161,7 +161,7 @@ function Results({
               });
             }}
           >
-            {t('in-new-components:analyze.addAsGroup')}
+            {t('in-components:analyze.addAsGroup')}
           </Button>
         )}
       </div>

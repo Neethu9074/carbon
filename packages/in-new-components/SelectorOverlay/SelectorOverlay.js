@@ -63,7 +63,7 @@ export default function SelectorOverlay({
     <>
       <div className={locals.searchInputWrapper}>
         <SearchInput
-          placeholder={t('in-new-components:selectorOverlay.placeholderSearch')}
+          placeholder={t('in-components:selectorOverlay.placeholderSearch')}
           onChange={_query => {
             onQueryChange(_query);
             setState({
@@ -83,7 +83,7 @@ export default function SelectorOverlay({
         {loading === true && (
           <div className={locals.loading}>
             <LoadingIndicator
-              text={t('in-new-components:selectorOverlay.loadingIndicatorLoadingCatalog')}
+              text={t('in-components:selectorOverlay.loadingIndicatorLoadingCatalog')}
               className={locals.loading}
               height={100}
             />

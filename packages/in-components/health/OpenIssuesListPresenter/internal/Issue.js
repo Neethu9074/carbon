@@ -37,7 +37,7 @@ export default function Issue({ issue, getIssueLink }) {
       <div className={locals.description}>
         {issue.problem.fixSuggestion.length > MAX_PROBLEM_TEXT_LENGTH ? (
           <span className={locals.descriptionTooLong}>
-            {t('in-new-components:health.openIssuesListPresenterIssueDescriptionOmitted')}
+            {t('in-components:health.openIssuesListPresenterIssueDescriptionOmitted')}
           </span>
         ) : (
           <DangerousHtmlPresenter html={toHtml(issue.problem.fixSuggestion)} />
@@ -45,7 +45,7 @@ export default function Issue({ issue, getIssueLink }) {
       </div>
 
       <div className={locals.timeSection}>
-        <Pill kind="lighter">{t('in-new-components:health.openIssuesListPresenterStarted')}</Pill>
+        <Pill kind="lighter">{t('in-components:health.openIssuesListPresenterStarted')}</Pill>
         <time dateTime={new Date(issue.start).toISOString()} className={locals.startTime}>
           {formatDateTime(issue.start)}
         </time>

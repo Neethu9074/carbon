@@ -32,7 +32,7 @@ export default function ConjunctionSelectorOverlay({
   return (
     <Ul framed={false} className={locals.list} borderRadius="medium" onKeyDown={onArrowKeyDownFocusSiblings}>
       <OverlayOption className={locals.clear} onChange={onChange} close={close} selectedValue={value} value={clear}>
-        <SvgIcon size="s" type="lib_openclose_cancel" /> {t('in-new-components:queryBuilder.selectorOverlayClear')}
+        <SvgIcon size="s" type="lib_openclose_cancel" /> {t('in-components:queryBuilder.selectorOverlayClear')}
       </OverlayOption>
       <OverlayOption
         autoFocus={value == null || value === and}
@@ -41,11 +41,11 @@ export default function ConjunctionSelectorOverlay({
         selectedValue={value}
         value={and}
       >
-        {t('in-new-components:queryBuilder.selectorOverlayAnd')}
+        {t('in-components:queryBuilder.selectorOverlayAnd')}
       </OverlayOption>
       {!withoutOrConjunction && (
         <OverlayOption onChange={onChange} close={close} selectedValue={value} value={or}>
-          {t('in-new-components:queryBuilder.selectorOverlayOr')}
+          {t('in-components:queryBuilder.selectorOverlayOr')}
         </OverlayOption>
       )}
       {!withoutBrackets && (

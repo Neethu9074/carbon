@@ -20,7 +20,7 @@ import locals from './SortingConfigurator.mless';
 
 export default function SortingConfigurator({ options, orderBy, onChange }) {
   const valueLabel =
-    options.find(option => option.value === orderBy.by)?.label ?? t('in-new-components:sortingConfigurator.labelNA');
+    options.find(option => option.value === orderBy.by)?.label ?? t('in-components:sortingConfigurator.labelNA');
   const ref = useRef();
 
   return (
@@ -54,8 +54,8 @@ export default function SortingConfigurator({ options, orderBy, onChange }) {
         }
       >
         {orderBy.direction === 'ASC'
-          ? t('in-new-components:sortingConfigurator.buttonAscending')
-          : t('in-new-components:sortingConfigurator.buttonDescending')}
+          ? t('in-components:sortingConfigurator.buttonAscending')
+          : t('in-components:sortingConfigurator.buttonDescending')}
       </Button>
     </div>
   );

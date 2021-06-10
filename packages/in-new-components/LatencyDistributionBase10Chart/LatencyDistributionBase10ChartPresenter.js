@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState } from 'react';
+
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
-import React, { useState } from 'react';
 
 import PercentileMenu, {
   ALL_PERCENTILES
@@ -95,7 +96,7 @@ export default function LatencyDistributionBase10ChartPresenter({
         <NoDataAvailable
           width={chartWidth}
           height={chartHeight}
-          text={t('in-new-components:latencyDistributionBase10Chart.presenterLabelNoDataToDisplay')}
+          text={t('in-components:latencyDistributionBase10Chart.presenterLabelNoDataToDisplay')}
         />
       </div>
     );
@@ -116,8 +117,8 @@ export default function LatencyDistributionBase10ChartPresenter({
 
   const metricName =
     dataSource === 'traces'
-      ? t('in-new-components:latencyDistributionBase10Chart.presenterLabelTraces')
-      : t('in-new-components:latencyDistributionBase10Chart.presenterLabelCalls');
+      ? t('in-components:latencyDistributionBase10Chart.presenterLabelTraces')
+      : t('in-components:latencyDistributionBase10Chart.presenterLabelCalls');
   const chartConfig = {
     config: {
       y1: {

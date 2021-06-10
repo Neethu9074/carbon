@@ -37,7 +37,7 @@ export default function WithTvMode({ children, urlParameter: { path, name } }) {
           {
             type: 'info',
             timeout: 5000,
-            content: t('in-new-components:withTvMode.setEnabledMessagePressESCToDisableTVMode')
+            content: t('in-components:withTvMode.setEnabledMessagePressESCToDisableTVMode')
           },
           messageId
         );

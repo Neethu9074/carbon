@@ -23,7 +23,7 @@ import locals from './UrlShortenerOverlay.mless';
 const tabList = [
   {
     icon: 'lib_actions_interface_link',
-    text: t('in-new-components:dashboardHeader.urlShortenerTabListTextShortLink'),
+    text: t('in-components:dashboardHeader.urlShortenerTabListTextShortLink'),
     key: 'shortlink'
   }
 ];
@@ -60,7 +60,7 @@ function Wait() {
     <LoadingIndicator
       width={300}
       height={100}
-      text={t('in-new-components:dashboardHeader.urlShortenerWaitTextGeneratingShortLink')}
+      text={t('in-components:dashboardHeader.urlShortenerWaitTextGeneratingShortLink')}
     />
   );
 }
@@ -81,13 +81,13 @@ function Ready({ shortUrl, setFixateTime, fixateTime, timeConfig }) {
             }}
           />
           <CopyToClipboardButton kind="create" getText={() => shortUrl} className={locals.copy}>
-            {t('in-new-components:dashboardHeader.copy')}
+            {t('in-components:dashboardHeader.copy')}
           </CopyToClipboardButton>
         </div>
 
         {timeConfig?.to == null && (
           <CheckboxFancy
-            label={t('in-new-components:dashboardHeader.urlShortenerLabelLockCurrentTimeRange')}
+            label={t('in-components:dashboardHeader.urlShortenerLabelLockCurrentTimeRange')}
             explanation={<Explanation timeConfig={timeConfig} fixateTime={fixateTime} />}
             size="larger"
             checked={fixateTime}
@@ -110,7 +110,7 @@ function Explanation({ timeConfig, fixateTime }) {
 
       <span className={locals.bottomTimeRow}>
         {timeConfig.autoRefresh
-          ? t('in-new-components:dashboardHeader.urlShortenerLabelLive', {
+          ? t('in-components:dashboardHeader.urlShortenerLabelLive', {
               timeConfig: timeDisplayBottomFormat(timeConfig)
             })
           : timeDisplayBottomFormat(timeConfig)}

@@ -43,12 +43,12 @@ export default function QueryBuilderSection({
   return (
     <Section
       icon={withoutIcon ? undefined : 'lib_actions_filter'}
-      title={t('in-new-components:queryBuilder.workspaceTitleFilter')}
+      title={t('in-components:queryBuilder.workspaceTitleFilter')}
       actions={
         <HorizontalFlexWrapper>
           {(tagFilterExpression.length > 0 || hasInternalError) && (
             <Button kind="subtle" icon="lib_openclose_cancel" size="compact" onClick={onClear}>
-              {t('in-new-components:queryBuilder.workspaceButtonClear')}
+              {t('in-components:queryBuilder.workspaceButtonClear')}
             </Button>
           )}
           {actions}

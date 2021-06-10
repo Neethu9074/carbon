@@ -21,14 +21,14 @@ export default function StackTraceLine({ file, name, line, column, indicator }) 
           {isNotBlank(name) && <Value text={name} className={locals.name} />}
           {isNotBlank(file) && (
             <Fragment>
-              {isNotBlank(name) && <Filler text={t('in-new-components:stackTrace.fillerTextIn')} />}
+              {isNotBlank(name) && <Filler text={t('in-components:stackTrace.fillerTextIn')} />}
               <Value text={file} className={locals.file} />
             </Fragment>
           )}
 
           {line > 0 && (
             <Fragment>
-              <Filler text={t('in-new-components:stackTrace.fillerTextAt')} />
+              <Filler text={t('in-components:stackTrace.fillerTextAt')} />
               <Value text={String(line)} noShrinking />
 
               {column > 0 && (

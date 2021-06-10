@@ -123,7 +123,7 @@ function Table(props) {
           orderDirection={orderBy.direction}
           filterByHref={groupLabel != null ? getHrefToUngroupedView(groupLabel) : null}
           filterByOnClick={groupLabel != null ? () => scrollToTop(window) : null}
-          loadMoreLabel={t('in-new-components:analyze.loadMoreWithCount', { count: retrievalSize })}
+          loadMoreLabel={t('in-components:analyze.loadMoreWithCount', { count: retrievalSize })}
           renderNoDataAvailable={noDataMessage => (
             <NoDataAvailable className={locals.noData} text={noDataMessage} height={80} />
           )}

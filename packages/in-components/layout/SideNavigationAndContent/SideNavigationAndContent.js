@@ -128,7 +128,7 @@ function ContentPane({ pages, ...props }) {
         <Route
           path="*"
           render={() =>
-            NotFoundPage ? <NotFoundPage /> : t('in-new-components:layout.sideNavigationAndContentRouteNotFound')
+            NotFoundPage ? <NotFoundPage /> : t('in-components:layout.sideNavigationAndContentRouteNotFound')
           }
         />
       </Switch>

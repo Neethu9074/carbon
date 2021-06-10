@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React from 'react';
+
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
-import React from 'react';
 
 import ApplicationsHealthIndicatorBar from 'in-new-components/ApplicationHealthOverview/ApplicationsHealthIndicatorBar';
 import getApplicationEntityHealthInfo from 'in-subscription/application/getApplicationEntityHealthInfo';
@@ -46,7 +47,7 @@ const ApplicationHealthOverviewPresenter = ({ config, isPreview, title, dragHand
                 critical={overallHealthStatus?.critical}
                 warning={overallHealthStatus?.warning}
                 total={overallHealthStatus?.total}
-                label={t('in-new-components:applicationHealthOverview.indicatorBar.label')}
+                label={t('in-components:applicationHealthOverview.indicatorBar.label')}
               />
             </div>
             <ApplicationHealthOverview

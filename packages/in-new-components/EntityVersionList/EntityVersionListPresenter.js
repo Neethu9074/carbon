@@ -11,11 +11,7 @@ import { t } from 'in-i18n';
 
 export default function EntityVersionListPresenter({ plugin, versions }) {
   return (
-    <EntityPageMainNotification
-      framed
-      plugin={plugin}
-      explanation={t('in-new-components:entityVersionList.explanation')}
-    >
+    <EntityPageMainNotification framed plugin={plugin} explanation={t('in-components:entityVersionList.explanation')}>
       <EntityVersionListing versions={versions} />
     </EntityPageMainNotification>
   );

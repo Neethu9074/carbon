@@ -24,7 +24,7 @@ export default function EntityHealthIndicator(props) {
         showCheckAsNeutral
         maxSeverity={maxSeverity}
         openIssues={
-          props.inContentArea ? openIssues : t('in-new-components:entityHealthIndicator.indicatorPresenterNoIssues')
+          props.inContentArea ? openIssues : t('in-components:entityHealthIndicator.indicatorPresenterNoIssues')
         }
       />
     );
@@ -40,7 +40,7 @@ export default function EntityHealthIndicator(props) {
 function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, toggle }) {
   return (
     <IndicatorPresenter
-      openIssues={t('in-new-components:entityHealthIndicator.indicatorPresenterOpenIssues', { count: openIssues })}
+      openIssues={t('in-components:entityHealthIndicator.indicatorPresenterOpenIssues', { count: openIssues })}
       maxSeverity={maxSeverity}
       onClick={toggle}
       refSetter={refSetter}

@@ -17,42 +17,42 @@ export const fixedTimePickerPresets = [
   {
     to: null,
     windowSize: minute,
-    label: t('in-new-components:time.lastMinute', { count: 1 })
+    label: t('in-components:time.lastMinute', { count: 1 })
   },
   {
     to: null,
     windowSize: minute * 5,
-    label: t('in-new-components:time.lastMinute', { count: 5 })
+    label: t('in-components:time.lastMinute', { count: 5 })
   },
   {
     to: null,
     windowSize: minute * 10,
-    label: t('in-new-components:time.lastMinute', { count: 10 })
+    label: t('in-components:time.lastMinute', { count: 10 })
   },
   {
     to: null,
     windowSize: minute * 30,
-    label: t('in-new-components:time.lastMinute', { count: 30 })
+    label: t('in-components:time.lastMinute', { count: 30 })
   },
   {
     to: null,
     windowSize: hour,
-    label: t('in-new-components:time.lastHour', { count: 1 })
+    label: t('in-components:time.lastHour', { count: 1 })
   },
   {
     to: null,
     windowSize: hour * 6,
-    label: t('in-new-components:time.lastHour', { count: 6 })
+    label: t('in-components:time.lastHour', { count: 6 })
   },
   {
     to: null,
     windowSize: hour * 12,
-    label: t('in-new-components:time.lastHour', { count: 12 })
+    label: t('in-components:time.lastHour', { count: 12 })
   },
   {
     to: null,
     windowSize: hour * 24,
-    label: t('in-new-components:time.lastHour', { count: 24 })
+    label: t('in-components:time.lastHour', { count: 24 })
   }
 ];
 
@@ -84,7 +84,7 @@ function getYesterdayPreset(months) {
     .toDate();
   const from = date.getTime();
   return {
-    label: t('in-new-components:time.yesterday'),
+    label: t('in-components:time.yesterday'),
     description: `${months[date.getMonth()]} ${date.getDate()}`,
     windowSize: twentyFourHours,
     to: from + twentyFourHours
@@ -98,7 +98,7 @@ function getDayBeforeYesterdayPreset(months) {
     .toDate();
   const to = date.getTime();
   return {
-    label: t('in-new-components:time.twoDaysAgo'),
+    label: t('in-components:time.twoDaysAgo'),
     description: `${months[date.getMonth()]} ${date.getDate()}`,
     windowSize: twentyFourHours,
     to: to + twentyFourHours
@@ -111,7 +111,7 @@ function getLastSevenDaysPreset(months) {
     .toDate();
   const endOfWeek = moment().toDate();
   return {
-    label: t('in-new-components:time.lastSevenDays'),
+    label: t('in-components:time.lastSevenDays'),
     description: `${months[startOfWeek.getMonth()]} ${startOfWeek.getDate()}- ${
       months[endOfWeek.getMonth()]
     } ${endOfWeek.getDate()}`,
@@ -130,7 +130,7 @@ function getPreviousWeekPreset(months) {
     .startOf('week')
     .toDate();
   return {
-    label: t('in-new-components:time.previousWeek'),
+    label: t('in-components:time.previousWeek'),
     description: `${months[startOfWeek.getMonth()]} ${startOfWeek.getDate()} - ${
       months[endOfWeek.getMonth()]
     } ${endOfWeek.getDate()}`,
@@ -143,13 +143,13 @@ export function format(windowSize) {
   const result = `Last ${formatEnglishDurationAccurately(windowSize, 60000, false)}`;
   const match = result.match(/^Last 1 ([a-z]+)$/i);
   if (match && match[1] === 'day') {
-    return t('in-new-components:time.timePresetsLast24Hours');
+    return t('in-components:time.timePresetsLast24Hours');
   } else if (match) {
-    return t('in-new-components:time.timePresetsLast', {
-      duration: t('in-new-components:time.timeUnit', { context: match[1] })
+    return t('in-components:time.timePresetsLast', {
+      duration: t('in-components:time.timeUnit', { context: match[1] })
     });
   } else {
-    return t('in-new-components:time.timePresetsLast', {
+    return t('in-components:time.timePresetsLast', {
       duration: formatDurationAccurately(windowSize, 60000, false)
     });
   }

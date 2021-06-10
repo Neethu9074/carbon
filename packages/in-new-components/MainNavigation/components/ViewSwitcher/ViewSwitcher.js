@@ -107,7 +107,7 @@ export default function ViewSwitcher({
       <Spacer />
       <View
         id="main-nav-settings"
-        label={t('in-new-components:mainNavigation.viewSwitcherLabelSettings')}
+        label={t('in-components:mainNavigation.viewSwitcherLabelSettings')}
         icon="lib_actions_settings_inverted"
         isActive$={isView(settingsPath)}
         href$={getView(settingsPath)}
@@ -116,7 +116,7 @@ export default function ViewSwitcher({
       <InternalView sidebarIsExpanded={isExpanded} onClick={onViewSwitched} onMouseLeave={onMouseLeave} />
       <View
         id="main-nav-more"
-        label={t('in-new-components:mainNavigation.viewSwitcherLabelMore')}
+        label={t('in-components:mainNavigation.viewSwitcherLabelMore')}
         icon="lib_menu_additional_resources"
         expandedSubMenu={expandedSubMenu}
         setExpandedSubMenu={setExpandedSubMenu}
@@ -127,7 +127,7 @@ export default function ViewSwitcher({
       >
         {tenantSwitcherEnabled && (
           <SubViewItem
-            label={t('in-new-components:mainNavigation.viewSwitcherLabelTenants')}
+            label={t('in-components:mainNavigation.viewSwitcherLabelTenants')}
             href={tenantSwitcherLink}
             external
             id="main-nav-tenants"
@@ -135,7 +135,7 @@ export default function ViewSwitcher({
         )}
         {role.canConfigureAgents && (
           <SubViewItem
-            label={t('in-new-components:mainNavigation.viewSwitcherLabelAgents')}
+            label={t('in-components:mainNavigation.viewSwitcherLabelAgents')}
             href$={getView(agentsPath)}
             isActive$={isView(agentsPath)}
             onClick={onViewSwitched}
@@ -144,32 +144,32 @@ export default function ViewSwitcher({
         )}
         {releaseNotesEnabled && (
           <SubViewItem
-            label={t('in-new-components:mainNavigation.viewSwitcherLabelReleaseNotes')}
+            label={t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes')}
             onClick={e => {
               showReleaseNotes();
-              onViewSwitched(e, t('in-new-components:mainNavigation.viewSwitcherLabelReleaseNotes'));
+              onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelReleaseNotes'));
             }}
             id="main-nav-release-notes"
           />
         )}
         <SubViewItem
-          label={t('in-new-components:mainNavigation.viewSwitcherLabelDocumentation')}
+          label={t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}
           href="https://docs.instana.com"
           external
           id="main-nav-documentation"
         />
         <SubViewItem
-          label={t('in-new-components:mainNavigation.viewSwitcherLabelSupport')}
+          label={t('in-components:mainNavigation.viewSwitcherLabelSupport')}
           className={locals.linkElement}
           href="https://support.instana.com"
           external
           id="main-nav-support"
         />
         <SubViewItem
-          label={t('in-new-components:mainNavigation.viewSwitcherLabelAboutInstana')}
+          label={t('in-components:mainNavigation.viewSwitcherLabelAboutInstana')}
           onClick={e => {
             addActiveDialog(<AboutInstanaDialog />);
-            onViewSwitched(e, t('in-new-components:mainNavigation.viewSwitcherLabelAboutInstana'));
+            onViewSwitched(e, t('in-components:mainNavigation.viewSwitcherLabelAboutInstana'));
           }}
           id="main-nav-about"
         />
@@ -191,7 +191,7 @@ const InternalView = connectTo({ isInternalVisible: isInternalVisible$ }, functi
 
   return (
     <View
-      label={t('in-new-components:mainNavigation.viewSwitcherLabelInternal')}
+      label={t('in-components:mainNavigation.viewSwitcherLabelInternal')}
       icon="lib_actions_lock"
       isActive$={isView('/internal')}
       href$={getModifiedUrlStream(p => (p.pathname = '/internal'))}
@@ -220,7 +220,7 @@ const Incidents = connectTo(
       <div className={locals.incidentMenu}>
         <View
           id="main-nav-events"
-          label={t('in-new-components:mainNavigation.viewSwitcherLabelEvents')}
+          label={t('in-components:mainNavigation.viewSwitcherLabelEvents')}
           icon="lib_events_inverted"
           href$={getEventsViewFilteredBy({ eventTypeFilter: 'incident' })}
           isActive={isActive}
@@ -248,7 +248,7 @@ function SignOut() {
       <SubViewItem
         renderLabel={className => (
           <button className={classNames(locals.signOutButton, className)} type="submit">
-            {t('in-new-components:mainNavigation.viewSwitcherButtonSignOut')}
+            {t('in-components:mainNavigation.viewSwitcherButtonSignOut')}
             <span className={locals.userEmail}>{user.email}</span>
           </button>
         )}
@@ -261,7 +261,7 @@ function Infrastructure(props) {
   return (
     <View
       id="main-nav-infrastructure"
-      label={t('in-new-components:mainNavigation.viewSwitcherlabelInfrastructure')}
+      label={t('in-components:mainNavigation.viewSwitcherlabelInfrastructure')}
       icon="lib_infrastructure_inverted"
       isActive$={any(isView(physicalPath), isView(containerPath), isTableView('physical'))}
       href$={getView(physicalPath)}
@@ -278,7 +278,7 @@ function Applications(props) {
   return (
     <View
       id="main-nav-application"
-      label={t('in-new-components:mainNavigation.viewSwitcherLabelApplications')}
+      label={t('in-components:mainNavigation.viewSwitcherLabelApplications')}
       icon="lib_application_invert"
       isActive$={isView(isApplicationsView)}
       href$={getView(applicationsList)}
@@ -295,7 +295,7 @@ function Analyze(props) {
   return (
     <View
       id="main-nav-analyze"
-      label={t('in-new-components:mainNavigation.viewSwitcherLabelAnalytics')}
+      label={t('in-components:mainNavigation.viewSwitcherLabelAnalytics')}
       icon="lib_analyze_inverted"
       isActive$={any(
         isView(isAnalyzeView),
@@ -342,7 +342,7 @@ function WebsiteMobileAppView(props) {
     return (
       <View
         id="main-nav-websites"
-        label={t('in-new-components:mainNavigation.viewSwitcherLabelWebsitesAndMobileApps')}
+        label={t('in-components:mainNavigation.viewSwitcherLabelWebsitesAndMobileApps')}
         icon="lib_website_mobile_app_inverted"
         href$={getView(websiteMonitoringPath)}
         isActive$={any(isWebsiteView$, isMobileAppView$)}
@@ -355,7 +355,7 @@ function WebsiteMobileAppView(props) {
     return (
       <View
         id="main-nav-websites"
-        label={t('in-new-components:mainNavigation.viewSwitcherLabelWebsites')}
+        label={t('in-components:mainNavigation.viewSwitcherLabelWebsites')}
         icon="lib_website_inverted"
         href$={getView(websiteMonitoringPath)}
         isActive$={isWebsiteView$}
@@ -368,7 +368,7 @@ function WebsiteMobileAppView(props) {
     return (
       <View
         id="main-nav-mobile-apps"
-        label={t('in-new-components:mainNavigation.viewSwitcherLabelMobileApps')}
+        label={t('in-components:mainNavigation.viewSwitcherLabelMobileApps')}
         icon="lib_mobile_app_inverted"
         href$={getView(mobileAppMonitoringPath)}
         isActive$={isMobileAppView$}
@@ -397,7 +397,7 @@ function Platforms(props) {
       {hasKubernetesAccess && (
         <ViewItemForPlatforms
           id="main-nav-kubernetes"
-          label={t('in-new-components:mainNavigation.viewSwitcherLabelKubernetes')}
+          label={t('in-components:mainNavigation.viewSwitcherLabelKubernetes')}
           icon="lib_kubernetes_inverted"
           href$={getView(kubernetesClusterList)}
           isActive$={isView(kubernetes)}
@@ -408,7 +408,7 @@ function Platforms(props) {
       {pcfEnabled && (
         <ViewItemForPlatforms
           id="main-nav-cloudfoundry"
-          label={t('in-new-components:mainNavigation.viewSwitcherLabelCloudFoundry')}
+          label={t('in-components:mainNavigation.viewSwitcherLabelCloudFoundry')}
           icon="lib_cloudfoundry_inverted"
           href$={getView(cloudfoundryApplicationList)}
           isActive$={isView(cloudfoundry)}
@@ -419,7 +419,7 @@ function Platforms(props) {
       {vsphereEnabled && (
         <ViewItemForPlatforms
           id="main-nav-vsphere"
-          label={t('in-new-components:mainNavigation.viewSwitcherLabelvSphere')}
+          label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}
           icon="lib_vsphere_inverted"
           href$={getView(datacenterListFullyQualified)}
           isActive$={isView(vsphere)}
@@ -433,7 +433,7 @@ function Platforms(props) {
     return (
       <View
         id="main-nav-platforms"
-        label={t('in-new-components:mainNavigation.viewSwitcherLabelPlatforms')}
+        label={t('in-components:mainNavigation.viewSwitcherLabelPlatforms')}
         icon="lib_platforms_inverted"
         isActive$={any(isView(kubernetes), isView(cloudfoundry), isView(vsphere))}
         expandedSubMenu={expandedSubMenu}

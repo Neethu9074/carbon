@@ -25,8 +25,8 @@ export default function ApiQueryOverlay({ backendQueryModel }) {
         <KeyValue
           className={locals.keyValue}
           inverted
-          customValue={t('in-new-components:queryBuilder.workspaceAPIQuery')}
-          label={t('in-new-components:queryBuilder.workspaceUseThisExpressionToQueryOurAPI')}
+          customValue={t('in-components:queryBuilder.workspaceAPIQuery')}
+          label={t('in-components:queryBuilder.workspaceUseThisExpressionToQueryOurAPI')}
           accentuated
         />
         <CopyToClipboardButton kind="action" getText={() => jsonString} />

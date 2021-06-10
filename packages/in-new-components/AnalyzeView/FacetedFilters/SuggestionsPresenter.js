@@ -155,7 +155,7 @@ function Results({
       <div className={locals.buttonRow}>
         {nextBatch > 0 && (
           <Button className={locals.loadMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>
-            {t('in-new-components:analyze.loadMore')}
+            {t('in-components:analyze.loadMore')}
           </Button>
         )}
         <div />
@@ -166,7 +166,7 @@ function Results({
             href={getHrefToGroupedView({ tag, tagEntity: entity })}
             onClick={() => tracker.groupClicked({ dataSource, tagName: tag })}
           >
-            {t('in-new-components:analyze.addAsGroup')}
+            {t('in-components:analyze.addAsGroup')}
           </Button>
         )}
       </div>
@@ -175,5 +175,5 @@ function Results({
 }
 
 function NoResults() {
-  return <div>{t('in-new-components:analyze.noResults')}</div>;
+  return <div>{t('in-components:analyze.noResults')}</div>;
 }

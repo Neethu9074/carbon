@@ -27,7 +27,7 @@ export default function StackGroup({
     <ListGroup
       label={
         <>
-          {t('in-new-components:stack.relationship', {
+          {t('in-components:stack.relationship', {
             context: relationship,
             itemCount: itemCount,
             plugin: getPluginName(type, itemCount)
@@ -48,7 +48,7 @@ export default function StackGroup({
       ))}
       {numMoreItems > 0 && (
         <Li className={locals.loadMore} noAlternatingBg>
-          {t('in-new-components:list.labelMoreItems', { numMoreItems: numMoreItems })}
+          {t('in-components:list.labelMoreItems', { numMoreItems: numMoreItems })}
         </Li>
       )}
     </ListGroup>

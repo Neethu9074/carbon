@@ -25,7 +25,7 @@ export default function Bracket(props) {
     <ConjunctionOrBracketBehavior
       element={element}
       value={element.type === OPEN_BRACKET ? openBracket : closeBracket}
-      aria-label={t('in-new-components:queryBuilder.components.bracketLabelChosenBracket')}
+      aria-label={t('in-components:queryBuilder.components.bracketLabelChosenBracket')}
       data-render-model-index={renderModelIndex}
       {...props}
     >

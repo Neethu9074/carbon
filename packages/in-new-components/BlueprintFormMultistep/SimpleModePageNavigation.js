@@ -84,14 +84,14 @@ export default function SimpleModePageNavigation({
           form={form}
           primaryActionText={
             step === stepConfigs.length - 1
-              ? t('in-new-components:blueprintFormMultistep.buttonCreate')
-              : t('in-new-components:blueprintFormMultistep.buttonNext')
+              ? t('in-components:blueprintFormMultistep.buttonCreate')
+              : t('in-components:blueprintFormMultistep.buttonNext')
           }
           onSecondaryActionClick={() => backOrCancel(step)}
           secondaryActionText={
             step === 0
-              ? t('in-new-components:blueprintFormMultistep.buttonCancel')
-              : t('in-new-components:blueprintFormMultistep.buttonBack')
+              ? t('in-components:blueprintFormMultistep.buttonCancel')
+              : t('in-components:blueprintFormMultistep.buttonBack')
           }
           primaryActionDisabled={(isDisabled || isCalculatingThreshold) && step !== 0}
           saving={isSaving}

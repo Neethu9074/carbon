@@ -29,11 +29,11 @@ import locals from './TimeSelectionDialogPresenter.mless';
 const tabList = [
   {
     icon: 'lib_datetime_timerange',
-    text: t('in-new-components:time.timeSelectionDialogPresenterLabelTimeRange')
+    text: t('in-components:time.timeSelectionDialogPresenterLabelTimeRange')
   },
   {
     icon: 'lib_release_rocket',
-    text: t('in-new-components:time.timeSelectionDialogPresenterLabelReleases')
+    text: t('in-components:time.timeSelectionDialogPresenterLabelReleases')
   }
 ];
 

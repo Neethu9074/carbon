@@ -16,12 +16,12 @@ export default function Header({ openIssuesResult, maxIssuesToShow, eventType, c
 
   let title = null;
   if (openIssuesResult.progress.loading) {
-    title = t('in-new-components:health.openIssuesListPresenterHeaderTitleLoadingOpenIssues', {
-      eventType: t('in-new-components:health.eventType', { context: eventTypeContext, count: 2 })
+    title = t('in-components:health.openIssuesListPresenterHeaderTitleLoadingOpenIssues', {
+      eventType: t('in-components:health.eventType', { context: eventTypeContext, count: 2 })
     });
   } else if (openIssuesResult.errors.length > 0) {
-    title = t('in-new-components:health.openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues', {
-      eventType: t('in-new-components:health.eventType', {
+    title = t('in-components:health.openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues', {
+      eventType: t('in-components:health.eventType', {
         context: eventTypeContext,
         count: openIssuesResult.errors.length
       })
@@ -30,13 +30,13 @@ export default function Header({ openIssuesResult, maxIssuesToShow, eventType, c
     const openIssueCount = openIssuesResult.data.length;
     title = (
       <Fragment>
-        {t('in-new-components:health.openIssuesListPresenterHeaderNumbersOfOpenIssues', {
+        {t('in-components:health.openIssuesListPresenterHeaderNumbersOfOpenIssues', {
           openIssueCount: openIssueCount,
-          eventType: t('in-new-components:health.eventType', { context: eventTypeContext, count: openIssueCount })
+          eventType: t('in-components:health.eventType', { context: eventTypeContext, count: openIssueCount })
         })}
         {openIssueCount > maxIssuesToShow && (
           <span className={locals.more}>
-            {t('in-new-components:health.openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere', {
+            {t('in-components:health.openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere', {
               maxIssuesToShow: maxIssuesToShow
             })}
           </span>

@@ -14,8 +14,8 @@ import { t } from 'in-i18n';
 import locals from './TimeIcon.mless';
 
 export const historicDataMessage = retention =>
-  t('in-new-components:time.timeIconHistoricDataMessage', { retention: retention });
-export const LARGE_DATA_MESSAGE = t('in-new-components:time.timeIconLargeDataMessage');
+  t('in-components:time.timeIconHistoricDataMessage', { retention: retention });
+export const LARGE_DATA_MESSAGE = t('in-components:time.timeIconLargeDataMessage');
 
 export default function TimeIcon({
   selected,

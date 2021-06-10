@@ -19,10 +19,10 @@ export default function ResultForTimeSelectionIndicator({ className, entityName,
       <div className={locals.notificationWrapper}>
         <SvgIcon className={locals.icon} type="lib_help_error_info_outline" />
         {message ??
-          t('in-new-components:resultForTimeSelectionIndicator.labelShowingForSelection', { entityName: entityName })}
+          t('in-components:resultForTimeSelectionIndicator.labelShowingForSelection', { entityName: entityName })}
       </div>
       <Button size="compact" kind="action" icon="lib_openclose_circle" onClick={clearHighlightedTimeframe}>
-        {t('in-new-components:resultForTimeSelectionIndicator.buttonClearSelection')}
+        {t('in-components:resultForTimeSelectionIndicator.buttonClearSelection')}
       </Button>
     </div>
   );

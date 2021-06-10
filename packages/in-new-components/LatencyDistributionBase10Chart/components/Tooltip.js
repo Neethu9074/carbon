@@ -101,7 +101,7 @@ function latencyRangeLabel(buckets) {
   } else if (from == null || from === 0) {
     latencyRangeLabel = `< ${to}`;
   } else {
-    latencyRangeLabel = t('in-new-components:latencyDistributionBase10Chart.latencyRangeLabelFromTimeToTime', {
+    latencyRangeLabel = t('in-components:latencyDistributionBase10Chart.latencyRangeLabelFromTimeToTime', {
       from: from,
       to: to
     });

@@ -45,7 +45,7 @@ export default function DraggableItemSelector(props) {
                       {provided => (
                         <div className={locals.item} ref={provided.innerRef} {...provided.draggableProps}>
                           {onSwap ? (
-                            <Tooltip content={t('in-new-components:draggableItemSelector.tooltipReorderMetrics')}>
+                            <Tooltip content={t('in-components:draggableItemSelector.tooltipReorderMetrics')}>
                               <div className={locals.dragHandle} {...provided.dragHandleProps}>
                                 <SvgIcon type="lib_menu" size="xs" />
                               </div>

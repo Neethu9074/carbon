@@ -25,7 +25,7 @@ export default function PromptPresenter({
   description,
   additionalFields,
   inputLabel,
-  confirmButtonLabel = t('in-new-components:dialog.promptPresenterLabelConfirm'),
+  confirmButtonLabel = t('in-components:dialog.promptPresenterLabelConfirm'),
   onSubmit,
   field,
   form,

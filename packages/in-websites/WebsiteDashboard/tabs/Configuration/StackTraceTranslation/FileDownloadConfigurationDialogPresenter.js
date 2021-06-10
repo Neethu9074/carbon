@@ -9,9 +9,9 @@ import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
+import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import TemporaryMessage from 'in-components/TemporaryMessage';
 import SectionHelp from 'in-settings/components/SectionHelp';
 import { close } from 'in-components/DialogPresenter/store';
 import SaveCancel from 'in-settings/components/SaveCancel';

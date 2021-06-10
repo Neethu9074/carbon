@@ -26,7 +26,7 @@ export default function ApiQueryAction({ backendQueryModel, tracking }) {
             }
           }}
         >
-          {t('in-new-components:queryBuilder.workspaceAPIQuery')}
+          {t('in-components:queryBuilder.workspaceAPIQuery')}
         </Action>
       )}
     </Overlay>

@@ -15,7 +15,7 @@ import locals from './FeatureFeedback.mless';
 
 export default function FeatureFeedback({
   href,
-  labelText = t('in-new-components:featureFeedback.labelBETA'),
+  labelText = t('in-components:featureFeedback.labelBETA'),
   styles = {}
 }) {
   return (
@@ -24,7 +24,7 @@ export default function FeatureFeedback({
         {labelText}
       </Pill>
       <Link className={locals.betaLink} external href={href}>
-        {t('in-new-components:featureFeedback.linkLabelYouCanSendUsFeedback')}
+        {t('in-components:featureFeedback.linkLabelYouCanSendUsFeedback')}
       </Link>
     </div>
   );

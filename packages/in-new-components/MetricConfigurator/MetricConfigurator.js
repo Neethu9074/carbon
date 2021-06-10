@@ -30,7 +30,7 @@ export default function MetricConfigurator({ values, options, onChange, tracking
           refSetter={compositeRef(refSetter, ref)}
           onClick={toggle}
         >
-          {t('in-new-components:metricConfigurator.buttonSelectMetrics')}
+          {t('in-components:metricConfigurator.buttonSelectMetrics')}
         </DropdownButton>
       )}
     </Overlay>

@@ -32,7 +32,7 @@ export default function Suggestion({ toggle, suggestions, onAddToFormModel }) {
         className={locals.addSuggestionIndicator}
         onClick={() => onAddToFormModel(translateSuggestionToNewFormModelElement(suggestion))}
       >
-        {t('in-new-components:queryBuilder.components.spacingSuggestionAnd')}
+        {t('in-components:queryBuilder.components.spacingSuggestionAnd')}
       </div>
     );
   }

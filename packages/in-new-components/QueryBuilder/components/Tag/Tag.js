@@ -186,8 +186,8 @@ export default function Tag(props) {
       }
       const message =
         operator === form.items.operator.value
-          ? t('in-new-components:queryBuilder.sanitizedTagFilterValue')
-          : t('in-new-components:queryBuilder.sanitizedTagFilterValueAndOperator');
+          ? t('in-components:queryBuilder.sanitizedTagFilterValue')
+          : t('in-components:queryBuilder.sanitizedTagFilterValueAndOperator');
       onChangeInFormModel(
         {
           ...form.toJS(),
@@ -266,7 +266,7 @@ function KeyInput({
     <Input
       value={field.value || ''}
       onChange={value => onChange('key', value)}
-      placeholder={t('in-new-components:queryBuilder.components.tagPlaceholderKey')}
+      placeholder={t('in-components:queryBuilder.components.tagPlaceholderKey')}
       valid={field.valid}
       hideValidityInformationOnFocus
       fieldsToWatch={[tagType, entity, timeConfig]}
@@ -327,7 +327,7 @@ function ValueInput({
       <NumberInput
         value={field.value}
         valid={field.valid}
-        placeholder={t('in-new-components:queryBuilder.components.tagPlaceholderValue')}
+        placeholder={t('in-components:queryBuilder.components.tagPlaceholderValue')}
         onChange={onValueChange}
         minValue={minNumValue}
       />
@@ -338,7 +338,7 @@ function ValueInput({
   const key = form.get('key')?.value;
 
   const inputProps = {
-    placeholder: t('in-new-components:queryBuilder.components.tagPlaceholderValue'),
+    placeholder: t('in-components:queryBuilder.components.tagPlaceholderValue'),
     onChange: onValueChange,
     valid: field.valid,
     fieldsToWatch: [entity, timeConfig, field.value, key],

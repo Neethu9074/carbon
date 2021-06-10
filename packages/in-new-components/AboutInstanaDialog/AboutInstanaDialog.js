@@ -39,7 +39,7 @@ export default connectTo(
                     {
                       width: '10rem',
                       getContent() {
-                        return t('in-new-components:aboutInstanaDialog.columnizedContentDeployment');
+                        return t('in-components:aboutInstanaDialog.columnizedContentDeployment');
                       }
                     },
                     {
@@ -47,7 +47,7 @@ export default connectTo(
                       getContent() {
                         return (
                           <KeyValue
-                            label={t('in-new-components:aboutInstanaDialog.labelRegion')}
+                            label={t('in-components:aboutInstanaDialog.labelRegion')}
                             value={instanaRegion}
                             accentuated
                           />
@@ -65,7 +65,7 @@ export default connectTo(
                   {
                     width: '10rem',
                     getContent() {
-                      return t('in-new-components:aboutInstanaDialog.columnizedContentUserInterface');
+                      return t('in-components:aboutInstanaDialog.columnizedContentUserInterface');
                     }
                   },
                   {
@@ -74,7 +74,7 @@ export default connectTo(
                       return (
                         build.tag && (
                           <KeyValue
-                            label={t('in-new-components:aboutInstanaDialog.labelTag')}
+                            label={t('in-components:aboutInstanaDialog.labelTag')}
                             value={build.tag}
                             accentuated
                           />
@@ -88,7 +88,7 @@ export default connectTo(
                       return (
                         build.revision && (
                           <KeyValue
-                            label={t('in-new-components:aboutInstanaDialog.labelCommit')}
+                            label={t('in-components:aboutInstanaDialog.labelCommit')}
                             value={build.revision.substring(0, 12)}
                             accentuated
                           />
@@ -107,7 +107,7 @@ export default connectTo(
                     {
                       width: '10rem',
                       getContent() {
-                        return t('in-new-components:aboutInstanaDialog.columnizedContentBackend');
+                        return t('in-components:aboutInstanaDialog.columnizedContentBackend');
                       }
                     },
                     {
@@ -116,7 +116,7 @@ export default connectTo(
                         return (
                           uiBackendVersion.imageTag && (
                             <KeyValue
-                              label={t('in-new-components:aboutInstanaDialog.labelTag')}
+                              label={t('in-components:aboutInstanaDialog.labelTag')}
                               value={uiBackendVersion.imageTag}
                               accentuated
                             />
@@ -130,7 +130,7 @@ export default connectTo(
                         return (
                           uiBackendVersion.commit && (
                             <KeyValue
-                              label={t('in-new-components:aboutInstanaDialog.labelCommit')}
+                              label={t('in-components:aboutInstanaDialog.labelCommit')}
                               value={uiBackendVersion.commit.substring(0, 12)}
                               accentuated
                             />
@@ -151,7 +151,7 @@ export default connectTo(
               close();
             }}
           >
-            {t('in-new-components:aboutInstanaDialog.buttonGraphShowcase')}
+            {t('in-components:aboutInstanaDialog.buttonGraphShowcase')}
           </Button>
         </Stack>
       </Dialog>

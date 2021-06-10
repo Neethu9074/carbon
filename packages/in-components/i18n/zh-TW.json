@@ -136,5 +136,504 @@
       "title": "發生錯誤",
       "content": "<p>無法啟用 Instana 使用者介面的一部分，因為發生非預期的錯誤。請嘗試重新載入此頁面。</p><p>錯誤 ID：<code>{{errorId}}</code></p>"
     }
+  },
+  "analyzeView": {
+    "splitScreenListTooltipCloseSidebar": "關閉資訊看板",
+    "splitScreenListTooltipOpenSidebar": "開啟資訊看板",
+    "result": "{{formattedCount}} 個結果",
+    "result_plural": "{{formattedCount}} 個結果",
+    "result_0": "{{formattedCount}} 個結果",
+    "result_1": "{{formattedCount}} 個結果",
+    "result_2": "{{formattedCount}} 個結果",
+    "resultRetained": "已保留 {{formattedCount}} 個",
+    "resultRetained_plural": "已保留 {{formattedCount}} 個",
+    "resultRetained_0": "已保留 {{formattedCount}} 個",
+    "resultRetained_1": "已保留 {{formattedCount}} 個",
+    "resultRetained_2": "已保留 {{formattedCount}} 個",
+    "groupedViewHeader": "{{formattedCount}} 個群組",
+    "groupedViewHeader_plural": "{{formattedCount}} 個群組",
+    "groupedViewHeader_0": "群組",
+    "groupedViewHeader_1": "群組",
+    "groupedViewHeader_2": "群組",
+    "resultHeaderLoading": "載入中...",
+    "resultHeaderTooltip": "查詢時間範圍已捨入至最接近的整分鐘，以便讓此視圖能更快載入。",
+    "queryProgress": {
+      "preparing": "準備中...",
+      "runningQuery": "正在執行查詢...",
+      "timeout": "此查詢已逾時。",
+      "timeoutEstimated": "查詢的執行時間太久。",
+      "timeoutInfo": "請選取較短的時間範圍，或套用更多過濾器以發出更具體的查詢。",
+      "inputError": "發生輸入錯誤。",
+      "tooManyRequests": "要求太多",
+      "tooManyRequestsInfo": "我們的系統目前忙碌中。請稍後再試一次。",
+      "serverError": "伺服器錯誤",
+      "serverErrorInfo": "發生非預期的錯誤。請稍後重試，或聯絡支援中心以報告錯誤。"
+    }
+  },
+  "aboutInstanaDialog": {
+    "columnizedContentDeployment": "部署",
+    "columnizedContentUserInterface": "使用者介面",
+    "columnizedContentBackend": "後端",
+    "labelRegion": "地區",
+    "labelTag": "標籤",
+    "labelCommit": "確定",
+    "buttonGraphShowcase": "圖形展示"
+  },
+  "blueprintFormMultistep": {
+    "buttonCancel": "取消",
+    "buttonBack": "上一步",
+    "buttonCreate": "建立",
+    "buttonNext": "下一步"
+  },
+  "chartingConfigurator": {
+    "buttonAddChart": "新增圖表",
+    "labelChangeSelectedMetric": "變更選取的度量",
+    "labelChangeSelectedAggregation": "變更選取的聚集",
+    "labelChangeSelectedRenderer": "變更選取的呈現器",
+    "titleChart": "圖表"
+  },
+  "dashboardHeader": {
+    "urlShortenerTabListTextShortLink": "短鏈結",
+    "urlShortenerWaitTextGeneratingShortLink": "正在產生短鏈結。",
+    "urlShortenerLabelLockCurrentTimeRange": "鎖定現行時間範圍",
+    "urlShortenerLabelLive": "{{timeConfig}}（即時）",
+    "copy": "複製"
+  },
+  "delayed": {
+    "displayNameDelayed": "延遲"
+  },
+  "dialog": {
+    "confirmationDialogLabelConfirm": "確認",
+    "promptPresenterLabelConfirm": "確認"
+  },
+  "draggableItemSelector": {
+    "tooltipReorderMetrics": "重新排序度量"
+  },
+  "entityHealthIndicator": {
+    "indicatorPresenterNoIssues": "沒有問題",
+    "indicatorPresenterOpenIssues": "{{count}} 個問題",
+    "indicatorPresenterOpenIssues_plural": "{{count}} 個問題",
+    "indicatorPresenterOpenIssues_0": "{{count}} 個問題",
+    "indicatorPresenterOpenIssues_1": "{{count}} 個問題",
+    "indicatorPresenterOpenIssues_2": "{{count}} 個問題"
+  },
+  "entityPageMainNotification": {
+    "labelEntity": "實體",
+    "labelNotFound": "找不到 {{entity}}"
+  },
+  "entityVersionList": {
+    "headingAvailableTimeRanges": "可用的時間範圍",
+    "explanation": "我們在選取的時間範圍內找不到此實體的版本。我們在不同的時間範圍內找到其他版本：",
+    "noDataAvailable": "沒有可用的資料"
+  },
+  "error": {
+    "erroneousResultPresenterMessage": "發生非預期的錯誤。請重新整理頁面或稍後重試。"
+  },
+  "expandableCard": {
+    "tooltipShowLess": "顯示更少",
+    "tooltipShowMore": "顯示更多"
+  },
+  "expandableGroup": {
+    "tooltipShowContent": "顯示內容",
+    "labelExpandButtonForContent": "內容的展開按鈕"
+  },
+  "featureFeedback": {
+    "labelBETA": "測試版",
+    "linkLabelYouCanSendUsFeedback": "您可以傳送意見給我們"
+  },
+  "geoHeatMap": {
+    "loadingIndicatorLoadingData": "正在載入資料",
+    "tooltipResetView": "重設視圖",
+    "tooltipZoomIn": "放大",
+    "tooltipZoomOut": "縮小"
+  },
+  "groupingConfigurator": {
+    "exampleTagCatalogLabelKubernetes": "Kubernetes",
+    "exampleTagCatalogLabelCluster": "叢集",
+    "exampleTagCatalogLabelName": "名稱",
+    "exampleTagCatalogLabelNamespace": "名稱空間",
+    "exampleTagCatalogLabelInternal": "內部",
+    "exampleTagCatalogLabelType": "類型",
+    "exampleTagCatalogLabelLabel": "標籤",
+    "exampleTagCatalogDescriptionStringClustersLabel": "字串 - 叢集的標籤",
+    "exampleTagCatalogDescriptionStringNamespaceName": "字串 - 名稱空間名稱",
+    "exampleTagCatalogDescriptionTypeOfEntity": "實體的類型",
+    "exampleTagCatalogDescriptionLabelOfEntity": "實體的標籤",
+    "addGroup": "新增群組",
+    "titleGroup": "群組",
+    "loadingIndicatorLoadingTagCatalog": "正在載入標籤型錄...",
+    "optional": "選用"
+  },
+  "health": {
+    "eventType_issue": "問題",
+    "eventType_issue_plural": "問題",
+    "eventType_issue_0": "問題",
+    "eventType_issue_1": "問題",
+    "eventType_issue_2": "問題",
+    "openIssuesListPresenterActionsViewIssues": "檢視 {{eventType}}",
+    "openIssuesListPresenterActionsViewNumbersOfIssue": "檢視 {{openIssueCount}} {{eventType}}",
+    "openIssuesListPresenterHeaderTitleLoadingOpenIssues": "正在載入開啟的 {{eventType}}...",
+    "openIssuesListPresenterHeaderTitleFailedToLoadOpenIssues": "無法載入開啟的 {{eventType}}",
+    "openIssuesListPresenterHeaderNumbersOfOpenIssues": "{{openIssueCount}} 個開啟的 {{eventType}}",
+    "openIssuesListPresenterHeaderDisplayingMaxIssuesToShowMostSevere": "（顯示 {{maxIssuesToShow}} 個最嚴重的問題）",
+    "openIssuesListPresenterIssueDescriptionOmitted": "已省略問題說明。可以在事件的詳細視圖內看見其他詳細資料。",
+    "openIssuesListPresenterStarted": "開始時間"
+  },
+  "inlineTabNavigation": {
+    "labelSelectTab": "選取標籤"
+  },
+  "kpiCard": {
+    "tooltipComparedToTimeShift": "相較於 {{timeShift}}：{{comparisonValue}}"
+  },
+  "latencyDistributionBase10Chart": {
+    "latencyChartOverlayLabelRemoveLatencyFilter": "移除延遲時間過濾器",
+    "percentileMenuButtonPercentileView": "百分位數視圖",
+    "percentileMenuLabelAll": "全部",
+    "presenterLabelNoDataToDisplay": "無資料可顯示",
+    "presenterLabelTraces": "追蹤",
+    "presenterLabelCalls": "呼叫",
+    "latencyRangeLabelFromTimeToTime": "{{from}} 至 {{to}}"
+  },
+  "layout": {
+    "sideNavigationAndContentRouteNotFound": "找不到"
+  },
+  "list": {
+    "labelMoreItems": "再多 +{{numMoreItems}} 個..."
+  },
+  "loading": {
+    "labelLoadingData": "正在載入資料"
+  },
+  "mainNavigation": {
+    "viewSwitcherLabelSettings": "設定",
+    "viewSwitcherLabelMore": "更多",
+    "viewSwitcherLabelTenants": "租戶",
+    "viewSwitcherLabelAgents": "代理程式",
+    "viewSwitcherLabelReleaseNotes": "版本注意事項",
+    "viewSwitcherLabelDocumentation": "說明文件",
+    "viewSwitcherLabelSupport": "支援",
+    "viewSwitcherLabelAboutInstana": "關於 Instana",
+    "viewSwitcherLabelInternal": "內部",
+    "viewSwitcherLabelEvents": "事件",
+    "viewSwitcherlabelInfrastructure": "基礎架構",
+    "viewSwitcherLabelApplications": "應用程式",
+    "viewSwitcherLabelAnalytics": "分析",
+    "viewSwitcherLabelWebsitesAndMobileApps": "網站和行動式應用程式",
+    "viewSwitcherLabelWebsites": "網站",
+    "viewSwitcherLabelMobileApps": "行動式應用程式",
+    "viewSwitcherLabelKubernetes": "Kubernetes",
+    "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
+    "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherLabelPlatforms": "平台",
+    "viewSwitcherButtonSignOut": "登出",
+    "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "有新的 Instana 使用者介面版本可用",
+    "newUiClientVersionAvailableButtonReloadToUpdate": "重新載入以更新"
+  },
+  "metricConfigurator": {
+    "buttonSelectMetrics": "選取度量",
+    "messagePleaseSelectAtMostMetrics": "請選取最多 {{maximumNumberOfMetrics}} 個度量。",
+    "titleAddAMetric": "新增度量",
+    "labelPleaseSelect": "請選取",
+    "labelAlreadySelected": "已選取",
+    "search": "搜尋",
+    "aggregation_MEAN": "平均值",
+    "aggregation_MIN": "最小值",
+    "aggregation_P25": "P25",
+    "aggregation_P50": "P50",
+    "aggregation_P75": "P75",
+    "aggregation_P90": "P90",
+    "aggregation_P95": "P95",
+    "aggregation_P98": "P98",
+    "aggregation_P99": "P99",
+    "aggregation_MAX": "MAX",
+    "aggregation_DISTINCTCOUNT": "DISTINCT_COUNT",
+    "aggregation_SUM": "總和",
+    "aggregation_DISTRIBUTION": "DISTRIBUTION"
+  },
+  "profiling": {
+    "headerColumnDefinitionsUsed": "已用",
+    "headerColumnDefinitionsCode": "程式碼"
+  },
+  "resultForTimeSelectionIndicator": {
+    "labelShowingForSelection": "顯示 {{entityName}} 以選取",
+    "buttonClearSelection": "清除選擇項"
+  },
+  "searchInput": {
+    "placeholderSearch": "搜尋..."
+  },
+  "selectorOverlay": {
+    "placeholderSearch": "搜尋",
+    "loadingIndicatorLoadingCatalog": "正在載入型錄"
+  },
+  "sortingConfigurator": {
+    "labelNA": "N/A",
+    "buttonAscending": "升冪",
+    "buttonDescending": "降冪"
+  },
+  "stack": {
+    "relationship_CONTAINS": "包含 {{itemCount}} 個 {{plugin}}",
+    "relationship_DEFINED_IN": "已定義於 {{itemCount}} 個 {{plugin}} 中",
+    "relationship_DEPLOYED_ON": "已部署在 {{itemCount}} 個 {{plugin}} 上",
+    "relationship_DEPLOYED_WITHIN": "已部署在 {{itemCount}} 個 {{plugin}} 內",
+    "relationship_EXECUTED_BY": "已由 {{itemCount}} 個 {{plugin}} 執行",
+    "relationship_EXECUTING": "正在執行 {{itemCount}} 個 {{plugin}}",
+    "relationship_EXPOSED_BY": "已由 {{itemCount}} 個 {{plugin}} 顯露",
+    "relationship_EXPOSED_THROUGH": "已透過 {{itemCount}} 個 {{plugin}} 顯露",
+    "relationship_EXPOSES": "顯露 {{itemCount}} 個 {{plugin}}",
+    "relationship_EXPOSING": "正在顯露 {{itemCount}} 個 {{plugin}}",
+    "relationship_ORCHESTRATED_IN": "已編排在 {{itemCount}} 個 {{plugin}} 中",
+    "relationship_ORCHESTRATED_ON": "已編排在 {{itemCount}} 個 {{plugin}} 上",
+    "relationship_ORCHESTRATING": "正在編排 {{itemCount}} 個 {{plugin}}",
+    "relationship_PART_OF": "{{itemCount}} 個 {{plugin}} 的一部分",
+    "relationship_PROVIDED_BY": "由 {{itemCount}} 個 {{plugin}} 提供",
+    "relationship_PROVIDED_FROM": "已從 {{itemCount}} 個 {{plugin}} 提供",
+    "relationship_PROVIDED_ON": "已提供於 {{itemCount}} 個 {{plugin}} 上",
+    "relationship_PROVIDED_WITHIN": "已提供於 {{itemCount}} 個 {{plugin}} 內",
+    "relationship_PROVIDES": "提供 {{itemCount}} 個 {{plugin}}",
+    "relationship_RUNS": "執行 {{itemCount}} 個 {{plugin}}",
+    "relationship_RUNS_IN": "在 {{itemCount}} 個 {{plugin}}中執行",
+    "relationship_RUNS_ON": "在 {{itemCount}} 個 {{plugin}}上執行",
+    "relationship_RUNS_WITHIN": "在 {{itemCount}} 個 {{plugin}}內執行",
+    "relationship_SCHEDULED": "已排程 {{itemCount}} 個 {{plugin}}",
+    "relationship_SCHEDULED_BY": "已由 {{itemCount}} 個 {{plugin}} 排程",
+    "relationship_SCHEDULED_ON": "已排程於 {{itemCount}} 個 {{plugin}} 上",
+    "relationship_SCHEDULED_WITHIN": "已排程於 {{itemCount}} 個 {{plugin}} 內",
+    "relationship_SCHEDULES": "排程 {{itemCount}} 個 {{plugin}}",
+    "relationship_SCHEDULING_IN": "正在排程於 {{itemCount}} 個 {{plugin}} 中",
+    "relationship_SCHEDULING_ON": "正在排程於 {{itemCount}} 個 {{plugin}} 上",
+    "relationship_SERVED_BY": "由 {{itemCount}} 個 {{plugin}} 處理",
+    "relationship_SERVED_THROUGH": "透過 {{itemCount}} 個 {{plugin}} 處理",
+    "relationship_SERVES": "負責處理 {{itemCount}} 個 {{plugin}}",
+    "relationship_SERVES_ON": "在 {{itemCount}} 個 {{plugin}} 上處理",
+    "relationship_SERVES_WITHIN": "在 {{itemCount}} 個 {{plugin}} 內處理",
+    "relationship_SPANS_ACROSS": "橫跨 {{itemCount}} 個 {{plugin}}",
+    "relationship_WITHIN": "在 {{itemCount}} 個 {{plugin}} 內",
+    "apkpisLabelCalls": "呼叫",
+    "apkpisLabelErroneousCalls": "錯誤呼叫",
+    "buttonStack": "堆疊",
+    "stackPresenterEmptyMessage": "Instana 找不到任何相關的項目",
+    "stackPresenterDetailMessage": "我們沒有足夠的資訊來讓此 {{itemText}} 相關於任何其他項目",
+    "tabsLabelApplication": "應用程式",
+    "tabsEmptyMessageApplication": "沒有相關的 Instana 應用程式或服務",
+    "tabsLabelKubernetes": "Kubernetes",
+    "tabsEmptyMessageKubernetes": "沒有相關的 Kubernetes 資源",
+    "tabsLabelInfrastructure": "基礎架構",
+    "tabsEmptyMessageInfrastructure": "沒有相關的基礎架構"
+  },
+  "stackTrace": {
+    "fillerTextIn": " 位於",
+    "fillerTextAt": " 於"
+  },
+  "time": {
+    "lastMinute": "前一分鐘",
+    "lastMinute_plural": "過去 {{count}} 分鐘",
+    "lastMinute_0": "過去 {{count}} 分鐘",
+    "lastMinute_1": "過去{{count}} 分鐘",
+    "lastMinute_2": "過去{{count}} 分鐘",
+    "lastHour": "前一小時",
+    "lastHour_plural": "過去 {{count}} 小時",
+    "lastHour_0": "過去{{count}} 小時",
+    "lastHour_1": "過去{{count}} 小時",
+    "lastHour_2": "過去{{count}} 小時",
+    "yesterday": "昨天",
+    "twoDaysAgo": "兩天前",
+    "lastSevenDays": "過去 7 天",
+    "previousWeek": "前一週",
+    "dashboardHeaderButtonLive": "即時",
+    "customTimeTitleTimeRange": "時間範圍",
+    "customTimeHistoricDataMessage": "您將檢視具有所選時間範圍的大約資料。可提供過去 {{retention}} 天的精確資料。",
+    "to": "到 ",
+    "customTimeButtonSetTime": "設定時間",
+    "customTimeLabelYesterday": "昨天",
+    "customTimeLabelToday": "今天",
+    "customTimeLabelNow": "現在",
+    "customTimeMessageTheStartDateCannotBeGreaterThanTheEndDate": "開始日期不能大於結束日期。",
+    "customTimeMessageTheLargestSelectableTimespanIsOneMonth": "可選取的最大時間跨距是一個月。",
+    "presetsTitlePresets": "預設",
+    "releasesLabelName": "名稱",
+    "releasesLabelScope": "範圍",
+    "releasesLabelGlobal": "廣域",
+    "releasesLabelShowMore": "...顯示更多 {{stepSize}}",
+    "releasesLabelReleaseTime": "版本時間",
+    "releasesLabelNoDataMessage": "找不到版本",
+    "releasesLabelPlaceholderFilter": "過濾器...",
+    "timeSelectionDialogPresenterLabelTimeRange": "時間範圍",
+    "timeSelectionDialogPresenterLabelReleases": "版本",
+    "timeFrameFormatterStarting": "從 {{fromTime}} 開始",
+    "timeFrameFormatterLast": "過去 {{duration}}",
+    "timeFrameFormatterLast24Hours": "過去 24 小時",
+    "timeIconHistoricDataMessage": "基於資料保留設定，您正在檢視的是大約資料。可提供過去 {{retention}} 天的精確資料。",
+    "timeIconLargeDataMessage": "由於資料集龐大，您正在檢視的是大約資料。請縮減時間範圍，以取得精確資料。",
+    "timePresetsLast": "過去 {{duration}}",
+    "timePresetsLast24Hours": "過去 24 小時",
+    "timeUnit_year": "年",
+    "timeUnit_month": "個月",
+    "timeUnit_day": "天",
+    "timeUnit_hour": "小時",
+    "timeUnit_minute": "分鐘",
+    "timeUnit_second": "秒"
+  },
+  "timeShift": {
+    "changeSelectedTimeShift": "變更選取的時間偏移",
+    "timeShiftValue": "時間偏移：{{timeShiftValue}}",
+    "compareToTimeShiftTimeConfig": "相較於 {{timeShiftTimeConfig}}"
+  },
+  "topListCard": {
+    "loadingData": "正在載入資料"
+  },
+  "uiClinetUpdateMessage": {
+    "newVersionOfInstanaAvailable": "有新的 Instana 版本可用",
+    "buttonReloadToUpdate": "重新載入以更新"
+  },
+  "upstreamDownstream": {
+    "companionMetricLabelCalls" : "呼叫",
+    "companionMetricLabelLatency" : "延遲時間",
+    "companionMetricLabelErroneousCalls" : "錯誤呼叫",
+    "companionMetricLabelErroneousCallRate": "錯誤呼叫率：",
+    "metricLabelCallsAndErroneousCalls": "呼叫和錯誤呼叫",
+    "metricLabelCallsAndLatency": "呼叫和延遲時間",
+    "linkSeeAllApplications": "查看所有 {{count}} 個 {{activeTab}} 應用程式",
+    "linkSeeAllApplications_plural": "查看所有 {{count}} 個 {{activeTab}} 應用程式",
+    "linkSeeAllApplications_0": "查看所有 {{count}} 個 {{activeTab}} 應用程式",
+    "linkSeeAllApplications_1": "查看所有 {{count}} 個 {{activeTab}} 應用程式",
+    "linkSeeAllApplications_2": "查看所有 {{count}} 個 {{activeTab}} 應用程式",
+    "linkSeeApplication": "查看應用程式",
+    "linkSeeAllServices": "查看所有 {{Count}} 個 {{activeTab}} 服務",
+    "linkSeeAllServices_plural": "查看所有 {{Count}} 個 {{activeTab}} 服務",
+    "linkSeeAllServices_0": "查看所有 {{Count}} 個 {{activeTab}} 服務",
+    "linkSeeAllServices_1": "查看所有 {{Count}} 個 {{activeTab}} 服務",
+    "linkSeeAllServices_2": "查看所有 {{Count}} 個 {{activeTab}} 服務",
+    "linkSeeService": "查看服務",
+    "activeTab_upstream": "上游",
+    "activeTab_downstream": "下游",
+    "labelMetric": "度量：",
+    "upstreamText_Service": "由 {{count}} 個服務直接呼叫",
+    "upstreamText_Service_plural": "由 {{count}} 個服務直接呼叫",
+    "upstreamText_Service_0": "由 {{count}} 個服務直接呼叫",
+    "upstreamText_Service_1": "由 {{count}} 個服務直接呼叫",
+    "upstreamText_Service_2": "由 {{count}} 個服務直接呼叫",
+    "upstreamText_Application": "從 {{count}} 個應用程式內部直接呼叫",
+    "upstreamText_Application_plural": "從 {{count}} 個應用程式內部直接呼叫",
+    "upstreamText_Application_0": "從 {{count}} 個應用程式內部直接呼叫",
+    "upstreamText_Application_1": "從 {{count}} 個應用程式內部直接呼叫",
+    "upstreamText_Application_2": "從 {{count}} 個應用程式內部直接呼叫",
+    "upstreamMessage_endpoint": "此端點未收到任何呼叫",
+    "upstreamMessage_service": "此服務未收到任何呼叫",
+    "upstreamMessage_application": "此應用程式未收到任何呼叫",
+    "upstreamMessage_entity": "此實體未收到任何呼叫",
+    "downstreamText_Service": "直接呼叫 {{count}} 個服務",
+    "downstreamText_Service_plural": "直接呼叫 {{count}} 服務",
+    "downstreamText_Service_0": "直接呼叫 {{count}} 服務",
+    "downstreamText_Service_1": "直接呼叫 {{count}} 服務",
+    "downstreamText_Service_2": "直接呼叫 {{count}} 服務",
+    "downstreamText_Application": "在 {{count}} 個應用程式內部直接呼叫服務",
+    "downstreamText_Application_plural": "在 {{count}} 個應用程式內部直接呼叫服務",
+    "downstreamText_Application_0": "在 {{count}} 個應用程式內部直接呼叫服務",
+    "downstreamText_Application_1": "在 {{count}} 個應用程式內部直接呼叫服務",
+    "downstreamText_Application_2": "在 {{count}} 個應用程式內部直接呼叫服務",
+    "downstreamMessage_endpoint": "此端點未起始任何下游呼叫",
+    "downstreamMessage_service": "此服務未起始任何下游呼叫",
+    "downstreamMessage_application": "此應用程式未起始任何下游呼叫",
+    "downstreamMessage_entity": "此實體未起始任何下游呼叫",
+    "tabsUpstream": "上游",
+    "tabsDownstream": "下游",
+    "buttonUpstreamDownstream": "上游 / 下游"
+  },
+  "withTvMode": {
+    "setEnabledMessagePressESCToDisableTVMode": "按 ESC 鍵以停用 TV 模式。"
+  },
+  "analyze": {
+    "loadMoreWithCount": "再多載入 {{count}} 筆資料",
+    "loadMore": "載入更多",
+    "addAsGroup": "新增為群組",
+    "noResults": "無結果",
+    "from": "從",
+    "fromUnit": "從 ({{unit}})",
+    "to": "到",
+    "toUnit": "到 ({{unit}})",
+    "rangeOrder": "範圍必須是升冪。",
+    "earliestTimestamp": "最早時間戳記",
+    "timestamp": "時間戳記",
+    "focusOnGroup": "聚焦於此群組",
+    "splitScreen": {
+      "sidebarActions": {
+        "prev": "檢視前一個 {{ itemName }}（快速鍵：左移鍵）",
+        "next": "檢視下一個 {{ itemName }}（快速鍵：右移鍵）"
+      }
+    },
+    "groupName": "群組名稱",
+    "groupedOnly": "度量僅適用於分析群組時。"
+  },
+  "copyToClipboardButtonCopy": "複製",
+  "withEmptyStateFallbackTitleNoDataAvailable": "沒有可用的資料",
+  "queryBuilder": {
+    "components": {
+      "tagBooleanSelectorFalse": "false",
+      "tagBooleanSelectorTrue": "true",
+      "tagPlaceholderKey": "索引鍵",
+      "tagPlaceholderValue": "值",
+      "spacingSuggestionAnd": "AND",
+      "bracketLabelChosenBracket": "已選擇方括弧。請按一下來變更方括弧以選取連結，或移除方括弧。",
+      "conjunctionLabelChosenConjunction": "已選擇連結。請按一下來變更連結以選取方括弧，或移除連結。",
+      "filterButtonAddFilter": "新增過濾器",
+      "conjunctionLogicalOperator_OR": "OR",
+      "conjunctionLogicalOperator_AND": "AND",
+      "conjunctionLogicalOperator_NOT": "NOT"
+    },
+    "selectorOverlayClear": "清除",
+    "selectorOverlayAnd": "AND",
+    "selectorOverlayOr": "OR",
+    "simpleValueSelectorMore": "更多",
+    "workspaceAPIQuery": "API 查詢",
+    "workspaceUseThisExpressionToQueryOurAPI": "使用此表示式來查詢我們的 API",
+    "workspaceTitleFilter": "過濾器",
+    "workspaceButtonClear": "清除",
+    "errorWithDataYourDefinedQueryIsTooComplex": "您所定義的查詢太複雜，請減少巢狀數量。",
+    "sanitizedTagFilterValue": "標籤過濾器值已縮短成容許的長度上限。",
+    "sanitizedTagFilterValueAndOperator": "標籤過濾器值已縮短成容許的長度上限，並已據此調整運算子。",
+    "source": "來源",
+    "destination": "目的地",
+    "string": {
+      "contains": "包含",
+      "doesNotContain": "不包含",
+      "isPresent": "存在",
+      "isNotPresent": "不存在",
+      "startsWith": "開頭是",
+      "endsWith": "結尾是",
+      "doesNotStartWith": "開頭不是",
+      "doesNotEndWith": "結尾不是",
+      "equals": "等於",
+      "doesNotEqual": "不等於"
+    },
+    "number": {
+      "isPresent": "存在",
+      "isNotPresent": "不存在",
+      "contains": "包含",
+      "doesNotContain": "不包含",
+      "startsWith": "開頭是",
+      "endsWith": "結尾是",
+      "doesNotStartWith": "開頭不是",
+      "doesNotEndWith": "結尾不是"
+    },
+    "booleanIs": "是",
+    "keyValuePair": {
+      "equals": "等於",
+      "doesNotEqual": "不等於",
+      "contains": "包含",
+      "doesNotContain": "不包含",
+      "isPresent": "存在",
+      "isNotPresent": "不存在",
+      "doesNotHaveValue": "沒有值",
+      "hasValue": "有值",
+      "startsWith": "開頭是",
+      "endsWith": "結尾是"
+    }
+  },
+  "applicationHealthOverview": {
+    "indicatorBar": {
+      "label": "性能狀態",
+      "criticalTooltip": "{{count}} 嚴重",
+      "warningTooltip": "{{count}} 警告",
+      "healthyTooltip": "{{count}} 正常"
+    }
   }
 }

@@ -19,7 +19,7 @@ export default function ConfirmationDialog({
   header,
   headerIcon,
   description,
-  confirmButtonLabel = t('in-new-components:dialog.confirmationDialogLabelConfirm'),
+  confirmButtonLabel = t('in-components:dialog.confirmationDialogLabelConfirm'),
   onSubmit,
   field,
   isSaving,

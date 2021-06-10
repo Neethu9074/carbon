@@ -49,7 +49,7 @@ export default function MetricConfiguratorOverlayPresenter({
           }}
         />
       )}
-      slideInContentTitle={t('in-new-components:metricConfigurator.titleAddAMetric')}
+      slideInContentTitle={t('in-components:metricConfigurator.titleAddAMetric')}
       MetricConfiguratorHint={MetricConfiguratorHint}
     />
   );
@@ -113,7 +113,7 @@ function Content({
                 hasError={!field.valid && field.touched}
               >
                 <option value="" disabled>
-                  {t('in-new-components:metricConfigurator.labelPleaseSelect')}
+                  {t('in-components:metricConfigurator.labelPleaseSelect')}
                 </option>
                 {options
                   .find(option => option.metric === metric.get('metric').value)
@@ -123,7 +123,7 @@ function Content({
                       value={aggregation}
                       disabled={!getPossibleAggregationsForMetric(metric.get('metric').value).includes(aggregation)}
                     >
-                      {t('in-new-components:metricConfigurator.aggregation', {
+                      {t('in-components:metricConfigurator.aggregation', {
                         context: aggregation.replace(/_/g, '')
                       })}
                     </option>

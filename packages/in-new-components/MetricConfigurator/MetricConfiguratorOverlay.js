@@ -90,7 +90,7 @@ function getInitialForm(values, options, maximumNumberOfMetrics) {
         return [
           {
             severity: 'error',
-            message: t('in-new-components:metricConfigurator.messagePleaseSelectAtMostMetrics', {
+            message: t('in-components:metricConfigurator.messagePleaseSelectAtMostMetrics', {
               maximumNumberOfMetrics: maximumNumberOfMetrics
             })
           }

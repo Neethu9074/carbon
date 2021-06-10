@@ -39,7 +39,7 @@ function GeoHeatMapPresenter(props) {
   const { result, map, height } = props;
 
   if (!result || result.progress.loading || !map) {
-    return <LoadingIndicator text={t('in-new-components:geoHeatMap.loadingIndicatorLoadingData')} height={height} />;
+    return <LoadingIndicator text={t('in-components:geoHeatMap.loadingIndicatorLoadingData')} height={height} />;
   } else if (result.errors.length > 0) {
     return <NoDataAvailable height={height} />;
   }
@@ -98,15 +98,15 @@ function Content({
       <Legend data={result.data} valueFormatter={valueFormatter} />
 
       <div className={controlWrapperClassName}>
-        <Tooltip content={t('in-new-components:geoHeatMap.tooltipResetView')} align="leftMiddle">
+        <Tooltip content={t('in-components:geoHeatMap.tooltipResetView')} align="leftMiddle">
           <Button icon="lib_home" className={locals.home} onClick={() => onHome()} />
         </Tooltip>
 
         <ButtonGroup vertical className={locals.zoom}>
-          <Tooltip content={t('in-new-components:geoHeatMap.tooltipZoomIn')} align="leftMiddle">
+          <Tooltip content={t('in-components:geoHeatMap.tooltipZoomIn')} align="leftMiddle">
             <Button appendBottom icon="lib_actions_zoom_in" onClick={() => onZoomIn()} />
           </Tooltip>
-          <Tooltip content={t('in-new-components:geoHeatMap.tooltipZoomOut')} align="leftMiddle">
+          <Tooltip content={t('in-components:geoHeatMap.tooltipZoomOut')} align="leftMiddle">
             <Button appendTop icon="lib_actions_zoom_out" onClick={() => onZoomOut()} />
           </Tooltip>
         </ButtonGroup>

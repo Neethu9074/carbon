@@ -152,7 +152,7 @@ export default function LatencyChartOverlay({
         {
           name: 'clear_selection',
           icon: 'lib_openclose_cancel',
-          label: t('in-new-components:latencyDistributionBase10Chart.latencyChartOverlayLabelRemoveLatencyFilter'),
+          label: t('in-components:latencyDistributionBase10Chart.latencyChartOverlayLabelRemoveLatencyFilter'),
           onClick: () => {
             resetSelection();
             notifyOnSelectionChangedHandler(null);

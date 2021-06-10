@@ -9,12 +9,12 @@ import { t } from 'in-i18n';
 export default [
   {
     key: 'callsAgg',
-    label: t('in-new-components:stack.apkpisLabelCalls'),
+    label: t('in-components:stack.apkpisLabelCalls'),
     formatter: number.compact
   },
   {
     key: 'erroneousCalls',
-    label: t('in-new-components:stack.apkpisLabelErroneousCalls'),
+    label: t('in-components:stack.apkpisLabelErroneousCalls'),
     formatter: number.compact
   }
 ];

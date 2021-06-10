@@ -19,12 +19,12 @@ const headerColumnDefinitions = [
   {
     width: '6rem',
     getContent() {
-      return <span className={locals.headerText}>{t('in-new-components:profiling.headerColumnDefinitionsUsed')}</span>;
+      return <span className={locals.headerText}>{t('in-components:profiling.headerColumnDefinitionsUsed')}</span>;
     }
   },
   {
     getContent() {
-      return <span className={locals.headerText}>{t('in-new-components:profiling.headerColumnDefinitionsCode')}</span>;
+      return <span className={locals.headerText}>{t('in-components:profiling.headerColumnDefinitionsCode')}</span>;
     }
   }
 ];

@@ -31,7 +31,7 @@ export default function ConjunctionsAndBrackets({ onChange, withoutOrConjunction
             });
           }}
         >
-          {t('in-new-components:queryBuilder.selectorOverlayAnd')}
+          {t('in-components:queryBuilder.selectorOverlayAnd')}
         </Button>
         {!withoutOrConjunction && (
           <Button
@@ -45,7 +45,7 @@ export default function ConjunctionsAndBrackets({ onChange, withoutOrConjunction
               });
             }}
           >
-            {t('in-new-components:queryBuilder.selectorOverlayOr')}
+            {t('in-components:queryBuilder.selectorOverlayOr')}
           </Button>
         )}
       </div>

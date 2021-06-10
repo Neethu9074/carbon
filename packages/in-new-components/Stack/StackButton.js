@@ -64,7 +64,7 @@ export default connectTo(
               noAutoMargin={noAutoMargin}
               className={className}
             >
-              {t('in-new-components:stack.buttonStack')}
+              {t('in-components:stack.buttonStack')}
               <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
             </Button>
           )}

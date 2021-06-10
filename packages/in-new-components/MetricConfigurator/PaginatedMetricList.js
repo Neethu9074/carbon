@@ -41,7 +41,7 @@ export default function PaginatedMetricList({ options, onChange, isMetricDisable
     <>
       <div className={locals.searchInputWrapper}>
         <SearchInput
-          placeholder={t('in-new-components:metricConfigurator.search')}
+          placeholder={t('in-components:metricConfigurator.search')}
           onChange={_query => {
             setState({
               currentPage,
@@ -66,7 +66,7 @@ export default function PaginatedMetricList({ options, onChange, isMetricDisable
             isMetricDisabled(metric.metric) ? (
               <Li key={metric.metric} className={locals.disabled}>
                 {metric.label} <br />
-                {t('in-new-components:metricConfigurator.labelAlreadySelected')}
+                {t('in-components:metricConfigurator.labelAlreadySelected')}
               </Li>
             ) : (
               <Li

@@ -27,7 +27,7 @@ export default function EntityPageMainNotification(props) {
     withBackground
   } = props;
 
-  const entitySingular = getPluginName(plugin, 1) || t('in-new-components:entityPageMainNotification.labelEntity');
+  const entitySingular = getPluginName(plugin, 1) || t('in-components:entityPageMainNotification.labelEntity');
   return (
     <div
       className={classNames({
@@ -39,7 +39,7 @@ export default function EntityPageMainNotification(props) {
     >
       <SvgIcon className={locals.icon} type={plugin ? getIconType(plugin) : icon} size="xxl" />
       <h2 className={locals.title}>
-        {title ? title : t('in-new-components:entityPageMainNotification.labelNotFound', { entity: entitySingular })}
+        {title ? title : t('in-components:entityPageMainNotification.labelNotFound', { entity: entitySingular })}
       </h2>
       {typeof explanation === 'function' ? (
         explanation()

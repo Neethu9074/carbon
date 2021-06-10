@@ -24,7 +24,7 @@ import locals from './Releases.mless';
 const columnDefinitions = [
   {
     id: 'name',
-    label: t('in-new-components:time.releasesLabelName'),
+    label: t('in-components:time.releasesLabelName'),
     getContent({ name }) {
       return (
         <div className={locals.iconAndType}>
@@ -36,11 +36,11 @@ const columnDefinitions = [
   },
   {
     id: 'scope',
-    label: t('in-new-components:time.releasesLabelScope'),
+    label: t('in-components:time.releasesLabelScope'),
     sortable: false,
     getContent(item) {
       if (!item.services && !item.applications) {
-        return <span>{t('in-new-components:time.releasesLabelGlobal')}</span>;
+        return <span>{t('in-components:time.releasesLabelGlobal')}</span>;
       }
       const itemScopes = convertToScopes(item);
       const scopes = itemScopes.map((scope, i) => (
@@ -68,7 +68,7 @@ const columnDefinitions = [
                   setShowItems(showItems + stepSize);
                 }}
               >
-                {t('in-new-components:time.releasesLabelShowMore', {
+                {t('in-components:time.releasesLabelShowMore', {
                   stepSize: Math.min(stepSize, scopes.length - showItems)
                 })}
               </Button>
@@ -80,7 +80,7 @@ const columnDefinitions = [
   },
   {
     id: 'start',
-    label: t('in-new-components:time.releasesLabelReleaseTime'),
+    label: t('in-components:time.releasesLabelReleaseTime'),
     getContent({ start }) {
       return <span>{formatDateTime(start)}</span>;
     }
@@ -110,7 +110,7 @@ export default function Presets({ timeConfig, onChange, closeOverlay }) {
           onChange({ windowSize: timeConfig.windowSize, to });
           closeOverlay();
         }}
-        noDataMessage={t('in-new-components:time.releasesLabelNoDataMessage')}
+        noDataMessage={t('in-components:time.releasesLabelNoDataMessage')}
         defaultOrderBy="start"
         defaultOrderDirection="DESC"
         rightHeader={RightHeader}
@@ -126,7 +126,7 @@ function RightHeader({ query, onChange, orderBy, orderDirection, pageSize }) {
     <SearchInput
       className={locals.searchInput}
       query={query}
-      placeholder={t('in-new-components:time.releasesLabelPlaceholderFilter')}
+      placeholder={t('in-components:time.releasesLabelPlaceholderFilter')}
       onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
     />
   );

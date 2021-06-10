@@ -48,7 +48,7 @@ export default function Tab({
   let interactivityProps = emptyObject;
   if (onTabSelect && !isDisabled) {
     interactivityProps = toInteractiveElement({
-      ariaLabel: t('in-new-components:inlineTabNavigation.labelSelectTab'),
+      ariaLabel: t('in-components:inlineTabNavigation.labelSelectTab'),
       onDefaultInteraction: () => onTabSelect(index)
     });
   }

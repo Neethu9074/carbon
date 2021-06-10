@@ -91,14 +91,14 @@ function ExpandedList(props) {
             <div className={locals.actions}>
               {hasPrev && (
                 <Tooltip
-                  content={t('in-new-components:analyze.splitScreen.sidebarActions.prev', {
+                  content={t('in-components:analyze.splitScreen.sidebarActions.prev', {
                     itemName: t(itemName).toLowerCase()
                   })}
                 >
                   <SvgIcon
                     className={locals.prev}
                     type="lib_arrow_drop_left"
-                    aria-label={t('in-new-components:analyze.splitScreen.sidebarActions.prev', {
+                    aria-label={t('in-components:analyze.splitScreen.sidebarActions.prev', {
                       itemName: t(itemName).toLowerCase()
                     })}
                     size="s"
@@ -122,14 +122,14 @@ function ExpandedList(props) {
 
               {hasNext && (
                 <Tooltip
-                  content={t('in-new-components:analyze.splitScreen.sidebarActions.next', {
+                  content={t('in-components:analyze.splitScreen.sidebarActions.next', {
                     itemName: t(itemName).toLowerCase()
                   })}
                 >
                   <SvgIcon
                     className={locals.next}
                     type="lib_arrow_drop_right"
-                    aria-label={t('in-new-components:analyze.splitScreen.sidebarActions.next', {
+                    aria-label={t('in-components:analyze.splitScreen.sidebarActions.next', {
                       itemName: t(itemName).toLowerCase()
                     })}
                     size="s"
@@ -151,10 +151,10 @@ function ExpandedList(props) {
                 </Tooltip>
               )}
 
-              <Tooltip content={t('in-new-components:analyzeView.splitScreenListTooltipCloseSidebar')}>
+              <Tooltip content={t('in-components:analyzeView.splitScreenListTooltipCloseSidebar')}>
                 <SvgIcon
                   type="lib_sidebar_to_left"
-                  aria-label={t('in-new-components:analyzeView.splitScreenListTooltipCloseSidebar')}
+                  aria-label={t('in-components:analyzeView.splitScreenListTooltipCloseSidebar')}
                   size="s"
                   className={locals.toggle}
                   onClick={() => setExpanded(false)}
@@ -203,10 +203,10 @@ function CollapsedList({ setExpanded }) {
   return (
     <div className={locals.collapsed}>
       <div className={locals.collapsedToggleWrapper}>
-        <Tooltip content={t('in-new-components:analyzeView.splitScreenListTooltipOpenSidebar')}>
+        <Tooltip content={t('in-components:analyzeView.splitScreenListTooltipOpenSidebar')}>
           <SvgIcon
             type="lib_sidebar_to_right"
-            aria-label={t('in-new-components:analyzeView.splitScreenListTooltipOpenSidebar')}
+            aria-label={t('in-components:analyzeView.splitScreenListTooltipOpenSidebar')}
             size="s"
             className={locals.toggle}
             onClick={() => setExpanded(true)}

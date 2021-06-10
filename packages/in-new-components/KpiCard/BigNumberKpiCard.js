@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import { find } from 'lodash';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import { translateOffsetToTimeShiftConfig, getTimeShiftLabel } from 'in-stores/time/shifting';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
@@ -196,7 +197,7 @@ function renderTimeShiftValue(config, result, formatter, value, timeConfig) {
   }
 
   const timeShiftConfig = translateOffsetToTimeShiftConfig(timeShift, timeConfig);
-  const tooltip = t('in-new-components:kpiCard.tooltipComparedToTimeShift', {
+  const tooltip = t('in-components:kpiCard.tooltipComparedToTimeShift', {
     timeShift: getTimeShiftLabel(timeShiftConfig).toLowerCase(),
     comparisonValue: formatter(comparisonValue)
   });

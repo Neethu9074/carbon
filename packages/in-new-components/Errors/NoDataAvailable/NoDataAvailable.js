@@ -20,7 +20,7 @@ export default function NoDataAvailable({ width, height, title, text, className,
       width={width}
       height={height}
       title={title}
-      text={text || t('in-new-components:entityVersionList.noDataAvailable')}
+      text={text || t('in-components:entityVersionList.noDataAvailable')}
       renderIcon={size => <SvgIcon className={locals.icon} type={type} size={size} />}
     />
   );

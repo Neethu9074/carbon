@@ -24,8 +24,8 @@ export default function QueryProgressIndicator({ progress, errors, items }) {
   if (progress.loading === true) {
     const message =
       progress.percentage >= 0
-        ? t('in-new-components:analyzeView.queryProgress.runningQuery')
-        : t('in-new-components:analyzeView.queryProgress.preparing');
+        ? t('in-components:analyzeView.queryProgress.runningQuery')
+        : t('in-components:analyzeView.queryProgress.preparing');
     return <QueryProgress progress={progress} message={message} />;
   }
   if (progress.loading === false) {
@@ -69,12 +69,12 @@ function QueryFailed({ errors }) {
           </div>
           <div className={locals.progressText}>
             {error.description?.includes('The query would take too long to run.')
-              ? t('in-new-components:analyzeView.queryProgress.timeoutEstimated')
-              : t('in-new-components:analyzeView.queryProgress.timeout')}
+              ? t('in-components:analyzeView.queryProgress.timeoutEstimated')
+              : t('in-components:analyzeView.queryProgress.timeout')}
           </div>
           <div className={locals.infoBlock}>
             <SvgIcon className={locals.icon} type="lib_help_error_help_outline" />
-            <span>{t('in-new-components:analyzeView.queryProgress.timeoutInfo')}</span>
+            <span>{t('in-components:analyzeView.queryProgress.timeoutInfo')}</span>
           </div>
         </div>
       );
@@ -85,7 +85,7 @@ function QueryFailed({ errors }) {
           <div className={locals.bigIconContainer}>
             <SvgIcon size={iconSize} className={locals.warnIcon} type="lib_help_error_error_circle" />
           </div>
-          <div className={locals.progressText}>{t('in-new-components:analyzeView.queryProgress.inputError')}</div>
+          <div className={locals.progressText}>{t('in-components:analyzeView.queryProgress.inputError')}</div>
           <span className={locals.description}>{error.description}</span>
         </div>
       );
@@ -95,10 +95,8 @@ function QueryFailed({ errors }) {
           <div className={locals.bigIconContainer}>
             <SvgIcon size={iconSize} className={locals.warnIcon} type="lib_help_error_error_circle" />
           </div>
-          <div className={locals.progressText}>{t('in-new-components:analyzeView.queryProgress.tooManyRequests')}</div>
-          <span className={locals.description}>
-            {t('in-new-components:analyzeView.queryProgress.tooManyRequestsInfo')}
-          </span>
+          <div className={locals.progressText}>{t('in-components:analyzeView.queryProgress.tooManyRequests')}</div>
+          <span className={locals.description}>{t('in-components:analyzeView.queryProgress.tooManyRequestsInfo')}</span>
         </div>
       );
     case 'SERVER':
@@ -113,8 +111,8 @@ function QueryFailed({ errors }) {
               style={{ fill: theme.lib.colors.failure }}
             />
           </div>
-          <div className={locals.progressText}>{t('in-new-components:analyzeView.queryProgress.serverError')}</div>
-          <span className={locals.description}>{t('in-new-components:analyzeView.queryProgress.serverErrorInfo')}</span>
+          <div className={locals.progressText}>{t('in-components:analyzeView.queryProgress.serverError')}</div>
+          <span className={locals.description}>{t('in-components:analyzeView.queryProgress.serverErrorInfo')}</span>
         </div>
       );
   }

@@ -40,7 +40,7 @@ const oneHour = hours.toMillis(1);
 const maximumWindow = days.toMillis(32);
 
 const historicDataMessage = retention =>
-  t('in-new-components:time.customTimeHistoricDataMessage', { retention: retention });
+  t('in-components:time.customTimeHistoricDataMessage', { retention: retention });
 
 export default function CustomTime({ timeConfig, onChange }) {
   const [form, setForm] = useState(createForm(timeConfig));
@@ -63,18 +63,18 @@ export default function CustomTime({ timeConfig, onChange }) {
   const { containsHistoricData, retention } = historicOrLargeDataResult || emptyObject;
 
   return (
-    <Section title={t('in-new-components:time.customTimeTitleTimeRange')} light>
+    <Section title={t('in-components:time.customTimeTitleTimeRange')} light>
       <form onSubmit={onSubmit}>
         <TimeSlider form={form} setForm={setForm} from={from} to={to} />
 
         <div className={locals.controls}>
           <div className={locals.inputs}>
             <DateTimeInput form={form} path="from" setValue={setValue} />
-            <span className={locals.to}>{t('in-new-components:time.to')}</span>
+            <span className={locals.to}>{t('in-components:time.to')}</span>
             <DateTimeInput form={form} path="to" setValue={setValue} />
           </div>
           <Button className={locals.button} type="submit">
-            {t('in-new-components:time.customTimeButtonSetTime')}
+            {t('in-components:time.customTimeButtonSetTime')}
           </Button>
         </div>
 
@@ -155,16 +155,16 @@ export default function CustomTime({ timeConfig, onChange }) {
       })),
       {
         value: getTimeMinusDays(1),
-        label: t('in-new-components:time.customTimeLabelYesterday')
+        label: t('in-components:time.customTimeLabelYesterday')
       },
       // 9 hours is the gap the label will need space. So there is no mark for today 00:00 before 9am
       now - today > oneHour * 9 && {
         value: getTimeMinusDays(0),
-        label: t('in-new-components:time.customTimeLabelToday')
+        label: t('in-components:time.customTimeLabelToday')
       },
       {
         value: now,
-        label: t('in-new-components:time.customTimeLabelNow')
+        label: t('in-components:time.customTimeLabelNow')
       }
     ].filter(Boolean);
   }
@@ -251,14 +251,14 @@ function validateForm({ from: fromForm, to: toForm }) {
     return [
       {
         severity: 'error',
-        message: t('in-new-components:time.customTimeMessageTheStartDateCannotBeGreaterThanTheEndDate')
+        message: t('in-components:time.customTimeMessageTheStartDateCannotBeGreaterThanTheEndDate')
       }
     ];
   } else if (to - from > maximumWindow) {
     return [
       {
         severity: 'error',
-        message: t('in-new-components:time.customTimeMessageTheLargestSelectableTimespanIsOneMonth')
+        message: t('in-components:time.customTimeMessageTheLargestSelectableTimespanIsOneMonth')
       }
     ];
   }

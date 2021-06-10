@@ -11,10 +11,10 @@ import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
 import RevisionDropdown, { toAlertRevision } from 'in-alerting/components/RevisionDropdown';
+import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation';
-import TemporaryMessage from 'in-components/TemporaryMessage';
 import { warning } from 'in-new-components/Message/types';
 import BackButton from 'in-new-components/BackButton';
 import Message from 'in-new-components/Message';

@@ -59,7 +59,7 @@ export default connectTo(
               refSetter={refSetter}
               className={className}
             >
-              {t('in-new-components:upstreamDownstream.buttonUpstreamDownstream')}
+              {t('in-components:upstreamDownstream.buttonUpstreamDownstream')}
               <SvgIcon className={locals.expandIcon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
             </Button>
           )}

@@ -223,7 +223,7 @@ export default function GroupedAnalyzeView(props) {
   // Allow to sort by group name
   sortOptions.unshift({
     value: groupedViewConfiguration?.orderByGroupName ?? groupName,
-    label: t('in-new-components:analyze.groupName')
+    label: t('in-components:analyze.groupName')
   });
 
   const availableMetrics = getAvailableMetrics({ metricCatalog, fixedFields });
@@ -536,7 +536,7 @@ function actionColumns() {
       shrink: false,
       getContent({ href }) {
         return (
-          <Tooltip content={t('in-new-components:analyze.focusOnGroup')}>
+          <Tooltip content={t('in-components:analyze.focusOnGroup')}>
             <IconButton
               type="lib_actions_filter"
               href={href}

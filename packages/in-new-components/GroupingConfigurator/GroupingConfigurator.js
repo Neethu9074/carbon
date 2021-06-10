@@ -25,7 +25,7 @@ export default function GroupingConfigurator({
   getSuggestions,
   onChange,
   tracking,
-  label = t('in-new-components:groupingConfigurator.addGroup'),
+  label = t('in-components:groupingConfigurator.addGroup'),
   loadingLabel
 }) {
   const tagCatalog = useTagCatalog(getTagCatalog);

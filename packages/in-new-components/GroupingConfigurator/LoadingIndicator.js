@@ -11,7 +11,7 @@ import { t } from 'in-i18n';
 import locals from './LoadingIndicator.mless';
 
 export default function LoadingIndicator({
-  text = t('in-new-components:groupingConfigurator.loadingIndicatorLoadingTagCatalog')
+  text = t('in-components:groupingConfigurator.loadingIndicatorLoadingTagCatalog')
 }) {
   return (
     <div className={locals.wrapper}>

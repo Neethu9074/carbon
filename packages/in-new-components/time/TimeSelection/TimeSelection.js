@@ -118,7 +118,7 @@ function LiveModeToggle({ isLive, darkTheme }) {
       darkTheme={darkTheme}
       className={isLive ? locals.live : locals.static}
     >
-      {t('in-new-components:time.dashboardHeaderButtonLive')}
+      {t('in-components:time.dashboardHeaderButtonLive')}
     </DashboardHeaderButton>
   );
 }

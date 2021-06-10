@@ -125,7 +125,7 @@ export default function ThreeLevelsSelectorOverlay({
       {searchEnabled && (
         <div className={locals.searchInputWrapper}>
           <EntitiesSearchInput
-            placeholder={t('in-new-components:selectorOverlay.placeholderSearch')}
+            placeholder={t('in-components:selectorOverlay.placeholderSearch')}
             onChange={_query => {
               onQueryChange(_query);
               setState({

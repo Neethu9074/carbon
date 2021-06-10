@@ -16,8 +16,8 @@ import { Button } from '@instana/components';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
+import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { getModifiedUrlStream, goToPath } from 'in-stores/navigation';
-import TemporaryMessage from 'in-components/TemporaryMessage';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Delete from 'in-settings/components/actions/Delete';
 import { arrayToResult } from 'in-services/util/result';

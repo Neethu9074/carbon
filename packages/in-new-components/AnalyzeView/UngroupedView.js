@@ -193,7 +193,7 @@ function GroupedViewOnlyIndicator({ metricId, metricCatalog, getHasRawValue }) {
     return null;
   }
   return (
-    <Tooltip content={t('in-new-components:analyze.groupedOnly')} align="bottomRight">
+    <Tooltip content={t('in-components:analyze.groupedOnly')} align="bottomRight">
       <SvgIcon type="lib_help_error_help_outline" size="s" className={locals.helpIcon} />
     </Tooltip>
   );

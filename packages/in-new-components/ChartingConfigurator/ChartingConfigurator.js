@@ -33,7 +33,7 @@ export default function ChartingConfigurator({ options, value, onChange, hideRen
           onChange(chartConfig);
         }}
       >
-        {t('in-new-components:chartingConfigurator.buttonAddChart')}
+        {t('in-components:chartingConfigurator.buttonAddChart')}
       </Button>
     );
   }

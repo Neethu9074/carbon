@@ -28,7 +28,7 @@ export default function PercentileMenu(props) {
         };
         return (
           <Button refSetter={refSetter} onClick={trackAndToggle} kind="secondary" size="compact">
-            {t('in-new-components:latencyDistributionBase10Chart.percentileMenuButtonPercentileView')}
+            {t('in-components:latencyDistributionBase10Chart.percentileMenuButtonPercentileView')}
           </Button>
         );
       }}
@@ -46,7 +46,7 @@ function PercentileMenuContent({ percentilesShown, onChange }) {
           onChange={() =>
             percentilesShown.count() === ALL_PERCENTILES.count() ? onChange(List()) : onChange(ALL_PERCENTILES)
           }
-          label={t('in-new-components:latencyDistributionBase10Chart.percentileMenuLabelAll')}
+          label={t('in-components:latencyDistributionBase10Chart.percentileMenuLabelAll')}
         />
       </li>
       {ALL_PERCENTILES.map(percentile => {

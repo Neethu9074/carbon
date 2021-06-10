@@ -13,7 +13,7 @@ export default function UpstreamDownstreamMetric({ metrics, selectedMetric, onCh
   return (
     <div className={locals.wrapper}>
       <label className={locals.label} htmlFor="metricSelect">
-        {t('in-new-components:upstreamDownstream.labelMetric')}
+        {t('in-components:upstreamDownstream.labelMetric')}
       </label>
       <select
         className={locals.select}

@@ -20,7 +20,7 @@ export default function InfiniteCircle({ width, height, percentage, customText, 
       className={className}
       width={width}
       height={height}
-      text={customText || t('in-new-components:loading.labelLoadingData')}
+      text={customText || t('in-components:loading.labelLoadingData')}
       renderIcon={size => (
         <SvgIcon
           className={locals.icon}

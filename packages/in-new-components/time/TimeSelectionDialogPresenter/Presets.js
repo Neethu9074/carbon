@@ -18,7 +18,7 @@ import locals from './Presets.mless';
 
 export default function Presets({ onChange, closeOverlay }) {
   return (
-    <Secion title={t('in-new-components:time.presetsTitlePresets')}>
+    <Secion title={t('in-components:time.presetsTitlePresets')}>
       <div className={locals.presetsContainer}>
         {getTimePresets().map(({ label, description, windowSize, to }) => (
           <Preset

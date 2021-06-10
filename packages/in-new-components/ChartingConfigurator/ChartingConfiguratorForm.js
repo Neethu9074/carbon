@@ -48,7 +48,7 @@ export default function ChartingConfiguratorForm({ value, options, onChange, hid
             onChange(change);
           }}
           requiresCustomInteractivity
-          ariaLabel={t('in-new-components:chartingConfigurator.labelChangeSelectedMetric')}
+          ariaLabel={t('in-components:chartingConfigurator.labelChangeSelectedMetric')}
         >
           {({ elementProps }) => (
             <div {...elementProps} className={classNames(locals.metric, locals.selectable)}>
@@ -81,7 +81,7 @@ export default function ChartingConfiguratorForm({ value, options, onChange, hid
             onChange(change);
           }}
           requiresCustomInteractivity
-          ariaLabel={t('in-new-components:chartingConfigurator.labelChangeSelectedAggregation')}
+          ariaLabel={t('in-components:chartingConfigurator.labelChangeSelectedAggregation')}
         >
           {({ elementProps }) => (
             <div {...elementProps} className={classNames(locals.aggregation, locals.selectable)}>
@@ -104,7 +104,7 @@ export default function ChartingConfiguratorForm({ value, options, onChange, hid
             })
           }
           requiresCustomInteractivity
-          ariaLabel={t('in-new-components:chartingConfigurator.labelChangeSelectedRenderer')}
+          ariaLabel={t('in-components:chartingConfigurator.labelChangeSelectedRenderer')}
         >
           {({ elementProps }) => (
             <div {...elementProps} className={locals.renderer}>

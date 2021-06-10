@@ -29,19 +29,19 @@ const ApplicationsHealthIndicatorBar = ({ critical = 0, warning = 0, total = 0, 
       {label && <label className={locals.label}>{label}</label>}
       <div className={locals.healthBar}>
         <Tooltip
-          content={t('in-new-components:applicationHealthOverview.indicatorBar.criticalTooltip', { count: critical })}
+          content={t('in-components:applicationHealthOverview.indicatorBar.criticalTooltip', { count: critical })}
           align="mousePosition"
         >
           <div className={locals.critical} style={barStyle.critical} />
         </Tooltip>
         <Tooltip
-          content={t('in-new-components:applicationHealthOverview.indicatorBar.warningTooltip', { count: warning })}
+          content={t('in-components:applicationHealthOverview.indicatorBar.warningTooltip', { count: warning })}
           align="mousePosition"
         >
           <div className={locals.warning} style={barStyle.warning} />
         </Tooltip>
         <Tooltip
-          content={t('in-new-components:applicationHealthOverview.indicatorBar.healthyTooltip', {
+          content={t('in-components:applicationHealthOverview.indicatorBar.healthyTooltip', {
             count: total - critical - warning
           })}
           align="mousePosition"

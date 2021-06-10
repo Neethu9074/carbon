@@ -11,7 +11,7 @@ import { formatDateTime } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
 
 export function createListTimestampColumnDefinition({
-  label = t('in-new-components:analyze.earliestTimestamp'),
+  label = t('in-components:analyze.earliestTimestamp'),
   getTimestamp
 }) {
   return {

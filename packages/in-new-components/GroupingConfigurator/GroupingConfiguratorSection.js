@@ -23,10 +23,10 @@ export default function GroupBySection({
   withOptionalMarker,
   hasError
 }) {
-  let title = t('in-new-components:groupingConfigurator.titleGroup');
+  let title = t('in-components:groupingConfigurator.titleGroup');
   if (withOptionalMarker) {
     title = (
-      <SectionLabelWithSubtext subtext={t('in-new-components:groupingConfigurator.optional')}>
+      <SectionLabelWithSubtext subtext={t('in-components:groupingConfigurator.optional')}>
         {title}
       </SectionLabelWithSubtext>
     );

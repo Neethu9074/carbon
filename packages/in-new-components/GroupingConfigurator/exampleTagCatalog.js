@@ -31,32 +31,32 @@ export default {
   tagTree: [
     {
       type: 'LEVEL',
-      label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelKubernetes'),
+      label: t('in-components:groupingConfigurator.exampleTagCatalogLabelKubernetes'),
       children: [
         {
           type: 'LEVEL',
-          label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelCluster'),
+          label: t('in-components:groupingConfigurator.exampleTagCatalogLabelCluster'),
           icon: 'lib_kubernetes_cluster',
           children: [
             {
               type: 'KEY_VALUE_PAIR',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelName'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelName'),
               icon: 'lib_kubernetes_label',
-              description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionStringClustersLabel'),
+              description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionStringClustersLabel'),
               tagName: 'entity.kubernetes.cluster.label'
             }
           ]
         },
         {
           type: 'LEVEL',
-          label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelNamespace'),
+          label: t('in-components:groupingConfigurator.exampleTagCatalogLabelNamespace'),
           icon: 'lib_kubernetes_namespace',
           children: [
             {
               type: 'TAG',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelName'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelName'),
               icon: 'lib_kubernetes_label',
-              description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionStringNamespaceName'),
+              description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionStringNamespaceName'),
               tagName: 'entity.kubernetes.namespace'
             }
           ]
@@ -69,20 +69,20 @@ export default {
       children: [
         {
           type: 'LEVEL',
-          label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelInternal'),
+          label: t('in-components:groupingConfigurator.exampleTagCatalogLabelInternal'),
           children: [
             {
               type: 'TAG',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelType'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelType'),
               icon: 'lib_views_tag',
-              description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionTypeOfEntity'),
+              description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionTypeOfEntity'),
               tagName: 'entity.selfType'
             },
             {
               type: 'TAG',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelLabel'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelLabel'),
               icon: 'lib_views_tag',
-              description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionLabelOfEntity'),
+              description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionLabelOfEntity'),
               tagName: 'entity.label'
             }
           ]
@@ -99,36 +99,32 @@ export default {
       path: [
         {
           type: 'LEVEL',
-          label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelKubernetes'),
+          label: t('in-components:groupingConfigurator.exampleTagCatalogLabelKubernetes'),
           children: [
             {
               type: 'LEVEL',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelCluster'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelCluster'),
               icon: 'lib_kubernetes_cluster',
               children: [
                 {
                   type: 'KEY_VALUE_PAIR',
-                  label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelName'),
+                  label: t('in-components:groupingConfigurator.exampleTagCatalogLabelName'),
                   icon: 'lib_kubernetes_label',
-                  description: t(
-                    'in-new-components:groupingConfigurator.exampleTagCatalogDescriptionStringClustersLabel'
-                  ),
+                  description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionStringClustersLabel'),
                   tagName: 'entity.kubernetes.cluster.label'
                 }
               ]
             },
             {
               type: 'LEVEL',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelNamespace'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelNamespace'),
               icon: 'lib_kubernetes_namespace',
               children: [
                 {
                   type: 'TAG',
-                  label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelName'),
+                  label: t('in-components:groupingConfigurator.exampleTagCatalogLabelName'),
                   icon: 'lib_kubernetes_label',
-                  description: t(
-                    'in-new-components:groupingConfigurator.exampleTagCatalogDescriptionStringNamespaceName'
-                  ),
+                  description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionStringNamespaceName'),
                   tagName: 'entity.kubernetes.namespace'
                 }
               ]
@@ -137,23 +133,23 @@ export default {
         },
         {
           type: 'LEVEL',
-          label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelCluster'),
+          label: t('in-components:groupingConfigurator.exampleTagCatalogLabelCluster'),
           icon: 'lib_kubernetes_cluster',
           children: [
             {
               type: 'KEY_VALUE_PAIR',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelName'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelName'),
               icon: 'lib_kubernetes_label',
-              description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionStringClustersLabel'),
+              description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionStringClustersLabel'),
               tagName: 'entity.kubernetes.cluster.label'
             }
           ]
         },
         {
           type: 'KEY_VALUE_PAIR',
-          label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelName'),
+          label: t('in-components:groupingConfigurator.exampleTagCatalogLabelName'),
           icon: 'lib_kubernetes_label',
-          description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionStringClustersLabel'),
+          description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionStringClustersLabel'),
           tagName: 'entity.kubernetes.cluster.label'
         }
       ]
@@ -166,36 +162,32 @@ export default {
       path: [
         {
           type: 'LEVEL',
-          label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelKubernetes'),
+          label: t('in-components:groupingConfigurator.exampleTagCatalogLabelKubernetes'),
           children: [
             {
               type: 'LEVEL',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelCluster'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelCluster'),
               icon: 'lib_kubernetes_cluster',
               children: [
                 {
                   type: 'KEY_VALUE_PAIR',
-                  label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelName'),
+                  label: t('in-components:groupingConfigurator.exampleTagCatalogLabelName'),
                   icon: 'lib_kubernetes_label',
-                  description: t(
-                    'in-new-components:groupingConfigurator.exampleTagCatalogDescriptionStringClustersLabel'
-                  ),
+                  description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionStringClustersLabel'),
                   tagName: 'entity.kubernetes.cluster.label'
                 }
               ]
             },
             {
               type: 'LEVEL',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelNamespace'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelNamespace'),
               icon: 'lib_kubernetes_namespace',
               children: [
                 {
                   type: 'TAG',
-                  label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelName'),
+                  label: t('in-components:groupingConfigurator.exampleTagCatalogLabelName'),
                   icon: 'lib_kubernetes_label',
-                  description: t(
-                    'in-new-components:groupingConfigurator.exampleTagCatalogDescriptionStringNamespaceName'
-                  ),
+                  description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionStringNamespaceName'),
                   tagName: 'entity.kubernetes.namespace'
                 }
               ]
@@ -204,23 +196,23 @@ export default {
         },
         {
           type: 'LEVEL',
-          label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelNamespace'),
+          label: t('in-components:groupingConfigurator.exampleTagCatalogLabelNamespace'),
           icon: 'lib_kubernetes_namespace',
           children: [
             {
               type: 'TAG',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelName'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelName'),
               icon: 'lib_kubernetes_label',
-              description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionStringNamespaceName'),
+              description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionStringNamespaceName'),
               tagName: 'entity.kubernetes.namespace'
             }
           ]
         },
         {
           type: 'TAG',
-          label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelName'),
+          label: t('in-components:groupingConfigurator.exampleTagCatalogLabelName'),
           icon: 'lib_kubernetes_label',
-          description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionStringNamespaceName'),
+          description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionStringNamespaceName'),
           tagName: 'entity.kubernetes.namespace'
         }
       ]
@@ -235,20 +227,20 @@ export default {
           children: [
             {
               type: 'LEVEL',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelInternal'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelInternal'),
               children: [
                 {
                   type: 'TAG',
-                  label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelType'),
+                  label: t('in-components:groupingConfigurator.exampleTagCatalogLabelType'),
                   icon: 'lib_views_tag',
-                  description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionTypeOfEntity'),
+                  description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionTypeOfEntity'),
                   tagName: 'entity.selfType'
                 },
                 {
                   type: 'TAG',
-                  label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelLabel'),
+                  label: t('in-components:groupingConfigurator.exampleTagCatalogLabelLabel'),
                   icon: 'lib_views_tag',
-                  description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionLabelOfEntity'),
+                  description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionLabelOfEntity'),
                   tagName: 'entity.label'
                 }
               ]
@@ -257,29 +249,29 @@ export default {
         },
         {
           type: 'LEVEL',
-          label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelInternal'),
+          label: t('in-components:groupingConfigurator.exampleTagCatalogLabelInternal'),
           children: [
             {
               type: 'TAG',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelType'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelType'),
               icon: 'lib_views_tag',
-              description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionTypeOfEntity'),
+              description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionTypeOfEntity'),
               tagName: 'entity.selfType'
             },
             {
               type: 'TAG',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelLabel'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelLabel'),
               icon: 'lib_views_tag',
-              description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionLabelOfEntity'),
+              description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionLabelOfEntity'),
               tagName: 'entity.label'
             }
           ]
         },
         {
           type: 'TAG',
-          label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelType'),
+          label: t('in-components:groupingConfigurator.exampleTagCatalogLabelType'),
           icon: 'lib_views_tag',
-          description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionTypeOfEntity'),
+          description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionTypeOfEntity'),
           tagName: 'entity.selfType'
         }
       ]
@@ -294,20 +286,20 @@ export default {
           children: [
             {
               type: 'LEVEL',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelInternal'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelInternal'),
               children: [
                 {
                   type: 'TAG',
-                  label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelType'),
+                  label: t('in-components:groupingConfigurator.exampleTagCatalogLabelType'),
                   icon: 'lib_views_tag',
-                  description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionTypeOfEntity'),
+                  description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionTypeOfEntity'),
                   tagName: 'entity.selfType'
                 },
                 {
                   type: 'TAG',
-                  label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelLabel'),
+                  label: t('in-components:groupingConfigurator.exampleTagCatalogLabelLabel'),
                   icon: 'lib_views_tag',
-                  description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionLabelOfEntity'),
+                  description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionLabelOfEntity'),
                   tagName: 'entity.label'
                 }
               ]
@@ -316,29 +308,29 @@ export default {
         },
         {
           type: 'LEVEL',
-          label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelInternal'),
+          label: t('in-components:groupingConfigurator.exampleTagCatalogLabelInternal'),
           children: [
             {
               type: 'TAG',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelType'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelType'),
               icon: 'lib_views_tag',
-              description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionTypeOfEntity'),
+              description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionTypeOfEntity'),
               tagName: 'entity.selfType'
             },
             {
               type: 'TAG',
-              label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelLabel'),
+              label: t('in-components:groupingConfigurator.exampleTagCatalogLabelLabel'),
               icon: 'lib_views_tag',
-              description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionLabelOfEntity'),
+              description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionLabelOfEntity'),
               tagName: 'entity.label'
             }
           ]
         },
         {
           type: 'TAG',
-          label: t('in-new-components:groupingConfigurator.exampleTagCatalogLabelLabel'),
+          label: t('in-components:groupingConfigurator.exampleTagCatalogLabelLabel'),
           icon: 'lib_views_tag',
-          description: t('in-new-components:groupingConfigurator.exampleTagCatalogDescriptionLabelOfEntity'),
+          description: t('in-components:groupingConfigurator.exampleTagCatalogDescriptionLabelOfEntity'),
           tagName: 'entity.label'
         }
       ]

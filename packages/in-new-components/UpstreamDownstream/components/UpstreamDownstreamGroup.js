@@ -44,10 +44,10 @@ export default function UpstreamDownstreamGroup({
         <UpstreamDownstreamMetric
           metrics={[
             {
-              text: t('in-new-components:upstreamDownstream.metricLabelCallsAndErroneousCalls'),
+              text: t('in-components:upstreamDownstream.metricLabelCallsAndErroneousCalls'),
               key: 'callsAndErroneous'
             },
-            { text: t('in-new-components:upstreamDownstream.metricLabelCallsAndLatency'), key: 'callsAndlatency' }
+            { text: t('in-components:upstreamDownstream.metricLabelCallsAndLatency'), key: 'callsAndlatency' }
           ]}
           selectedMetric={selectedMetric}
           onChangeMetric={onChangeMetric}
@@ -125,11 +125,11 @@ function getSeeAllApplicationsLink(
       })}
     >
       {totalHits > 1
-        ? t('in-new-components:upstreamDownstream.linkSeeAllApplications', {
+        ? t('in-components:upstreamDownstream.linkSeeAllApplications', {
             count: totalHits,
-            activeTab: t('in-new-components:upstreamDownstream.activeTab', { context: activeTab.toLowerCase() })
+            activeTab: t('in-components:upstreamDownstream.activeTab', { context: activeTab.toLowerCase() })
           })
-        : t('in-new-components:upstreamDownstream.linkSeeApplication')}
+        : t('in-components:upstreamDownstream.linkSeeApplication')}
     </Link>
   );
 }
@@ -163,11 +163,11 @@ function getSeeAllServicesLink(
       })}
     >
       {totalHits > 1
-        ? t('in-new-components:upstreamDownstream.linkSeeAllServices', {
+        ? t('in-components:upstreamDownstream.linkSeeAllServices', {
             count: totalHits,
-            activeTab: t('in-new-components:upstreamDownstream.activeTab', { context: activeTab.toLowerCase() })
+            activeTab: t('in-components:upstreamDownstream.activeTab', { context: activeTab.toLowerCase() })
           })
-        : t('in-new-components:upstreamDownstream.linkSeeService')}
+        : t('in-components:upstreamDownstream.linkSeeService')}
     </Link>
   );
 }

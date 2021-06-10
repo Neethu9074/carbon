@@ -61,7 +61,7 @@ export default function SearchInput({
         })}
         disabled={disabled}
         type="search"
-        placeholder={placeholder ?? t('in-new-components:searchInput.placeholderSearch')}
+        placeholder={placeholder ?? t('in-components:searchInput.placeholderSearch')}
         value={query}
         onChange={e => onChange(e.target.value)}
         autoFocus={autoFocus}

@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { track, TOPLIST_METRIC_CHANGED } from 'in-services/tracking/tracking';
@@ -52,7 +53,7 @@ export default function TopListCard(props) {
   const height = 160;
 
   if (result.progress.loading) {
-    content = <LoadingIndicator text={t('in-new-components:topListCard.loadingData')} height={height} />;
+    content = <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={height} />;
     withoutPadding = true;
   } else if (result.errors.length > 0) {
     content = <NoDataAvailable height={height} />;

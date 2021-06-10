@@ -82,8 +82,8 @@ const EmptyStackPane = ({ productArea, selfEntity }) => {
       <div className={locals.pane}>
         <EmptyPane
           icon="lib_help_error_info_circle"
-          emptyMessage={t('in-new-components:stack.stackPresenterEmptyMessage')}
-          detailMessage={t('in-new-components:stack.stackPresenterDetailMessage', { itemText: itemText })}
+          emptyMessage={t('in-components:stack.stackPresenterEmptyMessage')}
+          detailMessage={t('in-components:stack.stackPresenterDetailMessage', { itemText: itemText })}
         />
       </div>
     </>

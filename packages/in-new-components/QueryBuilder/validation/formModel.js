@@ -41,7 +41,7 @@ export function validateFormModel({ tagCatalog, formModel, maxExpressionDepth })
   if (maxExpressionDepth > 0 && getMaximumExpressionDepth(toBackendQueryModel(formModel)) > maxExpressionDepth) {
     return {
       isValid: false,
-      errors: [t('in-new-components:queryBuilder.errorWithDataYourDefinedQueryIsTooComplex')]
+      errors: [t('in-components:queryBuilder.errorWithDataYourDefinedQueryIsTooComplex')]
     };
   }
 

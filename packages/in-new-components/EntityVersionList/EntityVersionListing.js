@@ -21,7 +21,7 @@ export default function EntityVersionListing({ versions }) {
 
   return (
     <Fragment>
-      <div className={locals.listHeading}>{t('in-new-components:entityVersionList.headingAvailableTimeRanges')}</div>
+      <div className={locals.listHeading}>{t('in-components:entityVersionList.headingAvailableTimeRanges')}</div>
       <Ul className={locals.list}>
         {clusters.map((clusterVersions, iC) => {
           const clusterFrom = clusterVersions[clusterVersions.length - 1].from;

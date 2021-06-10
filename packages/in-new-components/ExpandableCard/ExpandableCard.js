@@ -41,8 +41,8 @@ export default function ExpandableCard({
         content={
           !tooltipDisabled &&
           (expanded
-            ? t('in-new-components:expandableCard.tooltipShowLess')
-            : t('in-new-components:expandableCard.tooltipShowMore'))
+            ? t('in-components:expandableCard.tooltipShowLess')
+            : t('in-components:expandableCard.tooltipShowMore'))
         }
       >
         <SvgIcon
