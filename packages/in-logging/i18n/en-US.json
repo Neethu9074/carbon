@@ -11,5 +11,6 @@
   "goToTrace": "Go to trace",
   "addAsFilter": "Add as filter",
   "addAsGroup": "Add as group",
-  "numberOfLogs": "Number of logs"
+  "numberOfLogs": "Number of logs",
+  "numberOfLogsPercentage": "Percentage"
 }

@@ -13,6 +13,7 @@ import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
+import { percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 const tracker = {
@@ -22,6 +23,20 @@ const tracker = {
 };
 
 const columnDefinitions = [
+  {
+    id: 'numberOfLogsPercentage',
+    width: '7rem',
+    widthInAbsoluteUnit: true,
+    getContent({ item }) {
+      return (
+        <KeyValue
+          label={t('in-logging:numberOfLogsPercentage')}
+          value={percentage.detailed(item.percentage)}
+          accentuated
+        />
+      );
+    }
+  },
   {
     id: 'numberOfLogs',
     width: '8rem',
